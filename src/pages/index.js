@@ -1,0 +1,15 @@
+export { default as Calendar } from './Calendar';
+export { default as Home } from './Home';
+export { default as Login } from './Login';
+export { default as NotFound } from './NotFound';
+export { default as Search } from './Search';
+export * from './Admin';
+export * from './Bookings';
+export * from './Holds';
+export * from './Hotels';
+export * from './Password';
+export * from './Settings';
+export * from './Static';
+export * from './Users';
+export * from './Proposals';
+export * from './TravelAgents';
