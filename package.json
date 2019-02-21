@@ -8,7 +8,8 @@
     "dev": "webpack-dev-server --mode development --inline --progress",
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "author": "",
   "license": "ISC",
