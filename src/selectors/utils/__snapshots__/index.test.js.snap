@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selector utilities #getItem returns a valid item 1`] = `
+Object {
+  "id": 1,
+  "name": "item 1",
+  "type": 1,
+}
+`;
+
+exports[`selector utilities #getList filters result given a predicate 1`] = `
+Array [
+  Object {
+    "id": 1,
+    "name": "item 1",
+    "type": 1,
+  },
+  Object {
+    "id": 2,
+    "name": "item 2",
+    "type": 1,
+  },
+]
+`;
+
+exports[`selector utilities #getList returns all items when IDs is falsey 1`] = `
+Array [
+  Object {
+    "id": 1,
+    "name": "item 1",
+    "type": 1,
+  },
+  Object {
+    "id": 2,
+    "name": "item 2",
+    "type": 1,
+  },
+  Object {
+    "id": 3,
+    "name": "item 3",
+    "type": 2,
+  },
+]
+`;
+
+exports[`selector utilities #getList returns items matching a given list of IDs 1`] = `
+Array [
+  Object {
+    "id": 2,
+    "name": "item 2",
+    "type": 1,
+  },
+  Object {
+    "id": 3,
+    "name": "item 3",
+    "type": 2,
+  },
+]
+`;
+
+exports[`selector utilities #getList returns no items when IDs is an empty array 1`] = `Array []`;
+
+exports[`selector utilities #getList returns valid state 1`] = `
+Array [
+  Object {
+    "id": 1,
+    "name": "item 1",
+    "type": 1,
+  },
+  Object {
+    "id": 2,
+    "name": "item 2",
+    "type": 1,
+  },
+  Object {
+    "id": 3,
+    "name": "item 3",
+    "type": 2,
+  },
+]
+`;

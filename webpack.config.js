@@ -1,10 +1,13 @@
 const path = require('path');
+const { defaultTo } = require('ramda');
 
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-    devtool: 'source-map',
+const env = defaultTo('development', process.env.NODE_ENV);
+const isDev = env === 'development';
+
+const config = {
     entry: path.resolve(__dirname, 'src', 'index.jsx'),
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -49,3 +52,10 @@ module.exports = {
           }),
     ]
 }
+
+// dev options
+if (isDev) {
+    config.devtool = 'source-map';
+}
+
+module.exports = config
