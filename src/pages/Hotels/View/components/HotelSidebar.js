@@ -101,9 +101,9 @@ const HotelSidebar = ({ history, hotel, createBooking }) => (
         taMarginAmount: 0,
         taMarginType: 'percentage',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         console.log('create a booking with values', values);
-        createBooking(values).then((booking) => {
+        createBooking(values).then(booking => {
           history.push(`/bookings/${booking.id}/guests`);
         });
       }}
@@ -122,18 +122,10 @@ const HotelSidebar = ({ history, hotel, createBooking }) => (
             <Line />
             <Name>{hotel.name}</Name>
             <SidebarSection title="DATES">
-              <Input
-                name="dates"
-                value={values.dates}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+              <Input name="dates" value={values.dates} onChange={handleChange} onBlur={handleBlur} />
             </SidebarSection>
             <SidebarSection title="GUESTS" style={{ zIndex: 100 }}>
-              <Dropdown
-                placeholder="SELECT ACCOMODATIONS"
-                style={{ marginTop: 10 }}
-              >
+              <Dropdown placeholder="SELECT ACCOMODATIONS" style={{ marginTop: 10 }}>
                 <Options>
                   <NumberInput
                     name="numAdults"
@@ -314,16 +306,12 @@ const HotelSidebar = ({ history, hotel, createBooking }) => (
             </SidebarSection>
           </Sections>
           <Actions>
-            <MainButton
-              onPress={handleSubmit}
-            >
-              <MainText>
-                BOOK NOW
-              </MainText>
+            <MainButton onPress={handleSubmit}>
+              <MainText>BOOK NOW</MainText>
             </MainButton>
             <Row style={{ marginTop: 10 }}>
-              <OptionsModal id={hotel.id} bookingValues={values}/>
-              <ProposalModal id={hotel.id}/>
+              <OptionsModal id={hotel.id} bookingValues={values} />
+              <ProposalModal id={hotel.id} />
             </Row>
           </Actions>
         </Content>
@@ -332,4 +320,9 @@ const HotelSidebar = ({ history, hotel, createBooking }) => (
   </Container>
 );
 
-export default withRouter(connect(undefined, { createBooking })(HotelSidebar));
+export default withRouter(
+  connect(
+    undefined,
+    { createBooking }
+  )(HotelSidebar)
+);

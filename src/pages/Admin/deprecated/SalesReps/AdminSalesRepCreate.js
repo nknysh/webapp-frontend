@@ -1,37 +1,17 @@
 // Libraries
 import React from 'react';
-import {
-  Create,
-  SaveButton,
-  SimpleForm,
-  TextInput,
-  LongTextInput,
-  Toolbar,
-  SelectInput
-} from 'react-admin'; // eslint-disable-line import/no-unresolved
+import { Create, SaveButton, SimpleForm, TextInput, LongTextInput, Toolbar, SelectInput } from 'react-admin'; // eslint-disable-line import/no-unresolved
 
 const CreateToolbar = props => (
   <Toolbar {...props}>
-    <SaveButton
-      submitOnEnter
-      label="CREATE"
-      redirect="show"
-    />
+    <SaveButton submitOnEnter label="CREATE" redirect="show" />
   </Toolbar>
 );
 
 const AdminSalesRepCreate = props => (
   <Create {...props}>
-    <SimpleForm
-      toolbar={<CreateToolbar />}
-      defaultValue={{type: "sr", status: "new", createdAt: new Date()}}
-    >
-      <SelectInput 
-        source="title" 
-        choices={[
-        { id: 'Mr.', name: 'Mr.'},
-        { id: 'Ms.', name: 'Ms.'}
-      ]}/>
+    <SimpleForm toolbar={<CreateToolbar />} defaultValue={{ type: 'sr', status: 'new', createdAt: new Date() }}>
+      <SelectInput source="title" choices={[{ id: 'Mr.', name: 'Mr.' }, { id: 'Ms.', name: 'Ms.' }]} />
       <TextInput source="firstName" />
       <TextInput source="lastName" />
       <TextInput source="email" />

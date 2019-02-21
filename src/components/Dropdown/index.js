@@ -14,12 +14,7 @@ const Placeholder = Styled.H8.extend`
 
 const Dropdown = ({ placeholder, children, menuStyle, style }) => (
   <Downshift>
-    {({
-      getInputProps,
-      getMenuProps,
-      isOpen,
-      openMenu,
-    }) => (
+    {({ getInputProps, getMenuProps, isOpen, openMenu }) => (
       <div style={{ zIndex: 100 }}>
         <div
           {...getInputProps({
@@ -36,16 +31,20 @@ const Dropdown = ({ placeholder, children, menuStyle, style }) => (
         </div>
         <div
           {...getMenuProps()}
-          style={isOpen ? {
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            zIndex: 100,
-            borderWidth: 1,
-            borderStyle: 'solid',
-            borderColor: colors.gray14,
-            ...menuStyle,
-          } : null}
+          style={
+            isOpen
+              ? {
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  zIndex: 100,
+                  borderWidth: 1,
+                  borderStyle: 'solid',
+                  borderColor: colors.gray14,
+                  ...menuStyle,
+                }
+              : null
+          }
         >
           {isOpen ? children : null}
         </div>
@@ -54,8 +53,7 @@ const Dropdown = ({ placeholder, children, menuStyle, style }) => (
   </Downshift>
 );
 
-Dropdown.propTypes = {
-};
+Dropdown.propTypes = {};
 
 Dropdown.defaultProps = {
   style: {},

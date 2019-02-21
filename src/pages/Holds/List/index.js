@@ -12,7 +12,7 @@ import { colors } from 'styles';
 // Components
 import { Form, Header, Request, Styled } from 'components';
 import BookingOptionsTable from '../components/BookingOptionsTable';
-import BookingOptionsFilter from './BookingOptionsFilter'
+import BookingOptionsFilter from './BookingOptionsFilter';
 
 const Container = Styled.View.extend`
 `;
@@ -32,10 +32,10 @@ const Holds = ({ resetBookings, searchBookings }) => (
   <Container>
     <Header />
     <Request
-      getState={(state) => ({ bookingsWithOptions: getBookings(state) })}
-      onRequest={(values) => {
+      getState={state => ({ bookingsWithOptions: getBookings(state) })}
+      onRequest={values => {
         resetBookings();
-        return searchBookings({ q: values.query, where: {status: "provisional"}, query: { hotel: {}}});
+        return searchBookings({ q: values.query, where: { status: 'provisional' }, query: { hotel: {} } });
       }}
     >
       {({ bookingsWithOptions, handleRequest }) => (
@@ -48,15 +48,8 @@ const Holds = ({ resetBookings, searchBookings }) => (
           {({ values, handleChange, submitForm, resetForm }) => (
             <Content>
               <Main>
-                <BookingOptionsFilter
-                  {...values}
-                  onChange={handleChange}
-                  onSubmit={submitForm}
-                  resetForm={resetForm}
-                />
-                <BookingOptionsTable
-                  holds={bookingsWithOptions}
-                />
+                <BookingOptionsFilter {...values} onChange={handleChange} onSubmit={submitForm} resetForm={resetForm} />
+                <BookingOptionsTable holds={bookingsWithOptions} />
               </Main>
             </Content>
           )}
@@ -66,8 +59,11 @@ const Holds = ({ resetBookings, searchBookings }) => (
   </Container>
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 });
 
-export default connect(mapStateToProps, { fetchBookings, searchBookings, resetBookings, fetchHotels })(Holds);
+export default connect(
+  mapStateToProps,
+  { fetchBookings, searchBookings, resetBookings, fetchHotels }
+)(Holds);

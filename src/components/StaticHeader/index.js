@@ -11,10 +11,6 @@ const CoverPhoto = Styled.Image.extend`
   height: 400px;
 `;
 
-const StaticHeader = () => (
-  <CoverPhoto
-    source={Background}
-  />
-);
+const StaticHeader = () => <CoverPhoto source={Background} />;
 
 export default StaticHeader;

@@ -30,10 +30,10 @@ const HotelsList = ({ resetHotels, searchHotels }) => (
   <Container>
     <Header />
     <Request
-      getState={(state) => ({ hotels: getHotels(state) })}
-      onRequest={(values) => {
+      getState={state => ({ hotels: getHotels(state) })}
+      onRequest={values => {
         resetHotels();
-        return searchHotels({ q: values.query, query: {}});
+        return searchHotels({ q: values.query, query: {} });
       }}
     >
       {({ hotels, handleRequest }) => (
@@ -46,14 +46,8 @@ const HotelsList = ({ resetHotels, searchHotels }) => (
           {({ values, handleChange, submitForm }) => (
             <Content>
               <Main>
-                <HotelsFilters
-                  {...values}
-                  onChange={handleChange}
-                  onSubmit={submitForm}
-                />
-                <HotelsTable
-                  hotels={hotels}
-                />
+                <HotelsFilters {...values} onChange={handleChange} onSubmit={submitForm} />
+                <HotelsTable hotels={hotels} />
               </Main>
             </Content>
           )}
@@ -64,4 +58,7 @@ const HotelsList = ({ resetHotels, searchHotels }) => (
 );
 
 // TODO(mark): Use searchHotels rather than fetchHotels.
-export default connect(undefined, { resetHotels, searchHotels: fetchHotels })(HotelsList);
+export default connect(
+  undefined,
+  { resetHotels, searchHotels: fetchHotels }
+)(HotelsList);

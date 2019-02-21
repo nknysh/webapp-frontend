@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AuthenticatedRoute /> render message while authenticating 1`] = `
+<p>
+  Authenticating...
+</p>
+`;
+
+exports[`<AuthenticatedRoute /> render redirect when not authenticated 1`] = `
+<Redirect
+  push={false}
+  to={
+    Object {
+      "pathname": "/login",
+      "state": Object {
+        "from": Object {},
+      },
+    }
+  }
+/>
+`;
+
+exports[`<AuthenticatedRoute /> render route when authenticated 1`] = `
+<Route
+  component={[Function]}
+  path="/"
+/>
+`;

@@ -27,7 +27,7 @@ const SetPassword = () => (
         password: '',
         confirmPassword: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // TODO
         console.log('submit with values', values);
       }}
@@ -52,9 +52,7 @@ const SetPassword = () => (
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          <SubmitButton
-            onPress={handleSubmit}
-          >
+          <SubmitButton onPress={handleSubmit}>
             <SubmitText>SUBMIT</SubmitText>
           </SubmitButton>
         </form>

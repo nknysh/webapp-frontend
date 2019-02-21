@@ -43,12 +43,17 @@ const getRange = (startDate, endDate) => {
   return Array.from(range.by('day'));
 };
 
-const RatesList = ({ match: { params: { id }}, fetchRatesForRoom }) => (
+const RatesList = ({
+  match: {
+    params: { id },
+  },
+  fetchRatesForRoom,
+}) => (
   <Container>
     <Header />
     <Request
-      getState={(state) => ({ rates: getRatesForRoom(state, id) })}
-      onRequest={(values) => fetchRatesForRoom({ ...values, roomId: id })}
+      getState={state => ({ rates: getRatesForRoom(state, id) })}
+      onRequest={values => fetchRatesForRoom({ ...values, roomId: id })}
     >
       {({ rates }) => (
         <Content>
@@ -58,27 +63,27 @@ const RatesList = ({ match: { params: { id }}, fetchRatesForRoom }) => (
               startDate: '2018-10-08',
               endDate: '2018-10-23',
             }}
-            onSubmit={(values) => {}}
+            onSubmit={values => {}}
           >
             {({ values }) => (
               <Rates>
                 <Table
                   data={rates}
-                  columns={
-                    _.concat(
-                      [{
+                  columns={_.concat(
+                    [
+                      {
                         Header: '',
                         accessor: 'rateName',
                         width: 200,
-                      }],
-                      getRange(values.startDate, values.endDate).map((date, index) => ({
-                        Header: date.format('YYYY-MM-DD'),
-                        id: date.format('YYYY-MM-DD'),
-                        accessor: rate => _.get(rate, `days[${index}].value`),
-                        width: 100,
-                      })),
-                    )
-                  }
+                      },
+                    ],
+                    getRange(values.startDate, values.endDate).map((date, index) => ({
+                      Header: date.format('YYYY-MM-DD'),
+                      id: date.format('YYYY-MM-DD'),
+                      accessor: rate => _.get(rate, `days[${index}].value`),
+                      width: 100,
+                    }))
+                  )}
                   defaultPageSize={10}
                   noDataText="No Rates"
                 />
@@ -91,4 +96,7 @@ const RatesList = ({ match: { params: { id }}, fetchRatesForRoom }) => (
   </Container>
 );
 
-export default connect(undefined, { fetchRatesForRoom })(RatesList);
+export default connect(
+  undefined,
+  { fetchRatesForRoom }
+)(RatesList);

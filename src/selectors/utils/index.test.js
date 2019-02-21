@@ -41,7 +41,7 @@ describe('selector utilities', () => {
     },
   };
 
-  const predicate = (item) => item.type === 1;
+  const predicate = item => item.type === 1;
 
   describe('#getList', () => {
     it('returns no data when a model does not exist', () => {
@@ -99,4 +99,3 @@ describe('selector utilities', () => {
     });
   });
 });
-

@@ -5,7 +5,7 @@ export * from './Proposals';
 export * from './Rates';
 export * from './Rooms';
 
-export * from './deprecated/Hotels';
-export * from './deprecated/Rooms';
-export * from './deprecated/SalesReps';
-export * from './deprecated/TravelAgents';
+// export * from './deprecated/Hotels';
+// export * from './deprecated/Rooms';
+// export * from './deprecated/SalesReps';
+// export * from './deprecated/TravelAgents';

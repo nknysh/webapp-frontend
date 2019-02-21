@@ -19,14 +19,14 @@ class Request extends React.Component {
         this.setState({ isLoading: false });
       });
     });
-  }
+  };
 
   render() {
     if (this.state.isLoading) {
       return <div />;
     }
 
-    return <Connect {...this.props} handleRequest={this.handleRequest} />
+    return <Connect {...this.props} handleRequest={this.handleRequest} />;
   }
 }
 

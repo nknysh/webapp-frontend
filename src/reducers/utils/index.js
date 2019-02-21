@@ -28,4 +28,3 @@ const arrayToMap = (list, attr = 'id') => {
 export default {
   arrayToMap,
 };
-

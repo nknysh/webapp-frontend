@@ -10,10 +10,10 @@ import { Styled, RadioButton } from 'components';
 const Container = Styled.View.extend`
   width: 60%;
 `;
-  
+
 const Field = Styled.View.extend`
 `;
-  
+
 const Row = Styled.View.extend`
   flex-direction: row;
   flex-wrap: wrap;
@@ -32,7 +32,7 @@ const Brochures = ({ style, handleBlur, handleChange }) => (
     <Row>
       <Field>
         <RadioButton
-          style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+          style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
           name="addOns"
           placeholder="Brochure #1"
           value={'Brochure 1'}
@@ -42,7 +42,7 @@ const Brochures = ({ style, handleBlur, handleChange }) => (
       </Field>
       <Field>
         <RadioButton
-          style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+          style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
           name="addOns"
           placeholder="Brochure #2"
           value={'Brochure 1'}
@@ -52,7 +52,7 @@ const Brochures = ({ style, handleBlur, handleChange }) => (
       </Field>
       <Field>
         <RadioButton
-          style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+          style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
           name="addOns"
           placeholder="Brochure #3"
           value={'Brochure 1'}
@@ -62,7 +62,7 @@ const Brochures = ({ style, handleBlur, handleChange }) => (
       </Field>
       <Field>
         <RadioButton
-          style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+          style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
           name="addOns"
           placeholder="Brochure #4"
           value={'Brochure 1'}
@@ -72,7 +72,7 @@ const Brochures = ({ style, handleBlur, handleChange }) => (
       </Field>
       <Field>
         <RadioButton
-          style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+          style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
           name="addOns"
           placeholder="Brochure #5"
           value={'Brochure 1'}
@@ -82,7 +82,7 @@ const Brochures = ({ style, handleBlur, handleChange }) => (
       </Field>
       <Field>
         <RadioButton
-          style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+          style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
           name="addOns"
           placeholder="Brochure #6"
           value={'Brochure 1'}
@@ -90,7 +90,7 @@ const Brochures = ({ style, handleBlur, handleChange }) => (
           onBlur={handleBlur}
         />
       </Field>
-      </Row>
+    </Row>
   </Container>
 );
 

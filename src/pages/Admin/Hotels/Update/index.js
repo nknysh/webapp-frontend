@@ -27,7 +27,11 @@ const Side = Styled.View.extend`
   flex: 1;
 `;
 
-const HotelUpdate = ({ match: { params: { id }} }) => (
+const HotelUpdate = ({
+  match: {
+    params: { id },
+  },
+}) => (
   <Container>
     <Header />
     <Content>
@@ -35,9 +39,7 @@ const HotelUpdate = ({ match: { params: { id }} }) => (
         {({ hotel }) => (
           <Sides>
             <Side>
-              <HotelUpdateForm
-                hotel={hotel}
-              />
+              <HotelUpdateForm hotel={hotel} />
             </Side>
             <Side />
           </Sides>

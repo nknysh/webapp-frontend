@@ -9,49 +9,43 @@ import {
   DateInput,
   SelectInput,
   ReferenceInput,
-  required
+  required,
 } from 'react-admin'; // eslint-disable-line import/no-unresolved
 
 const CreateToolbar = props => (
   <Toolbar {...props}>
-    <SaveButton
-      submitOnEnter
-      label="CREATE"
-      redirect="show"
-    />
+    <SaveButton submitOnEnter label="CREATE" redirect="show" />
   </Toolbar>
 );
 
 const AdminHotelAllotmentCreate = props => (
   <Create {...props}>
-    <SimpleForm
-      toolbar={<CreateToolbar />}
-      defaultValue={{
-      }}
-    >
-      <ReferenceInput label='Hotel' source='hotelId' reference="hotels">
-        <SelectInput optionText='name' />
+    <SimpleForm toolbar={<CreateToolbar />} defaultValue={{}}>
+      <ReferenceInput label="Hotel" source="hotelId" reference="hotels">
+        <SelectInput optionText="name" />
       </ReferenceInput>
-      <SelectInput source="name"
+      <SelectInput
+        source="name"
         choices={[
-          { id: 'peak_season', name: 'Peak Season'},
-          { id: 'winter_season', name: 'Winter Season'},
-          { id: 'honeymoon', name: 'Honeymoon Season'}
+          { id: 'peak_season', name: 'Peak Season' },
+          { id: 'winter_season', name: 'Winter Season' },
+          { id: 'honeymoon', name: 'Honeymoon Season' },
         ]}
         validate={required()}
       />
-      <SelectInput source="roomType"
+      <SelectInput
+        source="roomType"
         choices={[
-          { id: 'sup-king', name: 'Superior King'},
-          { id: 'queen', name: 'Queen'},
-          { id: 'honeymoon', name: 'Honeymoon'}
+          { id: 'sup-king', name: 'Superior King' },
+          { id: 'queen', name: 'Queen' },
+          { id: 'honeymoon', name: 'Honeymoon' },
         ]}
         validate={required()}
       />
-      <DateInput source='startDate' validate={required()}/>
-      <DateInput source='endDate' />
-      <DateInput source='cutOffDate' validate={required()}/>
-      <NumberInput source='quantity'validate={required()} />
+      <DateInput source="startDate" validate={required()} />
+      <DateInput source="endDate" />
+      <DateInput source="cutOffDate" validate={required()} />
+      <NumberInput source="quantity" validate={required()} />
     </SimpleForm>
   </Create>
 );

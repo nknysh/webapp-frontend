@@ -11,7 +11,7 @@ import colors from 'styles/colors';
 import typography from 'styles/typography';
 
 // Create a new instance of the styled components function.
-const Styled = (tag) => styled(tag);
+const Styled = tag => styled(tag);
 
 // Assign primitives that we can extend.
 const createComponent = (Component, extraProps = {}) => {
@@ -52,12 +52,12 @@ Styled.TextInput = Styled.TextInput.extend`
 
 Styled.TextInput.H6 = Styled.TextInput.extend`
   ${props => typography.h6(props)}
-  ${props => props.multiline ? 'padding-top: 10px' : ''}
+  ${props => (props.multiline ? 'padding-top: 10px' : '')}
 `;
 
 Styled.TextInput.H8 = Styled.TextInput.extend`
   ${props => typography.h8(props)}
-  ${props => props.multiline ? 'padding-top: 10px' : ''}
+  ${props => (props.multiline ? 'padding-top: 10px' : '')}
 `;
 
 // Buttons

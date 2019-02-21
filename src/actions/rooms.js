@@ -82,7 +82,7 @@ const fetchRooms = (args = {}) => (dispatch, getState) => {
   dispatch(roomsRequest(args));
 
   return RoomsApi.fetchRooms(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -100,7 +100,7 @@ const fetchRooms = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -110,7 +110,7 @@ const fetchRooms = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchRoom = (args = {}) => (dispatch) => {
+const fetchRoom = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -133,7 +133,7 @@ const createRoom = (args = {}) => (dispatch, getState) => {
   dispatch(roomsRequest(args));
 
   return RoomsApi.createRoom(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -142,7 +142,7 @@ const createRoom = (args = {}) => (dispatch, getState) => {
       dispatch(roomsOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -162,7 +162,7 @@ const updateRoom = (args = {}) => (dispatch, getState) => {
   dispatch(roomsRequest(args));
 
   return RoomsApi.updateRoom(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -171,7 +171,7 @@ const updateRoom = (args = {}) => (dispatch, getState) => {
       dispatch(roomsOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -191,7 +191,7 @@ const deleteRoom = (args = {}) => (dispatch, getState) => {
   dispatch(roomsRequest(args));
 
   return RoomsApi.deleteRoom(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -200,7 +200,7 @@ const deleteRoom = (args = {}) => (dispatch, getState) => {
       dispatch(roomsOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -211,15 +211,6 @@ const deleteRoom = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetRooms = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(roomsReset(args)));
+const resetRooms = (args = {}) => dispatch => Promise.resolve(dispatch(roomsReset(args)));
 
-export {
-  fetchRooms,
-  fetchRoom,
-  createRoom,
-  updateRoom,
-  deleteRoom,
-  resetRooms,
-};
-
+export { fetchRooms, fetchRoom, createRoom, updateRoom, deleteRoom, resetRooms };

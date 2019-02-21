@@ -3,7 +3,7 @@
 }
 
 .ReactTable .rt-thead .rt-resizable-header-content {
-  color: #BFBFBF;
+  color: #bfbfbf;
   padding: 5px;
   float: left;
 }
@@ -19,7 +19,7 @@
 
 .ReactTable .rt-thead.-header {
   box-shadow: none;
-  border-bottom: 1px solid #BFBFBF;
+  border-bottom: 1px solid #bfbfbf;
 }
 
 .ReactTable .rt-thead .rt-th.-sort-desc,
@@ -40,5 +40,5 @@
   height: 30px;
   width: 75px;
   color: white;
-  background-color: #A08264;
+  background-color: #a08264;
 }

@@ -24,26 +24,11 @@ const SettingsSidebar = ({ user }) => (
   <Container>
     <Title>Account Settings</Title>
     <Content>
-      <SettingsLink
-        to="/settings/profile"
-        text="PROFILE DETAILS"
-      />
-      <SettingsLink
-        to="/settings/notifications"
-        text="NOTIFICATION PREFERENCES"
-      />
-      <SettingsLink
-        to="/settings/company"
-        text="COMPANY DETAILS"
-      />
-      <SettingsLink
-        to="/settings/travel-agents"
-        text="COMPANY TRAVEL AGENTS"
-      />
-      <SettingsLink
-        to="/settings/preferences"
-        text="PREFERENCES"
-      />
+      <SettingsLink to="/settings/profile" text="PROFILE DETAILS" />
+      <SettingsLink to="/settings/notifications" text="NOTIFICATION PREFERENCES" />
+      <SettingsLink to="/settings/company" text="COMPANY DETAILS" />
+      <SettingsLink to="/settings/travel-agents" text="COMPANY TRAVEL AGENTS" />
+      <SettingsLink to="/settings/preferences" text="PREFERENCES" />
     </Content>
   </Container>
 );

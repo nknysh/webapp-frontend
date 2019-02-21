@@ -1,0 +1,402 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing routes match snapshot 1`] = `
+<Route
+  component={[Function]}
+  exact={true}
+  name="Root Path"
+  path="/"
+/>
+`;
+
+exports[`routing routes match snapshot 2`] = `
+<Route
+  component={[Function]}
+  name="About Path"
+  path="/about"
+/>
+`;
+
+exports[`routing routes match snapshot 3`] = `
+<Route
+  component={[Function]}
+  name="Contact Path"
+  path="/contact"
+/>
+`;
+
+exports[`routing routes match snapshot 4`] = `
+<Route
+  component={[Function]}
+  name="Privacy Path"
+  path="/privacy"
+/>
+`;
+
+exports[`routing routes match snapshot 5`] = `
+<Route
+  component={[Function]}
+  name="Terms Path"
+  path="/terms"
+/>
+`;
+
+exports[`routing routes match snapshot 6`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Calendar Path"
+  path="/calendar"
+/>
+`;
+
+exports[`routing routes match snapshot 7`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Hotels Search Path"
+  path="/hotels"
+/>
+`;
+
+exports[`routing routes match snapshot 8`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Hotel View Path"
+  path="/hotels/:id"
+/>
+`;
+
+exports[`routing routes match snapshot 9`] = `
+<Redirect
+  from="/admin"
+  name="Admin Path"
+  push={false}
+  to="/admin/dashboard"
+/>
+`;
+
+exports[`routing routes match snapshot 10`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Dashboard Path"
+  path="/admin/dashboard"
+/>
+`;
+
+exports[`routing routes match snapshot 11`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Bookings List Path"
+  path="/admin/bookings"
+/>
+`;
+
+exports[`routing routes match snapshot 12`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Hotels List Path"
+  path="/admin/hotels"
+/>
+`;
+
+exports[`routing routes match snapshot 13`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Hotel Create Path"
+  path="/admin/hotels/new"
+/>
+`;
+
+exports[`routing routes match snapshot 14`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Hotel Update Path"
+  path="/admin/hotels/:id/edit"
+/>
+`;
+
+exports[`routing routes match snapshot 15`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Room Create Path"
+  path="/admin/hotels/:id/rooms/new"
+/>
+`;
+
+exports[`routing routes match snapshot 16`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Room Update Path"
+  path="/admin/hotels/:hotelId/rooms/:id/edit"
+/>
+`;
+
+exports[`routing routes match snapshot 17`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Rates List Path"
+  path="/admin/rooms/:id/rates"
+/>
+`;
+
+exports[`routing routes match snapshot 18`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Proposals List Path"
+  path="/admin/proposals"
+/>
+`;
+
+exports[`routing routes match snapshot 19`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Sales Representatives List Path"
+  path="/admin/sales-representatives"
+/>
+`;
+
+exports[`routing routes match snapshot 20`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Travel Agents List Path"
+  path="/admin/travel-agents"
+/>
+`;
+
+exports[`routing routes match snapshot 21`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Dashboard Path"
+  path="/admin/dashboard"
+/>
+`;
+
+exports[`routing routes match snapshot 22`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Bookings List Path"
+  path="/admin/bookings"
+/>
+`;
+
+exports[`routing routes match snapshot 23`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Hotels List Path"
+  path="/admin/hotels"
+/>
+`;
+
+exports[`routing routes match snapshot 24`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Hotel Create Path"
+  path="/admin/hotels/new"
+/>
+`;
+
+exports[`routing routes match snapshot 25`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Hotel Update Path"
+  path="/admin/hotels/:id/edit"
+/>
+`;
+
+exports[`routing routes match snapshot 26`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Room Create Path"
+  path="/admin/hotels/:id/rooms/new"
+/>
+`;
+
+exports[`routing routes match snapshot 27`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Room Update Path"
+  path="/admin/hotels/:hotelId/rooms/:id/edit"
+/>
+`;
+
+exports[`routing routes match snapshot 28`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Rates List Path"
+  path="/admin/rooms/:id/rates"
+/>
+`;
+
+exports[`routing routes match snapshot 29`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Proposals List Path"
+  path="/admin/proposals"
+/>
+`;
+
+exports[`routing routes match snapshot 30`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Sales Representatives List Path"
+  path="/admin/sales-representatives"
+/>
+`;
+
+exports[`routing routes match snapshot 31`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Admin Travel Agents List Path"
+  path="/admin/travel-agents"
+/>
+`;
+
+exports[`routing routes match snapshot 32`] = `
+<Route
+  component={[Function]}
+  name="Login Path"
+  path="/login"
+/>
+`;
+
+exports[`routing routes match snapshot 33`] = `
+<Route
+  component={[Function]}
+  name="Reset Password Path"
+  path="/password/reset"
+/>
+`;
+
+exports[`routing routes match snapshot 34`] = `
+<Route
+  component={[Function]}
+  name="Set Password Path"
+  path="/password/new"
+/>
+`;
+
+exports[`routing routes match snapshot 35`] = `
+<Route
+  component={[Function]}
+  name="Create User Path"
+  path="/sign-up"
+/>
+`;
+
+exports[`routing routes match snapshot 36`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Bookings Path"
+  path="/bookings"
+/>
+`;
+
+exports[`routing routes match snapshot 37`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Booking Guest Details Path"
+  path="/bookings/:id/guests"
+/>
+`;
+
+exports[`routing routes match snapshot 38`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Booking Payment Path"
+  path="/bookings/:id/payment"
+/>
+`;
+
+exports[`routing routes match snapshot 39`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Booking View Path"
+  path="/bookings/:id"
+/>
+`;
+
+exports[`routing routes match snapshot 40`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Booking Options (Holds) Path"
+  path="/holds"
+/>
+`;
+
+exports[`routing routes match snapshot 41`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Proposal View Path"
+  path="/proposals"
+/>
+`;
+
+exports[`routing routes match snapshot 42`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Proposal View Path"
+  path="/proposals/:id"
+/>
+`;
+
+exports[`routing routes match snapshot 43`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Settings Company Path"
+  path="/settings/company"
+/>
+`;
+
+exports[`routing routes match snapshot 44`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Settings Notifications Path"
+  path="/settings/notifications"
+/>
+`;
+
+exports[`routing routes match snapshot 45`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Settings Preferences Path"
+  path="/settings/preferences"
+/>
+`;
+
+exports[`routing routes match snapshot 46`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Settings Profile Path"
+  path="/settings/profile"
+/>
+`;
+
+exports[`routing routes match snapshot 47`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Settings Travel Agents Path"
+  path="/settings/travel-agents"
+/>
+`;
+
+exports[`routing routes match snapshot 48`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="Travel Agent View Path"
+  path="/users/:id"
+/>
+`;
+
+exports[`routing routes match snapshot 49`] = `
+<withAuthentication(withRouter(AuthenticatedRoute))
+  component={[Function]}
+  name="User Bookings Path"
+  path="/users/:id/bookings"
+/>
+`;
+
+exports[`routing routes match snapshot 50`] = `
+<Route
+  component={[Function]}
+  name="Not Found"
+/>
+`;

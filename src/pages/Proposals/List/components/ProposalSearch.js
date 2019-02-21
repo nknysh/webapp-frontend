@@ -22,12 +22,12 @@ const Search = Styled.TextInput.extend`
   outline: none;
 `;
 
-const ProposalSearch = ({onFilter}) => (
+const ProposalSearch = ({ onFilter }) => (
   <Container>
     <Search
       onChange={e => onFilter(e.target.value)}
-      placeholder={"Filter by client name, client email, resorts or country..."}>
-    </Search>
+      placeholder={'Filter by client name, client email, resorts or country...'}
+    />
   </Container>
 );
 

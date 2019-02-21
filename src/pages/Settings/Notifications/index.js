@@ -5,12 +5,6 @@ import React from 'react';
 import { SettingsPage } from '../components';
 import { NotificationSection } from './components';
 
-const Notifications = () => (
-  <SettingsPage>
-    {({ user }) => (
-      <NotificationSection />
-    )}
-  </SettingsPage>
-);
+const Notifications = () => <SettingsPage>{({ user }) => <NotificationSection />}</SettingsPage>;
 
 export default Notifications;

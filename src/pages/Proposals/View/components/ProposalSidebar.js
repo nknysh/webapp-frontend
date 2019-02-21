@@ -70,109 +70,101 @@ const Circle = () => (
       <circle cx="10" cy="10" r="3" stroke="black" fill="black" />
     </svg>
   </CircleContainer>
-)
+);
 
 const VerticalLine = () => (
   <LineContainer>
     <svg height="100" width="15" padding="0" margin="0">
-      <line x1="0"  y1="25" x2="0" y2="90" style={{stroke: "black"}} />
+      <line x1="0" y1="25" x2="0" y2="90" style={{ stroke: 'black' }} />
     </svg>
   </LineContainer>
-)
+);
 
-const formatDate = (date) => moment(date).format('MMMM D')
+const formatDate = date => moment(date).format('MMMM D');
 
-const ProposalDetails = ({proposal, handleBlur, handleChange}) => (
-    <Container>
-      <Main>
+const ProposalDetails = ({ proposal, handleBlur, handleChange }) => (
+  <Container>
+    <Main>
+      <Row>
+        <Circle />
+        <Date>Checking in {formatDate(proposal.checkInDate)}</Date>
+      </Row>
+      <Row style={{ position: 'absolute' }}>
+        <VerticalLine />
+      </Row>
+      <Row>
+        <Circle />
+        <Date>Checking out {formatDate(proposal.checkOutDate)}</Date>
+      </Row>
+      <Margins>
         <Row>
-          <Circle />
-          <Date>Checking in {formatDate(proposal.checkInDate)}</Date>
+          <Option>MARGIN</Option>
         </Row>
-        <Row style={{position: 'absolute'}}>
-          <VerticalLine />
-        </Row>
+        <Line />
         <Row>
-          <Circle />
-          <Date>Checking out {formatDate(proposal.checkOutDate)}</Date>
-        </Row>
-        <Margins>
-          <Row>
-            <Option>MARGIN</Option>
-          </Row>
-          <Line />
-          <Row>
-            <Field>
-              <RadioButton
-                style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
-                name="isMargin"
-                placeholder=""
-                value={'margin'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </Field>
-            <Text>APPLY A MARGIN</Text>
-          </Row>
-          <Row>
-            <Field>
-              <RadioButton
-                style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
-                name="isMargin"
-                placeholder=""
-                value={'direct'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </Field>
-            <Text>CLIENT IS PAYING DIRECTLY</Text>
-          </Row>
-          <Line style={{backgroundColor: '#BFBFBF', marginVertical: '10px'}}/>
-          <Row>
-            <Field>
-              {/* TODO(james): change defaultChecked to value and use this to make it checked */}
-              <RadioButton
-                style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
-                name="marginType"
-                placeholder=""
-                value={'percentage'}
-                defaultChecked={proposal.taMarginType === 'percentage'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </Field>
-            <Text>PERCENTAGE</Text>
-            <Input
-              name="percentage"
+          <Field>
+            <RadioButton
+              style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+              name="isMargin"
+              placeholder=""
+              value={'margin'}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-          </Row>
-          <Row>
-            <Field>
-              <RadioButton
-                style={{marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
-                name="marginType"
-                placeholder=""
-                value={'fixed'}
-                defaultChecked={proposal.taMarginType === 'fixed'}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </Field>
-            <Text>FIXED</Text>
-            <Input
-              name="fixed"
+          </Field>
+          <Text>APPLY A MARGIN</Text>
+        </Row>
+        <Row>
+          <Field>
+            <RadioButton
+              style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+              name="isMargin"
+              placeholder=""
+              value={'direct'}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-          </Row>
-          <Row>
-            {/* TODO(james): connect BE to company */}
-            <Text>The default rate for your company is 10%</Text>
-          </Row>
-        </Margins>
-      </Main>
+          </Field>
+          <Text>CLIENT IS PAYING DIRECTLY</Text>
+        </Row>
+        <Line style={{ backgroundColor: '#BFBFBF', marginVertical: '10px' }} />
+        <Row>
+          <Field>
+            {/* TODO(james): change defaultChecked to value and use this to make it checked */}
+            <RadioButton
+              style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+              name="marginType"
+              placeholder=""
+              value={'percentage'}
+              defaultChecked={proposal.taMarginType === 'percentage'}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </Field>
+          <Text>PERCENTAGE</Text>
+          <Input name="percentage" onChange={handleChange} onBlur={handleBlur} />
+        </Row>
+        <Row>
+          <Field>
+            <RadioButton
+              style={{ marginRight: 20, fontSize: 16, color: '#BFBFBF' }}
+              name="marginType"
+              placeholder=""
+              value={'fixed'}
+              defaultChecked={proposal.taMarginType === 'fixed'}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </Field>
+          <Text>FIXED</Text>
+          <Input name="fixed" onChange={handleChange} onBlur={handleBlur} />
+        </Row>
+        <Row>
+          {/* TODO(james): connect BE to company */}
+          <Text>The default rate for your company is 10%</Text>
+        </Row>
+      </Margins>
+    </Main>
   </Container>
 );
 

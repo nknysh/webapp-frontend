@@ -90,9 +90,9 @@ const Login = ({ history, logIn }) => (
             email: '',
             password: '',
           }}
-          onSubmit={(values) => {
+          onSubmit={values => {
             logIn(values)
-              .then((user) => {
+              .then(user => {
                 switch (user.type) {
                   case 'admin':
                     return history.push('/admin');
@@ -106,7 +106,7 @@ const Login = ({ history, logIn }) => (
                     return history.push('/');
                 }
               })
-              .catch((error) => {
+              .catch(error => {
                 // TODO(mark): Throw a SubmissionError with server errors.
                 console.log('Log in server error', error);
               });
@@ -138,13 +138,16 @@ const Login = ({ history, logIn }) => (
                 </Field>
               </Fields>
               <Actions>
-                <SubmitButton
-                  onPress={handleSubmit}
-                >
+                <SubmitButton onPress={handleSubmit}>
                   <SubmitText>SIGN IN</SubmitText>
                 </SubmitButton>
                 <ForgotPassword>
-                  <ForgotText>FORGOT YOUR PASSWORD? <Link to="/password/reset"><ForgotLink>CLICK HERE</ForgotLink></Link></ForgotText>
+                  <ForgotText>
+                    FORGOT YOUR PASSWORD?{' '}
+                    <Link to="/password/reset">
+                      <ForgotLink>CLICK HERE</ForgotLink>
+                    </Link>
+                  </ForgotText>
                 </ForgotPassword>
               </Actions>
             </form>
@@ -155,4 +158,7 @@ const Login = ({ history, logIn }) => (
   </Container>
 );
 
-export default connect(undefined, { logIn })(Login);
+export default connect(
+  undefined,
+  { logIn }
+)(Login);

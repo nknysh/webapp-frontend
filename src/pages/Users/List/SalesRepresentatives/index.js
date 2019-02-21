@@ -38,8 +38,8 @@ const SalesRepresentativesList = ({ resetUsers, fetchUsers, exportUsers }) => (
   <Container>
     <Header />
     <Request
-      getState={(state) => ({ users: getUsers(state) })}
-      onRequest={(values) => {
+      getState={state => ({ users: getUsers(state) })}
+      onRequest={values => {
         resetUsers();
         return fetchUsers({ q: values.query });
       }}
@@ -55,15 +55,17 @@ const SalesRepresentativesList = ({ resetUsers, fetchUsers, exportUsers }) => (
             <Content>
               <Filters>
                 <ExportButton
-                  onPress={() => exportUsers({ fileType: 'csv', filter: {}}).then(csv => {
-                    const filename = 'sales-representatives.csv';
-                    const text = `data:text/csv;charset=utf-8,${csv}`;
-                    const link = document.createElement('a');
+                  onPress={() =>
+                    exportUsers({ fileType: 'csv', filter: {} }).then(csv => {
+                      const filename = 'sales-representatives.csv';
+                      const text = `data:text/csv;charset=utf-8,${csv}`;
+                      const link = document.createElement('a');
 
-                    link.setAttribute('href', encodeURI(text));
-                    link.setAttribute('download', filename);
-                    link.click();
-                  })}
+                      link.setAttribute('href', encodeURI(text));
+                      link.setAttribute('download', filename);
+                      link.click();
+                    })
+                  }
                 >
                   <ExportText>EXPORT LIST</ExportText>
                 </ExportButton>
@@ -76,6 +78,9 @@ const SalesRepresentativesList = ({ resetUsers, fetchUsers, exportUsers }) => (
   </Container>
 );
 
-const withConnect = connect(undefined, { resetUsers, fetchUsers, exportUsers });
+const withConnect = connect(
+  undefined,
+  { resetUsers, fetchUsers, exportUsers }
+);
 
 export default withConnect(SalesRepresentativesList);

@@ -37,50 +37,26 @@ const Rooms = Styled.View.extend`
 
 const BookingSidebar = ({ booking, children }) => (
   <Container>
-    <Connect getState={(state) => ({ hotel: getHotel(state, booking.hotelId) })}>
+    <Connect getState={state => ({ hotel: getHotel(state, booking.hotelId) })}>
       {({ hotel }) => (
         <Content>
           <Sections>
             <Name>{hotel.name}</Name>
-            <Connect getState={(state) => ({ rooms: _.take(getRooms(state, { ids: hotel.rooms }), 2) })}>
+            <Connect getState={state => ({ rooms: _.take(getRooms(state, { ids: hotel.rooms }), 2) })}>
               {({ rooms }) => (
                 <Rooms>
-                  {rooms.map((room) => (
-                    <RoomInfo
-                      key={room.id}
-                      room={room}
-                    />
+                  {rooms.map(room => (
+                    <RoomInfo key={room.id} room={room} />
                   ))}
                 </Rooms>
               )}
             </Connect>
-            <BookingSection
-              name="DATES"
-              value=""
-            />
-            <BookingSection
-              name="MEAL PLAN"
-              value={booking.mealPlan}
-              price="INC. IN PRICE"
-            />
-            <BookingSection
-              name="RETURN TRANSFER"
-              value={booking.returnTransfer}
-              price="INC. IN PRICE"
-            />
-            <BookingSection
-              name="GROUND SERVICE"
-              value={booking.groundService}
-              price="INC. IN PRICE"
-            />
-            <BookingSection
-              name="YOUR MARGIN"
-              value={`${booking.taMarginAmount}%`}
-              price="$865.00"
-            />
-            <BookingPrice
-              booking={booking}
-            />
+            <BookingSection name="DATES" value="" />
+            <BookingSection name="MEAL PLAN" value={booking.mealPlan} price="INC. IN PRICE" />
+            <BookingSection name="RETURN TRANSFER" value={booking.returnTransfer} price="INC. IN PRICE" />
+            <BookingSection name="GROUND SERVICE" value={booking.groundService} price="INC. IN PRICE" />
+            <BookingSection name="YOUR MARGIN" value={`${booking.taMarginAmount}%`} price="$865.00" />
+            <BookingPrice booking={booking} />
           </Sections>
         </Content>
       )}

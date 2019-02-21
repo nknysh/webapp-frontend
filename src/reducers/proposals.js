@@ -17,12 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  PROPOSALS_REQUEST,
-  PROPOSALS_OK,
-  PROPOSALS_ERROR,
-  PROPOSALS_RESET,
-} from '../actions/proposals';
+import { PROPOSALS_REQUEST, PROPOSALS_OK, PROPOSALS_ERROR, PROPOSALS_RESET } from '../actions/proposals';
 
 const initialState = {
   loading: false,
@@ -56,4 +51,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

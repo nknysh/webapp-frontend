@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorBoundary HOC displays component when no error 1`] = `
+<ErrorBoundary>
+  <MockComponent>
+    <div>
+      It works!
+    </div>
+  </MockComponent>
+</ErrorBoundary>
+`;
+
+exports[`ErrorBoundary HOC displays error when component catches 1`] = `
+<ErrorBoundary>
+  <h1>
+    Oops!
+  </h1>
+  <pre>
+    "Error: It doesn't work!\\n    at ErrorComponent (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/src/hoc/ErrorBoundary/ErrorBoundary.test.jsx:7:9)\\n    at renderWithHooks (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:12839:18)\\n    at mountIndeterminateComponent (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:14814:13)\\n    at beginWork (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:15419:16)\\n    at performUnitOfWork (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:19106:12)\\n    at workLoop (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:19146:24)\\n    at renderRoot (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:19229:7)\\n    at performWorkOnRoot (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20136:7)\\n    at performWork (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20048:7)\\n    at performSyncWork (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20022:3)\\n    at requestWork (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:19891:5)\\n    at scheduleWork (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:19705:5)\\n    at scheduleRootUpdate (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20366:3)\\n    at updateContainerAtExpirationTime (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20394:10)\\n    at updateContainer (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20451:10)\\n    at ReactRoot.Object.&lt;anonymous&gt;.ReactRoot.render (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20747:3)\\n    at /home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20884:14\\n    at unbatchedUpdates (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20253:10)\\n    at legacyRenderSubtreeIntoContainer (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20880:5)\\n    at Object.render (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/react-dom/cjs/react-dom.development.js:20949:12)\\n    at Object.render (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/enzyme-adapter-react-16/build/ReactSixteenAdapter.js:367:114)\\n    at new ReactWrapper (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/enzyme/build/ReactWrapper.js:134:16)\\n    at mount (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/enzyme/build/mount.js:21:10)\\n    at Object.mount (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/src/hoc/ErrorBoundary/ErrorBoundary.test.jsx:20:30)\\n    at Object.asyncJestTest (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:102:37)\\n    at resolve (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/jest-jasmine2/build/queueRunner.js:41:12)\\n    at new Promise (&lt;anonymous&gt;)\\n    at mapper (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/jest-jasmine2/build/queueRunner.js:26:19)\\n    at promise.then (/home/kris/Sites/contracts/pure-escapes/pure-escapes-fe/node_modules/jest-jasmine2/build/queueRunner.js:71:41)\\n    at &lt;anonymous&gt;\\n    at process._tickCallback (internal/process/next_tick.js:188:7)"
+  </pre>
+</ErrorBoundary>
+`;

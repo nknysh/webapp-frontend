@@ -66,19 +66,24 @@ const BookingsFilters = ({ query, onChange, onSubmit, exportBookings, resetForm 
       <ClearText>CLEAR</ClearText>
     </ClearButton>
     <ExportButton
-      onPress={() => exportBookings({ fileType: 'csv', filter: {}}).then(csv => {
-        const filename = 'bookings.csv';
-        const text = `data:text/csv;charset=utf-8,${csv}`;
-        const link = document.createElement('a');
+      onPress={() =>
+        exportBookings({ fileType: 'csv', filter: {} }).then(csv => {
+          const filename = 'bookings.csv';
+          const text = `data:text/csv;charset=utf-8,${csv}`;
+          const link = document.createElement('a');
 
-        link.setAttribute('href', encodeURI(text));
-        link.setAttribute('download', filename);
-        link.click();
-      })}
+          link.setAttribute('href', encodeURI(text));
+          link.setAttribute('download', filename);
+          link.click();
+        })
+      }
     >
       <ExportText>EXPORT</ExportText>
     </ExportButton>
   </Container>
 );
 
-export default connect(undefined, { exportBookings })(BookingsFilters);
+export default connect(
+  undefined,
+  { exportBookings }
+)(BookingsFilters);

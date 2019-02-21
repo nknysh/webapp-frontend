@@ -53,9 +53,7 @@ const HotelsFilters = ({ history, query, onChange, onSubmit }) => (
       />
     </Field>
     <Actions>
-      <NewButton
-        onPress={() => history.push('/admin/hotels/new')}
-      >
+      <NewButton onPress={() => history.push('/admin/hotels/new')}>
         <NewText>+ NEW HOTEL</NewText>
       </NewButton>
     </Actions>

@@ -18,14 +18,8 @@ import utils from './utils';
 
 const model = 'hotels';
 
-const getHotels = (state, { ids } = {}) =>
-  utils.getList({ state, model, ids });
+const getHotels = (state, { ids } = {}) => utils.getList({ state, model, ids });
 
-const getHotel = (state, key) =>
-  utils.getItem({ state, model, key });
+const getHotel = (state, key) => utils.getItem({ state, model, key });
 
-export {
-  getHotels,
-  getHotel,
-};
-
+export { getHotels, getHotel };

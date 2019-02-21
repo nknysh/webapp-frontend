@@ -61,7 +61,7 @@ const CompanyForm = ({ user, updateUser }) => (
         country: user.country,
         website: user.website,
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         console.log('update company', values);
       }}
     >
@@ -144,9 +144,7 @@ const CompanyForm = ({ user, updateUser }) => (
             </Field>
           </Fields>
           <Actions>
-            <SubmitButton
-              onPress={handleSubmit}
-            >
+            <SubmitButton onPress={handleSubmit}>
               <SubmitText>UPDATE DETAILS</SubmitText>
             </SubmitButton>
           </Actions>
@@ -156,4 +154,7 @@ const CompanyForm = ({ user, updateUser }) => (
   </Container>
 );
 
-export default connect(undefined, { updateUser })(CompanyForm);
+export default connect(
+  undefined,
+  { updateUser }
+)(CompanyForm);

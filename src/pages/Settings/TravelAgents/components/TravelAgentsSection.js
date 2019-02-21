@@ -74,9 +74,7 @@ const TravelAgentsSection = ({ user, inviteUser }) => (
       <Modal
         width={600}
         trigger={({ handleOpen }) => (
-          <CreateButton
-            onPress={handleOpen}
-          >
+          <CreateButton onPress={handleOpen}>
             <CreateText>ADD NEW TRAVEL AGENT</CreateText>
           </CreateButton>
         )}
@@ -85,17 +83,19 @@ const TravelAgentsSection = ({ user, inviteUser }) => (
           <Content>
             <ModalTitle>INVITE A NEW TRAVEL AGENT</ModalTitle>
             <ModalDescription>
-              Pure Escapes, the No 1 seller of luxury resorts in the Maldives and Seychelles invites you to sign up to their online system, to have access to the best rates on the market and instant availability as well as the ability to take holds and create your own proposals for your clients.
+              Pure Escapes, the No 1 seller of luxury resorts in the Maldives and Seychelles invites you to sign up to
+              their online system, to have access to the best rates on the market and instant availability as well as
+              the ability to take holds and create your own proposals for your clients.
             </ModalDescription>
             <Form
               initialValues={{
                 id: user.id,
                 email: '',
               }}
-              onSubmit={(values) => {
+              onSubmit={values => {
                 inviteUser(values)
                   .then(() => handleClose())
-                  .catch((error) => {
+                  .catch(error => {
                     console.log('Server error', error);
                   });
               }}
@@ -113,9 +113,7 @@ const TravelAgentsSection = ({ user, inviteUser }) => (
                     />
                   </Field>
                   <Actions>
-                    <SubmitButton
-                      onPress={handleSubmit}
-                    >
+                    <SubmitButton onPress={handleSubmit}>
                       <SubmitText>SEND INVITE</SubmitText>
                     </SubmitButton>
                   </Actions>
@@ -129,4 +127,7 @@ const TravelAgentsSection = ({ user, inviteUser }) => (
   </Container>
 );
 
-export default connect(undefined, { inviteUser })(TravelAgentsSection);
+export default connect(
+  undefined,
+  { inviteUser }
+)(TravelAgentsSection);

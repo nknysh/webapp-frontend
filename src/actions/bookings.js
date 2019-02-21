@@ -64,7 +64,7 @@ const bookingsReset = value => ({
 });
 /* eslint-enable */
 
-const makeFetchBookings = (makeRequest) => (args = {}) => (dispatch, getState) => {
+const makeFetchBookings = makeRequest => (args = {}) => (dispatch, getState) => {
   const state = getState();
   const token = getAuthToken(state);
 
@@ -90,7 +90,7 @@ const makeFetchBookings = (makeRequest) => (args = {}) => (dispatch, getState) =
   dispatch(bookingsRequest(args));
 
   return makeRequest(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -108,7 +108,7 @@ const makeFetchBookings = (makeRequest) => (args = {}) => (dispatch, getState) =
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -121,7 +121,7 @@ const makeFetchBookings = (makeRequest) => (args = {}) => (dispatch, getState) =
 const fetchBookings = makeFetchBookings(BookingsApi.fetchBookings);
 const searchBookings = makeFetchBookings(BookingsApi.searchBookings);
 
-const fetchBooking = (args = {}) => (dispatch) => {
+const fetchBooking = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -144,7 +144,7 @@ const createBooking = (args = {}) => (dispatch, getState) => {
   dispatch(bookingsRequest(args));
 
   return BookingsApi.createBooking(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -153,7 +153,7 @@ const createBooking = (args = {}) => (dispatch, getState) => {
       dispatch(bookingsOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -173,7 +173,7 @@ const uploadBookingInvoice = (args = {}) => (dispatch, getState) => {
   dispatch(bookingsRequest(args));
 
   return BookingsApi.uploadBookingInvoice(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -182,7 +182,7 @@ const uploadBookingInvoice = (args = {}) => (dispatch, getState) => {
       dispatch(bookingsOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -202,7 +202,7 @@ const fetchBookingOptions = (args = {}) => (dispatch, getState) => {
   dispatch(bookingsRequest(args));
 
   return BookingsApi.fetchBookingOptions(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -211,7 +211,7 @@ const fetchBookingOptions = (args = {}) => (dispatch, getState) => {
       dispatch(bookingOptionsOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -235,7 +235,7 @@ const updateBooking = (args = {}) => (dispatch, getState) => {
   dispatch(bookingsRequest(args));
 
   return BookingsApi.updateBooking(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -243,7 +243,7 @@ const updateBooking = (args = {}) => (dispatch, getState) => {
 
       return dispatch(bookingsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -262,7 +262,7 @@ const deleteBooking = (args = {}) => (dispatch, getState) => {
   dispatch(bookingsRequest(args));
 
   return BookingsApi.deleteBooking(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -270,7 +270,7 @@ const deleteBooking = (args = {}) => (dispatch, getState) => {
 
       return dispatch(bookingsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -280,8 +280,7 @@ const deleteBooking = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetBookings = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(bookingsReset(args)));
+const resetBookings = (args = {}) => dispatch => Promise.resolve(dispatch(bookingsReset(args)));
 
 const exportBookings = (args = {}) => (dispatch, getState) => {
   const state = getState();
@@ -305,4 +304,3 @@ export {
   searchBookings,
   exportBookings,
 };
-

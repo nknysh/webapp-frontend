@@ -10,16 +10,12 @@ import {
   TextInput,
   Toolbar,
   required,
-  NumberInput
+  NumberInput,
 } from 'react-admin'; // eslint-disable-line import/no-unresolved
 
 const EditToolbar = props => (
   <Toolbar {...props}>
-    <SaveButton
-      submitOnEnter
-      label="Update"
-      redirect="show"
-    />
+    <SaveButton submitOnEnter label="Update" redirect="show" />
   </Toolbar>
 );
 
@@ -38,11 +34,7 @@ const AdminRoomEdit = props => (
       <NumberInput source="barRate" validate={required()} />
       <CheckboxGroupInput
         source="Bed Choice"
-        choices={[
-          { id: 'double', name: 'Double' },
-          { id: 'queen', name: 'Queen' },
-          { id: 'king', name: 'King' },
-        ]}
+        choices={[{ id: 'double', name: 'Double' }, { id: 'queen', name: 'Queen' }, { id: 'king', name: 'King' }]}
       />
     </SimpleForm>
   </Edit>

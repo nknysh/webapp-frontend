@@ -19,34 +19,34 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/offers`;
 
-const fetchOffers = ({
-  token,
-  where,
-  order,
-  limit,
-  skip,
-  include,
-}) =>
-  request().withAuth(token)
+const fetchOffers = ({ token, where, order, limit, skip, include }) =>
+  request()
+    .withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then((response) => response.data);
+    .then(response => response.data);
 
 const createOffer = ({ token, ...params }) =>
-  request().withAuth(token).post(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .post(url, params)
+    .then(response => response.data);
 
 const updateOffer = ({ token, ...params }) =>
-  request().withAuth(token).patch(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .patch(url, params)
+    .then(response => response.data);
 
 const deleteOffer = ({ token, id }) =>
-  request().withAuth(token).delete(`${url}/${id}`)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .delete(`${url}/${id}`)
+    .then(response => response.data);
 
 export default {
   fetchOffers,
@@ -54,4 +54,3 @@ export default {
   updateOffer,
   deleteOffer,
 };
-

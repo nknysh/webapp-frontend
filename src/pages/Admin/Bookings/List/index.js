@@ -30,8 +30,8 @@ const BookingList = ({ resetBookings, searchBookings }) => (
   <Container>
     <Header />
     <Request
-      getState={(state) => ({ bookings: getBookings(state) })}
-      onRequest={(values) => {
+      getState={state => ({ bookings: getBookings(state) })}
+      onRequest={values => {
         resetBookings();
         return searchBookings({
           q: values.query,
@@ -64,9 +64,7 @@ const BookingList = ({ resetBookings, searchBookings }) => (
                   onChange={handleChange}
                   onSubmit={submitForm}
                 />
-                <BookingsTable
-                  bookings={bookings}
-                />
+                <BookingsTable bookings={bookings} />
               </Main>
             </Content>
           )}
@@ -76,4 +74,7 @@ const BookingList = ({ resetBookings, searchBookings }) => (
   </Container>
 );
 
-export default connect(undefined, { resetBookings, searchBookings })(BookingList);
+export default connect(
+  undefined,
+  { resetBookings, searchBookings }
+)(BookingList);

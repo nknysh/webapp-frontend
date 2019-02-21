@@ -17,12 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  OFFERS_REQUEST,
-  OFFERS_OK,
-  OFFERS_ERROR,
-  OFFERS_RESET,
-} from '../actions/offers';
+import { OFFERS_REQUEST, OFFERS_OK, OFFERS_ERROR, OFFERS_RESET } from '../actions/offers';
 
 const initialState = {
   loading: false,
@@ -56,4 +51,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

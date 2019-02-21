@@ -27,7 +27,11 @@ const Side = Styled.View.extend`
   flex: 1;
 `;
 
-const RoomUpdate = ({ match: { params: { id }} }) => (
+const RoomUpdate = ({
+  match: {
+    params: { id },
+  },
+}) => (
   <Container>
     <Header />
     <Content>
@@ -35,9 +39,7 @@ const RoomUpdate = ({ match: { params: { id }} }) => (
         {({ room }) => (
           <Sides>
             <Side>
-              <RoomUpdateForm
-                room={room}
-              />
+              <RoomUpdateForm room={room} />
             </Side>
             <Side />
           </Sides>

@@ -12,11 +12,14 @@ const displayDateRange = (startDate, endDate) => {
   const secondDateYear = moment(endDate).format('YYYY');
   const firstDateMonth = moment(startDate).format('MMM');
   const secondDateMonth = moment(endDate).format('MMM');
-  const differentMonth = moment(startDate).format('MMM D')
+  const differentMonth = moment(startDate)
+    .format('MMM D')
     .concat(' - ', moment(endDate).format('MMM D[,] YYYY'));
-  const sameMonth = moment(startDate).format('MMM D')
+  const sameMonth = moment(startDate)
+    .format('MMM D')
     .concat(' - ', moment(endDate).format('D[,] YYYY'));
-  const differentYear = moment(startDate).format('MMM D YYYY')
+  const differentYear = moment(startDate)
+    .format('MMM D YYYY')
     .concat(' - ', moment(endDate).format('MMM D[,] YYYY'));
 
   if (firstDateMonth !== secondDateMonth) {
@@ -30,27 +33,27 @@ const displayDateRange = (startDate, endDate) => {
   return formattedDate;
 };
 
-const downloadPdf = (pdf) => {
+const downloadPdf = pdf => {
   if (typeof window.chrome !== 'undefined') {
     // Chrome version
     const link = document.createElement('a');
     const blob = new Blob([base64ToArrayBuffer(pdf)], { type: 'application/pdf' });
     link.href = window.URL.createObjectURL(blob);
-    link.download = "proposal.pdf";
+    link.download = 'proposal.pdf';
     document.body.appendChild(link);
     link.click();
   } else if (typeof window.navigator.msSaveBlob !== 'undefined') {
-      // IE version
-      const blob = new Blob([pdf], { type: 'application/pdf' });
-      window.navigator.msSaveBlob(blob, "proposal.pdf");
+    // IE version
+    const blob = new Blob([pdf], { type: 'application/pdf' });
+    window.navigator.msSaveBlob(blob, 'proposal.pdf');
   } else {
-      // Firefox version
-      const file = new File([pdf], "proposal.pdf", { type: 'application/force-download' });
-      window.open(URL.createObjectURL(file));
+    // Firefox version
+    const file = new File([pdf], 'proposal.pdf', { type: 'application/force-download' });
+    window.open(URL.createObjectURL(file));
   }
 };
 
-const base64ToArrayBuffer = (base64) => {
+const base64ToArrayBuffer = base64 => {
   const bString = window.atob(base64);
   const len = bString.length;
   const bytes = new Uint8Array(len);
@@ -60,8 +63,4 @@ const base64ToArrayBuffer = (base64) => {
   return bytes.buffer;
 };
 
-export {
-  base64ToArrayBuffer,
-  displayDateRange,
-  downloadPdf
-};
+export { base64ToArrayBuffer, displayDateRange, downloadPdf };

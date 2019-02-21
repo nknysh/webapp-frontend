@@ -77,18 +77,14 @@ const RoomCard = ({ room }) => (
           <Name>{room.name}</Name>
           <Price>{`$${room.barRate}`}</Price>
         </Row>
-        <Discount>
-          STAY FOR 7 NIGHTS, PAY ONLY FOR 6 WITH COMPLIMENTARY UPGRADE
-        </Discount>
+        <Discount>STAY FOR 7 NIGHTS, PAY ONLY FOR 6 WITH COMPLIMENTARY UPGRADE</Discount>
         <Items>
           <Item>2 BEDROOMS</Item>
           <Item>250 SQ M OF INTERIOR SPACE</Item>
           <Item>SLEEPS UP TO 4 ADULTS; OR 2 ADULTS AND 2 CHILDREN</Item>
           <Item>PRIVATE POOL</Item>
         </Items>
-        <Upgrade>
-          UPGRADE TO A SUNSET POOL VILLA FOR $2500 PER PERSON
-        </Upgrade>
+        <Upgrade>UPGRADE TO A SUNSET POOL VILLA FOR $2500 PER PERSON</Upgrade>
       </Info>
       <Actions>
         <Action>MORE DETAILS</Action>

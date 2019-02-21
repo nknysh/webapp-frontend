@@ -1,11 +1,11 @@
 // Libraries
 import React from 'react';
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 
 // App
 import { colors } from 'styles';
-import { uploadBookingInvoice } from 'actions/bookings'
+import { uploadBookingInvoice } from 'actions/bookings';
 
 // Components
 import Styled from '../Styled';
@@ -18,25 +18,22 @@ const SecondaryText = Styled.H7.extend`
   color: ${colors.white16};
 `;
 
-const fileUpload = ({uploadBookingInvoice, id}) => {
-  const drop = (data) => {
-    const file = new FormData()
-    file.append('file', data[0])
-    uploadBookingInvoice({file, id})
-  }
+const fileUpload = ({ uploadBookingInvoice, id }) => {
+  const drop = data => {
+    const file = new FormData();
+    file.append('file', data[0]);
+    uploadBookingInvoice({ file, id });
+  };
   return (
-    <Dropzone 
-      onDrop={drop}
-      style={{paddingTop: '20px'}}
-      multiple={false}
-      accept="application/pdf">
+    <Dropzone onDrop={drop} style={{ paddingTop: '20px' }} multiple={false} accept="application/pdf">
       <SecondaryButton>
-        <SecondaryText>
-          UPLOAD PDF FILE
-        </SecondaryText>
+        <SecondaryText>UPLOAD PDF FILE</SecondaryText>
       </SecondaryButton>
     </Dropzone>
-  )
-}
+  );
+};
 
-export default connect(undefined, { uploadBookingInvoice })(fileUpload);
+export default connect(
+  undefined,
+  { uploadBookingInvoice }
+)(fileUpload);

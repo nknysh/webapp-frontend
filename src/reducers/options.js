@@ -27,8 +27,7 @@ import {
 const initialState = {
   loading: false,
   request: undefined,
-  data: {
-  },
+  data: {},
   error: undefined,
 };
 
@@ -58,4 +57,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

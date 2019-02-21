@@ -19,34 +19,34 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/rooms`;
 
-const fetchRooms = ({
-  token,
-  where,
-  order,
-  limit,
-  skip,
-  include,
-}) =>
-  request().withAuth(token)
+const fetchRooms = ({ token, where, order, limit, skip, include }) =>
+  request()
+    .withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then((response) => response.data);
+    .then(response => response.data);
 
 const createRoom = ({ token, ...params }) =>
-  request().withAuth(token).post(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .post(url, params)
+    .then(response => response.data);
 
 const updateRoom = ({ token, ...params }) =>
-  request().withAuth(token).patch(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .patch(url, params)
+    .then(response => response.data);
 
 const deleteRoom = ({ token, id }) =>
-  request().withAuth(token).delete(`${url}/${id}`)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .delete(`${url}/${id}`)
+    .then(response => response.data);
 
 export default {
   fetchRooms,
@@ -54,4 +54,3 @@ export default {
   updateRoom,
   deleteRoom,
 };
-

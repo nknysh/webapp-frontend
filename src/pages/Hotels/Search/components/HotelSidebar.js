@@ -88,7 +88,7 @@ const HotelSidebar = ({ history }) => (
         // TODO(mark): Split into checkIn and checkOut.
         dates: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         const query = qs.stringify(values);
         history.push(`/hotels?${query}`);
       }}
@@ -101,10 +101,7 @@ const HotelSidebar = ({ history }) => (
                 name="country"
                 placeholder="DESTINATION OR RESORT"
                 value={values.country}
-                options={[
-                  { value: 'maldives', label: 'MALDIVES' },
-                  { value: 'seychelles', label: 'SEYCHELLES' },
-                ]}
+                options={[{ value: 'maldives', label: 'MALDIVES' }, { value: 'seychelles', label: 'SEYCHELLES' }]}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
                 style={{ width: '100%' }}
@@ -113,19 +110,11 @@ const HotelSidebar = ({ history }) => (
             </Field>
             <Field>
               <Label htmlFor="dates">DATES</Label>
-              <Input
-                name="dates"
-                value={values.dates}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+              <Input name="dates" value={values.dates} onChange={handleChange} onBlur={handleBlur} />
             </Field>
             <Field style={{ zIndex: 100 }}>
               <Label htmlFor="accomodations">ACCOMODATIONS</Label>
-              <Dropdown
-                placeholder="SELECT ACCOMODATIONS"
-                style={{ marginTop: 10 }}
-              >
+              <Dropdown placeholder="SELECT ACCOMODATIONS" style={{ marginTop: 10 }}>
                 <Options>
                   <NumberInput
                     name="numRooms"
@@ -277,10 +266,7 @@ const HotelSidebar = ({ history }) => (
           </SidebarSection>
           <SidebarSection title="AMENITIES">
             {AMENITIES.map((amenity, index) => (
-              <Field
-                key={index}
-                style={{ marginTop: 0 }}
-              >
+              <Field key={index} style={{ marginTop: 0 }}>
                 <RadioButton
                   name="amenities"
                   placeholder={amenity}
@@ -291,20 +277,11 @@ const HotelSidebar = ({ history }) => (
               </Field>
             ))}
             <Actions>
-              <RemoveButton
-                onPress={() => {}}
-              >
-                <RemoveText>
-                  REMOVE ALL FILTERS
-                </RemoveText>
+              <RemoveButton onPress={() => {}}>
+                <RemoveText>REMOVE ALL FILTERS</RemoveText>
               </RemoveButton>
-              <RemoveButton
-                onPress={handleSubmit}
-                style={{ marginTop: 10 }}
-              >
-                <RemoveText>
-                  UPDATE SEARCH
-                </RemoveText>
+              <RemoveButton onPress={handleSubmit} style={{ marginTop: 10 }}>
+                <RemoveText>UPDATE SEARCH</RemoveText>
               </RemoveButton>
             </Actions>
           </SidebarSection>

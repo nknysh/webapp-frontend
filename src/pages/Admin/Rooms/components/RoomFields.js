@@ -28,13 +28,7 @@ const RoomFields = ({ values, onChange, onBlur, setFieldValue, setFieldTouched }
     <Row>
       <Field style={{ marginTop: 0 }}>
         <Label htmlFor="name">ROOM NAME</Label>
-        <Input
-          name="name"
-          placeholder="TYPE HERE"
-          value={values.name}
-          onChange={onChange}
-          onBlur={onBlur}
-        />
+        <Input name="name" placeholder="TYPE HERE" value={values.name} onChange={onChange} onBlur={onBlur} />
       </Field>
     </Row>
     <Row style={{ zIndex: 101 }}>
@@ -108,23 +102,11 @@ const RoomFields = ({ values, onChange, onBlur, setFieldValue, setFieldTouched }
     <Row>
       <Field style={{ marginRight: 10 }}>
         <Label htmlFor="count">NUMBER OF ROOMS</Label>
-        <Input
-          name="count"
-          placeholder="TYPE HERE"
-          value={`${values.count}`}
-          onChange={onChange}
-          onBlur={onBlur}
-        />
+        <Input name="count" placeholder="TYPE HERE" value={`${values.count}`} onChange={onChange} onBlur={onBlur} />
       </Field>
       <Field style={{ marginLeft: 10 }}>
         <Label htmlFor="size">SIZE OF ROOM</Label>
-        <Input
-          name="size"
-          placeholder="TYPE HERE"
-          value={`${values.size}`}
-          onChange={onChange}
-          onBlur={onBlur}
-        />
+        <Input name="size" placeholder="TYPE HERE" value={`${values.size}`} onChange={onChange} onBlur={onBlur} />
       </Field>
     </Row>
     <Row style={{ zIndex: 100 }}>

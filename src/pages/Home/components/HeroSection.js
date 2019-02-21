@@ -68,13 +68,14 @@ const HeroSection = ({ history }) => (
     <Content>
       <Title>PURE ESCAPES</Title>
       <Subtitle>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua.
       </Subtitle>
       <Actions>
-        <Link to="/sign-up"><Text>CREATE AN ACCOUNT</Text></Link>
-        <LoginButton
-          onPress={() => history.push('/login')}
-        >
+        <Link to="/sign-up">
+          <Text>CREATE AN ACCOUNT</Text>
+        </Link>
+        <LoginButton onPress={() => history.push('/login')}>
           <LoginText>LOG IN</LoginText>
         </LoginButton>
       </Actions>

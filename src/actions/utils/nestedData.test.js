@@ -33,8 +33,7 @@ describe('action creator nested data utilities', () => {
 
     it('dispatches action creators for defined includes', () => {
       const fetchProducts = jest.fn();
-      const fetchProductsThunk = jest.fn()
-        .mockReturnValue(fetchProducts);
+      const fetchProductsThunk = jest.fn().mockReturnValue(fetchProducts);
 
       const actionCreatorMap = {
         products: fetchProductsThunk,
@@ -54,12 +53,10 @@ describe('action creator nested data utilities', () => {
 
     it('ignores action creators for data not included', () => {
       const fetchProducts = jest.fn();
-      const fetchProductsThunk = jest.fn()
-        .mockReturnValue(fetchProducts);
+      const fetchProductsThunk = jest.fn().mockReturnValue(fetchProducts);
 
       const fetchSkills = jest.fn();
-      const fetchSkillsThunk = jest.fn()
-        .mockReturnValue(fetchSkills);
+      const fetchSkillsThunk = jest.fn().mockReturnValue(fetchSkills);
 
       const actionCreatorMap = {
         products: fetchProductsThunk,
@@ -86,8 +83,7 @@ describe('action creator nested data utilities', () => {
       };
 
       const fetchProducts = jest.fn();
-      const fetchProductsThunk = jest.fn()
-        .mockReturnValue(fetchProducts);
+      const fetchProductsThunk = jest.fn().mockReturnValue(fetchProducts);
 
       const actionCreatorMap = {
         products: fetchProductsThunk,
@@ -115,4 +111,3 @@ describe('action creator nested data utilities', () => {
     });
   });
 });
-

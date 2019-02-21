@@ -21,7 +21,7 @@ class Calendar extends React.Component {
 
     this.setState({ startDate, endDate });
     input && input.onChange({ startDate, endDate });
-  }
+  };
 
   render() {
     const { focusedInput, startDate, endDate } = this.state;

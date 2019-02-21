@@ -82,21 +82,13 @@ const BookingPaymentOptions = ({ history, booking, values, handleChange, handleB
       </Fields>
       <Actions>
         <Row>
-          <MainButton
-            onPress={handleSubmit}
-          >
-            <MainText>
-              BOOK & PAY NOW
-            </MainText>
+          <MainButton onPress={handleSubmit}>
+            <MainText>BOOK & PAY NOW</MainText>
           </MainButton>
         </Row>
         <Row style={{ marginTop: 10 }}>
-          <SecondaryButton
-            onPress={() => {}}
-          >
-            <SecondaryText>
-              REQUEST A PROVISIONAL BOOKING
-            </SecondaryText>
+          <SecondaryButton onPress={() => {}}>
+            <SecondaryText>REQUEST A PROVISIONAL BOOKING</SecondaryText>
           </SecondaryButton>
         </Row>
       </Actions>

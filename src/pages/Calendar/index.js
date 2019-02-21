@@ -21,22 +21,18 @@ const CalendarPage = ({ currentUser, fetchBookings }) => (
   <Container>
     <Header />
     <Content>
-      <Request
-        getState={(state) => ({ bookings: getBookings(state) })}
-        onRequest={() => fetchBookings()}
-      >
-        {({ bookings }) => (
-          <LargeCalendar
-            bookings={bookings}
-          />
-        )}
+      <Request getState={state => ({ bookings: getBookings(state) })} onRequest={() => fetchBookings()}>
+        {({ bookings }) => <LargeCalendar bookings={bookings} />}
       </Request>
     </Content>
   </Container>
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 });
 
-export default connect(mapStateToProps, { fetchBookings })(CalendarPage);
+export default connect(
+  mapStateToProps,
+  { fetchBookings }
+)(CalendarPage);

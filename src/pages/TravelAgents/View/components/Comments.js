@@ -59,30 +59,36 @@ const SubmitText = Styled.H7.extend`
   color: ${colors.white16};
 `;
 
-const CommentDateFormatter = (comment) => 
-  moment(comment.createdAt).format("MMMM Do YYYY"); 
+const CommentDateFormatter = comment => moment(comment.createdAt).format('MMMM Do YYYY');
 
-const Comments = (comments) => (
+const Comments = comments =>
   comments.map(comment => (
-    <Connect getState={(state) => ({ user: getUser(state, comment.commenterId) })} key={comment.id}>
-      {({ user }) => 
+    <Connect getState={state => ({ user: getUser(state, comment.commenterId) })} key={comment.id}>
+      {({ user }) => (
         <CommentRow>
-          <Row><Text style={{fontWeight: 'bold'}}>{comment.text}</Text></Row>
-          { user && <Row><Text style={{color: `${colors.gray11}`}}>{`${user.firstName} ${user.lastName}`}, {CommentDateFormatter(comment)}</Text></Row>}
+          <Row>
+            <Text style={{ fontWeight: 'bold' }}>{comment.text}</Text>
+          </Row>
+          {user && (
+            <Row>
+              <Text style={{ color: `${colors.gray11}` }}>
+                {`${user.firstName} ${user.lastName}`}, {CommentDateFormatter(comment)}
+              </Text>
+            </Row>
+          )}
         </CommentRow>
-      }
+      )}
     </Connect>
-  ))
-);
+  ));
 
 const CommentsForm = ({ comments, travelAgentId, createComment, user }) => (
   <Container>
     <Form
       initialValues={{
-        text: ''
+        text: '',
       }}
-      onSubmit={(values) => {
-        createComment({ id: travelAgentId, ...{commenterId: user.id, ...values} })
+      onSubmit={values => {
+        createComment({ id: travelAgentId, ...{ commenterId: user.id, ...values } });
       }}
     >
       {({ values, handleChange, handleBlur, handleSubmit }) => (
@@ -90,29 +96,22 @@ const CommentsForm = ({ comments, travelAgentId, createComment, user }) => (
           <Fields>
             <Field>
               <Label htmlFor="comment">COMMENT</Label>
-              <Input
-                name="text"
-                placeholder=""
-                value={values.text}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+              <Input name="text" placeholder="" value={values.text} onChange={handleChange} onBlur={handleBlur} />
             </Field>
           </Fields>
           <Actions>
-            <SubmitButton
-              onPress={handleSubmit}
-            >
+            <SubmitButton onPress={handleSubmit}>
               <SubmitText>LEAVE A COMMENT</SubmitText>
             </SubmitButton>
           </Actions>
         </Content>
       )}
     </Form>
-    <CommentsList>
-      {Comments(comments)}
-    </CommentsList>
+    <CommentsList>{Comments(comments)}</CommentsList>
   </Container>
-)
+);
 
-export default (connect(undefined, { createComment })(CommentsForm))
+export default connect(
+  undefined,
+  { createComment }
+)(CommentsForm);

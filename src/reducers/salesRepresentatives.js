@@ -56,4 +56,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

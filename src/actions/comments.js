@@ -88,7 +88,7 @@ const fetchComments = (args = {}) => (dispatch, getState) => {
   dispatch(commentsRequest(args));
 
   return CommentsApi.fetchComments(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -106,7 +106,7 @@ const fetchComments = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -141,7 +141,7 @@ const fetchTravelAgentComments = (args = {}) => (dispatch, getState) => {
   dispatch(commentsRequest(args));
 
   return CommentsApi.fetchTravelAgentComments(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -159,7 +159,7 @@ const fetchTravelAgentComments = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -169,7 +169,7 @@ const fetchTravelAgentComments = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchComment = (args = {}) => (dispatch) => {
+const fetchComment = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -192,7 +192,7 @@ const createComment = (args = {}) => (dispatch, getState) => {
   dispatch(commentsRequest(args));
 
   return CommentsApi.createComment(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -200,7 +200,7 @@ const createComment = (args = {}) => (dispatch, getState) => {
 
       return dispatch(commentAddOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -219,7 +219,7 @@ const updateComment = (args = {}) => (dispatch, getState) => {
   dispatch(commentsRequest(args));
 
   return CommentsApi.updateComment(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -227,7 +227,7 @@ const updateComment = (args = {}) => (dispatch, getState) => {
 
       return dispatch(commentsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -246,7 +246,7 @@ const deleteComment = (args = {}) => (dispatch, getState) => {
   dispatch(commentsRequest(args));
 
   return CommentsApi.deleteComment(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -254,7 +254,7 @@ const deleteComment = (args = {}) => (dispatch, getState) => {
 
       return dispatch(commentsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -264,8 +264,7 @@ const deleteComment = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetComments = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(commentsReset(args)));
+const resetComments = (args = {}) => dispatch => Promise.resolve(dispatch(commentsReset(args)));
 
 export {
   fetchComments,
@@ -276,4 +275,3 @@ export {
   deleteComment,
   resetComments,
 };
-

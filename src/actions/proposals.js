@@ -87,7 +87,7 @@ const fetchProposals = (args = {}) => (dispatch, getState) => {
   dispatch(proposalsRequest(args));
 
   return ProposalsApi.fetchProposals(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -105,7 +105,7 @@ const fetchProposals = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -115,7 +115,7 @@ const fetchProposals = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchProposal = (args = {}) => (dispatch) => {
+const fetchProposal = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -138,7 +138,7 @@ const createProposal = (args = {}) => (dispatch, getState) => {
   dispatch(proposalsRequest(args));
 
   return ProposalsApi.createProposal(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -146,7 +146,7 @@ const createProposal = (args = {}) => (dispatch, getState) => {
 
       return dispatch(proposalsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -165,7 +165,7 @@ const updateProposal = (args = {}) => (dispatch, getState) => {
   dispatch(proposalsRequest(args));
 
   return ProposalsApi.updateProposal(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -173,7 +173,7 @@ const updateProposal = (args = {}) => (dispatch, getState) => {
 
       return dispatch(proposalsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -200,7 +200,7 @@ const deleteProposal = (args = {}) => (dispatch, getState) => {
   dispatch(proposalsRequest(args));
 
   return ProposalsApi.deleteProposal(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -208,7 +208,7 @@ const deleteProposal = (args = {}) => (dispatch, getState) => {
 
       return dispatch(proposalsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -228,7 +228,7 @@ const deleteProposalRoom = (args = {}) => (dispatch, getState) => {
   dispatch(proposalsRequest(args));
 
   return ProposalsApi.deleteProposalRoom(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -236,7 +236,7 @@ const deleteProposalRoom = (args = {}) => (dispatch, getState) => {
 
       return dispatch(proposalsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -246,8 +246,7 @@ const deleteProposalRoom = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetProposals = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(proposalsReset(args)));
+const resetProposals = (args = {}) => dispatch => Promise.resolve(dispatch(proposalsReset(args)));
 
 export {
   fetchProposals,
@@ -259,4 +258,3 @@ export {
   generateProposalPdf,
   resetProposals,
 };
-

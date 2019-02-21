@@ -14,41 +14,28 @@
  * all applicable license restrictions.
  */
 
-import {
-  isValidOptionObject,
-  isValidArray,
-  isValidOptionNumber,
-  sanitizeObject,
-} from './validations';
+import { isValidOptionObject, isValidArray, isValidOptionNumber, sanitizeObject } from './validations';
 
 // Sanitizers
-const sanitizeOrder = (order) =>
-  isValidOptionObject({ name: 'order', option: order }) ?
-    order : undefined;
+const sanitizeOrder = order => (isValidOptionObject({ name: 'order', option: order }) ? order : undefined);
 
-const sanitizeLimit = (limit) =>
-  isValidOptionNumber({ name: 'limit', option: limit }) ?
-    limit : undefined;
+const sanitizeLimit = limit => (isValidOptionNumber({ name: 'limit', option: limit }) ? limit : undefined);
 
-const sanitizeSkip = (skip) =>
-  isValidOptionNumber({ name: 'skip', option: skip }) ?
-    skip : undefined;
+const sanitizeSkip = skip => (isValidOptionNumber({ name: 'skip', option: skip }) ? skip : undefined);
 
-const sanitizeInclude = (include) =>
-  isValidArray({ name: 'include', option: include }) ?
-    transformInclude(include) : undefined;
+const sanitizeInclude = include =>
+  isValidArray({ name: 'include', option: include }) ? transformInclude(include) : undefined;
 
-const sanitizeWhere = (where) =>
-  isValidOptionObject({ name: 'where', option: where }) ?
-    sanitizeObject(where) : undefined;
+const sanitizeWhere = where =>
+  isValidOptionObject({ name: 'where', option: where }) ? sanitizeObject(where) : undefined;
 
 // Transforms
-const transformInclude = (include) => {
+const transformInclude = include => {
   if (!include) {
     return include;
   }
 
-  return include.map((relation) => ({
+  return include.map(relation => ({
     relation,
     scope: {
       fields: ['id'],
@@ -57,7 +44,7 @@ const transformInclude = (include) => {
 };
 
 // Interceptor
-const LoopbackInterceptor = (instance) => (config) => {
+const LoopbackInterceptor = instance => config => {
   instance.query.order = sanitizeOrder(instance.query.order);
   instance.query.limit = sanitizeLimit(instance.query.limit);
   instance.query.skip = sanitizeSkip(instance.query.skip);
@@ -75,4 +62,3 @@ const LoopbackInterceptor = (instance) => (config) => {
 };
 
 export default LoopbackInterceptor;
-

@@ -83,10 +83,7 @@ const Contact = () => (
     <Header />
     <StaticHeader />
     <Page>
-      <Sidebar
-        title="Contact us"
-        items={[]}
-      />
+      <Sidebar title="Contact us" items={[]} />
       <Content>
         <Title>We would love to hear from you</Title>
         <Line />

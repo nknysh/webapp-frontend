@@ -84,7 +84,7 @@ const fetchUsers = (args = {}) => (dispatch, getState) => {
   dispatch(usersRequest(args));
 
   return UsersApi.fetchUsers(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -102,7 +102,7 @@ const fetchUsers = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -112,7 +112,7 @@ const fetchUsers = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchUser = (args = {}) => (dispatch) => {
+const fetchUser = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -135,7 +135,7 @@ const createUser = (args = {}) => (dispatch, getState) => {
   dispatch(usersRequest(args));
 
   return UsersApi.createUser(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -143,7 +143,7 @@ const createUser = (args = {}) => (dispatch, getState) => {
 
       return dispatch(usersOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -162,7 +162,7 @@ const updateUser = (args = {}) => (dispatch, getState) => {
   dispatch(usersRequest(args));
 
   return UsersApi.updateUser(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -170,7 +170,7 @@ const updateUser = (args = {}) => (dispatch, getState) => {
 
       return dispatch(usersOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -189,7 +189,7 @@ const deleteUser = (args = {}) => (dispatch, getState) => {
   dispatch(usersRequest(args));
 
   return UsersApi.deleteUser(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -197,7 +197,7 @@ const deleteUser = (args = {}) => (dispatch, getState) => {
 
       return dispatch(usersOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -207,8 +207,7 @@ const deleteUser = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetUsers = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(usersReset(args)));
+const resetUsers = (args = {}) => dispatch => Promise.resolve(dispatch(usersReset(args)));
 
 const inviteUser = (args = {}) => (dispatch, getState) => {
   const state = getState();
@@ -226,14 +225,4 @@ const exportUsers = (args = {}) => (dispatch, getState) => {
   return UsersApi.exportUsers(args);
 };
 
-export {
-  fetchUsers,
-  fetchUser,
-  createUser,
-  updateUser,
-  deleteUser,
-  resetUsers,
-  inviteUser,
-  exportUsers,
-};
-
+export { fetchUsers, fetchUser, createUser, updateUser, deleteUser, resetUsers, inviteUser, exportUsers };

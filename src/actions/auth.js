@@ -43,20 +43,22 @@ const authReset = value => ({
 export const getUserFromToken = ({ token }) => dispatch => {
   dispatch(authRequest({ token }));
 
-  return AuthApi.getUserFromToken({ token }).then((response) => {
-    const ok = { token, user: response.data };
-    dispatch(authOk(ok));
-  }).catch(error => {
-    dispatch(authError(error));
-    throw error;
-  });
+  return AuthApi.getUserFromToken({ token })
+    .then(response => {
+      const ok = { token, user: response.data };
+      dispatch(authOk(ok));
+    })
+    .catch(error => {
+      dispatch(authError(error));
+      throw error;
+    });
 };
 
-export const signUp = (values) => dispatch => {
+export const signUp = values => dispatch => {
   return AuthApi.signUp(values);
 };
 
-export const logIn = (values) => async dispatch => {
+export const logIn = values => async dispatch => {
   dispatch(authRequest(values));
 
   try {
@@ -70,14 +72,14 @@ export const logIn = (values) => async dispatch => {
   }
 };
 
-export const logOut = (values) => dispatch => {
+export const logOut = values => dispatch => {
   localStorage.removeItem(AUTH_TOKEN);
   dispatch(authReset(values));
 };
 
-export const resetPassword = (values) => async dispatch => {
+export const resetPassword = values => async dispatch => {
   dispatch(authRequest(values));
-  
+
   try {
     const response = await AuthApi.resetPassword(values);
     return response;
@@ -85,4 +87,4 @@ export const resetPassword = (values) => async dispatch => {
     dispatch(authError(error));
     throw error;
   }
-}
+};

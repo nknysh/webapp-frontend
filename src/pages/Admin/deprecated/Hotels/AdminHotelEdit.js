@@ -15,32 +15,35 @@ import {
   required,
   ReferenceManyField,
   Datagrid,
-  TextField
+  TextField,
 } from 'react-admin'; // eslint-disable-line import/no-unresolved
 
-const AllotmentEdit = props => ( // eslint-disable-line
+const AllotmentEdit = (
+  props // eslint-disable-line
+) => (
   <div>
-    <SelectInput source="name"
+    <SelectInput
+      source="name"
       choices={[
-        { id: 'peak_season', name: 'Peak Season'},
-        { id: 'winter_season', name: 'Winter Season'},
-        { id: 'honeymoon', name: 'Honeymoon Season'}
+        { id: 'peak_season', name: 'Peak Season' },
+        { id: 'winter_season', name: 'Winter Season' },
+        { id: 'honeymoon', name: 'Honeymoon Season' },
       ]}
     />
-    <SelectInput source="roomType"
+    <SelectInput
+      source="roomType"
       choices={[
-        { id: 'sup-king', name: 'Superior King'},
-        { id: 'queen', name: 'Queen'},
-        { id: 'honeymoon', name: 'Honeymoon'}
+        { id: 'sup-king', name: 'Superior King' },
+        { id: 'queen', name: 'Queen' },
+        { id: 'honeymoon', name: 'Honeymoon' },
       ]}
     />
-    <DateInput source="startDate"/>
-    <DateInput source="endDate"/>
-    <NumberInput source="quantity"/>
-    <DateInput source="cutOffDate"/>
+    <DateInput source="startDate" />
+    <DateInput source="endDate" />
+    <NumberInput source="quantity" />
+    <DateInput source="cutOffDate" />
   </div>
 );
-
 
 const AdminHotelEdit = props => (
   <Edit {...props}>
@@ -61,14 +64,14 @@ const AdminHotelEdit = props => (
       <ImageInput multiple source="pictures" accept="image/*">
         <ImageField source="src" title="title" />
       </ImageInput>
-      <ReferenceManyField label='Allotments' reference='allotments' target='hotelId'>
+      <ReferenceManyField label="Allotments" reference="allotments" target="hotelId">
         <Datagrid>
-          <TextField source='name' />
-          <TextField source='roomType' />
-          <TextField source='startDate' />
-          <TextField source='endDate' />
-          <TextField source='cutOffDate' />
-          <TextField source='quantity' />
+          <TextField source="name" />
+          <TextField source="roomType" />
+          <TextField source="startDate" />
+          <TextField source="endDate" />
+          <TextField source="cutOffDate" />
+          <TextField source="quantity" />
         </Datagrid>
       </ReferenceManyField>
     </SimpleForm>

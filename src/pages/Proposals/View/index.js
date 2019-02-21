@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 // App
 import { fetchProposal } from 'actions/proposals';
-import { generateProposalPdf } from 'actions/proposals'
+import { generateProposalPdf } from 'actions/proposals';
 import { getProposal } from 'selectors/proposals';
 import { downloadPdf } from 'utils';
 import { colors } from 'styles';
@@ -52,29 +52,36 @@ const SecondaryText = Styled.H8.extend`
   color: ${colors.white16};
 `;
 
-const ProposalView = ({ match: { params: { id }}, fetchProposal, generateProposalPdf }) => (
+const ProposalView = ({
+  match: {
+    params: { id },
+  },
+  fetchProposal,
+  generateProposalPdf,
+}) => (
   <Container>
     <Header />
     <Content>
-      <Request
-        getState={(state) => ({ proposal: getProposal(state, id) })}
-        onRequest={() => fetchProposal({id})}
-      >
-      {({ proposal }) => (
+      <Request getState={state => ({ proposal: getProposal(state, id) })} onRequest={() => fetchProposal({ id })}>
+        {({ proposal }) => (
           <Main>
-            <Row style={{flexDirection: 'row-reverse'}}>
-              <SecondaryButton 
-                onPress={() => generateProposalPdf({id}).then(pdf => {
-                  // TODO(james): add send ability to pdf from api
-                  alert(`Sent proposal to ${proposal.clientName} `)
-                })}
+            <Row style={{ flexDirection: 'row-reverse' }}>
+              <SecondaryButton
+                onPress={() =>
+                  generateProposalPdf({ id }).then(pdf => {
+                    // TODO(james): add send ability to pdf from api
+                    alert(`Sent proposal to ${proposal.clientName} `);
+                  })
+                }
               >
                 <SecondaryText> GENERATE PDF AND SEND TO CLIENT </SecondaryText>
               </SecondaryButton>
-              <MainButton 
-                onPress={() => generateProposalPdf({id}).then(pdf => {
-                  downloadPdf(pdf)
-                })}
+              <MainButton
+                onPress={() =>
+                  generateProposalPdf({ id }).then(pdf => {
+                    downloadPdf(pdf);
+                  })
+                }
               >
                 <MainText> PREVIEW PDF </MainText>
               </MainButton>
@@ -84,10 +91,13 @@ const ProposalView = ({ match: { params: { id }}, fetchProposal, generateProposa
               <ProposalSidebar proposal={proposal} />
             </Row>
           </Main>
-      )}
+        )}
       </Request>
     </Content>
   </Container>
 );
 
-export default connect(undefined, { fetchProposal, generateProposalPdf })(ProposalView);
+export default connect(
+  undefined,
+  { fetchProposal, generateProposalPdf }
+)(ProposalView);

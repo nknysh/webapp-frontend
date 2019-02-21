@@ -34,14 +34,8 @@ const Filters = props => (
         ),
       }}
     />
-    <TextInput
-      source="name"
-      defaultValue=""
-    />
-    <TextInput
-      source="country"
-      defaultValue=""
-    />
+    <TextInput source="name" defaultValue="" />
+    <TextInput source="country" defaultValue="" />
   </Filter>
 );
 
@@ -80,26 +74,17 @@ const ActionToolbar = withStyles({
     display: 'flex',
   },
 })(({ classes, children, ...props }) => (
-  <div className={classes.toolbar}>
-    {Children.map(children, button => cloneElement(button, props))}
-  </div>
+  <div className={classes.toolbar}>{Children.map(children, button => cloneElement(button, props))}</div>
 ));
 
 const AdminHotelsList = withStyles(styles)(({ classes, ...props }) => (
-  <List
-    {...props}
-    bulkActions={<HotelBulkActions />}
-    filters={<Filters />}
-    sort={{ field: 'id', order: 'ASC' }}
-  >
+  <List {...props} bulkActions={<HotelBulkActions />} filters={<Filters />} sort={{ field: 'id', order: 'ASC' }}>
     <Responsive
       small={
         <SimpleList
           primaryText={record => record.name}
           secondaryText={record => `${record.views} views`}
-          tertiaryText={record =>
-            new Date(record.published_at).toLocaleDateString()
-          }
+          tertiaryText={record => new Date(record.published_at).toLocaleDateString()}
         />
       }
       medium={

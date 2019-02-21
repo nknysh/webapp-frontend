@@ -44,16 +44,13 @@ const RoomInfo = ({ room, releaseRoom, createBooking }) => (
   <Container>
     <Row style={{ justifyContent: 'space-between' }}>
       <Name>Room Name</Name>
-        <RemoveRoom onClick={() => releaseRoom() }>
-          <RemoveRoomText>REMOVE FROM PROPOSAL</RemoveRoomText>
-        </RemoveRoom>        
+      <RemoveRoom onClick={() => releaseRoom()}>
+        <RemoveRoomText>REMOVE FROM PROPOSAL</RemoveRoomText>
+      </RemoveRoom>
     </Row>
-    <Row style={{marginTop: 20}}>
+    <Row style={{ marginTop: 20 }}>
       <CoverPhoto />
-      <RoomEdit 
-        releaseRoom={releaseRoom}
-        createBooking={createBooking}
-      />
+      <RoomEdit releaseRoom={releaseRoom} createBooking={createBooking} />
     </Row>
   </Container>
 );

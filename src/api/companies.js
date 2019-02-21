@@ -19,34 +19,34 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/companies`;
 
-const fetchCompanies = ({
-  token,
-  where,
-  order,
-  limit,
-  skip,
-  include,
-}) =>
-  request().withAuth(token)
+const fetchCompanies = ({ token, where, order, limit, skip, include }) =>
+  request()
+    .withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then((response) => response.data);
+    .then(response => response.data);
 
 const createCompany = ({ token, ...params }) =>
-  request().withAuth(token).post(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .post(url, params)
+    .then(response => response.data);
 
 const updateCompany = ({ token, ...params }) =>
-  request().withAuth(token).patch(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .patch(url, params)
+    .then(response => response.data);
 
 const deleteCompany = ({ token, id }) =>
-  request().withAuth(token).delete(`${url}/${id}`)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .delete(`${url}/${id}`)
+    .then(response => response.data);
 
 const uploadLogo = ({ token, id, file }) =>
   request()
@@ -60,4 +60,3 @@ export default {
   deleteCompany,
   uploadLogo,
 };
-

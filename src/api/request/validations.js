@@ -21,10 +21,7 @@ const isValidOptionObject = ({ name, option }) => {
 
   if (typeof option !== 'object') {
     // eslint-disable-next-line no-console
-    console.error(
-      `Invalid ${name} option provided (expected object): `,
-      option,
-    );
+    console.error(`Invalid ${name} option provided (expected object): `, option);
 
     return false;
   }
@@ -46,10 +43,7 @@ const isValidArray = ({ name, option }) => {
 
   if (!Array.isArray(option)) {
     // eslint-disable-next-line no-console
-    console.error(
-      `Invalid ${name} option provided (expected array): `,
-      option,
-    );
+    console.error(`Invalid ${name} option provided (expected array): `, option);
 
     return false;
   }
@@ -64,10 +58,7 @@ const isValidOptionNumber = ({ name, option }) => {
 
   if (typeof option !== 'number') {
     // eslint-disable-next-line no-console
-    console.error(
-      `Invalid ${name} option provided (expected number): `,
-      option,
-    );
+    console.error(`Invalid ${name} option provided (expected number): `, option);
 
     return false;
   }
@@ -75,9 +66,9 @@ const isValidOptionNumber = ({ name, option }) => {
   return true;
 };
 
-const sanitizeObject = (option) => {
+const sanitizeObject = option => {
   // remove filters with a value of `undefined`
-  Object.keys(option).forEach((key) => {
+  Object.keys(option).forEach(key => {
     if (option[key] === undefined) {
       delete option[key];
     }
@@ -86,10 +77,4 @@ const sanitizeObject = (option) => {
   return option;
 };
 
-export {
-  isValidOptionObject,
-  isValidArray,
-  isValidOptionNumber,
-  sanitizeObject,
-};
-
+export { isValidOptionObject, isValidArray, isValidOptionNumber, sanitizeObject };

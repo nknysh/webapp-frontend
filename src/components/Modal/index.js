@@ -9,11 +9,11 @@ class Modal extends React.Component {
 
   handleOpen = () => {
     this.setState({ isOpen: true });
-  }
+  };
 
   handleClose = () => {
     this.setState({ isOpen: false });
-  }
+  };
 
   render() {
     const { width, trigger, children } = this.props;

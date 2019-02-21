@@ -38,8 +38,8 @@ const TravelAgentsList = ({ resetUsers, fetchUsers, exportUsers }) => (
   <Container>
     <Header />
     <Request
-      getState={(state) => ({ users: getUsers(state) })}
-      onRequest={(values) => {
+      getState={state => ({ users: getUsers(state) })}
+      onRequest={values => {
         resetUsers();
         return fetchUsers({ q: values.query });
       }}
@@ -55,15 +55,17 @@ const TravelAgentsList = ({ resetUsers, fetchUsers, exportUsers }) => (
             <Content>
               <Filters>
                 <ExportButton
-                  onPress={() => exportUsers({ fileType: 'csv', filter: {}}).then(csv => {
-                    const filename = 'travel-agents.csv';
-                    const text = `data:text/csv;charset=utf-8,${csv}`;
-                    const link = document.createElement('a');
+                  onPress={() =>
+                    exportUsers({ fileType: 'csv', filter: {} }).then(csv => {
+                      const filename = 'travel-agents.csv';
+                      const text = `data:text/csv;charset=utf-8,${csv}`;
+                      const link = document.createElement('a');
 
-                    link.setAttribute('href', encodeURI(text));
-                    link.setAttribute('download', filename);
-                    link.click();
-                  })}
+                      link.setAttribute('href', encodeURI(text));
+                      link.setAttribute('download', filename);
+                      link.click();
+                    })
+                  }
                 >
                   <ExportText>EXPORT LIST</ExportText>
                 </ExportButton>
@@ -76,4 +78,7 @@ const TravelAgentsList = ({ resetUsers, fetchUsers, exportUsers }) => (
   </Container>
 );
 
-export default connect(undefined, { resetUsers, fetchUsers, exportUsers })(TravelAgentsList);
+export default connect(
+  undefined,
+  { resetUsers, fetchUsers, exportUsers }
+)(TravelAgentsList);

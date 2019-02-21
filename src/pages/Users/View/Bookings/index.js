@@ -27,16 +27,22 @@ const Bookings = Styled.View.extend`
   margin-top: 50px;
 `;
 
-const UserBookings = ({ match: { params: { id }}, resetBookings, searchBookings }) => (
+const UserBookings = ({
+  match: {
+    params: { id },
+  },
+  resetBookings,
+  searchBookings,
+}) => (
   <Container>
     <Header />
     <UserRequest id={id}>
       {({ user }) => (
         <Request
-          getState={(state) => ({ bookings: getBookings(state) })}
-          onRequest={(values) => {
+          getState={state => ({ bookings: getBookings(state) })}
+          onRequest={values => {
             resetBookings();
-            return searchBookings({ q: values.query, query: { hotel: {}}});
+            return searchBookings({ q: values.query, query: { hotel: {} } });
           }}
         >
           {({ bookings, handleRequest }) => (
@@ -50,9 +56,7 @@ const UserBookings = ({ match: { params: { id }}, resetBookings, searchBookings 
                 <Content>
                   <UserHeader user={user} />
                   <Bookings>
-                    <BookingsTable
-                      bookings={bookings}
-                    />
+                    <BookingsTable bookings={bookings} />
                   </Bookings>
                 </Content>
               )}
@@ -64,4 +68,7 @@ const UserBookings = ({ match: { params: { id }}, resetBookings, searchBookings 
   </Container>
 );
 
-export default connect(undefined, { resetBookings, searchBookings })(UserBookings);
+export default connect(
+  undefined,
+  { resetBookings, searchBookings }
+)(UserBookings);

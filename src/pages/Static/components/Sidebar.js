@@ -40,10 +40,7 @@ const Sidebar = ({ title, items }) => (
     <Items>
       {items.map(({ name, tag }, index) => (
         <Item key={index}>
-          <Link
-            to={`#${tag}`}
-            style={{ marginTop: 20, marginBottom: 20 }}
-          >
+          <Link to={`#${tag}`} style={{ marginTop: 20, marginBottom: 20 }}>
             <Name>{name}</Name>
           </Link>
           <Line />

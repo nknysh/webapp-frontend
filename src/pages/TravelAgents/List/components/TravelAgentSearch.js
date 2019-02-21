@@ -35,24 +35,26 @@ const ExportText = Styled.H7.extend`
 
 const TravelAgentSearch = ({ onFilter, exportUsers }) => (
   <Container>
-    <Search
-      onChange={e => onFilter(e.target.value)}
-      placeholder="Filter by travel agent name, city or country..."
-    />
+    <Search onChange={e => onFilter(e.target.value)} placeholder="Filter by travel agent name, city or country..." />
     <ExportButton
-      onPress={() => exportUsers({ fileType: 'csv', filter: {}}).then(csv => {
-        const filename = 'travel-agents.csv';
-        const text = `data:text/csv;charset=utf-8,${csv}`;
-        const link = document.createElement('a');
+      onPress={() =>
+        exportUsers({ fileType: 'csv', filter: {} }).then(csv => {
+          const filename = 'travel-agents.csv';
+          const text = `data:text/csv;charset=utf-8,${csv}`;
+          const link = document.createElement('a');
 
-        link.setAttribute('href', encodeURI(text));
-        link.setAttribute('download', filename);
-        link.click();
-      })}
+          link.setAttribute('href', encodeURI(text));
+          link.setAttribute('download', filename);
+          link.click();
+        })
+      }
     >
       <ExportText>EXPORT LIST</ExportText>
     </ExportButton>
   </Container>
 );
 
-export default connect(undefined, { exportUsers })(TravelAgentSearch);
+export default connect(
+  undefined,
+  { exportUsers }
+)(TravelAgentSearch);

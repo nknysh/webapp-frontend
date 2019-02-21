@@ -25,20 +25,23 @@ const Content = Styled.View.extend`
 `;
 
 class TravelAgentsList extends Component {
-
   componentWillMount() {
-    this.props.fetchTravelAgentsAssigned({id: this.props.currentUser.id})
-  };
+    this.props.fetchTravelAgentsAssigned({ id: this.props.currentUser.id });
+  }
 
-  handleFilter = (query) => {
-    this.setState({travelAgents: this.props.travelAgents.filter(row => {
-      return row.firstName.includes(query)
-        || row.lastName.includes(query)
-        || row.email.includes(query)
-        || row.city.includes(query)
-        || row.country.includes(query)})
-        // need to adjust for upper/lowercase
-    })
+  handleFilter = query => {
+    this.setState({
+      travelAgents: this.props.travelAgents.filter(row => {
+        return (
+          row.firstName.includes(query) ||
+          row.lastName.includes(query) ||
+          row.email.includes(query) ||
+          row.city.includes(query) ||
+          row.country.includes(query)
+        );
+      }),
+      // need to adjust for upper/lowercase
+    });
   };
 
   render() {
@@ -48,19 +51,22 @@ class TravelAgentsList extends Component {
       <Container>
         <Header />
         <Content>
-          <TravelAgentSearch onFilter={(query) => this.handleFilter(query)} />
+          <TravelAgentSearch onFilter={query => this.handleFilter(query)} />
           <TravelAgentsTable travelAgents={travelAgents} />
         </Content>
       </Container>
-    )
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    travelAgents: getTravelAgents(state),
+    currentUser: getCurrentUser(state),
   };
 };
 
-const mapStateToProps = (state) => {
-  return {
-    travelAgents: getTravelAgents(state),
-    currentUser: getCurrentUser(state)
-  }
-};
-
-export default connect(mapStateToProps, { fetchTravelAgentsAssigned })(TravelAgentsList);
+export default connect(
+  mapStateToProps,
+  { fetchTravelAgentsAssigned }
+)(TravelAgentsList);
