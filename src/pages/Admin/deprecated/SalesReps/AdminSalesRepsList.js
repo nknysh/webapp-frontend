@@ -34,14 +34,8 @@ const Filters = props => (
         ),
       }}
     />
-    <TextInput
-      source="name"
-      defaultValue=""
-    />
-    <TextInput
-      source="email"
-      defaultValue=""
-    />
+    <TextInput source="name" defaultValue="" />
+    <TextInput source="email" defaultValue="" />
   </Filter>
 );
 
@@ -80,9 +74,7 @@ const ActionToolbar = withStyles({
     display: 'flex',
   },
 })(({ classes, children, ...props }) => (
-  <div className={classes.toolbar}>
-    {Children.map(children, button => cloneElement(button, props))}
-  </div>
+  <div className={classes.toolbar}>{Children.map(children, button => cloneElement(button, props))}</div>
 ));
 
 const AdminSalesRepsList = withStyles(styles)(({ classes, ...props }) => (
@@ -90,7 +82,7 @@ const AdminSalesRepsList = withStyles(styles)(({ classes, ...props }) => (
     {...props}
     bulkActions={<AdminSalesBulkActions />}
     filters={<Filters />}
-    filter={{type: "sr"}}
+    filter={{ type: 'sr' }}
     sort={{ field: 'id', order: 'ASC' }}
   >
     <Responsive
@@ -98,9 +90,7 @@ const AdminSalesRepsList = withStyles(styles)(({ classes, ...props }) => (
         <SimpleList
           primaryText={record => record.name}
           secondaryText={record => `${record.views} views`}
-          tertiaryText={record =>
-            new Date(record.published_at).toLocaleDateString()
-          }
+          tertiaryText={record => new Date(record.published_at).toLocaleDateString()}
         />
       }
       medium={

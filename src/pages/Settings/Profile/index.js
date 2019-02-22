@@ -5,12 +5,6 @@ import React from 'react';
 import { SettingsPage } from '../components';
 import { ProfileSection } from './components';
 
-const Profile = () => (
-  <SettingsPage>
-    {({ user }) => (
-      <ProfileSection user={user} />
-    )}
-  </SettingsPage>
-);
+const Profile = () => <SettingsPage>{({ user }) => <ProfileSection user={user} />}</SettingsPage>;
 
 export default Profile;

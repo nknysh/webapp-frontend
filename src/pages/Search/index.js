@@ -87,7 +87,7 @@ const Search = ({ history }) => (
             // TODO(mark): Split into checkIn and checkOut.
             dates: '',
           }}
-          onSubmit={(values) => {
+          onSubmit={values => {
             const query = qs.stringify(values);
             history.push(`/hotels?${query}`);
           }}
@@ -100,10 +100,7 @@ const Search = ({ history }) => (
                     name="country"
                     placeholder="DESTINATION OR RESORT"
                     value={values.country}
-                    options={[
-                      { value: 'maldives', label: 'MALDIVES' },
-                      { value: 'seychelles', label: 'SEYCHELLES' },
-                    ]}
+                    options={[{ value: 'maldives', label: 'MALDIVES' }, { value: 'seychelles', label: 'SEYCHELLES' }]}
                     onChange={setFieldValue}
                     onBlur={setFieldTouched}
                     style={{ width: 200 }}
@@ -119,10 +116,7 @@ const Search = ({ history }) => (
                   style={{ width: 250 }}
                 />
                 <Field>
-                  <Dropdown
-                    placeholder="ACCOMODATIONS"
-                    style={{ width: 175 }}
-                  >
+                  <Dropdown placeholder="ACCOMODATIONS" style={{ width: 175 }}>
                     <Options>
                       <NumberInput
                         name="numRooms"
@@ -164,12 +158,8 @@ const Search = ({ history }) => (
                     onBlur={handleBlur}
                   />
                 </Field>
-                <SubmitButton
-                  onPress={handleSubmit}
-                >
-                  <SubmitText>
-                    SEARCH
-                  </SubmitText>
+                <SubmitButton onPress={handleSubmit}>
+                  <SubmitText>SEARCH</SubmitText>
                 </SubmitButton>
               </Fields>
             </form>

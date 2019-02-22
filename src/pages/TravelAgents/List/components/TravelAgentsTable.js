@@ -16,46 +16,50 @@ const Main = Styled.View.extend`
   flex: 1;
 `;
 
-const columns = [{
+const columns = [
+  {
     Header: 'Name',
     accessor: 'firstName',
-    maxWidth: 250
-}, {
+    maxWidth: 250,
+  },
+  {
     Header: 'Email',
     accessor: 'email',
-    maxWidth: 200
-}, {
+    maxWidth: 200,
+  },
+  {
     Header: 'Company',
     accessor: 'companyRegistrationNumber',
     width: 250,
-}, {
+  },
+  {
     Header: 'Status',
     accessor: 'status',
     width: 100,
-}, {
+  },
+  {
     Header: 'Comments',
     accessor: 'id',
     width: 200,
-}, {
+  },
+  {
     Header: '',
     accessor: 'id',
     Cell: row => {
       return (
-        <Link to={`/users/${row.value}`}><button className='view-button'>View</button></Link>
-      )
-    }
-}]
+        <Link to={`/users/${row.value}`}>
+          <button className="view-button">View</button>
+        </Link>
+      );
+    },
+  },
+];
 
-const TravelAgentsTable = ({travelAgents}) => (
+const TravelAgentsTable = ({ travelAgents }) => (
   <Container>
     <Row>
       <Main>
-        <Table
-          data={travelAgents}
-          columns={columns}
-          defaultPageSize={10}
-          noDataText="No Travel Agent Results"
-        />
+        <Table data={travelAgents} columns={columns} defaultPageSize={10} noDataText="No Travel Agent Results" />
       </Main>
     </Row>
   </Container>

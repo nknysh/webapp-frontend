@@ -19,17 +19,8 @@ const Text = Styled.H8.extend`
 
 const RadioButton = ({ name, placeholder, value, onChange, onBlur, style }) => (
   <Container>
-    <input
-      type="radio"
-      name={name}
-      checked={value}
-      onChange={onChange}
-    />
-    <Text
-      style={style}
-    >
-      {placeholder}
-    </Text>
+    <input type="radio" name={name} checked={value} onChange={onChange} />
+    <Text style={style}>{placeholder}</Text>
   </Container>
 );
 

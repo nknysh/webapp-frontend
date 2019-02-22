@@ -10,10 +10,7 @@ import { getUser } from 'selectors/users';
 import { Form, Request } from 'components';
 
 const UserRequest = ({ id, fetchUser, children }) => (
-  <Request
-    getState={(state) => ({ user: getUser(state, id) })}
-    onRequest={() => fetchUser({ id })}
-  >
+  <Request getState={state => ({ user: getUser(state, id) })} onRequest={() => fetchUser({ id })}>
     {({ user, handleRequest }) => (
       <Form
         initialValues={{
@@ -27,4 +24,7 @@ const UserRequest = ({ id, fetchUser, children }) => (
   </Request>
 );
 
-export default connect(undefined, { fetchUser })(UserRequest);
+export default connect(
+  undefined,
+  { fetchUser }
+)(UserRequest);

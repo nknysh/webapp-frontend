@@ -17,13 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  COMMENTS_REQUEST,
-  COMMENTS_OK,
-  COMMENT_ADD_OK,
-  COMMENTS_ERROR,
-  COMMENTS_RESET,
-} from '../actions/comments';
+import { COMMENTS_REQUEST, COMMENTS_OK, COMMENT_ADD_OK, COMMENTS_ERROR, COMMENTS_RESET } from '../actions/comments';
 
 const initialState = {
   loading: false,
@@ -65,4 +59,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

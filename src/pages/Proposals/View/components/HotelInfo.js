@@ -62,30 +62,29 @@ const CoverPhoto = Styled.View.extend`
 
 const HotelInfo = ({ hotel, handleChange, handleBlur, createBooking, releaseRoom }) => (
   <Container>
-      <Row style={{marginBottom: 0}}>
-        <CoverPhoto />      
-        <HotelDetails>
-          <Name>MALDIVE SUPREME VILLAS</Name>
-          <Address>1000 Street, Maldives 9382</Address>
-        </HotelDetails>
-        <HoldDetails>
-          <HoldText>THIS ROOM HAS A HOLD</HoldText>
-          <HoldTimer>EXPIRES IN 3 hours, 23 minutes</HoldTimer>
-          <Link to={`/hotels`}>
-            <ResortLink>+ VIEW RESORT</ResortLink>
-          </Link>
-        </HoldDetails>    
-      </Row>
-      <Row style={{marginTop: 0}}>
-        {/* TODO(james): need to connect brochures when BE is complete */}
-        <Brochures>
-        </Brochures>
-      </Row>
-      <RoomInfo
-        createBooking={createBooking}
-        releaseRoom={releaseRoom}
-      />
+    <Row style={{ marginBottom: 0 }}>
+      <CoverPhoto />
+      <HotelDetails>
+        <Name>MALDIVE SUPREME VILLAS</Name>
+        <Address>1000 Street, Maldives 9382</Address>
+      </HotelDetails>
+      <HoldDetails>
+        <HoldText>THIS ROOM HAS A HOLD</HoldText>
+        <HoldTimer>EXPIRES IN 3 hours, 23 minutes</HoldTimer>
+        <Link to={`/hotels`}>
+          <ResortLink>+ VIEW RESORT</ResortLink>
+        </Link>
+      </HoldDetails>
+    </Row>
+    <Row style={{ marginTop: 0 }}>
+      {/* TODO(james): need to connect brochures when BE is complete */}
+      <Brochures />
+    </Row>
+    <RoomInfo createBooking={createBooking} releaseRoom={releaseRoom} />
   </Container>
 );
 
-export default connect(undefined, { createBooking, releaseRoom })(HotelInfo);
+export default connect(
+  undefined,
+  { createBooking, releaseRoom }
+)(HotelInfo);

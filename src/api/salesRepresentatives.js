@@ -19,34 +19,34 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/salesRepresentatives`;
 
-const fetchSalesRepresentatives = ({
-  token,
-  where,
-  order,
-  limit,
-  skip,
-  include,
-}) =>
-  request().withAuth(token)
+const fetchSalesRepresentatives = ({ token, where, order, limit, skip, include }) =>
+  request()
+    .withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then((response) => response.data);
+    .then(response => response.data);
 
 const createSalesRepresentative = ({ token, ...params }) =>
-  request().withAuth(token).post(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .post(url, params)
+    .then(response => response.data);
 
 const updateSalesRepresentative = ({ token, ...params }) =>
-  request().withAuth(token).patch(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .patch(url, params)
+    .then(response => response.data);
 
 const deleteSalesRepresentative = ({ token, id }) =>
-  request().withAuth(token).delete(`${url}/${id}`)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .delete(`${url}/${id}`)
+    .then(response => response.data);
 
 export default {
   fetchSalesRepresentatives,
@@ -54,4 +54,3 @@ export default {
   updateSalesRepresentative,
   deleteSalesRepresentative,
 };
-

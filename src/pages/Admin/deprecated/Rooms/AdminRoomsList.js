@@ -15,21 +15,21 @@ import {
   SimpleList,
   TextField,
   NumberInput,
-  NumberField
+  NumberField,
 } from 'react-admin'; // eslint-disable-line import/no-unresolved
 
 export const PostIcon = BookIcon;
 
 const RangeFilter = props => (
   <span>
-    <NumberInput label='low' source='barRate.between[0]' />
-    <NumberInput label='high' source='barRate.between[1]' />
+    <NumberInput label="low" source="barRate.between[0]" />
+    <NumberInput label="high" source="barRate.between[1]" />
   </span>
-)
+);
 
 const Filters = props => (
   <Filter {...props}>
-    <RangeFilter label="Rate Range"/>
+    <RangeFilter label="Rate Range" />
   </Filter>
 );
 
@@ -68,26 +68,17 @@ const ActionToolbar = withStyles({
     display: 'flex',
   },
 })(({ classes, children, ...props }) => (
-  <div className={classes.toolbar}>
-    {Children.map(children, button => cloneElement(button, props))}
-  </div>
+  <div className={classes.toolbar}>{Children.map(children, button => cloneElement(button, props))}</div>
 ));
 
 const AdminRoomsList = withStyles(styles)(({ classes, ...props }) => (
-  <List
-    {...props}
-    bulkActions={<RoomBulkActions />}
-    filters={<Filters />}
-    sort={{ field: 'barRate', order: 'ASC' }}
-  >
+  <List {...props} bulkActions={<RoomBulkActions />} filters={<Filters />} sort={{ field: 'barRate', order: 'ASC' }}>
     <Responsive
       small={
         <SimpleList
           primaryText={record => record.name}
           secondaryText={record => `${record.views} views`}
-          tertiaryText={record =>
-            new Date(record.published_at).toLocaleDateString()
-          }
+          tertiaryText={record => new Date(record.published_at).toLocaleDateString()}
         />
       }
       medium={

@@ -31,25 +31,13 @@ const HotelFields = ({ values, onChange, onBlur, setFieldValue, setFieldTouched 
     <Row>
       <Field style={{ marginTop: 0 }}>
         <Label htmlFor="name">HOTEL NAME</Label>
-        <Input
-          name="name"
-          placeholder="TYPE HERE"
-          value={values.name}
-          onChange={onChange}
-          onBlur={onBlur}
-        />
+        <Input name="name" placeholder="TYPE HERE" value={values.name} onChange={onChange} onBlur={onBlur} />
       </Field>
     </Row>
     <Row style={{ zIndex: 100 }}>
       <Field style={{ marginRight: 10 }}>
         <Label htmlFor="name">STREET ADDRESS</Label>
-        <Input
-          name="address"
-          placeholder="TYPE HERE"
-          value={values.address}
-          onChange={onChange}
-          onBlur={onBlur}
-        />
+        <Input name="address" placeholder="TYPE HERE" value={values.address} onChange={onChange} onBlur={onBlur} />
       </Field>
       <Field style={{ marginLeft: 10 }}>
         <Label htmlFor="name">COUNTRY</Label>
@@ -57,10 +45,7 @@ const HotelFields = ({ values, onChange, onBlur, setFieldValue, setFieldTouched 
           name="country"
           placeholder="SELECT COUNTRY"
           value={values.country}
-          options={[
-            { value: 'maldives', label: 'MALDIVES' },
-            { value: 'seychelles', label: 'SEYCHELLES' },
-          ]}
+          options={[{ value: 'maldives', label: 'MALDIVES' }, { value: 'seychelles', label: 'SEYCHELLES' }]}
           onChange={setFieldValue}
           onBlur={setFieldTouched}
           style={{ width: '100%' }}
@@ -105,41 +90,25 @@ const HotelFields = ({ values, onChange, onBlur, setFieldValue, setFieldTouched 
       </Field>
     </Row>
     <Section>
-      <SectionHeader
-        title="PHOTOS"
-        action="ADD NEW PHOTO"
-        onPress={() => console.log('Add Photo')}
-      />
+      <SectionHeader title="PHOTOS" action="ADD NEW PHOTO" onPress={() => console.log('Add Photo')} />
     </Section>
     <Section>
-      <SectionHeader
-        title="STARS"
-      />
+      <SectionHeader title="STARS" />
     </Section>
     <Section>
-      <SectionHeader
-        title="AMENITIES"
-      />
+      <SectionHeader title="AMENITIES" />
     </Section>
     <Section>
-      <SectionHeader
-        title="HIGHLIGHTS"
-      />
+      <SectionHeader title="HIGHLIGHTS" />
     </Section>
     <Section>
-      <SectionHeader
-        title="BROCHURES"
-      />
+      <SectionHeader title="BROCHURES" />
     </Section>
     <Section>
-      <SectionHeader
-        title="THINGS TO BE AWARE WITH THIS HOTEL"
-      />
+      <SectionHeader title="THINGS TO BE AWARE WITH THIS HOTEL" />
     </Section>
     <Section>
-      <SectionHeader
-        title="GENERAL POLICIES & RESTRICTIONS"
-      />
+      <SectionHeader title="GENERAL POLICIES & RESTRICTIONS" />
     </Section>
   </Container>
 );

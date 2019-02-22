@@ -17,12 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  ROOMS_REQUEST,
-  ROOMS_OK,
-  ROOMS_ERROR,
-  ROOMS_RESET,
-} from '../actions/rooms';
+import { ROOMS_REQUEST, ROOMS_OK, ROOMS_ERROR, ROOMS_RESET } from '../actions/rooms';
 
 const initialState = {
   loading: false,
@@ -56,4 +51,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

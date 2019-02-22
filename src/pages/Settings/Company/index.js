@@ -5,12 +5,6 @@ import React from 'react';
 import { SettingsPage } from '../components';
 import { CompanySection } from './components';
 
-const Company = () => (
-  <SettingsPage>
-    {({ user }) => (
-      <CompanySection user={user} />
-    )}
-  </SettingsPage>
-);
+const Company = () => <SettingsPage>{({ user }) => <CompanySection user={user} />}</SettingsPage>;
 
 export default Company;

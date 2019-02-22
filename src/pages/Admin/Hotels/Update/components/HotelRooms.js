@@ -23,14 +23,11 @@ const HotelRooms = ({ history, hotel }) => (
       action="ADD NEW ROOM"
       onPress={() => history.push(`/admin/hotels/${hotel.id}/rooms/new`)}
     />
-    <Connect getState={(state) => ({ rooms: getRooms(state, { ids: hotel.rooms }) })}>
+    <Connect getState={state => ({ rooms: getRooms(state, { ids: hotel.rooms }) })}>
       {({ rooms }) => (
         <Rooms>
-          {rooms.map((room) => (
-            <RoomUpdateForm
-              key={room.id}
-              room={room}
-            />
+          {rooms.map(room => (
+            <RoomUpdateForm key={room.id} room={room} />
           ))}
         </Rooms>
       )}

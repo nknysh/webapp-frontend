@@ -82,7 +82,7 @@ const fetchRates = (args = {}) => (dispatch, getState) => {
   dispatch(ratesRequest(args));
 
   return RatesApi.fetchRates(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -100,7 +100,7 @@ const fetchRates = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -110,7 +110,7 @@ const fetchRates = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchRate = (args = {}) => (dispatch) => {
+const fetchRate = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -133,7 +133,7 @@ const createRate = (args = {}) => (dispatch, getState) => {
   dispatch(ratesRequest(args));
 
   return RatesApi.createRate(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -142,7 +142,7 @@ const createRate = (args = {}) => (dispatch, getState) => {
       dispatch(ratesOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -162,7 +162,7 @@ const updateRate = (args = {}) => (dispatch, getState) => {
   dispatch(ratesRequest(args));
 
   return RatesApi.updateRate(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -171,7 +171,7 @@ const updateRate = (args = {}) => (dispatch, getState) => {
       dispatch(ratesOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -191,7 +191,7 @@ const deleteRate = (args = {}) => (dispatch, getState) => {
   dispatch(ratesRequest(args));
 
   return RatesApi.deleteRate(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -200,7 +200,7 @@ const deleteRate = (args = {}) => (dispatch, getState) => {
       dispatch(ratesOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -211,8 +211,7 @@ const deleteRate = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetRates = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(ratesReset(args)));
+const resetRates = (args = {}) => dispatch => Promise.resolve(dispatch(ratesReset(args)));
 
 const fetchRatesForRoom = (args = {}) => (dispatch, getState) => {
   const state = getState();
@@ -223,7 +222,7 @@ const fetchRatesForRoom = (args = {}) => (dispatch, getState) => {
   dispatch(ratesRequest(args));
 
   return RatesApi.fetchRatesForRoom(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -232,7 +231,7 @@ const fetchRatesForRoom = (args = {}) => (dispatch, getState) => {
       dispatch(ratesOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -243,13 +242,4 @@ const fetchRatesForRoom = (args = {}) => (dispatch, getState) => {
     });
 };
 
-export {
-  fetchRates,
-  fetchRatesForRoom,
-  fetchRate,
-  createRate,
-  updateRate,
-  deleteRate,
-  resetRates,
-};
-
+export { fetchRates, fetchRatesForRoom, fetchRate, createRate, updateRate, deleteRate, resetRates };

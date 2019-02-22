@@ -17,12 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  BOOKINGS_REQUEST,
-  BOOKINGS_OK,
-  BOOKINGS_ERROR,
-  BOOKINGS_RESET,
-} from '../actions/bookings';
+import { BOOKINGS_REQUEST, BOOKINGS_OK, BOOKINGS_ERROR, BOOKINGS_RESET } from '../actions/bookings';
 
 const initialState = {
   loading: false,
@@ -56,4 +51,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

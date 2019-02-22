@@ -37,8 +37,8 @@ const HotelCreateForm = ({ history, createHotel }) => (
       availableForOnlineBooking: true,
       preferred: false,
     }}
-    onSubmit={(values) => {
-      createHotel(values).then((hotel) => {
+    onSubmit={values => {
+      createHotel(values).then(hotel => {
         history.push(`/admin/hotels/${hotel.id}/edit`);
       });
     }}
@@ -65,4 +65,9 @@ const HotelCreateForm = ({ history, createHotel }) => (
   </Form>
 );
 
-export default withRouter(connect(undefined, { createHotel })(HotelCreateForm));
+export default withRouter(
+  connect(
+    undefined,
+    { createHotel }
+  )(HotelCreateForm)
+);

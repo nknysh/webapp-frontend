@@ -17,12 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  HOTELS_REQUEST,
-  HOTELS_OK,
-  HOTELS_ERROR,
-  HOTELS_RESET,
-} from '../actions/hotels';
+import { HOTELS_REQUEST, HOTELS_OK, HOTELS_ERROR, HOTELS_RESET } from '../actions/hotels';
 
 const initialState = {
   loading: false,
@@ -56,4 +51,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

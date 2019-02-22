@@ -22,7 +22,6 @@ const UploadText = Styled.H7.extend`
   color: ${colors.white16};
 `;
 
-
 const Image = Styled.Image.extend`
   width: 200px;
   height: 200px;
@@ -34,20 +33,14 @@ const Box = Styled.View.extend`
   background-color: ${colors.gray11};
 `;
 
-const Preview = ({ url }) => url ? (
-  <Image
-    source={{ uri: url, width: 200, height: 200 }}
-  />
-) : (
-  <Box />
-);
+const Preview = ({ url }) => (url ? <Image source={{ uri: url, width: 200, height: 200 }} /> : <Box />);
 
 class CompanyLogoForm extends React.Component {
   handleManual = () => {
     this._dropzone.open();
-  }
+  };
 
-  handleDrop = (files) => {
+  handleDrop = files => {
     // TODO(mark): Set companyId from the currentUser.
     const companyId = 1;
 
@@ -59,18 +52,10 @@ class CompanyLogoForm extends React.Component {
   render() {
     return (
       <Container>
-        <Dropzone
-          ref={ref => this._dropzone = ref}
-          onDrop={this.handleDrop}
-          style={{ cursor: 'pointer' }}
-        >
-          <Preview
-            url=""
-          />
+        <Dropzone ref={ref => (this._dropzone = ref)} onDrop={this.handleDrop} style={{ cursor: 'pointer' }}>
+          <Preview url="" />
         </Dropzone>
-        <UploadButton
-          onPress={this.handleManual}
-        >
+        <UploadButton onPress={this.handleManual}>
           <UploadText>CHANGE LOGO</UploadText>
         </UploadButton>
       </Container>
@@ -78,4 +63,7 @@ class CompanyLogoForm extends React.Component {
   }
 }
 
-export default connect(undefined, { uploadLogo })(CompanyLogoForm);
+export default connect(
+  undefined,
+  { uploadLogo }
+)(CompanyLogoForm);

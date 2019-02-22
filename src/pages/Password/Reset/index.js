@@ -78,39 +78,35 @@ class ResetPassword extends Component {
     const { showInfo } = this.state;
     return (
       <Container>
-      {/* TODO(james): need to add Pure Escape icon */}
+        {/* TODO(james): need to add Pure Escape icon */}
         <Title>RESET YOUR PASSWORD</Title>
         <Subtitle>Enter your email address to reset your password.</Subtitle>
-        <Info style={{visibility: showInfo}}>Thank you. Please check your email for instructions on how to reset your password.</Info>
+        <Info style={{ visibility: showInfo }}>
+          Thank you. Please check your email for instructions on how to reset your password.
+        </Info>
         <Form
           initialValues={{
             email: '',
           }}
-          onSubmit={(values) => {
-            this.props.resetPassword(values)
-              .then(this.setState({showInfo: 'visible'}))
+          onSubmit={values => {
+            this.props.resetPassword(values).then(this.setState({ showInfo: 'visible' }));
           }}
         >
           {({ values, handleChange, handleBlur, handleSubmit }) => (
             <FormContainer>
               <form>
-                <Label 
-                  htmlFor="email" 
+                <Label
+                  htmlFor="email"
                   style={{
-                    display: 'block', 
+                    display: 'block',
                     color: '#948D8A',
-                    letterSpacing: '3px', 
-                    fontWeight: 'bold'
+                    letterSpacing: '3px',
+                    fontWeight: 'bold',
                   }}
                 >
                   EMAIL ADDRESS
                 </Label>
-                <Input
-                  name='email'
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
+                <Input name="email" value={values.email} onChange={handleChange} onBlur={handleBlur} />
                 <SubmitButton onPress={handleSubmit}>
                   <SubmitText>SUBMIT</SubmitText>
                 </SubmitButton>
@@ -124,7 +120,11 @@ class ResetPassword extends Component {
           )}
         </Form>
       </Container>
-    )
-  }}
+    );
+  }
+}
 
-export default connect(undefined, { resetPassword })(ResetPassword);
+export default connect(
+  undefined,
+  { resetPassword }
+)(ResetPassword);

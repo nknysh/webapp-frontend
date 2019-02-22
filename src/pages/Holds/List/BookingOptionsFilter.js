@@ -59,4 +59,7 @@ const BookingsFilters = ({ query, onChange, onSubmit, exportBookings, resetForm 
   </Container>
 );
 
-export default connect(undefined, { exportBookings })(BookingsFilters);
+export default connect(
+  undefined,
+  { exportBookings }
+)(BookingsFilters);

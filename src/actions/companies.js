@@ -76,7 +76,7 @@ const fetchCompanies = (args = {}) => (dispatch, getState) => {
   dispatch(companiesRequest(args));
 
   return CompaniesApi.fetchCompanies(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -94,7 +94,7 @@ const fetchCompanies = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -104,7 +104,7 @@ const fetchCompanies = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchCompany = (args = {}) => (dispatch) => {
+const fetchCompany = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -127,7 +127,7 @@ const createCompany = (args = {}) => (dispatch, getState) => {
   dispatch(companiesRequest(args));
 
   return CompaniesApi.createCompany(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -135,7 +135,7 @@ const createCompany = (args = {}) => (dispatch, getState) => {
 
       return dispatch(companiesOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -154,7 +154,7 @@ const updateCompany = (args = {}) => (dispatch, getState) => {
   dispatch(companiesRequest(args));
 
   return CompaniesApi.updateCompany(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -162,7 +162,7 @@ const updateCompany = (args = {}) => (dispatch, getState) => {
 
       return dispatch(companiesOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -181,7 +181,7 @@ const deleteCompany = (args = {}) => (dispatch, getState) => {
   dispatch(companiesRequest(args));
 
   return CompaniesApi.deleteCompany(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -189,7 +189,7 @@ const deleteCompany = (args = {}) => (dispatch, getState) => {
 
       return dispatch(companiesOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -199,8 +199,7 @@ const deleteCompany = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetCompanies = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(companiesReset(args)));
+const resetCompanies = (args = {}) => dispatch => Promise.resolve(dispatch(companiesReset(args)));
 
 const uploadLogo = ({ file, id }) => (dispatch, getState) => {
   const state = getState();
@@ -208,13 +207,4 @@ const uploadLogo = ({ file, id }) => (dispatch, getState) => {
   return CompaniesApi.uploadLogo({ token, id, file });
 };
 
-export {
-  fetchCompanies,
-  fetchCompany,
-  createCompany,
-  updateCompany,
-  deleteCompany,
-  resetCompanies,
-  uploadLogo,
-};
-
+export { fetchCompanies, fetchCompany, createCompany, updateCompany, deleteCompany, resetCompanies, uploadLogo };

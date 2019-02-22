@@ -34,15 +34,13 @@ const SettingsPage = ({ currentUser, fetchUser, children }) => (
     <Header />
     <Content>
       <Request
-        getState={(state) => ({ user: getUser(state, currentUser.id) })}
+        getState={state => ({ user: getUser(state, currentUser.id) })}
         onRequest={() => fetchUser({ id: currentUser.id })}
       >
         {({ user }) => (
           <Row>
             <SettingsSidebar user={user} />
-            <Main>
-              {children({ user })}
-            </Main>
+            <Main>{children({ user })}</Main>
           </Row>
         )}
       </Request>
@@ -50,8 +48,11 @@ const SettingsPage = ({ currentUser, fetchUser, children }) => (
   </Container>
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 });
 
-export default connect(mapStateToProps, { fetchUser })(SettingsPage);
+export default connect(
+  mapStateToProps,
+  { fetchUser }
+)(SettingsPage);

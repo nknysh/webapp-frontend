@@ -14,12 +14,7 @@
  * all applicable license restrictions.
  */
 
-const getList = ({
-  state,
-  model,
-  ids,
-  predicate = () => true,
-}) => {
+const getList = ({ state, model, ids, predicate = () => true }) => {
   const slice = state[model];
   if (!slice) {
     return [];
@@ -27,31 +22,22 @@ const getList = ({
 
   // eslint-disable-next-line prefer-destructuring
   const data = slice.data;
-  const list = ids ?
-    ids.map(id => data[id]).filter(item => !!item) :
-    Object.values(data);
+  const list = ids ? ids.map(id => data[id]).filter(item => !!item) : Object.values(data);
 
   return list.filter(predicate);
 };
 
-const getItem = ({
-  state,
-  model,
-  key,
-  predicate = () => true,
-}) => {
+const getItem = ({ state, model, key, predicate = () => true }) => {
   const slice = state[model];
   if (!slice) {
     return undefined;
   }
 
   const item = slice.data[key];
-  return predicate(item) ?
-    item : undefined;
+  return predicate(item) ? item : undefined;
 };
 
 export default {
   getList,
   getItem,
 };
-

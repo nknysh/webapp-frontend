@@ -17,12 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  COMPANIES_REQUEST,
-  COMPANIES_OK,
-  COMPANIES_ERROR,
-  COMPANIES_RESET,
-} from '../actions/companies';
+import { COMPANIES_REQUEST, COMPANIES_OK, COMPANIES_ERROR, COMPANIES_RESET } from '../actions/companies';
 
 const initialState = {
   loading: false,
@@ -56,4 +51,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

@@ -40,10 +40,7 @@ const HotelsSearch = ({ searchHotels }) => (
   <Container>
     <Header />
     <Content>
-      <Request
-        getState={(state) => ({ hotels: getHotels(state) })}
-        onRequest={searchHotels}
-      >
+      <Request getState={state => ({ hotels: getHotels(state) })} onRequest={searchHotels}>
         {({ hotels }) => (
           <Row>
             <HotelSidebar />
@@ -59,4 +56,7 @@ const HotelsSearch = ({ searchHotels }) => (
 );
 
 // TODO(mark): Change fetchHotels --> searchHotels once we have derby soft keys.
-export default connect(undefined, { searchHotels: fetchHotels })(HotelsSearch);
+export default connect(
+  undefined,
+  { searchHotels: fetchHotels }
+)(HotelsSearch);

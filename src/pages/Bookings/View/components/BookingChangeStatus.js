@@ -26,7 +26,7 @@ const BookingChangeStatus = ({ booking, updateBooking }) => (
       initialValues={{
         status: booking.status,
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // TODO
         console.log('change status', values);
         updateBooking({ id: booking.id, status: values.status });
@@ -38,10 +38,7 @@ const BookingChangeStatus = ({ booking, updateBooking }) => (
             name="status"
             placeholder="STATUS"
             value={values.status}
-            options={[
-              { value: 'booked', label: 'BOOKED' },
-              { value: 'paid', label: 'PAID' },
-            ]}
+            options={[{ value: 'booked', label: 'BOOKED' }, { value: 'paid', label: 'PAID' }]}
             onChange={setFieldValue}
             onBlur={(name, value, event) => handleSubmit(event)}
             Input={Input}
@@ -52,4 +49,7 @@ const BookingChangeStatus = ({ booking, updateBooking }) => (
   </Container>
 );
 
-export default connect(undefined, { updateBooking })(BookingChangeStatus);
+export default connect(
+  undefined,
+  { updateBooking }
+)(BookingChangeStatus);

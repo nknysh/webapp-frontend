@@ -31,15 +31,22 @@ const Row = Styled.View.extend`
 const Main = Styled.View.extend`
 `;
 
-const TravelAgentView = ({ match: { params: { id }}, fetchTravelAgent, fetchUsers, match }) => (
+const TravelAgentView = ({
+  match: {
+    params: { id },
+  },
+  fetchTravelAgent,
+  fetchUsers,
+  match,
+}) => (
   <Container>
     <Header />
     <Content>
       <Request
-        getState={(state) => ({ travelAgent: getTravelAgent(state, id) })}
-        onRequest={() => { 
-          fetchUsers()
-          return fetchTravelAgent({id})
+        getState={state => ({ travelAgent: getTravelAgent(state, id) })}
+        onRequest={() => {
+          fetchUsers();
+          return fetchTravelAgent({ id });
         }}
       >
         {({ travelAgent }) => (
@@ -54,4 +61,7 @@ const TravelAgentView = ({ match: { params: { id }}, fetchTravelAgent, fetchUser
   </Container>
 );
 
-export default connect(undefined, { fetchTravelAgent, fetchUsers })(TravelAgentView);
+export default connect(
+  undefined,
+  { fetchTravelAgent, fetchUsers }
+)(TravelAgentView);

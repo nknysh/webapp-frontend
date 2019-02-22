@@ -21,13 +21,13 @@ import errorInterceptor from './error';
 
 import { isValidOptionObject } from './validations';
 
-const requestCreator = interceptor => (options) => {
+const requestCreator = interceptor => options => {
   const instance = axios.create(options);
 
   instance.query = {};
   instance.cache = {};
 
-  instance.withAuth = (token) => {
+  instance.withAuth = token => {
     if (token === undefined) {
       return instance;
     }
@@ -37,7 +37,7 @@ const requestCreator = interceptor => (options) => {
     return instance;
   };
 
-  instance.setHeaders = (headers) => {
+  instance.setHeaders = headers => {
     if (!isValidOptionObject({ name: 'headers', option: headers })) {
       return instance;
     }
@@ -57,33 +57,33 @@ const requestCreator = interceptor => (options) => {
     return instance.post(url, params);
   };
 
-  instance.order = (order) => {
+  instance.order = order => {
     instance.query.order = order;
     return instance;
   };
 
-  instance.limit = (limit) => {
+  instance.limit = limit => {
     instance.query.limit = limit;
     return instance;
   };
 
-  instance.skip = (skip) => {
+  instance.skip = skip => {
     instance.query.skip = skip;
     return instance;
   };
 
-  instance.include = (include) => {
+  instance.include = include => {
     instance.query.include = include;
     instance.cache.nestedData = include;
     return instance;
   };
 
-  instance.where = (where) => {
+  instance.where = where => {
     instance.query.where = where;
     return instance;
   };
 
-  instance.q = (query) => {
+  instance.q = query => {
     instance.query.query = query;
     return instance;
   };

@@ -32,13 +32,18 @@ const Main = Styled.View.extend`
   margin-left: 30px;
 `;
 
-const BookingPayment = ({ match: { params: { id }}, fetchBooking }) => (
+const BookingPayment = ({
+  match: {
+    params: { id },
+  },
+  fetchBooking,
+}) => (
   <Container>
     <Header />
     <Content>
       <Request
-        getState={(state) => ({ booking: getBooking(state, id) })}
-        onRequest={() => fetchBooking({ id, query: { hotel: { rooms: {}}}})}
+        getState={state => ({ booking: getBooking(state, id) })}
+        onRequest={() => fetchBooking({ id, query: { hotel: { rooms: {} } } })}
       >
         {({ booking }) => (
           <Row>
@@ -51,4 +56,7 @@ const BookingPayment = ({ match: { params: { id }}, fetchBooking }) => (
   </Container>
 );
 
-export default connect(undefined, { fetchBooking })(BookingPayment);
+export default connect(
+  undefined,
+  { fetchBooking }
+)(BookingPayment);

@@ -24,18 +24,15 @@ const Input = Styled.TextInput.H8.extend`
 
 const BookingChangeTravelAgent = ({ booking, fetchUsers, updateBooking }) => (
   <Container>
-    <Request
-      getState={(state) => ({ users: getUsers(state) })}
-      onRequest={() => fetchUsers()}
-    >
+    <Request getState={state => ({ users: getUsers(state) })} onRequest={() => fetchUsers()}>
       {({ users }) => (
         <Form
           initialValues={{
-            travelAgentId: _.thru(_.find(users, (user) => user.id === booking.travelAgentId), (user) => {
+            travelAgentId: _.thru(_.find(users, user => user.id === booking.travelAgentId), user => {
               return user ? `${user.firstName} ${user.lastName}` : null;
             }),
           }}
-          onSubmit={(values) => {
+          onSubmit={values => {
             // TODO
             console.log('change travel agent', values);
             updateBooking({ id: booking.id, travelAgentId: values.travelAgentId });
@@ -47,7 +44,7 @@ const BookingChangeTravelAgent = ({ booking, fetchUsers, updateBooking }) => (
                 name="travelAgentId"
                 placeholder="TRAVEL AGENT"
                 value={values.travelAgentId}
-                options={users.map((user) => ({
+                options={users.map(user => ({
                   value: user.id,
                   label: `${user.firstName} ${user.lastName}`,
                 }))}
@@ -63,4 +60,7 @@ const BookingChangeTravelAgent = ({ booking, fetchUsers, updateBooking }) => (
   </Container>
 );
 
-export default connect(undefined, { fetchUsers, updateBooking })(BookingChangeTravelAgent);
+export default connect(
+  undefined,
+  { fetchUsers, updateBooking }
+)(BookingChangeTravelAgent);

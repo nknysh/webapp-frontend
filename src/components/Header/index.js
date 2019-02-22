@@ -41,9 +41,9 @@ const Text = Styled.H7.extend`
   color: ${colors.gold10};
 `;
 
-const isAdmin = (user) => user && user.type === 'admin';
-const isSalesRepresentative = (user) => user && user.type === 'sr';
-const isRatesAdmin = (user) => user && user.type === 'rates-admin';
+const isAdmin = user => user && user.type === 'admin';
+const isSalesRepresentative = user => user && user.type === 'sr';
+const isRatesAdmin = user => user && user.type === 'rates-admin';
 
 const Header = ({ currentUser }) => (
   <Container>
@@ -52,49 +52,93 @@ const Header = ({ currentUser }) => (
       <Links>
         {isAdmin(currentUser) ? (
           <React.Fragment>
-            <Link to="/"><Text>HOME</Text></Link>
-            <Link to="/admin/dashboard"><Text>DASHBOARD</Text></Link>
-            <Link to="/messages"><Text>MESSAGES</Text></Link>
-            <Link to="/admin/hotels"><Text>HOTELS</Text></Link>
-            <Link to="/admin/bookings"><Text>BOOKINGS</Text></Link>
-            <Link to="/admin/proposals"><Text>PROPOSALS</Text></Link>
-            <Link to="/admin/travel-agents"><Text>TRAVEL AGENTS</Text></Link>
-            <Link to="/admin/sales-representatives"><Text>SALES REPS</Text></Link>
+            <Link to="/">
+              <Text>HOME</Text>
+            </Link>
+            <Link to="/admin/dashboard">
+              <Text>DASHBOARD</Text>
+            </Link>
+            <Link to="/messages">
+              <Text>MESSAGES</Text>
+            </Link>
+            <Link to="/admin/hotels">
+              <Text>HOTELS</Text>
+            </Link>
+            <Link to="/admin/bookings">
+              <Text>BOOKINGS</Text>
+            </Link>
+            <Link to="/admin/proposals">
+              <Text>PROPOSALS</Text>
+            </Link>
+            <Link to="/admin/travel-agents">
+              <Text>TRAVEL AGENTS</Text>
+            </Link>
+            <Link to="/admin/sales-representatives">
+              <Text>SALES REPS</Text>
+            </Link>
           </React.Fragment>
         ) : isSalesRepresentative(currentUser) ? (
           <React.Fragment>
-            <Link to="/"><Text>HOME</Text></Link>
-            <Link to="/messages"><Text>MESSAGES</Text></Link>
-            <Link to="/calendar"><Text>CALENDAR</Text></Link>
-            <Link to="/proposals"><Text>PROPOSALS</Text></Link>
-            <Link to="/bookings"><Text>BOOKINGS</Text></Link>
-            <Link to="/holds"><Text>HOLDS</Text></Link>
-            <Link to="/admin/travel-agents"><Text>TRAVEL AGENTS</Text></Link>
+            <Link to="/">
+              <Text>HOME</Text>
+            </Link>
+            <Link to="/messages">
+              <Text>MESSAGES</Text>
+            </Link>
+            <Link to="/calendar">
+              <Text>CALENDAR</Text>
+            </Link>
+            <Link to="/proposals">
+              <Text>PROPOSALS</Text>
+            </Link>
+            <Link to="/bookings">
+              <Text>BOOKINGS</Text>
+            </Link>
+            <Link to="/holds">
+              <Text>HOLDS</Text>
+            </Link>
+            <Link to="/admin/travel-agents">
+              <Text>TRAVEL AGENTS</Text>
+            </Link>
           </React.Fragment>
         ) : isRatesAdmin(currentUser) ? (
           <React.Fragment>
-            <Link to="/"><Text>HOME</Text></Link>
-            <Link to="/admin/hotels"><Text>HOTELS</Text></Link>
+            <Link to="/">
+              <Text>HOME</Text>
+            </Link>
+            <Link to="/admin/hotels">
+              <Text>HOTELS</Text>
+            </Link>
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Link to="/"><Text>HOME</Text></Link>
-            <Link to="/messages"><Text>MESSAGES</Text></Link>
-            <Link to="/calendar"><Text>CALENDAR</Text></Link>
-            <Link to="/proposals"><Text>PROPOSALS</Text></Link>
-            <Link to="/bookings"><Text>BOOKINGS</Text></Link>
-            <Link to="/holds"><Text>HOLDS</Text></Link>
+            <Link to="/">
+              <Text>HOME</Text>
+            </Link>
+            <Link to="/messages">
+              <Text>MESSAGES</Text>
+            </Link>
+            <Link to="/calendar">
+              <Text>CALENDAR</Text>
+            </Link>
+            <Link to="/proposals">
+              <Text>PROPOSALS</Text>
+            </Link>
+            <Link to="/bookings">
+              <Text>BOOKINGS</Text>
+            </Link>
+            <Link to="/holds">
+              <Text>HOLDS</Text>
+            </Link>
           </React.Fragment>
         )}
-        <UserDropdown
-          user={currentUser}
-        />
+        <UserDropdown user={currentUser} />
       </Links>
     </Content>
   </Container>
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),
 });
 

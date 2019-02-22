@@ -57,18 +57,15 @@ const RoomUpdateForm = ({ history, room, updateRoom }) => (
       bedType: room.bedType,
       bedDescription: room.bedDescription,
     }}
-    onSubmit={(values) => {
-      updateRoom(values).then((room) => {
+    onSubmit={values => {
+      updateRoom(values).then(room => {
         console.log('Updated room', room);
       });
     }}
   >
     {({ values, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched }) => (
       <Content>
-        <RoomUpdateHeader
-          room={room}
-          onSubmit={handleSubmit}
-        />
+        <RoomUpdateHeader room={room} onSubmit={handleSubmit} />
         <Main>
           <Sides>
             <Side>
@@ -102,4 +99,9 @@ const RoomUpdateForm = ({ history, room, updateRoom }) => (
   </Form>
 );
 
-export default withRouter(connect(undefined, { updateRoom })(RoomUpdateForm));
+export default withRouter(
+  connect(
+    undefined,
+    { updateRoom }
+  )(RoomUpdateForm)
+);

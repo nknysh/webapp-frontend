@@ -39,18 +39,15 @@ const HotelUpdateForm = ({ history, hotel, updateHotel }) => (
       availableForOnlineBooking: hotel.availableForOnlineBooking,
       preferred: hotel.preferred,
     }}
-    onSubmit={(values) => {
-      updateHotel(values).then((hotel) => {
+    onSubmit={values => {
+      updateHotel(values).then(hotel => {
         console.log('Updated hotel', hotel);
       });
     }}
   >
     {({ values, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched }) => (
       <Content>
-        <HotelUpdateHeader
-          hotel={hotel}
-          onSubmit={handleSubmit}
-        />
+        <HotelUpdateHeader hotel={hotel} onSubmit={handleSubmit} />
         <Main>
           <Sides>
             <Side style={{ marginRight: 10 }}>
@@ -72,4 +69,9 @@ const HotelUpdateForm = ({ history, hotel, updateHotel }) => (
   </Form>
 );
 
-export default withRouter(connect(undefined, { updateHotel })(HotelUpdateForm));
+export default withRouter(
+  connect(
+    undefined,
+    { updateHotel }
+  )(HotelUpdateForm)
+);

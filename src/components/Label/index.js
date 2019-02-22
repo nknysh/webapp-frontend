@@ -12,7 +12,9 @@ const Text = Styled.H8.extend`
 `;
 
 const Label = ({ children, ...props }) => (
-  <label {...props}><Text>{children}</Text></label>
+  <label {...props}>
+    <Text>{children}</Text>
+  </label>
 );
 
 export default Label;

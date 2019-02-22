@@ -79,7 +79,7 @@ const fetchOffers = (args = {}) => (dispatch, getState) => {
   dispatch(offersRequest(args));
 
   return OffersApi.fetchOffers(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -97,7 +97,7 @@ const fetchOffers = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -107,7 +107,7 @@ const fetchOffers = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchOffer = (args = {}) => (dispatch) => {
+const fetchOffer = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -130,7 +130,7 @@ const createOffer = (args = {}) => (dispatch, getState) => {
   dispatch(offersRequest(args));
 
   return OffersApi.createOffer(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -138,7 +138,7 @@ const createOffer = (args = {}) => (dispatch, getState) => {
 
       return dispatch(offersOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -157,7 +157,7 @@ const updateOffer = (args = {}) => (dispatch, getState) => {
   dispatch(offersRequest(args));
 
   return OffersApi.updateOffer(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -165,7 +165,7 @@ const updateOffer = (args = {}) => (dispatch, getState) => {
 
       return dispatch(offersOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -184,7 +184,7 @@ const deleteOffer = (args = {}) => (dispatch, getState) => {
   dispatch(offersRequest(args));
 
   return OffersApi.deleteOffer(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -192,7 +192,7 @@ const deleteOffer = (args = {}) => (dispatch, getState) => {
 
       return dispatch(offersOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -202,15 +202,6 @@ const deleteOffer = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetOffers = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(offersReset(args)));
+const resetOffers = (args = {}) => dispatch => Promise.resolve(dispatch(offersReset(args)));
 
-export {
-  fetchOffers,
-  fetchOffer,
-  createOffer,
-  updateOffer,
-  deleteOffer,
-  resetOffers,
-};
-
+export { fetchOffers, fetchOffer, createOffer, updateOffer, deleteOffer, resetOffers };

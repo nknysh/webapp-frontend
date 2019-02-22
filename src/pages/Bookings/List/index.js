@@ -31,10 +31,14 @@ const BookingList = ({ resetBookings, searchBookings, currentUser }) => (
   <Container>
     <Header />
     <Request
-      getState={(state) => ({ bookings: getBookings(state) })}
+      getState={state => ({ bookings: getBookings(state) })}
       onRequest={(values, user) => {
         resetBookings();
-        return searchBookings({ q: values.query, where: {salesRepresentativeId: currentUser.id}, query: { hotel: {}}});
+        return searchBookings({
+          q: values.query,
+          where: { salesRepresentativeId: currentUser.id },
+          query: { hotel: {} },
+        });
       }}
     >
       {({ bookings, handleRequest }) => (
@@ -47,15 +51,8 @@ const BookingList = ({ resetBookings, searchBookings, currentUser }) => (
           {({ values, handleChange, submitForm, resetForm }) => (
             <Content>
               <Main>
-                <BookingsFilters
-                  {...values}
-                  onChange={handleChange}
-                  onSubmit={submitForm}
-                  resetForm={resetForm}
-                />
-                <BookingsTable
-                  bookings={bookings}
-                />
+                <BookingsFilters {...values} onChange={handleChange} onSubmit={submitForm} resetForm={resetForm} />
+                <BookingsTable bookings={bookings} />
               </Main>
             </Content>
           )}
@@ -65,8 +62,11 @@ const BookingList = ({ resetBookings, searchBookings, currentUser }) => (
   </Container>
 );
 
-const mapStateToProps = (state) => ({
-  currentUser: getCurrentUser(state)
+const mapStateToProps = state => ({
+  currentUser: getCurrentUser(state),
 });
 
-export default connect(mapStateToProps, { resetBookings, searchBookings })(BookingList);
+export default connect(
+  mapStateToProps,
+  { resetBookings, searchBookings }
+)(BookingList);

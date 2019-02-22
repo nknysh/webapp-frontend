@@ -44,25 +44,19 @@ const ProposalDetails = ({ proposal }) => (
   <Container>
     <Main>
       <Row>
-        <Field style={{width: "50%", paddingRight: 30}}>
+        <Field style={{ width: '50%', paddingRight: 30 }}>
           <Label htmlFor="clientName">CLIENT NAME</Label>
-          <Input
-            name="clientName"
-            value={proposal.clientName} />
+          <Input name="clientName" value={proposal.clientName} />
         </Field>
-        <Field style={{width: "50%"}}>
+        <Field style={{ width: '50%' }}>
           <Label htmlFor="clientEmail">CLIENT EMAIL</Label>
-          <Input
-            name="clientEmail"
-            value={proposal.clientEmail} />
+          <Input name="clientEmail" value={proposal.clientEmail} />
         </Field>
       </Row>
       <Row>
-        <Field style={{width: '100%'}}>
+        <Field style={{ width: '100%' }}>
           <Label htmlFor="remarks">CUSTOM MESSAGE (OPTIONAL)</Label>
-          <TextInput style={{height: 100}}
-            name="remarks"
-            value={proposal.remarks} />
+          <TextInput style={{ height: 100 }} name="remarks" value={proposal.remarks} />
         </Field>
       </Row>
       <Row style={{ marginTop: 10, marginBottom: 20 }}>
@@ -74,5 +68,7 @@ const ProposalDetails = ({ proposal }) => (
   </Container>
 );
 
-export default connect(undefined, {})(ProposalDetails);
-
+export default connect(
+  undefined,
+  {}
+)(ProposalDetails);

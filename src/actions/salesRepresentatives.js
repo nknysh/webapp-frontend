@@ -76,7 +76,7 @@ const fetchSalesRepresentatives = (args = {}) => (dispatch, getState) => {
   dispatch(salesRepresentativesRequest(args));
 
   return SalesRepresentativesApi.fetchSalesRepresentatives(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -94,7 +94,7 @@ const fetchSalesRepresentatives = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -104,7 +104,7 @@ const fetchSalesRepresentatives = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchSalesRepresentative = (args = {}) => (dispatch) => {
+const fetchSalesRepresentative = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -127,7 +127,7 @@ const createSalesRepresentative = (args = {}) => (dispatch, getState) => {
   dispatch(salesRepresentativesRequest(args));
 
   return SalesRepresentativesApi.createSalesRepresentative(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -135,7 +135,7 @@ const createSalesRepresentative = (args = {}) => (dispatch, getState) => {
 
       return dispatch(salesRepresentativesOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -154,7 +154,7 @@ const updateSalesRepresentative = (args = {}) => (dispatch, getState) => {
   dispatch(salesRepresentativesRequest(args));
 
   return SalesRepresentativesApi.updateSalesRepresentative(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -162,7 +162,7 @@ const updateSalesRepresentative = (args = {}) => (dispatch, getState) => {
 
       return dispatch(salesRepresentativesOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -181,7 +181,7 @@ const deleteSalesRepresentative = (args = {}) => (dispatch, getState) => {
   dispatch(salesRepresentativesRequest(args));
 
   return SalesRepresentativesApi.deleteSalesRepresentative(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -189,7 +189,7 @@ const deleteSalesRepresentative = (args = {}) => (dispatch, getState) => {
 
       return dispatch(salesRepresentativesOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -199,8 +199,7 @@ const deleteSalesRepresentative = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetSalesRepresentatives = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(salesRepresentativesReset(args)));
+const resetSalesRepresentatives = (args = {}) => dispatch => Promise.resolve(dispatch(salesRepresentativesReset(args)));
 
 export {
   fetchSalesRepresentatives,
@@ -210,4 +209,3 @@ export {
   deleteSalesRepresentative,
   resetSalesRepresentatives,
 };
-

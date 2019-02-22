@@ -32,49 +32,53 @@ const BookingsTable = ({ bookings }) => (
             {
               Header: 'ID',
               accessor: 'id',
-              maxWidth: 75
-            }, {
+              maxWidth: 75,
+            },
+            {
               Header: 'Client',
               id: 'client',
               accessor: booking => `${booking.guestFirstName} ${booking.guestLastName}`,
               width: 225,
-            }, {
+            },
+            {
               Header: 'Booking Date',
               id: 'bookingDate',
               accessor: booking => moment(booking.createdAt).format('MMM D, YYYY'),
               width: 150,
-            }, {
+            },
+            {
               Header: 'Hotel',
               accessor: 'hotelId',
               width: 200,
               Cell: row => (
-                <Connect getState={(state) => ({ hotel: getHotel(state, row.value) })}>
-                  {({ hotel }) => hotel ? hotel.name : null}
+                <Connect getState={state => ({ hotel: getHotel(state, row.value) })}>
+                  {({ hotel }) => (hotel ? hotel.name : null)}
                 </Connect>
               ),
-            }, {
+            },
+            {
               Header: 'Travel Dates',
               id: 'travelDates',
               accessor: booking => displayDateRange(booking.flightArrivalDate, booking.flightDepartureDate),
               width: 200,
-            }, {
+            },
+            {
               Header: 'Status',
               id: 'status',
               accessor: 'status',
-              width: 120
-            }, {
+              width: 120,
+            },
+            {
               Header: '',
               accessor: 'id',
               width: 120,
               Cell: row => {
                 return (
                   <Link to={`/bookings/${row.value}`}>
-                    <button className='view-button'>
-                      View
-                    </button>
+                    <button className="view-button">View</button>
                   </Link>
                 );
-              }
+              },
             },
           ]}
           defaultPageSize={10}

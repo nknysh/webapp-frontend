@@ -19,11 +19,9 @@ import _ from 'lodash';
 
 const model = 'rates';
 
-const getRates = (state, { ids } = {}) =>
-  utils.getList({ state, model, ids });
+const getRates = (state, { ids } = {}) => utils.getList({ state, model, ids });
 
-const getRate = (state, key) =>
-  utils.getItem({ state, model, key });
+const getRate = (state, key) => utils.getItem({ state, model, key });
 
 const getRatesForRoom = (state, roomId) => {
   const all = getRates(state);
@@ -31,9 +29,4 @@ const getRatesForRoom = (state, roomId) => {
   return _.get(filtered, '[0].rows');
 };
 
-export {
-  getRates,
-  getRate,
-  getRatesForRoom,
-};
-
+export { getRates, getRate, getRatesForRoom };

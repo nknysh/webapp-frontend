@@ -10,12 +10,12 @@ import { getRoom } from 'selectors/rooms';
 import { Request } from 'components';
 
 const RequestRoom = ({ id, children, fetchRoom }) => (
-  <Request
-    getState={(state) => ({ room: getRoom(state, id) })}
-    onRequest={() => fetchRoom({ id, query: { hotel: {}}})}
-  >
+  <Request getState={state => ({ room: getRoom(state, id) })} onRequest={() => fetchRoom({ id, query: { hotel: {} } })}>
     {({ room }) => children({ room })}
   </Request>
 );
 
-export default connect(undefined, { fetchRoom })(RequestRoom);
+export default connect(
+  undefined,
+  { fetchRoom }
+)(RequestRoom);

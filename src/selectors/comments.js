@@ -18,14 +18,8 @@ import utils from './utils';
 
 const model = 'comments';
 
-const getComments = (state, { ids } = {}) =>
-  utils.getList({ state, model, ids });
+const getComments = (state, { ids } = {}) => utils.getList({ state, model, ids });
 
-const getComment = (state, key) =>
-  utils.getItem({ state, model, key });
+const getComment = (state, key) => utils.getItem({ state, model, key });
 
-export {
-  getComments,
-  getComment,
-};
-
+export { getComments, getComment };

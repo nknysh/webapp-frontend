@@ -17,12 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  RATES_REQUEST,
-  RATES_OK,
-  RATES_ERROR,
-  RATES_RESET,
-} from '../actions/rates';
+import { RATES_REQUEST, RATES_OK, RATES_ERROR, RATES_RESET } from '../actions/rates';
 
 const initialState = {
   loading: false,
@@ -56,4 +51,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

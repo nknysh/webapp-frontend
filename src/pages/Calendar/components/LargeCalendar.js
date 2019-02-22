@@ -10,7 +10,7 @@ import './BigCalendar.css';
 
 BigCalendar.momentLocalizer(moment);
 
-const formatEvents = (bookings) => {
+const formatEvents = bookings => {
   return bookings.map(booking => ({
     ...booking,
     title: 'Payment Due',
@@ -24,7 +24,7 @@ const LargeCalendar = ({ bookings, history }) => (
     startAccessor="startDate"
     endAccessor="endDate"
     events={formatEvents(bookings)}
-    onSelectEvent={(booking) => history.push(`/bookings/${booking.id}`)}
+    onSelectEvent={booking => history.push(`/bookings/${booking.id}`)}
   />
 );
 

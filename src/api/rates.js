@@ -19,39 +19,40 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/rates`;
 
-const fetchRates = ({
-  token,
-  where,
-  order,
-  limit,
-  skip,
-  include,
-}) =>
-  request().withAuth(token)
+const fetchRates = ({ token, where, order, limit, skip, include }) =>
+  request()
+    .withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then((response) => response.data);
+    .then(response => response.data);
 
 const createRate = ({ token, ...params }) =>
-  request().withAuth(token).post(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .post(url, params)
+    .then(response => response.data);
 
 const updateRate = ({ token, ...params }) =>
-  request().withAuth(token).patch(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .patch(url, params)
+    .then(response => response.data);
 
 const deleteRate = ({ token, id }) =>
-  request().withAuth(token).delete(`${url}/${id}`)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .delete(`${url}/${id}`)
+    .then(response => response.data);
 
 const fetchRatesForRoom = ({ token, roomId, ...params }) =>
-  request().withAuth(token)
+  request()
+    .withAuth(token)
     .post(`${window.location.origin}/api/rooms/${roomId}/calculateRates`, params)
-    .then((response) => response.data);
+    .then(response => response.data);
 
 export default {
   fetchRates,
@@ -60,4 +61,3 @@ export default {
   updateRate,
   deleteRate,
 };
-

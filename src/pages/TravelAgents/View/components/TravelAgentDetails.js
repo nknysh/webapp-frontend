@@ -65,7 +65,6 @@ const Subtitle = Styled.H5.extend`
 `;
 
 class TravelAgentDetails extends Component {
-
   render() {
     const { bookings, comments, match, proposals, travelAgent, user } = this.props;
 
@@ -74,64 +73,71 @@ class TravelAgentDetails extends Component {
         <Main>
           <Row>
             <Column>
-              <Title>{travelAgent.firstName} {travelAgent.lastName}</Title>
+              <Title>
+                {travelAgent.firstName} {travelAgent.lastName}
+              </Title>
             </Column>
             <Column>
-              <Row><Text>{travelAgent.email}</Text></Row>
-              <Row><Subtitle>EMAIL ADDRESS</Subtitle></Row>
+              <Row>
+                <Text>{travelAgent.email}</Text>
+              </Row>
+              <Row>
+                <Subtitle>EMAIL ADDRESS</Subtitle>
+              </Row>
             </Column>
           </Row>
-          <Row style={{marginTop: '100px', marginBottom: '10px'}}>
+          <Row style={{ marginTop: '100px', marginBottom: '10px' }}>
             <TabRow>
-              <Link to={`${match.url}/bookings`}><Tab>BOOKINGS</Tab></Link>
-              <Link to={`${match.url}/proposals`}><Tab>PROPOSALS</Tab></Link>
-              <Link to={`${match.url}/comments`}><Tab>COMMENTS</Tab></Link>
+              <Link to={`${match.url}/bookings`}>
+                <Tab>BOOKINGS</Tab>
+              </Link>
+              <Link to={`${match.url}/proposals`}>
+                <Tab>PROPOSALS</Tab>
+              </Link>
+              <Link to={`${match.url}/comments`}>
+                <Tab>COMMENTS</Tab>
+              </Link>
             </TabRow>
           </Row>
-            <Row>
-              <Column>
-                <Route
-                  exact
-                  path={`${match.url}/bookings`}
-                  component={() => <BookingsTable bookings={bookings} />}
-                />
-              </Column>
-              <Column>
-                <Route
-                  exact
-                  path={`${match.url}/proposals`}
-                  component={() => <ProposalsTable proposals={proposals} />}
-                />
-              </Column>
-              <Column>
-                <Route
-                  exact
-                  path={`${match.url}/comments`}
-                  component={() => <Comments comments={comments} user={user} travelAgentId={travelAgent.id} />}
-                />
-              </Column>
-            </Row>
+          <Row>
+            <Column>
+              <Route exact path={`${match.url}/bookings`} component={() => <BookingsTable bookings={bookings} />} />
+            </Column>
+            <Column>
+              <Route exact path={`${match.url}/proposals`} component={() => <ProposalsTable proposals={proposals} />} />
+            </Column>
+            <Column>
+              <Route
+                exact
+                path={`${match.url}/comments`}
+                component={() => <Comments comments={comments} user={user} travelAgentId={travelAgent.id} />}
+              />
+            </Column>
+          </Row>
         </Main>
       </Container>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     comments: getComments(state),
     user: getCurrentUser(state),
     bookings: getBookings(state),
-    proposals: getProposals(state)
-  }
+    proposals: getProposals(state),
+  };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return  {
+  return {
     fetchBookings: dispatch(fetchBookings()),
     fetchProposals: dispatch(fetchProposals()),
-    fetchTravelAgentComments: dispatch(fetchTravelAgentComments({id: ownProps.travelAgent.id})),
-  }
-}
+    fetchTravelAgentComments: dispatch(fetchTravelAgentComments({ id: ownProps.travelAgent.id })),
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(TravelAgentDetails)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TravelAgentDetails);

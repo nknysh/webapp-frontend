@@ -5,12 +5,6 @@ import React from 'react';
 import { SettingsPage } from '../components';
 import { TravelAgentsSection } from './components';
 
-const TravelAgents = () => (
-  <SettingsPage>
-    {({ user }) => (
-      <TravelAgentsSection user={user} />
-    )}
-  </SettingsPage>
-);
+const TravelAgents = () => <SettingsPage>{({ user }) => <TravelAgentsSection user={user} />}</SettingsPage>;
 
 export default TravelAgents;

@@ -85,7 +85,7 @@ const fetchTravelAgents = (args = {}) => (dispatch, getState) => {
   dispatch(travelAgentsRequest(args));
 
   return TravelAgentsApi.fetchTravelAgents(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -98,12 +98,12 @@ const fetchTravelAgents = (args = {}) => (dispatch, getState) => {
         request: args,
         response,
       };
-      
+
       requests.push(dispatch(travelAgentsOk(out)));
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -139,7 +139,7 @@ const fetchTravelAgentsAssigned = (args = {}) => (dispatch, getState) => {
   dispatch(travelAgentsRequest(args));
 
   return TravelAgentsApi.fetchTravelAgentsAssigned(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -152,12 +152,12 @@ const fetchTravelAgentsAssigned = (args = {}) => (dispatch, getState) => {
         request: args,
         response,
       };
-      
+
       requests.push(dispatch(travelAgentsOk(out)));
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -167,7 +167,7 @@ const fetchTravelAgentsAssigned = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchTravelAgent = (args = {}) => (dispatch) => {
+const fetchTravelAgent = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -190,7 +190,7 @@ const createTravelAgent = (args = {}) => (dispatch, getState) => {
   dispatch(travelAgentsRequest(args));
 
   return TravelAgentsApi.createTravelAgent(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -198,7 +198,7 @@ const createTravelAgent = (args = {}) => (dispatch, getState) => {
 
       return dispatch(travelAgentsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -217,7 +217,7 @@ const updateTravelAgent = (args = {}) => (dispatch, getState) => {
   dispatch(travelAgentsRequest(args));
 
   return TravelAgentsApi.updateTravelAgent(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -225,7 +225,7 @@ const updateTravelAgent = (args = {}) => (dispatch, getState) => {
 
       return dispatch(travelAgentsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -244,7 +244,7 @@ const deleteTravelAgent = (args = {}) => (dispatch, getState) => {
   dispatch(travelAgentsRequest(args));
 
   return TravelAgentsApi.deleteTravelAgent(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -252,7 +252,7 @@ const deleteTravelAgent = (args = {}) => (dispatch, getState) => {
 
       return dispatch(travelAgentsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -262,8 +262,7 @@ const deleteTravelAgent = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetTravelAgents = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(travelAgentsReset(args)));
+const resetTravelAgents = (args = {}) => dispatch => Promise.resolve(dispatch(travelAgentsReset(args)));
 
 export {
   fetchTravelAgents,
@@ -274,4 +273,3 @@ export {
   deleteTravelAgent,
   resetTravelAgents,
 };
-

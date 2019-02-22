@@ -28,10 +28,18 @@ const Footer = () => (
   <Container>
     <Content>
       <Links>
-        <Link to="/about"><Text>ABOUT US</Text></Link>
-        <Link to="/contact"><Text>CONTACT US</Text></Link>
-        <Link to="/privacy"><Text>PRIVACY POLICY</Text></Link>
-        <Link to="/terms"><Text>TERMS AND CONDITIONS</Text></Link>
+        <Link to="/about">
+          <Text>ABOUT US</Text>
+        </Link>
+        <Link to="/contact">
+          <Text>CONTACT US</Text>
+        </Link>
+        <Link to="/privacy">
+          <Text>PRIVACY POLICY</Text>
+        </Link>
+        <Link to="/terms">
+          <Text>TERMS AND CONDITIONS</Text>
+        </Link>
       </Links>
     </Content>
   </Container>

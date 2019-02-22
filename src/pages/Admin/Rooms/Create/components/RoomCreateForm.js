@@ -42,8 +42,8 @@ const RoomCreateForm = ({ history, hotel, createRoom }) => (
       bedType: '',
       bedDescription: '',
     }}
-    onSubmit={(values) => {
-      createRoom(values).then((room) => {
+    onSubmit={values => {
+      createRoom(values).then(room => {
         // NOTE(mark): We navigate back to the edit form which has editable rooms.
         history.push(`/admin/hotels/${hotel.id}/edit`);
       });
@@ -51,10 +51,7 @@ const RoomCreateForm = ({ history, hotel, createRoom }) => (
   >
     {({ values, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched }) => (
       <Content>
-        <RoomCreateHeader
-          hotel={hotel}
-          onSubmit={handleSubmit}
-        />
+        <RoomCreateHeader hotel={hotel} onSubmit={handleSubmit} />
         <Main>
           <Sides>
             <Side>
@@ -74,4 +71,9 @@ const RoomCreateForm = ({ history, hotel, createRoom }) => (
   </Form>
 );
 
-export default withRouter(connect(undefined, { createRoom })(RoomCreateForm));
+export default withRouter(
+  connect(
+    undefined,
+    { createRoom }
+  )(RoomCreateForm)
+);

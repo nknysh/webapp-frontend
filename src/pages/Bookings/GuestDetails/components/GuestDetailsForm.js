@@ -43,48 +43,27 @@ const ITINERARY = {
 const GuestDetailsForm = ({ booking, values, handleChange, handleBlur }) => (
   <Container>
     <Content>
-      <FormSection
-        title="GUEST INFORMATION"
-      >
+      <FormSection title="GUEST INFORMATION">
         <Row>
           <Field style={{ flex: 1, marginRight: 10 }}>
             <Label htmlFor="guestFirstName">FIRST NAME (LEAD GUEST)</Label>
-            <Input
-              name="guestFirstName"
-              value={values.guestFirstName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+            <Input name="guestFirstName" value={values.guestFirstName} onChange={handleChange} onBlur={handleBlur} />
           </Field>
           <Field style={{ flex: 1, marginLeft: 10 }}>
             <Label htmlFor="guestLastName">LAST NAME (LEAD GUEST)</Label>
-            <Input
-              name="guestLastName"
-              value={values.guestLastName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+            <Input name="guestLastName" value={values.guestLastName} onChange={handleChange} onBlur={handleBlur} />
           </Field>
         </Row>
       </FormSection>
-      <FormSection
-        title="CHILD BIRTH DATE"
-      >
+      <FormSection title="CHILD BIRTH DATE">
         <Row>
           <Field>
             <Label htmlFor="childBirthDate">INFANT (0-2)</Label>
-            <Input
-              name="childBirthDate"
-              value={values.childBirthDate}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+            <Input name="childBirthDate" value={values.childBirthDate} onChange={handleChange} onBlur={handleBlur} />
           </Field>
         </Row>
       </FormSection>
-      <FormSection
-        title="FLIGHT INFORMATION (OPTIONAL)"
-      >
+      <FormSection title="FLIGHT INFORMATION (OPTIONAL)">
         <Row>
           <Field style={{ flex: 1, marginRight: 10 }}>
             <Label htmlFor="flightArrivalDate">ARRIVAL TIME (MARCH 8, 2018)</Label>
@@ -126,49 +105,30 @@ const GuestDetailsForm = ({ booking, values, handleChange, handleBlur }) => (
           </Field>
         </Row>
       </FormSection>
-      <FormSection
-        title="VOUCHERS"
-      >
+      <FormSection title="VOUCHERS">
         {[VOUCHER].map((voucher, index) => (
-          <a
-            key={index}
-            target="_blank"
-            href={voucher.url}
-          >
+          <a key={index} target="_blank" href={voucher.url}>
             <Text>{voucher.name}</Text>
           </a>
         ))}
       </FormSection>
-      <FormSection
-        title="ITINERARIES"
-      >
+      <FormSection title="ITINERARIES">
         {[ITINERARY].map((itinerary, index) => (
-          <a
-            key={index}
-            target="_blank"
-            href={itinerary.url}
-          >
+          <a key={index} target="_blank" href={itinerary.url}>
             <Text>{itinerary.name}</Text>
           </a>
         ))}
       </FormSection>
-      <FormSection
-        title="SPECIAL REQUESTS"
-      >
+      <FormSection title="SPECIAL REQUESTS">
         <Row>
           <Field style={{ flex: 1 }}>
             <Label htmlFor="comments">COMMENTS</Label>
-            <Input
-              name="comments"
-              value={values.comments}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+            <Input name="comments" value={values.comments} onChange={handleChange} onBlur={handleBlur} />
           </Field>
         </Row>
         <Row>
           <Field style={{ flex: 1 }}>
-            <InvoiceUpload id={booking.id}/>
+            <InvoiceUpload id={booking.id} />
           </Field>
         </Row>
       </FormSection>

@@ -70,10 +70,7 @@ const BookingsFilters = ({
         name="country"
         placeholder="All locations"
         value={country}
-        options={[
-          { value: 'maldives', label: 'MALDIVES' },
-          { value: 'seychelles', label: 'SEYCHELLES' },
-        ]}
+        options={[{ value: 'maldives', label: 'MALDIVES' }, { value: 'seychelles', label: 'SEYCHELLES' }]}
         onChange={setFieldValue}
         onBlur={(name, value, event) => handleSubmit(event)}
         Input={Input}
@@ -84,29 +81,31 @@ const BookingsFilters = ({
         name="status"
         placeholder="All statuses"
         value={status}
-        options={[
-          { value: 'status-1', label: 'STATUS 1' },
-          { value: 'status-2', label: 'STATUS 2' },
-        ]}
+        options={[{ value: 'status-1', label: 'STATUS 1' }, { value: 'status-2', label: 'STATUS 2' }]}
         onChange={setFieldValue}
         onBlur={(name, value, event) => handleSubmit(event)}
         Input={Input}
       />
     </Field>
     <ExportButton
-      onPress={() => exportBookings({ fileType: 'csv', filter: {}}).then(csv => {
-        const filename = 'bookings.csv';
-        const text = `data:text/csv;charset=utf-8,${csv}`;
-        const link = document.createElement('a');
+      onPress={() =>
+        exportBookings({ fileType: 'csv', filter: {} }).then(csv => {
+          const filename = 'bookings.csv';
+          const text = `data:text/csv;charset=utf-8,${csv}`;
+          const link = document.createElement('a');
 
-        link.setAttribute('href', encodeURI(text));
-        link.setAttribute('download', filename);
-        link.click();
-      })}
+          link.setAttribute('href', encodeURI(text));
+          link.setAttribute('download', filename);
+          link.click();
+        })
+      }
     >
       <ExportText>EXPORT LIST</ExportText>
     </ExportButton>
   </Container>
 );
 
-export default connect(undefined, { exportBookings })(BookingsFilters);
+export default connect(
+  undefined,
+  { exportBookings }
+)(BookingsFilters);

@@ -75,48 +75,58 @@ const RoomInfo = ({ room, releaseRoom, createBooking }) => (
       </Row>
       <Line />
       <Row>
-        <Text>MEAL PLAN: </Text><OptionText>BREAKFAST</OptionText>
+        <Text>MEAL PLAN: </Text>
+        <OptionText>BREAKFAST</OptionText>
         <Price>$0</Price>
       </Row>
       <Line />
       <Row>
-        <Text>RETURN TRANSFER: </Text><OptionText>SPEEBOAT</OptionText>
-        <Price>$0</Price>
-      </Row>
-      <Line />   
-      <Row>
-        <Text>GROUND SERVICE: </Text><OptionText>AIRPORT MEETING</OptionText>
+        <Text>RETURN TRANSFER: </Text>
+        <OptionText>SPEEBOAT</OptionText>
         <Price>$0</Price>
       </Row>
       <Line />
       <Row>
-        <Text>ADDONS: </Text><OptionText>NONE</OptionText>
+        <Text>GROUND SERVICE: </Text>
+        <OptionText>AIRPORT MEETING</OptionText>
         <Price>$0</Price>
       </Row>
       <Line />
-      <Row style={{flexDirection: 'column'}}>
-        <Row style={{padding: 0}}>
-          <Text>YOUR MARGIN: </Text><OptionText>10%</OptionText>
+      <Row>
+        <Text>ADDONS: </Text>
+        <OptionText>NONE</OptionText>
+        <Price>$0</Price>
+      </Row>
+      <Line />
+      <Row style={{ flexDirection: 'column' }}>
+        <Row style={{ padding: 0 }}>
+          <Text>YOUR MARGIN: </Text>
+          <OptionText>10%</OptionText>
           <Price>$827.22</Price>
         </Row>
-        <Row style={{padding: 0}}>
-          <MarginDisclaimer>
-            Client will only see this price included as part of the nightly rate
-          </MarginDisclaimer>
+        <Row style={{ padding: 0 }}>
+          <MarginDisclaimer>Client will only see this price included as part of the nightly rate</MarginDisclaimer>
         </Row>
       </Row>
       <Line />
     </Content>
-    <Row style={{alignSelf: 'flex-end'}}>
+    <Row style={{ alignSelf: 'flex-end' }}>
       <TotalCostText>TOTAL COST</TotalCostText>
       <TotalCostPrice>$8,230</TotalCostPrice>
     </Row>
-    <Row style={{alignSelf: 'flex-end'}}>
+    <Row style={{ alignSelf: 'flex-end' }}>
       <Button
-        onPress={()=>{releaseRoom()}}>
+        onPress={() => {
+          releaseRoom();
+        }}
+      >
         <ButtonText>RELEASE</ButtonText>
       </Button>
-      <Button onPress={()=>{createBooking()}}>
+      <Button
+        onPress={() => {
+          createBooking();
+        }}
+      >
         <ButtonText>BOOK NOW</ButtonText>
       </Button>
     </Row>

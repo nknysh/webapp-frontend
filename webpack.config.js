@@ -14,11 +14,6 @@ const config = {
         filename: 'app.bundle.js',
     },
     resolve: {
-        alias: {
-            components: path.resolve(__dirname, 'src/components/'),
-            views: path.resolve(__dirname, 'src/views/'),
-            styling: path.resolve(__dirname, 'src/styling/'),
-        },
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
         extensions: ['.js', '.jsx'],
     },
@@ -56,6 +51,7 @@ const config = {
 // dev options
 if (isDev) {
     config.devtool = 'source-map';
+    config.devServer = { historyApiFallback: true };
 }
 
 module.exports = config

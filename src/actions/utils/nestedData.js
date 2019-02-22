@@ -14,13 +14,7 @@
  * all applicable license restrictions.
  */
 
-const fetchData = ({
-  dispatch,
-  token,
-  ids = [],
-  query = {},
-  actionCreator,
-}) => {
+const fetchData = ({ dispatch, token, ids = [], query = {}, actionCreator }) => {
   if (!Array.isArray(ids)) {
     // eslint-disable-next-line no-param-reassign
     ids = [ids];
@@ -52,16 +46,10 @@ const getUniqueValuesForAttr = ({ list, attr }) => {
   return uniqueValues;
 };
 
-const fetchNestedData = ({
-  list,
-  dispatch,
-  token,
-  query = {},
-  actionCreatorMap = {},
-}) => {
+const fetchNestedData = ({ list, dispatch, token, query = {}, actionCreatorMap = {} }) => {
   const include = Object.keys(query);
 
-  const dispatches = include.map((data) => {
+  const dispatches = include.map(data => {
     const ids = getUniqueValuesForAttr({
       list,
       attr: data,
@@ -81,4 +69,3 @@ const fetchNestedData = ({
 
 // eslint-disable-next-line import/prefer-default-export
 export { fetchNestedData };
-

@@ -11,11 +11,14 @@ import { Request } from 'components';
 
 const RequestHotel = ({ id, children, fetchHotel }) => (
   <Request
-    getState={(state) => ({ hotel: getHotel(state, id) })}
-    onRequest={() => fetchHotel({ id, query: { rooms: {}}})}
+    getState={state => ({ hotel: getHotel(state, id) })}
+    onRequest={() => fetchHotel({ id, query: { rooms: {} } })}
   >
     {({ hotel }) => children({ hotel })}
   </Request>
 );
 
-export default connect(undefined, { fetchHotel })(RequestHotel);
+export default connect(
+  undefined,
+  { fetchHotel }
+)(RequestHotel);

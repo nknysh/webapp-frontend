@@ -103,7 +103,7 @@ const CreateUser = ({ history, signUp }) => (
             type: 'ta',
             password: '',
           }}
-          onSubmit={(values) => {
+          onSubmit={values => {
             signUp(values).then(() => history.push('/login'));
           }}
         >
@@ -262,9 +262,7 @@ const CreateUser = ({ history, signUp }) => (
                     </Field>
                   </Group>
                   <Field>
-                    <Label htmlFor="companyRegistrationNumber">
-                      COMPANY REGISTRATION NUMBER (IF APPLICABLE)
-                    </Label>
+                    <Label htmlFor="companyRegistrationNumber">COMPANY REGISTRATION NUMBER (IF APPLICABLE)</Label>
                     <Input
                       name="companyRegistrationNumber"
                       placeholder="#"
@@ -323,9 +321,7 @@ const CreateUser = ({ history, signUp }) => (
                 </Row>
               </Fields>
               <Actions>
-                <SubmitButton
-                  onPress={handleSubmit}
-                >
+                <SubmitButton onPress={handleSubmit}>
                   <SubmitText>SUBMIT REQUEST</SubmitText>
                 </SubmitButton>
               </Actions>
@@ -337,4 +333,7 @@ const CreateUser = ({ history, signUp }) => (
   </Container>
 );
 
-export default connect(undefined, { signUp })(CreateUser);
+export default connect(
+  undefined,
+  { signUp }
+)(CreateUser);

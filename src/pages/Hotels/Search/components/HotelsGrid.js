@@ -15,7 +15,7 @@ const Row = Styled.View.extend`
 
 const Item = Styled.View.extend`
   flex: 1;
-  margin-right: ${props => props.row % 1 === 0 ? 20 : 0}px;
+  margin-right: ${props => (props.row % 1 === 0 ? 20 : 0)}px;
   margin-bottom: 20px;
 `;
 
@@ -26,11 +26,7 @@ const HotelsGrid = ({ hotels }) => (
     {_.chunk(hotels, 2).map((chunk, row) => (
       <Row key={row}>
         {fill(chunk, 2).map((hotel, column) => (
-          <Item
-            key={column}
-            row={row}
-            column={column}
-          >
+          <Item key={column} row={row} column={column}>
             {hotel && <HotelItem hotel={hotel} />}
           </Item>
         ))}

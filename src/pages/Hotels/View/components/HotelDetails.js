@@ -28,7 +28,7 @@ const Photos = Styled.View.extend`
 
 const Photo = Styled.View.extend`
   flex: 1;
-  margin-right: ${props => props.isLast ? 0 : 20}px;
+  margin-right: ${props => (props.isLast ? 0 : 20)}px;
   height: 80px;
   background-color: ${colors.gray14};
 `;
@@ -89,24 +89,17 @@ const HotelDetails = ({ hotel }) => (
     <Row style={{ marginVertical: 5 }}>
       <Overview>{hotel.overview}</Overview>
       <Highlights>
-        {hotel.highlights && hotel.highlights.map((highlight, index) => (
-          <Highlight key={index}>
-            {highlight}
-          </Highlight>
-        ))}
+        {hotel.highlights && hotel.highlights.map((highlight, index) => <Highlight key={index}>{highlight}</Highlight>)}
       </Highlights>
     </Row>
     <Row style={{ marginTop: 50, marginBottom: 30 }}>
       <Option>SELECT AVAILABLE ACCOMODATION</Option>
     </Row>
-    <Connect getState={(state) => ({ rooms: getRooms(state, { ids: hotel.rooms }) })}>
+    <Connect getState={state => ({ rooms: getRooms(state, { ids: hotel.rooms }) })}>
       {({ rooms }) => (
         <Rooms>
-          {rooms.map((room) => (
-            <RoomCard
-              key={room.id}
-              room={room}
-            />
+          {rooms.map(room => (
+            <RoomCard key={room.id} room={room} />
           ))}
         </Rooms>
       )}

@@ -90,7 +90,9 @@ const HotelItem = ({ hotel }) => (
     </Wrapper>
     <Content>
       <Row style={{ marginBottom: 10 }}>
-        <Link to={`/hotels/${hotel.id}`}><Name>{hotel.name}</Name></Link>
+        <Link to={`/hotels/${hotel.id}`}>
+          <Name>{hotel.name}</Name>
+        </Link>
       </Row>
       <Line />
       <Row style={{ marginVertical: 10 }}>
@@ -99,10 +101,7 @@ const HotelItem = ({ hotel }) => (
       <Line />
       <Row style={{ marginVertical: 10 }}>
         {_.chunk(hotel.resources, 3).map((chunk, row) => (
-          <Row
-            key={row}
-            style={{ flex: 1 }}
-          >
+          <Row key={row} style={{ flex: 1 }}>
             {fill(chunk, 3).map((resource, column) => (
               <Item key={column}>
                 <Resource>{_.upperCase(resource)}</Resource>
@@ -113,9 +112,7 @@ const HotelItem = ({ hotel }) => (
       </Row>
       <Line />
       <Row style={{ marginVertical: 20 }}>
-        <Footer>
-          PRICE ABOVE BASED ON 7 NIGHTS IN SUNRISE BEACH VILLAS, BB
-        </Footer>
+        <Footer>PRICE ABOVE BASED ON 7 NIGHTS IN SUNRISE BEACH VILLAS, BB</Footer>
       </Row>
     </Content>
   </Container>

@@ -79,7 +79,7 @@ const fetchHotels = (args = {}) => (dispatch, getState) => {
   dispatch(hotelsRequest(args));
 
   return HotelsApi.fetchHotels(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -97,7 +97,7 @@ const fetchHotels = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -107,7 +107,7 @@ const fetchHotels = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const fetchHotel = (args = {}) => (dispatch) => {
+const fetchHotel = (args = {}) => dispatch => {
   args.where = args.where || {};
   args.where = {
     ...args.where,
@@ -145,7 +145,7 @@ const searchHotels = (args = {}) => (dispatch, getState) => {
   dispatch(hotelsRequest(args));
 
   return HotelsApi.searchHotels(args)
-    .then((response) => {
+    .then(response => {
       const requests = fetchNestedData({
         list: response,
         dispatch,
@@ -163,7 +163,7 @@ const searchHotels = (args = {}) => (dispatch, getState) => {
 
       return Promise.all(requests);
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -182,7 +182,7 @@ const createHotel = (args = {}) => (dispatch, getState) => {
   dispatch(hotelsRequest(args));
 
   return HotelsApi.createHotel(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -191,7 +191,7 @@ const createHotel = (args = {}) => (dispatch, getState) => {
       dispatch(hotelsOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -211,7 +211,7 @@ const updateHotel = (args = {}) => (dispatch, getState) => {
   dispatch(hotelsRequest(args));
 
   return HotelsApi.updateHotel(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -220,7 +220,7 @@ const updateHotel = (args = {}) => (dispatch, getState) => {
       dispatch(hotelsOk(out));
       return response;
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -240,7 +240,7 @@ const deleteHotel = (args = {}) => (dispatch, getState) => {
   dispatch(hotelsRequest(args));
 
   return HotelsApi.deleteHotel(args)
-    .then((response) => {
+    .then(response => {
       const out = {
         request: args,
         response,
@@ -248,7 +248,7 @@ const deleteHotel = (args = {}) => (dispatch, getState) => {
 
       return dispatch(hotelsOk(out));
     })
-    .catch((error) => {
+    .catch(error => {
       const out = {
         request: args,
         error,
@@ -258,16 +258,6 @@ const deleteHotel = (args = {}) => (dispatch, getState) => {
     });
 };
 
-const resetHotels = (args = {}) => (dispatch) =>
-  Promise.resolve(dispatch(hotelsReset(args)));
+const resetHotels = (args = {}) => dispatch => Promise.resolve(dispatch(hotelsReset(args)));
 
-export {
-  fetchHotels,
-  fetchHotel,
-  searchHotels,
-  createHotel,
-  updateHotel,
-  deleteHotel,
-  resetHotels,
-};
-
+export { fetchHotels, fetchHotel, searchHotels, createHotel, updateHotel, deleteHotel, resetHotels };

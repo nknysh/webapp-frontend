@@ -1,11 +1,6 @@
 // App
 import createReducer from './createReducer';
-import {
-  AUTH_REQUEST,
-  AUTH_OK,
-  AUTH_ERROR,
-  AUTH_RESET,
-} from '../actions/auth';
+import { AUTH_REQUEST, AUTH_OK, AUTH_ERROR, AUTH_RESET } from '../actions/auth';
 
 const initialState = {
   loading: false,

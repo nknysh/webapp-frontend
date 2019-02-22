@@ -20,17 +20,15 @@ const Content = Styled.View.extend`
   border-top-color: ${colors.gray14};
 `;
 
-const RoomCreate = ({ match: { params: { id }}}) => (
+const RoomCreate = ({
+  match: {
+    params: { id },
+  },
+}) => (
   <Container>
     <Header />
     <Content>
-      <RequestHotel id={id}>
-        {({ hotel }) => (
-          <RoomCreateForm
-            hotel={hotel}
-          />
-        )}
-      </RequestHotel>
+      <RequestHotel id={id}>{({ hotel }) => <RoomCreateForm hotel={hotel} />}</RequestHotel>
     </Content>
   </Container>
 );

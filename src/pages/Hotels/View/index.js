@@ -30,7 +30,12 @@ const Main = Styled.View.extend`
   margin-left: 30px;
 `;
 
-const HotelView = ({ match: { params: { id }}, fetchHotel }) => (
+const HotelView = ({
+  match: {
+    params: { id },
+  },
+  fetchHotel,
+}) => (
   <Container>
     <Header />
     <Content>

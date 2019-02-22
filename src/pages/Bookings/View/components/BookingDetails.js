@@ -26,7 +26,7 @@ const Name = Styled.H4.extend`
 
 const BookingDetails = ({ booking }) => (
   <Container>
-    <Connect getState={(state) => ({ hotel: getHotel(state, booking.hotelId) })}>
+    <Connect getState={state => ({ hotel: getHotel(state, booking.hotelId) })}>
       {({ hotel }) => (
         <Form
           initialValues={{
@@ -45,7 +45,7 @@ const BookingDetails = ({ booking }) => (
 
             // TODO(mark): Figure out how to render special requests.
           }}
-          onSubmit={(values) => {
+          onSubmit={values => {
             // TODO(mark): Should this show a validation of some sort?
             updateBooking(values);
           }}

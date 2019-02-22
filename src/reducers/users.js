@@ -17,12 +17,7 @@
 import createReducer from './createReducer';
 import utils from './utils';
 
-import {
-  USERS_REQUEST,
-  USERS_OK,
-  USERS_ERROR,
-  USERS_RESET,
-} from '../actions/users';
+import { USERS_REQUEST, USERS_OK, USERS_ERROR, USERS_RESET } from '../actions/users';
 
 const initialState = {
   loading: false,
@@ -56,4 +51,3 @@ const handlers = {
 };
 
 export default createReducer(handlers, initialState);
-

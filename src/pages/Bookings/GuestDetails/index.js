@@ -33,13 +33,20 @@ const Main = Styled.View.extend`
   margin-left: 30px;
 `;
 
-const BookingGuestDetails = ({ match: { params: { id }}, history, fetchBooking, updateBooking }) => (
+const BookingGuestDetails = ({
+  match: {
+    params: { id },
+  },
+  history,
+  fetchBooking,
+  updateBooking,
+}) => (
   <Container>
     <Header />
     <Content>
       <Request
-        getState={(state) => ({ booking: getBooking(state, id) })}
-        onRequest={() => fetchBooking({ id, query: { hotel: { rooms: {}}}})}
+        getState={state => ({ booking: getBooking(state, id) })}
+        onRequest={() => fetchBooking({ id, query: { hotel: { rooms: {} } } })}
       >
         {({ booking }) => (
           <Form
@@ -66,19 +73,13 @@ const BookingGuestDetails = ({ match: { params: { id }}, history, fetchBooking, 
               });
             }}
           >
-            {(props) => (
+            {props => (
               <Row>
                 <Main>
-                  <GuestDetailsForm
-                    {...props}
-                    booking={booking}
-                  />
+                  <GuestDetailsForm {...props} booking={booking} />
                 </Main>
                 <BookingSidebar booking={booking}>
-                  <BookingPaymentOptions
-                    {...props}
-                    booking={booking}
-                  />
+                  <BookingPaymentOptions {...props} booking={booking} />
                 </BookingSidebar>
               </Row>
             )}
@@ -89,4 +90,7 @@ const BookingGuestDetails = ({ match: { params: { id }}, history, fetchBooking, 
   </Container>
 );
 
-export default connect(undefined, { fetchBooking, updateBooking })(BookingGuestDetails);
+export default connect(
+  undefined,
+  { fetchBooking, updateBooking }
+)(BookingGuestDetails);

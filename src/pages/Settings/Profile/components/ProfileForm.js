@@ -58,7 +58,7 @@ const ValidationError = Styled.H8.extend`
   color: ${colors.red14};
 `;
 
-const validate = (values) => {
+const validate = values => {
   const errors = {};
 
   if (!values.firstName) {
@@ -88,8 +88,8 @@ const ProfileForm = ({ user, updateUser }) => (
         email: user.email,
       }}
       validate={validate}
-      onSubmit={(values) => {
-        updateUser({ id: user.id, ...values }).then((response) => {
+      onSubmit={values => {
+        updateUser({ id: user.id, ...values }).then(response => {
           console.log('updated user', response);
         });
       }}
@@ -106,9 +106,7 @@ const ProfileForm = ({ user, updateUser }) => (
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {touched.firstName && errors.firstName && (
-                <ValidationError>{errors.firstName}</ValidationError>
-              )}
+              {touched.firstName && errors.firstName && <ValidationError>{errors.firstName}</ValidationError>}
             </Field>
             <Field style={{ marginTop: 30 }}>
               <Label htmlFor="lastName">LAST NAME</Label>
@@ -119,9 +117,7 @@ const ProfileForm = ({ user, updateUser }) => (
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {touched.lastName && errors.lastName && (
-                <ValidationError>{errors.lastName}</ValidationError>
-              )}
+              {touched.lastName && errors.lastName && <ValidationError>{errors.lastName}</ValidationError>}
             </Field>
             <Field style={{ marginTop: 30 }}>
               <Label htmlFor="email">EMAIL</Label>
@@ -132,20 +128,14 @@ const ProfileForm = ({ user, updateUser }) => (
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {touched.email && errors.email && (
-                <ValidationError>{errors.email}</ValidationError>
-              )}
+              {touched.email && errors.email && <ValidationError>{errors.email}</ValidationError>}
             </Field>
           </Fields>
           <Actions>
-            <SubmitButton
-              onPress={handleSubmit}
-            >
+            <SubmitButton onPress={handleSubmit}>
               <SubmitText>UPDATE DETAILS</SubmitText>
             </SubmitButton>
-            <PasswordButton
-              onPress={() => {}}
-            >
+            <PasswordButton onPress={() => {}}>
               <PasswordText>UPDATE PASSWORD</PasswordText>
             </PasswordButton>
           </Actions>
@@ -155,4 +145,7 @@ const ProfileForm = ({ user, updateUser }) => (
   </Container>
 );
 
-export default connect(undefined, { updateUser })(ProfileForm);
+export default connect(
+  undefined,
+  { updateUser }
+)(ProfileForm);

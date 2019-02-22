@@ -30,10 +30,10 @@ const ProposalsList = ({ resetProposals, searchProposals }) => (
   <Container>
     <Header />
     <Request
-      getState={(state) => ({ proposals: getProposals(state) })}
-      onRequest={(values) => {
+      getState={state => ({ proposals: getProposals(state) })}
+      onRequest={values => {
         resetProposals();
-        return searchProposals({ q: values.query, query: {}});
+        return searchProposals({ q: values.query, query: {} });
       }}
     >
       {({ proposals, handleRequest }) => (
@@ -46,14 +46,8 @@ const ProposalsList = ({ resetProposals, searchProposals }) => (
           {({ values, handleChange, submitForm }) => (
             <Content>
               <Main>
-                <ProposalsFilters
-                  {...values}
-                  onChange={handleChange}
-                  onSubmit={submitForm}
-                />
-                <ProposalsTable
-                  proposals={proposals}
-                />
+                <ProposalsFilters {...values} onChange={handleChange} onSubmit={submitForm} />
+                <ProposalsTable proposals={proposals} />
               </Main>
             </Content>
           )}
@@ -64,7 +58,10 @@ const ProposalsList = ({ resetProposals, searchProposals }) => (
 );
 
 // TODO(mark): Use searchProposals action.
-export default connect(undefined, {
-  resetProposals,
-  searchProposals: fetchProposals,
-})(ProposalsList);
+export default connect(
+  undefined,
+  {
+    resetProposals,
+    searchProposals: fetchProposals,
+  }
+)(ProposalsList);

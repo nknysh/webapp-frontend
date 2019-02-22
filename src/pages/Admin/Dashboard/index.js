@@ -63,27 +63,11 @@ class DashboardPage extends React.Component {
           <Stats>
             <LineChart
               title="TOTAL REVENUE"
-              data={[
-                ['M', 50],
-                ['Tu', 40],
-                ['W', 60],
-                ['Th', 70],
-                ['F', 90],
-                ['Sa', 20],
-                ['Su', 30],
-              ]}
+              data={[['M', 50], ['Tu', 40], ['W', 60], ['Th', 70], ['F', 90], ['Sa', 20], ['Su', 30]]}
             />
             <LineChart
               title="TOTAL BOOKINGS"
-              data={[
-                ['M', 50],
-                ['Tu', 40],
-                ['W', 60],
-                ['Th', 70],
-                ['F', 90],
-                ['Sa', 20],
-                ['Su', 30],
-              ]}
+              data={[['M', 50], ['Tu', 40], ['W', 60], ['Th', 70], ['F', 90], ['Sa', 20], ['Su', 30]]}
             />
           </Stats>
           <TravelAgentsTable travelAgents={travelAgents} />
@@ -93,9 +77,12 @@ class DashboardPage extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   travelAgents: getTravelAgents(state),
-  currentUser: getCurrentUser(state)
+  currentUser: getCurrentUser(state),
 });
 
-export default connect(mapStateToProps, { fetchTravelAgentsAssigned })(DashboardPage);
+export default connect(
+  mapStateToProps,
+  { fetchTravelAgentsAssigned }
+)(DashboardPage);

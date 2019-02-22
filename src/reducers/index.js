@@ -17,6 +17,7 @@
 // Libraries
 import { combineReducers } from 'redux';
 import { adminReducer } from 'react-admin';
+import { routerReducer } from 'react-router-redux';
 
 // Reducers
 import auth from './auth';
@@ -47,7 +48,7 @@ const rootReducer = combineReducers({
   travelAgents,
   users,
   comments,
+  routing: routerReducer,
 });
 
 export default rootReducer;
-

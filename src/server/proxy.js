@@ -18,10 +18,10 @@ const proxy = require('http-proxy-middleware');
 const packageJSON = require('../../package.json');
 
 // Set up an API proxy to avoid CORS.
-module.exports = (router) => {
+module.exports = router => {
   const proxyConfig = packageJSON.proxy || {};
 
-  Object.keys(proxyConfig).forEach((domain) => {
+  Object.keys(proxyConfig).forEach(domain => {
     const proxyEntry = proxyConfig[domain];
     if (typeof proxyEntry !== 'object') {
       return;
@@ -36,4 +36,3 @@ module.exports = (router) => {
     router.use(domain, proxy(proxyEntry));
   });
 };
-

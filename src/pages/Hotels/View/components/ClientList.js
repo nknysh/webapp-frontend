@@ -51,7 +51,7 @@ const ClientList = ({ style }) => (
         <Date>Created 3/27/18</Date>
       </Row>
     </Column>
-    <Line/>       
+    <Line />
     <Column>
       <Row>
         <Name>Client Name</Name>
@@ -60,7 +60,7 @@ const ClientList = ({ style }) => (
         <Date>Created 3/27/18</Date>
       </Row>
     </Column>
-    <Line/>       
+    <Line />
     <Column>
       <Row>
         <Name>Client Name</Name>
@@ -69,7 +69,7 @@ const ClientList = ({ style }) => (
         <Date>Created 3/27/18</Date>
       </Row>
     </Column>
-    <Line/>       
+    <Line />
     <Column>
       <Row>
         <Name>Client Name</Name>
@@ -78,7 +78,7 @@ const ClientList = ({ style }) => (
         <Date>Created 3/27/18</Date>
       </Row>
     </Column>
-    <Line/>       
+    <Line />
     <Column>
       <Row>
         <Name>Client Name</Name>
@@ -87,7 +87,7 @@ const ClientList = ({ style }) => (
         <Date>Created 3/27/18</Date>
       </Row>
     </Column>
-    <Line/>       
+    <Line />
     <Column>
       <Row>
         <Name>Client Name</Name>
@@ -96,7 +96,7 @@ const ClientList = ({ style }) => (
         <Date>Created 3/27/18</Date>
       </Row>
     </Column>
-    <Line/>       
+    <Line />
   </Container>
 );
 

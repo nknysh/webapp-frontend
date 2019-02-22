@@ -55,7 +55,7 @@ const PreferencesForm = ({ user, updateUser }) => (
       initialValues={{
         currency: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         console.log('update', values);
       }}
     >
@@ -74,12 +74,12 @@ const PreferencesForm = ({ user, updateUser }) => (
             </Field>
           </Fields>
           <Description>
-            We will be taking the daily mid-market rate +2% to display in different currencies, by using https://openexchange.org/ with the caveat that the estimates can fluctuate and they may not reflect real exchange rates at the time a payment is processed.
+            We will be taking the daily mid-market rate +2% to display in different currencies, by using
+            https://openexchange.org/ with the caveat that the estimates can fluctuate and they may not reflect real
+            exchange rates at the time a payment is processed.
           </Description>
           <Actions>
-            <SubmitButton
-              onPress={handleSubmit}
-            >
+            <SubmitButton onPress={handleSubmit}>
               <SubmitText>UPDATE DETAILS</SubmitText>
             </SubmitButton>
           </Actions>
@@ -89,4 +89,7 @@ const PreferencesForm = ({ user, updateUser }) => (
   </Container>
 );
 
-export default connect(undefined, { updateUser })(PreferencesForm);
+export default connect(
+  undefined,
+  { updateUser }
+)(PreferencesForm);

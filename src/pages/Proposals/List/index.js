@@ -24,18 +24,18 @@ const Content = Styled.View.extend`
 `;
 
 class ProposalsView extends Component {
-
   componentWillMount() {
-    this.props.fetchProposals()
-  };
+    this.props.fetchProposals();
+  }
 
-  handleFilter = (query) => {
-    this.setState({proposals: this.props.proposals.filter(row => {
-      return row.clientName.includes(query)
-        || row.clientEmail.includes(query)})
-        // need to adjust for upper/lowercase
-        // need country and resort name in BE
-    })
+  handleFilter = query => {
+    this.setState({
+      proposals: this.props.proposals.filter(row => {
+        return row.clientName.includes(query) || row.clientEmail.includes(query);
+      }),
+      // need to adjust for upper/lowercase
+      // need country and resort name in BE
+    });
   };
 
   render() {
@@ -44,16 +44,19 @@ class ProposalsView extends Component {
       <Container>
         <Header />
         <Content>
-            <ProposalSearch onFilter={(query) => this.handleFilter(query)} />
-            <ProposalsTable proposals={proposals} />
+          <ProposalSearch onFilter={query => this.handleFilter(query)} />
+          <ProposalsTable proposals={proposals} />
         </Content>
       </Container>
-    )
-  };
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return { proposals: getProposals(state) };
 };
 
-const mapStateToProps = (state) => {
-  return { proposals: getProposals(state) }
-};
-
-export default connect(mapStateToProps, { fetchProposals })(ProposalsView);
+export default connect(
+  mapStateToProps,
+  { fetchProposals }
+)(ProposalsView);

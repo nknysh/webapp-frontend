@@ -14,7 +14,7 @@
  * all applicable license restrictions.
  */
 
-const errorInterceptor = (error) => {
+const errorInterceptor = error => {
   const { data, status = 500, statusText } = error.response || {};
   const message = statusText ? `${statusText}. See the 'body' property for more info.` : '';
 
