@@ -6,49 +6,49 @@ exports[`<App /> render matches snapshot 1`] = `
     <Route
       component={[Function]}
       exact={true}
-      key="ab6fc311e8d9d884ae214468cd0d4a0d0b86e2da"
+      key="2c68c93ab90d6c00df2b877d8b10fc27e9e69040"
       name="Root Path"
       path="/"
     />
     <Route
       component={[Function]}
-      key="7ec574836d7cfd5660703cf3855c82f1a2ff70b2"
+      key="e0df44d8d54f1c044a98d9acc9023081729366b7"
       name="About Path"
       path="/about"
     />
     <Route
       component={[Function]}
-      key="8802bef15e53a8e920cbee5cadeae69ea639d4ec"
+      key="d01ff74abe0ad9b7fa7ab4e8b7461d623c9cff4c"
       name="Contact Path"
       path="/contact"
     />
     <Route
       component={[Function]}
-      key="1f9f154bc5a229468d29681e46d517dcb25e6693"
+      key="0fa7346eacc92bb8d7d490ebd39ae1ec19b34893"
       name="Privacy Path"
       path="/privacy"
     />
     <Route
       component={[Function]}
-      key="1c18e48ac40536bc192e2ba9b4633731b58a45e2"
+      key="f6ce7f3fc19f0177e19403a4c9d3c1ef48a3c864"
       name="Terms Path"
       path="/terms"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="50f8b5a5941068f9406cfdf1b1ca2c9bc6fcd682"
+      key="74010ebd2b89f2f5882c2978a75b50094861c034"
       name="Calendar Path"
       path="/calendar"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="63884e114053eb5f8260ebf0ce4f0dd2bae71a59"
+      key="e2560e9b43f99eb42d6e798125f52a60823f39b3"
       name="Hotels Search Path"
       path="/hotels"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="ef2491db347f5ef13c24af2d33d687478ab8df49"
+      key="77518f0ffed68a0def79b9644d89159e4580a669"
       name="Hotel View Path"
       path="/hotels/:id"
     />
@@ -62,67 +62,67 @@ exports[`<App /> render matches snapshot 1`] = `
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="5f45264553e95304312077ed748f4895ee689d1d"
+      key="8b27d228d8817c59e95bff7d9469f951fe664216"
       name="Admin Dashboard Path"
       path="/admin/dashboard"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="a611e31e15bcf75b570ec75b9512c4b5a2348dc3"
+      key="e053ecfddaeb47739e6ef7ed0e25a777816b9a48"
       name="Admin Bookings List Path"
       path="/admin/bookings"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="6fe968e765f5029a03ed708bd3ede90d6986178c"
+      key="0e2eb7416b96a29aa0d510ae2d582037a9505447"
       name="Admin Hotels List Path"
       path="/admin/hotels"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="a2c37bb09bb5e9c511901411d1abfaf98bc5d235"
+      key="06d836aed74c8433baf4953eafdf1206da148e22"
       name="Admin Hotel Create Path"
       path="/admin/hotels/new"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="6a01377ab2f7e30414e4c25956ae66b6e29f37d1"
+      key="6a0604ce1b371f3674e88ea87fbdda6621a4d6f6"
       name="Admin Hotel Update Path"
       path="/admin/hotels/:id/edit"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="8e4fd453d2ec4d5cb8a778c5c760ba4088f29e15"
+      key="452c8bbaff582820db4de780c69d72a78bbb9d07"
       name="Admin Room Create Path"
       path="/admin/hotels/:id/rooms/new"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="450a754296220fc6b5af0a88acd7259a10415b14"
+      key="e7e0997783c3466096dbdd92d2e332b626d98558"
       name="Admin Room Update Path"
       path="/admin/hotels/:hotelId/rooms/:id/edit"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="06b074a76f982bcca347ae81c9607b7cae2910e2"
+      key="aa70933bd0588337773bbbc3a22a93c5b009d76c"
       name="Admin Rates List Path"
       path="/admin/rooms/:id/rates"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="03eb39bfe3fe5708561cf606c8e3e4284d6af187"
+      key="fd1a6edb7280b31d7cfc1013f2a63c51899f5981"
       name="Admin Proposals List Path"
       path="/admin/proposals"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="6d431ccafab286b89a990afbec166faa52e6f4bf"
+      key="ce7cd33dce08a37eb88a6b518942377232c29dfa"
       name="Admin Sales Representatives List Path"
       path="/admin/sales-representatives"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="3f65c4105c67f3fb352193ce51001bcae201518c"
+      key="145b273ebb0ea8dcb0f55767a7f4fadba4d191b6"
       name="Admin Travel Agents List Path"
       path="/admin/travel-agents"
     />
@@ -136,133 +136,133 @@ exports[`<App /> render matches snapshot 1`] = `
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="5f45264553e95304312077ed748f4895ee689d1d"
+      key="8b27d228d8817c59e95bff7d9469f951fe664216"
       name="Admin Dashboard Path"
       path="/admin/dashboard"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="a611e31e15bcf75b570ec75b9512c4b5a2348dc3"
+      key="e053ecfddaeb47739e6ef7ed0e25a777816b9a48"
       name="Admin Bookings List Path"
       path="/admin/bookings"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="6fe968e765f5029a03ed708bd3ede90d6986178c"
+      key="0e2eb7416b96a29aa0d510ae2d582037a9505447"
       name="Admin Hotels List Path"
       path="/admin/hotels"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="a2c37bb09bb5e9c511901411d1abfaf98bc5d235"
+      key="06d836aed74c8433baf4953eafdf1206da148e22"
       name="Admin Hotel Create Path"
       path="/admin/hotels/new"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="6a01377ab2f7e30414e4c25956ae66b6e29f37d1"
+      key="6a0604ce1b371f3674e88ea87fbdda6621a4d6f6"
       name="Admin Hotel Update Path"
       path="/admin/hotels/:id/edit"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="8e4fd453d2ec4d5cb8a778c5c760ba4088f29e15"
+      key="452c8bbaff582820db4de780c69d72a78bbb9d07"
       name="Admin Room Create Path"
       path="/admin/hotels/:id/rooms/new"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="450a754296220fc6b5af0a88acd7259a10415b14"
+      key="e7e0997783c3466096dbdd92d2e332b626d98558"
       name="Admin Room Update Path"
       path="/admin/hotels/:hotelId/rooms/:id/edit"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="06b074a76f982bcca347ae81c9607b7cae2910e2"
+      key="aa70933bd0588337773bbbc3a22a93c5b009d76c"
       name="Admin Rates List Path"
       path="/admin/rooms/:id/rates"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="03eb39bfe3fe5708561cf606c8e3e4284d6af187"
+      key="fd1a6edb7280b31d7cfc1013f2a63c51899f5981"
       name="Admin Proposals List Path"
       path="/admin/proposals"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="6d431ccafab286b89a990afbec166faa52e6f4bf"
+      key="ce7cd33dce08a37eb88a6b518942377232c29dfa"
       name="Admin Sales Representatives List Path"
       path="/admin/sales-representatives"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="3f65c4105c67f3fb352193ce51001bcae201518c"
+      key="145b273ebb0ea8dcb0f55767a7f4fadba4d191b6"
       name="Admin Travel Agents List Path"
       path="/admin/travel-agents"
     />
     <Route
       component={[Function]}
-      key="048839bfc8f06eb5c43494c18f0bdae2804e43ac"
+      key="d814b5d29d2dcc4ec699c507b02b964640a9e3f7"
       name="Login Path"
       path="/login"
     />
     <Route
       component={[Function]}
-      key="9d7ed40dfd1230afadb21575ab1d47e326d51e2f"
+      key="df87dfd9f070ecaa9cfd68a0f6ec01ee33f3f266"
       name="Reset Password Path"
       path="/password/reset"
     />
     <Route
       component={[Function]}
-      key="4bbfd6bc0bd97df571fcb54b352430d76de88b52"
+      key="c966e8f3324076a3971126723616b5a6356e2c7d"
       name="Set Password Path"
       path="/password/new"
     />
     <Route
       component={[Function]}
-      key="19c72cba14363f1ab686385c3e099724512a4a5e"
+      key="f728f3fd178d2d4d7178691710943d2105855297"
       name="Create User Path"
       path="/sign-up"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="122615a3f2f5cd8ec76a57f7d7ef701acebb0a91"
+      key="eb545fd0536b6f81bdba0d6b4c5e786a02139d8b"
       name="Bookings Path"
       path="/bookings"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="a4237c3fffeda87026f6a9d97df88dd42e8eb8db"
+      key="5092870766a8e801f34a9456de0f4bda731fea6e"
       name="Booking Guest Details Path"
       path="/bookings/:id/guests"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="5b92e0a4d5fa61dafae68fa107485b78a90b7c8d"
+      key="eb01b0467c49325b50e4eb73d94e15178b527f06"
       name="Booking Payment Path"
       path="/bookings/:id/payment"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="dae9fbbfd62a465359f82e0c3e0afa5bb3ae8bb7"
+      key="5a32ce59fa99412d19ab1b5e776d3f25431641aa"
       name="Booking View Path"
       path="/bookings/:id"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="a0563102fdb94f252b8ad81e597c7adbd7f892dc"
+      key="cf8c03454529c2d83f342fcf11b49c0a836adf92"
       name="Booking Options (Holds) Path"
       path="/holds"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="7f5ab2eeaf29e09d9e1fc3d1a11563d59fef202b"
+      key="c62f889f908bd02993eb938d9927ce3c0293fe6d"
       name="Proposal View Path"
       path="/proposals"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="3d2a5da7531f8fcac75374e2ce1acfd9741f2db7"
+      key="72f2ec16c463fff6e66c3c09dff84dfc51d8ae41"
       name="Proposal View Path"
       path="/proposals/:id"
     />
@@ -276,49 +276,49 @@ exports[`<App /> render matches snapshot 1`] = `
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="506811c3f1aa82ce3f461820544e6c3fa8b2d07e"
+      key="d1953d07864292bec02f2188f55f002b1fdc3d33"
       name="Settings Company Path"
       path="/settings/company"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="7bcb8124e28e85a9943f4614340f5d41000ac5ef"
+      key="964e66a50dd2087782368e1688d97e4dfee818d2"
       name="Settings Notifications Path"
       path="/settings/notifications"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="238dec7ff9dcd397c3b8f67f8544ea4009de905a"
+      key="d531c6f0290fcb468a753aa49400c390f3b4d00b"
       name="Settings Preferences Path"
       path="/settings/preferences"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="ec1fe73238e7705c2182cb70412347c428e491b3"
+      key="6645443eb8a6091435c09a5127af32ace98aaac5"
       name="Settings Profile Path"
       path="/settings/profile"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="7d7180f7defa99b1b78f3f34c1ada1a388c8e4e0"
+      key="be8b4d3ba89cdfe8fae1a2db9415d113c1a374cd"
       name="Settings Travel Agents Path"
       path="/settings/travel-agents"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="6ef8721c93b27d3e9f93a43e3257239b57cf35ac"
+      key="ace675a3349a0e18781765e98353cb17e6f4f637"
       name="Travel Agent View Path"
       path="/users/:id"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
-      key="0e79c97b8dfac11f0769446ee199158cc8c52464"
+      key="1ecb1828c8aa13c20bab9be95a49b8fff01f93d7"
       name="User Bookings Path"
       path="/users/:id/bookings"
     />
     <Route
       component={[Function]}
-      key="a6dfdc703f71d628d1d7e98c189eeec1f3f1f30c"
+      key="ae4ef0dc5812ee3f8bc7fbd3728741c4b0620c4b"
       name="Not Found"
     />
   </Switch>

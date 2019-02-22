@@ -1,5 +1,5 @@
 // App
-import createReducer from 'store/createReducer';
+import createReducer from 'store/utils/createReducer';
 import { AUTH_REQUEST, AUTH_OK, AUTH_ERROR, AUTH_RESET } from './actions';
 
 const initialState = {

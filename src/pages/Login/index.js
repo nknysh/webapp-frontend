@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // App
-import { logIn } from 'actions/auth';
+import { logIn } from 'store/modules/auth/actions';
 import { colors } from 'styles';
 
 // Components

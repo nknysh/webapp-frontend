@@ -12,7 +12,7 @@ const requiresAuth = both(has('auth'), propOr(false, 'auth'));
 
 const sanitizeRoute = omit(['auth', 'route', 'getComponent']);
 
-const renderRouteComponent = curry((Component, route) => <Component key={hash(route)} {...sanitizeRoute(route)} />);
+const renderRouteComponent = curry((Component, route) => <Component key={hash(omit(['component'], route))} {...sanitizeRoute(route)} />);
 
 const getRoute = renderRouteComponent(Route);
 const getAuthRoute = renderRouteComponent(AuthenticatedRoute);

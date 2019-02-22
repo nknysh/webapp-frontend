@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // App
-import { resetPassword } from 'actions/auth';
+import { resetPassword } from 'store/modules/auth/actions';
 
 // Components
 import { Form, Label, Styled } from 'components';

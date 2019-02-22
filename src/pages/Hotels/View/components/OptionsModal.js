@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 import { Modal } from 'semantic-ui-react';
 
-import { createBooking } from 'actions/bookings';
+import { createBooking } from 'store/modules/bookings/actions';
 
 // App
 import { colors } from 'styles';

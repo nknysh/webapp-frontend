@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 // App
 import { colors } from 'styles';
-import { updateUser } from 'actions/users';
+import { updateUser } from 'store/modules/users/actions';
 
 // Components
 import { Form, Label, Styled } from 'components';

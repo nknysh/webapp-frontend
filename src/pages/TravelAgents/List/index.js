@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { fetchTravelAgentsAssigned } from 'actions/travelAgents';
-import { getTravelAgents } from 'selectors/travelAgents';
-import { getCurrentUser } from 'selectors/auth';
+import { fetchTravelAgentsAssigned } from 'store/modules/travelAgents/actions';
+import { getTravelAgents } from 'store/modules/travelAgents/selectors';
+import { getCurrentUser } from 'store/modules/auth/selectors';
 import { colors } from 'styles';
 
 // Components

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // App
 import { colors } from 'styles';
-import { uploadBookingInvoice } from 'actions/bookings';
+import { uploadBookingInvoice } from 'store/modules/bookings/actions';
 
 // Components
 import Styled from '../Styled';

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { updateBooking } from 'actions/bookings';
+import { updateBooking } from 'store/modules/bookings/actions';
 
 // Components
 import { Form, SelectInput, Styled } from 'components';

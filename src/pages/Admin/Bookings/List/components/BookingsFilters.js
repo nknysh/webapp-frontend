@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { exportBookings } from 'actions/bookings';
+import { exportBookings } from 'store/modules/bookings/actions';
 import { colors } from 'styles';
 
 // Components

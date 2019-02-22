@@ -7,8 +7,8 @@ import _ from 'lodash';
 
 // App
 import { colors } from 'styles';
-import { fetchRatesForRoom } from 'actions/rates';
-import { getRatesForRoom } from 'selectors/rates';
+import { fetchRatesForRoom } from 'store/modules/rates/actions';
+import { getRatesForRoom } from 'store/modules/rates/selectors';
 
 // Components
 import { Form, Header, Request, Styled, Table } from 'components';

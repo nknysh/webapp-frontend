@@ -4,8 +4,8 @@ import _ from 'lodash';
 
 // App
 import { colors } from 'styles';
-import { getHotel } from 'selectors/hotels';
-import { getRooms } from 'selectors/rooms';
+import { getHotel } from 'store/modules/hotels/selectors';
+import { getRooms } from 'store/modules/rooms/selectors';
 
 // Components
 import { Connect, Styled } from 'components';

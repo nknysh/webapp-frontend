@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { fetchRoom } from 'actions/rooms';
-import { getRoom } from 'selectors/rooms';
+import { fetchRoom } from 'store/modules/rooms/actions';
+import { getRoom } from 'store/modules/rooms/selectors';
 
 // Components
 import { Request } from 'components';

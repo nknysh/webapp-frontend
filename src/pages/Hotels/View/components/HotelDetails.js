@@ -3,7 +3,7 @@ import React from 'react';
 
 // App
 import { colors } from 'styles';
-import { getRooms } from 'selectors/rooms';
+import { getRooms } from 'store/modules/rooms/selectors';
 
 // Components
 import { Connect, Styled } from 'components';

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // App
-import { createRoom } from 'actions/rooms';
+import { createRoom } from 'store/modules/rooms/actions';
 
 // Components
 import { Form, Styled } from 'components';

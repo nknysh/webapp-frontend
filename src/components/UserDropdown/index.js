@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import _ from 'lodash';
 
 // App
-import { logOut } from 'actions/auth';
+import { logOut } from 'store/modules/auth/actions';
 import { colors } from 'styles';
 
 // Components

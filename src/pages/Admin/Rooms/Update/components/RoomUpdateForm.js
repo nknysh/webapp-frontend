@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 // App
 import { colors } from 'styles';
-import { updateRoom } from 'actions/rooms';
+import { updateRoom } from 'store/modules/rooms/actions';
 
 // Components
 import { Form, Styled } from 'components';

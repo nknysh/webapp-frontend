@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { resetUsers, fetchUsers, exportUsers } from 'actions/users';
-import { getUsers } from 'selectors/users';
+import { resetUsers, fetchUsers, exportUsers } from 'store/modules/users/actions';
+import { getUsers } from 'store/modules/users/selectors';
 import { colors } from 'styles';
 
 // Components

@@ -3,10 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { resetBookings, fetchBookings, searchBookings } from 'actions/bookings';
-import { fetchHotels } from 'actions/hotels';
-import { getBookings } from 'selectors/bookings';
-import { getCurrentUser } from 'selectors/auth';
+import { resetBookings, fetchBookings, searchBookings } from 'store/modules/bookings/actions';
+import { fetchHotels } from 'store/modules/hotels/actions';
+import { getBookings } from 'store/modules/bookings/selectors';
+import { getCurrentUser } from 'store/modules/auth/selectors';
 import { colors } from 'styles';
 
 // Components

@@ -3,8 +3,8 @@ import React from 'react';
 
 // App
 import { colors } from 'styles';
-import { updateBooking } from 'actions/bookings';
-import { getHotel } from 'selectors/hotels';
+import { updateBooking } from 'store/modules/bookings/actions';
+import { getHotel } from 'store/modules/hotels/selectors';
 
 // Components
 import { Connect, Form, Styled } from 'components';

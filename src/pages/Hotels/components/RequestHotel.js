@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { fetchHotel } from 'actions/hotels';
-import { getHotel } from 'selectors/hotels';
+import { fetchHotel } from 'store/modules/hotels/actions';
+import { getHotel } from 'store/modules/hotels/selectors';
 
 // Components
 import { Request } from 'components';

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 // App
 import { colors } from 'styles';
-import { exportUsers } from 'actions/users';
+import { exportUsers } from 'store/modules/users/actions';
 
 // Components
 import { Styled } from 'components';

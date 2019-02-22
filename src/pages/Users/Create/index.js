@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { signUp } from 'actions/auth';
+import { signUp } from 'store/modules/auth/actions';
 import { colors } from 'styles';
 
 // Components

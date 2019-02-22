@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // App
 import { displayDateRange } from 'utils';
-import { getHotel } from 'selectors/hotels';
+import { getHotel } from 'store/modules/hotels/selectors';
 
 // Components
 import { Connect, Styled, Table } from 'components';

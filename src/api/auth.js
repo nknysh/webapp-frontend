@@ -23,3 +23,5 @@ export const resetPassword = values => {
   const endpoint = '/api/users/reset';
   return request().post(endpoint, values);
 };
+
+export default { resetPassword, getUserFromToken, signUp, logIn };

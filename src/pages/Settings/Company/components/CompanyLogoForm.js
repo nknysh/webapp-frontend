@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // App
 import { colors } from 'styles';
-import { uploadLogo } from 'actions/companies';
+import { uploadLogo } from 'store/modules/companies/actions';
 
 // Components
 import { Styled } from 'components';

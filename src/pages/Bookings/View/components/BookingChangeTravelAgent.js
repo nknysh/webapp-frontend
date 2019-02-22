@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 // App
-import { updateBooking } from 'actions/bookings';
-import { fetchUsers } from 'actions/users';
-import { getUsers } from 'selectors/users';
+import { updateBooking } from 'store/modules/bookings/actions';
+import { fetchUsers } from 'store/modules/users/actions';
+import { getUsers } from 'store/modules/users/selectors';
 
 // Components
 import { Form, Request, SelectInput, Styled } from 'components';
