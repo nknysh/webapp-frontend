@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from 'store';
 
 import { App } from './containers/App';
+import registerServiceWorker from './registerServiceWorker';
 
 import './index.css';
 import './styles/fonts/HurmeGeometricSans2.css';
@@ -16,3 +17,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 );
+registerServiceWorker();
