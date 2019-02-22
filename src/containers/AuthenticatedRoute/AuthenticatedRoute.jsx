@@ -17,9 +17,7 @@ const renderRedirect = location => (
   />
 );
 
-export const AuthenticatedRoute = props => {
-  const { isAuthLoading, isAuthenticated, location, ...rest } = props;
-
+export const AuthenticatedRoute = ({ isAuthLoading, isAuthenticated, location, ...rest }) => {
   if (isAuthLoading) {
     return renderLoadingMessage();
   }

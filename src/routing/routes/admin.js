@@ -88,7 +88,7 @@ export default [
     name: 'Admin Path',
     from: '/admin',
     to: '/admin/dashboard',
-    exact: true
+    exact: true,
   },
   {
     name: 'Admin Dashboard Path',

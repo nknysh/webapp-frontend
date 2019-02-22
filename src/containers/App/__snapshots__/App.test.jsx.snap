@@ -53,8 +53,9 @@ exports[`<App /> render matches snapshot 1`] = `
       path="/hotels/:id"
     />
     <Redirect
+      exact={true}
       from="/admin"
-      key="4dbad39bbf55604ffc79dd46ca0af3cd84f3828d"
+      key="cb9d1398df770b9dcdfbff278b8ea27ee2f49068"
       name="Admin Path"
       push={false}
       to="/admin/dashboard"
@@ -124,6 +125,14 @@ exports[`<App /> render matches snapshot 1`] = `
       key="3f65c4105c67f3fb352193ce51001bcae201518c"
       name="Admin Travel Agents List Path"
       path="/admin/travel-agents"
+    />
+    <Redirect
+      exact={true}
+      from="/admin"
+      key="cb9d1398df770b9dcdfbff278b8ea27ee2f49068"
+      name="Admin Path"
+      push={false}
+      to="/admin/dashboard"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}
@@ -256,6 +265,14 @@ exports[`<App /> render matches snapshot 1`] = `
       key="3d2a5da7531f8fcac75374e2ce1acfd9741f2db7"
       name="Proposal View Path"
       path="/proposals/:id"
+    />
+    <Redirect
+      exact={true}
+      from="/settings"
+      key="3ddad6890ec5779cb00843d3c1a9c66827cb55ec"
+      name="Settings Path"
+      push={false}
+      to="/settings/profile"
     />
     <withAuthentication(withRouter(AuthenticatedRoute))
       component={[Function]}

@@ -67,6 +67,7 @@ exports[`routing routes match snapshot 8`] = `
 
 exports[`routing routes match snapshot 9`] = `
 <Redirect
+  exact={true}
   from="/admin"
   name="Admin Path"
   push={false}
@@ -163,6 +164,16 @@ exports[`routing routes match snapshot 20`] = `
 `;
 
 exports[`routing routes match snapshot 21`] = `
+<Redirect
+  exact={true}
+  from="/admin"
+  name="Admin Path"
+  push={false}
+  to="/admin/dashboard"
+/>
+`;
+
+exports[`routing routes match snapshot 22`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Dashboard Path"
@@ -170,7 +181,7 @@ exports[`routing routes match snapshot 21`] = `
 />
 `;
 
-exports[`routing routes match snapshot 22`] = `
+exports[`routing routes match snapshot 23`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Bookings List Path"
@@ -178,7 +189,7 @@ exports[`routing routes match snapshot 22`] = `
 />
 `;
 
-exports[`routing routes match snapshot 23`] = `
+exports[`routing routes match snapshot 24`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Hotels List Path"
@@ -186,7 +197,7 @@ exports[`routing routes match snapshot 23`] = `
 />
 `;
 
-exports[`routing routes match snapshot 24`] = `
+exports[`routing routes match snapshot 25`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Hotel Create Path"
@@ -194,7 +205,7 @@ exports[`routing routes match snapshot 24`] = `
 />
 `;
 
-exports[`routing routes match snapshot 25`] = `
+exports[`routing routes match snapshot 26`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Hotel Update Path"
@@ -202,7 +213,7 @@ exports[`routing routes match snapshot 25`] = `
 />
 `;
 
-exports[`routing routes match snapshot 26`] = `
+exports[`routing routes match snapshot 27`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Room Create Path"
@@ -210,7 +221,7 @@ exports[`routing routes match snapshot 26`] = `
 />
 `;
 
-exports[`routing routes match snapshot 27`] = `
+exports[`routing routes match snapshot 28`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Room Update Path"
@@ -218,7 +229,7 @@ exports[`routing routes match snapshot 27`] = `
 />
 `;
 
-exports[`routing routes match snapshot 28`] = `
+exports[`routing routes match snapshot 29`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Rates List Path"
@@ -226,7 +237,7 @@ exports[`routing routes match snapshot 28`] = `
 />
 `;
 
-exports[`routing routes match snapshot 29`] = `
+exports[`routing routes match snapshot 30`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Proposals List Path"
@@ -234,7 +245,7 @@ exports[`routing routes match snapshot 29`] = `
 />
 `;
 
-exports[`routing routes match snapshot 30`] = `
+exports[`routing routes match snapshot 31`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Sales Representatives List Path"
@@ -242,7 +253,7 @@ exports[`routing routes match snapshot 30`] = `
 />
 `;
 
-exports[`routing routes match snapshot 31`] = `
+exports[`routing routes match snapshot 32`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Admin Travel Agents List Path"
@@ -250,7 +261,7 @@ exports[`routing routes match snapshot 31`] = `
 />
 `;
 
-exports[`routing routes match snapshot 32`] = `
+exports[`routing routes match snapshot 33`] = `
 <Route
   component={[Function]}
   name="Login Path"
@@ -258,7 +269,7 @@ exports[`routing routes match snapshot 32`] = `
 />
 `;
 
-exports[`routing routes match snapshot 33`] = `
+exports[`routing routes match snapshot 34`] = `
 <Route
   component={[Function]}
   name="Reset Password Path"
@@ -266,7 +277,7 @@ exports[`routing routes match snapshot 33`] = `
 />
 `;
 
-exports[`routing routes match snapshot 34`] = `
+exports[`routing routes match snapshot 35`] = `
 <Route
   component={[Function]}
   name="Set Password Path"
@@ -274,7 +285,7 @@ exports[`routing routes match snapshot 34`] = `
 />
 `;
 
-exports[`routing routes match snapshot 35`] = `
+exports[`routing routes match snapshot 36`] = `
 <Route
   component={[Function]}
   name="Create User Path"
@@ -282,7 +293,7 @@ exports[`routing routes match snapshot 35`] = `
 />
 `;
 
-exports[`routing routes match snapshot 36`] = `
+exports[`routing routes match snapshot 37`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Bookings Path"
@@ -290,7 +301,7 @@ exports[`routing routes match snapshot 36`] = `
 />
 `;
 
-exports[`routing routes match snapshot 37`] = `
+exports[`routing routes match snapshot 38`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Booking Guest Details Path"
@@ -298,7 +309,7 @@ exports[`routing routes match snapshot 37`] = `
 />
 `;
 
-exports[`routing routes match snapshot 38`] = `
+exports[`routing routes match snapshot 39`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Booking Payment Path"
@@ -306,7 +317,7 @@ exports[`routing routes match snapshot 38`] = `
 />
 `;
 
-exports[`routing routes match snapshot 39`] = `
+exports[`routing routes match snapshot 40`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Booking View Path"
@@ -314,7 +325,7 @@ exports[`routing routes match snapshot 39`] = `
 />
 `;
 
-exports[`routing routes match snapshot 40`] = `
+exports[`routing routes match snapshot 41`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Booking Options (Holds) Path"
@@ -322,7 +333,7 @@ exports[`routing routes match snapshot 40`] = `
 />
 `;
 
-exports[`routing routes match snapshot 41`] = `
+exports[`routing routes match snapshot 42`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Proposal View Path"
@@ -330,7 +341,7 @@ exports[`routing routes match snapshot 41`] = `
 />
 `;
 
-exports[`routing routes match snapshot 42`] = `
+exports[`routing routes match snapshot 43`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Proposal View Path"
@@ -338,7 +349,17 @@ exports[`routing routes match snapshot 42`] = `
 />
 `;
 
-exports[`routing routes match snapshot 43`] = `
+exports[`routing routes match snapshot 44`] = `
+<Redirect
+  exact={true}
+  from="/settings"
+  name="Settings Path"
+  push={false}
+  to="/settings/profile"
+/>
+`;
+
+exports[`routing routes match snapshot 45`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Settings Company Path"
@@ -346,7 +367,7 @@ exports[`routing routes match snapshot 43`] = `
 />
 `;
 
-exports[`routing routes match snapshot 44`] = `
+exports[`routing routes match snapshot 46`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Settings Notifications Path"
@@ -354,7 +375,7 @@ exports[`routing routes match snapshot 44`] = `
 />
 `;
 
-exports[`routing routes match snapshot 45`] = `
+exports[`routing routes match snapshot 47`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Settings Preferences Path"
@@ -362,7 +383,7 @@ exports[`routing routes match snapshot 45`] = `
 />
 `;
 
-exports[`routing routes match snapshot 46`] = `
+exports[`routing routes match snapshot 48`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Settings Profile Path"
@@ -370,7 +391,7 @@ exports[`routing routes match snapshot 46`] = `
 />
 `;
 
-exports[`routing routes match snapshot 47`] = `
+exports[`routing routes match snapshot 49`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Settings Travel Agents Path"
@@ -378,7 +399,7 @@ exports[`routing routes match snapshot 47`] = `
 />
 `;
 
-exports[`routing routes match snapshot 48`] = `
+exports[`routing routes match snapshot 50`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="Travel Agent View Path"
@@ -386,7 +407,7 @@ exports[`routing routes match snapshot 48`] = `
 />
 `;
 
-exports[`routing routes match snapshot 49`] = `
+exports[`routing routes match snapshot 51`] = `
 <withAuthentication(withRouter(AuthenticatedRoute))
   component={[Function]}
   name="User Bookings Path"
@@ -394,7 +415,7 @@ exports[`routing routes match snapshot 49`] = `
 />
 `;
 
-exports[`routing routes match snapshot 50`] = `
+exports[`routing routes match snapshot 52`] = `
 <Route
   component={[Function]}
   name="Not Found"
