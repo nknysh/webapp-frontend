@@ -1,4 +1,6 @@
-import * as AuthApi from '../api/auth';
+import { prop } from 'ramda';
+
+import AuthApi from 'api/auth';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
@@ -14,10 +16,11 @@ const authRequest = value => ({
 });
 
 const authOk = value => {
+  const token = prop('token', value);
   // TODO(mark): We should use something like sagas to store this token.
   // Right now, this is called when we logIn and getUserFromToken.
-  if (value.token) {
-    localStorage.setItem(AUTH_TOKEN, value.token);
+  if (token) {
+    localStorage.setItem(AUTH_TOKEN, token);
   }
 
   return {
