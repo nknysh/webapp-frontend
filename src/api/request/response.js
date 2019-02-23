@@ -14,7 +14,7 @@
  * all applicable license restrictions.
  */
 
-const responseTransformInterceptor = instance => response => {
+const responseTransformInterceptor = (instance) => (response) => {
   if (!Array.isArray(instance.cache.nestedData)) {
     return response;
   }
@@ -26,13 +26,15 @@ const responseTransformInterceptor = instance => response => {
 
   // convert nested data into array of IDs
   response = instance.cache.nestedData.reduce((resp, nestedData) => {
-    resp.data = resp.data.map(item => {
+    resp.data = resp.data.map((item) => {
       let data = item[nestedData];
       if (!Array.isArray(data)) {
         data = [data];
       }
 
-      item[nestedData] = data.map(object => object && object.id).filter(object => !!object);
+      item[nestedData] = data
+        .map((object) => object && object.id)
+        .filter((object) => !!object);
 
       return item;
     });
@@ -49,3 +51,4 @@ const responseTransformInterceptor = instance => response => {
 };
 
 export default responseTransformInterceptor;
+

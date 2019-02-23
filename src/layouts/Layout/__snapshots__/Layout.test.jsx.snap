@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Layout /> render matches snapshot 1`] = `
+<styled.div>
+  <Styled(withAuthentication(Connect(Header))) />
+  <styled.div>
+    <h1>
+      Some content
+    </h1>
+  </styled.div>
+  <Styled(Connect(Footer)) />
+</styled.div>
+`;

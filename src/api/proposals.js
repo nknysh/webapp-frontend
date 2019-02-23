@@ -19,46 +19,42 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/proposals`;
 
-const fetchProposals = ({ token, where, order, limit, skip, include }) =>
-  request()
-    .withAuth(token)
+const fetchProposals = ({
+  token,
+  where,
+  order,
+  limit,
+  skip,
+  include,
+}) =>
+  request().withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then(response => response.data);
+    .then((response) => response.data);
 
 const createProposal = ({ token, ...params }) =>
-  request()
-    .withAuth(token)
-    .post(url, params)
-    .then(response => response.data);
+  request().withAuth(token).post(url, params)
+    .then((response) => response.data);
 
 const updateProposal = ({ token, ...params }) =>
-  request()
-    .withAuth(token)
-    .patch(url, params)
-    .then(response => response.data);
-
-const generateProposalPdf = ({ token, id, ...params }) =>
-  request()
-    .withAuth(token)
-    .post(`${url}/${id}/generatePdf`, params)
-    .then(response => response.data);
-
+  request().withAuth(token).patch(url, params)
+    .then((response) => response.data);
+    
+const generateProposalPdf = ({ token, id, ...params }) => 
+  request().withAuth(token).post(`${url}/${id}/generatePdf`, params)
+  .then((response) => response.data);
+ 
 const deleteProposal = ({ token, id }) =>
-  request()
-    .withAuth(token)
-    .delete(`${url}/${id}`)
-    .then(response => response.data);
+  request().withAuth(token).delete(`${url}/${id}`)
+    .then((response) => response.data);
 
 const deleteProposalRoom = ({ token, id }) =>
-  request()
-    .withAuth(token)
-    .delete(`${url}/${id}`)
-    .then(response => response.data);
+  request().withAuth(token).delete(`${url}/${id}`)
+    .then((response) => response.data);
 
 export default {
   fetchProposals,
@@ -66,5 +62,6 @@ export default {
   updateProposal,
   generateProposalPdf,
   deleteProposal,
-  deleteProposalRoom,
+  deleteProposalRoom
 };
+

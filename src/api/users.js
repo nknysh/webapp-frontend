@@ -19,60 +19,52 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/users`;
 
-const fetchUsers = ({ token, where, order, limit, skip, include }) =>
-  request()
-    .withAuth(token)
+const fetchUsers = ({
+  token,
+  where,
+  order,
+  limit,
+  skip,
+  include,
+}) =>
+  request().withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then(response => response.data);
+    .then((response) => response.data);
 
 const createUser = ({ token, ...params }) =>
-  request()
-    .withAuth(token)
-    .post(url, params)
-    .then(response => response.data);
+  request().withAuth(token).post(url, params)
+    .then((response) => response.data);
 
 const updateUser = ({ token, ...params }) =>
-  request()
-    .withAuth(token)
-    .patch(url, params)
-    .then(response => response.data);
+  request().withAuth(token).patch(url, params)
+    .then((response) => response.data);
 
 const deleteUser = ({ token, id }) =>
-  request()
-    .withAuth(token)
-    .delete(`${url}/${id}`)
-    .then(response => response.data);
+  request().withAuth(token).delete(`${url}/${id}`)
+    .then((response) => response.data);
 
 const inviteUser = ({ token, id, ...params }) =>
-  request()
-    .withAuth(token)
-    .post(`${url}/${id}/invite`, params)
-    .then(response => response.data);
+  request().withAuth(token).post(`${url}/${id}/invite`, params)
+    .then((response) => response.data);
 
 const updateUserApproval = ({ id, status }) => {
   const token = localStorage.getItem('authToken');
-  request()
-    .withAuth(token)
-    .put(`${url}/${id}/approveTravelAgent?approved=${status}`)
-    .then(response => response.data);
+  request().withAuth(token).put(`${url}/${id}/approveTravelAgent?approved=${status}`)
+    .then((response) => response.data);
 };
 
 const exportUsers = ({ token, ...params }) =>
-  request()
-    .withAuth(token)
-    .post(`${url}/export`, params)
-    .then(response => response.data);
+  request().withAuth(token).post(`${url}/export`, params)
+    .then((response) => response.data);
 
 const fetchUserComments = ({ token, id }) =>
-  request()
-    .withAuth(token)
-    .get(`${url}/${id}/comments`)
-    .then(response => response.data);
+  request().withAuth(token).get(`${url}/${id}/comments`)
+    .then((response) => response.data);
 
 export default {
   fetchUsers,
@@ -84,3 +76,4 @@ export default {
   exportUsers,
   fetchUserComments,
 };
+

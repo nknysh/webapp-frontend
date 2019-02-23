@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header /> render matches logged in snapshot 1`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <Link
+      bold={false}
+      inverse={false}
+      spaced={false}
+      to="/"
+    >
+      <img
+        src={null}
+      />
+    </Link>
+    <Menu
+      align="end"
+      isAuthenticated={true}
+      links={
+        Array [
+          Object {
+            "href": "/sign-up",
+            "title": "Create an account",
+          },
+          Object {
+            "bold": true,
+            "href": "/login",
+            "inverse": true,
+            "title": "Login",
+          },
+        ]
+      }
+    />
+  </Styled(styled.div)>
+</styled.div>
+`;
+
+exports[`<Header /> render matches logged out snapshot 1`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <Link
+      bold={false}
+      inverse={false}
+      spaced={false}
+      to="/"
+    >
+      <img
+        src={null}
+      />
+    </Link>
+    <Menu
+      align="end"
+      isAuthenticated={false}
+      links={
+        Array [
+          Object {
+            "href": "/sign-up",
+            "title": "Create an account",
+          },
+          Object {
+            "bold": true,
+            "href": "/login",
+            "inverse": true,
+            "title": "Login",
+          },
+        ]
+      }
+    />
+  </Styled(styled.div)>
+</styled.div>
+`;

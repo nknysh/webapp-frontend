@@ -1,0 +1,224 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing admin routes match snapshot 1`] = `
+Object {
+  "exact": true,
+  "from": "/admin",
+  "name": "Admin Path",
+  "to": "/admin/dashboard",
+}
+`;
+
+exports[`routing admin routes match snapshot 2`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Dashboard Path",
+  "path": "/admin/dashboard",
+}
+`;
+
+exports[`routing admin routes match snapshot 3`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Bookings List Path",
+  "path": "/admin/bookings",
+}
+`;
+
+exports[`routing admin routes match snapshot 4`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Hotels List Path",
+  "path": "/admin/hotels",
+}
+`;
+
+exports[`routing admin routes match snapshot 5`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Hotel Create Path",
+  "path": "/admin/hotels/new",
+}
+`;
+
+exports[`routing admin routes match snapshot 6`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Hotel Update Path",
+  "path": "/admin/hotels/:id/edit",
+}
+`;
+
+exports[`routing admin routes match snapshot 7`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Room Create Path",
+  "path": "/admin/hotels/:id/rooms/new",
+}
+`;
+
+exports[`routing admin routes match snapshot 8`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Room Update Path",
+  "path": "/admin/hotels/:hotelId/rooms/:id/edit",
+}
+`;
+
+exports[`routing admin routes match snapshot 9`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Rates List Path",
+  "path": "/admin/rooms/:id/rates",
+}
+`;
+
+exports[`routing admin routes match snapshot 10`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Proposals List Path",
+  "path": "/admin/proposals",
+}
+`;
+
+exports[`routing admin routes match snapshot 11`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Sales Representatives List Path",
+  "path": "/admin/sales-representatives",
+}
+`;
+
+exports[`routing admin routes match snapshot 12`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Travel Agents List Path",
+  "path": "/admin/travel-agents",
+}
+`;
+
+exports[`routing admin routes match snapshot 13`] = `
+Object {
+  "exact": true,
+  "from": "/admin",
+  "name": "Admin Path",
+  "to": "/admin/dashboard",
+}
+`;
+
+exports[`routing admin routes match snapshot 14`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Dashboard Path",
+  "path": "/admin/dashboard",
+}
+`;
+
+exports[`routing admin routes match snapshot 15`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Bookings List Path",
+  "path": "/admin/bookings",
+}
+`;
+
+exports[`routing admin routes match snapshot 16`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Hotels List Path",
+  "path": "/admin/hotels",
+}
+`;
+
+exports[`routing admin routes match snapshot 17`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Hotel Create Path",
+  "path": "/admin/hotels/new",
+}
+`;
+
+exports[`routing admin routes match snapshot 18`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Hotel Update Path",
+  "path": "/admin/hotels/:id/edit",
+}
+`;
+
+exports[`routing admin routes match snapshot 19`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Room Create Path",
+  "path": "/admin/hotels/:id/rooms/new",
+}
+`;
+
+exports[`routing admin routes match snapshot 20`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Room Update Path",
+  "path": "/admin/hotels/:hotelId/rooms/:id/edit",
+}
+`;
+
+exports[`routing admin routes match snapshot 21`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Rates List Path",
+  "path": "/admin/rooms/:id/rates",
+}
+`;
+
+exports[`routing admin routes match snapshot 22`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Proposals List Path",
+  "path": "/admin/proposals",
+}
+`;
+
+exports[`routing admin routes match snapshot 23`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Sales Representatives List Path",
+  "path": "/admin/sales-representatives",
+}
+`;
+
+exports[`routing admin routes match snapshot 24`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Admin Travel Agents List Path",
+  "path": "/admin/travel-agents",
+}
+`;
+
+exports[`routing admin routes match snapshot 25`] = `
+Object {
+  "component": [Function],
+  "name": "Not Found",
+}
+`;

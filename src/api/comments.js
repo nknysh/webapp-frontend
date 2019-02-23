@@ -19,44 +19,51 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/users`;
 
-const fetchComments = ({ token, where, order, limit, skip, include }) =>
-  request()
-    .withAuth(token)
+const fetchComments = ({
+  token,
+  where,
+  order,
+  limit,
+  skip,
+  include,
+}) =>
+  request().withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then(response => response.data);
+    .then((response) => response.data);
 
-const fetchTravelAgentComments = ({ token, where, order, limit, skip, include, id }) =>
-  request()
-    .withAuth(token)
+const fetchTravelAgentComments = ({
+  token,
+  where,
+  order,
+  limit,
+  skip,
+  include,
+  id,
+}) =>
+  request().withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(`${url}/${id}/receivedComments`)
-    .then(response => response.data);
+    .then((response) => response.data);
 
-const createComment = ({ token, id, ...params }) =>
-  request()
-    .withAuth(token)
-    .post(`${url}/${id}/receivedComments`, params);
+const createComment = ({ token, id, ...params }) => 
+  request().withAuth(token).post(`${url}/${id}/receivedComments`, params)
 
 const updateComment = ({ token, ...params }) =>
-  request()
-    .withAuth(token)
-    .patch(url, params)
-    .then(response => response.data);
+  request().withAuth(token).patch(url, params)
+    .then((response) => response.data);
 
 const deleteComment = ({ token, id }) =>
-  request()
-    .withAuth(token)
-    .delete(`${url}/${id}`)
-    .then(response => response.data);
+  request().withAuth(token).delete(`${url}/${id}`)
+    .then((response) => response.data);
 
 export default {
   fetchComments,
@@ -65,3 +72,4 @@ export default {
   updateComment,
   deleteComment,
 };
+

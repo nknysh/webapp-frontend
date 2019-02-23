@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu /> render matches logged in snapshot 1`] = `
+<styled.div
+  align="middle"
+>
+  <Styled(Link)
+    key="/"
+    spaced={true}
+    to="/"
+  >
+    Home
+  </Styled(Link)>
+  <Styled(Link)
+    key="/messages"
+    spaced={true}
+    to="/messages"
+  >
+    Messages
+  </Styled(Link)>
+  <Styled(Link)
+    key="/calendar"
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
+  </Styled(Link)>
+  <Styled(Link)
+    key="/proposals"
+    spaced={true}
+    to="/proposals"
+  >
+    Proposals
+  </Styled(Link)>
+  <Styled(Link)
+    key="/bookings"
+    spaced={true}
+    to="/bookings"
+  >
+    Bookings
+  </Styled(Link)>
+  <Styled(Link)
+    key="/holds"
+    spaced={true}
+    to="/holds"
+  >
+    Holds
+  </Styled(Link)>
+</styled.div>
+`;
+
+exports[`<Menu /> render matches logged out snapshot 1`] = `
+<styled.div
+  align="middle"
+>
+  <Styled(Link)
+    key="/"
+    spaced={true}
+    to="/"
+  >
+    Home
+  </Styled(Link)>
+  <Styled(Link)
+    key="/messages"
+    spaced={true}
+    to="/messages"
+  >
+    Messages
+  </Styled(Link)>
+  <Styled(Link)
+    key="/calendar"
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
+  </Styled(Link)>
+  <Styled(Link)
+    key="/proposals"
+    spaced={true}
+    to="/proposals"
+  >
+    Proposals
+  </Styled(Link)>
+  <Styled(Link)
+    key="/bookings"
+    spaced={true}
+    to="/bookings"
+  >
+    Bookings
+  </Styled(Link)>
+  <Styled(Link)
+    key="/holds"
+    spaced={true}
+    to="/holds"
+  >
+    Holds
+  </Styled(Link)>
+</styled.div>
+`;

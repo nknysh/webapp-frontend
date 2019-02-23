@@ -9,6 +9,8 @@
     "plugins": ["react", "jest"],
     "parserOptions": {
         "ecmaFeatures": {
+          "ecmaVersion": 6,
+          "sourceType": "module",
           "jsx": true
         }
       },

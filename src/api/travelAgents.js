@@ -19,45 +19,52 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/users/travelAgents`;
 
-const fetchTravelAgents = ({ token, where, order, limit, skip, include }) =>
-  request()
-    .withAuth(token)
+const fetchTravelAgents = ({
+  token,
+  where,
+  order,
+  limit,
+  skip,
+  include,
+}) =>
+  request().withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(url)
-    .then(response => response.data);
+    .then((response) => response.data);
 
-const fetchTravelAgentsAssigned = ({ token, id, where, order, limit, skip, include }) =>
-  request()
-    .withAuth(token)
+const fetchTravelAgentsAssigned = ({
+  token,
+  id,
+  where,
+  order,
+  limit,
+  skip,
+  include,
+}) =>
+  request().withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
     .skip(skip)
     .include(include)
     .get(`${window.location.origin}/api/users/${id}/travelAgentsAssigned`)
-    .then(response => response.data);
+    .then((response) => response.data);    
 
 const createTravelAgent = ({ token, ...params }) =>
-  request()
-    .withAuth(token)
-    .post(url, params)
-    .then(response => response.data);
+  request().withAuth(token).post(url, params)
+    .then((response) => response.data);
 
 const updateTravelAgent = ({ token, ...params }) =>
-  request()
-    .withAuth(token)
-    .patch(url, params)
-    .then(response => response.data);
+  request().withAuth(token).patch(url, params)
+    .then((response) => response.data);
 
 const deleteTravelAgent = ({ token, id }) =>
-  request()
-    .withAuth(token)
-    .delete(`${url}/${id}`)
-    .then(response => response.data);
+  request().withAuth(token).delete(`${url}/${id}`)
+    .then((response) => response.data);
 
 export default {
   fetchTravelAgents,
@@ -66,3 +73,4 @@ export default {
   updateTravelAgent,
   deleteTravelAgent,
 };
+

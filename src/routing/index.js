@@ -5,8 +5,6 @@ import hash from 'object-hash';
 
 import { AuthenticatedRoute } from 'containers/AuthenticatedRoute';
 
-import routes from './routes';
-
 const isRedirect = both(has('from'), has('to'));
 const requiresAuth = both(has('auth'), propOr(false, 'auth'));
 
@@ -28,4 +26,4 @@ const renderRoute = cond([[isRedirect, getRedirect], [requiresAuth, getAuthRoute
 
 const getRoutes = map(renderRoute);
 
-export default getRoutes(routes);
+export default getRoutes;

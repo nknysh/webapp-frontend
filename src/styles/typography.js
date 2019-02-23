@@ -2,7 +2,7 @@
 import { css } from 'styled-components';
 
 // App
-import colors from './colors';
+import colors from './theme/colors';
 
 // Headings
 const h1 = () => css`

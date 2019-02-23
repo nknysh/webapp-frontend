@@ -1,0 +1,12 @@
+[
+    {
+        "title": "Create an account",
+        "href": "/sign-up"
+    },
+    {
+        "title": "Login",
+        "href": "/login",
+        "inverse": true,
+        "bold": true
+    }
+]
