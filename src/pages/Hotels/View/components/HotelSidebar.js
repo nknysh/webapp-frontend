@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 // App
 import { colors } from 'styles';
-import { createBooking } from 'actions/bookings';
+import { createBooking } from 'store/modules/bookings/actions';
 
 // Components
 import { Dropdown, Form, NumberInput, RadioButton, Styled } from 'components';

@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { fetchBookings } from 'actions/bookings';
-import { getCurrentUser } from 'selectors/auth';
-import { getBookings } from 'selectors/bookings';
+import { fetchBookings } from 'store/modules/bookings/actions';
+import { getCurrentUser } from 'store/modules/auth/selectors';
+import { getBookings } from 'store/modules/bookings/selectors';
 
 // Components
 import { Header, Request, Styled } from 'components';

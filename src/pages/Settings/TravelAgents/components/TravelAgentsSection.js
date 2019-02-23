@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 // App
 import { colors } from 'styles';
-import { inviteUser } from 'actions/users';
+import { inviteUser } from 'store/modules/users/actions';
 
 // Components
 import { Form, Label, Modal, Styled } from 'components';

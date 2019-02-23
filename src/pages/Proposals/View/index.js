@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { fetchProposal } from 'actions/proposals';
-import { generateProposalPdf } from 'actions/proposals';
-import { getProposal } from 'selectors/proposals';
+import { fetchProposal } from 'store/modules/proposals/actions';
+import { generateProposalPdf } from 'store/modules/proposals/actions';
+import { getProposal } from 'store/modules/proposals/selectors';
 import { downloadPdf } from 'utils';
 import { colors } from 'styles';
 

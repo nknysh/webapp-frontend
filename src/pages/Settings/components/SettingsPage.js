@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { getCurrentUser } from 'selectors/auth';
-import { getUser } from 'selectors/users';
-import { fetchUser } from 'actions/users';
+import { getCurrentUser } from 'store/modules/auth/selectors';
+import { getUser } from 'store/modules/users/selectors';
+import { fetchUser } from 'store/modules/users/actions';
 
 // Components
 import { Header, Request, Styled } from 'components';

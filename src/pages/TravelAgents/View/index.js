@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 // App
 import { colors } from 'styles';
-import { fetchTravelAgent } from 'actions/travelAgents';
-import { fetchUsers } from 'actions/users';
-import { getTravelAgent } from 'selectors/travelAgents';
+import { fetchTravelAgent } from 'store/modules/travelAgents/actions';
+import { fetchUsers } from 'store/modules/users/actions';
+import { getTravelAgent } from 'store/modules/travelAgents/selectors';
 
 // Components
 import { Header, Request, Styled } from 'components';

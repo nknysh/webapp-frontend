@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 
 // App
 import { colors } from 'styles';
-import { createBooking } from 'actions/bookings';
-import { deleteProposalRoom as releaseRoom } from 'actions/proposals';
+import { createBooking } from 'store/modules/bookings/actions';
+import { deleteProposalRoom as releaseRoom } from 'store/modules/proposals/actions';
 
 // Components
 import { Styled } from 'components';

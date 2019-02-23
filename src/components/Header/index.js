@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 // App
 import { colors } from 'styles';
-import { getCurrentUser } from 'selectors/auth';
+import { getCurrentUser } from 'store/modules/auth/selectors';
 
 // Components
 import Styled from '../Styled';

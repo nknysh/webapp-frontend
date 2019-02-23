@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { fetchUser } from 'actions/users';
-import { getUser } from 'selectors/users';
+import { fetchUser } from 'store/modules/users/actions';
+import { getUser } from 'store/modules/users/selectors';
 
 // Components
 import { Form, Request } from 'components';

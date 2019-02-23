@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
-import { getUserFromToken } from 'actions/auth';
+import { getUserFromToken } from 'store/modules/auth/actions';
 
 export const mapStateToProps = () => ({});
 

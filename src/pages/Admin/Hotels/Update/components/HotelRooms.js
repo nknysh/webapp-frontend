@@ -3,7 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 // App
-import { getRooms } from 'selectors/rooms';
+import { getRooms } from 'store/modules/rooms/selectors';
 
 // Components
 import { Connect, Styled } from 'components';

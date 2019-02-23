@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 // App
-import { createComment } from 'actions/comments';
-import { getUser } from 'selectors/users';
+import { createComment } from 'store/modules/comments/actions';
+import { getUser } from 'store/modules/users/selectors';
 import { colors } from 'styles';
 
 // Components

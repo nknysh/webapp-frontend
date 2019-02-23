@@ -5,13 +5,13 @@ import { Link, Route } from 'react-router-dom';
 
 // App
 import { colors } from 'styles';
-import { fetchBookings } from 'actions/bookings';
-import { fetchProposals } from 'actions/proposals';
-import { fetchTravelAgentComments } from 'actions/comments';
-import { getBookings } from 'selectors/bookings';
-import { getCurrentUser } from 'selectors/auth';
-import { getProposals } from 'selectors/proposals';
-import { getComments } from 'selectors/comments';
+import { fetchBookings } from 'store/modules/bookings/actions';
+import { fetchProposals } from 'store/modules/proposals/actions';
+import { fetchTravelAgentComments } from 'store/modules/comments/actions';
+import { getBookings } from 'store/modules/bookings/selectors';
+import { getCurrentUser } from 'store/modules/auth/selectors';
+import { getProposals } from 'store/modules/proposals/selectors';
+import { getComments } from 'store/modules/comments/selectors';
 
 // Components
 import { Styled } from 'components';

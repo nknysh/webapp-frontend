@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 // App
-import { createHotel } from 'actions/hotels';
+import { createHotel } from 'store/modules/hotels/actions';
 
 // Components
 import { Form, Styled } from 'components';

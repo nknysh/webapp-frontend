@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 // App
-import { resetProposals, fetchProposals } from 'actions/proposals';
-import { getProposals } from 'selectors/proposals';
+import { resetProposals, fetchProposals } from 'store/modules/proposals/actions';
+import { getProposals } from 'store/modules/proposals/selectors';
 import { colors } from 'styles';
 
 // Components
