@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import { Form, Label, Link } from 'components';
 
@@ -28,9 +28,7 @@ const Login = ({ history, logIn }) => (
     <Content>
       <Modal>
         <img src={peLogo} />
-        <Title>
-            Sign In
-        </Title>
+        <Title>Sign In</Title>
         <Form
           initialValues={{
             email: '',
@@ -63,12 +61,7 @@ const Login = ({ history, logIn }) => (
               <Fields>
                 <Field>
                   <Label htmlFor="email">EMAIL ADDRESS</Label>
-                  <Input
-                    name="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
+                  <Input name="email" value={values.email} onChange={handleChange} onBlur={handleBlur} />
                 </Field>
                 <Field style={{ marginTop: 30 }}>
                   <Label htmlFor="password">PASSWORD</Label>
@@ -86,9 +79,9 @@ const Login = ({ history, logIn }) => (
                   <SubmitText>SIGN IN</SubmitText>
                 </SubmitButton>
                 <ForgotPassword>
-                    <Link to="/password/reset">
-                        <ForgotLink>FORGOT YOUR PASSWORD?</ForgotLink>
-                    </Link>
+                  <Link to="/password/reset">
+                    <ForgotLink>FORGOT YOUR PASSWORD?</ForgotLink>
+                  </Link>
                 </ForgotPassword>
               </Actions>
             </form>

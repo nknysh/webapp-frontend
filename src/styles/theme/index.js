@@ -21,7 +21,7 @@ export const palette = {
   ok: undefined,
 
   backgroundColor: getColor('white'),
-  inputBorder: getColor('gray-medium')
+  inputBorder: getColor('gray-medium'),
 };
 
 export const spacing = {

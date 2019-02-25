@@ -57,7 +57,7 @@ export const Field = styled.div`
 `;
 
 export const Input = styled(BaseInput)`
-  margin-bottom: ${theme.gutter*2}px;
+  margin-bottom: ${theme.gutter * 2}px;
 `;
 
 export const Actions = styled.div`
@@ -73,10 +73,9 @@ export const SubmitText = styled.span`
 
 export const Columns = styled.div`
   display: flex;
-
 `;
 
 export const Column = styled.div`
   flex: 1 1 50%;
   padding: ${theme.gutter}px;
-`
+`;

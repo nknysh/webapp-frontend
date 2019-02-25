@@ -36,7 +36,7 @@ export const Title = styled.h1`
   text-align: center;
   display: block;
 
-  color: ${theme.secondary}
+  color: ${theme.secondary};
 `;
 
 export const Fields = styled.div`
@@ -44,8 +44,7 @@ export const Fields = styled.div`
   text-align: left;
 `;
 
-export const Field = styled.div`
-`;
+export const Field = styled.div``;
 
 export const Input = styled(BaseInput)``;
 

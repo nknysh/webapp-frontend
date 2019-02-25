@@ -7,7 +7,22 @@ import { Form, Label, RadioButton, SelectInput } from 'components';
 
 import peLogo from 'public/img/PE_logo.png';
 
-import { Container, Content, Modal, Title, Fields, Row, Group,Field,Input,Actions,SubmitButton,SubmitText, Columns, Column } from './CreateAccount.styles';
+import {
+  Container,
+  Content,
+  Modal,
+  Title,
+  Fields,
+  Row,
+  Group,
+  Field,
+  Input,
+  Actions,
+  SubmitButton,
+  SubmitText,
+  Columns,
+  Column,
+} from './CreateAccount.styles';
 
 const CreateUser = ({ history, signUp }) => (
   <Container>
@@ -43,7 +58,6 @@ const CreateUser = ({ history, signUp }) => (
             <form>
               <Fields>
                 <Columns>
-
                   <Column>
                     <Field>
                       <Label htmlFor="firstName">FIRST NAME</Label>
@@ -76,7 +90,7 @@ const CreateUser = ({ history, signUp }) => (
                       />
                     </Field>
                   </Column>
-                  
+
                   <Column>
                     <Field>
                       <Label htmlFor="isExistingPartner">ARE YOU AN EXISTING PARTNER?</Label>
@@ -110,12 +124,7 @@ const CreateUser = ({ history, signUp }) => (
                         </Field>
                         <Field>
                           <Label htmlFor="landline">LANDLINE</Label>
-                          <Input
-                            name="landline"
-                            value={values.landline}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
+                          <Input name="landline" value={values.landline} onChange={handleChange} onBlur={handleBlur} />
                         </Field>
                       </Column>
 
@@ -131,16 +140,11 @@ const CreateUser = ({ history, signUp }) => (
                         </Field>
                         <Field>
                           <Label htmlFor="mobile">MOBILE</Label>
-                          <Input
-                            name="mobile"
-                            value={values.mobile}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
+                          <Input name="mobile" value={values.mobile} onChange={handleChange} onBlur={handleBlur} />
                         </Field>
                       </Column>
                     </Columns>
-                    
+
                     <Field>
                       <RadioButton
                         name="agreeToTerms"
@@ -157,7 +161,7 @@ const CreateUser = ({ history, signUp }) => (
                 <SubmitButton onClick={handleSubmit}>
                   <SubmitText>SUBMIT REQUEST</SubmitText>
                 </SubmitButton>
-              </Actions> 
+              </Actions>
             </form>
           )}
         </Form>

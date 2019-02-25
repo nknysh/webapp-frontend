@@ -12,6 +12,18 @@ exports[`<App /> render matches snapshot 1`] = `
     />
     <Route
       component={[Function]}
+      key="bd54bf85363721d3cbfbdccf1045f4075a933f38"
+      name="Login"
+      path="/login"
+    />
+    <Route
+      component={[Function]}
+      key="354ed273dd8f0216685a9e9cd58e6108c8b50929"
+      name="Create Account"
+      path="/sign-up"
+    />
+    <Route
+      component={[Function]}
       exact={true}
       key="8b60b60ce3eaf95e9f3ded9690092c7097e6ee7b"
       name="Content Pages"
