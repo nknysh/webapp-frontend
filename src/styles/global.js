@@ -45,7 +45,7 @@ export const GlobalFonts = createGlobalStyle`
 `;
 
 export const GlobalStyle = createGlobalStyle`  
-    body {
+    html, body {
         margin: 0;
         padding: 0;
         font-family: HurmeGeometricSans2, "Open Sans", sans-serif;
