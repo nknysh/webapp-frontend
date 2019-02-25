@@ -1,4 +1,4 @@
-import { CreateAccount, Login, ResetPassword, SetPassword } from 'pages';
+import { CreateAccount, Login } from 'pages';
 
 export default [
   {
@@ -6,16 +6,6 @@ export default [
     path: '/login',
     component: Login,
   },
-  // {
-  //   name: 'Reset Password',
-  //   path: '/password/reset',
-  //   component: ResetPassword,
-  // },
-  // {
-  //   name: 'Set Password',
-  //   path: '/password/new',
-  //   component: SetPassword,
-  // },
   {
     name: 'Create Account',
     path: '/sign-up',
