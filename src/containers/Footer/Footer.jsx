@@ -2,7 +2,6 @@ import React from 'react';
 import { compose } from 'ramda';
 
 import footerText from 'config/data/footer.md';
-import { renderMarkdown } from 'utils/markdown';
 
 import logo from './assets/footer-logo.png';
 
@@ -17,16 +16,17 @@ import {
   FooterCopyrightText,
 } from './Footer.styles';
 import connect from './Footer.state';
+import Markdown from '../../components/Markdown/Markdown';
 
 const currentDate = new Date();
-
-const footerAddress = renderMarkdown(footerText);
 
 export const Footer = ({ menu, className }) => (
   <StyledFooter className={className}>
     <FooterContainer>
       <FooterColumn>
-        <FooterText dangerouslySetInnerHTML={{ __html: footerAddress }} />
+        <FooterText>
+          <Markdown>{footerText}</Markdown>
+        </FooterText>
       </FooterColumn>
 
       <FooterMenu links={menu} />

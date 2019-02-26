@@ -2,20 +2,31 @@
 
 exports[`<Home /> render matches snapshot 1`] = `
 <styled.div>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Pure Escapes
+    </title>
+  </HelmetWrapper>
   <Hero
     full={true}
     image={null}
     offsetBy={120}
   >
-    <p>
-      FOR YOUR HIGHLY-DISCERNING
-    </p>
-    <p>
-      INDIAN OCEAN TRAVELLERS,
-    </p>
-    <p>
-      THE ADVANTAGES ARE CLEAR
-    </p>
+    <Markdown>
+      <type
+        0="p"
+        1="r"
+        2="o"
+        3="p"
+        4="s"
+        key="key"
+      >
+        rendered
+      </type>
+    </Markdown>
   </Hero>
 </styled.div>
 `;

@@ -11,11 +11,11 @@ import { propTypes } from './Header.props';
 import connect from './Header.state';
 import { HeaderContainer, StyledHeader } from './Header.styles';
 
-export const Header = ({ isAuthenticated, menu, className }) => (
+export const Header = ({ menu, className }) => (
   <StyledHeader className={className}>
     <HeaderContainer>
       <Link to="/">{logo && <img src={logo} />}</Link>
-      <Menu align="end" isAuthenticated={isAuthenticated} links={menu} />
+      <Menu align="end" links={menu} />
     </HeaderContainer>
   </StyledHeader>
 );

@@ -15,7 +15,6 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
     </Link>
     <Menu
       align="end"
-      isAuthenticated={true}
       links={
         Array [
           Object {
@@ -50,7 +49,6 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
     </Link>
     <Menu
       align="end"
-      isAuthenticated={false}
       links={
         Array [
           Object {

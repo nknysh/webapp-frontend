@@ -4,15 +4,20 @@ exports[`<Footer /> render matches snapshot 1`] = `
 <styled.div>
   <Styled(styled.div)>
     <styled.div>
-      <styled.p>
-        DUBAI: +971(0) 43933100
-      </styled.p>
-      <styled.p>
-        SEYCHELLES: +248 224 811
-      </styled.p>
-      <styled.p>
-        UK: +44 (0)8447 365 985
-      </styled.p>
+      <styled.div>
+        <Markdown>
+          <type
+            0="p"
+            1="r"
+            2="o"
+            3="p"
+            4="s"
+            key="key"
+          >
+            rendered
+          </type>
+        </Markdown>
+      </styled.div>
     </styled.div>
     <Styled(Menu)
       links={

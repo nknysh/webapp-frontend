@@ -1,39 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<App /> render matches snapshot 1`] = `
-<React.Memo>
-  <Switch>
-    <Route
-      component={[Function]}
-      exact={true}
-      key="2c68c93ab90d6c00df2b877d8b10fc27e9e69040"
-      name="Root Path"
-      path="/"
-    />
-    <Route
-      component={[Function]}
-      key="bd54bf85363721d3cbfbdccf1045f4075a933f38"
-      name="Login"
-      path="/login"
-    />
-    <Route
-      component={[Function]}
-      key="354ed273dd8f0216685a9e9cd58e6108c8b50929"
-      name="Create Account"
-      path="/sign-up"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      key="8b60b60ce3eaf95e9f3ded9690092c7097e6ee7b"
-      name="Content Pages"
-      path="/:pageId"
-    />
-    <Route
-      component={[Function]}
-      key="ae4ef0dc5812ee3f8bc7fbd3728741c4b0620c4b"
-      name="Not Found"
-    />
-  </Switch>
-</React.Memo>
+<Fragment>
+  <React.Memo>
+    <Switch>
+      <Route
+        component={[Function]}
+        exact={true}
+        key="2c68c93ab90d6c00df2b877d8b10fc27e9e69040"
+        name="Root Path"
+        path="/"
+      />
+      <Route
+        component={[Function]}
+        key="bd54bf85363721d3cbfbdccf1045f4075a933f38"
+        name="Login"
+        path="/login"
+      />
+      <Route
+        component={[Function]}
+        key="354ed273dd8f0216685a9e9cd58e6108c8b50929"
+        name="Create Account"
+        path="/sign-up"
+      />
+      <Route
+        component={[Function]}
+        exact={true}
+        key="8b60b60ce3eaf95e9f3ded9690092c7097e6ee7b"
+        name="Content Pages"
+        path="/:pageId"
+      />
+      <Route
+        component={[Function]}
+        key="ae4ef0dc5812ee3f8bc7fbd3728741c4b0620c4b"
+        name="Not Found"
+      />
+    </Switch>
+  </React.Memo>
+</Fragment>
 `;
