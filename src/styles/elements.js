@@ -33,3 +33,5 @@ export const Button = styled.button`
   padding: ${theme.gutter}px ${theme.gutter}px;
   cursor: pointer;
 `;
+
+export default { Link, Container, Input, Button };

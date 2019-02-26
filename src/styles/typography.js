@@ -8,3 +8,5 @@ export const Heading1 = styled.h1`
   font-weight: bold;
   margin: ${theme.gutter * 2}px;
 `;
+
+export default { Heading1 };

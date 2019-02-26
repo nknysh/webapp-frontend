@@ -65,3 +65,5 @@ export const GlobalStyle = createGlobalStyle`
         }
     }  
 `;
+
+export default { GlobalFonts, GlobalStyle };
