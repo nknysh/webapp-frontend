@@ -13,14 +13,14 @@ export const Link = styled.div`
       color: ${theme.primary};
     }
 
-    padding: ${theme.gutter}px 0;
+    padding: ${theme.gutter}${theme.unit} 0;
 
     ${breakpoints.tablet`
     ${({ spaced }) =>
       spaced &&
       css`
-        padding: ${theme.gutter / 2}px ${theme.gutter}px;
-        margin: ${theme.gutter / 2}px ${theme.gutter}px;
+        padding: ${theme.gutter / 2}${theme.unit} ${theme.gutter}${theme.unit};
+        margin: ${theme.gutter / 2}${theme.unit} ${theme.gutter}${theme.unit};
       `}
 
     ${({ inverse }) =>
@@ -28,7 +28,7 @@ export const Link = styled.div`
       css`
         color: ${theme.colors.white};
         background: ${theme.primary};
-        border-radius: ${theme.borderRadius}px;
+        border-radius: ${theme.borderRadius}${theme.unit};
 
         &:hover {
           background: ${theme.secondary};

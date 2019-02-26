@@ -15,17 +15,17 @@ export const StyledPageContent = styled.div`
 `;
 
 export const PageHero = styled(Hero)`
-  margin-bottom: ${fiveSpaced}px;
+  margin-bottom: ${fiveSpaced}${theme.unit};
 `;
 
 export const PageContainer = styled(Container)`
-  padding: ${theme.gutter}px;
+  padding: ${theme.gutter}${theme.unit};
 `;
 
 export const PageContentHeader = styled(Heading1)`
   margin: 0;
-  padding: 0 0 ${theme.gutter * 3}px;
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
+  padding: 0 0 ${theme.gutter * 3}${theme.unit};
+  border-bottom: 1${theme.unit} solid ${theme.colors['gray-medium']};
 `;
 
 export const PageContentLinks = styled.div`
@@ -35,9 +35,9 @@ export const PageContentLinks = styled.div`
     margin: 0;
 
     li {
-      padding: ${doubleSpaced}px 0;
+      padding: ${doubleSpaced}${theme.unit} 0;
       color: ${theme.primary};
-      border-bottom: 1px solid ${theme.colors['gray-medium']};
+      border-bottom: 1${theme.unit} solid ${theme.colors['gray-medium']};
 
       &:last-child {
         border-bottom: 0;
@@ -45,7 +45,7 @@ export const PageContentLinks = styled.div`
 
       a {
         color: ${theme.primary};
-        font-size: ${theme.linkSize}px;
+        font-size: ${theme.linkSize}${theme.unit};
         text-transform: uppercase;
       }
     }
@@ -63,7 +63,7 @@ export const PageContentData = styled.div`
     outline: 0;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid ${theme.colors.gray};
+    border-bottom: 1${theme.unit} solid ${theme.colors.gray};
   }
 
   h2,
@@ -72,10 +72,10 @@ export const PageContentData = styled.div`
   }
 
   h2 {
-    margin: 0 0 ${doubleSpaced}px;
-    padding: 0 0 ${doubleSpaced}px;
-    border-bottom: 1px solid ${theme.colors['gray-medium']};
-    min-height: 35px;
+    margin: 0 0 ${doubleSpaced}${theme.unit};
+    padding: 0 0 ${doubleSpaced}${theme.unit};
+    border-bottom: 1${theme.unit} solid ${theme.colors['gray-medium']};
+    min-height: 35${theme.unit};
   }
 
   .list-grid {
@@ -88,7 +88,7 @@ export const PageContentData = styled.div`
 
       li {
         flex: 1 1 50%;
-        margin: 0 0 ${theme.gutter * 4}px;
+        margin: 0 0 ${theme.gutter * 4}${theme.unit};
         padding: 0;
 
         h4 {
@@ -105,10 +105,10 @@ export const Columns = styled.div`
 
 export const ColumnLeft = styled.div`
   flex: 1 1 25%;
-  padding-right: ${theme.gutter * 15}px;
+  padding-right: ${theme.gutter * 15}${theme.unit};
 `;
 
 export const ColumnRight = styled.div`
   flex: 1 1 50%;
-  padding-bottom: ${fiveSpaced}px;
+  padding-bottom: ${fiveSpaced}${theme.unit};
 `;
