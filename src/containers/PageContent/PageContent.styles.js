@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 import theme from 'styles/theme';
-import { Heading1, Container } from 'styles/elements';
+import { Container } from 'styles/elements';
+import { Heading1 } from 'styles/typography';
 
 import { Hero } from 'components/Hero';
 
@@ -104,6 +105,7 @@ export const ColumnLeft = styled.div`
   flex: 1 1 25%;
   padding-right: ${theme.gutter * 15}px;
 `;
+
 export const ColumnRight = styled.div`
   flex: 1 1 50%;
   padding-bottom: ${fiveSpaced}px;

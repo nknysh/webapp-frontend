@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import theme from 'styles/theme';
 import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
+import { Heading1 } from 'styles/typography';
 
 export const Container = styled.div`
   background-color: ${theme.primary};
@@ -33,7 +34,7 @@ export const Modal = styled.div`
   min-width: 1024px;
 `;
 
-export const Title = styled.h1`
+export const Title = styled(Heading1)`
   text-align: center;
 `;
 

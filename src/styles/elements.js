@@ -14,13 +14,6 @@ export const Container = styled.div`
   ${breakpoints.desktop`width: ${theme.breakpoints.desktop}px`}
 `;
 
-export const Heading1 = styled.div`
-  color: ${theme.colors['gold-neutral']};
-  font-size: 22px;
-  font-weight: bold;
-  margin: ${theme.gutter * 2}px;
-`;
-
 export const Input = styled.input`
   margin-top: 5px;
   display: block;
