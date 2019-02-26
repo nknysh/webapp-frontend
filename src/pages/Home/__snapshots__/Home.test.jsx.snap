@@ -13,7 +13,6 @@ exports[`<Home /> render matches snapshot 1`] = `
   <Hero
     full={true}
     image={null}
-    offsetBy={120}
   >
     <Markdown>
       <type

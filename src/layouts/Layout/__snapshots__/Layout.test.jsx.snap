@@ -2,7 +2,7 @@
 
 exports[`<Layout /> render matches snapshot 1`] = `
 <styled.div>
-  <Styled(withAuthentication(Connect(Header))) />
+  <Styled(withAuthentication(Connect(withRouter(Header)))) />
   <styled.div>
     <h1>
       Some content

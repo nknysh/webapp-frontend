@@ -2,6 +2,7 @@ import React from 'react';
 import { compose } from 'ramda';
 
 import footerText from 'config/data/footer.md';
+import { Markdown } from 'components';
 
 import logo from './assets/footer-logo.png';
 
@@ -16,7 +17,6 @@ import {
   FooterCopyrightText,
 } from './Footer.styles';
 import connect from './Footer.state';
-import Markdown from '../../components/Markdown/Markdown';
 
 const currentDate = new Date();
 

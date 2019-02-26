@@ -28,9 +28,20 @@ export const spacing = {
   gutter: 10,
 };
 
+export const sizes = {
+  linkSize: 11,
+  borderRadius: 1,
+
+  headerSizes: {
+    mobile: 70,
+    tablet: 120,
+  },
+};
+
 export default {
   ...palette,
   ...spacing,
+  ...sizes,
   breakpoints,
   colors,
 };

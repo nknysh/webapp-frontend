@@ -11,9 +11,11 @@ export const propTypes = {
       bold: PropTypes.true,
     })
   ).isRequired,
+  onLinkClick: PropTypes.func,
 };
 
 export const defaultProps = {
   align: 'middle',
   links: [],
+  onLinkClick: () => {},
 };

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { Container } from 'styles/elements';
 
-import { Menu } from 'components/Menu';
+import { Menu } from 'components';
 
 export const StyledFooter = styled.div`
   display: block;
@@ -24,7 +24,7 @@ export const FooterColumn = styled.div`
   justify-content: ${({ align }) => align};
   flex: 0 1 25%
   padding-top: ${theme.gutter}px;
-  font-size: 11px;
+  font-size: ${theme.linkSize}px;
   color: ${theme.colors['gold-light']}
   width: 100%;
 `;
