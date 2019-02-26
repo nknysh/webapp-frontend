@@ -35,6 +35,8 @@ export const HomeContainer = styled.div`
 
   ${breakpoints.tablet`
     padding: 120px;
+    max-width: 600px;
+    margin: 0 auto;
   `}
 
   h1, h2 {
