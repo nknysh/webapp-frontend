@@ -1,14 +1,23 @@
 import React from 'react';
 
 import { propTypes } from './Hero.props';
-import { StyledHero, HeroChildren, HeroTitle } from './Hero.styles';
+import { StyledHero, HeroChildren, HeroTitle, HeroVideo } from './Hero.styles';
+import { Video } from 'components';
 
 const renderTitle = title => title && <HeroTitle>{title}</HeroTitle>;
 
 const renderChildren = children => children && <HeroChildren>{children}</HeroChildren>;
 
-export const Hero = ({ image, children, title, full, offsetBy, className }) => (
+const renderVideo = (video, fallbackImage) =>
+  video && (
+    <HeroVideo>
+      <Video srcs={[video]} fallbackImage={fallbackImage} autoPlay loop />
+    </HeroVideo>
+  );
+
+export const Hero = ({ media: { image, video }, children, title, full, offsetBy, className }) => (
   <StyledHero className={className} full={full} image={image} offsetBy={offsetBy}>
+    {renderVideo(video, image)}
     {renderTitle(title)}
     {renderChildren(children)}
   </StyledHero>

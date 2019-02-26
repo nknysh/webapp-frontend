@@ -110,7 +110,7 @@
       "src"
     ],
     "moduleNameMapper": {
-      "\\.(css|less|scss|sass|md|png|jpg|jpeg)$": "identity-obj-proxy",
+      "\\.(css|less|scss|sass|md|png|jpg|jpeg|mp4|ogg)$": "identity-obj-proxy",
       "\\.(svg)$": "<rootDir>/tests/__mocks__/svgMock.js"
     },
     "snapshotSerializers": [

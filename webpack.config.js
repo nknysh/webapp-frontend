@@ -32,7 +32,7 @@ const config = {
                 use: [{
                     loader: 'file-loader',
                     options: {
-                        name: '[name].[ext]',
+                        name: '[hash].[ext]',
                         outputPath: 'assets/fonts/'
                     }
                 }]
@@ -42,8 +42,18 @@ const config = {
                 use: [{
                     loader: 'file-loader',
                     options: {
-                        name: '[name].[ext]',
+                        name: '[hash].[ext]',
                         outputPath: 'assets/img/'
+                    }
+                }]
+            },
+            {
+                test: /\.(mp4|ogg)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[hash].[ext]',
+                        outputPath: 'assets/video/'
                     }
                 }]
             },

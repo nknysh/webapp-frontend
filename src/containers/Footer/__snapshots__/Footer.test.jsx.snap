@@ -5,55 +5,57 @@ exports[`<Footer /> render matches snapshot 1`] = `
   <Styled(styled.div)>
     <styled.div>
       <styled.div>
-        <Markdown>
-          <type
-            0="p"
-            1="r"
-            2="o"
-            3="p"
-            4="s"
-            key="key"
-          >
-            rendered
-          </type>
-        </Markdown>
+        <styled.div>
+          <Markdown>
+            <type
+              0="p"
+              1="r"
+              2="o"
+              3="p"
+              4="s"
+              key="key"
+            >
+              rendered
+            </type>
+          </Markdown>
+        </styled.div>
       </styled.div>
-    </styled.div>
-    <Styled(Menu)
-      links={
-        Array [
-          Object {
-            "href": "/about-us",
-            "title": "About Us",
-          },
-          Object {
-            "href": "/contact-us",
-            "title": "Contact Us",
-          },
-          Object {
-            "href": "/privacy-policy",
-            "title": "Privacy Policy",
-          },
-          Object {
-            "href": "/terms-and-conditions",
-            "title": "Terms and Conditions",
-          },
-        ]
-      }
-    />
-    <styled.div
-      align="flex-end"
-      flex={true}
-    >
-      <styled.div>
-        <img
-          src={null}
-        />
-        <styled.p>
-          © 
-          2019
-           Pure Escapes
-        </styled.p>
+      <Styled(Menu)
+        links={
+          Array [
+            Object {
+              "href": "/about-us",
+              "title": "About Us",
+            },
+            Object {
+              "href": "/contact-us",
+              "title": "Contact Us",
+            },
+            Object {
+              "href": "/privacy-policy",
+              "title": "Privacy Policy",
+            },
+            Object {
+              "href": "/terms-and-conditions",
+              "title": "Terms and Conditions",
+            },
+          ]
+        }
+      />
+      <styled.div
+        align="flex-end"
+        flex={true}
+      >
+        <styled.div>
+          <img
+            src={null}
+          />
+          <styled.p>
+            © 
+            2019
+             Pure Escapes
+          </styled.p>
+        </styled.div>
       </styled.div>
     </styled.div>
   </Styled(styled.div)>

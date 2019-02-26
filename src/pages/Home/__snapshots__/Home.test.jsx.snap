@@ -2,17 +2,17 @@
 
 exports[`<Home /> render matches snapshot 1`] = `
 <styled.div>
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <title>
-      Pure Escapes
-    </title>
-  </HelmetWrapper>
   <Hero
     full={true}
-    image={null}
+    media={
+      Object {
+        "image": null,
+        "video": Object {
+          "path": null,
+          "type": "mp4",
+        },
+      }
+    }
   >
     <Markdown>
       <type
