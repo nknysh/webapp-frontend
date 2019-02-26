@@ -13,4 +13,4 @@ artifacts:
   base-directory: dist
   files:
     - '**/*'
-  name: $(CODEBUILD_SOURCE_VERSION)-$(date +%Y-%m-%d)-$(CODEBUILD_BUILD_ID)
+  name: $CODEBUILD_SOURCE_VERSION-$(date +%Y-%m-%d)-$CODEBUILD_BUILD_ID
