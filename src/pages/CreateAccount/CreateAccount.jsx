@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { signUp } from 'store/modules/auth/actions';
 
-import { Form, Label, RadioButton, SelectInput } from 'components';
+import { Form, Label, RadioButton } from 'components';
 
 import peLogo from 'public/img/PE_logo.png';
 
@@ -14,7 +15,6 @@ import {
   Title,
   Fields,
   Row,
-  Group,
   Field,
   Input,
   Actions,
@@ -54,7 +54,7 @@ const CreateUser = ({ history, signUp }) => (
             signUp(values).then(() => history.push('/login'));
           }}
         >
-          {({ values, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldTouched }) => (
+          {({ values, handleChange, handleBlur, handleSubmit }) => (
             <form>
               <Fields>
                 <Columns>
@@ -169,6 +169,11 @@ const CreateUser = ({ history, signUp }) => (
     </Content>
   </Container>
 );
+
+CreateUser.propTypes = {
+  history: PropTypes.any,
+  signUp: PropTypes.any,
+};
 
 export default connect(
   undefined,

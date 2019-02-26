@@ -1,5 +1,3 @@
 import notFound from './routes/notFound';
 
-export default [
-  ...notFound
-];
+export default [...notFound];

@@ -7,7 +7,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
   <Styled(styled.div)>
     <styled.div>
       <styled.div>
-        <Styled(styled.div) />
+        <Styled(styled.h1) />
         <styled.div
           dangerouslySetInnerHTML={
             Object {
@@ -36,9 +36,9 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
   <Styled(styled.div)>
     <styled.div>
       <styled.div>
-        <Styled(styled.div)>
+        <Styled(styled.h1)>
           foo
-        </Styled(styled.div)>
+        </Styled(styled.h1)>
         <styled.div
           dangerouslySetInnerHTML={
             Object {
@@ -67,9 +67,9 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
   <Styled(styled.div)>
     <styled.div>
       <styled.div>
-        <Styled(styled.div)>
+        <Styled(styled.h1)>
           foo
-        </Styled(styled.div)>
+        </Styled(styled.h1)>
         <styled.div
           dangerouslySetInnerHTML={
             Object {
@@ -104,9 +104,9 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
   <Styled(styled.div)>
     <styled.div>
       <styled.div>
-        <Styled(styled.div)>
+        <Styled(styled.h1)>
           foo
-        </Styled(styled.div)>
+        </Styled(styled.h1)>
         <styled.div
           dangerouslySetInnerHTML={
             Object {

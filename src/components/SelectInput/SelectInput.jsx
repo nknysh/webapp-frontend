@@ -43,8 +43,8 @@ const SelectInput = ({ name, placeholder, value, options, onChange, onBlur, styl
           {isOpen
             ? options.map((option, index) => (
                 <div
+                  key={option.value}
                   {...getItemProps({
-                    key: option.value,
                     index,
                     item: option,
                   })}
@@ -70,6 +70,7 @@ SelectInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   Input: PropTypes.func.isRequired,
+  style: PropTypes.any,
 };
 
 SelectInput.defaultProps = {};

@@ -56,8 +56,8 @@ export const getUserFromToken = ({ token }) => dispatch => {
     });
 };
 
-export const signUp = values => dispatch => {
-  // return AuthApi.signUp(values);
+export const signUp = values => () => {
+  return AuthApi.signUp(values);
 };
 
 export const logIn = values => async dispatch => {

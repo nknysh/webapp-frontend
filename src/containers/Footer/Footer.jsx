@@ -26,7 +26,7 @@ export const Footer = ({ menu, className }) => (
   <StyledFooter className={className}>
     <FooterContainer>
       <FooterColumn>
-        <FooterText dangerouslySetInnerHTML={{__html: footerAddress}} />
+        <FooterText dangerouslySetInnerHTML={{ __html: footerAddress }} />
       </FooterColumn>
 
       <FooterMenu links={menu} />

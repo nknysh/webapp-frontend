@@ -50,9 +50,9 @@ const Login = ({ history, logIn }) => (
                     return history.push('/');
                 }
               })
-              .catch(error => {
+              .catch(() => {
                 // TODO(mark): Throw a SubmissionError with server errors.
-                console.log('Log in server error', error);
+                // console.log('Log in server error', error);
               });
           }}
         >
