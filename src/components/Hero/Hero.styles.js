@@ -58,5 +58,6 @@ export const HeroVideo = styled.div`
     left: 0;
     right: 0;
     overflow: hidden;
+    height: 100%;
   }
 `;

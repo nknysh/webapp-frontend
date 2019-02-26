@@ -2,12 +2,12 @@
 
 exports[`pages reducer should handle GET_PAGE 1`] = `
 Object {
-  "data": null,
+  "data": "",
   "hero": Object {
-    "image": null,
+    "image": "",
   },
   "id": "about-us",
-  "links": null,
+  "links": "",
   "title": "Who We Are",
 }
 `;

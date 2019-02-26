@@ -5,11 +5,7 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
   <Styled(styled.div)>
     <Styled(Link)
       to="/"
-    >
-      <img
-        src={null}
-      />
-    </Styled(Link)>
+    />
     <styled.div>
       <Styled(WithStyles(Icon))
         onClick={[Function]}
@@ -46,11 +42,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
   <Styled(styled.div)>
     <Styled(Link)
       to="/"
-    >
-      <img
-        src={null}
-      />
-    </Styled(Link)>
+    />
     <styled.div>
       <Styled(WithStyles(Icon))
         onClick={[Function]}

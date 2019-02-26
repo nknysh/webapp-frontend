@@ -73,6 +73,7 @@ export const HeaderMenu = styled(Menu)`
   transition: ease-in-out 0.25s all;
   text-align: left;
   font-size: 12px;
+  z-index: 100;
 
   ${({ isOpen }) => css`
     opacity: ${isOpen ? 1 : 0};
