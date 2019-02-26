@@ -6,3 +6,5 @@ export { Link } from './Link';
 export { Menu } from './Menu';
 export { SelectInput } from './SelectInput';
 export { RadioButton } from './RadioButton';
+export { Markdown } from './Markdown';
+export { Video } from './Video';

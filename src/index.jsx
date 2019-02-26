@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import store from 'store';
 
@@ -15,6 +16,9 @@ import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
+    <Helmet>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    </Helmet>
     <GlobalFonts />
     <GlobalStyle />
     <BrowserRouter>

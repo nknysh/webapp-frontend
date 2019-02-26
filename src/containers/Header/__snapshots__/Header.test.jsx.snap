@@ -3,34 +3,36 @@
 exports[`<Header /> render matches logged in snapshot 1`] = `
 <styled.div>
   <Styled(styled.div)>
-    <Link
-      bold={false}
-      inverse={false}
-      spaced={false}
+    <Styled(Link)
       to="/"
-    >
-      <img
-        src={null}
-      />
-    </Link>
-    <Menu
-      align="end"
-      isAuthenticated={true}
-      links={
-        Array [
-          Object {
-            "href": "/sign-up",
-            "title": "Create an account",
-          },
-          Object {
-            "bold": true,
-            "href": "/login",
-            "inverse": true,
-            "title": "Login",
-          },
-        ]
-      }
     />
+    <styled.div>
+      <Styled(WithStyles(Icon))
+        onClick={[Function]}
+      >
+        menu
+      </Styled(WithStyles(Icon))>
+      <Styled(Menu)
+        align="end"
+        currentLocation=""
+        isOpen={false}
+        links={
+          Array [
+            Object {
+              "href": "/sign-up",
+              "title": "Create an account",
+            },
+            Object {
+              "bold": true,
+              "href": "/login",
+              "inverse": true,
+              "title": "Login",
+            },
+          ]
+        }
+        onLinkClick={[Function]}
+      />
+    </styled.div>
   </Styled(styled.div)>
 </styled.div>
 `;
@@ -38,34 +40,36 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
 exports[`<Header /> render matches logged out snapshot 1`] = `
 <styled.div>
   <Styled(styled.div)>
-    <Link
-      bold={false}
-      inverse={false}
-      spaced={false}
+    <Styled(Link)
       to="/"
-    >
-      <img
-        src={null}
-      />
-    </Link>
-    <Menu
-      align="end"
-      isAuthenticated={false}
-      links={
-        Array [
-          Object {
-            "href": "/sign-up",
-            "title": "Create an account",
-          },
-          Object {
-            "bold": true,
-            "href": "/login",
-            "inverse": true,
-            "title": "Login",
-          },
-        ]
-      }
     />
+    <styled.div>
+      <Styled(WithStyles(Icon))
+        onClick={[Function]}
+      >
+        menu
+      </Styled(WithStyles(Icon))>
+      <Styled(Menu)
+        align="end"
+        currentLocation=""
+        isOpen={false}
+        links={
+          Array [
+            Object {
+              "href": "/sign-up",
+              "title": "Create an account",
+            },
+            Object {
+              "bold": true,
+              "href": "/login",
+              "inverse": true,
+              "title": "Login",
+            },
+          ]
+        }
+        onLinkClick={[Function]}
+      />
+    </styled.div>
   </Styled(styled.div)>
 </styled.div>
 `;

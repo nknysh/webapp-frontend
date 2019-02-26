@@ -3,12 +3,6 @@
 exports[`<Hero /> render matches snapshot 1`] = `<styled.div />`;
 
 exports[`<Hero /> render matches snapshot 2`] = `
-<styled.div
-  image="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
-/>
-`;
-
-exports[`<Hero /> render matches snapshot 3`] = `
 <styled.div>
   <styled.h2>
     A title
@@ -16,7 +10,7 @@ exports[`<Hero /> render matches snapshot 3`] = `
 </styled.div>
 `;
 
-exports[`<Hero /> render matches snapshot 4`] = `
+exports[`<Hero /> render matches snapshot 3`] = `
 <styled.div>
   <styled.div>
     Some content
@@ -24,9 +18,15 @@ exports[`<Hero /> render matches snapshot 4`] = `
 </styled.div>
 `;
 
-exports[`<Hero /> render matches snapshot 5`] = `
+exports[`<Hero /> render matches snapshot 4`] = `
 <styled.div
   full={true}
+/>
+`;
+
+exports[`<Hero /> render matches snapshot 5`] = `
+<styled.div
+  image="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
 />
 `;
 
@@ -35,6 +35,32 @@ exports[`<Hero /> render matches snapshot 6`] = `
   full={true}
   image="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
 >
+  <styled.h2>
+    A title
+  </styled.h2>
+  <styled.div>
+    Some content
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<Hero /> render matches snapshot 7`] = `
+<styled.div
+  full={true}
+  image="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
+>
+  <styled.div>
+    <Video
+      autoPlay={true}
+      fallbackImage="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
+      loop={true}
+      srcs={
+        Array [
+          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        ]
+      }
+    />
+  </styled.div>
   <styled.h2>
     A title
   </styled.h2>

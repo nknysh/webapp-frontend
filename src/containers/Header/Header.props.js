@@ -7,4 +7,13 @@ import { propTypes as withAuthPropTypes } from 'hoc/withAuthentication';
 export const propTypes = {
   ...withAuthPropTypes,
   menu: propOr(PropTypes.any, 'links', menuPropTypes),
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+};
+
+export const defaultProps = {
+  location: {
+    pathname: '',
+  },
 };

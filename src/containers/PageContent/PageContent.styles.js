@@ -4,7 +4,7 @@ import theme from 'styles/theme';
 import { Container } from 'styles/elements';
 import { Heading1 } from 'styles/typography';
 
-import { Hero } from 'components/Hero';
+import { Hero } from 'components';
 
 const fiveSpaced = theme.gutter * 5;
 const doubleSpaced = theme.gutter * 2;
@@ -18,7 +18,9 @@ export const PageHero = styled(Hero)`
   margin-bottom: ${fiveSpaced}px;
 `;
 
-export const PageContainer = styled(Container)``;
+export const PageContainer = styled(Container)`
+  padding: ${theme.gutter}px;
+`;
 
 export const PageContentHeader = styled(Heading1)`
   margin: 0;
@@ -43,7 +45,7 @@ export const PageContentLinks = styled.div`
 
       a {
         color: ${theme.primary};
-        font-size: 11px;
+        font-size: ${theme.linkSize}px;
         text-transform: uppercase;
       }
     }

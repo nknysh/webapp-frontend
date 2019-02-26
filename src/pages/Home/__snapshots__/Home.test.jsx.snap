@@ -4,18 +4,47 @@ exports[`<Home /> render matches snapshot 1`] = `
 <styled.div>
   <Hero
     full={true}
-    image={null}
-    offsetBy={120}
+    media={
+      Object {
+        "image": "",
+        "video": Object {
+          "path": "",
+          "type": "mp4",
+        },
+      }
+    }
   >
-    <p>
-      FOR YOUR HIGHLY-DISCERNING
-    </p>
-    <p>
-      INDIAN OCEAN TRAVELLERS,
-    </p>
-    <p>
-      THE ADVANTAGES ARE CLEAR
-    </p>
+    <Markdown />
   </Hero>
+  <styled.div>
+    <Styled(WithStyles(Icon))
+      onClick={[Function]}
+    >
+      keyboard_arrow_down
+    </Styled(WithStyles(Icon))>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
 </styled.div>
 `;
