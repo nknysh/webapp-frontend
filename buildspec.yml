@@ -3,4 +3,14 @@ phases:
   install:
     commands:
       - npm install
+  pre_build:
+    commands:
       - npm test
+  build:
+    commands:
+      - npm run build
+artifacts:
+  base-directory: dist
+  files:
+    - **/*
+  name: $(CODEBUILD_SOURCE_VERSION)-$(date +%Y-%m-%d)-$(CODEBUILD_BUILD_ID)
