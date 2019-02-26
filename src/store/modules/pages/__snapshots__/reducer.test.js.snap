@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pages reducer should handle GET_PAGE 1`] = `
+Object {
+  "data": null,
+  "hero": Object {
+    "image": null,
+  },
+  "id": "about-us",
+  "links": null,
+  "title": "Who We Are",
+}
+`;

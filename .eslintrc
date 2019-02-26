@@ -9,17 +9,24 @@
     "plugins": ["react", "jest"],
     "parserOptions": {
         "ecmaFeatures": {
+          "ecmaVersion": 6,
+          "sourceType": "module",
           "jsx": true
         }
       },
     "env": {
         "browser": true,
         "node": true,
-        "jest": true
+        "jest": true,
+        "es6": true
     },
     "settings": {
         "react": {
           "version": "detect"
         }
-    }
+    },
+    "globals": {
+      "shallow": "readable",
+      "mount": "readable"
+  }
 }

@@ -1,10 +1,45 @@
-import { map } from 'ramda';
+import React from 'react';
 
-import routes from './index';
+import getRoutes from './index';
 
-describe('routing', () => {
-  it('routes match snapshot', () => {
-    const takeSnapshot = route => expect(route).toMatchSnapshot();
-    map(takeSnapshot, routes);
+const MockComponent = () => <div />;
+
+describe('getRoutes', () => {
+  it('builds route components', () => {
+    const testRoutes = [
+      {
+        path: '/',
+        component: MockComponent,
+      },
+    ];
+    const routes = getRoutes(testRoutes);
+
+    expect(routes).toHaveLength(1);
+    expect(routes[0]).toMatchSnapshot();
+  });
+  it('builds redirect components', () => {
+    const testRoutes = [
+      {
+        from: '/from',
+        to: '/to',
+      },
+    ];
+    const routes = getRoutes(testRoutes);
+
+    expect(routes).toHaveLength(1);
+    expect(routes[0]).toMatchSnapshot();
+  });
+  it('builds authenticated route components', () => {
+    const testRoutes = [
+      {
+        path: '/',
+        component: MockComponent,
+        auth: true,
+      },
+    ];
+    const routes = getRoutes(testRoutes);
+
+    expect(routes).toHaveLength(1);
+    expect(routes[0]).toMatchSnapshot();
   });
 });

@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PageContent /> render matches snapshot while loading 1`] = `"Loading..."`;
+
+exports[`<PageContent /> render matches snapshot with markdown 1`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <styled.div>
+      <styled.div>
+        <Styled(styled.h1) />
+        <styled.div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "",
+            }
+          }
+        />
+      </styled.div>
+      <styled.div>
+        <styled.div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<h3>some data</h3>
+",
+            }
+          }
+        />
+      </styled.div>
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;
+
+exports[`<PageContent /> render matches snapshot with markdown 2`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <styled.div>
+      <styled.div>
+        <Styled(styled.h1)>
+          foo
+        </Styled(styled.h1)>
+        <styled.div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "",
+            }
+          }
+        />
+      </styled.div>
+      <styled.div>
+        <styled.div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<h3>some data</h3>
+",
+            }
+          }
+        />
+      </styled.div>
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;
+
+exports[`<PageContent /> render matches snapshot with markdown 3`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <styled.div>
+      <styled.div>
+        <Styled(styled.h1)>
+          foo
+        </Styled(styled.h1)>
+        <styled.div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<ul>
+<li>a link</li>
+</ul>
+",
+            }
+          }
+        />
+      </styled.div>
+      <styled.div>
+        <styled.div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<h3>some data</h3>
+",
+            }
+          }
+        />
+      </styled.div>
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;
+
+exports[`<PageContent /> render matches snapshot with markdown 4`] = `
+<styled.div>
+  <Styled(Hero)
+    image="http://foo"
+  />
+  <Styled(styled.div)>
+    <styled.div>
+      <styled.div>
+        <Styled(styled.h1)>
+          foo
+        </Styled(styled.h1)>
+        <styled.div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<ul>
+<li>a link</li>
+</ul>
+",
+            }
+          }
+        />
+      </styled.div>
+      <styled.div>
+        <styled.div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<h3>some data</h3>
+",
+            }
+          }
+        />
+      </styled.div>
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;

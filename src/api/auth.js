@@ -24,4 +24,4 @@ export const resetPassword = values => {
   return request().post(endpoint, values);
 };
 
-export default { resetPassword, getUserFromToken, signUp, logIn };
+export default { getUserFromToken, signUp, logIn, resetPassword };

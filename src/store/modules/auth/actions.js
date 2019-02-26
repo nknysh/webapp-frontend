@@ -45,7 +45,6 @@ const authReset = value => ({
 
 export const getUserFromToken = ({ token }) => dispatch => {
   dispatch(authRequest({ token }));
-
   return AuthApi.getUserFromToken({ token })
     .then(response => {
       const ok = { token, user: response.data };
@@ -57,13 +56,12 @@ export const getUserFromToken = ({ token }) => dispatch => {
     });
 };
 
-export const signUp = values => dispatch => {
+export const signUp = values => () => {
   return AuthApi.signUp(values);
 };
 
 export const logIn = values => async dispatch => {
   dispatch(authRequest(values));
-
   try {
     const response = await AuthApi.logIn(values);
     const { id, user } = response.data;

@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Footer /> render matches snapshot 1`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <styled.div>
+      <styled.p>
+        DUBAI: +971(0) 43933100
+      </styled.p>
+      <styled.p>
+        SEYCHELLES: +248 224 811
+      </styled.p>
+      <styled.p>
+        UK: +44 (0)8447 365 985
+      </styled.p>
+    </styled.div>
+    <Styled(Menu)
+      links={
+        Array [
+          Object {
+            "href": "/about-us",
+            "title": "About Us",
+          },
+          Object {
+            "href": "/contact-us",
+            "title": "Contact Us",
+          },
+          Object {
+            "href": "/privacy-policy",
+            "title": "Privacy Policy",
+          },
+          Object {
+            "href": "/terms-and-conditions",
+            "title": "Terms and Conditions",
+          },
+        ]
+      }
+    />
+    <styled.div
+      align="flex-end"
+      flex={true}
+    >
+      <styled.div>
+        <img
+          src={null}
+        />
+        <styled.p>
+          © 
+          2019
+           Pure Escapes
+        </styled.p>
+      </styled.div>
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home /> render matches snapshot 1`] = `
+<styled.div>
+  <Hero
+    full={true}
+    image={null}
+    offsetBy={120}
+  >
+    <p>
+      FOR YOUR HIGHLY-DISCERNING
+    </p>
+    <p>
+      INDIAN OCEAN TRAVELLERS,
+    </p>
+    <p>
+      THE ADVANTAGES ARE CLEAR
+    </p>
+  </Hero>
+</styled.div>
+`;
