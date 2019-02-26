@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { compose } from 'ramda';
 
-import footerText from 'config/data/footer.md';
-import { Markdown } from 'components';
-import { windowExists } from 'utils/window';
-
 import theme from 'styles/theme';
+import { Markdown } from 'components';
+import { useCurrentWidth } from 'effects';
+
+import footerText from 'config/data/footer.md';
 
 import logo from './assets/footer-logo.png';
 
-import { propTypes } from './Footer.props';
+import { propTypes, defaultProps } from './Footer.props';
 import {
   FooterColumn,
   FooterColumns,
@@ -25,22 +25,7 @@ import connect from './Footer.state';
 const currentDate = new Date();
 
 export const Footer = ({ menu, className }) => {
-  // eslint-disable-next-line
-  const [currentWidth, setCurrentWidth] = useState(windowExists.innerWidth);
-  const updateWidth = () => setCurrentWidth(windowExists.innerWidth || 0);
-
-  useEffect(() => {
-    if (windowExists.addEventListener) {
-      windowExists.addEventListener('resize', updateWidth);
-    }
-
-    () => {
-      if (windowExists.addEventListener) {
-        windowExists.addEventListener('resize', updateWidth);
-      }
-    };
-  });
-
+  const currentWidth = useCurrentWidth();
   const isMobile = currentWidth <= theme.breakpoints.tablet;
 
   const footerMenu = <FooterMenu links={menu} />;
@@ -72,5 +57,6 @@ export const Footer = ({ menu, className }) => {
 };
 
 Footer.propTypes = propTypes;
+Footer.defaultProps = defaultProps;
 
 export default compose(connect)(Footer);

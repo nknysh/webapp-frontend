@@ -19,7 +19,7 @@ exports[`<Video /> render matches snapshot 3`] = `
     src="http://foo"
     type="video/mp4"
   />
-  <styled.img
+  <Styled(styled.img)
     src="http://foo"
   />
 </video>

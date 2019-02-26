@@ -2,7 +2,7 @@ import React from 'react';
 
 import { App } from './App';
 
-const getShallow = props => shallow(<App getUserToken={() => {}} {...props} />);
+const getShallow = props => shallow(<App location={{ pathname: '/' }} getUserToken={() => {}} {...props} />);
 
 describe('<App />', () => {
   describe('render', () => {

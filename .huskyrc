@@ -1,0 +1,6 @@
+{
+    "hooks": {
+        "pre-commit": "yarn prettier && git add .",
+        "pre-push": "yarn test"
+    }
+}

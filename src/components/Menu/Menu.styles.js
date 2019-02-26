@@ -40,6 +40,7 @@ export const Links = styled.div`
 `;
 
 export const MenuLink = styled(Link)`
+  font-weight: ${({ ['data-active']: isActive }) => isActive && 'bold'};
   display: block;
   transition: ease-in-out 0.25s all;
   text-transform: uppercase;

@@ -9,9 +9,9 @@ import store from 'store';
 import getRoutes from 'routing';
 import appRoutes from 'routing/routes/apps';
 
-import './styles/fonts/HurmeGeometricSans2.css';
 import { GlobalStyle, GlobalFonts } from 'styles/global';
 
+import './styles/fonts/HurmeGeometricSans2.css';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(

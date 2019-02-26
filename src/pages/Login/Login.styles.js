@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import theme from 'styles/theme';
 import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
+import { Heading1 } from 'styles/typography';
 
 export const Container = styled.div`
   background: ${theme.primary};
@@ -32,11 +33,9 @@ export const Modal = styled.div`
   margin: 50px;
 `;
 
-export const Title = styled.h1`
+export const Title = styled(Heading1)`
   text-align: center;
   display: block;
-
-  color: ${theme.secondary};
 `;
 
 export const Fields = styled.div`

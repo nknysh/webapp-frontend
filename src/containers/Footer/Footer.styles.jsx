@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import breakpoints from 'styles/breakpoints';
 import theme from 'styles/theme';
 import { Container } from 'styles/elements';
+import { P } from 'styles/typography';
 
 import { Menu } from 'components';
 
@@ -20,13 +21,17 @@ export const FooterMenu = styled(Menu)`
   font-size: 12px;
 
   ${breakpoints.tablet`
+    padding-top: ${theme.gutter}px;
     width: 100%;
   `}
 
   > div {
     border: 0;
 
-    a {
+    a,
+    a:visited {
+      color: ${theme.colors['gold-neutral']} !important;
+
       ${breakpoints.tablet`
         padding: 0;
       `}
@@ -65,6 +70,6 @@ export const FooterCopyright = styled.div`
   text-align: center;
 `;
 
-export const FooterCopyrightText = styled.p`
+export const FooterCopyrightText = styled(P)`
   margin: ${theme.gutter}px 0;
 `;

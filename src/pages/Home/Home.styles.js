@@ -3,6 +3,7 @@ import { Icon } from '@material-ui/core';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
+import { h2Styling, h1Styling } from 'styles/typography';
 
 import { Hero } from 'components';
 
@@ -19,6 +20,7 @@ export const MoveTo = styled(Icon)`
   z-index: 30;
   width: 100% !important;
   font-size: 62px !important;
+  cursor: pointer;
 `;
 
 export const HomeSection = styled.div`
@@ -40,7 +42,11 @@ export const HomeContainer = styled.div`
   `}
 
   h1, h2 {
-    color: ${theme.secondary};
+    ${h1Styling}
+  }
+
+  h2 {
+    ${h2Styling}
   }
 
   p,

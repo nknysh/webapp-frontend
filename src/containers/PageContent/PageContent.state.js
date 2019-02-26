@@ -5,11 +5,11 @@ import { getPageId, getPageTitle, getPageData, getPageLinks, getPageHero } from 
 import { getPageById } from 'store/modules/pages/actions';
 
 export const mapStateToProps = state => ({
-  id: getPageId(state),
-  title: getPageTitle(state),
   data: getPageData(state),
-  links: getPageLinks(state),
   hero: getPageHero(state),
+  id: getPageId(state),
+  links: getPageLinks(state),
+  title: getPageTitle(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

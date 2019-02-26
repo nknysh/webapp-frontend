@@ -20,7 +20,7 @@ describe('<Hero />', () => {
       ).toMatchSnapshot();
       expect(
         getComponent({
-          media: { image: testImage, video: testVideo },
+          media: { image: testImage, video: { path: testVideo, type: 'mp4' } },
           title: 'A title',
           children: 'Some content',
           full: true,

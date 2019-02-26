@@ -4,7 +4,7 @@ import { Layout } from './Layout';
 
 const getComponent = props =>
   shallow(
-    <Layout {...props}>
+    <Layout location={{ pathname: '' }} {...props}>
       <h1>Some content</h1>
     </Layout>
   );

@@ -1,8 +1,12 @@
 ##
 
+<a id="1" />
+
 ### 1. BOOKING CONDITIONS
 
 Please read the following conditions carefully, as products and services sold by us are subject to these conditions unless otherwise agreed. PST Limited, trading as Pure Escapes (hereafter referred to as 'we', 'our' and 'us' and the Agent (hereafter referred to as 'Agent', 'you' and 'your') agree that the terms and conditions for the services provided by us to you shall be governed by the Booking Conditions detailed below and that the said Booking Conditions shall form an entire part of the service contract, whether verbal or written, entered into between us and the Agent.
+
+<a id="2" />
 
 ### 2. PRICES
 
@@ -10,12 +14,18 @@ Please read the following conditions carefully, as products and services sold by
 
 2.2 It is important to check the details on the invoice as soon as you receive it. In the event of any discrepancy please contact us immediately. We regret that we cannot accept any liability if we are not notified of any inaccuracies in any document within 3 days of our sending it. We will do our best to rectify any mistake notified to us outside of these time limits but you must meet any costs involved in doing so. Please note that the prices quoted are subject to change in line with market, tax or currency fluctuation without prior notice.
 
+<a id="3" />
+
 ### 3. PRICING ERRORS AND CHANGES
 
 Whilst we endeavour to ensure that the most up to date and correct prices are shown on our confidential tariffs, there may on occasion be an incorrect price shown, due to an unfortunate error or pricing change. We will advise you of any pricing change at the time of booking. If we become aware of any error, we will endeavour to notify you at the time of booking (if we are then aware of the mistake) or within 7 days of the time of booking, or as soon as reasonably possible. We must reserve the right to cancel the booking if you do not wish to accept the price which is actually applicable to the holiday in which case, you will be given the choice to amend your booking to an alternative holiday, at the correct price.
 
+<a id="4" />
+
 ### 4. RESERVATION & CONFIRMATION
 Reservations can be made by telephone or email and will be confirmed the same day whenever possible. A reservation is not deemed to have been made until it is confirmed by a member of our staff.
+
+<a id="5" />
 
 ### 5. PAYMENT FOR BOOKINGS
 
@@ -23,9 +33,13 @@ Reservations can be made by telephone or email and will be confirmed the same da
 
 5.2 Unless otherwise agreed by us, your payment should be executed by swift transfer to our bank account detailed on the invoice. Any bank charges levied by the sending bank relating to transfers to us must be paid by the Agent. Payment by credit card is acceptable but a service charge will apply.
 
+<a id="6" />
+
 ### 6. CANCELLATION POLICY
 
 Except as otherwise agreed by us, any cancellations should be made in writing and will be in accordance with hotels the resort cancellation policy, referred to on our invoice.
+
+<a id="7" />
 
 ### 7. CLIENT DOCUMENTS
 
@@ -33,11 +47,17 @@ Except as otherwise agreed by us, any cancellations should be made in writing an
 
 7.2 Unless otherwise agreed in advance, we expect you to issue your clients with appropriate receipts and vouchers required. If your client has no such documents then your client's passport details will suffice as proof of identification and all services will be provided as agreed, subject to paragraph 9 below.
 
+<a id="8" />
+
 ### 8. HOLIDAY INSURANCE
 This is a vital part of any holiday and it is a requirement of the booking that your client and/or members of their party hold adequate travel insurance with full cancellation cover. Please ensure your client reads the policy details carefully and takes a copy of the policy with them on holiday. It is your client's responsibility to ensure that the insurance cover they purchase is suitable and adequate for their particular needs.
 
+<a id="9" />
+
 ### 9. CHANGES TO THE BOOKING
 If your client wishes to change any part of their holiday arrangements after the invoice has been issued, we will do our best to make the change, but it may not be possible. Any request for changes must be made in writing by you. If it is possible to make the change, it will be subject to an administration charge of USD50 per amendment for a Maldives booking and EUR 50 for a Seychelles booking, and payment of any further costs incurred as a result of the change. If we agree that your client may change the booking to a holiday of lower value, and then your client cancels that holiday, we reserve the right to levy cancellation charges on the value of the original booking.
+
+<a id="10" />
 
 ### 10. EXPERIENCES
 
@@ -45,17 +65,25 @@ If your client wishes to change any part of their holiday arrangements after the
 
 10.2 Experiences which do not form part of your client's package: We are also able to offer assistance and reserve certain experiences and activities for your client, for which they will be liable to pay locally. In these circumstances, we only act as a booking agent for the operator of the experience concerned. Your client's contract will therefore be with the local operator which provides it and it does not form part of your client's contracted holiday arrangements with us. The contract will be subject to the local operator's terms and conditions, some of which may exclude or limit its liability to your client, and will be governed by local law and jurisdiction. We accept no liability for any breach of contract or negligent act or omission of any excursion/activity provider.
 
+<a id="11" />
+
 ### 11. SPECIAL REQUESTS
 
 Where special requests eg. diet, room/villa location, twin or double bedded room, a particular facility at a hotel and/or particular meals etc. are an important factor in the choice of holiday, you must advise us when the booking is made. We are happy to pass your request on to the hotel but cannot guarantee that it will be accommodated. The provision of any special request does not constitute a term of your contract with us.
+
+<a id="12" />
 
 ### 12. WEATHER
 
 World weather is becoming more erratic and unpredictable and we cannot be held responsible for disruption to your client's holiday due to bad or unusual weather conditions.
 
+<a id="13" />
+
 ### 13. LIABILITY
 
 We will always do our utmost to provide the services to the best of our capacity and to the satisfaction of the Agent and their client. We shall in no event be liable to the Agent, by reason of breach of services or unsatisfactory services provided to the Agent by third parties or by way of indemnity or in tort or otherwise, for any loss, injury, damage, delay, change in schedule or other adverse events which are beyond our control and/or sustained by an act or default of any person or company providing the services to the Agent. The Agent warrants that we shall not be responsible and/or liable for additional expenses and/or damages incurred due to any delay, accidents, natural disaster, political action or unrest.
+
+<a id="14" />
 
 ### 14. ANTI-MONEY LAUNDERING AND SANCTIONS
 
@@ -64,6 +92,8 @@ We will always do our utmost to provide the services to the best of our capacity
 14.2 The Agents further agrees that it will not deal with and is not a restricted party nor is nor owned or controlled by one.
 
 14.3 Further, we reserve the right to suspend and/or terminate performance of our obligations under this agreement in the event that the Agent and/or client are suspected of breaching international standards on anti-money laundering and/or are a restricted person.
+
+<a id="15" />
 
 ### 15. GENERAL TERMS
 

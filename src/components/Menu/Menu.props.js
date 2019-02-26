@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 export const propTypes = {
   align: PropTypes.oneOf(['start', 'middle', 'end']),
   className: PropTypes.string,
+  currentPath: PropTypes.string,
   links: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,
@@ -16,6 +17,7 @@ export const propTypes = {
 
 export const defaultProps = {
   align: 'middle',
+  currentPath: '',
   links: [],
   onLinkClick: () => {},
 };
