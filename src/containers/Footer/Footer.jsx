@@ -6,8 +6,6 @@ import { renderMarkdown } from 'utils/markdown';
 
 import logo from './assets/footer-logo.png';
 
-console.log(footerText);
-
 import { propTypes } from './Footer.props';
 import {
   StyledFooter,
