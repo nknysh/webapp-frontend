@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import theme from 'styles/theme';
 import { Container } from 'styles/elements';
@@ -25,14 +24,16 @@ export const FooterColumn = styled.div`
   justify-content: ${({ align }) => align};
   flex: 0 1 25%
   padding-top: ${theme.gutter}px;
-  text-transform: uppercase;
   font-size: 11px;
   color: ${theme.colors['gold-light']}
   width: 100%;
 `;
 
-export const FooterText = styled.p`
-  margin: ${theme.gutter / 2}px 0;
+export const FooterText = styled.div`
+  p {
+    margin: ${theme.gutter / 2}px 0;
+    padding: 0;
+  }
 `;
 
 export const FooterCopyright = styled.div`

@@ -1,7 +1,12 @@
 import React from 'react';
 import { compose } from 'ramda';
 
+import footerText from 'config/data/footer.md';
+import { renderMarkdown } from 'utils/markdown';
+
 import logo from './assets/footer-logo.png';
+
+console.log(footerText);
 
 import { propTypes } from './Footer.props';
 import {
@@ -17,13 +22,13 @@ import connect from './Footer.state';
 
 const currentDate = new Date();
 
+const footerAddress = renderMarkdown(footerText);
+
 export const Footer = ({ menu, className }) => (
   <StyledFooter className={className}>
     <FooterContainer>
       <FooterColumn>
-        <FooterText>DUBAI: +971(0) 43933100</FooterText>
-        <FooterText>SEYCHELLES: +248 224 811</FooterText>
-        <FooterText>UK: +44 (0)8447 365 985</FooterText>
+        <FooterText dangerouslySetInnerHTML={{__html: footerAddress}} />
       </FooterColumn>
 
       <FooterMenu links={menu} />
