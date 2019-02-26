@@ -26,10 +26,10 @@ export const Content = styled.div`
 `;
 
 export const Modal = styled.div`
-  width: 600${theme.unit};
-  padding: 80${theme.unit};
+  width: 600px;
+  padding: 80px;
   background-color: ${theme.colors.white};
-  margin: 50${theme.unit};
+  margin: 50px;
 `;
 
 export const Title = styled.h1`
@@ -40,7 +40,7 @@ export const Title = styled.h1`
 `;
 
 export const Fields = styled.div`
-  margin-top: 50${theme.unit};
+  margin-top: 50px;
   text-align: left;
 `;
 
@@ -49,18 +49,18 @@ export const Field = styled.div``;
 export const Input = styled(BaseInput)``;
 
 export const Actions = styled.div`
-  margin-top: 50${theme.unit};
+  margin-top: 50px;
 `;
 
 export const ForgotPassword = styled.div`
-  margin-top: 50${theme.unit};
+  margin-top: 50px;
 `;
 
 export const ForgotLink = styled.span`
   text-align: center;
   text-decoration: underline;
   cursor: pointer;
-  font-size: 12${theme.unit};
+  font-size: 12px;
   text-decoration: none;
 `;
 

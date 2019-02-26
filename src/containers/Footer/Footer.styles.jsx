@@ -9,15 +9,15 @@ import { Menu } from 'components';
 export const StyledFooter = styled.div`
   display: block;
   background: ${theme.colors['gray-light']};
-  padding: ${theme.gutter * 3}${theme.unit};
+  padding: ${theme.gutter * 3}px;
 `;
 
 export const FooterContainer = styled(Container)``;
 
 export const FooterMenu = styled(Menu)`
   text-align: center;
-  padding-bottom: ${theme.gutter*3}${theme.unit};
-  font-size: 12${theme.unit};
+  padding-bottom: ${theme.gutter * 3}px;
+  font-size: 12px;
 
   ${breakpoints.tablet`
     width: 100%;
@@ -36,16 +36,16 @@ export const FooterMenu = styled(Menu)`
 
 export const FooterColumns = styled.div`
   display: flex;
-  padding: ${theme.gutter}${theme.unit};
-  border-top: 1${theme.unit} solid ${theme.colors.gray};
+  padding: ${theme.gutter}px;
+  border-top: 1px solid ${theme.colors.gray};
 `;
 
 export const FooterColumn = styled.div`
   display: ${({ flex }) => flex && 'flex'};
   justify-content: ${({ align }) => align};
   flex: 0 1 50%
-  padding-top: ${theme.gutter}${theme.unit};
-  font-size: ${theme.linkSize}${theme.unit};
+  padding-top: ${theme.gutter}px;
+  font-size: ${theme.linkSize}px;
   color: ${theme.colors['gold-light']}
   width: 100%;
 
@@ -56,7 +56,7 @@ export const FooterColumn = styled.div`
 
 export const FooterText = styled.div`
   p {
-    margin: ${theme.gutter / 2}${theme.unit} 0;
+    margin: ${theme.gutter / 2}px 0;
     padding: 0;
   }
 `;
@@ -66,5 +66,5 @@ export const FooterCopyright = styled.div`
 `;
 
 export const FooterCopyrightText = styled.p`
-  margin: ${theme.gutter}${theme.unit} 0;
+  margin: ${theme.gutter}px 0;
 `;

@@ -11,26 +11,26 @@ export const Container = styled.div`
   width: 100%;
   margin: 0 auto;
 
-  ${breakpoints.desktop`width: ${theme.breakpoints.desktop}${theme.unit}`}
+  ${breakpoints.desktop`width: ${theme.breakpoints.desktop}px`}
 `;
 
 export const Input = styled.input`
-  margin-top: 5${theme.unit};
+  margin-top: 5px;
   display: block;
-  border: 1${theme.unit} solid ${theme.colors['gray-darker']};
+  border: 1px solid ${theme.colors['gray-darker']};
   color: ${theme.colors.black};
   width: 100%;
-  padding: ${theme.gutter}${theme.unit};
+  padding: ${theme.gutter}px;
 `;
 
 export const Button = styled.button`
   width: 100%;
-  font-size: 18${theme.unit};
+  font-size: 18px;
   color: ${theme.colors.white};
   background: ${theme.primary}
   outline: none;
   border: 0;
-  padding: ${theme.gutter}${theme.unit} ${theme.gutter}${theme.unit};
+  padding: ${theme.gutter}px ${theme.gutter}px;
   cursor: pointer;
 `;
 

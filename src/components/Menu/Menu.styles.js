@@ -16,8 +16,8 @@ const getAlignment = prop(__, alignMap);
 
 export const Links = styled.div`
   > div {
-    border-bottom: 1${theme.unit} solid ${theme.colors['gray-darker']};
-    padding: ${theme.gutter / 2}${theme.unit};
+    border-bottom: 1px solid ${theme.colors['gray-darker']};
+    padding: ${theme.gutter / 2}px;
 
     ${breakpoints.tablet`
       padding: 0;
@@ -50,7 +50,7 @@ export const MenuLink = styled(Link)`
   }
 
   ${breakpoints.tablet`
-    font-size: ${theme.linkSize}${theme.unit};
+    font-size: ${theme.linkSize}px;
     text-align: center;
     height: auto;
     transition: ease-in-out 0.25s all;

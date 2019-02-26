@@ -10,18 +10,18 @@ import { Link, Menu } from 'components';
 export const HeaderContainer = styled(Container)`
   display: flex;
   width: 100%;
-  height: ${theme.headerSizes.mobile}${theme.unit};
+  height: ${theme.headerSizes.mobile}px;
   align-items: center;
 
   ${breakpoints.tablet`
-    height: ${theme.headerSizes.tablet}${theme.unit};
+    height: ${theme.headerSizes.tablet}px;
   `}
 `;
 
 export const StyledHeader = styled.div`
   background: ${theme.backgroundColor}
-  border-bottom: 1${theme.unit} solid ${theme.colors['gray-light']};
-  padding: ${theme.gutter}${theme.unit} ${theme.gutter * 2}${theme.unit};
+  border-bottom: 1px solid ${theme.colors['gray-light']};
+  padding: ${theme.gutter}px ${theme.gutter * 2}px;
 
   ${breakpoints.tablet`
     padding: ${theme.gutter};
@@ -29,15 +29,15 @@ export const StyledHeader = styled.div`
 `;
 
 export const HeaderLogo = styled(Link)`
-  padding: ${theme.gutter}${theme.unit};
-  height: 26${theme.unit};
+  padding: ${theme.gutter}px;
+  height: 26px;
   width: auto;
   display: block;
 
-  a{
+  a {
     display: block;
   }
-    
+
   img {
     height: 100%;
     width: auto;
@@ -55,7 +55,7 @@ export const HeaderMenuArea = styled.div`
 export const HeaderMobileMenuButton = styled(Icon)`
   display: block;
   color: ${theme.colors.gold};
-  font-size: 38${theme.unit} !important;
+  font-size: 38px !important;
 
   ${breakpoints.tablet`
     display: none !important;
@@ -65,14 +65,14 @@ export const HeaderMobileMenuButton = styled(Icon)`
 export const HeaderMenu = styled(Menu)`
   position: absolute;
   background: ${theme.backgroundColor};
-  padding: ${theme.gutter}${theme.unit};
-  top: ${theme.headerSizes.mobile + theme.gutter * 2}${theme.unit};
+  padding: ${theme.gutter}px;
+  top: ${theme.headerSizes.mobile + theme.gutter * 2}px;
   right: 0;
   left: 0;
-  border-top: 1${theme.unit} solid ${theme.colors.gold};
+  border-top: 1px solid ${theme.colors.gold};
   transition: ease-in-out 0.25s all;
   text-align: left;
-  font-size: 12${theme.unit};
+  font-size: 12px;
 
   ${({ isOpen }) => css`
     opacity: ${isOpen ? 1 : 0};
@@ -89,7 +89,7 @@ export const HeaderMenu = styled(Menu)`
     width: 100%;
     opacity: 1;
     pointer-events: auto;
-    font-size: 11${theme.unit};
+    font-size: 11px;
   `}
 `;
 

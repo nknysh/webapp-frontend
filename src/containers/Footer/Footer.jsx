@@ -3,7 +3,7 @@ import { compose } from 'ramda';
 
 import footerText from 'config/data/footer.md';
 import { Markdown } from 'components';
-import {windowExists} from 'utils/window';
+import { windowExists } from 'utils/window';
 
 import theme from 'styles/theme';
 
@@ -30,16 +30,16 @@ export const Footer = ({ menu, className }) => {
   const updateWidth = () => setCurrentWidth(windowExists.innerWidth || 0);
 
   useEffect(() => {
-    if(windowExists.addEventListener) {
-      windowExists.addEventListener('resize', updateWidth)
+    if (windowExists.addEventListener) {
+      windowExists.addEventListener('resize', updateWidth);
     }
 
     () => {
-      if(windowExists.addEventListener) {
-        windowExists.addEventListener('resize', updateWidth)
+      if (windowExists.addEventListener) {
+        windowExists.addEventListener('resize', updateWidth);
       }
-    }
-  })
+    };
+  });
 
   const isMobile = currentWidth <= theme.breakpoints.tablet;
 
@@ -48,9 +48,8 @@ export const Footer = ({ menu, className }) => {
   return (
     <StyledFooter className={className}>
       <FooterContainer>
-
         {isMobile && footerMenu}
-        
+
         <FooterColumns>
           <FooterColumn>
             <FooterText>
@@ -69,7 +68,7 @@ export const Footer = ({ menu, className }) => {
         </FooterColumns>
       </FooterContainer>
     </StyledFooter>
-  )
+  );
 };
 
 Footer.propTypes = propTypes;

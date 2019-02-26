@@ -8,6 +8,6 @@ export const Container = styled.div`
 `;
 
 export const Text = styled.span`
-  margin-left: 5${theme.unit};
+  margin-left: 5px;
   color: ${theme.primary};
 `;

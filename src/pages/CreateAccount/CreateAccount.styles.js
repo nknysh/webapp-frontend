@@ -24,14 +24,14 @@ export const Fill = styled.div`
 export const Content = styled.div`
   align-items: center;
   align-self: center;
-  margin-top: 40${theme.unit};
-  margin-bottom: 100${theme.unit};
+  margin-top: 40px;
+  margin-bottom: 100px;
 `;
 
 export const Modal = styled.div`
-  padding: 80${theme.unit};
+  padding: 80px;
   background-color: ${theme.colors.white};
-  min-width: 1024${theme.unit};
+  min-width: 1024px;
 `;
 
 export const Title = styled(Heading1)`
@@ -39,13 +39,13 @@ export const Title = styled(Heading1)`
 `;
 
 export const Fields = styled.div`
-  margin-top: 80${theme.unit};
+  margin-top: 80px;
 `;
 
 export const Row = styled.div`
   flex-direction: row;
   align-items: center;
-  margin-top: 40${theme.unit};
+  margin-top: 40px;
 `;
 
 export const Group = styled.div`
@@ -58,12 +58,12 @@ export const Field = styled.div`
 `;
 
 export const Input = styled(BaseInput)`
-  margin-bottom: ${theme.gutter * 2}${theme.unit};
+  margin-bottom: ${theme.gutter * 2}px;
 `;
 
 export const Actions = styled.div`
   align-items: center;
-  margin-top: 50${theme.unit};
+  margin-top: 50px;
 `;
 
 export const SubmitButton = styled(BaseButton)``;
@@ -78,5 +78,5 @@ export const Columns = styled.div`
 
 export const Column = styled.div`
   flex: 1 1 50%;
-  padding: ${theme.gutter}${theme.unit};
+  padding: ${theme.gutter}px;
 `;

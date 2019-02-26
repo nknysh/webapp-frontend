@@ -26,7 +26,7 @@ export const palette = {
 
 export const spacing = {
   gutter: 10,
-  unit: 'px'
+  unit: 'px',
 };
 
 export const sizes = {
