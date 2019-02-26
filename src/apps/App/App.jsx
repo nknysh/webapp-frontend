@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, withRouter } from 'react-router-dom';
 import { compose } from 'ramda';
 
@@ -35,11 +35,9 @@ export const App = () => {
   });
 
   return (
-    <Fragment>
-      <Layout>
-        <Switch>{getRoutes(routes)}</Switch>
-      </Layout>
-    </Fragment>
+    <Layout>
+      <Switch>{getRoutes(routes)}</Switch>
+    </Layout>
   );
 };
 
