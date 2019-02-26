@@ -5,5 +5,5 @@ import image from './assets/hero-image.jpg';
 export default {
   data,
   links,
-  hero: { image },
+  hero: { media: { image } },
 };

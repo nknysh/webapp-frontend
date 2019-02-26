@@ -4,7 +4,9 @@ exports[`pages reducer should handle GET_PAGE 1`] = `
 Object {
   "data": "",
   "hero": Object {
-    "image": "",
+    "media": Object {
+      "image": "",
+    },
   },
   "id": "about-us",
   "links": "",
