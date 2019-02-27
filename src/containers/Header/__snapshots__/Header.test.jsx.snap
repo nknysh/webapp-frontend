@@ -14,7 +14,6 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
       </Styled(WithStyles(Icon))>
       <Styled(Menu)
         align="end"
-        currentLocation=""
         isOpen={false}
         links={
           Array [
@@ -51,7 +50,6 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
       </Styled(WithStyles(Icon))>
       <Styled(Menu)
         align="end"
-        currentLocation=""
         isOpen={false}
         links={
           Array [

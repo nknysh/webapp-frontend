@@ -1,7 +1,7 @@
-import aboutData from './data/about';
-import contactData from './data/contact';
-import privacyData from './data/privacy';
-import termsData from './data/terms';
+import aboutData from 'config/data/about';
+import contactData from 'config/data/contact';
+import privacyData from 'config/data/privacy';
+import termsData from 'config/data/terms';
 
 export const PageIds = Object.freeze({
   ABOUT: 'about-us',
@@ -12,7 +12,7 @@ export const PageIds = Object.freeze({
 
 export const PageData = Object.freeze({
   [PageIds.ABOUT]: {
-    title: 'Who We Are',
+    title: 'About Us',
     ...aboutData,
   },
   [PageIds.CONTACT]: {

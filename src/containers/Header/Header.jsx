@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'ramda';
 
 import { withAuthentication } from 'hoc/withAuthentication';
@@ -17,7 +16,7 @@ import {
   HeaderMobileMenuButton,
 } from './Header.styles';
 
-export const Header = ({ menu, className, location: { pathname } }) => {
+export const Header = ({ menu, className, currentPath }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const onClickToggle = () => setMenuOpen(!menuOpen);
@@ -29,7 +28,7 @@ export const Header = ({ menu, className, location: { pathname } }) => {
         <HeaderLogo to="/">{logo && <img src={logo} />}</HeaderLogo>
         <HeaderMenuArea>
           <HeaderMobileMenuButton onClick={onClickToggle}>menu</HeaderMobileMenuButton>
-          <HeaderMenu isOpen={menuOpen} align="end" links={menu} currentLocation={pathname} onLinkClick={onLinkClick} />
+          <HeaderMenu isOpen={menuOpen} align="end" links={menu} currentPath={currentPath} onLinkClick={onLinkClick} />
         </HeaderMenuArea>
       </HeaderContainer>
     </StyledHeader>
@@ -41,6 +40,5 @@ Header.defaultProps = defaultProps;
 
 export default compose(
   withAuthentication,
-  connect,
-  withRouter
+  connect
 )(Header);

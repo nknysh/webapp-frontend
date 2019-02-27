@@ -22,10 +22,6 @@ export const StyledHeader = styled.div`
   background: ${theme.backgroundColor}
   border-bottom: 1px solid ${theme.colors['gray-light']};
   padding: ${theme.gutter}px ${theme.gutter * 2}px;
-
-  ${breakpoints.tablet`
-    padding: ${theme.gutter};
-  `}
 `;
 
 export const HeaderLogo = styled(Link)`

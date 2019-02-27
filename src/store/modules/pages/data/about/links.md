@@ -1,6 +1,0 @@
-- [Who We Are](#who-we-are)
-- [Why Book With Us](#why-book-with-us)
-- [Best Price Guarenteed](#best-price)
-- [What Our Members Says](#testimonials)
-- [FAQS](#faqs)
-- [Careers](#careers)

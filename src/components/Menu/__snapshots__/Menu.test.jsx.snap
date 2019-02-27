@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Menu /> render matches logged in snapshot 1`] = `
+exports[`<Menu /> render matched route is active in snapshot 1`] = `
 <styled.div
   align="middle"
   isAuthenticated={true}
 >
   <Styled(Link)
+    data-active={true}
     key="/"
     onClick={[Function]}
     spaced={true}
@@ -14,6 +15,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
     Home
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/messages"
     onClick={[Function]}
     spaced={true}
@@ -22,6 +24,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
     Messages
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/calendar"
     onClick={[Function]}
     spaced={true}
@@ -30,6 +33,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
     Calendar
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/proposals"
     onClick={[Function]}
     spaced={true}
@@ -38,6 +42,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
     Proposals
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/bookings"
     onClick={[Function]}
     spaced={true}
@@ -46,6 +51,69 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
     Bookings
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
+    key="/holds"
+    onClick={[Function]}
+    spaced={true}
+    to="/holds"
+  >
+    Holds
+  </Styled(Link)>
+</styled.div>
+`;
+
+exports[`<Menu /> render matches logged in snapshot 1`] = `
+<styled.div
+  align="middle"
+  isAuthenticated={true}
+>
+  <Styled(Link)
+    data-active={false}
+    key="/"
+    onClick={[Function]}
+    spaced={true}
+    to="/"
+  >
+    Home
+  </Styled(Link)>
+  <Styled(Link)
+    data-active={false}
+    key="/messages"
+    onClick={[Function]}
+    spaced={true}
+    to="/messages"
+  >
+    Messages
+  </Styled(Link)>
+  <Styled(Link)
+    data-active={false}
+    key="/calendar"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
+  </Styled(Link)>
+  <Styled(Link)
+    data-active={false}
+    key="/proposals"
+    onClick={[Function]}
+    spaced={true}
+    to="/proposals"
+  >
+    Proposals
+  </Styled(Link)>
+  <Styled(Link)
+    data-active={false}
+    key="/bookings"
+    onClick={[Function]}
+    spaced={true}
+    to="/bookings"
+  >
+    Bookings
+  </Styled(Link)>
+  <Styled(Link)
+    data-active={false}
     key="/holds"
     onClick={[Function]}
     spaced={true}
@@ -62,6 +130,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
   isAuthenticated={false}
 >
   <Styled(Link)
+    data-active={false}
     key="/"
     onClick={[Function]}
     spaced={true}
@@ -70,6 +139,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
     Home
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/messages"
     onClick={[Function]}
     spaced={true}
@@ -78,6 +148,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
     Messages
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/calendar"
     onClick={[Function]}
     spaced={true}
@@ -86,6 +157,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
     Calendar
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/proposals"
     onClick={[Function]}
     spaced={true}
@@ -94,6 +166,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
     Proposals
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/bookings"
     onClick={[Function]}
     spaced={true}
@@ -102,6 +175,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
     Bookings
   </Styled(Link)>
   <Styled(Link)
+    data-active={false}
     key="/holds"
     onClick={[Function]}
     spaced={true}

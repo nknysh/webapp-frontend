@@ -8,7 +8,6 @@ export const Link = styled.div`
   a:visited {
     color: ${theme.secondary};
 
-    &:hover,
     &:active {
       color: ${theme.primary};
     }
@@ -29,10 +28,6 @@ export const Link = styled.div`
         color: ${theme.colors.white};
         background: ${theme.primary};
         border-radius: ${theme.borderRadius}px;
-
-        &:hover {
-          background: ${theme.secondary};
-        }
       `}
 
 

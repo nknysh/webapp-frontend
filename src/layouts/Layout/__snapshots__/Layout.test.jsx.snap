@@ -11,13 +11,17 @@ exports[`<Layout /> render matches snapshot 1`] = `
     </title>
   </HelmetWrapper>
   <styled.div>
-    <Styled(withAuthentication(Connect(withRouter(Header)))) />
+    <Styled(withAuthentication(Connect(Header)))
+      currentPath=""
+    />
     <styled.div>
       <h1>
         Some content
       </h1>
     </styled.div>
-    <Styled(Connect(Footer)) />
+    <Styled(Connect(Footer))
+      currentPath=""
+    />
   </styled.div>
 </Fragment>
 `;

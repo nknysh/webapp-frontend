@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 import theme from 'styles/theme';
+import breakpoints from 'styles/breakpoints';
 import { Container } from 'styles/elements';
-import { Heading1 } from 'styles/typography';
+import { h3Styling, h2Styling, h4Styling, h5Styling, pStyling } from 'styles/typography';
 
 import { Hero } from 'components';
 
 const fiveSpaced = theme.gutter * 5;
 const doubleSpaced = theme.gutter * 2;
+const pageGutter = `${doubleSpaced}px`;
 
 export const StyledPageContent = styled.div`
   color: ${theme.colors['gold-neutral']};
@@ -15,41 +17,16 @@ export const StyledPageContent = styled.div`
 `;
 
 export const PageHero = styled(Hero)`
-  margin-bottom: ${fiveSpaced}px;
+  min-height: 140px;
+
+  ${breakpoints.tablet`
+    margin-bottom: ${fiveSpaced}px;
+    min-height: 350px;
+  `}
 `;
 
 export const PageContainer = styled(Container)`
-  padding: ${theme.gutter}px;
-`;
-
-export const PageContentHeader = styled(Heading1)`
-  margin: 0;
-  padding: 0 0 ${theme.gutter * 3}px;
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
-`;
-
-export const PageContentLinks = styled.div`
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      padding: ${doubleSpaced}px 0;
-      color: ${theme.primary};
-      border-bottom: 1px solid ${theme.colors['gray-medium']};
-
-      &:last-child {
-        border-bottom: 0;
-      }
-
-      a {
-        color: ${theme.primary};
-        font-size: ${theme.linkSize}px;
-        text-transform: uppercase;
-      }
-    }
-  }
+  padding: ${pageGutter};
 `;
 
 /**
@@ -66,25 +43,61 @@ export const PageContentData = styled.div`
     border-bottom: 1px solid ${theme.colors.gray};
   }
 
-  h2,
+  h2 {
+    ${h2Styling}
+  }
+
   h3 {
-    color: ${theme.primary};
+    ${h3Styling}
+  }
+
+  h4 {
+    ${h4Styling}
+  }
+
+  h5 {
+    ${h5Styling}
+  }
+
+  p {
+    ${pStyling}
   }
 
   h2 {
-    margin: 0 0 ${doubleSpaced}px;
-    padding: 0 0 ${doubleSpaced}px;
-    border-bottom: 1px solid ${theme.colors['gray-medium']};
-    min-height: 35px;
+    :not(:empty) {
+      margin: ${theme.gutter}px 0 ${doubleSpaced * 2}px;
+      padding: ${doubleSpaced * 2}px 0;
+      border-bottom: 1px solid ${theme.colors['gray-medium']};
+      font-size: 22px;
+    }
+
+    ${breakpoints.tablet`
+      min-height: 35px;
+      padding: ${theme.gutter}px 0;
+      border-bottom: 1px solid ${theme.colors['gray-medium']};
+      
+      :not(:empty), :empty{
+        padding: ${theme.gutter}px 0;
+        margin-top: 0;
+      }
+    `}
+  }
+
+  h3 {
+    margin: ${doubleSpaced * 2}px 0 ${doubleSpaced}px;
+    padding: 0;
   }
 
   .list-grid {
     ul {
-      display: flex;
       flex-wrap: wrap;
       list-style: none;
       margin: 0;
       padding: 0;
+
+      ${breakpoints.tablet`
+        display: flex;
+      `}
 
       li {
         flex: 1 1 50%;
@@ -100,15 +113,23 @@ export const PageContentData = styled.div`
 `;
 
 export const Columns = styled.div`
-  display: flex;
+  display: block;
+
+  ${breakpoints.tablet`
+    display: flex;
+  `}
 `;
 
 export const ColumnLeft = styled.div`
-  flex: 1 1 25%;
-  padding-right: ${theme.gutter * 15}px;
+  ${breakpoints.tablet`
+    flex: 1 1 25%;
+    padding-right: ${theme.gutter * 15}px;
+  `}
 `;
 
 export const ColumnRight = styled.div`
+  ${breakpoints.tablet`
   flex: 1 1 50%;
   padding-bottom: ${fiveSpaced}px;
+`}
 `;

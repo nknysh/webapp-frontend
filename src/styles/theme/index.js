@@ -7,12 +7,12 @@ const getColor = pipe(
   defaultTo('#000000')
 );
 
-export const breakpoints = {
+export const breakpoints = Object.freeze({
   desktop: 1200,
   tablet: 700,
-};
+});
 
-export const palette = {
+export const palette = Object.freeze({
   primary: getColor('gold'),
   secondary: getColor('gold-dark'),
 
@@ -22,14 +22,14 @@ export const palette = {
 
   backgroundColor: getColor('white'),
   inputBorder: getColor('gray-medium'),
-};
+});
 
-export const spacing = {
+export const spacing = Object.freeze({
   gutter: 10,
   unit: 'px',
-};
+});
 
-export const sizes = {
+export const sizes = Object.freeze({
   linkSize: 11,
   borderRadius: 1,
 
@@ -37,7 +37,7 @@ export const sizes = {
     mobile: 70,
     tablet: 120,
   },
-};
+});
 
 export default {
   ...palette,

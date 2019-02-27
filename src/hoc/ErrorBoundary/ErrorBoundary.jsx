@@ -1,5 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import { prop } from 'ramda';
+import React, { Component } from 'react';
+import hash from 'object-hash';
+
+import { StyledErrorBoundary, ErrorBoundaryTitle, ErrorBoundaryPre } from './ErrorBoundary.styles';
 
 const errorBoundary = WrappedComponent => {
   return class ErrorBoundary extends Component {
@@ -9,16 +11,18 @@ const errorBoundary = WrappedComponent => {
     };
 
     static getDerivedStateFromError(error) {
-      return { hasError: true, error };
+      return { hasError: true, error, id: hash(error.toString()) };
     }
 
     renderError() {
-      const { error } = this.state;
+      const { error, id } = this.state;
+
       return (
-        <Fragment>
-          <h1>Oops!</h1>
-          <pre>{JSON.stringify(prop('stack', error))}</pre>
-        </Fragment>
+        <StyledErrorBoundary>
+          <ErrorBoundaryTitle>Something went wrong</ErrorBoundaryTitle>
+          <ErrorBoundaryPre>{error.toString()}</ErrorBoundaryPre>
+          <ErrorBoundaryPre>Ref: {id}</ErrorBoundaryPre>
+        </StyledErrorBoundary>
       );
     }
 

@@ -36,11 +36,11 @@ exports[`<Footer /> render matches snapshot 1`] = `
         flex={true}
       >
         <styled.div>
-          <styled.p>
+          <Styled(styled.p)>
             © 
             2019
              Pure Escapes
-          </styled.p>
+          </Styled(styled.p)>
         </styled.div>
       </styled.div>
     </styled.div>

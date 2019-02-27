@@ -14,5 +14,8 @@ describe('<Menu />', () => {
     it('matches logged in snapshot', () => {
       expect(getComponent({ isAuthenticated: true })).toMatchSnapshot();
     });
+    it('matched route is active in snapshot', () => {
+      expect(getComponent({ isAuthenticated: true, currentPath: '/' })).toMatchSnapshot();
+    });
   });
 });

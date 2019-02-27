@@ -56,7 +56,10 @@ exports[`<Hero /> render matches snapshot 7`] = `
       loop={true}
       srcs={
         Array [
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+          Object {
+            "path": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "type": "mp4",
+          },
         ]
       }
     />

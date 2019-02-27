@@ -4,14 +4,20 @@ import theme from './theme';
 import breakpoints from './breakpoints';
 
 export const Link = styled.a`
-  color: ${theme.primary};
+  color: ${theme.secondary};
+
+  :active,
+  :visited,
+  :hover {
+    color: ${theme.secondary};
+  }
 `;
 
 export const Container = styled.div`
-  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
 
-  ${breakpoints.desktop`width: ${theme.breakpoints.desktop}px`}
+  ${breakpoints.tablet`max-width: ${theme.breakpoints.desktop}px`}
 `;
 
 export const Input = styled.input`
@@ -34,4 +40,8 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
-export default { Link, Container, Input, Button };
+export const Image = styled.img``;
+
+export const Pre = styled.pre``;
+
+export default { Link, Container, Input, Button, Image, Pre };

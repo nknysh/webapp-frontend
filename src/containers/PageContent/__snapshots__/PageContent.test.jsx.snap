@@ -1,104 +1,197 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<PageContent /> render matches snapshot while loading 1`] = `"Loading..."`;
+exports[`<PageContent /> render matches snapshot while loading 1`] = `
+<Loader
+  isLoading={true}
+>
+  <styled.div>
+    <HelmetWrapper
+      defer={true}
+      encodeSpecialCharacters={true}
+    >
+      <title>
+         - 
+        Pure Escapes
+      </title>
+    </HelmetWrapper>
+    <Styled(styled.div)>
+      <styled.div>
+        <styled.div>
+          <Sidebar
+            isOpen={false}
+            links={Array []}
+          >
+            <Markdown />
+          </Sidebar>
+        </styled.div>
+        <styled.div>
+          <styled.div>
+            <Markdown />
+          </styled.div>
+        </styled.div>
+      </styled.div>
+    </Styled(styled.div)>
+  </styled.div>
+</Loader>
+`;
 
 exports[`<PageContent /> render matches snapshot with markdown 1`] = `
-<styled.div>
-  <Styled(styled.div)>
-    <styled.div>
+<Loader
+  isLoading={false}
+>
+  <styled.div>
+    <HelmetWrapper
+      defer={true}
+      encodeSpecialCharacters={true}
+    >
+      <title>
+         - 
+        Pure Escapes
+      </title>
+    </HelmetWrapper>
+    <Styled(styled.div)>
       <styled.div>
-        <Styled(styled.h1) />
         <styled.div>
-          <Markdown />
+          <Sidebar
+            isOpen={false}
+            links={Array []}
+          >
+            <Markdown />
+          </Sidebar>
+        </styled.div>
+        <styled.div>
+          <styled.div>
+            <Markdown>
+              ### some data
+            </Markdown>
+          </styled.div>
         </styled.div>
       </styled.div>
-      <styled.div>
-        <styled.div>
-          <Markdown>
-            ### some data
-          </Markdown>
-        </styled.div>
-      </styled.div>
-    </styled.div>
-  </Styled(styled.div)>
-</styled.div>
+    </Styled(styled.div)>
+  </styled.div>
+</Loader>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 2`] = `
-<styled.div>
-  <Styled(styled.div)>
-    <styled.div>
+<Loader
+  isLoading={false}
+>
+  <styled.div>
+    <HelmetWrapper
+      defer={true}
+      encodeSpecialCharacters={true}
+    >
+      <title>
+        foo
+         - 
+        Pure Escapes
+      </title>
+    </HelmetWrapper>
+    <Styled(styled.div)>
       <styled.div>
-        <Styled(styled.h1)>
-          foo
-        </Styled(styled.h1)>
         <styled.div>
-          <Markdown />
+          <Sidebar
+            isOpen={false}
+            links={Array []}
+            title="foo"
+          >
+            <Markdown />
+          </Sidebar>
+        </styled.div>
+        <styled.div>
+          <styled.div>
+            <Markdown>
+              ### some data
+            </Markdown>
+          </styled.div>
         </styled.div>
       </styled.div>
-      <styled.div>
-        <styled.div>
-          <Markdown>
-            ### some data
-          </Markdown>
-        </styled.div>
-      </styled.div>
-    </styled.div>
-  </Styled(styled.div)>
-</styled.div>
+    </Styled(styled.div)>
+  </styled.div>
+</Loader>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 3`] = `
-<styled.div>
-  <Styled(styled.div)>
-    <styled.div>
+<Loader
+  isLoading={false}
+>
+  <styled.div>
+    <HelmetWrapper
+      defer={true}
+      encodeSpecialCharacters={true}
+    >
+      <title>
+        foo
+         - 
+        Pure Escapes
+      </title>
+    </HelmetWrapper>
+    <Styled(styled.div)>
       <styled.div>
-        <Styled(styled.h1)>
-          foo
-        </Styled(styled.h1)>
         <styled.div>
-          <Markdown>
-            - a link
-          </Markdown>
+          <Sidebar
+            isOpen={false}
+            links={Array []}
+            title="foo"
+          >
+            <Markdown>
+              - a link
+            </Markdown>
+          </Sidebar>
+        </styled.div>
+        <styled.div>
+          <styled.div>
+            <Markdown>
+              ### some data
+            </Markdown>
+          </styled.div>
         </styled.div>
       </styled.div>
-      <styled.div>
-        <styled.div>
-          <Markdown>
-            ### some data
-          </Markdown>
-        </styled.div>
-      </styled.div>
-    </styled.div>
-  </Styled(styled.div)>
-</styled.div>
+    </Styled(styled.div)>
+  </styled.div>
+</Loader>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 4`] = `
-<styled.div>
-  <Styled(Hero)
-    image="http://foo"
-  />
-  <Styled(styled.div)>
-    <styled.div>
+<Loader
+  isLoading={false}
+>
+  <styled.div>
+    <HelmetWrapper
+      defer={true}
+      encodeSpecialCharacters={true}
+    >
+      <title>
+        foo
+         - 
+        Pure Escapes
+      </title>
+    </HelmetWrapper>
+    <Styled(Hero)
+      image="http://foo"
+    />
+    <Styled(styled.div)>
       <styled.div>
-        <Styled(styled.h1)>
-          foo
-        </Styled(styled.h1)>
         <styled.div>
-          <Markdown>
-            - a link
-          </Markdown>
+          <Sidebar
+            isOpen={false}
+            links={Array []}
+            title="foo"
+          >
+            <Markdown>
+              - a link
+            </Markdown>
+          </Sidebar>
+        </styled.div>
+        <styled.div>
+          <styled.div>
+            <Markdown>
+              ### some data
+            </Markdown>
+          </styled.div>
         </styled.div>
       </styled.div>
-      <styled.div>
-        <styled.div>
-          <Markdown>
-            ### some data
-          </Markdown>
-        </styled.div>
-      </styled.div>
-    </styled.div>
-  </Styled(styled.div)>
-</styled.div>
+    </Styled(styled.div)>
+  </styled.div>
+</Loader>
 `;

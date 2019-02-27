@@ -10,7 +10,7 @@ const initialState = {};
 const getPage = (state, { payload: { pageId } }) => {
   const data = prop(pageId, PageData);
 
-  return { id: pageId, ...data } || state;
+  return pageId && data ? { id: pageId, ...data } : state;
 };
 
 export default createReducer(
