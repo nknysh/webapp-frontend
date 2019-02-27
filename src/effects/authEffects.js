@@ -12,4 +12,6 @@ export const useTokenFromWindow = () => {
       setToken(newToken);
     }
   });
+
+  return token;
 };
