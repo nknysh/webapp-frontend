@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { propTypes } from './Hero.props';
-import { StyledHero, HeroChildren, HeroTitle, HeroVideo } from './Hero.styles';
+import { propTypes, defaultProps } from './Hero.props';
+import { StyledHero, HeroChildren, HeroTitle, HeroVideo, HeroMask } from './Hero.styles';
 import { Video } from 'components';
 
-const renderTitle = title => title && <HeroTitle>{title}</HeroTitle>;
-
-const renderChildren = children => children && <HeroChildren>{children}</HeroChildren>;
+const renderMask = mask => mask && <HeroMask />;
 
 const renderVideo = (video, fallbackImage) =>
   video && (
@@ -15,8 +13,13 @@ const renderVideo = (video, fallbackImage) =>
     </HeroVideo>
   );
 
-export const Hero = ({ media: { image, video }, children, title, full, offsetBy, className }) => (
+const renderTitle = title => title && <HeroTitle>{title}</HeroTitle>;
+
+const renderChildren = children => children && <HeroChildren>{children}</HeroChildren>;
+
+export const Hero = ({ media: { image, video }, children, title, full, offsetBy, mask, className }) => (
   <StyledHero className={className} full={full} image={image} offsetBy={offsetBy}>
+    {renderMask(mask)}
     {renderVideo(video, image)}
     {renderTitle(title)}
     {renderChildren(children)}
@@ -24,5 +27,6 @@ export const Hero = ({ media: { image, video }, children, title, full, offsetBy,
 );
 
 Hero.propTypes = propTypes;
+Hero.defaultProps = defaultProps;
 
 export default Hero;

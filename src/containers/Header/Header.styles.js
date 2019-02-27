@@ -22,10 +22,13 @@ export const StyledHeader = styled.div`
   background: ${theme.backgroundColor}
   border-bottom: 1px solid ${theme.colors['gray-light']};
   padding: ${theme.gutter}px ${theme.gutter * 2}px;
+
+  ${breakpoints.tablet`
+    padding: 0;
+  `}
 `;
 
 export const HeaderLogo = styled(Link)`
-  padding: ${theme.gutter}px;
   height: 26px;
   width: auto;
   display: block;
@@ -38,8 +41,10 @@ export const HeaderLogo = styled(Link)`
     height: 100%;
     width: auto;
   }
+
   ${breakpoints.tablet`
     height: auto;
+    padding: 0 ${theme.gutter}px !important;
   `}
 `;
 

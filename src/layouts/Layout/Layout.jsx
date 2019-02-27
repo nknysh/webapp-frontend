@@ -23,7 +23,4 @@ export const Layout = ({ children, location: { pathname } }) => (
 
 Layout.propTypes = propTypes;
 
-export default compose(
-  withRouter,
-  React.memo
-)(Layout);
+export default compose(withRouter)(Layout);

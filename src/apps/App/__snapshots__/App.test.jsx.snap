@@ -1,39 +1,80 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<App /> render matches snapshot 1`] = `
-<withRouter(undefined)>
+<withRouter(Layout)>
   <Switch>
     <Route
-      component={[Function]}
+      auth={true}
+      authRedirect={[Function]}
       exact={true}
-      key="2c68c93ab90d6c00df2b877d8b10fc27e9e69040"
+      key="5f160202a8dcaaabeadf9bee291c623a7d3f1a1c"
       name="Root Path"
       path="/"
+      render={[Function]}
     />
     <Route
-      component={[Function]}
-      key="bd54bf85363721d3cbfbdccf1045f4075a933f38"
+      auth={true}
+      key="80101d61e626421b2db3c5f8a34bf3878b80d51a"
+      name="Messages"
+      path="/messages"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      key="3719134dff536ed5474a1df95412b7fe19a2e502"
+      name="Calendar"
+      path="/calendar"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      key="b39dbf7287b1aeef982ddba3f39cd4025f17a822"
+      name="Proposals"
+      path="/proposals"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      key="0d357fdfaee005362c382ad4f8ebbbccc877d6bf"
+      name="Bookings"
+      path="/bookings"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      key="0e83f0e60914061161c208ed2ef07508db6f602a"
+      name="Holds"
+      path="/holds"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      authRedirect={[Function]}
+      key="2ee726a5e790bd03f0d2000777a30a1eaa355525"
       name="Login"
       path="/login"
+      render={[Function]}
     />
     <Route
-      component={[Function]}
-      key="354ed273dd8f0216685a9e9cd58e6108c8b50929"
+      auth={true}
+      authRedirect={[Function]}
+      key="6dfe9ea18159fe3caf34d7cd34a21dac9e876f83"
       name="Create Account"
       path="/sign-up"
+      render={[Function]}
     />
     <Route
       component={[Function]}
       exact={true}
-      key="8b60b60ce3eaf95e9f3ded9690092c7097e6ee7b"
+      key="f8523930459db6784973f5c9dde9dba62842916d"
       name="Content Pages"
       path="/:pageId"
     />
     <Route
       component={[Function]}
-      key="ae4ef0dc5812ee3f8bc7fbd3728741c4b0620c4b"
+      key="323217f643c3e3f1fe7532e72ac01bb0748c97be"
       name="Not Found"
     />
   </Switch>
-</withRouter(undefined)>
+</withRouter(Layout)>
 `;

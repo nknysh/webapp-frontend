@@ -3,7 +3,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 
 import rootReducer from './rootReducer';
 
-const composedMiddleware = [applyMiddleware(thunk)];
+import authMiddleware from './modules/auth/middleware';
+
+const composedMiddleware = [applyMiddleware(thunk), applyMiddleware(authMiddleware)];
 
 // Add Redux dev tools if available in non-production environments
 /* eslint-disable no-underscore-dangle */

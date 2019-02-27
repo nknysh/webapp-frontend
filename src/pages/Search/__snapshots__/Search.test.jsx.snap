@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Search /> render matches snapshot 1`] = `
+<styled.div>
+  <Styled(Hero)
+    mask={true}
+    media={
+      Object {
+        "image": "",
+      }
+    }
+  >
+    <Markdown />
+  </Styled(Hero)>
+</styled.div>
+`;

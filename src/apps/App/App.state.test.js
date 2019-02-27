@@ -11,7 +11,7 @@ describe('App.state', () => {
     const dispatch = jest.fn();
     const mappedDispatchToProps = mapDispatchToProps(dispatch);
 
-    mappedDispatchToProps.getUserFromToken('foo');
+    mappedDispatchToProps.setToken('foo');
     expect(dispatch).toHaveBeenCalled();
   });
 });

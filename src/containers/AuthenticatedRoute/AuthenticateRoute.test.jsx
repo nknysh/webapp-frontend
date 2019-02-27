@@ -3,12 +3,13 @@ import React from 'react';
 import { AuthenticatedRoute } from './AuthenticatedRoute';
 
 const MockComponent = () => <div />;
+const MockAuthRedirect = () => <p>Custom redirect</p>;
 
 const defaultProps = {
   isAuthLoading: false,
   isAuthenticated: false,
   location: {},
-  path: '/',
+  path: '/about-us',
   component: MockComponent,
 };
 
@@ -26,6 +27,10 @@ describe('<AuthenticatedRoute />', () => {
     });
     it('route when authenticated', () => {
       const component = getShallow({ isAuthenticated: true });
+      expect(component).toMatchSnapshot();
+    });
+    it('custom auth redirect route when not authenticated', () => {
+      const component = getShallow({ isAuthenticated: false, authRedirect: MockAuthRedirect });
       expect(component).toMatchSnapshot();
     });
   });

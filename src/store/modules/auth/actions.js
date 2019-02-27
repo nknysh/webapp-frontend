@@ -6,6 +6,7 @@ export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_RESET = 'AUTH_RESET';
+export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 
 // This constant is for Localstorage.
 const AUTH_TOKEN = 'authToken';
@@ -15,7 +16,7 @@ const authRequest = value => ({
   payload: value,
 });
 
-const authOk = value => {
+export const authOk = value => {
   const token = prop('token', value);
   // TODO(mark): We should use something like sagas to store this token.
   // Right now, this is called when we logIn and getUserFromToken.
@@ -89,3 +90,8 @@ export const resetPassword = values => async dispatch => {
     throw error;
   }
 };
+
+export const setToken = token => ({
+  type: AUTH_SET_TOKEN,
+  payload: { token },
+});

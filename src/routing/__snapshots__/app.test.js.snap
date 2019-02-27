@@ -2,6 +2,8 @@
 
 exports[`routing app routes match snapshot 1`] = `
 Object {
+  "auth": true,
+  "authRedirect": [Function],
   "component": [Function],
   "exact": true,
   "name": "Root Path",
@@ -11,21 +13,70 @@ Object {
 
 exports[`routing app routes match snapshot 2`] = `
 Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Messages",
+  "path": "/messages",
+}
+`;
+
+exports[`routing app routes match snapshot 3`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Calendar",
+  "path": "/calendar",
+}
+`;
+
+exports[`routing app routes match snapshot 4`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Proposals",
+  "path": "/proposals",
+}
+`;
+
+exports[`routing app routes match snapshot 5`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Bookings",
+  "path": "/bookings",
+}
+`;
+
+exports[`routing app routes match snapshot 6`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Holds",
+  "path": "/holds",
+}
+`;
+
+exports[`routing app routes match snapshot 7`] = `
+Object {
+  "auth": true,
+  "authRedirect": [Function],
   "component": [Function],
   "name": "Login",
   "path": "/login",
 }
 `;
 
-exports[`routing app routes match snapshot 3`] = `
+exports[`routing app routes match snapshot 8`] = `
 Object {
+  "auth": true,
+  "authRedirect": [Function],
   "component": [Function],
   "name": "Create Account",
   "path": "/sign-up",
 }
 `;
 
-exports[`routing app routes match snapshot 4`] = `
+exports[`routing app routes match snapshot 9`] = `
 Object {
   "component": [Function],
   "exact": true,
@@ -34,7 +85,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 5`] = `
+exports[`routing app routes match snapshot 10`] = `
 Object {
   "component": [Function],
   "name": "Not Found",

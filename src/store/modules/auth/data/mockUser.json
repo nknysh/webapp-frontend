@@ -1,0 +1,7 @@
+{
+    "email": "admin@example.com",
+    "firstName": "James",
+    "lastName": "Smith",
+    "status": "verified",
+    "type": "admin"
+}
