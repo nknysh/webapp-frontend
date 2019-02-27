@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing app routes match snapshot 1`] = `
+Object {
+  "component": [Function],
+  "exact": true,
+  "name": "Root Path",
+  "path": "/",
+}
+`;
+
+exports[`routing app routes match snapshot 2`] = `
+Object {
+  "component": [Function],
+  "name": "Login",
+  "path": "/login",
+}
+`;
+
+exports[`routing app routes match snapshot 3`] = `
+Object {
+  "component": [Function],
+  "name": "Create Account",
+  "path": "/sign-up",
+}
+`;
+
+exports[`routing app routes match snapshot 4`] = `
+Object {
+  "component": [Function],
+  "exact": true,
+  "name": "Content Pages",
+  "path": "/:pageId",
+}
+`;
+
+exports[`routing app routes match snapshot 5`] = `
+Object {
+  "component": [Function],
+  "name": "Not Found",
+}
+`;

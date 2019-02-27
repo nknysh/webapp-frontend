@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Layout /> render matches snapshot 1`] = `
+<Fragment>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Pure Escapes
+    </title>
+  </HelmetWrapper>
+  <styled.div>
+    <Styled(withAuthentication(Connect(withRouter(Header)))) />
+    <styled.div>
+      <h1>
+        Some content
+      </h1>
+    </styled.div>
+    <Styled(Connect(Footer)) />
+  </styled.div>
+</Fragment>
+`;

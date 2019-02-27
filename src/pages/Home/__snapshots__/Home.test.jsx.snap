@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home /> render matches snapshot 1`] = `
+<styled.div>
+  <Hero
+    full={true}
+    media={
+      Object {
+        "image": "",
+        "video": Object {
+          "path": "",
+          "type": "mp4",
+        },
+      }
+    }
+  >
+    <Markdown />
+  </Hero>
+  <styled.div>
+    <Styled(WithStyles(Icon))
+      onClick={[Function]}
+    >
+      keyboard_arrow_down
+    </Styled(WithStyles(Icon))>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
+      <Markdown />
+    </styled.div>
+  </styled.div>
+</styled.div>
+`;

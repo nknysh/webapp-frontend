@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header /> render matches logged in snapshot 1`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <Styled(Link)
+      to="/"
+    />
+    <styled.div>
+      <Styled(WithStyles(Icon))
+        onClick={[Function]}
+      >
+        menu
+      </Styled(WithStyles(Icon))>
+      <Styled(Menu)
+        align="end"
+        currentLocation=""
+        isOpen={false}
+        links={
+          Array [
+            Object {
+              "href": "/sign-up",
+              "title": "Create an account",
+            },
+            Object {
+              "bold": true,
+              "href": "/login",
+              "inverse": true,
+              "title": "Login",
+            },
+          ]
+        }
+        onLinkClick={[Function]}
+      />
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;
+
+exports[`<Header /> render matches logged out snapshot 1`] = `
+<styled.div>
+  <Styled(styled.div)>
+    <Styled(Link)
+      to="/"
+    />
+    <styled.div>
+      <Styled(WithStyles(Icon))
+        onClick={[Function]}
+      >
+        menu
+      </Styled(WithStyles(Icon))>
+      <Styled(Menu)
+        align="end"
+        currentLocation=""
+        isOpen={false}
+        links={
+          Array [
+            Object {
+              "href": "/sign-up",
+              "title": "Create an account",
+            },
+            Object {
+              "bold": true,
+              "href": "/login",
+              "inverse": true,
+              "title": "Login",
+            },
+          ]
+        }
+        onLinkClick={[Function]}
+      />
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;

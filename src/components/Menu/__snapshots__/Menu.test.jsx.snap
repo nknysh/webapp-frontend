@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu /> render matches logged in snapshot 1`] = `
+<styled.div
+  align="middle"
+  isAuthenticated={true}
+>
+  <Styled(Link)
+    key="/"
+    onClick={[Function]}
+    spaced={true}
+    to="/"
+  >
+    Home
+  </Styled(Link)>
+  <Styled(Link)
+    key="/messages"
+    onClick={[Function]}
+    spaced={true}
+    to="/messages"
+  >
+    Messages
+  </Styled(Link)>
+  <Styled(Link)
+    key="/calendar"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
+  </Styled(Link)>
+  <Styled(Link)
+    key="/proposals"
+    onClick={[Function]}
+    spaced={true}
+    to="/proposals"
+  >
+    Proposals
+  </Styled(Link)>
+  <Styled(Link)
+    key="/bookings"
+    onClick={[Function]}
+    spaced={true}
+    to="/bookings"
+  >
+    Bookings
+  </Styled(Link)>
+  <Styled(Link)
+    key="/holds"
+    onClick={[Function]}
+    spaced={true}
+    to="/holds"
+  >
+    Holds
+  </Styled(Link)>
+</styled.div>
+`;
+
+exports[`<Menu /> render matches logged out snapshot 1`] = `
+<styled.div
+  align="middle"
+  isAuthenticated={false}
+>
+  <Styled(Link)
+    key="/"
+    onClick={[Function]}
+    spaced={true}
+    to="/"
+  >
+    Home
+  </Styled(Link)>
+  <Styled(Link)
+    key="/messages"
+    onClick={[Function]}
+    spaced={true}
+    to="/messages"
+  >
+    Messages
+  </Styled(Link)>
+  <Styled(Link)
+    key="/calendar"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
+  </Styled(Link)>
+  <Styled(Link)
+    key="/proposals"
+    onClick={[Function]}
+    spaced={true}
+    to="/proposals"
+  >
+    Proposals
+  </Styled(Link)>
+  <Styled(Link)
+    key="/bookings"
+    onClick={[Function]}
+    spaced={true}
+    to="/bookings"
+  >
+    Bookings
+  </Styled(Link)>
+  <Styled(Link)
+    key="/holds"
+    onClick={[Function]}
+    spaced={true}
+    to="/holds"
+  >
+    Holds
+  </Styled(Link)>
+</styled.div>
+`;

@@ -19,16 +19,9 @@ import requestCreator, { Loopback } from './request';
 const request = requestCreator(Loopback);
 const url = `${window.location.origin}/api/bookings`;
 
-const makeFetchBookings = (fetchUrl) => ({
-  token,
-  where,
-  order,
-  limit,
-  skip,
-  include,
-  q,
-}) =>
-  request().withAuth(token)
+const makeFetchBookings = fetchUrl => ({ token, where, order, limit, skip, include, q }) =>
+  request()
+    .withAuth(token)
     .where(where)
     .order(order)
     .limit(limit)
@@ -36,34 +29,46 @@ const makeFetchBookings = (fetchUrl) => ({
     .q(q)
     .include(include)
     .get(fetchUrl)
-    .then((response) => response.data);
+    .then(response => response.data);
 
 const fetchBookings = makeFetchBookings(url);
 const searchBookings = makeFetchBookings(`${url}/search`);
 
 const createBooking = ({ token, ...params }) =>
-  request().withAuth(token).post(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .post(url, params)
+    .then(response => response.data);
 
 const fetchBookingOptions = ({ token }) =>
-  request().withAuth(token).get(`${window.location.origin}/api/options`)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .get(`${window.location.origin}/api/options`)
+    .then(response => response.data);
 
 const updateBooking = ({ token, ...params }) =>
-  request().withAuth(token).patch(url, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .patch(url, params)
+    .then(response => response.data);
 
 const deleteBooking = ({ token, id }) =>
-  request().withAuth(token).delete(`${url}/${id}`)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .delete(`${url}/${id}`)
+    .then(response => response.data);
 
 const uploadBookingInvoice = ({ token, file, id }) =>
-  request().withAuth(token).post(`${url}/${id}/invoice/upload`, file)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .post(`${url}/${id}/invoice/upload`, file)
+    .then(response => response.data);
 
 const exportBookings = ({ token, ...params }) =>
-  request().withAuth(token).post(`${url}/export`, params)
-    .then((response) => response.data);
+  request()
+    .withAuth(token)
+    .post(`${url}/export`, params)
+    .then(response => response.data);
 
 export default {
   fetchBookings,
@@ -75,4 +80,3 @@ export default {
   searchBookings,
   exportBookings,
 };
-

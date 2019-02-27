@@ -1,0 +1,29 @@
+import React from 'react';
+import { curry, map, has, cond, T, both, propOr, omit, pipe } from 'ramda';
+import { Route, Redirect } from 'react-router-dom';
+import hash from 'object-hash';
+
+import { AuthenticatedRoute } from 'containers/AuthenticatedRoute';
+
+const isRedirect = both(has('from'), has('to'));
+const requiresAuth = both(has('auth'), propOr(false, 'auth'));
+
+const sanitizeRoute = omit(['auth', 'route', 'getComponent']);
+const getRouteHash = pipe(
+  omit(['component']),
+  hash
+);
+
+const renderRouteComponent = curry((Component, route) => (
+  <Component key={getRouteHash(route)} {...sanitizeRoute(route)} />
+));
+
+const getRoute = renderRouteComponent(Route);
+const getAuthRoute = renderRouteComponent(AuthenticatedRoute);
+const getRedirect = renderRouteComponent(Redirect);
+
+const renderRoute = cond([[isRedirect, getRedirect], [requiresAuth, getAuthRoute], [T, getRoute]]);
+
+const getRoutes = map(renderRoute);
+
+export default getRoutes;

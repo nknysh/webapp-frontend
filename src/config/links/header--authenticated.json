@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Home",
+        "href": "/"
+    },
+    {
+        "title": "Messages",
+        "href": "/messages"
+    },
+    {
+        "title": "Calendar",
+        "href": "/calendar"
+    },
+    {
+        "title": "Proposals",
+        "href": "/proposals"
+    },
+    {
+        "title": "Bookings",
+        "href": "/bookings"
+    },
+    {
+        "title": "Holds",
+        "href": "/holds"
+    }
+]

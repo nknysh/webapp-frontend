@@ -8,19 +8,17 @@ const env = defaultTo('development', process.env.NODE_ENV);
 const isDev = env === 'development';
 
 const config = {
-    entry: path.resolve(__dirname, 'src', 'index.jsx'),
+    entry: [
+        '@babel/polyfill', 
+        path.resolve(__dirname, 'src', 'index.jsx')
+    ],
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'app.bundle.js',
     },
     resolve: {
-        alias: {
-            components: path.resolve(__dirname, 'src/components/'),
-            views: path.resolve(__dirname, 'src/views/'),
-            styling: path.resolve(__dirname, 'src/styling/'),
-        },
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.json'],
     },
     module: {
         rules: [
@@ -30,12 +28,32 @@ const config = {
                 use: ['babel-loader']
             },
             {
-                test: /\.(woff(2)?|otf|ttf|eot|svg|png|jpeg|jpg|gif)$/,
+                test: /\.(woff(2)?|otf|ttf|eot)$/,
                 use: [{
                     loader: 'file-loader',
                     options: {
-                        name: '[name].[ext]',
-                        outputPath: 'assets/'
+                        name: '[hash].[ext]',
+                        outputPath: 'assets/fonts/'
+                    }
+                }]
+            },
+            {
+                test: /\.(svg|png|jpeg|jpg|gif)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[hash].[ext]',
+                        outputPath: 'assets/img/'
+                    }
+                }]
+            },
+            {
+                test: /\.(mp4|ogg)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[hash].[ext]',
+                        outputPath: 'assets/video/'
                     }
                 }]
             },
@@ -43,6 +61,14 @@ const config = {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
             },
+            {
+                test: /\.md$/,
+                use: [
+                    {
+                        loader: "raw-loader",
+                    }
+                ]
+            }
         ]
     },
     plugins: [
@@ -56,6 +82,7 @@ const config = {
 // dev options
 if (isDev) {
     config.devtool = 'source-map';
+    config.devServer = { historyApiFallback: true };
 }
 
 module.exports = config
