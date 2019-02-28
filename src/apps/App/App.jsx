@@ -12,9 +12,9 @@ import { ErrorBoundary } from 'hoc/ErrorBoundary';
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 
-export const App = ({ location: { pathname } }) => {
+export const App = ({ location: { pathname }, setToken }) => {
+  useTokenFromWindow(setToken);
   useScrollToTop(pathname);
-  useTokenFromWindow();
 
   return (
     <Layout>

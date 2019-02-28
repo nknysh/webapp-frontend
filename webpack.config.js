@@ -1,13 +1,21 @@
+const webpack = require('webpack');
 const path = require('path');
-const { defaultTo } = require('ramda');
+const { prop, equals, pipe } = require('ramda');
 
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const env = defaultTo('development', process.env.NODE_ENV);
-const isDev = env === 'development';
+const getMode = prop('mode');
+const isDev = equals('development');
 
-const config = {
+const modeIsDev = pipe(
+    getMode,
+    isDev
+);
+
+module.exports = (env, argv) => ({
+    devtool: modeIsDev(argv) && 'source-map',
+    devServer: { historyApiFallback: modeIsDev(argv) },
     entry: [
         '@babel/polyfill', 
         path.resolve(__dirname, 'src', 'index.jsx')
@@ -75,14 +83,11 @@ const config = {
         new DashboardPlugin({ port: 3001 }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/index.html')
-          }),
+        }),
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify(getMode(argv))
+            }
+        }),
     ]
-}
-
-// dev options
-if (isDev) {
-    config.devtool = 'source-map';
-    config.devServer = { historyApiFallback: true };
-}
-
-module.exports = config
+})

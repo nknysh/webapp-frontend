@@ -1,6 +1,6 @@
-// App
 import createReducer from 'store/utils/createReducer';
-import { AUTH_REQUEST, AUTH_OK, AUTH_ERROR, AUTH_RESET } from './actions';
+
+import { AUTH_REQUEST, AUTH_OK, AUTH_ERROR, AUTH_RESET, AUTH_SET_TOKEN } from './actions';
 
 const initialState = {
   loading: false,
@@ -37,12 +37,21 @@ const authReset = () => ({
   ...initialState,
 });
 
+const authSetToken = (state, { payload: { token } }) => ({
+  ...state,
+  data: {
+    ...state.data,
+    token,
+  },
+});
+
 export default createReducer(
   {
     [AUTH_REQUEST]: authRequest,
     [AUTH_OK]: autoOk,
     [AUTH_ERROR]: authError,
     [AUTH_RESET]: authReset,
+    [AUTH_SET_TOKEN]: authSetToken,
   },
   initialState
 );

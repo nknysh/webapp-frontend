@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { windowExists } from 'utils/window';
 
@@ -32,22 +32,48 @@ export const StyledHero = styled.div`
   `}
 `;
 
+const heroTitleStyles = css`
+  font-size: 20px;
+  color: ${theme.colors.white};
+  text-transform: uppercase;
+  font-weight: normal;
+  margin: ${theme.gutter / 2}px 0;
+`;
+
 export const HeroTitle = styled.h2`
-  font-size: 54px;
-  color: ${theme.primary};
+  ${heroTitleStyles}
 `;
 
 export const HeroChildren = styled.div`
   position: relative;
-  color: white;
-  font-size: 24px;
-  text-shadow: 0 0 3px ${theme.colors.black};
+  color: ${theme.colors.white};
   z-index: 10;
+  padding: ${theme.gutter * 2}px;
+
+  h1,
+  h2 {
+    ${heroTitleStyles};
+  }
 
   p {
-    margin: 0;
+    margin: ${theme.gutter * 2}px 0;
     padding: 0;
   }
+`;
+
+export const HeroMask = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  background: ${theme.colors['gold-dark']};
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none !important;
 `;
 
 export const HeroVideo = styled.div`
@@ -61,5 +87,6 @@ export const HeroVideo = styled.div`
     min-height: 100%;
     width: 100%;
     object-fit: cover;
+    z-index: 5;
   }
 `;

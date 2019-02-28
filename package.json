@@ -92,7 +92,7 @@
       "**/src/**/*.{js,jsx}",
       "!**/src/**/*stories.{js,jsx}",
       "!**/src/**/*props.{js,jsx}",
-      "!**/src/{components,containers,hoc,layouts}/**/*index.{js,jsx}",
+      "!**/src/{apps,components,containers,config,effects,hoc,layouts,pages}/**/*index.{js,jsx}",
       "!**/src/index.{js,jsx}"
     ],
     "coverageDirectory": "<rootDir>/tests/coverage",

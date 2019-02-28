@@ -1,10 +1,13 @@
 import React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-import { compose } from 'ramda';
+import { compose, path } from 'ramda';
 
+import config from 'config';
+import { Loader } from 'components';
+import { NotFound } from 'pages';
 import { withAuthentication, propTypes as withAuthPropTypes } from 'hoc/withAuthentication';
 
-const renderLoadingMessage = () => <p>Authenticating...</p>;
+const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
 
 const renderRedirect = location => (
   <Redirect
@@ -17,16 +20,26 @@ const renderRedirect = location => (
   />
 );
 
-export const AuthenticatedRoute = ({ isAuthLoading, isAuthenticated, location, ...rest }) => {
+const renderRoute = (Component, props) => (Component && <Component {...props} />) || <Route component={NotFound} />;
+
+export const AuthenticatedRoute = ({ auth, isAuthLoading, isAuthenticated, location, authRedirect, ...props }) => {
+  const notAuthenticated = auth && !isAuthenticated;
+
   if (isAuthLoading) {
     return renderLoadingMessage();
   }
 
-  if (!isAuthenticated) {
+  const routeProps = { location, ...props };
+
+  if (notAuthenticated && authRedirect) {
+    return renderRoute(authRedirect, routeProps);
+  }
+
+  if (notAuthenticated) {
     return renderRedirect(location);
   }
 
-  return <Route {...rest} />;
+  return renderRoute(Route, routeProps);
 };
 
 AuthenticatedRoute.propTypes = {

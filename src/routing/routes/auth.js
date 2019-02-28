@@ -1,14 +1,18 @@
-import { CreateAccount, Login } from 'pages';
+import { CreateAccount, Login, Home } from 'pages';
 
 export default [
   {
     name: 'Login',
     path: '/login',
-    component: Login,
+    component: Home,
+    auth: true,
+    authRedirect: Login,
   },
   {
     name: 'Create Account',
     path: '/sign-up',
-    component: CreateAccount,
+    component: Home,
+    auth: true,
+    authRedirect: CreateAccount,
   },
 ];

@@ -3,7 +3,7 @@ import { compose } from 'ramda';
 
 import { withAuthentication } from 'hoc/withAuthentication';
 
-import logo from './assets/header-logo.png';
+import logo from 'public/img/main-logo.png';
 
 import { propTypes, defaultProps } from './Header.props';
 import connect from './Header.state';

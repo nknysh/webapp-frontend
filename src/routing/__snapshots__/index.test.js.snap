@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`getRoutes builds authenticated route components 1`] = `
-<withAuthentication(withRouter(AuthenticatedRoute))
-  component={[Function]}
+<Route
+  auth={true}
   path="/"
+  render={[Function]}
 />
 `;
 

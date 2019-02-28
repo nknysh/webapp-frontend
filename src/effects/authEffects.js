@@ -3,15 +3,14 @@ import { useEffect, useState } from 'react';
 import { getToken } from 'utils/auth';
 import { windowExists } from 'utils/window';
 
-export const useTokenFromWindow = () => {
-  const [token, setToken] = useState(undefined);
+export const useTokenFromWindow = callback => {
+  const [token, setToken] = useState(getToken(windowExists));
 
   useEffect(() => {
     const newToken = getToken(windowExists);
-    if (newToken !== token) {
-      setToken(newToken);
-    }
-  });
+    setToken(newToken);
+    callback(token);
+  }, [token]);
 
   return token;
 };

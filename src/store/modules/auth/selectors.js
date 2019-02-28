@@ -23,6 +23,7 @@ export const isAuthenticated = pipe(
   getAuthToken,
   Boolean
 );
+
 export const isAuthLoading = pipe(
   getAuthLoading,
   Boolean

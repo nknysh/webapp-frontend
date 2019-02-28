@@ -14,11 +14,11 @@ import section3 from 'config/data/home/section-3.md';
 import section4 from 'config/data/home/section-4.md';
 import section5 from 'config/data/home/section-5.md';
 
-import homeVideo from './assets/home-video.mp4';
-import heroImage from './assets/home-hero-image.jpg';
-import section1Image from './assets/section-1.jpg';
-import section2Image from './assets/section-2.jpg';
-import section3Image from './assets/section-3.jpg';
+import homeVideo from 'config/data/home/assets/home-video.mp4';
+import heroImage from 'config/data/home/assets/home-hero-image.jpg';
+import section1Image from 'config/data/home/assets/section-1.jpg';
+import section2Image from 'config/data/home/assets/section-2.jpg';
+import section3Image from 'config/data/home/assets/section-3.jpg';
 
 import { propTypes } from './Home.props';
 import { StyledHome, MoveTo, HomeSection, HomeContainer, HomeHero } from './Home.styles';
