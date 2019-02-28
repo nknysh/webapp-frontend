@@ -14,7 +14,7 @@ import connect from './App.state';
 
 export const App = ({ location: { pathname }, setToken }) => {
   useTokenFromWindow(setToken);
-  useScrollToTop([pathname]);
+  useScrollToTop(pathname);
 
   return (
     <Layout>
