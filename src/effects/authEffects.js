@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { getToken } from 'utils/auth';
-import { windowExists } from 'utils/window';
+import { getToken, windowExists } from 'utils';
 
 export const useTokenFromWindow = callback => {
   const [token, setToken] = useState(getToken(windowExists));

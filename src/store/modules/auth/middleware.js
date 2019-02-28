@@ -2,7 +2,7 @@ import { prop } from 'ramda';
 
 import { AUTH_SET_TOKEN, authOk } from 'store/modules/auth/actions';
 
-import mockUser from './data/mockUser';
+import mockUser from 'config/auth/mockUser';
 
 const isDev = process.env.NODE_ENV === 'development';
 

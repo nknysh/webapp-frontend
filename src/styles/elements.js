@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import theme from './theme';
 import breakpoints from './breakpoints';
@@ -20,24 +20,37 @@ export const Container = styled.div`
   ${breakpoints.tablet`max-width: ${theme.breakpoints.desktop}px`}
 `;
 
-export const Input = styled.input`
-  margin-top: 5px;
+export const inputStyles = css`
+  background: ${theme.backgroundColor};
+  margin-top: ${theme.gutter / 2}px;
   display: block;
-  border: 1px solid ${theme.colors['gray-darker']};
+  border: 1px solid ${theme.borderColor};
   color: ${theme.colors.black};
   width: 100%;
+  box-sizing: border-box;
   padding: ${theme.gutter}px;
+`;
+
+export const Input = styled.input`
+  ${inputStyles}
 `;
 
 export const Button = styled.button`
   width: 100%;
   font-size: 18px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-family: ${theme.defaultFont};
   color: ${theme.colors.white};
   background: ${theme.primary}
   outline: none;
   border: 0;
   padding: ${theme.gutter}px ${theme.gutter}px;
   cursor: pointer;
+
+  &:hover {
+    background: ${theme.secondary};
+  }
 `;
 
 export const Image = styled.img``;

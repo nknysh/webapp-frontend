@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NumberSelect /> render matches snapshots 1`] = `
+<styled.div>
+  <styled.div>
+    <Styled(WithStyles(Icon))
+      onClick={[Function]}
+    >
+      add
+    </Styled(WithStyles(Icon))>
+  </styled.div>
+  <styled.div>
+    0
+  </styled.div>
+  <styled.div>
+    <Styled(WithStyles(Icon))
+      data-disabled={true}
+      onClick={[Function]}
+    >
+      remove
+    </Styled(WithStyles(Icon))>
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<NumberSelect /> render matches snapshots 2`] = `
+<styled.div>
+  <styled.div>
+    <Styled(WithStyles(Icon))
+      onClick={[Function]}
+    >
+      add
+    </Styled(WithStyles(Icon))>
+  </styled.div>
+  <styled.div>
+    5
+  </styled.div>
+  <styled.div>
+    <Styled(WithStyles(Icon))
+      data-disabled={false}
+      onClick={[Function]}
+    >
+      remove
+    </Styled(WithStyles(Icon))>
+  </styled.div>
+</styled.div>
+`;

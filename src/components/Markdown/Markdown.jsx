@@ -1,16 +1,16 @@
 import React from 'react';
 import { isEmpty } from 'ramda';
 
-import { renderMarkdown } from 'utils/markdown';
+import { renderMarkdown } from 'utils';
 
 import { propTypes, defaultProps } from './Markdown.props';
 import { StyledMarkdown } from './Markdown.styles';
 
-export const Markdown = ({ children }) => {
+export const Markdown = ({ children, className }) => {
   if (isEmpty(children)) return null;
 
   const renderedMarkdown = renderMarkdown(children);
-  return <StyledMarkdown dangerouslySetInnerHTML={{ __html: renderedMarkdown }} />;
+  return <StyledMarkdown className={className} dangerouslySetInnerHTML={{ __html: renderedMarkdown }} />;
 };
 
 Markdown.propTypes = propTypes;

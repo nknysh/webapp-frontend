@@ -29,7 +29,6 @@ export const StyledHeader = styled.div`
 `;
 
 export const HeaderLogo = styled(Link)`
-  height: 26px;
   width: auto;
   display: block;
 
@@ -71,7 +70,7 @@ export const HeaderMenu = styled(Menu)`
   right: 0;
   left: 0;
   border-top: 1px solid ${theme.colors.gold};
-  transition: ease-in-out 0.25s all;
+  transition: ${theme.defaultTransition};
   text-align: left;
   font-size: 12px;
   z-index: 100;

@@ -1,0 +1,201 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<IndexSearch /> children is called as function when open 1`] = `
+<styled.div>
+  <DropDownContent
+    inputContent=""
+    inputProps={
+      Object {
+        "onBlur": [Function],
+        "onChange": [Function],
+        "onFocus": [Function],
+        "placeholder": undefined,
+        "value": "",
+      }
+    }
+    maskProps={
+      Object {
+        "data-empty": true,
+      }
+    }
+    showArrow={false}
+    showContent={true}
+    showRawInput={true}
+  />
+</styled.div>
+`;
+
+exports[`<IndexSearch /> render matches snapshot 1`] = `
+<styled.div>
+  <DropDownContent
+    inputContent=""
+    inputProps={
+      Object {
+        "onBlur": [Function],
+        "onChange": [Function],
+        "onFocus": [Function],
+        "placeholder": undefined,
+        "value": "",
+      }
+    }
+    maskProps={
+      Object {
+        "data-empty": true,
+      }
+    }
+    showArrow={false}
+    showRawInput={true}
+  />
+</styled.div>
+`;
+
+exports[`<IndexSearch /> render matches snapshot 2`] = `
+<styled.div>
+  <DropDownContent
+    inputContent=""
+    inputProps={
+      Object {
+        "onBlur": [Function],
+        "onChange": [Function],
+        "onFocus": [Function],
+        "placeholder": undefined,
+        "value": "",
+      }
+    }
+    maskProps={
+      Object {
+        "data-empty": true,
+      }
+    }
+    showArrow={false}
+    showContent={true}
+    showRawInput={true}
+  />
+</styled.div>
+`;
+
+exports[`<IndexSearch /> render matches snapshot 3`] = `
+<styled.div>
+  <Styled(Label)>
+    with label
+  </Styled(Label)>
+  <DropDownContent
+    inputContent=""
+    inputProps={
+      Object {
+        "onBlur": [Function],
+        "onChange": [Function],
+        "onFocus": [Function],
+        "placeholder": undefined,
+        "value": "",
+      }
+    }
+    maskProps={
+      Object {
+        "data-empty": true,
+      }
+    }
+    showArrow={false}
+    showRawInput={true}
+  />
+</styled.div>
+`;
+
+exports[`<IndexSearch /> render matches snapshot 4`] = `
+<styled.div>
+  <DropDownContent
+    inputContent=""
+    inputProps={
+      Object {
+        "onBlur": [Function],
+        "onChange": [Function],
+        "onFocus": [Function],
+        "placeholder": undefined,
+        "value": "",
+      }
+    }
+    maskProps={
+      Object {
+        "data-empty": true,
+      }
+    }
+    showArrow={false}
+    showRawInput={true}
+  />
+</styled.div>
+`;
+
+exports[`<IndexSearch /> render matches snapshot 5`] = `
+<styled.div>
+  <DropDownContent
+    inputContent=""
+    inputProps={
+      Object {
+        "onBlur": [Function],
+        "onChange": [Function],
+        "onFocus": [Function],
+        "placeholder": undefined,
+        "value": "",
+      }
+    }
+    maskProps={
+      Object {
+        "data-empty": true,
+      }
+    }
+    showArrow={false}
+    showRawInput={true}
+  />
+</styled.div>
+`;
+
+exports[`<IndexSearch /> render matches snapshot 6`] = `
+<styled.div>
+  <DropDownContent
+    inputContent="default value"
+    inputProps={
+      Object {
+        "onBlur": [Function],
+        "onChange": [Function],
+        "onFocus": [Function],
+        "placeholder": undefined,
+        "value": "default value",
+      }
+    }
+    maskProps={
+      Object {
+        "data-empty": false,
+      }
+    }
+    showArrow={false}
+    showRawInput={true}
+  />
+</styled.div>
+`;
+
+exports[`<IndexSearch /> render matches snapshot 7`] = `
+<styled.div>
+  <DropDownContent
+    inputContent=""
+    inputProps={
+      Object {
+        "onBlur": [Function],
+        "onChange": [Function],
+        "onFocus": [Function],
+        "placeholder": undefined,
+        "value": "",
+      }
+    }
+    maskProps={
+      Object {
+        "data-empty": true,
+      }
+    }
+    showArrow={false}
+    showContent={true}
+    showRawInput={true}
+  />
+</styled.div>
+`;
+
+exports[`<IndexSearch /> render returns nothing with empty indexes 1`] = `""`;

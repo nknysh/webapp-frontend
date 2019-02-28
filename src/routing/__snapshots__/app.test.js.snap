@@ -24,21 +24,12 @@ exports[`routing app routes match snapshot 3`] = `
 Object {
   "auth": true,
   "component": [Function],
-  "name": "Calendar",
-  "path": "/calendar",
-}
-`;
-
-exports[`routing app routes match snapshot 4`] = `
-Object {
-  "auth": true,
-  "component": [Function],
   "name": "Proposals",
   "path": "/proposals",
 }
 `;
 
-exports[`routing app routes match snapshot 5`] = `
+exports[`routing app routes match snapshot 4`] = `
 Object {
   "auth": true,
   "component": [Function],
@@ -47,7 +38,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 6`] = `
+exports[`routing app routes match snapshot 5`] = `
 Object {
   "auth": true,
   "component": [Function],
@@ -56,7 +47,25 @@ Object {
 }
 `;
 
+exports[`routing app routes match snapshot 6`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Search",
+  "path": "/search",
+}
+`;
+
 exports[`routing app routes match snapshot 7`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Calendar",
+  "path": "/calendar",
+}
+`;
+
+exports[`routing app routes match snapshot 8`] = `
 Object {
   "auth": true,
   "authRedirect": [Function],
@@ -66,7 +75,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 8`] = `
+exports[`routing app routes match snapshot 9`] = `
 Object {
   "auth": true,
   "authRedirect": [Function],
@@ -76,7 +85,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 9`] = `
+exports[`routing app routes match snapshot 10`] = `
 Object {
   "component": [Function],
   "exact": true,
@@ -85,7 +94,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 10`] = `
+exports[`routing app routes match snapshot 11`] = `
 Object {
   "component": [Function],
   "name": "Not Found",

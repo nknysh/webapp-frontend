@@ -10,10 +10,10 @@ const sidebarGutter = `${doubleSpaced}px`;
 
 const sidebarUl = css`
   background: ${theme.colors.white};
-  box-shadow: 0 5px 10px ${theme.colors['gray']};
+  box-shadow: ${theme.boxShadow};
   list-style: none;
   margin: 0;
-  transition: ease-in-out 0.25s all;
+  transition: ${theme.defaultTransition};
   position: absolute;
   left: -${sidebarGutter};
   right: -${sidebarGutter};
@@ -92,5 +92,5 @@ export const SidebarIcon = styled(Icon)`
   font-size: 16px !important;
   right: 3px;
   top: ${theme.gutter + 7}px;
-  transition: ease-in-out 0.25s all;
+  transition: ${theme.defaultTransition};
 `;

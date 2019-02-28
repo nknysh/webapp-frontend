@@ -1,21 +1,13 @@
-import { prop } from 'ramda';
+import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
+import { initialState, loadingReducer, successReducer, errorReducer } from 'store/common';
 
-import createReducer from 'store/utils/createReducer';
-
-import { GET_PAGE } from './actions';
-import { PageData } from './config';
-
-const initialState = {};
-
-const getPage = (state, { payload: { pageId } }) => {
-  const data = prop(pageId, PageData);
-
-  return pageId && data ? { id: pageId, ...data } : state;
-};
+import { FETCH_PAGE } from './actions';
 
 export default createReducer(
   {
-    [GET_PAGE]: getPage,
+    [FETCH_PAGE]: loadingReducer,
+    [getSuccessActionName(FETCH_PAGE)]: successReducer,
+    [getErrorActionName(FETCH_PAGE)]: errorReducer,
   },
   initialState
 );

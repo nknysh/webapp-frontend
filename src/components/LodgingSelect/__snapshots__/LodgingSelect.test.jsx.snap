@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LodgingSelect /> render matches snapshot 1`] = `
+<styled.div>
+  <DropDownContent
+    inputContent="0 Rooms, 0 Guests"
+    showArrow={true}
+  >
+    <styled.div>
+      <styled.div>
+        <Styled(Label)>
+          Rooms
+        </Styled(Label)>
+        <Styled(NumberSelect)
+          onChange={[Function]}
+          startAt={0}
+        />
+      </styled.div>
+    </styled.div>
+    <styled.div>
+      <styled.div>
+        <Styled(Label)>
+          Adults
+        </Styled(Label)>
+        <Styled(NumberSelect)
+          onChange={[Function]}
+          startAt={0}
+        />
+      </styled.div>
+      <styled.div>
+        <Styled(Label)>
+          Teens (13-18)
+        </Styled(Label)>
+        <Styled(NumberSelect)
+          onChange={[Function]}
+          startAt={0}
+        />
+      </styled.div>
+      <styled.div>
+        <Styled(Label)>
+          Children (2-12)
+        </Styled(Label)>
+        <Styled(NumberSelect)
+          onChange={[Function]}
+          startAt={0}
+        />
+      </styled.div>
+      <styled.div>
+        <Styled(Label)>
+          Infants (0-2)
+        </Styled(Label)>
+        <Styled(NumberSelect)
+          onChange={[Function]}
+          startAt={0}
+        />
+      </styled.div>
+    </styled.div>
+  </DropDownContent>
+</styled.div>
+`;

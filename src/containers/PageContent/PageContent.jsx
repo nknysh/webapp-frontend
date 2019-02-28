@@ -4,7 +4,7 @@ import { compose, prop, isEmpty } from 'ramda';
 
 import { useLoading } from 'effects';
 import { NotFound } from 'pages';
-import config from 'config';
+import config from 'config/ui';
 import { Markdown, Sidebar, Loader } from 'components';
 
 import { propTypes, defaultProps } from './PageContent.props';
@@ -36,7 +36,7 @@ export const PageContent = ({ pageId, data, links, title, getPage, className, he
       <StyledPageContent className={className}>
         <Helmet>
           <title>
-            {title} - {prop('title', config)}
+            {title || ''} - {prop('title', config)}
           </title>
         </Helmet>
         {hero && <PageHero {...hero} />}

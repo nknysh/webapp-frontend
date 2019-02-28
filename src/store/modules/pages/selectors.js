@@ -1,7 +1,12 @@
 import { createSelector } from 'reselect';
 import { prop } from 'ramda';
 
-export const getPage = prop('pages');
+export const getPages = prop('pages');
+
+export const getPage = createSelector(
+  getPages,
+  prop('data')
+);
 
 export const getPageId = createSelector(
   getPage,

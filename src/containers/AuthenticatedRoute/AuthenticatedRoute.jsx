@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, path } from 'ramda';
 
-import config from 'config';
+import config from 'config/ui';
 import { Loader } from 'components';
 import { NotFound } from 'pages';
 import { withAuthentication, propTypes as withAuthPropTypes } from 'hoc/withAuthentication';

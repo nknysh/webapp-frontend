@@ -2,23 +2,23 @@ import React, { useRef, Fragment } from 'react';
 import { compose, prop, map } from 'ramda';
 import hash from 'object-hash';
 
-import { windowExists } from 'utils/window';
+import { windowExists } from 'utils';
 
 import { Hero, Markdown } from 'components';
 import { ErrorBoundary } from 'hoc/ErrorBoundary';
 
-import heroData from 'config/data/home/hero.md';
-import section1 from 'config/data/home/section-1.md';
-import section2 from 'config/data/home/section-2.md';
-import section3 from 'config/data/home/section-3.md';
-import section4 from 'config/data/home/section-4.md';
-import section5 from 'config/data/home/section-5.md';
+import heroData from 'config/pages/home/hero.md';
+import section1 from 'config/pages/home/section-1.md';
+import section2 from 'config/pages/home/section-2.md';
+import section3 from 'config/pages/home/section-3.md';
+import section4 from 'config/pages/home/section-4.md';
+import section5 from 'config/pages/home/section-5.md';
 
-import homeVideo from 'config/data/home/assets/home-video.mp4';
-import heroImage from 'config/data/home/assets/home-hero-image.jpg';
-import section1Image from 'config/data/home/assets/section-1.jpg';
-import section2Image from 'config/data/home/assets/section-2.jpg';
-import section3Image from 'config/data/home/assets/section-3.jpg';
+import homeVideo from 'config/pages/home/assets/home-video.mp4';
+import heroImage from 'config/pages/home/assets/home-hero-image.jpg';
+import section1Image from 'config/pages/home/assets/section-1.jpg';
+import section2Image from 'config/pages/home/assets/section-2.jpg';
+import section3Image from 'config/pages/home/assets/section-3.jpg';
 
 import { propTypes } from './Home.props';
 import { StyledHome, MoveTo, HomeSection, HomeContainer, HomeHero } from './Home.styles';

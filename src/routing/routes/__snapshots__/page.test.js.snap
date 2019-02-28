@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing routes match snapshot 1`] = `
+Object {
+  "component": [Function],
+  "exact": true,
+  "name": "Content Pages",
+  "path": "/:pageId",
+}
+`;

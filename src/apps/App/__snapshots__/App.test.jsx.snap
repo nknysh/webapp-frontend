@@ -21,13 +21,6 @@ exports[`<App /> render matches snapshot 1`] = `
     />
     <Route
       auth={true}
-      key="3719134dff536ed5474a1df95412b7fe19a2e502"
-      name="Calendar"
-      path="/calendar"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
       key="b39dbf7287b1aeef982ddba3f39cd4025f17a822"
       name="Proposals"
       path="/proposals"
@@ -45,6 +38,20 @@ exports[`<App /> render matches snapshot 1`] = `
       key="0e83f0e60914061161c208ed2ef07508db6f602a"
       name="Holds"
       path="/holds"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      key="17c782e7d4e39ebecc43aaf235a17a41bbf43b22"
+      name="Search"
+      path="/search"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      key="3719134dff536ed5474a1df95412b7fe19a2e502"
+      name="Calendar"
+      path="/calendar"
       render={[Function]}
     />
     <Route

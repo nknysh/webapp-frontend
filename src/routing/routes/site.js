@@ -1,23 +1,17 @@
-import { Home, Search, NotFound } from 'pages';
+import { Home, HomeAuthenticated, NotFound } from 'pages';
 
 export default [
   {
     name: 'Root Path',
     path: '/',
     exact: true,
-    component: Search,
+    component: HomeAuthenticated,
     auth: true,
     authRedirect: Home,
   },
   {
     name: 'Messages',
     path: '/messages',
-    component: NotFound,
-    auth: true,
-  },
-  {
-    name: 'Calendar',
-    path: '/calendar',
     component: NotFound,
     auth: true,
   },
@@ -36,6 +30,18 @@ export default [
   {
     name: 'Holds',
     path: '/holds',
+    component: NotFound,
+    auth: true,
+  },
+  {
+    name: 'Search',
+    path: '/search',
+    component: NotFound,
+    auth: true,
+  },
+  {
+    name: 'Calendar',
+    path: '/calendar',
     component: NotFound,
     auth: true,
   },

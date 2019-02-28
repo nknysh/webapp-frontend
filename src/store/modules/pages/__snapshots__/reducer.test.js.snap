@@ -1,15 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages reducer should handle GET_PAGE 1`] = `
+exports[`pages reducer should handle FETCH_PAGE 1`] = `
 Object {
-  "data": "",
-  "hero": Object {
-    "media": Object {
-      "image": "",
-    },
-  },
-  "id": "about-us",
-  "links": "",
-  "title": "About Us",
+  "status": "LOADING",
+}
+`;
+
+exports[`pages reducer should handle FETCH_PAGE_ERROR 1`] = `
+Object {
+  "status": "LOADING",
+}
+`;
+
+exports[`pages reducer should handle FETCH_PAGE_SUCCESS 1`] = `
+Object {
+  "status": "LOADING",
 }
 `;

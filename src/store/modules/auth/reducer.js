@@ -1,4 +1,4 @@
-import createReducer from 'store/utils/createReducer';
+import { createReducer } from 'store/utils';
 
 import { AUTH_REQUEST, AUTH_OK, AUTH_ERROR, AUTH_RESET, AUTH_SET_TOKEN } from './actions';
 

@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing routes match snapshot 1`] = `
+Object {
+  "auth": true,
+  "authRedirect": [Function],
+  "component": [Function],
+  "exact": true,
+  "name": "Root Path",
+  "path": "/",
+}
+`;
+
+exports[`routing routes match snapshot 2`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Messages",
+  "path": "/messages",
+}
+`;
+
+exports[`routing routes match snapshot 3`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Proposals",
+  "path": "/proposals",
+}
+`;
+
+exports[`routing routes match snapshot 4`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Bookings",
+  "path": "/bookings",
+}
+`;
+
+exports[`routing routes match snapshot 5`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Holds",
+  "path": "/holds",
+}
+`;
+
+exports[`routing routes match snapshot 6`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Search",
+  "path": "/search",
+}
+`;
+
+exports[`routing routes match snapshot 7`] = `
+Object {
+  "auth": true,
+  "component": [Function],
+  "name": "Calendar",
+  "path": "/calendar",
+}
+`;

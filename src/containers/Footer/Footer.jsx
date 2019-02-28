@@ -5,9 +5,8 @@ import theme from 'styles/theme';
 import { Markdown } from 'components';
 import { useCurrentWidth } from 'effects';
 
-import footerText from 'config/data/footer.md';
-
-import logo from './assets/footer-logo.png';
+import footerText from 'config/ui/footer.md';
+import logo from 'public/img/footer-logo.png';
 
 import { propTypes, defaultProps } from './Footer.props';
 import {

@@ -24,7 +24,7 @@ export const StyledLoader = styled.div`
 
 export const LoaderImage = styled(Image)`
   animation: ${rotate} 1.5s linear infinite;
-  transition: ease-in-out 0.25s all;
+  transition: ${theme.defaultTransition};
   display: block;
 `;
 
