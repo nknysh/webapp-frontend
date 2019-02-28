@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-import { compose } from 'ramda';
+import { compose, path } from 'ramda';
 
+import config from 'config';
 import { Loader } from 'components';
 import { NotFound } from 'pages';
 import { withAuthentication, propTypes as withAuthPropTypes } from 'hoc/withAuthentication';
 
-const renderLoadingMessage = () => <Loader title="Authenticating..." />;
+const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
 
 const renderRedirect = location => (
   <Redirect
