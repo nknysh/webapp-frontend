@@ -10,10 +10,11 @@ export const StyledSearch = styled.div`
 
 export const SearchHero = styled(Hero)`
   overflow: visible;
-  min-height: none;
+  min-height: unset;
   height: 500px;
   display: block;
   margin-bottom: 475px;
+  background-size: auto;
 
   ${breakpoints.desktop`
     height: unset;
