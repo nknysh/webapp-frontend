@@ -40,6 +40,7 @@ export const DropDownContentInput = styled(Input)`
   ${({ showRawInput }) =>
     !showRawInput &&
     css`
+      cursor: pointer;
       position: absolute;
       top: 0;
       opacity: 0;
@@ -56,6 +57,7 @@ export const DropDownContentMask = styled.div`
   ${dropDownInputStyles}
   min-height: 37px;
   padding-right: ${theme.gutter * 3}px;
+  cursor: pointer;
 
   ${({ ['data-empty']: isEmpty }) =>
     isEmpty &&
