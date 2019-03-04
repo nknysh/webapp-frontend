@@ -25,6 +25,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
         </Styled(withSearchIndexes(IndexSearch))>
       </styled.div>
       <styled.div
+        data-large={true}
         onClick={[Function]}
       >
         <DatePicker
