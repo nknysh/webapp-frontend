@@ -2,6 +2,6 @@
 
 ## Setup
 
-1. `yarn`
-1. `yarn run dev`
+1. `npm i`
+1. `npm run dev`
 
