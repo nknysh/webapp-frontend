@@ -56,10 +56,18 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                 "componentStyle": ComponentStyle {
                   "componentId": "sc-VigVT",
                   "isStatic": true,
-                  "lastClassName": "euGmrl",
+                  "lastClassName": "bszSCg",
                   "rules": Array [
                     "
   ",
+                    "
+  ",
+                    "
+  font-family: ",
+                    "NoeDisplay, \\"Open Sans\\", sans-serif",
+                    ";
+  letter-spacing: 1px;
+",
                     "
   color: ",
                     "#382A21",
@@ -89,7 +97,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <h1
-              className="sc-bZQynM sc-VigVT euGmrl"
+              className="sc-bZQynM sc-VigVT bszSCg"
             >
               Something went wrong
             </h1>

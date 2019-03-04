@@ -2,7 +2,13 @@ import styled, { css } from 'styled-components';
 
 import theme from './theme';
 
+export const commonHeaderStyles = css`
+  font-family: ${theme.headingFont};
+  letter-spacing: 1px;
+`;
+
 export const h1Styling = css`
+  ${commonHeaderStyles}
   color: ${theme.secondary};
   font-size: 22px;
   font-weight: bold;
@@ -14,6 +20,7 @@ export const Heading1 = styled.h1`
 `;
 
 export const h2Styling = css`
+  ${commonHeaderStyles}
   color: ${theme.primary};
 `;
 

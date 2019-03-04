@@ -72,7 +72,7 @@ export const PageContentData = styled.div`
     }
 
     ${breakpoints.tablet`
-      min-height: 35px;
+      min-height: ${theme.gutter * 6}px;
       padding: ${theme.gutter}px 0;
       border-bottom: 1px solid ${theme.colors['gray-medium']};
       
@@ -123,7 +123,7 @@ export const Columns = styled.div`
 export const ColumnLeft = styled.div`
   ${breakpoints.tablet`
     flex: 1 1 25%;
-    padding-right: ${theme.gutter * 15}px;
+    padding-right: ${theme.gutter * 13}px;
   `}
 `;
 

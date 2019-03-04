@@ -53,6 +53,7 @@ export const animations = Object.freeze({
 
 export const fonts = Object.freeze({
   defaultFont: 'HurmeGeometricSans2, "Open Sans", sans-serif',
+  headingFont: 'NoeDisplay, "Open Sans", sans-serif',
   linkSize: 11,
 });
 
