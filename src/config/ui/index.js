@@ -29,6 +29,10 @@ const uiConfig = {
     night: ['Night', 'Nights'],
     guest: ['Guest', 'Guests'],
     room: ['Room', 'Rooms'],
+    adult: ['Adult', 'Adults'],
+    teen: ['Teen', 'Teens'],
+    children: ['Children', 'Children'],
+    infant: ['Infant', 'Infants'],
   },
 };
 

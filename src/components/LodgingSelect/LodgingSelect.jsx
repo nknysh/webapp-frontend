@@ -58,7 +58,7 @@ export const LodgingSelect = ({ id, label, onSelected, selectedValues }) => {
       <DropDownContent id={id} inputContent={summary}>
         <LodgingSelectSection>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>Rooms</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPluralisation('room')}</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(roomsLens, data)}
               onChange={number => setData(set(roomsLens, number, data))}
@@ -74,21 +74,21 @@ export const LodgingSelect = ({ id, label, onSelected, selectedValues }) => {
             />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>Teens (13-18)</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPluralisation('teen')} (13-18)</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(teensLens, data)}
               onChange={number => setData(set(teensLens, number, data))}
             />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>Children (2-12)</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPluralisation('children')} (2-12)</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(childrenLens, data)}
               onChange={number => setData(set(childrenLens, number, data))}
             />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>Infants (0-2)</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPluralisation('infant')} (0-2)</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(infantsLens, data)}
               onChange={number => setData(set(infantsLens, number, data))}
