@@ -141,7 +141,7 @@ export const SearchBar = ({
           </SearchBarSection>
           <SearchBarSection data-constrain={true} onClick={() => setContext('honeymooners')}>
             <Checkbox
-              label="Honeymooners"
+              label={path(['labels', 'honeymooners'], uiConfig)}
               onSelected={setHoneymoonersToSearchQuery}
               checked={getSearchQueryData(honeymoonersLens)}
             />

@@ -14,6 +14,7 @@ const uiConfig = {
     lodging: 'Lodging',
     room: 'Room',
     guest: 'Guest',
+    honeymooners: 'Honeymooners',
   },
 
   buttons: {

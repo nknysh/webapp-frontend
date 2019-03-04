@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { lensProp, view, set, prop, pipe, omit, values, sum } from 'ramda';
 
-import { getPluralisation } from 'config/ui';
+import { getPluralisation, getPlural } from 'config/ui';
 import { DropDownContent } from 'components';
 
 import { propTypes, defaultProps } from './LodgingSelect.props';
@@ -58,7 +58,7 @@ export const LodgingSelect = ({ id, label, onSelected, selectedValues }) => {
       <DropDownContent id={id} inputContent={summary}>
         <LodgingSelectSection>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>{getPluralisation('room')}</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPlural('room')}</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(roomsLens, data)}
               onChange={number => setData(set(roomsLens, number, data))}
@@ -67,28 +67,28 @@ export const LodgingSelect = ({ id, label, onSelected, selectedValues }) => {
         </LodgingSelectSection>
         <LodgingSelectSection>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>Adults</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPlural('adult')}</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(adultsLens, data)}
               onChange={number => setData(set(adultsLens, number, data))}
             />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>{getPluralisation('teen')} (13-18)</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPlural('teen')} (13-18)</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(teensLens, data)}
               onChange={number => setData(set(teensLens, number, data))}
             />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>{getPluralisation('children')} (2-12)</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPlural('children')} (2-12)</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(childrenLens, data)}
               onChange={number => setData(set(childrenLens, number, data))}
             />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>{getPluralisation('infant')} (0-2)</LodgingSelectEntryLabel>
+            <LodgingSelectEntryLabel>{getPlural('infant')} (0-2)</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
               startAt={view(infantsLens, data)}
               onChange={number => setData(set(infantsLens, number, data))}
