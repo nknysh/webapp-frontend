@@ -20,4 +20,6 @@ export default Object.freeze({
   'gold-light': '#9D9591',
 
   aqua: '#D4F3EE',
+
+  'light-blue': '#F3F9FB',
 });

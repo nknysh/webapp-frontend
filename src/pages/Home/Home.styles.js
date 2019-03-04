@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
 import theme from 'styles/theme';
@@ -25,6 +25,13 @@ export const MoveTo = styled(Icon)`
 
 export const HomeSection = styled.div`
   position: relative;
+
+  ${({ ['data-striped']: striped }) =>
+    striped &&
+    css`
+      background-color: ${theme.colors['light-blue']};
+    `}
+  }
 `;
 
 export const HomeHero = styled(Hero)`
