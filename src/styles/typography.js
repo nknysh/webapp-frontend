@@ -9,7 +9,7 @@ export const commonHeaderStyles = css`
 
 export const h1Styling = css`
   ${commonHeaderStyles}
-  color: ${theme.secondary};
+  color: ${theme.colors['gold-neutral']};
   font-size: 22px;
   font-weight: bold;
   margin: ${theme.gutter * 2}px;
