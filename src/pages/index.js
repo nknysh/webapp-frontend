@@ -3,4 +3,4 @@ export { CreateAccount } from './CreateAccount';
 export { Home } from './Home';
 export { Login } from './Login';
 export { NotFound } from './NotFound';
-export { Search } from './Search';
+export { HomeAuthenticated } from './HomeAuthenticated';

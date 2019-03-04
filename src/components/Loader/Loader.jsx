@@ -1,7 +1,7 @@
 import React from 'react';
 import { path } from 'ramda';
 
-import config from 'config';
+import config from 'config/ui';
 
 import peLogo from 'public/img/PE_logo.png';
 

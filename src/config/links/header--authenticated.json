@@ -4,14 +4,6 @@
         "href": "/"
     },
     {
-        "title": "Messages",
-        "href": "/messages"
-    },
-    {
-        "title": "Calendar",
-        "href": "/calendar"
-    },
-    {
         "title": "Proposals",
         "href": "/proposals"
     },
@@ -22,5 +14,9 @@
     {
         "title": "Holds",
         "href": "/holds"
+    },
+    {
+        "title": "Calendar",
+        "href": "/calendar"
     }
 ]

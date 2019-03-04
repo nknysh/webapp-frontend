@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import { prop, compose } from 'ramda';
 
-import config from 'config';
+import config from 'config/ui';
 
 import { propTypes } from './Layout.props';
 import { StyledLayout, LayoutChildren, LayoutHeader, LayoutFooter } from './Layout.styles';

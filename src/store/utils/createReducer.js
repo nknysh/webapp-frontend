@@ -1,6 +1,7 @@
-import { ifElse, always, has, pipe, prop, is, curry, both } from 'ramda';
+import { ifElse, always, has, pipe, prop, curry, both } from 'ramda';
 
-const isFunction = is(Function);
+import { isFunction } from 'utils';
+
 const getActionType = prop('type');
 
 const isReducerFunction = action =>

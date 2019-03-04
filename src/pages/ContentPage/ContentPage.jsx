@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PageContent from 'containers/PageContent/PageContent';
+import { PageContent } from 'containers';
 
 import { propTypes, defaultProps } from './ContentPage.props';
 

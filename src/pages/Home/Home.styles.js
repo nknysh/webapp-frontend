@@ -36,7 +36,7 @@ export const HomeContainer = styled.div`
   padding: ${theme.gutter * 5}px;
 
   ${breakpoints.tablet`
-    padding: 120px;
+    padding: 120px ${theme.gutter}px;
     max-width: 600px;
     margin: 0 auto;
   `}

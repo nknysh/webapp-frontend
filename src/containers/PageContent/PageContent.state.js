@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
 import { getPageId, getPageTitle, getPageData, getPageLinks, getPageHero } from 'store/modules/pages/selectors';
-import { getPageById } from 'store/modules/pages/actions';
+import { getPage } from 'store/modules/pages/actions';
 
 export const mapStateToProps = state => ({
   data: getPageData(state),
@@ -14,7 +14,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   getPage: pipe(
-    getPageById,
+    getPage,
     dispatch
   ),
 });

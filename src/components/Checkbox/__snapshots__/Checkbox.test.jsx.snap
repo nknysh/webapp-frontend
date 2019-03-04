@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Checkbox /> render matches snapshot 1`] = `
+<styled.div>
+  <WithStyles(FormControlLabel)
+    control={
+      <ForwardRef
+        onChange={[Function]}
+      />
+    }
+  />
+</styled.div>
+`;

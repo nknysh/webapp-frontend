@@ -63,7 +63,10 @@ export const GlobalStyle = createGlobalStyle`
         :before, :after {
             min-height: none;
         }
-    }  
+    }
+    * {
+        box-sizing: border-box;
+    }
 `;
 
 export default { GlobalFonts, GlobalStyle };

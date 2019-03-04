@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing routes match snapshot 1`] = `
+Object {
+  "component": [Function],
+  "exact": true,
+  "path": "/admin",
+}
+`;
+
+exports[`routing routes match snapshot 2`] = `
+Object {
+  "component": [Function],
+  "path": "/",
+}
+`;

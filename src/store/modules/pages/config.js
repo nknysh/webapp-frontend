@@ -1,7 +1,7 @@
-import aboutData from 'config/data/about';
-import contactData from 'config/data/contact';
-import privacyData from 'config/data/privacy';
-import termsData from 'config/data/terms';
+import aboutData from 'config/pages/about';
+import contactData from 'config/pages/contact';
+import privacyData from 'config/pages/privacy';
+import termsData from 'config/pages/terms';
 
 export const PageIds = Object.freeze({
   ABOUT: 'about-us',

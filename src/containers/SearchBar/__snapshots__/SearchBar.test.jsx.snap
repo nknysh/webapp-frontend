@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchBar /> render matches snapshot 1`] = `
+<ContextProvider>
+  <styled.div>
+    <Loader
+      isLoading={true}
+    >
+      <styled.div
+        onClick={[Function]}
+      >
+        <Styled(withSearchIndexes(IndexSearch))
+          id="search"
+          indexes={
+            Array [
+              "destinations",
+              "hotels",
+            ]
+          }
+          label="Destination or resort"
+          limit={5}
+          placeholder="Where to"
+        >
+          <Component />
+        </Styled(withSearchIndexes(IndexSearch))>
+      </styled.div>
+      <styled.div
+        data-large={true}
+        onClick={[Function]}
+      >
+        <DatePicker
+          id="dates"
+          label="Dates"
+          onSelected={[Function]}
+          placeholder="Select dates"
+          showOverlay={true}
+          summaryText="Night"
+          summaryTextPlural={
+            Array [
+              "Nights",
+            ]
+          }
+        />
+      </styled.div>
+      <styled.div
+        onClick={[Function]}
+      >
+        <LodgingSelect
+          id="lodging"
+          label="Lodging"
+          onSelected={[Function]}
+        />
+      </styled.div>
+      <styled.div
+        data-constrain={true}
+        onClick={[Function]}
+      >
+        <Checkbox
+          label="Honeymooners"
+          onSelected={[Function]}
+        />
+      </styled.div>
+      <styled.div
+        onClick={[Function]}
+      >
+        <Styled(styled.button)
+          onClick={[Function]}
+        >
+          Search
+        </Styled(styled.button)>
+      </styled.div>
+    </Loader>
+  </styled.div>
+</ContextProvider>
+`;

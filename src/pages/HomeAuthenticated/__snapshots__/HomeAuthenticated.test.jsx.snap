@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HomeAuthenticated /> render matches snapshot 1`] = `
+<styled.div>
+  <Styled(Hero)
+    mask={true}
+    media={
+      Object {
+        "image": "",
+      }
+    }
+  >
+    <Styled(Markdown) />
+    <Connect(withRouter(SearchBar)) />
+  </Styled(Hero)>
+</styled.div>
+`;

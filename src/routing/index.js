@@ -3,7 +3,7 @@ import { pick, curry, map, has, cond, T, both, propOr, omit, pipe, merge } from 
 import { Route, Redirect } from 'react-router-dom';
 import hash from 'object-hash';
 
-import { AuthenticatedRoute } from 'containers/AuthenticatedRoute';
+import { AuthenticatedRoute } from 'containers';
 
 const isRedirect = both(has('from'), has('to'));
 const requiresAuth = both(has('auth'), propOr(false, 'auth'));

@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
 
-import { windowExists } from 'utils/window';
+import { windowExists, addEvent, removeEvent } from 'utils';
 
 export const useCurrentWidth = () => {
   const [currentWidth, setCurrentWidth] = useState(windowExists.innerWidth || 0);
   const updateWidth = () => setCurrentWidth(windowExists.innerWidth || 0);
 
   useEffect(() => {
-    if (windowExists.addEventListener) {
-      windowExists.addEventListener('resize', updateWidth);
-    }
+    addEvent('resize', updateWidth);
 
     () => {
-      if (windowExists.addEventListener) {
-        windowExists.addEventListener('resize', updateWidth);
-      }
+      removeEvent('resize', updateWidth);
     };
   });
 
@@ -32,3 +28,18 @@ const scrollToTop = () => {
 };
 
 export const useScrollToTop = changed => useEffect(scrollToTop, [changed]);
+
+export const useKeyboard = (keyCode, callback) => {
+  const onKeyPress = e => {
+    if (e.keyCode !== keyCode) return;
+    callback(e);
+  };
+
+  useEffect(() => {
+    addEvent('keydown', onKeyPress);
+
+    () => {
+      removeEvent('keydown', onKeyPress);
+    };
+  });
+};

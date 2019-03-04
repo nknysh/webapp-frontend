@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+import { noop } from 'utils';
+
 export const propTypes = {
   align: PropTypes.oneOf(['start', 'middle', 'end']),
   className: PropTypes.string,
@@ -19,5 +21,5 @@ export const defaultProps = {
   align: 'middle',
   currentPath: '',
   links: [],
-  onLinkClick: () => {},
+  onLinkClick: noop,
 };

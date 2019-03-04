@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { windowExists } from 'utils/window';
+import { windowExists } from 'utils';
 
 import breakpoints from 'styles/breakpoints';
 import theme from 'styles/theme';

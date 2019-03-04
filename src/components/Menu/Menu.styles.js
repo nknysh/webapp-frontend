@@ -16,7 +16,7 @@ const getAlignment = prop(__, alignMap);
 
 export const Links = styled.div`
   > div {
-    border-bottom: 1px solid ${theme.colors['gray-darker']};
+    border-bottom: 1px solid ${theme.borderColor};
     padding: ${theme.gutter / 2}px;
 
     ${breakpoints.tablet`
@@ -42,7 +42,7 @@ export const Links = styled.div`
 export const MenuLink = styled(Link)`
   font-weight: ${({ ['data-active']: isActive }) => isActive && 'bold'};
   display: block;
-  transition: ease-in-out 0.25s all;
+  transition: ${theme.defaultTransition};
   text-transform: uppercase;
 
   a {
@@ -54,7 +54,7 @@ export const MenuLink = styled(Link)`
     font-size: ${theme.linkSize}px;
     text-align: center;
     height: auto;
-    transition: ease-in-out 0.25s all;
+    transition: ${theme.defaultTransition};
     width: auto;
   `}
 `;

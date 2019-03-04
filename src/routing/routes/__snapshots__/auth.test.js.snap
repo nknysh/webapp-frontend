@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing routes match snapshot 1`] = `
+Object {
+  "auth": true,
+  "authRedirect": [Function],
+  "component": [Function],
+  "name": "Login",
+  "path": "/login",
+}
+`;
+
+exports[`routing routes match snapshot 2`] = `
+Object {
+  "auth": true,
+  "authRedirect": [Function],
+  "component": [Function],
+  "name": "Create Account",
+  "path": "/sign-up",
+}
+`;

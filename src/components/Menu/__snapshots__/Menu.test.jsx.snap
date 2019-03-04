@@ -16,24 +16,6 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/messages"
-    onClick={[Function]}
-    spaced={true}
-    to="/messages"
-  >
-    Messages
-  </Styled(Link)>
-  <Styled(Link)
-    data-active={false}
-    key="/calendar"
-    onClick={[Function]}
-    spaced={true}
-    to="/calendar"
-  >
-    Calendar
-  </Styled(Link)>
-  <Styled(Link)
-    data-active={false}
     key="/proposals"
     onClick={[Function]}
     spaced={true}
@@ -58,6 +40,15 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
     to="/holds"
   >
     Holds
+  </Styled(Link)>
+  <Styled(Link)
+    data-active={false}
+    key="/calendar"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
   </Styled(Link)>
 </styled.div>
 `;
@@ -78,24 +69,6 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/messages"
-    onClick={[Function]}
-    spaced={true}
-    to="/messages"
-  >
-    Messages
-  </Styled(Link)>
-  <Styled(Link)
-    data-active={false}
-    key="/calendar"
-    onClick={[Function]}
-    spaced={true}
-    to="/calendar"
-  >
-    Calendar
-  </Styled(Link)>
-  <Styled(Link)
-    data-active={false}
     key="/proposals"
     onClick={[Function]}
     spaced={true}
@@ -120,6 +93,15 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
     to="/holds"
   >
     Holds
+  </Styled(Link)>
+  <Styled(Link)
+    data-active={false}
+    key="/calendar"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
   </Styled(Link)>
 </styled.div>
 `;
@@ -140,24 +122,6 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/messages"
-    onClick={[Function]}
-    spaced={true}
-    to="/messages"
-  >
-    Messages
-  </Styled(Link)>
-  <Styled(Link)
-    data-active={false}
-    key="/calendar"
-    onClick={[Function]}
-    spaced={true}
-    to="/calendar"
-  >
-    Calendar
-  </Styled(Link)>
-  <Styled(Link)
-    data-active={false}
     key="/proposals"
     onClick={[Function]}
     spaced={true}
@@ -182,6 +146,15 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
     to="/holds"
   >
     Holds
+  </Styled(Link)>
+  <Styled(Link)
+    data-active={false}
+    key="/calendar"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
   </Styled(Link)>
 </styled.div>
 `;

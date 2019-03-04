@@ -8,7 +8,7 @@ const getColor = pipe(
 );
 
 export const breakpoints = Object.freeze({
-  desktop: 1200,
+  desktop: 1024,
   tablet: 700,
 });
 
@@ -20,8 +20,17 @@ export const palette = Object.freeze({
   error: undefined,
   ok: undefined,
 
+  navigation: getColor('whiteish'),
   backgroundColor: getColor('white'),
+  boxShadowColor: getColor('black-light'),
+  boxShadow: `0 5px 10px ${getColor('black-light')}`,
+  boxShadowEven: `0 0 10px ${getColor('black-light')}`,
   inputBorder: getColor('gray-medium'),
+  borderColor: getColor('gray-dark'),
+  listSeparatorColor: getColor('gold'),
+  selected: getColor('aqua'),
+
+  opacity: 0.35,
 });
 
 export const spacing = Object.freeze({
@@ -30,7 +39,6 @@ export const spacing = Object.freeze({
 });
 
 export const sizes = Object.freeze({
-  linkSize: 11,
   borderRadius: 1,
 
   headerSizes: {
@@ -39,10 +47,21 @@ export const sizes = Object.freeze({
   },
 });
 
+export const animations = Object.freeze({
+  defaultTransition: 'ease-in-out 0.25s all',
+});
+
+export const fonts = Object.freeze({
+  defaultFont: 'HurmeGeometricSans2, "Open Sans", sans-serif',
+  linkSize: 11,
+});
+
 export default {
+  ...animations,
+  ...fonts,
   ...palette,
-  ...spacing,
   ...sizes,
+  ...spacing,
   breakpoints,
   colors,
 };

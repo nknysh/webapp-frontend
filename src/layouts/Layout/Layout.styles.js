@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import { Header } from 'containers/Header';
-import { Footer } from 'containers/Footer';
+import { Header, Footer } from 'containers';
 
 export const StyledLayout = styled.div`
   display: flex;

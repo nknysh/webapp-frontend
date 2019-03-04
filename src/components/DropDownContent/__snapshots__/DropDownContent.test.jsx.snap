@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DropDownContent /> render matches snapshot 1`] = `
+<styled.div>
+  <styled.div>
+    <styled.div>
+      <Styled(WithStyles(Icon))>
+        arrow_drop_down
+      </Styled(WithStyles(Icon))>
+    </styled.div>
+    <Styled(styled.input)
+      onClick={[Function]}
+    />
+  </styled.div>
+</styled.div>
+`;
