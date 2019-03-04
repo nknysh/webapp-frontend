@@ -13,7 +13,7 @@ export const NumberSelect = ({ onChange, startAt, className }) => {
   const [count, setCount] = useState(startAt);
 
   useEffect(() => {
-    onChange && onChange(count);
+    onChange(count);
   }, [count, startAt]);
 
   const canDecrease = count > 0;
