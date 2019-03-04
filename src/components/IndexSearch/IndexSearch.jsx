@@ -16,14 +16,15 @@ export const IndexSearch = ({
   children,
   className,
   disabled,
+  id,
   indexes,
   isOpen: isOpenProp,
   label,
   limit,
+  openOnFocus,
   pattern,
   placeholder,
   value,
-  id,
   ...props
 }) => {
   if (isEmpty(indexes)) return null;
@@ -56,7 +57,7 @@ export const IndexSearch = ({
 
   const inputProps = {
     value: currentValue,
-    onFocus: () => setIsOpen(true),
+    onFocus: () => setIsOpen(openOnFocus),
     onBlur: () => setIsOpen(false),
     onChange: e => {
       setSearch(e.currentTarget.value);
