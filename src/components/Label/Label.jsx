@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Text } from './Label.styles';
+import { Text, StyledLabel } from './Label.styles';
 
 const Label = ({ children, ...props }) => (
-  <label {...props}>
+  <StyledLabel {...props}>
     <Text>{children}</Text>
-  </label>
+  </StyledLabel>
 );
 
 Label.propTypes = {

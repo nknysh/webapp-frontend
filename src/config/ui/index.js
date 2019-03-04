@@ -6,6 +6,8 @@ const uiConfig = {
   messages: {
     loading: 'Loading...',
     authenticating: 'Authenticating...',
+    saving: 'Saving...',
+    creatingAccount: 'Sending Request...',
   },
 
   labels: {
@@ -15,10 +17,14 @@ const uiConfig = {
     room: 'Room',
     guest: 'Guest',
     honeymooners: 'Honeymooners',
+
+    yes: 'Yes',
+    no: 'No',
   },
 
   buttons: {
     search: 'Search',
+    request: 'Submit Request',
   },
 
   placeholders: {

@@ -2,17 +2,24 @@ import { prop, pipe } from 'ramda';
 
 export const getAuth = prop('auth');
 
+export const getAuthStatus = pipe(
+  getAuth,
+  prop('status')
+);
+
 export const getAuthData = pipe(
   getAuth,
   prop('data')
 );
+
+export const getAuthError = pipe(
+  getAuth,
+  prop('error')
+);
+
 export const getAuthToken = pipe(
   getAuthData,
   prop('token')
-);
-export const getAuthLoading = pipe(
-  getAuthData,
-  prop('loading')
 );
 export const getCurrentUser = pipe(
   getAuthData,
@@ -21,10 +28,5 @@ export const getCurrentUser = pipe(
 
 export const isAuthenticated = pipe(
   getAuthToken,
-  Boolean
-);
-
-export const isAuthLoading = pipe(
-  getAuthLoading,
   Boolean
 );

@@ -16,18 +16,12 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
         align="end"
         isOpen={false}
         links={
-          Array [
-            Object {
+          Object {
+            "createAccount": Object {
               "href": "/sign-up",
               "title": "Create an account",
             },
-            Object {
-              "bold": true,
-              "href": "/login",
-              "inverse": true,
-              "title": "Login",
-            },
-          ]
+          }
         }
         onLinkClick={[Function]}
       />
@@ -54,20 +48,26 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
         links={
           Array [
             Object {
-              "href": "/sign-up",
+              "data-active": false,
+              "href": "",
+              "onClick": [Function],
               "title": "Create an account",
             },
             Object {
-              "bold": true,
-              "href": "/login",
-              "inverse": true,
-              "title": "Login",
+              "data-active": false,
+              "href": "",
+              "onClick": [Function],
             },
           ]
         }
-        onLinkClick={[Function]}
       />
     </styled.div>
   </Styled(styled.div)>
+  <Modal
+    onBackdropClick={[Function]}
+    onClose={[Function]}
+    onEscapeKeyDown={[Function]}
+    open={false}
+  />
 </styled.div>
 `;

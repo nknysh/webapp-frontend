@@ -3,6 +3,7 @@ export const Status = Object.freeze({
   IDLE: 'IDLE',
   ERROR: 'ERROR',
   SUCCESS: 'SUCCESS',
+  SAVING: 'SAVING',
 });
 
 export default Status;

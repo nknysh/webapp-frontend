@@ -1,5 +1,7 @@
 import { prop } from 'ramda';
 
+import { successAction, errorAction } from 'store/common/actions';
+
 import AuthApi from 'api/auth';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
@@ -7,6 +9,7 @@ export const AUTH_OK = 'AUTH_OK';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_RESET = 'AUTH_RESET';
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
+export const AUTH_SIGN_UP = 'AUTH_SIGN_UP';
 
 // This constant is for Localstorage.
 const AUTH_TOKEN = 'authToken';
@@ -57,10 +60,6 @@ export const getUserFromToken = ({ token }) => dispatch => {
     });
 };
 
-export const signUp = values => () => {
-  return AuthApi.signUp(values);
-};
-
 export const logIn = values => async dispatch => {
   dispatch(authRequest(values));
   try {
@@ -95,3 +94,20 @@ export const setToken = token => ({
   type: AUTH_SET_TOKEN,
   payload: { token },
 });
+
+export const authSignUp = values => ({
+  type: AUTH_SIGN_UP,
+  payload: values,
+});
+
+export const signUp = values => dispatch => {
+  dispatch(authSignUp(values));
+
+  // This is where APi call would be handled.
+  // return AuthApi.signUp(values).then(successAction).catch(errorAction);
+
+  /**
+   * @todo Return from API call the correct action and remove this
+   */
+  return values ? dispatch(successAction(AUTH_SIGN_UP, values)) : dispatch(errorAction(AUTH_SIGN_UP, values));
+};

@@ -7,7 +7,7 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
 >
   <Styled(Link)
     data-active={true}
-    key="/"
+    key="f356800ca07b23550b76c6af4a9a9bfcbed66569"
     onClick={[Function]}
     spaced={true}
     to="/"
@@ -16,7 +16,7 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/proposals"
+    key="11de83e98d2c9a649621ded1bcde70a1f467a918"
     onClick={[Function]}
     spaced={true}
     to="/proposals"
@@ -25,7 +25,7 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/bookings"
+    key="ef2d1e18d9b0a09324e3b33bd2af8e3452dc9e00"
     onClick={[Function]}
     spaced={true}
     to="/bookings"
@@ -34,7 +34,7 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/holds"
+    key="c553173cd104763e3f112c95822c4187e972e405"
     onClick={[Function]}
     spaced={true}
     to="/holds"
@@ -43,7 +43,7 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/calendar"
+    key="7d51bade34ac75f47e14d57a3d8348b0f096cbde"
     onClick={[Function]}
     spaced={true}
     to="/calendar"
@@ -60,7 +60,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
 >
   <Styled(Link)
     data-active={false}
-    key="/"
+    key="f356800ca07b23550b76c6af4a9a9bfcbed66569"
     onClick={[Function]}
     spaced={true}
     to="/"
@@ -69,7 +69,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/proposals"
+    key="11de83e98d2c9a649621ded1bcde70a1f467a918"
     onClick={[Function]}
     spaced={true}
     to="/proposals"
@@ -78,7 +78,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/bookings"
+    key="ef2d1e18d9b0a09324e3b33bd2af8e3452dc9e00"
     onClick={[Function]}
     spaced={true}
     to="/bookings"
@@ -87,7 +87,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/holds"
+    key="c553173cd104763e3f112c95822c4187e972e405"
     onClick={[Function]}
     spaced={true}
     to="/holds"
@@ -96,7 +96,7 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/calendar"
+    key="7d51bade34ac75f47e14d57a3d8348b0f096cbde"
     onClick={[Function]}
     spaced={true}
     to="/calendar"
@@ -113,7 +113,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
 >
   <Styled(Link)
     data-active={false}
-    key="/"
+    key="f356800ca07b23550b76c6af4a9a9bfcbed66569"
     onClick={[Function]}
     spaced={true}
     to="/"
@@ -122,7 +122,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/proposals"
+    key="11de83e98d2c9a649621ded1bcde70a1f467a918"
     onClick={[Function]}
     spaced={true}
     to="/proposals"
@@ -131,7 +131,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/bookings"
+    key="ef2d1e18d9b0a09324e3b33bd2af8e3452dc9e00"
     onClick={[Function]}
     spaced={true}
     to="/bookings"
@@ -140,7 +140,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/holds"
+    key="c553173cd104763e3f112c95822c4187e972e405"
     onClick={[Function]}
     spaced={true}
     to="/holds"
@@ -149,7 +149,7 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
   </Styled(Link)>
   <Styled(Link)
     data-active={false}
-    key="/calendar"
+    key="7d51bade34ac75f47e14d57a3d8348b0f096cbde"
     onClick={[Function]}
     spaced={true}
     to="/calendar"

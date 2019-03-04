@@ -1,6 +1,5 @@
 import { lensPath, lensProp, set, pipe } from 'ramda';
 
-import headerAuthLinks from 'config/links/header--logged-out';
 import headerLinks from 'config/links/header--authenticated';
 import footerLinks from 'config/links/footer';
 
@@ -12,7 +11,7 @@ const headerLens = lensPath(['menus', 'header']);
 const initialState = {
   isAuthenticated: false,
   menus: {
-    header: headerAuthLinks,
+    header: [],
     footer: footerLinks,
   },
 };

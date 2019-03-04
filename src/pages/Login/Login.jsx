@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { Form, Label, Link } from 'components';
+import { Form, Label, Link, Modal } from 'components';
+import { Home } from 'pages';
 
 import { logIn } from 'store/modules/auth/actions';
 
 import peLogo from 'public/img/PE_logo.png';
 
 import {
-  Container,
-  Content,
-  Modal,
   Title,
   Fields,
   Field,
@@ -23,10 +21,15 @@ import {
 } from './Login.styles';
 import { propTypes } from './Login.props';
 
-const Login = ({ history, logIn }) => (
-  <Container>
-    <Content>
-      <Modal>
+const Login = ({ history, logIn, ...props }) => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+
+  const onClose = () => setModalIsOpen(false);
+
+  return (
+    <Fragment>
+      <Home history={history} {...props} />
+      <Modal open={modalIsOpen} onBackdropClick={onClose} onEscapeKeyDown={onClose}>
         <img src={peLogo} />
         <Title>Sign In</Title>
         <Form
@@ -88,9 +91,9 @@ const Login = ({ history, logIn }) => (
           )}
         </Form>
       </Modal>
-    </Content>
-  </Container>
-);
+    </Fragment>
+  );
+};
 
 Login.propTypes = propTypes;
 

@@ -6,6 +6,8 @@ import { statusLens, errorLens, dataLens } from 'store/utils';
 
 export const loadingReducer = state => set(statusLens, Status.LOADING, state);
 
+export const savingReducer = state => set(statusLens, Status.SAVING, state);
+
 export const successReducer = (state, { payload }) => {
   const setData = pipe(
     set(statusLens, Status.SUCCESS),

@@ -4,11 +4,11 @@ import { FormControlLabel } from '@material-ui/core';
 import { propTypes, defaultProps } from './Checkbox.props';
 import { StyledCheckBox, MaterialCheckbox } from './Checkbox.styles';
 
-export const Checkbox = ({ label, onSelected, ...props }) => {
+export const Checkbox = ({ className, label, onSelected, ...props }) => {
   const onChange = e => onSelected(e.currentTarget.checked);
 
   return (
-    <StyledCheckBox>
+    <StyledCheckBox className={className}>
       <FormControlLabel control={<MaterialCheckbox onChange={onChange} {...props} />} label={label} />
     </StyledCheckBox>
   );

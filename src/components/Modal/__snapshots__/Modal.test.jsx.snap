@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Modal /> render matches snapshots 1`] = `
+<Styled(WithStyles(Modal))
+  BackdropComponent={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "Naked": [Function],
+      "attrs": Array [],
+      "componentStyle": ComponentStyle {
+        "componentId": "sc-gzVnrw",
+        "isStatic": true,
+        "rules": Array [
+          "
+  background: ",
+          "#382A21",
+          " !important;
+  opacity: ",
+          "0.35",
+          " !important;
+",
+        ],
+      },
+      "displayName": "Styled(WithStyles(Backdrop))",
+      "foldedComponentIds": Array [],
+      "options": Object {
+        "name": "MuiBackdrop",
+      },
+      "render": [Function],
+      "styledComponentId": "sc-gzVnrw",
+      "target": [Function],
+      "toString": [Function],
+      "warnTooManyClasses": [Function],
+      "withComponent": [Function],
+    }
+  }
+  disablePortal={true}
+>
+  <styled.div>
+    A modal
+    <Styled(WithStyles(Icon))>
+      close
+    </Styled(WithStyles(Icon))>
+  </styled.div>
+</Styled(WithStyles(Modal))>
+`;
+
+exports[`<Modal /> render matches snapshots 2`] = `
+<Styled(WithStyles(Modal))
+  BackdropComponent={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "Naked": [Function],
+      "attrs": Array [],
+      "componentStyle": ComponentStyle {
+        "componentId": "sc-gzVnrw",
+        "isStatic": true,
+        "rules": Array [
+          "
+  background: ",
+          "#382A21",
+          " !important;
+  opacity: ",
+          "0.35",
+          " !important;
+",
+        ],
+      },
+      "displayName": "Styled(WithStyles(Backdrop))",
+      "foldedComponentIds": Array [],
+      "options": Object {
+        "name": "MuiBackdrop",
+      },
+      "render": [Function],
+      "styledComponentId": "sc-gzVnrw",
+      "target": [Function],
+      "toString": [Function],
+      "warnTooManyClasses": [Function],
+      "withComponent": [Function],
+    }
+  }
+  disablePortal={true}
+  open={true}
+>
+  <styled.div>
+    A modal
+    <Styled(WithStyles(Icon))>
+      close
+    </Styled(WithStyles(Icon))>
+  </styled.div>
+</Styled(WithStyles(Modal))>
+`;

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`auth actions authSignUp returns action 1`] = `
+Object {
+  "payload": Object {},
+  "type": "AUTH_SIGN_UP",
+}
+`;

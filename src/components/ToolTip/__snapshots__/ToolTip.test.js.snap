@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ToolTip /> render matches snapshots 1`] = `
+<styled.div>
+  <WithStyles(Tooltip)
+    classes={
+      Object {
+        "popper": "popper",
+        "tooltip": "tooltip",
+      }
+    }
+    placement="top"
+    title={<ForwardRef />}
+  >
+    <Styled(WithStyles(Icon))>
+      info
+    </Styled(WithStyles(Icon))>
+  </WithStyles(Tooltip)>
+</styled.div>
+`;

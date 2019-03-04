@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Select /> render matches snapshot 1`] = `
+<styled.div>
+  <Styled(WithStyles(FormControlLabel))
+    control={
+      <ForwardRef
+        classes={
+          Object {
+            "root": "material-select",
+            "select": "material-select__input",
+          }
+        }
+        onChange={[Function]}
+      />
+    }
+  />
+</styled.div>
+`;
