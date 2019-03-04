@@ -122,7 +122,7 @@ export const SearchBar = ({
               {renderSearchBarResults}
             </SearchBarIndexSearch>
           </SearchBarSection>
-          <SearchBarSection onClick={() => setContext('dates')}>
+          <SearchBarSection data-large={true} onClick={() => setContext('dates')}>
             <DatePicker
               id="dates"
               label={path(['labels', 'dates'], uiConfig)}

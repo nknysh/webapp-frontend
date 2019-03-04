@@ -33,6 +33,12 @@ export const SearchBarSection = styled.div`
       flex: 0 1;
     `}
 
+  ${({ ['data-large']: large }) =>
+    large &&
+    css`
+      flex: 1 0 10%;
+    `}
+
   label,
   label > span {
     color: ${theme.colors['gold-neutral']};
