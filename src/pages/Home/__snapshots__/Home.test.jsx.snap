@@ -27,7 +27,9 @@ exports[`<Home /> render matches snapshot 1`] = `
       <Markdown />
     </styled.div>
   </styled.div>
-  <styled.div>
+  <styled.div
+    data-striped={true}
+  >
     <styled.div>
       <Markdown />
     </styled.div>
