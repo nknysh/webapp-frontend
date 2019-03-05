@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { compose, lensProp, set, view, pipe, values } from 'ramda';
+import { Redirect } from 'react-router-dom';
+import { compose, lensProp, set, view, pipe, values, path } from 'ramda';
 
 import loggedOutMenuLinks from 'config/links/header--logged-out';
 
 import { Modal } from 'components';
-import { CreateAccountForm } from 'containers';
+import { CreateAccountForm, LoginForm } from 'containers';
 import { withAuthentication } from 'hoc/withAuthentication';
 
 import logo from 'public/img/main-logo.png';
@@ -46,6 +47,8 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
     setModalOpen(true);
   };
 
+  // Derives logged out menu links so they have no path
+  // and trigger a modal instead
   const getLoggedOutLinks = pipe(
     set(createLinkLens, {
       ...view(createLinkLens, loggedOutMenuLinks),
@@ -62,13 +65,22 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
     values
   );
 
+  const loggedOutMenu = getLoggedOutLinks(loggedOutMenuLinks);
+
   const headerMenuProps = {
     isOpen: menuOpen,
     currentPath: currentPath,
     onLinkClick,
     align: 'end',
-    links: isAuthenticated ? menu : getLoggedOutLinks(loggedOutMenuLinks),
+    links: isAuthenticated ? menu : loggedOutMenu,
   };
+
+  const shouldRedirectHome =
+    isAuthenticated &&
+    (currentPath === path(['createAccount', 'href'], loggedOutMenuLinks) ||
+      currentPath === path(['login', 'href'], loggedOutMenuLinks));
+
+  if (shouldRedirectHome) return <Redirect to="/" />;
 
   return (
     <StyledHeader className={className}>
@@ -83,6 +95,7 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
       {!isAuthenticated && (
         <Modal open={modalOpen} onClose={onClose} onBackdropClick={onClose} onEscapeKeyDown={onClose}>
           {modalContext === 'signup' && <CreateAccountForm />}
+          {modalContext === 'login' && <LoginForm />}
         </Modal>
       )}
     </StyledHeader>

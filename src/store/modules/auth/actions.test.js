@@ -1,4 +1,4 @@
-import { authSignUp, signUp } from './actions';
+import { authSignUp, signUp, authRequest, logIn } from './actions';
 
 describe('auth actions', () => {
   describe('authSignUp', () => {
@@ -13,6 +13,20 @@ describe('auth actions', () => {
       signUp({})(dispatch);
 
       expect(dispatch).toHaveBeenCalledTimes(2);
+    });
+  });
+  describe('authRequest', () => {
+    it('returns action', () => {
+      expect(authRequest({})).toMatchSnapshot();
+    });
+  });
+  describe('logIn', () => {
+    it('calls dispatch thunks', () => {
+      const dispatch = jest.fn();
+
+      logIn({})(dispatch);
+
+      expect(dispatch).toHaveBeenCalledTimes(3);
     });
   });
 });

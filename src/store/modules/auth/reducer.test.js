@@ -1,11 +1,19 @@
-import { initialState } from 'store/common';
-
-import { signUp } from './actions';
+import { signUp, authRequest } from './actions';
 import reducer from './reducer';
 
 describe('pages reducer', () => {
-  it('should return the initial state', () => {
-    expect(reducer(undefined, {})).toEqual(initialState);
+  it('should handle AUTH_REQUEST', () => {
+    const action = authRequest({ foo: 'bar' });
+    const reducedState = reducer({}, action);
+
+    expect(reducedState).toMatchSnapshot();
+  });
+
+  it('should handle AUTH_REQUEST_SUCCESS', () => {
+    const action = authRequest({ foo: 'bar' });
+    const reducedState = reducer({}, action);
+
+    expect(reducedState).toMatchSnapshot();
   });
 
   it('should handle AUTH_SIGN_UP', () => {

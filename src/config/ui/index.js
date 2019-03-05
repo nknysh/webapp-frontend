@@ -8,6 +8,7 @@ const uiConfig = {
     authenticating: 'Authenticating...',
     saving: 'Saving...',
     creatingAccount: 'Sending Request...',
+    loggingIn: 'Logging in...',
   },
 
   labels: {
@@ -25,6 +26,7 @@ const uiConfig = {
   buttons: {
     search: 'Search',
     request: 'Submit Request',
+    login: 'Sign In',
   },
 
   placeholders: {

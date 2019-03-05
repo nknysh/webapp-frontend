@@ -1,5 +1,6 @@
 import { prop } from 'ramda';
 
+import mockUser from 'config/auth/mockUser';
 import { successAction, errorAction } from 'store/common/actions';
 
 import AuthApi from 'api/auth';
@@ -12,26 +13,9 @@ export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 export const AUTH_SIGN_UP = 'AUTH_SIGN_UP';
 
 // This constant is for Localstorage.
-const AUTH_TOKEN = 'authToken';
+export const AUTH_TOKEN = 'authToken';
 
-const authRequest = value => ({
-  type: AUTH_REQUEST,
-  payload: value,
-});
-
-export const authOk = value => {
-  const token = prop('token', value);
-  // TODO(mark): We should use something like sagas to store this token.
-  // Right now, this is called when we logIn and getUserFromToken.
-  if (token) {
-    localStorage.setItem(AUTH_TOKEN, token);
-  }
-
-  return {
-    type: AUTH_OK,
-    payload: value,
-  };
-};
+const mockToken = '123456789';
 
 const authError = value => {
   localStorage.removeItem(AUTH_TOKEN);
@@ -60,19 +44,6 @@ export const getUserFromToken = ({ token }) => dispatch => {
     });
 };
 
-export const logIn = values => async dispatch => {
-  dispatch(authRequest(values));
-  try {
-    const response = await AuthApi.logIn(values);
-    const { id, user } = response.data;
-    dispatch(authOk({ token: id, user }));
-    return user;
-  } catch (error) {
-    dispatch(authError(error));
-    throw error;
-  }
-};
-
 export const logOut = values => dispatch => {
   localStorage.removeItem(AUTH_TOKEN);
   dispatch(authReset(values));
@@ -95,10 +66,22 @@ export const setToken = token => ({
   payload: { token },
 });
 
+export const authRequest = value => ({
+  type: AUTH_REQUEST,
+  payload: value,
+});
+
+export const authOk = values => ({
+  type: AUTH_OK,
+  payload: values,
+});
+
 export const authSignUp = values => ({
   type: AUTH_SIGN_UP,
   payload: values,
 });
+
+export const setRememberedToken = token => localStorage.setItem(AUTH_TOKEN, token);
 
 export const signUp = values => dispatch => {
   dispatch(authSignUp(values));
@@ -110,4 +93,26 @@ export const signUp = values => dispatch => {
    * @todo Return from API call the correct action and remove this
    */
   return values ? dispatch(successAction(AUTH_SIGN_UP, values)) : dispatch(errorAction(AUTH_SIGN_UP, values));
+};
+
+export const logIn = values => dispatch => {
+  dispatch(authRequest(values));
+
+  // This is where APi call would be handled.
+  // return AuthApi.logIn(values).then(successAction).catch(errorAction);
+
+  /**
+   * @todo Return from API call the correct action and remove this
+   */
+
+  const email = prop('email', values);
+
+  if (email === 'unverified@test.com') {
+    return dispatch(errorAction(AUTH_REQUEST, { unverified: true }));
+  }
+
+  dispatch(setToken({ mockToken }));
+  setRememberedToken(mockToken);
+
+  return dispatch(successAction(AUTH_REQUEST, { user: { ...mockUser } }));
 };

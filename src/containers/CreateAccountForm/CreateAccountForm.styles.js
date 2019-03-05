@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 import { Select as BaseSelect, Markdown, Checkbox } from 'components';
 import theme from 'styles/theme';
-import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
-import { Heading1 } from 'styles/typography';
+import { Input as BaseInput, Button as BaseButton, Title as BaseTitle } from 'styles/elements';
 import breakpoints from 'styles/breakpoints';
 
 export const StyledCreateAccount = styled.div`
@@ -23,15 +22,7 @@ export const Container = styled.div`
   text-align: center;
 `;
 
-export const Title = styled(Heading1)`
-  text-align: center;
-  margin-top: 0;
-
-  img {
-    display: block;
-    margin: ${theme.gutter * 2.5}px auto;
-  }
-`;
+export const Title = styled(BaseTitle)``;
 
 export const Fields = styled.div`
   ${breakpoints.desktop`

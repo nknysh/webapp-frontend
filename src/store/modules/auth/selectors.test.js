@@ -13,8 +13,8 @@ import {
 const state = {
   auth: {
     ...initialState,
+    token: 'foo',
     data: {
-      token: 'foo',
       user: 'foo',
     },
   },
@@ -24,6 +24,11 @@ describe('auth selectors', () => {
   describe('getAuth', () => {
     it('returns the root key', () => {
       expect(getAuth(state)).toBe(state.auth);
+    });
+  });
+  describe('getAuthToken', () => {
+    it('returns the root key', () => {
+      expect(getAuthToken(state)).toBe(state.auth.token);
     });
   });
   describe('getAuthData', () => {
@@ -39,11 +44,6 @@ describe('auth selectors', () => {
   describe('getAuthStatus', () => {
     it('returns the root key', () => {
       expect(getAuthStatus(state)).toBe(state.auth.status);
-    });
-  });
-  describe('getAuthToken', () => {
-    it('returns the root key', () => {
-      expect(getAuthToken(state)).toBe(state.auth.data.token);
     });
   });
   describe('getCurrentUser', () => {

@@ -2,6 +2,7 @@ export default {
   forms: {
     createAccount: 'Create an Account',
     createAccountComplete: 'Thank you for your interest!',
+    login: 'Login',
   },
 
   titles: {

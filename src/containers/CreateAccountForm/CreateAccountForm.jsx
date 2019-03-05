@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { __, compose, prop, path, lensProp, set, curry, view, reduce, keys, merge } from 'ramda';
+import { __, compose, prop, path, set, curry, view, keys } from 'ramda';
 
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
@@ -7,7 +7,7 @@ import countriesData from 'config/data/countries';
 import { schema, fields } from 'config/forms/createAccount';
 import signUpCompleteData from 'config/forms/createAccount/complete.md';
 import infoData from 'config/forms/createAccount/info.md';
-import { arrayToKeyValueObject } from 'utils';
+import { arrayToKeyValueObject, lensesFromObject } from 'utils';
 
 import { InputError } from 'styles/elements';
 import { Status } from 'store/common';
@@ -38,17 +38,16 @@ import {
 
 const keyValueCountries = arrayToKeyValueObject('code', 'name')(countriesData);
 
-const newLensProp = (accum, key) => merge(accum, { [`${key}`]: lensProp(key) });
-
 const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
 
 export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
+  const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
   const isSaving = requestStatus === Status.SAVING;
   const saved = requestStatus === Status.SUCCESS;
 
-  const lenses = reduce(newLensProp, {}, keys(formValues));
+  const lenses = lensesFromObject(keys(formValues));
   const getLens = prop(__, lenses);
 
   const changeHandler = curry((lens, callback, e) => {
@@ -57,6 +56,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
   });
 
   const onSubmit = values => {
+    setSubmitted(true);
     setFormValues(values);
     onSignUp(values);
   };
@@ -195,12 +195,12 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
 
   return (
     <StyledCreateAccount>
-      <Loader isLoading={isSaving && !saved} text={path(['messages', 'creatingAccount'], uiConfig)}>
+      <Loader isLoading={submitted && isSaving && !saved} text={path(['messages', 'creatingAccount'], uiConfig)}>
         <Title>
           <img src={peLogo} />
           {formTitle}
         </Title>
-        {saved ? renderComplete() : renderForm()}
+        {submitted && saved ? renderComplete() : renderForm()}
       </Loader>
     </StyledCreateAccount>
   );
