@@ -60,6 +60,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
             },
           ]
         }
+        onLinkClick={[Function]}
       />
     </styled.div>
   </Styled(styled.div)>

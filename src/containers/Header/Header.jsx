@@ -62,23 +62,21 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
     values
   );
 
+  const headerMenuProps = {
+    isOpen: menuOpen,
+    currentPath: currentPath,
+    onLinkClick,
+    align: 'end',
+    links: isAuthenticated ? menu : getLoggedOutLinks(loggedOutMenuLinks),
+  };
+
   return (
     <StyledHeader className={className}>
       <HeaderContainer>
         <HeaderLogo to="/">{logo && <img src={logo} />}</HeaderLogo>
         <HeaderMenuArea>
           <HeaderMobileMenuButton onClick={onClickToggle}>menu</HeaderMobileMenuButton>
-          {isAuthenticated ? (
-            <HeaderMenu
-              isOpen={menuOpen}
-              align="end"
-              links={menu}
-              currentPath={currentPath}
-              onLinkClick={onLinkClick}
-            />
-          ) : (
-            <HeaderMenu isOpen={menuOpen} align="end" links={getLoggedOutLinks(loggedOutMenuLinks)} />
-          )}
+          <HeaderMenu {...headerMenuProps} />
         </HeaderMenuArea>
       </HeaderContainer>
 
