@@ -34,9 +34,9 @@ const scrollTo = targetRef => {
 };
 
 // eslint-disable-next-line
-const renderSection = ({ content, image, moveTo, ref }) => (
+const renderSection = ({ content, image, moveTo, ...props }) => (
   <Fragment key={hash({ content, image })}>
-    <HomeSection ref={ref}>
+    <HomeSection {...props}>
       {moveTo && <MoveTo onClick={() => scrollTo(moveTo)}>keyboard_arrow_down</MoveTo>}
       <HomeContainer>
         <Markdown>{content}</Markdown>
@@ -68,6 +68,7 @@ export const Home = () => {
       content: section2,
       image: section2Image,
       ref: sectionRefs.section2,
+      'data-striped': true,
     },
     {
       content: section3,
