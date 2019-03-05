@@ -17,3 +17,5 @@ export { LodgingSelect } from './LodgingSelect';
 export { Checkbox } from './Checkbox';
 export { Modal } from './Modal';
 export { ToolTip } from './ToolTip';
+export { Title } from './Title';
+export { Fields } from './Fields';

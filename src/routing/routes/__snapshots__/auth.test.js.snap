@@ -19,3 +19,13 @@ Object {
   "path": "/sign-up",
 }
 `;
+
+exports[`routing routes match snapshot 3`] = `
+Object {
+  "auth": true,
+  "authRedirect": [Function],
+  "component": [Function],
+  "name": "Password Reset",
+  "path": "/password-reset",
+}
+`;

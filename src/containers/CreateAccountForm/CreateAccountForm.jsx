@@ -12,9 +12,7 @@ import { arrayToKeyValueObject, lensesFromObject } from 'utils';
 import { InputError } from 'styles/elements';
 import { Status } from 'store/common';
 
-import { Form, Label, Loader } from 'components';
-
-import peLogo from 'public/img/PE_logo.png';
+import { Form, Label, Loader, Title, Fields } from 'components';
 
 import { propTypes, defaultProps } from './CreateAccountForm.props';
 import connect from './CreateAccountForm.state';
@@ -24,7 +22,6 @@ import {
   Column,
   Columns,
   Field,
-  Fields,
   InfoMarkdown,
   Input,
   Select,
@@ -33,7 +30,6 @@ import {
   StyledMarkdown,
   SubmitButton,
   SubmitText,
-  Title,
 } from './CreateAccountForm.styles';
 
 const keyValueCountries = arrayToKeyValueObject('code', 'name')(countriesData);
@@ -44,7 +40,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
-  const isSaving = requestStatus === Status.SAVING;
+  const isSaving = requestStatus === Status.SENDING;
   const saved = requestStatus === Status.SUCCESS;
 
   const lenses = lensesFromObject(keys(formValues));
@@ -196,10 +192,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
   return (
     <StyledCreateAccount>
       <Loader isLoading={submitted && isSaving && !saved} text={path(['messages', 'creatingAccount'], uiConfig)}>
-        <Title>
-          <img src={peLogo} />
-          {formTitle}
-        </Title>
+        <Title>{formTitle}</Title>
         {submitted && saved ? renderComplete() : renderForm()}
       </Loader>
     </StyledCreateAccount>

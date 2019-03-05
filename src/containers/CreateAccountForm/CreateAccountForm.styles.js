@@ -22,23 +22,10 @@ export const Container = styled.div`
   text-align: center;
 `;
 
-export const Title = styled(BaseTitle)``;
-
-export const Fields = styled.div`
-  ${breakpoints.desktop`
-    min-width: 300px;
-  `}
-`;
-
 export const Row = styled.div`
   flex-direction: row;
   align-items: center;
   margin-top: 40px;
-`;
-
-export const Group = styled.div`
-  flex-direction: row;
-  align-items: center;
 `;
 
 export const Field = styled.div`

@@ -3,29 +3,29 @@ import { __, compose, prop, path, view, set, curry, keys, has, isEmpty } from 'r
 
 import { Status } from 'store/common';
 import { InputError } from 'styles/elements';
-import { Form, Label, Loader } from 'components';
 import { withAuthentication } from 'hoc';
 import { lensesFromObject } from 'utils';
+
+import { Form, Label, Loader, Fields, Title } from 'components';
+import { PasswordResetForm } from 'containers';
 
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
 import { schema, fields, errors } from 'config/forms/login';
 
-import peLogo from 'public/img/PE_logo.png';
-
 import { propTypes, defaultProps } from './LoginForm.props';
 import connect from './LoginForm.state';
 import {
-  StyledLoginForm,
-  Title,
-  Fields,
-  Field,
-  Input,
   Actions,
+  Field,
+  ForgotLink,
+  ForgotPassword,
+  Input,
+  ServerErrorContent,
+  StyledCheckbox,
+  StyledLoginForm,
   SubmitButton,
   SubmitText,
-  StyledCheckbox,
-  ServerErrorContent,
 } from './LoginForm.styles';
 
 const getServerError = error => {
@@ -40,9 +40,10 @@ const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(
 
 export const LoginForm = ({ requestStatus, onLogin, error }) => {
   const [submitted, setSubmitted] = useState(false);
+  const [forgotten, setForgotten] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
-  const isLoading = requestStatus === Status.SAVING;
+  const isLoading = requestStatus === Status.SENDING;
   const success = requestStatus === Status.SUCCESS;
 
   const lenses = lensesFromObject(keys(formValues));
@@ -110,19 +111,22 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
             <SubmitButton type="button" onClick={handleSubmit}>
               <SubmitText>{path(['buttons', 'login'], uiConfig)}</SubmitText>
             </SubmitButton>
+
+            <ForgotPassword onClick={() => setForgotten(true)}>
+              <ForgotLink>{path(['buttons', 'forgotten'], uiConfig)}</ForgotLink>
+            </ForgotPassword>
           </Actions>
         </form>
       )}
     </Form>
   );
 
+  if (forgotten) return <PasswordResetForm />;
+
   return (
     <StyledLoginForm>
       <Loader isLoading={submitted && isLoading && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
-        <Title>
-          <img src={peLogo} />
-          {path(['forms', 'login'], formConfig)}
-        </Title>
+        <Title>{path(['forms', 'login'], formConfig)}</Title>
         {renderServerError(getServerError(error))}
         {renderForm()}
       </Loader>

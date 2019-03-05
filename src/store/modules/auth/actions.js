@@ -49,18 +49,6 @@ export const logOut = values => dispatch => {
   dispatch(authReset(values));
 };
 
-export const resetPassword = values => async dispatch => {
-  dispatch(authRequest(values));
-
-  try {
-    const response = await AuthApi.resetPassword(values);
-    return response;
-  } catch (error) {
-    dispatch(authError(error));
-    throw error;
-  }
-};
-
 export const setToken = token => ({
   type: AUTH_SET_TOKEN,
   payload: { token },
@@ -115,4 +103,17 @@ export const logIn = values => dispatch => {
   setRememberedToken(mockToken);
 
   return dispatch(successAction(AUTH_REQUEST, { user: { ...mockUser } }));
+};
+
+export const resetPassword = values => dispatch => {
+  dispatch(authRequest(values));
+
+  // This is where APi call would be handled.
+  // return AuthApi.resetPassword(values).then(successAction).catch(errorAction);
+
+  /**
+   * @todo Return from API call the correct action and remove this
+   */
+
+  return dispatch(successAction(AUTH_REQUEST, {}));
 };
