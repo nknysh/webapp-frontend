@@ -1,22 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Container, Text } from './RadioButton.styles';
+import { mapWithIndex } from 'utils';
 
-const RadioButton = ({ name, placeholder, value, onChange, style }) => (
-  <Container>
-    <input type="radio" name={name} checked={value} onChange={onChange} />
-    <Text style={style}>{placeholder}</Text>
-  </Container>
+import { propTypes, defaultProps } from './RadioButton.props';
+import { StyledRadioGroup, RadioFormControl, MaterialRadio } from './RadioButton.styles';
+
+const renderOption = (props, i) => <RadioFormControl key={i} {...props} control={<MaterialRadio />} />;
+
+const RadioButton = ({ options, ...props }) => (
+  <StyledRadioGroup {...props}>{mapWithIndex(renderOption, options)}</StyledRadioGroup>
 );
 
-RadioButton.propTypes = {
-  name: PropTypes.any,
-  placeholder: PropTypes.any,
-  value: PropTypes.any,
-  onChange: PropTypes.any,
-  onBlur: PropTypes.any,
-  style: PropTypes.any,
-};
+RadioButton.propTypes = propTypes;
+RadioButton.defaultProps = defaultProps;
 
 export default RadioButton;

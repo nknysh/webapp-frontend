@@ -1,0 +1,325 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CreateAccountForm /> render matches snapshot 1`] = `
+<styled.div>
+  <Loader
+    isLoading={false}
+    text="Sending Request..."
+  >
+    <Styled(styled.h1)>
+      <img
+        src=""
+      />
+      Create an Account
+    </Styled(styled.h1)>
+    <Form
+      initialValues={
+        Object {
+          "agreeToTerms": "false",
+          "companyCountry": "",
+          "companyId": "",
+          "companyName": "",
+          "email": "",
+          "existingPartner": "true",
+          "firstName": "",
+          "landline": "",
+          "lastName": "",
+          "mobile": "",
+          "title": "",
+        }
+      }
+      onSubmit={[Function]}
+      validateOnBlur={false}
+      validateOnChange={false}
+      validationSchema={
+        ObjectSchema {
+          "_blacklist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "_conditions": Array [],
+          "_defaultDefault": [Function],
+          "_deps": Array [],
+          "_excludedEdges": Array [],
+          "_exclusive": Object {},
+          "_mutate": false,
+          "_nodes": Array [
+            "agreeToTerms",
+            "mobile",
+            "landline",
+            "companyCountry",
+            "companyName",
+            "email",
+            "lastName",
+            "firstName",
+          ],
+          "_options": Object {
+            "abortEarly": true,
+            "recursive": true,
+          },
+          "_type": "object",
+          "_typeError": [Function],
+          "_whitelist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "fields": Object {
+            "agreeToTerms": BooleanSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {},
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "boolean",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {
+                  true,
+                },
+                "refs": Map {},
+              },
+              "_whitelistError": [Function],
+              "tests": Array [],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "companyCountry": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "max": true,
+                "min": true,
+                "required": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "companyName": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "min": true,
+                "required": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "email": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "required": false,
+                "undefined": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "firstName": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "min": true,
+                "required": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "landline": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "required": false,
+                "undefined": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "lastName": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "min": true,
+                "required": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "mobile": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "required": false,
+                "undefined": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+          },
+          "tests": Array [],
+          "transforms": Array [
+            [Function],
+          ],
+        }
+      }
+    >
+      <Component />
+    </Form>
+  </Loader>
+</styled.div>
+`;

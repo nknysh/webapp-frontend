@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
-import { isAuthLoading, isAuthenticated, getCurrentUser } from 'store/modules/auth/selectors';
+import { getAuthStatus, isAuthenticated, getCurrentUser } from 'store/modules/auth/selectors';
+
+import { Status } from 'store/common';
 
 const mapStateToProps = state => ({
   isAuthenticated: isAuthenticated(state),
-  isAuthLoading: isAuthLoading(state),
+  isAuthLoading: getAuthStatus(state) === Status.LOADING,
   currentUser: getCurrentUser(state),
 });
 

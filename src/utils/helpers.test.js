@@ -1,4 +1,4 @@
-import { noop, isArray, isFunction, mapWithIndex } from './helpers';
+import { noop, isArray, isFunction, mapWithIndex, arrayToKeyValueObject } from './helpers';
 
 describe('helpers', () => {
   describe('noop', () => {
@@ -21,6 +21,12 @@ describe('helpers', () => {
     it('adds index to map function', () => {
       const mapped = (value, i) => expect(i).toBeDefined();
       mapWithIndex(mapped, ['foo']);
+    });
+  });
+
+  describe('arrayToKeyValueObject', () => {
+    it('returns key value from object', () => {
+      expect(arrayToKeyValueObject('id', 'name')([{ id: 'foo', name: 'bar' }])).toEqual({ foo: 'bar' });
     });
   });
 });

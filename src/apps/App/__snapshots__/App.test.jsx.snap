@@ -57,14 +57,6 @@ exports[`<App /> render matches snapshot 1`] = `
     <Route
       auth={true}
       authRedirect={[Function]}
-      key="2ee726a5e790bd03f0d2000777a30a1eaa355525"
-      name="Login"
-      path="/login"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      authRedirect={[Function]}
       key="6dfe9ea18159fe3caf34d7cd34a21dac9e876f83"
       name="Create Account"
       path="/sign-up"

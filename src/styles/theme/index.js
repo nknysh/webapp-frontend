@@ -17,7 +17,7 @@ export const palette = Object.freeze({
   secondary: getColor('gold-dark'),
 
   warning: undefined,
-  error: undefined,
+  error: 'red',
   ok: undefined,
 
   navigation: getColor('whiteish'),

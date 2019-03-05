@@ -1,13 +1,23 @@
 import styled from 'styled-components';
+import { RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 
 import theme from 'styles/theme';
 
-export const Container = styled.div`
-  flex-direction: row;
-  align-items: center;
+export const StyledRadioGroup = styled(RadioGroup)`
+  flex-direction: row !important;
 `;
 
-export const Text = styled.span`
-  margin-left: 5px;
-  color: ${theme.primary};
+export const RadioFormControl = styled(FormControlLabel)`
+  flex: 1;
+  text-transform: uppercase;
+
+  > span {
+    font-size: 12px !important;
+  }
+`;
+
+export const MaterialRadio = styled(Radio)`
+  svg {
+    fill: ${theme.primary};
+  }
 `;

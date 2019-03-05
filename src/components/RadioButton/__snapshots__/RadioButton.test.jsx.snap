@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RadioButton /> render matches snapshots 1`] = `
+<Styled(RadioGroup)>
+  <Styled(WithStyles(FormControlLabel))
+    control={<ForwardRef />}
+    key="0"
+    label="An option"
+    value="true"
+  />
+</Styled(RadioGroup)>
+`;

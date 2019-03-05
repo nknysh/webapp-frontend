@@ -1,0 +1,28 @@
+export default {
+  labels: {
+    title: 'Title',
+    firstName: 'First name',
+    lastName: 'Last name',
+    email: 'Email address',
+    existingPartner: 'Are you an existing partner?',
+    companyId: 'Company ID',
+    companyName: 'Company name',
+    companyCountry: 'Company country',
+    landline: 'Landline',
+    mobile: 'Mobile',
+    agreeToTerms: 'I agree to the Terms and Conditions',
+  },
+  defaults: {
+    title: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    existingPartner: 'true',
+    companyId: '',
+    companyName: '',
+    companyCountry: '',
+    landline: '',
+    mobile: '',
+    agreeToTerms: 'false',
+  },
+};

@@ -1,4 +1,3 @@
-import headerLinks from 'config/links/header--logged-out';
 import footerLinks from 'config/links/footer';
 
 import reducer from './reducer';
@@ -6,7 +5,7 @@ import reducer from './reducer';
 const initialState = {
   isAuthenticated: false,
   menus: {
-    header: headerLinks,
+    header: [],
     footer: footerLinks,
   },
 };

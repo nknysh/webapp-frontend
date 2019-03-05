@@ -5,16 +5,6 @@ Object {
   "auth": true,
   "authRedirect": [Function],
   "component": [Function],
-  "name": "Login",
-  "path": "/login",
-}
-`;
-
-exports[`routing routes match snapshot 2`] = `
-Object {
-  "auth": true,
-  "authRedirect": [Function],
-  "component": [Function],
   "name": "Create Account",
   "path": "/sign-up",
 }

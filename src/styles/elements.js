@@ -3,14 +3,42 @@ import styled, { css } from 'styled-components';
 import theme from './theme';
 import breakpoints from './breakpoints';
 
-export const Link = styled.a`
+export const linkStyles = css`
+  cursor: pointer;
   color: ${theme.secondary};
 
-  :active,
-  :visited,
-  :hover {
-    color: ${theme.secondary};
+  &:active {
+    color: ${theme.primary};
   }
+
+  padding: ${theme.gutter}px 0;
+
+  ${breakpoints.tablet`
+    ${({ spaced }) =>
+      spaced &&
+      css`
+        padding: ${theme.gutter / 2}px ${theme.gutter}px;
+        margin: ${theme.gutter / 2}px ${theme.gutter}px;
+      `}
+
+    ${({ inverse }) =>
+      inverse &&
+      css`
+        color: ${theme.colors.white};
+        background: ${theme.primary};
+        border-radius: ${theme.borderRadius}px;
+      `}
+
+
+      ${({ bold }) =>
+        bold &&
+        css`
+          font-weight: bold;
+        `}
+    `}
+`;
+export const Link = styled.a`
+  ${linkStyles}
 `;
 
 export const Container = styled.div`
@@ -21,6 +49,7 @@ export const Container = styled.div`
 `;
 
 export const inputStyles = css`
+  font-family: ${theme.defaultFont};
   background: ${theme.backgroundColor};
   margin-top: ${theme.gutter / 2}px;
   display: block;
@@ -29,10 +58,28 @@ export const inputStyles = css`
   width: 100%;
   box-sizing: border-box;
   padding: ${theme.gutter}px;
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      background: ${theme.colors['gray-light']};
+    `}
+
+  ::placeholder {
+    color: ${theme.colors.gray};
+  }
 `;
 
 export const Input = styled.input`
   ${inputStyles}
+`;
+
+export const InputError = styled.div`
+  color: ${theme.error};
+  font-size: 12px;
+  margin: ${theme.gutter}px 0;
+  display: block;
+  font-weight: bold;
 `;
 
 export const Button = styled.button`
