@@ -105,7 +105,7 @@ export const logIn = values => dispatch => {
   return dispatch(successAction(AUTH_REQUEST, { user: { ...mockUser } }));
 };
 
-export const resetPassword = values => async dispatch => {
+export const resetPassword = values => dispatch => {
   dispatch(authRequest(values));
 
   // This is where APi call would be handled.
