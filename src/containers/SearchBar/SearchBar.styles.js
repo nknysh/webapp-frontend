@@ -64,8 +64,7 @@ export const SearchBarResults = styled.div`
 export const SearchBarHits = styled.div`
   color: ${theme.primary};
   background: ${theme.backgroundColor};
-  border-bottom: 2px solid ${theme.colors['gray-light']};
-  border-top: 1px solid ${theme.colors['gray-dark']};
+  border-bottom: 1px solid ${theme.primary};
   text-transform: uppercase;
 
   :first-child {
@@ -79,11 +78,8 @@ export const SearchBarHits = styled.div`
 
 export const SearchBarHit = styled.div`
   cursor: pointer;
-  padding: ${theme.gutter * 2}px 0;
-  margin: 0 ${theme.gutter}px;
-  color: ${theme.colors.black};
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
   transition: ${theme.defaultTransition};
+  padding: 0 ${theme.gutter}px;
 
   :last-child {
     border-bottom: 0;
@@ -91,9 +87,14 @@ export const SearchBarHit = styled.div`
 
   :hover,
   :active {
-    font-weight: bold;
-    color: ${theme.primary};
+    background: ${theme.colors.aqua};
   }
+`;
+
+export const SearchBarHitContent = styled.div`
+  padding: ${theme.gutter * 2}px;
+  color: ${theme.colors.black};
+  border-bottom: 1px solid ${theme.colors['gray-medium']};
 `;
 
 export const SearchBarButton = styled(Button)``;

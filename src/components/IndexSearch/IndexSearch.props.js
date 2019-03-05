@@ -7,6 +7,7 @@ export const propTypes = {
   isOpen: PropTypes.bool,
   label: PropTypes.string,
   limit: PropTypes.number,
+  openOnFocus: PropTypes.bool,
   pattern: PropTypes.string,
   value: PropTypes.string,
 };
@@ -15,4 +16,5 @@ export const defaultProps = {
   indexes: [],
   value: '',
   pattern: '{search}*',
+  openOnFocus: true,
 };

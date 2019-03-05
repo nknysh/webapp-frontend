@@ -8,7 +8,7 @@ const getColor = pipe(
 );
 
 export const breakpoints = Object.freeze({
-  desktop: 1024,
+  desktop: 1200,
   tablet: 700,
 });
 
