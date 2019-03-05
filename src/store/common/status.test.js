@@ -10,7 +10,7 @@ describe('Status', () => {
     expect(Status).toHaveProperty('IDLE');
     expect(Status).toHaveProperty('LOADING');
     expect(Status).toHaveProperty('ERROR');
-    expect(Status).toHaveProperty('SAVING');
+    expect(Status).toHaveProperty('SENDING');
   });
 
   it('is immutable', () => {

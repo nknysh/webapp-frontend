@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Fields /> render matches snapshot 1`] = `
+<styled.div>
+  field
+  field
+</styled.div>
+`;

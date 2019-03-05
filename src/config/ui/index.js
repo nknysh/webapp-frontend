@@ -9,6 +9,7 @@ const uiConfig = {
     saving: 'Saving...',
     creatingAccount: 'Sending Request...',
     loggingIn: 'Logging in...',
+    passwordReset: 'Requesting Password Reset...',
   },
 
   labels: {
@@ -27,6 +28,8 @@ const uiConfig = {
     search: 'Search',
     request: 'Submit Request',
     login: 'Sign In',
+    passwordReset: 'Reset Your Password',
+    forgotten: 'Forgot your password?',
   },
 
   placeholders: {

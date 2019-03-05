@@ -6,12 +6,9 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
     isLoading={false}
     text="Sending Request..."
   >
-    <Styled(Styled(styled.h1))>
-      <img
-        src=""
-      />
+    <Title>
       Create an Account
-    </Styled(Styled(styled.h1))>
+    </Title>
     <Form
       initialValues={
         Object {

@@ -5,3 +5,4 @@ export { PageContent } from './PageContent';
 export { SearchBar } from './SearchBar';
 export { CreateAccountForm } from './CreateAccountForm';
 export { LoginForm } from './LoginForm';
+export { PasswordResetForm } from './PasswordResetForm';

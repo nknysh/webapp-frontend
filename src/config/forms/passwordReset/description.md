@@ -1,0 +1,1 @@
+Enter your email address and we will send you a link to reset your password.

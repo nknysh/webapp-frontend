@@ -87,6 +87,16 @@ Object {
 
 exports[`routing app routes match snapshot 10`] = `
 Object {
+  "auth": true,
+  "authRedirect": [Function],
+  "component": [Function],
+  "name": "Password Reset",
+  "path": "/password-reset",
+}
+`;
+
+exports[`routing app routes match snapshot 11`] = `
+Object {
   "component": [Function],
   "exact": true,
   "name": "Content Pages",
@@ -94,7 +104,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 11`] = `
+exports[`routing app routes match snapshot 12`] = `
 Object {
   "component": [Function],
   "name": "Not Found",
