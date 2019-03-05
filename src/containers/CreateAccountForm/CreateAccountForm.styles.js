@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Select as BaseSelect, Markdown, Checkbox } from 'components';
 import theme from 'styles/theme';
-import { Input as BaseInput, Button as BaseButton, Title as BaseTitle } from 'styles/elements';
+import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
 import breakpoints from 'styles/breakpoints';
 
 export const StyledCreateAccount = styled.div`

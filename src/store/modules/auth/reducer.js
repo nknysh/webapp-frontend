@@ -1,7 +1,14 @@
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
 import { initialState, loadingReducer, successReducer, errorReducer, savingReducer } from 'store/common';
 
-import { AUTH_TOKEN, AUTH_SET_TOKEN, AUTH_REQUEST, AUTH_SIGN_UP } from './actions';
+import {
+  AUTH_TOKEN,
+  AUTH_SET_TOKEN,
+  AUTH_REQUEST,
+  AUTH_SIGN_UP,
+  AUTH_PASSWORD_RESET,
+  AUTH_VALIDATE_PASSWORD_RESET_TOKEN,
+} from './actions';
 
 const authSetToken = (state, { payload: { token } }) => ({
   ...state,
@@ -25,6 +32,14 @@ export default (state = initialState, payload) => {
       [AUTH_SIGN_UP]: savingReducer,
       [getSuccessActionName(AUTH_SIGN_UP)]: successReducer,
       [getErrorActionName(AUTH_SIGN_UP)]: errorReducer,
+
+      [AUTH_PASSWORD_RESET]: savingReducer,
+      [getSuccessActionName(AUTH_PASSWORD_RESET)]: successReducer,
+      [getErrorActionName(AUTH_PASSWORD_RESET)]: errorReducer,
+
+      [AUTH_VALIDATE_PASSWORD_RESET_TOKEN]: savingReducer,
+      [getSuccessActionName(AUTH_VALIDATE_PASSWORD_RESET_TOKEN)]: successReducer,
+      [getErrorActionName(AUTH_VALIDATE_PASSWORD_RESET_TOKEN)]: errorReducer,
     },
     initialState
   )(tokenState, payload);

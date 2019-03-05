@@ -2,6 +2,7 @@
 
 exports[`pages reducer should handle AUTH_REQUEST 1`] = `
 Object {
+  "error": undefined,
   "status": "LOADING",
   "token": undefined,
 }
@@ -9,6 +10,7 @@ Object {
 
 exports[`pages reducer should handle AUTH_REQUEST_SUCCESS 1`] = `
 Object {
+  "error": undefined,
   "status": "LOADING",
   "token": undefined,
 }

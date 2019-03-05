@@ -1,4 +1,4 @@
-import { CreateAccount, Login, Home, PasswordReset } from 'pages';
+import { CreateAccount, Login, Home, PasswordReset, SetPassword } from 'pages';
 
 export default [
   {
@@ -18,8 +18,17 @@ export default [
   {
     name: 'Password Reset',
     path: '/password-reset',
+    exact: true,
     component: Home,
     auth: true,
     authRedirect: PasswordReset,
+  },
+  {
+    name: 'Password Reset',
+    path: '/password-reset/:token',
+    exact: true,
+    component: Home,
+    auth: true,
+    authRedirect: SetPassword,
   },
 ];

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { __, compose, prop, path, view, set, curry, keys } from 'ramda';
 
 import { Form, Label, Loader, Title, Fields } from 'components';
@@ -7,26 +8,19 @@ import { Status } from 'store/common';
 import { InputError } from 'styles/elements';
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
+import { schema, fields } from 'config/forms/setPassword';
 import { lensesFromObject } from 'utils';
-import { schema, fields } from 'config/forms/passwordReset';
-import descriptionData from 'config/forms/passwordReset/description.md';
-import completeData from 'config/forms/passwordReset/complete.md';
 
-import connect from './PasswordResetForm.state';
-import { propTypes, defaultProps } from './PasswordResetForm.props';
-import {
-  StyledPasswordResetForm,
-  Field,
-  Input,
-  Actions,
-  SubmitButton,
-  SubmitText,
-  StyledMarkdown,
-} from './PasswordResetForm.styles';
+import connect from './SetPasswordForm.state';
+import { propTypes, defaultProps } from './SetPasswordForm.props';
+import { StyledSetPasswordForm, Field, Input, Actions, SubmitButton, SubmitText } from './SetPasswordForm.styles';
 
 const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
 
-export const PasswordResetForm = ({ requestStatus, onReset }) => {
+export const SetPasswordForm = ({ requestStatus, onSetPassword, token }) => {
+  // No token, no form
+  if (!token) return <Redirect to="/" />;
+
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
@@ -44,7 +38,7 @@ export const PasswordResetForm = ({ requestStatus, onReset }) => {
   const onSubmit = values => {
     setSubmitted(true);
     setFormValues(values);
-    onReset(values);
+    onSetPassword({ values, token });
   };
 
   const renderForm = () => (
@@ -59,21 +53,35 @@ export const PasswordResetForm = ({ requestStatus, onReset }) => {
         <form>
           <Fields>
             <Field>
-              <Label htmlFor="email">{path(['labels', 'email'], fields)}</Label>
+              <Label htmlFor="password">{path(['labels', 'password'], fields)}</Label>
               <Input
                 autocomplete
-                name="email"
-                placeholder={path(['labels', 'email'], fields)}
-                value={view(getLens('email'), formValues)}
-                onChange={changeHandler(getLens('email'), handleChange)}
+                type="password"
+                name="password"
+                placeholder={path(['labels', 'password'], fields)}
+                value={view(getLens('password'), formValues)}
+                onChange={changeHandler(getLens('password'), handleChange)}
                 onBlur={handleBlur}
               />
-              {renderFormError('email', errors)}
+              {renderFormError('password', errors)}
+            </Field>
+            <Field>
+              <Label htmlFor="confirm">{path(['labels', 'confirm'], fields)}</Label>
+              <Input
+                autocomplete
+                type="password"
+                name="confirm"
+                placeholder={path(['labels', 'confirm'], fields)}
+                value={view(getLens('confirm'), formValues)}
+                onChange={changeHandler(getLens('confirm'), handleChange)}
+                onBlur={handleBlur}
+              />
+              {renderFormError('confirm', errors)}
             </Field>
           </Fields>
           <Actions>
             <SubmitButton type="button" onClick={handleSubmit}>
-              <SubmitText>{path(['buttons', 'passwordReset'], uiConfig)}</SubmitText>
+              <SubmitText>{path(['buttons', 'submit'], uiConfig)}</SubmitText>
             </SubmitButton>
           </Actions>
         </form>
@@ -84,22 +92,20 @@ export const PasswordResetForm = ({ requestStatus, onReset }) => {
   const isComplete = !isSending && success;
 
   const title = !isComplete
-    ? path(['forms', 'passwordReset'], formConfig)
-    : path(['forms', 'passwordResetComplete'], formConfig);
-  const description = !isComplete ? descriptionData : completeData;
+    ? path(['forms', 'setPassword'], formConfig)
+    : path(['forms', 'setPasswordComplete'], formConfig);
 
   return (
-    <StyledPasswordResetForm>
+    <StyledSetPasswordForm>
       <Loader isLoading={submitted && isSending && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
         <Title>{title}</Title>
-        <StyledMarkdown>{description}</StyledMarkdown>
         {!isComplete && renderForm()}
       </Loader>
-    </StyledPasswordResetForm>
+    </StyledSetPasswordForm>
   );
 };
 
-PasswordResetForm.propTypes = propTypes;
-PasswordResetForm.defaultProps = defaultProps;
+SetPasswordForm.propTypes = propTypes;
+SetPasswordForm.defaultProps = defaultProps;
 
-export default compose(connect)(PasswordResetForm);
+export default compose(connect)(SetPasswordForm);

@@ -4,9 +4,9 @@ import { isArray } from 'utils';
 import { Status } from 'store/common';
 import { statusLens, errorLens, dataLens } from 'store/utils';
 
-export const loadingReducer = state => set(statusLens, Status.LOADING, state);
+export const loadingReducer = state => set(statusLens, Status.LOADING, { ...state, error: undefined });
 
-export const savingReducer = state => set(statusLens, Status.SENDING, state);
+export const savingReducer = state => set(statusLens, Status.SENDING, { ...state, error: undefined });
 
 export const successReducer = (state, { payload }) => {
   const setData = pipe(

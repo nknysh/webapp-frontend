@@ -73,9 +73,19 @@ exports[`<App /> render matches snapshot 1`] = `
     <Route
       auth={true}
       authRedirect={[Function]}
+      exact={true}
       key="303c6af8abda09ba1b1564a0efa89a9b982ead62"
       name="Password Reset"
       path="/password-reset"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      authRedirect={[Function]}
+      exact={true}
+      key="de6820d6f6cd78cb111a78ee07887aa7aa12c9a3"
+      name="Password Reset"
+      path="/password-reset/:token"
       render={[Function]}
     />
     <Route
