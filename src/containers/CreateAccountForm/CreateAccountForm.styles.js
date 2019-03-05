@@ -133,3 +133,7 @@ export const InfoMarkdown = styled(Markdown)`
     max-width: 475px;
   `}
 `;
+
+export const Center = styled.div`
+  text-align: center;
+`;

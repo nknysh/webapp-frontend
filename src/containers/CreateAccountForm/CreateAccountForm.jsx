@@ -19,20 +19,21 @@ import peLogo from 'public/img/PE_logo.png';
 import { propTypes, defaultProps } from './CreateAccountForm.props';
 import connect from './CreateAccountForm.state';
 import {
-  Title,
-  Fields,
-  Field,
-  Input,
   Actions,
-  SubmitButton,
-  SubmitText,
-  Select,
-  StyledCreateAccount,
-  StyledMarkdown,
-  StyledCheckbox,
+  Center,
   Column,
   Columns,
+  Field,
+  Fields,
   InfoMarkdown,
+  Input,
+  Select,
+  StyledCheckbox,
+  StyledCreateAccount,
+  StyledMarkdown,
+  SubmitButton,
+  SubmitText,
+  Title,
 } from './CreateAccountForm.styles';
 
 const keyValueCountries = arrayToKeyValueObject('code', 'name')(countriesData);
@@ -176,7 +177,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
                 onChange={changeHandler(getLens('agreeToTerms'), handleChange)}
                 onBlur={handleBlur}
               />
-              {renderFormError('agreeToTerms', errors)}
+              <Center>{renderFormError('agreeToTerms', errors)}</Center>
             </Field>
           </Fields>
           <Actions>
