@@ -1,3 +1,5 @@
+import { prop } from 'ramda';
+
 import mockUser from 'config/auth/mockUser';
 import { successAction, errorAction } from 'store/common/actions';
 
@@ -95,8 +97,6 @@ export const signUp = values => dispatch => {
 
 export const logIn = values => dispatch => {
   dispatch(authRequest(values));
-  dispatch(setToken({ mockToken }));
-  setRememberedToken(mockToken);
 
   // This is where APi call would be handled.
   // return AuthApi.logIn(values).then(successAction).catch(errorAction);
@@ -104,7 +104,15 @@ export const logIn = values => dispatch => {
   /**
    * @todo Return from API call the correct action and remove this
    */
-  return values
-    ? dispatch(successAction(AUTH_REQUEST, { user: { ...mockUser } }))
-    : dispatch(errorAction(AUTH_REQUEST, {}));
+
+  const email = prop('email', values);
+
+  if (email === 'unverified@test.com') {
+    return dispatch(errorAction(AUTH_REQUEST, { unverified: true }));
+  }
+
+  dispatch(setToken({ mockToken }));
+  setRememberedToken(mockToken);
+
+  return dispatch(successAction(AUTH_REQUEST, { user: { ...mockUser } }));
 };

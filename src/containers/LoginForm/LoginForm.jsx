@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { __, compose, prop, path, view, set, curry, keys } from 'ramda';
+import { __, compose, prop, path, view, set, curry, keys, has, isEmpty } from 'ramda';
 
 import { Status } from 'store/common';
 import { InputError } from 'styles/elements';
@@ -9,7 +9,7 @@ import { lensesFromObject } from 'utils';
 
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
-import { schema, fields } from 'config/forms/login';
+import { schema, fields, errors } from 'config/forms/login';
 
 import peLogo from 'public/img/PE_logo.png';
 
@@ -25,11 +25,20 @@ import {
   SubmitButton,
   SubmitText,
   StyledCheckbox,
+  ServerErrorContent,
 } from './LoginForm.styles';
+
+const getServerError = error => {
+  if (!error || isEmpty(error)) return '';
+  if (has('unverified', error)) return prop('unverified', errors);
+  return '';
+};
+
+const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
 const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
 
-export const LoginForm = ({ requestStatus, onLogin }) => {
+export const LoginForm = ({ requestStatus, onLogin, error }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
@@ -114,6 +123,7 @@ export const LoginForm = ({ requestStatus, onLogin }) => {
           <img src={peLogo} />
           {path(['forms', 'login'], formConfig)}
         </Title>
+        {renderServerError(getServerError(error))}
         {renderForm()}
       </Loader>
     </StyledLoginForm>

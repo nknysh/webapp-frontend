@@ -12,6 +12,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
       />
       Login
     </Styled(Styled(styled.h1))>
+    <Styled(Markdown) />
     <Form
       initialValues={
         Object {
