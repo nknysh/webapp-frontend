@@ -66,4 +66,5 @@ export const ForgotLink = styled.span`
   text-transform: uppercase;
   text-align: center;
   font-size: 12px;
+  cursor: pointer;
 `;
