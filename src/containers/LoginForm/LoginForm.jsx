@@ -98,7 +98,7 @@ export const LoginForm = ({ requestStatus, onLogin }) => {
             </Field>
           </Fields>
           <Actions>
-            <SubmitButton onClick={handleSubmit}>
+            <SubmitButton type="button" onClick={handleSubmit}>
               <SubmitText>{path(['buttons', 'login'], uiConfig)}</SubmitText>
             </SubmitButton>
           </Actions>
