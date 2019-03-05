@@ -19,6 +19,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
           }
           label="Destination or resort"
           limit={5}
+          openOnFocus={false}
           placeholder="Where to"
         >
           <Component />

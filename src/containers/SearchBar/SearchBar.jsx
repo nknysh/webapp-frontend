@@ -13,12 +13,13 @@ import { DropDownContentContentContext } from 'components/DropDownContent/DropDo
 
 import { propTypes, defaultProps } from './SearchBar.props';
 import {
+  SearchBarButton,
   SearchBarHit,
+  SearchBarHitContent,
   SearchBarHits,
   SearchBarIndexSearch,
   SearchBarResults,
   SearchBarSection,
-  SearchBarButton,
   StyledSearchBar,
 } from './SearchBar.styles';
 import connect from './SearchBar.state';
@@ -90,7 +91,7 @@ export const SearchBar = ({
       return (
         !isEmpty(hit) && (
           <SearchBarHit data-search-hit={ref} key={hash(hit)} onMouseDown={onClick}>
-            {pathOr(noop, [index, 'selector'], resultsMap)(prop('ref', hit))}
+            <SearchBarHitContent>{pathOr(noop, [index, 'selector'], resultsMap)(prop('ref', hit))}</SearchBarHitContent>
           </SearchBarHit>
         )
       );
@@ -116,6 +117,7 @@ export const SearchBar = ({
               indexes={['destinations', 'hotels']}
               label={path(['labels', 'search'], uiConfig)}
               limit={5}
+              openOnFocus={false}
               placeholder={path(['placeholders', 'search'], uiConfig)}
               value={prop('value', getSearchQueryData(searchLens))}
             >

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { SearchBar } from 'containers';
+import { Container } from 'styles/elements';
 
 import heroData from 'config/pages/search/hero.md';
 import heroImage from 'config/pages/search/assets/hero-image.png';
@@ -12,7 +13,9 @@ export const HomeAuthenticated = () => {
     <StyledSearch>
       <SearchHero mask media={{ image: heroImage }}>
         <SearchMarkdown>{heroData}</SearchMarkdown>
-        <SearchBar />
+        <Container>
+          <SearchBar />
+        </Container>
       </SearchHero>
     </StyledSearch>
   );
