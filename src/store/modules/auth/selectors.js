@@ -18,7 +18,7 @@ export const getAuthError = pipe(
 );
 
 export const getAuthToken = pipe(
-  getAuthData,
+  getAuth,
   prop('token')
 );
 export const getCurrentUser = pipe(

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> render matches snapshot 1`] = `
+<Fragment>
+  <ErrorBoundary />
+  <Modal
+    onBackdropClick={[Function]}
+    onEscapeKeyDown={[Function]}
+    open={true}
+  >
+    <withAuthentication(Connect(LoginForm)) />
+  </Modal>
+</Fragment>
+`;

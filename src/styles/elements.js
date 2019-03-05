@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 import theme from './theme';
 import breakpoints from './breakpoints';
+import { Heading1 } from './typography';
 
 export const linkStyles = css`
   cursor: pointer;
@@ -103,5 +104,15 @@ export const Button = styled.button`
 export const Image = styled.img``;
 
 export const Pre = styled.pre``;
+
+export const Title = styled(Heading1)`
+  text-align: center;
+  margin-top: 0;
+
+  img {
+    display: block;
+    margin: ${theme.gutter * 2.5}px auto;
+  }
+`;
 
 export default { Link, Container, Input, Button, Image, Pre };
