@@ -2,10 +2,24 @@ import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
 
 import theme from 'styles/theme';
+import { h2Styling } from 'styles/typography';
 
 export const StyledToolTip = styled.div`
   padding: 0 ${theme.gutter / 2}px;
   display: inline-block;
+
+  .tooltip,
+  .popper {
+    background: none !important;
+    opacity: 1 !important;
+    color: ${theme.black} !important;
+
+    h2 {
+      ${h2Styling}
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+  }
 `;
 
 export const ToolTipIcon = styled(Icon)`

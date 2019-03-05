@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Modal, Backdrop, Icon } from '@material-ui/core';
 
 import theme from 'styles/theme';
-import { h2Styling } from 'styles/typography';
 import breakpoints from 'styles/breakpoints';
 
 export const StyledModal = styled(Modal)`
@@ -13,19 +12,6 @@ export const StyledModal = styled(Modal)`
   justify-content: center;
   height: 100%;
   width: 100%;
-
-  .tooltip,
-  .popper {
-    background: none !important;
-    opacity: 1 !important;
-    color: ${theme.black} !important;
-
-    h2 {
-      ${h2Styling}
-      text-transform: uppercase;
-      font-size: 12px;
-    }
-  }
 `;
 
 export const ModalOverlay = styled(Backdrop)`
