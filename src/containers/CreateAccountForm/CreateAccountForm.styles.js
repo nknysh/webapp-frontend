@@ -94,6 +94,12 @@ export const StyledCheckbox = styled(Checkbox)`
     font-weight: bold !important;
     color: ${theme.primary} !important;
     text-transform: uppercase !important;
+
+    a {
+      cursor: pointer;
+      color: ${theme.secondary} !important;
+      text-decoration: underline;
+    }
   }
 `;
 

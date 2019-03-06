@@ -19,9 +19,9 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "sc-jTzLTM",
+            "componentId": "sc-fjdhpX",
             "isStatic": true,
-            "lastClassName": "eKFmps",
+            "lastClassName": "cHlDfO",
             "rules": Array [
               "
   display: flex;
@@ -35,7 +35,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
           "displayName": "styled.div",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "sc-jTzLTM",
+          "styledComponentId": "sc-fjdhpX",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -45,7 +45,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
       forwardedRef={null}
     >
       <div
-        className="sc-jTzLTM eKFmps"
+        className="sc-fjdhpX cHlDfO"
       >
         <Styled(styled.h1)>
           <StyledComponent
@@ -54,9 +54,9 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-fjdhpX",
+                  "componentId": "sc-jzJRlG",
                   "isStatic": true,
-                  "lastClassName": "gcArcG",
+                  "lastClassName": "jamott",
                   "rules": Array [
                     "
   ",
@@ -87,7 +87,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                   "sc-bdVaJa",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-fjdhpX",
+                "styledComponentId": "sc-jzJRlG",
                 "target": "h1",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -97,7 +97,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <h1
-              className="sc-bdVaJa sc-fjdhpX gcArcG"
+              className="sc-bdVaJa sc-jzJRlG jamott"
             >
               Something went wrong
             </h1>
@@ -110,9 +110,9 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-jzJRlG",
+                  "componentId": "sc-cSHVUG",
                   "isStatic": true,
-                  "lastClassName": "enxKql",
+                  "lastClassName": "CAuLq",
                   "rules": Array [],
                 },
                 "displayName": "Styled(styled.pre)",
@@ -120,7 +120,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                   "sc-gqjmRU",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-jzJRlG",
+                "styledComponentId": "sc-cSHVUG",
                 "target": "pre",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -130,7 +130,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <pre
-              className="sc-gqjmRU sc-jzJRlG enxKql"
+              className="sc-gqjmRU sc-cSHVUG CAuLq"
             >
               Error: It doesn't work!
             </pre>
@@ -143,9 +143,9 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-jzJRlG",
+                  "componentId": "sc-cSHVUG",
                   "isStatic": true,
-                  "lastClassName": "enxKql",
+                  "lastClassName": "CAuLq",
                   "rules": Array [],
                 },
                 "displayName": "Styled(styled.pre)",
@@ -153,7 +153,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                   "sc-gqjmRU",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-jzJRlG",
+                "styledComponentId": "sc-cSHVUG",
                 "target": "pre",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -163,7 +163,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <pre
-              className="sc-gqjmRU sc-jzJRlG enxKql"
+              className="sc-gqjmRU sc-cSHVUG CAuLq"
             >
               Ref: 
               ca5c2d93118cc215d7109b525da8f67c4a592154

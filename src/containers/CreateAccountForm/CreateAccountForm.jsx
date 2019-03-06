@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { __, compose, prop, path, set, curry, view, keys } from 'ramda';
+import { __, compose, prop, path, set, curry, view, keys, pick, omit } from 'ramda';
 
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
 import countriesData from 'config/data/countries';
+import promotedCountriesData from 'config/data/countries-promoted';
 import { schema, fields } from 'config/forms/createAccount';
 import signUpCompleteData from 'config/forms/createAccount/complete.md';
 import infoData from 'config/forms/createAccount/info.md';
@@ -12,7 +13,7 @@ import { arrayToKeyValueObject, lensesFromObject } from 'utils';
 import { InputError } from 'styles/elements';
 import { Status } from 'store/common';
 
-import { Form, Label, Loader, Title, Fields } from 'components';
+import { Form, Label, Loader, Title, Fields, RadioButton } from 'components';
 
 import { propTypes, defaultProps } from './CreateAccountForm.props';
 import connect from './CreateAccountForm.state';
@@ -33,6 +34,8 @@ import {
 } from './CreateAccountForm.styles';
 
 const keyValueCountries = arrayToKeyValueObject('code', 'name')(countriesData);
+const promotedCountries = pick(promotedCountriesData, keyValueCountries);
+const restCountries = omit(promotedCountriesData, keyValueCountries);
 
 const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
 
@@ -124,6 +127,27 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
               </Column>
               <Column>
                 <Field>
+                  <Label htmlFor="existingPartner" data-bold={true}>
+                    {path(['labels', 'existingPartner'], fields)}
+                  </Label>
+                  <RadioButton
+                    aria-label="existingPartner"
+                    name="existingPartner"
+                    value={view(getLens('existingPartner'), formValues)}
+                    onChange={changeHandler(getLens('existingPartner'), handleChange)}
+                    options={[
+                      {
+                        label: path(['labels', 'yes'], uiConfig),
+                        value: 'true',
+                      },
+                      {
+                        label: path(['labels', 'no'], uiConfig),
+                        value: 'false',
+                      },
+                    ]}
+                  />
+                </Field>
+                <Field>
                   <Label htmlFor="companyName">{path(['labels', 'companyName'], fields)}</Label>
                   <Input
                     name="companyName"
@@ -140,7 +164,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
                     value={view(getLens('companyCountry'), formValues)}
                     onChange={changeHandler(getLens('companyCountry'), handleChange)}
                     onBlur={handleBlur}
-                    options={keyValueCountries}
+                    options={[promotedCountries, restCountries]}
                   />
                   {renderFormError('companyCountry', errors)}
                 </Field>

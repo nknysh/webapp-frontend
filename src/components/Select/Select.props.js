@@ -5,7 +5,7 @@ import { noop } from 'utils';
 export const propTypes = {
   label: PropTypes.string,
   onSelected: PropTypes.func,
-  options: PropTypes.object,
+  options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 export const defaultProps = {

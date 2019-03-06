@@ -1,3 +1,5 @@
+import React, { Fragment } from 'react';
+
 export default {
   labels: {
     title: 'Title',
@@ -10,7 +12,14 @@ export default {
     companyCountry: 'Company country',
     landline: 'Landline',
     mobile: 'Mobile',
-    agreeToTerms: 'I agree to the Terms and Conditions',
+    agreeToTerms: (
+      <Fragment>
+        I agree to the{' '}
+        <a href="/terms-and-conditions" target="_blank">
+          Terms and Conditions
+        </a>
+      </Fragment>
+    ),
   },
   defaults: {
     title: '',
