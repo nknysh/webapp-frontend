@@ -11,11 +11,13 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_RESET = 'AUTH_RESET';
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 export const AUTH_SIGN_UP = 'AUTH_SIGN_UP';
+export const AUTH_LOG_OUT = 'AUTH_LOG_OUT';
 export const AUTH_PASSWORD_RESET = 'AUTH_PASSWORD_RESET';
 export const AUTH_VALIDATE_PASSWORD_RESET_TOKEN = 'AUTH_VALIDATE_PASSWORD_RESET_TOKEN';
 
 // This constant is for Localstorage.
 export const AUTH_TOKEN = 'authToken';
+export const AUTH_USER = 'authUser';
 
 const mockToken = '123456789';
 
@@ -28,9 +30,8 @@ const authError = value => {
   };
 };
 
-const authReset = value => ({
+const authReset = () => ({
   type: AUTH_RESET,
-  payload: value,
 });
 
 export const getUserFromToken = ({ token }) => dispatch => {
@@ -46,11 +47,6 @@ export const getUserFromToken = ({ token }) => dispatch => {
     });
 };
 
-export const logOut = values => dispatch => {
-  localStorage.removeItem(AUTH_TOKEN);
-  dispatch(authReset(values));
-};
-
 export const setToken = token => ({
   type: AUTH_SET_TOKEN,
   payload: { token },
@@ -62,11 +58,6 @@ export const authRequest = value => ({
 });
 
 export const authPasswordReset = value => ({
-  type: AUTH_PASSWORD_RESET,
-  payload: value,
-});
-
-export const authValidatePasswordResetToken = value => ({
   type: AUTH_PASSWORD_RESET,
   payload: value,
 });
@@ -86,7 +77,16 @@ export const authSignUp = values => ({
   payload: values,
 });
 
+export const authLogOut = token => ({
+  type: AUTH_LOG_OUT,
+  payload: token,
+});
+
 export const setRememberedToken = token => localStorage.setItem(AUTH_TOKEN, token);
+export const setRememberedUser = user => localStorage.setItem(AUTH_USER, JSON.stringify(user));
+
+export const deleteRememberedToken = () => localStorage.removeItem(AUTH_TOKEN);
+export const deleteRememberedUser = () => localStorage.removeItem(AUTH_USER);
 
 export const signUp = values => dispatch => {
   dispatch(authSignUp(values));
@@ -98,6 +98,21 @@ export const signUp = values => dispatch => {
    * @todo Return from API call the correct action and remove this
    */
   return values ? dispatch(successAction(AUTH_SIGN_UP, values)) : dispatch(errorAction(AUTH_SIGN_UP, values));
+};
+
+export const logOut = token => dispatch => {
+  dispatch(authLogOut(token));
+  deleteRememberedToken();
+  deleteRememberedUser();
+  dispatch(authReset());
+
+  // This is where APi call would be handled.
+  // return AuthApi.logOut(values).then(successAction).catch(errorAction);
+
+  /**
+   * @todo Return from API call the correct action and remove this
+   */
+  return token ? dispatch(successAction(AUTH_LOG_OUT)) : dispatch(errorAction(AUTH_LOG_OUT, { unknown: true }));
 };
 
 export const logIn = values => dispatch => {
@@ -118,6 +133,7 @@ export const logIn = values => dispatch => {
 
   dispatch(setToken({ mockToken }));
   setRememberedToken(mockToken);
+  setRememberedUser(mockUser);
 
   return dispatch(successAction(AUTH_REQUEST, { user: { ...mockUser } }));
 };
@@ -136,7 +152,7 @@ export const resetPassword = values => dispatch => {
 };
 
 export const setPassword = values => dispatch => {
-  dispatch(authPasswordReset(omit(['values'], values)));
+  dispatch(authSetPasswordReset(omit(['values'], values)));
 
   // This is where APi call would be handled.
   // return AuthApi.resetPassword(values).then(successAction).catch(errorAction);

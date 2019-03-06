@@ -16,7 +16,6 @@ export const IndexSearch = ({
   children,
   className,
   disabled,
-  id,
   indexes,
   isOpen: isOpenProp,
   label,
@@ -81,7 +80,6 @@ export const IndexSearch = ({
     <StyledIndexSearch className={className}>
       {renderLabel(label)}
       <DropDownContent
-        id={id}
         inputProps={inputProps}
         maskProps={maskProps}
         inputContent={currentValue || ''}

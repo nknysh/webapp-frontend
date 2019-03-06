@@ -2,6 +2,9 @@
 
 exports[`pages reducer should handle AUTH_REQUEST 1`] = `
 Object {
+  "data": Object {
+    "user": null,
+  },
   "error": undefined,
   "status": "LOADING",
   "token": undefined,
@@ -10,6 +13,9 @@ Object {
 
 exports[`pages reducer should handle AUTH_REQUEST_SUCCESS 1`] = `
 Object {
+  "data": Object {
+    "user": null,
+  },
   "error": undefined,
   "status": "LOADING",
   "token": undefined,
@@ -18,18 +24,27 @@ Object {
 
 exports[`pages reducer should handle AUTH_SIGN_UP 1`] = `
 Object {
+  "data": Object {
+    "user": null,
+  },
   "token": undefined,
 }
 `;
 
 exports[`pages reducer should handle AUTH_SIGN_UP_ERROR 1`] = `
 Object {
+  "data": Object {
+    "user": null,
+  },
   "token": undefined,
 }
 `;
 
 exports[`pages reducer should handle AUTH_SIGN_UP_SUCCESS 1`] = `
 Object {
+  "data": Object {
+    "user": null,
+  },
   "token": undefined,
 }
 `;

@@ -9,6 +9,7 @@ const uiConfig = {
     saving: 'Saving...',
     creatingAccount: 'Sending Request...',
     loggingIn: 'Logging in...',
+    loggingOut: 'Logging out...',
     passwordReset: 'Requesting Password Reset...',
     setPassword: 'Setting password...',
   },

@@ -1,3 +1,5 @@
+import { equals } from 'ramda';
+
 export const Status = Object.freeze({
   LOADING: 'LOADING',
   IDLE: 'IDLE',
@@ -6,4 +8,8 @@ export const Status = Object.freeze({
   SENDING: 'SENDING',
 });
 
-export default Status;
+export const isIdle = equals(Status.IDLE);
+export const isLoading = equals(Status.LOADING);
+export const isError = equals(Status.ERROR);
+export const isSuccess = equals(Status.SUCCESS);
+export const isSending = equals(Status.SENDING);

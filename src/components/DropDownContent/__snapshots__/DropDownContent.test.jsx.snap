@@ -1,16 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DropDownContent /> render matches snapshot 1`] = `
-<styled.div>
+<ClickAwayListener
+  mouseEvent="onMouseUp"
+  onClickAway={[Function]}
+  touchEvent="onTouchEnd"
+>
   <styled.div>
     <styled.div>
-      <Styled(WithStyles(Icon))>
-        arrow_drop_down
-      </Styled(WithStyles(Icon))>
+      <styled.div>
+        <Styled(WithStyles(Icon))>
+          arrow_drop_down
+        </Styled(WithStyles(Icon))>
+      </styled.div>
+      <Styled(styled.input)
+        onClick={[Function]}
+      />
     </styled.div>
-    <Styled(styled.input)
-      onClick={[Function]}
-    />
   </styled.div>
-</styled.div>
+</ClickAwayListener>
 `;

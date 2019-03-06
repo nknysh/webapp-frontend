@@ -11,6 +11,7 @@ export { Sidebar } from './Sidebar';
 export { IndexSearch } from './IndexSearch';
 export { Video } from './Video';
 export { DropDownContent } from './DropDownContent';
+export { DropDownMenu } from './DropDownMenu';
 export { DatePicker } from './DatePicker';
 export { NumberSelect } from './NumberSelect';
 export { LodgingSelect } from './LodgingSelect';

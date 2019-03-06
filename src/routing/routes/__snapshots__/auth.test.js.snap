@@ -2,8 +2,6 @@
 
 exports[`routing routes match snapshot 1`] = `
 Object {
-  "auth": true,
-  "authRedirect": [Function],
   "component": [Function],
   "name": "Login",
   "path": "/login",
@@ -12,8 +10,6 @@ Object {
 
 exports[`routing routes match snapshot 2`] = `
 Object {
-  "auth": true,
-  "authRedirect": [Function],
   "component": [Function],
   "name": "Create Account",
   "path": "/sign-up",
@@ -22,8 +18,6 @@ Object {
 
 exports[`routing routes match snapshot 3`] = `
 Object {
-  "auth": true,
-  "authRedirect": [Function],
   "component": [Function],
   "exact": true,
   "name": "Password Reset",
@@ -33,8 +27,6 @@ Object {
 
 exports[`routing routes match snapshot 4`] = `
 Object {
-  "auth": true,
-  "authRedirect": [Function],
   "component": [Function],
   "exact": true,
   "name": "Password Reset",

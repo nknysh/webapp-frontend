@@ -10,7 +10,7 @@ import infoData from 'config/forms/createAccount/info.md';
 import { arrayToKeyValueObject, lensesFromObject } from 'utils';
 
 import { InputError } from 'styles/elements';
-import { Status } from 'store/common';
+import { isSending, isSuccess } from 'store/common';
 
 import { Form, Label, Loader, Title, Fields } from 'components';
 
@@ -40,8 +40,8 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
-  const isSaving = requestStatus === Status.SENDING;
-  const saved = requestStatus === Status.SUCCESS;
+  const isSaving = isSending(requestStatus);
+  const saved = isSuccess(requestStatus);
 
   const lenses = lensesFromObject(keys(formValues));
   const getLens = prop(__, lenses);

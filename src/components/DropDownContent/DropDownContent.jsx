@@ -1,8 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { isNil } from 'ramda';
+import { ClickAwayListener } from '@material-ui/core';
+
+import { useKeyboard } from 'effects';
 import { isFunction } from 'utils';
 
-import { DropDownContentContentContext } from './DropDownContent.context';
 import { propTypes, defaultProps } from './DropDownContent.props';
 import {
   StyledDropDownContent,
@@ -25,11 +27,6 @@ const renderInputMask = (inputContent, maskProps, showArrow) => (
 
 const renderInput = inputProps => <DropDownContentInput {...inputProps} />;
 
-const renderChildren = (children, isCurrentContext, showArea) =>
-  children &&
-  isCurrentContext &&
-  showArea && <DropDownContentArea>{isFunction(children) ? children() : children}</DropDownContentArea>;
-
 export const DropDownContent = ({
   showOverlay,
   showRawInput,
@@ -42,29 +39,34 @@ export const DropDownContent = ({
   children,
   showContent,
   onClick,
-  id,
 }) => {
-  const [showArea, setShowContent] = useState(showContent);
-
-  const onInputClick = e => {
-    if (onClick) onClick(e);
-    setShowContent(!showArea);
-  };
-
-  const currentContext = useContext(DropDownContentContentContext);
-  const isCurrentContext = !isNil(currentContext) && currentContext === id;
+  const [showArea, setShowArea] = useState(showContent || false);
 
   const shouldShow = !isNil(showContent) ? showContent : showArea;
+  const shouldRenderChildren = Boolean(children) && showArea && shouldShow;
+
+  const onClose = () => setShowArea(false);
+  const onInputClick = e => {
+    if (onClick) onClick(e);
+    setShowArea(!showArea);
+  };
+
+  useKeyboard(27, onClose);
+
+  const renderChildren = () =>
+    shouldRenderChildren && <DropDownContentArea>{isFunction(children) ? children() : children}</DropDownContentArea>;
 
   return (
-    <StyledDropDownContent>
-      <DropDownContentInputWrapper>
-        {renderOverlay(showOverlay, overlayProps)}
-        {!showRawInput && renderInputMask(inputContent, maskProps, showArrow)}
-        {renderInput({ showRawInput, onChange, onClick: onInputClick, ...inputProps })}
-      </DropDownContentInputWrapper>
-      {renderChildren(children, isCurrentContext, shouldShow)}
-    </StyledDropDownContent>
+    <ClickAwayListener onClickAway={onClose}>
+      <StyledDropDownContent>
+        <DropDownContentInputWrapper>
+          {renderOverlay(showOverlay, overlayProps)}
+          {!showRawInput && renderInputMask(inputContent, maskProps, showArrow)}
+          {renderInput({ showRawInput, onChange, onClick: onInputClick, ...inputProps })}
+        </DropDownContentInputWrapper>
+        {renderChildren()}
+      </StyledDropDownContent>
+    </ClickAwayListener>
   );
 };
 

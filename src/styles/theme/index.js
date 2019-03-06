@@ -23,7 +23,7 @@ export const palette = Object.freeze({
   navigation: getColor('whiteish'),
   backgroundColor: getColor('white'),
   boxShadowColor: getColor('black-light'),
-  boxShadow: `0 5px 10px ${getColor('black-light')}`,
+  boxShadow: `0 4px 10px ${getColor('black-light')}`,
   boxShadowEven: `0 0 10px ${getColor('black-light')}`,
   inputBorder: getColor('gray-medium'),
   borderColor: getColor('gray-dark'),

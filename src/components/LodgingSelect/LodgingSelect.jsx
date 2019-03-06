@@ -29,7 +29,7 @@ const getGuestsCount = pipe(
 
 const renderLabel = label => label && <LodgingSelectLabel>{label}</LodgingSelectLabel>;
 
-export const LodgingSelect = ({ id, label, onSelected, selectedValues }) => {
+export const LodgingSelect = ({ label, onSelected, selectedValues }) => {
   const [data, setData] = useState(
     selectedValues || {
       rooms: 0,
@@ -55,7 +55,7 @@ export const LodgingSelect = ({ id, label, onSelected, selectedValues }) => {
   return (
     <StyledLodgingSelect>
       {renderLabel(label)}
-      <DropDownContent id={id} inputContent={summary}>
+      <DropDownContent inputContent={summary}>
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{getPlural('room')}</LodgingSelectEntryLabel>

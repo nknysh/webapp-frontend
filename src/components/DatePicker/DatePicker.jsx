@@ -65,11 +65,9 @@ export const DatePicker = ({
   onSelected,
   showOverlay,
   selectedValues,
-  id,
   ...props
 }) => {
   const [selected, setSelected] = useState(selectedValues || defaultState);
-  const [overlay, setOverlay] = useState(false);
   const inputRef = useRef(undefined);
 
   useKeyboard(27, () => {
@@ -85,9 +83,6 @@ export const DatePicker = ({
   const isComplete = Boolean(from && to);
   const nights = getNumberOfDays(selected);
 
-  const onHideOverlay = () => setOverlay(false);
-  const onShowOverlay = () => setOverlay(true);
-
   const renderInputContent = () => (
     <Fragment>
       {!from && !to && placeholder}
@@ -100,13 +95,11 @@ export const DatePicker = ({
   // eslint-disable-next-line
   const renderInput = forwardRef((props, ref) => (
     <DropDownContent
-      id={id}
       inputContent={renderInputContent}
       inputProps={{ ref, ...props }}
       maskProps={{
         ['data-empty']: !from,
       }}
-      showOverlay={showOverlay && overlay}
     />
   ));
 
@@ -135,9 +128,7 @@ export const DatePicker = ({
         ref={inputRef}
         component={renderInput}
         dayPickerProps={dayPickerCombinedProps}
-        hideOnDayClick={isComplete}
-        onDayPickerHide={onHideOverlay}
-        onDayPickerShow={onShowOverlay}
+        hideOnDayClick={!showOverlay || isComplete}
         {...props}
       />
     </StyledDatePicker>

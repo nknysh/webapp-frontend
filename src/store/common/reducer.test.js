@@ -1,4 +1,4 @@
-import Status from './status';
+import { Status } from './status';
 import initialState from './initialState';
 import { successReducer, errorReducer } from './reducer';
 

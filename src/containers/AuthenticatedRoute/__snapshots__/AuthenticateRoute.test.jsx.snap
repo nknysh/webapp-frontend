@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AuthenticatedRoute /> render custom auth redirect route when not authenticated 1`] = `
-<Route
+<MockAuthRedirect
   component={[Function]}
   location={Object {}}
   path="/about-us"

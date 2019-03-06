@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { __, compose, prop, path, view, set, curry, keys, has, isEmpty } from 'ramda';
 
-import { Status } from 'store/common';
+import { isSending, isSuccess } from 'store/common';
 import { InputError } from 'styles/elements';
 import { withAuthentication } from 'hoc';
 import { lensesFromObject } from 'utils';
@@ -43,8 +43,8 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
   const [forgotten, setForgotten] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
-  const isLoading = requestStatus === Status.SENDING;
-  const success = requestStatus === Status.SUCCESS;
+  const isLoading = isSending(requestStatus);
+  const success = isSuccess(requestStatus);
 
   const lenses = lensesFromObject(keys(formValues));
   const getLens = prop(__, lenses);

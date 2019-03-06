@@ -30,7 +30,7 @@ describe('<AuthenticatedRoute />', () => {
       expect(component).toMatchSnapshot();
     });
     it('custom auth redirect route when not authenticated', () => {
-      const component = getShallow({ isAuthenticated: false, authRedirect: MockAuthRedirect });
+      const component = getShallow({ isAuthenticated: false, authComponent: MockAuthRedirect });
       expect(component).toMatchSnapshot();
     });
   });
