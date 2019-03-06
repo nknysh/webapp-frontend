@@ -17,3 +17,8 @@ export const defaultProps = {
     pathname: '',
   },
 };
+
+export const contextTypes = Object.freeze({
+  SIGN_UP: 'signup',
+  LOGIN: 'login',
+});
