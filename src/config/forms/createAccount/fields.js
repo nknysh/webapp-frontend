@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
 
-import { Link } from 'styles/elements';
-
 export default {
   labels: {
     title: 'Title',

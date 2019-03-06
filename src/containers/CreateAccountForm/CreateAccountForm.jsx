@@ -13,7 +13,7 @@ import { arrayToKeyValueObject, lensesFromObject } from 'utils';
 import { InputError } from 'styles/elements';
 import { Status } from 'store/common';
 
-import { Form, Label, Loader, Title, Fields } from 'components';
+import { Form, Label, Loader, Title, Fields, RadioButton } from 'components';
 
 import { propTypes, defaultProps } from './CreateAccountForm.props';
 import connect from './CreateAccountForm.state';
@@ -126,6 +126,27 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
                 </Field>
               </Column>
               <Column>
+                <Field>
+                  <Label htmlFor="existingPartner" data-bold={true}>
+                    {path(['labels', 'existingPartner'], fields)}
+                  </Label>
+                  <RadioButton
+                    aria-label="existingPartner"
+                    name="existingPartner"
+                    value={view(getLens('existingPartner'), formValues)}
+                    onChange={changeHandler(getLens('existingPartner'), handleChange)}
+                    options={[
+                      {
+                        label: path(['labels', 'yes'], uiConfig),
+                        value: 'true',
+                      },
+                      {
+                        label: path(['labels', 'no'], uiConfig),
+                        value: 'false',
+                      },
+                    ]}
+                  />
+                </Field>
                 <Field>
                   <Label htmlFor="companyName">{path(['labels', 'companyName'], fields)}</Label>
                   <Input
