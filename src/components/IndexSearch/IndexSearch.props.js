@@ -8,13 +8,13 @@ export const propTypes = {
   label: PropTypes.string,
   limit: PropTypes.number,
   openOnFocus: PropTypes.bool,
-  pattern: PropTypes.string,
+  searchPatterns: PropTypes.array,
   value: PropTypes.string,
 };
 
 export const defaultProps = {
   indexes: [],
   value: '',
-  pattern: '{search}*',
+  searchPatterns: [],
   openOnFocus: true,
 };

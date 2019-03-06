@@ -39,12 +39,11 @@ export const SearchBar = ({
   searchQuery,
   setSearchQuery,
 }) => {
-  const indexes = ['destinations', 'hotels'];
-  const resultsMap = [{ selector: getDestinationTitle }, { selector: getHotelTitle }];
-
   useFetchData(fetchHotels, hotels);
   useFetchData(fetchDestinations, destinations);
 
+  const indexes = ['destinations', 'hotels'];
+  const resultsMap = [{ selector: getDestinationTitle }, { selector: getHotelTitle }];
   const updateSearchQuery = set(__, __, searchQuery);
   const getSearchQueryData = view(__, searchQuery);
 
@@ -83,7 +82,7 @@ export const SearchBar = ({
 
       return (
         !isEmpty(hit) && (
-          <SearchBarHit data-search-hit={ref} key={hash(hit)} onMouseDown={onClick}>
+          <SearchBarHit data-search-hit={ref} key={hash(hit)} onClick={onClick}>
             <SearchBarHitContent>{pathOr(noop, [index, 'selector'], resultsMap)(prop('ref', hit))}</SearchBarHitContent>
           </SearchBarHit>
         )

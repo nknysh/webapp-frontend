@@ -16,8 +16,8 @@ export const fetchHotels = () => dispatch => {
   dispatch(
     buildIndex({
       index: 'hotels',
-      ref: 'id',
-      fields: ['title'],
+      ref: 'uuid',
+      fields: ['title', 'destinationUuid'],
       data,
     })
   );

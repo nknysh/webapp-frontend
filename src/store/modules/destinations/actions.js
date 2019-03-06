@@ -16,7 +16,7 @@ export const fetchDestinations = () => dispatch => {
   dispatch(
     buildIndex({
       index: 'destinations',
-      ref: 'id',
+      ref: 'uuid',
       fields: ['title'],
       data,
     })
