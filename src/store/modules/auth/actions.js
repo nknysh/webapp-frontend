@@ -1,4 +1,4 @@
-import { prop } from 'ramda';
+import { prop, omit } from 'ramda';
 
 import mockUser from 'config/auth/mockUser';
 import { successAction, errorAction } from 'store/common/actions';
@@ -11,6 +11,8 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_RESET = 'AUTH_RESET';
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 export const AUTH_SIGN_UP = 'AUTH_SIGN_UP';
+export const AUTH_PASSWORD_RESET = 'AUTH_PASSWORD_RESET';
+export const AUTH_VALIDATE_PASSWORD_RESET_TOKEN = 'AUTH_VALIDATE_PASSWORD_RESET_TOKEN';
 
 // This constant is for Localstorage.
 export const AUTH_TOKEN = 'authToken';
@@ -59,6 +61,21 @@ export const authRequest = value => ({
   payload: value,
 });
 
+export const authPasswordReset = value => ({
+  type: AUTH_PASSWORD_RESET,
+  payload: value,
+});
+
+export const authValidatePasswordResetToken = value => ({
+  type: AUTH_PASSWORD_RESET,
+  payload: value,
+});
+
+export const authSetPasswordReset = value => ({
+  type: AUTH_PASSWORD_RESET,
+  payload: value,
+});
+
 export const authOk = values => ({
   type: AUTH_OK,
   payload: values,
@@ -84,7 +101,7 @@ export const signUp = values => dispatch => {
 };
 
 export const logIn = values => dispatch => {
-  dispatch(authRequest(values));
+  dispatch(authRequest(omit(['password'], values)));
 
   // This is where APi call would be handled.
   // return AuthApi.logIn(values).then(successAction).catch(errorAction);
@@ -106,7 +123,7 @@ export const logIn = values => dispatch => {
 };
 
 export const resetPassword = values => dispatch => {
-  dispatch(authRequest(values));
+  dispatch(authPasswordReset(values));
 
   // This is where APi call would be handled.
   // return AuthApi.resetPassword(values).then(successAction).catch(errorAction);
@@ -115,5 +132,18 @@ export const resetPassword = values => dispatch => {
    * @todo Return from API call the correct action and remove this
    */
 
-  return dispatch(successAction(AUTH_REQUEST, {}));
+  return dispatch(successAction(AUTH_PASSWORD_RESET));
+};
+
+export const setPassword = values => dispatch => {
+  dispatch(authPasswordReset(omit(['values'], values)));
+
+  // This is where APi call would be handled.
+  // return AuthApi.resetPassword(values).then(successAction).catch(errorAction);
+
+  /**
+   * @todo Return from API call the correct action and remove this
+   */
+
+  return dispatch(successAction(AUTH_PASSWORD_RESET));
 };

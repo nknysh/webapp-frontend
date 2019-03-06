@@ -14,7 +14,6 @@ export const SearchHero = styled(Hero)`
   height: 500px;
   display: block;
   margin-bottom: 475px;
-  background-size: auto;
 
   ${breakpoints.desktop`
     height: unset;

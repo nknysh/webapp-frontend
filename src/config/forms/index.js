@@ -5,6 +5,8 @@ export default {
     login: 'Login',
     passwordReset: 'Reset Your Password',
     passwordResetComplete: 'Help is on the way - check your inbox!',
+    setPassword: 'Set your password',
+    setPasswordComplete: 'Password has been reset',
   },
 
   titles: {

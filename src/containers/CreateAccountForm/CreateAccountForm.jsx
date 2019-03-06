@@ -57,9 +57,10 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
     onSignUp(values);
   };
 
-  const formTitle = saved
-    ? path(['forms', 'createAccountComplete'], formConfig)
-    : path(['forms', 'createAccount'], formConfig);
+  const formTitle =
+    saved && submitted
+      ? path(['forms', 'createAccountComplete'], formConfig)
+      : path(['forms', 'createAccount'], formConfig);
 
   const renderForm = () => (
     <Form

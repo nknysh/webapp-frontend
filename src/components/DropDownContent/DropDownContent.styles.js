@@ -81,7 +81,10 @@ export const dropDownContentAreaStyles = css`
   z-index: 3010;
   right: 0;
   left: 0;
-  min-width: 280px;
+
+  ${breakpoints.tablet`
+    min-width: 280px;
+  `}
 `;
 
 export const DropDownContentArea = styled.div`

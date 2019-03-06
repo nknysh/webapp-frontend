@@ -10,6 +10,7 @@ const uiConfig = {
     creatingAccount: 'Sending Request...',
     loggingIn: 'Logging in...',
     passwordReset: 'Requesting Password Reset...',
+    setPassword: 'Setting password...',
   },
 
   labels: {
@@ -25,6 +26,7 @@ const uiConfig = {
   },
 
   buttons: {
+    submit: 'Submit',
     search: 'Search',
     request: 'Submit Request',
     login: 'Sign In',

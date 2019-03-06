@@ -25,7 +25,19 @@ Object {
   "auth": true,
   "authRedirect": [Function],
   "component": [Function],
+  "exact": true,
   "name": "Password Reset",
   "path": "/password-reset",
+}
+`;
+
+exports[`routing routes match snapshot 4`] = `
+Object {
+  "auth": true,
+  "authRedirect": [Function],
+  "component": [Function],
+  "exact": true,
+  "name": "Password Reset",
+  "path": "/password-reset/:token",
 }
 `;

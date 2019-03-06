@@ -10,7 +10,7 @@ import { withAuthentication } from 'hoc/withAuthentication';
 
 import logo from 'public/img/main-logo.png';
 
-import { propTypes, defaultProps } from './Header.props';
+import { propTypes, defaultProps, contextTypes } from './Header.props';
 import connect from './Header.state';
 import {
   HeaderContainer,
@@ -22,7 +22,7 @@ import {
 } from './Header.styles';
 
 const createLinkLens = lensProp('createAccount');
-const loginLinkLens = lensProp('login');
+const loginLinkLens = lensProp(contextTypes.LOGIN);
 
 export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,12 +38,12 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   };
 
   const onCreateClick = () => {
-    setModalContext('signup');
+    setModalContext(contextTypes.SIGN_UP);
     setModalOpen(true);
   };
 
   const onLoginClick = () => {
-    setModalContext('login');
+    setModalContext(contextTypes.LOGIN);
     setModalOpen(true);
   };
 
@@ -54,13 +54,13 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
       ...view(createLinkLens, loggedOutMenuLinks),
       onClick: onCreateClick,
       href: '',
-      ['data-active']: modalContext === 'signup',
+      ['data-active']: modalContext === contextTypes.SIGN_UP,
     }),
     set(loginLinkLens, {
       ...view(loginLinkLens, loggedOutMenuLinks),
       onClick: onLoginClick,
       href: '',
-      ['data-active']: modalContext === 'login',
+      ['data-active']: modalContext === contextTypes.LOGIN,
     }),
     values
   );
@@ -78,7 +78,7 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   const shouldRedirectHome =
     isAuthenticated &&
     (currentPath === path(['createAccount', 'href'], loggedOutMenuLinks) ||
-      currentPath === path(['login', 'href'], loggedOutMenuLinks));
+      currentPath === path([contextTypes.LOGIN, 'href'], loggedOutMenuLinks));
 
   if (shouldRedirectHome) return <Redirect to="/" />;
 
@@ -93,9 +93,9 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
       </HeaderContainer>
 
       {!isAuthenticated && (
-        <Modal open={modalOpen} onClose={onClose} onBackdropClick={onClose} onEscapeKeyDown={onClose}>
-          {modalContext === 'signup' && <CreateAccountForm />}
-          {modalContext === 'login' && <LoginForm />}
+        <Modal open={modalOpen} onClose={onClose}>
+          {modalContext === contextTypes.SIGN_UP && <CreateAccountForm />}
+          {modalContext === contextTypes.LOGIN && <LoginForm />}
         </Modal>
       )}
     </StyledHeader>

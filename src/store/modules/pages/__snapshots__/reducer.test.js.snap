@@ -2,18 +2,21 @@
 
 exports[`pages reducer should handle FETCH_PAGE 1`] = `
 Object {
+  "error": undefined,
   "status": "LOADING",
 }
 `;
 
 exports[`pages reducer should handle FETCH_PAGE_ERROR 1`] = `
 Object {
+  "error": undefined,
   "status": "LOADING",
 }
 `;
 
 exports[`pages reducer should handle FETCH_PAGE_SUCCESS 1`] = `
 Object {
+  "error": undefined,
   "status": "LOADING",
 }
 `;

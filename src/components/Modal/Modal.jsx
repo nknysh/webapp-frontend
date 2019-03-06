@@ -7,7 +7,14 @@ export const Modal = ({ children, onClose, ...props }) => {
   const renderCloseCross = () => <ModalClose onClick={onClose}>close</ModalClose>;
 
   return (
-    <StyledModal onClose={onClose} disablePortal={true} BackdropComponent={ModalOverlay} {...props}>
+    <StyledModal
+      onClose={onClose}
+      onBackdropClick={onClose}
+      onEscapeKeyDown={onClose}
+      disablePortal={true}
+      BackdropComponent={ModalOverlay}
+      {...props}
+    >
       <ModalContent>
         {children}
         {renderCloseCross()}

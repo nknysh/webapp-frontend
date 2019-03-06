@@ -6,3 +6,4 @@ export { SearchBar } from './SearchBar';
 export { CreateAccountForm } from './CreateAccountForm';
 export { LoginForm } from './LoginForm';
 export { PasswordResetForm } from './PasswordResetForm';
+export { SetPasswordForm } from './SetPasswordForm';

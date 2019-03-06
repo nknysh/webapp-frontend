@@ -4,9 +4,7 @@ exports[`<CreateAccount /> render matches snapshot 1`] = `
 <Fragment>
   <ErrorBoundary />
   <Modal
-    onBackdropClick={[Function]}
     onClose={[Function]}
-    onEscapeKeyDown={[Function]}
     open={true}
   >
     <Connect(CreateAccountForm) />

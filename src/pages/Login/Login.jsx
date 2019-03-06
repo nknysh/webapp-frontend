@@ -12,7 +12,7 @@ export const Login = ({ history, ...props }) => {
   return (
     <Fragment>
       <Home history={history} {...props} />
-      <Modal open={true} onBackdropClick={onClose} onEscapeKeyDown={onClose}>
+      <Modal open={true} onClose={onClose}>
         <LoginForm />
       </Modal>
     </Fragment>

@@ -6,11 +6,20 @@ import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
 
-export const StyledLoginForm = styled.div`
+export const StyledSetPasswordForm = styled.div`
   padding: ${theme.gutter}px;
 
   ${breakpoints.tablet`
     padding: ${theme.gutter * 5}px;
+  `}
+`;
+
+export const Fields = styled.div`
+  margin-top: 50px;
+  text-align: left;
+
+  ${breakpoints.tablet`
+    min-width: 400px;
   `}
 `;
 
@@ -56,15 +65,15 @@ export const ServerErrorContent = styled(Markdown)`
     font-size: 12px;
   }
 `;
-export const ForgotPassword = styled.div`
-  margin-top: ${theme.gutter * 3}px;
-  text-align: center;
-`;
 
-export const ForgotLink = styled.span`
-  color: ${theme.primary};
-  text-transform: uppercase;
+export const StyledMarkdown = styled(Markdown)`
   text-align: center;
-  font-size: 12px;
-  cursor: pointer;
+
+  p {
+    margin: ${theme.gutter / 2}px 0;
+  }
+
+  ${breakpoints.tablet`
+    width: 400px;
+  `}
 `;

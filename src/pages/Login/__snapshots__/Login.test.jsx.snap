@@ -4,8 +4,7 @@ exports[`<Login /> render matches snapshot 1`] = `
 <Fragment>
   <ErrorBoundary />
   <Modal
-    onBackdropClick={[Function]}
-    onEscapeKeyDown={[Function]}
+    onClose={[Function]}
     open={true}
   >
     <withAuthentication(Connect(LoginForm)) />
