@@ -12,7 +12,7 @@ export const CreateAccount = ({ history, ...props }) => {
   return (
     <Fragment>
       <Home hostory={history} {...props} />
-      <Modal open={true} onClose={onClose} onBackdropClick={onClose} onEscapeKeyDown={onClose}>
+      <Modal open={true} onClose={onClose}>
         <CreateAccountForm />
       </Modal>
     </Fragment>

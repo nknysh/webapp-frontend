@@ -8,12 +8,14 @@ import { propTypes } from './SetPassword.props';
 
 export const SetPassword = ({ history, match, ...props }) => {
   const { params: token } = match;
-  const onClose = () => history.push('/');
+  const onClose = () => {
+    history.push('/');
+  };
 
   return (
     <Fragment>
       <Home history={history} match={match} {...props} />
-      <Modal open={true} onBackdropClick={onClose} onEscapeKeyDown={onClose}>
+      <Modal open={true} onClose={onClose}>
         <SetPasswordForm token={token} />
       </Modal>
     </Fragment>

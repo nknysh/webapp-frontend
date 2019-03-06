@@ -93,7 +93,7 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
       </HeaderContainer>
 
       {!isAuthenticated && (
-        <Modal open={modalOpen} onClose={onClose} onBackdropClick={onClose} onEscapeKeyDown={onClose}>
+        <Modal open={modalOpen} onClose={onClose}>
           {modalContext === 'signup' && <CreateAccountForm />}
           {modalContext === 'login' && <LoginForm />}
         </Modal>

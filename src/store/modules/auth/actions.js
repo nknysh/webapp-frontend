@@ -136,7 +136,7 @@ export const resetPassword = values => dispatch => {
 };
 
 export const setPassword = values => dispatch => {
-  dispatch(authPasswordReset(values));
+  dispatch(authPasswordReset(omit(['values'], values)));
 
   // This is where APi call would be handled.
   // return AuthApi.resetPassword(values).then(successAction).catch(errorAction);

@@ -74,9 +74,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
     </styled.div>
   </Styled(styled.div)>
   <Modal
-    onBackdropClick={[Function]}
     onClose={[Function]}
-    onEscapeKeyDown={[Function]}
     open={false}
   />
 </styled.div>
