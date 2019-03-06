@@ -82,7 +82,7 @@ export const SearchBar = ({
 
       return (
         !isEmpty(hit) && (
-          <SearchBarHit data-search-hit={ref} key={hash(hit)} onClick={onClick}>
+          <SearchBarHit data-search-hit={ref} key={hash(hit)} onMouseDown={onClick}>
             <SearchBarHitContent>{pathOr(noop, [index, 'selector'], resultsMap)(prop('ref', hit))}</SearchBarHitContent>
           </SearchBarHit>
         )
@@ -104,7 +104,7 @@ export const SearchBar = ({
       <Loader isLoading={!destinations || !hotels}>
         <SearchBarSection>
           <SearchBarIndexSearch
-            indexes={['destinations', 'hotels']}
+            indexes={indexes}
             label={path(['labels', 'search'], uiConfig)}
             limit={5}
             openOnFocus={false}
