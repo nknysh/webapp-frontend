@@ -1,4 +1,4 @@
-import { prop } from 'ramda';
+import { prop, omit } from 'ramda';
 
 import mockUser from 'config/auth/mockUser';
 import { successAction, errorAction } from 'store/common/actions';
@@ -101,7 +101,7 @@ export const signUp = values => dispatch => {
 };
 
 export const logIn = values => dispatch => {
-  dispatch(authRequest(values));
+  dispatch(authRequest(omit(['password'], values)));
 
   // This is where APi call would be handled.
   // return AuthApi.logIn(values).then(successAction).catch(errorAction);
