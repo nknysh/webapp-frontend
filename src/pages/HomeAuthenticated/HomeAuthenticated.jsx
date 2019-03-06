@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SearchBar } from 'containers';
+import { SearchBar, LatestOffers } from 'containers';
 import { Container } from 'styles/elements';
 
 import heroData from 'config/pages/search/hero.md';
@@ -17,6 +17,7 @@ export const HomeAuthenticated = () => {
           <SearchBar />
         </Container>
       </SearchHero>
+      <LatestOffers />
     </StyledSearch>
   );
 };

@@ -101,7 +101,7 @@ export const SearchBar = ({
 
   return (
     <StyledSearchBar className={className}>
-      <Loader isLoading={!destinations || !hotels}>
+      <Loader isLoading={!destinations || !hotels} showSpinner={false}>
         <SearchBarSection>
           <SearchBarIndexSearch
             indexes={indexes}
