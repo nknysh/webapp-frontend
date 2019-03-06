@@ -4,7 +4,6 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import { DropDownContent } from 'components';
-import { useKeyboard } from 'effects';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
@@ -69,10 +68,6 @@ export const DatePicker = ({
 }) => {
   const [selected, setSelected] = useState(selectedValues || defaultState);
   const inputRef = useRef(undefined);
-
-  useKeyboard(27, () => {
-    setSelected(defaultState);
-  });
 
   useEffect(() => {
     onSelected(selected);
