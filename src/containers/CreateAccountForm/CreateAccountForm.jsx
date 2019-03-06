@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { __, compose, prop, path, set, curry, view, keys } from 'ramda';
+import { __, compose, prop, path, set, curry, view, keys, pick, omit } from 'ramda';
 
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
 import countriesData from 'config/data/countries';
+import promotedCountriesData from 'config/data/countries-promoted';
 import { schema, fields } from 'config/forms/createAccount';
 import signUpCompleteData from 'config/forms/createAccount/complete.md';
 import infoData from 'config/forms/createAccount/info.md';
@@ -33,6 +34,8 @@ import {
 } from './CreateAccountForm.styles';
 
 const keyValueCountries = arrayToKeyValueObject('code', 'name')(countriesData);
+const promotedCountries = pick(promotedCountriesData, keyValueCountries);
+const restCountries = omit(promotedCountriesData, keyValueCountries);
 
 const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
 
@@ -140,7 +143,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
                     value={view(getLens('companyCountry'), formValues)}
                     onChange={changeHandler(getLens('companyCountry'), handleChange)}
                     onBlur={handleBlur}
-                    options={keyValueCountries}
+                    options={[promotedCountries, restCountries]}
                   />
                   {renderFormError('companyCountry', errors)}
                 </Field>
