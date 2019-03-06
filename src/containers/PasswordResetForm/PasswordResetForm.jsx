@@ -3,7 +3,7 @@ import { __, compose, prop, path, view, set, curry, keys } from 'ramda';
 
 import { Form, Label, Loader, Title, Fields } from 'components';
 
-import { Status } from 'store/common';
+import { isSending, isSuccess } from 'store/common';
 import { InputError } from 'styles/elements';
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
@@ -30,8 +30,8 @@ export const PasswordResetForm = ({ requestStatus, onReset }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
-  const isSending = requestStatus === Status.SENDING;
-  const success = requestStatus === Status.SUCCESS;
+  const isResetting = isSending(requestStatus);
+  const success = isSuccess(requestStatus);
 
   const lenses = lensesFromObject(keys(formValues));
   const getLens = prop(__, lenses);
@@ -81,7 +81,7 @@ export const PasswordResetForm = ({ requestStatus, onReset }) => {
     </Form>
   );
 
-  const isComplete = !isSending && success;
+  const isComplete = !isResetting && success;
 
   const title = !isComplete
     ? path(['forms', 'passwordReset'], formConfig)
@@ -90,7 +90,7 @@ export const PasswordResetForm = ({ requestStatus, onReset }) => {
 
   return (
     <StyledPasswordResetForm>
-      <Loader isLoading={submitted && isSending && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
+      <Loader isLoading={submitted && isResetting && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
         <Title>{title}</Title>
         <StyledMarkdown>{description}</StyledMarkdown>
         {!isComplete && renderForm()}

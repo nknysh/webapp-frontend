@@ -5,7 +5,7 @@ import { compose, lensProp, set, view, pipe, values, path } from 'ramda';
 import loggedOutMenuLinks from 'config/links/header--logged-out';
 
 import { Modal } from 'components';
-import { CreateAccountForm, LoginForm } from 'containers';
+import { CreateAccountForm, LoginForm, UserPanel } from 'containers';
 import { withAuthentication } from 'hoc/withAuthentication';
 
 import logo from 'public/img/main-logo.png';
@@ -88,7 +88,9 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
         <HeaderLogo to="/">{logo && <img src={logo} />}</HeaderLogo>
         <HeaderMenuArea>
           <HeaderMobileMenuButton onClick={onClickToggle}>menu</HeaderMobileMenuButton>
-          <HeaderMenu {...headerMenuProps} />
+          <HeaderMenu {...headerMenuProps}>
+            <UserPanel />
+          </HeaderMenu>
         </HeaderMenuArea>
       </HeaderContainer>
 

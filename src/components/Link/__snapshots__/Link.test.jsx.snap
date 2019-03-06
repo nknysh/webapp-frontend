@@ -4,6 +4,7 @@ exports[`<Link /> render matches default link snapshot 1`] = `
 <styled.div
   bold={false}
   inverse={false}
+  onClick={[Function]}
   spaced={false}
 >
   <Link
@@ -17,6 +18,7 @@ exports[`<Link /> render matches inverse link snapshot 1`] = `
 <styled.div
   bold={false}
   inverse={true}
+  onClick={[Function]}
   spaced={false}
 >
   <Link

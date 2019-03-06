@@ -1,4 +1,4 @@
-import Status from './status';
+import { Status } from './status';
 import { successAction, errorAction } from './actions';
 
 describe('common actions', () => {

@@ -3,7 +3,6 @@ import footerLinks from 'config/links/footer';
 import reducer from './reducer';
 
 const initialState = {
-  isAuthenticated: false,
   menus: {
     header: [],
     footer: footerLinks,

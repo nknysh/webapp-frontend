@@ -4,7 +4,6 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import { DropDownContent } from 'components';
-import { useKeyboard } from 'effects';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
@@ -65,16 +64,10 @@ export const DatePicker = ({
   onSelected,
   showOverlay,
   selectedValues,
-  id,
   ...props
 }) => {
   const [selected, setSelected] = useState(selectedValues || defaultState);
-  const [overlay, setOverlay] = useState(false);
   const inputRef = useRef(undefined);
-
-  useKeyboard(27, () => {
-    setSelected(defaultState);
-  });
 
   useEffect(() => {
     onSelected(selected);
@@ -84,9 +77,6 @@ export const DatePicker = ({
   const { from, to } = selected;
   const isComplete = Boolean(from && to);
   const nights = getNumberOfDays(selected);
-
-  const onHideOverlay = () => setOverlay(false);
-  const onShowOverlay = () => setOverlay(true);
 
   const renderInputContent = () => (
     <Fragment>
@@ -100,13 +90,11 @@ export const DatePicker = ({
   // eslint-disable-next-line
   const renderInput = forwardRef((props, ref) => (
     <DropDownContent
-      id={id}
       inputContent={renderInputContent}
       inputProps={{ ref, ...props }}
       maskProps={{
         ['data-empty']: !from,
       }}
-      showOverlay={showOverlay && overlay}
     />
   ));
 
@@ -135,9 +123,7 @@ export const DatePicker = ({
         ref={inputRef}
         component={renderInput}
         dayPickerProps={dayPickerCombinedProps}
-        hideOnDayClick={isComplete}
-        onDayPickerHide={onHideOverlay}
-        onDayPickerShow={onShowOverlay}
+        hideOnDayClick={!showOverlay || isComplete}
         {...props}
       />
     </StyledDatePicker>

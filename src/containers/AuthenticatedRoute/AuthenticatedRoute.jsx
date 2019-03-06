@@ -5,25 +5,26 @@ import { compose, path } from 'ramda';
 import config from 'config/ui';
 import { Loader } from 'components';
 import { NotFound } from 'pages';
-import { withAuthentication, propTypes as withAuthPropTypes } from 'hoc/withAuthentication';
+import { withAuthentication } from 'hoc/withAuthentication';
+
+import { propTypes, defaultProps } from './AuthenticatedRoute.props';
 
 const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
 
-const renderRedirect = location => (
-  <Redirect
-    to={{
-      pathname: '/login',
-      state: {
-        from: location,
-      },
-    }}
-  />
-);
+const renderRedirect = (path = '/login') => <Redirect to={path} />;
 
 const renderRoute = (Component, props) => (Component && <Component {...props} />) || <Route component={NotFound} />;
 
-export const AuthenticatedRoute = ({ auth, isAuthLoading, isAuthenticated, location, authRedirect, ...props }) => {
-  const notAuthenticated = auth && !isAuthenticated;
+export const AuthenticatedRoute = ({
+  auth,
+  isAuthLoading,
+  isAuthenticated,
+  location,
+  authRedirect,
+  authComponent,
+  ...props
+}) => {
+  const routeIsAuthenticated = auth && isAuthenticated;
 
   if (isAuthLoading) {
     return renderLoadingMessage();
@@ -31,20 +32,19 @@ export const AuthenticatedRoute = ({ auth, isAuthLoading, isAuthenticated, locat
 
   const routeProps = { location, ...props };
 
-  if (notAuthenticated && authRedirect) {
-    return renderRoute(authRedirect, routeProps);
+  if (!routeIsAuthenticated && authComponent) {
+    return renderRoute(authComponent, routeProps);
   }
 
-  if (notAuthenticated) {
-    return renderRedirect(location);
+  if (!routeIsAuthenticated && authRedirect) {
+    return renderRedirect(authRedirect);
   }
 
   return renderRoute(Route, routeProps);
 };
 
-AuthenticatedRoute.propTypes = {
-  ...withAuthPropTypes,
-};
+AuthenticatedRoute.propTypes = propTypes;
+AuthenticatedRoute.defaultProps = defaultProps;
 
 export default compose(
   withAuthentication,

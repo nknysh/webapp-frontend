@@ -3,7 +3,6 @@ import { isEmpty, map, repeat, length, take, compose, replace } from 'ramda';
 
 import { DropDownContent } from 'components';
 import { withSearchIndexes } from 'hoc';
-import { useKeyboard } from 'effects';
 import { isFunction } from 'utils';
 
 import { propTypes, defaultProps } from './IndexSearch.props';
@@ -16,7 +15,6 @@ export const IndexSearch = ({
   children,
   className,
   disabled,
-  id,
   indexes,
   isOpen: isOpenProp,
   label,
@@ -49,9 +47,6 @@ export const IndexSearch = ({
   };
 
   useEffect(searchIndexes, [value, isOpen, selected, search]);
-  useKeyboard(27, () => {
-    isOpen && setIsOpen(false);
-  });
 
   const currentValue = search || selected;
 
@@ -81,7 +76,6 @@ export const IndexSearch = ({
     <StyledIndexSearch className={className}>
       {renderLabel(label)}
       <DropDownContent
-        id={id}
         inputProps={inputProps}
         maskProps={maskProps}
         inputContent={currentValue || ''}

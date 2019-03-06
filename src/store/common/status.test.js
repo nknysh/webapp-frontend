@@ -1,6 +1,6 @@
 import { values } from 'ramda';
 
-import Status from './status';
+import { Status } from './status';
 
 describe('Status', () => {
   it('returns all statuses', () => {

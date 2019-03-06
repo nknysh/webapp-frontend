@@ -1,4 +1,15 @@
-import { authSignUp, signUp, authRequest, logIn } from './actions';
+import {
+  authSignUp,
+  signUp,
+  authRequest,
+  logIn,
+  authLogOut,
+  logOut,
+  resetPassword,
+  setPassword,
+  authSetPasswordReset,
+  authPasswordReset,
+} from './actions';
 
 describe('auth actions', () => {
   describe('authSignUp', () => {
@@ -27,6 +38,48 @@ describe('auth actions', () => {
       logIn({})(dispatch);
 
       expect(dispatch).toHaveBeenCalledTimes(3);
+    });
+  });
+  describe('authLogOut', () => {
+    it('returns action', () => {
+      expect(authLogOut({})).toMatchSnapshot();
+    });
+  });
+  describe('logOut', () => {
+    it('calls dispatch thunks', () => {
+      const dispatch = jest.fn();
+
+      logOut({})(dispatch);
+
+      expect(dispatch).toHaveBeenCalledTimes(3);
+    });
+  });
+  describe('authPasswordReset', () => {
+    it('returns action', () => {
+      expect(authPasswordReset({})).toMatchSnapshot();
+    });
+  });
+  describe('resetPassword', () => {
+    it('calls dispatch thunks', () => {
+      const dispatch = jest.fn();
+
+      resetPassword({})(dispatch);
+
+      expect(dispatch).toHaveBeenCalledTimes(2);
+    });
+  });
+  describe('authSetPasswordReset', () => {
+    it('returns action', () => {
+      expect(authSetPasswordReset({})).toMatchSnapshot();
+    });
+  });
+  describe('setPassword', () => {
+    it('calls dispatch thunks', () => {
+      const dispatch = jest.fn();
+
+      setPassword({})(dispatch);
+
+      expect(dispatch).toHaveBeenCalledTimes(2);
     });
   });
 });

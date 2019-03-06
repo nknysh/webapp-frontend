@@ -3,7 +3,7 @@
 exports[`routing routes match snapshot 1`] = `
 Object {
   "auth": true,
-  "authRedirect": [Function],
+  "authComponent": [Function],
   "component": [Function],
   "exact": true,
   "name": "Root Path",
@@ -14,6 +14,7 @@ Object {
 exports[`routing routes match snapshot 2`] = `
 Object {
   "auth": true,
+  "authRedirect": "/login",
   "component": [Function],
   "name": "Messages",
   "path": "/messages",
@@ -23,6 +24,7 @@ Object {
 exports[`routing routes match snapshot 3`] = `
 Object {
   "auth": true,
+  "authRedirect": "/login",
   "component": [Function],
   "name": "Proposals",
   "path": "/proposals",
@@ -32,6 +34,7 @@ Object {
 exports[`routing routes match snapshot 4`] = `
 Object {
   "auth": true,
+  "authRedirect": "/login",
   "component": [Function],
   "name": "Bookings",
   "path": "/bookings",
@@ -41,6 +44,7 @@ Object {
 exports[`routing routes match snapshot 5`] = `
 Object {
   "auth": true,
+  "authRedirect": "/login",
   "component": [Function],
   "name": "Holds",
   "path": "/holds",
@@ -50,6 +54,7 @@ Object {
 exports[`routing routes match snapshot 6`] = `
 Object {
   "auth": true,
+  "authRedirect": "/login",
   "component": [Function],
   "name": "Search",
   "path": "/search",
@@ -59,6 +64,7 @@ Object {
 exports[`routing routes match snapshot 7`] = `
 Object {
   "auth": true,
+  "authRedirect": "/login",
   "component": [Function],
   "name": "Calendar",
   "path": "/calendar",

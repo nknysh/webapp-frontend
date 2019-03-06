@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DropDownMenu /> render matches snapshot 1`] = `
+<Fragment>
+  <styled.span
+    aria-haspopup="true"
+    buttonRef={
+      Object {
+        "current": undefined,
+      }
+    }
+    onClick={[Function]}
+  >
+    <Styled(WithStyles(Icon))>
+      arrow_drop_down
+    </Styled(WithStyles(Icon))>
+  </styled.span>
+  <Styled(WithTheme(Popper))
+    anchorEl={
+      Object {
+        "current": undefined,
+      }
+    }
+    disablePortal={true}
+    open={false}
+    transition={true}
+  >
+    <Component />
+  </Styled(WithTheme(Popper))>
+</Fragment>
+`;

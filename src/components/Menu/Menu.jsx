@@ -5,7 +5,7 @@ import hash from 'object-hash';
 import { propTypes, defaultProps } from './Menu.props';
 import { Links, MenuLink } from './Menu.styles';
 
-export const Menu = ({ links, onLinkClick, currentPath, ...props }) => {
+export const Menu = ({ children, links, onLinkClick, currentPath, ...props }) => {
   const renderLink = ({ title, href, ...props }) => {
     return (
       title && (
@@ -25,7 +25,12 @@ export const Menu = ({ links, onLinkClick, currentPath, ...props }) => {
 
   const renderLinks = map(renderLink);
 
-  return <Links {...props}>{renderLinks(links)}</Links>;
+  return (
+    <Links {...props}>
+      {renderLinks(links)}
+      {children}
+    </Links>
+  );
 };
 
 Menu.propTypes = propTypes;

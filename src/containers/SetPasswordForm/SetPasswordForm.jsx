@@ -4,7 +4,7 @@ import { __, compose, prop, path, view, set, curry, keys } from 'ramda';
 
 import { Form, Label, Loader, Title, Fields } from 'components';
 
-import { Status } from 'store/common';
+import { isSending, isSuccess } from 'store/common';
 import { InputError } from 'styles/elements';
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
@@ -24,8 +24,8 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
-  const isSending = requestStatus === Status.SENDING;
-  const success = requestStatus === Status.SUCCESS;
+  const isSetting = isSending(requestStatus);
+  const success = isSuccess(requestStatus);
 
   const lenses = lensesFromObject(keys(formValues));
   const getLens = prop(__, lenses);
@@ -89,7 +89,7 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token }) => {
     </Form>
   );
 
-  const isComplete = !isSending && success;
+  const isComplete = !isSetting && success;
 
   const title = !isComplete
     ? path(['forms', 'setPassword'], formConfig)
@@ -97,7 +97,7 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token }) => {
 
   return (
     <StyledSetPasswordForm>
-      <Loader isLoading={submitted && isSending && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
+      <Loader isLoading={submitted && isSetting && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
         <Title>{title}</Title>
         {!isComplete && renderForm()}
       </Loader>

@@ -30,7 +30,9 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
           }
         }
         onLinkClick={[Function]}
-      />
+      >
+        <withAuthentication(Connect(UserPanel)) />
+      </Styled(Menu)>
     </styled.div>
   </Styled(styled.div)>
 </styled.div>
@@ -70,7 +72,9 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
           ]
         }
         onLinkClick={[Function]}
-      />
+      >
+        <withAuthentication(Connect(UserPanel)) />
+      </Styled(Menu)>
     </styled.div>
   </Styled(styled.div)>
   <Modal

@@ -1,9 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`auth actions authLogOut returns action 1`] = `
+Object {
+  "payload": Object {},
+  "type": "AUTH_LOG_OUT",
+}
+`;
+
+exports[`auth actions authPasswordReset returns action 1`] = `
+Object {
+  "payload": Object {},
+  "type": "AUTH_PASSWORD_RESET",
+}
+`;
+
 exports[`auth actions authRequest returns action 1`] = `
 Object {
   "payload": Object {},
   "type": "AUTH_REQUEST",
+}
+`;
+
+exports[`auth actions authSetPasswordReset returns action 1`] = `
+Object {
+  "payload": Object {},
+  "type": "AUTH_PASSWORD_RESET",
 }
 `;
 
