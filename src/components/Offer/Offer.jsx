@@ -2,7 +2,7 @@ import React from 'react';
 import { path, prop, replace, pipe } from 'ramda';
 import { format } from 'date-fns';
 
-import uiConfig from 'config/ui';
+import uiConfig, { getSingular } from 'config/ui';
 
 import { propTypes, defaultProps } from './Offer.props';
 import {
@@ -35,7 +35,7 @@ export const Offer = ({ offer }) => {
     <StyledOffer>
       <OfferImage style={{ backgroundImage: `url(${image})` }}>
         <OfferChip>
-          <OfferPrice>{prop('pricePerAdult', offer)}</OfferPrice> /Guest
+          <OfferPrice>{prop('pricePerAdult', offer)}</OfferPrice> /{getSingular('guest')}
         </OfferChip>
         <OfferName>{prop('name', offer)}</OfferName>
       </OfferImage>
