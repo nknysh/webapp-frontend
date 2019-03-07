@@ -1,5 +1,5 @@
 import { Status } from './status';
-import { successAction, errorAction } from './actions';
+import { successAction, errorAction, extractRelationships, fetchRelationships } from './actions';
 
 describe('common actions', () => {
   it('successAction returns dynamic generated action object', () => {
@@ -20,5 +20,46 @@ describe('common actions', () => {
     };
 
     expect(action).toEqual(expected);
+  });
+
+  describe('extractRelationships', () => {
+    it('returns array of unique relationship ids based on schema', () => {
+      const entities = [
+        {
+          barId: 'foo',
+        },
+      ];
+
+      const relationships = {
+        bar: {
+          path: ['barId'],
+        },
+      };
+
+      expect(extractRelationships(relationships, entities)).toMatchSnapshot();
+    });
+  });
+
+  describe('fetchRelationships', () => {
+    it('calls fetch actions for relationships if they do not exist', () => {
+      const relationships = { foo: ['fooId1', 'fooId2'] };
+      const actions = { foo: jest.fn() };
+      const getState = () => ({
+        foo: {
+          data: {
+            fooId2: {
+              title: 'foo 1',
+            },
+          },
+        },
+      });
+      const dispatch = jest.fn();
+
+      fetchRelationships(relationships, actions, getState, dispatch);
+
+      expect(actions.foo).toHaveBeenCalledTimes(1);
+      expect(actions.foo).toHaveBeenCalledWith('fooId1');
+      expect(dispatch).toHaveBeenCalledTimes(1);
+    });
   });
 });

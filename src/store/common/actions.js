@@ -35,7 +35,7 @@ export const fetchRelationships = curry(async (relationships, actions, getState,
 
       const stateKeyExists = has(key, state);
       const valueExists = path([key, 'data', value], state);
-      const fetchAction = prop(key, path(['relationships', key, 'resolver']));
+      const fetchAction = prop(key, actions);
       const active = isActive(path([key, 'status'], state));
 
       if (!stateKeyExists) return;

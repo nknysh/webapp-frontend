@@ -4,6 +4,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
 <styled.div>
   <Loader
     isLoading={true}
+    showSpinner={false}
   >
     <styled.div>
       <Styled(withSearchIndexes(IndexSearch))

@@ -3,7 +3,7 @@ import { curry, lensPath, path, prop, ifElse, is, map, over, pipe, values, reduc
 const mapRelationship = curry((state, accum, rel) => {
   const lens = lensPath(path(['path'], rel));
   const resolver = prop('resolver', rel);
-  const doResolve = value => resolver(state, value);
+  const doResolve = value => resolver && resolver(state, value);
   const resolveRelationship = ifElse(is(Array), map(doResolve), doResolve);
 
   return over(lens, resolveRelationship, accum);

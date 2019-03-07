@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`initialState returns common initial state 1`] = `
+Object {
+  "data": undefined,
+  "error": undefined,
+  "status": "IDLE",
+}
+`;

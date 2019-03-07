@@ -4,6 +4,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
 <styled.div>
   <Loader
     isLoading={false}
+    showSpinner={true}
     text="Logging in..."
   >
     <Title>
