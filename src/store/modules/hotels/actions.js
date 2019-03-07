@@ -1,4 +1,4 @@
-import { propOr } from 'ramda';
+import { propOr, prop } from 'ramda';
 
 import { successAction, errorAction, extractRelationships, fetchRelationships } from 'store/common/actions';
 
@@ -29,8 +29,8 @@ export const fetchHotels = () => async (dispatch, getState) => {
   dispatch(
     buildIndex({
       index: 'hotels',
-      ref: 'uuid',
-      fields: ['name', 'destinationUuid:title'],
+      ref: prop('id', schema),
+      fields: prop('index', schema),
       data,
     })
   );
