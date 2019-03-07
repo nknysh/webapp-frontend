@@ -13,7 +13,7 @@ export const SearchHero = styled(Hero)`
   min-height: unset;
   height: 500px;
   display: block;
-  margin-bottom: 475px;
+  margin-bottom: 270px;
 
   ${breakpoints.desktop`
     height: unset;

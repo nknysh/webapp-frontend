@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import uiConfig from 'config/ui';
 
 import theme from './theme';
+import breakpoints from './breakpoints';
 import { Heading2 } from './typography';
 
 export const Card = styled.article`
-  flex: 0 1 33%;
   background: ${theme.colors.whiteish};
   margin: ${theme.gutter}px;
+
+  ${breakpoints.tablet`
+    flex: 0 1 33%;
+  `}
 `;
 
 export const CardImage = styled.div`
