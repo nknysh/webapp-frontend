@@ -49,6 +49,10 @@ const uiConfig = {
     children: ['Children', 'Children'],
     infant: ['Infant', 'Infants'],
   },
+
+  sections: {
+    latestOffers: 'Pure Escapes Latest Offers',
+  },
 };
 
 export const getSingular = pipe(
