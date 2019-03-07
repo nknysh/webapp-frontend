@@ -26,10 +26,7 @@ export const LatestOffers = ({ fetchOffers, offers }) => {
   useFetchData(fetchOffers, offers);
   const currentWidth = useCurrentWidth();
 
-  const isMobile = currentWidth <= theme.breakpoints.tablet;
-
-  console.log(currentWidth, isMobile);
-
+  const isMobile = currentWidth <= path(['breakpoints', 'tablet'], theme);
   const renderedOffers = renderOffers(offers);
 
   const offerContainer = !isMobile ? <Offers>{renderedOffers}</Offers> : <Slider>{renderedOffers}</Slider>;

@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import BaseSlider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
-// import "slick-carousel/slick/slick-theme.css";
 
 import { propTypes, defaultProps } from './Slider.props';
 import { GlobalSliderStyles } from './Slider.styles';
