@@ -1,4 +1,4 @@
-import { is, addIndex, map, reduce, merge, prop, memoizeWith, identity, lensProp } from 'ramda';
+import { is, addIndex, map, reduce, merge, prop, memoizeWith, identity, lensProp, uniq } from 'ramda';
 
 export const noop = () => {};
 
@@ -15,3 +15,5 @@ export const arrayToKeyValueObject = memoizeWith(identity, (keyProp, valueProp) 
 const newLensProp = (accum, key) => merge(accum, { [key]: lensProp(key) });
 
 export const lensesFromObject = reduce(newLensProp, {});
+
+export const getUniqueMap = map(uniq);

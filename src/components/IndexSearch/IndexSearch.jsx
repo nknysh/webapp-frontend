@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { isEmpty, map, repeat, length, take, compose, replace } from 'ramda';
+import { isEmpty, map, repeat, length, take, compose, replace, propOr } from 'ramda';
 
 import { DropDownContent } from 'components';
 import { withSearchIndexes } from 'hoc';
@@ -20,7 +20,7 @@ export const IndexSearch = ({
   label,
   limit,
   openOnFocus,
-  pattern,
+  searchPatterns,
   placeholder,
   value,
   ...props
@@ -34,15 +34,15 @@ export const IndexSearch = ({
   const [selected, setSelected] = useState(value);
   const [results, setResults] = useState(repeat([], length(indexes)));
 
+  const getResults = index => {
+    const searchString =
+      (!isEmpty(search) && replace('{search}', search, propOr('{search}*', index, searchPatterns))) || '';
+    const results = index.search(searchString);
+    return limit ? take(limit, results) : results;
+  };
+
   const searchIndexes = () => {
-    const getResults = index => {
-      const searchString = isEmpty(search) ? '' : replace('{search}', search, pattern);
-
-      const results = index.search(searchString);
-      return limit ? take(limit, results) : results;
-    };
     const indexResults = map(getResults, indexes);
-
     setResults(indexResults);
   };
 

@@ -7,7 +7,7 @@ export const StyledLabel = styled.label`
     ${({ ['data-bold']: bold }) =>
       bold &&
       css`
-        font-weight: bold;
+        font-weight: ${theme.bold};
         color: ${theme.colors['gold-light']};
       `}
   }

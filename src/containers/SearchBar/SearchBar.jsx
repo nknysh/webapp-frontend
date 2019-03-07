@@ -33,18 +33,17 @@ export const SearchBar = ({
   fetchDestinations,
   fetchHotels,
   getDestinationTitle,
-  getHotelTitle,
+  getHotelName,
   hotels,
   history,
   searchQuery,
   setSearchQuery,
 }) => {
-  const indexes = ['destinations', 'hotels'];
-  const resultsMap = [{ selector: getDestinationTitle }, { selector: getHotelTitle }];
-
   useFetchData(fetchHotels, hotels);
   useFetchData(fetchDestinations, destinations);
 
+  const indexes = ['destinations', 'hotels'];
+  const resultsMap = [{ selector: getDestinationTitle }, { selector: getHotelName }];
   const updateSearchQuery = set(__, __, searchQuery);
   const getSearchQueryData = view(__, searchQuery);
 
@@ -102,10 +101,10 @@ export const SearchBar = ({
 
   return (
     <StyledSearchBar className={className}>
-      <Loader isLoading={!destinations || !hotels}>
+      <Loader isLoading={!destinations || !hotels} showSpinner={false}>
         <SearchBarSection>
           <SearchBarIndexSearch
-            indexes={['destinations', 'hotels']}
+            indexes={indexes}
             label={path(['labels', 'search'], uiConfig)}
             limit={5}
             openOnFocus={false}

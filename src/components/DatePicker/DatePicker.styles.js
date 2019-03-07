@@ -84,7 +84,7 @@ export const StyledDatePicker = styled.div`
             text-align: center;
             padding: ${theme.gutter}px ${theme.gutter / 3}px;
             font-size: 13px;
-            font-weight: bold;
+            font-weight: ${theme.bold};
             text-transform: uppercase;
             cursor: pointer;
 
@@ -130,7 +130,7 @@ export const DatePickerNavbar = styled.div`
 export const DatePickerNavbarMonth = styled.div`
   color: ${theme.colors['gold-neutral']};
   font-size: 14px;
-  font-weight: bold;
+  font-weight: ${theme.bold};
   text-transform: uppercase;
 `;
 
@@ -164,6 +164,6 @@ export const DatePickerSummary = styled.div`
   right: ${theme.gutter * 3}px;
   top: ${theme.gutter / 2}px;
   padding: ${theme.gutter / 2}px ${theme.gutter}px;
-  font-weight: bold;
+  font-weight: ${theme.bold};
   color: ${theme.colors.black};
 `;

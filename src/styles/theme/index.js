@@ -55,6 +55,11 @@ export const fonts = Object.freeze({
   defaultFont: 'HurmeGeometricSans2, "Open Sans", sans-serif',
   headingFont: 'NoeDisplay, "Open Sans", sans-serif',
   linkSize: 11,
+  bolder: 800,
+  bold: 600,
+  normal: 'normal',
+  light: 300,
+  lighter: 200,
 });
 
 export default {

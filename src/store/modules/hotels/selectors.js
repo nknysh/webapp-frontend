@@ -1,22 +1,28 @@
-import { __, prop, pipe, curry } from 'ramda';
+import { __, prop, pipe, curry, propOr, map, when, complement, isNil } from 'ramda';
+
+import { selectRelationships } from 'store/common/selectors';
+
+import schema from './schema';
 
 export const getHotels = prop('hotels');
 
-export const getHotelsData = pipe(
-  getHotels,
-  prop('data')
-);
+export const getHotelsData = state =>
+  pipe(
+    getHotels,
+    prop('data'),
+    when(complement(isNil), map(selectRelationships(state, propOr({}, 'relationships', schema))))
+  )(state);
 
-export const getHotel = curry((state, index) =>
+export const getHotel = curry((state, id) =>
   pipe(
     getHotelsData,
-    prop(index)
+    prop(id)
   )(state)
 );
 
-export const getHotelTitle = curry((state, index) =>
+export const getHotelName = curry((state, id) =>
   pipe(
-    getHotel(__, index),
-    prop('title')
+    getHotel(__, id),
+    prop('name')
   )(state)
 );

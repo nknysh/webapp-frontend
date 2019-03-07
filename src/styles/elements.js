@@ -34,7 +34,7 @@ export const linkStyles = css`
       ${({ bold }) =>
         bold &&
         css`
-          font-weight: bold;
+          font-weight: ${theme.bold};
         `}
     `}
 `;
@@ -80,25 +80,28 @@ export const InputError = styled.div`
   font-size: 12px;
   margin: ${theme.gutter}px 0;
   display: block;
-  font-weight: bold;
+  font-weight: ${theme.bold};
 `;
 
-export const Button = styled.button`
-  width: 100%;
-  font-size: 18px;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-family: ${theme.defaultFont};
-  color: ${theme.colors.white};
-  background: ${theme.primary}
-  outline: none;
-  border: 0;
-  padding: ${theme.gutter}px ${theme.gutter}px;
-  cursor: pointer;
+export const buttonStyles = css`
+width: 100%;
+font-size: 18px;
+text-transform: uppercase;
+font-weight: ${theme.bold};
+font-family: ${theme.defaultFont};
+color: ${theme.colors.white};
+background: ${theme.primary}
+outline: none;
+border: 0;
+padding: ${theme.gutter}px ${theme.gutter}px;
+cursor: pointer;
 
-  &:hover {
-    background: ${theme.secondary};
-  }
+&:hover {
+  background: ${theme.secondary};
+}
+`;
+export const Button = styled.button`
+  ${buttonStyles}
 `;
 
 export const Image = styled.img``;
@@ -120,5 +123,3 @@ export const Hr = styled.hr`
   background: 0;
   border-bottom: 1px solid ${theme.borderColor};
 `;
-
-export default { Link, Container, Input, Button, Image, Pre };

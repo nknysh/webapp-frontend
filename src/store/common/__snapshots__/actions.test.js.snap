@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`common actions extractRelationships returns array of unique relationship ids based on schema 1`] = `
+Object {
+  "bar": Array [
+    "foo",
+  ],
+}
+`;

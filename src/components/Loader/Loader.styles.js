@@ -29,7 +29,7 @@ export const LoaderImage = styled(Image)`
 `;
 
 export const LoaderText = styled(P)`
-  font-weight: bold;
+  font-weight: ${theme.bold};
   color: ${theme.primary};
   display: block;
 `;

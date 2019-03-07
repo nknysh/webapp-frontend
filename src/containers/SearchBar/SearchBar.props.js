@@ -8,7 +8,7 @@ export const propTypes = {
   fetchDestinations: PropTypes.func,
   fetchHotels: PropTypes.func,
   getDestinationTitle: PropTypes.func,
-  getHotelTitle: PropTypes.func,
+  getHotelName: PropTypes.func,
   hotels: PropTypes.object,
   hotelsIndex: PropTypes.object,
   indexes: PropTypes.array,

@@ -1,6 +1,6 @@
 import { initialState } from 'store/common';
 
-import { getHotels, getHotelsData, getHotel, getHotelTitle } from './selectors';
+import { getHotels, getHotelsData, getHotel, getHotelName } from './selectors';
 
 const state = {
   hotels: {
@@ -8,7 +8,8 @@ const state = {
     data: {
       foo: {
         id: 'bar',
-        title: 'FooBar',
+        name: 'FooBar',
+        destinationUuid: undefined,
       },
     },
   },
@@ -17,22 +18,22 @@ const state = {
 describe('hotels selectors', () => {
   describe('getHotels', () => {
     it('returns the root key', () => {
-      expect(getHotels(state)).toBe(state.hotels);
+      expect(getHotels(state)).toEqual(state.hotels);
     });
   });
   describe('getHotelsData', () => {
     it('returns the data key', () => {
-      expect(getHotelsData(state)).toBe(state.hotels.data);
+      expect(getHotelsData(state)).toEqual(state.hotels.data);
     });
   });
   describe('getHotel', () => {
     it('returns the destination based on id', () => {
-      expect(getHotel(state, 'foo')).toBe(state.hotels.data.foo);
+      expect(getHotel(state, 'foo')).toEqual(state.hotels.data.foo);
     });
   });
-  describe('getHotelTitle', () => {
+  describe('getHotelName', () => {
     it('returns the destination title based on id', () => {
-      expect(getHotelTitle(state, 'foo')).toBe(state.hotels.data.foo.title);
+      expect(getHotelName(state, 'foo')).toEqual(state.hotels.data.foo.name);
     });
   });
 });

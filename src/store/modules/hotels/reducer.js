@@ -10,7 +10,7 @@ export default createReducer(
     [FETCH_HOTELS]: loadingReducer,
     [getSuccessActionName(FETCH_HOTELS)]: pipe(
       successReducer,
-      normalizer('id')
+      normalizer('uuid')
     ),
     [getErrorActionName(FETCH_HOTELS)]: errorReducer,
   },

@@ -15,5 +15,6 @@ exports[`<HomeAuthenticated /> render matches snapshot 1`] = `
       <Connect(withRouter(SearchBar)) />
     </styled.div>
   </Styled(Hero)>
+  <Connect(LatestOffers) />
 </styled.div>
 `;
