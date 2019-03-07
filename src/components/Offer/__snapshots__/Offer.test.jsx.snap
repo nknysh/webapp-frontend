@@ -11,7 +11,8 @@ exports[`<Offer /> render matches snapshots 1`] = `
   >
     <Styled(styled.div)>
       <Styled(styled.span) />
-       /Guest
+       /
+      Guest
     </Styled(styled.div)>
     <Styled(Styled(styled.div)) />
   </Styled(styled.div)>
