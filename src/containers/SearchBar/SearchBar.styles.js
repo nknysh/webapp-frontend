@@ -19,6 +19,8 @@ export const StyledSearchBar = styled.div`
   ${breakpoints.desktop`
     flex-direction: row;
     align-items: flex-end;
+    margin-left: ${theme.gutter * 4}px;
+    margin-right: ${theme.gutter * 4}px;
   `}
 `;
 

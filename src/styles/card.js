@@ -11,7 +11,8 @@ export const Card = styled.article`
   margin: ${theme.gutter}px;
 
   ${breakpoints.tablet`
-    flex: 0 1 33%;
+    flex: 1;
+    max-width: 33%;
   `}
 `;
 

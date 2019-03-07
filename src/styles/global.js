@@ -55,6 +55,7 @@ export const GlobalStyle = createGlobalStyle`
     #app {
         height: 100%;
         display: block;
+        overflow-x: hidden;
     }
 
     a {

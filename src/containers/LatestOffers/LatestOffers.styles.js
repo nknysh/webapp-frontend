@@ -14,14 +14,12 @@ export const Title = styled(Heading2)`
   font-weight: ${theme.normal};
   text-transform: uppercase;
   text-align: center;
-  margin-bottom: ${theme.gutter * 4}px;
+  margin: ${theme.gutter * 4}px ${theme.gutter * 2}px;
 `;
 
 export const Offers = styled.div`
   ${breakpoints.tablet`
-    display: flex;
-    margin-left: -${theme.gutter}px;
-    margin-right: -${theme.gutter}px;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
   `}
 `;

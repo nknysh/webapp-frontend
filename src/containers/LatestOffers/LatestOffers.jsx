@@ -3,9 +3,10 @@ import { compose, pipe, path, map, values, when, complement, isNil } from 'ramda
 import hash from 'object-hash';
 
 import uiConfig from 'config/ui';
+import theme from 'styles/theme';
 
-import { Loader, Offer } from 'components';
-import { useFetchData } from 'effects';
+import { Loader, Offer, Slider } from 'components';
+import { useFetchData, useCurrentWidth } from 'effects';
 
 import connect from './LatestOffers.state';
 import { propTypes, defaultProps } from './LatestOffers.props';
@@ -23,15 +24,20 @@ const renderOffers = when(
 
 export const LatestOffers = ({ fetchOffers, offers }) => {
   useFetchData(fetchOffers, offers);
+  const currentWidth = useCurrentWidth();
+
+  const isMobile = currentWidth <= theme.breakpoints.tablet;
+
+  console.log(currentWidth, isMobile);
 
   const renderedOffers = renderOffers(offers);
+
+  const offerContainer = !isMobile ? <Offers>{renderedOffers}</Offers> : <Slider>{renderedOffers}</Slider>;
 
   return (
     <StyledLatestOffers>
       <Title>{path(['sections', 'latestOffers'], uiConfig)}</Title>
-      <Loader isLoading={!renderedOffers}>
-        <Offers>{renderedOffers}</Offers>
-      </Loader>
+      <Loader isLoading={!renderedOffers}>{offerContainer}</Loader>
     </StyledLatestOffers>
   );
 };

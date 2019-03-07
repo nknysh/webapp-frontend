@@ -41,11 +41,13 @@ export const OfferCta = styled.div`
 
 export const OfferCtaButton = styled(Link)`
   ${buttonStyles}
+  color: ${theme.colors.white} !important;
   display: block;
   text-align: center;
   width: 100%;
 
   a {
+    color: ${theme.colors.white} !important;
     width: 100%;
   }
 `;

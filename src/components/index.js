@@ -21,3 +21,4 @@ export { ToolTip } from './ToolTip';
 export { Title } from './Title';
 export { Fields } from './Fields';
 export { Offer } from './Offer';
+export { Slider } from './Slider';

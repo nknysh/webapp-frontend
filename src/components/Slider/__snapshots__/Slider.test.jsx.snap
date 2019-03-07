@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Slider /> render matches snapshots 1`] = `
+<Fragment>
+  <GlobalStyleComponent />
+  <Slider
+    centerMode={true}
+  >
+    <div
+      key="1"
+    />
+    <div
+      key="2"
+    />
+    <div
+      key="3"
+    />
+  </Slider>
+</Fragment>
+`;
