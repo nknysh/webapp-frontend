@@ -27,12 +27,12 @@ describe('hotels selectors', () => {
     });
   });
   describe('getHotel', () => {
-    it('returns the destination based on id', () => {
+    it('returns based on id', () => {
       expect(getHotel(state, 'foo')).toEqual(state.hotels.data.foo);
     });
   });
   describe('getHotelName', () => {
-    it('returns the destination title based on id', () => {
+    it('returns title based on id', () => {
       expect(getHotelName(state, 'foo')).toEqual(state.hotels.data.foo.name);
     });
   });

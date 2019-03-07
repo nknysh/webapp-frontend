@@ -10,6 +10,7 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
     <Title>
       Create an Account
     </Title>
+    <Styled(Styled(Markdown)) />
     <Form
       initialValues={
         Object {

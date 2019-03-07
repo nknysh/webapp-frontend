@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`offers reducer should handle FETCH_OFFERS 1`] = `Object {}`;
+
+exports[`offers reducer should handle FETCH_OFFERS_ERROR 1`] = `Object {}`;
+
+exports[`offers reducer should handle FETCH_OFFERS_SUCCESS 1`] = `Object {}`;

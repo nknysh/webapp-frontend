@@ -31,7 +31,8 @@ import {
 const getServerError = error => {
   if (!error || isEmpty(error)) return '';
   if (has('unverified', error)) return prop('unverified', errors);
-  return '';
+
+  return prop('unknown', errors);
 };
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
@@ -43,7 +44,7 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
   const [forgotten, setForgotten] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
-  const isLoading = isSending(requestStatus);
+  const isLoggingIn = isSending(requestStatus);
   const success = isSuccess(requestStatus);
 
   const lenses = lensesFromObject(keys(formValues));
@@ -125,7 +126,7 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
 
   return (
     <StyledLoginForm>
-      <Loader isLoading={submitted && isLoading && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
+      <Loader isLoading={submitted && isLoggingIn && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
         <Title>{path(['forms', 'login'], formConfig)}</Title>
         {renderServerError(getServerError(error))}
         {renderForm()}

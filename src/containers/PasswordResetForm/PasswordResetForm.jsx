@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { __, compose, prop, path, view, set, curry, keys } from 'ramda';
+import { __, compose, prop, path, view, set, curry, keys, isEmpty } from 'ramda';
 
 import { Form, Label, Loader, Title, Fields } from 'components';
+import { lensesFromObject } from 'utils';
 
 import { isSending, isSuccess } from 'store/common';
 import { InputError } from 'styles/elements';
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
-import { lensesFromObject } from 'utils';
-import { schema, fields } from 'config/forms/passwordReset';
+import { schema, fields, errors } from 'config/forms/passwordReset';
 import descriptionData from 'config/forms/passwordReset/description.md';
 import completeData from 'config/forms/passwordReset/complete.md';
 
@@ -22,11 +22,16 @@ import {
   SubmitButton,
   SubmitText,
   StyledMarkdown,
+  ServerErrorContent,
 } from './PasswordResetForm.styles';
+
+const getServerError = error => error && !isEmpty(error) && prop('unknown', errors);
+
+const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
 const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
 
-export const PasswordResetForm = ({ requestStatus, onReset }) => {
+export const PasswordResetForm = ({ requestStatus, onReset, error }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
@@ -93,6 +98,7 @@ export const PasswordResetForm = ({ requestStatus, onReset }) => {
       <Loader isLoading={submitted && isResetting && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
         <Title>{title}</Title>
         <StyledMarkdown>{description}</StyledMarkdown>
+        {renderServerError(getServerError(error))}
         {!isComplete && renderForm()}
       </Loader>
     </StyledPasswordResetForm>

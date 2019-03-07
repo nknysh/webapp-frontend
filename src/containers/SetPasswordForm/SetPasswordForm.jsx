@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { __, compose, prop, path, view, set, curry, keys } from 'ramda';
+import { __, compose, prop, path, view, set, curry, keys, isEmpty } from 'ramda';
 
 import { Form, Label, Loader, Title, Fields } from 'components';
+import { lensesFromObject } from 'utils';
 
 import { isSending, isSuccess } from 'store/common';
 import { InputError } from 'styles/elements';
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
-import { schema, fields } from 'config/forms/setPassword';
-import { lensesFromObject } from 'utils';
+import { schema, fields, errors } from 'config/forms/setPassword';
 
 import connect from './SetPasswordForm.state';
 import { propTypes, defaultProps } from './SetPasswordForm.props';
-import { StyledSetPasswordForm, Field, Input, Actions, SubmitButton, SubmitText } from './SetPasswordForm.styles';
+import {
+  StyledSetPasswordForm,
+  Field,
+  Input,
+  Actions,
+  SubmitButton,
+  SubmitText,
+  ServerErrorContent,
+} from './SetPasswordForm.styles';
+
+const getServerError = error => error && !isEmpty(error) && prop('unknown', errors);
+
+const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
 const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
 
-export const SetPasswordForm = ({ requestStatus, onSetPassword, token }) => {
+export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) => {
   // No token, no form
   if (!token) return <Redirect to="/" />;
 
@@ -99,6 +111,7 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token }) => {
     <StyledSetPasswordForm>
       <Loader isLoading={submitted && isSetting && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
         <Title>{title}</Title>
+        {renderServerError(getServerError(error))}
         {!isComplete && renderForm()}
       </Loader>
     </StyledSetPasswordForm>

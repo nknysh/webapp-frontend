@@ -1,7 +1,7 @@
 import { tryCatch, always } from 'ramda';
 
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
-import { initialState, loadingReducer, successReducer, errorReducer, savingReducer } from 'store/common';
+import { initialState, loadingReducer, successReducer, errorReducer, sendingReducer } from 'store/common';
 
 import {
   AUTH_TOKEN,
@@ -9,7 +9,7 @@ import {
   AUTH_REQUEST,
   AUTH_SIGN_UP,
   AUTH_PASSWORD_RESET,
-  AUTH_VALIDATE_PASSWORD_RESET_TOKEN,
+  AUTH_SET_PASSWORD,
   AUTH_USER,
   AUTH_RESET,
   AUTH_LOG_OUT,
@@ -45,21 +45,21 @@ export default (state = initialState, payload) => {
       [getSuccessActionName(AUTH_REQUEST)]: successReducer,
       [getErrorActionName(AUTH_REQUEST)]: errorReducer,
 
-      [AUTH_SIGN_UP]: savingReducer,
+      [AUTH_SIGN_UP]: sendingReducer,
       [getSuccessActionName(AUTH_SIGN_UP)]: successReducer,
       [getErrorActionName(AUTH_SIGN_UP)]: errorReducer,
 
-      [AUTH_LOG_OUT]: savingReducer,
+      [AUTH_LOG_OUT]: sendingReducer,
       [getSuccessActionName(AUTH_LOG_OUT)]: successReducer,
       [getErrorActionName(AUTH_LOG_OUT)]: errorReducer,
 
-      [AUTH_PASSWORD_RESET]: savingReducer,
+      [AUTH_PASSWORD_RESET]: sendingReducer,
       [getSuccessActionName(AUTH_PASSWORD_RESET)]: successReducer,
       [getErrorActionName(AUTH_PASSWORD_RESET)]: errorReducer,
 
-      [AUTH_VALIDATE_PASSWORD_RESET_TOKEN]: savingReducer,
-      [getSuccessActionName(AUTH_VALIDATE_PASSWORD_RESET_TOKEN)]: successReducer,
-      [getErrorActionName(AUTH_VALIDATE_PASSWORD_RESET_TOKEN)]: errorReducer,
+      [AUTH_SET_PASSWORD]: sendingReducer,
+      [getSuccessActionName(AUTH_SET_PASSWORD)]: successReducer,
+      [getErrorActionName(AUTH_SET_PASSWORD)]: errorReducer,
     },
     initialState
   )(tokenState, payload);

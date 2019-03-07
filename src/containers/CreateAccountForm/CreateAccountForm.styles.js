@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Select as BaseSelect, Markdown, Checkbox } from 'components';
 import theme from 'styles/theme';
 import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
+import { ServerError } from 'styles/errors';
 import breakpoints from 'styles/breakpoints';
 
 export const StyledCreateAccount = styled.div`
@@ -120,4 +121,10 @@ export const InfoMarkdown = styled(Markdown)`
 
 export const Center = styled.div`
   text-align: center;
+`;
+
+export const ServerErrorContent = styled(ServerError)`
+  ${breakpoints.tablet`
+    margin: 0 auto;
+  `}
 `;

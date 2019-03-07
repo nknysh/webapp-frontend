@@ -6,7 +6,7 @@ import { statusLens, errorLens, dataLens } from 'store/utils';
 
 export const loadingReducer = state => set(statusLens, Status.LOADING, { ...state, error: undefined });
 
-export const savingReducer = state => set(statusLens, Status.SENDING, { ...state, error: undefined });
+export const sendingReducer = state => set(statusLens, Status.SENDING, { ...state, error: undefined });
 
 export const successReducer = (state, { payload }) => {
   const setData = pipe(

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { __, compose, prop, path, set, curry, view, keys, pick, omit } from 'ramda';
+import { __, compose, prop, path, set, curry, view, keys, pick, omit, isEmpty } from 'ramda';
+
+import { arrayToKeyValueObject, lensesFromObject } from 'utils';
 
 import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
 import countriesData from 'config/data/countries';
 import promotedCountriesData from 'config/data/countries-promoted';
-import { schema, fields } from 'config/forms/createAccount';
+import { schema, fields, errors } from 'config/forms/createAccount';
 import signUpCompleteData from 'config/forms/createAccount/complete.md';
 import infoData from 'config/forms/createAccount/info.md';
-import { arrayToKeyValueObject, lensesFromObject } from 'utils';
 
 import { InputError } from 'styles/elements';
 import { isSending, isSuccess } from 'store/common';
@@ -31,15 +32,20 @@ import {
   StyledMarkdown,
   SubmitButton,
   SubmitText,
+  ServerErrorContent,
 } from './CreateAccountForm.styles';
 
 const keyValueCountries = arrayToKeyValueObject('code', 'name')(countriesData);
 const promotedCountries = pick(promotedCountriesData, keyValueCountries);
 const restCountries = omit(promotedCountriesData, keyValueCountries);
 
+const getServerError = error => error && !isEmpty(error) && prop('unknown', errors);
+
+const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
+
 const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
 
-export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
+export const CreateAccountForm = ({ requestStatus, onSignUp, error }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(prop('defaults', fields));
 
@@ -218,6 +224,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp }) => {
     <StyledCreateAccount>
       <Loader isLoading={submitted && isSaving && !saved} text={path(['messages', 'creatingAccount'], uiConfig)}>
         <Title>{formTitle}</Title>
+        {renderServerError(getServerError(error))}
         {submitted && saved ? renderComplete() : renderForm()}
       </Loader>
     </StyledCreateAccount>

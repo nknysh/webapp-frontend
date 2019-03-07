@@ -24,7 +24,7 @@ Object {
 exports[`auth actions authSetPasswordReset returns action 1`] = `
 Object {
   "payload": Object {},
-  "type": "AUTH_PASSWORD_RESET",
+  "type": "AUTH_SET_PASSWORD",
 }
 `;
 

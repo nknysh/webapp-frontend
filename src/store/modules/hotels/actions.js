@@ -1,5 +1,7 @@
 import { propOr, prop } from 'ramda';
 
+// import client from 'api/hotels';
+
 import { successAction, errorAction, extractRelationships, fetchRelationships } from 'store/common/actions';
 
 import { buildIndex } from 'store/modules/search/actions';
@@ -23,6 +25,11 @@ export const fetchHotelsAction = () => ({
 
 export const fetchHotels = () => async (dispatch, getState) => {
   dispatch(fetchHotelsAction());
+
+  // return client
+  //   .fetchHotels(values)
+  //   .then(() => dispatch(successAction(FETCH_HOTELS)))
+  //   .catch(error => dispatch(errorAction(FETCH_HOTELS, error.response)));
 
   await fetchRelationships(getRelationships(data), relationshipActions, getState, dispatch);
 
