@@ -37,6 +37,8 @@ export const IndexSearch = ({
   const getResults = index => {
     const searchString =
       (!isEmpty(search) && replace('{search}', search, propOr('{search}*', index, searchPatterns))) || '';
+
+    console.log(searchString);
     const results = index.search(searchString);
     return limit ? take(limit, results) : results;
   };

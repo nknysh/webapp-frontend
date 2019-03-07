@@ -30,7 +30,7 @@ export const fetchHotels = () => async (dispatch, getState) => {
     buildIndex({
       index: 'hotels',
       ref: 'uuid',
-      fields: ['title', 'destinationUuid'],
+      fields: ['name', 'destinationUuid:title'],
       data,
     })
   );

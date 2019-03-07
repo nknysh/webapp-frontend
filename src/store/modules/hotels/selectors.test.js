@@ -1,6 +1,6 @@
 import { initialState } from 'store/common';
 
-import { getHotels, getHotelsData, getHotel, getHotelTitle } from './selectors';
+import { getHotels, getHotelsData, getHotel, getHotelName } from './selectors';
 
 const state = {
   hotels: {
@@ -31,9 +31,9 @@ describe('hotels selectors', () => {
       expect(getHotel(state, 'foo')).toEqual(state.hotels.data.foo);
     });
   });
-  describe('getHotelTitle', () => {
+  describe('getHotelName', () => {
     it('returns the destination title based on id', () => {
-      expect(getHotelTitle(state, 'foo')).toEqual(state.hotels.data.foo.title);
+      expect(getHotelName(state, 'foo')).toEqual(state.hotels.data.foo.title);
     });
   });
 });

@@ -1,4 +1,4 @@
-import { __, prop, pipe, curry, propOr, map, when, complement, isNil } from 'ramda';
+import { __, prop, pipe, curry, propOr, map, when, complement, isNil, tap } from 'ramda';
 
 import { selectRelationships } from 'store/common/selectors';
 
@@ -20,9 +20,9 @@ export const getHotel = curry((state, id) =>
   )(state)
 );
 
-export const getHotelTitle = curry((state, id) =>
+export const getHotelName = curry((state, id) =>
   pipe(
     getHotel(__, id),
-    prop('title')
+    prop('name')
   )(state)
 );

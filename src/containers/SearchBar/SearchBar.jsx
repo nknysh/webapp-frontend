@@ -33,7 +33,7 @@ export const SearchBar = ({
   fetchDestinations,
   fetchHotels,
   getDestinationTitle,
-  getHotelTitle,
+  getHotelName,
   hotels,
   history,
   searchQuery,
@@ -43,7 +43,7 @@ export const SearchBar = ({
   useFetchData(fetchDestinations, destinations);
 
   const indexes = ['destinations', 'hotels'];
-  const resultsMap = [{ selector: getDestinationTitle }, { selector: getHotelTitle }];
+  const resultsMap = [{ selector: getDestinationTitle }, { selector: getHotelName }];
   const updateSearchQuery = set(__, __, searchQuery);
   const getSearchQueryData = view(__, searchQuery);
 

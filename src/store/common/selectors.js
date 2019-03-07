@@ -1,4 +1,4 @@
-import { curry, lensPath, path, prop, ifElse, is, map, over, pipe, values, reduce, memoizeWith, identity } from 'ramda';
+import { curry, lensPath, path, prop, ifElse, is, map, over, pipe, values, reduce } from 'ramda';
 
 const mapRelationship = curry((state, accum, rel) => {
   const lens = lensPath(path(['path'], rel));
@@ -9,11 +9,9 @@ const mapRelationship = curry((state, accum, rel) => {
   return over(lens, resolveRelationship, accum);
 });
 
-export const selectRelationships = curry(
-  memoizeWith(identity, (state, relationships, entity) =>
-    pipe(
-      values,
-      reduce(mapRelationship(state), entity)
-    )(relationships)
-  )
+export const selectRelationships = curry((state, relationships, entity) =>
+  pipe(
+    values,
+    reduce(mapRelationship(state), entity)
+  )(relationships)
 );
