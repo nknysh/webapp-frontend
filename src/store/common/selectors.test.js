@@ -1,4 +1,4 @@
-import { __, path } from 'ramda';
+import { path } from 'ramda';
 import { selectRelationships } from './selectors';
 
 describe('common selectors', () => {

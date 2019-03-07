@@ -8,7 +8,7 @@ const state = {
     data: {
       foo: {
         id: 'bar',
-        title: 'FooBar',
+        name: 'FooBar',
         destinationUuid: undefined,
       },
     },
@@ -33,7 +33,7 @@ describe('hotels selectors', () => {
   });
   describe('getHotelName', () => {
     it('returns the destination title based on id', () => {
-      expect(getHotelName(state, 'foo')).toEqual(state.hotels.data.foo.title);
+      expect(getHotelName(state, 'foo')).toEqual(state.hotels.data.foo.name);
     });
   });
 });

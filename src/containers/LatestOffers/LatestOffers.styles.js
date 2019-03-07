@@ -9,7 +9,11 @@ export const StyledLatestOffers = styled.div`
 
 export const Title = styled(Heading2)`
   font-family: ${theme.defaultFont};
-  font-weight: normal;
+  font-weight: ${theme.normal};
   text-transform: uppercase;
   text-align: center;
+`;
+
+export const Offers = styled.div`
+  display: flex;
 `;

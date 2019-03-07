@@ -11,7 +11,7 @@ export const h1Styling = css`
   ${commonHeaderStyles}
   color: ${theme.colors['gold-neutral']};
   font-size: 22px;
-  font-weight: bold;
+  font-weight: ${theme.bold};
   margin: ${theme.gutter * 2}px;
 `;
 

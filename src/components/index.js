@@ -20,3 +20,4 @@ export { Modal } from './Modal';
 export { ToolTip } from './ToolTip';
 export { Title } from './Title';
 export { Fields } from './Fields';
+export { Offer } from './Offer';

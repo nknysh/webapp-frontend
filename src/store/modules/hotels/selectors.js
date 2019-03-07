@@ -1,4 +1,4 @@
-import { __, prop, pipe, curry, propOr, map, when, complement, isNil, tap } from 'ramda';
+import { __, prop, pipe, curry, propOr, map, when, complement, isNil } from 'ramda';
 
 import { selectRelationships } from 'store/common/selectors';
 

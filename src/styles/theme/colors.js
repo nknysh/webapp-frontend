@@ -22,4 +22,6 @@ export default Object.freeze({
   aqua: '#D4F3EE',
 
   'light-blue': '#F3F9FB',
+
+  'red-fade': '#FD5656',
 });

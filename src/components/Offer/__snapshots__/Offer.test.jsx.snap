@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Offer /> render matches snapshots 1`] = `
+<Styled(styled.article)>
+  <Styled(styled.div)
+    style={
+      Object {
+        "backgroundImage": "url(undefined)",
+      }
+    }
+  >
+    <Styled(styled.div)>
+      <Styled(styled.span) />
+       /Guest
+    </Styled(styled.div)>
+    <Styled(Styled(styled.div)) />
+  </Styled(styled.div)>
+  <Styled(styled.div)>
+    <Styled(Styled(styled.h2)) />
+    <Styled(styled.div) />
+    <Styled(styled.div)>
+      Valid from Invalid Date to Invalid Date.
+    </Styled(styled.div)>
+    <Styled(styled.div)>
+      Offer applies to all villa categories
+    </Styled(styled.div)>
+  </Styled(styled.div)>
+  <styled.div>
+    <Styled(Link)
+      inverse={true}
+      to="/hotels/undefined"
+    >
+      More Info
+    </Styled(Link)>
+  </styled.div>
+</Styled(styled.article)>
+`;

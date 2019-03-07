@@ -33,6 +33,7 @@ const uiConfig = {
     login: 'Sign In',
     passwordReset: 'Reset Your Password',
     forgotten: 'Forgot your password?',
+    moreInfo: 'More Info',
   },
 
   placeholders: {
@@ -52,6 +53,15 @@ const uiConfig = {
 
   sections: {
     latestOffers: 'Pure Escapes Latest Offers',
+  },
+
+  taglines: {
+    validFromTo: 'Valid from {fromDate} to {toDate}.',
+    validForAllVillas: 'Offer applies to all villa categories',
+  },
+
+  currency: {
+    symbol: '$',
   },
 };
 

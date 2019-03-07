@@ -50,7 +50,7 @@ export const NumberSelectIncrease = styled(Icon)`
 
 export const NumberSelectNumber = styled.div`
   color: ${theme.colors.black};
-  font-weight: bold;
+  font-weight: ${theme.bold};
   padding: ${theme.gutter}px;
   width: 32px;
   text-align: center;

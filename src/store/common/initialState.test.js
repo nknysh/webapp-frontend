@@ -1,4 +1,3 @@
-import { Status } from './status';
 import initialState from './initialState';
 
 describe('initialState', () => {
