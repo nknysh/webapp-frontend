@@ -1,8 +1,6 @@
 export default {
-  labels: {
-    email: 'Email address',
-  },
-  defaults: {
-    email: '',
+  email: {
+    label: 'Email Address',
+    default: '',
   },
 };

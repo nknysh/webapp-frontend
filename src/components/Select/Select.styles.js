@@ -29,7 +29,6 @@ export const StyledSelect = styled.div`
 `;
 
 export const MaterialSelect = styled(Select)`
-  margin-bottom: ${theme.gutter * 2}px;
   width: 100%;
   font-size: 14px !important;
   

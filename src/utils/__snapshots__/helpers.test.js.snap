@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`helpers buildLensesFromObject returns key value from object 1`] = `
+Object {
+  "bar": Object {
+    "boo": [Function],
+  },
+  "foo": [Function],
+}
+`;

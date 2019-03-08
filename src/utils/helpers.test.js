@@ -1,4 +1,12 @@
-import { noop, isArray, isFunction, mapWithIndex, arrayToKeyValueObject } from './helpers';
+import {
+  noop,
+  isArray,
+  isFunction,
+  isObject,
+  mapWithIndex,
+  arrayToKeyValueObject,
+  buildLensesFromObject,
+} from './helpers';
 
 describe('helpers', () => {
   describe('noop', () => {
@@ -15,6 +23,9 @@ describe('helpers', () => {
       expect(isArray([])).toBeTruthy();
       expect(isArray({})).toBeFalsy();
     });
+    it('isObject returns boolean', () => {
+      expect(isObject({})).toBeTruthy();
+    });
   });
 
   describe('mapWithIndex', () => {
@@ -27,6 +38,12 @@ describe('helpers', () => {
   describe('arrayToKeyValueObject', () => {
     it('returns key value from object', () => {
       expect(arrayToKeyValueObject('id', 'name')([{ id: 'foo', name: 'bar' }])).toEqual({ foo: 'bar' });
+    });
+  });
+
+  describe('buildLensesFromObject', () => {
+    it('returns key value from object', () => {
+      expect(buildLensesFromObject({ foo: 'bar', bar: { boo: '' } })).toMatchSnapshot();
     });
   });
 });

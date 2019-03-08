@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { Select as BaseSelect, Markdown, Checkbox } from 'components';
+import { Markdown, Checkbox } from 'components';
 import theme from 'styles/theme';
-import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
+import { Button as BaseButton } from 'styles/elements';
 import { ServerError } from 'styles/errors';
 import breakpoints from 'styles/breakpoints';
 
@@ -13,35 +13,6 @@ export const StyledCreateAccount = styled.div`
     padding: ${theme.gutter * 5}px;
   `}
 `;
-
-export const Container = styled.div`
-  background-color: ${theme.primary};
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
-
-export const Row = styled.div`
-  flex-direction: row;
-  align-items: center;
-  margin-top: 40px;
-`;
-
-export const Field = styled.div`
-  text-align: left;
-`;
-
-export const Input = styled(BaseInput)`
-  margin-bottom: ${theme.gutter * 2}px;
-
-  ${breakpoints.desktop`
-    min-width: 395px;
-  `}
-`;
-
-export const Select = styled(BaseSelect)``;
 
 export const Actions = styled.div`
   align-items: center;
@@ -71,6 +42,7 @@ export const Column = styled.div`
   ${breakpoints.desktop`
     flex: 1 1 50%;
     padding: ${theme.gutter * 5}px;
+    min-width: ${theme.gutter * 5 + 395}px;
 
     &:first-child {
       padding-left: 0;
@@ -117,10 +89,6 @@ export const InfoMarkdown = styled(Markdown)`
   ${breakpoints.tablet`
     max-width: 475px;
   `}
-`;
-
-export const Center = styled.div`
-  text-align: center;
 `;
 
 export const ServerErrorContent = styled(ServerError)`

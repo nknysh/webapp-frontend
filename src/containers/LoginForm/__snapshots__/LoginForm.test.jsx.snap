@@ -8,7 +8,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
     text="Logging in..."
   >
     <Title>
-      Login
+      Sign in
     </Title>
     <Styled(Styled(Markdown)) />
     <Form
@@ -16,7 +16,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
         Object {
           "email": "",
           "password": "",
-          "remember": "false",
+          "remember": false,
         }
       }
       onSubmit={[Function]}
@@ -88,6 +88,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
               "_conditions": Array [],
               "_deps": Array [],
               "_exclusive": Object {
+                "max": true,
                 "min": true,
                 "required": false,
               },
@@ -103,6 +104,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
                 "refs": Map {},
               },
               "tests": Array [
+                [Function],
                 [Function],
                 [Function],
                 [Function],

@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`form utils extractFieldDefaults returns defaults from object 1`] = `
+Object {
+  "bar": "bar",
+  "foo": "foo",
+}
+`;
+
+exports[`form utils getFormPath returns path from string 1`] = `
+Array [
+  "foo",
+]
+`;
+
+exports[`form utils getFormPath returns path from string 2`] = `
+Array [
+  "foo",
+  "bar",
+]
+`;
+
+exports[`form utils getFormPath returns path from string 3`] = `
+Array [
+  "foo",
+  "bar",
+  "far]",
+]
+`;
+
+exports[`form utils getServerError returns server error 1`] = `undefined`;
+
+exports[`form utils getServerError returns server error 2`] = `"foo"`;
+
+exports[`form utils getServerError returns server error 3`] = `"foo"`;
+
+exports[`form utils sanitizeValues returns sanitized values 1`] = `
+Object {
+  "bar": undefined,
+  "boo": true,
+  "far": false,
+  "foo": undefined,
+}
+`;

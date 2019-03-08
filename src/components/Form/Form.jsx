@@ -1,11 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 
-const Form = ({ children, ...props }) => <Formik {...props} render={children} />;
+import { propTypes } from './Form.props';
 
-Form.propTypes = {
-  children: PropTypes.any,
-};
+export const Form = ({ children, ...props }) => (
+  <Formik {...props}>
+    {({ handleSubmit, ...formProps }) => <form onSubmit={handleSubmit}>{children(formProps)}</form>}
+  </Formik>
+);
+
+Form.propTypes = propTypes;
 
 export default Form;

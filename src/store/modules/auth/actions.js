@@ -77,12 +77,10 @@ export const deleteRememberedUser = () => localStorage.removeItem(AUTH_USER);
 export const signUp = values => dispatch => {
   dispatch(authSignUp(values));
 
-  // return client
-  //   .signUp(values)
-  //   .then(() => dispatch(successAction(AUTH_SIGN_UP)))
-  //   .catch(error => dispatch(errorAction(AUTH_SIGN_UP, error.response)));
-
-  return values ? dispatch(successAction(AUTH_SIGN_UP)) : dispatch(errorAction(AUTH_SIGN_UP, values));
+  return client
+    .signUp(values)
+    .then(() => dispatch(successAction(AUTH_SIGN_UP)))
+    .catch(error => dispatch(errorAction(AUTH_SIGN_UP, error.response)));
 };
 
 export const logOut = token => dispatch => {
@@ -90,11 +88,6 @@ export const logOut = token => dispatch => {
   deleteRememberedToken();
   deleteRememberedUser();
   dispatch(authReset());
-
-  // return client
-  //   .logOut(values)
-  //   .then(() => dispatch(successAction(AUTH_LOG_OUT)))
-  //   .catch(error => dispatch(errorAction(AUTH_LOG_OUT, error.response)));
 
   return token ? dispatch(successAction(AUTH_LOG_OUT)) : dispatch(errorAction(AUTH_LOG_OUT, { unknown: true }));
 };

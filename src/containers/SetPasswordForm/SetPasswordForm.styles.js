@@ -12,6 +12,7 @@ export const StyledSetPasswordForm = styled.div`
 
   ${breakpoints.tablet`
     padding: ${theme.gutter * 5}px;
+    min-width: 500px;
   `}
 `;
 

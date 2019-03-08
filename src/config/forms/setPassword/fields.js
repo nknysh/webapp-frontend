@@ -1,10 +1,16 @@
 export default {
-  labels: {
-    password: 'Password',
-    confirm: 'Repeat Password',
+  password: {
+    label: 'Password',
+    default: '',
+    props: {
+      type: 'password',
+    },
   },
-  defaults: {
-    password: '',
-    confirm: '',
+  confirm: {
+    label: 'Repeat Password',
+    default: '',
+    props: {
+      type: 'password',
+    },
   },
 };
