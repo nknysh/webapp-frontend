@@ -1,27 +1,11 @@
-import Request, { Loopback } from './request';
+import client from './index';
 
-const request = new Request(Loopback);
+export const getUserFromToken = token => client.query({ token }).get('/users/me');
 
-export const getUserFromToken = ({ token }) => {
-  const endpoint = '/api/users/me';
-  return request()
-    .withAuth(token)
-    .get(endpoint);
-};
+export const signUp = values => client.post('/users', values);
 
-export const signUp = values => {
-  const endpoint = '/api/users';
-  return request().post(endpoint, values);
-};
+export const logIn = values => client.post('/users/login', values);
 
-export const logIn = values => {
-  const endpoint = '/api/users/login';
-  return request().post(endpoint, values, { params: { include: 'user' } });
-};
-
-export const resetPassword = values => {
-  const endpoint = '/api/users/reset';
-  return request().post(endpoint, values);
-};
+export const resetPassword = values => client.post('/users/reset', values);
 
 export default { getUserFromToken, signUp, logIn, resetPassword };

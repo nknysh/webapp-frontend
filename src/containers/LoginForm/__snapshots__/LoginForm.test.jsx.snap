@@ -10,7 +10,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
     <Title>
       Login
     </Title>
-    <Styled(Markdown) />
+    <Styled(Styled(Markdown)) />
     <Form
       initialValues={
         Object {

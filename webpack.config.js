@@ -1,9 +1,9 @@
-const webpack = require('webpack');
 const path = require('path');
 const { prop, equals, pipe } = require('ramda');
 
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const DotEnvPlugin = require('dotenv-webpack');
 
 const getMode = prop('mode');
 const isDev = equals('development');
@@ -15,7 +15,17 @@ const modeIsDev = pipe(
 
 module.exports = (env, argv) => ({
     devtool: modeIsDev(argv) && 'source-map',
-    devServer: { historyApiFallback: modeIsDev(argv) },
+    devServer: { 
+        historyApiFallback: modeIsDev(argv),
+        proxy: {
+            '/api/**': {
+                target: 'http://localhost:8001',
+                secure: false,
+                changeOrigin: true,
+                pathRewrite: {'^/api' : ''}
+              },
+        }
+    },
     entry: [
         '@babel/polyfill', 
         path.resolve(__dirname, 'src', 'index.jsx')
@@ -85,10 +95,6 @@ module.exports = (env, argv) => ({
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src/index.html')
         }),
-        new webpack.DefinePlugin({
-            "process.env": {
-                NODE_ENV: JSON.stringify(getMode(argv))
-            }
-        }),
+        new DotEnvPlugin({ path: path.resolve(__dirname, '.env')})
     ]
 })

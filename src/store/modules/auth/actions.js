@@ -1,19 +1,18 @@
 import { prop, omit } from 'ramda';
 
+import client from 'api/auth';
+
 import mockUser from 'config/auth/mockUser';
 import { successAction, errorAction } from 'store/common/actions';
 
-import AuthApi from 'api/auth';
-
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
-export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_RESET = 'AUTH_RESET';
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 export const AUTH_SIGN_UP = 'AUTH_SIGN_UP';
 export const AUTH_LOG_OUT = 'AUTH_LOG_OUT';
 export const AUTH_PASSWORD_RESET = 'AUTH_PASSWORD_RESET';
-export const AUTH_VALIDATE_PASSWORD_RESET_TOKEN = 'AUTH_VALIDATE_PASSWORD_RESET_TOKEN';
+export const AUTH_SET_PASSWORD = 'AUTH_SET_PASSWORD';
 
 // This constant is for Localstorage.
 export const AUTH_TOKEN = 'authToken';
@@ -21,30 +20,17 @@ export const AUTH_USER = 'authUser';
 
 const mockToken = '123456789';
 
-const authError = value => {
-  localStorage.removeItem(AUTH_TOKEN);
-
-  return {
-    type: AUTH_ERROR,
-    payload: value,
-  };
-};
-
 const authReset = () => ({
   type: AUTH_RESET,
 });
 
 export const getUserFromToken = ({ token }) => dispatch => {
   dispatch(authRequest({ token }));
-  return AuthApi.getUserFromToken({ token })
-    .then(response => {
-      const ok = { token, user: response.data };
-      dispatch(authOk(ok));
-    })
-    .catch(error => {
-      dispatch(authError(error));
-      throw error;
-    });
+
+  return client
+    .getUserFromToken(token)
+    .then(response => dispatch(successAction(response.data)))
+    .catch(error => dispatch(errorAction(error)));
 };
 
 export const setToken = token => ({
@@ -63,7 +49,7 @@ export const authPasswordReset = value => ({
 });
 
 export const authSetPasswordReset = value => ({
-  type: AUTH_PASSWORD_RESET,
+  type: AUTH_SET_PASSWORD,
   payload: value,
 });
 
@@ -91,13 +77,12 @@ export const deleteRememberedUser = () => localStorage.removeItem(AUTH_USER);
 export const signUp = values => dispatch => {
   dispatch(authSignUp(values));
 
-  // This is where APi call would be handled.
-  // return AuthApi.signUp(values).then(successAction).catch(errorAction);
+  // return client
+  //   .signUp(values)
+  //   .then(() => dispatch(successAction(AUTH_SIGN_UP)))
+  //   .catch(error => dispatch(errorAction(AUTH_SIGN_UP, error.response)));
 
-  /**
-   * @todo Return from API call the correct action and remove this
-   */
-  return values ? dispatch(successAction(AUTH_SIGN_UP, values)) : dispatch(errorAction(AUTH_SIGN_UP, values));
+  return values ? dispatch(successAction(AUTH_SIGN_UP)) : dispatch(errorAction(AUTH_SIGN_UP, values));
 };
 
 export const logOut = token => dispatch => {
@@ -106,24 +91,21 @@ export const logOut = token => dispatch => {
   deleteRememberedUser();
   dispatch(authReset());
 
-  // This is where APi call would be handled.
-  // return AuthApi.logOut(values).then(successAction).catch(errorAction);
+  // return client
+  //   .logOut(values)
+  //   .then(() => dispatch(successAction(AUTH_LOG_OUT)))
+  //   .catch(error => dispatch(errorAction(AUTH_LOG_OUT, error.response)));
 
-  /**
-   * @todo Return from API call the correct action and remove this
-   */
   return token ? dispatch(successAction(AUTH_LOG_OUT)) : dispatch(errorAction(AUTH_LOG_OUT, { unknown: true }));
 };
 
 export const logIn = values => dispatch => {
   dispatch(authRequest(omit(['password'], values)));
 
-  // This is where APi call would be handled.
-  // return AuthApi.logIn(values).then(successAction).catch(errorAction);
-
-  /**
-   * @todo Return from API call the correct action and remove this
-   */
+  // return client
+  //   .logIn(values)
+  //   .then(response => dispatch(successAction(AUTH_REQUEST, response.data)))
+  //   .catch(error => dispatch(errorAction(AUTH_REQUEST, error.response)));
 
   const email = prop('email', values);
 
@@ -141,12 +123,10 @@ export const logIn = values => dispatch => {
 export const resetPassword = values => dispatch => {
   dispatch(authPasswordReset(values));
 
-  // This is where APi call would be handled.
-  // return AuthApi.resetPassword(values).then(successAction).catch(errorAction);
-
-  /**
-   * @todo Return from API call the correct action and remove this
-   */
+  // return client
+  //   .resetPassword(values)
+  //   .then(() => dispatch(successAction(AUTH_PASSWORD_RESET)))
+  //   .catch(error => dispatch(errorAction(AUTH_PASSWORD_RESET, error.response)));
 
   return dispatch(successAction(AUTH_PASSWORD_RESET));
 };
@@ -154,12 +134,10 @@ export const resetPassword = values => dispatch => {
 export const setPassword = values => dispatch => {
   dispatch(authSetPasswordReset(omit(['values'], values)));
 
-  // This is where APi call would be handled.
-  // return AuthApi.resetPassword(values).then(successAction).catch(errorAction);
+  // return client
+  //   .resetPassword(values)
+  //   .then(() => dispatch(successAction(AUTH_SET_PASSWORD)))
+  //   .catch(error => dispatch(errorAction(AUTH_SET_PASSWORD, error.response)));
 
-  /**
-   * @todo Return from API call the correct action and remove this
-   */
-
-  return dispatch(successAction(AUTH_PASSWORD_RESET));
+  return dispatch(successAction(AUTH_SET_PASSWORD));
 };

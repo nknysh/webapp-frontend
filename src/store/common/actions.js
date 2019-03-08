@@ -9,9 +9,9 @@ export const successAction = (type, data) => ({
   payload: isArray(data) ? [...data] : { ...data },
 });
 
-export const errorAction = (type, data) => ({
+export const errorAction = (type, error) => ({
   type: getErrorActionName(type),
-  payload: isArray(data) ? [...data] : { ...data },
+  payload: isArray(error) ? [...error] : { ...error },
 });
 
 export const extractRelationships = curry((relationships, entities) => {

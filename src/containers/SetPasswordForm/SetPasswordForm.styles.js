@@ -4,6 +4,7 @@ import { Checkbox, Markdown } from 'components';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
+import { ServerError } from 'styles/errors';
 import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
 
 export const StyledSetPasswordForm = styled.div`
@@ -45,26 +46,7 @@ export const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
-export const ServerErrorContent = styled(Markdown)`
-  border: 1px solid ${theme.primary};
-  background: ${theme.colors.whiteish};
-  text-align: center;
-  padding: ${theme.gutter}px;
-
-  ${breakpoints.tablet`
-    width: 400px;
-  `}
-
-  h3 {
-    font-family: ${theme.headingFont};
-    color: ${theme.primary};
-    font-size: 14px;
-  }
-
-  p {
-    font-size: 12px;
-  }
-`;
+export const ServerErrorContent = styled(ServerError)``;
 
 export const StyledMarkdown = styled(Markdown)`
   text-align: center;
