@@ -38,13 +38,6 @@ export default [
     authRedirect: '/login',
   },
   {
-    name: 'Search',
-    path: '/search',
-    component: NotFound,
-    auth: true,
-    authRedirect: '/login',
-  },
-  {
     name: 'Calendar',
     path: '/calendar',
     component: NotFound,

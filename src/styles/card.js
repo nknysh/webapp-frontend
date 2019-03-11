@@ -3,17 +3,11 @@ import styled from 'styled-components';
 import uiConfig from 'config/ui';
 
 import theme from './theme';
-import breakpoints from './breakpoints';
 import { Heading2 } from './typography';
 
 export const Card = styled.article`
   background: ${theme.colors.whiteish};
   margin: ${theme.gutter}px;
-
-  ${breakpoints.tablet`
-    flex: 1;
-    max-width: 33%;
-  `}
 `;
 
 export const CardImage = styled.div`
@@ -26,6 +20,7 @@ export const CardImage = styled.div`
 `;
 
 export const CardChip = styled.div`
+  color: ${theme.colors.black};
     background: ${theme.backgroundColor};
     padding: ${theme.gutter / 2}px ${theme.gutter}px;
     font-size: 12px;

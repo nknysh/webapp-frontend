@@ -4,6 +4,7 @@ exports[`<CreateAccount /> render matches snapshot 1`] = `
 <Fragment>
   <ErrorBoundary />
   <Modal
+    modalContentProps={Object {}}
     onClose={[Function]}
     open={true}
   >

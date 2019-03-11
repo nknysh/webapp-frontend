@@ -1,3 +1,7 @@
+import { __, lte, path } from 'ramda';
+
+import theme from 'styles/theme';
+
 export const windowExists = typeof window !== 'undefined' ? window : {};
 
 export const addEvent = (event, callback, context = windowExists) => {
@@ -11,3 +15,5 @@ export const removeEvent = (event, callback, context = windowExists) => {
     context.removeEventListener(event, callback);
   }
 };
+
+export const isMobile = lte(__, path(['breakpoints', 'tablet'], theme));

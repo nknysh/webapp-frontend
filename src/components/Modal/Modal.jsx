@@ -3,7 +3,7 @@ import React from 'react';
 import { propTypes, defaultProps } from './Modal.props';
 import { StyledModal, ModalOverlay, ModalContent, ModalClose } from './Modal.styles';
 
-export const Modal = ({ children, onClose, ...props }) => {
+export const Modal = ({ children, onClose, modalContentProps, ...props }) => {
   const renderCloseCross = () => <ModalClose onClick={onClose}>close</ModalClose>;
 
   return (
@@ -15,7 +15,7 @@ export const Modal = ({ children, onClose, ...props }) => {
       BackdropComponent={ModalOverlay}
       {...props}
     >
-      <ModalContent>
+      <ModalContent {...modalContentProps}>
         {children}
         {renderCloseCross()}
       </ModalContent>

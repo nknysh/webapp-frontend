@@ -2,7 +2,7 @@ import React from 'react';
 import { propOr, compose } from 'ramda';
 import connect from './withSearchIndexes.state';
 
-const withSearchIndexes = ({ indexes = [] }) => WrappedComponent => {
+const withSearchIndexes = (indexes = []) => WrappedComponent => {
   const ConnectedWrappedComponent = compose(connect)(WrappedComponent);
 
   const wrappedDisplayName = propOr(propOr('Component', 'name', WrappedComponent), 'displayName', WrappedComponent);

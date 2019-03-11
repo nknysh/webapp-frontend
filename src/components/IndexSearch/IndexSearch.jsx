@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { isEmpty, map, repeat, length, take, compose, replace, propOr } from 'ramda';
+import { isEmpty, map, repeat, length, take, compose, replace, propOr, prop, curry } from 'ramda';
+import hash from 'object-hash';
 
 import { DropDownContent } from 'components';
 import { withSearchIndexes } from 'hoc';
-import { isFunction } from 'utils';
+import { isFunction, noop, mapWithIndex } from 'utils';
 
 import { propTypes, defaultProps } from './IndexSearch.props';
-import { StyledIndexSearch, IndexSearchLabel, IndexSearchInput } from './IndexSearch.styles';
+import {
+  StyledIndexSearch,
+  IndexSearchLabel,
+  IndexSearchInput,
+  IndexSearchHit,
+  IndexSearchHitContent,
+  IndexSearchHits,
+  IndexSearchResults,
+} from './IndexSearch.styles';
 
 const renderLabel = label => label && <IndexSearchLabel>{label}</IndexSearchLabel>;
 const renderInput = props => <IndexSearchInput {...props} />;
@@ -16,12 +25,15 @@ export const IndexSearch = ({
   className,
   disabled,
   indexes,
+  indexKeys,
   isOpen: isOpenProp,
   label,
   limit,
+  onClick,
   openOnFocus,
-  searchPatterns,
   placeholder,
+  searchPatterns,
+  selectors,
   value,
   ...props
 }) => {
@@ -72,6 +84,37 @@ export const IndexSearch = ({
     setIsOpen(isOpen);
   };
 
+  const renderResult = (index, hit) => {
+    const ref = prop('ref', hit);
+
+    const onHitClick = () => {
+      const value = propOr(noop, index, selectors)(ref);
+      setSelected(value);
+      setSearch(value);
+
+      onClick({
+        type: indexKeys[index],
+        id: ref,
+        value,
+      });
+    };
+
+    return (
+      !isEmpty(hit) && (
+        <IndexSearchHit data-search-hit={ref} key={hash(hit)} onMouseDown={onHitClick}>
+          <IndexSearchHitContent>{propOr(noop, index, selectors)(prop('ref', hit))}</IndexSearchHitContent>
+        </IndexSearchHit>
+      )
+    );
+  };
+
+  const renderResults = (hits, i) =>
+    !isEmpty(hits) && (
+      <IndexSearchHits data-search-hits={indexes[i]} key={hash(hits)}>
+        {map(curry(renderResult)(i), hits)}
+      </IndexSearchHits>
+    );
+
   return (
     <StyledIndexSearch className={className}>
       {renderLabel(label)}
@@ -83,7 +126,8 @@ export const IndexSearch = ({
         showRawInput={true}
         showContent={isOpen}
       >
-        {children && isFunction(children) && isOpen && children({ search, results, onSelect })}
+        {(children && isFunction(children) && isOpen && children({ search, results, onSelect })) ||
+          (isOpen && <IndexSearchResults>{mapWithIndex(renderResults, results)}</IndexSearchResults>)}
       </DropDownContent>
     </StyledIndexSearch>
   );

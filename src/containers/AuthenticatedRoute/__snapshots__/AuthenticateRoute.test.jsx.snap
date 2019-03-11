@@ -17,17 +17,15 @@ exports[`<AuthenticatedRoute /> render message while authenticating 1`] = `
 `;
 
 exports[`<AuthenticatedRoute /> render redirect when not authenticated 1`] = `
-<Route
-  component={[Function]}
-  location={Object {}}
-  path="/about-us"
+<Redirect
+  push={false}
+  to="/login"
 />
 `;
 
 exports[`<AuthenticatedRoute /> render route when authenticated 1`] = `
-<Route
-  component={[Function]}
-  location={Object {}}
-  path="/about-us"
+<Redirect
+  push={false}
+  to="/login"
 />
 `;

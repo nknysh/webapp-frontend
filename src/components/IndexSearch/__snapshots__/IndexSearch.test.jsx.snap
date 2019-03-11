@@ -20,8 +20,11 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
     }
     showArrow={false}
     showContent={true}
+    showInput={true}
     showRawInput={true}
-  />
+  >
+    <styled.div />
+  </DropDownContent>
 </styled.div>
 `;
 
@@ -44,6 +47,7 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
       }
     }
     showArrow={false}
+    showInput={true}
     showRawInput={true}
   />
 </styled.div>
@@ -69,8 +73,11 @@ exports[`<IndexSearch /> render matches snapshot 2`] = `
     }
     showArrow={false}
     showContent={true}
+    showInput={true}
     showRawInput={true}
-  />
+  >
+    <styled.div />
+  </DropDownContent>
 </styled.div>
 `;
 
@@ -96,6 +103,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
       }
     }
     showArrow={false}
+    showInput={true}
     showRawInput={true}
   />
 </styled.div>
@@ -120,6 +128,7 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
       }
     }
     showArrow={false}
+    showInput={true}
     showRawInput={true}
   />
 </styled.div>
@@ -144,6 +153,7 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
       }
     }
     showArrow={false}
+    showInput={true}
     showRawInput={true}
   />
 </styled.div>
@@ -168,6 +178,7 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
       }
     }
     showArrow={false}
+    showInput={true}
     showRawInput={true}
   />
 </styled.div>
@@ -193,8 +204,11 @@ exports[`<IndexSearch /> render matches snapshot 7`] = `
     }
     showArrow={false}
     showContent={true}
+    showInput={true}
     showRawInput={true}
-  />
+  >
+    <styled.div />
+  </DropDownContent>
 </styled.div>
 `;
 

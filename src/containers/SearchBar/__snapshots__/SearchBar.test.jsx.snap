@@ -16,11 +16,16 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
         }
         label="Destination or resort"
         limit={5}
+        onClick={[Function]}
         openOnFocus={false}
         placeholder="Where to"
-      >
-        <Component />
-      </Styled(withSearchIndexes(IndexSearch))>
+        selectors={
+          Array [
+            undefined,
+            undefined,
+          ]
+        }
+      />
     </styled.div>
     <styled.div
       data-large={true}
@@ -50,7 +55,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
     >
       <Checkbox
         label="Honeymooners"
-        onSelected={[Function]}
+        onChange={[Function]}
       />
     </styled.div>
     <styled.div>

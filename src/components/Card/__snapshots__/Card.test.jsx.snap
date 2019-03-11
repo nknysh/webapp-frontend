@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Card /> render matches snapshot 1`] = `
+<Styled(styled.article)>
+  <Styled(styled.div)
+    style={
+      Object {
+        "backgroundImage": "url()",
+      }
+    }
+  >
+    <styled.div>
+      Preferred
+    </styled.div>
+    <Styled(styled.div)>
+      <Styled(styled.span)>
+        123
+      </Styled(styled.span)>
+       /
+      Guest
+    </Styled(styled.div)>
+  </Styled(styled.div)>
+  <Styled(styled.div)>
+    <Styled(Styled(styled.h2)) />
+    <styled.div>
+      <styled.div>
+        <Styled(WithStyles(Icon))>
+          star
+        </Styled(WithStyles(Icon))>
+         
+        <styled.span>
+          5
+           
+          Star
+        </styled.span>
+      </styled.div>
+      <styled.div />
+    </styled.div>
+    <styled.div />
+    <styled.div />
+  </Styled(styled.div)>
+</Styled(styled.article)>
+`;

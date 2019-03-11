@@ -30,6 +30,7 @@ const renderInput = inputProps => <DropDownContentInput {...inputProps} />;
 export const DropDownContent = ({
   showOverlay,
   showRawInput,
+  showInput,
   overlayProps,
   inputContent,
   maskProps,
@@ -38,12 +39,13 @@ export const DropDownContent = ({
   onChange,
   children,
   showContent,
+  keepOpen,
   onClick,
 }) => {
   const [showArea, setShowArea] = useState(showContent || false);
 
   const shouldShow = !isNil(showContent) ? showContent : showArea;
-  const shouldRenderChildren = Boolean(children) && showArea && shouldShow;
+  const shouldRenderChildren = keepOpen || (Boolean(children) && showArea && shouldShow);
 
   const onClose = () => setShowArea(false);
   const onInputClick = e => {
@@ -62,7 +64,7 @@ export const DropDownContent = ({
         <DropDownContentInputWrapper>
           {renderOverlay(showOverlay, overlayProps)}
           {!showRawInput && renderInputMask(inputContent, maskProps, showArrow)}
-          {renderInput({ showRawInput, onChange, onClick: onInputClick, ...inputProps })}
+          {showInput && renderInput({ showRawInput, onChange, onClick: onInputClick, ...inputProps })}
         </DropDownContentInputWrapper>
         {renderChildren()}
       </StyledDropDownContent>

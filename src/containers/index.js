@@ -9,3 +9,5 @@ export { PasswordResetForm } from './PasswordResetForm';
 export { SetPasswordForm } from './SetPasswordForm';
 export { UserPanel } from './UserPanel';
 export { LatestOffers } from './LatestOffers';
+export { SearchSidebar } from './SearchSidebar';
+export { SearchResults } from './SearchResults';
