@@ -79,7 +79,7 @@ describe('auth actions', () => {
 
       setPassword({})(dispatch);
 
-      expect(dispatch).toHaveBeenCalledTimes(2);
+      expect(dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });

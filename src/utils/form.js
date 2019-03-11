@@ -8,12 +8,13 @@ import {
   isEmpty,
   isNil,
   mapObjIndexed,
+  pathOr,
+  pipe,
   prop,
   propOr,
-  T,
-  pipe,
   replace,
   split,
+  T,
 } from 'ramda';
 
 import { isObject } from 'utils';
@@ -38,7 +39,7 @@ export const sanitizeValues = mapObjIndexed(santitizeGate);
 
 export const getServerError = (errors, error) => {
   if (!error || isEmpty(error)) return;
-  const errorData = propOr(propOr(prop('message', error), 'default', errors), prop('status', error), errors);
+  const errorData = propOr(pathOr(prop('default', errors), ['data', 'message'], error), prop('status', error), errors);
   return error && !isEmpty(error) && errorData;
 };
 

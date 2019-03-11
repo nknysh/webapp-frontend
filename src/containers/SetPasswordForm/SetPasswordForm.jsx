@@ -40,7 +40,7 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) 
   const onSubmit = values => {
     setSubmitted(true);
     setFormValues(values);
-    onSetPassword(sanitizeValues(values));
+    onSetPassword({ ...token, ...sanitizeValues(values) });
   };
 
   const renderForm = () => (
@@ -54,7 +54,7 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) 
       {({ values, ...formProps }) => (
         <Fragment>
           {renderField('password', prop('password', values), prop('password', fields), formProps)}
-          {renderField('confirm', prop('confirm', values), prop('confirm', fields), formProps)}
+          {renderField('passwordConfirm', prop('passwordConfirm', values), prop('passwordConfirm', fields), formProps)}
           <Actions>
             <SubmitButton type="submit">
               <SubmitText>{path(['buttons', 'submit'], uiConfig)}</SubmitText>
@@ -71,9 +71,9 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) 
 
   return (
     <StyledSetPasswordForm>
-      <Loader isLoading={submitted && isSetting && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
+      <Loader isLoading={submitted && isSetting && !success} text={path(['messages', 'setPassword'], uiConfig)}>
         <Title>{title}</Title>
-        {renderServerError(getServerError(error))}
+        {renderServerError(getServerError(prop('errors', data), error))}
         {!isComplete && renderForm()}
       </Loader>
     </StyledSetPasswordForm>

@@ -6,7 +6,7 @@ export default {
       type: 'password',
     },
   },
-  confirm: {
+  passwordConfirm: {
     label: 'Repeat Password',
     default: '',
     props: {

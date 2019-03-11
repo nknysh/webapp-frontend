@@ -127,10 +127,8 @@ export const resetPassword = values => dispatch => {
 export const setPassword = values => dispatch => {
   dispatch(authSetPasswordReset(omit(['values'], values)));
 
-  // return client
-  //   .resetPassword(values)
-  //   .then(() => dispatch(successAction(AUTH_SET_PASSWORD)))
-  //   .catch(error => dispatch(errorAction(AUTH_SET_PASSWORD, error.response)));
-
-  return dispatch(successAction(AUTH_SET_PASSWORD));
+  return client
+    .setPassword(values)
+    .then(() => dispatch(successAction(AUTH_SET_PASSWORD)))
+    .catch(error => dispatch(errorAction(AUTH_SET_PASSWORD, error.response)));
 };
