@@ -11,7 +11,7 @@ export const CreateAccount = ({ history, ...props }) => {
 
   return (
     <Fragment>
-      <Home hostory={history} {...props} />
+      <Home history={history} {...props} />
       <Modal open={true} onClose={onClose}>
         <CreateAccountForm />
       </Modal>

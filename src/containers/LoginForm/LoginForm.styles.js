@@ -5,21 +5,16 @@ import { Checkbox } from 'components';
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { ServerError } from 'styles/errors';
-import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
+import { Button as BaseButton } from 'styles/elements';
 
 export const StyledLoginForm = styled.div`
   padding: ${theme.gutter}px;
 
   ${breakpoints.tablet`
     padding: ${theme.gutter * 5}px;
+    min-width: 500px;
   `}
 `;
-
-export const Field = styled.div`
-  margin-bottom: ${theme.gutter * 2}px;
-`;
-
-export const Input = styled(BaseInput)``;
 
 export const Actions = styled.div`
   margin-top: 50px;
@@ -37,7 +32,10 @@ export const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
-export const ServerErrorContent = styled(ServerError)``;
+export const ServerErrorContent = styled(ServerError)`
+  margin-bottom: ${theme.gutter * 2}px;
+`;
+
 export const ForgotPassword = styled.div`
   margin-top: ${theme.gutter * 3}px;
   text-align: center;

@@ -1,12 +1,17 @@
 export default {
-  labels: {
-    email: 'Email Address',
-    password: 'Password',
-    remember: 'Remember me',
+  email: {
+    label: 'Email Address',
+    default: '',
   },
-  defaults: {
-    email: '',
-    password: '',
-    remember: 'false',
+  password: {
+    label: 'Password',
+    default: '',
+    props: {
+      type: 'password',
+    },
+  },
+  remember: {
+    label: 'Remember me',
+    default: false,
   },
 };

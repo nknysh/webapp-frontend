@@ -31,7 +31,7 @@ const renderSection = pipe(
   append(<SectionDivider />)
 );
 
-const mapOverSections = pipe(map(renderSection));
+const mapOverSections = map(renderSection);
 
 export const Select = ({ label, onSelected, options, className, onChange, ...props }) => {
   const onSelect = e => {

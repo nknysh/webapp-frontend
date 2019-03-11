@@ -10,6 +10,7 @@ export const ServerError = styled(Markdown)`
   background: ${theme.colors.whiteish};
   text-align: center;
   padding: ${theme.gutter}px;
+  margin-bottom: ${theme.gutter * 2}px;
 
   ${breakpoints.tablet`
     width: 400px;

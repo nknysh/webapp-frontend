@@ -1,117 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import { __, compose, prop, path, view, set, curry, keys, isEmpty } from 'ramda';
+import { compose, path, prop } from 'ramda';
 
-import { Form, Label, Loader, Title, Fields } from 'components';
-import { lensesFromObject } from 'utils';
+import { Form, Loader, Title, FormField } from 'components';
+import { sanitizeValues, getFormPath, extractFieldDefaults, getServerError } from 'utils/form';
 
 import { isSending, isSuccess } from 'store/common';
-import { InputError } from 'styles/elements';
+
 import uiConfig from 'config/ui';
-import formConfig from 'config/forms';
-import { schema, fields, errors } from 'config/forms/setPassword';
+import { validation, fields, data } from 'config/forms/setPassword';
 
 import connect from './SetPasswordForm.state';
 import { propTypes, defaultProps } from './SetPasswordForm.props';
-import {
-  StyledSetPasswordForm,
-  Field,
-  Input,
-  Actions,
-  SubmitButton,
-  SubmitText,
-  ServerErrorContent,
-} from './SetPasswordForm.styles';
-
-const getServerError = error => error && !isEmpty(error) && prop('unknown', errors);
+import { StyledSetPasswordForm, Actions, SubmitButton, SubmitText, ServerErrorContent } from './SetPasswordForm.styles';
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
-const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
+const renderField = (name, value, field, { handleChange, handleBlur, errors }) => (
+  <FormField
+    name={name}
+    value={value}
+    onChange={handleChange}
+    onBlur={handleBlur}
+    error={path(getFormPath(name), errors)}
+    {...field}
+  />
+);
 
 export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) => {
   // No token, no form
   if (!token) return <Redirect to="/" />;
 
   const [submitted, setSubmitted] = useState(false);
-  const [formValues, setFormValues] = useState(prop('defaults', fields));
+  const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
 
   const isSetting = isSending(requestStatus);
   const success = isSuccess(requestStatus);
 
-  const lenses = lensesFromObject(keys(formValues));
-  const getLens = prop(__, lenses);
-
-  const changeHandler = curry((lens, callback, e) => {
-    setFormValues(set(lens, e.target.value, formValues));
-    callback(e);
-  });
-
   const onSubmit = values => {
     setSubmitted(true);
     setFormValues(values);
-    onSetPassword({ values, token });
+    onSetPassword({ ...token, ...sanitizeValues(values) });
   };
 
   const renderForm = () => (
     <Form
       initialValues={formValues}
       onSubmit={onSubmit}
-      validationSchema={schema}
+      validationSchema={validation}
       validateOnBlur={false}
       validateOnChange={false}
     >
-      {({ errors, handleChange, handleBlur, handleSubmit }) => (
-        <form>
-          <Fields>
-            <Field>
-              <Label htmlFor="password">{path(['labels', 'password'], fields)}</Label>
-              <Input
-                autocomplete
-                type="password"
-                name="password"
-                placeholder={path(['labels', 'password'], fields)}
-                value={view(getLens('password'), formValues)}
-                onChange={changeHandler(getLens('password'), handleChange)}
-                onBlur={handleBlur}
-              />
-              {renderFormError('password', errors)}
-            </Field>
-            <Field>
-              <Label htmlFor="confirm">{path(['labels', 'confirm'], fields)}</Label>
-              <Input
-                autocomplete
-                type="password"
-                name="confirm"
-                placeholder={path(['labels', 'confirm'], fields)}
-                value={view(getLens('confirm'), formValues)}
-                onChange={changeHandler(getLens('confirm'), handleChange)}
-                onBlur={handleBlur}
-              />
-              {renderFormError('confirm', errors)}
-            </Field>
-          </Fields>
+      {({ values, ...formProps }) => (
+        <Fragment>
+          {renderField('password', prop('password', values), prop('password', fields), formProps)}
+          {renderField('passwordConfirm', prop('passwordConfirm', values), prop('passwordConfirm', fields), formProps)}
           <Actions>
-            <SubmitButton type="button" onClick={handleSubmit}>
+            <SubmitButton type="submit">
               <SubmitText>{path(['buttons', 'submit'], uiConfig)}</SubmitText>
             </SubmitButton>
           </Actions>
-        </form>
+        </Fragment>
       )}
     </Form>
   );
 
   const isComplete = !isSetting && success;
 
-  const title = !isComplete
-    ? path(['forms', 'setPassword'], formConfig)
-    : path(['forms', 'setPasswordComplete'], formConfig);
+  const title = !isComplete ? path(['titles', 'default'], data) : path(['titles', 'complete'], data);
 
   return (
     <StyledSetPasswordForm>
-      <Loader isLoading={submitted && isSetting && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
+      <Loader isLoading={submitted && isSetting && !success} text={path(['messages', 'setPassword'], uiConfig)}>
         <Title>{title}</Title>
-        {renderServerError(getServerError(error))}
+        {renderServerError(getServerError(prop('errors', data), error))}
         {!isComplete && renderForm()}
       </Loader>
     </StyledSetPasswordForm>

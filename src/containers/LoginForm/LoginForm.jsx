@@ -1,26 +1,23 @@
-import React, { useState } from 'react';
-import { __, compose, prop, path, view, set, curry, keys, has, isEmpty } from 'ramda';
+import React, { useState, Fragment } from 'react';
+import { compose, prop, path } from 'ramda';
+
+import { Form, Loader, Title, FormField, FormFieldError } from 'components';
+import { PasswordResetForm } from 'containers';
+import { withAuthentication } from 'hoc';
+
+import { getFormPath, extractFieldDefaults, sanitizeValues, getServerError } from 'utils/form';
 
 import { isSending, isSuccess } from 'store/common';
-import { InputError } from 'styles/elements';
-import { withAuthentication } from 'hoc';
-import { lensesFromObject } from 'utils';
-
-import { Form, Label, Loader, Fields, Title } from 'components';
-import { PasswordResetForm } from 'containers';
 
 import uiConfig from 'config/ui';
-import formConfig from 'config/forms';
-import { schema, fields, errors } from 'config/forms/login';
+import { fields, validation, data } from 'config/forms/login';
 
 import { propTypes, defaultProps } from './LoginForm.props';
 import connect from './LoginForm.state';
 import {
   Actions,
-  Field,
   ForgotLink,
   ForgotPassword,
-  Input,
   ServerErrorContent,
   StyledCheckbox,
   StyledLoginForm,
@@ -28,88 +25,58 @@ import {
   SubmitText,
 } from './LoginForm.styles';
 
-const getServerError = error => {
-  if (!error || isEmpty(error)) return '';
-  if (has('unverified', error)) return prop('unverified', errors);
-
-  return prop('unknown', errors);
-};
-
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
-const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
+const renderFormError = error => error && <FormFieldError>{error}</FormFieldError>;
+
+const renderField = (name, value, field, { handleChange, handleBlur, errors }) => (
+  <FormField
+    name={name}
+    value={value}
+    onChange={handleChange}
+    onBlur={handleBlur}
+    error={path(getFormPath(name), errors)}
+    {...field}
+  />
+);
 
 export const LoginForm = ({ requestStatus, onLogin, error }) => {
   const [submitted, setSubmitted] = useState(false);
   const [forgotten, setForgotten] = useState(false);
-  const [formValues, setFormValues] = useState(prop('defaults', fields));
+  const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
 
   const isLoggingIn = isSending(requestStatus);
   const success = isSuccess(requestStatus);
 
-  const lenses = lensesFromObject(keys(formValues));
-  const getLens = prop(__, lenses);
-
-  const changeHandler = curry((lens, callback, e) => {
-    setFormValues(set(lens, e.target.value, formValues));
-    callback(e);
-  });
-
   const onSubmit = values => {
     setSubmitted(true);
     setFormValues(values);
-    onLogin(values);
+    onLogin(sanitizeValues(values));
   };
 
   const renderForm = () => (
     <Form
       initialValues={formValues}
       onSubmit={onSubmit}
-      validationSchema={schema}
+      validationSchema={validation}
       validateOnBlur={false}
       validateOnChange={false}
     >
-      {({ errors, handleChange, handleBlur, handleSubmit }) => (
-        <form>
-          <Fields>
-            <Field>
-              <Label htmlFor="email">{path(['labels', 'email'], fields)}</Label>
-              <Input
-                autocomplete
-                name="email"
-                placeholder={path(['labels', 'email'], fields)}
-                value={view(getLens('email'), formValues)}
-                onChange={changeHandler(getLens('email'), handleChange)}
-                onBlur={handleBlur}
-              />
-              {renderFormError('email', errors)}
-            </Field>
-            <Field>
-              <Label htmlFor="password">{path(['labels', 'password'], fields)}</Label>
-              <Input
-                autocomplete
-                type="password"
-                name="password"
-                placeholder={path(['labels', 'password'], fields)}
-                value={view(getLens('password'), formValues)}
-                onChange={changeHandler(getLens('password'), handleChange)}
-                onBlur={handleBlur}
-              />
-              {renderFormError('password', errors)}
-            </Field>
-            <Field>
-              <StyledCheckbox
-                name="remember"
-                label={path(['labels', 'remember'], fields)}
-                value={view(getLens('remember'), formValues)}
-                onChange={changeHandler(getLens('remember'), handleChange)}
-                onBlur={handleBlur}
-              />
-              {renderFormError('remember', errors)}
-            </Field>
-          </Fields>
+      {({ values, ...formProps }) => (
+        <Fragment>
+          {renderField('email', prop('email', values), prop('email', fields), formProps)}
+          {renderField('password', prop('password', values), prop('password', fields), formProps)}
+          <StyledCheckbox
+            name="remember"
+            label={path(['remember', 'label'], fields)}
+            defaultChecked={prop('remember', values)}
+            onChange={prop('handleChange', formProps)}
+            onBlur={prop('handleBlur', formProps)}
+          >
+            {renderFormError(path(['errors', 'remember'], formProps))}
+          </StyledCheckbox>
           <Actions>
-            <SubmitButton type="button" onClick={handleSubmit}>
+            <SubmitButton type="submit">
               <SubmitText>{path(['buttons', 'login'], uiConfig)}</SubmitText>
             </SubmitButton>
 
@@ -117,7 +84,7 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
               <ForgotLink>{path(['buttons', 'forgotten'], uiConfig)}</ForgotLink>
             </ForgotPassword>
           </Actions>
-        </form>
+        </Fragment>
       )}
     </Form>
   );
@@ -127,8 +94,8 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
   return (
     <StyledLoginForm>
       <Loader isLoading={submitted && isLoggingIn && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
-        <Title>{path(['forms', 'login'], formConfig)}</Title>
-        {renderServerError(getServerError(error))}
+        <Title>{path(['titles', 'default'], data)}</Title>
+        {renderServerError(getServerError(prop('errors', data), error))}
         {renderForm()}
       </Loader>
     </StyledLoginForm>

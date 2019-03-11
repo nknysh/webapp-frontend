@@ -1,230 +1,126 @@
-import React, { useState } from 'react';
-import { __, compose, prop, path, set, curry, view, keys, pick, omit, isEmpty } from 'ramda';
+import React, { useState, Fragment } from 'react';
+import { compose, prop, path } from 'ramda';
 
-import { arrayToKeyValueObject, lensesFromObject } from 'utils';
+import { Form, Loader, Title, FormFieldError, FormField } from 'components';
+import { getServerError, extractFieldDefaults, sanitizeValues, getFormPath } from 'utils/form';
 
 import uiConfig from 'config/ui';
-import formConfig from 'config/forms';
-import countriesData from 'config/data/countries';
-import promotedCountriesData from 'config/data/countries-promoted';
-import { schema, fields, errors } from 'config/forms/createAccount';
-import signUpCompleteData from 'config/forms/createAccount/complete.md';
-import infoData from 'config/forms/createAccount/info.md';
+import { fields, validation, data } from 'config/forms/createAccount';
 
-import { InputError } from 'styles/elements';
 import { isSending, isSuccess } from 'store/common';
-
-import { Form, Label, Loader, Title, Fields, RadioButton } from 'components';
 
 import { propTypes, defaultProps } from './CreateAccountForm.props';
 import connect from './CreateAccountForm.state';
 import {
   Actions,
-  Center,
   Column,
   Columns,
-  Field,
   InfoMarkdown,
-  Input,
-  Select,
-  StyledCheckbox,
   StyledCreateAccount,
   StyledMarkdown,
   SubmitButton,
   SubmitText,
   ServerErrorContent,
+  StyledCheckbox,
 } from './CreateAccountForm.styles';
-
-const keyValueCountries = arrayToKeyValueObject('code', 'name')(countriesData);
-const promotedCountries = pick(promotedCountriesData, keyValueCountries);
-const restCountries = omit(promotedCountriesData, keyValueCountries);
-
-const getServerError = error => error && !isEmpty(error) && prop('unknown', errors);
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
-const renderFormError = (key, errors) => prop(key, errors) && <InputError>{prop(key, errors)}</InputError>;
+const renderFormError = error => error && <FormFieldError>{error}</FormFieldError>;
+
+const renderField = (name, value, field, { handleChange, handleBlur, errors }) => (
+  <FormField
+    name={name}
+    value={value}
+    onChange={handleChange}
+    onBlur={handleBlur}
+    error={path(getFormPath(name), errors)}
+    {...field}
+  />
+);
 
 export const CreateAccountForm = ({ requestStatus, onSignUp, error }) => {
   const [submitted, setSubmitted] = useState(false);
-  const [formValues, setFormValues] = useState(prop('defaults', fields));
+  const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
 
   const isSaving = isSending(requestStatus);
   const saved = isSuccess(requestStatus);
 
-  const lenses = lensesFromObject(keys(formValues));
-  const getLens = prop(__, lenses);
-
-  const changeHandler = curry((lens, callback, e) => {
-    setFormValues(set(lens, e.target.value, formValues));
-    callback(e);
-  });
-
   const onSubmit = values => {
     setSubmitted(true);
     setFormValues(values);
-    onSignUp(values);
+    onSignUp(sanitizeValues(values));
   };
 
-  const formTitle =
-    saved && submitted
-      ? path(['forms', 'createAccountComplete'], formConfig)
-      : path(['forms', 'createAccount'], formConfig);
+  const formTitle = saved && submitted ? path(['titles', 'complete'], data) : path(['titles', 'default'], data);
 
   const renderForm = () => (
     <Form
       initialValues={formValues}
       onSubmit={onSubmit}
-      validationSchema={schema}
+      validationSchema={validation}
       validateOnBlur={false}
       validateOnChange={false}
     >
-      {({ errors, handleChange, handleBlur, handleSubmit }) => (
-        <form>
-          <Fields>
-            <Columns>
-              <Column>
-                <Field>
-                  <Label htmlFor="title">
-                    {path(['labels', 'title'], fields)} ({path(['labels', 'optional'], formConfig)})
-                  </Label>
-                  <Select
-                    name="title"
-                    placeholder={path(['labels', 'title'], fields)}
-                    value={view(getLens('title'), formValues)}
-                    onChange={changeHandler(getLens('title'), handleChange)}
-                    onBlur={handleBlur}
-                    options={prop('titles', formConfig)}
-                  />
-                </Field>
-                <Field>
-                  <Label htmlFor="firstName">{path(['labels', 'firstName'], fields)}</Label>
-                  <Input
-                    name="firstName"
-                    placeholder={path(['labels', 'firstName'], fields)}
-                    value={view(getLens('firstName'), formValues)}
-                    onChange={changeHandler(getLens('firstName'), handleChange)}
-                    onBlur={handleBlur}
-                  />
-                  {renderFormError('firstName', errors)}
-                </Field>
-                <Field>
-                  <Label htmlFor="lastName">{path(['labels', 'lastName'], fields)}</Label>
-                  <Input
-                    name="lastName"
-                    placeholder={path(['labels', 'lastName'], fields)}
-                    value={view(getLens('lastName'), formValues)}
-                    onChange={changeHandler(getLens('lastName'), handleChange)}
-                    onBlur={handleBlur}
-                  />
-                  {renderFormError('lastName', errors)}
-                </Field>
-                <Field>
-                  <Label htmlFor="email">{path(['labels', 'email'], fields)}</Label>
-                  <Input
-                    name="email"
-                    placeholder={path(['labels', 'email'], fields)}
-                    value={view(getLens('email'), formValues)}
-                    onChange={changeHandler(getLens('email'), handleChange)}
-                    onBlur={handleBlur}
-                  />
-                  {renderFormError('email', errors)}
-                </Field>
-              </Column>
-              <Column>
-                <Field>
-                  <Label htmlFor="existingPartner" data-bold={true}>
-                    {path(['labels', 'existingPartner'], fields)}
-                  </Label>
-                  <RadioButton
-                    aria-label="existingPartner"
-                    name="existingPartner"
-                    value={view(getLens('existingPartner'), formValues)}
-                    onChange={changeHandler(getLens('existingPartner'), handleChange)}
-                    options={[
-                      {
-                        label: path(['labels', 'yes'], uiConfig),
-                        value: 'true',
-                      },
-                      {
-                        label: path(['labels', 'no'], uiConfig),
-                        value: 'false',
-                      },
-                    ]}
-                  />
-                </Field>
-                <Field>
-                  <Label htmlFor="companyName">{path(['labels', 'companyName'], fields)}</Label>
-                  <Input
-                    name="companyName"
-                    value={view(getLens('companyName'), formValues)}
-                    onChange={changeHandler(getLens('companyName'), handleChange)}
-                    onBlur={handleBlur}
-                  />
-                  {renderFormError('companyName', errors)}
-                </Field>
-                <Field>
-                  <Label htmlFor="companyCountry">{path(['labels', 'companyCountry'], fields)}</Label>
-                  <Select
-                    name="companyCountry"
-                    value={view(getLens('companyCountry'), formValues)}
-                    onChange={changeHandler(getLens('companyCountry'), handleChange)}
-                    onBlur={handleBlur}
-                    options={[promotedCountries, restCountries]}
-                  />
-                  {renderFormError('companyCountry', errors)}
-                </Field>
-                <Field>
-                  <Label htmlFor="landline">{path(['labels', 'landline'], fields)}</Label>
-                  <Input
-                    name="landline"
-                    value={view(getLens('landline'), formValues)}
-                    onChange={changeHandler(getLens('landline'), handleChange)}
-                    onBlur={handleBlur}
-                  />
-                  {renderFormError('landline', errors)}
-                </Field>
-                <Field>
-                  <Label htmlFor="mobile">{path(['labels', 'mobile'], fields)}</Label>
-                  <Input
-                    name="mobile"
-                    value={view(getLens('mobile'), formValues)}
-                    onChange={changeHandler(getLens('mobile'), handleChange)}
-                    onBlur={handleBlur}
-                  />
-                  {renderFormError('mobile', errors)}
-                </Field>
-              </Column>
-            </Columns>
-            <Field>
-              <StyledCheckbox
-                name="agreeToTerms"
-                label={path(['labels', 'agreeToTerms'], fields)}
-                value={view(getLens('agreeToTerms'), formValues)}
-                onChange={changeHandler(getLens('agreeToTerms'), handleChange)}
-                onBlur={handleBlur}
-              />
-              <Center>{renderFormError('agreeToTerms', errors)}</Center>
-            </Field>
-          </Fields>
+      {({ values, ...formProps }) => (
+        <Fragment>
+          <Columns>
+            <Column>
+              {renderField('title', prop('title', values), prop('title', fields), formProps)}
+              {renderField('firstName', prop('firstName', values), prop('firstName', fields), formProps)}
+              {renderField('lastName', prop('lastName', values), prop('lastName', fields), formProps)}
+              {renderField('email', prop('email', values), prop('email', fields), formProps)}
+            </Column>
+            <Column>
+              {renderField(
+                'isExistingPartner',
+                prop('isExistingPartner', values),
+                prop('isExistingPartner', fields),
+                formProps
+              )}
+              {renderField(
+                'companySignupInfo[name]',
+                path(['companySignupInfo', 'name'], values),
+                path(['companySignupInfo', 'name'], fields),
+                formProps
+              )}
+              {renderField(
+                'companySignupInfo[country]',
+                path(['companySignupInfo', 'country'], values),
+                path(['companySignupInfo', 'country'], fields),
+                formProps
+              )}
+              {renderField('phoneNumber', prop('phoneNumber', values), prop('phoneNumber', fields), formProps)}
+              {renderField('mobileNumber', prop('mobileNumber', values), prop('mobileNumber', fields), formProps)}
+            </Column>
+          </Columns>
+          <StyledCheckbox
+            name="agreeToTerms"
+            label={path(['agreeToTerms', 'label'], fields)}
+            defaultChecked={prop('agreeToTerms', values)}
+            onChange={prop('handleChange', formProps)}
+            onBlur={prop('handleBlur', formProps)}
+          >
+            {renderFormError(path(['errors', 'agreeToTerms'], formProps))}
+          </StyledCheckbox>
           <Actions>
-            <SubmitButton type="button" onClick={handleSubmit}>
+            <SubmitButton type="submit">
               <SubmitText>{path(['buttons', 'request'], uiConfig)}</SubmitText>
             </SubmitButton>
-            <InfoMarkdown>{infoData}</InfoMarkdown>
+            <InfoMarkdown>{path(['content', 'info'], data)}</InfoMarkdown>
           </Actions>
-        </form>
+        </Fragment>
       )}
     </Form>
   );
 
-  const renderComplete = () => <StyledMarkdown>{signUpCompleteData}</StyledMarkdown>;
+  const renderComplete = () => <StyledMarkdown>{path(['content', 'complete'], data)}</StyledMarkdown>;
 
   return (
     <StyledCreateAccount>
       <Loader isLoading={submitted && isSaving && !saved} text={path(['messages', 'creatingAccount'], uiConfig)}>
         <Title>{formTitle}</Title>
-        {renderServerError(getServerError(error))}
+        {renderServerError(getServerError(prop('errors', data), error))}
         {submitted && saved ? renderComplete() : renderForm()}
       </Loader>
     </StyledCreateAccount>
