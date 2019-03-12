@@ -18,7 +18,7 @@ import { Icon } from '@material-ui/core';
 
 export const StyledCard = styled(Base)`
   position: relative;
-  margin: 0 0 ${theme.gutter}px;
+  margin: 0 0 ${theme.gutter * 2}px;
 
   ${breakpoints.tablet`
       margin ${theme.gutter}px;
