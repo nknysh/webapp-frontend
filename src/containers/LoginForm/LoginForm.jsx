@@ -67,13 +67,13 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
           {renderField('email', prop('email', values), prop('email', fields), formProps)}
           {renderField('password', prop('password', values), prop('password', fields), formProps)}
           <StyledCheckbox
-            name="remember"
-            label={path(['remember', 'label'], fields)}
-            defaultChecked={prop('remember', values)}
+            name="rememberMe"
+            label={path(['rememberMe', 'label'], fields)}
+            defaultChecked={prop('rememberMe', values)}
             onChange={prop('handleChange', formProps)}
             onBlur={prop('handleBlur', formProps)}
           >
-            {renderFormError(path(['errors', 'remember'], formProps))}
+            {renderFormError(path(['errors', 'rememberMe'], formProps))}
           </StyledCheckbox>
           <Actions>
             <SubmitButton type="submit">

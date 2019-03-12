@@ -10,7 +10,7 @@ export default {
       type: 'password',
     },
   },
-  remember: {
+  rememberMe: {
     label: 'Remember me',
     default: false,
   },
