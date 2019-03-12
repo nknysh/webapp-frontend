@@ -29,7 +29,8 @@ const getSearchQuery = pipe(
   pick(['lodging', 'search', 'dates', 'honeymooners'])
 );
 
-const searchMiddleware = store => next => action => {
+const searchMiddleware = ({ getState }) => next => action => {
+  const state = getState();
   const search = getSearchQuery(history);
 
   const populateSearch = pipe(
@@ -40,7 +41,7 @@ const searchMiddleware = store => next => action => {
 
   // If the redux key is empty but there is a search in the
   // query string, then populate the redux store with it
-  if (!path(['search', 'query'], store) && !isEmpty(search)) next(populateSearch(search));
+  if (!path(['search', 'query'], state) && !isEmpty(search)) next(populateSearch(search));
 
   next(action);
 };
