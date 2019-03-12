@@ -18,9 +18,9 @@ export const ResultsTitle = styled(Heading2)`
   display: block;
   padding: 0 0 ${theme.gutter}px;
   margin-top: ${theme.gutter}px;
+  color: ${theme.colors['gold-neutral']};
 
   ${breakpoints.tablet`
-    color: ${theme.colors['gold-neutral']};
     margin: ${theme.gutter}px ${theme.gutter / 2}px ${theme.gutter * 4}px;
   `}
 `;
