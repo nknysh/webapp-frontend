@@ -21,6 +21,7 @@ const uiConfig = {
     room: 'Room',
     guest: 'Guest',
     honeymooners: 'Honeymooners',
+    searching: 'Search',
 
     yes: 'Yes',
     no: 'No',
@@ -34,6 +35,7 @@ const uiConfig = {
     passwordReset: 'Reset Your Password',
     forgotten: 'Forgot your password?',
     moreInfo: 'More Info',
+    refine: 'Refine search results',
   },
 
   placeholders: {
@@ -49,6 +51,8 @@ const uiConfig = {
     teen: ['Teen', 'Teens'],
     children: ['Children', 'Children'],
     infant: ['Infant', 'Infants'],
+    result: ['property found', 'properties found'],
+    star: ['Star', 'Stars'],
   },
 
   sections: {
@@ -58,6 +62,7 @@ const uiConfig = {
   taglines: {
     validFromTo: 'Valid from {fromDate} to {toDate}.',
     validForAllVillas: 'Offer applies to all villa categories',
+    suitableHoneymoon: 'BEST FOR HONEYMOONERS',
   },
 
   currency: {

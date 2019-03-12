@@ -56,16 +56,6 @@ Object {
   "auth": true,
   "authRedirect": "/login",
   "component": [Function],
-  "name": "Search",
-  "path": "/search",
-}
-`;
-
-exports[`routing routes match snapshot 7`] = `
-Object {
-  "auth": true,
-  "authRedirect": "/login",
-  "component": [Function],
   "name": "Calendar",
   "path": "/calendar",
 }

@@ -1,25 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { __, pipe, compose, pathOr, path, isEmpty, prop, curry, map, set, lensProp, view } from 'ramda';
-import hash from 'object-hash';
+import { __, pipe, compose, path, prop, set, lensProp, view } from 'ramda';
 
 import uiConfig from 'config/ui';
 
 import { Loader, DatePicker, LodgingSelect, Checkbox } from 'components';
 import { useFetchData } from 'effects';
-import { buildQueryString, mapWithIndex, noop } from 'utils';
+import { buildQueryString } from 'utils';
 
 import { propTypes, defaultProps } from './SearchBar.props';
-import {
-  SearchBarButton,
-  SearchBarHit,
-  SearchBarHitContent,
-  SearchBarHits,
-  SearchBarIndexSearch,
-  SearchBarResults,
-  SearchBarSection,
-  StyledSearchBar,
-} from './SearchBar.styles';
+import { SearchBarButton, SearchBarIndexSearch, SearchBarSection, StyledSearchBar } from './SearchBar.styles';
 import connect from './SearchBar.state';
 
 const searchLens = lensProp('search');
@@ -43,7 +33,6 @@ export const SearchBar = ({
   useFetchData(fetchDestinations, destinations);
 
   const indexes = ['destinations', 'hotels'];
-  const resultsMap = [{ selector: getDestinationTitle }, { selector: getHotelName }];
   const updateSearchQuery = set(__, __, searchQuery);
   const getSearchQueryData = view(__, searchQuery);
 
@@ -55,49 +44,18 @@ export const SearchBar = ({
     updateSearchQuery(lodgingLens),
     setSearchQuery
   );
+
   const setHoneymoonersToSearchQuery = pipe(
     updateSearchQuery(honeymoonersLens),
     setSearchQuery
   );
 
+  const onIndexSearchClick = pipe(
+    updateSearchQuery(searchLens),
+    setSearchQuery
+  );
+
   const submitSearch = () => history.push(`/search?${buildQueryString(searchQuery)}`);
-
-  // eslint-disable-next-line
-  const renderSearchBarResults = ({ results, onSelect = noop }) => {
-    const renderResult = (index, hit) => {
-      const ref = prop('ref', hit);
-
-      const onClick = () => {
-        const value = pathOr(noop, [index, 'selector'], resultsMap)(ref);
-
-        setSearchQuery(
-          updateSearchQuery(searchLens, {
-            type: indexes[index],
-            id: ref,
-            value,
-          })
-        );
-        onSelect(value);
-      };
-
-      return (
-        !isEmpty(hit) && (
-          <SearchBarHit data-search-hit={ref} key={hash(hit)} onMouseDown={onClick}>
-            <SearchBarHitContent>{pathOr(noop, [index, 'selector'], resultsMap)(prop('ref', hit))}</SearchBarHitContent>
-          </SearchBarHit>
-        )
-      );
-    };
-
-    const renderResults = (hits, i) =>
-      !isEmpty(hits) && (
-        <SearchBarHits data-search-hits={indexes[i]} key={hash(hits)}>
-          {map(curry(renderResult)(i), hits)}
-        </SearchBarHits>
-      );
-
-    return <SearchBarResults>{mapWithIndex(renderResults, results)}</SearchBarResults>;
-  };
 
   return (
     <StyledSearchBar className={className}>
@@ -107,12 +65,12 @@ export const SearchBar = ({
             indexes={indexes}
             label={path(['labels', 'search'], uiConfig)}
             limit={5}
+            onClick={onIndexSearchClick}
             openOnFocus={false}
             placeholder={path(['placeholders', 'search'], uiConfig)}
+            selectors={[getDestinationTitle, getHotelName]}
             value={prop('value', getSearchQueryData(searchLens))}
-          >
-            {renderSearchBarResults}
-          </SearchBarIndexSearch>
+          />
         </SearchBarSection>
         <SearchBarSection data-large={true}>
           <DatePicker
@@ -132,7 +90,7 @@ export const SearchBar = ({
         <SearchBarSection data-constrain={true}>
           <Checkbox
             label={path(['labels', 'honeymooners'], uiConfig)}
-            onSelected={setHoneymoonersToSearchQuery}
+            onChange={(e, checked) => setHoneymoonersToSearchQuery(checked)}
             checked={getSearchQueryData(honeymoonersLens)}
           />
         </SearchBarSection>

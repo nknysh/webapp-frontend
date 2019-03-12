@@ -1,4 +1,4 @@
-import { addEvent, removeEvent } from './window';
+import { addEvent, removeEvent, isMobile } from './window';
 
 describe('window', () => {
   describe('addEvent', () => {
@@ -23,6 +23,12 @@ describe('window', () => {
       removeEvent('resize', callback, context);
 
       expect(context.removeEventListener).toHaveBeenCalled();
+    });
+  });
+  describe('isMobile', () => {
+    it('returns correctly', () => {
+      expect(isMobile(100)).toBeTruthy();
+      expect(isMobile(2000)).toBeFalsy();
     });
   });
 });

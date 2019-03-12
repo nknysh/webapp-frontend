@@ -11,6 +11,7 @@ import {
   prop,
   reduce,
   uniq,
+  unapply,
 } from 'ramda';
 
 export const noop = () => {};
@@ -37,3 +38,5 @@ const lensFromObject = curry((previousKeys, value, key) => {
 });
 
 export const buildLensesFromObject = mapObjIndexed(lensFromObject([]));
+
+export const toList = unapply(identity);

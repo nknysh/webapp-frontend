@@ -40,6 +40,10 @@ export const AuthenticatedRoute = ({
     return renderRedirect(authRedirect);
   }
 
+  if (!routeIsAuthenticated) {
+    return renderRedirect();
+  }
+
   return renderRoute(Route, routeProps);
 };
 

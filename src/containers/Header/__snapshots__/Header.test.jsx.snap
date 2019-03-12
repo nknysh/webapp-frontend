@@ -78,6 +78,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
     </styled.div>
   </Styled(styled.div)>
   <Modal
+    modalContentProps={Object {}}
     onClose={[Function]}
     open={false}
   />

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'components';
 
 import theme from 'styles/theme';
+import breakpoints from 'styles/breakpoints';
 
 import {
   Card,
@@ -17,7 +18,12 @@ import {
 } from 'styles/card';
 import { buttonStyles } from 'styles/elements';
 
-export const StyledOffer = styled(Card)``;
+export const StyledOffer = styled(Card)`
+  ${breakpoints.tablet`
+    flex: 1;
+    max-width: 33%;
+  `}
+`;
 
 export const OfferImage = styled(CardImage)``;
 

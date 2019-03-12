@@ -5,6 +5,7 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
   <DropDownContent
     inputContent="0 Rooms, 0 Guests"
     showArrow={true}
+    showInput={true}
   >
     <styled.div>
       <styled.div>

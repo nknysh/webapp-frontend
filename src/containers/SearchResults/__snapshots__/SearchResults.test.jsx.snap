@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchResults /> render matches snapshot 1`] = `
+<Loader
+  isLoading={false}
+  showSpinner={true}
+/>
+`;

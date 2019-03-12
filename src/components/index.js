@@ -24,3 +24,4 @@ export { Slider } from './Slider';
 export { FormFieldError } from './FormFieldError';
 export { Input } from './Input';
 export { FormField } from './FormField';
+export { Card } from './Card';

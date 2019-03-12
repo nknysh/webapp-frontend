@@ -13,8 +13,10 @@ export const propTypes = {
   showArrow: PropTypes.bool,
   showContent: PropTypes.bool,
   showOverlay: PropTypes.bool,
+  showInput: PropTypes.bool,
 };
 
 export const defaultProps = {
   showArrow: true,
+  showInput: true,
 };
