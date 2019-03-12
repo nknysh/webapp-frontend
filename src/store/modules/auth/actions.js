@@ -2,7 +2,6 @@ import { prop, omit } from 'ramda';
 
 import client from 'api/auth';
 
-import mockUser from 'config/auth/mockUser';
 import { successAction, errorAction } from 'store/common/actions';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
@@ -18,19 +17,17 @@ export const AUTH_SET_PASSWORD = 'AUTH_SET_PASSWORD';
 export const AUTH_TOKEN = 'authToken';
 export const AUTH_USER = 'authUser';
 
-const mockToken = '123456789';
-
 const authReset = () => ({
   type: AUTH_RESET,
 });
 
-export const getUserFromToken = ({ token }) => dispatch => {
-  dispatch(authRequest({ token }));
+export const getUser = dispatch => {
+  dispatch(authRequest());
 
   return client
-    .getUserFromToken(token)
-    .then(response => dispatch(successAction(response.data)))
-    .catch(error => dispatch(errorAction(error)));
+    .getUser()
+    .then(response => dispatch(successAction(AUTH_REQUEST, response.data)))
+    .catch(error => dispatch(errorAction(AUTH_REQUEST, error)));
 };
 
 export const setToken = token => ({
@@ -85,32 +82,40 @@ export const signUp = values => dispatch => {
 
 export const logOut = token => dispatch => {
   dispatch(authLogOut(token));
-  deleteRememberedToken();
-  deleteRememberedUser();
-  dispatch(authReset());
 
-  return token ? dispatch(successAction(AUTH_LOG_OUT)) : dispatch(errorAction(AUTH_LOG_OUT, { unknown: true }));
+  const onSuccess = () => {
+    deleteRememberedToken();
+    deleteRememberedUser();
+    dispatch(authReset());
+    dispatch(successAction(AUTH_LOG_OUT));
+  };
+
+  return client
+    .logOut()
+    .then(onSuccess)
+    .catch(error => dispatch(errorAction(AUTH_LOG_OUT, error.response)));
 };
 
 export const logIn = values => dispatch => {
   dispatch(authRequest(omit(['password'], values)));
 
-  // return client
-  //   .logIn(values)
-  //   .then(response => dispatch(successAction(AUTH_REQUEST, response.data)))
-  //   .catch(error => dispatch(errorAction(AUTH_REQUEST, error.response)));
+  const onSuccess = ({ data }) => {
+    const userUuid = prop('uuid', data);
 
-  const email = prop('email', values);
+    if (!prop('emailVerified', data)) {
+      return dispatch(errorAction(AUTH_REQUEST, { status: 403, unverified: true }));
+    }
 
-  if (email === 'unverified@test.com') {
-    return dispatch(errorAction(AUTH_REQUEST, { unverified: true }));
-  }
+    dispatch(successAction(AUTH_REQUEST, { user: { ...data } }));
+    dispatch(setToken({ token: userUuid }));
+    setRememberedToken(userUuid);
+    setRememberedUser(data);
+  };
 
-  dispatch(setToken({ mockToken }));
-  setRememberedToken(mockToken);
-  setRememberedUser(mockUser);
-
-  return dispatch(successAction(AUTH_REQUEST, { user: { ...mockUser } }));
+  return client
+    .logIn(values)
+    .then(onSuccess)
+    .catch(error => dispatch(errorAction(AUTH_REQUEST, error.response)));
 };
 
 export const resetPassword = values => dispatch => {

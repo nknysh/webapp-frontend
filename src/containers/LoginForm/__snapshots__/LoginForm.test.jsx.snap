@@ -16,7 +16,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
         Object {
           "email": "",
           "password": "",
-          "remember": false,
+          "rememberMe": false,
         }
       }
       onSubmit={[Function]}
