@@ -1,4 +1,3 @@
-import { createBrowserHistory } from 'history';
 import { prop, omit } from 'ramda';
 
 import client from 'api/auth';
