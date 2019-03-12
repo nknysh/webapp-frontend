@@ -1,5 +1,107 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
+<Loader
+  isLoading={true}
+  showSpinner={true}
+>
+  <styled.div>
+    <styled.h4>
+      Search
+    </styled.h4>
+    <styled.div>
+      <withSearchIndexes(IndexSearch)
+        indexes={
+          Array [
+            "destinations",
+            "hotels",
+          ]
+        }
+        label="Destination or resort"
+        limit={5}
+        onClick={[Function]}
+        openOnFocus={false}
+        placeholder="Where to"
+        selectors={
+          Array [
+            [Function],
+            undefined,
+          ]
+        }
+      />
+    </styled.div>
+    <styled.div>
+      <DatePicker
+        label="Dates"
+        onSelected={[Function]}
+        placeholder="Select dates"
+        showOverlay={true}
+        summaryText="Night"
+        summaryTextPlural={
+          Array [
+            "Nights",
+          ]
+        }
+      />
+    </styled.div>
+    <styled.div>
+      <LodgingSelect
+        id="lodging"
+        label="Lodging"
+        onSelected={[Function]}
+      />
+    </styled.div>
+    <styled.div>
+      <Checkbox
+        label="Honeymooners"
+        onChange={[Function]}
+      />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.h4>
+      Region
+    </styled.h4>
+    <styled.div>
+      <Styled(RadioButton)
+        name="regions[type]"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "label": "All regions",
+              "value": "all",
+            },
+            Object {
+              "label": "Specify regions",
+              "value": "specify",
+            },
+          ]
+        }
+        value="specify"
+      />
+      <Styled(Checkbox)
+        key="foo"
+        label="foo"
+        name="regions[selected][foo]"
+        onChange={[Function]}
+      />
+      <Styled(Checkbox)
+        key="bar"
+        label="bar"
+        name="regions[selected][bar]"
+        onChange={[Function]}
+      />
+    </styled.div>
+    <styled.div>
+      <Styled(styled.button)>
+        Remove all filters
+      </Styled(styled.button)>
+    </styled.div>
+  </styled.div>
+</Loader>
+`;
+
 exports[`<SearchSidebar /> render matches snapshot 1`] = `
 <Loader
   isLoading={true}
@@ -56,6 +158,35 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
         label="Honeymooners"
         onChange={[Function]}
       />
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.h4>
+      Region
+    </styled.h4>
+    <styled.div>
+      <Styled(RadioButton)
+        name="regions[type]"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "label": "All regions",
+              "value": "all",
+            },
+            Object {
+              "label": "Specify regions",
+              "value": "specify",
+            },
+          ]
+        }
+        value="all"
+      />
+    </styled.div>
+    <styled.div>
+      <Styled(styled.button)>
+        Remove all filters
+      </Styled(styled.button)>
     </styled.div>
   </styled.div>
 </Loader>

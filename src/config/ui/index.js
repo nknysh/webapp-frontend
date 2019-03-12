@@ -22,6 +22,8 @@ const uiConfig = {
     guest: 'Guest',
     honeymooners: 'Honeymooners',
     searching: 'Search',
+    allRegions: 'All regions',
+    specifyRegions: 'Specify regions',
 
     yes: 'Yes',
     no: 'No',
@@ -36,6 +38,7 @@ const uiConfig = {
     forgotten: 'Forgot your password?',
     moreInfo: 'More Info',
     refine: 'Refine search results',
+    removeFilters: 'Remove all filters',
   },
 
   placeholders: {
@@ -53,6 +56,7 @@ const uiConfig = {
     infant: ['Infant', 'Infants'],
     result: ['property found', 'properties found'],
     star: ['Star', 'Stars'],
+    region: ['Region', 'Regions'],
   },
 
   sections: {

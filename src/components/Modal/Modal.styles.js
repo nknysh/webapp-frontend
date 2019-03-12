@@ -38,8 +38,9 @@ export const ModalContent = styled.div`
 
 export const ModalClose = styled(Icon)`
   color: ${theme.colors['gold-light']};
-  position: absolute;
+  position: fixed;
   top: ${theme.gutter * 2}px;
   right: ${theme.gutter * 2}px;
   cursor: pointer;
+  z-index: 10000;
 `;

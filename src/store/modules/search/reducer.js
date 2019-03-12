@@ -3,7 +3,7 @@ import { map } from 'ramda';
 
 import { createReducer } from 'store/utils';
 
-import { SEARCH_INDEX_BUILD, SET_SEARCH_QUERY } from './actions';
+import { SEARCH_INDEX_BUILD, SET_SEARCH_QUERY, RESET_SEARCH_FILTERS } from './actions';
 
 function newIndex(ref, fields = [], data = []) {
   return lunr(function() {
@@ -37,19 +37,26 @@ const buildSearchIndex = (state, { payload: { index, ref, fields, data } }) => {
   };
 };
 
-const setSearchQuery = (state, { payload }) => {
-  return {
-    ...state,
-    query: {
-      ...payload,
-    },
-  };
-};
+const setSearchQuery = (state, { payload }) => ({
+  ...state,
+  query: {
+    ...payload,
+  },
+});
+
+export const resetFilters = state => ({
+  ...state,
+  query: {
+    ...state.query,
+    filters: {},
+  },
+});
 
 export default createReducer(
   {
     [SEARCH_INDEX_BUILD]: buildSearchIndex,
     [SET_SEARCH_QUERY]: setSearchQuery,
+    [RESET_SEARCH_FILTERS]: resetFilters,
   },
   initialState
 );

@@ -5,7 +5,7 @@ import { fetchDestinations } from 'store/modules/destinations/actions';
 import { fetchHotels } from 'store/modules/hotels/actions';
 
 import { getDestinationsData, getDestinationTitle } from 'store/modules/destinations/selectors';
-import { getHotelsData, getHotel } from 'store/modules/hotels/selectors';
+import { getHotelsData, getHotel, getHotelRegions } from 'store/modules/hotels/selectors';
 import { getSearchQuery } from 'store/modules/search/selectors';
 
 export const mapStateToProps = state => ({
@@ -13,6 +13,7 @@ export const mapStateToProps = state => ({
   destinations: getDestinationsData(state),
   getDestinationTitle: getDestinationTitle(state),
   getHotel: getHotel(state),
+  regions: getHotelRegions(state),
   searchQuery: getSearchQuery(state),
 });
 
