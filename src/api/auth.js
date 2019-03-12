@@ -6,7 +6,7 @@ export const signUp = values => client.post('/users', values);
 
 export const logIn = values => client.post('/users/login', values);
 
-export const logOut = values => client.post('/users/logout', values);
+export const logOut = () => client.post('/users/logout');
 
 export const resetPassword = values => client.post('/users/reset', values);
 

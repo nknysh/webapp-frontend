@@ -51,7 +51,7 @@ describe('auth actions', () => {
 
       logOut({})(dispatch);
 
-      expect(dispatch).toHaveBeenCalledTimes(3);
+      expect(dispatch).toHaveBeenCalledTimes(1);
     });
   });
   describe('authPasswordReset', () => {

@@ -82,11 +82,18 @@ export const signUp = values => dispatch => {
 
 export const logOut = token => dispatch => {
   dispatch(authLogOut(token));
-  deleteRememberedToken();
-  deleteRememberedUser();
-  dispatch(authReset());
 
-  return token ? dispatch(successAction(AUTH_LOG_OUT)) : dispatch(errorAction(AUTH_LOG_OUT, { unknown: true }));
+  const onSuccess = () => {
+    deleteRememberedToken();
+    deleteRememberedUser();
+    dispatch(authReset());
+    dispatch(successAction(AUTH_LOG_OUT));
+  };
+
+  return client
+    .logOut()
+    .then(onSuccess)
+    .catch(error => dispatch(errorAction(AUTH_LOG_OUT, error.response)));
 };
 
 export const logIn = values => dispatch => {
