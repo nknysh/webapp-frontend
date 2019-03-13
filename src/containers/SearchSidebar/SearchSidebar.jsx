@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { __, set, view, path, prop, compose, lensProp, pipe } from 'ramda';
+import { __, set, view, path, prop, compose, lensProp, lensPath, pipe, equals, map, merge } from 'ramda';
 
 import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'components';
 import { useFetchData } from 'effects';
 import { buildQueryString } from 'utils';
 
-import uiConfig from 'config/ui';
+import uiConfig, { getSingular } from 'config/ui';
 
 import connect from './SearchSidebar.state';
 import { propTypes, defaultProps } from './SearchSidebar.props';
-import { Section, Title, SectionField } from './SearchSidebar.styles';
+import { Section, Title, SectionField, RegionRadioButton, SideBarButton, RegionCheckbox } from './SearchSidebar.styles';
 
 const indexes = ['destinations', 'hotels'];
 
@@ -18,6 +18,13 @@ const searchLens = lensProp('search');
 const datesLens = lensProp('dates');
 const lodgingLens = lensProp('lodging');
 const honeymoonersLens = lensProp('honeymooners');
+const filtersRegionTypeLens = lensPath(['filters', 'regions', 'type']);
+const filtersRegionSelectedLens = lensPath(['filters', 'regions', 'selected']);
+
+export const RegionType = {
+  ALL: 'all',
+  SPECIFY: 'specify',
+};
 
 export const SearchSidebar = ({
   destinations,
@@ -28,7 +35,9 @@ export const SearchSidebar = ({
   hotels,
   searchQuery,
   setSearchQuery,
+  resetFilters,
   history,
+  regions,
 }) => {
   useFetchData(fetchHotels, hotels);
   useFetchData(fetchDestinations, destinations);
@@ -52,10 +61,30 @@ export const SearchSidebar = ({
     updateSearchQuery(honeymoonersLens),
     setSearchQuery
   );
+  const setRegionsTypeToSearchQuery = pipe(
+    path(['currentTarget', 'value']),
+    updateSearchQuery(filtersRegionTypeLens),
+    setSearchQuery
+  );
+  const setRegionsSelectedToSearchQuery = pipe(
+    merge(getSearchQueryData(filtersRegionSelectedLens)),
+    updateSearchQuery(filtersRegionSelectedLens),
+    setSearchQuery
+  );
 
   const onIndexSearchClick = pipe(
     updateSearchQuery(searchLens),
     setSearchQuery
+  );
+
+  const renderRegionCheckbox = region => (
+    <RegionCheckbox
+      key={region}
+      name={`regions[selected][${region}]`}
+      label={region}
+      checked={prop(region, getSearchQueryData(filtersRegionSelectedLens))}
+      onChange={(e, checked) => setRegionsSelectedToSearchQuery({ [region]: checked })}
+    />
   );
 
   return (
@@ -95,6 +124,31 @@ export const SearchSidebar = ({
             onChange={(e, checked) => setHoneymoonersToSearchQuery(checked)}
             checked={getSearchQueryData(honeymoonersLens)}
           />
+        </SectionField>
+      </Section>
+
+      <Section>
+        <Title>{getSingular('region')}</Title>
+        <SectionField>
+          <RegionRadioButton
+            name="regions[type]"
+            value={getSearchQueryData(filtersRegionTypeLens) || RegionType.ALL}
+            onChange={setRegionsTypeToSearchQuery}
+            options={[
+              {
+                label: path(['labels', 'allRegions'], uiConfig),
+                value: RegionType.ALL,
+              },
+              {
+                label: path(['labels', 'specifyRegions'], uiConfig),
+                value: RegionType.SPECIFY,
+              },
+            ]}
+          />
+          {equals(RegionType.SPECIFY, getSearchQueryData(filtersRegionTypeLens)) && map(renderRegionCheckbox, regions)}
+        </SectionField>
+        <SectionField>
+          <SideBarButton onClick={resetFilters}>{path(['buttons', 'removeFilters'], uiConfig)}</SideBarButton>
         </SectionField>
       </Section>
     </Loader>

@@ -1,8 +1,17 @@
-import { __, prop, pipe, curry, propOr, map, when, complement, isNil } from 'ramda';
+import { createSelector } from 'reselect';
+import { __, prop, pipe, curry, propOr, map, when, complement, isNil, reduce, uniq, values } from 'ramda';
 
 import { selectRelationships } from 'store/common/selectors';
 
 import schema from './schema';
+
+const reduceRegion = (accum, value) => [...accum, prop('region', value)];
+
+const getRegions = pipe(
+  values,
+  reduce(reduceRegion, []),
+  uniq
+);
 
 export const getHotels = prop('hotels');
 
@@ -12,6 +21,11 @@ export const getHotelsData = state =>
     prop('data'),
     when(complement(isNil), map(selectRelationships(state, propOr({}, 'relationships', schema))))
   )(state);
+
+export const getHotelRegions = createSelector(
+  getHotelsData,
+  getRegions
+);
 
 export const getHotel = curry((state, id) =>
   pipe(

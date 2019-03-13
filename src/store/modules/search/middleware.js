@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import { path, prop, pipe, pick, isEmpty, lensPath, lensProp, over, map } from 'ramda';
+import { path, prop, pipe, pick, isEmpty, lensPath, lensProp, over, map, when, complement, isNil } from 'ramda';
 
 import { getQuery } from 'utils';
 
@@ -11,22 +11,27 @@ const datesFromLens = lensPath(['dates', 'from']);
 const datesToLens = lensPath(['dates', 'to']);
 const lodgingLens = lensProp('lodging');
 const honeymoonersLens = lensProp('honeymooners');
+const filtersRegionsLens = lensPath(['filters', 'regions', 'selected']);
 
 const newDate = value => value && new Date(value);
 
+const toBoolean = value => value == 'true';
+
 const mapNumbers = map(Number);
+const mapRegionSelected = when(complement(isNil), map(toBoolean));
 
 const formatData = pipe(
   over(datesFromLens, newDate),
   over(datesToLens, newDate),
   over(lodgingLens, mapNumbers),
-  over(honeymoonersLens, Boolean)
+  over(honeymoonersLens, toBoolean),
+  over(filtersRegionsLens, mapRegionSelected)
 );
 
 const getSearchQuery = pipe(
   prop('location'),
   getQuery,
-  pick(['lodging', 'search', 'dates', 'honeymooners'])
+  pick(['lodging', 'search', 'dates', 'honeymooners', 'filters'])
 );
 
 const searchMiddleware = ({ getState }) => next => action => {

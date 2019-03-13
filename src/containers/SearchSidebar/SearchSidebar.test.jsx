@@ -9,5 +9,20 @@ describe('<SearchSidebar />', () => {
     it('matches snapshot', () => {
       expect(getComponent()).toMatchSnapshot();
     });
+    it('matches filtered regions snapshot', () => {
+      expect(
+        getComponent({
+          regions: ['foo', 'bar'],
+          searchQuery: {
+            filters: {
+              regions: {
+                type: 'specify',
+                selected: ['foo'],
+              },
+            },
+          },
+        })
+      ).toMatchSnapshot();
+    });
   });
 });

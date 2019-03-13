@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { RadioButton, Checkbox } from 'components';
+
 import theme from 'styles/theme';
 import { Button } from 'styles/elements';
 
@@ -37,4 +39,19 @@ export const SectionField = styled.div`
   }
 `;
 
-export const SearchBarButton = styled(Button)``;
+export const RegionRadioButton = styled(RadioButton)`
+  label {
+    display: block;
+    width: 100%;
+    flex: none;
+    display: flex;
+  }
+`;
+
+export const RegionCheckbox = styled(Checkbox)`
+  margin-left: ${theme.gutter * 3}px;
+`;
+
+export const SideBarButton = styled(Button)`
+  font-size: 12px;
+`;
