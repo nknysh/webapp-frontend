@@ -16,7 +16,7 @@ describe('search utils', () => {
   describe('IndexTypes', () => {
     it('should return index types correctly', () => {
       expect(values(IndexTypes)).toHaveLength(2);
-      expect(IndexTypes.DESTINATIONS).toEqual('destinations');
+      expect(IndexTypes.COUNTRIES).toEqual('countries');
       expect(IndexTypes.HOTELS).toEqual('hotels');
     });
     it('should be immutable', () => {

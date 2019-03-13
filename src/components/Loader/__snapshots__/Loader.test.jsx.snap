@@ -1,6 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Loader /> render matches snapshots 1`] = `""`;
+exports[`<Loader /> render matches snapshots 1`] = `
+<styled.div>
+  <Styled(styled.img)
+    src=""
+  />
+  <Styled(styled.p)>
+    Loading...
+  </Styled(styled.p)>
+</styled.div>
+`;
 
 exports[`<Loader /> render matches snapshots 2`] = `
 <styled.div>

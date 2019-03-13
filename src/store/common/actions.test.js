@@ -1,5 +1,5 @@
 import { Status } from './status';
-import { successAction, errorAction, extractRelationships, fetchRelationships } from './actions';
+import { successAction, errorAction, extractData, fetchRelationships } from './actions';
 
 describe('common actions', () => {
   it('successAction returns dynamic generated action object', () => {
@@ -22,7 +22,7 @@ describe('common actions', () => {
     expect(action).toEqual(expected);
   });
 
-  describe('extractRelationships', () => {
+  describe('extractData', () => {
     it('returns array of unique relationship ids based on schema', () => {
       const entities = [
         {
@@ -36,7 +36,7 @@ describe('common actions', () => {
         },
       };
 
-      expect(extractRelationships(relationships, entities)).toMatchSnapshot();
+      expect(extractData(['path'], relationships, entities)).toMatchSnapshot();
     });
   });
 

@@ -1,6 +1,6 @@
 import { initialState } from 'store/common';
 
-import { fetchOffers } from './actions';
+import { fetchLatestOffers } from './actions';
 import reducer from './reducer';
 
 describe('offers reducer', () => {
@@ -8,22 +8,22 @@ describe('offers reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should handle FETCH_OFFERS', () => {
-    const action = fetchOffers();
+  it('should handle FETCH_LATEST_OFFERS', () => {
+    const action = fetchLatestOffers();
     const reducedState = reducer({}, action);
 
     expect(reducedState).toMatchSnapshot();
   });
 
   it('should handle FETCH_OFFERS_SUCCESS', () => {
-    const action = fetchOffers();
+    const action = fetchLatestOffers();
     const reducedState = reducer({}, action);
 
     expect(reducedState).toMatchSnapshot();
   });
 
   it('should handle FETCH_OFFERS_ERROR', () => {
-    const action = fetchOffers();
+    const action = fetchLatestOffers();
     const reducedState = reducer({}, action);
 
     expect(reducedState).toMatchSnapshot();

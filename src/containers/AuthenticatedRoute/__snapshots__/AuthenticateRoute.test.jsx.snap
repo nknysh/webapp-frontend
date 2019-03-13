@@ -10,7 +10,7 @@ exports[`<AuthenticatedRoute /> render custom auth redirect route when not authe
 
 exports[`<AuthenticatedRoute /> render message while authenticating 1`] = `
 <Loader
-  isLoading={false}
+  isLoading={true}
   showSpinner={true}
   title="Authenticating..."
 />

@@ -1,6 +1,6 @@
 import { initialState } from 'store/common';
 
-import { fetchDestinations } from './actions';
+import { setCountries } from './actions';
 import reducer from './reducer';
 
 describe('pages reducer', () => {
@@ -8,22 +8,22 @@ describe('pages reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
-  it('should handle FETCH_DESTINATIONS', () => {
-    const action = fetchDestinations();
+  it('should handle SET_COUNTRIES', () => {
+    const action = setCountries();
     const reducedState = reducer({}, action);
 
     expect(reducedState).toMatchSnapshot();
   });
 
-  it('should handle FETCH_DESTINATIONS_SUCCESS', () => {
-    const action = fetchDestinations();
+  it('should handle SET_COUNTRIES_SUCCESS', () => {
+    const action = setCountries();
     const reducedState = reducer({}, action);
 
     expect(reducedState).toMatchSnapshot();
   });
 
-  it('should handle FETCH_DESTINATIONS_ERROR', () => {
-    const action = fetchDestinations();
+  it('should handle SET_COUNTRIES_ERROR', () => {
+    const action = setCountries();
     const reducedState = reducer({}, action);
 
     expect(reducedState).toMatchSnapshot();

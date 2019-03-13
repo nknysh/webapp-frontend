@@ -1,24 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Search /> render matches snapshot 1`] = `
-<Styled(styled.div)>
-  <styled.div>
-    <Styled(styled.div)>
-      <Styled(Link)
-        to="/"
-      >
-        <styled.div>
-          <Styled(WithStyles(Icon))>
-            keyboard_arrow_left
-          </Styled(WithStyles(Icon))>
-        </styled.div>
-        back to homepage
-      </Styled(Link)>
-      <withRouter(Connect(SearchSidebar)) />
-    </Styled(styled.div)>
-    <Styled(styled.div)>
-      <withSearchIndexes(Connect(SearchResults)) />
-    </Styled(styled.div)>
-  </styled.div>
-</Styled(styled.div)>
-`;
+exports[`<Search /> render matches snapshot 1`] = `<Connect(SearchContainer) />`;

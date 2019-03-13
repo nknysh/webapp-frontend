@@ -1,32 +1,44 @@
 import { propOr } from 'ramda';
 
-import { successAction, errorAction, extractRelationships, fetchRelationships } from 'store/common/actions';
+import client from 'api/offers';
 
-import data from 'config/data/offers';
-
-import { fetchHotels } from 'store/modules/hotels/actions';
+import { fetchHotels, fetchHotelsSuccess } from 'store/modules/hotels/actions';
+import { successAction, errorAction, extractData, setIncludes, fetchRelationships } from 'store/common/actions';
 
 import schema from './schema';
 
-export const FETCH_OFFERS = 'FETCH_OFFERS';
+export const FETCH_LATEST_OFFERS = 'FETCH_LATEST_OFFERS';
 
-const getRelationships = extractRelationships(propOr({}, 'relationships', schema));
+const getRelationships = extractData(['path'], propOr({}, 'relationships', schema));
+const getIncludes = extractData(['included'], propOr({}, 'relationships', schema));
 
 const relationshipActions = {
   hotels: fetchHotels,
 };
 
+const includesActions = {
+  hotels: fetchHotelsSuccess,
+};
+
 export const fetchOffersAction = payload => ({
-  type: FETCH_OFFERS,
+  type: FETCH_LATEST_OFFERS,
   payload,
 });
 
-export const fetchOffers = args => async (dispatch, getState) => {
-  dispatch(fetchOffersAction(args));
-
+export const fetchOffersSuccess = ({ data }) => async (dispatch, getState) => {
+  await setIncludes(getIncludes(data), includesActions, dispatch);
   await fetchRelationships(getRelationships(data), relationshipActions, getState, dispatch);
 
-  // return OffersApi.fetchOffers(args).then(successAction).catch(errorAction)
+  data
+    ? dispatch(successAction(FETCH_LATEST_OFFERS, data))
+    : dispatch(errorAction(FETCH_LATEST_OFFERS, { error: 'No data found' }));
+};
 
-  data ? dispatch(successAction(FETCH_OFFERS, data)) : dispatch(errorAction(FETCH_OFFERS, { error: 'No data found' }));
+export const fetchLatestOffers = args => dispatch => {
+  dispatch(fetchOffersAction(args));
+
+  return client
+    .getLatestOffers(args)
+    .then(({ data }) => dispatch(fetchOffersSuccess({ data })))
+    .catch(error => dispatch(errorAction(FETCH_LATEST_OFFERS, error)));
 };

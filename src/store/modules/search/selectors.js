@@ -13,6 +13,11 @@ export const getSearchQuery = pipe(
   prop('query')
 );
 
+export const getSearchResults = pipe(
+  getSearch,
+  prop('results')
+);
+
 const loadIndex = pipe(
   invoker(0, 'toJSON'),
   lunr.Index.load

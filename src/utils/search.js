@@ -27,7 +27,7 @@ import {
 
 export const IndexTypes = Object.freeze({
   HOTELS: 'hotels',
-  DESTINATIONS: 'destinations',
+  COUNTRIES: 'countries',
 });
 
 export const RegionSelectTypes = Object.freeze({
@@ -35,10 +35,10 @@ export const RegionSelectTypes = Object.freeze({
   SPECIFY: 'specify',
 });
 
-export const querySearchType = ({ value, id, type }) =>
+export const querySearchType = ({ value, type }) =>
   cond([
-    [equals(IndexTypes.DESTINATIONS), always(`+${replace(/-/g, ' +', id || '')}`)],
-    [equals(IndexTypes.HOTELS), always(replace(/ /g, ' +', value || ''))],
+    [equals(IndexTypes.COUNTRIES), always(`+country:${replace(/[- ]/g, ' +country:', value || '')}`)],
+    [equals(IndexTypes.HOTELS), always(`+name:${replace(/ /g, ' AND +name:', value || '')}`)],
     [T, always(undefined)],
   ])(type);
 
@@ -56,10 +56,10 @@ export const queryFilterRegions = ({ selected, type }, regions) =>
       )(selected)
     : undefined;
 
-export const queryPreferred = () => buildSearchField('', 'preferred', 'true^10');
+export const queryPreferred = () => buildSearchField('', 'preferred', 'true');
 export const queryHoneymooners = ({ honeymooners }) =>
-  honeymooners ? buildSearchField('', 'suitableForHoneymooners', 'true^15') : undefined;
-export const queryAvailable = () => buildSearchField('+', 'availableForOnlineBooking', 'true');
+  honeymooners ? buildSearchField('', 'suitableForHoneymooners', 'true^5') : undefined;
+export const queryAvailable = () => buildSearchField('+', 'availableForOnlineBooking', 'true^5');
 
 export const searchByQueries = curry((index, queries = []) => index.search(join(' ', queries)));
 

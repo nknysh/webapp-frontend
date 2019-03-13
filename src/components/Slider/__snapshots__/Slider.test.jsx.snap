@@ -5,6 +5,7 @@ exports[`<Slider /> render matches snapshots 1`] = `
   <GlobalStyleComponent />
   <Slider
     centerMode={true}
+    centerPadding="30px"
   >
     <div
       key="1"

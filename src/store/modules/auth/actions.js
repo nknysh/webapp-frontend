@@ -107,7 +107,7 @@ export const logIn = values => dispatch => {
     }
 
     dispatch(successAction(AUTH_REQUEST, { user: { ...data } }));
-    dispatch(setToken({ token: userUuid }));
+    dispatch(setToken(userUuid));
     setRememberedToken(userUuid);
     setRememberedUser(data);
   };

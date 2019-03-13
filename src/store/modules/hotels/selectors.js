@@ -15,6 +15,11 @@ const getRegions = pipe(
 
 export const getHotels = prop('hotels');
 
+export const getHotelsStatus = pipe(
+  getHotels,
+  prop('status')
+);
+
 export const getHotelsData = state =>
   pipe(
     getHotels,

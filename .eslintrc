@@ -26,7 +26,7 @@
         }
     },
     "globals": {
-      "shallow": "readable",
-      "mount": "readable"
+      "shallow": "readonly",
+      "mount": "readonly"
   }
 }

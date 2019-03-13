@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pages actions setCountriesAction returns action 1`] = `
+Object {
+  "payload": "foo",
+  "type": "SET_COUNTRIES",
+}
+`;

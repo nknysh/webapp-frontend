@@ -1,4 +1,4 @@
-import { fetchOffersAction, fetchOffers } from './actions';
+import { fetchOffersAction, fetchLatestOffers } from './actions';
 
 describe('offers actions', () => {
   describe('fetchOffersAction', () => {
@@ -6,11 +6,11 @@ describe('offers actions', () => {
       expect(fetchOffersAction('foo')).toMatchSnapshot();
     });
   });
-  describe('fetchOffers', () => {
+  describe('fetchLatestOffers', () => {
     it('calls dispatch thunks', () => {
       const dispatch = jest.fn();
 
-      fetchOffers()(dispatch);
+      fetchLatestOffers({})(dispatch);
 
       expect(dispatch).toHaveBeenCalledTimes(1);
     });

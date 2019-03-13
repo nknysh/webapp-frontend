@@ -11,3 +11,5 @@ export { UserPanel } from './UserPanel';
 export { LatestOffers } from './LatestOffers';
 export { SearchSidebar } from './SearchSidebar';
 export { SearchResults } from './SearchResults';
+export { Landing } from './Landing';
+export { SearchContainer } from './SearchContainer';

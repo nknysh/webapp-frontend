@@ -1,46 +1,67 @@
-import { propOr, prop } from 'ramda';
+import { prop, values, length, equals, reduce, has, pipe, uniq } from 'ramda';
+import hash from 'object-hash';
 
 // import client from 'api/hotels';
 
-import { successAction, errorAction, extractRelationships, fetchRelationships } from 'store/common/actions';
+import { successAction, errorAction } from 'store/common/actions';
 
 import { buildIndex } from 'store/modules/search/actions';
-import { fetchDestinations } from 'store/modules/destinations/actions';
+import { setCountries } from 'store/modules/countries/actions';
 
 import data from 'config/data/hotels';
 
+import { getHotelsData } from './selectors';
 import schema from './schema';
 
 export const FETCH_HOTELS = 'FETCH_HOTELS';
 
-const getRelationships = extractRelationships(propOr({}, 'relationships', schema));
+const extractCountry = (accum, value) => (has('country', value) ? [...accum, prop('country', value)] : accum);
+const buildCountry = (accum, value) => (value ? [...accum, { id: hash(value), name: value }] : accum);
 
-const relationshipActions = {
-  destinations: fetchDestinations,
-};
+const extractCountries = pipe(
+  reduce(extractCountry, []),
+  uniq,
+  reduce(buildCountry, [])
+);
 
 export const fetchHotelsAction = () => ({
   type: FETCH_HOTELS,
 });
 
-export const fetchHotels = () => async (dispatch, getState) => {
-  dispatch(fetchHotelsAction());
+export const fetchHotelsSuccess = ({ data }) => async (dispatch, getState) => {
+  const before = values(getHotelsData(getState()));
 
-  // return client
-  //   .fetchHotels(values)
-  //   .then(() => dispatch(successAction(FETCH_HOTELS)))
-  //   .catch(error => dispatch(errorAction(FETCH_HOTELS, error.response)));
+  data ? dispatch(successAction(FETCH_HOTELS, data)) : dispatch(errorAction(FETCH_HOTELS, { error: 'No data found' }));
 
-  await fetchRelationships(getRelationships(data), relationshipActions, getState, dispatch);
+  const after = values(getHotelsData(getState()));
+
+  if (equals(length(before), length(after))) return;
+
+  const setCountriesToStore = pipe(
+    extractCountries,
+    setCountries,
+    dispatch
+  );
+
+  setCountriesToStore(after);
 
   dispatch(
     buildIndex({
       index: 'hotels',
       ref: prop('id', schema),
       fields: prop('index', schema),
-      data,
+      data: after,
     })
   );
+};
 
-  data ? dispatch(successAction(FETCH_HOTELS, data)) : dispatch(errorAction(FETCH_HOTELS, { error: 'No data found' }));
+export const fetchHotels = () => dispatch => {
+  dispatch(fetchHotelsAction());
+
+  // return client
+  //   .fetchHotels(values)
+  //   .then(({data}) => dispatch(fetchHotelsSuccess({ data })))
+  //   .catch(error => dispatch(errorAction(FETCH_HOTELS, error)));
+
+  dispatch(fetchHotelsSuccess({ data }));
 };

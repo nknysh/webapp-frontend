@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { compose, curry, head, length, map, path, pipe, pathOr, prop, propOr } from 'ramda';
+import React, { useState } from 'react';
+import { compose, curry, length, map, path, prop, isNil } from 'ramda';
 
 import { Card, Loader, Modal } from 'components';
 import { SearchSidebar } from 'containers';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { withSearchIndexes } from 'hoc';
-import {
-  filterByRange,
-  isMobile,
-  queryAvailable,
-  queryFilterRegions,
-  queryHoneymooners,
-  queryPreferred,
-  querySearchType,
-  searchByQueries,
-  toList,
-} from 'utils';
+import { isMobile, IndexTypes } from 'utils';
 
 import uiConfig, { getPluralisation } from 'config/ui';
 import theme from 'styles/theme';
@@ -34,53 +24,29 @@ const renderResult = curry((selector, hit) => {
   );
 });
 
-const buildSearchQueries = (searchQuery, { regions }) =>
-  toList(
-    queryFilterRegions(pathOr({}, ['filters', 'regions'], searchQuery), regions),
-    querySearchType(propOr({}, 'search', searchQuery)),
-    queryPreferred(),
-    queryHoneymooners(searchQuery),
-    queryAvailable()
-  );
-
 export const SearchResults = ({
   searchQuery,
-  indexes,
   hotels,
-  destinations,
   getHotel,
-  fetchDestinations,
   fetchHotels,
-  getDestinationTitle,
-  regions,
+  getCountryName,
+  fetchResults,
+  results,
 }) => {
-  useFetchData(fetchDestinations, destinations);
   useFetchData(fetchHotels, hotels);
+  useFetchData(fetchResults, hotels && results, { index: IndexTypes.HOTELS });
 
   const currentWidth = useCurrentWidth();
   const [modalOpen, setModalOpen] = useState(false);
-  const [searchQueries, setSearchQueries] = useState([]);
-
-  const hotelsIdx = head(indexes);
-
-  useEffect(() => {
-    setSearchQueries(buildSearchQueries(searchQuery, { regions }));
-  }, [searchQuery]);
-
-  if (!hotels || !destinations) return <Loader />;
 
   const id = path(['search', 'id'], searchQuery);
 
-  const getResults = pipe(
-    searchByQueries,
-    filterByRange(getHotel, pathOr([], ['filters', 'prices'], searchQuery), 'listPrice')
-  );
-
-  const results = getResults(hotelsIdx, searchQueries);
   const count = length(results);
-  const destinationTitle = getDestinationTitle(id) || '';
+  const destinationTitle = getCountryName(id) || '';
   const countTitle = `${count} ${getPluralisation('result', count)}`;
   const title = destinationTitle ? `${destinationTitle} - ${countTitle}` : countTitle;
+
+  if (isNil(results)) return <Loader isLoading={true} text={path(['messages', 'searching'], uiConfig)} />;
 
   return (
     <StyledResults>
@@ -106,6 +72,6 @@ SearchResults.propTypes = propTypes;
 SearchResults.defaultProps = defaultProps;
 
 export default compose(
-  withSearchIndexes(['hotels']),
+  withSearchIndexes([IndexTypes.HOTELS]),
   connect
 )(SearchResults);

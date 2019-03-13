@@ -13,7 +13,7 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       <withSearchIndexes(IndexSearch)
         indexes={
           Array [
-            "destinations",
+            "countries",
             "hotels",
           ]
         }
@@ -131,7 +131,9 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       />
     </styled.div>
     <styled.div>
-      <Styled(styled.button)>
+      <Styled(styled.button)
+        onClick={[Function]}
+      >
         Remove all filters
       </Styled(styled.button)>
     </styled.div>
@@ -152,7 +154,7 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       <withSearchIndexes(IndexSearch)
         indexes={
           Array [
-            "destinations",
+            "countries",
             "hotels",
           ]
         }
@@ -258,7 +260,9 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       />
     </styled.div>
     <styled.div>
-      <Styled(styled.button)>
+      <Styled(styled.button)
+        onClick={[Function]}
+      >
         Remove all filters
       </Styled(styled.button)>
     </styled.div>

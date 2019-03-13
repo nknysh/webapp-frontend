@@ -8,7 +8,7 @@ export const propTypes = {
 };
 
 export const defaultProps = {
-  isLoading: false,
+  isLoading: true,
   children: null,
   showSpinner: true,
   text: undefined,

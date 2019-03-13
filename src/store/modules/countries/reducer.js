@@ -5,16 +5,16 @@ import { createReducer, getErrorActionName, getSuccessActionName, normalizer } f
 
 import schema from './schema';
 
-import { FETCH_DESTINATIONS } from './actions';
+import { SET_COUNTRIES } from './actions';
 
 export default createReducer(
   {
-    [FETCH_DESTINATIONS]: loadingReducer,
-    [getSuccessActionName(FETCH_DESTINATIONS)]: pipe(
+    [SET_COUNTRIES]: loadingReducer,
+    [getSuccessActionName(SET_COUNTRIES)]: pipe(
       successReducer,
       normalizer(prop('id', schema))
     ),
-    [getErrorActionName(FETCH_DESTINATIONS)]: errorReducer,
+    [getErrorActionName(SET_COUNTRIES)]: errorReducer,
   },
   initialState
 );

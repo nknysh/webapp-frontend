@@ -3,7 +3,7 @@ import { path, prop, pipe, pick, isEmpty, lensPath, lensProp, over, map, when, c
 
 import { getQuery } from 'utils';
 
-import { setSearchQuery } from './actions';
+import { setSearchQueryAction } from './actions';
 
 const history = createBrowserHistory();
 
@@ -35,22 +35,19 @@ const formatData = pipe(
 const getSearchQuery = pipe(
   prop('location'),
   getQuery,
-  pick(['lodging', 'search', 'dates', 'honeymooners', 'filters'])
+  pick(['lodging', 'search', 'dates', 'honeymooners', 'filters']),
+  formatData
 );
 
 const searchMiddleware = ({ getState }) => next => action => {
   const state = getState();
   const search = getSearchQuery(history);
 
-  const populateSearch = pipe(
-    formatData,
-    setSearchQuery,
-    next
-  );
-
   // If the redux key is empty but there is a search in the
   // query string, then populate the redux store with it
-  if (!path(['search', 'query'], state) && !isEmpty(search)) next(populateSearch(search));
+  if (!path(['search', 'query'], state) && !isEmpty(search)) {
+    next(setSearchQueryAction(search));
+  }
 
   next(action);
 };

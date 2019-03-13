@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pages reducer should handle SET_COUNTRIES 1`] = `Object {}`;
+
+exports[`pages reducer should handle SET_COUNTRIES_ERROR 1`] = `Object {}`;
+
+exports[`pages reducer should handle SET_COUNTRIES_SUCCESS 1`] = `Object {}`;

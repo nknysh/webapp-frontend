@@ -19,10 +19,9 @@ const honeymoonersLens = lensProp('honeymooners');
 
 export const SearchBar = ({
   className,
-  destinations,
-  fetchDestinations,
+  countries,
   fetchHotels,
-  getDestinationTitle,
+  getCountryName,
   getHotelName,
   hotels,
   history,
@@ -30,9 +29,8 @@ export const SearchBar = ({
   setSearchQuery,
 }) => {
   useFetchData(fetchHotels, hotels);
-  useFetchData(fetchDestinations, destinations);
 
-  const indexes = ['destinations', 'hotels'];
+  const indexes = ['countries', 'hotels'];
   const updateSearchQuery = set(__, __, searchQuery);
   const getSearchQueryData = view(__, searchQuery);
 
@@ -40,6 +38,7 @@ export const SearchBar = ({
     updateSearchQuery(datesLens),
     setSearchQuery
   );
+
   const setLodgingsToSearchQuery = pipe(
     updateSearchQuery(lodgingLens),
     setSearchQuery
@@ -59,7 +58,7 @@ export const SearchBar = ({
 
   return (
     <StyledSearchBar className={className}>
-      <Loader isLoading={!destinations || !hotels} showSpinner={false}>
+      <Loader isLoading={!countries || !hotels} showSpinner={false}>
         <SearchBarSection>
           <SearchBarIndexSearch
             indexes={indexes}
@@ -68,7 +67,7 @@ export const SearchBar = ({
             onClick={onIndexSearchClick}
             openOnFocus={false}
             placeholder={path(['placeholders', 'search'], uiConfig)}
-            selectors={[getDestinationTitle, getHotelName]}
+            selectors={[getCountryName, getHotelName]}
             value={prop('value', getSearchQueryData(searchLens))}
           />
         </SearchBarSection>
