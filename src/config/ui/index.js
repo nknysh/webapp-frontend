@@ -27,6 +27,9 @@ const uiConfig = {
 
     yes: 'Yes',
     no: 'No',
+
+    from: 'From',
+    to: 'To',
   },
 
   buttons: {
@@ -57,6 +60,7 @@ const uiConfig = {
     result: ['property found', 'properties found'],
     star: ['Star', 'Stars'],
     region: ['Region', 'Regions'],
+    priceRange: ['Price Range', 'Price Ranges'],
   },
 
   sections: {
@@ -67,6 +71,7 @@ const uiConfig = {
     validFromTo: 'Valid from {fromDate} to {toDate}.',
     validForAllVillas: 'Offer applies to all villa categories',
     suitableHoneymoon: 'BEST FOR HONEYMOONERS',
+    pricesIn: 'Prices shown are in US Dollars',
   },
 
   currency: {

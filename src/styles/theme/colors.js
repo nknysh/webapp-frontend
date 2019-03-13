@@ -18,6 +18,7 @@ export default Object.freeze({
   'gold-dark': '#382A21',
   'gold-neutral': '#736A65',
   'gold-light': '#9D9591',
+  'gold-border': '#816850',
 
   marine: '#56D1BF',
   aqua: '#D4F3EE',

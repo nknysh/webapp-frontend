@@ -1,16 +1,27 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { __, set, view, path, prop, compose, lensProp, lensPath, pipe, equals, map, merge } from 'ramda';
+import { __, set, view, path, prop, compose, lensProp, lensPath, pipe, equals, map, merge, head, tail } from 'ramda';
 
 import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'components';
 import { useFetchData } from 'effects';
-import { buildQueryString } from 'utils';
+import { buildQueryString, RegionSelectTypes } from 'utils';
 
 import uiConfig, { getSingular } from 'config/ui';
 
 import connect from './SearchSidebar.state';
 import { propTypes, defaultProps } from './SearchSidebar.props';
-import { Section, Title, SectionField, RegionRadioButton, SideBarButton, RegionCheckbox } from './SearchSidebar.styles';
+import {
+  Section,
+  Title,
+  SectionField,
+  RegionRadioButton,
+  SideBarButton,
+  RegionCheckbox,
+  PriceRange,
+  PriceRangeLabels,
+  PriceRangeLabel,
+  PriceRangeLabelPrice,
+} from './SearchSidebar.styles';
 
 const indexes = ['destinations', 'hotels'];
 
@@ -20,11 +31,9 @@ const lodgingLens = lensProp('lodging');
 const honeymoonersLens = lensProp('honeymooners');
 const filtersRegionTypeLens = lensPath(['filters', 'regions', 'type']);
 const filtersRegionSelectedLens = lensPath(['filters', 'regions', 'selected']);
+const filtersPricesLens = lensPath(['filters', 'prices']);
 
-export const RegionType = {
-  ALL: 'all',
-  SPECIFY: 'specify',
-};
+const DefaultPriceRange = [2000, 10000];
 
 export const SearchSidebar = ({
   destinations,
@@ -69,6 +78,10 @@ export const SearchSidebar = ({
   const setRegionsSelectedToSearchQuery = pipe(
     merge(getSearchQueryData(filtersRegionSelectedLens)),
     updateSearchQuery(filtersRegionSelectedLens),
+    setSearchQuery
+  );
+  const setPriceRangeToSearchQuery = pipe(
+    updateSearchQuery(filtersPricesLens),
     setSearchQuery
   );
 
@@ -132,20 +145,41 @@ export const SearchSidebar = ({
         <SectionField>
           <RegionRadioButton
             name="regions[type]"
-            value={getSearchQueryData(filtersRegionTypeLens) || RegionType.ALL}
+            value={getSearchQueryData(filtersRegionTypeLens) || RegionSelectTypes.ALL}
             onChange={setRegionsTypeToSearchQuery}
             options={[
               {
                 label: path(['labels', 'allRegions'], uiConfig),
-                value: RegionType.ALL,
+                value: RegionSelectTypes.ALL,
               },
               {
                 label: path(['labels', 'specifyRegions'], uiConfig),
-                value: RegionType.SPECIFY,
+                value: RegionSelectTypes.SPECIFY,
               },
             ]}
           />
-          {equals(RegionType.SPECIFY, getSearchQueryData(filtersRegionTypeLens)) && map(renderRegionCheckbox, regions)}
+          {equals(RegionSelectTypes.SPECIFY, getSearchQueryData(filtersRegionTypeLens)) &&
+            map(renderRegionCheckbox, regions)}
+        </SectionField>
+        <Title>{getSingular('priceRange')}</Title>
+        <SectionField>
+          <p>{path(['taglines', 'pricesIn'], uiConfig)}</p>
+          <PriceRangeLabels>
+            <PriceRangeLabel>
+              {path(['labels', 'from'], uiConfig)}{' '}
+              <PriceRangeLabelPrice>{head(DefaultPriceRange)}</PriceRangeLabelPrice>
+            </PriceRangeLabel>
+            <PriceRangeLabel data-align="right">
+              {path(['labels', 'to'], uiConfig)}{' '}
+              <PriceRangeLabelPrice>{head(tail(DefaultPriceRange))}</PriceRangeLabelPrice>
+            </PriceRangeLabel>
+          </PriceRangeLabels>
+          <PriceRange
+            value={getSearchQueryData(filtersPricesLens) || DefaultPriceRange}
+            onAfterChange={setPriceRangeToSearchQuery}
+            min={head(DefaultPriceRange)}
+            max={head(tail(DefaultPriceRange))}
+          />
         </SectionField>
         <SectionField>
           <SideBarButton onClick={resetFilters}>{path(['buttons', 'removeFilters'], uiConfig)}</SideBarButton>

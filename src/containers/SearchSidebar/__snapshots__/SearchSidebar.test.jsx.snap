@@ -93,6 +93,43 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
         onChange={[Function]}
       />
     </styled.div>
+    <styled.h4>
+      Price Range
+    </styled.h4>
+    <styled.div>
+      <p>
+        Prices shown are in US Dollars
+      </p>
+      <styled.div>
+        <styled.div>
+          From
+           
+          <styled.span>
+            2000
+          </styled.span>
+        </styled.div>
+        <styled.div
+          data-align="right"
+        >
+          To
+           
+          <styled.span>
+            10000
+          </styled.span>
+        </styled.div>
+      </styled.div>
+      <Styled(Range)
+        max={10000}
+        min={2000}
+        onAfterChange={[Function]}
+        value={
+          Array [
+            2000,
+            10000,
+          ]
+        }
+      />
+    </styled.div>
     <styled.div>
       <Styled(styled.button)>
         Remove all filters
@@ -181,6 +218,43 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
           ]
         }
         value="all"
+      />
+    </styled.div>
+    <styled.h4>
+      Price Range
+    </styled.h4>
+    <styled.div>
+      <p>
+        Prices shown are in US Dollars
+      </p>
+      <styled.div>
+        <styled.div>
+          From
+           
+          <styled.span>
+            2000
+          </styled.span>
+        </styled.div>
+        <styled.div
+          data-align="right"
+        >
+          To
+           
+          <styled.span>
+            10000
+          </styled.span>
+        </styled.div>
+      </styled.div>
+      <Styled(Range)
+        max={10000}
+        min={2000}
+        onAfterChange={[Function]}
+        value={
+          Array [
+            2000,
+            10000,
+          ]
+        }
       />
     </styled.div>
     <styled.div>

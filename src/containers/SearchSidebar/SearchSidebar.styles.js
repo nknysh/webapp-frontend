@@ -1,6 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { RadioButton, Checkbox } from 'components';
+import { RadioButton, Checkbox, Range } from 'components';
+
+import uiConfig from 'config/ui';
 
 import theme from 'styles/theme';
 import { Button } from 'styles/elements';
@@ -17,6 +19,12 @@ export const Section = styled.div`
     color: ${theme.colors['gold-neutral']};
     font-size: 12px;
     text-transform: uppercase;
+  }
+
+  p {
+    font-size: 12px;
+    margin: 0 0 ${theme.gutter}px;
+    color: ${theme.colors['gold-neutral']};
   }
 `;
 
@@ -54,4 +62,29 @@ export const RegionCheckbox = styled(Checkbox)`
 
 export const SideBarButton = styled(Button)`
   font-size: 12px;
+`;
+
+export const PriceRange = styled(Range)``;
+
+export const PriceRangeLabels = styled.div`
+  display: flex;
+  margin: ${theme.gutter * 2}px 0 ${theme.gutter}px;
+`;
+
+export const PriceRangeLabel = styled.div`
+  flex: 1;
+  font-size: 10px;
+  text-transform: uppercase;
+
+  ${({ ['data-align']: align }) => css`
+    text-align: ${align};
+  `}
+`;
+
+export const PriceRangeLabelPrice = styled.span`
+  font-weight: ${theme.bold};
+
+  :before {
+    content: '${uiConfig.currency.symbol}';
+  }
 `;

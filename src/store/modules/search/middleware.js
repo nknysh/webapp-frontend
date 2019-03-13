@@ -12,20 +12,24 @@ const datesToLens = lensPath(['dates', 'to']);
 const lodgingLens = lensProp('lodging');
 const honeymoonersLens = lensProp('honeymooners');
 const filtersRegionsLens = lensPath(['filters', 'regions', 'selected']);
+const filtersPricesLens = lensPath(['filters', 'prices']);
 
 const newDate = value => value && new Date(value);
 
 const toBoolean = value => value == 'true';
 
-const mapNumbers = map(Number);
-const mapRegionSelected = when(complement(isNil), map(toBoolean));
+const isNotNil = complement(isNil);
+
+const mapNumbers = when(isNotNil, map(Number));
+const mapRegionSelected = when(isNotNil, map(toBoolean));
 
 const formatData = pipe(
   over(datesFromLens, newDate),
   over(datesToLens, newDate),
   over(lodgingLens, mapNumbers),
   over(honeymoonersLens, toBoolean),
-  over(filtersRegionsLens, mapRegionSelected)
+  over(filtersRegionsLens, mapRegionSelected),
+  over(filtersPricesLens, mapNumbers)
 );
 
 const getSearchQuery = pipe(
