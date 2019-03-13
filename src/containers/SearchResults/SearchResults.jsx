@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   __,
   always,
@@ -51,31 +51,12 @@ const Types = {
   DESTINATIONS: 'destinations',
 };
 
-export const SearchResults = ({
-  searchQuery,
-  indexes,
-  hotels,
-  destinations,
-  getHotel,
-  fetchDestinations,
-  fetchHotels,
-  getDestinationTitle,
-  regions,
-}) => {
-  useFetchData(fetchDestinations, destinations);
-  useFetchData(fetchHotels, hotels);
-
-  const currentWidth = useCurrentWidth();
-  const [modalOpen, setModalOpen] = useState(false);
-
-  if (!hotels || !destinations) return <Loader />;
-
+const buildSearchString = (searchQuery, { regions }) => {
   const value = path(['search', 'value'], searchQuery);
   const id = path(['search', 'id'], searchQuery);
   const type = path(['search', 'type'], searchQuery);
   const filters = path(['filters'], searchQuery);
   const regionType = path(['filters', 'regions', 'type'], searchQuery);
-
   const honeymooners = path(['honeymooners'], searchQuery);
 
   const searchBy = cond([
@@ -109,10 +90,38 @@ export const SearchResults = ({
     '+availableForOnlineBooking:true'
   );
 
-  const searchString = join(' ', searchStringArr);
+  return join(' ', searchStringArr);
+};
+
+export const SearchResults = ({
+  searchQuery,
+  indexes,
+  hotels,
+  destinations,
+  getHotel,
+  fetchDestinations,
+  fetchHotels,
+  getDestinationTitle,
+  regions,
+}) => {
+  useFetchData(fetchDestinations, destinations);
+  useFetchData(fetchHotels, hotels);
+
+  const currentWidth = useCurrentWidth();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [searchString, setSearchString] = useState('');
+
+  useEffect(() => {
+    setSearchString(buildSearchString(searchQuery, { regions }));
+  }, [searchQuery]);
+
+  if (!hotels || !destinations) return <Loader />;
+
+  const id = path(['search', 'id'], searchQuery);
+
   const hotelsIdx = head(indexes);
 
-  const results = hotelsIdx.search(searchString || '');
+  const results = hotelsIdx.search(searchString);
   const count = length(results);
 
   const destinationTitle = getDestinationTitle(id) || '';
