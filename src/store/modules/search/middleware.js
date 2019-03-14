@@ -13,6 +13,7 @@ const lodgingLens = lensProp('lodging');
 const honeymoonersLens = lensProp('honeymooners');
 const filtersRegionsLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
+const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 
 const newDate = value => value && new Date(value);
 
@@ -29,13 +30,14 @@ const formatData = pipe(
   over(lodgingLens, mapNumbers),
   over(honeymoonersLens, toBoolean),
   over(filtersRegionsLens, mapRegionSelected),
+  over(filtersStarRatingsLens, mapRegionSelected),
   over(filtersPricesLens, mapNumbers)
 );
 
 const getSearchQuery = pipe(
   prop('location'),
   getQuery,
-  pick(['lodging', 'search', 'dates', 'honeymooners', 'filters']),
+  pick(['lodging', 'search', 'dates', 'honeymooners', 'filters', 'starRatings']),
   formatData
 );
 

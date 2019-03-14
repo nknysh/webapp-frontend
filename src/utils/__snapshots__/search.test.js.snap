@@ -31,11 +31,15 @@ Array [
 
 exports[`search utils filterByRange removes results correctly 5`] = `Array []`;
 
-exports[`search utils queries queryAvailable returns preferred query string 1`] = `" +availableForOnlineBooking:true^5"`;
+exports[`search utils queries queryAvailable returns preferred query string 1`] = `" +availableForOnlineBooking:true^15"`;
 
 exports[`search utils queries queryFilterRegions returns built or string 1`] = `" -region:Bar"`;
 
-exports[`search utils queries queryFilterRegions returns built or string 2`] = `" -region:Foo OR  -region:Boo"`;
+exports[`search utils queries queryFilterRegions returns built or string 2`] = `" -region:Foo  OR   -region:Boo"`;
+
+exports[`search utils queries queryFilterStarRatings returns built or string 1`] = `" -starRating:Bar"`;
+
+exports[`search utils queries queryFilterStarRatings returns built or string 2`] = `" -starRating:Foo  OR   -starRating:Boo"`;
 
 exports[`search utils queries queryHoneymooners returns preferred query string 1`] = `undefined`;
 

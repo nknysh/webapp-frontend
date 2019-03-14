@@ -5,13 +5,14 @@ import { selectRelationships } from 'store/common/selectors';
 
 import schema from './schema';
 
-const reduceRegion = (accum, value) => [...accum, prop('region', value)];
+const reduceByKey = curry((key, accum, value) => (value ? [...accum, prop(key, value)] : accum));
 
-const getRegions = pipe(
-  values,
-  reduce(reduceRegion, []),
-  uniq
-);
+const getMapped = key =>
+  pipe(
+    values,
+    reduce(reduceByKey(key), []),
+    uniq
+  );
 
 export const getHotels = prop('hotels');
 
@@ -29,7 +30,12 @@ export const getHotelsData = state =>
 
 export const getHotelRegions = createSelector(
   getHotelsData,
-  getRegions
+  getMapped('region')
+);
+
+export const getHotelStarRatings = createSelector(
+  getHotelsData,
+  getMapped('starRating')
 );
 
 export const getHotel = curry((state, id) =>

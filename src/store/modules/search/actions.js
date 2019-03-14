@@ -7,6 +7,7 @@ import {
   queryPreferred,
   queryHoneymooners,
   queryAvailable,
+  queryFilterStarRatings,
   searchByQueries,
   filterByRange,
 } from 'utils';
@@ -20,13 +21,14 @@ export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 export const RESET_SEARCH_FILTERS = 'RESET_SEARCH_FILTERS';
 export const SEARCH_RESULTS = 'SEARCH_RESULTS';
 
-const buildSearchQueries = (searchQuery, { regions }) =>
+const buildSearchQueries = (searchQuery, { regions, starRatings }) =>
   toList(
-    queryFilterRegions(pathOr({}, ['filters', 'regions'], searchQuery), regions),
+    queryAvailable(),
     querySearchType(propOr({}, 'search', searchQuery)),
-    queryPreferred(),
+    queryFilterRegions(pathOr({}, ['filters', 'regions'], searchQuery), regions),
+    queryFilterStarRatings(pathOr({}, ['filters', 'starRatings'], searchQuery), starRatings),
     queryHoneymooners(searchQuery),
-    queryAvailable()
+    queryPreferred()
   );
 
 export const buildIndex = payload => ({

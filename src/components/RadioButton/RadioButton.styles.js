@@ -13,6 +13,7 @@ export const RadioFormControl = styled(FormControlLabel)`
 
   > span {
     font-size: 12px !important;
+    font-family: ${theme.defaultFont} !important;
   }
 `;
 

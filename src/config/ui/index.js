@@ -63,6 +63,7 @@ const uiConfig = {
     star: ['Star', 'Stars'],
     region: ['Region', 'Regions'],
     priceRange: ['Price Range', 'Price Ranges'],
+    starRating: ['Accomodation', 'Accomodations'],
   },
 
   sections: {
