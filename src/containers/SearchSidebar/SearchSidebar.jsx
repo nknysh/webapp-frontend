@@ -111,15 +111,16 @@ export const SearchSidebar = ({
     setSearchQuery
   );
 
-  const renderRegionCheckbox = region => (
-    <RegionCheckbox
-      key={region}
-      name={`regions[selected][${region}]`}
-      label={region}
-      checked={prop(region, getSearchQueryData(filtersRegionSelectedLens))}
-      onChange={(e, checked) => setRegionsSelectedToSearchQuery({ [region]: checked })}
-    />
-  );
+  const renderRegionCheckbox = region =>
+    region && (
+      <RegionCheckbox
+        key={region}
+        name={`regions[selected][${region}]`}
+        label={region}
+        checked={prop(region, getSearchQueryData(filtersRegionSelectedLens))}
+        onChange={(e, checked) => setRegionsSelectedToSearchQuery({ [region]: checked })}
+      />
+    );
 
   const renderStarRatingsCheckbox = rating =>
     rating && (
