@@ -121,15 +121,16 @@ export const SearchSidebar = ({
     />
   );
 
-  const renderStarRatingsCheckbox = rating => (
-    <Checkbox
-      key={rating}
-      name={`starRatings[${rating}]`}
-      label={`${rating} ${getSingular('star')}`}
-      checked={propOr(true, rating, getSearchQueryData(filtersStarRatingsLens))}
-      onChange={(e, checked) => setStarRatingsToSearchQuery({ [rating]: checked })}
-    />
-  );
+  const renderStarRatingsCheckbox = rating =>
+    rating && (
+      <Checkbox
+        key={rating}
+        name={`starRatings[${rating}]`}
+        label={`${rating} ${getSingular('star')}`}
+        checked={propOr(true, rating, getSearchQueryData(filtersStarRatingsLens))}
+        onChange={(e, checked) => setStarRatingsToSearchQuery({ [rating]: checked })}
+      />
+    );
 
   return (
     <Loader isLoading={!hotels || !countries}>
