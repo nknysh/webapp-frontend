@@ -1,33 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import {
-  __,
-  always,
-  compose,
-  cond,
-  curry,
-  equals,
-  head,
-  join,
-  keys,
-  length,
-  map,
-  path,
-  pickBy,
-  pipe,
-  prop,
-  replace,
-  T,
-  values,
-  without,
-} from 'ramda';
+import { compose, curry, head, length, map, path, pipe, pathOr, prop, propOr } from 'ramda';
 
 import { Card, Loader, Modal } from 'components';
 import { SearchSidebar } from 'containers';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { withSearchIndexes } from 'hoc';
-import { toList, isMobile } from 'utils';
-
-import { RegionType } from 'containers/SearchSidebar';
+import {
+  filterByRange,
+  isMobile,
+  queryAvailable,
+  queryFilterRegions,
+  queryHoneymooners,
+  queryPreferred,
+  querySearchType,
+  searchByQueries,
+  toList,
+} from 'utils';
 
 import uiConfig, { getPluralisation } from 'config/ui';
 import theme from 'styles/theme';
@@ -46,52 +34,14 @@ const renderResult = curry((selector, hit) => {
   );
 });
 
-const Types = {
-  HOTELS: 'hotels',
-  DESTINATIONS: 'destinations',
-};
-
-const buildSearchString = (searchQuery, { regions }) => {
-  const value = path(['search', 'value'], searchQuery);
-  const id = path(['search', 'id'], searchQuery);
-  const type = path(['search', 'type'], searchQuery);
-  const filters = path(['filters'], searchQuery);
-  const regionType = path(['filters', 'regions', 'type'], searchQuery);
-  const honeymooners = path(['honeymooners'], searchQuery);
-
-  const searchBy = cond([
-    [equals(Types.DESTINATIONS), always(`+${replace(/-/g, ' +', id || '')}`)],
-    [equals(Types.HOTELS), always(replace(/ /g, ' +', value || ''))],
-    [T, always('')],
-  ]);
-
-  const mapRegions = curry((presence, region) => ` ${presence}region:${region}`);
-
-  const filterOutRegions = filters =>
-    equals(RegionType.SPECIFY, regionType)
-      ? pipe(
-          path(['regions', 'selected']),
-          pickBy(equals(true)),
-          keys,
-          without(__, regions),
-          map(mapRegions('-')),
-          values,
-          join(' OR ')
-        )(filters)
-      : '';
-
-  const searchStringArr = toList(
-    filterOutRegions(filters),
-    searchBy(type),
-    honeymooners ? '+suitableForHoneymooners:true' : '',
-    // Push preferred to top
-    'preferred:true',
-    // Only show available
-    '+availableForOnlineBooking:true'
+const buildSearchQueries = (searchQuery, { regions }) =>
+  toList(
+    queryFilterRegions(pathOr({}, ['filters', 'regions'], searchQuery), regions),
+    querySearchType(propOr({}, 'search', searchQuery)),
+    queryPreferred(),
+    queryHoneymooners(searchQuery),
+    queryAvailable()
   );
-
-  return join(' ', searchStringArr);
-};
 
 export const SearchResults = ({
   searchQuery,
@@ -109,21 +59,25 @@ export const SearchResults = ({
 
   const currentWidth = useCurrentWidth();
   const [modalOpen, setModalOpen] = useState(false);
-  const [searchString, setSearchString] = useState('');
+  const [searchQueries, setSearchQueries] = useState([]);
+
+  const hotelsIdx = head(indexes);
 
   useEffect(() => {
-    setSearchString(buildSearchString(searchQuery, { regions }));
+    setSearchQueries(buildSearchQueries(searchQuery, { regions }));
   }, [searchQuery]);
 
   if (!hotels || !destinations) return <Loader />;
 
   const id = path(['search', 'id'], searchQuery);
 
-  const hotelsIdx = head(indexes);
+  const getResults = pipe(
+    searchByQueries,
+    filterByRange(getHotel, pathOr([], ['filters', 'prices'], searchQuery), 'listPrice')
+  );
 
-  const results = hotelsIdx.search(searchString);
+  const results = getResults(hotelsIdx, searchQueries);
   const count = length(results);
-
   const destinationTitle = getDestinationTitle(id) || '';
   const countTitle = `${count} ${getPluralisation('result', count)}`;
   const title = destinationTitle ? `${destinationTitle} - ${countTitle}` : countTitle;
