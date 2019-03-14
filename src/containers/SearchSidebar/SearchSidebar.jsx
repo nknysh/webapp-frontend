@@ -33,7 +33,7 @@ const filtersRegionTypeLens = lensPath(['filters', 'regions', 'type']);
 const filtersRegionSelectedLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
 
-const DefaultPriceRange = [2000, 10000];
+const DefaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
 
 export const SearchSidebar = ({
   destinations,

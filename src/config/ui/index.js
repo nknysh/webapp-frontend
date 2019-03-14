@@ -77,6 +77,10 @@ const uiConfig = {
   currency: {
     symbol: '$',
   },
+
+  defaults: {
+    priceRange: [2000, 10000],
+  },
 };
 
 export const getSingular = pipe(

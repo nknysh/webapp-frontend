@@ -16,7 +16,7 @@ const filtersPricesLens = lensPath(['filters', 'prices']);
 
 const newDate = value => value && new Date(value);
 
-const toBoolean = value => value == 'true';
+const toBoolean = value => value === 'true';
 
 const isNotNil = complement(isNil);
 
