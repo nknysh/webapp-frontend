@@ -1,10 +1,12 @@
 import React from 'react';
-import { compose } from 'ramda';
+import { compose, path } from 'ramda';
 
 import { Loader } from 'components';
 import { SearchSidebar, SearchResults } from 'containers';
 import { useCurrentWidth, useFetchData } from 'effects';
 import { isMobile, isEmptyOrNil } from 'utils';
+
+import uiConfig from 'config/ui';
 
 import connect from './SearchContainer.state';
 import { propTypes, defaultProps } from './SearchContainer.props';
@@ -34,7 +36,7 @@ export const SearchContainer = ({ fetchHotels, hotels, countries, searchQuery, r
                 <BackButtonWrapper>
                   <BackButton>keyboard_arrow_left</BackButton>
                 </BackButtonWrapper>
-                back to homepage
+                {path(['labels', 'backToHome'], uiConfig)}
               </Navigation>
               <SearchSidebar hotels={hotels} countries={countries} searchQuery={searchQuery} />
             </ColumnLeft>

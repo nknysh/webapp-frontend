@@ -25,6 +25,7 @@ const uiConfig = {
     searching: 'Search',
     allRegions: 'All regions',
     specifyRegions: 'Specify regions',
+    backToHome: 'back to homepage',
 
     yes: 'Yes',
     no: 'No',
