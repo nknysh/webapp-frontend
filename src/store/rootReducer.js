@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 import auth from './modules/auth/reducer';
-import destinations from './modules/destinations/reducer';
+import countries from './modules/countries/reducer';
 import hotels from './modules/hotels/reducer';
 import pages from './modules/pages/reducer';
 import search from './modules/search/reducer';
@@ -10,7 +10,7 @@ import offers from './modules/offers/reducer';
 
 const rootReducer = combineReducers({
   auth,
-  destinations,
+  countries,
   hotels,
   pages,
   search,

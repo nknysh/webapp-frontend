@@ -19,7 +19,6 @@ export const reducerShim = pipe(
 export const normalizer = curry((id, reducedState) => {
   const normalizeItem = (acc, item) => merge(acc, { [prop(id, item)]: item });
   const normalizeItems = reduce(normalizeItem, {});
-
   const rawData = view(dataLens, reducedState);
   const normalizedState = set(dataLens, normalizeItems(rawData), reducedState);
   return normalizedState;

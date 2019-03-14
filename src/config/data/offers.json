@@ -12,7 +12,10 @@
         "validFrom": "2019-03-06T14:33:50.377Z",
         "validTo": "2019-03-06T14:33:50.377Z",
         "hotelUuid": "aeb546c8-80ea-444d-8f7d-0eea6a58bbf2",
-        "roomUuid": null
+        "roomUuid": null,
+        "hotel": {
+            "uuid":"b3b07ae4-7c02-47a6-a41a-fdc0d308764a"
+        }
     },
     {
         "uuid": "b3b07ae4-7c02-47a6-a4ea-fd20d308764a",

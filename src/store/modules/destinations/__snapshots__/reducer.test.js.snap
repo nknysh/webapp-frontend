@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`pages reducer should handle FETCH_DESTINATIONS 1`] = `Object {}`;
-
-exports[`pages reducer should handle FETCH_DESTINATIONS_ERROR 1`] = `Object {}`;
-
-exports[`pages reducer should handle FETCH_DESTINATIONS_SUCCESS 1`] = `Object {}`;

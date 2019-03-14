@@ -5,16 +5,16 @@ import { initialState, loadingReducer, successReducer, errorReducer } from 'stor
 
 import schema from './schema';
 
-import { FETCH_OFFERS } from './actions';
+import { FETCH_LATEST_OFFERS } from './actions';
 
 export default createReducer(
   {
-    [FETCH_OFFERS]: loadingReducer,
-    [getSuccessActionName(FETCH_OFFERS)]: pipe(
+    [FETCH_LATEST_OFFERS]: loadingReducer,
+    [getSuccessActionName(FETCH_LATEST_OFFERS)]: pipe(
       successReducer,
       normalizer(prop('id', schema))
     ),
-    [getErrorActionName(FETCH_OFFERS)]: errorReducer,
+    [getErrorActionName(FETCH_LATEST_OFFERS)]: errorReducer,
   },
   initialState
 );

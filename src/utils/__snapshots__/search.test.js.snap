@@ -31,7 +31,7 @@ Array [
 
 exports[`search utils filterByRange removes results correctly 5`] = `Array []`;
 
-exports[`search utils queries queryAvailable returns preferred query string 1`] = `" +availableForOnlineBooking:true"`;
+exports[`search utils queries queryAvailable returns preferred query string 1`] = `" +availableForOnlineBooking:true^5"`;
 
 exports[`search utils queries queryFilterRegions returns built or string 1`] = `" -region:Bar"`;
 
@@ -39,9 +39,9 @@ exports[`search utils queries queryFilterRegions returns built or string 2`] = `
 
 exports[`search utils queries queryHoneymooners returns preferred query string 1`] = `undefined`;
 
-exports[`search utils queries queryHoneymooners returns preferred query string 2`] = `" suitableForHoneymooners:true^15"`;
+exports[`search utils queries queryHoneymooners returns preferred query string 2`] = `" suitableForHoneymooners:true^5"`;
 
-exports[`search utils queries queryPreferred returns preferred query string 1`] = `" preferred:true^10"`;
+exports[`search utils queries queryPreferred returns preferred query string 1`] = `" preferred:true"`;
 
 exports[`search utils searchByQueries returns the result set based on querys 1`] = `
 Array [

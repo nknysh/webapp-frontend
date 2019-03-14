@@ -6,20 +6,18 @@ export const propTypes = {
   searchQuery: PropTypes.object,
   indexes: PropTypes.array,
   hotels: PropTypes.object,
-  destinations: PropTypes.object,
+  countries: PropTypes.object,
   getHotel: PropTypes.func,
-  fetchDestinations: PropTypes.func,
   fetchHotels: PropTypes.func,
-  getDestinationTitle: PropTypes.func,
+  getCountryName: PropTypes.func,
 };
 
 export const defaultProps = {
   searchQuery: {},
   indexes: [],
   hotels: undefined,
-  destinations: undefined,
+  countries: undefined,
   getHotel: noop,
-  fetchDestinations: noop,
   fetchHotels: noop,
-  getDestinationTitle: noop,
+  getCountryName: noop,
 };

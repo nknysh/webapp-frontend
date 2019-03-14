@@ -4,10 +4,10 @@ const headerAuthorizationLens = lensPath(['headers', 'common', 'Authorization'])
 
 const authToken = localStorage.getItem('authToken');
 
-const headerMiddleware = config => {
+const authMiddleware = config => {
   if (!authToken) return config;
 
-  return set(headerAuthorizationLens, `Bearer: ${authToken}`);
+  return set(headerAuthorizationLens, `Bearer: ${authToken}`, config);
 };
 
-export default headerMiddleware;
+export default authMiddleware;

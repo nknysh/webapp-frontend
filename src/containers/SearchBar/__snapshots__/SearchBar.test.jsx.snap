@@ -10,7 +10,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
       <Styled(withSearchIndexes(IndexSearch))
         indexes={
           Array [
-            "destinations",
+            "countries",
             "hotels",
           ]
         }

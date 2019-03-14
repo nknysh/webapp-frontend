@@ -1,7 +1,9 @@
 import client from './index';
 
-export const fetchHotels = ({ order, limit }) =>
+export const getLatestOffers = ({ order, limit }) =>
   client
     .order(order)
     .limit(limit)
-    .get('/offers');
+    .get('/offers/latest-offers');
+
+export default { getLatestOffers };

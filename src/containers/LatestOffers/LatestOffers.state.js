@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { fetchOffers } from 'store/modules/offers/actions';
+import { fetchLatestOffers } from 'store/modules/offers/actions';
 import { getOffersData, getOffersStatus } from 'store/modules/offers/selectors';
 
 export const mapStateToProps = state => ({
@@ -10,8 +10,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchOffers: pipe(
-    fetchOffers,
+  fetchLatestOffers: pipe(
+    fetchLatestOffers,
     dispatch
   ),
 });

@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { noop } from 'utils';
 
 export const propTypes = {
-  destinations: PropTypes.object,
-  destinationsIndex: PropTypes.object,
-  fetchDestinations: PropTypes.func,
+  countries: PropTypes.object,
+  countriesIndex: PropTypes.object,
   fetchHotels: PropTypes.func,
-  getDestinationTitle: PropTypes.func,
+  getCountryName: PropTypes.func,
   getHotelName: PropTypes.func,
   hotels: PropTypes.object,
   hotelsIndex: PropTypes.object,
@@ -15,6 +14,5 @@ export const propTypes = {
 };
 
 export const defaultProps = {
-  fetchDestinations: noop,
   fetchHotels: noop,
 };

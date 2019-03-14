@@ -4,7 +4,7 @@ import { __, set, view, path, prop, compose, lensProp, lensPath, pipe, equals, m
 
 import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'components';
 import { useFetchData } from 'effects';
-import { buildQueryString, RegionSelectTypes } from 'utils';
+import { buildQueryString, RegionSelectTypes, IndexTypes } from 'utils';
 
 import uiConfig, { getSingular } from 'config/ui';
 
@@ -23,7 +23,7 @@ import {
   PriceRangeLabelPrice,
 } from './SearchSidebar.styles';
 
-const indexes = ['destinations', 'hotels'];
+const indexes = ['countries', 'hotels'];
 
 const searchLens = lensProp('search');
 const datesLens = lensProp('dates');
@@ -36,10 +36,9 @@ const filtersPricesLens = lensPath(['filters', 'prices']);
 const DefaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
 
 export const SearchSidebar = ({
-  destinations,
-  fetchDestinations,
+  countries,
   fetchHotels,
-  getDestinationTitle,
+  getCountryName,
   getHotelName,
   hotels,
   searchQuery,
@@ -49,7 +48,6 @@ export const SearchSidebar = ({
   regions,
 }) => {
   useFetchData(fetchHotels, hotels);
-  useFetchData(fetchDestinations, destinations);
 
   useEffect(() => {
     history.push(`/search?${buildQueryString(searchQuery)}`);
@@ -101,7 +99,7 @@ export const SearchSidebar = ({
   );
 
   return (
-    <Loader isLoading={!hotels || !destinations}>
+    <Loader isLoading={!hotels || !countries}>
       <Section>
         <Title>{path(['labels', 'searching'], uiConfig)}</Title>
         <SectionField>
@@ -111,7 +109,7 @@ export const SearchSidebar = ({
             limit={5}
             openOnFocus={false}
             placeholder={path(['placeholders', 'search'], uiConfig)}
-            selectors={[getDestinationTitle, getHotelName]}
+            selectors={[getCountryName, getHotelName]}
             value={prop('value', getSearchQueryData(searchLens))}
             onClick={onIndexSearchClick}
           />
@@ -182,7 +180,9 @@ export const SearchSidebar = ({
           />
         </SectionField>
         <SectionField>
-          <SideBarButton onClick={resetFilters}>{path(['buttons', 'removeFilters'], uiConfig)}</SideBarButton>
+          <SideBarButton onClick={() => resetFilters({ index: IndexTypes.HOTELS })}>
+            {path(['buttons', 'removeFilters'], uiConfig)}
+          </SideBarButton>
         </SectionField>
       </Section>
     </Loader>

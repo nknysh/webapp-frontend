@@ -12,6 +12,7 @@ const uiConfig = {
     loggingOut: 'Logging out...',
     passwordReset: 'Requesting Password Reset...',
     setPassword: 'Setting password...',
+    searching: 'Searching...',
   },
 
   labels: {
@@ -24,6 +25,7 @@ const uiConfig = {
     searching: 'Search',
     allRegions: 'All regions',
     specifyRegions: 'Specify regions',
+    backToHome: 'back to homepage',
 
     yes: 'Yes',
     no: 'No',

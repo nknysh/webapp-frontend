@@ -24,7 +24,7 @@ const dateFormat = 'DD MMMM YYYY';
 const formatDate = date => format(date, dateFormat);
 
 export const Offer = ({ offer }) => {
-  const image = path(['hotelUuid', 'image'], offer);
+  const image = path(['hotel', 'featuredPhoto', 'url'], offer);
 
   const getDates = pipe(
     replace('{fromDate}', formatDate(prop('validFrom', offer))),
@@ -35,18 +35,18 @@ export const Offer = ({ offer }) => {
     <StyledOffer>
       <OfferImage style={{ backgroundImage: `url(${image})` }}>
         <OfferChip>
-          <OfferPrice>{prop('pricePerAdult', offer)}</OfferPrice> /{getSingular('guest')}
+          <OfferPrice>{prop('guidePrice', offer)}</OfferPrice> /{getSingular('guest')}
         </OfferChip>
-        <OfferName>{prop('name', offer)}</OfferName>
+        <OfferName>{path(['dealRule', 'title'], offer)}</OfferName>
       </OfferImage>
       <OfferDetails>
-        <OfferTitle>{path(['hotelUuid', 'name'], offer)}</OfferTitle>
-        <OfferDescription>{prop('description', offer)}</OfferDescription>
+        <OfferTitle>{path(['hotel', 'name'], offer)}</OfferTitle>
+        <OfferDescription>{path(['dealRule', 'description'], offer)}</OfferDescription>
         <OfferText>{getDates(path(['taglines', 'validFromTo'], uiConfig))}</OfferText>
-        <OfferText>{path(['taglines', 'validForAllVillas'], uiConfig)}</OfferText>
+        <OfferText>{prop('termsAndConditions', offer)}</OfferText>
       </OfferDetails>
       <OfferCta>
-        <OfferCtaButton inverse to={`/hotels/${path(['hotelUuid', 'uuid'], offer)}`}>
+        <OfferCtaButton inverse to={`/hotels/${path(['hotel', 'uuid'], offer)}`}>
           {path(['buttons', 'moreInfo'], uiConfig)}
         </OfferCtaButton>
       </OfferCta>

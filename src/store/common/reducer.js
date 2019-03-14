@@ -1,4 +1,4 @@
-import { pipe, set } from 'ramda';
+import { pipe, set, propOr, values } from 'ramda';
 
 import { isArray } from 'utils';
 import { Status } from 'store/common';
@@ -11,7 +11,12 @@ export const sendingReducer = state => set(statusLens, Status.SENDING, { ...stat
 export const successReducer = (state, { payload }) => {
   const setData = pipe(
     set(statusLens, Status.SUCCESS),
-    set(dataLens, isArray(payload) ? [...payload] : { ...payload }),
+    set(
+      dataLens,
+      isArray(payload)
+        ? [...values(propOr([], 'data', state)), ...payload]
+        : { ...propOr({}, 'data', state), ...payload }
+    ),
     set(errorLens, undefined)
   );
 
