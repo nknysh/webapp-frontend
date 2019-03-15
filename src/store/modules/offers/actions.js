@@ -40,5 +40,5 @@ export const fetchLatestOffers = args => dispatch => {
   return client
     .getLatestOffers(args)
     .then(({ data }) => dispatch(fetchOffersSuccess({ data })))
-    .catch(error => dispatch(errorAction(FETCH_LATEST_OFFERS, error)));
+    .catch(error => dispatch(errorAction(FETCH_LATEST_OFFERS, error.response)));
 };

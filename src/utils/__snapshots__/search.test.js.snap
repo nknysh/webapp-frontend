@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`search utils filterByArrayValues includes results that contain values 1`] = `
+Array [
+  Object {
+    "ref": "foo",
+  },
+  Object {
+    "ref": "bar",
+  },
+]
+`;
+
+exports[`search utils filterByArrayValues includes results that contain values 2`] = `
+Array [
+  Object {
+    "ref": "foo",
+  },
+  Object {
+    "ref": "bar",
+  },
+]
+`;
+
+exports[`search utils filterByArrayValues includes results that contain values 3`] = `
+Array [
+  Object {
+    "ref": "foo",
+  },
+  Object {
+    "ref": "bar",
+  },
+]
+`;
+
 exports[`search utils filterByRange removes results correctly 1`] = `Array []`;
 
 exports[`search utils filterByRange removes results correctly 2`] = `

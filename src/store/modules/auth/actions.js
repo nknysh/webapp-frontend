@@ -82,10 +82,10 @@ export const signUp = values => dispatch => {
 
 export const logOut = token => dispatch => {
   dispatch(authLogOut(token));
+  deleteRememberedToken();
+  deleteRememberedUser();
 
   const onSuccess = () => {
-    deleteRememberedToken();
-    deleteRememberedUser();
     dispatch(authReset());
     dispatch(successAction(AUTH_LOG_OUT));
   };

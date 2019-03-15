@@ -23,6 +23,7 @@ import {
   tail,
   values,
   without,
+  includes,
 } from 'ramda';
 
 export const IndexTypes = Object.freeze({
@@ -113,6 +114,23 @@ const reduceByRange = curry((selector, range, key, accum, result) => {
   return checkRange(propValue);
 });
 
+const reduceIncludes = curry((selector, values, key, accum, result) => {
+  if (isEmpty(values)) return [...accum, result];
+
+  const ref = prop('ref', result);
+  const resultObject = selector(ref);
+  const propValues = prop(key, resultObject);
+
+  const reduceInclude = (accum, value) => (!accum ? includes(value, values) : accum);
+  const checkForValues = reduce(reduceInclude, false);
+
+  return checkForValues(propValues) ? [...accum, result] : accum;
+});
+
 export const filterByRange = curry((selector, range, key, results) =>
   reduce(reduceByRange(selector, range, key), [], defaultTo([], results))
+);
+
+export const filterByArrayValues = curry((selector, values, key, results) =>
+  reduce(reduceIncludes(selector, extractFilterKeys(true, values), key), [], defaultTo([], results))
 );

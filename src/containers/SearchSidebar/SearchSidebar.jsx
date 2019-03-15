@@ -22,7 +22,7 @@ import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'compon
 import { useFetchData } from 'effects';
 import { buildQueryString, RegionSelectTypes, IndexTypes } from 'utils';
 
-import uiConfig, { getSingular } from 'config/ui';
+import uiConfig, { getSingular, getPlural } from 'config/ui';
 
 import connect from './SearchSidebar.state';
 import { propTypes, defaultProps } from './SearchSidebar.props';
@@ -49,6 +49,7 @@ const filtersRegionTypeLens = lensPath(['filters', 'regions', 'type']);
 const filtersRegionSelectedLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
+const filtersFeaturesLens = lensPath(['filters', 'features']);
 
 const DefaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
 
@@ -64,6 +65,7 @@ export const SearchSidebar = ({
   history,
   regions,
   starRatings,
+  features,
 }) => {
   useFetchData(fetchHotels, hotels);
 
@@ -105,6 +107,11 @@ export const SearchSidebar = ({
     updateSearchQuery(filtersStarRatingsLens),
     setSearchQuery
   );
+  const setFeaturesToSearchQuery = pipe(
+    merge(getSearchQueryData(filtersFeaturesLens)),
+    updateSearchQuery(filtersFeaturesLens),
+    setSearchQuery
+  );
 
   const onIndexSearchClick = pipe(
     updateSearchQuery(searchLens),
@@ -130,6 +137,17 @@ export const SearchSidebar = ({
         label={`${rating} ${getSingular('star')}`}
         checked={propOr(true, rating, getSearchQueryData(filtersStarRatingsLens))}
         onChange={(e, checked) => setStarRatingsToSearchQuery({ [rating]: checked })}
+      />
+    );
+
+  const renderFeaturesCheckbox = feature =>
+    feature && (
+      <Checkbox
+        key={feature}
+        name={`features[${feature}]`}
+        label={feature}
+        checked={propOr(false, feature, getSearchQueryData(filtersFeaturesLens))}
+        onChange={(e, checked) => setFeaturesToSearchQuery({ [feature]: checked })}
       />
     );
 
@@ -220,6 +238,13 @@ export const SearchSidebar = ({
           <Fragment>
             <Title>{getSingular('starRating')}</Title>
             <SectionField>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
+          </Fragment>
+        )}
+
+        {features && (
+          <Fragment>
+            <Title>{getPlural('feature')}</Title>
+            <SectionField>{map(renderFeaturesCheckbox, features)}</SectionField>
           </Fragment>
         )}
 
