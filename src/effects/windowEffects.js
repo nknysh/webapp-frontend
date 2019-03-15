@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { windowExists, addEvent, removeEvent } from 'utils';
+import { useEffectBoundary } from './genericEffects';
 
 export const useCurrentWidth = () => {
   const [currentWidth, setCurrentWidth] = useState(windowExists.innerWidth || 0);
   const updateWidth = () => setCurrentWidth(windowExists.innerWidth || 0);
 
-  useEffect(() => {
+  useEffectBoundary(() => {
     addEvent('resize', updateWidth);
 
     () => {
@@ -27,7 +28,7 @@ const scrollToTop = () => {
   }
 };
 
-export const useScrollToTop = changed => useEffect(scrollToTop, [changed]);
+export const useScrollToTop = changed => useEffectBoundary(scrollToTop, [changed]);
 
 export const useKeyboard = (keyCode, callback) => {
   const onKeyPress = e => {
@@ -35,7 +36,7 @@ export const useKeyboard = (keyCode, callback) => {
     callback(e);
   };
 
-  useEffect(() => {
+  useEffectBoundary(() => {
     addEvent('keydown', onKeyPress);
 
     () => {
