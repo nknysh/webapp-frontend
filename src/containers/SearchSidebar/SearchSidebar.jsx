@@ -16,27 +16,31 @@ import {
   merge,
   head,
   tail,
+  values,
 } from 'ramda';
 
-import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'components';
+import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox, ToolTip } from 'components';
 import { useFetchData, useEffectBoundary } from 'effects';
-import { buildQueryString, RegionSelectTypes, IndexTypes } from 'utils';
+import { buildQueryString, RegionSelectTypes, IndexTypes, MealPlanSelectTypes } from 'utils';
 
 import uiConfig, { getSingular, getPlural } from 'config/ui';
 
 import connect from './SearchSidebar.state';
 import { propTypes, defaultProps } from './SearchSidebar.props';
 import {
-  Section,
-  Title,
-  SectionField,
-  RegionRadioButton,
-  SideBarButton,
-  RegionCheckbox,
+  MealPlanRadioButton,
   PriceRange,
-  PriceRangeLabels,
   PriceRangeLabel,
   PriceRangeLabelPrice,
+  PriceRangeLabels,
+  RegionCheckbox,
+  RegionRadioButton,
+  Section,
+  SectionField,
+  SideBarButton,
+  Title,
+  MealTypeTip,
+  MealTypeKey,
 } from './SearchSidebar.styles';
 
 const indexes = ['countries', 'hotels'];
@@ -50,8 +54,20 @@ const filtersRegionSelectedLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 const filtersFeaturesLens = lensPath(['filters', 'features']);
+const filtersMealPlanLens = lensPath(['filters', 'mealPlan']);
 
-const DefaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
+const defaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
+
+const mapMealPlan = value => ({ label: value, value });
+const mapMealPlans = map(mapMealPlan);
+const mealPlanOptions = values(mapMealPlans(MealPlanSelectTypes));
+
+const renderMealPlanTip = value => (
+  <MealTypeTip key={value}>
+    <MealTypeKey>{value}</MealTypeKey>
+    {path(['mealTypes', value], uiConfig)}
+  </MealTypeTip>
+);
 
 export const SearchSidebar = ({
   countries,
@@ -110,6 +126,11 @@ export const SearchSidebar = ({
   const setFeaturesToSearchQuery = pipe(
     merge(getSearchQueryData(filtersFeaturesLens)),
     updateSearchQuery(filtersFeaturesLens),
+    setSearchQuery
+  );
+  const setMealPlanToSearchQuery = pipe(
+    path(['currentTarget', 'value']),
+    updateSearchQuery(filtersMealPlanLens),
     setSearchQuery
   );
 
@@ -219,18 +240,18 @@ export const SearchSidebar = ({
           <PriceRangeLabels>
             <PriceRangeLabel>
               {path(['labels', 'from'], uiConfig)}{' '}
-              <PriceRangeLabelPrice>{head(DefaultPriceRange)}</PriceRangeLabelPrice>
+              <PriceRangeLabelPrice>{head(defaultPriceRange)}</PriceRangeLabelPrice>
             </PriceRangeLabel>
             <PriceRangeLabel data-align="right">
               {path(['labels', 'to'], uiConfig)}{' '}
-              <PriceRangeLabelPrice>{head(tail(DefaultPriceRange))}</PriceRangeLabelPrice>
+              <PriceRangeLabelPrice>{head(tail(defaultPriceRange))}</PriceRangeLabelPrice>
             </PriceRangeLabel>
           </PriceRangeLabels>
           <PriceRange
-            value={getSearchQueryData(filtersPricesLens) || DefaultPriceRange}
+            value={getSearchQueryData(filtersPricesLens) || defaultPriceRange}
             onAfterChange={setPriceRangeToSearchQuery}
-            min={head(DefaultPriceRange)}
-            max={head(tail(DefaultPriceRange))}
+            min={head(defaultPriceRange)}
+            max={head(tail(defaultPriceRange))}
           />
         </SectionField>
 
@@ -240,6 +261,19 @@ export const SearchSidebar = ({
             <SectionField>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
           </Fragment>
         )}
+
+        <Title>
+          {getSingular('mealPlan')}
+          <ToolTip>{values(map(renderMealPlanTip, MealPlanSelectTypes))}</ToolTip>
+        </Title>
+        <SectionField>
+          <MealPlanRadioButton
+            name="mealPlan"
+            value={getSearchQueryData(filtersMealPlanLens) || MealPlanSelectTypes.BB}
+            onChange={setMealPlanToSearchQuery}
+            options={mealPlanOptions}
+          />
+        </SectionField>
 
         {features && (
           <Fragment>

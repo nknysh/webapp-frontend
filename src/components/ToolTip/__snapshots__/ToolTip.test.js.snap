@@ -3,6 +3,11 @@
 exports[`<ToolTip /> render matches snapshots 1`] = `
 <styled.div>
   <WithStyles(Tooltip)
+    PopperProps={
+      Object {
+        "disablePortal": true,
+      }
+    }
     classes={
       Object {
         "popper": "popper",

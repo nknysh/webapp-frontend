@@ -8,6 +8,7 @@ const ToolTip = ({ children, ...props }) => (
   <StyledToolTip>
     <Tooltip
       placement="top"
+      PopperProps={{ disablePortal: true }}
       classes={{ tooltip: 'tooltip', popper: 'popper' }}
       {...props}
       title={<ToolTipContent>{children}</ToolTipContent>}
