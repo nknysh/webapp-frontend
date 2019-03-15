@@ -5,10 +5,11 @@ import { useEffect } from 'react';
  */
 export const useEffectBoundary = (effect, params) =>
   useEffect(() => {
-    // eslint-disable-next-line
     let didCancel = false;
 
-    effect();
+    if(!didCancel){
+        effect();
+    }
 
     return () => {
       didCancel = true;
