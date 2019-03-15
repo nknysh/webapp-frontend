@@ -44,22 +44,44 @@ export const querySearchType = ({ value, type }) =>
 
 const buildSearchField = curry((presence, field, value) => ` ${presence}${field}:${value}`);
 
+const extractFilterKeys = curry((flag, values) =>
+  pipe(
+    pickBy(equals(flag)),
+    keys
+  )(values)
+);
+
+const excludeFromFilter = curry(excluded => without(__, excluded));
+const mapFilters = curry((presence, key) => map(buildSearchField(presence, key)));
+const joinWith = curry(operator =>
+  pipe(
+    values,
+    join(` ${operator} `)
+  )
+);
+
 export const queryFilterRegions = ({ selected, type }, regions) =>
   equals(RegionSelectTypes.SPECIFY, type)
     ? pipe(
-        pickBy(equals(true)),
-        keys,
-        without(__, regions),
-        map(buildSearchField('-', 'region')),
-        values,
-        join(' OR ')
+        extractFilterKeys(true),
+        excludeFromFilter(regions),
+        mapFilters('-', 'region'),
+        joinWith(' OR ')
       )(selected)
     : undefined;
 
+export const queryFilterStarRatings = selected =>
+  pipe(
+    extractFilterKeys(false),
+    mapFilters('-', 'starRating'),
+    joinWith(' OR ')
+  )(selected);
+
 export const queryPreferred = () => buildSearchField('', 'preferred', 'true');
+export const queryAvailable = () => buildSearchField('+', 'availableForOnlineBooking', 'true^15');
+
 export const queryHoneymooners = ({ honeymooners }) =>
   honeymooners ? buildSearchField('', 'suitableForHoneymooners', 'true^5') : undefined;
-export const queryAvailable = () => buildSearchField('+', 'availableForOnlineBooking', 'true^5');
 
 export const searchByQueries = curry((index, queries = []) => index.search(join(' ', queries)));
 

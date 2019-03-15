@@ -1,6 +1,22 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { __, set, view, path, prop, compose, lensProp, lensPath, pipe, equals, map, merge, head, tail } from 'ramda';
+import {
+  __,
+  set,
+  view,
+  path,
+  prop,
+  propOr,
+  compose,
+  lensProp,
+  lensPath,
+  pipe,
+  equals,
+  map,
+  merge,
+  head,
+  tail,
+} from 'ramda';
 
 import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'components';
 import { useFetchData, useEffectBoundary } from 'effects';
@@ -32,6 +48,7 @@ const honeymoonersLens = lensProp('honeymooners');
 const filtersRegionTypeLens = lensPath(['filters', 'regions', 'type']);
 const filtersRegionSelectedLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
+const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 
 const DefaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
 
@@ -46,6 +63,7 @@ export const SearchSidebar = ({
   resetFilters,
   history,
   regions,
+  starRatings,
 }) => {
   useFetchData(fetchHotels, hotels);
 
@@ -82,21 +100,38 @@ export const SearchSidebar = ({
     updateSearchQuery(filtersPricesLens),
     setSearchQuery
   );
+  const setStarRatingsToSearchQuery = pipe(
+    merge(getSearchQueryData(filtersStarRatingsLens)),
+    updateSearchQuery(filtersStarRatingsLens),
+    setSearchQuery
+  );
 
   const onIndexSearchClick = pipe(
     updateSearchQuery(searchLens),
     setSearchQuery
   );
 
-  const renderRegionCheckbox = region => (
-    <RegionCheckbox
-      key={region}
-      name={`regions[selected][${region}]`}
-      label={region}
-      checked={prop(region, getSearchQueryData(filtersRegionSelectedLens))}
-      onChange={(e, checked) => setRegionsSelectedToSearchQuery({ [region]: checked })}
-    />
-  );
+  const renderRegionCheckbox = region =>
+    region && (
+      <RegionCheckbox
+        key={region}
+        name={`regions[selected][${region}]`}
+        label={region}
+        checked={prop(region, getSearchQueryData(filtersRegionSelectedLens))}
+        onChange={(e, checked) => setRegionsSelectedToSearchQuery({ [region]: checked })}
+      />
+    );
+
+  const renderStarRatingsCheckbox = rating =>
+    rating && (
+      <Checkbox
+        key={rating}
+        name={`starRatings[${rating}]`}
+        label={`${rating} ${getSingular('star')}`}
+        checked={propOr(true, rating, getSearchQueryData(filtersStarRatingsLens))}
+        onChange={(e, checked) => setStarRatingsToSearchQuery({ [rating]: checked })}
+      />
+    );
 
   return (
     <Loader isLoading={!hotels || !countries}>
@@ -159,6 +194,7 @@ export const SearchSidebar = ({
           {equals(RegionSelectTypes.SPECIFY, getSearchQueryData(filtersRegionTypeLens)) &&
             map(renderRegionCheckbox, regions)}
         </SectionField>
+
         <Title>{getSingular('priceRange')}</Title>
         <SectionField>
           <p>{path(['taglines', 'pricesIn'], uiConfig)}</p>
@@ -179,6 +215,14 @@ export const SearchSidebar = ({
             max={head(tail(DefaultPriceRange))}
           />
         </SectionField>
+
+        {starRatings && (
+          <Fragment>
+            <Title>{getSingular('starRating')}</Title>
+            <SectionField>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
+          </Fragment>
+        )}
+
         <SectionField>
           <SideBarButton onClick={() => resetFilters({ index: IndexTypes.HOTELS })}>
             {path(['buttons', 'removeFilters'], uiConfig)}
