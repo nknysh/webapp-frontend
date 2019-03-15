@@ -8,6 +8,7 @@ import {
   queryPreferred,
   queryHoneymooners,
   queryAvailable,
+  queryFilterStarRatings,
   searchByQueries,
   filterByRange,
 } from './search';
@@ -39,6 +40,13 @@ describe('search utils', () => {
   });
 
   describe('queries', () => {
+    describe('queryFilterStarRatings', () => {
+      it('returns built or string', () => {
+        expect(queryFilterStarRatings({ Foo: true, Bar: false, Boo: true })).toMatchSnapshot();
+        expect(queryFilterStarRatings({ Foo: false, Bar: true, Boo: false })).toMatchSnapshot();
+      });
+    });
+
     describe('queryFilterRegions', () => {
       it('returns undefined if all', () => {
         expect(queryFilterRegions({})).toBeUndefined();
