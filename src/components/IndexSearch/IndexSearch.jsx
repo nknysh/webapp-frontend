@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { isEmpty, map, repeat, length, take, compose, replace, propOr, prop, curry } from 'ramda';
 import hash from 'object-hash';
 
 import { DropDownContent } from 'components';
+import { useEffectBoundary } from 'effects';
 import { withSearchIndexes } from 'hoc';
 import { isFunction, noop, mapWithIndex } from 'utils';
 
@@ -58,7 +59,7 @@ export const IndexSearch = ({
     setResults(indexResults);
   };
 
-  useEffect(searchIndexes, [value, isOpen, selected, search]);
+  useEffectBoundary(searchIndexes, [value, isOpen, selected, search]);
 
   const currentValue = search || selected;
 

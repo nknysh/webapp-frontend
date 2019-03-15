@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
+import { useEffectBoundary } from 'effects';
 
 import {
   StyledNumberSelect,
@@ -12,7 +14,7 @@ import { defaultProps, propTypes } from './NumberSelect.props';
 export const NumberSelect = ({ onChange, startAt, className }) => {
   const [count, setCount] = useState(startAt);
 
-  useEffect(() => {
+  useEffectBoundary(() => {
     onChange(count);
   }, [count, startAt]);
 
