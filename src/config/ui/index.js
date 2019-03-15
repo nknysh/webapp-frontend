@@ -67,6 +67,7 @@ const uiConfig = {
     star: ['Star', 'Stars'],
     starRating: ['Accomodation', 'Accomodations'],
     teen: ['Teen', 'Teens'],
+    feature: ['Feature', 'Features'],
   },
 
   mealTypes: {

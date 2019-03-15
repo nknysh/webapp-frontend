@@ -12,7 +12,7 @@ const defaultProps = {
     suitableForHoneymooners: false,
     listPrice: '123',
     additionalInfo: [],
-    amenities: [],
+    features: [],
   },
 };
 
