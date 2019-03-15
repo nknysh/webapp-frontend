@@ -41,7 +41,7 @@ export const getHotelStarRatings = createSelector(
 
 export const getHotelFeatures = createSelector(
   getHotelsData,
-  getMapped('features', reduceArrayByKey)
+  getMapped('amenities', reduceArrayByKey)
 );
 
 export const getHotel = curry((state, id) =>

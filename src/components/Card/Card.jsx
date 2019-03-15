@@ -37,7 +37,7 @@ export const Card = ({
     suitableForHoneymooners,
     listPrice,
     additionalInfo,
-    features,
+    amenities,
   },
 }) => {
   return (
@@ -62,8 +62,8 @@ export const Card = ({
             {suitableForHoneymooners && path(['taglines', 'suitableHoneymoon'], uiConfig)}
           </CardSecondaryRating>
         </CardRating>
-        <CardHighlights>{features && map(renderFeature, features)}</CardHighlights>
-        <CardAdditionalInfo>{features && map(renderAdditional, additionalInfo)}</CardAdditionalInfo>
+        <CardHighlights>{amenities && map(renderFeature, amenities)}</CardHighlights>
+        <CardAdditionalInfo>{amenities && map(renderAdditional, additionalInfo)}</CardAdditionalInfo>
       </CardDetails>
     </StyledCard>
   );
