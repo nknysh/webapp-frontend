@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
 import { length, values } from 'ramda';
 
 import { isEmptyOrNil } from 'utils';
 
+import { useEffectBoundary } from './genericEffects';
+
 export const useFetchData = (fetcher, data, fetchArgs) => {
-  useEffect(() => {
+  useEffectBoundary(() => {
     isEmptyOrNil(data) && fetcher(fetchArgs);
   }, [length(values(data))]);
 };
