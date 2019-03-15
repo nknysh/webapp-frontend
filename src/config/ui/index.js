@@ -69,6 +69,13 @@ const uiConfig = {
     teen: ['Teen', 'Teens'],
   },
 
+  mealTypes: {
+    bb: 'Breakfast Included',
+    hb: 'Breakfast & Dinner (Drinks excluded)',
+    fb: '3 meals per day (Drinks excluded)',
+    ai: 'All Inclusive',
+  },
+
   sections: {
     latestOffers: 'Pure Escapes Latest Offers',
   },

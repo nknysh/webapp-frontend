@@ -19,7 +19,7 @@ import {
   values,
 } from 'ramda';
 
-import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'components';
+import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox, ToolTip } from 'components';
 import { useFetchData } from 'effects';
 import { buildQueryString, RegionSelectTypes, IndexTypes, MealPlanSelectTypes } from 'utils';
 
@@ -39,6 +39,8 @@ import {
   SectionField,
   SideBarButton,
   Title,
+  MealTypeTip,
+  MealTypeKey,
 } from './SearchSidebar.styles';
 
 const indexes = ['countries', 'hotels'];
@@ -59,6 +61,13 @@ const defaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
 const mapMealPlan = value => ({ label: value, value });
 const mapMealPlans = map(mapMealPlan);
 const mealPlanOptions = values(mapMealPlans(MealPlanSelectTypes));
+
+const renderMealPlanTip = value => (
+  <MealTypeTip key={value}>
+    <MealTypeKey>{value}</MealTypeKey>
+    {path(['mealTypes', value], uiConfig)}
+  </MealTypeTip>
+);
 
 export const SearchSidebar = ({
   countries,
@@ -253,7 +262,10 @@ export const SearchSidebar = ({
           </Fragment>
         )}
 
-        <Title>{getSingular('mealPlan')}</Title>
+        <Title>
+          {getSingular('mealPlan')}
+          <ToolTip>{values(map(renderMealPlanTip, MealPlanSelectTypes))}</ToolTip>
+        </Title>
         <SectionField>
           <MealPlanRadioButton
             name="mealPlan"

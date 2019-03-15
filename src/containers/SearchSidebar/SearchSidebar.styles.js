@@ -68,6 +68,23 @@ export const MealPlanRadioButton = styled(RadioButton)`
   }
 `;
 
+export const MealTypeTip = styled.div`
+  display: block;
+  margin-bottom: ${theme.gutter}px;
+  display: flex;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+export const MealTypeKey = styled.span`
+  font-weight: bold;
+  color: ${theme.primary};
+  margin-right: ${theme.gutter}px;
+  flex: 0 1;
+`;
+
 export const RegionCheckbox = styled(Checkbox)`
   margin-left: ${theme.gutter * 3}px;
 `;

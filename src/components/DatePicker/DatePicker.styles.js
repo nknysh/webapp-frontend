@@ -43,14 +43,12 @@ export const StyledDatePicker = styled.div`
   }
   .${baseClass} {
     position: absolute;
-    left: -${theme.gutter * 4}px;
-    right: -${theme.gutter * 4}px;
+    left: 0;
+    right: 0;
     margin-top: ${theme.gutter / 2}px;
     z-index: 9000;
 
     ${breakpoints.tablet`
-      left: 0;
-      right: 0;
       margin-top: 0;
     `}
 

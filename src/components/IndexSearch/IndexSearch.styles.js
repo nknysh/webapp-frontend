@@ -22,6 +22,8 @@ export const IndexSearchResults = styled.div`
   position: absolute;
   overflow-y: auto;
   box-shadow: ${theme.boxShadow};
+  border-radius: ${theme.borderRadius};
+  border: 1px solid ${theme.borderColor};
   width: 100%;
   z-index: 400;
   background: ${theme.backgroundColor};
@@ -30,7 +32,7 @@ export const IndexSearchResults = styled.div`
 export const IndexSearchHits = styled.div`
   color: ${theme.primary};
   background: ${theme.backgroundColor};
-  border-bottom: 1px solid ${theme.primary};
+  border-bottom: 1px solid ${theme.borderColor};
   text-transform: uppercase;
 
   :first-child {
@@ -61,4 +63,8 @@ export const IndexSearchHitContent = styled.div`
   padding: ${theme.gutter * 2}px;
   color: ${theme.colors.black};
   border-bottom: 1px solid ${theme.colors['gray-medium']};
+
+  &:last-child {
+    border: 0;
+  }
 `;
