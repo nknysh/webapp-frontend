@@ -130,6 +130,36 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
         }
       />
     </styled.div>
+    <styled.h4>
+      Meal plan
+    </styled.h4>
+    <styled.div>
+      <Styled(RadioButton)
+        name="mealPlan"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "label": "bb",
+              "value": "bb",
+            },
+            Object {
+              "label": "hb",
+              "value": "hb",
+            },
+            Object {
+              "label": "fb",
+              "value": "fb",
+            },
+            Object {
+              "label": "ai",
+              "value": "ai",
+            },
+          ]
+        }
+        value="bb"
+      />
+    </styled.div>
     <styled.div>
       <Styled(styled.button)
         onClick={[Function]}
@@ -257,6 +287,36 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
             10000,
           ]
         }
+      />
+    </styled.div>
+    <styled.h4>
+      Meal plan
+    </styled.h4>
+    <styled.div>
+      <Styled(RadioButton)
+        name="mealPlan"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "label": "bb",
+              "value": "bb",
+            },
+            Object {
+              "label": "hb",
+              "value": "hb",
+            },
+            Object {
+              "label": "fb",
+              "value": "fb",
+            },
+            Object {
+              "label": "ai",
+              "value": "ai",
+            },
+          ]
+        }
+        value="bb"
       />
     </styled.div>
     <styled.div>

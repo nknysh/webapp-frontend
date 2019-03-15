@@ -56,6 +56,18 @@ export const RegionRadioButton = styled(RadioButton)`
   }
 `;
 
+export const MealPlanRadioButton = styled(RadioButton)`
+  label {
+    max-width: 25%;
+    margin: 0 !important;
+
+    > span {
+      width: ${theme.gutter * 2}px;
+      margin-right: ${theme.gutter}px;
+    }
+  }
+`;
+
 export const RegionCheckbox = styled(Checkbox)`
   margin-left: ${theme.gutter * 3}px;
 `;
