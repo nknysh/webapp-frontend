@@ -17,7 +17,7 @@ import { StyledSearch, SearchHero, SearchMarkdown } from './Landing.styles';
 
 export const Landing = ({ offers, fetchLatestOffers, fetchHotels, hotels, countries, requesting }) => {
   useFetchData(fetchHotels, hotels);
-  useFetchData(() => fetchLatestOffers({ limit: 1 }), offers);
+  useFetchData(() => fetchLatestOffers({ limit: 3 }), offers);
 
   const isLoading = requesting || isEmptyOrNil(hotels) || isEmptyOrNil(countries) || isNil(offers);
 
