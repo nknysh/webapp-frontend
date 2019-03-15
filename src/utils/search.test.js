@@ -2,15 +2,16 @@ import { values, prop, __ } from 'ramda';
 import lunr from 'lunr';
 
 import {
-  IndexTypes,
-  RegionSelectTypes,
-  queryFilterRegions,
-  queryPreferred,
-  queryHoneymooners,
-  queryAvailable,
-  queryFilterStarRatings,
-  searchByQueries,
+  filterByArrayValues,
   filterByRange,
+  IndexTypes,
+  queryAvailable,
+  queryFilterRegions,
+  queryFilterStarRatings,
+  queryHoneymooners,
+  queryPreferred,
+  RegionSelectTypes,
+  searchByQueries,
 } from './search';
 
 describe('search utils', () => {
@@ -124,6 +125,25 @@ describe('search utils', () => {
       expect(filterByRange(selector, [50, 2000], 'price', results)).toMatchSnapshot();
       expect(filterByRange(selector, [200, 2000], 'price', results)).toMatchSnapshot();
       expect(filterByRange(selector, [2500, 3000], 'price', results)).toMatchSnapshot();
+    });
+  });
+
+  describe('filterByArrayValues', () => {
+    it('includes results that contain values', () => {
+      const dataSet = {
+        foo: {
+          amenities: ['foo', 'bar'],
+        },
+        bar: {
+          amenities: ['bar'],
+        },
+      };
+      const selector = prop(__, dataSet);
+      const results = [{ ref: 'foo' }, { ref: 'bar' }];
+
+      expect(filterByArrayValues(selector, ['foo'], 'amenities', results)).toMatchSnapshot();
+      expect(filterByArrayValues(selector, ['bar'], 'amenities', results)).toMatchSnapshot();
+      expect(filterByArrayValues(selector, ['foo', 'bar'], 'amenities', results)).toMatchSnapshot();
     });
   });
 });

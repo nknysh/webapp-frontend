@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'ramda';
+import { compose, isNil } from 'ramda';
 
 import { Loader } from 'components';
 import { SearchBar, LatestOffers } from 'containers';
@@ -19,7 +19,7 @@ export const Landing = ({ offers, fetchLatestOffers, fetchHotels, hotels, countr
   useFetchData(fetchHotels, hotels);
   useFetchData(() => fetchLatestOffers({ limit: 1 }), offers);
 
-  const isLoading = requesting || isEmptyOrNil(hotels) || isEmptyOrNil(countries) || isEmptyOrNil(offers);
+  const isLoading = requesting || isEmptyOrNil(hotels) || isEmptyOrNil(countries) || isNil(offers);
 
   return (
     <Loader isLoading={isLoading}>

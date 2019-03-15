@@ -22,7 +22,7 @@ import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'compon
 import { useFetchData } from 'effects';
 import { buildQueryString, RegionSelectTypes, IndexTypes } from 'utils';
 
-import uiConfig, { getSingular } from 'config/ui';
+import uiConfig, { getSingular, getPlural } from 'config/ui';
 
 import connect from './SearchSidebar.state';
 import { propTypes, defaultProps } from './SearchSidebar.props';
@@ -49,6 +49,7 @@ const filtersRegionTypeLens = lensPath(['filters', 'regions', 'type']);
 const filtersRegionSelectedLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
+const filtersAmenitiesLens = lensPath(['filters', 'amenities']);
 
 const DefaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
 
@@ -64,6 +65,7 @@ export const SearchSidebar = ({
   history,
   regions,
   starRatings,
+  amenities,
 }) => {
   useFetchData(fetchHotels, hotels);
 
@@ -105,6 +107,11 @@ export const SearchSidebar = ({
     updateSearchQuery(filtersStarRatingsLens),
     setSearchQuery
   );
+  const setAmenitiesToSearchQuery = pipe(
+    merge(getSearchQueryData(filtersAmenitiesLens)),
+    updateSearchQuery(filtersAmenitiesLens),
+    setSearchQuery
+  );
 
   const onIndexSearchClick = pipe(
     updateSearchQuery(searchLens),
@@ -130,6 +137,17 @@ export const SearchSidebar = ({
         label={`${rating} ${getSingular('star')}`}
         checked={propOr(true, rating, getSearchQueryData(filtersStarRatingsLens))}
         onChange={(e, checked) => setStarRatingsToSearchQuery({ [rating]: checked })}
+      />
+    );
+
+  const renderAmenitiesCheckbox = amenity =>
+    amenity && (
+      <Checkbox
+        key={amenity}
+        name={`amenities[${amenity}]`}
+        label={amenity}
+        checked={propOr(false, amenity, getSearchQueryData(filtersAmenitiesLens))}
+        onChange={(e, checked) => setAmenitiesToSearchQuery({ [amenity]: checked })}
       />
     );
 
@@ -222,6 +240,14 @@ export const SearchSidebar = ({
             max={head(tail(DefaultPriceRange))}
           />
         </SectionField>
+
+        {amenities && (
+          <Fragment>
+            <Title>{getPlural('amenity')}</Title>
+            <SectionField>{map(renderAmenitiesCheckbox, amenities)}</SectionField>
+          </Fragment>
+        )}
+
         <SectionField>
           <SideBarButton onClick={() => resetFilters({ index: IndexTypes.HOTELS })}>
             {path(['buttons', 'removeFilters'], uiConfig)}

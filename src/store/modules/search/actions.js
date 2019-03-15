@@ -1,15 +1,16 @@
 import { propOr, pathOr, prop, pipe } from 'ramda';
 
 import {
-  toList,
-  queryFilterRegions,
-  querySearchType,
-  queryPreferred,
-  queryHoneymooners,
-  queryAvailable,
-  queryFilterStarRatings,
-  searchByQueries,
   filterByRange,
+  filterByArrayValues,
+  queryAvailable,
+  queryFilterRegions,
+  queryFilterStarRatings,
+  queryHoneymooners,
+  queryPreferred,
+  querySearchType,
+  searchByQueries,
+  toList,
 } from 'utils';
 
 import { getHotel, getHotelRegions } from 'store/modules/hotels/selectors';
@@ -21,14 +22,14 @@ export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
 export const RESET_SEARCH_FILTERS = 'RESET_SEARCH_FILTERS';
 export const SEARCH_RESULTS = 'SEARCH_RESULTS';
 
-const buildSearchQueries = (searchQuery, { regions, starRatings }) =>
+const buildSearchQueries = (searchQuery, { regions }) =>
   toList(
     queryAvailable(),
+    queryPreferred(),
+    queryHoneymooners(searchQuery),
     querySearchType(propOr({}, 'search', searchQuery)),
     queryFilterRegions(pathOr({}, ['filters', 'regions'], searchQuery), regions),
-    queryFilterStarRatings(pathOr({}, ['filters', 'starRatings'], searchQuery), starRatings),
-    queryHoneymooners(searchQuery),
-    queryPreferred()
+    queryFilterStarRatings(pathOr({}, ['filters', 'starRatings'], searchQuery))
   );
 
 export const buildIndex = payload => ({
@@ -76,7 +77,8 @@ export const fetchHotelsSearchResults = payload => (dispatch, getState) => {
 
   const getResults = pipe(
     searchByQueries,
-    filterByRange(getHotel(state), pathOr([], ['filters', 'prices'], query), 'listPrice')
+    filterByRange(getHotel(state), pathOr([], ['filters', 'prices'], query), 'listPrice'),
+    filterByArrayValues(getHotel(state), pathOr([], ['filters', 'amenities'], query), 'amenities')
   );
 
   const results = getResults(index, queries);
