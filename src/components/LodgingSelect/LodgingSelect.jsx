@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { lensProp, view, set, prop, pipe, omit, values, sum } from 'ramda';
 
-import { getPluralisation, getPlural } from 'config/ui';
 import { DropDownContent } from 'components';
+import { useEffectBoundary } from 'effects';
+
+import { getPluralisation, getPlural } from 'config/ui';
 
 import { propTypes, defaultProps } from './LodgingSelect.props';
 import {
@@ -40,7 +42,7 @@ export const LodgingSelect = ({ label, onSelected, selectedValues }) => {
     }
   );
 
-  useEffect(() => {
+  useEffectBoundary(() => {
     onSelected(data);
   }, [data]);
 

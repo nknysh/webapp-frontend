@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { __, set, view, path, prop, compose, lensProp, lensPath, pipe, equals, map, merge, head, tail } from 'ramda';
 
 import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox } from 'components';
-import { useFetchData } from 'effects';
+import { useFetchData, useEffectBoundary } from 'effects';
 import { buildQueryString, RegionSelectTypes, IndexTypes } from 'utils';
 
 import uiConfig, { getSingular } from 'config/ui';
@@ -49,7 +49,7 @@ export const SearchSidebar = ({
 }) => {
   useFetchData(fetchHotels, hotels);
 
-  useEffect(() => {
+  useEffectBoundary(() => {
     history.push(`/search?${buildQueryString(searchQuery)}`);
   }, [searchQuery]);
 

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Range as BaseRange, Handle } from 'rc-slider';
 import Tooltip from 'rc-tooltip';
+
+import { useEffectBoundary } from 'effects';
 
 import { propTypes, defaultProps } from './Range.props';
 import { trackStyle, handleStyle } from './Range.styles';
@@ -17,11 +19,11 @@ const renderHandle = ({ value, dragging, index, onChange, ...props }) => {
 export const Range = ({ value, onChange, ...props }) => {
   const [values, setValues] = useState(value);
 
-  useEffect(() => {
+  useEffectBoundary(() => {
     setValues(value);
   }, [value]);
 
-  useEffect(() => {
+  useEffectBoundary(() => {
     onChange(values);
   }, [values]);
 
