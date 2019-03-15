@@ -53,7 +53,6 @@ const uiConfig = {
 
   plurals: {
     adult: ['Adult', 'Adults'],
-    amenity: ['Amenity', 'Amenities'],
     children: ['Children', 'Children'],
     guest: ['Guest', 'Guests'],
     infant: ['Infant', 'Infants'],
