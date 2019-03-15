@@ -78,7 +78,7 @@ export const fetchHotelsSearchResults = payload => (dispatch, getState) => {
   const getResults = pipe(
     searchByQueries,
     filterByRange(getHotel(state), pathOr([], ['filters', 'prices'], query), 'listPrice'),
-    filterByArrayValues(getHotel(state), pathOr([], ['filters', 'amenities'], query), 'amenities')
+    filterByArrayValues(getHotel(state), pathOr([], ['filters', 'features'], query), 'features')
   );
 
   const results = getResults(index, queries);

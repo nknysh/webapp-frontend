@@ -132,18 +132,18 @@ describe('search utils', () => {
     it('includes results that contain values', () => {
       const dataSet = {
         foo: {
-          amenities: ['foo', 'bar'],
+          features: ['foo', 'bar'],
         },
         bar: {
-          amenities: ['bar'],
+          features: ['bar'],
         },
       };
       const selector = prop(__, dataSet);
       const results = [{ ref: 'foo' }, { ref: 'bar' }];
 
-      expect(filterByArrayValues(selector, ['foo'], 'amenities', results)).toMatchSnapshot();
-      expect(filterByArrayValues(selector, ['bar'], 'amenities', results)).toMatchSnapshot();
-      expect(filterByArrayValues(selector, ['foo', 'bar'], 'amenities', results)).toMatchSnapshot();
+      expect(filterByArrayValues(selector, ['foo'], 'features', results)).toMatchSnapshot();
+      expect(filterByArrayValues(selector, ['bar'], 'features', results)).toMatchSnapshot();
+      expect(filterByArrayValues(selector, ['foo', 'bar'], 'features', results)).toMatchSnapshot();
     });
   });
 });

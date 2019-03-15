@@ -49,7 +49,7 @@ const filtersRegionTypeLens = lensPath(['filters', 'regions', 'type']);
 const filtersRegionSelectedLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
-const filtersAmenitiesLens = lensPath(['filters', 'amenities']);
+const filtersFeaturesLens = lensPath(['filters', 'features']);
 
 const DefaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
 
@@ -65,7 +65,7 @@ export const SearchSidebar = ({
   history,
   regions,
   starRatings,
-  amenities,
+  features,
 }) => {
   useFetchData(fetchHotels, hotels);
 
@@ -107,9 +107,9 @@ export const SearchSidebar = ({
     updateSearchQuery(filtersStarRatingsLens),
     setSearchQuery
   );
-  const setAmenitiesToSearchQuery = pipe(
-    merge(getSearchQueryData(filtersAmenitiesLens)),
-    updateSearchQuery(filtersAmenitiesLens),
+  const setFeaturesToSearchQuery = pipe(
+    merge(getSearchQueryData(filtersFeaturesLens)),
+    updateSearchQuery(filtersFeaturesLens),
     setSearchQuery
   );
 
@@ -140,14 +140,14 @@ export const SearchSidebar = ({
       />
     );
 
-  const renderAmenitiesCheckbox = amenity =>
-    amenity && (
+  const renderFeaturesCheckbox = feature =>
+    feature && (
       <Checkbox
-        key={amenity}
-        name={`amenities[${amenity}]`}
-        label={amenity}
-        checked={propOr(false, amenity, getSearchQueryData(filtersAmenitiesLens))}
-        onChange={(e, checked) => setAmenitiesToSearchQuery({ [amenity]: checked })}
+        key={feature}
+        name={`features[${feature}]`}
+        label={feature}
+        checked={propOr(false, feature, getSearchQueryData(filtersFeaturesLens))}
+        onChange={(e, checked) => setFeaturesToSearchQuery({ [feature]: checked })}
       />
     );
 
@@ -241,10 +241,10 @@ export const SearchSidebar = ({
           </Fragment>
         )}
 
-        {amenities && (
+        {features && (
           <Fragment>
-            <Title>{getPlural('amenity')}</Title>
-            <SectionField>{map(renderAmenitiesCheckbox, amenities)}</SectionField>
+            <Title>{getPlural('feature')}</Title>
+            <SectionField>{map(renderFeaturesCheckbox, features)}</SectionField>
           </Fragment>
         )}
 

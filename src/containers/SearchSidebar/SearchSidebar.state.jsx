@@ -10,7 +10,7 @@ import {
   getHotelRegions,
   getHotelName,
   getHotelStarRatings,
-  getHotelAmenities,
+  getHotelFeatures,
 } from 'store/modules/hotels/selectors';
 import { getSearchQuery } from 'store/modules/search/selectors';
 
@@ -21,7 +21,7 @@ export const mapStateToProps = state => ({
   getHotelName: getHotelName(state),
   regions: getHotelRegions(state),
   starRatings: getHotelStarRatings(state),
-  amenities: getHotelAmenities(state),
+  features: getHotelFeatures(state),
   searchQuery: getSearchQuery(state),
 });
 

@@ -24,7 +24,7 @@ import {
   CardAdditional,
 } from './Card.styles';
 
-const renderAmenity = value => <CardHighlight key={value}>{value}</CardHighlight>;
+const renderFeature = value => <CardHighlight key={value}>{value}</CardHighlight>;
 const renderAdditional = value => <CardAdditional key={value}>{value}</CardAdditional>;
 
 export const Card = ({
@@ -37,7 +37,7 @@ export const Card = ({
     suitableForHoneymooners,
     listPrice,
     additionalInfo,
-    amenities,
+    features,
   },
 }) => {
   return (
@@ -62,8 +62,8 @@ export const Card = ({
             {suitableForHoneymooners && path(['taglines', 'suitableHoneymoon'], uiConfig)}
           </CardSecondaryRating>
         </CardRating>
-        <CardHighlights>{amenities && map(renderAmenity, amenities)}</CardHighlights>
-        <CardAdditionalInfo>{amenities && map(renderAdditional, additionalInfo)}</CardAdditionalInfo>
+        <CardHighlights>{features && map(renderFeature, features)}</CardHighlights>
+        <CardAdditionalInfo>{features && map(renderAdditional, additionalInfo)}</CardAdditionalInfo>
       </CardDetails>
     </StyledCard>
   );
