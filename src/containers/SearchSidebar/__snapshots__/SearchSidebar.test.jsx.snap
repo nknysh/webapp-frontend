@@ -132,6 +132,40 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
     </styled.div>
     <styled.h4>
       Meal plan
+      <ToolTip>
+        <styled.div
+          key="bb"
+        >
+          <styled.span>
+            bb
+          </styled.span>
+          Breakfast Included
+        </styled.div>
+        <styled.div
+          key="hb"
+        >
+          <styled.span>
+            hb
+          </styled.span>
+          Breakfast & Dinner (Drinks excluded)
+        </styled.div>
+        <styled.div
+          key="fb"
+        >
+          <styled.span>
+            fb
+          </styled.span>
+          3 meals per day (Drinks excluded)
+        </styled.div>
+        <styled.div
+          key="ai"
+        >
+          <styled.span>
+            ai
+          </styled.span>
+          All Inclusive
+        </styled.div>
+      </ToolTip>
     </styled.h4>
     <styled.div>
       <Styled(RadioButton)
@@ -291,6 +325,40 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
     </styled.div>
     <styled.h4>
       Meal plan
+      <ToolTip>
+        <styled.div
+          key="bb"
+        >
+          <styled.span>
+            bb
+          </styled.span>
+          Breakfast Included
+        </styled.div>
+        <styled.div
+          key="hb"
+        >
+          <styled.span>
+            hb
+          </styled.span>
+          Breakfast & Dinner (Drinks excluded)
+        </styled.div>
+        <styled.div
+          key="fb"
+        >
+          <styled.span>
+            fb
+          </styled.span>
+          3 meals per day (Drinks excluded)
+        </styled.div>
+        <styled.div
+          key="ai"
+        >
+          <styled.span>
+            ai
+          </styled.span>
+          All Inclusive
+        </styled.div>
+      </ToolTip>
     </styled.h4>
     <styled.div>
       <Styled(RadioButton)
