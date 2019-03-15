@@ -76,7 +76,7 @@ export const signUp = values => dispatch => {
 
   return client
     .signUp(values)
-    .then(() => dispatch(successAction(AUTH_SIGN_UP)))
+    .then(({ data }) => dispatch(successAction(AUTH_SIGN_UP, data)))
     .catch(error => dispatch(errorAction(AUTH_SIGN_UP, error.response)));
 };
 

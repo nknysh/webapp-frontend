@@ -52,19 +52,28 @@ const uiConfig = {
   },
 
   plurals: {
-    night: ['Night', 'Nights'],
-    guest: ['Guest', 'Guests'],
-    room: ['Room', 'Rooms'],
     adult: ['Adult', 'Adults'],
-    teen: ['Teen', 'Teens'],
     children: ['Children', 'Children'],
+    guest: ['Guest', 'Guests'],
     infant: ['Infant', 'Infants'],
-    result: ['property found', 'properties found'],
-    star: ['Star', 'Stars'],
-    region: ['Region', 'Regions'],
+    night: ['Night', 'Nights'],
+    mealPlan: ['Meal plan', 'Meal plans'],
     priceRange: ['Price Range', 'Price Ranges'],
+    region: ['Region', 'Regions'],
+    result: ['property found', 'properties found'],
+    room: ['Room', 'Rooms'],
+    roomType: ['Room Type', 'Room Types'],
+    star: ['Star', 'Stars'],
     starRating: ['Accomodation', 'Accomodations'],
+    teen: ['Teen', 'Teens'],
     feature: ['Feature', 'Features'],
+  },
+
+  mealTypes: {
+    bb: 'Breakfast Included',
+    hb: 'Breakfast & Dinner (Drinks excluded)',
+    fb: '3 meals per day (Drinks excluded)',
+    ai: 'All Inclusive',
   },
 
   sections: {

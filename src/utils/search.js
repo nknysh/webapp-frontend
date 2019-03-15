@@ -8,6 +8,7 @@ import {
   equals,
   gt,
   head,
+  includes,
   isEmpty,
   isNil,
   join,
@@ -17,13 +18,13 @@ import {
   pickBy,
   pipe,
   prop,
+  propOr,
   reduce,
   replace,
   T,
   tail,
   values,
   without,
-  includes,
 } from 'ramda';
 
 export const IndexTypes = Object.freeze({
@@ -34,6 +35,13 @@ export const IndexTypes = Object.freeze({
 export const RegionSelectTypes = Object.freeze({
   ALL: 'all',
   SPECIFY: 'specify',
+});
+
+export const MealPlanSelectTypes = Object.freeze({
+  BB: 'bb',
+  HB: 'hb',
+  FB: 'fb',
+  AI: 'ai',
 });
 
 export const querySearchType = ({ value, type }) =>
@@ -48,7 +56,9 @@ const buildSearchField = curry((presence, field, value) => ` ${presence}${field}
 const extractFilterKeys = curry((flag, values) =>
   pipe(
     pickBy(equals(flag)),
-    keys
+    keys,
+    // Guard against undefined coming from search query
+    without('undefined')
   )(values)
 );
 
@@ -119,7 +129,7 @@ const reduceIncludes = curry((selector, values, key, accum, result) => {
 
   const ref = prop('ref', result);
   const resultObject = selector(ref);
-  const propValues = prop(key, resultObject);
+  const propValues = propOr([], key, resultObject);
 
   const reduceInclude = (accum, value) => (!accum ? includes(value, values) : accum);
   const checkForValues = reduce(reduceInclude, false);

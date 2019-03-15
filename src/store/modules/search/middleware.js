@@ -17,7 +17,6 @@ const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 const filtersFeaturesLens = lensPath(['filters', 'features']);
 
 const newDate = value => value && new Date(value);
-
 const toBoolean = value => value === 'true';
 
 const isNotNil = complement(isNil);
@@ -39,7 +38,7 @@ const formatData = pipe(
 const getSearchQuery = pipe(
   prop('location'),
   getQuery,
-  pick(['lodging', 'search', 'dates', 'honeymooners', 'filters', 'starRatings', 'features']),
+  pick(['lodging', 'search', 'dates', 'honeymooners', 'filters']),
   formatData
 );
 

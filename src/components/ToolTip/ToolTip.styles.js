@@ -14,6 +14,10 @@ export const StyledToolTip = styled.div`
     opacity: 1 !important;
     color: ${theme.black} !important;
 
+    > .tooltip {
+      background: none !important;
+    }
+
     h2 {
       ${h2Styling}
       text-transform: uppercase;
@@ -24,13 +28,18 @@ export const StyledToolTip = styled.div`
 
 export const ToolTipIcon = styled(Icon)`
   font-size: 14px !important;
+  cursor: pointer;
 `;
 
 export const ToolTipContent = styled.div`
   font-family: ${theme.defaultFont};
   background: ${theme.backgroundColor};
   border: 1px solid ${theme.borderColor};
-  padding: ${theme.gutter}px;
+  padding: ${theme.gutter * 2}px;
   font-size: 11px;
-  color: ${theme.colors.black} !important;
+  color: ${theme.colors.black};
+  font-weight: ${theme.normal};
+  border-radius: ${theme.borderRadius};
+  box-shadow: ${theme.boxShadow};
+  position: relative;
 `;

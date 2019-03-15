@@ -1,4 +1,4 @@
-import { propOr, pathOr, prop, pipe } from 'ramda';
+import { propOr, pathOr, prop, pipe, path } from 'ramda';
 
 import {
   filterByRange,
@@ -78,7 +78,8 @@ export const fetchHotelsSearchResults = payload => (dispatch, getState) => {
   const getResults = pipe(
     searchByQueries,
     filterByRange(getHotel(state), pathOr([], ['filters', 'prices'], query), 'listPrice'),
-    filterByArrayValues(getHotel(state), pathOr([], ['filters', 'features'], query), 'amenities')
+    filterByArrayValues(getHotel(state), pathOr([], ['filters', 'features'], query), 'amenities'),
+    filterByArrayValues(getHotel(state), { [path(['filters', 'mealPlan'], query)]: true }, 'mealPlans')
   );
 
   const results = getResults(index, queries);
