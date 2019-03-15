@@ -1,12 +1,12 @@
 {
-    "createAccount": {
-        "title": "Create an account",
-        "href": "/sign-up"
-    },	
-    "login": {	
-        "title": "Login",	
-        "href": "/login",	
-        "inverse": true,	
-        "bold": true	
-    }
+  "createAccount": {
+    "title": "Create an account",
+    "href": "/sign-up"
+  },
+  "login": {
+    "title": "Login",
+    "href": "/login",
+    "inverse": true,
+    "bold": true
+  }
 }

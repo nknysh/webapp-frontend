@@ -12,7 +12,7 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext .jsx --ext .js src/",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "prettier": "prettier 'src/**/*.{js,jsx,css,scss}' --write --single-quote=true --print-width=120 --trailing-comma=es5"
+    "prettier": "prettier 'src/**/*.{js,jsx,json,css,scss}' --write --single-quote=true --print-width=120 --trailing-comma=es5"
   },
   "author": "",
   "license": "ISC",
