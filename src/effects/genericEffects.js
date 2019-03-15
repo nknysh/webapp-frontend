@@ -7,8 +7,8 @@ export const useEffectBoundary = (effect, params) =>
   useEffect(() => {
     let didCancel = false;
 
-    if(!didCancel){
-        effect();
+    if (!didCancel) {
+      effect();
     }
 
     return () => {
