@@ -195,13 +195,6 @@ export const SearchSidebar = ({
             map(renderRegionCheckbox, regions)}
         </SectionField>
 
-        {starRatings && (
-          <Fragment>
-            <Title>{getSingular('starRating')}</Title>
-            <SectionField>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
-          </Fragment>
-        )}
-
         <Title>{getSingular('priceRange')}</Title>
         <SectionField>
           <p>{path(['taglines', 'pricesIn'], uiConfig)}</p>
@@ -222,6 +215,14 @@ export const SearchSidebar = ({
             max={head(tail(DefaultPriceRange))}
           />
         </SectionField>
+
+        {starRatings && (
+          <Fragment>
+            <Title>{getSingular('starRating')}</Title>
+            <SectionField>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
+          </Fragment>
+        )}
+
         <SectionField>
           <SideBarButton onClick={() => resetFilters({ index: IndexTypes.HOTELS })}>
             {path(['buttons', 'removeFilters'], uiConfig)}
