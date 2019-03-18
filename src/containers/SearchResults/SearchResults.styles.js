@@ -14,7 +14,7 @@ export const StyledResults = styled.div`
   padding ${theme.gutter * 2}px;
 
   ${breakpoints.tablet`
-    padding-top: 0;
+    padding: 0;
   `}
 `;
 
