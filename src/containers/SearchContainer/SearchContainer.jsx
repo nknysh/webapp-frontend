@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, path } from 'ramda';
+import { compose, path, isNil } from 'ramda';
 
 import { Loader } from 'components';
 import { SearchSidebar, SearchResults } from 'containers';
@@ -21,10 +21,10 @@ import {
 } from './SearchContainer.styles';
 
 export const SearchContainer = ({ fetchHotels, hotels, countries, searchQuery, requesting }) => {
-  useFetchData(fetchHotels, hotels);
+  useFetchData(fetchHotels, hotels, {}, isEmptyOrNil(hotels));
   const currentWidth = useCurrentWidth();
 
-  const isLoading = requesting || isEmptyOrNil(hotels) || isEmptyOrNil(countries);
+  const isLoading = requesting || isEmptyOrNil(hotels) || isNil(countries);
 
   return (
     <Loader isLoading={isLoading}>

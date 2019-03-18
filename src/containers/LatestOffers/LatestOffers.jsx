@@ -23,7 +23,7 @@ const renderOffers = when(
 );
 
 export const LatestOffers = ({ fetchLatestOffers, offers }) => {
-  useFetchData(() => fetchLatestOffers({ limit: 1 }), offers);
+  useFetchData(() => fetchLatestOffers({ limit: 3 }), offers);
   const currentWidth = useCurrentWidth();
 
   const isMobile = currentWidth <= path(['breakpoints', 'tablet'], theme);

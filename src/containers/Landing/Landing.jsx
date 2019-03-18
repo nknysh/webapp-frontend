@@ -4,7 +4,6 @@ import { compose, isNil } from 'ramda';
 import { Loader } from 'components';
 import { SearchBar, LatestOffers } from 'containers';
 import { useFetchData } from 'effects';
-import { isEmptyOrNil } from 'utils';
 
 import { Container } from 'styles/elements';
 
@@ -18,8 +17,7 @@ import { StyledSearch, SearchHero, SearchMarkdown } from './Landing.styles';
 export const Landing = ({ offers, fetchLatestOffers, fetchHotels, hotels, countries, requesting }) => {
   useFetchData(fetchHotels, hotels);
   useFetchData(() => fetchLatestOffers({ limit: 3 }), offers);
-
-  const isLoading = requesting || isEmptyOrNil(hotels) || isEmptyOrNil(countries) || isNil(offers);
+  const isLoading = requesting || isNil(hotels) || isNil(countries) || isNil(offers);
 
   return (
     <Loader isLoading={isLoading}>
