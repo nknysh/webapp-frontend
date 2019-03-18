@@ -1,17 +1,18 @@
 import lunr from 'lunr';
-import { map } from 'ramda';
+import { map, pipe } from 'ramda';
 
-import { createReducer } from 'store/utils';
+import { initialState, successResetReducer } from 'store/common';
+import { createReducer, getSuccessActionName, normalizer } from 'store/utils';
 
 import { SEARCH_INDEX_BUILD, SET_SEARCH_QUERY, RESET_SEARCH_FILTERS, SEARCH_RESULTS } from './actions';
 
-const initialState = {
+const searchState = {
+  ...initialState,
   indexes: {
     countries: newIndex('countries'),
     hotels: newIndex('hotels'),
   },
   query: undefined,
-  results: undefined,
 };
 
 function newIndex(ref, fields = [], data = []) {
@@ -63,7 +64,10 @@ export default createReducer(
     [SEARCH_INDEX_BUILD]: buildSearchIndex,
     [SET_SEARCH_QUERY]: setSearchQuery,
     [RESET_SEARCH_FILTERS]: resetFilters,
-    [SEARCH_RESULTS]: searchResults,
+    [getSuccessActionName(SEARCH_RESULTS)]: pipe(
+      successResetReducer,
+      normalizer('ref')
+    ),
   },
-  initialState
+  searchState
 );

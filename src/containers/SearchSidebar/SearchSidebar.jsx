@@ -82,8 +82,9 @@ export const SearchSidebar = ({
   regions,
   starRatings,
   features,
+  hotelsStatus,
 }) => {
-  useFetchData(fetchHotels, hotels);
+  useFetchData(hotelsStatus, fetchHotels);
 
   useEffectBoundary(() => {
     history.push(`/search?${buildQueryString(searchQuery)}`);

@@ -14,7 +14,7 @@ describe('pages actions', () => {
 
       fetchHotels()(dispatch);
 
-      expect(dispatch).toHaveBeenCalledTimes(2);
+      expect(dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });

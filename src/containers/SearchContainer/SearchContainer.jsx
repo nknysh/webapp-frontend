@@ -1,10 +1,10 @@
 import React from 'react';
-import { compose, path, isNil } from 'ramda';
+import { compose, path } from 'ramda';
 
 import { Loader } from 'components';
 import { SearchSidebar, SearchResults } from 'containers';
 import { useCurrentWidth, useFetchData } from 'effects';
-import { isMobile, isEmptyOrNil } from 'utils';
+import { isMobile } from 'utils';
 
 import uiConfig from 'config/ui';
 
@@ -20,14 +20,12 @@ import {
   Navigation,
 } from './SearchContainer.styles';
 
-export const SearchContainer = ({ fetchHotels, hotels, countries, searchQuery, requesting }) => {
-  useFetchData(fetchHotels, hotels, {}, isEmptyOrNil(hotels));
+export const SearchContainer = ({ fetchHotels, hotels, countries, searchQuery, hotelsStatus }) => {
+  const hotelsLoaded = useFetchData(hotelsStatus, fetchHotels);
   const currentWidth = useCurrentWidth();
 
-  const isLoading = requesting || isEmptyOrNil(hotels) || isNil(countries);
-
   return (
-    <Loader isLoading={isLoading}>
+    <Loader isLoading={!hotelsLoaded}>
       <StyledSearch>
         <Columns>
           {!isMobile(currentWidth) && (

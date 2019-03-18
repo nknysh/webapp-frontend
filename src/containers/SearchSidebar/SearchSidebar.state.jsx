@@ -11,6 +11,7 @@ import {
   getHotelName,
   getHotelStarRatings,
   getHotelFeatures,
+  getHotelsStatus,
 } from 'store/modules/hotels/selectors';
 import { getSearchQuery } from 'store/modules/search/selectors';
 
@@ -23,6 +24,7 @@ export const mapStateToProps = state => ({
   starRatings: getHotelStarRatings(state),
   features: getHotelFeatures(state),
   searchQuery: getSearchQuery(state),
+  hotelsStatus: getHotelsStatus(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

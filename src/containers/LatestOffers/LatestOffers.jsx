@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { compose, pipe, path, map, values, when, complement, isNil } from 'ramda';
 import hash from 'object-hash';
 
@@ -22,19 +22,20 @@ const renderOffers = when(
   )
 );
 
-export const LatestOffers = ({ fetchLatestOffers, offers }) => {
-  useFetchData(() => fetchLatestOffers({ limit: 3 }), offers);
+export const LatestOffers = ({ fetchLatestOffers, offers, offersStatus }) => {
+  const offersFetched = useFetchData(offersStatus, fetchLatestOffers, { limit: 3 });
   const currentWidth = useCurrentWidth();
 
   const isMobile = currentWidth <= path(['breakpoints', 'tablet'], theme);
-  const renderedOffers = renderOffers(offers);
+  const renderAllOffers = () => renderOffers(offers);
 
-  const offerContainer = !isMobile ? <Offers>{renderedOffers}</Offers> : <Slider>{renderedOffers}</Slider>;
+  const renderOfferContainer = () =>
+    !isMobile ? <Offers>{renderAllOffers()}</Offers> : <Slider>{renderAllOffers()}</Slider>;
 
   return (
     <StyledLatestOffers>
       <Title>{path(['sections', 'latestOffers'], uiConfig)}</Title>
-      <Loader isLoading={!renderedOffers}>{offerContainer}</Loader>
+      <Loader isLoading={!offersFetched}>{renderOfferContainer()}</Loader>
     </StyledLatestOffers>
   );
 };
@@ -42,4 +43,7 @@ export const LatestOffers = ({ fetchLatestOffers, offers }) => {
 LatestOffers.propTypes = propTypes;
 LatestOffers.defaultProps = defaultProps;
 
-export default compose(connect)(LatestOffers);
+export default compose(
+  connect,
+  memo
+)(LatestOffers);

@@ -18,6 +18,8 @@ Object {
 
 exports[`pages reducer should return the initial state 1`] = `
 Object {
+  "data": undefined,
+  "error": undefined,
   "indexes": Object {
     "countries": Object {
       "fieldVectors": Array [],
@@ -39,6 +41,6 @@ Object {
     },
   },
   "query": undefined,
-  "results": undefined,
+  "status": "IDLE",
 }
 `;

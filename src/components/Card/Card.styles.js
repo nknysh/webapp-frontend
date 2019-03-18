@@ -27,6 +27,7 @@ export const StyledCard = styled(Base)`
 
 export const CardImage = styled(BaseImage)`
   position: relative;
+  border-bottom: 1px solid ${theme.borderColor};
 `;
 
 export const CardChip = styled(BaseChip)``;
