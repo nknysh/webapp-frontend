@@ -55,7 +55,7 @@ export const fetchHotels = params => dispatch => {
   dispatch(fetchHotelsAction());
 
   return client
-    .fetchHotels(values, params)
+    .getHotels({ sort: ['hotel.name'], ...params })
     .then(({ data: { data } }) => dispatch(fetchHotelsSuccess({ data })))
     .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
 };
