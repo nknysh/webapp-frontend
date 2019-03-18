@@ -11,13 +11,11 @@ import { StyledLoader, LoaderImage, LoaderText } from './Loader.styles';
 const Loader = ({ isLoading, text, showSpinner, children }) => {
   if (!isLoading) return children;
 
-  return isLoading ? (
+  return (
     <StyledLoader>
       {showSpinner && <LoaderImage src={peLogo} />}
       <LoaderText>{text || path(['messages', 'loading'], config)}</LoaderText>
     </StyledLoader>
-  ) : (
-    children
   );
 };
 
