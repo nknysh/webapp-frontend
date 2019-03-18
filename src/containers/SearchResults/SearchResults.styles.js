@@ -6,11 +6,15 @@ import breakpoints from 'styles/breakpoints';
 import { Button } from 'styles/elements';
 import { Heading2 } from 'styles/typography';
 
+export const modalStyles = {
+  style: { backgroundColor: theme.colors.whiteish, paddingTop: theme.gutter * 4 },
+};
+
 export const StyledResults = styled.div`
   padding ${theme.gutter * 2}px;
 
   ${breakpoints.tablet`
-    padding-top: 0;
+    padding: 0;
   `}
 `;
 

@@ -32,3 +32,13 @@ export const errorReducer = (state, { payload }) => {
 
   return setData(state);
 };
+
+export const successResetReducer = (state, { payload }) => {
+  const setData = pipe(
+    set(statusLens, Status.SUCCESS),
+    set(dataLens, isArray(payload) ? [...payload] : { ...payload }),
+    set(errorLens, undefined)
+  );
+
+  return setData(state);
+};

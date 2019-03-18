@@ -14,6 +14,7 @@ import {
 } from 'utils';
 
 import { getHotel, getHotelRegions } from 'store/modules/hotels/selectors';
+import { successAction } from 'store/common/actions';
 
 import { getSearchIndex, getSearchQuery } from './selectors';
 
@@ -47,30 +48,31 @@ export const resetFiltersAction = payload => ({
   payload,
 });
 
-export const resetFilters = payload => dispatch => {
-  dispatch(resetFiltersAction(payload));
-
-  const index = prop('index', payload);
-  index && dispatch(fetchHotelsSearchResults({ index }));
-};
-
 export const searchResults = payload => ({
   type: SEARCH_RESULTS,
   payload,
 });
 
-export const setSearchQuery = ({ index = 'hotels', ...payload }) => dispatch => {
-  dispatch(setSearchQueryAction(payload));
-  dispatch(fetchHotelsSearchResults({ index }));
+export const resetFilters = payload => dispatch => {
+  dispatch(resetFiltersAction(payload));
+
+  const index = prop('index', payload);
+  index && dispatch(fetchSearchResults({ index }));
 };
 
-export const fetchHotelsSearchResults = payload => (dispatch, getState) => {
+export const setSearchQuery = ({ index, ...payload }) => dispatch => {
+  dispatch(setSearchQueryAction(payload));
+  dispatch(fetchSearchResults({ index }));
+};
+
+export const fetchSearchResults = payload => (dispatch, getState) => {
+  dispatch(searchResults(payload));
   const state = getState();
 
   const indexName = prop('index', payload);
   const index = getSearchIndex(state, indexName);
 
-  if (!indexName || !index) return dispatch(searchResults([]));
+  if (!indexName || !index) return;
 
   const query = getSearchQuery(state);
   const queries = buildSearchQueries(query, { regions: getHotelRegions(state) });
@@ -84,5 +86,5 @@ export const fetchHotelsSearchResults = payload => (dispatch, getState) => {
 
   const results = getResults(index, queries);
 
-  dispatch(searchResults(results));
+  dispatch(successAction(SEARCH_RESULTS, results));
 };

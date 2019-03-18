@@ -6,7 +6,7 @@ import { getOffersData, getOffersStatus } from 'store/modules/offers/selectors';
 
 export const mapStateToProps = state => ({
   offers: getOffersData(state),
-  requestStatus: getOffersStatus(state),
+  offersStatus: getOffersStatus(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

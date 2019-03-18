@@ -19,16 +19,15 @@ const honeymoonersLens = lensProp('honeymooners');
 
 export const SearchBar = ({
   className,
-  countries,
   fetchHotels,
   getCountryName,
   getHotelName,
-  hotels,
   history,
   searchQuery,
   setSearchQuery,
+  hotelsStatus,
 }) => {
-  useFetchData(fetchHotels, hotels);
+  const hotelsLoaded = useFetchData(hotelsStatus, fetchHotels);
 
   const indexes = ['countries', 'hotels'];
   const updateSearchQuery = set(__, __, searchQuery);
@@ -58,7 +57,7 @@ export const SearchBar = ({
 
   return (
     <StyledSearchBar className={className}>
-      <Loader isLoading={!countries || !hotels} showSpinner={false}>
+      <Loader isLoading={!hotelsLoaded} showSpinner={false}>
         <SearchBarSection>
           <SearchBarIndexSearch
             indexes={indexes}

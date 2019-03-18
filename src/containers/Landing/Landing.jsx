@@ -1,9 +1,9 @@
 import React from 'react';
-import { compose, isNil } from 'ramda';
+import { compose } from 'ramda';
 
 import { Loader } from 'components';
 import { SearchBar, LatestOffers } from 'containers';
-import { useFetchData } from 'effects';
+import { useFetchDataMultiple } from 'effects';
 
 import { Container } from 'styles/elements';
 
@@ -14,13 +14,11 @@ import connect from './Landing.state';
 import { propTypes, defaultProps } from './Landing.props';
 import { StyledSearch, SearchHero, SearchMarkdown } from './Landing.styles';
 
-export const Landing = ({ offers, fetchLatestOffers, fetchHotels, hotels, countries, requesting }) => {
-  useFetchData(fetchHotels, hotels);
-  useFetchData(() => fetchLatestOffers({ limit: 3 }), offers);
-  const isLoading = requesting || isNil(hotels) || isNil(countries) || isNil(offers);
+export const Landing = ({ fetchLatestOffers, fetchHotels, hotelsStatus, offersStatus, hotels, countries, offers }) => {
+  const loaded = useFetchDataMultiple([[hotelsStatus, fetchHotels], [offersStatus, fetchLatestOffers, { limit: 3 }]]);
 
   return (
-    <Loader isLoading={isLoading}>
+    <Loader isLoading={!loaded}>
       <StyledSearch>
         <SearchHero mask media={{ image: heroImage }}>
           <SearchMarkdown>{heroData}</SearchMarkdown>

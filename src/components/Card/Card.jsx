@@ -1,5 +1,5 @@
 import React from 'react';
-import { path, isEmpty, map } from 'ramda';
+import { path, map } from 'ramda';
 
 import uiConfig, { getSingular } from 'config/ui';
 
@@ -44,10 +44,12 @@ export const Card = ({
     <StyledCard>
       <CardImage style={{ backgroundImage: `url(${image})` }}>
         {preferred && <CardPreferred>Preferred</CardPreferred>}
-        <CardChip>
-          <CardPrice>{listPrice}</CardPrice> /{getSingular('guest')}
-        </CardChip>
-        {!isEmpty(promotionalText) && <CardName>{promotionalText}</CardName>}
+        {listPrice && (
+          <CardChip>
+            <CardPrice>{listPrice}</CardPrice> /{getSingular('guest')}
+          </CardChip>
+        )}
+        {promotionalText && <CardName>{promotionalText}</CardName>}
       </CardImage>
       <CardDetails>
         <CardTitle>{name}</CardTitle>
@@ -63,7 +65,7 @@ export const Card = ({
           </CardSecondaryRating>
         </CardRating>
         <CardHighlights>{amenities && map(renderFeature, amenities)}</CardHighlights>
-        <CardAdditionalInfo>{amenities && map(renderAdditional, additionalInfo)}</CardAdditionalInfo>
+        <CardAdditionalInfo>{additionalInfo && map(renderAdditional, additionalInfo)}</CardAdditionalInfo>
       </CardDetails>
     </StyledCard>
   );

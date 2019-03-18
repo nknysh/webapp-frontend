@@ -1,5 +1,5 @@
 import lunr from 'lunr';
-import { prop, pipe, curry, when, complement, isNil, invoker } from 'ramda';
+import { prop, pipe, curry, when, complement, isNil, invoker, values } from 'ramda';
 
 export const getSearch = prop('search');
 
@@ -8,14 +8,20 @@ export const getSearchIndexes = pipe(
   prop('indexes')
 );
 
-export const getSearchQuery = pipe(
+export const getSearchStatus = pipe(
   getSearch,
-  prop('query')
+  prop('status')
 );
 
 export const getSearchResults = pipe(
   getSearch,
-  prop('results')
+  prop('data'),
+  values
+);
+
+export const getSearchQuery = pipe(
+  getSearch,
+  prop('query')
 );
 
 const loadIndex = pipe(
