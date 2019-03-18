@@ -70,11 +70,9 @@ const renderMealPlanTip = value => (
 );
 
 export const SearchSidebar = ({
-  countries,
   fetchHotels,
   getCountryName,
   getHotelName,
-  hotels,
   searchQuery,
   setSearchQuery,
   resetFilters,
@@ -84,7 +82,7 @@ export const SearchSidebar = ({
   features,
   hotelsStatus,
 }) => {
-  useFetchData(hotelsStatus, fetchHotels);
+  const loaded = useFetchData(hotelsStatus, fetchHotels);
 
   useEffectBoundary(() => {
     history.push(`/search?${buildQueryString(searchQuery)}`);
@@ -174,7 +172,7 @@ export const SearchSidebar = ({
     );
 
   return (
-    <Loader isLoading={!hotels || !countries}>
+    <Loader isLoading={!loaded}>
       <Section>
         <Title>{path(['labels', 'searching'], uiConfig)}</Title>
         <SectionField>
