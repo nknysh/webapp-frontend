@@ -26,7 +26,7 @@ export const fetchHotelsAction = () => ({
   type: FETCH_HOTELS,
 });
 
-export const fetchHotelsSuccess = ({ data }) => async (dispatch, getState) => {
+export const fetchHotelsSuccess = ({ data: { data } }) => async (dispatch, getState) => {
   const prevData = values(getHotelsData(getState()));
 
   const hotels = [...prevData, ...data];
@@ -56,6 +56,6 @@ export const fetchHotels = params => dispatch => {
 
   return client
     .getHotels({ sort: ['hotel.name'], ...params })
-    .then(({ data: { data } }) => dispatch(fetchHotelsSuccess({ data })))
+    .then(({ data }) => dispatch(fetchHotelsSuccess({ data })))
     .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
 };

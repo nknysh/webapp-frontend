@@ -25,7 +25,7 @@ export const fetchOffersAction = payload => ({
   payload,
 });
 
-export const fetchOffersSuccess = ({ data }) => async (dispatch, getState) => {
+export const fetchOffersSuccess = ({ data: { data } }) => async (dispatch, getState) => {
   await setIncludes(getIncludes(data), includesActions, dispatch);
   await fetchRelationships(getRelationships(data), relationshipActions, getState, dispatch);
 
