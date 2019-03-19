@@ -2,7 +2,7 @@ import client from './index';
 
 export const getUser = () => client.get('/users/me');
 
-export const signUp = values => client.post('/users', values);
+export const signUp = values => client.post('/users/signup', values);
 
 export const logIn = values => client.post('/users/login', values);
 

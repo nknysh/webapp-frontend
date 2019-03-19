@@ -75,7 +75,7 @@ export const signUp = values => dispatch => {
   dispatch(authSignUp(values));
 
   return client
-    .signUp(values)
+    .signUp({ data: { attributes: values } })
     .then(({ data }) => dispatch(successAction(AUTH_SIGN_UP, data)))
     .catch(error => dispatch(errorAction(AUTH_SIGN_UP, error.response)));
 };
@@ -99,7 +99,7 @@ export const logOut = token => dispatch => {
 export const logIn = values => dispatch => {
   dispatch(authRequest(omit(['password'], values)));
 
-  const onSuccess = ({ data }) => {
+  const onSuccess = ({ data: { data } }) => {
     const userUuid = prop('uuid', data);
 
     if (!prop('emailVerified', data)) {
@@ -113,7 +113,7 @@ export const logIn = values => dispatch => {
   };
 
   return client
-    .logIn(values)
+    .logIn({ data: { attributes: values } })
     .then(onSuccess)
     .catch(error => dispatch(errorAction(AUTH_REQUEST, error.response)));
 };
@@ -133,7 +133,7 @@ export const setPassword = values => dispatch => {
   dispatch(authSetPasswordReset(omit(['values'], values)));
 
   return client
-    .setPassword(values)
+    .setPassword({ data: { attributes: values } })
     .then(() => dispatch(successAction(AUTH_SET_PASSWORD)))
     .catch(error => dispatch(errorAction(AUTH_SET_PASSWORD, error.response)));
 };
