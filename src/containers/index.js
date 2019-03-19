@@ -13,3 +13,4 @@ export { SearchSidebar } from './SearchSidebar';
 export { SearchResults } from './SearchResults';
 export { Landing } from './Landing';
 export { SearchContainer } from './SearchContainer';
+export { HotelContainer } from './HotelContainer';

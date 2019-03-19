@@ -7,3 +7,4 @@ export { HomeAuthenticated } from './HomeAuthenticated';
 export { PasswordReset } from './PasswordReset';
 export { SetPassword } from './SetPassword';
 export { Search } from './Search';
+export { Hotel } from './Hotel';
