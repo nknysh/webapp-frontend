@@ -12,6 +12,7 @@ import { getHotelsData } from './selectors';
 import schema from './schema';
 
 export const FETCH_HOTELS = 'FETCH_HOTELS';
+export const FETCH_HOTEL = 'FETCH_HOTEL';
 
 const extractCountry = (accum, value) => (has('country', value) ? [...accum, prop('country', value)] : accum);
 const buildCountry = (accum, value) => (value ? [...accum, { id: hash(value), name: value }] : accum);
@@ -24,6 +25,10 @@ const extractCountries = pipe(
 
 export const fetchHotelsAction = () => ({
   type: FETCH_HOTELS,
+});
+
+export const fetchHotelAction = () => ({
+  type: FETCH_HOTEL,
 });
 
 export const fetchHotelsSuccess = ({ data: { data } }) => async (dispatch, getState) => {
@@ -57,5 +62,14 @@ export const fetchHotels = params => dispatch => {
   return client
     .getHotels({ sort: ['hotel.name'], ...params })
     .then(({ data }) => dispatch(fetchHotelsSuccess({ data })))
+    .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
+};
+
+export const fetchHotel = id => dispatch => {
+  dispatch(fetchHotelAction());
+
+  return client
+    .getHotel(id)
+    .then(({ data: { data } }) => dispatch(successAction(FETCH_HOTEL, [data])))
     .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
 };

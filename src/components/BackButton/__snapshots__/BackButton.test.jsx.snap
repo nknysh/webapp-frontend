@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BackButton /> render matches snapshot 1`] = `
+<Styled(Link)>
+  <styled.div>
+    <Styled(WithStyles(Icon))>
+      keyboard_arrow_left
+    </Styled(WithStyles(Icon))>
+  </styled.div>
+</Styled(Link)>
+`;

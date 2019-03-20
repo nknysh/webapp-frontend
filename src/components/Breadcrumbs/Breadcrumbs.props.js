@@ -1,13 +1,9 @@
 import PropTypes from 'prop-types';
 
 export const propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.object,
-  }),
+  links: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export const defaultProps = {
-  match: {
-    params: {},
-  },
+  links: [],
 };

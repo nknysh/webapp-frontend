@@ -26,3 +26,6 @@ export { Input } from './Input';
 export { FormField } from './FormField';
 export { Card } from './Card';
 export { Range } from './Range';
+export { Tabs } from './Tabs';
+export { Breadcrumbs } from './Breadcrumbs';
+export { BackButton } from './BackButton';

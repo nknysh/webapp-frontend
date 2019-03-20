@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Breadcrumbs /> render matches snapshot 1`] = `<styled.div />`;
+
+exports[`<Breadcrumbs /> render matches snapshot 2`] = `
+<styled.div>
+  <styled.div
+    key="[object Object]"
+  >
+    <div />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<Breadcrumbs /> render matches snapshot 3`] = `
+<styled.div>
+  <styled.div
+    key="foo"
+  >
+    <Styled(Link)
+      data-active={false}
+      to="bar"
+    >
+      foo
+    </Styled(Link)>
+  </styled.div>
+</styled.div>
+`;
+
+exports[`<Breadcrumbs /> render matches snapshot 4`] = `
+<styled.div>
+  <styled.div
+    key="foo"
+  >
+    <Styled(Link)
+      data-active={false}
+      to="bar"
+    >
+      foo
+    </Styled(Link)>
+  </styled.div>
+  <styled.div
+    key="[object Object]"
+  >
+    <div />
+  </styled.div>
+</styled.div>
+`;

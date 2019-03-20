@@ -5,12 +5,16 @@ import { createReducer, getErrorActionName, getSuccessActionName, normalizer } f
 
 import schema from './schema';
 
-import { FETCH_HOTELS } from './actions';
+import { FETCH_HOTELS, FETCH_HOTEL } from './actions';
 
 export default createReducer(
   {
     [FETCH_HOTELS]: loadingReducer,
     [getSuccessActionName(FETCH_HOTELS)]: pipe(
+      successReducer,
+      normalizer(prop('id', schema))
+    ),
+    [getSuccessActionName(FETCH_HOTEL)]: pipe(
       successReducer,
       normalizer(prop('id', schema))
     ),

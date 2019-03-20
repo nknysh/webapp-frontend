@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HotelContainer /> render matches snapshot 1`] = `
+<Loader
+  isLoading={true}
+  showSpinner={true}
+  text="Getting hotel details..."
+>
+  <Styled(styled.div)>
+    <withRouter(Breadcrumbs)
+      links={
+        Array [
+          Object {
+            "label": <ForwardRef
+              to="/search"
+            >
+              back to search results
+            </ForwardRef>,
+          },
+          Object {
+            "label": undefined,
+            "to": "/hotels/undefined",
+          },
+        ]
+      }
+    />
+    <styled.div>
+      <styled.div>
+        <styled.div>
+          <Styled(styled.div)>
+            <Styled(Styled(styled.h2)) />
+          </Styled(styled.div)>
+          <Styled(styled.div)>
+            <Styled(styled.div)>
+              <Styled(styled.div)>
+                <Styled(Styled(WithStyles(Icon)))>
+                  star
+                </Styled(Styled(WithStyles(Icon)))>
+                 
+                <Styled(styled.span)>
+                   
+                  Star
+                </Styled(styled.span)>
+              </Styled(styled.div)>
+              <Styled(styled.div)>
+                BEST FOR HONEYMOONERS
+              </Styled(styled.div)>
+            </Styled(styled.div)>
+          </Styled(styled.div)>
+        </styled.div>
+        <styled.div>
+          <Styled(styled.div)>
+            <styled.div />
+          </Styled(styled.div)>
+          <Styled(styled.div)>
+            <Styled(styled.div) />
+          </Styled(styled.div)>
+        </styled.div>
+      </styled.div>
+    </styled.div>
+  </Styled(styled.div)>
+</Loader>
+`;

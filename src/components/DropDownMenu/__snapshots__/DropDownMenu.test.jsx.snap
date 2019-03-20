@@ -15,7 +15,7 @@ exports[`<DropDownMenu /> render matches snapshot 1`] = `
       arrow_drop_down
     </Styled(WithStyles(Icon))>
   </styled.span>
-  <Styled(WithTheme(Popper))
+  <Styled(Popper)
     anchorEl={
       Object {
         "current": undefined,
@@ -26,6 +26,6 @@ exports[`<DropDownMenu /> render matches snapshot 1`] = `
     transition={true}
   >
     <Component />
-  </Styled(WithTheme(Popper))>
+  </Styled(Popper)>
 </Fragment>
 `;

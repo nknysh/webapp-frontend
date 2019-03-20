@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchContainer /> render matches snapshot 1`] = `
+<Loader
+  isLoading={true}
+  showSpinner={true}
+>
+  <Styled(styled.div)>
+    <styled.div>
+      <Styled(styled.div)>
+        <Styled(BackButton)
+          to="/"
+        >
+          back to homepage
+        </Styled(BackButton)>
+        <withRouter(Connect(SearchSidebar))
+          countries={Object {}}
+          hotels={Object {}}
+        />
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <withSearchIndexes(Connect(SearchResults)) />
+      </Styled(styled.div)>
+    </styled.div>
+  </Styled(styled.div)>
+</Loader>
+`;

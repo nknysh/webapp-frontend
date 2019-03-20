@@ -2,7 +2,7 @@
 
 exports[`<Select /> render matches snapshot 1`] = `
 <styled.div>
-  <Styled(WithStyles(FormControlLabel))
+  <Styled(WithStyles(WithFormControlContext(FormControlLabel)))
     control={
       <ForwardRef
         classes={
