@@ -1,8 +1,8 @@
-import { values, pipe, all, equals } from 'ramda';
+import { values, pipe, all, equals, last, reduce } from 'ramda';
 
 import { isFunction, mapWithIndex } from 'utils';
 
-import { isActive, isSuccess, isError, isIdle } from 'store/common';
+import { isActive, isSuccess, isError } from 'store/common';
 
 import { useEffectBoundary } from './genericEffects';
 import { useState } from 'react';
@@ -28,16 +28,18 @@ export const useFetchData = (fetchStatus, fetcher, fetchArgs = {}, force = false
   const [fetched, setFetched] = useState(false);
 
   useEffectBoundary(() => {
-    setFetched(fetchData(fetchStatus, fetcher, fetchArgs, force));
+    !fetched && setFetched(fetchData(fetchStatus, fetcher, fetchArgs, force));
   }, [force, fetchStatus]);
 
   return fetched;
 };
 
 export const useFetchDataMultiple = fetches => {
-  const fetchResult = args => useFetchData(...args);
+  const fetchResult = (accum, args) => [...accum, useFetchData(...args)];
 
-  const fetchResults = mapWithIndex(fetchResult, fetches);
+  const fetchResults = reduce(fetchResult, [], fetches);
+
+  console.log(fetchResults);
 
   return allFetched(fetchResults);
 };

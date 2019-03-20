@@ -19,8 +19,8 @@ import {
   values,
 } from 'ramda';
 
-import { IndexSearch, Loader, DatePicker, LodgingSelect, Checkbox, ToolTip } from 'components';
-import { useFetchData, useEffectBoundary } from 'effects';
+import { IndexSearch, DatePicker, LodgingSelect, Checkbox, ToolTip } from 'components';
+import { useEffectBoundary } from 'effects';
 import { buildQueryString, RegionSelectTypes, IndexTypes, MealPlanSelectTypes } from 'utils';
 
 import uiConfig, { getSingular, getPlural } from 'config/ui';
@@ -70,7 +70,6 @@ const renderMealPlanTip = value => (
 );
 
 export const SearchSidebar = ({
-  fetchHotels,
   getCountryName,
   getHotelName,
   searchQuery,
@@ -80,10 +79,7 @@ export const SearchSidebar = ({
   regions,
   starRatings,
   features,
-  hotelsStatus,
 }) => {
-  const loaded = useFetchData(hotelsStatus, fetchHotels);
-
   useEffectBoundary(() => {
     history.push(`/search?${buildQueryString(searchQuery)}`);
   }, [searchQuery]);
@@ -172,7 +168,7 @@ export const SearchSidebar = ({
     );
 
   return (
-    <Loader isLoading={!loaded}>
+    <Fragment>
       <Section>
         <Title>{path(['labels', 'searching'], uiConfig)}</Title>
         <SectionField>
@@ -287,7 +283,7 @@ export const SearchSidebar = ({
           </SideBarButton>
         </SectionField>
       </Section>
-    </Loader>
+    </Fragment>
   );
 };
 

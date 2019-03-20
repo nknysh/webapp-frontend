@@ -34,11 +34,11 @@ const renderResult = curry((selector, hit) => {
 export const SearchResults = ({
   searchQuery,
   getHotel,
-  fetchHotels,
   getCountryName,
+  hotelsStatus,
+  fetchHotels,
   fetchResults,
   results,
-  hotelsStatus,
   resultsStatus,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);

@@ -4,15 +4,13 @@ import { isArray } from 'utils';
 import { Status } from 'store/common';
 import { statusLens, errorLens, dataLens } from 'store/utils';
 
-export const loadingReducer = (state, { type }) =>
-  set(statusLens, `${type}_${Status.LOADING}`, { ...state, error: undefined });
+export const loadingReducer = state => set(statusLens, Status.LOADING, { ...state, error: undefined });
 
-export const sendingReducer = (state, { type }) =>
-  set(statusLens, `${type}_${Status.SENDING}`, { ...state, error: undefined });
+export const sendingReducer = state => set(statusLens, Status.SENDING, { ...state, error: undefined });
 
-export const successReducer = (state, { type, payload }) => {
+export const successReducer = (state, { payload }) => {
   const setData = pipe(
-    set(statusLens, type),
+    set(statusLens, Status.SUCCESS),
     set(
       dataLens,
       isArray(payload)
@@ -25,19 +23,19 @@ export const successReducer = (state, { type, payload }) => {
   return setData(state);
 };
 
-export const errorReducer = (state, { type, payload }) => {
+export const errorReducer = (state, { payload }) => {
   const setData = pipe(
-    set(statusLens, type),
+    set(statusLens, Status.ERROR),
     set(dataLens, undefined),
-    set(errorLens, isArray(payload) ? [...payload] : { ...payload })
+    set(errorLens, isArray(payload) ? [...payload] : payload)
   );
 
   return setData(state);
 };
 
-export const successResetReducer = (state, { type, payload }) => {
+export const successResetReducer = (state, { payload }) => {
   const setData = pipe(
-    set(statusLens, type),
+    set(statusLens, Status.SUCCESS),
     set(dataLens, isArray(payload) ? [...payload] : { ...payload }),
     set(errorLens, undefined)
   );

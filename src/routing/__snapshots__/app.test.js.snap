@@ -72,6 +72,7 @@ Object {
 
 exports[`routing app routes match snapshot 8`] = `
 Object {
+  "auth": true,
   "component": [Function],
   "name": "Hotel",
   "path": "/hotels/:id",

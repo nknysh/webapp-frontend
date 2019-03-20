@@ -1,10 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
-<Loader
-  isLoading={true}
-  showSpinner={true}
->
+<Fragment>
   <styled.div>
     <styled.h4>
       Search
@@ -202,14 +199,11 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       </Styled(styled.button)>
     </styled.div>
   </styled.div>
-</Loader>
+</Fragment>
 `;
 
 exports[`<SearchSidebar /> render matches snapshot 1`] = `
-<Loader
-  isLoading={true}
-  showSpinner={true}
->
+<Fragment>
   <styled.div>
     <styled.h4>
       Search
@@ -395,5 +389,5 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       </Styled(styled.button)>
     </styled.div>
   </styled.div>
-</Loader>
+</Fragment>
 `;

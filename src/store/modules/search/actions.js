@@ -60,7 +60,7 @@ export const resetFilters = payload => dispatch => {
   index && dispatch(fetchSearchResults({ index }));
 };
 
-export const setSearchQuery = ({ index, ...payload }) => dispatch => {
+export const setSearchQuery = ({ index = 'hotels', ...payload }) => dispatch => {
   dispatch(setSearchQueryAction(payload));
   dispatch(fetchSearchResults({ index }));
 };

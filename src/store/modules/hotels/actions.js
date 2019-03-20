@@ -64,12 +64,3 @@ export const fetchHotels = params => dispatch => {
     .then(({ data }) => dispatch(fetchHotelsSuccess({ data })))
     .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
 };
-
-export const fetchHotel = id => dispatch => {
-  dispatch(fetchHotelAction());
-
-  return client
-    .getHotel(id)
-    .then(({ data: { data } }) => dispatch(successAction(FETCH_HOTEL, [data])))
-    .catch(error => dispatch(errorAction(FETCH_HOTEL, propOr(error, 'response', error))));
-};

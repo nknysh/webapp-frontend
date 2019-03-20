@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
 import { getHotel, getHotelsStatus } from 'store/modules/hotels/selectors';
-import { fetchHotel } from 'store/modules/hotels/actions';
+import { fetchHotel } from 'store/modules/hotel/actions';
 
 export const mapStateToProps = (state, { id }) => ({
   hotel: getHotel(state, id),

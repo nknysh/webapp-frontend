@@ -15,8 +15,8 @@ import connect from './App.state';
 export const App = ({ location: { pathname }, setToken, resetStatuses }) => {
   useTokenFromWindow(setToken);
   useScrollToTop(pathname);
+
   useEffectBoundary(() => {
-    // Reset statuses to idle on path change
     resetStatuses();
   }, [pathname]);
 
