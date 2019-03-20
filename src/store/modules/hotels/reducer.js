@@ -10,6 +10,7 @@ import { FETCH_HOTELS, FETCH_HOTEL } from './actions';
 export default createReducer(
   {
     [FETCH_HOTELS]: loadingReducer,
+    [FETCH_HOTEL]: loadingReducer,
     [getSuccessActionName(FETCH_HOTELS)]: pipe(
       successReducer,
       normalizer(prop('id', schema))
@@ -19,6 +20,7 @@ export default createReducer(
       normalizer(prop('id', schema))
     ),
     [getErrorActionName(FETCH_HOTELS)]: errorReducer,
+    [getErrorActionName(FETCH_HOTEL)]: errorReducer,
   },
   initialState
 );

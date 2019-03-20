@@ -2,7 +2,7 @@ import { values, pipe, all, equals } from 'ramda';
 
 import { isFunction, mapWithIndex } from 'utils';
 
-import { isLoading, isSuccess, isError } from 'store/common';
+import { isActive, isSuccess, isError, isIdle } from 'store/common';
 
 import { useEffectBoundary } from './genericEffects';
 import { useState } from 'react';
@@ -13,10 +13,11 @@ const allFetched = pipe(
 );
 
 const fetchData = (fetchStatus, fetcher, fetchArgs = {}, force = false) => {
-  const fetched = !isLoading(fetchStatus) && isSuccess(fetchStatus);
+  const fetched = isSuccess(fetchStatus);
   const error = isError(fetchStatus);
+  const active = isActive(fetchStatus);
 
-  if ((force || (!fetched && !error)) && isFunction(fetcher)) {
+  if ((force || (!fetched && !active && !error)) && isFunction(fetcher)) {
     fetcher(fetchArgs);
   }
 

@@ -1,4 +1,4 @@
-import { equals, anyPass } from 'ramda';
+import { equals, complement, anyPass, match, isEmpty, pipe } from 'ramda';
 
 export const Status = Object.freeze({
   LOADING: 'LOADING',
@@ -8,10 +8,16 @@ export const Status = Object.freeze({
   SENDING: 'SENDING',
 });
 
+const matchStatus = status =>
+  pipe(
+    match(status),
+    complement(isEmpty)
+  );
+
 export const isIdle = equals(Status.IDLE);
-export const isLoading = equals(Status.LOADING);
-export const isError = equals(Status.ERROR);
-export const isSuccess = equals(Status.SUCCESS);
-export const isSending = equals(Status.SENDING);
+export const isLoading = matchStatus(Status.LOADING);
+export const isError = matchStatus(Status.ERROR);
+export const isSuccess = matchStatus(Status.SUCCESS);
+export const isSending = matchStatus(Status.SENDING);
 
 export const isActive = anyPass([isLoading, isSending]);

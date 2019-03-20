@@ -13,7 +13,7 @@ import { propTypes, defaultProps } from './SearchContainer.props';
 import { StyledSearch, Columns, ColumnLeft, ColumnRight, Back } from './SearchContainer.styles';
 
 export const SearchContainer = ({ fetchHotels, hotels, countries, searchQuery, hotelsStatus }) => {
-  const hotelsLoaded = useFetchData(hotelsStatus, fetchHotels);
+  const hotelsLoaded = useFetchData(hotelsStatus, fetchHotels, {});
   const currentWidth = useCurrentWidth();
 
   return (
@@ -38,4 +38,7 @@ export const SearchContainer = ({ fetchHotels, hotels, countries, searchQuery, h
 SearchContainer.propTypes = propTypes;
 SearchContainer.defaultProps = defaultProps;
 
-export default compose(connect)(SearchContainer);
+export default compose(
+  connect,
+  React.memo
+)(SearchContainer);

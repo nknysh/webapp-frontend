@@ -5,16 +5,20 @@ import { compose } from 'ramda';
 import getRoutes from 'routing';
 import routes from 'routing/app';
 
-import { useScrollToTop, useTokenFromWindow } from 'effects';
+import { useScrollToTop, useTokenFromWindow, useEffectBoundary } from 'effects';
 import { Layout } from 'layouts/Layout';
 import { ErrorBoundary } from 'hoc/ErrorBoundary';
 
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 
-export const App = ({ location: { pathname }, setToken }) => {
+export const App = ({ location: { pathname }, setToken, resetStatuses }) => {
   useTokenFromWindow(setToken);
   useScrollToTop(pathname);
+  useEffectBoundary(() => {
+    // Reset statuses to idle on path change
+    resetStatuses();
+  }, [pathname]);
 
   return (
     <Layout>

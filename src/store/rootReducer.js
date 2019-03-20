@@ -7,6 +7,8 @@ import pages from './modules/pages/reducer';
 import search from './modules/search/reducer';
 import ui from './modules/ui/reducer';
 import offers from './modules/offers/reducer';
+import { STATUS_TO_IDLE } from './common/actions';
+import { resetStatuses } from './common/reducer';
 
 const rootReducer = combineReducers({
   auth,
@@ -18,4 +20,12 @@ const rootReducer = combineReducers({
   offers,
 });
 
-export default rootReducer;
+export default (state, action) => {
+  const { type } = action;
+
+  if (type === STATUS_TO_IDLE) {
+    state = resetStatuses(state, action);
+  }
+
+  return rootReducer(state, action);
+};

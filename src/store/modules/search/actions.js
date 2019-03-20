@@ -1,4 +1,4 @@
-import { propOr, pathOr, prop, pipe, path } from 'ramda';
+import { propOr, pathOr, prop, pipe, path, isEmpty } from 'ramda';
 
 import {
   filterByRange,
@@ -72,7 +72,7 @@ export const fetchSearchResults = payload => (dispatch, getState) => {
   const indexName = prop('index', payload);
   const index = getSearchIndex(state, indexName);
 
-  if (!indexName || !index) return;
+  if (!indexName || !index || isEmpty(prop('fields', index))) return;
 
   const query = getSearchQuery(state);
   const queries = buildSearchQueries(query, { regions: getHotelRegions(state) });
