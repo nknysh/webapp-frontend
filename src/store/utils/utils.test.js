@@ -1,8 +1,8 @@
 import { initialState } from 'store/utils';
 
-import { statusLens, errorLens, dataLens, getErrorActionName, getSuccessActionName, normalizer } from './reducerUtils';
+import { statusLens, errorLens, dataLens, getErrorActionName, getSuccessActionName, normalizer } from './utils';
 
-describe('reducerUtils', () => {
+describe('utils', () => {
   describe('lenses', () => {
     it('are functions', () => {
       expect(statusLens(initialState)).toBeInstanceOf(Function);

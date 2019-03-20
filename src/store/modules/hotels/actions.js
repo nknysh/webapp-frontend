@@ -1,46 +1,27 @@
-import { prop, values, reduce, has, pipe, uniq, propOr } from 'ramda';
-import hash from 'object-hash';
+import { prop, values, propOr, path } from 'ramda';
+import { normalize } from 'normalizr';
 
 import client from 'api/hotels';
 
-import { successAction, errorAction } from 'store/common/actions';
-
-import { buildIndex } from 'store/modules/search/actions';
-import { setCountries } from 'store/modules/countries/actions';
+import { successAction, errorAction, setNormalizedData } from 'store/common';
+import { index } from 'store/modules/indexes/actions';
 
 import { getHotelsData } from './selectors';
 import schema from './schema';
 
 export const FETCH_HOTELS = 'FETCH_HOTELS';
 
-const extractCountry = (accum, value) => (has('country', value) ? [...accum, prop('country', value)] : accum);
-const buildCountry = (accum, value) => (value ? [...accum, { id: hash(value), name: value }] : accum);
-
-const extractCountries = pipe(
-  reduce(extractCountry, []),
-  uniq,
-  reduce(buildCountry, [])
-);
-
 export const fetchHotelsAction = () => ({
   type: FETCH_HOTELS,
 });
 
-export const fetchHotelsSuccess = ({ data: { data } }) => async (dispatch, getState) => {
+export const fetchHotelsSuccess = data => async (dispatch, getState) => {
   const prevData = values(getHotelsData(getState()));
 
-  const hotels = [...prevData, ...data];
-
-  const setCountriesToStore = pipe(
-    extractCountries,
-    setCountries,
-    dispatch
-  );
-
-  setCountriesToStore(hotels);
+  const hotels = [...prevData, ...values(data)];
 
   dispatch(
-    buildIndex({
+    index({
       index: 'hotels',
       ref: prop('id', schema),
       fields: prop('index', schema),
@@ -56,6 +37,12 @@ export const fetchHotels = params => dispatch => {
 
   return client
     .getHotels({ sort: ['hotel.name'], ...params })
-    .then(({ data }) => dispatch(fetchHotelsSuccess({ data })))
+    .then(({ data: { data } }) => {
+      const normalized = normalize({ id: 'hotels', data }, prop('schema', schema));
+
+      setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
+
+      dispatch(fetchHotelsSuccess(path(['entities', 'hotel'], normalized)));
+    })
     .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
 };

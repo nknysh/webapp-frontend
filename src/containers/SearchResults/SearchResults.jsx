@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { compose, curry, length, map, path, prop, defaultTo } from 'ramda';
+import { compose, curry, length, map, path, defaultTo, prop } from 'ramda';
 
 import { Card, Loader, Modal } from 'components';
 import { SearchSidebar } from 'containers';
@@ -22,37 +22,28 @@ import {
 } from './SearchResults.styles';
 
 const renderResult = curry((selector, hit) => {
-  const ref = prop('ref', hit);
+  const id = prop('ref', hit);
 
   return (
-    <Result to={`/hotels/${ref}`} key={ref}>
-      <Card hotel={selector(ref)} />
-    </Result>
+    id && (
+      <Result to={`/hotels/${id}`} key={id}>
+        <Card hotel={selector(id)} />
+      </Result>
+    )
   );
 });
 
-export const SearchResults = ({
-  searchQuery,
-  getHotel,
-  fetchHotels,
-  getCountryName,
-  fetchResults,
-  results,
-  hotelsStatus,
-  resultsStatus,
-}) => {
+export const SearchResults = ({ fetchSearch, getCountryName, getHotel, getResults, searchQuery, searchStatus }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const loaded = useFetchDataMultiple([
-    [hotelsStatus, fetchHotels],
-    [resultsStatus, fetchResults, { index: 'hotels' }, searchQuery],
-  ]);
+  const loaded = useFetchDataMultiple([[searchStatus, fetchSearch]]);
 
   const currentWidth = useCurrentWidth();
 
   const id = path(['search', 'id'], searchQuery);
+  const results = getResults(IndexTypes.HOTELS);
 
-  const count = length(results);
+  const count = length(results) || 0;
   const destinationTitle = getCountryName(id) || '';
   const countTitle = `${count} ${getPluralisation('result', count)}`;
   const title = destinationTitle ? `${destinationTitle} - ${countTitle}` : countTitle;
@@ -82,6 +73,7 @@ SearchResults.propTypes = propTypes;
 SearchResults.defaultProps = defaultProps;
 
 export default compose(
+  React.memo,
   withSearchIndexes([IndexTypes.HOTELS]),
   connect
 )(SearchResults);

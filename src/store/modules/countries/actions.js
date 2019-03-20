@@ -1,6 +1,6 @@
 import { values, equals, prop, length } from 'ramda';
 
-import { buildIndex } from 'store/modules/search/actions';
+import { index } from 'store/modules/indexes/actions';
 import { successAction } from 'store/common/actions';
 
 import schema from './schema';
@@ -23,7 +23,7 @@ export const setCountries = payload => (dispatch, getState) => {
   if (equals(length(before), length(after))) return;
 
   dispatch(
-    buildIndex({
+    index({
       index: 'countries',
       ref: prop('id', schema),
       fields: prop('index', schema),

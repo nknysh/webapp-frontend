@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { __, pipe, compose, path, prop, set, lensProp, view } from 'ramda';
+import debounce from 'lodash.debounce';
 
 import uiConfig from 'config/ui';
 
@@ -19,15 +20,15 @@ const honeymoonersLens = lensProp('honeymooners');
 
 export const SearchBar = ({
   className,
-  fetchHotels,
+  fetchSearch,
   getCountryName,
   getHotelName,
   history,
   searchQuery,
   setSearchQuery,
-  hotelsStatus,
+  searchStatus,
 }) => {
-  const hotelsLoaded = useFetchData(hotelsStatus, fetchHotels);
+  useFetchData(searchStatus, fetchSearch);
 
   const indexes = ['countries', 'hotels'];
   const updateSearchQuery = set(__, __, searchQuery);
@@ -48,7 +49,7 @@ export const SearchBar = ({
     setSearchQuery
   );
 
-  const onIndexSearchClick = pipe(
+  const onIndexSearch = pipe(
     updateSearchQuery(searchLens),
     setSearchQuery
   );
@@ -57,17 +58,18 @@ export const SearchBar = ({
 
   return (
     <StyledSearchBar className={className}>
-      <Loader isLoading={!hotelsLoaded} showSpinner={false}>
+      <Loader isLoading={false} showSpinner={false}>
         <SearchBarSection>
           <SearchBarIndexSearch
             indexes={indexes}
             label={path(['labels', 'search'], uiConfig)}
             limit={5}
-            onClick={onIndexSearchClick}
+            onClick={onIndexSearch}
             openOnFocus={false}
             placeholder={path(['placeholders', 'search'], uiConfig)}
             selectors={[getCountryName, getHotelName]}
             value={prop('value', getSearchQueryData(searchLens))}
+            onChange={debounce(onIndexSearch, 600)}
           />
         </SearchBarSection>
         <SearchBarSection data-large={true}>
