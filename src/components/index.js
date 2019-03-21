@@ -29,3 +29,4 @@ export { Range } from './Range';
 export { Tabs } from './Tabs';
 export { Breadcrumbs } from './Breadcrumbs';
 export { BackButton } from './BackButton';
+export { Hotel } from './Hotel';

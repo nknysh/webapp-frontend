@@ -39,7 +39,5 @@ export const useFetchDataMultiple = fetches => {
 
   const fetchResults = reduce(fetchResult, [], fetches);
 
-  console.log(fetchResults);
-
   return allFetched(fetchResults);
 };

@@ -9,12 +9,12 @@ import 'slick-carousel/slick/slick.css';
 import { propTypes, defaultProps } from './Slider.props';
 import { GlobalSliderStyles } from './Slider.styles';
 
-export const Slider = props => (
+export const Slider = React.forwardRef((props, ref) => (
   <Fragment>
     <GlobalSliderStyles />
-    <BaseSlider centerMode centerPadding={`${theme.gutter * 3}px`} {...props} />
+    <BaseSlider ref={ref} centerMode centerPadding={`${theme.gutter * 3}px`} {...props} />
   </Fragment>
-);
+));
 
 Slider.propTypes = propTypes;
 Slider.defaultProps = defaultProps;

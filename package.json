@@ -12,7 +12,8 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext .jsx --ext .js src/",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "prettier": "prettier 'src/**/*.{js,jsx,json,css,scss}' --write --single-quote=true --print-width=120 --trailing-comma=es5"
+    "prettier": "prettier 'src/**/*.{js,jsx,json,css,scss}' --write --single-quote=true --print-width=120 --trailing-comma=es5",
+    "postinstall": "patch-package"
   },
   "author": "",
   "license": "ISC",
@@ -47,6 +48,7 @@
     "jest": "^24.1.0",
     "jest-canvas-mock": "^2.0.0-alpha.3",
     "markdown-loader": "^5.0.0",
+    "patch-package": "^6.0.5",
     "prop-types": "^15.7.2",
     "raw-loader": "^1.0.0",
     "react-test-renderer": "^16.8.3",
@@ -81,7 +83,7 @@
     "react-redux": "^6.0.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-slick": "^0.23.2",
+    "react-slick": "0.23.1",
     "react-table": "^6.9.2",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
