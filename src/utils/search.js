@@ -44,9 +44,9 @@ export const MealPlanSelectTypes = Object.freeze({
   AI: 'ai',
 });
 
-export const querySearchType = ({ value, type }) =>
+export const querySearchType = ({ value, type, id }) =>
   cond([
-    [equals(IndexTypes.COUNTRIES), always(`+country:${replace(/[- ]/g, ' +country:', value || '')}`)],
+    [equals(IndexTypes.COUNTRIES), always(`+countryCode:${replace(/[- ]/g, ' +countryCode:', id || '')}`)],
     [equals(IndexTypes.HOTELS), always(`+name:${replace(/ /g, ' AND +name:', value || '')}`)],
     [T, always(undefined)],
   ])(type);

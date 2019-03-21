@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { fetchHotels } from 'store/modules/hotels/actions';
 import { setSearchQuery } from 'store/modules/search/actions';
 
+import { fetchSearch } from 'store/modules/search/actions';
 import { getCountriesData, getCountryName } from 'store/modules/countries/selectors';
-import { getHotelsStatus, getHotelsData, getHotelName } from 'store/modules/hotels/selectors';
+import { getHotelsData, getHotelName } from 'store/modules/hotels/selectors';
 import { getSearchQuery } from 'store/modules/search/selectors';
+import { getSearchStatus } from 'store/modules/search/selectors';
 
 export const mapStateToProps = state => ({
   hotels: getHotelsData(state),
-  hotelsStatus: getHotelsStatus(state),
+  searchStatus: getSearchStatus(state),
   countries: getCountriesData(state),
   getCountryName: getCountryName(state),
   getHotelName: getHotelName(state),
@@ -18,8 +19,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchHotels: pipe(
-    fetchHotels,
+  fetchSearch: pipe(
+    fetchSearch,
     dispatch
   ),
   setSearchQuery: pipe(

@@ -1,6 +1,6 @@
-import { __, curry, map, pipe, path, has, prop, mapObjIndexed, propOr } from 'ramda';
+import { __, curry, map, pipe, path, has, prop, mapObjIndexed, propOr, omit } from 'ramda';
 
-import { isArray, getUniqueMap, noop } from 'utils';
+import { isArray, getUniqueMap, noop, isFunction } from 'utils';
 import { getErrorActionName, getSuccessActionName } from 'store/utils';
 import { isActive } from 'store/common';
 
@@ -68,3 +68,16 @@ export const setIncludes = curry(async (includes, actions, dispatch) => {
 
   return mapObjIndexed(setIncludeKey, includes);
 });
+
+export const setNormalizedData = (dispatch, relationships, normalizedData) => {
+  const entities = prop('entities', normalizedData);
+
+  const setDataToStore = (data, key) => {
+    const setter = path([key, 'setter'], relationships);
+
+    if (!setter || !isFunction(setter)) return;
+
+    dispatch(setter(data));
+  };
+  mapObjIndexed(setDataToStore, omit(['results'], entities));
+};

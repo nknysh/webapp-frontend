@@ -14,8 +14,8 @@ import connect from './Landing.state';
 import { propTypes, defaultProps } from './Landing.props';
 import { StyledSearch, SearchHero, SearchMarkdown } from './Landing.styles';
 
-export const Landing = ({ fetchLatestOffers, fetchHotels, hotelsStatus, offersStatus, hotels, countries, offers }) => {
-  const loaded = useFetchDataMultiple([[hotelsStatus, fetchHotels], [offersStatus, fetchLatestOffers, { limit: 3 }]]);
+export const Landing = ({ fetchLatestOffers, offersStatus, offers }) => {
+  const loaded = useFetchDataMultiple([[offersStatus, fetchLatestOffers, { limit: 3 }]]);
 
   return (
     <Loader isLoading={!loaded}>
@@ -23,7 +23,7 @@ export const Landing = ({ fetchLatestOffers, fetchHotels, hotelsStatus, offersSt
         <SearchHero mask media={{ image: heroImage }}>
           <SearchMarkdown>{heroData}</SearchMarkdown>
           <Container>
-            <SearchBar hotels={hotels} countries={countries} />
+            <SearchBar />
           </Container>
         </SearchHero>
         <LatestOffers offers={offers} />

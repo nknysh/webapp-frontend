@@ -8,6 +8,8 @@ import pages from './modules/pages/reducer';
 import search from './modules/search/reducer';
 import ui from './modules/ui/reducer';
 import offers from './modules/offers/reducer';
+import indexes from './modules/indexes/reducer';
+
 import { STATUS_TO_IDLE } from './common/actions';
 import { resetStatuses } from './common/reducer';
 
@@ -16,10 +18,11 @@ const rootReducer = combineReducers({
   countries,
   hotels,
   hotel,
+  indexes,
+  offers,
   pages,
   search,
   ui,
-  offers,
 });
 
 export default (state, action) => {

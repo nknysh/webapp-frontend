@@ -1,42 +1,15 @@
-import lunr from 'lunr';
-import { map, pipe } from 'ramda';
+import { pipe } from 'ramda';
 
-import { initialState, successResetReducer } from 'store/common';
+import { initialState, successResetReducer, loadingReducer, successReducer } from 'store/common';
 import { createReducer, getSuccessActionName, normalizer } from 'store/utils';
 
-import { SEARCH_INDEX_BUILD, SET_SEARCH_QUERY, RESET_SEARCH_FILTERS, SEARCH_RESULTS } from './actions';
+import { SET_SEARCH_QUERY, RESET_SEARCH_FILTERS, SEARCH_RESULTS, FETCH_SEARCH } from './actions';
 
 const searchState = {
   ...initialState,
-  indexes: {
-    countries: newIndex('countries'),
-    hotels: newIndex('hotels'),
+  query: {
+    search: {},
   },
-  query: undefined,
-};
-
-function newIndex(ref, fields = [], data = []) {
-  return lunr(function() {
-    this.ref(ref);
-
-    const buildField = field => this.field(field);
-    const addDoc = doc => this.add(doc);
-
-    map(buildField, fields);
-    map(addDoc, data);
-  });
-}
-
-const buildSearchIndex = (state, { payload: { index, ref, fields, data } }) => {
-  const searchIndex = newIndex(ref, fields, data);
-
-  return {
-    ...state,
-    indexes: {
-      ...state.indexes,
-      [index]: searchIndex,
-    },
-  };
 };
 
 const setSearchQuery = (state, { payload }) => ({
@@ -61,13 +34,15 @@ export const searchResults = (state, { payload }) => ({
 
 export default createReducer(
   {
-    [SEARCH_INDEX_BUILD]: buildSearchIndex,
     [SET_SEARCH_QUERY]: setSearchQuery,
     [RESET_SEARCH_FILTERS]: resetFilters,
+    [SEARCH_RESULTS]: loadingReducer,
     [getSuccessActionName(SEARCH_RESULTS)]: pipe(
       successResetReducer,
       normalizer('ref')
     ),
+    [FETCH_SEARCH]: loadingReducer,
+    [getSuccessActionName(FETCH_SEARCH)]: successReducer,
   },
   searchState
 );

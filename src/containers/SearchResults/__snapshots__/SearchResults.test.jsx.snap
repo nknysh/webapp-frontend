@@ -8,7 +8,7 @@ exports[`<SearchResults /> render matches snapshot 1`] = `
 >
   <styled.div>
     <Styled(styled.h2)>
-      NaN properties found
+      0 properties found
     </Styled(styled.h2)>
     <styled.div />
   </styled.div>
