@@ -1,9 +1,8 @@
 import { __, curry, map, pipe, path, has, prop, mapObjIndexed, propOr, omit } from 'ramda';
 
-import { isArray, getUniqueMap, noop } from 'utils';
+import { isArray, getUniqueMap, noop, isFunction } from 'utils';
 import { getErrorActionName, getSuccessActionName } from 'store/utils';
 import { isActive } from 'store/common';
-import { isFunction } from 'utils';
 
 export const STATUS_TO_IDLE = 'STATUS_TO_IDLE';
 
