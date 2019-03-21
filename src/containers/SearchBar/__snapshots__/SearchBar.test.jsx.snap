@@ -3,7 +3,7 @@
 exports[`<SearchBar /> render matches snapshot 1`] = `
 <styled.div>
   <Loader
-    isLoading={true}
+    isLoading={false}
     showSpinner={false}
   >
     <styled.div>
@@ -16,6 +16,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
         }
         label="Destination or resort"
         limit={5}
+        onChange={[Function]}
         onClick={[Function]}
         openOnFocus={false}
         placeholder="Where to"

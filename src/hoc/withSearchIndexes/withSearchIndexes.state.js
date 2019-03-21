@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
 import { reduce, merge, keys, values } from 'ramda';
 
-import { getSearchIndex } from 'store/modules/search/selectors';
+import { getIndex, getIndexesStatus } from 'store/modules/indexes/selectors';
 
 const mapStateToProps = (state, { indexes }) => {
-  const buildIndex = (accum, index) => merge(accum, { [index]: getSearchIndex(state, index) });
+  const buildIndex = (accum, index) => merge(accum, { [index]: getIndex(state, index) });
   const buildIndexes = reduce(buildIndex, {});
 
   const searchIndexes = buildIndexes(indexes);
 
   return {
+    indexStatus: getIndexesStatus(state),
     indexKeys: keys(searchIndexes),
     indexes: values(searchIndexes),
   };

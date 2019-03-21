@@ -1,2 +1,2 @@
 export { default as createReducer } from './createReducer';
-export * from './reducerUtils';
+export * from './utils';

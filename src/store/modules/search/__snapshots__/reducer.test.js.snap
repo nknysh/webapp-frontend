@@ -1,46 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages reducer should handle SEARCH_INDEX_BUILD 1`] = `
-Object {
-  "indexes": Object {
-    "foo": Object {
-      "fieldVectors": Array [],
-      "fields": Array [],
-      "invertedIndex": Array [],
-      "pipeline": Array [
-        "stemmer",
-      ],
-      "version": "2.3.6",
-    },
-  },
-}
-`;
+exports[`pages reducer should handle SEARCH_INDEX_BUILD 1`] = `Object {}`;
 
 exports[`pages reducer should return the initial state 1`] = `
 Object {
   "data": undefined,
   "error": undefined,
-  "indexes": Object {
-    "countries": Object {
-      "fieldVectors": Array [],
-      "fields": Array [],
-      "invertedIndex": Array [],
-      "pipeline": Array [
-        "stemmer",
-      ],
-      "version": "2.3.6",
-    },
-    "hotels": Object {
-      "fieldVectors": Array [],
-      "fields": Array [],
-      "invertedIndex": Array [],
-      "pipeline": Array [
-        "stemmer",
-      ],
-      "version": "2.3.6",
-    },
+  "query": Object {
+    "search": Object {},
   },
-  "query": undefined,
   "status": "IDLE",
 }
 `;

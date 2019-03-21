@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducerUtils normalizer normalizes array data by predicate 1`] = `
+exports[`utils normalizer normalizes array data by predicate 1`] = `
 Object {
   "data": Object {
     "1": Object {

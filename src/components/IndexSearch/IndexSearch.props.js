@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+import { noop } from 'utils';
+
 export const propTypes = {
   children: PropTypes.func,
   disabled: PropTypes.bool,
@@ -17,4 +19,5 @@ export const defaultProps = {
   value: '',
   searchPatterns: [],
   openOnFocus: true,
+  onChange: noop,
 };

@@ -36,6 +36,8 @@ export const IndexSearch = ({
   searchPatterns,
   selectors,
   value,
+  onChange,
+  indexStatus,
   ...props
 }) => {
   if (isEmpty(indexes)) return null;
@@ -48,6 +50,8 @@ export const IndexSearch = ({
   const [results, setResults] = useState(repeat([], length(indexes)));
 
   const getResults = index => {
+    if (!index) return [];
+
     const searchString =
       (!isEmpty(search) && replace('{search}', search, propOr('{search}*', index, searchPatterns))) || '';
     const results = index.search(searchString);
@@ -59,7 +63,7 @@ export const IndexSearch = ({
     setResults(indexResults);
   };
 
-  useEffectBoundary(searchIndexes, [value, isOpen, selected, search]);
+  useEffectBoundary(searchIndexes, [value, isOpen, selected, search, indexStatus]);
 
   const currentValue = search || selected;
 
@@ -71,6 +75,7 @@ export const IndexSearch = ({
       setSearch(e.currentTarget.value);
       setSelected('');
       setIsOpen(true);
+      onChange({ value: e.currentTarget.value });
     },
     placeholder,
   };

@@ -4,16 +4,12 @@ import { pipe } from 'ramda';
 import { fetchLatestOffers } from 'store/modules/offers/actions';
 import { getOffersData, getOffersStatus } from 'store/modules/offers/selectors';
 
-import { fetchHotels } from 'store/modules/hotels/actions';
-
-import { getCountriesData } from 'store/modules/countries/selectors';
-import { getHotelsData, getHotelsStatus } from 'store/modules/hotels/selectors';
+import { fetchSearch } from 'store/modules/search/actions';
+import { getSearchStatus } from 'store/modules/search/selectors';
 
 export const mapStateToProps = state => ({
   offers: getOffersData(state),
-  hotels: getHotelsData(state),
-  countries: getCountriesData(state),
-  hotelsStatus: getHotelsStatus(state),
+  searchStatus: getSearchStatus(state),
   offersStatus: getOffersStatus(state),
 });
 
@@ -22,8 +18,8 @@ export const mapDispatchToProps = dispatch => ({
     fetchLatestOffers,
     dispatch
   ),
-  fetchHotels: pipe(
-    fetchHotels,
+  fetchSearch: pipe(
+    fetchSearch,
     dispatch
   ),
 });
