@@ -4,8 +4,20 @@ exports[`<Slider /> render matches snapshots 1`] = `
 <Fragment>
   <GlobalStyleComponent />
   <Slider
+    arrows={false}
     centerMode={true}
     centerPadding="30px"
+    lazyLoad="ondemand"
+    nextArrow={
+      <ForwardRef>
+        keyboard_arrow_right
+      </ForwardRef>
+    }
+    prevArrow={
+      <ForwardRef>
+        keyboard_arrow_left
+      </ForwardRef>
+    }
   >
     <div
       key="1"

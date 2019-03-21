@@ -24,40 +24,7 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
         ]
       }
     />
-    <styled.div>
-      <styled.div>
-        <styled.div>
-          <Styled(styled.div)>
-            <Styled(Styled(styled.h2)) />
-          </Styled(styled.div)>
-          <Styled(styled.div)>
-            <Styled(styled.div)>
-              <Styled(styled.div)>
-                <Styled(Styled(WithStyles(Icon)))>
-                  star
-                </Styled(Styled(WithStyles(Icon)))>
-                 
-                <Styled(styled.span)>
-                   
-                  Star
-                </Styled(styled.span)>
-              </Styled(styled.div)>
-              <Styled(styled.div)>
-                BEST FOR HONEYMOONERS
-              </Styled(styled.div)>
-            </Styled(styled.div)>
-          </Styled(styled.div)>
-        </styled.div>
-        <styled.div>
-          <Styled(styled.div)>
-            <styled.div />
-          </Styled(styled.div)>
-          <Styled(styled.div)>
-            <Styled(styled.div) />
-          </Styled(styled.div)>
-        </styled.div>
-      </styled.div>
-    </styled.div>
+    <Hotel />
   </Styled(styled.div)>
 </Loader>
 `;

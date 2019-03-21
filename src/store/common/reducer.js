@@ -43,7 +43,7 @@ export const successResetReducer = (state, { payload }) => {
   return setData(state);
 };
 
-export const resetStatuses = state => {
+export const resetStoreStatuses = state => {
   const setStatusToIdle = set(statusLens, Status.IDLE);
   return map(setStatusToIdle, state);
 };

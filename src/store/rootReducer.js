@@ -11,7 +11,7 @@ import offers from './modules/offers/reducer';
 import indexes from './modules/indexes/reducer';
 
 import { STATUS_TO_IDLE } from './common/actions';
-import { resetStatuses } from './common/reducer';
+import { resetStoreStatuses } from './common/reducer';
 
 const rootReducer = combineReducers({
   auth,
@@ -29,7 +29,7 @@ export default (state, action) => {
   const { type } = action;
 
   if (type === STATUS_TO_IDLE) {
-    state = resetStatuses(state, action);
+    state = resetStoreStatuses(state, action);
   }
 
   return rootReducer(state, action);

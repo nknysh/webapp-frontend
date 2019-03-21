@@ -1,18 +1,18 @@
-import { FETCH_HOTELS, fetchHotelsAction, fetchHotels } from './actions';
+import { FETCH_HOTEL, fetchHotelAction, fetchHotel } from './actions';
 
 describe('pages actions', () => {
-  describe('fetchHotelsAction', () => {
+  describe('fetchHotelAction', () => {
     it('returns action', () => {
-      expect(fetchHotelsAction('foo')).toEqual({
-        type: FETCH_HOTELS,
+      expect(fetchHotelAction('foo')).toEqual({
+        type: FETCH_HOTEL,
       });
     });
   });
-  describe('fetchHotels', () => {
+  describe('fetchHotel', () => {
     it('calls dispatch thunks', () => {
       const dispatch = jest.fn();
 
-      fetchHotels()(dispatch);
+      fetchHotel()(dispatch, () => {});
 
       expect(dispatch).toHaveBeenCalledTimes(1);
     });

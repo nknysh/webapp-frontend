@@ -19,7 +19,9 @@ exports[`<SearchContainer /> render matches snapshot 1`] = `
         />
       </Styled(styled.div)>
       <Styled(styled.div)>
-        <withSearchIndexes(Connect(SearchResults)) />
+        <Component
+          hotels={Object {}}
+        />
       </Styled(styled.div)>
     </styled.div>
   </Styled(styled.div)>

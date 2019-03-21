@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { BackButton } from 'components';
+import { Slider } from 'components';
+
 import {
   CardRating,
   CardStarRating,
@@ -18,9 +19,6 @@ import breakpoints from 'styles/breakpoints';
 export const StyledHotel = styled.div``;
 
 export const HotelDetails = styled.div`
-  margin: ${theme.gutter}px 0;
-  padding: ${theme.gutter}px 0;
-
   ${breakpoints.tablet`
         flex: 1;
         max-width: 66%;
@@ -143,5 +141,36 @@ export const HotelHighlight = styled(CardHighlight)`
 `;
 
 export const HotelGallery = styled.div`
-  max-width: 66%;
+  margin-bottom: ${theme.gutter * 5}px;
+`;
+
+export const FixedSlider = styled(Slider)`
+  ${breakpoints.tablet`
+    .slick-list, .slick-track, .slick-slide, .slick-slide > div {
+      height: 100%;
+    }
+
+    .slick-slide img {
+      height: 100%;
+      object-fit: cover;
+    }
+  `}
+`;
+
+export const MainSlider = styled(FixedSlider)`
+  ${breakpoints.tablet`
+    height: 543px;
+  `}
+`;
+
+export const NavSlider = styled(FixedSlider)`
+  height: 88px;
+  padding: 0 ${theme.gutter}px;
+
+  .slick-track {
+    margin: 0;
+  }
+  .slick-slide {
+    padding: ${theme.gutter / 2}px;
+  }
 `;

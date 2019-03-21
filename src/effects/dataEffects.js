@@ -1,6 +1,6 @@
-import { values, pipe, all, equals, last, reduce } from 'ramda';
+import { values, pipe, all, equals, reduce } from 'ramda';
 
-import { isFunction, mapWithIndex } from 'utils';
+import { isFunction } from 'utils';
 
 import { isActive, isSuccess, isError } from 'store/common';
 
