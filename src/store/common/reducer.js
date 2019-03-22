@@ -1,6 +1,6 @@
 import { pipe, set, propOr, values, map } from 'ramda';
 
-import { isArray } from 'utils';
+import { isArray, castToType } from 'utils';
 import { Status } from 'store/common';
 import { statusLens, errorLens, dataLens } from 'store/utils';
 
@@ -36,7 +36,7 @@ export const errorReducer = (state, { payload }) => {
 export const successResetReducer = (state, { payload }) => {
   const setData = pipe(
     set(statusLens, Status.SUCCESS),
-    set(dataLens, isArray(payload) ? [...payload] : { ...payload }),
+    set(dataLens, castToType(payload)),
     set(errorLens, undefined)
   );
 

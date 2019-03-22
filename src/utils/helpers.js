@@ -18,6 +18,9 @@ import {
   isNil,
   either,
   isEmpty,
+  always,
+  cond,
+  T,
 } from 'ramda';
 
 export const noop = () => {};
@@ -53,3 +56,6 @@ const lensFromObject = curry((previousKeys, value, key) => {
 export const buildLensesFromObject = mapObjIndexed(lensFromObject([]));
 
 export const toList = unapply(identity);
+
+export const castToType = data =>
+  cond([[isArray, always([...data])], [isObject, always({ ...data })], [T, identity]])(data);
