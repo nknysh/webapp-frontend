@@ -2,7 +2,7 @@
 
 exports[`<RadioButton /> render matches snapshots 1`] = `
 <Styled(RadioGroup)>
-  <Styled(WithStyles(FormControlLabel))
+  <Styled(WithStyles(WithFormControlContext(FormControlLabel)))
     control={<ForwardRef />}
     key="0"
     label="An option"

@@ -10,6 +10,7 @@ import { getHotelsData } from './selectors';
 import schema from './schema';
 
 export const FETCH_HOTELS = 'FETCH_HOTELS';
+export const FETCH_HOTEL = 'FETCH_HOTEL';
 
 export const fetchHotelsAction = () => ({
   type: FETCH_HOTELS,

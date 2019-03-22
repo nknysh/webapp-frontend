@@ -13,6 +13,7 @@ const uiConfig = {
     passwordReset: 'Requesting Password Reset...',
     setPassword: 'Setting password...',
     searching: 'Searching...',
+    gettingHotel: 'Getting hotel details...',
   },
 
   labels: {
@@ -26,6 +27,7 @@ const uiConfig = {
     allRegions: 'All regions',
     specifyRegions: 'Specify regions',
     backToHome: 'back to homepage',
+    backToSearch: 'back to search results',
 
     yes: 'Yes',
     no: 'No',

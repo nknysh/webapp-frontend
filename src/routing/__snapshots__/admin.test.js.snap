@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`routing admin routes match snapshot 1`] = `
-Object {
-  "component": [Function],
-  "name": "Not Found",
-}
-`;

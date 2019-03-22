@@ -2,7 +2,7 @@
 
 exports[`<Checkbox /> render matches snapshot 1`] = `
 <styled.div>
-  <WithStyles(FormControlLabel)
+  <WithStyles(WithFormControlContext(FormControlLabel))
     control={<ForwardRef />}
   />
 </styled.div>

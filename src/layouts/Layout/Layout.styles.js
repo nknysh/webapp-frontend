@@ -17,6 +17,7 @@ export const LayoutChildren = styled.div`
   flex: 1 1 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
 `;
 
 export const LayoutContent = styled.div`

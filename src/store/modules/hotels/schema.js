@@ -1,17 +1,8 @@
-import { prop } from 'ramda';
 import { schema } from 'normalizr';
 
-import countrySchema from 'store/modules/countries/schema';
+import hotelSchema from 'store/modules/hotel/schema';
 
 const id = 'uuid';
-
-const hotelSchema = new schema.Entity(
-  'hotel',
-  {
-    countryCode: prop('schema', countrySchema),
-  },
-  { idAttribute: id }
-);
 
 export default {
   id,

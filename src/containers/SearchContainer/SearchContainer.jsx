@@ -10,18 +10,10 @@ import uiConfig from 'config/ui';
 
 import connect from './SearchContainer.state';
 import { propTypes, defaultProps } from './SearchContainer.props';
-import {
-  StyledSearch,
-  BackButton,
-  BackButtonWrapper,
-  Columns,
-  ColumnLeft,
-  ColumnRight,
-  Navigation,
-} from './SearchContainer.styles';
+import { StyledSearch, Columns, ColumnLeft, ColumnRight, Back } from './SearchContainer.styles';
 
 export const SearchContainer = ({ fetchHotels, hotels, countries, searchQuery, hotelsStatus }) => {
-  const hotelsLoaded = useFetchData(hotelsStatus, fetchHotels);
+  const hotelsLoaded = useFetchData(hotelsStatus, fetchHotels, {}, true);
   const currentWidth = useCurrentWidth();
 
   return (
@@ -30,17 +22,12 @@ export const SearchContainer = ({ fetchHotels, hotels, countries, searchQuery, h
         <Columns>
           {!isMobile(currentWidth) && (
             <ColumnLeft>
-              <Navigation to="/">
-                <BackButtonWrapper>
-                  <BackButton>keyboard_arrow_left</BackButton>
-                </BackButtonWrapper>
-                {path(['labels', 'backToHome'], uiConfig)}
-              </Navigation>
+              <Back to="/">{path(['labels', 'backToHome'], uiConfig)}</Back>
               <SearchSidebar hotels={hotels} countries={countries} searchQuery={searchQuery} />
             </ColumnLeft>
           )}
           <ColumnRight>
-            <SearchResults />
+            <SearchResults hotels={hotels} />
           </ColumnRight>
         </Columns>
       </StyledSearch>

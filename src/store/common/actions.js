@@ -6,7 +6,7 @@ import { isActive } from 'store/common';
 
 export const STATUS_TO_IDLE = 'STATUS_TO_IDLE';
 
-export const setStatusesToIdle = () => ({
+export const resetStatuses = () => ({
   type: STATUS_TO_IDLE,
 });
 

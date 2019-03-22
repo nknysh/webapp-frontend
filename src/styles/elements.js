@@ -46,7 +46,7 @@ export const Container = styled.div`
   max-width: 100%;
   margin: 0 auto;
 
-  ${breakpoints.tablet`max-width: ${theme.breakpoints.desktop}px`}
+  ${breakpoints.tablet`width: ${theme.breakpoints.desktop}px`}
 `;
 
 export const inputStyles = css`

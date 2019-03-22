@@ -60,6 +60,13 @@ exports[`<App /> render matches snapshot 1`] = `
       render={[Function]}
     />
     <Route
+      auth={true}
+      key="2ed872f49357b36ccc01eeae870296cad458e6d8"
+      name="Hotel"
+      path="/hotels/:id"
+      render={[Function]}
+    />
+    <Route
       component={[Function]}
       key="2ee726a5e790bd03f0d2000777a30a1eaa355525"
       name="Login"
