@@ -1,6 +1,6 @@
 import client from 'api/offers';
 
-import { successAction, errorAction } from 'store/common/actions';
+import { successAction, errorAction } from 'store/common';
 
 export const FETCH_LATEST_OFFERS = 'FETCH_LATEST_OFFERS';
 

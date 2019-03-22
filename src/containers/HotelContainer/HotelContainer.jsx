@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { compose, prop, path } from 'ramda';
+import { compose, prop, path, allPass, has, complement } from 'ramda';
 
 import { Loader, Tabs, Breadcrumbs, Hotel } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
@@ -11,10 +11,12 @@ import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
 import { Back, HotelWrapper } from './HotelContainer.styles';
 
+const reloadIfMissing = complement(allPass([has('photos')]));
+
 const renderBackButton = () => <Back to="/search">{path(['labels', 'backToSearch'], uiConfig)}</Back>;
 
 export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus }) => {
-  const loaded = useFetchData(hotelStatus, fetchHotel, id);
+  const loaded = useFetchData(hotelStatus, fetchHotel, id, reloadIfMissing(hotel));
 
   const currentWidth = useCurrentWidth();
 

@@ -1,3 +1,4 @@
+import { prop } from 'ramda';
 import { schema } from 'normalizr';
 
 import hotelSchema from 'store/modules/hotel/schema';
@@ -15,5 +16,5 @@ export default {
     'region',
     'starRating',
   ],
-  schema: new schema.Entity('hotels', { data: [hotelSchema] }, { idAttribute: id }),
+  schema: new schema.Array(prop('schema', hotelSchema)),
 };

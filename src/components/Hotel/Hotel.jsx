@@ -27,7 +27,8 @@ import {
   NavSlider,
 } from './Hotel.styles';
 
-const renderImage = src => <img key={src + Date.now()} src={src} />;
+// eslint-disable-next-line
+const renderImage = ({ url }) => <img key={url} src={url} />;
 const renderFeature = value => <HotelHighlight key={value}>{value}</HotelHighlight>;
 
 export const Hotel = ({
@@ -37,7 +38,7 @@ export const Hotel = ({
   description,
   amenities,
   region,
-  images,
+  photos,
   ...props
 }) => {
   const sliderMain = useRef(null);
@@ -46,10 +47,10 @@ export const Hotel = ({
   return (
     <StyledHotel {...props}>
       <HotelDetails>
-        {!isEmptyOrNil(images) && (
+        {!isEmptyOrNil(photos) && (
           <HotelGallery>
             <MainSlider asNavFor={sliderNav} centerMode={false} fade={true} ref={sliderMain} slidesToShow={1}>
-              {map(renderImage, images)}
+              {map(renderImage, photos)}
             </MainSlider>
             <NavSlider
               asNavFor={sliderMain}
@@ -60,7 +61,7 @@ export const Hotel = ({
               slidesToShow={6}
               arrows={true}
             >
-              {map(renderImage, images)}
+              {map(renderImage, photos)}
             </NavSlider>
           </HotelGallery>
         )}

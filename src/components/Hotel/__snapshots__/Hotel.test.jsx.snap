@@ -4,6 +4,7 @@ exports[`<Hotel /> render matches snapshot 1`] = `
 <styled.div
   additionalInfo={Array []}
   features={Array []}
+  images={Array []}
   listPrice="123"
   preferred={true}
   promotionalText=""

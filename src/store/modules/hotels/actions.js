@@ -37,9 +37,9 @@ export const fetchHotels = params => dispatch => {
   dispatch(fetchHotelsAction());
 
   return client
-    .getHotels({ sort: ['hotel.name'], ...params })
+    .getHotels({ sort: ['hotel.name'], associations: 'featuredPhoto', ...params })
     .then(({ data: { data } }) => {
-      const normalized = normalize({ id: 'hotels', data }, prop('schema', schema));
+      const normalized = normalize(data, prop('schema', schema));
 
       setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
 
