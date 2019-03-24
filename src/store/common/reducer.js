@@ -1,4 +1,4 @@
-import { pipe, set, propOr, values, map } from 'ramda';
+import { pipe, set, propOr, values, map, mergeDeepRight } from 'ramda';
 
 import { isArray, castToType } from 'utils';
 import { Status } from 'store/common';
@@ -9,14 +9,10 @@ export const loadingReducer = state => set(statusLens, Status.LOADING, { ...stat
 export const sendingReducer = state => set(statusLens, Status.SENDING, { ...state, error: undefined });
 
 export const successReducer = (state, { payload }) => {
+  const prevData = propOr([], 'data', state);
   const setData = pipe(
     set(statusLens, Status.SUCCESS),
-    set(
-      dataLens,
-      isArray(payload)
-        ? [...values(propOr([], 'data', state)), ...payload]
-        : { ...propOr({}, 'data', state), ...payload }
-    ),
+    set(dataLens, isArray(payload) ? [...values(prevData), ...payload] : mergeDeepRight(prevData, payload)),
     set(errorLens, undefined)
   );
 

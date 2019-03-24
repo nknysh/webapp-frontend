@@ -2,7 +2,7 @@ import { values, pipe, all, equals, reduce } from 'ramda';
 
 import { isFunction } from 'utils';
 
-import { isActive, isSuccess, isError } from 'store/common';
+import { isSuccess, isIdle } from 'store/common';
 
 import { useEffectBoundary } from './genericEffects';
 import { useState } from 'react';
@@ -12,14 +12,11 @@ const allFetched = pipe(
   all(equals(true))
 );
 
-const fetchData = (fetchStatus, fetcher, fetchArgs = {}, force = false) => {
+const fetchData = (fetchStatus, fetcher, fetchArgs = {}) => {
   const fetched = isSuccess(fetchStatus);
-  const error = isError(fetchStatus);
-  const active = isActive(fetchStatus);
+  const idle = isIdle(fetchStatus);
 
-  if ((force || (!fetched && !active && !error)) && isFunction(fetcher)) {
-    fetcher(fetchArgs);
-  }
+  idle && isFunction(fetcher) && fetcher(fetchArgs);
 
   return fetched;
 };
@@ -28,7 +25,7 @@ export const useFetchData = (fetchStatus, fetcher, fetchArgs = {}, force = false
   const [fetched, setFetched] = useState(false);
 
   useEffectBoundary(() => {
-    !fetched && setFetched(fetchData(fetchStatus, fetcher, fetchArgs, force));
+    (force || !fetched) && setFetched(fetchData(fetchStatus, fetcher, fetchArgs));
   }, [force, fetchStatus]);
 
   return fetched;

@@ -16,7 +16,9 @@ import { CardTitle } from 'styles/card';
 import breakpoints from 'styles/breakpoints';
 import { Container } from 'styles/elements';
 
-export const HotelWrapper = styled(Container)``;
+export const HotelWrapper = styled(Container)`
+  padding-bottom: ${theme.gutter * 2}px;
+`;
 
 export const Hotel = styled.div`
   display: block;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { path, map } from 'ramda';
+import { path, map, prop } from 'ramda';
 
 import uiConfig, { getSingular } from 'config/ui';
 
@@ -29,7 +29,7 @@ const renderAdditional = value => <CardAdditional key={value}>{value}</CardAddit
 
 export const Card = ({
   hotel: {
-    image,
+    featuredPhoto,
     name,
     preferred,
     promotionalText,
@@ -42,7 +42,7 @@ export const Card = ({
 }) => {
   return (
     <StyledCard>
-      <CardImage style={{ backgroundImage: `url(${image})` }}>
+      <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
         {preferred && <CardPreferred>Preferred</CardPreferred>}
         {listPrice && (
           <CardChip>

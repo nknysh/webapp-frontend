@@ -5,7 +5,7 @@ exports[`<Card /> render matches snapshot 1`] = `
   <Styled(styled.div)
     style={
       Object {
-        "backgroundImage": "url()",
+        "backgroundImage": "url(undefined)",
       }
     }
   >

@@ -20,6 +20,7 @@ export const StyledLoader = styled.div`
   justify-content: center;
   width: 100%;
   flex-direction: column;
+  flex: 1;
 `;
 
 export const LoaderImage = styled(Image)`

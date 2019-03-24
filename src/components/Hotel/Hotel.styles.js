@@ -159,12 +159,11 @@ export const FixedSlider = styled(Slider)`
 
 export const MainSlider = styled(FixedSlider)`
   ${breakpoints.tablet`
-    height: 543px;
+    height: 500px;
   `}
 `;
 
 export const NavSlider = styled(FixedSlider)`
-  height: 88px;
   padding: 0 ${theme.gutter}px;
 
   .slick-track {
@@ -173,4 +172,8 @@ export const NavSlider = styled(FixedSlider)`
   .slick-slide {
     padding: ${theme.gutter / 2}px;
   }
+
+  ${breakpoints.tablet`
+    height: 100px;
+  `}
 `;
