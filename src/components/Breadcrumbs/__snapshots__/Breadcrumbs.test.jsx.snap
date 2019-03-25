@@ -5,7 +5,7 @@ exports[`<Breadcrumbs /> render matches snapshot 1`] = `<styled.div />`;
 exports[`<Breadcrumbs /> render matches snapshot 2`] = `
 <styled.div>
   <styled.div
-    key="[object Object]"
+    key="52a296cb5b759fd76a2d5fd897e0d87c34114f97"
   >
     <div />
   </styled.div>
@@ -15,7 +15,7 @@ exports[`<Breadcrumbs /> render matches snapshot 2`] = `
 exports[`<Breadcrumbs /> render matches snapshot 3`] = `
 <styled.div>
   <styled.div
-    key="foo"
+    key="82242d62ac41874fb3e35e72d4f2eac43a40040c"
   >
     <Styled(Link)
       data-active={false}
@@ -30,7 +30,7 @@ exports[`<Breadcrumbs /> render matches snapshot 3`] = `
 exports[`<Breadcrumbs /> render matches snapshot 4`] = `
 <styled.div>
   <styled.div
-    key="foo"
+    key="82242d62ac41874fb3e35e72d4f2eac43a40040c"
   >
     <Styled(Link)
       data-active={false}
@@ -40,7 +40,7 @@ exports[`<Breadcrumbs /> render matches snapshot 4`] = `
     </Styled(Link)>
   </styled.div>
   <styled.div
-    key="[object Object]"
+    key="52a296cb5b759fd76a2d5fd897e0d87c34114f97"
   >
     <div />
   </styled.div>

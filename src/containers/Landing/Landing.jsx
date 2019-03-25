@@ -3,7 +3,7 @@ import { compose } from 'ramda';
 
 import { Loader } from 'components';
 import { SearchBar, LatestOffers } from 'containers';
-import { useFetchDataMultiple } from 'effects';
+import { useFetchData } from 'effects';
 
 import { Container } from 'styles/elements';
 
@@ -15,7 +15,7 @@ import { propTypes, defaultProps } from './Landing.props';
 import { StyledSearch, SearchHero, SearchMarkdown } from './Landing.styles';
 
 export const Landing = ({ fetchLatestOffers, offersStatus, offers }) => {
-  const loaded = useFetchDataMultiple([[offersStatus, fetchLatestOffers, { limit: 3 }]]);
+  const loaded = useFetchData(offersStatus, fetchLatestOffers, { limit: 3 });
 
   return (
     <Loader isLoading={!loaded}>

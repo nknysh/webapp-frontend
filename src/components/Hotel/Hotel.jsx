@@ -12,8 +12,10 @@ import {
   HotelDetailsColumnLeft,
   HotelDetailsColumnRight,
   HotelDetailsRow,
+  HotelGallery,
   HotelHighlight,
   HotelHighlights,
+  HotelInfo,
   HotelName,
   HotelRating,
   HotelRegion,
@@ -21,10 +23,10 @@ import {
   HotelStar,
   HotelStarRating,
   HotelStarText,
-  StyledHotel,
-  HotelGallery,
   MainSlider,
   NavSlider,
+  StyledHotel,
+  StyledRooms,
 } from './Hotel.styles';
 
 // eslint-disable-next-line
@@ -39,6 +41,9 @@ export const Hotel = ({
   amenities,
   region,
   photos,
+  rooms,
+  onRoomSelect,
+  selectedRooms,
   ...props
 }) => {
   const sliderMain = useRef(null);
@@ -65,33 +70,36 @@ export const Hotel = ({
             </NavSlider>
           </HotelGallery>
         )}
-        <HotelDetailsRow>
-          <HotelDetailsColumnLeft>
-            <HotelName>{name}</HotelName>
-            {region && <HotelRegion>{region}</HotelRegion>}
-          </HotelDetailsColumnLeft>
-          <HotelDetailsColumnRight>
-            <HotelRating>
-              <HotelStarRating>
-                <HotelStar>star</HotelStar>{' '}
-                <HotelStarText>
-                  {starRating} {getSingular('star')}
-                </HotelStarText>
-              </HotelStarRating>
-              {suitableForHoneymooners && (
-                <HotelSecondaryRating>{path(['taglines', 'suitableHoneymoon'], uiConfig)}</HotelSecondaryRating>
-              )}
-            </HotelRating>
-          </HotelDetailsColumnRight>
-        </HotelDetailsRow>
-        <HotelDetailsRow>
-          <HotelDetailsColumnLeft>
-            <HotelDescription>{description}</HotelDescription>
-          </HotelDetailsColumnLeft>
-          <HotelDetailsColumnRight>
-            <HotelHighlights>{amenities && map(renderFeature, amenities)}</HotelHighlights>
-          </HotelDetailsColumnRight>
-        </HotelDetailsRow>
+        <HotelInfo>
+          <HotelDetailsRow>
+            <HotelDetailsColumnLeft>
+              <HotelName>{name}</HotelName>
+              {region && <HotelRegion>{region}</HotelRegion>}
+            </HotelDetailsColumnLeft>
+            <HotelDetailsColumnRight>
+              <HotelRating>
+                <HotelStarRating>
+                  <HotelStar>star</HotelStar>{' '}
+                  <HotelStarText>
+                    {starRating} {getSingular('star')}
+                  </HotelStarText>
+                </HotelStarRating>
+                {suitableForHoneymooners && (
+                  <HotelSecondaryRating>{path(['taglines', 'suitableHoneymoon'], uiConfig)}</HotelSecondaryRating>
+                )}
+              </HotelRating>
+            </HotelDetailsColumnRight>
+          </HotelDetailsRow>
+          <HotelDetailsRow>
+            <HotelDetailsColumnLeft>
+              <HotelDescription>{description}</HotelDescription>
+            </HotelDetailsColumnLeft>
+            <HotelDetailsColumnRight>
+              {!isEmptyOrNil(amenities) && <HotelHighlights>{map(renderFeature, amenities)}</HotelHighlights>}
+            </HotelDetailsColumnRight>
+          </HotelDetailsRow>
+        </HotelInfo>
+        <StyledRooms onRoomSelect={onRoomSelect} selectedRooms={selectedRooms} rooms={rooms} />
       </HotelDetails>
     </StyledHotel>
   );

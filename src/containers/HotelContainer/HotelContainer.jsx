@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import { compose, prop, path, allPass, has, complement } from 'ramda';
+import { __, pipe, lensProp, set, compose, prop, path, allPass, has, complement, curry, view } from 'ramda';
 
-import { Loader, Tabs, Breadcrumbs, Hotel } from 'components';
+import { Loader, Tabs, Hotel } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
 
@@ -9,22 +9,33 @@ import uiConfig from 'config/ui';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
-import { Back, HotelWrapper } from './HotelContainer.styles';
+import { Back, StyledBreadcrumbs, HotelWrapper } from './HotelContainer.styles';
 
-const reloadIfMissing = complement(allPass([has('photos')]));
+const roomsLens = lensProp('rooms');
+
+const reloadIfMissing = complement(allPass([has('photos'), has('rooms')]));
 
 const renderBackButton = () => <Back to="/search">{path(['labels', 'backToSearch'], uiConfig)}</Back>;
 
-export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus }) => {
+export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus, getBooking, updateBooking }) => {
   const loaded = useFetchData(hotelStatus, fetchHotel, id, reloadIfMissing(hotel));
-
   const currentWidth = useCurrentWidth();
 
-  const renderBreadcrumbs = () => (
-    <Breadcrumbs links={[{ label: renderBackButton() }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
+  const booking = getBooking(id);
+
+  const setBooking = set(__, __, booking);
+  const viewBooking = view(__, booking);
+
+  const setSelectedRooms = pipe(
+    setBooking(roomsLens),
+    curry(updateBooking)(id)
   );
 
-  const renderHotel = () => <Hotel {...hotel} />;
+  const renderBreadcrumbs = () => (
+    <StyledBreadcrumbs links={[{ label: renderBackButton() }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
+  );
+
+  const renderHotel = () => <Hotel onRoomSelect={setSelectedRooms} selectedRooms={viewBooking(roomsLens)} {...hotel} />;
 
   const renderTabs = () => (
     <Fragment>

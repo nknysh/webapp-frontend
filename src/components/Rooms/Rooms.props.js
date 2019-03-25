@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 
-import { noop } from 'utils';
-
 export const propTypes = {
-  onRoomSelect: PropTypes.func,
+  rooms: PropTypes.array,
   selectedRooms: PropTypes.object,
 };
 
 export const defaultProps = {
-  onRoomSelect: noop,
+  rooms: [],
   selectedRooms: {},
 };

@@ -1,6 +1,6 @@
 import { FETCH_HOTEL, fetchHotelAction, fetchHotel } from './actions';
 
-describe('pages actions', () => {
+describe('hotel actions', () => {
   describe('fetchHotelAction', () => {
     it('returns action', () => {
       expect(fetchHotelAction('foo')).toEqual({

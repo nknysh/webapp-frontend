@@ -37,7 +37,9 @@ exports[`<Card /> render matches snapshot 1`] = `
       <styled.div />
     </styled.div>
     <styled.div />
-    <styled.div />
+    <styled.div>
+      <styled.p />
+    </styled.div>
   </Styled(styled.div)>
 </Styled(styled.article)>
 `;

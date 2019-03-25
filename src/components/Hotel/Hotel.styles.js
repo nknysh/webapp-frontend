@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Slider } from 'components';
+import { Slider, Rooms } from 'components';
 
 import {
   CardRating,
@@ -19,6 +19,8 @@ import breakpoints from 'styles/breakpoints';
 export const StyledHotel = styled.div``;
 
 export const HotelDetails = styled.div`
+  margin-bottom: ${theme.gutter * 6}px;
+
   ${breakpoints.tablet`
         flex: 1;
         max-width: 66%;
@@ -35,23 +37,30 @@ export const HotelDetailsRow = styled.div`
 `;
 
 const HotelDetailsColumn = styled.div`
-  margin: 0 ${theme.gutter}px;
-  padding: ${theme.gutter / 2}px 0;
-  border-bottom: 1px solid ${theme.borderColor};
+  margin: 0;
+
+  :not(:empty) {
+    padding: ${theme.gutter / 2}px 0;
+    border-bottom: 1px solid ${theme.borderColor};
+  }
 
   ${breakpoints.tablet`
+        padding: ${theme.gutter / 2}px 0;
+        border-bottom: 1px solid ${theme.borderColor};
         flex: 1;
     `}
 `;
 
 export const HotelDetailsColumnLeft = styled(HotelDetailsColumn)`
   ${breakpoints.tablet`
+    margin-right: ${theme.gutter}px;
         max-width: 75%;
     `}
 `;
 
 export const HotelDetailsColumnRight = styled(HotelDetailsColumn)`
   ${breakpoints.tablet`
+  margin-left: ${theme.gutter}px;
         max-width: 25%;
     `}
 `;
@@ -141,7 +150,13 @@ export const HotelHighlight = styled(CardHighlight)`
 `;
 
 export const HotelGallery = styled.div`
-  margin-bottom: ${theme.gutter * 5}px;
+  margin: 0 0 ${theme.gutter * 5}px;
+
+  ${breakpoints.tablet`
+   margin-bottom: ${theme.gutter * 4}px;
+   margin-right: ${theme.gutter * 2}px;
+   margin-left: ${theme.gutter * 2}px;
+  `}
 `;
 
 export const FixedSlider = styled(Slider)`
@@ -164,16 +179,39 @@ export const MainSlider = styled(FixedSlider)`
 `;
 
 export const NavSlider = styled(FixedSlider)`
-  padding: 0 ${theme.gutter}px;
+  padding: 0;
 
   .slick-track {
     margin: 0;
   }
   .slick-slide {
     padding: ${theme.gutter / 2}px;
+
+    :first-child {
+      margin-left: 0;
+    }
+
+    :last-child {
+      margin-right: 0;
+    }
   }
 
   ${breakpoints.tablet`
     height: 100px;
+  `}
+`;
+
+export const HotelInfo = styled.div`
+  margin: 0 ${theme.gutter * 2}px ${theme.gutter * 4.6}px;
+
+  ${breakpoints.tablet`
+    margin-bottom: ${theme.gutter * 8}px;
+  `}
+`;
+
+export const StyledRooms = styled(Rooms)``;
+
+export const HotelWrapper = styled.div`
+  ${breakpoints.tablet`
   `}
 `;

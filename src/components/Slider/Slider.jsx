@@ -15,7 +15,7 @@ export const Slider = React.forwardRef((props, ref) => (
     <BaseSlider
       arrows={false}
       centerMode
-      centerPadding={`${theme.gutter * 3}px`}
+      centerPadding={`${theme.gutter * 2}px`}
       lazyLoad="ondemand"
       ref={ref}
       nextArrow={<SliderArrowNext>keyboard_arrow_right</SliderArrowNext>}

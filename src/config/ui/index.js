@@ -28,6 +28,11 @@ const uiConfig = {
     specifyRegions: 'Specify regions',
     backToHome: 'back to homepage',
     backToSearch: 'back to search results',
+    roomSize: 'Room size',
+    standardOccupancy: 'Standard occupancy',
+    maxOccupancy: 'Max occupancy',
+    moreInfo: 'More information',
+    filterByAmenities: 'Filter by amenities',
 
     yes: 'Yes',
     no: 'No',
@@ -46,6 +51,7 @@ const uiConfig = {
     moreInfo: 'More Info',
     refine: 'Refine search results',
     removeFilters: 'Remove all filters',
+    noRooms: 'No rooms available',
   },
 
   placeholders: {
@@ -69,6 +75,7 @@ const uiConfig = {
     starRating: ['Accomodation', 'Accomodations'],
     teen: ['Teen', 'Teens'],
     feature: ['Feature', 'Features'],
+    brochure: ['Brochure', 'Brochures'],
   },
 
   mealTypes: {
@@ -91,6 +98,10 @@ const uiConfig = {
 
   currency: {
     symbol: '$',
+  },
+
+  dates: {
+    defaultFormat: 'YYYY-MM-DD',
   },
 
   defaults: {

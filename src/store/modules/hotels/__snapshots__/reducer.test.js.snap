@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages reducer should handle FETCH_HOTELS 1`] = `Object {}`;
+exports[`hotels reducer should handle FETCH_HOTELS 1`] = `Object {}`;
 
-exports[`pages reducer should handle FETCH_HOTELS_ERROR 1`] = `Object {}`;
+exports[`hotels reducer should handle FETCH_HOTELS_ERROR 1`] = `Object {}`;
 
-exports[`pages reducer should handle FETCH_HOTELS_SUCCESS 1`] = `Object {}`;
+exports[`hotels reducer should handle FETCH_HOTELS_SUCCESS 1`] = `Object {}`;
