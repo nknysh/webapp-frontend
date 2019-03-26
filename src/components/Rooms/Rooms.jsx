@@ -71,7 +71,6 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
 
   const renderRoom = room => (
     <StyledRoom
-      className={className}
       key={hash(room)}
       onChange={onRoomSelect}
       selectedCount={propOr(0, prop('uuid', room), selectedRooms)}
@@ -86,7 +85,7 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
       : renderRoomsWrapper(map(renderRoom, filteredRooms));
 
   return (
-    <StyledRooms>
+    <StyledRooms className={className}>
       <Columns>
         <Column>
           <Title>Select Available Accomodations</Title>

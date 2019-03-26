@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export const propTypes = {
   children: PropTypes.any,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export const defaultProps = {};
