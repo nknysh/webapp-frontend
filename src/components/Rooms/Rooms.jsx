@@ -18,6 +18,7 @@ import {
   memoizeWith,
   identity,
   path,
+  propSatisfies,
 } from 'ramda';
 import hash from 'object-hash';
 
@@ -44,6 +45,8 @@ const getAmenities = memoizeWith(
   )
 );
 
+const filterNoRate = filter(propSatisfies(complement(isEmptyOrNil), 'bestRate'));
+
 const filterRoomsByAmenities = (rooms, selected) => {
   if (isEmptyOrNil(selected)) return rooms;
 
@@ -67,7 +70,7 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
   const currentWidth = useCurrentWidth();
 
   const amenities = getAmenities(rooms);
-  const filteredRooms = filterRoomsByAmenities(rooms, selectedAmenities);
+  const filteredRooms = filterNoRate(filterRoomsByAmenities(rooms, selectedAmenities));
 
   const renderRoom = room => (
     <StyledRoom

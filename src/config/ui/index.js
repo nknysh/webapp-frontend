@@ -33,6 +33,7 @@ const uiConfig = {
     maxOccupancy: 'Max occupancy',
     moreInfo: 'More information',
     filterByAmenities: 'Filter by amenities',
+    noRooms: 'No rooms available',
 
     yes: 'Yes',
     no: 'No',
@@ -51,7 +52,6 @@ const uiConfig = {
     moreInfo: 'More Info',
     refine: 'Refine search results',
     removeFilters: 'Remove all filters',
-    noRooms: 'No rooms available',
   },
 
   placeholders: {

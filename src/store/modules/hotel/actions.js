@@ -1,4 +1,4 @@
-import { propOr, path, prop, map } from 'ramda';
+import { propOr, path, prop, map, pathOr } from 'ramda';
 import { normalize } from 'normalizr';
 import { format } from 'date-fns';
 
@@ -10,6 +10,7 @@ import { successAction, errorAction, setNormalizedData } from 'store/common';
 import { fetchHotelsSuccess } from 'store/modules/hotels/actions';
 
 import schema from './schema';
+import { getSearchQuery } from '../search/selectors';
 
 export const FETCH_HOTEL = 'FETCH_HOTEL';
 export const FETCH_HOTEL_ROOMS = 'FETCH_HOTEL_ROOMS';
@@ -23,7 +24,13 @@ export const fetchHotelRoomsAction = payload => ({
   payload,
 });
 
-export const fetchHotel = (id, startDate = Date.now(), endDate = Date.now()) => dispatch => {
+export const fetchHotel = id => (dispatch, getState) => {
+  const state = getState();
+  const searchQuery = getSearchQuery(state);
+
+  const startDate = pathOr(Date.now(), ['dates', 'from'], searchQuery);
+  const endDate = pathOr(Date.now(), ['dates', 'to'], searchQuery);
+
   dispatch(fetchHotelAction());
 
   const requests = [
