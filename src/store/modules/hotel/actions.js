@@ -8,9 +8,9 @@ import client from 'api/hotels';
 
 import { successAction, errorAction, setNormalizedData } from 'store/common';
 import { fetchHotelsSuccess } from 'store/modules/hotels/actions';
+import { getSearchQuery } from 'store/modules/search/selectors';
 
 import schema from './schema';
-import { getSearchQuery } from '../search/selectors';
 
 export const FETCH_HOTEL = 'FETCH_HOTEL';
 export const FETCH_HOTEL_ROOMS = 'FETCH_HOTEL_ROOMS';
