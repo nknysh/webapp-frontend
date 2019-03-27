@@ -44,8 +44,14 @@ export const GlobalFonts = createGlobalStyle`
     }
 `;
 
-export const GlobalStyle = createGlobalStyle`  
-    html, body {
+export const GlobalStyle = createGlobalStyle`
+    html {
+        height: 100%;
+        overflow: auto;
+    }
+
+    body {
+        display: block;
         margin: 0;
         padding: 0;
         font-family: HurmeGeometricSans2, "Open Sans", sans-serif;
@@ -54,8 +60,6 @@ export const GlobalStyle = createGlobalStyle`
 
     #app {
         height: 100%;
-        display: block;
-        overflow-x: hidden;
     }
 
     a {

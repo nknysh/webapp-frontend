@@ -24,27 +24,34 @@ import { propTypes } from './Home.props';
 import { StyledHome, MoveTo, HomeSection, HomeContainer, HomeHero } from './Home.styles';
 
 const scrollTo = targetRef => {
-  if (!targetRef.current || !windowExists.scrollTo) return;
+  if (!targetRef || !targetRef.current || !windowExists.scroll) return;
 
-  windowExists.scrollTo({
+  windowExists.scroll({
     top: targetRef.current.offsetTop,
-    left: 0,
     behavior: 'smooth',
   });
 };
 
 // eslint-disable-next-line
-const renderSection = ({ content, image, moveTo, ...props }) => (
-  <Fragment key={hash({ content, image })}>
-    <HomeSection {...props}>
-      {moveTo && <MoveTo onClick={() => scrollTo(moveTo)}>keyboard_arrow_down</MoveTo>}
-      <HomeContainer>
-        <Markdown>{content}</Markdown>
-      </HomeContainer>
-    </HomeSection>
-    {image && <HomeHero media={{ image }} />}
-  </Fragment>
-);
+const renderSection = ({ content, image, moveTo, ...props }) => {
+  const onMove = () => scrollTo(moveTo);
+
+  return (
+    <Fragment key={hash({ content, image })}>
+      <HomeSection {...props}>
+        {moveTo && (
+          <MoveTo onTouchMove={onMove} onClick={onMove}>
+            keyboard_arrow_down
+          </MoveTo>
+        )}
+        <HomeContainer>
+          <Markdown>{content}</Markdown>
+        </HomeContainer>
+      </HomeSection>
+      {image && <HomeHero media={{ image }} />}
+    </Fragment>
+  );
+};
 
 const renderSections = map(renderSection);
 
