@@ -57,6 +57,49 @@ const renderBrochure = ({ name, url }) => (
 
 const renderAmenity = amenity => <Detail key={amenity}>{amenity}</Detail>;
 
+const renderAmenities = amenities => amenities && map(renderAmenity, amenities);
+
+const renderSize = size =>
+  size && (
+    <Detail>
+      {path(['labels', 'roomSize'], uiConfig)}: {size}
+    </Detail>
+  );
+
+const renderStandardOccupancy = standardOccupancy =>
+  standardOccupancy && (
+    <Detail>
+      {path(['labels', 'standardOccupancy'], uiConfig)}: {standardOccupancy}{' '}
+      {getPluralisation('adult', standardOccupancy)}
+    </Detail>
+  );
+
+const renderAdditionalInfo = additionalInfo =>
+  additionalInfo && (
+    <Column>
+      <ToolTip placement="right" label={<Button>{path(['labels', 'moreInfo'], uiConfig)}</Button>}>
+        {additionalInfo}
+      </ToolTip>
+    </Column>
+  );
+
+const renderBrochures = brochures =>
+  brochures && (
+    <Column>
+      <Brochures>{map(renderBrochure, brochures)}</Brochures>
+    </Column>
+  );
+
+const renderMinMax = (maxAdults, minAdults, minChildren) =>
+  (maxAdults || minChildren || minAdults) && (
+    <Detail>
+      {`${path(['labels', 'maxOccupancy'], uiConfig)}: `}
+      {maxAdults && `${maxAdults} ${getPluralisation('adult', maxAdults)}`}
+      {minAdults && ` / ${minAdults} ${getPluralisation('adult', minAdults)}`}
+      {minChildren && `+ ${minChildren} ${getPluralisation('children', maxAdults)}`}
+    </Detail>
+  );
+
 export const Room = ({
   additionalInfo,
   amenities,
@@ -103,42 +146,16 @@ export const Room = ({
         </Columns>
         <Info>{information}</Info>
         <Details>
-          {size && (
-            <Detail>
-              {path(['labels', 'roomSize'], uiConfig)}: {size}
-            </Detail>
-          )}
-          {standardOccupancy && (
-            <Detail>
-              {path(['labels', 'standardOccupancy'], uiConfig)}: {standardOccupancy}{' '}
-              {getPluralisation('adult', standardOccupancy)}
-            </Detail>
-          )}
-          {(maxAdults || minChildren || minAdults) && (
-            <Detail>
-              {`${path(['labels', 'maxOccupancy'], uiConfig)}: `}
-              {maxAdults && `${maxAdults} ${getPluralisation('adult', maxAdults)}`}
-              {minAdults && ` / ${minAdults} ${getPluralisation('adult', minAdults)}`}
-              {minChildren && `+ ${minChildren} ${getPluralisation('children', maxAdults)}`}
-            </Detail>
-          )}
-          {amenities && map(renderAmenity, amenities)}
+          {renderSize(size)}
+          {renderStandardOccupancy(standardOccupancy)}
+          {renderMinMax(maxAdults, minAdults, minChildren)}
+          {renderAmenities(amenities)}
         </Details>
         <AdditionalInfo>
           {(additionalInfo || !isEmptyOrNil(brochures)) && (
             <Columns>
-              {additionalInfo && (
-                <Column>
-                  <ToolTip placement="right" label={<Button>{path(['labels', 'moreInfo'], uiConfig)}</Button>}>
-                    {additionalInfo}
-                  </ToolTip>
-                </Column>
-              )}
-              {brochures && (
-                <Column>
-                  <Brochures>{map(renderBrochure, brochures)}</Brochures>
-                </Column>
-              )}
+              {renderAdditionalInfo(additionalInfo)}
+              {renderBrochures(brochures)}
             </Columns>
           )}
         </AdditionalInfo>
