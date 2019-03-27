@@ -70,6 +70,8 @@ exports[`<Hero /> render matches snapshot 7`] = `
       autoPlay={true}
       fallbackImage="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
       loop={true}
+      muted={true}
+      playsInline={true}
       srcs={
         Array [
           Object {

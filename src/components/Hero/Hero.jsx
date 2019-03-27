@@ -9,7 +9,7 @@ const renderMask = mask => mask && <HeroMask />;
 const renderVideo = (video, fallbackImage) =>
   video && (
     <HeroVideo>
-      <Video srcs={[video]} fallbackImage={fallbackImage} autoPlay loop />
+      <Video srcs={[video]} fallbackImage={fallbackImage} autoPlay loop muted playsInline />
     </HeroVideo>
   );
 
