@@ -12,6 +12,7 @@ export const StyledModal = styled(Modal)`
   justify-content: center;
   height: 100%;
   width: 100%;
+  position: relative;
 `;
 
 export const ModalOverlay = styled(Backdrop)`
@@ -38,7 +39,7 @@ export const ModalContent = styled.div`
 
 export const ModalClose = styled(Icon)`
   color: ${theme.colors['gold-light']};
-  position: fixed;
+  position: absolute;
   top: ${theme.gutter * 2}px;
   right: ${theme.gutter * 2}px;
   cursor: pointer;
