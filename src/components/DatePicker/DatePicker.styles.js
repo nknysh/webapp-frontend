@@ -158,10 +158,23 @@ export const DatePickerNavbarPrev = styled(DatePickerNavbarNav)``;
 
 export const DatePickerSummary = styled.div`
   background: ${theme.colors.aqua};
-  position: absolute;
-  right: ${theme.gutter * 3}px;
-  top: ${theme.gutter / 2}px;
   padding: ${theme.gutter / 2}px ${theme.gutter}px;
   font-weight: ${theme.bold};
   color: ${theme.colors.black};
+  flex: 0 1;
+  margin: -${theme.gutter / 2}px 0;
+`;
+
+export const DatePickerDatesWrapper = styled.div`
+  display: flex;
+  flex-wrap: no-wrap;
+  align-items: center;
+`;
+
+export const Picked = styled.div`
+  flex: 1;
+  padding-right: ${theme.gutter / 2}px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
