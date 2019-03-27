@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose, map, equals } from 'ramda';
+import { compose, equals } from 'ramda';
 import hash from 'object-hash';
 
 import { mapWithIndex } from 'utils';
