@@ -12,27 +12,33 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
       >
         menu
       </Styled(WithStyles(Icon))>
-      <Styled(Menu)
-        align="end"
-        isOpen={false}
-        links={
-          Object {
-            "createAccount": Object {
-              "href": "/sign-up",
-              "title": "Create an account",
-            },
-            "login": Object {
-              "bold": true,
-              "href": "/login",
-              "inverse": true,
-              "title": "Login",
-            },
-          }
-        }
-        onLinkClick={[Function]}
+      <ClickAwayListener
+        mouseEvent="onMouseUp"
+        onClickAway={[Function]}
+        touchEvent="onTouchEnd"
       >
-        <withAuthentication(Connect(UserPanel)) />
-      </Styled(Menu)>
+        <Styled(Menu)
+          align="end"
+          isOpen={false}
+          links={
+            Object {
+              "createAccount": Object {
+                "href": "/sign-up",
+                "title": "Create an account",
+              },
+              "login": Object {
+                "bold": true,
+                "href": "/login",
+                "inverse": true,
+                "title": "Login",
+              },
+            }
+          }
+          onLinkClick={[Function]}
+        >
+          <withAuthentication(Connect(UserPanel)) />
+        </Styled(Menu)>
+      </ClickAwayListener>
     </styled.div>
   </Styled(styled.div)>
 </styled.div>
@@ -50,31 +56,37 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
       >
         menu
       </Styled(WithStyles(Icon))>
-      <Styled(Menu)
-        align="end"
-        isOpen={false}
-        links={
-          Array [
-            Object {
-              "data-active": false,
-              "href": "",
-              "onClick": [Function],
-              "title": "Create an account",
-            },
-            Object {
-              "bold": true,
-              "data-active": false,
-              "href": "",
-              "inverse": true,
-              "onClick": [Function],
-              "title": "Login",
-            },
-          ]
-        }
-        onLinkClick={[Function]}
+      <ClickAwayListener
+        mouseEvent="onMouseUp"
+        onClickAway={[Function]}
+        touchEvent="onTouchEnd"
       >
-        <withAuthentication(Connect(UserPanel)) />
-      </Styled(Menu)>
+        <Styled(Menu)
+          align="end"
+          isOpen={false}
+          links={
+            Array [
+              Object {
+                "data-active": false,
+                "href": "",
+                "onClick": [Function],
+                "title": "Create an account",
+              },
+              Object {
+                "bold": true,
+                "data-active": false,
+                "href": "",
+                "inverse": true,
+                "onClick": [Function],
+                "title": "Login",
+              },
+            ]
+          }
+          onLinkClick={[Function]}
+        >
+          <withAuthentication(Connect(UserPanel)) />
+        </Styled(Menu)>
+      </ClickAwayListener>
     </styled.div>
   </Styled(styled.div)>
   <Modal

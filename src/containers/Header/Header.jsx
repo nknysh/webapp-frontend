@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { compose, lensProp, set, view, pipe, values, path } from 'ramda';
+import { ClickAwayListener } from '@material-ui/core';
 
 import loggedOutMenuLinks from 'config/links/header--logged-out';
 
@@ -90,9 +91,11 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
         <HeaderLogo to="/">{logo && <img src={logo} />}</HeaderLogo>
         <HeaderMenuArea>
           <HeaderMobileMenuButton onClick={onClickToggle}>menu</HeaderMobileMenuButton>
-          <HeaderMenu {...headerMenuProps}>
-            <UserPanel />
-          </HeaderMenu>
+          <ClickAwayListener onClickAway={onLinkClick}>
+            <HeaderMenu {...headerMenuProps}>
+              <UserPanel />
+            </HeaderMenu>
+          </ClickAwayListener>
         </HeaderMenuArea>
       </HeaderContainer>
 
