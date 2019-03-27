@@ -1,20 +1,21 @@
 import { combineReducers } from 'redux';
 
 import auth from './modules/auth/reducer';
+import booking from './modules/booking/reducer';
 import countries from './modules/countries/reducer';
-import hotels from './modules/hotels/reducer';
 import hotel from './modules/hotel/reducer';
+import hotels from './modules/hotels/reducer';
+import indexes from './modules/indexes/reducer';
+import offers from './modules/offers/reducer';
 import pages from './modules/pages/reducer';
 import search from './modules/search/reducer';
 import ui from './modules/ui/reducer';
-import offers from './modules/offers/reducer';
-import indexes from './modules/indexes/reducer';
 
-import { STATUS_TO_IDLE } from './common/actions';
-import { resetStoreStatuses } from './common/reducer';
+import { STATUS_TO_IDLE, resetStoreStatuses } from './common';
 
 const rootReducer = combineReducers({
   auth,
+  booking,
   countries,
   hotels,
   hotel,

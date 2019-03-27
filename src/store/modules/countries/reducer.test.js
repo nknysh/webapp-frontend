@@ -3,7 +3,7 @@ import { initialState } from 'store/common';
 import { setCountries } from './actions';
 import reducer from './reducer';
 
-describe('pages reducer', () => {
+describe('countries reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });

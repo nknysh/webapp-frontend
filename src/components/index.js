@@ -29,4 +29,6 @@ export { Range } from './Range';
 export { Tabs } from './Tabs';
 export { Breadcrumbs } from './Breadcrumbs';
 export { BackButton } from './BackButton';
+export { Room } from './Room';
+export { Rooms } from './Rooms';
 export { Hotel } from './Hotel';

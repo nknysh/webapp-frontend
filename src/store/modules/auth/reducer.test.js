@@ -1,7 +1,7 @@
 import { signUp, authRequest } from './actions';
 import reducer from './reducer';
 
-describe('pages reducer', () => {
+describe('auth reducer', () => {
   it('should handle AUTH_REQUEST', () => {
     const action = authRequest({ foo: 'bar' });
     const reducedState = reducer({}, action);

@@ -1,6 +1,6 @@
 import { setCountriesAction, setCountries } from './actions';
 
-describe('pages actions', () => {
+describe('countries actions', () => {
   describe('setCountriesAction', () => {
     it('returns action', () => {
       expect(setCountriesAction('foo')).toMatchSnapshot();

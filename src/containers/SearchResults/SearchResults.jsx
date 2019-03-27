@@ -3,7 +3,7 @@ import { compose, curry, length, map, path, defaultTo, prop } from 'ramda';
 
 import { Card, Loader, Modal } from 'components';
 import { SearchSidebar } from 'containers';
-import { useCurrentWidth, useFetchDataMultiple } from 'effects';
+import { useCurrentWidth, useFetchData } from 'effects';
 import { withSearchIndexes } from 'hoc';
 import { isMobile, IndexTypes } from 'utils';
 
@@ -36,7 +36,7 @@ const renderResult = curry((selector, hit) => {
 export const SearchResults = ({ fetchSearch, getCountryName, getHotel, getResults, searchQuery, searchStatus }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const loaded = useFetchDataMultiple([[searchStatus, fetchSearch]]);
+  const loaded = useFetchData(searchStatus, fetchSearch);
 
   const currentWidth = useCurrentWidth();
 

@@ -6,8 +6,8 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
   showSpinner={true}
   text="Getting hotel details..."
 >
-  <Styled(styled.div)>
-    <withRouter(Breadcrumbs)
+  <styled.div>
+    <Styled(withRouter(Breadcrumbs))
       links={
         Array [
           Object {
@@ -24,7 +24,10 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
         ]
       }
     />
-    <Hotel />
-  </Styled(styled.div)>
+    <Hotel
+      onRoomSelect={[Function]}
+      selectedRooms={Object {}}
+    />
+  </styled.div>
 </Loader>
 `;

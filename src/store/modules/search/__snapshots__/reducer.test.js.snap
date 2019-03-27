@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages reducer should handle SEARCH_INDEX_BUILD 1`] = `Object {}`;
+exports[`search reducer should handle SEARCH_INDEX_BUILD 1`] = `Object {}`;
 
-exports[`pages reducer should return the initial state 1`] = `
+exports[`search reducer should return the initial state 1`] = `
 Object {
   "data": undefined,
   "error": undefined,

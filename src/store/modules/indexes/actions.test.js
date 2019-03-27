@@ -1,6 +1,6 @@
 import { index } from './actions';
 
-describe('pages actions', () => {
+describe('index actions', () => {
   describe('index', () => {
     it('calls dispatch thunks', () => {
       const dispatch = jest.fn();

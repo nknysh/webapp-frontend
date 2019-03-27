@@ -1,7 +1,7 @@
 import { index } from './actions';
 import reducer from './reducer';
 
-describe('pages reducer', () => {
+describe('indexes reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toMatchSnapshot();
   });

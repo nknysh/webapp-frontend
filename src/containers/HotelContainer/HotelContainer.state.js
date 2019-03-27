@@ -1,17 +1,26 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { getHotel, getHotelsStatus } from 'store/modules/hotels/selectors';
+import { getHotel } from 'store/modules/hotels/selectors';
+import { getHotelStatus } from 'store/modules/hotel/selectors';
+import { getBookingByHotelId } from 'store/modules/booking/selectors';
+
 import { fetchHotel } from 'store/modules/hotel/actions';
+import { updateBooking } from 'store/modules/booking/actions';
 
 export const mapStateToProps = (state, { id }) => ({
   hotel: getHotel(state, id),
-  hotelStatus: getHotelsStatus(state),
+  hotelStatus: getHotelStatus(state),
+  getBooking: getBookingByHotelId(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   fetchHotel: pipe(
     fetchHotel,
+    dispatch
+  ),
+  updateBooking: pipe(
+    updateBooking,
     dispatch
   ),
 });

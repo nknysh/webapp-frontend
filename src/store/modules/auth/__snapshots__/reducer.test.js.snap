@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages reducer should handle AUTH_REQUEST 1`] = `
+exports[`auth reducer should handle AUTH_REQUEST 1`] = `
 Object {
   "data": Object {
     "user": null,
@@ -11,7 +11,7 @@ Object {
 }
 `;
 
-exports[`pages reducer should handle AUTH_REQUEST_SUCCESS 1`] = `
+exports[`auth reducer should handle AUTH_REQUEST_SUCCESS 1`] = `
 Object {
   "data": Object {
     "user": null,
@@ -22,7 +22,7 @@ Object {
 }
 `;
 
-exports[`pages reducer should handle AUTH_SIGN_UP 1`] = `
+exports[`auth reducer should handle AUTH_SIGN_UP 1`] = `
 Object {
   "data": Object {
     "user": null,
@@ -31,7 +31,7 @@ Object {
 }
 `;
 
-exports[`pages reducer should handle AUTH_SIGN_UP_ERROR 1`] = `
+exports[`auth reducer should handle AUTH_SIGN_UP_ERROR 1`] = `
 Object {
   "data": Object {
     "user": null,
@@ -40,7 +40,7 @@ Object {
 }
 `;
 
-exports[`pages reducer should handle AUTH_SIGN_UP_SUCCESS 1`] = `
+exports[`auth reducer should handle AUTH_SIGN_UP_SUCCESS 1`] = `
 Object {
   "data": Object {
     "user": null,

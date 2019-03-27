@@ -4,16 +4,17 @@ import { Tooltip } from '@material-ui/core';
 import { propTypes, defaultProps } from './ToolTip.props';
 import { StyledToolTip, ToolTipIcon, ToolTipContent } from './ToolTip.styles';
 
-const ToolTip = ({ children, ...props }) => (
+const ToolTip = ({ children, label, ...props }) => (
   <StyledToolTip>
     <Tooltip
+      disableFocusListener
       placement="top"
       PopperProps={{ disablePortal: true }}
       classes={{ tooltip: 'tooltip', popper: 'popper' }}
       {...props}
       title={<ToolTipContent>{children}</ToolTipContent>}
     >
-      <ToolTipIcon>info</ToolTipIcon>
+      {label || <ToolTipIcon>info</ToolTipIcon>}
     </Tooltip>
   </StyledToolTip>
 );

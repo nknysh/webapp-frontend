@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages reducer should handle INDEXING 1`] = `Object {}`;
+exports[`indexes reducer should handle INDEXING 1`] = `Object {}`;
 
-exports[`pages reducer should handle INDEXING_ERROR 1`] = `Object {}`;
+exports[`indexes reducer should handle INDEXING_ERROR 1`] = `Object {}`;
 
-exports[`pages reducer should handle INDEXING_SUCCESS 1`] = `Object {}`;
+exports[`indexes reducer should handle INDEXING_SUCCESS 1`] = `Object {}`;
 
-exports[`pages reducer should return the initial state 1`] = `
+exports[`indexes reducer should return the initial state 1`] = `
 Object {
   "data": undefined,
   "error": undefined,

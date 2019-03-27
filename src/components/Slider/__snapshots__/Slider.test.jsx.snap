@@ -6,7 +6,7 @@ exports[`<Slider /> render matches snapshots 1`] = `
   <Slider
     arrows={false}
     centerMode={true}
-    centerPadding="30px"
+    centerPadding="20px"
     lazyLoad="ondemand"
     nextArrow={
       <ForwardRef>
