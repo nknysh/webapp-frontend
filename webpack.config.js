@@ -22,7 +22,7 @@ module.exports = (env, argv) => ({
                 target: 'http://localhost:8001',
                 secure: false,
                 changeOrigin: true,
-                pathRewrite: { '^/api': '' },
+                // pathRewrite: { '^/api': '' },
               },
         }
     },
