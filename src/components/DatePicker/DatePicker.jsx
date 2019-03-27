@@ -1,4 +1,4 @@
-import React, { useState, useRef, forwardRef, Fragment } from 'react';
+import React, { useState, useRef, forwardRef } from 'react';
 import { format, differenceInCalendarDays, isEqual } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
@@ -9,12 +9,14 @@ import { useEffectBoundary } from 'effects';
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
   datePickerClassnames,
+  DatePickerDatesWrapper,
   DatePickerLabel,
   DatePickerNavbar,
   DatePickerNavbarMonth,
   DatePickerNavbarNext,
   DatePickerNavbarPrev,
   DatePickerSummary,
+  Picked,
   StyledDatePicker,
 } from './DatePicker.styles';
 
@@ -80,12 +82,14 @@ export const DatePicker = ({
   const nights = getNumberOfDays(selected);
 
   const renderInputContent = () => (
-    <Fragment>
-      {!from && !to && placeholder}
-      {from && format(from, getFromDateFormat(selected))}
-      {to && ` - ${format(to, 'D MMM YYYY')}`}
+    <DatePickerDatesWrapper>
+      <Picked>
+        {!from && !to && placeholder}
+        {from && format(from, getFromDateFormat(selected))}
+        {to && ` - ${format(to, 'D MMM YYYY')}`}
+      </Picked>
       {nights && <DatePickerSummary>{`${nights} ${nights === 1 ? summaryText : summaryTextPlural}`}</DatePickerSummary>}
-    </Fragment>
+    </DatePickerDatesWrapper>
   );
 
   // eslint-disable-next-line

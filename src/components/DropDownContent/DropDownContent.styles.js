@@ -37,6 +37,9 @@ const dropDownInputStyles = css`
 `;
 
 export const DropDownContentInput = styled(Input)`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   ${({ showRawInput }) =>
     !showRawInput &&
     css`
@@ -58,6 +61,9 @@ export const DropDownContentMask = styled.div`
   min-height: 37px;
   padding-right: ${theme.gutter * 3}px;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   ${({ ['data-empty']: isEmpty }) =>
     isEmpty &&
