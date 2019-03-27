@@ -23,7 +23,8 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
         buttonRef={buttonRef}
         aria-owns={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
-        onClick={onToggle}
+        onMouseUp={onToggle}
+        onTouchMove={onToggle}
       >
         {title}
         {showArrow && <MaterialIcon>arrow_drop_down</MaterialIcon>}

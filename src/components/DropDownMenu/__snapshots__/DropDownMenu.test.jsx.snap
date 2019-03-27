@@ -9,7 +9,8 @@ exports[`<DropDownMenu /> render matches snapshot 1`] = `
         "current": undefined,
       }
     }
-    onClick={[Function]}
+    onMouseUp={[Function]}
+    onTouchMove={[Function]}
   >
     <Styled(WithStyles(Icon))>
       arrow_drop_down
