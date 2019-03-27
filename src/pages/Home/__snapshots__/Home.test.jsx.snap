@@ -20,6 +20,7 @@ exports[`<Home /> render matches snapshot 1`] = `
   <styled.div>
     <Styled(WithStyles(Icon))
       onClick={[Function]}
+      onTouchMove={[Function]}
     >
       keyboard_arrow_down
     </Styled(WithStyles(Icon))>
