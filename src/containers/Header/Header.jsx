@@ -40,11 +40,13 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   const onCreateClick = () => {
     setModalContext(contextTypes.SIGN_UP);
     setModalOpen(true);
+    onClickToggle();
   };
 
   const onLoginClick = () => {
     setModalContext(contextTypes.LOGIN);
     setModalOpen(true);
+    onClickToggle();
   };
 
   // Derives logged out menu links so they have no path

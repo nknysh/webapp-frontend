@@ -3,6 +3,8 @@ import { lensPath, set } from 'ramda';
 import headerLinks from 'config/links/header--authenticated';
 import footerLinks from 'config/links/footer';
 
+import { createReducer } from 'store/utils';
+
 import { AUTH_TOKEN, AUTH_SET_TOKEN } from 'store/modules/auth/actions';
 
 const headerLens = lensPath(['menus', 'header']);
@@ -16,12 +18,21 @@ const initialState = {
 
 const authenticatedState = set(headerLens, headerLinks);
 
-const uiReducer = (state = initialState, { type }) => {
+export const setAuthenticatedState = state => ({ ...state, ...authenticatedState(state) });
+
+const uiReducer = (state = initialState, payload) => {
+  const { type } = payload;
+
   if (type === AUTH_SET_TOKEN || localStorage.getItem(AUTH_TOKEN)) {
-    return { ...state, ...authenticatedState(state) };
+    state = { ...state, ...authenticatedState(state) };
   }
 
-  return state;
+  return createReducer(
+    {
+      [AUTH_SET_TOKEN]: setAuthenticatedState,
+    },
+    initialState
+  )(state, payload);
 };
 
 export default uiReducer;

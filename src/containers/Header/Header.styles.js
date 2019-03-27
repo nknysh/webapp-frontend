@@ -19,6 +19,7 @@ export const HeaderContainer = styled(Container)`
 `;
 
 export const StyledHeader = styled.div`
+  position: relative;
   background: ${theme.backgroundColor}
   border-bottom: 1px solid ${theme.colors['gray-light']};
   padding: ${theme.gutter}px ${theme.gutter * 2}px;
