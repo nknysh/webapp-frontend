@@ -204,7 +204,6 @@ export const SearchSidebar = ({
             label={path(['labels', 'honeymooners'], uiConfig)}
             onChange={(e, checked) => setHoneymoonersToSearchQuery(checked)}
             checked={defaultTo(false, getSearchQueryData(honeymoonersLens))}
-            value={true}
           />
         </SectionField>
       </Section>

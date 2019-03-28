@@ -1,10 +1,9 @@
-import React, { useState, useRef, forwardRef } from 'react';
+import React, { useRef, forwardRef } from 'react';
 import { format, differenceInCalendarDays, isEqual } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import { DropDownContent } from 'components';
-import { useEffectBoundary } from 'effects';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {

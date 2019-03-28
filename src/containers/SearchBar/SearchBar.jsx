@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { __, pipe, compose, path, prop, set, lensProp, view } from 'ramda';
+import { __, pipe, compose, path, prop, set, lensProp, view, defaultTo } from 'ramda';
 import debounce from 'lodash.debounce';
 
 import uiConfig from 'config/ui';
@@ -91,8 +91,7 @@ export const SearchBar = ({
           <Checkbox
             label={path(['labels', 'honeymooners'], uiConfig)}
             onChange={(e, checked) => setHoneymoonersToSearchQuery(checked)}
-            checked={getSearchQueryData(honeymoonersLens)}
-            value={true}
+            checked={defaultTo(false, getSearchQueryData(honeymoonersLens))}
           />
         </SearchBarSection>
         <SearchBarSection>
