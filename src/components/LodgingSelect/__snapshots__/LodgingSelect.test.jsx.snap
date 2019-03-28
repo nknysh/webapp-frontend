@@ -3,7 +3,7 @@
 exports[`<LodgingSelect /> render matches snapshot 1`] = `
 <styled.div>
   <DropDownContent
-    inputContent="0 Rooms, 0 Guests"
+    inputContent="undefined Rooms, 0 Guests"
     showArrow={true}
     showInput={true}
   >
@@ -14,7 +14,6 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         </Styled(Label)>
         <Styled(NumberSelect)
           onChange={[Function]}
-          startAt={0}
         />
       </styled.div>
     </styled.div>
@@ -25,7 +24,6 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         </Styled(Label)>
         <Styled(NumberSelect)
           onChange={[Function]}
-          startAt={0}
         />
       </styled.div>
       <styled.div>
@@ -35,7 +33,6 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         </Styled(Label)>
         <Styled(NumberSelect)
           onChange={[Function]}
-          startAt={0}
         />
       </styled.div>
       <styled.div>
@@ -45,7 +42,6 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         </Styled(Label)>
         <Styled(NumberSelect)
           onChange={[Function]}
-          startAt={0}
         />
       </styled.div>
       <styled.div>
@@ -55,7 +51,6 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         </Styled(Label)>
         <Styled(NumberSelect)
           onChange={[Function]}
-          startAt={0}
         />
       </styled.div>
     </styled.div>

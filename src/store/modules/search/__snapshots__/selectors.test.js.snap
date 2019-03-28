@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search selectors getSearch returns the search key 1`] = `
+Object {
+  "data": Object {
+    "hotels": Object {},
+  },
+  "indexes": Object {
+    "foo": Object {},
+  },
+  "query": undefined,
+}
+`;
+
+exports[`search selectors getSearchQuery returns the search key 1`] = `undefined`;
+
+exports[`search selectors getSearchValue returns the search key 1`] = `undefined`;

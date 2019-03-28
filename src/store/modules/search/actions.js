@@ -9,6 +9,7 @@ import { successAction, setNormalizedData } from 'store/common';
 import { searchIndex } from 'store/modules/indexes/actions';
 
 import schema from './schema';
+import { getSearchValue } from './selectors';
 
 export const SEARCH_INDEX_BUILD = 'SEARCH_INDEX_BUILD';
 export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
@@ -53,11 +54,15 @@ export const setSearchQuery = ({ index = IndexTypes.HOTELS, ...payload }) => dis
   dispatch(searchIndex(index));
 };
 
-export const fetchSearch = ({ value, index = IndexTypes.HOTELS }) => dispatch => {
+export const fetchSearch = ({ value, index = IndexTypes.HOTELS }) => (dispatch, getState) => {
   const payload = { name: value };
+
+  const state = getState();
+  const searchValue = getSearchValue(state);
+
   dispatch(fetchSearchAction(payload));
 
-  client.getSearch(payload).then(({ data: { data } }) => {
+  client.getSearch(payload, { name: searchValue }).then(({ data: { data } }) => {
     const normalized = normalize({ id: 'search', ...data }, prop('schema', schema));
 
     setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);

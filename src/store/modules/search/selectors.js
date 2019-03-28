@@ -1,12 +1,6 @@
-import lunr from 'lunr';
-import { prop, pipe, curry, when, complement, isNil, invoker, path } from 'ramda';
+import { prop, pipe, path } from 'ramda';
 
 export const getSearch = prop('search');
-
-export const getSearchIndexes = pipe(
-  getSearch,
-  prop('indexes')
-);
 
 export const getSearchStatus = pipe(
   getSearch,
@@ -23,15 +17,7 @@ export const getSearchQuery = pipe(
   prop('query')
 );
 
-const loadIndex = pipe(
-  invoker(0, 'toJSON'),
-  lunr.Index.load
-);
-
-export const getSearchIndex = curry((state, index) =>
-  pipe(
-    getSearchIndexes,
-    prop(index),
-    when(complement(isNil), loadIndex)
-  )(state)
+export const getSearchValue = pipe(
+  getSearchQuery,
+  path(['search', 'value'])
 );

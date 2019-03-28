@@ -1,7 +1,10 @@
-import { getSearchIndexes } from './selectors';
+import { getSearch, getSearchQuery, getSearchValue } from './selectors';
 
 const state = {
   search: {
+    data: {
+      hotels: {},
+    },
     indexes: {
       foo: {},
     },
@@ -10,9 +13,19 @@ const state = {
 };
 
 describe('search selectors', () => {
-  describe('getSearchIndexes', () => {
-    it('returns the indexes', () => {
-      expect(getSearchIndexes(state)).toBe(state.search.indexes);
+  describe('getSearch', () => {
+    it('returns the search key', () => {
+      expect(getSearch(state)).toMatchSnapshot();
+    });
+  });
+  describe('getSearchQuery', () => {
+    it('returns the search key', () => {
+      expect(getSearchQuery(state)).toMatchSnapshot();
+    });
+  });
+  describe('getSearchValue', () => {
+    it('returns the search key', () => {
+      expect(getSearchValue(state)).toMatchSnapshot();
     });
   });
 });

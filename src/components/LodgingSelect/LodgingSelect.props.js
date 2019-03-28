@@ -12,4 +12,5 @@ export const propTypes = {
 
 export const defaultProps = {
   onSelected: noop,
+  selectedValues: {},
 };

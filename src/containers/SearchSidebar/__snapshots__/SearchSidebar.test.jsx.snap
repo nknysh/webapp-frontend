@@ -46,6 +46,7 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
         id="lodging"
         label="Lodging"
         onSelected={[Function]}
+        selectedValues={Object {}}
       />
     </styled.div>
     <styled.div>
@@ -248,6 +249,7 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
         id="lodging"
         label="Lodging"
         onSelected={[Function]}
+        selectedValues={Object {}}
       />
     </styled.div>
     <styled.div>

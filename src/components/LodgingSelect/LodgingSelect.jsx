@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { lensProp, view, set, prop, pipe, omit, values, sum } from 'ramda';
+import React from 'react';
+import { curry, lensProp, view, set, prop, pipe, omit, values, sum } from 'ramda';
 
 import { DropDownContent } from 'components';
-import { useEffectBoundary } from 'effects';
 
 import { getPluralisation, getPlural } from 'config/ui';
 
@@ -32,22 +31,12 @@ const getGuestsCount = pipe(
 const renderLabel = label => label && <LodgingSelectLabel>{label}</LodgingSelectLabel>;
 
 export const LodgingSelect = ({ label, onSelected, selectedValues }) => {
-  const [data, setData] = useState(
-    selectedValues || {
-      rooms: 0,
-      adults: 0,
-      teens: 0,
-      children: 0,
-      infants: 0,
-    }
-  );
+  const updateCount = curry((lens, number) => {
+    onSelected(set(lens, number, selectedValues));
+  });
 
-  useEffectBoundary(() => {
-    onSelected(data);
-  }, [data]);
-
-  const rooms = getRoomsCount(data);
-  const guests = getGuestsCount(data);
+  const rooms = getRoomsCount(selectedValues);
+  const guests = getGuestsCount(selectedValues);
 
   const roomsSummary = `${rooms} ${getPluralisation('room', rooms)}`;
   const guestsSummary = `${guests} ${getPluralisation('guest', guests)}`;
@@ -61,39 +50,30 @@ export const LodgingSelect = ({ label, onSelected, selectedValues }) => {
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{getPlural('room')}</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect
-              startAt={view(roomsLens, data)}
-              onChange={number => setData(set(roomsLens, number, data))}
-            />
+            <LodgingSelectNumberSelect startAt={view(roomsLens, selectedValues)} onChange={updateCount(roomsLens)} />
           </LodgingSelectEntry>
         </LodgingSelectSection>
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{getPlural('adult')}</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect
-              startAt={view(adultsLens, data)}
-              onChange={number => setData(set(adultsLens, number, data))}
-            />
+            <LodgingSelectNumberSelect startAt={view(adultsLens, selectedValues)} onChange={updateCount(adultsLens)} />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{getPlural('teen')} (13-18)</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect
-              startAt={view(teensLens, data)}
-              onChange={number => setData(set(teensLens, number, data))}
-            />
+            <LodgingSelectNumberSelect startAt={view(teensLens, selectedValues)} onChange={updateCount(teensLens)} />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{getPlural('children')} (2-12)</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
-              startAt={view(childrenLens, data)}
-              onChange={number => setData(set(childrenLens, number, data))}
+              startAt={view(childrenLens, selectedValues)}
+              onChange={updateCount(childrenLens)}
             />
           </LodgingSelectEntry>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{getPlural('infant')} (0-2)</LodgingSelectEntryLabel>
             <LodgingSelectNumberSelect
-              startAt={view(infantsLens, data)}
-              onChange={number => setData(set(infantsLens, number, data))}
+              startAt={view(infantsLens, selectedValues)}
+              onChange={updateCount(infantsLens)}
             />
           </LodgingSelectEntry>
         </LodgingSelectSection>
