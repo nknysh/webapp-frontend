@@ -92,6 +92,7 @@ export const SearchBar = ({
             label={path(['labels', 'honeymooners'], uiConfig)}
             onChange={(e, checked) => setHoneymoonersToSearchQuery(checked)}
             checked={getSearchQueryData(honeymoonersLens)}
+            value={true}
           />
         </SearchBarSection>
         <SearchBarSection>
