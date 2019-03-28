@@ -1,4 +1,4 @@
-import { prop, omit } from 'ramda';
+import { prop, propEq, omit } from 'ramda';
 
 import client from 'api/auth';
 
@@ -16,6 +16,13 @@ export const AUTH_SET_PASSWORD = 'AUTH_SET_PASSWORD';
 // This constant is for Localstorage.
 export const AUTH_TOKEN = 'authToken';
 export const AUTH_USER = 'authUser';
+
+export const AccountStatus = Object.freeze({
+  PENDING: 'pending',
+  REJECTED: 'rejected',
+  ACCEPTED: 'accepted',
+  VERIFIED: 'verified',
+});
 
 const authReset = () => ({
   type: AUTH_RESET,
@@ -102,7 +109,7 @@ export const logIn = values => dispatch => {
   const onSuccess = ({ data: { data } }) => {
     const userUuid = prop('uuid', data);
 
-    if (!prop('emailVerified', data)) {
+    if (propEq('status', AccountStatus.PENDING, data)) {
       return dispatch(errorAction(AUTH_REQUEST, { status: 403, unverified: true }));
     }
 

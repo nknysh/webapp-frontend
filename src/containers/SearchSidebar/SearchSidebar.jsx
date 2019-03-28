@@ -17,6 +17,7 @@ import {
   head,
   tail,
   values,
+  defaultTo,
 } from 'ramda';
 
 import { IndexSearch, DatePicker, LodgingSelect, Checkbox, ToolTip } from 'components';
@@ -202,7 +203,7 @@ export const SearchSidebar = ({
           <Checkbox
             label={path(['labels', 'honeymooners'], uiConfig)}
             onChange={(e, checked) => setHoneymoonersToSearchQuery(checked)}
-            checked={getSearchQueryData(honeymoonersLens)}
+            checked={defaultTo(false, getSearchQueryData(honeymoonersLens))}
           />
         </SectionField>
       </Section>

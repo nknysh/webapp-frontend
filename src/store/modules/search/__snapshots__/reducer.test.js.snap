@@ -6,9 +6,7 @@ exports[`search reducer should return the initial state 1`] = `
 Object {
   "data": undefined,
   "error": undefined,
-  "query": Object {
-    "search": Object {},
-  },
+  "query": undefined,
   "status": "IDLE",
 }
 `;

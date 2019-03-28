@@ -35,6 +35,12 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
         label="Dates"
         onSelected={[Function]}
         placeholder="Select dates"
+        selectedValues={
+          Object {
+            "from": undefined,
+            "to": undefined,
+          }
+        }
         showOverlay={true}
         summaryText="Night"
         summaryTextPlural={
@@ -49,12 +55,22 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
         id="lodging"
         label="Lodging"
         onSelected={[Function]}
+        selectedValues={
+          Object {
+            "adults": 0,
+            "children": 0,
+            "infants": 0,
+            "rooms": 0,
+            "teens": 0,
+          }
+        }
       />
     </styled.div>
     <styled.div
       data-constrain={true}
     >
       <Checkbox
+        checked={false}
         label="Honeymooners"
         onChange={[Function]}
       />

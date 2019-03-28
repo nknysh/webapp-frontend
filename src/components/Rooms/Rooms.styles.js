@@ -65,3 +65,14 @@ export const StyledRoom = styled(Room)`
     margin-left: 0;
   `}
 `;
+
+export const NoResults = styled.div`
+  display: block;
+  width: 100%;
+  text-transform: uppercase;
+  color: ${theme.colors['gray-medium']};
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+  padding: ${theme.gutter}px;
+`;

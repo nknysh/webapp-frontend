@@ -1,5 +1,5 @@
 import React from 'react';
-import { prop, path, map } from 'ramda';
+import { prop, path, map, complement, equals } from 'ramda';
 import { format } from 'date-fns';
 
 import { ToolTip } from 'components';
@@ -28,6 +28,8 @@ import {
   StyledRoom,
   Title,
 } from './Room.styles';
+
+const isNotZero = complement(equals(0));
 
 const renderImgOffer = bestRate =>
   prop('percentage', bestRate) && (
@@ -94,9 +96,9 @@ const renderMinMax = (maxAdults, minAdults, minChildren) =>
   (maxAdults || minChildren || minAdults) && (
     <Detail>
       {`${path(['labels', 'maxOccupancy'], uiConfig)}: `}
-      {maxAdults && `${maxAdults} ${getPluralisation('adult', maxAdults)}`}
-      {minAdults && ` / ${minAdults} ${getPluralisation('adult', minAdults)}`}
-      {minChildren && `+ ${minChildren} ${getPluralisation('children', maxAdults)}`}
+      {isNotZero(maxAdults) && `${maxAdults} ${getPluralisation('adult', maxAdults)}`}
+      {isNotZero(minAdults) && ` / ${minAdults} ${getPluralisation('adult', minAdults)}`}
+      {isNotZero(minChildren) && `+ ${minChildren} ${getPluralisation('children', maxAdults)}`}
     </Detail>
   );
 
@@ -139,7 +141,7 @@ export const Room = ({
           </Column>
           <Column>
             <Price>
-              <PriceAmount>{prop('amount', bestRate)}</PriceAmount>
+              <PriceAmount>{prop('rate', bestRate)}</PriceAmount>
               <PriceLabel> /{getSingular('guest')} </PriceLabel>
             </Price>
           </Column>

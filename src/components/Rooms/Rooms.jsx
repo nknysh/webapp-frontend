@@ -29,7 +29,16 @@ import { isEmptyOrNil, isMobile } from 'utils';
 import uiConfig from 'config/ui';
 
 import { propTypes, defaultProps } from './Rooms.props';
-import { StyledRooms, Title, Columns, Column, RoomsWrapper, AmenitiesSelect, StyledRoom } from './Rooms.styles';
+import {
+  StyledRooms,
+  Title,
+  Columns,
+  Column,
+  RoomsWrapper,
+  AmenitiesSelect,
+  StyledRoom,
+  NoResults,
+} from './Rooms.styles';
 
 const toOption = value => ({ [value]: value });
 
@@ -83,9 +92,11 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
   const renderRoomsWrapper = children =>
     isMobile(currentWidth) ? <Slider infinite={false}>{children}</Slider> : children;
   const renderRooms = () =>
-    isEmptyOrNil(filteredRooms)
-      ? path(['labels', 'noRooms'], uiConfig)
-      : renderRoomsWrapper(map(renderRoom, filteredRooms));
+    isEmptyOrNil(filteredRooms) ? (
+      <NoResults>{path(['labels', 'noRooms'], uiConfig)}</NoResults>
+    ) : (
+      renderRoomsWrapper(map(renderRoom, filteredRooms))
+    );
 
   return (
     <StyledRooms className={className}>

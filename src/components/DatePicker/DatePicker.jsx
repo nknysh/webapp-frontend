@@ -1,10 +1,9 @@
-import React, { useState, useRef, forwardRef } from 'react';
+import React, { useRef, forwardRef } from 'react';
 import { format, differenceInCalendarDays, isEqual } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import { DropDownContent } from 'components';
-import { useEffectBoundary } from 'effects';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
@@ -69,23 +68,18 @@ export const DatePicker = ({
   selectedValues,
   ...props
 }) => {
-  const [selected, setSelected] = useState(selectedValues || defaultState);
   const inputRef = useRef(undefined);
 
-  useEffectBoundary(() => {
-    onSelected(selected);
-  }, [selected]);
-
   const todaysDate = new Date();
-  const { from, to } = selected;
+  const { from, to } = selectedValues;
   const isComplete = Boolean(from && to);
-  const nights = getNumberOfDays(selected);
+  const nights = getNumberOfDays(selectedValues);
 
   const renderInputContent = () => (
     <DatePickerDatesWrapper>
       <Picked>
         {!from && !to && placeholder}
-        {from && format(from, getFromDateFormat(selected))}
+        {from && format(from, getFromDateFormat(selectedValues))}
         {to && ` - ${format(to, 'D MMM YYYY')}`}
       </Picked>
       {nights && <DatePickerSummary>{`${nights} ${nights === 1 ? summaryText : summaryTextPlural}`}</DatePickerSummary>}
@@ -104,9 +98,9 @@ export const DatePicker = ({
   ));
 
   const onDayClick = day => {
-    if ((from && isEqual(day, from)) || (to && isEqual(day, to))) return setSelected(defaultState);
-    const range = DateUtils.addDayToRange(day, selected);
-    setSelected(range);
+    if ((from && isEqual(day, from)) || (to && isEqual(day, to))) return onSelected(defaultState);
+    const range = DateUtils.addDayToRange(day, selectedValues);
+    onSelected(range);
   };
 
   const dayPickerCombinedProps = {
@@ -115,7 +109,7 @@ export const DatePicker = ({
     fromMonth: todaysDate,
     navbarElement: renderNavBar,
     onDayClick: onDayClick,
-    selectedDays: [from, selected],
+    selectedDays: [from, selectedValues],
     showOutsideDays: true,
     weekdaysShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
     ...dayPickerProps,

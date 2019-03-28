@@ -49,6 +49,10 @@ export const IndexSearch = ({
   const [selected, setSelected] = useState(value);
   const [results, setResults] = useState(repeat([], length(indexes)));
 
+  useEffectBoundary(() => {
+    setSelected(value);
+  }, [value]);
+
   const getResults = index => {
     if (!index) return [];
 
