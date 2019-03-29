@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { BackButton, Breadcrumbs } from 'components';
 
 import theme from 'styles/theme';
+import { Container } from 'styles/elements';
+
+export const StyledHotelContainer = styled(Container)``;
 
 export const HotelWrapper = styled.div``;
 
