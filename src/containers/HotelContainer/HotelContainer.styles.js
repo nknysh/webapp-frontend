@@ -4,6 +4,9 @@ import { BackButton, Breadcrumbs, Hotel, SummaryForm } from 'components';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
+import { Container } from 'styles/elements';
+
+export const StyledHotelContainer = styled(Container)``;
 
 export const StyledHotel = styled(Hotel)`
   ${breakpoints.tablet`
