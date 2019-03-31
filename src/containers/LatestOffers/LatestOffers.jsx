@@ -1,36 +1,34 @@
 import React, { memo } from 'react';
-import { compose, pipe, path, map, values, when, complement, isNil } from 'ramda';
+import { compose, pipe, path, map, values, when, complement, isNil, prop } from 'ramda';
 import hash from 'object-hash';
-
-import uiConfig from 'config/ui';
-import theme from 'styles/theme';
 
 import { Loader, Offer, Slider } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
+import { isMobile } from 'utils';
+
+import uiConfig from 'config/ui';
 
 import connect from './LatestOffers.state';
 import { propTypes, defaultProps } from './LatestOffers.props';
 import { StyledLatestOffers, Title, Offers } from './LatestOffers.styles';
 
-const renderOffer = offer => <Offer key={hash(offer)} offer={offer} />;
-
-const renderOffers = when(
-  complement(isNil),
-  pipe(
-    map(renderOffer),
-    values
-  )
-);
-
-export const LatestOffers = ({ fetchLatestOffers, offers, offersStatus }) => {
+export const LatestOffers = ({ fetchLatestOffers, offers, offersStatus, getHotel }) => {
   const offersFetched = useFetchData(offersStatus, fetchLatestOffers, { limit: 3 });
   const currentWidth = useCurrentWidth();
 
-  const isMobile = currentWidth <= path(['breakpoints', 'tablet'], theme);
+  const renderOffer = offer => <Offer key={hash(offer)} hotel={getHotel(prop('hotelUuid', offer))} {...offer} />;
+
+  const renderOffers = when(
+    complement(isNil),
+    pipe(
+      map(renderOffer),
+      values
+    )
+  );
   const renderAllOffers = () => renderOffers(offers);
 
   const renderOfferContainer = () =>
-    !isMobile ? <Offers>{renderAllOffers()}</Offers> : <Slider>{renderAllOffers()}</Slider>;
+    !isMobile(currentWidth) ? <Offers>{renderAllOffers()}</Offers> : <Slider>{renderAllOffers()}</Slider>;
 
   return (
     <StyledLatestOffers>

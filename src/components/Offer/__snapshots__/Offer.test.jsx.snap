@@ -9,11 +9,6 @@ exports[`<Offer /> render matches snapshots 1`] = `
       }
     }
   >
-    <Styled(styled.div)>
-      <Styled(styled.span) />
-       /
-      Guest
-    </Styled(styled.div)>
     <Styled(Styled(styled.div)) />
   </Styled(styled.div)>
   <Styled(styled.div)>
@@ -22,7 +17,6 @@ exports[`<Offer /> render matches snapshots 1`] = `
     <Styled(styled.div)>
       Valid from Invalid Date to Invalid Date.
     </Styled(styled.div)>
-    <Styled(styled.div) />
   </Styled(styled.div)>
   <styled.div>
     <Styled(Link)
