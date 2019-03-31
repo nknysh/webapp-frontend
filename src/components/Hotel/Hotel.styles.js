@@ -20,12 +20,6 @@ export const StyledHotel = styled.div``;
 
 export const HotelDetails = styled.div`
   margin-bottom: ${theme.gutter * 6}px;
-
-  ${breakpoints.tablet`
-        flex: 1;
-        max-width: 66%;
-        padding: 0;
-    `}
 `;
 
 export const HotelDetailsRow = styled.div`

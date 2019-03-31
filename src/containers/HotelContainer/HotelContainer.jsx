@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import { __, pipe, lensProp, set, compose, prop, path, allPass, has, complement, curry, view } from 'ramda';
 
-import { Loader, Tabs, Hotel } from 'components';
+import { Loader, Tabs } from 'components';
+import { BookingContainer } from 'containers';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
 
@@ -9,7 +10,7 @@ import uiConfig from 'config/ui';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
-import { Back, StyledBreadcrumbs, HotelWrapper } from './HotelContainer.styles';
+import { Back, StyledBreadcrumbs, StyledHotel, StyledSummary, Full } from './HotelContainer.styles';
 
 const roomsLens = lensProp('rooms');
 
@@ -35,22 +36,30 @@ export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus, getBooking,
     <StyledBreadcrumbs links={[{ label: renderBackButton() }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
   );
 
-  const renderHotel = () => <Hotel onRoomSelect={setSelectedRooms} selectedRooms={viewBooking(roomsLens)} {...hotel} />;
+  const renderHotel = () => (
+    <StyledHotel onRoomSelect={setSelectedRooms} selectedRooms={viewBooking(roomsLens)} {...hotel} />
+  );
+
+  const renderSummary = () => <BookingContainer Component={StyledSummary} hotelUuid={id} />;
 
   const renderTabs = () => (
     <Fragment>
       {renderBackButton()}
-      <Tabs centered labels={['Hotel Details']}>
+      <Tabs centered labels={[path(['labels', 'hotelDetails'], uiConfig), path(['labels', 'yourSelection'], uiConfig)]}>
         {renderHotel()}
+        {renderSummary()}
       </Tabs>
     </Fragment>
   );
 
   const renderFull = () => (
-    <HotelWrapper>
+    <Fragment>
       {renderBreadcrumbs()}
-      {renderHotel()}
-    </HotelWrapper>
+      <Full>
+        {renderHotel()}
+        {renderSummary()}
+      </Full>
+    </Fragment>
   );
 
   return (

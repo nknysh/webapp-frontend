@@ -34,6 +34,17 @@ const uiConfig = {
     moreInfo: 'More information',
     filterByAmenities: 'Filter by amenities',
     noRooms: 'No rooms available',
+    hotelDetails: 'Hotel Details',
+    yourSelection: 'Your Selection',
+    totalNet: 'Total net cost to you',
+    returnTransfers: 'Return transfers',
+    groundService: 'Ground service',
+    addOns: 'Addons',
+    addCommission:
+      'Add your commission (If client is paying Pure Escapes directly or if you wish to send this proposal directly to your clients)',
+    includesTaxes: 'Includes all applicable taxes.',
+    savingOfPrefix: 'You will save ',
+    savingOfSuffix: ' compared to booking directly with this location.',
 
     yes: 'Yes',
     no: 'No',
