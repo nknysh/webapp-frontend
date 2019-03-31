@@ -6,7 +6,7 @@ import connect from './BookingContainer.state';
 // import { } from './BookingContainer.styles';
 
 export const BookingContainer = ({ hotel, booking, Component }) => {
-  return (Component && <Component {...booking} />) || null;
+  return (Component && <Component hotel={hotel} {...booking} />) || null;
 };
 
 // BookingContainer.propTypes = propTypes;

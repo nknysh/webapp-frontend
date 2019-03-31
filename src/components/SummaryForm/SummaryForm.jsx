@@ -1,12 +1,12 @@
 import React from 'react';
-import { path } from 'ramda';
+import { path, prop } from 'ramda';
 
 import uiConfig from 'config/ui';
 
 import { propTypes, defaultProps } from './SummaryForm.props';
 import { StyledSummary, Title, Section, Total, Text, Saving, HotelName } from './SummaryForm.styles';
 
-export const SummaryForm = ({ name, total, saving, className, rooms }) => {
+export const SummaryForm = ({ hotel, total, saving, className, rooms }) => {
   return (
     <StyledSummary className={className}>
       <Title>{path(['labels', 'totalNet'], uiConfig)}</Title>
@@ -19,7 +19,7 @@ export const SummaryForm = ({ name, total, saving, className, rooms }) => {
           {path(['labels', 'savingOfSuffix'], uiConfig)}
         </Text>
       </Section>
-      {name && <HotelName>{name}</HotelName>}
+      {prop('name', hotel) && <HotelName>{prop('name', hotel)}</HotelName>}
       <Title>{path(['labels', 'returnTransfers'], uiConfig)}</Title>
       <Title>{path(['labels', 'groundService'], uiConfig)}</Title>
       <Title>{path(['labels', 'addOns'], uiConfig)}</Title>
