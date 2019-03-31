@@ -9,7 +9,7 @@ import uiConfig from 'config/ui';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
-import { Back, StyledBreadcrumbs, HotelWrapper } from './HotelContainer.styles';
+import { StyledHotelContainer, Back, StyledBreadcrumbs, HotelWrapper } from './HotelContainer.styles';
 
 const roomsLens = lensProp('rooms');
 
@@ -55,7 +55,7 @@ export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus, getBooking,
 
   return (
     <Loader isLoading={!loaded} text={path(['messages', 'gettingHotel'], uiConfig)}>
-      {isMobile(currentWidth) ? renderTabs() : renderFull()}
+      <StyledHotelContainer>{isMobile(currentWidth) ? renderTabs() : renderFull()}</StyledHotelContainer>
     </Loader>
   );
 };

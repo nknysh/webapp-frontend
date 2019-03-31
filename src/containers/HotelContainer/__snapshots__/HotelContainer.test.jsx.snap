@@ -6,28 +6,30 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
   showSpinner={true}
   text="Getting hotel details..."
 >
-  <styled.div>
-    <Styled(withRouter(Breadcrumbs))
-      links={
-        Array [
-          Object {
-            "label": <ForwardRef
-              to="/search"
-            >
-              back to search results
-            </ForwardRef>,
-          },
-          Object {
-            "label": undefined,
-            "to": "/hotels/undefined",
-          },
-        ]
-      }
-    />
-    <Hotel
-      onRoomSelect={[Function]}
-      selectedRooms={Object {}}
-    />
-  </styled.div>
+  <Styled(styled.div)>
+    <styled.div>
+      <Styled(withRouter(Breadcrumbs))
+        links={
+          Array [
+            Object {
+              "label": <ForwardRef
+                to="/search"
+              >
+                back to search results
+              </ForwardRef>,
+            },
+            Object {
+              "label": undefined,
+              "to": "/hotels/undefined",
+            },
+          ]
+        }
+      />
+      <Hotel
+        onRoomSelect={[Function]}
+        selectedRooms={Object {}}
+      />
+    </styled.div>
+  </Styled(styled.div)>
 </Loader>
 `;
