@@ -47,7 +47,12 @@ export const fetchHotel = id => (dispatch, getState) => {
 
     setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
 
-    dispatch(fetchHotelsSuccess(path(['entities', 'hotel'], normalized)));
+    const withRooms = {
+      ...path(['entities', 'hotel', id], normalized),
+      rooms: path(['entities', 'rooms'], normalized),
+    };
+
+    dispatch(fetchHotelsSuccess({ [id]: withRooms }));
   };
 
   return Promise.all(requests)

@@ -39,14 +39,14 @@ const renderImgOffer = bestRate =>
     </ImgOffer>
   );
 
-const renderSelection = (onChange, selectedCount) => (
+const renderSelection = (onChange, { quantity }) => (
   <Selection
     nextClassName="add"
     prevClassName="minus"
     countClassName="count"
     zeroText="ADD ACOMMODATION"
     onChange={onChange}
-    startAt={selectedCount}
+    startAt={quantity}
   />
 );
 
@@ -125,7 +125,7 @@ export const Room = ({
 
   const imgUrl = prop('url', photo);
 
-  const onRoomSelect = value => onChange({ [uuid]: value });
+  const onRoomSelect = quantity => onChange({ [uuid]: { quantity } });
 
   return (
     <StyledRoom className={className}>

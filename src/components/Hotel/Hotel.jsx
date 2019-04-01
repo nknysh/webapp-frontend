@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { path, map } from 'ramda';
+import { path, map, values } from 'ramda';
 
 import { isEmptyOrNil } from 'utils';
 
@@ -99,7 +99,7 @@ export const Hotel = ({
             </HotelDetailsColumnRight>
           </HotelDetailsRow>
         </HotelInfo>
-        <StyledRooms onRoomSelect={onRoomSelect} selectedRooms={selectedRooms} rooms={rooms} />
+        <StyledRooms onRoomSelect={onRoomSelect} selectedRooms={selectedRooms} rooms={values(rooms)} />
       </HotelDetails>
     </StyledHotel>
   );
