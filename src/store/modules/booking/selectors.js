@@ -1,7 +1,25 @@
-import { prop, pipe, curry, pathOr, propOr, add, multiply, toPairs, reduce } from 'ramda';
+import {
+  __,
+  path,
+  prop,
+  pipe,
+  curry,
+  pathOr,
+  propOr,
+  add,
+  multiply,
+  toPairs,
+  reduce,
+  when,
+  always,
+  invoker,
+} from 'ramda';
 import { createSelector } from 'reselect';
 
+import { isEmptyOrNil } from 'utils';
+
 import { getHotel } from 'store/modules/hotels/selectors';
+import { getSearchDates } from '../search/selectors';
 
 export const getBooking = prop('booking');
 
@@ -34,9 +52,30 @@ export const getBookingTotalByHotelId = createSelector(
     const getRoomsTotal = pipe(
       prop('rooms'),
       toPairs,
-      reduce(totalFromBooking, 0)
+      reduce(totalFromBooking, 0),
+      invoker(1, 'toFixed')(2)
     );
 
     return getRoomsTotal(booking);
   }
+);
+
+export const getBookingRoomById = curry((state, hotelId, roomId) =>
+  pipe(
+    getBookingByHotelId(__, hotelId),
+    path(['rooms', roomId])
+  )(state)
+);
+
+export const getBookingRoomDatesById = curry((state, hotelId, roomId) =>
+  createSelector(
+    getSearchDates,
+    getBookingByHotelId,
+    (searchDates, booking) => {
+      return pipe(
+        path(['rooms', roomId, 'dates']),
+        when(isEmptyOrNil, always(searchDates))
+      )(booking);
+    }
+  )(state, hotelId)
 );

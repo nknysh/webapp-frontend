@@ -87,6 +87,7 @@ const uiConfig = {
     teen: ['Teen', 'Teens'],
     feature: ['Feature', 'Features'],
     brochure: ['Brochure', 'Brochures'],
+    sleep: ['Sleep', 'Sleeps'],
   },
 
   mealTypes: {

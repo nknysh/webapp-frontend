@@ -1,9 +1,10 @@
 import React, { useRef, forwardRef } from 'react';
-import { format, differenceInCalendarDays, isEqual } from 'date-fns';
+import { format, isEqual } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import { DropDownContent } from 'components';
+import { getNumberOfDays, getFromDateFormat, getToDateFormat } from 'utils';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
@@ -23,20 +24,6 @@ const defaultState = {
   from: undefined,
   to: undefined,
 };
-
-const getFromDateFormat = ({ from, to }) => {
-  if (!from) return '';
-
-  const sameMonth = to && from.getMonth() === to.getMonth();
-  const sameYear = to && from.getYear() === to.getYear();
-
-  const month = sameMonth && sameYear ? '' : 'MMM';
-  const year = sameYear ? '' : 'YYYY';
-
-  return `D ${month} ${year}`;
-};
-
-const getNumberOfDays = ({ from, to }) => from && to && differenceInCalendarDays(to, from);
 
 // eslint-disable-next-line
 const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousClick, onNextClick, ...props }) => (
@@ -79,8 +66,8 @@ export const DatePicker = ({
     <DatePickerDatesWrapper>
       <Picked>
         {!from && !to && placeholder}
-        {from && format(from, getFromDateFormat(selectedValues))}
-        {to && ` - ${format(to, 'D MMM YYYY')}`}
+        {from && getFromDateFormat(selectedValues)}
+        {to && getToDateFormat(selectedValues)}
       </Picked>
       {nights && <DatePickerSummary>{`${nights} ${nights === 1 ? summaryText : summaryTextPlural}`}</DatePickerSummary>}
     </DatePickerDatesWrapper>

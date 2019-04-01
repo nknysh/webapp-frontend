@@ -57,3 +57,17 @@ export const getHotelName = curry((state, id) =>
     prop('name')
   )(state)
 );
+
+export const getHotelRooms = curry((state, id) =>
+  pipe(
+    getHotel(__, id),
+    prop('rooms')
+  )(state)
+);
+
+export const getHotelRoom = curry((state, hotelId, roomId) =>
+  pipe(
+    getHotelRooms(__, hotelId),
+    prop(roomId)
+  )(state)
+);

@@ -1,4 +1,10 @@
-import { prop, pipe, path } from 'ramda';
+import { prop, pipe, path, when, always, inc, evolve } from 'ramda';
+
+import { isEmptyOrNil } from 'utils';
+
+const defaultFromDate = new Date();
+const defaultToDate = new Date();
+defaultToDate.setDate(inc(defaultToDate.getDate()));
 
 export const getSearch = prop('search');
 
@@ -20,4 +26,13 @@ export const getSearchQuery = pipe(
 export const getSearchValue = pipe(
   getSearchQuery,
   path(['search', 'value'])
+);
+
+export const getSearchDates = pipe(
+  getSearchQuery,
+  prop('dates'),
+  evolve({
+    from: when(isEmptyOrNil, always(defaultFromDate)),
+    to: when(isEmptyOrNil, always(defaultToDate)),
+  })
 );
