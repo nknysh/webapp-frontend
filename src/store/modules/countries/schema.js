@@ -1,5 +1,7 @@
 import { schema } from 'normalizr';
 
+import { schemaOpts } from 'store/common';
+
 const id = 'code';
 
 export default {

@@ -1,16 +1,11 @@
-import { map, prop, pipe, curry, when, complement, isNil, propOr } from 'ramda';
-
-import { selectRelationships } from 'store/common/selectors';
-
-import schema from './schema';
+import { prop, pipe, curry } from 'ramda';
 
 export const getOffers = prop('offers');
 
 export const getOffersData = state =>
   pipe(
     getOffers,
-    prop('data'),
-    when(complement(isNil), map(selectRelationships(state, propOr({}, 'relationships', schema))))
+    prop('data')
   )(state);
 
 export const getOffersStatus = pipe(
