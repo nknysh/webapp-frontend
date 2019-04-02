@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { gt, path, prop, mapObjIndexed, values, pipe, when, all, equals, always, multiply, lensPath } from 'ramda';
+import { gt, path, prop, mapObjIndexed, values, pipe, when, all, equals, always, multiply, lensPath, lensProp } from 'ramda';
 import hash from 'object-hash';
 
 import { DropDownMenu, Modal, LodgingSelect, DatePicker } from 'components';
@@ -66,6 +66,7 @@ export const SummaryForm = ({
     const roomDates = getRoomDates(id);
     const roomDatesCount = getNumberOfDays(roomDates);
     const rate = path(['bestRate', 'rate'], roomDetails);
+
     const bookingRoomQuantityLens = lensPath(['rooms', id, 'quantity']);
 
     const onRemoveRoom = () => onBookingChange(bookingRoomQuantityLens, 0);
@@ -108,10 +109,15 @@ export const SummaryForm = ({
 
   const renderModal = () => {
     const {id, quantity} = modalData;
+
     if(!id) return null;
+    
+    const datesLens = lensPath(['rooms', id, 'dates']); 
 
     const { name } = getHotelRoom(id);
     const roomDates = getRoomDates(id);
+    
+    const onDateSelected = range => onBookingChange(datesLens, range); 
     
     return (
       <Modal open={true} onClose={onModalClose}>
@@ -121,7 +127,7 @@ export const SummaryForm = ({
             <LodgingSelect contentOnly={true} selectedValues={{ rooms: quantity }} />
           </EditFormSection>
           <EditFormSection>
-            <DatePicker selectedValues={roomDates} />
+            <DatePicker selectedValues={roomDates} onSelected={onDateSelected}/>
           </EditFormSection>
         </EditForm>
       </Modal>
