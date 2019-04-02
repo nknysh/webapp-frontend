@@ -1,11 +1,11 @@
-import { propOr, prop, path, omit } from 'ramda';
+import { propOr, prop, path, omit, curry } from 'ramda';
 import { normalize } from 'normalizr';
 
 import { IndexTypes } from 'utils';
 
 import client from 'api/search';
 
-import { successAction, setNormalizedData } from 'store/common';
+import { successAction, errorAction, setNormalizedData } from 'store/common';
 import { searchIndex } from 'store/modules/indexes/actions';
 
 import schema from './schema';
@@ -54,6 +54,10 @@ export const setSearchQuery = ({ index = IndexTypes.HOTELS, ...payload }) => dis
   dispatch(searchIndex(index));
 };
 
+export const searchByRoomDates = async (name, {dates}, roomId) => (dispatch, getState) => {
+  console.log('hit', name, dates, roomId);
+}
+
 export const fetchSearch = ({ value, index = IndexTypes.HOTELS }) => (dispatch, getState) => {
   const payload = { name: value };
 
@@ -62,13 +66,16 @@ export const fetchSearch = ({ value, index = IndexTypes.HOTELS }) => (dispatch, 
 
   dispatch(fetchSearchAction(payload));
 
-  client.getSearch(payload, { name: searchValue }).then(({ data: { data } }) => {
-    const normalized = normalize({ id: 'search', ...data }, prop('schema', schema));
+  client
+    .getSearch(payload, { name: searchValue })
+    .then(({ data: { data } }) => {
+      const normalized = normalize({ id: 'search', ...data }, prop('schema', schema));
 
-    setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
+      setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
 
-    const ids = omit(['id'], path(['entities', 'results', 'search'], normalized));
-    dispatch(searchIndex(index));
-    dispatch(successAction(FETCH_SEARCH, ids));
-  });
+      const ids = omit(['id'], path(['entities', 'results', 'search'], normalized));
+      dispatch(searchIndex(index));
+      dispatch(successAction(FETCH_SEARCH, ids));
+    })
+    .catch(error => dispatch(errorAction(FETCH_SEARCH, error)));
 };

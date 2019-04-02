@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { gt, path, prop, mapObjIndexed, values, pipe, when, all, equals, always, multiply, lensPath, lensProp } from 'ramda';
+import { gt, path, prop, mapObjIndexed, values, pipe, when, all, equals, always, multiply, lensPath, propOr } from 'ramda';
 import hash from 'object-hash';
 
 import { DropDownMenu, Modal, LodgingSelect, DatePicker } from 'components';
@@ -61,11 +61,11 @@ export const SummaryForm = ({
 
   const onModalClose = () => setModalData({});
 
-  const renderRoom = ({ quantity }, id) => {
+  const renderRoom = ({ quantity, bestRate }, id) => {
     const roomDetails = getHotelRoom(id);
     const roomDates = getRoomDates(id);
     const roomDatesCount = getNumberOfDays(roomDates);
-    const rate = path(['bestRate', 'rate'], roomDetails);
+    const roomRate = propOr(path(['bestRate', 'rate'], roomDetails), 'rate', bestRate);
 
     const bookingRoomQuantityLens = lensPath(['rooms', id, 'quantity']);
 
@@ -75,7 +75,7 @@ export const SummaryForm = ({
     return (
       roomDetails &&
       roomDates &&
-      rate &&
+      roomRate &&
       gt(quantity, 0) && (
         <Room key={hash(roomDetails)}>
           <RoomColumn>
@@ -88,7 +88,7 @@ export const SummaryForm = ({
             </RoomDetail>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
-            <RoomPrice>{formatPrice(multiply(rate, quantity))}</RoomPrice>
+            <RoomPrice>{formatPrice(multiply(roomRate, quantity))}</RoomPrice>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
             <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
@@ -111,13 +111,12 @@ export const SummaryForm = ({
     const {id, quantity} = modalData;
 
     if(!id) return null;
-    
-    const datesLens = lensPath(['rooms', id, 'dates']); 
+  
 
     const { name } = getHotelRoom(id);
     const roomDates = getRoomDates(id);
     
-    const onDateSelected = range => onBookingChange(datesLens, range); 
+    const onDateSelected = range => onBookingChange({ rooms: { [id]: { dates: range }} }); 
     
     return (
       <Modal open={true} onClose={onModalClose}>

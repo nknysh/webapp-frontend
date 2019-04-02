@@ -47,7 +47,6 @@ const renderSelection = (onChange, { quantity }) => (
     zeroText="ADD ACOMMODATION"
     onChange={onChange}
     startAt={quantity}
-    // value={quantity}
   />
 );
 
