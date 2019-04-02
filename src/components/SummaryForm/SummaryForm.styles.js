@@ -4,7 +4,8 @@ import { Icon } from '@material-ui/core';
 import uiConfig from 'config/ui';
 
 import theme from 'styles/theme';
-import { Heading2 } from 'styles/typography';
+import breakpoints from 'styles/breakpoints';
+import { Heading2, Heading3 } from 'styles/typography';
 
 export const StyledSummary = styled.aside`
   background: ${theme.colors.whiteish};
@@ -131,4 +132,33 @@ export const RoomMenu = styled(Icon)`
     overflow: visible !important;
     padding-top: 4px;
   cursor: pointer;
+`;
+
+export const EditForm = styled.section`
+  padding: ${theme.gutter*2}px;
+  position: relative;
+
+  ${breakpoints.tablet`
+    padding: ${theme.gutter*8}px ${theme.gutter*10}px;
+    min-width: 600px;
+  `}
+`
+
+export const EditFormTitle = styled(Heading3)`
+  font-family: ${theme.headingFont};
+  color: ${theme.colors['gold-dark']};
+  text-transform: capitalize;
+  letter-spacing: 0.5px;	
+  line-height: 29px;
+  padding: 0;
+  margin: 0 0 ${theme.gutter*5}px;
+  font-size: 22px;
+`
+
+export const EditFormSection = styled.div`
+  margin: 0 0 ${theme.gutter*5}px;
+
+  :last-child {
+    margin: 0;
+  }
 `;

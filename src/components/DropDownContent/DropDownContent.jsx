@@ -41,7 +41,13 @@ export const DropDownContent = ({
   showContent,
   keepOpen,
   onClick,
+  contentOnly
 }) => {
+
+  const renderChildren = () => <DropDownContentArea data-content={contentOnly}>{isFunction(children) ? children() : children}</DropDownContentArea>;
+
+  if(contentOnly) return renderChildren();
+
   const [showArea, setShowArea] = useState(showContent || false);
 
   const shouldShow = !isNil(showContent) ? showContent : showArea;
@@ -55,9 +61,6 @@ export const DropDownContent = ({
 
   useKeyboard(27, onClose);
 
-  const renderChildren = () =>
-    shouldRenderChildren && <DropDownContentArea>{isFunction(children) ? children() : children}</DropDownContentArea>;
-
   return (
     <ClickAwayListener onClickAway={onClose}>
       <StyledDropDownContent>
@@ -66,7 +69,7 @@ export const DropDownContent = ({
           {!showRawInput && renderInputMask(inputContent, maskProps, showArrow)}
           {showInput && renderInput({ showRawInput, onChange, onClick: onInputClick, ...inputProps })}
         </DropDownContentInputWrapper>
-        {renderChildren()}
+        {shouldRenderChildren && renderChildren()}
       </StyledDropDownContent>
     </ClickAwayListener>
   );

@@ -14,9 +14,11 @@ export const propTypes = {
   showContent: PropTypes.bool,
   showOverlay: PropTypes.bool,
   showInput: PropTypes.bool,
+  contentOnly: PropTypes.bool
 };
 
 export const defaultProps = {
   showArrow: true,
   showInput: true,
+  contentOnly: false
 };

@@ -10,7 +10,7 @@ export const propTypes = {
 };
 
 export const defaultProps = {
-  name: 'Foo',
+  name: '',
   total: 0,
   hotel: {},
   booking: {},

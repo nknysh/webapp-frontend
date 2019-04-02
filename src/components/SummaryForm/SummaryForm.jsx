@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { gt, path, prop, mapObjIndexed, values, pipe, when, all, equals, always, multiply, lensPath } from 'ramda';
 import hash from 'object-hash';
 
-import { DropDownMenu } from 'components';
-import { getNumberOfDays, getFromDateFormat, getToDateFormat } from 'utils';
+import { DropDownMenu, Modal, LodgingSelect, DatePicker } from 'components';
+import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatPrice } from 'utils';
 
 import uiConfig, { getPluralisation } from 'config/ui';
 
@@ -23,6 +23,9 @@ import {
   RoomDetail,
   RoomPrice,
   RoomMenu,
+  EditForm,
+  EditFormTitle,
+  EditFormSection
 } from './SummaryForm.styles';
 
 const renderTotal = (total, saving) => (
@@ -52,6 +55,11 @@ export const SummaryForm = ({
   onBookingChange,
 }) => {
   const { rooms } = booking;
+  const { name } = hotel;
+
+  const [modalData, setModalData] = useState({});
+
+  const onModalClose = () => setModalData({});
 
   const renderRoom = ({ quantity }, id) => {
     const roomDetails = getHotelRoom(id);
@@ -60,12 +68,12 @@ export const SummaryForm = ({
     const rate = path(['bestRate', 'rate'], roomDetails);
     const bookingRoomQuantityLens = lensPath(['rooms', id, 'quantity']);
 
-    const onRemoveRoom = () => {
-      onBookingChange(bookingRoomQuantityLens, 0);
-    };
+    const onRemoveRoom = () => onBookingChange(bookingRoomQuantityLens, 0);
+    const onEditRoom = () => setModalData({id, quantity});
 
     return (
       roomDetails &&
+      roomDates &&
       rate &&
       gt(quantity, 0) && (
         <Room key={hash(roomDetails)}>
@@ -79,11 +87,11 @@ export const SummaryForm = ({
             </RoomDetail>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
-            <RoomPrice>{multiply(rate, quantity).toFixed(2)}</RoomPrice>
+            <RoomPrice>{formatPrice(multiply(rate, quantity))}</RoomPrice>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
             <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
-              <span>Edit</span>
+              <span onClick={onEditRoom}>Edit</span>
               <span onClick={onRemoveRoom}>Remove</span>
             </DropDownMenu>
           </RoomColumn>
@@ -98,16 +106,40 @@ export const SummaryForm = ({
     when(all(equals(false)), always(null))
   );
 
+  const renderModal = () => {
+    const {id, quantity} = modalData;
+    if(!id) return null;
+
+    const { name } = getHotelRoom(id);
+    const roomDates = getRoomDates(id);
+    
+    return (
+      <Modal open={true} onClose={onModalClose}>
+        <EditForm>
+          <EditFormTitle>{name}</EditFormTitle>
+          <EditFormSection>
+            <LodgingSelect contentOnly={true} selectedValues={{ rooms: quantity }} />
+          </EditFormSection>
+          <EditFormSection>
+            <DatePicker selectedValues={roomDates} />
+          </EditFormSection>
+        </EditForm>
+      </Modal>
+    )
+
+  }
+
   return (
     <StyledSummary className={className}>
       <Title>{path(['labels', 'totalNet'], uiConfig)}</Title>
       {renderTotal(total, saving)}
-      {renderHotelName(prop('name', hotel))}
+      {renderHotelName(name)}
       <Rooms>{renderRooms(rooms)}</Rooms>
       {/* <Title>{path(['labels', 'returnTransfers'], uiConfig)}</Title>
       <Title>{path(['labels', 'groundService'], uiConfig)}</Title>
       <Title>{path(['labels', 'addOns'], uiConfig)}</Title>
       <Title>{path(['labels', 'addCommission'], uiConfig)}</Title> */}
+      {renderModal()}
     </StyledSummary>
   );
 };

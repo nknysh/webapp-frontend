@@ -1,25 +1,10 @@
-import {
-  __,
-  path,
-  prop,
-  pipe,
-  curry,
-  pathOr,
-  propOr,
-  add,
-  multiply,
-  toPairs,
-  reduce,
-  when,
-  always,
-  invoker,
-} from 'ramda';
+import { __, path, prop, pipe, curry, pathOr, propOr, add, multiply, toPairs, reduce, when, always } from 'ramda';
 import { createSelector } from 'reselect';
 
-import { isEmptyOrNil } from 'utils';
+import { isEmptyOrNil, formatPrice } from 'utils';
 
 import { getHotel } from 'store/modules/hotels/selectors';
-import { getSearchDates } from '../search/selectors';
+import { getSearchDates } from 'store/modules/search/selectors';
 
 export const getBooking = prop('booking');
 
@@ -53,7 +38,7 @@ export const getBookingTotalByHotelId = createSelector(
       prop('rooms'),
       toPairs,
       reduce(totalFromBooking, 0),
-      invoker(1, 'toFixed')(2)
+      formatPrice
     );
 
     return getRoomsTotal(booking);

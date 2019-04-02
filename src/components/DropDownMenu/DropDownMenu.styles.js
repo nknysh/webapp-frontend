@@ -43,7 +43,7 @@ export const MaterialPopper = styled(Popper)`
   position: absolute !important;
   top: ${theme.gutter * 4}px !important;
   width: auto;
-  z-index: 4000;
+  z-index: 900;
 `;
 
 export const MaterialIcon = styled(Icon)`
