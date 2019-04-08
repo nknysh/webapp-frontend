@@ -19,7 +19,7 @@ module.exports = (env, argv) => ({
         historyApiFallback: modeIsDev(argv),
         proxy: {
             '/api/**': {
-                target: 'http://localhost:8001',
+                target: 'http://localhost:8002',
                 secure: false,
                 changeOrigin: true,
                 // pathRewrite: { '^/api': '' },
