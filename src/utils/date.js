@@ -1,5 +1,5 @@
 import { pipe, values, reverse, ifElse, always, length, equals, all, complement, both, path } from 'ramda';
-import { differenceInCalendarDays, format } from 'date-fns';
+import { differenceInCalendarDays, format, startOfMonth, endOfMonth } from 'date-fns';
 
 import uiConfig from 'config/ui';
 import { isEmptyOrNil } from 'utils';
@@ -36,3 +36,12 @@ export const getFromDateFormat = ({ from, to }) => {
 export const getToDateFormat = ({ to }) => ` - ${format(to, 'D MMM YYYY')}`;
 
 export const formatDate = (date, pattern = path(['dates', 'defaultFormat'], uiConfig)) => format(date, pattern);
+
+export const getStartOfMonth = pipe(
+  startOfMonth,
+  formatDate
+);
+export const getEndOfMonth = pipe(
+  endOfMonth,
+  formatDate
+);

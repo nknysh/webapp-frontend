@@ -40,6 +40,16 @@ export const Total = styled.p`
       }
 `;
 
+export const DatePrice = styled.div`
+  color: ${theme.colors.black};
+  font-weight: ${theme.normal};
+  margin-top: ${theme.gutter / 2}px;
+
+  :before {
+    content: '${uiConfig.currency.symbol}';
+  }
+`;
+
 export const Text = styled.p`
   color: ${theme.colors['gold-dark']};
   font-size: 12px;

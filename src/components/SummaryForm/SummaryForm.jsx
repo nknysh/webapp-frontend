@@ -10,14 +10,16 @@ import {
   all,
   equals,
   always,
-  multiply,
   lensPath,
-  propOr,
+  keys,
+  head,
+  last,
 } from 'ramda';
 import hash from 'object-hash';
+import { isThisMonth } from 'date-fns';
 
 import { DropDownMenu, Modal, LodgingSelect, DatePicker } from 'components';
-import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatPrice } from 'utils';
+import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatDate, getStartOfMonth, getEndOfMonth } from 'utils';
 
 import uiConfig, { getPluralisation } from 'config/ui';
 
@@ -40,6 +42,7 @@ import {
   EditForm,
   EditFormTitle,
   EditFormSection,
+  DatePrice,
 } from './SummaryForm.styles';
 
 const renderTotal = (total, saving) => (
@@ -67,10 +70,11 @@ export const SummaryForm = ({
   getHotelRoom,
   getRoomDates,
   getRoomTotal,
+  getRatesForDates,
   onBookingChange,
 }) => {
   const { accommodationProducts } = booking;
-  const { name } = hotel;
+  const { name, uuid: hotelUuid } = hotel;
 
   const [modalData, setModalData] = useState({});
 
@@ -125,11 +129,40 @@ export const SummaryForm = ({
 
     if (!id) return null;
 
-    const { name } = getHotelRoom(id);
+    const { name, rates } = getHotelRoom(id);
     const roomDates = getRoomDates(id);
+
+    const ratesDates = keys(rates).sort();
+    const firstDate = head(ratesDates);
+    const lastDate = last(ratesDates);
 
     const onDateSelected = range => onBookingChange({ accommodationProducts: { [id]: { dates: range } } });
     const onLodgingSelect = selected => onBookingChange({ accommodationProducts: { [id]: { ...selected } } });
+
+    const renderDay = day => {
+      const rate = prop(formatDate(day), rates);
+
+      return (
+        <span>
+          <div>{formatDate(day, 'D')}</div>
+          {rate && <DatePrice>{prop('rate', rate)}</DatePrice>}
+        </span>
+      );
+    };
+
+    const onMonthChange = month => {
+      getRatesForDates(
+        hotelUuid,
+        id,
+        isThisMonth(month) ? formatDate(new Date()) : getStartOfMonth(month),
+        getEndOfMonth(month)
+      );
+      return month;
+    };
+
+    const onDayPickerShow = () => {
+      getRatesForDates(hotelUuid, id, firstDate, getEndOfMonth(lastDate));
+    };
 
     return (
       <Modal open={true} onClose={onModalClose}>
@@ -139,7 +172,17 @@ export const SummaryForm = ({
             <LodgingSelect onSelected={onLodgingSelect} contentOnly={true} selectedValues={{ quantity }} />
           </EditFormSection>
           <EditFormSection>
-            <DatePicker selectedValues={roomDates} onSelected={onDateSelected} />
+            <DatePicker
+              dayPickerProps={{
+                key: Date.now(),
+                disabledDays: { before: new Date(firstDate), after: new Date(lastDate) },
+                renderDay,
+                onMonthChange,
+              }}
+              onDayPickerShow={onDayPickerShow}
+              selectedValues={roomDates}
+              onSelected={onDateSelected}
+            />
           </EditFormSection>
         </EditForm>
       </Modal>

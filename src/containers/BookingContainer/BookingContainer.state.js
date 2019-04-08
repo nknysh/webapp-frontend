@@ -7,6 +7,7 @@ import {
   getBookingRoomDatesById,
   getBookingRoomTotal,
 } from 'store/modules/booking/selectors';
+import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
 import { getHotel, getHotelRoom } from 'store/modules/hotels/selectors';
 import { updateBooking } from 'store/modules/booking/actions';
 
@@ -22,6 +23,11 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
 export const mapDispatchToProps = dispatch => ({
   updateBooking: pipe(
     updateBooking,
+    dispatch
+  ),
+
+  getRatesForDates: pipe(
+    fetchHotelRoomRatesByDates,
     dispatch
   ),
 });

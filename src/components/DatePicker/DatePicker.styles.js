@@ -108,6 +108,12 @@ export const StyledDatePicker = styled.div`
         .${baseClass}__selected {
           background: ${theme.selected};
         }
+
+        .${baseClass}__disabled {
+          opacity: 0.3;
+          cursor: normal;
+          pointer-events: none;
+        }
       }
     }
   }
