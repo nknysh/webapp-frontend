@@ -1,5 +1,19 @@
 import React, { useState } from 'react';
-import { gt, path, prop, mapObjIndexed, values, pipe, when, all, equals, always, multiply, lensPath, propOr } from 'ramda';
+import {
+  gt,
+  path,
+  prop,
+  mapObjIndexed,
+  values,
+  pipe,
+  when,
+  all,
+  equals,
+  always,
+  multiply,
+  lensPath,
+  propOr,
+} from 'ramda';
 import hash from 'object-hash';
 
 import { DropDownMenu, Modal, LodgingSelect, DatePicker } from 'components';
@@ -25,7 +39,7 @@ import {
   RoomMenu,
   EditForm,
   EditFormTitle,
-  EditFormSection
+  EditFormSection,
 } from './SummaryForm.styles';
 
 const renderTotal = (total, saving) => (
@@ -52,30 +66,29 @@ export const SummaryForm = ({
   booking,
   getHotelRoom,
   getRoomDates,
+  getRoomTotal,
   onBookingChange,
 }) => {
-  const { rooms } = booking;
+  const { accommodationProducts } = booking;
   const { name } = hotel;
 
   const [modalData, setModalData] = useState({});
 
   const onModalClose = () => setModalData({});
 
-  const renderRoom = ({ quantity, bestRate }, id) => {
+  const renderRoom = ({ quantity }, id) => {
     const roomDetails = getHotelRoom(id);
     const roomDates = getRoomDates(id);
     const roomDatesCount = getNumberOfDays(roomDates);
-    const roomRate = propOr(path(['bestRate', 'rate'], roomDetails), 'rate', bestRate);
 
-    const bookingRoomQuantityLens = lensPath(['rooms', id, 'quantity']);
+    const bookingRoomQuantityLens = lensPath(['accommodationProducts', id, 'quantity']);
 
     const onRemoveRoom = () => onBookingChange(bookingRoomQuantityLens, 0);
-    const onEditRoom = () => setModalData({id, quantity});
+    const onEditRoom = () => setModalData({ id, quantity });
 
     return (
       roomDetails &&
       roomDates &&
-      roomRate &&
       gt(quantity, 0) && (
         <Room key={hash(roomDetails)}>
           <RoomColumn>
@@ -88,7 +101,7 @@ export const SummaryForm = ({
             </RoomDetail>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
-            <RoomPrice>{formatPrice(multiply(roomRate, quantity))}</RoomPrice>
+            <RoomPrice>{getRoomTotal(id)}</RoomPrice>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
             <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
@@ -108,38 +121,37 @@ export const SummaryForm = ({
   );
 
   const renderModal = () => {
-    const {id, quantity} = modalData;
+    const { id, quantity } = modalData;
 
-    if(!id) return null;
-  
+    if (!id) return null;
 
     const { name } = getHotelRoom(id);
     const roomDates = getRoomDates(id);
-    
-    const onDateSelected = range => onBookingChange({ rooms: { [id]: { dates: range }} }); 
-    
+
+    const onDateSelected = range => onBookingChange({ accommodationProducts: { [id]: { dates: range } } });
+    const onLodgingSelect = selected => onBookingChange({ accommodationProducts: { [id]: { ...selected } } });
+
     return (
       <Modal open={true} onClose={onModalClose}>
         <EditForm>
           <EditFormTitle>{name}</EditFormTitle>
           <EditFormSection>
-            <LodgingSelect contentOnly={true} selectedValues={{ rooms: quantity }} />
+            <LodgingSelect onSelected={onLodgingSelect} contentOnly={true} selectedValues={{ quantity }} />
           </EditFormSection>
           <EditFormSection>
-            <DatePicker selectedValues={roomDates} onSelected={onDateSelected}/>
+            <DatePicker selectedValues={roomDates} onSelected={onDateSelected} />
           </EditFormSection>
         </EditForm>
       </Modal>
-    )
-
-  }
+    );
+  };
 
   return (
     <StyledSummary className={className}>
       <Title>{path(['labels', 'totalNet'], uiConfig)}</Title>
       {renderTotal(total, saving)}
       {renderHotelName(name)}
-      <Rooms>{renderRooms(rooms)}</Rooms>
+      <Rooms>{renderRooms(accommodationProducts)}</Rooms>
       {/* <Title>{path(['labels', 'returnTransfers'], uiConfig)}</Title>
       <Title>{path(['labels', 'groundService'], uiConfig)}</Title>
       <Title>{path(['labels', 'addOns'], uiConfig)}</Title>

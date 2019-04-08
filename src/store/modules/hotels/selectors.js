@@ -61,7 +61,7 @@ export const getHotelName = curry((state, id) =>
 export const getHotelRooms = curry((state, id) =>
   pipe(
     getHotel(__, id),
-    prop('rooms')
+    prop('accommodationProducts')
   )(state)
 );
 

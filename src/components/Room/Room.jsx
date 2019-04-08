@@ -1,5 +1,5 @@
 import React from 'react';
-import { prop, path, map, complement, equals } from 'ramda';
+import { prop, path, map, complement, equals, head, values } from 'ramda';
 import { format } from 'date-fns';
 
 import { ToolTip } from 'components';
@@ -105,7 +105,7 @@ const renderMinMax = (maxAdults, minAdults, minChildren) =>
 export const Room = ({
   additionalInfo,
   amenities,
-  bestRate,
+  rates,
   brochures,
   className,
   information,
@@ -121,7 +121,7 @@ export const Room = ({
   uuid,
   withSelection,
 }) => {
-  if (!bestRate) return null;
+  if (!rates) return null;
 
   const imgUrl = prop('url', photo);
 
@@ -131,7 +131,7 @@ export const Room = ({
     <StyledRoom className={className}>
       <RoomImage>
         {imgUrl && <Img src={imgUrl} />}
-        {renderImgOffer(bestRate)}
+        {renderImgOffer(rates)}
         {withSelection && renderSelection(onRoomSelect, selectedCount)}
       </RoomImage>
       <RoomInfo>
@@ -141,7 +141,7 @@ export const Room = ({
           </Column>
           <Column>
             <Price>
-              <PriceAmount>{prop('rate', bestRate)}</PriceAmount>
+              <PriceAmount>{prop('rate', head(values(rates)))}</PriceAmount>
               <PriceLabel> /{getSingular('guest')} </PriceLabel>
             </Price>
           </Column>

@@ -41,12 +41,13 @@ export const DropDownContent = ({
   showContent,
   keepOpen,
   onClick,
-  contentOnly
+  contentOnly,
 }) => {
+  const renderChildren = () => (
+    <DropDownContentArea data-content={contentOnly}>{isFunction(children) ? children() : children}</DropDownContentArea>
+  );
 
-  const renderChildren = () => <DropDownContentArea data-content={contentOnly}>{isFunction(children) ? children() : children}</DropDownContentArea>;
-
-  if(contentOnly) return renderChildren();
+  if (contentOnly) return renderChildren();
 
   const [showArea, setShowArea] = useState(showContent || false);
 

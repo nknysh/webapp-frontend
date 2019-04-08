@@ -1,8 +1,8 @@
-import { pipe, values, reverse, ifElse, always, length, equals, all, complement, both } from 'ramda';
-
-import { isEmptyOrNil } from 'utils';
-
+import { pipe, values, reverse, ifElse, always, length, equals, all, complement, both, path } from 'ramda';
 import { differenceInCalendarDays, format } from 'date-fns';
+
+import uiConfig from 'config/ui';
+import { isEmptyOrNil } from 'utils';
 
 const correctLength = pipe(
   length,
@@ -34,3 +34,5 @@ export const getFromDateFormat = ({ from, to }) => {
 };
 
 export const getToDateFormat = ({ to }) => ` - ${format(to, 'D MMM YYYY')}`;
+
+export const formatDate = (date, pattern = path(['dates', 'defaultFormat'], uiConfig)) => format(date, pattern);

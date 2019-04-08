@@ -54,10 +54,6 @@ export const setSearchQuery = ({ index = IndexTypes.HOTELS, ...payload }) => dis
   dispatch(searchIndex(index));
 };
 
-export const searchByRoomDates = async (name, {dates}, roomId) => (dispatch, getState) => {
-  console.log('hit', name, dates, roomId);
-}
-
 export const fetchSearch = ({ value, index = IndexTypes.HOTELS }) => (dispatch, getState) => {
   const payload = { name: value };
 

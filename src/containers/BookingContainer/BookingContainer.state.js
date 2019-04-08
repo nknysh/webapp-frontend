@@ -5,6 +5,7 @@ import {
   getBookingByHotelId,
   getBookingTotalByHotelId,
   getBookingRoomDatesById,
+  getBookingRoomTotal,
 } from 'store/modules/booking/selectors';
 import { getHotel, getHotelRoom } from 'store/modules/hotels/selectors';
 import { updateBooking } from 'store/modules/booking/actions';
@@ -15,6 +16,7 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   total: getBookingTotalByHotelId(state, hotelUuid),
   getHotelRoom: getHotelRoom(state, hotelUuid),
   getRoomDates: getBookingRoomDatesById(state, hotelUuid),
+  getRoomTotal: getBookingRoomTotal(state, hotelUuid),
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -55,14 +55,14 @@ const getAmenities = memoizeWith(
   )
 );
 
-const filterNoRate = filter(propSatisfies(complement(isEmptyOrNil), 'bestRate'));
+const filterNoRate = filter(propSatisfies(complement(isEmptyOrNil), 'rates'));
 
 const filterRoomsByAmenities = (rooms, selected) => {
   if (isEmptyOrNil(selected)) return rooms;
 
   const containsAmenities = any(contains(__, selected));
   const byAmenities = pipe(
-    propOr([], 'amenities'),
+    propOr([], 'options'),
     containsAmenities
   );
 

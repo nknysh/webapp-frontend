@@ -135,28 +135,28 @@ export const RoomMenu = styled(Icon)`
 `;
 
 export const EditForm = styled.section`
-  padding: ${theme.gutter*2}px;
+  padding: ${theme.gutter * 2}px;
   position: relative;
 
   ${breakpoints.tablet`
-    padding: ${theme.gutter*8}px ${theme.gutter*10}px;
+    padding: ${theme.gutter * 8}px ${theme.gutter * 10}px;
     min-width: 600px;
   `}
-`
+`;
 
 export const EditFormTitle = styled(Heading3)`
   font-family: ${theme.headingFont};
   color: ${theme.colors['gold-dark']};
   text-transform: capitalize;
-  letter-spacing: 0.5px;	
+  letter-spacing: 0.5px;
   line-height: 29px;
   padding: 0;
-  margin: 0 0 ${theme.gutter*5}px;
+  margin: 0 0 ${theme.gutter * 5}px;
   font-size: 22px;
-`
+`;
 
 export const EditFormSection = styled.div`
-  margin: 0 0 ${theme.gutter*5}px;
+  margin: 0 0 ${theme.gutter * 5}px;
 
   :last-child {
     margin: 0;

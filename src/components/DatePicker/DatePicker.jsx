@@ -1,10 +1,10 @@
 import React, { useRef, forwardRef } from 'react';
-import { format, isEqual } from 'date-fns';
+import { isEqual } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import { DropDownContent } from 'components';
-import { getNumberOfDays, getFromDateFormat, getToDateFormat } from 'utils';
+import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatDate } from 'utils';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
@@ -33,7 +33,7 @@ const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousCli
         keyboard_arrow_left
       </DatePickerNavbarPrev>
     }
-    <DatePickerNavbarMonth>{format(month, 'MMMM YYYY')}</DatePickerNavbarMonth>
+    <DatePickerNavbarMonth>{formatDate(month, 'MMMM YYYY')}</DatePickerNavbarMonth>
     {
       <DatePickerNavbarNext data-hide={!showNextButton} onClick={() => onNextClick()}>
         keyboard_arrow_right

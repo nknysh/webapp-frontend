@@ -1,10 +1,31 @@
-import { __, path, prop, pipe, curry, pathOr, propOr, add, multiply, toPairs, reduce, when, always } from 'ramda';
+import {
+  __,
+  always,
+  append,
+  curry,
+  keys,
+  map,
+  multiply,
+  path,
+  pickBy,
+  pipe,
+  prop,
+  propOr,
+  reduce,
+  sum,
+  uniq,
+  values,
+  when,
+} from 'ramda';
 import { createSelector } from 'reselect';
+import { isBefore, isAfter, isEqual } from 'date-fns';
 
-import { isEmptyOrNil, formatPrice } from 'utils';
+import { isEmptyOrNil, formatPrice, getNumberOfDays } from 'utils';
 
-import { getHotel } from 'store/modules/hotels/selectors';
+import { getHotelRoom } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
+
+const getRate = (accum, rate) => append(Number(prop('rate', rate)), accum);
 
 export const getBooking = prop('booking');
 
@@ -25,30 +46,10 @@ export const getBookingByHotelId = curry((state, id) =>
   )(state)
 );
 
-export const getBookingTotalByHotelId = createSelector(
-  getBookingByHotelId,
-  getHotel,
-  (booking, hotel) => {
-    const totalFromBooking = (accum, [key, value]) => {
-      const roomRate = pathOr(0, ['rooms', key, 'bestRate', 'rate'], hotel);
-      return add(multiply(roomRate, propOr(0, 'quantity', value)), accum);
-    };
-
-    const getRoomsTotal = pipe(
-      prop('rooms'),
-      toPairs,
-      reduce(totalFromBooking, 0),
-      formatPrice
-    );
-
-    return getRoomsTotal(booking);
-  }
-);
-
 export const getBookingRoomById = curry((state, hotelId, roomId) =>
   pipe(
     getBookingByHotelId(__, hotelId),
-    path(['rooms', roomId])
+    path(['accommodationProducts', roomId])
   )(state)
 );
 
@@ -58,9 +59,53 @@ export const getBookingRoomDatesById = curry((state, hotelId, roomId) =>
     getBookingByHotelId,
     (searchDates, booking) => {
       return pipe(
-        path(['rooms', roomId, 'dates']),
+        path(['accommodationProducts', roomId, 'dates']),
         when(isEmptyOrNil, always(searchDates))
       )(booking);
     }
+  )(state, hotelId)
+);
+
+export const getBookingRoomTotal = curry((state, hotelId, roomId) => {
+  const hotelRoom = getHotelRoom(state, hotelId, roomId);
+  const roomBooking = getBookingRoomById(state, hotelId, roomId);
+
+  const { to, from } = getBookingRoomDatesById(state, hotelId, roomId);
+  const quantity = propOr(0, 'quantity', roomBooking);
+
+  const days = getNumberOfDays({ from, to });
+
+  const rateRange = pickBy((rate, date) => {
+    const theDate = new Date(date);
+    const equalsFrom = isEqual(from, theDate);
+    const equalsTo = isEqual(to, theDate);
+
+    const after = isAfter(from, theDate);
+    const before = isBefore(to, theDate);
+
+    return equalsFrom || after || before || equalsTo;
+  });
+
+  return pipe(
+    prop('rates'),
+    rateRange,
+    values,
+    reduce(getRate, []),
+    uniq,
+    sum,
+    multiply(days),
+    multiply(quantity),
+    formatPrice
+  )(hotelRoom);
+});
+
+export const getBookingTotalByHotelId = curry((state, hotelId) =>
+  pipe(
+    getBookingByHotelId,
+    prop('accommodationProducts'),
+    keys,
+    map(getBookingRoomTotal(state, hotelId)),
+    sum,
+    formatPrice
   )(state, hotelId)
 );

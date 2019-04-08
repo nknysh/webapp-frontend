@@ -1,8 +1,8 @@
 import React from 'react';
 import { path, prop, replace, pipe } from 'ramda';
-import { format } from 'date-fns';
 
 import uiConfig, { getSingular } from 'config/ui';
+import { formatDate } from 'utils';
 
 import { propTypes, defaultProps } from './Offer.props';
 import {
@@ -21,14 +21,12 @@ import {
 
 const dateFormat = 'DD MMMM YYYY';
 
-const formatDate = date => format(date, dateFormat);
-
 export const Offer = ({ hotel, validFrom, validTo, description, name, rate }) => {
   const image = path(['featuredPhoto', 'url'], hotel);
 
   const getDates = pipe(
-    replace('{fromDate}', formatDate(validFrom)),
-    replace('{toDate}', formatDate(validTo))
+    replace('{fromDate}', formatDate(validFrom, dateFormat)),
+    replace('{toDate}', formatDate(validTo, dateFormat))
   );
 
   return (

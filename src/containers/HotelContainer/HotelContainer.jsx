@@ -19,9 +19,9 @@ import {
   Full,
 } from './HotelContainer.styles';
 
-const roomsLens = lensProp('rooms');
+const roomsLens = lensProp('accommodationProducts');
 
-const reloadIfMissing = complement(allPass([has('photos'), has('rooms')]));
+const reloadIfMissing = complement(allPass([has('photos'), has('accommodationProducts')]));
 
 const renderBackButton = () => <Back to="/search">{path(['labels', 'backToSearch'], uiConfig)}</Back>;
 

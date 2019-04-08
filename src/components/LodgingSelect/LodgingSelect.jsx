@@ -15,15 +15,15 @@ import {
   LodgingSelectNumberSelect,
 } from './LodgingSelect.styles';
 
-const roomsLens = lensProp('rooms');
+const roomsLens = lensProp('quantity');
 const adultsLens = lensProp('adults');
 const teensLens = lensProp('teens');
 const childrenLens = lensProp('children');
 const infantsLens = lensProp('infants');
 
-const getRoomsCount = prop('rooms');
+const getRoomsCount = prop('quantity');
 const getGuestsCount = pipe(
-  omit(['rooms']),
+  omit(['quantity']),
   values,
   sum
 );
