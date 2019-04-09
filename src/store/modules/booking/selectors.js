@@ -7,20 +7,18 @@ import {
   map,
   multiply,
   path,
-  pickBy,
   pipe,
   prop,
   propOr,
   reduce,
   sum,
-  uniq,
-  values,
   when,
+  props,
 } from 'ramda';
 import { createSelector } from 'reselect';
-import { isBefore, isAfter, isEqual } from 'date-fns';
+import { eachDay } from 'date-fns';
 
-import { isEmptyOrNil, formatPrice, getNumberOfDays } from 'utils';
+import { isEmptyOrNil, formatPrice, formatDate } from 'utils';
 
 import { getHotelRoom } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
@@ -73,30 +71,20 @@ export const getBookingRoomTotal = curry((state, hotelId, roomId) => {
   const { to, from } = getBookingRoomDatesById(state, hotelId, roomId);
   const quantity = propOr(0, 'quantity', roomBooking);
 
-  const days = getNumberOfDays({ from, to });
+  const rates = prop('rates', hotelRoom);
 
-  const rateRange = pickBy((rate, date) => {
-    const theDate = new Date(date);
-    const equalsFrom = isEqual(from, theDate);
-    const equalsTo = isEqual(to, theDate);
-
-    const after = isAfter(from, theDate);
-    const before = isBefore(to, theDate);
-
-    return equalsFrom || after || before || equalsTo;
-  });
+  const days = eachDay(from, to);
+  const ratesForDays = pipe(
+    map(formatDate),
+    props(__, rates)
+  )(days);
 
   return pipe(
-    prop('rates'),
-    rateRange,
-    values,
     reduce(getRate, []),
-    uniq,
     sum,
-    multiply(days),
     multiply(quantity),
     formatPrice
-  )(hotelRoom);
+  )(ratesForDays);
 });
 
 export const getBookingTotalByHotelId = curry((state, hotelId) =>
