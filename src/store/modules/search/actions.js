@@ -1,4 +1,4 @@
-import { propOr, prop, path, omit, curry } from 'ramda';
+import { propOr, prop, path, omit } from 'ramda';
 import { normalize } from 'normalizr';
 
 import { IndexTypes } from 'utils';

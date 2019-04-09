@@ -18,9 +18,7 @@ import breakpoints from 'styles/breakpoints';
 
 export const StyledHotel = styled.div``;
 
-export const HotelDetails = styled.div`
-  margin-bottom: ${theme.gutter * 6}px;
-`;
+export const HotelDetails = styled.div``;
 
 export const HotelDetailsRow = styled.div`
   display: block;
@@ -61,7 +59,7 @@ export const HotelDetailsColumnRight = styled(HotelDetailsColumn)`
 
 export const HotelName = styled(CardTitle)`
   border-bottom: 0;
-  margin: 0 0 ${theme.gutter}px;
+  margin: ${theme.gutter * 2.5}px 0 ${theme.gutter}px;
   padding: 0;
 `;
 
@@ -144,7 +142,7 @@ export const HotelHighlight = styled(CardHighlight)`
 `;
 
 export const HotelGallery = styled.div`
-  margin: 0 0 ${theme.gutter * 5}px;
+  margin: 0 0 ${theme.gutter * 2.5}px;
 
   ${breakpoints.tablet`
    margin-bottom: ${theme.gutter * 4}px;

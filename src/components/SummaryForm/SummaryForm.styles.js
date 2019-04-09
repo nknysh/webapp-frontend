@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
 
+import { DatePicker, Modal } from 'components';
+
 import uiConfig from 'config/ui';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
+import { Button } from 'styles/elements';
 import { Heading2, Heading3 } from 'styles/typography';
 
-export const StyledSummary = styled.aside`
+export const StyledSummary = styled.div`
   background: ${theme.colors.whiteish};
   padding: ${theme.gutter * 2}px;
+  margin-bottom: ${theme.gutter * 2}px;
 `;
 
 export const Title = styled.h3`
@@ -89,7 +93,6 @@ export const Room = styled.article`
   font-size: 12px;
   color: ${theme.colors['gold-dark']};
   text-transform: uppercase;
-  display: flex;
   border-bottom: 1px solid ${theme.borderColor};
   padding: ${theme.gutter * 2}px 0;
   letter-spacing: 0.46px;
@@ -103,6 +106,11 @@ export const Room = styled.article`
     border-bottom: 0;
     padding-bottom: 0;
   }
+`;
+
+export const RoomRow = styled.div`
+  display: flex;
+  width: 100%;
 `;
 
 export const RoomColumn = styled.div`
@@ -172,3 +180,30 @@ export const EditFormSection = styled.div`
     margin: 0;
   }
 `;
+
+export const StyledDatePicker = styled(DatePicker)`
+  position: relative;
+
+  .date-picker {
+    margin: ${theme.gutter}px 0;
+
+    .date-picker__day {
+      min-height: 55px !important;
+    }
+  }
+`;
+
+export const StyledModal = styled(Modal)`
+  .room-summary-form {
+    ${breakpoints.tablet`
+      overflow: visible;
+    `}
+  }
+`;
+
+export const SummaryFormActions = styled.div`
+  margin-top: ${theme.gutter}px;
+  padding-top: ${theme.gutter}px;
+`;
+
+export const SummaryFormButton = styled(Button)``;

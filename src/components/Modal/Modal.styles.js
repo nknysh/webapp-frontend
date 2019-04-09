@@ -13,6 +13,7 @@ export const StyledModal = styled(Modal)`
   height: 100%;
   width: 100%;
   position: relative;
+  overflow: auto;
 `;
 
 export const ModalOverlay = styled(Backdrop)`

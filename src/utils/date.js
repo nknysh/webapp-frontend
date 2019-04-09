@@ -4,6 +4,8 @@ import { differenceInCalendarDays, format, startOfMonth, endOfMonth } from 'date
 import uiConfig from 'config/ui';
 import { isEmptyOrNil } from 'utils';
 
+export const toDate = date => (date ? new Date(date) : new Date());
+
 const correctLength = pipe(
   length,
   equals(2)

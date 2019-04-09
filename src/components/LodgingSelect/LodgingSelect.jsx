@@ -1,5 +1,5 @@
 import React from 'react';
-import { curry, lensProp, view, set, prop, pipe, omit, values, sum } from 'ramda';
+import { curry, lensProp, view, set, propOr, pipe, omit, values, sum } from 'ramda';
 
 import { DropDownContent } from 'components';
 
@@ -21,7 +21,7 @@ const teensLens = lensProp('teens');
 const childrenLens = lensProp('children');
 const infantsLens = lensProp('infants');
 
-const getRoomsCount = prop('quantity');
+const getRoomsCount = propOr(0, 'quantity');
 const getGuestsCount = pipe(
   omit(['quantity']),
   values,

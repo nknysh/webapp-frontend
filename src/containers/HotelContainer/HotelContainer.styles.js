@@ -6,7 +6,10 @@ import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { Container } from 'styles/elements';
 
-export const StyledHotelContainer = styled(Container)``;
+export const StyledHotelContainer = styled(Container)`
+  width: 100%;
+  margin-bottom: ${theme.gutter * 2}px;
+`;
 
 export const StyledHotel = styled(Hotel)`
   ${breakpoints.tablet`
@@ -16,12 +19,7 @@ export const StyledHotel = styled(Hotel)`
     `}
 `;
 
-export const StyledSummary = styled(SummaryForm)`
-  ${breakpoints.tablet`
-    flex: 1;
-    max-width: 33%;
-  `}
-`;
+export const StyledSummary = styled(SummaryForm)``;
 
 export const StyledBreadcrumbs = styled(Breadcrumbs)`
   margin-left: ${theme.gutter}px;
@@ -35,4 +33,11 @@ export const Full = styled.div`
 export const Back = styled(BackButton)`
   display: flex;
   padding ${theme.gutter * 2}px !important;
+`;
+
+export const Aside = styled.aside`
+  ${breakpoints.tablet`
+    flex: 1;
+    max-width: 33%;
+  `}
 `;

@@ -25,7 +25,7 @@ import { isEmptyOrNil, formatPrice, getNumberOfDays } from 'utils';
 import { getHotelRoom } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
-const getRate = (accum, rate) => append(Number(prop('rate', rate)), accum);
+const getRate = (accum, rate) => append(Number(propOr(0, 'rate', rate)), accum);
 
 export const getBooking = prop('booking');
 

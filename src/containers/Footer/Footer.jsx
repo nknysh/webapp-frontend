@@ -4,6 +4,7 @@ import { compose } from 'ramda';
 import theme from 'styles/theme';
 import { Markdown } from 'components';
 import { useCurrentWidth } from 'effects';
+import { toDate } from 'utils';
 
 import footerText from 'config/ui/footer.md';
 import logo from 'public/img/footer-logo.png';
@@ -21,7 +22,7 @@ import {
 } from './Footer.styles';
 import connect from './Footer.state';
 
-const currentDate = new Date();
+const currentDate = toDate();
 
 export const Footer = ({ menu, className }) => {
   const currentWidth = useCurrentWidth();

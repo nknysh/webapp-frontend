@@ -17,6 +17,7 @@ import {
   StyledHotel,
   StyledSummary,
   Full,
+  Aside,
 } from './HotelContainer.styles';
 
 const roomsLens = lensProp('accommodationProducts');
@@ -47,7 +48,11 @@ export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus, getBooking,
     <StyledHotel onRoomSelect={setSelectedRooms} selectedRooms={viewBooking(roomsLens)} {...hotel} />
   );
 
-  const renderSummary = () => <BookingContainer Component={StyledSummary} hotelUuid={id} />;
+  const renderSummary = () => (
+    <Aside>
+      <BookingContainer Component={StyledSummary} hotelUuid={id} />
+    </Aside>
+  );
 
   const renderTabs = () => (
     <Fragment>

@@ -4,7 +4,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import { DropDownContent } from 'components';
-import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatDate } from 'utils';
+import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatDate, toDate } from 'utils';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
@@ -45,19 +45,20 @@ const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousCli
 const renderLabel = label => label && <DatePickerLabel>{label}</DatePickerLabel>;
 
 export const DatePicker = ({
+  className,
+  dayPickerProps,
   label,
+  onSelected,
   placeholder,
+  selectedValues,
+  showOverlay,
   summaryText,
   summaryTextPlural,
-  dayPickerProps,
-  onSelected,
-  showOverlay,
-  selectedValues,
   ...props
 }) => {
   const inputRef = useRef(undefined);
 
-  const todaysDate = new Date();
+  const todaysDate = toDate();
   const { from, to } = selectedValues;
   const isComplete = Boolean(from && to);
   const nights = getNumberOfDays(selectedValues);
@@ -103,7 +104,7 @@ export const DatePicker = ({
   };
 
   return (
-    <StyledDatePicker>
+    <StyledDatePicker className={className}>
       {renderLabel(label)}
       <DayPickerInput
         ref={inputRef}

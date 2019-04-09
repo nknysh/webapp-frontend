@@ -23,6 +23,7 @@ export const StyledRoom = styled.article`
 export const RoomImage = styled.div`
   position: relative;
   flex: 1;
+  min-height: 55px;
 
   ${breakpoints.tablet`
         height: 300px;

@@ -1,9 +1,8 @@
 import React, { memo } from 'react';
-import { __, compose, prop, curry } from 'ramda';
+import { compose, prop, curry } from 'ramda';
 
 import connect from './BookingContainer.state';
-// import { propTypes, defaultProps } from './BookingContainer.props';
-// import { } from './BookingContainer.styles';
+import { propTypes, defaultProps } from './BookingContainer.props';
 
 export const BookingContainer = ({ Component, hotel, booking, updateBooking, ...props }) => {
   const bookingUpdate = curry(updateBooking)(prop('uuid', hotel));
@@ -13,8 +12,8 @@ export const BookingContainer = ({ Component, hotel, booking, updateBooking, ...
   );
 };
 
-// BookingContainer.propTypes = propTypes;
-// BookingContainer.defaultProps = defaultProps;
+BookingContainer.propTypes = propTypes;
+BookingContainer.defaultProps = defaultProps;
 
 export default compose(
   connect,

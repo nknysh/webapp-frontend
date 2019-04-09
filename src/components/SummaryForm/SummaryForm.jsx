@@ -1,49 +1,54 @@
 import React, { useState } from 'react';
-import {
-  gt,
-  path,
-  prop,
-  mapObjIndexed,
-  values,
-  pipe,
-  when,
-  all,
-  equals,
-  always,
-  lensPath,
-  keys,
-  head,
-  last,
-} from 'ramda';
+import { all, always, equals, gt, lensPath, mapObjIndexed, path, pipe, prop, sum, values, when } from 'ramda';
 import hash from 'object-hash';
 import { isThisMonth } from 'date-fns';
 
-import { DropDownMenu, Modal, LodgingSelect, DatePicker } from 'components';
-import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatDate, getStartOfMonth, getEndOfMonth } from 'utils';
+import { DropDownMenu, LodgingSelect } from 'components';
+import {
+  formatDate,
+  getEndOfMonth,
+  getFromDateFormat,
+  getNumberOfDays,
+  getStartOfMonth,
+  getToDateFormat,
+  toDate,
+} from 'utils';
 
 import uiConfig, { getPluralisation } from 'config/ui';
 
 import { propTypes, defaultProps } from './SummaryForm.props';
 import {
-  StyledSummary,
-  Title,
-  Section,
-  Total,
-  Text,
-  Saving,
+  DatePrice,
+  EditForm,
+  EditFormSection,
+  EditFormTitle,
   HotelName,
-  Rooms,
   Room,
   RoomColumn,
-  RoomName,
   RoomDetail,
-  RoomPrice,
   RoomMenu,
-  EditForm,
-  EditFormTitle,
-  EditFormSection,
-  DatePrice,
+  RoomName,
+  RoomPrice,
+  RoomRow,
+  Rooms,
+  Saving,
+  Section,
+  StyledDatePicker,
+  StyledModal,
+  StyledSummary,
+  SummaryFormActions,
+  SummaryFormButton,
+  Text,
+  Title,
+  Total,
 } from './SummaryForm.styles';
+import {
+  getGuestsFromBooking,
+  getOptionsFromRates,
+  guestLine,
+  additionalGuestLine,
+  canBook,
+} from './SummaryForm.utils';
 
 const renderTotal = (total, saving) => (
   <Section>
@@ -80,39 +85,50 @@ export const SummaryForm = ({
 
   const onModalClose = () => setModalData({});
 
-  const renderRoom = ({ quantity }, id) => {
+  const renderRoom = ({ quantity, ...roomBooking }, id) => {
     const roomDetails = getHotelRoom(id);
     const roomDates = getRoomDates(id);
     const roomDatesCount = getNumberOfDays(roomDates);
+    const { adults, teens, children, infants } = getGuestsFromBooking(roomBooking);
+
+    const totalGuests = sum([adults, teens, children, infants]);
 
     const bookingRoomQuantityLens = lensPath(['accommodationProducts', id, 'quantity']);
 
     const onRemoveRoom = () => onBookingChange(bookingRoomQuantityLens, 0);
-    const onEditRoom = () => setModalData({ id, quantity });
+    const onEditRoom = () => setModalData({ id, quantity, adults, children, teens, infants });
 
     return (
       roomDetails &&
       roomDates &&
       gt(quantity, 0) && (
         <Room key={hash(roomDetails)}>
-          <RoomColumn>
-            <RoomName>
-              {prop('name', roomDetails)} ({quantity})
-            </RoomName>
-            <RoomDetail>
-              {roomDatesCount} {getPluralisation('night', roomDatesCount)} | {getFromDateFormat(roomDates)}{' '}
-              {getToDateFormat(roomDates)}
-            </RoomDetail>
-          </RoomColumn>
-          <RoomColumn data-shrink={true}>
-            <RoomPrice>{getRoomTotal(id)}</RoomPrice>
-          </RoomColumn>
-          <RoomColumn data-shrink={true}>
-            <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
-              <span onClick={onEditRoom}>Edit</span>
-              <span onClick={onRemoveRoom}>Remove</span>
-            </DropDownMenu>
-          </RoomColumn>
+          <RoomRow>
+            <RoomColumn>
+              <RoomName>
+                {prop('name', roomDetails)} ({quantity})
+              </RoomName>
+              <RoomDetail>
+                {roomDatesCount} {getPluralisation('night', roomDatesCount)} | {getFromDateFormat(roomDates)}{' '}
+                {getToDateFormat(roomDates)}
+              </RoomDetail>
+            </RoomColumn>
+            <RoomColumn data-shrink={true}>
+              <RoomPrice>{getRoomTotal(id)}</RoomPrice>
+            </RoomColumn>
+            <RoomColumn data-shrink={true}>
+              <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
+                <span onClick={onEditRoom}>{path(['buttons', 'edit'], uiConfig)}</span>
+                <span onClick={onRemoveRoom}>{path(['buttons', 'remove'], uiConfig)}</span>
+              </DropDownMenu>
+            </RoomColumn>
+          </RoomRow>
+          <RoomRow>
+            {guestLine('guest', totalGuests)} ({guestLine('adult', adults)}
+            {additionalGuestLine('teen', teens)}
+            {additionalGuestLine('children', children)}
+            {additionalGuestLine('infant', infants)})
+          </RoomRow>
         </Room>
       )
     );
@@ -125,19 +141,19 @@ export const SummaryForm = ({
   );
 
   const renderModal = () => {
-    const { id, quantity } = modalData;
+    const { id, quantity, adults, children, teens, infants } = modalData;
 
     if (!id) return null;
 
     const { name, rates } = getHotelRoom(id);
+    const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
     const roomDates = getRoomDates(id);
 
-    const ratesDates = keys(rates).sort();
-    const firstDate = head(ratesDates);
-    const lastDate = last(ratesDates);
-
     const onDateSelected = range => onBookingChange({ accommodationProducts: { [id]: { dates: range } } });
-    const onLodgingSelect = selected => onBookingChange({ accommodationProducts: { [id]: { ...selected } } });
+    const onLodgingSelect = selected => {
+      onBookingChange({ accommodationProducts: { [id]: { ...selected } } });
+      setModalData({ id, ...selected });
+    };
 
     const renderDay = day => {
       const rate = prop(formatDate(day), rates);
@@ -154,28 +170,35 @@ export const SummaryForm = ({
       getRatesForDates(
         hotelUuid,
         id,
-        isThisMonth(month) ? formatDate(new Date()) : getStartOfMonth(month),
+        isThisMonth(month) ? formatDate(toDate()) : getStartOfMonth(month),
         getEndOfMonth(month)
       );
       return month;
     };
 
-    const onDayPickerShow = () => {
-      getRatesForDates(hotelUuid, id, firstDate, getEndOfMonth(lastDate));
-    };
+    const onDayPickerShow = () => getRatesForDates(hotelUuid, id, firstDate, getEndOfMonth(lastDate));
 
     return (
-      <Modal open={true} onClose={onModalClose}>
+      <StyledModal open={true} onClose={onModalClose} modalContentProps={{ className: 'room-summary-form' }}>
         <EditForm>
           <EditFormTitle>{name}</EditFormTitle>
           <EditFormSection>
-            <LodgingSelect onSelected={onLodgingSelect} contentOnly={true} selectedValues={{ quantity }} />
+            <LodgingSelect
+              onSelected={onLodgingSelect}
+              contentOnly={true}
+              selectedValues={{ quantity, adults, children, teens, infants }}
+            />
           </EditFormSection>
           <EditFormSection>
-            <DatePicker
+            <StyledDatePicker
               dayPickerProps={{
-                key: Date.now(),
-                disabledDays: { before: new Date(firstDate), after: new Date(lastDate) },
+                disabledDays: [
+                  ...disabled,
+                  {
+                    before: new Date(firstDate),
+                    after: new Date(lastDate),
+                  },
+                ],
                 renderDay,
                 onMonthChange,
               }}
@@ -185,7 +208,7 @@ export const SummaryForm = ({
             />
           </EditFormSection>
         </EditForm>
-      </Modal>
+      </StyledModal>
     );
   };
 
@@ -195,11 +218,10 @@ export const SummaryForm = ({
       {renderTotal(total, saving)}
       {renderHotelName(name)}
       <Rooms>{renderRooms(accommodationProducts)}</Rooms>
-      {/* <Title>{path(['labels', 'returnTransfers'], uiConfig)}</Title>
-      <Title>{path(['labels', 'groundService'], uiConfig)}</Title>
-      <Title>{path(['labels', 'addOns'], uiConfig)}</Title>
-      <Title>{path(['labels', 'addCommission'], uiConfig)}</Title> */}
       {renderModal()}
+      <SummaryFormActions>
+        <SummaryFormButton disabled={!canBook(booking)}>{path(['buttons', 'bookNow'], uiConfig)}</SummaryFormButton>
+      </SummaryFormActions>
     </StyledSummary>
   );
 };

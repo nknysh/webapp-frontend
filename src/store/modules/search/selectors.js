@@ -1,9 +1,9 @@
-import { prop, pipe, path, when, always, inc, evolve } from 'ramda';
+import { prop, pipe, path, when, always, inc, evolve, defaultTo } from 'ramda';
 
-import { isEmptyOrNil } from 'utils';
+import { isEmptyOrNil, toDate } from 'utils';
 
-const defaultFromDate = new Date();
-const defaultToDate = new Date();
+const defaultFromDate = toDate();
+const defaultToDate = toDate();
 defaultToDate.setDate(inc(defaultToDate.getDate()));
 
 export const getSearch = prop('search');
@@ -28,11 +28,27 @@ export const getSearchValue = pipe(
   path(['search', 'value'])
 );
 
+const searchDatesTransformations = {
+  from: when(isEmptyOrNil, always(defaultFromDate)),
+  to: when(isEmptyOrNil, always(defaultToDate)),
+};
+
 export const getSearchDates = pipe(
   getSearchQuery,
   prop('dates'),
-  evolve({
-    from: when(isEmptyOrNil, always(defaultFromDate)),
-    to: when(isEmptyOrNil, always(defaultToDate)),
-  })
+  evolve(searchDatesTransformations)
+);
+
+const searchLodgingsTransformations = {
+  quantity: defaultTo(0),
+  adults: defaultTo(0),
+  teens: defaultTo(0),
+  children: defaultTo(0),
+  infants: defaultTo(0),
+};
+
+export const getSearchLodgings = pipe(
+  getSearchQuery,
+  prop('lodging'),
+  evolve(searchLodgingsTransformations)
 );
