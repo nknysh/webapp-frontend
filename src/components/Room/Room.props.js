@@ -5,7 +5,9 @@ import { noop } from 'utils';
 export const propTypes = {
   withSelection: PropTypes.bool,
   onChange: PropTypes.func,
-  selectedCount: PropTypes.number,
+  selectedCount: PropTypes.shape({
+    quantity: PropTypes.number,
+  }),
 };
 
 export const defaultProps = {

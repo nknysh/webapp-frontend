@@ -96,5 +96,5 @@ export const dropDownContentAreaStyles = css`
 `;
 
 export const DropDownContentArea = styled.div`
-  ${dropDownContentAreaStyles}
+  ${({ ['data-content']: contentOnly }) => !contentOnly && dropDownContentAreaStyles}
 `;

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { MenuList, MenuItem, Popper, Icon } from '@material-ui/core';
 
 import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
 
 export const Button = styled.span`
   cursor: pointer;
@@ -10,10 +9,8 @@ export const Button = styled.span`
 
 export const Area = styled.div`
   min-width: 170px;
-  ${breakpoints.tablet`
-    background: ${theme.backgroundColor};
-    box-shadow: ${theme.boxShadow};
-  `}
+  background: ${theme.backgroundColor};
+  box-shadow: ${theme.boxShadow};
 `;
 
 export const MaterialMenuList = styled(MenuList)`
@@ -21,9 +18,10 @@ export const MaterialMenuList = styled(MenuList)`
   margin: 0 !important;
   padding: 0 !important;
 `;
+
 export const MaterialMenuItem = styled(MenuItem)`
   font-family: ${theme.defaultFont} !important;
-  font-size: 12px !important;
+  font-size: 14px !important;
   border-bottom: 1px solid ${theme.borderColor} !important;
   margin: 0 ${theme.gutter / 2}px !important;
   padding: ${theme.gutter}px !important;
@@ -36,23 +34,16 @@ export const MaterialMenuItem = styled(MenuItem)`
   &:last-child {
     border: 0 !important;
   }
-
-  ${breakpoints.tablet`
-    font-size: 14px !important;
-  `}
 `;
 
 export const MaterialPopper = styled(Popper)`
   position: relative !important;
   right: 0;
   left: unset !important;
-  width: 100%;
-
-  ${breakpoints.tablet`
-    position: absolute !important;
-    top: ${theme.gutter * 4}px !important;
-    width: auto;
-  `}
+  position: absolute !important;
+  top: ${theme.gutter * 4}px !important;
+  width: auto;
+  z-index: 900;
 `;
 
 export const MaterialIcon = styled(Icon)`
@@ -60,9 +51,5 @@ export const MaterialIcon = styled(Icon)`
   right: 0;
   font-size: 13px !important;
   opacity: 1;
-  top: ${theme.gutter + theme.gutter / 2}px;
-
-  ${breakpoints.tablet`
-    top: ${theme.gutter - 1}px;
-  `}
+  top: ${theme.gutter - 1}px;
 `;

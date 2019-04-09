@@ -96,6 +96,11 @@ border: 0;
 padding: ${theme.gutter}px ${theme.gutter}px;
 cursor: pointer;
 
+&:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 &:hover {
   background: ${theme.secondary};
 }

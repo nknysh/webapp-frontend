@@ -1,8 +1,7 @@
 import { propOr, path, prop, pathOr } from 'ramda';
 import { normalize } from 'normalizr';
-import { format } from 'date-fns';
 
-import uiConfig from 'config/ui';
+import { formatDate } from 'utils';
 
 import client from 'api/hotels';
 
@@ -39,14 +38,19 @@ export const fetchHotel = id => (dispatch, getState) => {
 
     setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
 
-    dispatch(fetchHotelsSuccess(path(['entities', 'hotel'], normalized)));
+    const withRooms = {
+      ...path(['entities', 'hotel', id], normalized),
+      accommodationProducts: path(['entities', 'accommodationProducts'], normalized),
+    };
+
+    dispatch(fetchHotelsSuccess({ [id]: withRooms }));
   };
 
   return client
     .getHotel(id, {
-      associations: 'photos',
-      startDate: format(startDate, path(['dates', 'defaultFormat'], uiConfig)),
-      endDate: format(endDate, path(['dates', 'defaultFormat'], uiConfig)),
+      associations: 'photos,accommodationProducts',
+      startDate: formatDate(startDate),
+      endDate: formatDate(endDate),
     })
     .then(onSuccess)
     .catch(error => dispatch(errorAction(FETCH_HOTEL, propOr(error, 'response', error))));

@@ -5,6 +5,7 @@ import theme from 'styles/theme';
 
 export const StyledTabs = styled(Tabs)`
   background: ${theme.colors.whiteish};
+  border-bottom: 1px solid ${theme.primary};
 
   .tab-line {
     height: 1px;

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`date formatDate returns formatted date 1`] = `"2019-04-09"`;
+
+exports[`date formatDate returns formatted date 2`] = `"9 04 2019"`;
+
+exports[`date formatDate returns formatted date 3`] = `"2019"`;
+
+exports[`date getEndOfMonth returns last date of month 1`] = `"2019-04-30"`;
+
+exports[`date getFromDateFormat returns formatted from date 1`] = `"10 Apr "`;
+
+exports[`date getNumberOfDays returns days between 2 dates 1`] = `30`;
+
+exports[`date getNumberOfDays returns days between 2 dates 2`] = `undefined`;
+
+exports[`date getStartOfMonth returns first date of month 1`] = `"2019-04-01"`;
+
+exports[`date getToDateFormat returns formatted to date 1`] = `" - 10 May 2019"`;

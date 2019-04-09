@@ -11,7 +11,7 @@ export const updateBookingAction = payload => ({
   payload,
 });
 
-export const updateBooking = (id, payload) => (dispatch, getState) => {
+export const updateBooking = (id, payload) => async (dispatch, getState) => {
   const state = getState();
 
   dispatch(updateBookingAction(payload));

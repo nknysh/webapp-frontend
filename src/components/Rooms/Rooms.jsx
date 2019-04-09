@@ -19,6 +19,7 @@ import {
   identity,
   path,
   propSatisfies,
+  values,
 } from 'ramda';
 import hash from 'object-hash';
 
@@ -54,14 +55,14 @@ const getAmenities = memoizeWith(
   )
 );
 
-const filterNoRate = filter(propSatisfies(complement(isEmptyOrNil), 'bestRate'));
+const filterNoRate = filter(propSatisfies(complement(isEmptyOrNil), 'rates'));
 
 const filterRoomsByAmenities = (rooms, selected) => {
   if (isEmptyOrNil(selected)) return rooms;
 
   const containsAmenities = any(contains(__, selected));
   const byAmenities = pipe(
-    propOr([], 'amenities'),
+    propOr([], 'options'),
     containsAmenities
   );
 
@@ -85,7 +86,7 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
     <StyledRoom
       key={hash(room)}
       onChange={onRoomSelect}
-      selectedCount={propOr(0, prop('uuid', room), selectedRooms)}
+      selectedCount={propOr({ quantity: 0 }, prop('uuid', room), selectedRooms)}
       {...room}
     />
   );
@@ -95,7 +96,7 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
     isEmptyOrNil(filteredRooms) ? (
       <NoResults>{path(['labels', 'noRooms'], uiConfig)}</NoResults>
     ) : (
-      renderRoomsWrapper(map(renderRoom, filteredRooms))
+      renderRoomsWrapper(values(map(renderRoom, filteredRooms)))
     );
 
   return (

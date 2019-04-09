@@ -6,6 +6,7 @@ import countrySchema from 'store/modules/countries/schema';
 
 const id = 'uuid';
 
+export const accommodationProductSchema = new schema.Entity('accommodationProducts', {}, schemaOpts);
 export const rateSchema = new schema.Entity('rate', {}, schemaOpts);
 
 export default {
@@ -14,6 +15,7 @@ export default {
     'hotel',
     {
       countryCode: prop('schema', countrySchema),
+      accommodationProducts: [accommodationProductSchema],
     },
     schemaOpts
   ),

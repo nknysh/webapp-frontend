@@ -7,28 +7,50 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
   text="Getting hotel details..."
 >
   <Styled(styled.div)>
+    <Styled(withRouter(Breadcrumbs))
+      links={
+        Array [
+          Object {
+            "label": <ForwardRef
+              to="/search"
+            >
+              back to search results
+            </ForwardRef>,
+          },
+          Object {
+            "label": undefined,
+            "to": "/hotels/undefined",
+          },
+        ]
+      }
+    />
     <styled.div>
-      <Styled(withRouter(Breadcrumbs))
-        links={
-          Array [
-            Object {
-              "label": <ForwardRef
-                to="/search"
-              >
-                back to search results
-              </ForwardRef>,
-            },
-            Object {
-              "label": undefined,
-              "to": "/hotels/undefined",
-            },
-          ]
-        }
-      />
-      <Hotel
+      <Styled(Hotel)
         onRoomSelect={[Function]}
-        selectedRooms={Object {}}
       />
+      <styled.aside>
+        <Connect(Component)
+          Component={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-ekkqgF",
+                "isStatic": true,
+                "rules": Array [],
+              },
+              "displayName": "Styled(SummaryForm)",
+              "foldedComponentIds": Array [],
+              "render": [Function],
+              "styledComponentId": "sc-ekkqgF",
+              "target": [Function],
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+        />
+      </styled.aside>
     </styled.div>
   </Styled(styled.div)>
 </Loader>

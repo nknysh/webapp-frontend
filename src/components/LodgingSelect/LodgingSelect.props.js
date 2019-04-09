@@ -7,6 +7,7 @@ export const propTypes = {
   label: PropTypes.string,
   onSelected: PropTypes.func,
   sectionData: PropTypes.object,
+  keepOpen: PropTypes.bool,
   selectedValues: PropTypes.shape({
     rooms: PropTypes.number,
     adults: PropTypes.number,

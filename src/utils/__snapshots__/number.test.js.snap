@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`number utils formatPrice returns formatted price 1`] = `"1000.00"`;

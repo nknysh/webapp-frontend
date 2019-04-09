@@ -1,4 +1,5 @@
 import React, { Fragment, useRef, useState } from 'react';
+import { path } from 'ramda';
 import { Grow, ClickAwayListener } from '@material-ui/core';
 
 import { isArray, mapWithIndex } from 'utils';
@@ -13,7 +14,11 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
   const onToggle = () => setOpen(!open);
   const onClose = () => setOpen(false);
 
-  const renderItem = (item, i) => <ItemComponent key={`drop-down-menu-item-${i}`}>{item}</ItemComponent>;
+  const renderItem = (item, i) => (
+    <ItemComponent onClick={path(['props', 'onClick'], item)} key={`drop-down-menu-item-${i}`}>
+      {item}
+    </ItemComponent>
+  );
 
   const renderChildren = () => (isArray(children) ? mapWithIndex(renderItem, children) : renderItem(children, 0));
 

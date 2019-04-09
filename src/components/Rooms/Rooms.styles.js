@@ -71,8 +71,5 @@ export const NoResults = styled.div`
   width: 100%;
   text-transform: uppercase;
   color: ${theme.colors['gray-medium']};
-  font-weight: bold;
   font-size: 18px;
-  text-align: center;
-  padding: ${theme.gutter}px;
 `;

@@ -47,3 +47,24 @@ export const fetchHotels = params => dispatch => {
     })
     .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
 };
+
+export const fetchHotelRoomRatesByDates = (hotelId, roomId, startDate, endDate) => dispatch => {
+  dispatch(fetchHotelsAction());
+
+  return client
+    .getHotelRoomRates(roomId, { startDate, endDate })
+    .then(({ data: { data } }) => {
+      dispatch(
+        fetchHotelsSuccess({
+          [hotelId]: {
+            accommodationProducts: {
+              [roomId]: {
+                rates: { ...data },
+              },
+            },
+          },
+        })
+      );
+    })
+    .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
+};

@@ -3,6 +3,7 @@
 exports[`<IndexSearch /> children is called as function when open 1`] = `
 <styled.div>
   <DropDownContent
+    contentOnly={false}
     inputContent=""
     inputProps={
       Object {
@@ -31,6 +32,7 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
 exports[`<IndexSearch /> render matches snapshot 1`] = `
 <styled.div>
   <DropDownContent
+    contentOnly={false}
     inputContent=""
     inputProps={
       Object {
@@ -56,6 +58,7 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
 exports[`<IndexSearch /> render matches snapshot 2`] = `
 <styled.div>
   <DropDownContent
+    contentOnly={false}
     inputContent=""
     inputProps={
       Object {
@@ -87,6 +90,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
     with label
   </Styled(Label)>
   <DropDownContent
+    contentOnly={false}
     inputContent=""
     inputProps={
       Object {
@@ -112,6 +116,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
 exports[`<IndexSearch /> render matches snapshot 4`] = `
 <styled.div>
   <DropDownContent
+    contentOnly={false}
     inputContent=""
     inputProps={
       Object {
@@ -137,6 +142,7 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
 exports[`<IndexSearch /> render matches snapshot 5`] = `
 <styled.div>
   <DropDownContent
+    contentOnly={false}
     inputContent=""
     inputProps={
       Object {
@@ -162,6 +168,7 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
 exports[`<IndexSearch /> render matches snapshot 6`] = `
 <styled.div>
   <DropDownContent
+    contentOnly={false}
     inputContent="default value"
     inputProps={
       Object {
@@ -187,6 +194,7 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
 exports[`<IndexSearch /> render matches snapshot 7`] = `
 <styled.div>
   <DropDownContent
+    contentOnly={false}
     inputContent=""
     inputProps={
       Object {

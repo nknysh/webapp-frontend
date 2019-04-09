@@ -4,3 +4,5 @@ export * from './location';
 export * from './markdown';
 export * from './window';
 export * from './search';
+export * from './date';
+export * from './number';

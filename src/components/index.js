@@ -32,3 +32,4 @@ export { BackButton } from './BackButton';
 export { Room } from './Room';
 export { Rooms } from './Rooms';
 export { Hotel } from './Hotel';
+export { SummaryForm } from './SummaryForm';

@@ -1,9 +1,10 @@
 import React, { useRef, forwardRef } from 'react';
-import { format, differenceInCalendarDays, isEqual } from 'date-fns';
+import { isEqual } from 'date-fns';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import { DropDownContent } from 'components';
+import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatDate, toDate } from 'utils';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
@@ -24,20 +25,6 @@ const defaultState = {
   to: undefined,
 };
 
-const getFromDateFormat = ({ from, to }) => {
-  if (!from) return '';
-
-  const sameMonth = to && from.getMonth() === to.getMonth();
-  const sameYear = to && from.getYear() === to.getYear();
-
-  const month = sameMonth && sameYear ? '' : 'MMM';
-  const year = sameYear ? '' : 'YYYY';
-
-  return `D ${month} ${year}`;
-};
-
-const getNumberOfDays = ({ from, to }) => from && to && differenceInCalendarDays(to, from);
-
 // eslint-disable-next-line
 const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousClick, onNextClick, ...props }) => (
   <DatePickerNavbar>
@@ -46,7 +33,7 @@ const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousCli
         keyboard_arrow_left
       </DatePickerNavbarPrev>
     }
-    <DatePickerNavbarMonth>{format(month, 'MMMM YYYY')}</DatePickerNavbarMonth>
+    <DatePickerNavbarMonth>{formatDate(month, 'MMMM YYYY')}</DatePickerNavbarMonth>
     {
       <DatePickerNavbarNext data-hide={!showNextButton} onClick={() => onNextClick()}>
         keyboard_arrow_right
@@ -58,19 +45,20 @@ const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousCli
 const renderLabel = label => label && <DatePickerLabel>{label}</DatePickerLabel>;
 
 export const DatePicker = ({
+  className,
+  dayPickerProps,
   label,
+  onSelected,
   placeholder,
+  selectedValues,
+  showOverlay,
   summaryText,
   summaryTextPlural,
-  dayPickerProps,
-  onSelected,
-  showOverlay,
-  selectedValues,
   ...props
 }) => {
   const inputRef = useRef(undefined);
 
-  const todaysDate = new Date();
+  const todaysDate = toDate();
   const { from, to } = selectedValues;
   const isComplete = Boolean(from && to);
   const nights = getNumberOfDays(selectedValues);
@@ -79,8 +67,8 @@ export const DatePicker = ({
     <DatePickerDatesWrapper>
       <Picked>
         {!from && !to && placeholder}
-        {from && format(from, getFromDateFormat(selectedValues))}
-        {to && ` - ${format(to, 'D MMM YYYY')}`}
+        {from && getFromDateFormat(selectedValues)}
+        {to && getToDateFormat(selectedValues)}
       </Picked>
       {nights && <DatePickerSummary>{`${nights} ${nights === 1 ? summaryText : summaryTextPlural}`}</DatePickerSummary>}
     </DatePickerDatesWrapper>
@@ -116,7 +104,7 @@ export const DatePicker = ({
   };
 
   return (
-    <StyledDatePicker>
+    <StyledDatePicker className={className}>
       {renderLabel(label)}
       <DayPickerInput
         ref={inputRef}
