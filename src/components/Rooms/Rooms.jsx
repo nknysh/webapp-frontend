@@ -23,7 +23,7 @@ import {
 } from 'ramda';
 import hash from 'object-hash';
 
-import { Slider } from 'components';
+import Slider from 'components/Slider';
 import { useCurrentWidth } from 'effects';
 import { isEmptyOrNil, isMobile } from 'utils';
 

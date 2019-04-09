@@ -1,7 +1,7 @@
 import React from 'react';
 import { curry, lensProp, view, set, propOr, pipe, omit, values, sum } from 'ramda';
 
-import { DropDownContent } from 'components';
+import DropDownContent from 'components/DropDownContent';
 
 import { getPluralisation, getPlural } from 'config/ui';
 

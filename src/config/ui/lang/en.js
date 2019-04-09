@@ -12,6 +12,8 @@ export default {
     setPassword: 'Setting password...',
     searching: 'Searching...',
     gettingHotel: 'Getting hotel details...',
+    preparingBooking: 'Preparing booking...',
+    submittingBooking: 'Submitting booking...',
   },
 
   labels: {
@@ -43,6 +45,14 @@ export default {
     includesTaxes: 'Includes all applicable taxes.',
     savingOfPrefix: 'You will save ',
     savingOfSuffix: ' compared to booking directly with this location.',
+    applyMargin: 'Apply a margin',
+    currentMargin: 'Your current margin will be',
+    currentMarginPercentageSuffix: 'of the total cost shown above.',
+    enterGuestDetails: 'Enter guest details',
+    reviewAndConfirm: 'Review and confirm',
+    payByCC: 'Pay by credit card',
+    payByBT: 'Pay by bank transfer',
+    booking: 'Booking',
 
     yes: 'Yes',
     no: 'No',
@@ -64,6 +74,13 @@ export default {
     edit: 'Edit',
     remove: 'Remove',
     bookNow: 'Book now',
+    bookAndPay: 'Book & Pay',
+    finalizeAndPay: 'Finalize & Pay',
+  },
+
+  marginOptions: {
+    percentage: 'Percentage',
+    flat: 'Flat rate',
   },
 
   placeholders: {

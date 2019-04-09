@@ -1,25 +1,4 @@
-import {
-  __,
-  all,
-  always,
-  append,
-  complement,
-  defaultTo,
-  gt,
-  head,
-  ifElse,
-  isEmpty,
-  keys,
-  last,
-  map,
-  pipe,
-  propOr,
-  props,
-  propSatisfies,
-  reduce,
-  toPairs,
-  values,
-} from 'ramda';
+import { append, complement, gt, head, keys, last, map, pipe, propOr, propSatisfies, reduce, toPairs } from 'ramda';
 
 import { getPluralisation } from 'config/ui';
 
@@ -57,15 +36,3 @@ export const getOptionsFromRates = rates => {
 
   return { ratesDates, firstDate, lastDate, disabled };
 };
-
-const hasRequisites = pipe(
-  props(['quantity', 'adults']),
-  map(defaultTo(0)),
-  all(gt(__, 0))
-);
-
-export const canBook = pipe(
-  propOr({}, 'accommodationProducts'),
-  values,
-  ifElse(isEmpty, always(false), all(hasRequisites))
-);

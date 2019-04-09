@@ -20,9 +20,10 @@ export const successReducer = (state, { payload }) => {
 };
 
 export const errorReducer = (state, { payload }) => {
+  const prevData = propOr([], 'data', state);
   const setData = pipe(
     set(statusLens, Status.ERROR),
-    set(dataLens, undefined),
+    set(dataLens, prevData),
     set(errorLens, isArray(payload) ? [...payload] : payload)
   );
 

@@ -74,6 +74,7 @@ exports[`routing app routes match snapshot 8`] = `
 Object {
   "auth": true,
   "component": [Function],
+  "exact": true,
   "name": "Hotel",
   "path": "/hotels/:id",
 }
@@ -81,26 +82,27 @@ Object {
 
 exports[`routing app routes match snapshot 9`] = `
 Object {
+  "auth": true,
   "component": [Function],
-  "name": "Login",
-  "path": "/login",
+  "exact": true,
+  "name": "Hotel",
+  "path": "/hotels/:id/booking/:complete?",
 }
 `;
 
 exports[`routing app routes match snapshot 10`] = `
 Object {
   "component": [Function],
-  "name": "Create Account",
-  "path": "/sign-up",
+  "name": "Login",
+  "path": "/login",
 }
 `;
 
 exports[`routing app routes match snapshot 11`] = `
 Object {
   "component": [Function],
-  "exact": true,
-  "name": "Password Reset",
-  "path": "/password-reset",
+  "name": "Create Account",
+  "path": "/sign-up",
 }
 `;
 
@@ -109,11 +111,20 @@ Object {
   "component": [Function],
   "exact": true,
   "name": "Password Reset",
-  "path": "/password-reset/:token",
+  "path": "/password-reset",
 }
 `;
 
 exports[`routing app routes match snapshot 13`] = `
+Object {
+  "component": [Function],
+  "exact": true,
+  "name": "Password Reset",
+  "path": "/password-reset/:token",
+}
+`;
+
+exports[`routing app routes match snapshot 14`] = `
 Object {
   "component": [Function],
   "exact": true,
@@ -122,7 +133,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 14`] = `
+exports[`routing app routes match snapshot 15`] = `
 Object {
   "component": [Function],
   "name": "Not Found",

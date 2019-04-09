@@ -1,8 +1,9 @@
 import React from 'react';
 
+import Video from 'components/Video';
+
 import { propTypes, defaultProps } from './Hero.props';
 import { StyledHero, HeroChildren, HeroTitle, HeroVideo, HeroMask } from './Hero.styles';
-import { Video } from 'components';
 
 const renderMask = mask => mask && <HeroMask />;
 

@@ -1,1 +1,1 @@
-export { default as LodgingSelect } from './LodgingSelect';
+export { default } from './LodgingSelect';

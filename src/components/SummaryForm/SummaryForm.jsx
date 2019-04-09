@@ -1,9 +1,28 @@
-import React, { useState } from 'react';
-import { all, always, equals, gt, lensPath, mapObjIndexed, path, pipe, prop, sum, values, when } from 'ramda';
+import React, { useState, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
+import {
+  all,
+  always,
+  equals,
+  gt,
+  lensPath,
+  mapObjIndexed,
+  path,
+  pipe,
+  prop,
+  sum,
+  values,
+  when,
+  propOr,
+  compose,
+} from 'ramda';
 import hash from 'object-hash';
 import { isThisMonth } from 'date-fns';
 
-import { DropDownMenu, LodgingSelect } from 'components';
+import DropDownMenu from 'components/DropDownMenu';
+import LodgingSelect from 'components/LodgingSelect';
+import Input from 'components/Input';
+import Select from 'components/Select';
 import {
   formatDate,
   getEndOfMonth,
@@ -12,6 +31,8 @@ import {
   getStartOfMonth,
   getToDateFormat,
   toDate,
+  formatPrice,
+  calculatePercentage,
 } from 'utils';
 
 import uiConfig, { getPluralisation } from 'config/ui';
@@ -41,14 +62,14 @@ import {
   Text,
   Title,
   Total,
+  Margin,
+  MarginCheckbox,
+  MarginInputs,
+  MarginTotal,
+  MarginTotalAmount,
+  MarginPercentSuffix,
 } from './SummaryForm.styles';
-import {
-  getGuestsFromBooking,
-  getOptionsFromRates,
-  guestLine,
-  additionalGuestLine,
-  canBook,
-} from './SummaryForm.utils';
+import { getGuestsFromBooking, getOptionsFromRates, guestLine, additionalGuestLine } from './SummaryForm.utils';
 
 const renderTotal = (total, saving) => (
   <Section>
@@ -77,13 +98,17 @@ export const SummaryForm = ({
   getRoomTotal,
   getRatesForDates,
   onBookingChange,
+  canBook,
+  history,
 }) => {
-  const { accommodationProducts } = booking;
+  const { accommodationProducts, margin } = booking;
   const { name, uuid: hotelUuid } = hotel;
 
   const [modalData, setModalData] = useState({});
+  const [hasMargin, setHasMargin] = useState(true);
 
   const onModalClose = () => setModalData({});
+  const onBook = () => history.push(`/hotels/${hotelUuid}/booking`);
 
   const renderRoom = ({ quantity, ...roomBooking }, id) => {
     const roomDetails = getHotelRoom(id);
@@ -138,6 +163,61 @@ export const SummaryForm = ({
     mapObjIndexed(renderRoom),
     values,
     when(all(equals(false)), always(null))
+  );
+
+  const marginType = propOr('percentage', 'type', margin);
+  const marginValue = propOr(0, 'value', margin);
+  const typeIsPercent = equals('percentage', marginType);
+
+  const onMarginChecked = (e, checked) => {
+    onBookingChange({ margin: { applied: checked } });
+    setHasMargin(checked);
+  };
+
+  const onMarginTypeChange = e => {
+    const type = path(['target', 'value'], e);
+    onBookingChange({ margin: { type } });
+  };
+
+  const onMarginValueChange = e => {
+    const value = Number(path(['target', 'value'], e));
+    onBookingChange({ margin: { type: marginType, value } });
+  };
+
+  const renderMarginField = () => (
+    <Margin>
+      <MarginCheckbox
+        onChange={onMarginChecked}
+        checked={hasMargin}
+        label={path(['labels', 'applyMargin'], uiConfig)}
+      />
+      {hasMargin && (
+        <Fragment>
+          <MarginInputs>
+            <Select
+              onChange={onMarginTypeChange}
+              disabled={!hasMargin}
+              value={marginType}
+              options={prop('marginOptions', uiConfig)}
+            />
+            <Input type="number" value={marginValue} onChange={onMarginValueChange} disabled={!hasMargin} />
+          </MarginInputs>
+          <MarginTotal>
+            {path(['labels', 'currentMargin'], uiConfig)}{' '}
+            <MarginTotalAmount>
+              {formatPrice(typeIsPercent ? calculatePercentage(total, marginValue) : marginValue)}
+            </MarginTotalAmount>
+            {typeIsPercent && (
+              <Fragment>
+                {', '}
+                <MarginPercentSuffix>{marginValue}</MarginPercentSuffix>{' '}
+                {path(['labels', 'currentMarginPercentageSuffix'], uiConfig)}
+              </Fragment>
+            )}
+          </MarginTotal>
+        </Fragment>
+      )}
+    </Margin>
   );
 
   const renderModal = () => {
@@ -218,10 +298,13 @@ export const SummaryForm = ({
       {renderTotal(total, saving)}
       {renderHotelName(name)}
       <Rooms>{renderRooms(accommodationProducts)}</Rooms>
-      {renderModal()}
+      {renderMarginField()}
       <SummaryFormActions>
-        <SummaryFormButton disabled={!canBook(booking)}>{path(['buttons', 'bookNow'], uiConfig)}</SummaryFormButton>
+        <SummaryFormButton onMouseUp={onBook} disabled={!canBook}>
+          {path(['buttons', 'bookNow'], uiConfig)}
+        </SummaryFormButton>
       </SummaryFormActions>
+      {renderModal()}
     </StyledSummary>
   );
 };
@@ -229,4 +312,4 @@ export const SummaryForm = ({
 SummaryForm.propTypes = propTypes;
 SummaryForm.defaultProps = defaultProps;
 
-export default SummaryForm;
+export default compose(withRouter)(SummaryForm);

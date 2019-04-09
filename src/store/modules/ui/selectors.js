@@ -20,3 +20,8 @@ export const getUiFooterMenu = createSelector(
   getUiMenus,
   prop('footer')
 );
+
+export const getUiNotifications = createSelector(
+  getUi,
+  prop('notifications')
+);

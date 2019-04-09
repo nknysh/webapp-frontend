@@ -1,7 +1,8 @@
 import React from 'react';
 import { omit } from 'ramda';
 
-import { Label, FormFieldError } from 'components';
+import Label from 'components/Label';
+import FormFieldError from 'components/FormFieldError';
 
 import { propTypes, defaultProps } from './FormField.props';
 import { Field } from './FormField.styles';

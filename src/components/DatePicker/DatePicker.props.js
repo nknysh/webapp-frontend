@@ -10,12 +10,16 @@ export const propTypes = {
   label: PropTypes.string,
   onSelected: PropTypes.func,
   placeholder: PropTypes.string,
-  selectedValues: PropTypes.shape({
-    from: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
-    to: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
-  }),
+  selectedValues: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      from: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+      to: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+    }),
+  ]),
   showOverlay: PropTypes.bool,
   summaryText: PropTypes.string,
+  multiple: PropTypes.bool,
 };
 
 export const defaultProps = {
@@ -24,5 +28,6 @@ export const defaultProps = {
   showOverlay: true,
   summaryText: getSingular('night'),
   summaryTextPlural: getPlural('night'),
-  selectedValues: { from: undefined, to: undefined },
+  selectedValues: undefined,
+  multiple: true,
 };

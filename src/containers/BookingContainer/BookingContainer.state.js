@@ -6,6 +6,7 @@ import {
   getBookingTotalByHotelId,
   getBookingRoomDatesById,
   getBookingRoomTotal,
+  getBookingReady,
 } from 'store/modules/booking/selectors';
 import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
 import { getHotel, getHotelRoom } from 'store/modules/hotels/selectors';
@@ -18,6 +19,7 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   getHotelRoom: getHotelRoom(state, hotelUuid),
   getRoomDates: getBookingRoomDatesById(state, hotelUuid),
   getRoomTotal: getBookingRoomTotal(state, hotelUuid),
+  canBook: getBookingReady(state, hotelUuid),
 });
 
 export const mapDispatchToProps = dispatch => ({

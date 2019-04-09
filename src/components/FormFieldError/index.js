@@ -1,1 +1,1 @@
-export { default as FormFieldError } from './FormFieldError';
+export { default } from './FormFieldError';

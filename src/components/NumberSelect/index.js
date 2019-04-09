@@ -1,1 +1,1 @@
-export { default as NumberSelect } from './NumberSelect';
+export { default } from './NumberSelect';

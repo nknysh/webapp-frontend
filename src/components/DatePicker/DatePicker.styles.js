@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import { Label } from 'components';
+import Label from 'components/Label';
 import { dropDownContentAreaStyles } from 'components/DropDownContent/DropDownContent.styles';
 import breakpoints from 'styles/breakpoints';
 import theme from 'styles/theme';

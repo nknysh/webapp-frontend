@@ -14,7 +14,7 @@ export const DropDownContentOverlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 3005;
+  z-index: 1005;
   opacity: 0.4;
 
   ${breakpoints.tablet`
@@ -47,7 +47,7 @@ export const DropDownContentInput = styled(Input)`
       position: absolute;
       top: 0;
       opacity: 0;
-      z-index: 3003;
+      z-index: 1003;
     `}
   ${dropDownInputStyles}
 `;
@@ -55,7 +55,7 @@ export const DropDownContentInput = styled(Input)`
 export const DropDownContentMask = styled.div`
   ${inputStyles}
   pointer-events: none;
-  z-index: 3002;
+  z-index: 1002;
   position: relative;
   ${dropDownInputStyles}
   min-height: 37px;
