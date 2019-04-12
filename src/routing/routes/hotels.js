@@ -1,4 +1,4 @@
-import { Hotel } from 'pages';
+import { Hotel, HotelBooking } from 'pages';
 
 export default [
   {
@@ -6,5 +6,13 @@ export default [
     path: '/hotels/:id',
     component: Hotel,
     auth: true,
+    exact: true,
+  },
+  {
+    name: 'Hotel',
+    path: '/hotels/:id/booking/:complete?',
+    component: HotelBooking,
+    auth: true,
+    exact: true,
   },
 ];

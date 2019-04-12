@@ -6,3 +6,4 @@ export * from './window';
 export * from './search';
 export * from './date';
 export * from './number';
+export * from './form';

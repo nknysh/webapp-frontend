@@ -1,8 +1,9 @@
 import React from 'react';
-import { prop, path, map, complement, equals, head, values } from 'ramda';
+import { prop, path, map, complement, equals, values, last } from 'ramda';
 import { format } from 'date-fns';
 
-import { ToolTip } from 'components';
+import ToolTip from 'components/ToolTip';
+
 import { isEmptyOrNil } from 'utils';
 
 import uiConfig, { getPluralisation, getSingular } from 'config/ui';
@@ -126,13 +127,14 @@ export const Room = ({
   const imgUrl = prop('url', photo);
 
   const onRoomSelect = quantity => onChange({ [uuid]: { quantity } });
+  const visibleRate = prop('rate', last(values(rates)));
 
   return (
     <StyledRoom className={className}>
       <RoomImage>
         {imgUrl && <Img src={imgUrl} />}
         {renderImgOffer(rates)}
-        {withSelection && renderSelection(onRoomSelect, selectedCount)}
+        {withSelection && visibleRate && renderSelection(onRoomSelect, selectedCount)}
       </RoomImage>
       <RoomInfo>
         <Columns>
@@ -140,10 +142,12 @@ export const Room = ({
             <Title>{name}</Title>
           </Column>
           <Column>
-            <Price>
-              <PriceAmount>{prop('rate', head(values(rates)))}</PriceAmount>
-              <PriceLabel> /{getSingular('guest')} </PriceLabel>
-            </Price>
+            {visibleRate && (
+              <Price>
+                <PriceAmount>{visibleRate}</PriceAmount>
+                <PriceLabel> /{getSingular('guest')} </PriceLabel>
+              </Price>
+            )}
           </Column>
         </Columns>
         <Info>{information}</Info>

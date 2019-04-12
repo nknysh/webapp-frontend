@@ -14,9 +14,15 @@ import {
   sum,
   when,
   props,
+  defaultTo,
+  all,
+  gt,
+  values,
+  ifElse,
+  isEmpty,
 } from 'ramda';
 import { createSelector } from 'reselect';
-import { eachDay } from 'date-fns';
+import { eachDay, subDays } from 'date-fns';
 
 import { isEmptyOrNil, formatPrice, formatDate } from 'utils';
 
@@ -24,6 +30,12 @@ import { getHotelRoom } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
 const getRate = (accum, rate) => append(Number(propOr(0, 'rate', rate)), accum);
+
+const canBook = pipe(
+  props(['quantity', 'adults']),
+  map(defaultTo(0)),
+  all(gt(__, 0))
+);
 
 export const getBooking = prop('booking');
 
@@ -73,7 +85,7 @@ export const getBookingRoomTotal = curry((state, hotelId, roomId) => {
 
   const rates = prop('rates', hotelRoom);
 
-  const days = eachDay(from, to);
+  const days = eachDay(from, subDays(to, 1));
   const ratesForDays = pipe(
     map(formatDate),
     props(__, rates)
@@ -96,4 +108,11 @@ export const getBookingTotalByHotelId = curry((state, hotelId) =>
     sum,
     formatPrice
   )(state, hotelId)
+);
+
+export const getBookingReady = pipe(
+  getBookingByHotelId,
+  propOr({}, 'accommodationProducts'),
+  values,
+  ifElse(isEmpty, always(false), all(canBook))
 );

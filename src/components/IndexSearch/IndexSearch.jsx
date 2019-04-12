@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { isEmpty, map, repeat, length, take, compose, replace, propOr, prop, curry } from 'ramda';
 import hash from 'object-hash';
 
-import { DropDownContent } from 'components';
+import DropDownContent from 'components/DropDownContent';
 import { useEffectBoundary } from 'effects';
 import { withSearchIndexes } from 'hoc';
 import { isFunction, noop, mapWithIndex } from 'utils';

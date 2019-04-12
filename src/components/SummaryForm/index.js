@@ -1,1 +1,1 @@
-export { default as SummaryForm } from './SummaryForm';
+export { default } from './SummaryForm';

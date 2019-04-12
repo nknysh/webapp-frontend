@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { Select, Room } from 'components';
+import Select from 'components/Select';
+import Room from 'components/Room';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';

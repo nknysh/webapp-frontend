@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import { Link } from 'components';
+import Link from 'components/Link';
 
 import theme from 'styles/theme';
 

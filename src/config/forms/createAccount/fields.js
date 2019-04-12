@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { path, pick, prop, omit } from 'ramda';
 
-import { RadioButton, Select } from 'components';
+import RadioButton from 'components/RadioButton';
+import Select from 'components/Select';
+
 import { arrayToKeyValueObject } from 'utils';
 
 import uiConfig from 'config/ui';

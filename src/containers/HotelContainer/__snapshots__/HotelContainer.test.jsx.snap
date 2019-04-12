@@ -33,16 +33,17 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
           Component={
             Object {
               "$$typeof": Symbol(react.forward_ref),
+              "WrappedComponent": [Function],
               "attrs": Array [],
               "componentStyle": ComponentStyle {
-                "componentId": "sc-ekkqgF",
+                "componentId": "sc-bvTASY",
                 "isStatic": true,
                 "rules": Array [],
               },
-              "displayName": "Styled(SummaryForm)",
+              "displayName": "Styled(withRouter(SummaryForm))",
               "foldedComponentIds": Array [],
               "render": [Function],
-              "styledComponentId": "sc-ekkqgF",
+              "styledComponentId": "sc-bvTASY",
               "target": [Function],
               "toString": [Function],
               "warnTooManyClasses": [Function],

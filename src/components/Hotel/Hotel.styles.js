@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { Slider, Rooms } from 'components';
+import Slider from 'components/Slider';
+import Rooms from 'components/Rooms';
 
 import {
   CardRating,

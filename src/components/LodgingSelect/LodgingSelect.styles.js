@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { Label, NumberSelect } from 'components';
+import Label from 'components/Label';
+import NumberSelect from 'components/NumberSelect';
 
 import theme from 'styles/theme';
 

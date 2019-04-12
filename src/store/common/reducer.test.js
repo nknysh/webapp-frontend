@@ -19,7 +19,7 @@ describe('common reducers', () => {
     const result = errorReducer(initialState, { payload: { some: 'data' } });
     const expected = {
       status: Status.ERROR,
-      data: undefined,
+      data: [],
       error: {
         some: 'data',
       },

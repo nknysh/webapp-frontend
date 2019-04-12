@@ -4,7 +4,7 @@ import { __, prop } from 'ramda';
 import breakpoints from 'styles/breakpoints';
 import theme from 'styles/theme';
 
-import { Link } from 'components';
+import Link from 'components/Link';
 
 const alignMap = {
   start: 'flex-start',

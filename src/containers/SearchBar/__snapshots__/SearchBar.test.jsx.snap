@@ -33,14 +33,9 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
     >
       <DatePicker
         label="Dates"
+        multiple={true}
         onSelected={[Function]}
         placeholder="Select dates"
-        selectedValues={
-          Object {
-            "from": undefined,
-            "to": undefined,
-          }
-        }
         showOverlay={true}
         summaryText="Night"
         summaryTextPlural={

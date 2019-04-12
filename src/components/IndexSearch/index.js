@@ -1,1 +1,1 @@
-export { default as IndexSearch } from './IndexSearch';
+export { default } from './IndexSearch';

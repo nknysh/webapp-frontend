@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Label } from 'components';
+import Label from 'components/Label';
 
 import theme from 'styles/theme';
 import { Input } from 'styles/elements';

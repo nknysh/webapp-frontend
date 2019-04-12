@@ -61,9 +61,18 @@ exports[`<App /> render matches snapshot 1`] = `
     />
     <Route
       auth={true}
+      exact={true}
       key="2ed872f49357b36ccc01eeae870296cad458e6d8"
       name="Hotel"
       path="/hotels/:id"
+      render={[Function]}
+    />
+    <Route
+      auth={true}
+      exact={true}
+      key="acb8fa83c2e168bb41783568d711694db065cd11"
+      name="Hotel"
+      path="/hotels/:id/booking/:complete?"
       render={[Function]}
     />
     <Route

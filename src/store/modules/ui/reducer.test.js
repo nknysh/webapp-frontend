@@ -7,6 +7,7 @@ const initialState = {
     header: [],
     footer: footerLinks,
   },
+  notifications: [],
 };
 
 describe('ui reducer', () => {

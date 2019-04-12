@@ -1,4 +1,4 @@
-import { App } from 'apps/App';
+import App from 'apps/App';
 
 export default [
   {

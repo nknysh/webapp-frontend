@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { Link } from 'components';
+import Link from 'components/Link';
 
 import theme from 'styles/theme';
 

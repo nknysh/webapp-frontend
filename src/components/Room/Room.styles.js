@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { NumberSelect } from 'components';
+import NumberSelect from 'components/NumberSelect';
 import uiConfig from 'config/ui';
 
 import theme from 'styles/theme';

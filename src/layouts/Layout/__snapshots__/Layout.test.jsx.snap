@@ -11,6 +11,19 @@ exports[`<Layout /> render matches snapshot 1`] = `
     </title>
   </HelmetWrapper>
   <styled.div>
+    <SnackbarProvider
+      anchorOrigin={
+        Object {
+          "horizontal": "right",
+          "vertical": "top",
+        }
+      }
+      dense={false}
+      maxSnack={3}
+      preventDuplicate={false}
+    >
+      <Component />
+    </SnackbarProvider>
     <Styled(withAuthentication(Connect(Header)))
       currentPath=""
     />

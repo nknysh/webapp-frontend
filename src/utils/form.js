@@ -3,6 +3,7 @@ import {
   both,
   complement,
   cond,
+  groupBy,
   has,
   ifElse,
   isEmpty,
@@ -15,6 +16,7 @@ import {
   replace,
   split,
   T,
+  values,
 } from 'ramda';
 
 import { isObject } from 'utils';
@@ -57,4 +59,9 @@ export const extractFieldDefaults = fieldConfigExtractor('default');
 export const getFormPath = pipe(
   replace(']', ''),
   split('[')
+);
+
+export const groupFieldsBySection = pipe(
+  values,
+  groupBy(propOr('', 'section'))
 );

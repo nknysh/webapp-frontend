@@ -1,1 +1,1 @@
-export { default as DropDownContent } from './DropDownContent';
+export { default } from './DropDownContent';
