@@ -2,6 +2,7 @@ import React from 'react';
 import { curry, lensProp, view, set, propOr, pipe, omit, values, sum } from 'ramda';
 
 import DropDownContent from 'components/DropDownContent';
+import AgeSelect from 'components/AgeSelect';
 
 import { getPluralisation, getPlural } from 'config/ui';
 
@@ -15,15 +16,11 @@ import {
   LodgingSelectNumberSelect,
 } from './LodgingSelect.styles';
 
+const withoutQuantity = omit(['quantity']);
 const roomsLens = lensProp('quantity');
-const adultsLens = lensProp('adults');
-const teensLens = lensProp('teens');
-const childrenLens = lensProp('children');
-const infantsLens = lensProp('infants');
-
 const getRoomsCount = propOr(0, 'quantity');
 const getGuestsCount = pipe(
-  omit(['quantity']),
+  withoutQuantity,
   values,
   sum
 );
@@ -40,8 +37,9 @@ export const LodgingSelect = ({ label, onSelected, selectedValues, contentOnly }
 
   const roomsSummary = `${rooms} ${getPluralisation('room', rooms)}`;
   const guestsSummary = `${guests} ${getPluralisation('guest', guests)}`;
-
   const summary = `${roomsSummary}, ${guestsSummary}`;
+
+  const quantity = view(roomsLens, selectedValues);
 
   return (
     <StyledLodgingSelect>
@@ -50,33 +48,10 @@ export const LodgingSelect = ({ label, onSelected, selectedValues, contentOnly }
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{getPlural('room')}</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect startAt={view(roomsLens, selectedValues)} onChange={updateCount(roomsLens)} />
+            <LodgingSelectNumberSelect startAt={quantity} onChange={updateCount(roomsLens)} />
           </LodgingSelectEntry>
         </LodgingSelectSection>
-        <LodgingSelectSection>
-          <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>{getPlural('adult')}</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect startAt={view(adultsLens, selectedValues)} onChange={updateCount(adultsLens)} />
-          </LodgingSelectEntry>
-          <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>{getPlural('teen')} (13-18)</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect startAt={view(teensLens, selectedValues)} onChange={updateCount(teensLens)} />
-          </LodgingSelectEntry>
-          <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>{getPlural('children')} (2-12)</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect
-              startAt={view(childrenLens, selectedValues)}
-              onChange={updateCount(childrenLens)}
-            />
-          </LodgingSelectEntry>
-          <LodgingSelectEntry>
-            <LodgingSelectEntryLabel>{getPlural('infant')} (0-2)</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect
-              startAt={view(infantsLens, selectedValues)}
-              onChange={updateCount(infantsLens)}
-            />
-          </LodgingSelectEntry>
-        </LodgingSelectSection>
+        <AgeSelect values={withoutQuantity(selectedValues)} onSelect={onSelected} />
       </DropDownContent>
     </StyledLodgingSelect>
   );

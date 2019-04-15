@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GuestSelect /> render matches snapshot 1`] = `
+<styled.div>
+  <styled.div>
+    <styled.div>
+      <Styled(Label)>
+        Rooms
+      </Styled(Label)>
+      <Styled(NumberSelect)
+        onChange={[Function]}
+        value={NaN}
+      />
+    </styled.div>
+  </styled.div>
+  <Styled(Tabs)
+    labels={Array []}
+    scrollButtons="auto"
+    variant="scrollable"
+  />
+</styled.div>
+`;

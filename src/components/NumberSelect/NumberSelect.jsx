@@ -14,7 +14,7 @@ import { defaultProps, propTypes } from './NumberSelect.props';
 
 export const NumberSelect = ({
   onChange,
-  startAt,
+  value,
   className,
   zeroText,
   prevClassName,
@@ -23,27 +23,30 @@ export const NumberSelect = ({
   min,
   max,
 }) => {
-  const [count, setCount] = useState(startAt);
+  const [count, setCount] = useState(value);
 
   useEffectBoundary(() => {
-    setCount(startAt);
-  }, [startAt]);
+    setCount(value);
+  }, [value]);
 
   const canDecrease = gt(count, 0);
+  const canIncrease = max ? !gte(count, max) : true;
 
   const onDescrease = () => {
-    const newCount = canDecrease || !lte(min, count) ? dec(count) : count;
+    const newCount = canDecrease || !lte(count, min) ? dec(count) : count;
     ap([setCount, onChange], [newCount]);
   };
   const onIncrease = () => {
-    const newCount = max && gte(max, count) ? count : inc(count);
+    const newCount = canIncrease ? inc(count) : count;
     ap([setCount, onChange], [newCount]);
   };
 
   return (
     <StyledNumberSelect className={className}>
       <NumberSelectButtonContainer className={nextClassName}>
-        <NumberSelectIncrease onClick={onIncrease}>add</NumberSelectIncrease>
+        <NumberSelectIncrease data-disabled={!canIncrease} onClick={onIncrease}>
+          add
+        </NumberSelectIncrease>
       </NumberSelectButtonContainer>
 
       <NumberSelectNumber className={countClassName}>{(equals(0, count) && zeroText) || count}</NumberSelectNumber>

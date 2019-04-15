@@ -55,7 +55,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
             "adults": 0,
             "children": 0,
             "infants": 0,
-            "rooms": 0,
+            "quantity": 0,
             "teens": 0,
           }
         }

@@ -155,7 +155,7 @@ export const RoomMenu = styled(Icon)`
 `;
 
 export const EditForm = styled.section`
-  padding: ${theme.gutter * 2}px;
+  padding: ${theme.gutter * 8}px ${theme.gutter * 2}px;
   position: relative;
 
   ${breakpoints.tablet`
@@ -198,6 +198,7 @@ export const StyledDatePicker = styled(DatePicker)`
 export const StyledModal = styled(Modal)`
   .room-summary-form {
     ${breakpoints.tablet`
+      max-width: 600px;
       overflow: visible;
     `}
   }
