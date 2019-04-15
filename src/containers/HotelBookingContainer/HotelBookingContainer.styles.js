@@ -5,11 +5,9 @@ import Markdown from 'components/Markdown';
 import Modal from 'components/Modal';
 import Summary from 'components/Summary';
 
-import uiConfig from 'config/ui';
-
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { Button } from 'styles/elements';
+import { Button, withCurrency } from 'styles/elements';
 import { Heading2 } from 'styles/typography';
 
 import {
@@ -92,9 +90,7 @@ export const ModalTitle = styled(Heading2)`
 `;
 
 export const Total = styled.span`
-  :before {
-    content: '${uiConfig.currency.symbol}';
-  }
+  ${withCurrency};
 `;
 
 export const FormWrapper = styled.div`

@@ -12,9 +12,13 @@ import {
   pipe,
   prop,
   propOr,
-  sum,
   values,
   when,
+  toPairs,
+  map,
+  head,
+  last,
+  curry,
 } from 'ramda';
 import hash from 'object-hash';
 import { isThisMonth } from 'date-fns';
@@ -23,6 +27,7 @@ import DropDownMenu from 'components/DropDownMenu';
 import GuestSelect from 'components/GuestSelect';
 import Input from 'components/Input';
 import Select from 'components/Select';
+import RadioButton from 'components/RadioButton';
 import {
   formatDate,
   getEndOfMonth,
@@ -33,9 +38,10 @@ import {
   toDate,
   formatPrice,
   calculatePercentage,
+  isEmptyOrNil,
 } from 'utils';
 
-import uiConfig, { getPluralisation } from 'config/ui';
+import uiConfig, { getPluralisation, getPlural, getSingular } from 'config/ui';
 
 import { propTypes, defaultProps } from './SummaryForm.props';
 import {
@@ -68,8 +74,12 @@ import {
   MarginTotal,
   MarginTotalAmount,
   MarginPercentSuffix,
+  EditFormSectionTitle,
+  MealPlanRate,
+  MealPlanRatePrice,
+  MealPlanRateWrapper,
 } from './SummaryForm.styles';
-import { getOptionsFromRates, guestLine, additionalGuestLine, getGuests } from './SummaryForm.utils';
+import { getOptionsFromRates, guestLine, getTotalGuests, getAgeSplits } from './SummaryForm.utils';
 
 const renderTotal = (total, saving) => (
   <Section>
@@ -97,6 +107,9 @@ export const SummaryForm = ({
   getRoomDates,
   getRoomTotal,
   getRatesForDates,
+  getRoomMealPlans,
+  getRoomMealPlan,
+  getAccommodationProductAgeRanges,
   onBookingChange,
   canBook,
   history,
@@ -110,20 +123,16 @@ export const SummaryForm = ({
   const onModalClose = () => setModalData({});
   const onBook = () => history.push(`/hotels/${hotelUuid}/booking`);
 
-  const renderRoom = ({ quantity }, id) => {
+  const renderRoom = ({ quantity, mealPlan }, id) => {
     const roomDetails = getHotelRoom(id);
     const roomDates = getRoomDates(id);
     const roomDatesCount = getNumberOfDays(roomDates);
+    const roomMealPlan = getRoomMealPlan(id);
 
-    const adults = getGuests('adults', quantity);
-    const teens = getGuests('teens', quantity);
-    const children = getGuests('children', quantity);
-    const infants = getGuests('infants', quantity);
-
-    const totalGuests = sum([adults, teens, children, infants]);
+    const ageSplits = getAgeSplits(quantity);
 
     const onRemoveRoom = () => onBookingChange({ accommodationProducts: { [id]: { quantity: [] } } });
-    const onEditRoom = () => setModalData({ id, quantity });
+    const onEditRoom = () => setModalData({ id, quantity, mealPlan });
 
     return (
       roomDetails &&
@@ -151,11 +160,13 @@ export const SummaryForm = ({
             </RoomColumn>
           </RoomRow>
           <RoomRow>
-            {guestLine('guest', totalGuests)} ({guestLine('adult', adults)}
-            {additionalGuestLine('teen', teens)}
-            {additionalGuestLine('children', children)}
-            {additionalGuestLine('infant', infants)})
+            {guestLine('guest', getTotalGuests(quantity))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
           </RoomRow>
+          {roomMealPlan && (
+            <RoomRow>
+              {getSingular('mealPlan')}: {prop('name', roomMealPlan)}
+            </RoomRow>
+          )}
         </Room>
       )
     );
@@ -223,22 +234,25 @@ export const SummaryForm = ({
   );
 
   const renderModal = () => {
-    const { id, quantity } = modalData;
+    const { id, quantity, mealPlan } = modalData;
 
     if (!id) return null;
 
     const { name, rates } = getHotelRoom(id);
     const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
     const roomDates = getRoomDates(id);
+    const mealPlans = getRoomMealPlans(id);
 
     const onDateSelected = range => onBookingChange({ accommodationProducts: { [id]: { dates: range } } });
     const onGuestSelect = quantity => {
-      onBookingChange({ accommodationProducts: { [id]: { quantity } } });
-      setModalData({ id, quantity });
+      onBookingChange({ accommodationProducts: { [id]: { quantity, mealPlan } } });
+      setModalData({ id, quantity, mealPlan });
     };
 
     const renderDay = day => {
-      const rate = prop(formatDate(day), rates);
+      const dayRate = prop(formatDate(day), rates);
+      const rateUuid = prop('result', dayRate);
+      const rate = path(['entities', 'rates', rateUuid], dayRate);
 
       return (
         <span>
@@ -260,15 +274,64 @@ export const SummaryForm = ({
 
     const onDayPickerShow = () => getRatesForDates(hotelUuid, id, firstDate, getEndOfMonth(lastDate));
 
+    const onMealPlanChange = ({ target: { value: value } }) => {
+      onBookingChange({ accommodationProducts: { [id]: { mealPlan: value } } });
+      setModalData({ ...modalData, mealPlan: value });
+    };
+
+    const mapMealPlans = ([productUuid, details]) => {
+      const rates = pipe(
+        prop('rates'),
+        values
+      )(details);
+
+      const hasSplitRates = gt(length(rates), 1);
+
+      // eslint-disable-next-line
+      const renderRatePrice = ({ rates, dates }, uuid) => {
+        const splitDates = hasSplitRates ? ` | ${head(dates)} - ${last(dates)}` : '';
+
+        const renderRate = curry(
+          (isMulti, { name, rate }) =>
+            !isEmptyOrNil(rate) && (
+              <MealPlanRate key={name}>
+                (+ <MealPlanRatePrice>{rate}</MealPlanRatePrice>
+                {isMulti && ` ${name}`}
+                {splitDates})
+              </MealPlanRate>
+            )
+        );
+
+        return <MealPlanRateWrapper key={uuid}>{map(renderRate(gt(length(rates), 1)), rates)}</MealPlanRateWrapper>;
+      };
+
+      const prices = mapObjIndexed(renderRatePrice, rates);
+
+      return {
+        value: productUuid,
+        label: (
+          <span>
+            {prop('name', details)} {values(prices)}
+          </span>
+        ),
+      };
+    };
+
     return (
       <StyledModal open={true} onClose={onModalClose} modalContentProps={{ className: 'room-summary-form' }}>
         <EditForm>
           <EditFormTitle>{name}</EditFormTitle>
           <EditFormSection>
-            <GuestSelect onSelected={onGuestSelect} contentOnly={true} selectedValues={quantity} />
+            <GuestSelect
+              ageRanges={getAccommodationProductAgeRanges(id)}
+              onSelected={onGuestSelect}
+              contentOnly={true}
+              selectedValues={quantity}
+            />
           </EditFormSection>
           <EditFormSection>
             <StyledDatePicker
+              label={getPlural('date')}
               dayPickerProps={{
                 disabledDays: [
                   ...disabled,
@@ -285,6 +348,17 @@ export const SummaryForm = ({
               onSelected={onDateSelected}
             />
           </EditFormSection>
+          <EditFormSection>
+            <EditFormSectionTitle>{getPlural('mealPlan')}</EditFormSectionTitle>
+            <RadioButton
+              value={mealPlan}
+              options={pipe(
+                toPairs,
+                map(mapMealPlans)
+              )(mealPlans)}
+              onChange={onMealPlanChange}
+            />
+          </EditFormSection>
         </EditForm>
       </StyledModal>
     );
@@ -296,6 +370,7 @@ export const SummaryForm = ({
       {renderTotal(total, saving)}
       {renderHotelName(name)}
       <Rooms>{renderRooms(accommodationProducts)}</Rooms>
+      <Title>{path(['labels', 'addCommission'], uiConfig)}</Title>
       {renderMarginField()}
       <SummaryFormActions>
         <SummaryFormButton onMouseUp={onBook} disabled={!canBook}>

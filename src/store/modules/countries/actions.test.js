@@ -12,7 +12,7 @@ describe('countries actions', () => {
 
       setCountries()(dispatch, () => {});
 
-      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledTimes(2);
     });
   });
 });

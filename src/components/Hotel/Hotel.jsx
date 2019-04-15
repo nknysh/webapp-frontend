@@ -49,13 +49,15 @@ export const Hotel = ({
   const sliderMain = useRef(null);
   const sliderNav = useRef(null);
 
+  const renderedPhotos = values(map(renderImage, photos));
+
   return (
     <StyledHotel {...props}>
       <HotelDetails>
         {!isEmptyOrNil(photos) && (
           <HotelGallery>
             <MainSlider asNavFor={sliderNav} centerMode={false} fade={true} ref={sliderMain} slidesToShow={1}>
-              {map(renderImage, photos)}
+              {renderedPhotos}
             </MainSlider>
             <NavSlider
               asNavFor={sliderMain}
@@ -66,7 +68,7 @@ export const Hotel = ({
               slidesToShow={6}
               arrows={true}
             >
-              {map(renderImage, photos)}
+              {renderedPhotos}
             </NavSlider>
           </HotelGallery>
         )}

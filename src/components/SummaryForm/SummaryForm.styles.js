@@ -9,13 +9,20 @@ import uiConfig from 'config/ui';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { Button } from 'styles/elements';
+import { Button, withCurrency } from 'styles/elements';
 import { Heading2, Heading3 } from 'styles/typography';
 
 export const StyledSummary = styled.div`
   background: ${theme.colors.whiteish};
   padding: ${theme.gutter * 2}px;
   margin-bottom: ${theme.gutter * 2}px;
+
+  label,
+  label > span {
+    color: ${theme.colors['gold-neutral']} !important;
+    font-size: 13px !important;
+    text-transform: uppercase;
+  }
 `;
 
 export const Title = styled.h3`
@@ -47,13 +54,10 @@ export const Total = styled.p`
 `;
 
 export const DatePrice = styled.div`
+  ${withCurrency};
   color: ${theme.colors.black};
   font-weight: ${theme.normal};
   margin-top: ${theme.gutter / 2}px;
-
-  :before {
-    content: '${uiConfig.currency.symbol}';
-  }
 `;
 
 export const Text = styled.p`
@@ -66,11 +70,8 @@ export const Text = styled.p`
 `;
 
 export const Saving = styled.span`
-    font-weight: ${theme.bold};
-    
-:before {
-    content: '${uiConfig.currency.symbol}';
-  }
+  ${withCurrency};
+  font-weight: ${theme.bold};
 `;
 
 export const HotelName = styled(Heading2)`
@@ -139,10 +140,8 @@ export const RoomName = styled(RoomP)`
 
 export const RoomDetail = styled(RoomP)``;
 
-export const RoomPrice = styled.span`    
-  :before {
-    content: '${uiConfig.currency.symbol}';
-  }
+export const RoomPrice = styled.span`
+  ${withCurrency};
 `;
 
 export const RoomMenu = styled(Icon)`
@@ -181,6 +180,14 @@ export const EditFormSection = styled.div`
   :last-child {
     margin: 0;
   }
+`;
+
+export const EditFormSectionTitle = styled.label`
+  margin: 0 0 ${theme.gutter}px;
+  padding: 0 0 ${theme.gutter}px;
+  border-bottom: 1px solid ${theme.borderColor};
+  display: block;
+  width: 100%;
 `;
 
 export const StyledDatePicker = styled(DatePicker)`
@@ -255,15 +262,25 @@ export const MarginTotal = styled.div`
 `;
 
 export const MarginTotalAmount = styled.span`
+  ${withCurrency};
   font-weight: ${theme.bold};
-
-  :before {
-    content: '${uiConfig.currency.symbol}';
-  }
 `;
 
 export const MarginPercentSuffix = styled.span`
   :after {
     content: '%';
   }
+`;
+
+export const MealPlanRate = styled.span`
+  display: block;
+  width: 100%;
+`;
+
+export const MealPlanRatePrice = styled.span`
+  ${withCurrency};
+`;
+
+export const MealPlanRateWrapper = styled.div`
+  display: block;
 `;

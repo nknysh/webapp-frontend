@@ -114,8 +114,13 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                 "componentStyle": ComponentStyle {
                   "componentId": "sc-cSHVUG",
                   "isStatic": true,
-                  "lastClassName": "CAuLq",
-                  "rules": Array [],
+                  "lastClassName": "cBaDWt",
+                  "rules": Array [
+                    "
+  max-height: 300px;
+  overflow: auto;
+",
+                  ],
                 },
                 "displayName": "Styled(styled.pre)",
                 "foldedComponentIds": Array [
@@ -132,7 +137,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <pre
-              className="sc-gqjmRU sc-cSHVUG CAuLq"
+              className="sc-gqjmRU sc-cSHVUG cBaDWt"
             >
               Error: It doesn't work!
             </pre>
@@ -147,8 +152,13 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                 "componentStyle": ComponentStyle {
                   "componentId": "sc-cSHVUG",
                   "isStatic": true,
-                  "lastClassName": "CAuLq",
-                  "rules": Array [],
+                  "lastClassName": "cBaDWt",
+                  "rules": Array [
+                    "
+  max-height: 300px;
+  overflow: auto;
+",
+                  ],
                 },
                 "displayName": "Styled(styled.pre)",
                 "foldedComponentIds": Array [
@@ -165,7 +175,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <pre
-              className="sc-gqjmRU sc-cSHVUG CAuLq"
+              className="sc-gqjmRU sc-cSHVUG cBaDWt"
             >
               Ref: 
               ca5c2d93118cc215d7109b525da8f67c4a592154

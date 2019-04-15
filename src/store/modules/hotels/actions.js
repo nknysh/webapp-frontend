@@ -1,12 +1,11 @@
-import { prop, values, propOr, path } from 'ramda';
-import { normalize } from 'normalizr';
+import { ap, prop, values, mergeDeepRight, propOr, pathOr } from 'ramda';
 
 import client from 'api/hotels';
 
-import { successAction, errorAction, setNormalizedData } from 'store/common';
+import { successAction, errorAction } from 'store/common';
 import { index } from 'store/modules/indexes/actions';
 
-import { getHotelsData } from './selectors';
+import { getHotelsEntities } from './selectors';
 import schema from './schema';
 
 export const FETCH_HOTELS = 'FETCH_HOTELS';
@@ -16,21 +15,22 @@ export const fetchHotelsAction = () => ({
   type: FETCH_HOTELS,
 });
 
-export const fetchHotelsSuccess = data => async (dispatch, getState) => {
-  const prevData = values(getHotelsData(getState()));
+export const fetchHotelsSuccess = data => (dispatch, getState) => {
+  const prevData = getHotelsEntities(getState());
+  const hotels = mergeDeepRight(prevData, pathOr({}, ['entities', 'hotels'], data));
 
-  const hotels = [...prevData, ...values(data)];
-
-  dispatch(
-    index({
-      index: 'hotels',
-      ref: prop('id', schema),
-      fields: prop('index', schema),
-      data: hotels,
-    })
+  ap(
+    [dispatch],
+    [
+      index({
+        index: 'hotels',
+        ref: prop('id', schema),
+        fields: prop('index', schema),
+        data: values(hotels),
+      }),
+      successAction(FETCH_HOTELS, data),
+    ]
   );
-
-  dispatch(successAction(FETCH_HOTELS, data));
 };
 
 export const fetchHotels = params => dispatch => {
@@ -39,26 +39,22 @@ export const fetchHotels = params => dispatch => {
   return client
     .getHotels({ sort: ['hotel.name'], associations: 'featuredPhoto', ...params })
     .then(({ data: { data } }) => {
-      const normalized = normalize(data, prop('schema', schema));
-
-      setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
-
-      dispatch(fetchHotelsSuccess(path(['entities', 'hotel'], normalized)));
+      dispatch(fetchHotelsSuccess(data));
     })
     .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
 };
 
-export const fetchHotelRoomRatesByDates = (hotelId, roomId, startDate, endDate) => dispatch => {
+export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endDate) => dispatch => {
   dispatch(fetchHotelsAction());
 
   return client
-    .getHotelRoomRates(roomId, { startDate, endDate })
+    .getHotelRoomRates(productUuid, { startDate, endDate })
     .then(({ data: { data } }) => {
       dispatch(
         fetchHotelsSuccess({
-          [hotelId]: {
+          entities: {
             accommodationProducts: {
-              [roomId]: {
+              [productUuid]: {
                 rates: { ...data },
               },
             },
@@ -66,5 +62,5 @@ export const fetchHotelRoomRatesByDates = (hotelId, roomId, startDate, endDate) 
         })
       );
     })
-    .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
+    .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr({ message: error.message }, 'response', error))));
 };

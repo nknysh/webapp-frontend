@@ -1,11 +1,8 @@
-import { prop, propOr, pathOr } from 'ramda';
-import { normalize } from 'normalizr';
-
+import { ap, path, prop, map } from 'ramda';
 import client from 'api/offers';
 
-import { successAction, errorAction, setNormalizedData } from 'store/common';
-
-import schema from './schema';
+import { successAction, errorAction } from 'store/common';
+import { fetchHotelsSuccess } from 'store/modules/hotels/actions';
 
 export const FETCH_LATEST_OFFERS = 'FETCH_LATEST_OFFERS';
 
@@ -15,10 +12,22 @@ export const fetchOffersAction = payload => ({
 });
 
 export const fetchOffersSuccess = ({ data: { data } }) => dispatch => {
-  const normalized = normalize(data, prop('schema', schema));
-  setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
+  const offersEntities = path(['entities', 'offers'], data);
+  const hotelsEntities = path(['entities', 'hotels'], data);
+  const photosEntities = path(['entities', 'photos'], data);
 
-  dispatch(successAction(FETCH_LATEST_OFFERS, pathOr({}, ['entities', 'offer'], normalized)));
+  const result = prop('result', data);
+
+  ap(
+    [dispatch],
+    [
+      fetchHotelsSuccess({
+        entities: { hotels: hotelsEntities, photos: photosEntities },
+        result: map(prop('hotel'), result),
+      }),
+      successAction(FETCH_LATEST_OFFERS, { entities: { offers: offersEntities }, result }),
+    ]
+  );
 };
 
 export const fetchLatestOffers = args => dispatch => {

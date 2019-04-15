@@ -1,4 +1,4 @@
-import { __, pipe, prop, propOr, head, tail } from 'ramda';
+import { __, pipe, prop, propOr, head, last } from 'ramda';
 
 import en from './lang/en';
 
@@ -13,7 +13,7 @@ export const getSingular = pipe(
 
 export const getPlural = pipe(
   propOr([], __, prop('plurals', uiConfig)),
-  tail
+  last
 );
 
 export const getPluralisation = (key, value) => (value === 1 ? getSingular(key) : getPlural(key));

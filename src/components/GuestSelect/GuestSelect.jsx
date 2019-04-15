@@ -18,7 +18,7 @@ import {
 
 const renderLabel = label => label && <GuestSelectLabel>{label}</GuestSelectLabel>;
 
-export const GuestSelect = ({ label, onSelected, selectedValues }) => {
+export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues }) => {
   const quantity = length(selectedValues);
 
   const labels = (gt(quantity, 1) && map(i => `Room ${i + 1}`, range(0, quantity))) || [];
@@ -33,10 +33,16 @@ export const GuestSelect = ({ label, onSelected, selectedValues }) => {
     onSelected(selectedValues);
   });
 
-  const tabs = map(
-    i => <AgeSelect key={i} onSelect={onAgesChange(i)} values={prop(i, selectedValues)} />,
-    range(0, quantity)
+  const renderTab = i => (
+    <AgeSelect
+      ageRanges={{ adult: {}, ...ageRanges }}
+      key={i}
+      onSelect={onAgesChange(i)}
+      values={prop(i, selectedValues)}
+    />
   );
+
+  const tabs = map(renderTab, range(0, quantity));
 
   return (
     <StyledGuestSelect>

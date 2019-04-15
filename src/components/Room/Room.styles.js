@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 import NumberSelect from 'components/NumberSelect';
-import uiConfig from 'config/ui';
 
 import theme from 'styles/theme';
+import { withCurrency } from 'styles/elements';
 import breakpoints from 'styles/breakpoints';
 import { Heading1 } from 'styles/typography';
 
@@ -111,11 +111,8 @@ export const Price = styled.div`
   `}
 `;
 export const PriceAmount = styled.span`
+  ${withCurrency};
   font-size: 18px;
-  
-  :before {
-    content: '${uiConfig.currency.symbol}';
-  }
 `;
 export const PriceLabel = styled.span`
   font-size: 18px;

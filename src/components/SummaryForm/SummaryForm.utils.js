@@ -1,12 +1,12 @@
 import {
   append,
   complement,
-  curry,
   gt,
   head,
   keys,
   last,
   map,
+  path,
   pipe,
   prop,
   propOr,
@@ -14,6 +14,16 @@ import {
   reduce,
   sum,
   toPairs,
+  values,
+  apply,
+  mapObjIndexed,
+  defaultTo,
+  over,
+  lensProp,
+  add,
+  join,
+  filter,
+  equals,
 } from 'ramda';
 
 import { getPluralisation } from 'config/ui';
@@ -21,13 +31,15 @@ import { getPluralisation } from 'config/ui';
 import { isEmptyOrNil, toDate } from 'utils';
 
 export const getGuestsFromBooking = booking => ({
-  adults: propOr(0, 'adults', booking),
-  teens: propOr(0, 'teens', booking),
-  children: propOr(0, 'children', booking),
-  infants: propOr(0, 'infants', booking),
+  adult: propOr(0, 'adult', booking),
+  teen: propOr(0, 'teen', booking),
+  child: propOr(0, 'child', booking),
+  infant: propOr(0, 'infant', booking),
 });
 
-const reduceDisabledDays = (accum, [key, rate]) => {
+const reduceDisabledDays = (accum, [key, dayRate]) => {
+  const rateUuid = prop('result', dayRate);
+  const rate = path(['entities', 'rates', rateUuid], dayRate);
   if (!rate) return append(key, accum);
 
   const hasRate = propSatisfies(complement(isEmptyOrNil), 'rate');
@@ -41,8 +53,7 @@ export const getDisabledDays = pipe(
   map(toDate)
 );
 
-export const guestLine = (type, amount) => `${amount} ${getPluralisation(type, amount)}`;
-export const additionalGuestLine = (type, amount) => gt(amount, 0) && ` + ${guestLine(type, amount)}`;
+export const guestLine = (type, amount) => gt(amount, 0) && `${amount} ${getPluralisation(type, amount)}`;
 
 export const getOptionsFromRates = rates => {
   const ratesDates = keys(rates).sort();
@@ -53,14 +64,34 @@ export const getOptionsFromRates = rates => {
   return { ratesDates, firstDate, lastDate, disabled };
 };
 
-export const getGuests = curry((type, data) =>
-  pipe(
-    map(
-      pipe(
-        getGuestsFromBooking,
-        prop(type)
-      )
-    ),
-    sum
-  )(data)
+export const getTotalGuests = pipe(
+  map(
+    pipe(
+      values,
+      sum
+    )
+  ),
+  sum
+);
+
+const reduceByAge = (accum, data) => {
+  if (!data) return accum;
+
+  mapObjIndexed((amount, type) => {
+    const addAmount = pipe(
+      defaultTo(0),
+      add(amount)
+    );
+    accum = over(lensProp(type), addAmount, accum);
+  }, data);
+
+  return accum;
+};
+
+export const getAgeSplits = pipe(
+  reduce(reduceByAge, {}),
+  toPairs,
+  map(apply(guestLine)),
+  filter(complement(equals(false))),
+  join(' + ')
 );

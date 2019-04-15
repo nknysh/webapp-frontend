@@ -2,10 +2,8 @@ import styled, { css } from 'styled-components';
 
 import { RadioButton, Checkbox, Range } from 'components';
 
-import uiConfig from 'config/ui';
-
 import theme from 'styles/theme';
-import { Button } from 'styles/elements';
+import { Button, withCurrency } from 'styles/elements';
 
 const headerSpacing = theme.gutter * 2 - theme.gutter / 2;
 
@@ -111,9 +109,6 @@ export const PriceRangeLabel = styled.div`
 `;
 
 export const PriceRangeLabelPrice = styled.span`
+  ${withCurrency};
   font-weight: ${theme.bold};
-
-  :before {
-    content: '${uiConfig.currency.symbol}';
-  }
 `;

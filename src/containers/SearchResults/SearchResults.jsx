@@ -21,19 +21,15 @@ import {
   modalStyles,
 } from './SearchResults.styles';
 
-const renderResult = curry((selector, hit) => {
-  const id = prop('ref', hit);
-
-  return (
-    id && (
-      <Result to={`/hotels/${id}`} key={id}>
-        <Card hotel={selector(id)} />
-      </Result>
-    )
-  );
-});
-
-export const SearchResults = ({ fetchSearch, getCountryName, getHotel, getResults, searchQuery, searchStatus }) => {
+export const SearchResults = ({
+  fetchSearch,
+  getCountryName,
+  getHotel,
+  getResults,
+  searchQuery,
+  searchStatus,
+  getHotelFeaturedPhoto,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const loaded = useFetchData(searchStatus, fetchSearch);
@@ -50,6 +46,18 @@ export const SearchResults = ({ fetchSearch, getCountryName, getHotel, getResult
 
   const onClose = () => setModalOpen(false);
   const onOpen = () => setModalOpen(true);
+
+  const renderResult = curry((selector, hit) => {
+    const id = prop('ref', hit);
+
+    return (
+      id && (
+        <Result to={`/hotels/${id}`} key={id}>
+          <Card {...selector(id)} featuredPhoto={getHotelFeaturedPhoto(id)} />
+        </Result>
+      )
+    );
+  });
 
   return (
     <Loader isLoading={!loaded} text={path(['messages', 'searching'], uiConfig)}>

@@ -1,27 +1,42 @@
 import {
   __,
+  all,
   always,
   append,
+  concat,
   curry,
-  keys,
-  map,
-  multiply,
-  path,
-  pipe,
-  prop,
-  propOr,
-  reduce,
-  sum,
-  when,
-  props,
-  all,
+  equals,
+  F,
+  find,
   gt,
-  values,
+  head,
+  identity,
   ifElse,
   isEmpty,
+  keys,
   length,
-  F,
-  equals,
+  lensProp,
+  map,
+  mapObjIndexed,
+  memoizeWith,
+  multiply,
+  path,
+  pick,
+  pickBy,
+  pipe,
+  prop,
+  propEq,
+  propOr,
+  props,
+  reduce,
+  set,
+  sum,
+  toPairs,
+  values,
+  lensPath,
+  when,
+  defaultTo,
+  view,
 } from 'ramda';
 import { createSelector } from 'reselect';
 import { eachDay, subDays } from 'date-fns';
@@ -31,14 +46,13 @@ import { isEmptyOrNil, formatPrice, formatDate } from 'utils';
 import { getHotelRoom } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
-const getRate = (accum, rate) => append(Number(propOr(0, 'rate', rate)), accum);
-
 const noQuantity = pipe(
   length,
   equals(0)
 );
+
 const hasAdults = pipe(
-  map(prop('adults')),
+  map(prop('adult')),
   all(gt(__, 0))
 );
 
@@ -46,6 +60,16 @@ const canBook = pipe(
   prop('quantity'),
   ifElse(noQuantity, F, hasAdults)
 );
+
+const getRateAmount = pipe(
+  path(['entities', 'rates']),
+  values,
+  head,
+  propOr(0, 'rate'),
+  Number
+);
+
+const getTotalRate = (accum, rate) => append(getRateAmount(rate), accum);
 
 export const getBooking = prop('booking');
 
@@ -94,15 +118,48 @@ export const getBookingRoomTotal = curry((state, hotelId, roomId) => {
   const quantity = length(propOr([], 'quantity', roomBooking));
 
   const rates = prop('rates', hotelRoom);
-
   const days = eachDay(from, subDays(to, 1));
+
   const ratesForDays = pipe(
     map(formatDate),
     props(__, rates)
   )(days);
 
+  const getTotalMealPlans = (accum, rate) => {
+    const quantity = propOr([], 'quantity', roomBooking);
+    const selectedMealPlan = prop('mealPlan', roomBooking);
+
+    const mealPlans = path(['entities', 'Meal Plan'], rate);
+    const mealPlan = head(values(pickBy(propEq('product', selectedMealPlan), mealPlans)));
+    const mealPlanRates = propOr([], 'rates', mealPlan);
+
+    const getGuestTotal = (amount, type) => {
+      const rate = find(propEq('name', type), mealPlanRates);
+      return multiply(propOr(0, 'rate', rate), amount);
+    };
+
+    const getGuestsTotals = reduce((accum, guestQuantity = {}) => {
+      const validGuests = pick(map(prop('name'), mealPlanRates), guestQuantity);
+
+      return append(
+        pipe(
+          mapObjIndexed(getGuestTotal),
+          values,
+          sum
+        )(validGuests),
+        accum
+      );
+    }, []);
+
+    return !isEmptyOrNil(mealPlan) ? append(Number(sum(getGuestsTotals(quantity))), accum) : accum;
+  };
+
+  const ratesTotals = reduce(getTotalRate, []);
+  const mealPlansTotal = reduce(getTotalMealPlans, [], ratesForDays);
+
   return pipe(
-    reduce(getRate, []),
+    ratesTotals,
+    concat(mealPlansTotal),
     sum,
     multiply(quantity),
     formatPrice
@@ -126,3 +183,49 @@ export const getBookingReady = pipe(
   values,
   ifElse(isEmpty, always(false), all(canBook))
 );
+
+export const getBookingRoomMealPlans = curry((state, hotelId, roomId) => {
+  const hotelRoom = getHotelRoom(state, hotelId, roomId);
+  const { to, from } = getBookingRoomDatesById(state, hotelId, roomId);
+
+  const getMealPlans = memoizeWith(identity, (hotelRoom, from, to) => {
+    const rates = prop('rates', hotelRoom);
+    const days = eachDay(from, subDays(to, 1));
+
+    const reduceToMealPlanDates = (accum, [date, rate]) => {
+      const uuids = path(['entities', 'Meal Plan'], rate);
+      const rateUuid = prop('result', rate);
+
+      mapObjIndexed(({ product: productUuid, currency, rates }) => {
+        const product = path(['entities', 'products', productUuid], rate);
+        const productLens = lensProp(productUuid);
+        const ratesLens = lensPath([productUuid, 'rates', rateUuid]);
+        const datesLens = lensPath([productUuid, 'rates', rateUuid, 'dates']);
+
+        accum = pipe(
+          set(productLens, { name: prop('name', product) }),
+          set(ratesLens, { rates, currency }),
+          set(datesLens, append(date, defaultTo([], view(datesLens, accum))).sort())
+        )(accum);
+      }, uuids);
+
+      return accum;
+    };
+
+    return pipe(
+      map(formatDate),
+      pick(__, rates),
+      toPairs,
+      reduce(reduceToMealPlanDates, {})
+    )(days);
+  });
+
+  return getMealPlans(hotelRoom, from, to);
+});
+
+export const getBookingRoomMealPlan = curry((state, hotelId, roomId) => {
+  const booking = getBookingRoomById(state, hotelId, roomId);
+  const mealPlans = getBookingRoomMealPlans(state, hotelId, roomId);
+
+  return prop(prop('mealPlan', booking), mealPlans);
+});

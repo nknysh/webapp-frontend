@@ -12,11 +12,24 @@ import connect from './LatestOffers.state';
 import { propTypes, defaultProps } from './LatestOffers.props';
 import { StyledLatestOffers, Title, Offers } from './LatestOffers.styles';
 
-export const LatestOffers = ({ fetchLatestOffers, offers, offersStatus, getHotel }) => {
+export const LatestOffers = ({
+  fetchLatestOffers,
+  offers,
+  offersStatus,
+  getHotel,
+  getOffer,
+  getHotelFeaturedPhoto,
+}) => {
   const offersFetched = useFetchData(offersStatus, fetchLatestOffers, { limit: 3 });
   const currentWidth = useCurrentWidth();
 
-  const renderOffer = offer => <Offer key={hash(offer)} hotel={getHotel(prop('hotelUuid', offer))} {...offer} />;
+  const renderOffer = offerResult => {
+    const offer = getOffer(prop('offer', offerResult));
+    const hotel = getHotel(prop('hotel', offerResult));
+    const featuredPhoto = getHotelFeaturedPhoto(prop('hotel', offerResult));
+
+    return <Offer key={hash(offer)} featuredPhoto={featuredPhoto} hotel={hotel} {...offer} />;
+  };
 
   const renderOffers = when(
     complement(isNil),

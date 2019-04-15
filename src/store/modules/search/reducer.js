@@ -1,6 +1,6 @@
 import { pipe, mergeDeepRight, propOr } from 'ramda';
 
-import { initialState, successResetReducer, loadingReducer, successReducer } from 'store/common';
+import { initialState, successResetReducer, loadingReducer } from 'store/common';
 import { createReducer, getSuccessActionName, normalizer } from 'store/utils';
 
 import { SET_SEARCH_QUERY, RESET_SEARCH_FILTERS, SEARCH_RESULTS, FETCH_SEARCH } from './actions';
@@ -40,7 +40,7 @@ export default createReducer(
       normalizer('ref')
     ),
     [FETCH_SEARCH]: loadingReducer,
-    [getSuccessActionName(FETCH_SEARCH)]: successReducer,
+    [getSuccessActionName(FETCH_SEARCH)]: successResetReducer,
   },
   searchState
 );

@@ -8,22 +8,25 @@ export const propTypes = {
   onSelected: PropTypes.func,
   sectionData: PropTypes.object,
   keepOpen: PropTypes.bool,
-  selectedValues: PropTypes.shape({
-    quantity: PropTypes.number,
-    adults: PropTypes.number,
-    teens: PropTypes.number,
-    children: PropTypes.number,
-    infants: PropTypes.number,
-  }),
+  selectedValues: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.shape({
+      quantity: PropTypes.number,
+      adult: PropTypes.number,
+      teens: PropTypes.number,
+      children: PropTypes.number,
+      infant: PropTypes.number,
+    }),
+  ]),
 };
 
 export const defaultProps = {
   onSelected: noop,
   selectedValues: {
     quantity: 0,
-    adults: 0,
+    adult: 0,
     teens: 0,
     children: 0,
-    infants: 0,
+    infant: 0,
   },
 };

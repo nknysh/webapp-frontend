@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
-import { all, always, equals, gt, mapObjIndexed, path, pipe, prop, sum, values, when, length } from 'ramda';
+import { all, always, equals, gt, mapObjIndexed, path, pipe, prop, values, when, length } from 'ramda';
 import hash from 'object-hash';
 import { getFromDateFormat, getNumberOfDays, getToDateFormat, formatPrice, calculatePercentage } from 'utils';
 
-import uiConfig, { getPluralisation } from 'config/ui';
+import { guestLine, getTotalGuests, getAgeSplits } from 'components/SummaryForm/SummaryForm.utils';
+import uiConfig, { getPluralisation, getSingular } from 'config/ui';
+import { isEmptyOrNil } from 'utils';
 
 import { propTypes, defaultProps } from './Summary.props';
 import {
@@ -25,7 +27,6 @@ import {
   MarginTotalAmount,
   MarginPercentSuffix,
 } from './Summary.styles';
-import { guestLine, additionalGuestLine, getGuests } from 'components/SummaryForm/SummaryForm.utils';
 
 const renderTotal = (total, saving, margin) => (
   <Section>
@@ -69,6 +70,7 @@ export const SummaryForm = ({
   getHotelRoom,
   getRoomDates,
   getRoomTotal,
+  getRoomMealPlan,
   hotel,
   saving,
   total,
@@ -80,13 +82,9 @@ export const SummaryForm = ({
     const roomDetails = getHotelRoom(id);
     const roomDates = getRoomDates(id);
     const roomDatesCount = getNumberOfDays(roomDates);
+    const roomMealPlan = getRoomMealPlan(id);
 
-    const adults = getGuests('adults', quantity);
-    const teens = getGuests('teens', quantity);
-    const children = getGuests('children', quantity);
-    const infants = getGuests('infants', quantity);
-
-    const totalGuests = sum([adults, teens, children, infants]);
+    const ageSplits = getAgeSplits(quantity);
 
     return (
       roomDetails &&
@@ -108,11 +106,13 @@ export const SummaryForm = ({
             </RoomColumn>
           </RoomRow>
           <RoomRow>
-            {guestLine('guest', totalGuests)} ({guestLine('adult', adults)}
-            {additionalGuestLine('teen', teens)}
-            {additionalGuestLine('children', children)}
-            {additionalGuestLine('infant', infants)})
+            {guestLine('guest', getTotalGuests(quantity))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
           </RoomRow>
+          {roomMealPlan && (
+            <RoomRow>
+              {getSingular('mealPlan')}: {prop('name', roomMealPlan)}
+            </RoomRow>
+          )}
         </Room>
       )
     );

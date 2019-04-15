@@ -1,4 +1,4 @@
-import { __, pick, lensProp, lensPath, prop, set, view, map, mapObjIndexed, pipe, mergeDeepRight, omit } from 'ramda';
+import { __, ap, pick, lensProp, lensPath, prop, set, view, map, mapObjIndexed, pipe, mergeDeepRight } from 'ramda';
 import { eachDay, subDays } from 'date-fns';
 
 import client from 'api/bookings';
@@ -55,8 +55,7 @@ export const completeBooking = (id, payload) => (dispatch, getState) => {
     const days = eachDay(from, subDays(to, 1));
     const ratesForDays = pipe(
       map(formatDate),
-      pick(__, rates),
-      mapObjIndexed(omit(['addons']))
+      pick(__, rates)
     )(days);
 
     return pipe(
@@ -77,13 +76,15 @@ export const completeBooking = (id, payload) => (dispatch, getState) => {
   client
     .createBooking({ data: { attributes: { id, ...finalBooking } } })
     .then(({ data: { data } }) => {
-      dispatch(updateBooking(id, { reservationId: prop('reservationId', data) }));
-      dispatch(successAction(BOOKING_SUBMIT, data));
+      ap([dispatch], [updateBooking(id, { reservationId: prop('uuid', data) }), successAction(BOOKING_SUBMIT, data)]);
     })
     .catch(error => {
-      dispatch(
-        enqueueNotification({ message: 'There was a problem creating your booking.', options: { variant: 'error' } })
+      ap(
+        [dispatch],
+        [
+          enqueueNotification({ message: 'There was a problem creating your booking.', options: { variant: 'error' } }),
+          dispatch(errorAction(BOOKING_SUBMIT, error)),
+        ]
       );
-      dispatch(errorAction(BOOKING_SUBMIT, error));
     });
 };

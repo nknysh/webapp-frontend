@@ -38,11 +38,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
         placeholder="Select dates"
         showOverlay={true}
         summaryText="Night"
-        summaryTextPlural={
-          Array [
-            "Nights",
-          ]
-        }
+        summaryTextPlural="Nights"
       />
     </styled.div>
     <styled.div>
@@ -52,9 +48,9 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
         onSelected={[Function]}
         selectedValues={
           Object {
-            "adults": 0,
+            "adult": 0,
             "children": 0,
-            "infants": 0,
+            "infant": 0,
             "quantity": 0,
             "teens": 0,
           }
