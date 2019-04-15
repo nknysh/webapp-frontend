@@ -1,4 +1,20 @@
-import { append, complement, gt, head, keys, last, map, pipe, propOr, propSatisfies, reduce, toPairs } from 'ramda';
+import {
+  append,
+  complement,
+  curry,
+  gt,
+  head,
+  keys,
+  last,
+  map,
+  pipe,
+  prop,
+  propOr,
+  propSatisfies,
+  reduce,
+  sum,
+  toPairs,
+} from 'ramda';
 
 import { getPluralisation } from 'config/ui';
 
@@ -36,3 +52,15 @@ export const getOptionsFromRates = rates => {
 
   return { ratesDates, firstDate, lastDate, disabled };
 };
+
+export const getGuests = curry((type, data) =>
+  pipe(
+    map(
+      pipe(
+        getGuestsFromBooking,
+        prop(type)
+      )
+    ),
+    sum
+  )(data)
+);

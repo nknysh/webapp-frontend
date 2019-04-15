@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { __, pipe, lensProp, set, compose, prop, path, allPass, has, complement, curry, view } from 'ramda';
+import { __, propOr, lensProp, set, compose, prop, path, allPass, has, complement, view } from 'ramda';
 
 import { Loader, Tabs } from 'components';
 import { BookingContainer } from 'containers';
@@ -35,10 +35,12 @@ export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus, getBooking,
   const setBooking = set(__, __, booking);
   const viewBooking = view(__, booking);
 
-  const setSelectedRooms = pipe(
-    setBooking(roomsLens),
-    curry(updateBooking)(id)
-  );
+  const setSelectedRooms = (uuid, quantity) => {
+    const quantityData = propOr([], 'quantity', viewBooking(roomsLens));
+    quantityData.length = quantity;
+
+    updateBooking(id, setBooking(roomsLens, { [uuid]: { quantity: quantityData } }));
+  };
 
   const renderBreadcrumbs = () => (
     <StyledBreadcrumbs links={[{ label: renderBackButton() }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />

@@ -4,6 +4,7 @@ exports[`<NumberSelect /> render matches snapshots 1`] = `
 <styled.div>
   <styled.div>
     <Styled(WithStyles(Icon))
+      data-disabled={false}
       onClick={[Function]}
     >
       add
@@ -27,17 +28,18 @@ exports[`<NumberSelect /> render matches snapshots 2`] = `
 <styled.div>
   <styled.div>
     <Styled(WithStyles(Icon))
+      data-disabled={false}
       onClick={[Function]}
     >
       add
     </Styled(WithStyles(Icon))>
   </styled.div>
   <styled.div>
-    5
+    0
   </styled.div>
   <styled.div>
     <Styled(WithStyles(Icon))
-      data-disabled={false}
+      data-disabled={true}
       onClick={[Function]}
     >
       remove

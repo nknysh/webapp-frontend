@@ -3,24 +3,24 @@ import { withRouter } from 'react-router-dom';
 import {
   all,
   always,
+  compose,
   equals,
   gt,
-  lensPath,
+  length,
   mapObjIndexed,
   path,
   pipe,
   prop,
+  propOr,
   sum,
   values,
   when,
-  propOr,
-  compose,
 } from 'ramda';
 import hash from 'object-hash';
 import { isThisMonth } from 'date-fns';
 
 import DropDownMenu from 'components/DropDownMenu';
-import LodgingSelect from 'components/LodgingSelect';
+import GuestSelect from 'components/GuestSelect';
 import Input from 'components/Input';
 import Select from 'components/Select';
 import {
@@ -69,7 +69,7 @@ import {
   MarginTotalAmount,
   MarginPercentSuffix,
 } from './SummaryForm.styles';
-import { getGuestsFromBooking, getOptionsFromRates, guestLine, additionalGuestLine } from './SummaryForm.utils';
+import { getOptionsFromRates, guestLine, additionalGuestLine, getGuests } from './SummaryForm.utils';
 
 const renderTotal = (total, saving) => (
   <Section>
@@ -110,28 +110,30 @@ export const SummaryForm = ({
   const onModalClose = () => setModalData({});
   const onBook = () => history.push(`/hotels/${hotelUuid}/booking`);
 
-  const renderRoom = ({ quantity, ...roomBooking }, id) => {
+  const renderRoom = ({ quantity }, id) => {
     const roomDetails = getHotelRoom(id);
     const roomDates = getRoomDates(id);
     const roomDatesCount = getNumberOfDays(roomDates);
-    const { adults, teens, children, infants } = getGuestsFromBooking(roomBooking);
+
+    const adults = getGuests('adults', quantity);
+    const teens = getGuests('teens', quantity);
+    const children = getGuests('children', quantity);
+    const infants = getGuests('infants', quantity);
 
     const totalGuests = sum([adults, teens, children, infants]);
 
-    const bookingRoomQuantityLens = lensPath(['accommodationProducts', id, 'quantity']);
-
-    const onRemoveRoom = () => onBookingChange(bookingRoomQuantityLens, 0);
-    const onEditRoom = () => setModalData({ id, quantity, adults, children, teens, infants });
+    const onRemoveRoom = () => onBookingChange({ accommodationProducts: { [id]: { quantity: [] } } });
+    const onEditRoom = () => setModalData({ id, quantity });
 
     return (
       roomDetails &&
       roomDates &&
-      gt(quantity, 0) && (
+      gt(length(quantity), 0) && (
         <Room key={hash(roomDetails)}>
           <RoomRow>
             <RoomColumn>
               <RoomName>
-                {prop('name', roomDetails)} ({quantity})
+                {prop('name', roomDetails)} ({length(quantity)})
               </RoomName>
               <RoomDetail>
                 {roomDatesCount} {getPluralisation('night', roomDatesCount)} | {getFromDateFormat(roomDates)}{' '}
@@ -221,7 +223,7 @@ export const SummaryForm = ({
   );
 
   const renderModal = () => {
-    const { id, quantity, adults, children, teens, infants } = modalData;
+    const { id, quantity } = modalData;
 
     if (!id) return null;
 
@@ -230,9 +232,9 @@ export const SummaryForm = ({
     const roomDates = getRoomDates(id);
 
     const onDateSelected = range => onBookingChange({ accommodationProducts: { [id]: { dates: range } } });
-    const onLodgingSelect = selected => {
-      onBookingChange({ accommodationProducts: { [id]: { ...selected } } });
-      setModalData({ id, ...selected });
+    const onGuestSelect = quantity => {
+      onBookingChange({ accommodationProducts: { [id]: { quantity } } });
+      setModalData({ id, quantity });
     };
 
     const renderDay = day => {
@@ -263,11 +265,7 @@ export const SummaryForm = ({
         <EditForm>
           <EditFormTitle>{name}</EditFormTitle>
           <EditFormSection>
-            <LodgingSelect
-              onSelected={onLodgingSelect}
-              contentOnly={true}
-              selectedValues={{ quantity, adults, children, teens, infants }}
-            />
+            <GuestSelect onSelected={onGuestSelect} contentOnly={true} selectedValues={quantity} />
           </EditFormSection>
           <EditFormSection>
             <StyledDatePicker

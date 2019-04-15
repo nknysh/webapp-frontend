@@ -38,3 +38,4 @@ export { default as ToolTip } from './ToolTip';
 export { default as Video } from './Video';
 export { default as Notifications } from './Notifications';
 export { default as BookingConfirmation } from './BookingConfirmation';
+export { default as GuestSelect } from './GuestSelect';

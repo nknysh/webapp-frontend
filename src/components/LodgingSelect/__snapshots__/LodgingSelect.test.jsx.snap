@@ -15,50 +15,54 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         </Styled(Label)>
         <Styled(NumberSelect)
           onChange={[Function]}
-        />
-      </styled.div>
-    </styled.div>
-    <styled.div>
-      <styled.div>
-        <Styled(Label)>
-          Adults
-        </Styled(Label)>
-        <Styled(NumberSelect)
-          onChange={[Function]}
-          startAt={0}
-        />
-      </styled.div>
-      <styled.div>
-        <Styled(Label)>
-          Teens
-           (13-18)
-        </Styled(Label)>
-        <Styled(NumberSelect)
-          onChange={[Function]}
-          startAt={0}
-        />
-      </styled.div>
-      <styled.div>
-        <Styled(Label)>
-          Children
-           (2-12)
-        </Styled(Label)>
-        <Styled(NumberSelect)
-          onChange={[Function]}
-          startAt={0}
-        />
-      </styled.div>
-      <styled.div>
-        <Styled(Label)>
-          Infants
-           (0-2)
-        </Styled(Label)>
-        <Styled(NumberSelect)
-          onChange={[Function]}
           startAt={0}
         />
       </styled.div>
     </styled.div>
+    <AgeSelect
+      ageRanges={
+        Object {
+          "children": Object {
+            "from": 2,
+            "to": 12,
+          },
+          "infants": Object {
+            "from": 0,
+            "to": 2,
+          },
+          "teens": Object {
+            "from": 13,
+            "to": 18,
+          },
+        }
+      }
+      labels={
+        Object {
+          "adults": Array [
+            "Adults",
+          ],
+          "children": Array [
+            "Children",
+          ],
+          "infants": Array [
+            "Infants",
+          ],
+          "teens": Array [
+            "Teens",
+          ],
+        }
+      }
+      minMax={Object {}}
+      onSelect={[Function]}
+      values={
+        Object {
+          "adults": 0,
+          "children": 0,
+          "infants": 0,
+          "teens": 0,
+        }
+      }
+    />
   </DropDownContent>
 </styled.div>
 `;

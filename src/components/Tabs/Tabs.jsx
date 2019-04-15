@@ -1,23 +1,34 @@
 import React, { useState, Fragment } from 'react';
-import { map, propOr } from 'ramda';
+import { map, propOr, isEmpty, gt, length, inc } from 'ramda';
+
+import { useEffectBoundary } from 'effects';
 
 import { propTypes, defaultProps } from './Tabs.props';
 import { StyledTabs, Tab } from './Tabs.styles';
 
 const renderLabel = label => <Tab key={label} label={label} />;
 
-export const Tabs = ({ labels, children, ...props }) => {
-  const [current, setCurrent] = useState(0);
+export const Tabs = ({ labels, children, current, ...props }) => {
+  const [tab, setTab] = useState(current);
 
-  const content = propOr(children, current, children);
+  const content = propOr(children, tab, children);
+  const onChange = (e, value) => setTab(value);
 
-  const onChange = (e, value) => setCurrent(value);
+  useEffectBoundary(() => {
+    setTab(current);
+  }, [current]);
+
+  useEffectBoundary(() => {
+    gt(inc(tab), length(children)) && setTab(0);
+  }, [children]);
 
   return (
     <Fragment>
-      <StyledTabs classes={{ indicator: 'tab-line' }} value={current} className="tabs" onChange={onChange} {...props}>
-        {map(renderLabel, labels)}
-      </StyledTabs>
+      {!isEmpty(labels) && (
+        <StyledTabs classes={{ indicator: 'tab-line' }} value={tab} className="tabs" onChange={onChange} {...props}>
+          {map(renderLabel, labels)}
+        </StyledTabs>
+      )}
       {content}
     </Fragment>
   );

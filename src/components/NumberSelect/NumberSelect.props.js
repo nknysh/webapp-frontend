@@ -4,7 +4,7 @@ import { noop } from 'utils';
 
 export const propTypes = {
   onChange: PropTypes.func,
-  startAt: PropTypes.number,
+  value: PropTypes.number,
   zeroText: PropTypes.string,
   prevClassName: PropTypes.string,
   nextClassName: PropTypes.string,
@@ -15,5 +15,6 @@ export const propTypes = {
 
 export const defaultProps = {
   onChange: noop,
-  startAt: 0,
+  value: 0,
+  min: 0,
 };

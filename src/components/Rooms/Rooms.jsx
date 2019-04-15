@@ -20,6 +20,8 @@ import {
   path,
   propSatisfies,
   values,
+  pathOr,
+  length,
 } from 'ramda';
 import hash from 'object-hash';
 
@@ -82,14 +84,12 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
   const amenities = getAmenities(rooms);
   const filteredRooms = filterNoRate(filterRoomsByAmenities(rooms, selectedAmenities));
 
-  const renderRoom = room => (
-    <StyledRoom
-      key={hash(room)}
-      onChange={onRoomSelect}
-      selectedCount={propOr({ quantity: 0 }, prop('uuid', room), selectedRooms)}
-      {...room}
-    />
-  );
+  const renderRoom = room => {
+    const selectedCount = length(pathOr([], [prop('uuid', room), 'quantity'], selectedRooms));
+
+    return <StyledRoom key={hash(room)} onChange={onRoomSelect} selectedCount={selectedCount} {...room} />;
+  };
+
   const renderRoomsWrapper = children =>
     isMobile(currentWidth) ? <Slider infinite={false}>{children}</Slider> : children;
   const renderRooms = () =>

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { all, always, equals, gt, mapObjIndexed, path, pipe, prop, sum, values, when } from 'ramda';
+import { all, always, equals, gt, mapObjIndexed, path, pipe, prop, sum, values, when, length } from 'ramda';
 import hash from 'object-hash';
 import { getFromDateFormat, getNumberOfDays, getToDateFormat, formatPrice, calculatePercentage } from 'utils';
 
@@ -25,7 +25,7 @@ import {
   MarginTotalAmount,
   MarginPercentSuffix,
 } from './Summary.styles';
-import { getGuestsFromBooking, guestLine, additionalGuestLine } from './Summary.utils';
+import { guestLine, additionalGuestLine, getGuests } from 'components/SummaryForm/SummaryForm.utils';
 
 const renderTotal = (total, saving, margin) => (
   <Section>
@@ -76,23 +76,27 @@ export const SummaryForm = ({
   const { accommodationProducts, margin } = booking;
   const { name } = hotel;
 
-  const renderRoom = ({ quantity, ...roomBooking }, id) => {
+  const renderRoom = ({ quantity }, id) => {
     const roomDetails = getHotelRoom(id);
     const roomDates = getRoomDates(id);
     const roomDatesCount = getNumberOfDays(roomDates);
-    const { adults, teens, children, infants } = getGuestsFromBooking(roomBooking);
+
+    const adults = getGuests('adults', quantity);
+    const teens = getGuests('teens', quantity);
+    const children = getGuests('children', quantity);
+    const infants = getGuests('infants', quantity);
 
     const totalGuests = sum([adults, teens, children, infants]);
 
     return (
       roomDetails &&
       roomDates &&
-      gt(quantity, 0) && (
+      gt(length(quantity), 0) && (
         <Room key={hash(roomDetails)}>
           <RoomRow>
             <RoomColumn>
               <RoomName>
-                {prop('name', roomDetails)} ({quantity})
+                {prop('name', roomDetails)} ({length(quantity)})
               </RoomName>
               <RoomDetail>
                 {roomDatesCount} {getPluralisation('night', roomDatesCount)} | {getFromDateFormat(roomDates)}{' '}
