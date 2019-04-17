@@ -83,7 +83,7 @@ export const completeBooking = (id, payload) => (dispatch, getState) => {
         [dispatch],
         [
           enqueueNotification({ message: 'There was a problem creating your booking.', options: { variant: 'error' } }),
-          dispatch(errorAction(BOOKING_SUBMIT, error)),
+          errorAction(BOOKING_SUBMIT, error),
         ]
       );
     });
