@@ -11,8 +11,8 @@ export const propTypes = {
   selectedValues: PropTypes.shape({
     quantity: PropTypes.number,
     adult: PropTypes.number,
-    teens: PropTypes.number,
-    children: PropTypes.number,
+    teen: PropTypes.number,
+    child: PropTypes.number,
     infant: PropTypes.number,
   }),
 };
@@ -22,8 +22,8 @@ export const defaultProps = {
   selectedValues: {
     quantity: 0,
     adult: 0,
-    teens: 0,
-    children: 0,
+    teen: 0,
+    child: 0,
     infant: 0,
   },
 };

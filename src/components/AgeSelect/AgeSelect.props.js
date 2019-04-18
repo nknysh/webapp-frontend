@@ -13,16 +13,16 @@ export const defaultProps = {
   ageRanges: {
     adult: {},
     teen: {
-      from: 13,
-      to: 18,
+      ageFrom: 13,
+      ageTo: 18,
     },
     child: {
-      from: 2,
-      to: 12,
+      ageFrom: 2,
+      ageTo: 12,
     },
     infant: {
-      from: 0,
-      to: 2,
+      ageFrom: 0,
+      ageTo: 2,
     },
   },
   minMax: {},

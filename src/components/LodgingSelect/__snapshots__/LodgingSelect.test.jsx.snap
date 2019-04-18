@@ -24,16 +24,16 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         Object {
           "adult": Object {},
           "child": Object {
-            "from": 2,
-            "to": 12,
+            "ageFrom": 2,
+            "ageTo": 12,
           },
           "infant": Object {
-            "from": 0,
-            "to": 2,
+            "ageFrom": 0,
+            "ageTo": 2,
           },
           "teen": Object {
-            "from": 13,
-            "to": 18,
+            "ageFrom": 13,
+            "ageTo": 18,
           },
         }
       }
@@ -42,9 +42,9 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
       values={
         Object {
           "adult": 0,
-          "children": 0,
+          "child": 0,
           "infant": 0,
-          "teens": 0,
+          "teen": 0,
         }
       }
     />
