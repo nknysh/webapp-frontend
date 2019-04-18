@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BackButton /> render matches snapshot 1`] = `
+<BackButtonstyles__Navigation>
+  <BackButtonstyles__BackWrapper>
+    <BackButtonstyles__Button>
+      keyboard_arrow_left
+    </BackButtonstyles__Button>
+  </BackButtonstyles__BackWrapper>
+</BackButtonstyles__Navigation>
+`;

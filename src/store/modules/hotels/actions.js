@@ -1,21 +1,21 @@
-import { prop, values, mergeDeepRight, propOr, pathOr } from 'ramda';
+import { prop, values, mergeDeepRight, pathOr } from 'ramda';
 
 import client from 'api/hotels';
 
-import { successAction, errorAction } from 'store/common';
+import { successAction, errorFromResponse } from 'store/common';
 import { index } from 'store/modules/indexes/actions';
 
 import { getHotelsEntities } from './selectors';
 import schema from './schema';
 
-export const FETCH_HOTELS = 'FETCH_HOTELS';
-export const FETCH_HOTEL = 'FETCH_HOTEL';
+export const HOTELS = 'HOTELS';
+export const HOTEL = 'HOTEL';
 
 export const fetchHotelsAction = () => ({
-  type: FETCH_HOTELS,
+  type: HOTELS,
 });
 
-export const fetchHotelsSuccess = data => (dispatch, getState) => {
+export const setHotels = data => (dispatch, getState) => {
   const prevData = getHotelsEntities(getState());
   const hotels = mergeDeepRight(prevData, pathOr({}, ['entities', 'hotels'], data));
 
@@ -27,37 +27,45 @@ export const fetchHotelsSuccess = data => (dispatch, getState) => {
       data: values(hotels),
     })
   );
-  dispatch(successAction(FETCH_HOTELS, data));
+  dispatch(successAction(HOTELS, data));
 };
 
-export const fetchHotels = params => dispatch => {
+export const fetchHotels = params => async dispatch => {
   dispatch(fetchHotelsAction());
 
-  return client
-    .getHotels({ sort: ['hotel.name'], associations: 'featuredPhoto', ...params })
-    .then(({ data: { data } }) => {
-      dispatch(fetchHotelsSuccess(data));
-    })
-    .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr(error, 'response', error))));
+  try {
+    const {
+      data: { data },
+    } = await client.getHotels({ sort: ['hotel.name'], associations: 'featuredPhoto', ...params });
+
+    dispatch(setHotels(data));
+  } catch (e) {
+    dispatch(errorFromResponse(HOTELS, e));
+    throw e;
+  }
 };
 
-export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endDate) => dispatch => {
+export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endDate) => async dispatch => {
   dispatch(fetchHotelsAction());
 
-  return client
-    .getHotelRoomRates(productUuid, { startDate, endDate })
-    .then(({ data: { data } }) => {
-      dispatch(
-        fetchHotelsSuccess({
-          entities: {
-            accommodationProducts: {
-              [productUuid]: {
-                rates: { ...data },
-              },
+  try {
+    const {
+      data: { data },
+    } = await client.getHotelRoomRates(productUuid, { startDate, endDate });
+
+    dispatch(
+      setHotels({
+        entities: {
+          accommodationProducts: {
+            [productUuid]: {
+              rates: { ...data },
             },
           },
-        })
-      );
-    })
-    .catch(error => dispatch(errorAction(FETCH_HOTELS, propOr({ message: error.message }, 'response', error))));
+        },
+      })
+    );
+  } catch (e) {
+    dispatch(errorFromResponse(HOTELS, e));
+    throw e;
+  }
 };

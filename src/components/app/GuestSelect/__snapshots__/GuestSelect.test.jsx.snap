@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GuestSelect /> render matches snapshot 1`] = `
+<GuestSelectstyles__StyledGuestSelect>
+  <GuestSelectstyles__GuestSelectSection>
+    <GuestSelectstyles__GuestSelectEntry>
+      <GuestSelectstyles__GuestSelectEntryLabel>
+        Rooms
+      </GuestSelectstyles__GuestSelectEntryLabel>
+      <GuestSelectstyles__GuestSelectNumberSelect
+        onChange={[Function]}
+        value={0}
+      />
+    </GuestSelectstyles__GuestSelectEntry>
+  </GuestSelectstyles__GuestSelectSection>
+  <GuestSelectstyles__RoomTabs
+    labels={Array []}
+    scrollButtons="auto"
+    variant="scrollable"
+  />
+</GuestSelectstyles__StyledGuestSelect>
+`;

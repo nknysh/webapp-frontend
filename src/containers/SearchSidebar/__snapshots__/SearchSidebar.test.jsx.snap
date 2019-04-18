@@ -2,406 +2,107 @@
 
 exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
 <Fragment>
-  <styled.div>
-    <styled.h4>
+  <SearchSidebarstyles__Section>
+    <SearchSidebarstyles__Title>
       Search
-    </styled.h4>
-    <styled.div>
-      <withSearchIndexes(IndexSearch)
-        indexes={
-          Array [
-            "countries",
-            "hotels",
-          ]
-        }
-        label="Destination or resort"
-        limit={5}
-        onClick={[Function]}
-        openOnFocus={false}
-        placeholder="Where to"
-        selectors={
-          Array [
-            [Function],
-            undefined,
-          ]
-        }
-      />
-    </styled.div>
-    <styled.div>
-      <DatePicker
-        label="Dates"
-        multiple={true}
-        onSelected={[Function]}
-        placeholder="Select dates"
-        showOverlay={true}
-        summaryText="Night"
-        summaryTextPlural="Nights"
-      />
-    </styled.div>
-    <styled.div>
-      <LodgingSelect
-        id="lodging"
-        label="Lodging"
-        onSelected={[Function]}
-        selectedValues={
-          Object {
-            "adult": 0,
-            "child": 0,
-            "infant": 0,
-            "quantity": 0,
-            "teen": 0,
-          }
-        }
-      />
-    </styled.div>
-    <styled.div>
-      <Checkbox
-        checked={false}
-        label="Honeymooners"
-        onChange={[Function]}
-      />
-    </styled.div>
-  </styled.div>
-  <styled.div>
-    <styled.h4>
-      Region
-    </styled.h4>
-    <styled.div>
-      <Styled(RadioButton)
-        name="regions[type]"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "All regions",
-              "value": "all",
+    </SearchSidebarstyles__Title>
+    <Search
+      indexSelectors={
+        Array [
+          [Function],
+          undefined,
+        ]
+      }
+      indexes={
+        Array [
+          "countries",
+          "hotels",
+        ]
+      }
+      onChange={[Function]}
+      onSearch={[Function]}
+      onSubmit={[Function]}
+      searchQuery={
+        Object {
+          "filters": Object {
+            "regions": Object {
+              "selected": Array [
+                "foo",
+              ],
+              "type": "specify",
             },
-            Object {
-              "label": "Specify regions",
-              "value": "specify",
-            },
-          ]
+          },
         }
-        value="specify"
-      />
-      <Styled(Checkbox)
-        key="foo"
-        label="foo"
-        name="regions[selected][foo]"
-        onChange={[Function]}
-      />
-      <Styled(Checkbox)
-        key="bar"
-        label="bar"
-        name="regions[selected][bar]"
-        onChange={[Function]}
-      />
-    </styled.div>
-    <styled.h4>
-      Price Range
-    </styled.h4>
-    <styled.div>
-      <p>
-        Prices shown are in US Dollars
-      </p>
-      <styled.div>
-        <styled.div>
-          From
-           
-          <styled.span>
-            2000
-          </styled.span>
-        </styled.div>
-        <styled.div
-          data-align="right"
-        >
-          To
-           
-          <styled.span>
-            10000
-          </styled.span>
-        </styled.div>
-      </styled.div>
-      <Styled(Range)
-        max={10000}
-        min={2000}
-        onAfterChange={[Function]}
-        value={
-          Array [
-            2000,
-            10000,
-          ]
+      }
+      showSubmit={false}
+      vertical={true}
+    />
+  </SearchSidebarstyles__Section>
+  <SearchSidebarstyles__Section>
+    <SearchFilters
+      features={Array []}
+      onChange={[Function]}
+      onReset={[Function]}
+      regions={
+        Array [
+          "foo",
+          "bar",
+        ]
+      }
+      searchQuery={
+        Object {
+          "filters": Object {
+            "regions": Object {
+              "selected": Array [
+                "foo",
+              ],
+              "type": "specify",
+            },
+          },
         }
-      />
-    </styled.div>
-    <styled.h4>
-      Meal plan
-      <ToolTip>
-        <styled.div
-          key="bb"
-        >
-          <styled.span>
-            bb
-          </styled.span>
-          Breakfast Included
-        </styled.div>
-        <styled.div
-          key="hb"
-        >
-          <styled.span>
-            hb
-          </styled.span>
-          Breakfast & Dinner (Drinks excluded)
-        </styled.div>
-        <styled.div
-          key="fb"
-        >
-          <styled.span>
-            fb
-          </styled.span>
-          3 meals per day (Drinks excluded)
-        </styled.div>
-        <styled.div
-          key="ai"
-        >
-          <styled.span>
-            ai
-          </styled.span>
-          All Inclusive
-        </styled.div>
-      </ToolTip>
-    </styled.h4>
-    <styled.div>
-      <Styled(RadioButton)
-        name="mealPlan"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "bb",
-              "value": "bb",
-            },
-            Object {
-              "label": "hb",
-              "value": "hb",
-            },
-            Object {
-              "label": "fb",
-              "value": "fb",
-            },
-            Object {
-              "label": "ai",
-              "value": "ai",
-            },
-          ]
-        }
-        value="bb"
-      />
-    </styled.div>
-    <styled.div>
-      <Styled(styled.button)
-        onClick={[Function]}
-      >
-        Remove all filters
-      </Styled(styled.button)>
-    </styled.div>
-  </styled.div>
+      }
+      starRatings={Array []}
+    />
+  </SearchSidebarstyles__Section>
 </Fragment>
 `;
 
 exports[`<SearchSidebar /> render matches snapshot 1`] = `
 <Fragment>
-  <styled.div>
-    <styled.h4>
+  <SearchSidebarstyles__Section>
+    <SearchSidebarstyles__Title>
       Search
-    </styled.h4>
-    <styled.div>
-      <withSearchIndexes(IndexSearch)
-        indexes={
-          Array [
-            "countries",
-            "hotels",
-          ]
-        }
-        label="Destination or resort"
-        limit={5}
-        onClick={[Function]}
-        openOnFocus={false}
-        placeholder="Where to"
-        selectors={
-          Array [
-            [Function],
-            undefined,
-          ]
-        }
-      />
-    </styled.div>
-    <styled.div>
-      <DatePicker
-        label="Dates"
-        multiple={true}
-        onSelected={[Function]}
-        placeholder="Select dates"
-        showOverlay={true}
-        summaryText="Night"
-        summaryTextPlural="Nights"
-      />
-    </styled.div>
-    <styled.div>
-      <LodgingSelect
-        id="lodging"
-        label="Lodging"
-        onSelected={[Function]}
-        selectedValues={
-          Object {
-            "adult": 0,
-            "child": 0,
-            "infant": 0,
-            "quantity": 0,
-            "teen": 0,
-          }
-        }
-      />
-    </styled.div>
-    <styled.div>
-      <Checkbox
-        checked={false}
-        label="Honeymooners"
-        onChange={[Function]}
-      />
-    </styled.div>
-  </styled.div>
-  <styled.div>
-    <styled.h4>
-      Region
-    </styled.h4>
-    <styled.div>
-      <Styled(RadioButton)
-        name="regions[type]"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "All regions",
-              "value": "all",
-            },
-            Object {
-              "label": "Specify regions",
-              "value": "specify",
-            },
-          ]
-        }
-        value="all"
-      />
-    </styled.div>
-    <styled.h4>
-      Price Range
-    </styled.h4>
-    <styled.div>
-      <p>
-        Prices shown are in US Dollars
-      </p>
-      <styled.div>
-        <styled.div>
-          From
-           
-          <styled.span>
-            2000
-          </styled.span>
-        </styled.div>
-        <styled.div
-          data-align="right"
-        >
-          To
-           
-          <styled.span>
-            10000
-          </styled.span>
-        </styled.div>
-      </styled.div>
-      <Styled(Range)
-        max={10000}
-        min={2000}
-        onAfterChange={[Function]}
-        value={
-          Array [
-            2000,
-            10000,
-          ]
-        }
-      />
-    </styled.div>
-    <styled.h4>
-      Meal plan
-      <ToolTip>
-        <styled.div
-          key="bb"
-        >
-          <styled.span>
-            bb
-          </styled.span>
-          Breakfast Included
-        </styled.div>
-        <styled.div
-          key="hb"
-        >
-          <styled.span>
-            hb
-          </styled.span>
-          Breakfast & Dinner (Drinks excluded)
-        </styled.div>
-        <styled.div
-          key="fb"
-        >
-          <styled.span>
-            fb
-          </styled.span>
-          3 meals per day (Drinks excluded)
-        </styled.div>
-        <styled.div
-          key="ai"
-        >
-          <styled.span>
-            ai
-          </styled.span>
-          All Inclusive
-        </styled.div>
-      </ToolTip>
-    </styled.h4>
-    <styled.div>
-      <Styled(RadioButton)
-        name="mealPlan"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "bb",
-              "value": "bb",
-            },
-            Object {
-              "label": "hb",
-              "value": "hb",
-            },
-            Object {
-              "label": "fb",
-              "value": "fb",
-            },
-            Object {
-              "label": "ai",
-              "value": "ai",
-            },
-          ]
-        }
-        value="bb"
-      />
-    </styled.div>
-    <styled.div>
-      <Styled(styled.button)
-        onClick={[Function]}
-      >
-        Remove all filters
-      </Styled(styled.button)>
-    </styled.div>
-  </styled.div>
+    </SearchSidebarstyles__Title>
+    <Search
+      indexSelectors={
+        Array [
+          [Function],
+          undefined,
+        ]
+      }
+      indexes={
+        Array [
+          "countries",
+          "hotels",
+        ]
+      }
+      onChange={[Function]}
+      onSearch={[Function]}
+      onSubmit={[Function]}
+      searchQuery={Object {}}
+      showSubmit={false}
+      vertical={true}
+    />
+  </SearchSidebarstyles__Section>
+  <SearchSidebarstyles__Section>
+    <SearchFilters
+      features={Array []}
+      onChange={[Function]}
+      onReset={[Function]}
+      regions={Array []}
+      searchQuery={Object {}}
+      starRatings={Array []}
+    />
+  </SearchSidebarstyles__Section>
 </Fragment>
 `;

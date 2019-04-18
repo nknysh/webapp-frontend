@@ -3,6 +3,6 @@
 exports[`offers actions fetchOffersAction returns action 1`] = `
 Object {
   "payload": "foo",
-  "type": "FETCH_LATEST_OFFERS",
+  "type": "OFFERS_LATEST",
 }
 `;

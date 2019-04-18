@@ -21,6 +21,7 @@ export const getAuthToken = pipe(
   getAuth,
   prop('token')
 );
+
 export const getCurrentUser = pipe(
   getAuthData,
   prop('user')

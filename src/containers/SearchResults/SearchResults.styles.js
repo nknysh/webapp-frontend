@@ -23,6 +23,7 @@ export const ResultsTitle = styled(Heading2)`
   padding: 0 0 ${theme.gutter}px;
   margin-top: ${theme.gutter}px;
   color: ${theme.colors['gold-neutral']};
+  text-transform: capitalize;
 
   ${breakpoints.tablet`
     margin: ${theme.gutter}px ${theme.gutter / 2}px ${theme.gutter * 4}px;

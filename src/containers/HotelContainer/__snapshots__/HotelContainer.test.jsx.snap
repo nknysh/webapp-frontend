@@ -6,8 +6,8 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
   showSpinner={true}
   text="Getting hotel details..."
 >
-  <Styled(styled.div)>
-    <Styled(withRouter(Breadcrumbs))
+  <HotelContainerstyles__StyledHotelContainer>
+    <HotelContainerstyles__StyledBreadcrumbs
       links={
         Array [
           Object {
@@ -24,11 +24,11 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
         ]
       }
     />
-    <styled.div>
-      <Styled(Hotel)
+    <HotelContainerstyles__Full>
+      <HotelContainerstyles__StyledHotel
         onRoomSelect={[Function]}
       />
-      <styled.aside>
+      <HotelContainerstyles__Aside>
         <Connect(Component)
           Component={
             Object {
@@ -36,14 +36,14 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
               "WrappedComponent": [Function],
               "attrs": Array [],
               "componentStyle": ComponentStyle {
-                "componentId": "sc-OxbzP",
+                "componentId": "HotelContainerstyles__StyledSummary-sc-1gsnu6z-2",
                 "isStatic": true,
                 "rules": Array [],
               },
-              "displayName": "Styled(withRouter(SummaryForm))",
+              "displayName": "HotelContainerstyles__StyledSummary",
               "foldedComponentIds": Array [],
               "render": [Function],
-              "styledComponentId": "sc-OxbzP",
+              "styledComponentId": "HotelContainerstyles__StyledSummary-sc-1gsnu6z-2",
               "target": [Function],
               "toString": [Function],
               "warnTooManyClasses": [Function],
@@ -51,8 +51,8 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
             }
           }
         />
-      </styled.aside>
-    </styled.div>
-  </Styled(styled.div)>
+      </HotelContainerstyles__Aside>
+    </HotelContainerstyles__Full>
+  </HotelContainerstyles__StyledHotelContainer>
 </Loader>
 `;

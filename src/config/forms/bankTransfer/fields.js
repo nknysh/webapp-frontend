@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import Checkbox from 'components/Checkbox';
+import { Checkbox } from 'components/elements';
 
 export default {
   agreeToTerms: {

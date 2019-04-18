@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Footer /> render matches snapshot 1`] = `
-<styled.div>
-  <Styled(styled.div)>
-    <styled.div>
-      <styled.div>
-        <styled.div>
+<Footerstyles__StyledFooter>
+  <Footerstyles__FooterContainer>
+    <Footerstyles__FooterColumns>
+      <Footerstyles__FooterColumn>
+        <Footerstyles__FooterText>
           <Markdown />
-        </styled.div>
-      </styled.div>
-      <Styled(Menu)
+        </Footerstyles__FooterText>
+      </Footerstyles__FooterColumn>
+      <Footerstyles__FooterMenu
         links={
           Array [
             Object {
@@ -31,19 +31,19 @@ exports[`<Footer /> render matches snapshot 1`] = `
           ]
         }
       />
-      <styled.div
+      <Footerstyles__FooterColumn
         align="flex-end"
         flex={true}
       >
-        <styled.div>
-          <Styled(styled.p)>
+        <Footerstyles__FooterCopyright>
+          <Footerstyles__FooterCopyrightText>
             © 
             2019
              Pure Escapes
-          </Styled(styled.p)>
-        </styled.div>
-      </styled.div>
-    </styled.div>
-  </Styled(styled.div)>
-</styled.div>
+          </Footerstyles__FooterCopyrightText>
+        </Footerstyles__FooterCopyright>
+      </Footerstyles__FooterColumn>
+    </Footerstyles__FooterColumns>
+  </Footerstyles__FooterContainer>
+</Footerstyles__StyledFooter>
 `;

@@ -86,26 +86,26 @@ export const InputError = styled.div`
 `;
 
 export const buttonStyles = css`
-width: 100%;
-font-size: 18px;
-text-transform: uppercase;
-font-weight: ${theme.bold};
-font-family: ${theme.defaultFont};
-color: ${theme.colors.white};
-background: ${theme.primary}
-outline: none;
-border: 0;
-padding: ${theme.gutter}px ${theme.gutter}px;
-cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: ${theme.bold};
+  font-family: ${theme.defaultFont};
+  color: ${theme.colors.white};
+  background: ${theme.primary};
+  outline: none;
+  border: 0;
+  padding: ${theme.gutter}px ${theme.gutter}px;
+  cursor: pointer;
 
-&:disabled {
-  opacity: 0.5;
-  pointer-events: none;
-}
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 
-&:hover {
-  background: ${theme.secondary};
-}
+  &:hover {
+    background: ${theme.secondary};
+  }
 `;
 export const Button = styled.button`
   ${buttonStyles}

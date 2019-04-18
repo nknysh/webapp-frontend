@@ -5,13 +5,13 @@ import { schemaOpts } from 'store/common';
 import countriesSchema from 'store/modules/countries/schema';
 import hotelSchema from 'store/modules/hotel/schema';
 
-import { fetchHotelsSuccess } from 'store/modules/hotels/actions';
+import { setHotels } from 'store/modules/hotels/actions';
 import { setCountries } from 'store/modules/countries/actions';
 
 export default {
   relationships: {
     hotel: {
-      setter: fetchHotelsSuccess,
+      setter: setHotels,
     },
     countries: {
       setter: setCountries,

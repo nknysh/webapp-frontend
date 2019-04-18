@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Link /> render matches default link snapshot 1`] = `
+<Linkstyles__StyledLink
+  bold={false}
+  inverse={false}
+  onClick={[Function]}
+  spaced={false}
+>
+  <Link
+    replace={false}
+    to="/"
+  />
+</Linkstyles__StyledLink>
+`;
+
+exports[`<Link /> render matches inverse link snapshot 1`] = `
+<Linkstyles__StyledLink
+  bold={false}
+  inverse={true}
+  onClick={[Function]}
+  spaced={false}
+>
+  <Link
+    replace={false}
+    to="/"
+  />
+</Linkstyles__StyledLink>
+`;

@@ -12,21 +12,21 @@ const allFetched = pipe(
   all(equals(true))
 );
 
-const fetchData = (fetchStatus, fetcher, fetchArgs = {}) => {
+const fetchData = (fetchStatus, fetcher, fetchArgs = []) => {
   const fetched = isSuccess(fetchStatus);
   const idle = isIdle(fetchStatus);
 
-  idle && isFunction(fetcher) && fetcher(fetchArgs);
+  idle && isFunction(fetcher) && fetcher(...fetchArgs);
 
   return fetched;
 };
 
-export const useFetchData = (fetchStatus, fetcher, fetchArgs = {}, force = false) => {
+export const useFetchData = (fetchStatus, fetcher, fetchArgs = [], changed = [], force = false) => {
   const [fetched, setFetched] = useState(false);
 
   useEffectBoundary(() => {
     (force || !fetched) && setFetched(fetchData(fetchStatus, fetcher, fetchArgs));
-  }, [force, fetchStatus]);
+  }, [force, fetchStatus, ...changed]);
 
   return fetched;
 };

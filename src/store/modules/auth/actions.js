@@ -2,7 +2,7 @@ import { prop, propEq, omit } from 'ramda';
 
 import client from 'api/auth';
 
-import { successAction, errorAction } from 'store/common/actions';
+import { successAction, errorAction, errorFromResponse } from 'store/common';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
@@ -27,15 +27,6 @@ export const AccountStatus = Object.freeze({
 const authReset = () => ({
   type: AUTH_RESET,
 });
-
-export const getUser = dispatch => {
-  dispatch(authRequest());
-
-  return client
-    .getUser()
-    .then(response => dispatch(successAction(AUTH_REQUEST, response.data)))
-    .catch(error => dispatch(errorAction(AUTH_REQUEST, error)));
-};
 
 export const setToken = token => ({
   type: AUTH_SET_TOKEN,
@@ -78,35 +69,52 @@ export const setRememberedUser = user => localStorage.setItem(AUTH_USER, JSON.st
 export const deleteRememberedToken = () => localStorage.removeItem(AUTH_TOKEN);
 export const deleteRememberedUser = () => localStorage.removeItem(AUTH_USER);
 
-export const signUp = values => dispatch => {
-  dispatch(authSignUp(values));
+export const getUser = async dispatch => {
+  dispatch(authRequest());
 
-  return client
-    .signUp({ data: { attributes: values } })
-    .then(({ data }) => dispatch(successAction(AUTH_SIGN_UP, data)))
-    .catch(error => dispatch(errorAction(AUTH_SIGN_UP, error.response)));
+  try {
+    const { data } = await client.getUser();
+    dispatch(successAction(AUTH_REQUEST, data));
+  } catch (e) {
+    dispatch(errorFromResponse(AUTH_REQUEST, e));
+    throw e;
+  }
 };
 
-export const logOut = token => dispatch => {
+export const signUp = values => async dispatch => {
+  dispatch(authSignUp(values));
+
+  try {
+    const { data } = await client.signUp({ data: { attributes: values } });
+    dispatch(successAction(AUTH_SIGN_UP, data));
+  } catch (e) {
+    dispatch(errorFromResponse(AUTH_SIGN_UP, e));
+    throw e;
+  }
+};
+
+export const logOut = token => async dispatch => {
   dispatch(authLogOut(token));
   deleteRememberedToken();
   deleteRememberedUser();
 
-  const onSuccess = () => {
+  try {
+    await client.logOut();
     dispatch(authReset());
     dispatch(successAction(AUTH_LOG_OUT));
-  };
-
-  return client
-    .logOut()
-    .then(onSuccess)
-    .catch(error => dispatch(errorAction(AUTH_LOG_OUT, error.response)));
+  } catch (e) {
+    dispatch(errorFromResponse(AUTH_LOG_OUT, e));
+    throw e;
+  }
 };
 
-export const logIn = values => dispatch => {
+export const logIn = values => async dispatch => {
   dispatch(authRequest(omit(['password'], values)));
 
-  const onSuccess = ({ data: { data } }) => {
+  try {
+    const {
+      data: { data },
+    } = await client.logIn({ data: { attributes: values } });
     const userUuid = prop('uuid', data);
 
     if (propEq('status', AccountStatus.PENDING, data)) {
@@ -117,30 +125,26 @@ export const logIn = values => dispatch => {
     dispatch(setToken(userUuid));
     setRememberedToken(userUuid);
     setRememberedUser(data);
-  };
-
-  return client
-    .logIn({ data: { attributes: values } })
-    .then(onSuccess)
-    .catch(error => dispatch(errorAction(AUTH_REQUEST, error.response)));
+  } catch (e) {
+    dispatch(errorFromResponse(AUTH_REQUEST, e));
+    throw e;
+  }
 };
 
 export const resetPassword = values => dispatch => {
   dispatch(authPasswordReset(values));
 
-  // return client
-  //   .resetPassword(values)
-  //   .then(() => dispatch(successAction(AUTH_PASSWORD_RESET)))
-  //   .catch(error => dispatch(errorAction(AUTH_PASSWORD_RESET, error.response)));
-
   return dispatch(successAction(AUTH_PASSWORD_RESET));
 };
 
-export const setPassword = values => dispatch => {
+export const setPassword = values => async dispatch => {
   dispatch(authSetPasswordReset(omit(['values'], values)));
 
-  return client
-    .setPassword({ data: { attributes: values } })
-    .then(() => dispatch(successAction(AUTH_SET_PASSWORD)))
-    .catch(error => dispatch(errorAction(AUTH_SET_PASSWORD, error.response)));
+  try {
+    await client.setPassword({ data: { attributes: values } });
+    dispatch(successAction(AUTH_SET_PASSWORD));
+  } catch (e) {
+    dispatch(errorFromResponse(AUTH_SET_PASSWORD, e));
+    throw e;
+  }
 };

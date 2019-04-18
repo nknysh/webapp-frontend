@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu /> render matched route is active in snapshot 1`] = `
+<Menustyles__Links
+  align="middle"
+  isAuthenticated={true}
+>
+  <Menustyles__MenuLink
+    data-active={true}
+    key="f356800ca07b23550b76c6af4a9a9bfcbed66569"
+    onClick={[Function]}
+    spaced={true}
+    to="/"
+  >
+    Home
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="11de83e98d2c9a649621ded1bcde70a1f467a918"
+    onClick={[Function]}
+    spaced={true}
+    to="/proposals"
+  >
+    Proposals
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="ef2d1e18d9b0a09324e3b33bd2af8e3452dc9e00"
+    onClick={[Function]}
+    spaced={true}
+    to="/bookings"
+  >
+    Bookings
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="c553173cd104763e3f112c95822c4187e972e405"
+    onClick={[Function]}
+    spaced={true}
+    to="/holds"
+  >
+    Holds
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="7d51bade34ac75f47e14d57a3d8348b0f096cbde"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
+  </Menustyles__MenuLink>
+</Menustyles__Links>
+`;
+
+exports[`<Menu /> render matches logged in snapshot 1`] = `
+<Menustyles__Links
+  align="middle"
+  isAuthenticated={true}
+>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="f356800ca07b23550b76c6af4a9a9bfcbed66569"
+    onClick={[Function]}
+    spaced={true}
+    to="/"
+  >
+    Home
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="11de83e98d2c9a649621ded1bcde70a1f467a918"
+    onClick={[Function]}
+    spaced={true}
+    to="/proposals"
+  >
+    Proposals
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="ef2d1e18d9b0a09324e3b33bd2af8e3452dc9e00"
+    onClick={[Function]}
+    spaced={true}
+    to="/bookings"
+  >
+    Bookings
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="c553173cd104763e3f112c95822c4187e972e405"
+    onClick={[Function]}
+    spaced={true}
+    to="/holds"
+  >
+    Holds
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="7d51bade34ac75f47e14d57a3d8348b0f096cbde"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
+  </Menustyles__MenuLink>
+</Menustyles__Links>
+`;
+
+exports[`<Menu /> render matches logged out snapshot 1`] = `
+<Menustyles__Links
+  align="middle"
+  isAuthenticated={false}
+>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="f356800ca07b23550b76c6af4a9a9bfcbed66569"
+    onClick={[Function]}
+    spaced={true}
+    to="/"
+  >
+    Home
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="11de83e98d2c9a649621ded1bcde70a1f467a918"
+    onClick={[Function]}
+    spaced={true}
+    to="/proposals"
+  >
+    Proposals
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="ef2d1e18d9b0a09324e3b33bd2af8e3452dc9e00"
+    onClick={[Function]}
+    spaced={true}
+    to="/bookings"
+  >
+    Bookings
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="c553173cd104763e3f112c95822c4187e972e405"
+    onClick={[Function]}
+    spaced={true}
+    to="/holds"
+  >
+    Holds
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    key="7d51bade34ac75f47e14d57a3d8348b0f096cbde"
+    onClick={[Function]}
+    spaced={true}
+    to="/calendar"
+  >
+    Calendar
+  </Menustyles__MenuLink>
+</Menustyles__Links>
+`;

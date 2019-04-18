@@ -1,25 +1,27 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { fetchSearch } from 'store/modules/search/actions';
-import { getSearchStatus, getSearchQuery } from 'store/modules/search/selectors';
+import { searchByQuery } from 'store/modules/search/actions';
+import {
+  getSearchStatus,
+  getSearchQuery,
+  getSearchResultsMeta,
+  getSearchResultsResult,
+} from 'store/modules/search/selectors';
+import { getHotelsFromSearchResults } from 'store/modules/hotels/selectors';
 
-import { getCountryName } from 'store/modules/countries/selectors';
-import { getHotel, getHotelFeaturedPhoto } from 'store/modules/hotels/selectors';
-import { getIndexResults } from 'store/modules/indexes/selectors';
-
-export const mapStateToProps = state => ({
-  getCountryName: getCountryName(state),
-  getHotel: getHotel(state),
-  getResults: getIndexResults(state),
-  searchQuery: getSearchQuery(state),
-  searchStatus: getSearchStatus(state),
-  getHotelFeaturedPhoto: getHotelFeaturedPhoto(state),
-});
+export const mapStateToProps = state => {
+  return {
+    searchQuery: getSearchQuery(state),
+    searchStatus: getSearchStatus(state),
+    result: getHotelsFromSearchResults(state, getSearchResultsResult(state, 'byQuery')),
+    meta: getSearchResultsMeta(state, 'byQuery'),
+  };
+};
 
 export const mapDispatchToProps = dispatch => ({
-  fetchSearch: pipe(
-    fetchSearch,
+  searchByQuery: pipe(
+    searchByQuery,
     dispatch
   ),
 });

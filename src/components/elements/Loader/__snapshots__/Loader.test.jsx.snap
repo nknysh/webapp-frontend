@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Loader /> render matches snapshots 1`] = `
+<Loaderstyles__StyledLoader>
+  <Loaderstyles__LoaderImage
+    src=""
+  />
+  <Loaderstyles__LoaderText>
+    Loading...
+  </Loaderstyles__LoaderText>
+</Loaderstyles__StyledLoader>
+`;
+
+exports[`<Loader /> render matches snapshots 2`] = `
+<Loaderstyles__StyledLoader>
+  <Loaderstyles__LoaderImage
+    src=""
+  />
+  <Loaderstyles__LoaderText>
+    Loading
+  </Loaderstyles__LoaderText>
+</Loaderstyles__StyledLoader>
+`;
+
+exports[`<Loader /> render matches snapshots 3`] = `
+<Loaderstyles__StyledLoader>
+  <Loaderstyles__LoaderImage
+    src=""
+  />
+  <Loaderstyles__LoaderText>
+    Loading...
+  </Loaderstyles__LoaderText>
+</Loaderstyles__StyledLoader>
+`;
+
+exports[`<Loader /> render matches snapshots 4`] = `"Loaded content"`;

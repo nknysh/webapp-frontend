@@ -6,7 +6,7 @@ import getRoutes from 'routing';
 import routes from 'routing/app';
 
 import { useScrollToTop, useTokenFromWindow, useEffectBoundary } from 'effects';
-import { Layout } from 'layouts/Layout';
+import { Layout } from 'components/layouts/Layout';
 import { ErrorBoundary } from 'hoc/ErrorBoundary';
 
 import { propTypes, defaultProps } from './App.props';

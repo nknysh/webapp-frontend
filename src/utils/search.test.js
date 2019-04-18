@@ -1,18 +1,7 @@
-import { values, prop, __ } from 'ramda';
+import { values } from 'ramda';
 import lunr from 'lunr';
 
-import {
-  filterByArrayValues,
-  filterByRange,
-  IndexTypes,
-  queryAvailable,
-  queryFilterRegions,
-  queryFilterStarRatings,
-  queryHoneymooners,
-  queryPreferred,
-  RegionSelectTypes,
-  searchByQueries,
-} from './search';
+import { IndexTypes, RegionSelectTypes, searchByQueries } from './search';
 
 describe('search utils', () => {
   describe('IndexTypes', () => {
@@ -40,58 +29,6 @@ describe('search utils', () => {
     });
   });
 
-  describe('queries', () => {
-    describe('queryFilterStarRatings', () => {
-      it('returns built or string', () => {
-        expect(queryFilterStarRatings({ Foo: true, Bar: false, Boo: true })).toMatchSnapshot();
-        expect(queryFilterStarRatings({ Foo: false, Bar: true, Boo: false })).toMatchSnapshot();
-      });
-    });
-
-    describe('queryFilterRegions', () => {
-      it('returns undefined if all', () => {
-        expect(queryFilterRegions({})).toBeUndefined();
-        expect(queryFilterRegions({ type: RegionSelectTypes.ALL })).toBeUndefined();
-      });
-
-      it('returns built or string', () => {
-        const regions = ['Foo', 'Bar', 'Boo'];
-
-        expect(
-          queryFilterRegions(
-            { type: RegionSelectTypes.SPECIFY, selected: { Foo: true, Bar: false, Boo: true } },
-            regions
-          )
-        ).toMatchSnapshot();
-        expect(
-          queryFilterRegions(
-            { type: RegionSelectTypes.SPECIFY, selected: { Foo: false, Bar: true, Boo: false } },
-            regions
-          )
-        ).toMatchSnapshot();
-      });
-    });
-
-    describe('queryPreferred', () => {
-      it('returns preferred query string', () => {
-        expect(queryPreferred()).toMatchSnapshot();
-      });
-    });
-
-    describe('queryHoneymooners', () => {
-      it('returns preferred query string', () => {
-        expect(queryHoneymooners({ honeymooners: false })).toMatchSnapshot();
-        expect(queryHoneymooners({ honeymooners: true })).toMatchSnapshot();
-      });
-    });
-
-    describe('queryAvailable', () => {
-      it('returns preferred query string', () => {
-        expect(queryAvailable()).toMatchSnapshot();
-      });
-    });
-  });
-
   describe('searchByQueries', () => {
     it('returns the result set based on querys', () => {
       const index = lunr(function() {
@@ -104,46 +41,6 @@ describe('search utils', () => {
       expect(searchByQueries(index, [])).toMatchSnapshot();
       expect(searchByQueries(index, ['foo:one'])).toMatchSnapshot();
       expect(searchByQueries(index, ['foo:two'])).toMatchSnapshot();
-    });
-  });
-
-  describe('filterByRange', () => {
-    it('removes results correctly', () => {
-      const dataSet = {
-        foo: {
-          price: 100,
-        },
-        bar: {
-          price: 1000,
-        },
-      };
-      const selector = prop(__, dataSet);
-      const results = [{ ref: 'foo' }, { ref: 'bar' }];
-
-      expect(filterByRange(selector, [0, 50], 'price', results)).toMatchSnapshot();
-      expect(filterByRange(selector, [50, 200], 'price', results)).toMatchSnapshot();
-      expect(filterByRange(selector, [50, 2000], 'price', results)).toMatchSnapshot();
-      expect(filterByRange(selector, [200, 2000], 'price', results)).toMatchSnapshot();
-      expect(filterByRange(selector, [2500, 3000], 'price', results)).toMatchSnapshot();
-    });
-  });
-
-  describe('filterByArrayValues', () => {
-    it('includes results that contain values', () => {
-      const dataSet = {
-        foo: {
-          features: ['foo', 'bar'],
-        },
-        bar: {
-          features: ['bar'],
-        },
-      };
-      const selector = prop(__, dataSet);
-      const results = [{ ref: 'foo' }, { ref: 'bar' }];
-
-      expect(filterByArrayValues(selector, ['foo'], 'features', results)).toMatchSnapshot();
-      expect(filterByArrayValues(selector, ['bar'], 'features', results)).toMatchSnapshot();
-      expect(filterByArrayValues(selector, ['foo', 'bar'], 'features', results)).toMatchSnapshot();
     });
   });
 });

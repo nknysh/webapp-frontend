@@ -50,7 +50,7 @@ export const HotelContainer = ({
   getHotelPhotos,
   getAccommodationProducts,
 }) => {
-  const loaded = useFetchData(hotelStatus, fetchHotel, id, reloadIfMissing(hotel));
+  const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
 
   const booking = getBooking(id);

@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Header /> render matches logged in snapshot 1`] = `
-<styled.div>
-  <Styled(styled.div)>
-    <Styled(Link)
+<Headerstyles__StyledHeader>
+  <Headerstyles__HeaderContainer>
+    <Headerstyles__HeaderLogo
       to="/"
     />
-    <styled.div>
-      <Styled(WithStyles(Icon))
+    <Headerstyles__HeaderMenuArea>
+      <Headerstyles__HeaderMobileMenuButton
         onClick={[Function]}
       >
         menu
-      </Styled(WithStyles(Icon))>
+      </Headerstyles__HeaderMobileMenuButton>
       <ClickAwayListener
         mouseEvent="onMouseUp"
         onClickAway={[Function]}
         touchEvent="onTouchEnd"
       >
-        <Styled(Menu)
+        <Headerstyles__HeaderMenu
           align="end"
           isOpen={false}
           links={
@@ -37,31 +37,31 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
           onLinkClick={[Function]}
         >
           <withAuthentication(Connect(UserPanel)) />
-        </Styled(Menu)>
+        </Headerstyles__HeaderMenu>
       </ClickAwayListener>
-    </styled.div>
-  </Styled(styled.div)>
-</styled.div>
+    </Headerstyles__HeaderMenuArea>
+  </Headerstyles__HeaderContainer>
+</Headerstyles__StyledHeader>
 `;
 
 exports[`<Header /> render matches logged out snapshot 1`] = `
-<styled.div>
-  <Styled(styled.div)>
-    <Styled(Link)
+<Headerstyles__StyledHeader>
+  <Headerstyles__HeaderContainer>
+    <Headerstyles__HeaderLogo
       to="/"
     />
-    <styled.div>
-      <Styled(WithStyles(Icon))
+    <Headerstyles__HeaderMenuArea>
+      <Headerstyles__HeaderMobileMenuButton
         onClick={[Function]}
       >
         menu
-      </Styled(WithStyles(Icon))>
+      </Headerstyles__HeaderMobileMenuButton>
       <ClickAwayListener
         mouseEvent="onMouseUp"
         onClickAway={[Function]}
         touchEvent="onTouchEnd"
       >
-        <Styled(Menu)
+        <Headerstyles__HeaderMenu
           align="end"
           isOpen={false}
           links={
@@ -85,14 +85,14 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
           onLinkClick={[Function]}
         >
           <withAuthentication(Connect(UserPanel)) />
-        </Styled(Menu)>
+        </Headerstyles__HeaderMenu>
       </ClickAwayListener>
-    </styled.div>
-  </Styled(styled.div)>
+    </Headerstyles__HeaderMenuArea>
+  </Headerstyles__HeaderContainer>
   <Modal
     modalContentProps={Object {}}
     onClose={[Function]}
     open={false}
   />
-</styled.div>
+</Headerstyles__StyledHeader>
 `;

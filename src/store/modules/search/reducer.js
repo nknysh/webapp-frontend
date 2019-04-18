@@ -1,46 +1,38 @@
-import { pipe, mergeDeepRight, propOr } from 'ramda';
+import { mergeDeepRight, propOr } from 'ramda';
 
-import { initialState, successResetReducer, loadingReducer } from 'store/common';
-import { createReducer, getSuccessActionName, normalizer } from 'store/utils';
+import { initialState, loadingReducer, errorReducer, Status } from 'store/common';
+import { createReducer, getSuccessActionName, getLoadingActionName, getErrorActionName } from 'store/utils';
 
-import { SET_SEARCH_QUERY, RESET_SEARCH_FILTERS, SEARCH_RESULTS, FETCH_SEARCH } from './actions';
+import { SEARCH_BY_NAME, SEARCH_BY_QUERY, SEARCH_QUERY_UPDATE, SEARCH_FILTERS_RESET } from './actions';
 
 const searchState = {
   ...initialState,
   query: undefined,
 };
 
-const setSearchQuery = (state, { payload }) => ({
-  ...state,
-  query: {
-    ...mergeDeepRight(propOr({}, 'query', state), payload),
-  },
-});
+const setSearchQuery = (state, { payload }) =>
+  mergeDeepRight(state, {
+    query: payload,
+  });
 
-export const resetFilters = state => ({
-  ...state,
-  query: {
-    ...state.query,
-    filters: {},
-  },
-});
+const searchFiltersReset = state => ({ ...state, query: { filters: {} } });
 
-export const searchResults = (state, { payload }) => ({
+const searchResults = (state, { payload }) => ({
   ...state,
-  results: payload,
+  status: Status.SUCCESS,
+  data: { ...propOr({}, 'data', state), ...payload },
 });
 
 export default createReducer(
   {
-    [SET_SEARCH_QUERY]: setSearchQuery,
-    [RESET_SEARCH_FILTERS]: resetFilters,
-    [SEARCH_RESULTS]: loadingReducer,
-    [getSuccessActionName(SEARCH_RESULTS)]: pipe(
-      successResetReducer,
-      normalizer('ref')
-    ),
-    [FETCH_SEARCH]: loadingReducer,
-    [getSuccessActionName(FETCH_SEARCH)]: successResetReducer,
+    [SEARCH_QUERY_UPDATE]: setSearchQuery,
+    [SEARCH_FILTERS_RESET]: searchFiltersReset,
+    [getLoadingActionName(SEARCH_BY_NAME)]: loadingReducer,
+    [getSuccessActionName(SEARCH_BY_NAME)]: searchResults,
+    [getErrorActionName(SEARCH_BY_NAME)]: errorReducer,
+    [getLoadingActionName(SEARCH_BY_QUERY)]: loadingReducer,
+    [getSuccessActionName(SEARCH_BY_QUERY)]: searchResults,
+    [getErrorActionName(SEARCH_BY_QUERY)]: errorReducer,
   },
   searchState
 );

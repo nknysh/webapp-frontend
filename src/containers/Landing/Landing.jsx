@@ -15,7 +15,7 @@ import { propTypes, defaultProps } from './Landing.props';
 import { StyledSearch, SearchHero, SearchMarkdown } from './Landing.styles';
 
 export const Landing = ({ fetchLatestOffers, offersStatus, offers }) => {
-  const loaded = useFetchData(offersStatus, fetchLatestOffers, { limit: 3 });
+  const loaded = useFetchData(offersStatus, fetchLatestOffers, [{ limit: 3 }]);
 
   return (
     <Loader isLoading={!loaded}>

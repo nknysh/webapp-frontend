@@ -4,7 +4,7 @@ import { eachDay, subDays } from 'date-fns';
 import client from 'api/bookings';
 import { formatDate } from 'utils';
 
-import { successAction, errorAction } from 'store/common';
+import { successAction, errorFromResponse } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getHotelRoom } from 'store/modules/hotels/selectors';
 
@@ -40,7 +40,7 @@ export const updateBooking = (id, payload) => (dispatch, getState) => {
   dispatch(successAction(BOOKING_UPDATE, mergeDeepRight(getBookingData(state), { [id]: payload })));
 };
 
-export const completeBooking = (id, payload) => (dispatch, getState) => {
+export const completeBooking = (id, payload) => async (dispatch, getState) => {
   dispatch(updateBooking(id, payload));
 
   const state = getState();
@@ -73,16 +73,18 @@ export const completeBooking = (id, payload) => (dispatch, getState) => {
 
   dispatch(submitBookingAction(finalBooking));
 
-  client
-    .createBooking({ data: { attributes: { id, ...finalBooking } } })
-    .then(({ data: { data } }) => {
-      dispatch(updateBooking(id, { reservationId: prop('uuid', data) }));
-      dispatch(successAction(BOOKING_SUBMIT, data));
-    })
-    .catch(error => {
-      dispatch(
-        enqueueNotification({ message: 'There was a problem creating your booking.', options: { variant: 'error' } })
-      );
-      dispatch(errorAction(BOOKING_SUBMIT, error));
-    });
+  try {
+    const {
+      data: { data },
+    } = await client.createBooking({ data: { attributes: { id, ...finalBooking } } });
+
+    dispatch(updateBooking(id, { reservationId: prop('uuid', data) }));
+    dispatch(successAction(BOOKING_SUBMIT, data));
+  } catch (e) {
+    dispatch(
+      enqueueNotification({ message: 'There was a problem creating your booking.', options: { variant: 'error' } })
+    );
+    dispatch(errorFromResponse(BOOKING_SUBMIT, e));
+    throw e;
+  }
 };

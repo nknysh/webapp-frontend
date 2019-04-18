@@ -12,30 +12,24 @@ exports[`ErrorBoundary HOC displays component when no error 1`] = `
 
 exports[`ErrorBoundary HOC displays error when component catches 1`] = `
 <ErrorBoundary>
-  <styled.div>
+  <ErrorBoundarystyles__StyledErrorBoundary>
     <StyledComponent
       forwardedComponent={
         Object {
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "sc-fjdhpX",
+            "componentId": "ErrorBoundarystyles__StyledErrorBoundary-sc-26u569-0",
             "isStatic": true,
-            "lastClassName": "cHlDfO",
+            "lastClassName": "domZyq",
             "rules": Array [
-              "
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  flex-direction: column;
-",
+              "display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;",
             ],
           },
-          "displayName": "styled.div",
+          "displayName": "ErrorBoundarystyles__StyledErrorBoundary",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "sc-fjdhpX",
+          "styledComponentId": "ErrorBoundarystyles__StyledErrorBoundary-sc-26u569-0",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -45,51 +39,37 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
       forwardedRef={null}
     >
       <div
-        className="sc-fjdhpX cHlDfO"
+        className="ErrorBoundarystyles__StyledErrorBoundary-sc-26u569-0 domZyq"
       >
-        <Styled(styled.h1)>
+        <ErrorBoundarystyles__ErrorBoundaryTitle>
           <StyledComponent
             forwardedComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-jzJRlG",
+                  "componentId": "ErrorBoundarystyles__ErrorBoundaryTitle-sc-26u569-1",
                   "isStatic": true,
-                  "lastClassName": "hWKKbt",
+                  "lastClassName": "gEFevr",
                   "rules": Array [
-                    "
-  ",
-                    "
-  ",
-                    "
-  font-family: ",
+                    "font-family:",
                     "NoeDisplay, \\"Open Sans\\", sans-serif",
-                    ";
-  letter-spacing: 1px;
-",
-                    "
-  color: ",
+                    ";letter-spacing:1px;",
+                    " color:",
                     "#736A65",
-                    ";
-  font-size: 22px;
-  font-weight: ",
+                    ";font-size:22px;font-weight:",
                     "600",
-                    ";
-  margin: ",
+                    ";margin:",
                     "20",
-                    "px;
-",
-                    "
-",
+                    "px;",
                   ],
                 },
-                "displayName": "Styled(styled.h1)",
+                "displayName": "ErrorBoundarystyles__ErrorBoundaryTitle",
                 "foldedComponentIds": Array [
-                  "sc-bdVaJa",
+                  "typography__Heading1-sc-1l0ca1t-0",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-jzJRlG",
+                "styledComponentId": "ErrorBoundarystyles__ErrorBoundaryTitle-sc-26u569-1",
                 "target": "h1",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -99,35 +79,32 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <h1
-              className="sc-bdVaJa sc-jzJRlG hWKKbt"
+              className="typography__Heading1-sc-1l0ca1t-0 ErrorBoundarystyles__ErrorBoundaryTitle-sc-26u569-1 gEFevr"
             >
               Something went wrong
             </h1>
           </StyledComponent>
-        </Styled(styled.h1)>
-        <Styled(styled.pre)>
+        </ErrorBoundarystyles__ErrorBoundaryTitle>
+        <ErrorBoundarystyles__ErrorBoundaryPre>
           <StyledComponent
             forwardedComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-cSHVUG",
+                  "componentId": "ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2",
                   "isStatic": true,
-                  "lastClassName": "cBaDWt",
+                  "lastClassName": "iKAuqu",
                   "rules": Array [
-                    "
-  max-height: 300px;
-  overflow: auto;
-",
+                    "max-height:300px;overflow:auto;",
                   ],
                 },
-                "displayName": "Styled(styled.pre)",
+                "displayName": "ErrorBoundarystyles__ErrorBoundaryPre",
                 "foldedComponentIds": Array [
-                  "sc-gqjmRU",
+                  "elements__Pre-lhmas5-6",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-cSHVUG",
+                "styledComponentId": "ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2",
                 "target": "pre",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -137,35 +114,32 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <pre
-              className="sc-gqjmRU sc-cSHVUG cBaDWt"
+              className="elements__Pre-lhmas5-6 ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2 iKAuqu"
             >
               Error: It doesn't work!
             </pre>
           </StyledComponent>
-        </Styled(styled.pre)>
-        <Styled(styled.pre)>
+        </ErrorBoundarystyles__ErrorBoundaryPre>
+        <ErrorBoundarystyles__ErrorBoundaryPre>
           <StyledComponent
             forwardedComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
                 "attrs": Array [],
                 "componentStyle": ComponentStyle {
-                  "componentId": "sc-cSHVUG",
+                  "componentId": "ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2",
                   "isStatic": true,
-                  "lastClassName": "cBaDWt",
+                  "lastClassName": "iKAuqu",
                   "rules": Array [
-                    "
-  max-height: 300px;
-  overflow: auto;
-",
+                    "max-height:300px;overflow:auto;",
                   ],
                 },
-                "displayName": "Styled(styled.pre)",
+                "displayName": "ErrorBoundarystyles__ErrorBoundaryPre",
                 "foldedComponentIds": Array [
-                  "sc-gqjmRU",
+                  "elements__Pre-lhmas5-6",
                 ],
                 "render": [Function],
-                "styledComponentId": "sc-cSHVUG",
+                "styledComponentId": "ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2",
                 "target": "pre",
                 "toString": [Function],
                 "warnTooManyClasses": [Function],
@@ -175,15 +149,15 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <pre
-              className="sc-gqjmRU sc-cSHVUG cBaDWt"
+              className="elements__Pre-lhmas5-6 ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2 iKAuqu"
             >
               Ref: 
               ca5c2d93118cc215d7109b525da8f67c4a592154
             </pre>
           </StyledComponent>
-        </Styled(styled.pre)>
+        </ErrorBoundarystyles__ErrorBoundaryPre>
       </div>
     </StyledComponent>
-  </styled.div>
+  </ErrorBoundarystyles__StyledErrorBoundary>
 </ErrorBoundary>
 `;

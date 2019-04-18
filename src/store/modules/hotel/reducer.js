@@ -11,7 +11,7 @@ import { createReducer, getErrorActionName, getSuccessActionName } from 'store/u
 
 import schema from 'store/modules/hotels/schema';
 
-import { FETCH_HOTEL, FETCH_HOTEL_ROOMS } from './actions';
+import { HOTEL, HOTEL_ROOMS } from './actions';
 
 const initialState = {
   ...baseInitialState,
@@ -26,12 +26,12 @@ export const setId = (state, { payload }) => ({
 
 export default createReducer(
   {
-    [FETCH_HOTEL]: loadingReducer,
-    [getSuccessActionName(FETCH_HOTEL)]: setId,
-    [getErrorActionName(FETCH_HOTEL)]: errorReducer,
-    [FETCH_HOTEL_ROOMS]: loadingReducer,
-    [getSuccessActionName(FETCH_HOTEL_ROOMS)]: successResetReducer,
-    [getErrorActionName(FETCH_HOTEL_ROOMS)]: errorReducer,
+    [HOTEL]: loadingReducer,
+    [getSuccessActionName(HOTEL)]: setId,
+    [getErrorActionName(HOTEL)]: errorReducer,
+    [HOTEL_ROOMS]: loadingReducer,
+    [getSuccessActionName(HOTEL_ROOMS)]: successResetReducer,
+    [getErrorActionName(HOTEL_ROOMS)]: errorReducer,
   },
   initialState
 );
