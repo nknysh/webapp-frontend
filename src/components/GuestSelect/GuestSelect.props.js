@@ -22,11 +22,5 @@ export const propTypes = {
 
 export const defaultProps = {
   onSelected: noop,
-  selectedValues: {
-    quantity: 0,
-    adult: 0,
-    teens: 0,
-    children: 0,
-    infant: 0,
-  },
+  selectedValues: [],
 };

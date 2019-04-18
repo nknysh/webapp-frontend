@@ -1,4 +1,4 @@
-import { ap, prop, path } from 'ramda';
+import { prop, path } from 'ramda';
 
 import { IndexTypes } from 'utils';
 
@@ -72,15 +72,12 @@ export const fetchSearch = ({ value, index = IndexTypes.HOTELS }) => (dispatch, 
       const countriesEntities = path(['entities', 'countries'], data);
       const countriesResults = path(['result', 'countries'], data);
 
-      ap(
-        [dispatch],
-        [
-          fetchHotelsSuccess({ entities: { hotels: hotelsEntities, photos: photosEntities }, result: hotelsResults }),
-          setCountries({ entities: { countries: countriesEntities }, result: countriesResults }),
-          searchIndex(index),
-          successAction(FETCH_SEARCH, { result: prop('result', data) }),
-        ]
+      dispatch(
+        fetchHotelsSuccess({ entities: { hotels: hotelsEntities, photos: photosEntities }, result: hotelsResults })
       );
+      dispatch(setCountries({ entities: { countries: countriesEntities }, result: countriesResults }));
+      dispatch(searchIndex(index));
+      dispatch(successAction(FETCH_SEARCH, { result: prop('result', data) }));
     })
     .catch(error => dispatch(errorAction(FETCH_SEARCH, error)));
 };

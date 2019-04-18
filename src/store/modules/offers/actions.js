@@ -1,4 +1,4 @@
-import { ap, path, prop, map } from 'ramda';
+import { path, prop, map } from 'ramda';
 import client from 'api/offers';
 
 import { successAction, errorAction } from 'store/common';
@@ -18,16 +18,13 @@ export const fetchOffersSuccess = ({ data: { data } }) => dispatch => {
 
   const result = prop('result', data);
 
-  ap(
-    [dispatch],
-    [
-      fetchHotelsSuccess({
-        entities: { hotels: hotelsEntities, photos: photosEntities },
-        result: map(prop('hotel'), result),
-      }),
-      successAction(FETCH_LATEST_OFFERS, { entities: { offers: offersEntities }, result }),
-    ]
+  dispatch(
+    fetchHotelsSuccess({
+      entities: { hotels: hotelsEntities, photos: photosEntities },
+      result: map(prop('hotel'), result),
+    })
   );
+  dispatch(successAction(FETCH_LATEST_OFFERS, { entities: { offers: offersEntities }, result }));
 };
 
 export const fetchLatestOffers = args => dispatch => {

@@ -92,7 +92,7 @@ export default {
   plurals: {
     adult: ['Adult', 'Adults'],
     teen: ['Teen', 'Teens'],
-    children: ['Children', 'Children'],
+    children: ['Child', 'Children'],
     child: ['Children', 'Children'],
     guest: ['Guest', 'Guests'],
     infant: ['Infant', 'Infants'],

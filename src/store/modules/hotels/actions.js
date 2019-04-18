@@ -1,4 +1,4 @@
-import { ap, prop, values, mergeDeepRight, propOr, pathOr } from 'ramda';
+import { prop, values, mergeDeepRight, propOr, pathOr } from 'ramda';
 
 import client from 'api/hotels';
 
@@ -19,18 +19,15 @@ export const fetchHotelsSuccess = data => (dispatch, getState) => {
   const prevData = getHotelsEntities(getState());
   const hotels = mergeDeepRight(prevData, pathOr({}, ['entities', 'hotels'], data));
 
-  ap(
-    [dispatch],
-    [
-      index({
-        index: 'hotels',
-        ref: prop('id', schema),
-        fields: prop('index', schema),
-        data: values(hotels),
-      }),
-      successAction(FETCH_HOTELS, data),
-    ]
+  dispatch(
+    index({
+      index: 'hotels',
+      ref: prop('id', schema),
+      fields: prop('index', schema),
+      data: values(hotels),
+    })
   );
+  dispatch(successAction(FETCH_HOTELS, data));
 };
 
 export const fetchHotels = params => dispatch => {

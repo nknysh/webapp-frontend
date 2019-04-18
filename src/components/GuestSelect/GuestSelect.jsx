@@ -1,5 +1,5 @@
 import React from 'react';
-import { curry, length, gt, map, range, prop } from 'ramda';
+import { curry, length, gt, prop, times } from 'ramda';
 
 import AgeSelect from 'components/AgeSelect';
 
@@ -21,7 +21,7 @@ const renderLabel = label => label && <GuestSelectLabel>{label}</GuestSelectLabe
 export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues }) => {
   const quantity = length(selectedValues);
 
-  const labels = (gt(quantity, 1) && map(i => `Room ${i + 1}`, range(0, quantity))) || [];
+  const labels = (gt(quantity, 1) && times(i => `Room ${i + 1}`, quantity)) || [];
 
   const onQuantityChange = number => {
     selectedValues.length = number;
@@ -42,7 +42,7 @@ export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues }) =>
     />
   );
 
-  const tabs = map(renderTab, range(0, quantity));
+  const tabs = times(renderTab, quantity);
 
   return (
     <StyledGuestSelect>
