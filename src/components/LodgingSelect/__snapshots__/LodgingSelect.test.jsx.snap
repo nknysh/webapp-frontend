@@ -22,44 +22,29 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
     <AgeSelect
       ageRanges={
         Object {
-          "children": Object {
-            "from": 2,
-            "to": 12,
+          "adult": Object {},
+          "child": Object {
+            "ageFrom": 2,
+            "ageTo": 12,
           },
-          "infants": Object {
-            "from": 0,
-            "to": 2,
+          "infant": Object {
+            "ageFrom": 0,
+            "ageTo": 2,
           },
-          "teens": Object {
-            "from": 13,
-            "to": 18,
+          "teen": Object {
+            "ageFrom": 13,
+            "ageTo": 18,
           },
-        }
-      }
-      labels={
-        Object {
-          "adults": Array [
-            "Adults",
-          ],
-          "children": Array [
-            "Children",
-          ],
-          "infants": Array [
-            "Infants",
-          ],
-          "teens": Array [
-            "Teens",
-          ],
         }
       }
       minMax={Object {}}
       onSelect={[Function]}
       values={
         Object {
-          "adults": 0,
-          "children": 0,
-          "infants": 0,
-          "teens": 0,
+          "adult": 0,
+          "child": 0,
+          "infant": 0,
+          "teen": 0,
         }
       }
     />

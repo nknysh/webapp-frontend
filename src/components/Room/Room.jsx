@@ -1,5 +1,5 @@
 import React from 'react';
-import { prop, path, map, complement, equals, values, last } from 'ramda';
+import { prop, path, map, complement, equals, values, last, pipe } from 'ramda';
 import { format } from 'date-fns';
 
 import ToolTip from 'components/ToolTip';
@@ -31,6 +31,15 @@ import {
 } from './Room.styles';
 
 const isNotZero = complement(equals(0));
+
+const getVisibleRate = pipe(
+  values,
+  last,
+  path(['entities', 'rates']),
+  values,
+  last,
+  prop('rate')
+);
 
 const renderImgOffer = bestRate =>
   prop('percentage', bestRate) && (
@@ -127,7 +136,7 @@ export const Room = ({
   const imgUrl = prop('url', photo);
 
   const onRoomSelect = quantity => onChange(uuid, quantity);
-  const visibleRate = prop('rate', last(values(rates)));
+  const visibleRate = getVisibleRate(rates);
 
   return (
     <StyledRoom className={className}>

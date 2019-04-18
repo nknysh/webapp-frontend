@@ -5,7 +5,7 @@ import { fetchSearch } from 'store/modules/search/actions';
 import { getSearchStatus, getSearchQuery } from 'store/modules/search/selectors';
 
 import { getCountryName } from 'store/modules/countries/selectors';
-import { getHotel } from 'store/modules/hotels/selectors';
+import { getHotel, getHotelFeaturedPhoto } from 'store/modules/hotels/selectors';
 import { getIndexResults } from 'store/modules/indexes/selectors';
 
 export const mapStateToProps = state => ({
@@ -14,6 +14,7 @@ export const mapStateToProps = state => ({
   getResults: getIndexResults(state),
   searchQuery: getSearchQuery(state),
   searchStatus: getSearchStatus(state),
+  getHotelFeaturedPhoto: getHotelFeaturedPhoto(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

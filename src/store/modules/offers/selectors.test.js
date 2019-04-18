@@ -1,6 +1,6 @@
 import { initialState } from 'store/common';
 
-import { getOffers, getOffersData, getOffer } from './selectors';
+import { getOffers, getOffersData } from './selectors';
 
 const state = {
   offers: {
@@ -23,11 +23,6 @@ describe('offers selectors', () => {
   describe('getOffersData', () => {
     it('returns the data key', () => {
       expect(getOffersData(state)).toEqual(state.offers.data);
-    });
-  });
-  describe('getOffer', () => {
-    it('returns based on id', () => {
-      expect(getOffer(state, 'foo')).toEqual(state.offers.data.foo);
     });
   });
 });

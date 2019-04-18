@@ -27,50 +27,46 @@ import {
 const renderFeature = value => <CardHighlight key={value}>{value}</CardHighlight>;
 
 export const Card = ({
-  hotel: {
-    featuredPhoto,
-    name,
-    preferred,
-    promotionalText,
-    starRating,
-    suitableForHoneymooners,
-    listPrice,
-    additionalInfo,
-    amenities,
-  },
-}) => {
-  return (
-    <StyledCard>
-      <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
-        {preferred && <CardPreferred>Preferred</CardPreferred>}
-        {listPrice && (
-          <CardChip>
-            <CardPrice>{listPrice}</CardPrice> /{getSingular('guest')}
-          </CardChip>
-        )}
-        {promotionalText && <CardName>{promotionalText}</CardName>}
-      </CardImage>
-      <CardDetails>
-        <CardTitle>{name}</CardTitle>
-        <CardRating>
-          <CardStarRating>
-            <CardStar>star</CardStar>{' '}
-            <CardStarText>
-              {starRating} {getSingular('star')}
-            </CardStarText>
-          </CardStarRating>
-          <CardSecondaryRating>
-            {suitableForHoneymooners && path(['taglines', 'suitableHoneymoon'], uiConfig)}
-          </CardSecondaryRating>
-        </CardRating>
-        <CardHighlights>{amenities && map(renderFeature, amenities)}</CardHighlights>
-        <CardAdditionalInfo>
-          <CardAdditional>{additionalInfo}</CardAdditional>
-        </CardAdditionalInfo>
-      </CardDetails>
-    </StyledCard>
-  );
-};
+  featuredPhoto,
+  name,
+  preferred,
+  promotionalText,
+  starRating,
+  suitableForHoneymooners,
+  listPrice,
+  additionalInfo,
+  amenities,
+}) => (
+  <StyledCard>
+    <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
+      {preferred && <CardPreferred>Preferred</CardPreferred>}
+      {listPrice && (
+        <CardChip>
+          <CardPrice>{listPrice}</CardPrice> /{getSingular('guest')}
+        </CardChip>
+      )}
+      {promotionalText && <CardName>{promotionalText}</CardName>}
+    </CardImage>
+    <CardDetails>
+      <CardTitle>{name}</CardTitle>
+      <CardRating>
+        <CardStarRating>
+          <CardStar>star</CardStar>{' '}
+          <CardStarText>
+            {starRating} {getSingular('star')}
+          </CardStarText>
+        </CardStarRating>
+        <CardSecondaryRating>
+          {suitableForHoneymooners && path(['taglines', 'suitableHoneymoon'], uiConfig)}
+        </CardSecondaryRating>
+      </CardRating>
+      <CardHighlights>{amenities && map(renderFeature, amenities)}</CardHighlights>
+      <CardAdditionalInfo>
+        <CardAdditional>{additionalInfo}</CardAdditional>
+      </CardAdditionalInfo>
+    </CardDetails>
+  </StyledCard>
+);
 
 Card.propTypes = propTypes;
 Card.defaultProps = defaultProps;

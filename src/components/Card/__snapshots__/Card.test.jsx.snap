@@ -8,18 +8,7 @@ exports[`<Card /> render matches snapshot 1`] = `
         "backgroundImage": "url(undefined)",
       }
     }
-  >
-    <styled.div>
-      Preferred
-    </styled.div>
-    <Styled(styled.div)>
-      <Styled(styled.span)>
-        123
-      </Styled(styled.span)>
-       /
-      Guest
-    </Styled(styled.div)>
-  </Styled(styled.div)>
+  />
   <Styled(styled.div)>
     <Styled(Styled(styled.h2)) />
     <styled.div>
@@ -29,7 +18,6 @@ exports[`<Card /> render matches snapshot 1`] = `
         </Styled(WithStyles(Icon))>
          
         <styled.span>
-          5
            
           Star
         </styled.span>

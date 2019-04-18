@@ -53,6 +53,7 @@ export default {
     payByCC: 'Pay by credit card',
     payByBT: 'Pay by bank transfer',
     booking: 'Booking',
+    included: 'inc.',
 
     yes: 'Yes',
     no: 'No',
@@ -90,7 +91,9 @@ export default {
 
   plurals: {
     adult: ['Adult', 'Adults'],
-    children: ['Children', 'Children'],
+    teen: ['Teen', 'Teens'],
+    children: ['Child', 'Children'],
+    child: ['Children', 'Children'],
     guest: ['Guest', 'Guests'],
     infant: ['Infant', 'Infants'],
     night: ['Night', 'Nights'],
@@ -102,10 +105,10 @@ export default {
     roomType: ['Room Type', 'Room Types'],
     star: ['Star', 'Stars'],
     starRating: ['Accomodation', 'Accomodations'],
-    teen: ['Teen', 'Teens'],
     feature: ['Feature', 'Features'],
     brochure: ['Brochure', 'Brochures'],
     sleep: ['Sleep', 'Sleeps'],
+    date: ['Date', 'Dates'],
   },
 
   mealTypes: {

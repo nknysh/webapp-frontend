@@ -12,6 +12,7 @@ const defaultProps = {
   listPrice: '123',
   additionalInfo: [],
   features: [],
+  photos: [],
 };
 
 const getComponent = props => shallow(<Hotel {...defaultProps} {...props} />);

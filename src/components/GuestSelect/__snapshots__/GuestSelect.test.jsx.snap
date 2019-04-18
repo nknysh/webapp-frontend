@@ -9,7 +9,7 @@ exports[`<GuestSelect /> render matches snapshot 1`] = `
       </Styled(Label)>
       <Styled(NumberSelect)
         onChange={[Function]}
-        value={NaN}
+        value={0}
       />
     </styled.div>
   </styled.div>

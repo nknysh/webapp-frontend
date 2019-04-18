@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import uiConfig from 'config/ui';
+
 import theme from './theme';
 import breakpoints from './breakpoints';
 import { Heading1 } from './typography';
@@ -127,4 +129,10 @@ export const Hr = styled.hr`
   border: 0;
   background: 0;
   border-bottom: 1px solid ${theme.borderColor};
+`;
+
+export const withCurrency = css`
+  :before {
+    content: '${uiConfig.currency.symbol}';
+  }
 `;

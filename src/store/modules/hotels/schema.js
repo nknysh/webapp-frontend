@@ -1,8 +1,3 @@
-import { prop } from 'ramda';
-import { schema } from 'normalizr';
-
-import hotelSchema from 'store/modules/hotel/schema';
-
 const id = 'uuid';
 
 export default {
@@ -16,5 +11,4 @@ export default {
     'region',
     'starRating',
   ],
-  schema: new schema.Array(prop('schema', hotelSchema)),
 };

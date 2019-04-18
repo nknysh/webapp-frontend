@@ -1,20 +1,32 @@
 import { __, prop, pipe, curry, values, propEq, find } from 'ramda';
 
+import { getStatus, getData, getResults, getEntities } from 'store/common/selectors';
+
 export const getCountries = prop('countries');
 
 export const getCountriesStatus = pipe(
   getCountries,
-  prop('status')
+  getStatus
 );
 
 export const getCountriesData = pipe(
   getCountries,
-  prop('data')
+  getData
+);
+
+export const getCountriesEntities = pipe(
+  getCountries,
+  getEntities,
+  prop('countries')
+);
+export const getCountriesResults = pipe(
+  getCountries,
+  getResults
 );
 
 export const getCountry = curry((state, key) =>
   pipe(
-    getCountriesData,
+    getCountriesEntities,
     prop(key)
   )(state)
 );
@@ -28,7 +40,7 @@ export const getCountryName = curry((state, key) =>
 
 export const getCountryIdByName = curry((state, name) =>
   pipe(
-    getCountriesData,
+    getCountriesEntities,
     values,
     find(propEq('name', name)),
     prop('code')

@@ -1,6 +1,6 @@
 import { initialState } from 'store/common';
 
-import { getCountries, getCountriesData, getCountry, getCountryName } from './selectors';
+import { getCountries, getCountriesData } from './selectors';
 
 const state = {
   countries: {
@@ -23,16 +23,6 @@ describe('countries selectors', () => {
   describe('getCountriesData', () => {
     it('returns the data key', () => {
       expect(getCountriesData(state)).toBe(state.countries.data);
-    });
-  });
-  describe('getCountry', () => {
-    it('returns the destination based on id', () => {
-      expect(getCountry(state, 'foo')).toBe(state.countries.data.foo);
-    });
-  });
-  describe('getCountryName', () => {
-    it('returns the destination name based on id', () => {
-      expect(getCountryName(state, 'foo')).toBe(state.countries.data.foo.name);
     });
   });
 });

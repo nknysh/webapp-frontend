@@ -13,4 +13,7 @@ export const StyledErrorBoundary = styled.div`
 
 export const ErrorBoundaryTitle = styled(Heading1)``;
 
-export const ErrorBoundaryPre = styled(Pre)``;
+export const ErrorBoundaryPre = styled(Pre)`
+  max-height: 300px;
+  overflow: auto;
+`;

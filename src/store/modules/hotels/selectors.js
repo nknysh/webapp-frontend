@@ -1,7 +1,27 @@
 import { createSelector } from 'reselect';
-import { __, prop, pipe, curry, propOr, map, when, complement, isNil, reduce, uniq, values } from 'ramda';
+import {
+  __,
+  complement,
+  curry,
+  forEach,
+  isNil,
+  lensProp,
+  map,
+  mapObjIndexed,
+  path,
+  pathOr,
+  pick,
+  pipe,
+  prop,
+  propOr,
+  reduce,
+  set,
+  uniq,
+  values,
+  when,
+} from 'ramda';
 
-import { selectRelationships } from 'store/common/selectors';
+import { selectRelationships, getData, getStatus, getEntities, getResults } from 'store/common/selectors';
 
 import schema from './schema';
 
@@ -15,19 +35,69 @@ const getMapped = (key, reducer = reduceByKey) =>
     uniq
   );
 
+const extractAgeFromOptions = (accum, rate) => {
+  const products = path(['entities', 'products'], rate);
+
+  mapObjIndexed(product => {
+    const ages = pathOr([], ['options', 'ages'], product);
+
+    forEach(({ name, ...age }) => {
+      const ageLens = lensProp(name);
+      accum = set(ageLens, age, accum);
+    }, ages);
+  }, products);
+
+  return accum;
+};
+
+const extractAges = pipe(
+  prop('rates'),
+  values,
+  reduce(extractAgeFromOptions, {})
+);
+
 export const getHotels = prop('hotels');
 
 export const getHotelsStatus = pipe(
   getHotels,
-  prop('status')
+  getStatus
 );
 
 export const getHotelsData = state =>
   pipe(
     getHotels,
-    prop('data'),
+    getData,
     when(complement(isNil), map(selectRelationships(state, propOr({}, 'relationships', schema))))
   )(state);
+
+export const getHotelsResults = pipe(
+  getHotels,
+  getResults
+);
+
+export const getHotelsEntities = pipe(
+  getHotels,
+  getEntities,
+  prop('hotels')
+);
+
+export const getHotelsPhotos = curry((state, ids) =>
+  pipe(
+    getHotels,
+    getEntities,
+    prop('photos'),
+    pick(ids)
+  )(state)
+);
+
+export const getHotelsPhoto = curry((state, id) =>
+  pipe(
+    getHotels,
+    getEntities,
+    prop('photos'),
+    prop(id)
+  )(state)
+);
 
 export const getHotelRegions = createSelector(
   getHotelsData,
@@ -46,7 +116,7 @@ export const getHotelFeatures = createSelector(
 
 export const getHotel = curry((state, id) =>
   pipe(
-    getHotelsData,
+    getHotelsEntities,
     prop(id)
   )(state)
 );
@@ -61,7 +131,8 @@ export const getHotelName = curry((state, id) =>
 export const getHotelRooms = curry((state, id) =>
   pipe(
     getHotel(__, id),
-    prop('accommodationProducts')
+    prop('accommodationProducts'),
+    getAccommodationProducts(state)
   )(state)
 );
 
@@ -70,4 +141,37 @@ export const getHotelRoom = curry((state, hotelId, roomId) =>
     getHotelRooms(__, hotelId),
     prop(roomId)
   )(state)
+);
+
+export const getHotelFeaturedPhoto = curry((state, id) =>
+  pipe(
+    getHotel(__, id),
+    prop('featuredPhotoUploadUuid'),
+    getHotelsPhoto(state)
+  )(state)
+);
+
+export const getAccommodationProducts = curry((state, ids) =>
+  pipe(
+    getHotels,
+    getEntities,
+    prop('accommodationProducts'),
+    pick(ids)
+  )(state)
+);
+
+export const getAccommodationProduct = curry((state, id) =>
+  pipe(
+    getHotels,
+    getEntities,
+    prop('accommodationProducts'),
+    prop(id)
+  )(state)
+);
+
+export const getAccommodationProductAgeRanges = curry((state, id) =>
+  pipe(
+    getAccommodationProduct(state),
+    extractAges
+  )(id)
 );

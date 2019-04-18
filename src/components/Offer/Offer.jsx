@@ -21,8 +21,8 @@ import {
 
 const dateFormat = 'DD MMMM YYYY';
 
-export const Offer = ({ hotel, validFrom, validTo, description, name, rate }) => {
-  const image = path(['featuredPhoto', 'url'], hotel);
+export const Offer = ({ hotel, validFrom, featuredPhoto, validTo, description, name, rate }) => {
+  const image = prop('url', featuredPhoto);
 
   const getDates = pipe(
     replace('{fromDate}', formatDate(validFrom, dateFormat)),

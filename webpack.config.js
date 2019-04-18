@@ -22,7 +22,7 @@ module.exports = (env, argv) => ({
                 target: 'http://localhost:8002',
                 secure: false,
                 changeOrigin: true,
-                // pathRewrite: { '^/api': '' },
+                pathRewrite: { '^/api': '' },
               },
         }
     },
@@ -32,7 +32,7 @@ module.exports = (env, argv) => ({
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'app.bundle.js',
+        filename: 'app.[hash].js',
         publicPath: '/'
     },
     resolve: {
@@ -93,8 +93,8 @@ module.exports = (env, argv) => ({
     plugins: [
         new DashboardPlugin({ port: 3001 }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src/index.html')
+            template: path.resolve(__dirname, 'src', 'index.html')
         }),
-        new DotEnvPlugin({ path: path.resolve(__dirname, '.env')})
+        new DotEnvPlugin()
     ]
 })

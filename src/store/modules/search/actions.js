@@ -1,14 +1,15 @@
-import { propOr, prop, path, omit } from 'ramda';
-import { normalize } from 'normalizr';
+import { prop, path } from 'ramda';
 
 import { IndexTypes } from 'utils';
 
 import client from 'api/search';
 
-import { successAction, errorAction, setNormalizedData } from 'store/common';
+import { successAction, errorAction } from 'store/common';
 import { searchIndex } from 'store/modules/indexes/actions';
 
-import schema from './schema';
+import { fetchHotelsSuccess } from 'store/modules/hotels/actions';
+import { setCountries } from 'store/modules/countries/actions';
+
 import { getSearchValue } from './selectors';
 
 export const SEARCH_INDEX_BUILD = 'SEARCH_INDEX_BUILD';
@@ -65,13 +66,18 @@ export const fetchSearch = ({ value, index = IndexTypes.HOTELS }) => (dispatch, 
   client
     .getSearch(payload, { name: searchValue })
     .then(({ data: { data } }) => {
-      const normalized = normalize({ id: 'search', ...data }, prop('schema', schema));
+      const hotelsEntities = path(['entities', 'hotels'], data);
+      const hotelsResults = path(['result', 'hotels'], data);
+      const photosEntities = path(['entities', 'photos'], data);
+      const countriesEntities = path(['entities', 'countries'], data);
+      const countriesResults = path(['result', 'countries'], data);
 
-      setNormalizedData(dispatch, propOr({}, 'relationships', schema), normalized);
-
-      const ids = omit(['id'], path(['entities', 'results', 'search'], normalized));
+      dispatch(
+        fetchHotelsSuccess({ entities: { hotels: hotelsEntities, photos: photosEntities }, result: hotelsResults })
+      );
+      dispatch(setCountries({ entities: { countries: countriesEntities }, result: countriesResults }));
       dispatch(searchIndex(index));
-      dispatch(successAction(FETCH_SEARCH, ids));
+      dispatch(successAction(FETCH_SEARCH, { result: prop('result', data) }));
     })
     .catch(error => dispatch(errorAction(FETCH_SEARCH, error)));
 };

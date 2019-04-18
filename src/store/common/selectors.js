@@ -15,3 +15,14 @@ export const selectRelationships = curry((state, relationships, entity) =>
     reduce(mapRelationship(state), entity)
   )(relationships)
 );
+
+export const getStatus = prop('status');
+export const getData = prop('data');
+export const getEntities = pipe(
+  getData,
+  prop('entities')
+);
+export const getResults = pipe(
+  getData,
+  prop('result')
+);

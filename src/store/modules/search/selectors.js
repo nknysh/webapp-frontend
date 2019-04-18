@@ -1,5 +1,6 @@
 import { prop, pipe, path, when, always, inc, evolve, defaultTo } from 'ramda';
 
+import { getStatus, getResults } from 'store/common/selectors';
 import { isEmptyOrNil, toDate } from 'utils';
 
 const defaultFromDate = toDate();
@@ -10,12 +11,13 @@ export const getSearch = prop('search');
 
 export const getSearchStatus = pipe(
   getSearch,
-  prop('status')
+  getStatus
 );
 
 export const getSearchResults = pipe(
   getSearch,
-  path(['data', 'hotels'])
+  getResults,
+  prop('hotels')
 );
 
 export const getSearchQuery = pipe(
@@ -41,10 +43,10 @@ export const getSearchDates = pipe(
 
 const searchLodgingsTransformations = {
   quantity: defaultTo(0),
-  adults: defaultTo(0),
+  adult: defaultTo(0),
   teens: defaultTo(0),
   children: defaultTo(0),
-  infants: defaultTo(0),
+  infant: defaultTo(0),
 };
 
 export const getSearchLodgings = pipe(

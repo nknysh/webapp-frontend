@@ -1,21 +1,33 @@
 import { prop, pipe, curry } from 'ramda';
 
+import { getStatus, getData, getEntities, getResults } from 'store/common/selectors';
+
 export const getOffers = prop('offers');
 
-export const getOffersData = state =>
-  pipe(
-    getOffers,
-    prop('data')
-  )(state);
+export const getOffersData = pipe(
+  getOffers,
+  getData
+);
 
 export const getOffersStatus = pipe(
   getOffers,
-  prop('status')
+  getStatus
 );
 
-export const getOffer = curry((state, index) =>
+export const getOffersResults = pipe(
+  getOffers,
+  getResults
+);
+
+export const getOffersEntities = pipe(
+  getOffers,
+  getEntities,
+  prop('offers')
+);
+
+export const getOffer = curry((state, id) =>
   pipe(
-    getOffersData,
-    prop(index)
+    getOffersEntities,
+    prop(id)
   )(state)
 );

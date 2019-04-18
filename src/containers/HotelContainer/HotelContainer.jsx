@@ -1,5 +1,19 @@
 import React, { Fragment } from 'react';
-import { __, propOr, lensProp, set, compose, prop, path, allPass, has, complement, view } from 'ramda';
+import {
+  __,
+  propOr,
+  lensProp,
+  set,
+  compose,
+  prop,
+  path,
+  allPass,
+  has,
+  complement,
+  view,
+  lensPath,
+  defaultTo,
+} from 'ramda';
 
 import { Loader, Tabs } from 'components';
 import { BookingContainer } from 'containers';
@@ -26,20 +40,32 @@ const reloadIfMissing = complement(allPass([has('photos'), has('accommodationPro
 
 const renderBackButton = () => <Back to="/search">{path(['labels', 'backToSearch'], uiConfig)}</Back>;
 
-export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus, getBooking, updateBooking }) => {
+export const HotelContainer = ({
+  hotel,
+  id,
+  fetchHotel,
+  hotelStatus,
+  getBooking,
+  updateBooking,
+  getHotelPhotos,
+  getAccommodationProducts,
+}) => {
   const loaded = useFetchData(hotelStatus, fetchHotel, id, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
 
   const booking = getBooking(id);
+  const photos = getHotelPhotos(propOr([], 'photos', hotel));
+  const accommodationProducts = getAccommodationProducts(propOr([], 'accommodationProducts', hotel));
 
   const setBooking = set(__, __, booking);
   const viewBooking = view(__, booking);
 
   const setSelectedRooms = (uuid, quantity) => {
-    const quantityData = propOr([], 'quantity', viewBooking(roomsLens));
+    const quantityLens = lensPath(['accommodationProducts', uuid, 'quantity']);
+    const quantityData = defaultTo([], viewBooking(quantityLens));
     quantityData.length = quantity;
 
-    updateBooking(id, setBooking(roomsLens, { [uuid]: { quantity: quantityData } }));
+    updateBooking(id, setBooking(quantityLens, quantityData));
   };
 
   const renderBreadcrumbs = () => (
@@ -47,7 +73,13 @@ export const HotelContainer = ({ hotel, id, fetchHotel, hotelStatus, getBooking,
   );
 
   const renderHotel = () => (
-    <StyledHotel onRoomSelect={setSelectedRooms} selectedRooms={viewBooking(roomsLens)} {...hotel} />
+    <StyledHotel
+      {...hotel}
+      accommodationProducts={accommodationProducts}
+      onRoomSelect={setSelectedRooms}
+      photos={photos}
+      selectedRooms={viewBooking(roomsLens)}
+    />
   );
 
   const renderSummary = () => (

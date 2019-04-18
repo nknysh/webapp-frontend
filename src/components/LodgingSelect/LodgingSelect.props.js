@@ -10,10 +10,10 @@ export const propTypes = {
   keepOpen: PropTypes.bool,
   selectedValues: PropTypes.shape({
     quantity: PropTypes.number,
-    adults: PropTypes.number,
-    teens: PropTypes.number,
-    children: PropTypes.number,
-    infants: PropTypes.number,
+    adult: PropTypes.number,
+    teen: PropTypes.number,
+    child: PropTypes.number,
+    infant: PropTypes.number,
   }),
 };
 
@@ -21,9 +21,9 @@ export const defaultProps = {
   onSelected: noop,
   selectedValues: {
     quantity: 0,
-    adults: 0,
-    teens: 0,
-    children: 0,
-    infants: 0,
+    adult: 0,
+    teen: 0,
+    child: 0,
+    infant: 0,
   },
 };

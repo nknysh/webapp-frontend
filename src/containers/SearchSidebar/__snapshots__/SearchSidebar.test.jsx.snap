@@ -35,11 +35,7 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
         placeholder="Select dates"
         showOverlay={true}
         summaryText="Night"
-        summaryTextPlural={
-          Array [
-            "Nights",
-          ]
-        }
+        summaryTextPlural="Nights"
       />
     </styled.div>
     <styled.div>
@@ -49,11 +45,11 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
         onSelected={[Function]}
         selectedValues={
           Object {
-            "adults": 0,
-            "children": 0,
-            "infants": 0,
+            "adult": 0,
+            "child": 0,
+            "infant": 0,
             "quantity": 0,
-            "teens": 0,
+            "teen": 0,
           }
         }
       />
@@ -248,11 +244,7 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
         placeholder="Select dates"
         showOverlay={true}
         summaryText="Night"
-        summaryTextPlural={
-          Array [
-            "Nights",
-          ]
-        }
+        summaryTextPlural="Nights"
       />
     </styled.div>
     <styled.div>
@@ -262,11 +254,11 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
         onSelected={[Function]}
         selectedValues={
           Object {
-            "adults": 0,
-            "children": 0,
-            "infants": 0,
+            "adult": 0,
+            "child": 0,
+            "infant": 0,
             "quantity": 0,
-            "teens": 0,
+            "teen": 0,
           }
         }
       />

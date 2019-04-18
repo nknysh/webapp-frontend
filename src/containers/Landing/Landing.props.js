@@ -7,7 +7,7 @@ export const propTypes = {
   fetchHotels: PropTypes.func,
   fetchLatestOffers: PropTypes.func,
   hotels: PropTypes.object,
-  offers: PropTypes.object,
+  offers: PropTypes.array,
   requesting: PropTypes.bool,
 };
 
@@ -16,6 +16,6 @@ export const defaultProps = {
   fetchHotels: noop,
   fetchLatestOffers: noop,
   hotels: {},
-  offers: {},
+  offers: [],
   requesting: true,
 };
