@@ -49,7 +49,6 @@ const searchMiddleware = ({ getState }) => next => action => {
   // If the redux key is empty but there is a search in the
   // query string, then populate the redux store with it
   if (isEmptyOrNil(path(['search', 'query'], state)) && !isEmptyOrNil(search)) {
-    console.log(search);
     next(setSearchQuery(search));
   }
 
