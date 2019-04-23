@@ -5,9 +5,10 @@
   "main": "webpack.config.js",
   "scripts": {
     "dashboard": "webpack-dashboard -- npm run dev",
-    "dev": "webpack-dev-server --mode development --inline --progress",
-    "build": "webpack --mode production",
-    "build:dev": "webpack --mode development",
+    "dev": "NODE_ENV=development webpack-dev-server --mode development --inline --progress",
+    "prod": "NODE_ENV=production  webpack-dev-server --mode production --inline --progress",
+    "build": "NODE_ENV=production webpack --mode production",
+    "build:dev": "NODE_ENV=development webpack --mode development",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint --ext .jsx --ext .js src/",
