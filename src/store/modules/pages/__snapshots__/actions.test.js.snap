@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`pages actions getPageById returns action 1`] = `
+Object {
+  "payload": Object {
+    "pageId": "foo",
+  },
+  "type": "PAGE",
+}
+`;

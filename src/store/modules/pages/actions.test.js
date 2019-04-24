@@ -1,14 +1,9 @@
-import { FETCH_PAGE, getPageById, getPage } from './actions';
+import { getPageById, getPage } from './actions';
 
 describe('pages actions', () => {
   describe('getPageById', () => {
     it('returns action', () => {
-      expect(getPageById('foo')).toEqual({
-        type: FETCH_PAGE,
-        payload: {
-          pageId: 'foo',
-        },
-      });
+      expect(getPageById('foo')).toMatchSnapshot();
     });
   });
   describe('getPage', () => {
@@ -17,7 +12,7 @@ describe('pages actions', () => {
 
       getPage('about-us')(dispatch);
 
-      expect(dispatch).toHaveBeenCalledTimes(2);
+      expect(dispatch).toHaveBeenCalledTimes(3);
     });
   });
 });
