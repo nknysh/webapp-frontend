@@ -8,8 +8,9 @@ export const dataLens = lensProp('data');
 
 const buildActionName = curry((status, type) => `${type}_${status}`);
 
-export const getErrorActionName = buildActionName(Status.ERROR);
+export const getLoadingActionName = buildActionName(Status.LOADING);
 export const getSuccessActionName = buildActionName(Status.SUCCESS);
+export const getErrorActionName = buildActionName(Status.ERROR);
 
 export const reducerShim = pipe(
   identity,

@@ -20,7 +20,7 @@ export const LatestOffers = ({
   getOffer,
   getHotelFeaturedPhoto,
 }) => {
-  const offersFetched = useFetchData(offersStatus, fetchLatestOffers, { limit: 3 });
+  const offersFetched = useFetchData(offersStatus, fetchLatestOffers, [{ limit: 3 }]);
   const currentWidth = useCurrentWidth();
 
   const renderOffer = offerResult => {

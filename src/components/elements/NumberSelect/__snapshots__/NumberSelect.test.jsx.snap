@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NumberSelect /> render matches snapshots 1`] = `
+<NumberSelectstyles__StyledNumberSelect>
+  <NumberSelectstyles__NumberSelectButtonContainer>
+    <NumberSelectstyles__NumberSelectIncrease
+      data-disabled={false}
+      onClick={[Function]}
+    >
+      add
+    </NumberSelectstyles__NumberSelectIncrease>
+  </NumberSelectstyles__NumberSelectButtonContainer>
+  <NumberSelectstyles__NumberSelectNumber>
+    0
+  </NumberSelectstyles__NumberSelectNumber>
+  <NumberSelectstyles__NumberSelectButtonContainer>
+    <NumberSelectstyles__NumberSelectDecrease
+      data-disabled={true}
+      onClick={[Function]}
+    >
+      remove
+    </NumberSelectstyles__NumberSelectDecrease>
+  </NumberSelectstyles__NumberSelectButtonContainer>
+</NumberSelectstyles__StyledNumberSelect>
+`;
+
+exports[`<NumberSelect /> render matches snapshots 2`] = `
+<NumberSelectstyles__StyledNumberSelect>
+  <NumberSelectstyles__NumberSelectButtonContainer>
+    <NumberSelectstyles__NumberSelectIncrease
+      data-disabled={false}
+      onClick={[Function]}
+    >
+      add
+    </NumberSelectstyles__NumberSelectIncrease>
+  </NumberSelectstyles__NumberSelectButtonContainer>
+  <NumberSelectstyles__NumberSelectNumber>
+    0
+  </NumberSelectstyles__NumberSelectNumber>
+  <NumberSelectstyles__NumberSelectButtonContainer>
+    <NumberSelectstyles__NumberSelectDecrease
+      data-disabled={true}
+      onClick={[Function]}
+    >
+      remove
+    </NumberSelectstyles__NumberSelectDecrease>
+  </NumberSelectstyles__NumberSelectButtonContainer>
+</NumberSelectstyles__StyledNumberSelect>
+`;

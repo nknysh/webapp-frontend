@@ -5,7 +5,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
   isLoading={true}
   showSpinner={true}
 >
-  <styled.div>
+  <PageContentstyles__StyledPageContent>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -15,24 +15,24 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <Styled(styled.div)>
-      <styled.div>
-        <styled.div>
+    <PageContentstyles__PageContainer>
+      <PageContentstyles__Columns>
+        <PageContentstyles__ColumnLeft>
           <Sidebar
             isOpen={false}
             links={Array []}
           >
             <Markdown />
           </Sidebar>
-        </styled.div>
-        <styled.div>
-          <styled.div>
+        </PageContentstyles__ColumnLeft>
+        <PageContentstyles__ColumnRight>
+          <PageContentstyles__PageContentData>
             <Markdown />
-          </styled.div>
-        </styled.div>
-      </styled.div>
-    </Styled(styled.div)>
-  </styled.div>
+          </PageContentstyles__PageContentData>
+        </PageContentstyles__ColumnRight>
+      </PageContentstyles__Columns>
+    </PageContentstyles__PageContainer>
+  </PageContentstyles__StyledPageContent>
 </Loader>
 `;
 
@@ -41,7 +41,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
   isLoading={false}
   showSpinner={true}
 >
-  <styled.div>
+  <PageContentstyles__StyledPageContent>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -51,26 +51,26 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <Styled(styled.div)>
-      <styled.div>
-        <styled.div>
+    <PageContentstyles__PageContainer>
+      <PageContentstyles__Columns>
+        <PageContentstyles__ColumnLeft>
           <Sidebar
             isOpen={false}
             links={Array []}
           >
             <Markdown />
           </Sidebar>
-        </styled.div>
-        <styled.div>
-          <styled.div>
+        </PageContentstyles__ColumnLeft>
+        <PageContentstyles__ColumnRight>
+          <PageContentstyles__PageContentData>
             <Markdown>
               ### some data
             </Markdown>
-          </styled.div>
-        </styled.div>
-      </styled.div>
-    </Styled(styled.div)>
-  </styled.div>
+          </PageContentstyles__PageContentData>
+        </PageContentstyles__ColumnRight>
+      </PageContentstyles__Columns>
+    </PageContentstyles__PageContainer>
+  </PageContentstyles__StyledPageContent>
 </Loader>
 `;
 
@@ -79,7 +79,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
   isLoading={false}
   showSpinner={true}
 >
-  <styled.div>
+  <PageContentstyles__StyledPageContent>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -90,9 +90,9 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <Styled(styled.div)>
-      <styled.div>
-        <styled.div>
+    <PageContentstyles__PageContainer>
+      <PageContentstyles__Columns>
+        <PageContentstyles__ColumnLeft>
           <Sidebar
             isOpen={false}
             links={Array []}
@@ -100,17 +100,17 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
           >
             <Markdown />
           </Sidebar>
-        </styled.div>
-        <styled.div>
-          <styled.div>
+        </PageContentstyles__ColumnLeft>
+        <PageContentstyles__ColumnRight>
+          <PageContentstyles__PageContentData>
             <Markdown>
               ### some data
             </Markdown>
-          </styled.div>
-        </styled.div>
-      </styled.div>
-    </Styled(styled.div)>
-  </styled.div>
+          </PageContentstyles__PageContentData>
+        </PageContentstyles__ColumnRight>
+      </PageContentstyles__Columns>
+    </PageContentstyles__PageContainer>
+  </PageContentstyles__StyledPageContent>
 </Loader>
 `;
 
@@ -119,7 +119,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
   isLoading={false}
   showSpinner={true}
 >
-  <styled.div>
+  <PageContentstyles__StyledPageContent>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -130,9 +130,9 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <Styled(styled.div)>
-      <styled.div>
-        <styled.div>
+    <PageContentstyles__PageContainer>
+      <PageContentstyles__Columns>
+        <PageContentstyles__ColumnLeft>
           <Sidebar
             isOpen={false}
             links={Array []}
@@ -142,17 +142,17 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               - a link
             </Markdown>
           </Sidebar>
-        </styled.div>
-        <styled.div>
-          <styled.div>
+        </PageContentstyles__ColumnLeft>
+        <PageContentstyles__ColumnRight>
+          <PageContentstyles__PageContentData>
             <Markdown>
               ### some data
             </Markdown>
-          </styled.div>
-        </styled.div>
-      </styled.div>
-    </Styled(styled.div)>
-  </styled.div>
+          </PageContentstyles__PageContentData>
+        </PageContentstyles__ColumnRight>
+      </PageContentstyles__Columns>
+    </PageContentstyles__PageContainer>
+  </PageContentstyles__StyledPageContent>
 </Loader>
 `;
 
@@ -161,7 +161,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
   isLoading={false}
   showSpinner={true}
 >
-  <styled.div>
+  <PageContentstyles__StyledPageContent>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -172,12 +172,12 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <Styled(Hero)
+    <PageContentstyles__PageHero
       image="http://foo"
     />
-    <Styled(styled.div)>
-      <styled.div>
-        <styled.div>
+    <PageContentstyles__PageContainer>
+      <PageContentstyles__Columns>
+        <PageContentstyles__ColumnLeft>
           <Sidebar
             isOpen={false}
             links={Array []}
@@ -187,16 +187,16 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               - a link
             </Markdown>
           </Sidebar>
-        </styled.div>
-        <styled.div>
-          <styled.div>
+        </PageContentstyles__ColumnLeft>
+        <PageContentstyles__ColumnRight>
+          <PageContentstyles__PageContentData>
             <Markdown>
               ### some data
             </Markdown>
-          </styled.div>
-        </styled.div>
-      </styled.div>
-    </Styled(styled.div)>
-  </styled.div>
+          </PageContentstyles__PageContentData>
+        </PageContentstyles__ColumnRight>
+      </PageContentstyles__Columns>
+    </PageContentstyles__PageContainer>
+  </PageContentstyles__StyledPageContent>
 </Loader>
 `;

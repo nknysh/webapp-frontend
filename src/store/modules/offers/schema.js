@@ -2,7 +2,7 @@ import { prop } from 'ramda';
 import { schema } from 'normalizr';
 
 import { schemaOpts } from 'store/common';
-import { fetchHotelsSuccess } from 'store/modules/hotels/actions';
+import { setHotels } from 'store/modules/hotels/actions';
 import { default as hotelSchema, rateSchema } from 'store/modules/hotel/schema';
 
 const id = 'uuid';
@@ -31,7 +31,7 @@ export default {
   id,
   relationships: {
     hotel: {
-      setter: fetchHotelsSuccess,
+      setter: setHotels,
     },
   },
   schema: new schema.Array(offersSchema),

@@ -10,7 +10,7 @@ export default {
     loggingOut: 'Logging out...',
     passwordReset: 'Requesting Password Reset...',
     setPassword: 'Setting password...',
-    searching: 'Searching...',
+    searching: 'Getting Results...',
     gettingHotel: 'Getting hotel details...',
     preparingBooking: 'Preparing booking...',
     submittingBooking: 'Submitting booking...',

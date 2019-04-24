@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Search /> render matches snapshot 1`] = `
+<Fragment>
+  <Searchstyles__SearchBarSection
+    data-vertical={false}
+  >
+    <Searchstyles__SearchBarIndexSearch
+      indexes={Array []}
+      isLoading={false}
+      label="Destination or resort"
+      limit={5}
+      onChange={[Function]}
+      onClick={[Function]}
+      openOnFocus={false}
+      placeholder="Where to"
+      selectors={Array []}
+    />
+  </Searchstyles__SearchBarSection>
+  <Searchstyles__SearchBarSection
+    data-large={true}
+    data-vertical={false}
+  >
+    <DatePicker
+      label="Dates"
+      multiple={true}
+      onSelected={[Function]}
+      placeholder="Select dates"
+      showOverlay={true}
+      summaryText="Night"
+      summaryTextPlural="Nights"
+    />
+  </Searchstyles__SearchBarSection>
+  <Searchstyles__SearchBarSection
+    data-vertical={false}
+  >
+    <LodgingSelect
+      label="Lodging"
+      onSelected={[Function]}
+      selectedValues={
+        Object {
+          "adult": 0,
+          "child": 0,
+          "infant": 0,
+          "quantity": 0,
+          "teen": 0,
+        }
+      }
+    />
+  </Searchstyles__SearchBarSection>
+  <Searchstyles__SearchBarSection
+    data-constrain={true}
+    data-vertical={false}
+  >
+    <Checkbox
+      checked={false}
+      label="Honeymooners"
+      onChange={[Function]}
+    />
+  </Searchstyles__SearchBarSection>
+  <Searchstyles__SearchBarSection
+    data-vertical={false}
+  >
+    <Searchstyles__SearchBarButton
+      onClick={[Function]}
+    >
+      Search
+    </Searchstyles__SearchBarButton>
+  </Searchstyles__SearchBarSection>
+</Fragment>
+`;

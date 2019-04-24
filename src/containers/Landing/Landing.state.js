@@ -4,7 +4,7 @@ import { pipe } from 'ramda';
 import { fetchLatestOffers } from 'store/modules/offers/actions';
 import { getOffersResults, getOffersStatus } from 'store/modules/offers/selectors';
 
-import { fetchSearch } from 'store/modules/search/actions';
+import { searchByQuery } from 'store/modules/search/actions';
 import { getSearchStatus } from 'store/modules/search/selectors';
 
 export const mapStateToProps = state => ({
@@ -18,8 +18,8 @@ export const mapDispatchToProps = dispatch => ({
     fetchLatestOffers,
     dispatch
   ),
-  fetchSearch: pipe(
-    fetchSearch,
+  searchByQuery: pipe(
+    searchByQuery,
     dispatch
   ),
 });

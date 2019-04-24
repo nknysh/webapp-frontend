@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Hero /> render matches snapshot 1`] = `
+<Herostyles__StyledHero
+  full={false}
+  offsetBy={0}
+/>
+`;
+
+exports[`<Hero /> render matches snapshot 2`] = `
+<Herostyles__StyledHero
+  full={false}
+  offsetBy={0}
+>
+  <Herostyles__HeroTitle>
+    A title
+  </Herostyles__HeroTitle>
+</Herostyles__StyledHero>
+`;
+
+exports[`<Hero /> render matches snapshot 3`] = `
+<Herostyles__StyledHero
+  full={false}
+  offsetBy={0}
+>
+  <Herostyles__HeroChildren>
+    Some content
+  </Herostyles__HeroChildren>
+</Herostyles__StyledHero>
+`;
+
+exports[`<Hero /> render matches snapshot 4`] = `
+<Herostyles__StyledHero
+  full={true}
+  offsetBy={0}
+/>
+`;
+
+exports[`<Hero /> render matches snapshot 5`] = `
+<Herostyles__StyledHero
+  full={false}
+  image="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
+  offsetBy={0}
+/>
+`;
+
+exports[`<Hero /> render matches snapshot 6`] = `
+<Herostyles__StyledHero
+  full={true}
+  image="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
+  offsetBy={0}
+>
+  <Herostyles__HeroTitle>
+    A title
+  </Herostyles__HeroTitle>
+  <Herostyles__HeroChildren>
+    Some content
+  </Herostyles__HeroChildren>
+</Herostyles__StyledHero>
+`;
+
+exports[`<Hero /> render matches snapshot 7`] = `
+<Herostyles__StyledHero
+  full={true}
+  image="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
+  offsetBy={0}
+>
+  <Herostyles__HeroVideo>
+    <Video
+      autoPlay={true}
+      fallbackImage="http://pure-escapes-webapp-dev.s3-website.eu-west-2.amazonaws.com/assets/cover_photo.png"
+      loop={true}
+      muted={true}
+      playsInline={true}
+      srcs={
+        Array [
+          Object {
+            "path": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "type": "mp4",
+          },
+        ]
+      }
+    />
+  </Herostyles__HeroVideo>
+  <Herostyles__HeroTitle>
+    A title
+  </Herostyles__HeroTitle>
+  <Herostyles__HeroChildren>
+    Some content
+  </Herostyles__HeroChildren>
+</Herostyles__StyledHero>
+`;

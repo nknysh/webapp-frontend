@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LoginForm /> render matches snapshot 1`] = `
-<styled.div>
+<LoginFormstyles__StyledLoginForm>
   <Loader
     isLoading={false}
     showSpinner={true}
@@ -10,7 +10,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
     <Title>
       Sign in
     </Title>
-    <Styled(Styled(Markdown)) />
+    <LoginFormstyles__ServerErrorContent />
     <Form
       initialValues={
         Object {
@@ -124,5 +124,5 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
       <Component />
     </Form>
   </Loader>
-</styled.div>
+</LoginFormstyles__StyledLoginForm>
 `;

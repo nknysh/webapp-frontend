@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Video /> render matches snapshot 1`] = `<video />`;
+
+exports[`<Video /> render matches snapshot 2`] = `
+<video>
+  <source
+    key="http://foo"
+    src="http://foo"
+    type="video/mp4"
+  />
+</video>
+`;
+
+exports[`<Video /> render matches snapshot 3`] = `
+<video>
+  <source
+    key="http://foo"
+    src="http://foo"
+    type="video/mp4"
+  />
+  <Videostyles__FallbackImage
+    src="http://foo"
+  />
+</video>
+`;

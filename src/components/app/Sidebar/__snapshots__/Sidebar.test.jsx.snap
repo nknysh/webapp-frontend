@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Sidebar /> render matches snapshots 1`] = `<Sidebarstyles__StyledSidebar />`;
+
+exports[`<Sidebar /> render matches snapshots 2`] = `
+<Sidebarstyles__StyledSidebar>
+  <Sidebarstyles__SidebarTitle
+    onClick={[Function]}
+  >
+    A Sidebar
+  </Sidebarstyles__SidebarTitle>
+</Sidebarstyles__StyledSidebar>
+`;
+
+exports[`<Sidebar /> render matches snapshots 3`] = `
+<Sidebarstyles__StyledSidebar>
+  <Sidebarstyles__SidebarTitle
+    onClick={[Function]}
+  >
+    A Sidebar
+  </Sidebarstyles__SidebarTitle>
+  <Sidebarstyles__SidebarLinks
+    isOpen={false}
+  >
+    <Sidebarstyles__SidebarLink
+      key="cb6370c219aa53ec13b2d09141b7982a361f5b6d"
+      onClick={[Function]}
+    >
+      <a>
+        foo
+      </a>
+    </Sidebarstyles__SidebarLink>
+    <Sidebarstyles__SidebarLink
+      key="cb6370c219aa53ec13b2d09141b7982a361f5b6d"
+      onClick={[Function]}
+    >
+      <a>
+        foo
+      </a>
+    </Sidebarstyles__SidebarLink>
+    <Sidebarstyles__SidebarLink
+      key="cb6370c219aa53ec13b2d09141b7982a361f5b6d"
+      onClick={[Function]}
+    >
+      <a>
+        foo
+      </a>
+    </Sidebarstyles__SidebarLink>
+    <Sidebarstyles__SidebarLink
+      key="cb6370c219aa53ec13b2d09141b7982a361f5b6d"
+      onClick={[Function]}
+    >
+      <a>
+        foo
+      </a>
+    </Sidebarstyles__SidebarLink>
+    <Sidebarstyles__SidebarLink
+      key="cb6370c219aa53ec13b2d09141b7982a361f5b6d"
+      onClick={[Function]}
+    >
+      <a>
+        foo
+      </a>
+    </Sidebarstyles__SidebarLink>
+  </Sidebarstyles__SidebarLinks>
+</Sidebarstyles__StyledSidebar>
+`;
+
+exports[`<Sidebar /> render matches snapshots 4`] = `
+<Sidebarstyles__StyledSidebar>
+  <Sidebarstyles__SidebarTitle
+    onClick={[Function]}
+  >
+    A Sidebar
+  </Sidebarstyles__SidebarTitle>
+  <Sidebarstyles__SidebarLinks
+    isOpen={false}
+  />
+  <Sidebarstyles__SidebarChildren
+    isOpen={false}
+    onClick={[Function]}
+  >
+    <a>
+      foo
+    </a>
+    <a>
+      foo
+    </a>
+    <a>
+      foo
+    </a>
+    <a>
+      foo
+    </a>
+    <a>
+      foo
+    </a>
+  </Sidebarstyles__SidebarChildren>
+</Sidebarstyles__StyledSidebar>
+`;

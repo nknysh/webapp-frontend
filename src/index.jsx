@@ -15,6 +15,11 @@ import './styles/fonts/HurmeGeometricSans2.css';
 import './styles/fonts/NoeDisplay.css';
 import registerServiceWorker from './registerServiceWorker';
 
+if (process.env.NODE_ENV !== 'production') {
+  const whyDidYouRender = require('@welldone-software/why-did-you-render');
+  whyDidYouRender(React);
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <Helmet>

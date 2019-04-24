@@ -1,10 +1,8 @@
 import { createSelector } from 'reselect';
 import {
   __,
-  complement,
   curry,
   forEach,
-  isNil,
   lensProp,
   map,
   mapObjIndexed,
@@ -18,12 +16,9 @@ import {
   set,
   uniq,
   values,
-  when,
 } from 'ramda';
 
-import { selectRelationships, getData, getStatus, getEntities, getResults } from 'store/common/selectors';
-
-import schema from './schema';
+import { getData, getStatus, getEntities, getResults } from 'store/common/selectors';
 
 const reduceByKey = curry((key, accum, value) => (value ? [...accum, prop(key, value)] : accum));
 const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum, ...propOr([], key, value)] : accum));
@@ -66,8 +61,7 @@ export const getHotelsStatus = pipe(
 export const getHotelsData = state =>
   pipe(
     getHotels,
-    getData,
-    when(complement(isNil), map(selectRelationships(state, propOr({}, 'relationships', schema))))
+    getData
   )(state);
 
 export const getHotelsResults = pipe(
@@ -83,34 +77,32 @@ export const getHotelsEntities = pipe(
 
 export const getHotelsPhotos = curry((state, ids) =>
   pipe(
-    getHotels,
-    getEntities,
-    prop('photos'),
+    getHotelsEntities,
+    propOr([], 'photos'),
     pick(ids)
   )(state)
 );
 
 export const getHotelsPhoto = curry((state, id) =>
   pipe(
-    getHotels,
-    getEntities,
-    prop('photos'),
+    getHotelsEntities,
+    propOr([], 'photos'),
     prop(id)
   )(state)
 );
 
 export const getHotelRegions = createSelector(
-  getHotelsData,
+  getHotelsEntities,
   getMapped('region')
 );
 
 export const getHotelStarRatings = createSelector(
-  getHotelsData,
+  getHotelsEntities,
   getMapped('starRating')
 );
 
 export const getHotelFeatures = createSelector(
-  getHotelsData,
+  getHotelsEntities,
   getMapped('amenities', reduceArrayByKey)
 );
 
@@ -175,3 +167,6 @@ export const getAccommodationProductAgeRanges = curry((state, id) =>
     extractAges
   )(id)
 );
+
+export const getHotelsFromSearchResults = (state, ids = []) =>
+  map(id => set(lensProp('featuredPhoto'), getHotelFeaturedPhoto(state, id), getHotel(state, id)), ids);

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Title /> render matches snapshot 1`] = `
+<Titlestyles__StyledTitle>
+  <img
+    src=""
+  />
+  A Title
+</Titlestyles__StyledTitle>
+`;

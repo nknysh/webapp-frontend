@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<NotFound /> render matches snapshots 1`] = `
-<styled.div>
-  <Styled(styled.img)
+<NotFoundstyles__StyledNotFound>
+  <NotFoundstyles__NotFoundImage
     src=""
   />
-  <Styled(styled.h1)>
+  <NotFoundstyles__NotFoundHeading>
     Page not found
-  </Styled(styled.h1)>
-</styled.div>
+  </NotFoundstyles__NotFoundHeading>
+</NotFoundstyles__StyledNotFound>
 `;

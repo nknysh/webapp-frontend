@@ -1,9 +1,8 @@
 import styled, { css } from 'styled-components';
 
-import { default as BaseBookingForm } from 'components/BookingForm';
-import Markdown from 'components/Markdown';
-import Modal from 'components/Modal';
-import Summary from 'components/Summary';
+import { default as BaseBookingForm } from 'components/app/BookingForm';
+import { Markdown, Modal } from 'components/elements';
+import { Summary } from 'components/app';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';

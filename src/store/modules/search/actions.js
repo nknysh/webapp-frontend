@@ -1,83 +1,84 @@
-import { prop, path } from 'ramda';
-
-import { IndexTypes } from 'utils';
+import { prop, pathOr, path } from 'ramda';
 
 import client from 'api/search';
 
-import { successAction, errorAction } from 'store/common';
-import { searchIndex } from 'store/modules/indexes/actions';
+import { successAction, errorFromResponse, entitiesObject, loadingAction } from 'store/common';
 
-import { fetchHotelsSuccess } from 'store/modules/hotels/actions';
+import { setHotels } from 'store/modules/hotels/actions';
 import { setCountries } from 'store/modules/countries/actions';
 
-import { getSearchValue } from './selectors';
-
-export const SEARCH_INDEX_BUILD = 'SEARCH_INDEX_BUILD';
-export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
-export const RESET_SEARCH_FILTERS = 'RESET_SEARCH_FILTERS';
+export const SEARCH_QUERY_UPDATE = 'SEARCH_QUERY_UPDATE';
+export const SEARCH_FILTERS_RESET = 'SEARCH_FILTERS_RESET';
 export const SEARCH_RESULTS = 'SEARCH_RESULTS';
-export const FETCH_SEARCH = 'FETCH_SEARCH';
+export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
 
-export const buildIndex = payload => ({
-  type: SEARCH_INDEX_BUILD,
+export const SEARCH_BY_QUERY = 'SEARCH_BY_QUERY';
+
+export const setSearchQuery = payload => ({
+  type: SEARCH_QUERY_UPDATE,
   payload,
 });
 
-export const setSearchQueryAction = payload => ({
-  type: SET_SEARCH_QUERY,
+export const searchFiltersReset = payload => ({
+  type: SEARCH_FILTERS_RESET,
   payload,
 });
 
-export const resetFiltersAction = payload => ({
-  type: RESET_SEARCH_FILTERS,
+export const searchByNameAction = payload => ({
+  type: SEARCH_BY_NAME,
   payload,
 });
 
-export const searchResults = payload => ({
-  type: SEARCH_RESULTS,
+export const searchByQueryAction = payload => ({
+  type: SEARCH_BY_QUERY,
   payload,
 });
 
-export const fetchSearchAction = payload => ({
-  type: FETCH_SEARCH,
-  payload,
-});
+export const searchByName = destination => async dispatch => {
+  dispatch(setSearchQuery({ destination }));
+  dispatch(searchByNameAction(destination));
+  dispatch(loadingAction(SEARCH_BY_NAME, { destination }));
 
-export const resetFilters = payload => dispatch => {
-  dispatch(resetFiltersAction(payload));
+  try {
+    const {
+      data: { data },
+    } = await client.getSearchByName(prop('value', destination));
 
-  const index = prop('index', payload);
-  index && dispatch(searchIndex(index));
+    const result = prop('result', data);
+    const hotels = pathOr({}, ['entities', 'hotels'], data);
+    const countries = pathOr({}, ['entities', 'countries'], data);
+
+    dispatch(setHotels(entitiesObject('hotels', hotels)));
+    dispatch(setCountries(entitiesObject('countries', countries)));
+    dispatch(successAction(SEARCH_BY_NAME, { byName: { result } }));
+  } catch (e) {
+    dispatch(errorFromResponse(SEARCH_BY_NAME, e));
+    throw e;
+  }
 };
 
-export const setSearchQuery = ({ index = IndexTypes.HOTELS, ...payload }) => dispatch => {
-  dispatch(setSearchQueryAction(payload));
-  dispatch(searchIndex(index));
-};
+export const searchByQuery = query => async dispatch => {
+  dispatch(searchByQueryAction(query));
+  dispatch(loadingAction(SEARCH_BY_QUERY, query));
 
-export const fetchSearch = ({ value, index = IndexTypes.HOTELS }) => (dispatch, getState) => {
-  const payload = { name: value };
+  const term = path(['destination', 'value'], query);
 
-  const state = getState();
-  const searchValue = getSearchValue(state);
+  try {
+    const {
+      data: { data, meta },
+    } = await client.getSearch(query);
 
-  dispatch(fetchSearchAction(payload));
+    const hotelsEntities = path(['entities', 'hotels'], data);
+    const hotelsResults = path(['result', 'hotels'], data);
+    const photosEntities = path(['entities', 'photos'], data);
+    const countriesEntities = path(['entities', 'countries'], data);
+    const countriesResults = path(['result', 'countries'], data);
 
-  client
-    .getSearch(payload, { name: searchValue })
-    .then(({ data: { data } }) => {
-      const hotelsEntities = path(['entities', 'hotels'], data);
-      const hotelsResults = path(['result', 'hotels'], data);
-      const photosEntities = path(['entities', 'photos'], data);
-      const countriesEntities = path(['entities', 'countries'], data);
-      const countriesResults = path(['result', 'countries'], data);
-
-      dispatch(
-        fetchHotelsSuccess({ entities: { hotels: hotelsEntities, photos: photosEntities }, result: hotelsResults })
-      );
-      dispatch(setCountries({ entities: { countries: countriesEntities }, result: countriesResults }));
-      dispatch(searchIndex(index));
-      dispatch(successAction(FETCH_SEARCH, { result: prop('result', data) }));
-    })
-    .catch(error => dispatch(errorAction(FETCH_SEARCH, error)));
+    dispatch(setHotels({ entities: { hotels: hotelsEntities, photos: photosEntities }, result: hotelsResults }));
+    dispatch(setCountries({ entities: { countries: countriesEntities }, result: countriesResults }));
+    dispatch(successAction(SEARCH_BY_QUERY, { byQuery: { meta: { term, ...meta }, result: hotelsResults } }));
+  } catch (e) {
+    dispatch(errorFromResponse(SEARCH_BY_QUERY, e));
+    throw e;
+  }
 };

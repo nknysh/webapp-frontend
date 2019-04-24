@@ -1,13 +1,13 @@
-import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
+import { createReducer, getErrorActionName, getSuccessActionName, getLoadingActionName } from 'store/utils';
 import { initialState, loadingReducer, successReducer, errorReducer } from 'store/common';
 
-import { FETCH_LATEST_OFFERS } from './actions';
+import { OFFERS_LATEST } from './actions';
 
 export default createReducer(
   {
-    [FETCH_LATEST_OFFERS]: loadingReducer,
-    [getSuccessActionName(FETCH_LATEST_OFFERS)]: successReducer,
-    [getErrorActionName(FETCH_LATEST_OFFERS)]: errorReducer,
+    [getLoadingActionName(OFFERS_LATEST)]: loadingReducer,
+    [getSuccessActionName(OFFERS_LATEST)]: successReducer,
+    [getErrorActionName(OFFERS_LATEST)]: errorReducer,
   },
   initialState
 );

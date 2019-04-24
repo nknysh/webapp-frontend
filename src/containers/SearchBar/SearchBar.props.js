@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { noop } from 'utils';
 
 export const propTypes = {
-  countries: PropTypes.object,
-  countriesIndex: PropTypes.object,
-  fetchHotels: PropTypes.func,
+  searchStatus: PropTypes.string,
+  searchByName: PropTypes.func,
+  setSearchQuery: PropTypes.func,
   getCountryName: PropTypes.func,
   getHotelName: PropTypes.func,
-  hotels: PropTypes.object,
-  hotelsIndex: PropTypes.object,
-  indexes: PropTypes.array,
+  searchQuery: PropTypes.object,
 };
 
 export const defaultProps = {
-  fetchHotels: noop,
+  getCountryName: noop,
+  getHotelName: noop,
+  searchByName: noop,
+  setSearchQuery: noop,
+  searchQuery: {},
 };

@@ -12,7 +12,7 @@ describe('offers actions', () => {
 
       fetchLatestOffers({})(dispatch);
 
-      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledTimes(2);
     });
   });
 });

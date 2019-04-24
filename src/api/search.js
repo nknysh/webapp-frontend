@@ -2,4 +2,6 @@ import client from './index';
 
 export const getSearch = params => client.get('/search', { params });
 
-export default { getSearch };
+export const getSearchByName = (name, params) => client.get(`/search/names/${encodeURI(name)}`, { params });
+
+export default { getSearch, getSearchByName };

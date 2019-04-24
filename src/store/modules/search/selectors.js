@@ -1,6 +1,6 @@
-import { prop, pipe, path, when, always, inc, evolve, defaultTo } from 'ramda';
+import { curry, prop, pipe, path, when, always, inc, evolve, defaultTo, propOr } from 'ramda';
 
-import { getStatus, getResults } from 'store/common/selectors';
+import { getStatus, getData } from 'store/common/selectors';
 import { isEmptyOrNil, toDate } from 'utils';
 
 const defaultFromDate = toDate();
@@ -14,10 +14,26 @@ export const getSearchStatus = pipe(
   getStatus
 );
 
-export const getSearchResults = pipe(
+export const getSearchData = pipe(
   getSearch,
-  getResults,
-  prop('hotels')
+  getData
+);
+
+export const getSearchResults = curry((state, type) =>
+  pipe(
+    getSearchData,
+    propOr({}, type)
+  )(state)
+);
+
+export const getSearchResultsMeta = pipe(
+  getSearchResults,
+  prop('meta')
+);
+
+export const getSearchResultsResult = pipe(
+  getSearchResults,
+  prop('result')
 );
 
 export const getSearchQuery = pipe(

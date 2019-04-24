@@ -1,4 +1,4 @@
-import { initialState as baseInitialState, loadingReducer, errorReducer, Status, successReducer } from 'store/common';
+import { initialState as baseInitialState, loadingReducer, errorReducer, Status } from 'store/common';
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
 
 const initialState = {
@@ -6,7 +6,7 @@ const initialState = {
   indexes: {},
 };
 
-import { INDEXING, INDEX_SEARCH } from './actions';
+import { INDEXING } from './actions';
 
 const searchIndex = (state, { payload }) => {
   return {
@@ -24,9 +24,6 @@ export default createReducer(
     [INDEXING]: loadingReducer,
     [getSuccessActionName(INDEXING)]: searchIndex,
     [getErrorActionName(INDEXING)]: errorReducer,
-    [INDEX_SEARCH]: loadingReducer,
-    [getSuccessActionName(INDEX_SEARCH)]: successReducer,
-    [getErrorActionName(INDEX_SEARCH)]: errorReducer,
   },
   initialState
 );

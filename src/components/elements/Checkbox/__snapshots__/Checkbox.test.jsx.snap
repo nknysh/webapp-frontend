@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Checkbox /> render matches snapshot 1`] = `
+<Checkboxstyles__StyledCheckBox>
+  <WithStyles(WithFormControlContext(FormControlLabel))
+    control={<ForwardRef />}
+  />
+</Checkboxstyles__StyledCheckBox>
+`;

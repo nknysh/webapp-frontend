@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ToolTip /> render matches snapshots 1`] = `
+<ToolTipstyles__StyledToolTip>
+  <WithStyles(Tooltip)
+    PopperProps={
+      Object {
+        "disablePortal": true,
+      }
+    }
+    classes={
+      Object {
+        "popper": "popper",
+        "tooltip": "tooltip",
+      }
+    }
+    disableFocusListener={true}
+    placement="top"
+    title={<ForwardRef />}
+  >
+    <ToolTipstyles__ToolTipIcon>
+      info
+    </ToolTipstyles__ToolTipIcon>
+  </WithStyles(Tooltip)>
+</ToolTipstyles__StyledToolTip>
+`;

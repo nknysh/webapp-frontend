@@ -1,78 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SearchBar /> render matches snapshot 1`] = `
-<styled.div>
+<SearchBarstyles__StyledSearchBar>
   <Loader
     isLoading={false}
     showSpinner={false}
   >
-    <styled.div>
-      <Styled(withSearchIndexes(IndexSearch))
-        indexes={
-          Array [
-            "countries",
-            "hotels",
-          ]
-        }
-        label="Destination or resort"
-        limit={5}
-        onChange={[Function]}
-        onClick={[Function]}
-        openOnFocus={false}
-        placeholder="Where to"
-        selectors={
-          Array [
-            undefined,
-            undefined,
-          ]
-        }
-      />
-    </styled.div>
-    <styled.div
-      data-large={true}
-    >
-      <DatePicker
-        label="Dates"
-        multiple={true}
-        onSelected={[Function]}
-        placeholder="Select dates"
-        showOverlay={true}
-        summaryText="Night"
-        summaryTextPlural="Nights"
-      />
-    </styled.div>
-    <styled.div>
-      <LodgingSelect
-        id="lodging"
-        label="Lodging"
-        onSelected={[Function]}
-        selectedValues={
-          Object {
-            "adult": 0,
-            "child": 0,
-            "infant": 0,
-            "quantity": 0,
-            "teen": 0,
-          }
-        }
-      />
-    </styled.div>
-    <styled.div
-      data-constrain={true}
-    >
-      <Checkbox
-        checked={false}
-        label="Honeymooners"
-        onChange={[Function]}
-      />
-    </styled.div>
-    <styled.div>
-      <Styled(styled.button)
-        onClick={[Function]}
-      >
-        Search
-      </Styled(styled.button)>
-    </styled.div>
+    <Search
+      indexSelectors={
+        Array [
+          [Function],
+          [Function],
+        ]
+      }
+      indexes={
+        Array [
+          "countries",
+          "hotels",
+        ]
+      }
+      isLoading={false}
+      onChange={[Function]}
+      onSearch={[Function]}
+      onSubmit={[Function]}
+      searchQuery={Object {}}
+      showSubmit={true}
+      vertical={false}
+    />
   </Loader>
-</styled.div>
+</SearchBarstyles__StyledSearchBar>
 `;

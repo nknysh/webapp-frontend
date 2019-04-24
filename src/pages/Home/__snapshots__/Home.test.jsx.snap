@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Home /> render matches snapshot 1`] = `
-<styled.div>
+<Homestyles__StyledHome>
   <Hero
     full={true}
     media={
@@ -17,38 +17,38 @@ exports[`<Home /> render matches snapshot 1`] = `
   >
     <Markdown />
   </Hero>
-  <styled.div>
-    <Styled(WithStyles(Icon))
+  <Homestyles__HomeSection>
+    <Homestyles__MoveTo
       onClick={[Function]}
       onTouchMove={[Function]}
     >
       keyboard_arrow_down
-    </Styled(WithStyles(Icon))>
-    <styled.div>
+    </Homestyles__MoveTo>
+    <Homestyles__HomeContainer>
       <Markdown />
-    </styled.div>
-  </styled.div>
-  <styled.div
+    </Homestyles__HomeContainer>
+  </Homestyles__HomeSection>
+  <Homestyles__HomeSection
     data-striped={true}
   >
-    <styled.div>
+    <Homestyles__HomeContainer>
       <Markdown />
-    </styled.div>
-  </styled.div>
-  <styled.div>
-    <styled.div>
+    </Homestyles__HomeContainer>
+  </Homestyles__HomeSection>
+  <Homestyles__HomeSection>
+    <Homestyles__HomeContainer>
       <Markdown />
-    </styled.div>
-  </styled.div>
-  <styled.div>
-    <styled.div>
+    </Homestyles__HomeContainer>
+  </Homestyles__HomeSection>
+  <Homestyles__HomeSection>
+    <Homestyles__HomeContainer>
       <Markdown />
-    </styled.div>
-  </styled.div>
-  <styled.div>
-    <styled.div>
+    </Homestyles__HomeContainer>
+  </Homestyles__HomeSection>
+  <Homestyles__HomeSection>
+    <Homestyles__HomeContainer>
       <Markdown />
-    </styled.div>
-  </styled.div>
-</styled.div>
+    </Homestyles__HomeContainer>
+  </Homestyles__HomeSection>
+</Homestyles__StyledHome>
 `;

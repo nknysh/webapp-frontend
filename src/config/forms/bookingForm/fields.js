@@ -1,7 +1,6 @@
 import { prop } from 'ramda';
 
-import Checkbox from 'components/Checkbox';
-import Select from 'components/Select';
+import { Checkbox, Select } from 'components/elements';
 
 import formConfig from 'config/forms';
 

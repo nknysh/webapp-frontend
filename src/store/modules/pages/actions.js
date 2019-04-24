@@ -1,20 +1,21 @@
 import { prop } from 'ramda';
 
-import { successAction, errorAction } from 'store/common/actions';
+import { successAction, errorAction, loadingAction } from 'store/common';
 
 import { PageData } from './config';
 
-export const FETCH_PAGE = 'FETCH_PAGE';
+export const PAGE = 'PAGE';
 
 export const getPageById = pageId => ({
-  type: FETCH_PAGE,
+  type: PAGE,
   payload: { pageId },
 });
 
 export const getPage = pageId => dispatch => {
   dispatch(getPageById(pageId));
+  dispatch(loadingAction(PAGE));
 
   const data = prop(pageId, PageData);
 
-  data ? dispatch(successAction(FETCH_PAGE, data)) : dispatch(errorAction(FETCH_PAGE, { error: 'No data found' }));
+  data ? dispatch(successAction(PAGE, data)) : dispatch(errorAction(PAGE, { error: 'No data found' }));
 };

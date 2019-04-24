@@ -60,7 +60,6 @@ export const HotelBookingContainer = ({
   hotelStatus,
   id,
   isComplete,
-  removeBooking,
   total,
   updateBooking,
 }) => {
@@ -108,7 +107,6 @@ export const HotelBookingContainer = ({
   const onMobileNavClick = () => setView(ViewType.DETAILS);
   const onPaymentChange = (e, value) => setPaymentType(value);
   const onModalClose = () => setModalOpen(false);
-  const onConfirmationLeave = () => removeBooking(id);
 
   const onSubmit = values => {
     setGuestFormValues(values);
@@ -212,11 +210,7 @@ export const HotelBookingContainer = ({
 
   const renderConfirmation = () => (
     <Confirmation>
-      <BookingConfirmation
-        title={path([paymentType, 'title'], confirmationContent)}
-        bookingRef={reservationId}
-        onLeave={onConfirmationLeave}
-      >
+      <BookingConfirmation title={path([paymentType, 'title'], confirmationContent)} bookingRef={reservationId}>
         <ConfirmationContent>{path([paymentType, 'content'], confirmationContent)}</ConfirmationContent>
       </BookingConfirmation>
     </Confirmation>

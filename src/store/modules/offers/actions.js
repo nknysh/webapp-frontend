@@ -1,13 +1,13 @@
 import { path, prop, map } from 'ramda';
 import client from 'api/offers';
 
-import { successAction, errorAction } from 'store/common';
-import { fetchHotelsSuccess } from 'store/modules/hotels/actions';
+import { successAction, errorFromResponse, loadingAction } from 'store/common';
+import { setHotels } from 'store/modules/hotels/actions';
 
-export const FETCH_LATEST_OFFERS = 'FETCH_LATEST_OFFERS';
+export const OFFERS_LATEST = 'OFFERS_LATEST';
 
 export const fetchOffersAction = payload => ({
-  type: FETCH_LATEST_OFFERS,
+  type: OFFERS_LATEST,
   payload,
 });
 
@@ -19,19 +19,24 @@ export const fetchOffersSuccess = ({ data: { data } }) => dispatch => {
   const result = prop('result', data);
 
   dispatch(
-    fetchHotelsSuccess({
+    setHotels({
       entities: { hotels: hotelsEntities, photos: photosEntities },
       result: map(prop('hotel'), result),
     })
   );
-  dispatch(successAction(FETCH_LATEST_OFFERS, { entities: { offers: offersEntities }, result }));
+  dispatch(successAction(OFFERS_LATEST, { entities: { offers: offersEntities }, result }));
 };
 
-export const fetchLatestOffers = args => dispatch => {
+export const fetchLatestOffers = args => async dispatch => {
   dispatch(fetchOffersAction(args));
+  dispatch(loadingAction(OFFERS_LATEST, args));
 
-  return client
-    .getLatestOffers(args)
-    .then(({ data }) => dispatch(fetchOffersSuccess({ data })))
-    .catch(error => dispatch(errorAction(FETCH_LATEST_OFFERS, error)));
+  try {
+    const { data } = await client.getLatestOffers(args);
+
+    dispatch(fetchOffersSuccess({ data }));
+  } catch (e) {
+    dispatch(errorFromResponse(OFFERS_LATEST, e));
+    throw e;
+  }
 };

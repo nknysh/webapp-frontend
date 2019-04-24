@@ -3,21 +3,21 @@ import { path, prop, pipe, pick, lensPath, lensProp, over, map, when, complement
 
 import { getQuery, isEmptyOrNil } from 'utils';
 
-import { setSearchQueryAction } from './actions';
+import { setSearchQuery } from './actions';
 
 const history = createBrowserHistory();
 
 const datesFromLens = lensPath(['dates', 'from']);
 const datesToLens = lensPath(['dates', 'to']);
 const lodgingLens = lensProp('lodging');
-const honeymoonersLens = lensProp('honeymooners');
+const honeymoonersLens = lensProp('suitableForHoneymooners');
 const filtersRegionsLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 const filtersFeaturesLens = lensPath(['filters', 'features']);
 
 const newDate = value => value && new Date(value);
-const toBoolean = value => value === 'true';
+const toBoolean = value => value && value === 'true';
 
 const isNotNil = complement(isNil);
 
@@ -38,7 +38,7 @@ const formatData = pipe(
 const getSearchQuery = pipe(
   prop('location'),
   getQuery,
-  pick(['lodging', 'search', 'dates', 'honeymooners', 'filters']),
+  pick(['lodging', 'destination', 'dates', 'suitableForHoneymooners', 'filters']),
   formatData
 );
 
@@ -49,7 +49,7 @@ const searchMiddleware = ({ getState }) => next => action => {
   // If the redux key is empty but there is a search in the
   // query string, then populate the redux store with it
   if (isEmptyOrNil(path(['search', 'query'], state)) && !isEmptyOrNil(search)) {
-    next(setSearchQueryAction(search));
+    next(setSearchQuery(search));
   }
 
   next(action);

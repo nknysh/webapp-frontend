@@ -1,11 +1,9 @@
-import { FETCH_HOTEL, fetchHotelAction, fetchHotel } from './actions';
+import { fetchHotelAction, fetchHotel } from './actions';
 
 describe('hotel actions', () => {
   describe('fetchHotelAction', () => {
     it('returns action', () => {
-      expect(fetchHotelAction('foo')).toEqual({
-        type: FETCH_HOTEL,
-      });
+      expect(fetchHotelAction('foo')).toMatchSnapshot();
     });
   });
   describe('fetchHotel', () => {
