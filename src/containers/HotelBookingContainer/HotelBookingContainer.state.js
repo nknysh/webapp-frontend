@@ -7,7 +7,7 @@ import { extractFieldDefaults } from 'utils';
 import { getHotel } from 'store/modules/hotels/selectors';
 import { getHotelStatus } from 'store/modules/hotel/selectors';
 import {
-  getBookingTotalByHotelId,
+  getBookingTotal,
   getBookingByHotelId,
   getBookingReady,
   getBookingStatus,
@@ -46,7 +46,7 @@ export const mapStateToProps = (state, { id }) => ({
   bookingStatus: getBookingStatus(state),
   dates: getSearchDates(state),
   canBook: getBookingReady(state, id),
-  total: getBookingTotalByHotelId(state, id),
+  total: getBookingTotal(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({

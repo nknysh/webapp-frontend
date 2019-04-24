@@ -124,7 +124,7 @@ export const getHotelRooms = curry((state, id) =>
   pipe(
     getHotel(__, id),
     prop('accommodationProducts'),
-    getAccommodationProducts(state)
+    getHotelProducts('accommodationProducts', state)
   )(state)
 );
 
@@ -143,27 +143,27 @@ export const getHotelFeaturedPhoto = curry((state, id) =>
   )(state)
 );
 
-export const getAccommodationProducts = curry((state, ids) =>
+export const getHotelProducts = curry((type, state, ids) =>
   pipe(
     getHotels,
     getEntities,
-    prop('accommodationProducts'),
+    prop(type),
     pick(ids)
   )(state)
 );
 
-export const getAccommodationProduct = curry((state, id) =>
+export const getHotelProduct = curry((type, state, id) =>
   pipe(
     getHotels,
     getEntities,
-    prop('accommodationProducts'),
+    prop(type),
     prop(id)
   )(state)
 );
 
-export const getAccommodationProductAgeRanges = curry((state, id) =>
+export const getHotelProductAgeRanges = curry((type, state, id) =>
   pipe(
-    getAccommodationProduct(state),
+    getHotelProduct(type, state),
     extractAges
   )(id)
 );

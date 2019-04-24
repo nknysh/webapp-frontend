@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { default as BaseBookingForm } from 'components/app/BookingForm';
 import { Markdown, Modal } from 'components/elements';
-import { Summary } from 'components/app';
+import { SummaryForm } from 'components/app';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
@@ -19,7 +19,7 @@ import { Icon } from '@material-ui/core';
 
 export const StyledHotelContainer = styled(BaseStyledHotelContainer)``;
 
-export const StyledSummary = styled(Summary)``;
+export const StyledSummary = styled(SummaryForm)``;
 
 export const StyledBreadcrumbs = styled(BaseStyledBreadcrumbs)``;
 
