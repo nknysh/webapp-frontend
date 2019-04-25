@@ -10,7 +10,8 @@ import uiConfig, { getPlural } from 'config/ui';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
 import { Extra, OptionLabel, OptionPrice, OptionRate, Title } from './SummaryFormExtras.styles';
 
-const getOption = ({ name, uuid: value, rate: { rates } }) => {
+const getOption = ({ name, uuid: value, rate }) => {
+  const rates = propOr([], 'rates', rate);
   const hasMultipleRates = gt(length(rates), 1);
   return {
     label: (
