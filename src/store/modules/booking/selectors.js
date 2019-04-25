@@ -1,10 +1,12 @@
 import {
   __,
+  add,
   all,
   always,
   append,
   concat,
   curry,
+  defaultTo,
   equals,
   F,
   find,
@@ -15,10 +17,12 @@ import {
   isEmpty,
   keys,
   length,
+  lensPath,
   lensProp,
   map,
   mapObjIndexed,
   memoizeWith,
+  mergeDeepRight,
   multiply,
   path,
   pick,
@@ -31,19 +35,18 @@ import {
   reduce,
   set,
   sum,
+  test,
   toPairs,
   values,
-  lensPath,
-  when,
-  defaultTo,
   view,
+  when,
 } from 'ramda';
 import { createSelector } from 'reselect';
 import { eachDay, subDays } from 'date-fns';
 
 import { isEmptyOrNil, formatPrice, formatDate } from 'utils';
 
-import { getHotelRoom } from 'store/modules/hotels/selectors';
+import { getHotelRoom, getHotelProduct } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
 const noQuantity = pipe(
@@ -51,14 +54,19 @@ const noQuantity = pipe(
   equals(0)
 );
 
-const hasAdults = pipe(
-  map(prop('adult')),
+const hasOccupancy = pipe(
+  map(
+    pipe(
+      values,
+      sum
+    )
+  ),
   all(gt(__, 0))
 );
 
 const canBook = pipe(
   prop('quantity'),
-  ifElse(noQuantity, F, hasAdults)
+  ifElse(noQuantity, F, hasOccupancy)
 );
 
 const getRateAmount = pipe(
@@ -166,17 +174,6 @@ export const getBookingRoomTotal = curry((state, hotelId, roomId) => {
   )(ratesForDays);
 });
 
-export const getBookingTotalByHotelId = curry((state, hotelId) =>
-  pipe(
-    getBookingByHotelId,
-    prop('accommodationProducts'),
-    keys,
-    map(getBookingRoomTotal(state, hotelId)),
-    sum,
-    formatPrice
-  )(state, hotelId)
-);
-
 export const getBookingReady = pipe(
   getBookingByHotelId,
   propOr({}, 'accommodationProducts'),
@@ -228,4 +225,72 @@ export const getBookingRoomMealPlan = curry((state, hotelId, roomId) => {
   const mealPlans = getBookingRoomMealPlans(state, hotelId, roomId);
 
   return prop(prop('mealPlan', booking), mealPlans);
+});
+
+const reduceGuests = (accum, quantity) => {
+  map(
+    mapObjIndexed((amount, type) => {
+      accum = mergeDeepRight(accum, { [type]: add(amount, defaultTo(0, accum[type])) });
+    }),
+    quantity
+  );
+
+  return accum;
+};
+
+export const getBookingGuestTotals = pipe(
+  getBookingByHotelId,
+  prop('accommodationProducts'),
+  values,
+  map(prop('quantity')),
+  reduce(reduceGuests, {})
+);
+
+export const getBookingTotal = curry((state, hotelId) => {
+  const booking = getBookingByHotelId(state, hotelId);
+  const guestTotals = getBookingGuestTotals(state, hotelId);
+
+  const getProductTotal = (accum, product) => {
+    const name = prop('name', product);
+
+    const quantity =
+      test(/^adult$/i, name) && !prop(name, guestTotals) ? prop('default', guestTotals) : prop(name, guestTotals);
+
+    if (!quantity) return accum;
+
+    const rate = prop('rate', product);
+    return add(multiply(quantity, Number(rate)), accum);
+  };
+
+  const getProductTotals = pipe(
+    path(['rate', 'rates']),
+    defaultTo([]),
+    reduce(getProductTotal, 0)
+  );
+
+  const accommodationProductsTotal = pipe(
+    prop('accommodationProducts'),
+    keys,
+    map(getBookingRoomTotal(state, hotelId)),
+    sum
+  )(booking);
+
+  const transferProductsTotal = pipe(
+    prop('transfer'),
+    getHotelProduct('transferProducts', state),
+    getProductTotals
+  )(booking);
+
+  const groundServiceProductsTotal = pipe(
+    prop('groundService'),
+    getHotelProduct('groundServices', state),
+    getProductTotals
+  )(booking);
+
+  return pipe(
+    add(accommodationProductsTotal),
+    add(transferProductsTotal),
+    add(groundServiceProductsTotal),
+    formatPrice
+  )(0);
 });

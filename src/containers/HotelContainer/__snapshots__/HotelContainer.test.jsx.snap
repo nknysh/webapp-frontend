@@ -33,7 +33,6 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
           Component={
             Object {
               "$$typeof": Symbol(react.forward_ref),
-              "WrappedComponent": [Function],
               "attrs": Array [],
               "componentStyle": ComponentStyle {
                 "componentId": "HotelContainerstyles__StyledSummary-sc-1gsnu6z-2",
@@ -50,6 +49,7 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
               "withComponent": [Function],
             }
           }
+          onBook={[Function]}
         />
       </HotelContainerstyles__Aside>
     </HotelContainerstyles__Full>

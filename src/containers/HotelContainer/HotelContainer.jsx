@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   __,
   propOr,
@@ -49,6 +50,7 @@ export const HotelContainer = ({
   updateBooking,
   getHotelPhotos,
   getAccommodationProducts,
+  history,
 }) => {
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
@@ -68,6 +70,8 @@ export const HotelContainer = ({
     updateBooking(id, setBooking(quantityLens, quantityData));
   };
 
+  const onBook = () => history.push(`/hotels/${id}/booking`);
+
   const renderBreadcrumbs = () => (
     <StyledBreadcrumbs links={[{ label: renderBackButton() }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
   );
@@ -84,7 +88,7 @@ export const HotelContainer = ({
 
   const renderSummary = () => (
     <Aside>
-      <BookingContainer Component={StyledSummary} hotelUuid={id} />
+      <BookingContainer Component={StyledSummary} hotelUuid={id} onBook={onBook} />
     </Aside>
   );
 
@@ -118,4 +122,7 @@ export const HotelContainer = ({
 HotelContainer.propTypes = propTypes;
 HotelContainer.defaultProps = defaultProps;
 
-export default compose(connect)(HotelContainer);
+export default compose(
+  connect,
+  withRouter
+)(HotelContainer);

@@ -185,7 +185,7 @@ export const HotelBookingContainer = ({
 
   const renderSummary = () => (
     <Aside>
-      <BookingContainer Component={StyledSummary} hotelUuid={id}>
+      <BookingContainer Component={StyledSummary} hotelUuid={id} summaryOnly={true}>
         {!isComplete && (
           <Fragment>
             {renderPaymentTypes()}

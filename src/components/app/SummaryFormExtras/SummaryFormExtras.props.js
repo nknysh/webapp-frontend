@@ -1,17 +1,19 @@
 import PropTypes from 'prop-types';
 
+import { noop } from 'utils';
+
 export const propTypes = {
-  name: PropTypes.string,
-  className: PropTypes.string,
   total: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  saving: PropTypes.number,
-  hotel: PropTypes.object,
+  transfers: PropTypes.object,
   booking: PropTypes.object,
+  groundServices: PropTypes.object,
+  onChange: PropTypes.func,
 };
 
 export const defaultProps = {
-  name: '',
-  total: 0,
-  hotel: {},
+  transfers: {},
   booking: {},
+  groundServices: {},
+  onChange: noop,
+  total: 0,
 };

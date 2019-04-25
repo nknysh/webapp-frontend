@@ -1,4 +1,4 @@
-import { pathOr } from 'ramda';
+import { pathOr, join } from 'ramda';
 
 import { formatDate } from 'utils';
 
@@ -33,7 +33,7 @@ export const fetchHotel = id => async (dispatch, getState) => {
     const {
       data: { data },
     } = await client.getHotel(id, {
-      associations: 'photos,accommodationProducts',
+      associations: join(',', ['photos', 'accommodationProducts', 'transferProducts', 'groundServiceProducts']),
       startDate: formatDate(startDate),
       endDate: formatDate(endDate),
     });

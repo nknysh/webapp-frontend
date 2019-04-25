@@ -109,6 +109,8 @@ export default {
     brochure: ['Brochure', 'Brochures'],
     sleep: ['Sleep', 'Sleeps'],
     date: ['Date', 'Dates'],
+    transfer: ['Transfer', 'Transfers'],
+    groundService: ['Ground Service', 'Ground Services'],
   },
 
   mealTypes: {
