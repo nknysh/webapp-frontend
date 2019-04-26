@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Label, NumberSelect, Tabs } from 'components/elements';
 
@@ -38,4 +38,17 @@ export const RoomTabs = styled(Tabs)`
     margin-left: -${theme.gutter * 10 - 1}px;
     margin-right: -${theme.gutter * 10 - 1}px;
   `}
+`;
+
+export const TabLabel = styled.span`
+  ${({ ['data-error']: hasError }) =>
+    hasError &&
+    css`
+      font-weight: ${theme.bold};
+      color: ${theme.error};
+
+      :after {
+        content: ' *';
+      }
+    `}
 `;

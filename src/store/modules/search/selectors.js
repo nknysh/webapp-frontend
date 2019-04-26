@@ -1,4 +1,4 @@
-import { curry, prop, pipe, path, when, always, inc, evolve, defaultTo, propOr } from 'ramda';
+import { curry, prop, pipe, path, when, always, inc, evolve, propOr } from 'ramda';
 
 import { getStatus, getData } from 'store/common/selectors';
 import { isEmptyOrNil, toDate } from 'utils';
@@ -57,16 +57,7 @@ export const getSearchDates = pipe(
   evolve(searchDatesTransformations)
 );
 
-const searchLodgingsTransformations = {
-  quantity: defaultTo(0),
-  adult: defaultTo(0),
-  teens: defaultTo(0),
-  children: defaultTo(0),
-  infant: defaultTo(0),
-};
-
 export const getSearchLodgings = pipe(
   getSearchQuery,
-  prop('lodging'),
-  evolve(searchLodgingsTransformations)
+  prop('lodging')
 );

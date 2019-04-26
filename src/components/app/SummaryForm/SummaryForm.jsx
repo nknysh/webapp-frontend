@@ -35,12 +35,15 @@ export const SummaryForm = ({
   getRoomMealPlans,
   getRoomMealPlan,
   getAccommodationProductAgeRanges,
+  getExtraSupplements,
   onBookingChange,
   canBook,
   onBook,
   getTransferProducts,
   summaryOnly,
   children,
+  checkBooking,
+  removeRoom,
 }) => {
   const { accommodationProducts, margin } = booking;
   const { name, uuid: hotelUuid, transferProducts } = hotel;
@@ -52,18 +55,27 @@ export const SummaryForm = ({
 
   const onModalClose = () => setModalData({});
 
+  const onEditChange = (values, close = true) => {
+    onBookingChange(values);
+    close && onModalClose();
+  };
+
   // eslint-disable-next-line react/prop-types
   const renderRoom = ({ quantity }, id) => (
     <SummaryRoom
+      {...path(['accommodationProducts', id], booking)}
       canEdit={!summaryOnly}
       dates={getRoomDates(id)}
       details={getHotelRoom(id)}
+      extraSupplements={getExtraSupplements(id)}
       id={id}
       key={id}
       mealPlan={getRoomMealPlan(id)}
       onChange={onBookingChange}
       onEdit={setModalData}
+      onRemove={removeRoom}
       quantity={quantity}
+      hotelUuid={hotelUuid}
       total={getRoomTotal(id)}
     />
   );
@@ -85,9 +97,11 @@ export const SummaryForm = ({
   );
 
   const renderModal = () => {
-    const { id, quantity, mealPlan } = modalData;
+    const { id } = modalData;
 
-    if (!id) return null;
+    const bookingRoom = path(['accommodationProducts', id], booking);
+
+    if (!bookingRoom) return null;
 
     return (
       <StyledModal open={true} onClose={onModalClose} modalContentProps={{ className: 'room-summary-form' }}>
@@ -97,12 +111,12 @@ export const SummaryForm = ({
           details={getHotelRoom(id)}
           hotelUuid={hotelUuid}
           id={id}
-          mealPlan={mealPlan}
           mealPlans={getRoomMealPlans(id)}
-          onChange={onBookingChange}
+          onSubmit={onEditChange}
           onDatesShow={getRatesForDates}
           onEdit={setModalData}
-          quantity={quantity}
+          onChange={checkBooking}
+          {...bookingRoom}
         />
       </StyledModal>
     );

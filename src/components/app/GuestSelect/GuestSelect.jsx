@@ -1,9 +1,10 @@
-import React from 'react';
-import { curry, length, gt, prop, times } from 'ramda';
+import React, { Fragment } from 'react';
+import { curry, length, gt, prop, times, map, when, either, isNil, equals, always } from 'ramda';
 
 import { AgeSelect } from 'components/elements';
 
 import { getPlural } from 'config/ui';
+import { isArray, isEmptyOrNil } from 'utils';
 
 import { propTypes, defaultProps } from './GuestSelect.props';
 import {
@@ -14,18 +15,17 @@ import {
   GuestSelectEntry,
   GuestSelectNumberSelect,
   RoomTabs,
+  TabLabel,
 } from './GuestSelect.styles';
 
 const renderLabel = label => label && <GuestSelectLabel>{label}</GuestSelectLabel>;
 
-export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues }) => {
+export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues, minMax, errors, children }) => {
   const quantity = length(selectedValues);
-
-  const labels = (gt(quantity, 1) && times(i => `Room ${i + 1}`, quantity)) || [];
 
   const onQuantityChange = number => {
     selectedValues.length = number;
-    onSelected(selectedValues);
+    onSelected(map(when(either(isNil, equals(undefined)), always({})), selectedValues));
   };
 
   const onAgesChange = curry((i, ageValues) => {
@@ -34,13 +34,21 @@ export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues }) =>
   });
 
   const renderTab = i => (
-    <AgeSelect
-      ageRanges={{ adult: {}, ...ageRanges }}
-      key={i}
-      onSelect={onAgesChange(i)}
-      values={prop(i, selectedValues)}
-    />
+    <Fragment key={i}>
+      <AgeSelect
+        ageRanges={{ adult: {}, ...ageRanges }}
+        onSelect={onAgesChange(i)}
+        values={prop(i, selectedValues)}
+        minMax={minMax}
+      />
+      {isArray(errors) && prop(i, errors)}
+      {isArray(children) && prop(i, children)}
+    </Fragment>
   );
+
+  const renderTabLabels = i => <TabLabel data-error={!isEmptyOrNil(prop(i, errors))}>Room {i + 1}</TabLabel>;
+
+  const labels = (gt(quantity, 1) && times(renderTabLabels, quantity)) || [];
 
   const tabs = times(renderTab, quantity);
 
@@ -50,7 +58,7 @@ export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues }) =>
       <GuestSelectSection>
         <GuestSelectEntry>
           <GuestSelectEntryLabel>{getPlural('room')}</GuestSelectEntryLabel>
-          <GuestSelectNumberSelect value={quantity} onChange={onQuantityChange} />
+          <GuestSelectNumberSelect value={quantity} onChange={onQuantityChange} min={1} />
         </GuestSelectEntry>
       </GuestSelectSection>
       <RoomTabs scrollButtons="auto" variant="scrollable" labels={labels}>

@@ -86,7 +86,7 @@ export const dropDownContentAreaStyles = css`
   box-shadow: ${theme.boxShadow};
   border-radius: ${theme.borderRadius}px;
   border: 1px solid ${theme.borderColor};
-  z-index: 3010;
+  z-index: 1010;
   right: 0;
   left: 0;
 

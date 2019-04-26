@@ -39,11 +39,11 @@ exports[`<Search /> render matches snapshot 1`] = `
       onSelected={[Function]}
       selectedValues={
         Object {
-          "adult": 0,
-          "child": 0,
-          "infant": 0,
+          "adult": Array [],
+          "child": Array [],
+          "infant": Array [],
           "quantity": 0,
-          "teen": 0,
+          "teen": Array [],
         }
       }
     />

@@ -8,6 +8,7 @@ export const propTypes = {
   onSelected: PropTypes.func,
   sectionData: PropTypes.object,
   keepOpen: PropTypes.bool,
+  errors: PropTypes.array,
   selectedValues: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.shape({
@@ -23,4 +24,5 @@ export const propTypes = {
 export const defaultProps = {
   onSelected: noop,
   selectedValues: [],
+  errors: [],
 };

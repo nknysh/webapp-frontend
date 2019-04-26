@@ -23,17 +23,16 @@ export const ModalOverlay = styled(Backdrop)`
 
 export const ModalContent = styled.div`
   background: ${theme.backgroundColor};
-  max-height: 100%;
   overflow: auto;
   width: 100%;
   margin-top: 0;
-  margin-bottom: auto
-  height: 100%;
+  margin-bottom: auto;
   position: relative;
 
   ${breakpoints.tablet`
         width: auto;
         margin-top: auto;
+        margin-bottom: auto;
         height: auto;
     `}
 `;

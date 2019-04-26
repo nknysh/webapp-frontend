@@ -2,12 +2,13 @@ import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
 import { getHotel, getHotelsPhotos, getHotelProducts } from 'store/modules/hotels/selectors';
-import { getHotelStatus } from 'store/modules/hotel/selectors';
-import { getBookingByHotelId } from 'store/modules/booking/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
 import { fetchHotel } from 'store/modules/hotel/actions';
-import { updateBooking } from 'store/modules/booking/actions';
+import { getHotelStatus } from 'store/modules/hotel/selectors';
+
+import { updateBooking, removeRoom } from 'store/modules/booking/actions';
+import { getBookingByHotelId } from 'store/modules/booking/selectors';
 
 export const mapStateToProps = (state, { id }) => ({
   dates: getSearchDates(state),
@@ -21,6 +22,10 @@ export const mapStateToProps = (state, { id }) => ({
 export const mapDispatchToProps = dispatch => ({
   fetchHotel: pipe(
     fetchHotel,
+    dispatch
+  ),
+  removeRoom: pipe(
+    removeRoom,
     dispatch
   ),
   updateBooking: pipe(

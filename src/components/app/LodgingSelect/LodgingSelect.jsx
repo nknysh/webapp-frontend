@@ -1,5 +1,5 @@
 import React from 'react';
-import { curry, lensProp, view, set, propOr, pipe, omit, values, sum } from 'ramda';
+import { curry, lensProp, view, set, propOr, pipe, omit, values, sum, map, length } from 'ramda';
 
 import { DropDownContent, AgeSelect } from 'components/elements';
 
@@ -21,6 +21,7 @@ const getRoomsCount = propOr(0, 'quantity');
 const getGuestsCount = pipe(
   withoutQuantity,
   values,
+  map(length),
   sum
 );
 
@@ -43,11 +44,11 @@ export const LodgingSelect = ({ label, onSelected, selectedValues, contentOnly }
   return (
     <StyledLodgingSelect>
       {renderLabel(label)}
-      <DropDownContent inputContent={summary} contentOnly={contentOnly}>
+      <DropDownContent inputContent={summary} contentOnly={contentOnly} closeOnClickAway={false}>
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{getPlural('room')}</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect startAt={quantity} onChange={updateCount(roomsLens)} />
+            <LodgingSelectNumberSelect value={quantity} onChange={updateCount(roomsLens)} />
           </LodgingSelectEntry>
         </LodgingSelectSection>
         <AgeSelect values={withoutQuantity(selectedValues)} onSelect={onSelected} />

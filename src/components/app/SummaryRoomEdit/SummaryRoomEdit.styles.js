@@ -4,7 +4,7 @@ import { DatePicker } from 'components/elements';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { withCurrency } from 'styles/elements';
+import { withCurrency, Button } from 'styles/elements';
 import { Heading3 } from 'styles/typography';
 
 export const DatePrice = styled.div`
@@ -74,3 +74,7 @@ export const MealPlanRatePrice = styled.span`
 export const MealPlanRateWrapper = styled.div`
   display: block;
 `;
+
+export const EditFormActions = styled.div``;
+
+export const EditFormButton = styled(Button)``;

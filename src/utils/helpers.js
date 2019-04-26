@@ -1,26 +1,25 @@
 import {
   addIndex,
+  always,
+  complement,
+  cond,
   curry,
+  either,
+  filter,
   identity,
   is,
+  isEmpty,
+  isNil,
   lensPath,
   map,
   mapObjIndexed,
-  memoizeWith,
   merge,
+  pipe,
   prop,
   reduce,
-  uniq,
-  unapply,
-  pipe,
-  complement,
-  filter,
-  isNil,
-  either,
-  isEmpty,
-  always,
-  cond,
   T,
+  unapply,
+  uniq,
 } from 'ramda';
 
 export const noop = () => {};
@@ -33,10 +32,10 @@ export const isEmptyOrNil = either(isNil, isEmpty);
 
 export const mapWithIndex = addIndex(map);
 
-export const arrayToKeyValueObject = memoizeWith(identity, (keyProp, valueProp) => {
+export const arrayToKeyValueObject = (keyProp, valueProp) => {
   const reducer = (accum, item) => merge(accum, { [prop(keyProp, item)]: prop(valueProp, item) });
   return reduce(reducer, {});
-});
+};
 
 export const getUniqueMap = map(
   pipe(

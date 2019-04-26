@@ -1,5 +1,5 @@
 import { pipe, values, reverse, ifElse, always, length, equals, all, complement, both, path } from 'ramda';
-import { differenceInCalendarDays, format, startOfMonth, endOfMonth } from 'date-fns';
+import { differenceInCalendarDays, format, startOfMonth, endOfMonth, eachDay, subDays } from 'date-fns';
 
 import uiConfig from 'config/ui';
 import { isEmptyOrNil } from 'utils';
@@ -47,3 +47,5 @@ export const getEndOfMonth = pipe(
   endOfMonth,
   formatDate
 );
+
+export const getDaysBetween = (from, to) => eachDay(from, subDays(to, 1));

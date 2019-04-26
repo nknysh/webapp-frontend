@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import { path, prop, pipe, pick, lensPath, lensProp, over, map, when, complement, isNil } from 'ramda';
+import { path, prop, pipe, pick, lensPath, lensProp, over, map, when, complement, isNil, identity } from 'ramda';
 
 import { getQuery, isEmptyOrNil } from 'utils';
 
@@ -27,7 +27,7 @@ const mapSelected = when(isNotNil, map(toBoolean));
 const formatData = pipe(
   over(datesFromLens, newDate),
   over(datesToLens, newDate),
-  over(lodgingLens, mapNumbers),
+  over(lodgingLens, identity),
   over(honeymoonersLens, toBoolean),
   over(filtersRegionsLens, mapSelected),
   over(filtersStarRatingsLens, mapSelected),

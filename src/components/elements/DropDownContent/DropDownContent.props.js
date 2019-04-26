@@ -15,10 +15,12 @@ export const propTypes = {
   showOverlay: PropTypes.bool,
   showInput: PropTypes.bool,
   contentOnly: PropTypes.bool,
+  closeOnClickAway: PropTypes.bool,
 };
 
 export const defaultProps = {
   showArrow: true,
   showInput: true,
   contentOnly: false,
+  closeOnClickAway: true,
 };

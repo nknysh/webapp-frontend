@@ -3,7 +3,7 @@ import { isNil } from 'ramda';
 import { ClickAwayListener } from '@material-ui/core';
 
 import { useKeyboard } from 'effects';
-import { isFunction } from 'utils';
+import { isFunction, noop } from 'utils';
 
 import { propTypes, defaultProps } from './DropDownContent.props';
 import {
@@ -42,6 +42,7 @@ export const DropDownContent = ({
   keepOpen,
   onClick,
   contentOnly,
+  closeOnClickAway,
 }) => {
   const renderChildren = () => (
     <DropDownContentArea data-content={contentOnly}>{isFunction(children) ? children() : children}</DropDownContentArea>
@@ -63,7 +64,7 @@ export const DropDownContent = ({
   useKeyboard(27, onClose);
 
   return (
-    <ClickAwayListener onClickAway={onClose}>
+    <ClickAwayListener onClickAway={closeOnClickAway ? onClose : noop}>
       <StyledDropDownContent>
         <DropDownContentInputWrapper>
           {renderOverlay(showOverlay, overlayProps)}
