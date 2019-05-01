@@ -6,7 +6,7 @@ import Link from 'components/elements/Link';
 import theme from 'styles/theme';
 
 export const Navigation = styled(Link)`
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   text-transform: uppercase;
   color: ${theme.primary} !important;
   display: flex;
@@ -22,5 +22,5 @@ export const BackWrapper = styled.div`
 `;
 
 export const Button = styled(Icon)`
-  font-size: 14px !important;
+  font-size: ${theme.fonts.sizes.normal}px !important;
 `;

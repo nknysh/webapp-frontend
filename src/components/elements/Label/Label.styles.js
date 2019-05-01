@@ -7,7 +7,7 @@ export const StyledLabel = styled.label`
     ${({ ['data-bold']: bold }) =>
       bold &&
       css`
-        font-weight: ${theme.bold};
+        font-weight: ${theme.fonts.bold};
         color: ${theme.colors['gold-light']};
       `}
   }
@@ -16,5 +16,5 @@ export const StyledLabel = styled.label`
 export const Text = styled.span`
   color: ${theme.primary};
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
 `;

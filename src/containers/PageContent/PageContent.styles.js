@@ -12,7 +12,7 @@ const doubleSpaced = theme.gutter * 2;
 const pageGutter = `${doubleSpaced}px`;
 
 export const StyledPageContent = styled.div`
-  color: ${theme.colors['gold-neutral']};
+  color: ${theme.neutral};
   width: 100%;
 `;
 
@@ -40,7 +40,7 @@ export const PageContentData = styled.div`
     outline: 0;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid ${theme.colors.gray};
+    border-bottom: 1px solid ${theme.borders.normal};
   }
 
   h2 {
@@ -67,14 +67,14 @@ export const PageContentData = styled.div`
     :not(:empty) {
       margin: ${theme.gutter}px 0 ${doubleSpaced * 2}px;
       padding: ${doubleSpaced * 2}px 0;
-      border-bottom: 1px solid ${theme.colors['gray-medium']};
-      font-size: 22px;
+      border-bottom: 1px solid ${theme.borders.medium};
+      font-size: ${theme.fonts.sizes.bigger};
     }
 
     ${breakpoints.tablet`
       min-height: ${theme.gutter * 6}px;
       padding: ${theme.gutter}px 0;
-      border-bottom: 1px solid ${theme.colors['gray-medium']};
+      border-bottom: 1px solid ${theme.borders.medium};
       
       :not(:empty), :empty{
         padding: ${theme.gutter}px 0;

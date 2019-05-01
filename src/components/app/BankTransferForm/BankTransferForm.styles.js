@@ -5,8 +5,8 @@ import { Markdown } from 'components/elements';
 import theme from 'styles/theme';
 
 export const StyledMarkdown = styled(Markdown)`
-  font-size: 16px;
-  color: ${theme.colors['gold-dark']};
+  font-size: ${theme.fonts.sizes.mid}px;
+  color: ${theme.secondary};
   margin-bottom: ${theme.gutter * 6}px;
 `;
 
@@ -15,7 +15,7 @@ export const TransferForm = styled.div`
     margin-bottom: ${theme.gutter * 4}px;
   }
   label {
-    color: ${theme.colors['gold-dark']};
+    color: ${theme.secondary};
     text-transform: uppercase;
     line-height: 14px;
   }

@@ -21,25 +21,25 @@ export const StyledToolTip = styled.div`
     h2 {
       ${h2Styling}
       text-transform: uppercase;
-      font-size: 12px;
+      font-size: ${theme.fonts.sizes.normal}px;
     }
   }
 `;
 
 export const ToolTipIcon = styled(Icon)`
-  font-size: 14px !important;
+  font-size: ${theme.fonts.sizes.normal}px !important;
   cursor: pointer;
 `;
 
 export const ToolTipContent = styled.div`
-  font-family: ${theme.defaultFont};
-  background: ${theme.backgroundColor};
-  border: 1px solid ${theme.borderColor};
+  font-family: ${theme.fonts.defaultFont};
+  background: ${theme.backgrounds.default};
+  border: 1px solid ${theme.borders.default};
   padding: ${theme.gutter * 2}px;
   font-size: 11px;
   color: ${theme.colors.black};
-  font-weight: ${theme.normal};
+  font-weight: ${theme.fonts.normal};
   border-radius: ${theme.borderRadius}px;
-  box-shadow: ${theme.boxShadow};
+  box-shadow: ${theme.boxShadows.default};
   position: relative;
 `;

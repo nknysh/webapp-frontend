@@ -10,7 +10,7 @@ const sidebarGutter = `${doubleSpaced}px`;
 
 const sidebarUl = css`
   background: ${theme.colors.white};
-  box-shadow: ${theme.boxShadow};
+  box-shadow: ${theme.boxShadows.default};
   list-style: none;
   margin: 0;
   transition: ${theme.defaultTransition};
@@ -43,7 +43,7 @@ const sidebarUl = css`
 const sidebarLi = css`
   padding: ${doubleSpaced}px 0;
   color: ${theme.primary};
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
+  border-bottom: 1px solid ${theme.borders.medium};
 
   &:last-child {
     border-bottom: 0;
@@ -51,7 +51,7 @@ const sidebarLi = css`
 
   a {
     color: ${theme.primary};
-    font-size: ${theme.linkSize}px;
+    font-size: ${theme.fonts.sizes.link}px;
     text-transform: uppercase;
   }
 `;
@@ -61,7 +61,7 @@ export const StyledSidebar = styled.div`
 `;
 
 export const SidebarTitle = styled(Heading1)`
-  border-bottom: 1px solid ${theme.colors['gray']};
+  border-bottom: 1px solid ${theme.borders.normal};
   position: relative;
   padding: ${theme.gutter}px ${sidebarGutter} ${doubleSpaced}px 0;
   margin: 0 0 ${doubleSpaced}px;
@@ -89,7 +89,7 @@ export const SidebarChildren = styled.div`
 export const SidebarIcon = styled(Icon)`
   position: absolute;
   color: ${theme.colors['black-darker']} !important;
-  font-size: 16px !important;
+  font-size: ${theme.fonts.sizes.mid}px !important;
   right: 3px;
   top: ${theme.gutter + 7}px;
   transition: ${theme.defaultTransition};

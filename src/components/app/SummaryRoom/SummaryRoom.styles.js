@@ -6,12 +6,12 @@ import { withCurrency } from 'styles/elements';
 
 export const Room = styled.article`
   position: relative;
-  font-size: 12px;
-  color: ${theme.colors['gold-dark']};
+  font-size: ${theme.fonts.sizes.normal}px;
+  color: ${theme.secondary};
   text-transform: uppercase;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
   padding: ${theme.gutter * 2}px 0;
-  letter-spacing: 0.46px;
+  letter-spacing: ${theme.fonts.letterSpacing.mid}px;
   line-height: 24px;
 
   :first-child {
@@ -49,7 +49,7 @@ export const RoomP = styled.p`
 `;
 
 export const RoomName = styled(RoomP)`
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
 `;
 
 export const RoomDetail = styled(RoomP)``;
@@ -59,8 +59,8 @@ export const RoomPrice = styled.span`
 `;
 
 export const RoomMenu = styled(Icon)`
-    font-size: 16px !important;
-    font-weight: ${theme.bold};
+    font-size: ${theme.fonts.sizes.mid}px !important;
+    font-weight: ${theme.fonts.bold};
     line-height: 24px
     overflow: visible !important;
     padding-top: 4px;

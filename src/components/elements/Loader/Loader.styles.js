@@ -30,7 +30,7 @@ export const LoaderImage = styled(Image)`
 `;
 
 export const LoaderText = styled(P)`
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
   color: ${theme.primary};
   display: block;
 `;

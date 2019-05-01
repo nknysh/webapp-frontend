@@ -22,7 +22,7 @@ export const ModalOverlay = styled(Backdrop)`
 `;
 
 export const ModalContent = styled.div`
-  background: ${theme.backgroundColor};
+  background: ${theme.backgrounds.default};
   overflow: auto;
   width: 100%;
   margin-top: 0;

@@ -39,13 +39,13 @@ export const BookingForm = styled(BaseBookingForm)``;
 export const SubmitButton = styled(Button)``;
 
 export const BookingPath = styled.div`
-  background: ${theme.colors.whiteish};
+  background: ${theme.backgrounds.secondary};
   color: ${theme.colors['gold-light']};
   padding: ${theme.gutter * 2}px;
   border-bottom: 1px solid ${theme.primary};
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   line-height: 14px;
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
   display: flex;
   align-items: center;
@@ -53,7 +53,7 @@ export const BookingPath = styled.div`
 
 export const Chevron = styled(Icon)`
   margin: 0 ${theme.gutter * 1.5}px;
-  font-size: 14px !important;
+  font-size: ${theme.fonts.sizes.normal}px !important;
   height: auto !important;
 `;
 
@@ -61,7 +61,7 @@ export const BookingPathSegment = styled.span`
   ${({ ['data-active']: active }) =>
     active &&
     css`
-      color: ${theme.colors['gold-dark']};
+      color: ${theme.secondary};
     `}
 `;
 
@@ -81,10 +81,10 @@ export const StyledModal = styled(Modal)`
 `;
 
 export const ModalTitle = styled(Heading2)`
-  color: ${theme.colors['gold-dark']};
-  font-size: 22px;
+  color: ${theme.secondary};
+  font-size: ${theme.fonts.sizes.bigger};
   font-weight: 500;
-  letter-spacing: 0.5px;
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 29px;
 `;
 
@@ -111,6 +111,6 @@ export const FormWrapper = styled.div`
 export const Confirmation = styled(FormWrapper)``;
 
 export const ConfirmationContent = styled(Markdown)`
-  font-size: 16px;
+  font-size: ${theme.fonts.sizes.mid}px;
   line-height: 24px;
 `;

@@ -8,13 +8,13 @@ import { Button, withCurrency } from 'styles/elements';
 const headerSpacing = theme.gutter * 2 - theme.gutter / 2;
 
 export const Title = styled.h4`
-  color: ${theme.colors['gold-neutral']};
-  font-size: 12px;
+  color: ${theme.neutral};
+  font-size: ${theme.fonts.sizes.normal}px;
   font-weight: bold;
   padding: 0 0 ${headerSpacing}px;
   margin: 0 0 ${headerSpacing}px;
   text-transform: uppercase;
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
+  border-bottom: 1px solid ${theme.borders.medium};
 `;
 
 export const SectionField = styled.div`
@@ -69,7 +69,7 @@ export const RegionCheckbox = styled(Checkbox)`
 `;
 
 export const SideBarButton = styled(Button)`
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
 `;
 
 export const PriceRange = styled(Range)``;
@@ -91,5 +91,5 @@ export const PriceRangeLabel = styled.div`
 
 export const PriceRangeLabelPrice = styled.span`
   ${withCurrency};
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
 `;

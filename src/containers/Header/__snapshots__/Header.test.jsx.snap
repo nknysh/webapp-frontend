@@ -12,33 +12,27 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
       >
         menu
       </Headerstyles__HeaderMobileMenuButton>
-      <ClickAwayListener
-        mouseEvent="onMouseUp"
-        onClickAway={[Function]}
-        touchEvent="onTouchEnd"
-      >
-        <Headerstyles__HeaderMenu
-          align="end"
-          isOpen={false}
-          links={
-            Object {
-              "createAccount": Object {
-                "href": "/sign-up",
-                "title": "Create an account",
-              },
-              "login": Object {
-                "bold": true,
-                "href": "/login",
-                "inverse": true,
-                "title": "Login",
-              },
-            }
+      <Headerstyles__HeaderMenu
+        align="end"
+        isOpen={false}
+        links={
+          Object {
+            "createAccount": Object {
+              "href": "/sign-up",
+              "title": "Create an account",
+            },
+            "login": Object {
+              "bold": true,
+              "href": "/login",
+              "inverse": true,
+              "title": "Login",
+            },
           }
-          onLinkClick={[Function]}
-        >
-          <withAuthentication(Connect(UserPanel)) />
-        </Headerstyles__HeaderMenu>
-      </ClickAwayListener>
+        }
+        onLinkClick={[Function]}
+      >
+        <withAuthentication(Connect(UserPanel)) />
+      </Headerstyles__HeaderMenu>
     </Headerstyles__HeaderMenuArea>
   </Headerstyles__HeaderContainer>
 </Headerstyles__StyledHeader>
@@ -56,37 +50,31 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
       >
         menu
       </Headerstyles__HeaderMobileMenuButton>
-      <ClickAwayListener
-        mouseEvent="onMouseUp"
-        onClickAway={[Function]}
-        touchEvent="onTouchEnd"
+      <Headerstyles__HeaderMenu
+        align="end"
+        isOpen={false}
+        links={
+          Array [
+            Object {
+              "data-active": false,
+              "href": "",
+              "onClick": [Function],
+              "title": "Create an account",
+            },
+            Object {
+              "bold": true,
+              "data-active": false,
+              "href": "",
+              "inverse": true,
+              "onClick": [Function],
+              "title": "Login",
+            },
+          ]
+        }
+        onLinkClick={[Function]}
       >
-        <Headerstyles__HeaderMenu
-          align="end"
-          isOpen={false}
-          links={
-            Array [
-              Object {
-                "data-active": false,
-                "href": "",
-                "onClick": [Function],
-                "title": "Create an account",
-              },
-              Object {
-                "bold": true,
-                "data-active": false,
-                "href": "",
-                "inverse": true,
-                "onClick": [Function],
-                "title": "Login",
-              },
-            ]
-          }
-          onLinkClick={[Function]}
-        >
-          <withAuthentication(Connect(UserPanel)) />
-        </Headerstyles__HeaderMenu>
-      </ClickAwayListener>
+        <withAuthentication(Connect(UserPanel)) />
+      </Headerstyles__HeaderMenu>
     </Headerstyles__HeaderMenuArea>
   </Headerstyles__HeaderContainer>
   <Modal

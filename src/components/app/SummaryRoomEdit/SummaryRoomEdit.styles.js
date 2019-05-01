@@ -10,7 +10,7 @@ import { Heading3 } from 'styles/typography';
 export const DatePrice = styled.div`
   ${withCurrency};
   color: ${theme.colors.black};
-  font-weight: ${theme.normal};
+  font-weight: ${theme.fonts.normal};
   margin-top: ${theme.gutter / 2}px;
 `;
 
@@ -25,14 +25,14 @@ export const EditForm = styled.section`
 `;
 
 export const EditFormTitle = styled(Heading3)`
-  font-family: ${theme.headingFont};
-  color: ${theme.colors['gold-dark']};
+  font-family: ${theme.fonts.headingFont};
+  color: ${theme.secondary};
   text-transform: capitalize;
-  letter-spacing: 0.5px;
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 29px;
   padding: 0;
   margin: 0 0 ${theme.gutter * 5}px;
-  font-size: 22px;
+  font-size: ${theme.fonts.sizes.bigger};
 `;
 
 export const EditFormSection = styled.div`
@@ -46,7 +46,7 @@ export const EditFormSection = styled.div`
 export const EditFormSectionTitle = styled.label`
   margin: 0 0 ${theme.gutter}px;
   padding: 0 0 ${theme.gutter}px;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
   display: block;
   width: 100%;
 `;

@@ -11,19 +11,19 @@ export const FormSection = styled.div`
 
   label {
     text-transform: uppercase;
-    color: ${theme.colors['gold-dark']};
+    color: ${theme.secondary};
   }
 `;
 
 export const FormSectionTitle = styled(Heading3)`
-  font-size: 12px;
-  color: ${theme.colors['gold-neutral']};
-  font-weight: ${theme.bold};
-  letter-spacing: 0.5px;
+  font-size: ${theme.fonts.sizes.normal}px;
+  color: ${theme.neutral};
+  font-weight: ${theme.fonts.bold};
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 14px;
   padding: 0 0 ${theme.gutter * 1.5}px;
   margin: 0 0 ${theme.gutter * 1.5}px;
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
+  border-bottom: 1px solid ${theme.borders.medium};
 `;
 
 export const Columns = styled.div`

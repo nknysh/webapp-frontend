@@ -27,7 +27,7 @@ export const StyledCard = styled(Base)`
 
 export const CardImage = styled(BaseImage)`
   position: relative;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
 `;
 
 export const CardChip = styled(BaseChip)``;
@@ -51,8 +51,8 @@ export const CardText = styled(BaseText)``;
 
 export const CardPreferred = styled.div`
     background: ${theme.primary};
-    font-size: 12px;
-    font-weight: ${theme.bold};
+    font-size: ${theme.fonts.sizes.normal}px;
+    font-weight: ${theme.fonts.bold};
     position: absolute;
     top:0;
     left: ${theme.gutter * 2}px;
@@ -69,15 +69,15 @@ export const CardRating = styled.div`
   padding: 0;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
   padding-bottom: ${theme.gutter}px;
   margin-bottom: ${theme.gutter}px;
 `;
 
 export const CardStarRating = styled.div`
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   color: ${theme.primary};
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
   flex: 1;
   display: flex;
@@ -106,18 +106,18 @@ export const Column = styled.div`
 `;
 
 export const CardSecondaryRating = styled.div`
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
   color: ${theme.colors.marine};
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   width: 50%;
 `;
 
 export const CardHighlights = styled.div`
   color: ${theme.colors.black};
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   text-transform: uppercase;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
   padding-bottom: ${theme.gutter}px;
   margin-bottom: ${theme.gutter}px;
   ${breakpoints.tablet`
@@ -144,8 +144,8 @@ export const CardAdditionalInfo = styled.div`
 export const CardAdditional = styled.p`
   display: block;
   margin: ${theme.gutter}px 0;
-  font-size: 14px;
-  color: ${theme.colors['gold-neutral']};
+  font-size: ${theme.fonts.sizes.normal}px;
+  color: ${theme.neutral};
 
   &:last-child {
     margin: 0;

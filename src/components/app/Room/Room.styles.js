@@ -10,7 +10,7 @@ import { Heading1 } from 'styles/typography';
 import { CardChipSecondary } from 'styles/card';
 
 export const StyledRoom = styled.article`
-  background: ${theme.colors.whiteish};
+  background: ${theme.backgrounds.secondary};
   flex-direction: column;
   margin: ${theme.gutter * 2}px 0;
 
@@ -59,15 +59,15 @@ export const Selection = styled(NumberSelect)`
   .minus {
     > span {
       background: none !important;
-      font-size: 12px !important;
+      font-size: ${theme.fonts.sizes.normal}px !important;
       line-height: 25px !important;
-      font-weight: ${theme.bold};
+      font-weight: ${theme.fonts.bold};
     }
   }
 
   .count {
     color: ${theme.colors.white};
-    font-size: 12px !important;
+    font-size: ${theme.fonts.sizes.normal}px !important;
     width: 100% !important;
   }
 `;
@@ -96,7 +96,7 @@ export const Column = styled.div`
 `;
 
 export const Title = styled(Heading1)`
-  font-size: 18px;
+  font-size: ${theme.fonts.sizes.big}px;
   color: ${theme.primary};
   margin: 0 0 ${theme.gutter * 2}px;
   padding: 0;
@@ -112,26 +112,26 @@ export const Price = styled.div`
 `;
 export const PriceAmount = styled.span`
   ${withCurrency};
-  font-size: 18px;
+  font-size: ${theme.fonts.sizes.big}px;
 `;
 export const PriceLabel = styled.span`
-  font-size: 18px;
-  font-weight: ${theme.light};
+  font-size: ${theme.fonts.sizes.big}px;
+  font-weight: ${theme.fonts.light};
   text-transform: lowercase;
 `;
 
 export const Info = styled.p`
-  color: ${theme.colors['gold-neutral']};
+  color: ${theme.neutral};
   padding: 0 0 ${theme.gutter * 2}px;
   margin: 0 0 ${theme.gutter * 2}px;
-  border-bottom: 1px solid ${theme.borderColor};
-  font-size: 14px;
+  border-bottom: 1px solid ${theme.borders.default};
+  font-size: ${theme.fonts.sizes.normal}px;
 `;
 
 export const Details = styled.div`
-  color: ${theme.colors['gold-dark']};
+  color: ${theme.secondary};
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: ${theme.fonts.sizes.normal}px;
   padding: 0 0 ${theme.gutter * 2}px;
   margin: 0 0 ${theme.gutter * 2}px;
   flex: 1;
@@ -162,8 +162,8 @@ export const Button = styled.a`
   display: block;
   cursor: pointer;
   color: ${theme.primary};
-  font-size: 12px;
-  font-weight: ${theme.bold};
+  font-size: ${theme.fonts.sizes.normal}px;
+  font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
 
   :before {

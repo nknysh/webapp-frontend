@@ -11,10 +11,10 @@ export const StyledRooms = styled.div`
 `;
 
 export const Title = styled.h3`
-  font-size: 16px;
-  font-weight: ${theme.bold};
+  font-size: ${theme.fonts.sizes.mid}px;
+  font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 19px;
   color: ${theme.secondary};
   padding: 0;
@@ -71,6 +71,6 @@ export const NoResults = styled.div`
   display: block;
   width: 100%;
   text-transform: uppercase;
-  color: ${theme.colors['gray-medium']};
-  font-size: 18px;
+  color: ${theme.borders.medium};
+  font-size: ${theme.fonts.sizes.big}px;
 `;

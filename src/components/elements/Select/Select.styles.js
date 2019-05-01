@@ -24,13 +24,13 @@ export const StyledFormLabel = styled(FormControlLabel)`
 export const StyledSelect = styled.div`
   label,
   label span {
-    font-family: ${theme.defaultFont} !important;
+    font-family: ${theme.fonts.defaultFont} !important;
   }
 `;
 
 export const MaterialSelect = styled(Select)`
   width: 100%;
-  font-size: 14px !important;
+  font-size: ${theme.fonts.sizes.normal}px !important;
   
   :before, :after {
     content: '' !important;

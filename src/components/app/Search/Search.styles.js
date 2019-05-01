@@ -34,29 +34,29 @@ export const SearchBarSection = styled.div`
 
   label,
   label > span {
-    color: ${theme.colors['gold-neutral']};
-    font-size: 12px;
+    color: ${theme.neutral};
+    font-size: ${theme.fonts.sizes.normal}px;
     text-transform: uppercase;
   }
 `;
 
 export const SearchBarIndexSearch = styled(IndexSearch)`
-  font-size: 14px;
+  font-size: ${theme.fonts.sizes.normal}px;
   position: relative;
 `;
 
 export const SearchBarResults = styled.div`
   position: absolute;
   overflow-y: auto;
-  box-shadow: ${theme.boxShadow};
+  box-shadow: ${theme.boxShadows.default};
   width: 100%;
   z-index: 400;
-  background: ${theme.backgroundColor};
+  background: ${theme.backgrounds.default};
 `;
 
 export const SearchBarHits = styled.div`
   color: ${theme.primary};
-  background: ${theme.backgroundColor};
+  background: ${theme.backgrounds.default};
   border-bottom: 1px solid ${theme.primary};
   text-transform: uppercase;
 
@@ -87,7 +87,7 @@ export const SearchBarHit = styled.div`
 export const SearchBarHitContent = styled.div`
   padding: ${theme.gutter * 2}px;
   color: ${theme.colors.black};
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
+  border-bottom: 1px solid ${theme.borders.medium};
 `;
 
 export const SearchBarButton = styled(Button)``;

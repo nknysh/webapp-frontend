@@ -45,6 +45,6 @@ export const ForgotLink = styled.span`
   color: ${theme.primary};
   text-transform: uppercase;
   text-align: center;
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   cursor: pointer;
 `;

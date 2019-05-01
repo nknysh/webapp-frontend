@@ -7,7 +7,7 @@ import { Button } from 'styles/elements';
 import { Heading2 } from 'styles/typography';
 
 export const modalStyles = {
-  style: { backgroundColor: theme.colors.whiteish, paddingTop: theme.gutter * 4 },
+  style: { backgroundColor: theme.backgrounds.secondary, paddingTop: theme.gutter * 4 },
 };
 
 export const StyledResults = styled.div`
@@ -22,7 +22,7 @@ export const ResultsTitle = styled(Heading2)`
   display: block;
   padding: 0 0 ${theme.gutter}px;
   margin-top: ${theme.gutter}px;
-  color: ${theme.colors['gold-neutral']};
+  color: ${theme.neutral};
   text-transform: capitalize;
 
   ${breakpoints.tablet`
@@ -48,10 +48,10 @@ export const Result = styled(Link)`
 export const Filtering = styled.div`
   padding: ${theme.gutter}px 0;
   margin: 0 0 ${theme.gutter * 2}px;
-  border-top: 1px solid ${theme.borderColor};
-  border-bottom: 1px solid ${theme.borderColor};
+  border-top: 1px solid ${theme.borders.default};
+  border-bottom: 1px solid ${theme.borders.default};
 `;
 
 export const FiltersButton = styled(Button)`
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
 `;

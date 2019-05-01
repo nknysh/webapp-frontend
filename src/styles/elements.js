@@ -36,7 +36,7 @@ export const linkStyles = css`
       ${({ bold }) =>
         bold &&
         css`
-          font-weight: ${theme.bold};
+          font-weight: ${theme.fonts.bold};
         `}
     `}
 `;
@@ -52,11 +52,11 @@ export const Container = styled.div`
 `;
 
 export const inputStyles = css`
-  font-family: ${theme.defaultFont};
-  background: ${theme.backgroundColor};
+  font-family: ${theme.fonts.defaultFont};
+  background: ${theme.backgrounds.default};
   margin-top: ${theme.gutter / 2}px;
   display: block;
-  border: 1px solid ${theme.borderColor};
+  border: 1px solid ${theme.borders.default};
   color: ${theme.colors.black};
   width: 100%;
   box-sizing: border-box;
@@ -65,7 +65,7 @@ export const inputStyles = css`
   ${({ disabled }) =>
     disabled &&
     css`
-      background: ${theme.colors['gray-light']};
+      background: ${theme.backgrounds.light};
     `}
 
   ::placeholder {
@@ -79,18 +79,18 @@ export const Input = styled.input`
 
 export const InputError = styled.div`
   color: ${theme.error};
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   margin: ${theme.gutter}px 0;
   display: block;
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
 `;
 
 export const buttonStyles = css`
   width: 100%;
-  font-size: 18px;
+  font-size: ${theme.fonts.sizes.big}px;
   text-transform: uppercase;
-  font-weight: ${theme.bold};
-  font-family: ${theme.defaultFont};
+  font-weight: ${theme.fonts.bold};
+  font-family: ${theme.fonts.defaultFont};
   color: ${theme.colors.white};
   background: ${theme.primary};
   outline: none;
@@ -128,7 +128,7 @@ export const Title = styled(Heading1)`
 export const Hr = styled.hr`
   border: 0;
   background: 0;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
 `;
 
 export const withCurrency = css`

@@ -13,8 +13,8 @@ export const RadioFormControl = styled(FormControlLabel)`
   margin-bottom: ${theme.gutter}px;
 
   > span {
-    font-size: 12px !important;
-    font-family: ${theme.defaultFont} !important;
+    font-size: ${theme.fonts.sizes.normal}px !important;
+    font-family: ${theme.fonts.defaultFont} !important;
   }
 `;
 

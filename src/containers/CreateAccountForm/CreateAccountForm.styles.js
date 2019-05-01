@@ -56,8 +56,8 @@ export const Column = styled.div`
 
 export const StyledMarkdown = styled(Markdown)`
   text-align: center;
-  font-size: 16px;
-  color: ${theme.colors['gold-neutral']};
+  font-size: ${theme.fonts.sizes.mid}px;
+  color: ${theme.neutral};
 `;
 
 export const StyledCheckbox = styled(Checkbox)`
@@ -79,7 +79,7 @@ export const StyledCheckbox = styled(Checkbox)`
 export const InfoMarkdown = styled(Markdown)`
   text-align: center;
   font-size: 12;
-  color: ${theme.colors['gold-neutral']};
+  color: ${theme.neutral};
   margin: ${theme.gutter * 4}px auto 0;
 
   p {

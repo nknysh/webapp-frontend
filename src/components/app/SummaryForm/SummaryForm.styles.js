@@ -10,27 +10,27 @@ import { Button, withCurrency } from 'styles/elements';
 import { Heading2 } from 'styles/typography';
 
 export const StyledSummary = styled.div`
-  background: ${theme.colors.whiteish};
+  background: ${theme.backgrounds.secondary};
   padding: ${theme.gutter * 2}px;
   margin-bottom: ${theme.gutter * 2}px;
 
   label,
   label > span {
-    color: ${theme.colors['gold-neutral']} !important;
-    font-size: 13px !important;
+    color: ${theme.neutral} !important;
+    font-size: ${theme.fonts.sizes.less}px !important;
     text-transform: uppercase;
   }
 `;
 
 export const Title = styled.h3`
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   padding: 0 0 ${theme.gutter * 1.5}px;
   text-transform: uppercase;
-  font-weight: ${theme.bold};
-  letter-spacing: 0.5px;
+  font-weight: ${theme.fonts.bold};
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 14px;
-  color: ${theme.colors['gold-neutral']};
-  border-bottom: 1px solid ${theme.borderColor};
+  color: ${theme.neutral};
+  border-bottom: 1px solid ${theme.borders.default};
 `;
 
 export const Section = styled.div`
@@ -38,7 +38,7 @@ export const Section = styled.div`
 `;
 
 export const Total = styled.p`
-    color: ${theme.colors['gold-dark']};	
+    color: ${theme.secondary};	
     font-size: 42px;	
     letter-spacing: 1.62px;	
     line-height: 20px;
@@ -51,8 +51,8 @@ export const Total = styled.p`
 `;
 
 export const Text = styled.p`
-  color: ${theme.colors['gold-dark']};
-  font-size: 12px;
+  color: ${theme.secondary};
+  font-size: ${theme.fonts.sizes.normal}px;
   line-height: 20px;
   text-transform: uppercase;
   margin: 0;
@@ -61,17 +61,17 @@ export const Text = styled.p`
 
 export const Saving = styled.span`
   ${withCurrency};
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
 `;
 
 export const HotelName = styled(Heading2)`
   font-size: 20px;
-  font-weight: ${theme.normal};
+  font-weight: ${theme.fonts.normal};
   line-height: 26px;
   padding: ${theme.gutter * 2}px 0;
   margin: 0;
-  border-bottom: 1px solid ${theme.borderColor};
-  border-top: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
+  border-top: 1px solid ${theme.borders.default};
 `;
 
 export const Rooms = styled.div`
@@ -79,7 +79,7 @@ export const Rooms = styled.div`
 
   :not(:empty) {
     padding: ${theme.gutter * 2}px 0;
-    border-bottom: 1px solid ${theme.borderColor};
+    border-bottom: 1px solid ${theme.borders.default};
   }
 `;
 

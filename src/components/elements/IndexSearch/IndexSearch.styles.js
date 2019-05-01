@@ -14,25 +14,25 @@ export const IndexSearchLabel = styled(Label)`
 `;
 
 export const IndexSearchInput = styled(Input)`
-  font-family: ${theme.defaultFont};
+  font-family: ${theme.fonts.defaultFont};
   text-transform: uppercase;
 `;
 
 export const IndexSearchResults = styled.div`
   position: absolute;
   overflow-y: auto;
-  box-shadow: ${theme.boxShadow};
+  box-shadow: ${theme.boxShadows.default};
   border-radius: ${theme.borderRadius}px;
-  border: 1px solid ${theme.borderColor};
+  border: 1px solid ${theme.borders.default};
   width: 100%;
   z-index: 400;
-  background: ${theme.backgroundColor};
+  background: ${theme.backgrounds.default};
 `;
 
 export const IndexSearchHits = styled.div`
   color: ${theme.primary};
-  background: ${theme.backgroundColor};
-  border-bottom: 1px solid ${theme.borderColor};
+  background: ${theme.backgrounds.default};
+  border-bottom: 1px solid ${theme.borders.default};
   text-transform: uppercase;
 
   :first-child {
@@ -62,7 +62,7 @@ export const IndexSearchHit = styled.div`
 export const IndexSearchHitContent = styled.div`
   padding: ${theme.gutter * 2}px;
   color: ${theme.colors.black};
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
+  border-bottom: 1px solid ${theme.borders.medium};
 
   &:last-child {
     border: 0;
