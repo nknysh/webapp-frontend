@@ -54,6 +54,7 @@ export default {
     payByBT: 'Pay by bank transfer',
     booking: 'Booking',
     included: 'inc.',
+    extra: 'Extra',
 
     yes: 'Yes',
     no: 'No',
@@ -77,6 +78,7 @@ export default {
     bookNow: 'Book now',
     bookAndPay: 'Book & Pay',
     finalizeAndPay: 'Finalize & Pay',
+    update: 'Update',
   },
 
   marginOptions: {
@@ -93,7 +95,7 @@ export default {
     adult: ['Adult', 'Adults'],
     teen: ['Teen', 'Teens'],
     children: ['Child', 'Children'],
-    child: ['Children', 'Children'],
+    child: ['Child', 'Children'],
     guest: ['Guest', 'Guests'],
     infant: ['Infant', 'Infants'],
     night: ['Night', 'Nights'],
@@ -111,6 +113,7 @@ export default {
     date: ['Date', 'Dates'],
     transfer: ['Transfer', 'Transfers'],
     groundService: ['Ground Service', 'Ground Services'],
+    'young child': ['Young Child', 'Young Children'],
   },
 
   mealTypes: {

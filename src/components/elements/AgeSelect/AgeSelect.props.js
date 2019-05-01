@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { noop } from 'utils';
 
 export const propTypes = {
-  values: PropTypes.shape({}),
-  ageRanges: PropTypes.shape({}),
-  minMax: PropTypes.shape({}),
+  values: PropTypes.object,
+  ageRanges: PropTypes.object,
+  minMax: PropTypes.object,
   onSelect: PropTypes.func,
+  showAgeDropDown: PropTypes.object,
 };
 
 export const defaultProps = {
@@ -26,5 +27,8 @@ export const defaultProps = {
     },
   },
   minMax: {},
+  showAgeDropDown: {
+    adult: false,
+  },
   onSelect: noop,
 };

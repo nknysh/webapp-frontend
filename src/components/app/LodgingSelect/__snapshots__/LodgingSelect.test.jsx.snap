@@ -3,6 +3,7 @@
 exports[`<LodgingSelect /> render matches snapshot 1`] = `
 <LodgingSelectstyles__StyledLodgingSelect>
   <DropDownContent
+    closeOnClickAway={false}
     contentOnly={false}
     inputContent="0 Rooms, 0 Guests"
     showArrow={true}
@@ -15,7 +16,7 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         </LodgingSelectstyles__LodgingSelectEntryLabel>
         <LodgingSelectstyles__LodgingSelectNumberSelect
           onChange={[Function]}
-          startAt={0}
+          value={0}
         />
       </LodgingSelectstyles__LodgingSelectEntry>
     </LodgingSelectstyles__LodgingSelectSection>
@@ -39,12 +40,17 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
       }
       minMax={Object {}}
       onSelect={[Function]}
+      showAgeDropDown={
+        Object {
+          "adult": false,
+        }
+      }
       values={
         Object {
-          "adult": 0,
-          "child": 0,
-          "infant": 0,
-          "teen": 0,
+          "adult": Array [],
+          "child": Array [],
+          "infant": Array [],
+          "teen": Array [],
         }
       }
     />

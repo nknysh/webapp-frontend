@@ -12,7 +12,7 @@ export const Room = styled.article`
   border-bottom: 1px solid ${theme.borderColor};
   padding: ${theme.gutter * 2}px 0;
   letter-spacing: 0.46px;
-  line-height: 24px
+  line-height: 24px;
 
   :first-child {
     padding-top: 0;
@@ -26,6 +26,7 @@ export const Room = styled.article`
 
 export const RoomRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
 `;
 
@@ -64,4 +65,9 @@ export const RoomMenu = styled(Icon)`
     overflow: visible !important;
     padding-top: 4px;
   cursor: pointer;
+`;
+
+export const ExtraSupplement = styled.div``;
+export const ExtraSupplementRate = styled.span`
+  ${withCurrency}
 `;

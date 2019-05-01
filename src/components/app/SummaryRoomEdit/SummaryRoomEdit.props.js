@@ -9,9 +9,10 @@ export const propTypes = {
   ageRanges: PropTypes.object,
   details: PropTypes.object,
   quantity: PropTypes.array,
-  mealPlan: PropTypes.object,
+  mealPlan: PropTypes.string,
   mealPlans: PropTypes.object,
   onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
   onEdit: PropTypes.func,
   onDatesShow: PropTypes.func,
 };
@@ -23,9 +24,10 @@ export const defaultProps = {
   ageRanges: {},
   details: {},
   quantity: [],
-  mealPlan: {},
+  mealPlan: '',
   mealPlans: {},
   onChange: noop,
+  onSubmit: noop,
   onEdit: noop,
   onDatesShow: noop,
 };

@@ -3,6 +3,7 @@
 exports[`<IndexSearch /> children is called as function when open 1`] = `
 <IndexSearchstyles__StyledIndexSearch>
   <DropDownContent
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent=""
     inputProps={
@@ -31,6 +32,7 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
 exports[`<IndexSearch /> render matches snapshot 1`] = `
 <IndexSearchstyles__StyledIndexSearch>
   <DropDownContent
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent=""
     inputProps={
@@ -56,6 +58,7 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
 exports[`<IndexSearch /> render matches snapshot 2`] = `
 <IndexSearchstyles__StyledIndexSearch>
   <DropDownContent
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent=""
     inputProps={
@@ -87,6 +90,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
     with label
   </IndexSearchstyles__IndexSearchLabel>
   <DropDownContent
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent=""
     inputProps={
@@ -112,6 +116,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
 exports[`<IndexSearch /> render matches snapshot 4`] = `
 <IndexSearchstyles__StyledIndexSearch>
   <DropDownContent
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent=""
     inputProps={
@@ -137,6 +142,7 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
 exports[`<IndexSearch /> render matches snapshot 5`] = `
 <IndexSearchstyles__StyledIndexSearch>
   <DropDownContent
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent=""
     inputProps={
@@ -162,6 +168,7 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
 exports[`<IndexSearch /> render matches snapshot 6`] = `
 <IndexSearchstyles__StyledIndexSearch>
   <DropDownContent
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent="default value"
     inputProps={
@@ -187,6 +194,7 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
 exports[`<IndexSearch /> render matches snapshot 7`] = `
 <IndexSearchstyles__StyledIndexSearch>
   <DropDownContent
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent=""
     inputProps={

@@ -2,18 +2,24 @@ import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
   __,
-  propOr,
-  lensProp,
-  set,
-  compose,
-  prop,
-  path,
   allPass,
-  has,
+  always,
   complement,
-  view,
-  lensPath,
+  compose,
   defaultTo,
+  either,
+  equals,
+  has,
+  isNil,
+  lensPath,
+  lensProp,
+  map,
+  path,
+  prop,
+  propOr,
+  set,
+  view,
+  when,
 } from 'ramda';
 
 import { Loader, Tabs } from 'components';
@@ -51,6 +57,7 @@ export const HotelContainer = ({
   getHotelPhotos,
   getAccommodationProducts,
   history,
+  removeRoom,
 }) => {
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
@@ -64,10 +71,13 @@ export const HotelContainer = ({
 
   const setSelectedRooms = (uuid, quantity) => {
     const quantityLens = lensPath(['accommodationProducts', uuid, 'quantity']);
-    const quantityData = defaultTo([], viewBooking(quantityLens));
+    let quantityData = defaultTo([], viewBooking(quantityLens));
     quantityData.length = quantity;
+    quantityData = map(when(either(isNil, equals(undefined)), always({})), quantityData);
 
-    updateBooking(id, setBooking(quantityLens, quantityData));
+    equals(0, quantityData.length)
+      ? removeRoom({ hotelUuid: id, id: uuid })
+      : updateBooking(id, setBooking(quantityLens, quantityData));
   };
 
   const onBook = () => history.push(`/hotels/${id}/booking`);

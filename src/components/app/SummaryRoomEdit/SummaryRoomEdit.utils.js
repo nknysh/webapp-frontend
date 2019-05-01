@@ -1,4 +1,19 @@
-import { append, complement, head, keys, last, map, path, pipe, prop, propSatisfies, reduce, toPairs } from 'ramda';
+import {
+  append,
+  complement,
+  head,
+  keys,
+  last,
+  map,
+  path,
+  pipe,
+  prop,
+  propSatisfies,
+  reduce,
+  toPairs,
+  reverse,
+  equals,
+} from 'ramda';
 
 import { isEmptyOrNil, toDate } from 'utils';
 
@@ -26,3 +41,20 @@ export const getOptionsFromRates = rates => {
 
   return { ratesDates, firstDate, lastDate, disabled };
 };
+
+export const getAgeRanges = pipe(
+  path(['options', 'ages']),
+  reverse,
+  reduce((accum, { name, ...ages }) => ({ ...accum, [name]: ages }), {})
+);
+
+export const getMinMax = pipe(
+  path(['options', 'occupancy', 'limits']),
+  reduce(
+    (accum, { name, maximum, minimum }) => ({
+      ...accum,
+      [equals('default', name) ? 'adult' : name]: { max: maximum, min: minimum },
+    }),
+    {}
+  )
+);

@@ -29,7 +29,7 @@ export const NumberSelect = ({
     setCount(value);
   }, [value]);
 
-  const canDecrease = gt(count, 0);
+  const canDecrease = min ? !lte(count, min) : gt(count, 0);
   const canIncrease = max ? !gte(count, max) : true;
 
   const onDescrease = () => {

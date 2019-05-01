@@ -1,59 +1,110 @@
-import React from 'react';
-import { gt, length, mapObjIndexed, path, pipe, prop, values, toPairs, map, head, last, curry } from 'ramda';
+import React, { useState, Fragment } from 'react';
+import {
+  all,
+  curry,
+  defaultTo,
+  equals,
+  gt,
+  head,
+  ifElse,
+  last,
+  length,
+  map,
+  mapObjIndexed,
+  path,
+  pipe,
+  prepend,
+  prop,
+  propOr,
+  toPairs,
+  toUpper,
+  values,
+} from 'ramda';
 import { isThisMonth } from 'date-fns';
 
-import { getPlural } from 'config/ui';
+import uiConfig, { getPlural } from 'config/ui';
 
-import { RadioButton } from 'components/elements';
+import { RadioButton, Form, FormFieldError } from 'components/elements';
 import { GuestSelect } from 'components/app';
-import { formatDate, getEndOfMonth, getStartOfMonth, toDate, isEmptyOrNil } from 'utils';
+import { useEffectBoundary } from 'effects';
+import { formatDate, getEndOfMonth, getStartOfMonth, toDate, isEmptyOrNil, isArray, mapWithIndex } from 'utils';
+
+import { validation } from 'config/forms/roomEdit';
 
 import { propTypes, defaultProps } from './SummaryRoomEdit.props';
 import {
   DatePrice,
   EditForm,
+  EditFormActions,
+  EditFormButton,
   EditFormSection,
-  EditFormTitle,
-  StyledDatePicker,
   EditFormSectionTitle,
+  EditFormTitle,
   MealPlanRate,
   MealPlanRatePrice,
   MealPlanRateWrapper,
+  StyledDatePicker,
 } from './SummaryRoomEdit.styles';
-import { getOptionsFromRates } from './SummaryRoomEdit.utils';
+import { getOptionsFromRates, getMinMax, getAgeRanges } from './SummaryRoomEdit.utils';
+
+const renderError = message => message && <FormFieldError key={message}>{message}</FormFieldError>;
+const renderKeyedError = (msg, key) => renderError(`${toUpper(key)} - ${msg}`);
+
+const renderGuestSelectErrors = ifElse(
+  isArray,
+  pipe(
+    map(
+      pipe(
+        mapObjIndexed(renderKeyedError),
+        values
+      )
+    )
+  ),
+  renderError
+);
+
+const allPermitted = pipe(
+  propOr([], 'quantity'),
+  map(prop('permitted')),
+  all(equals(true))
+);
 
 export const SummaryRoomEdit = ({
   hotelUuid,
   id,
   dates,
-  ageRanges,
   details: { name, rates },
   quantity,
   mealPlan,
   mealPlans,
+  onSubmit,
   onChange,
-  onEdit,
   onDatesShow,
+  checks,
+  details,
 }) => {
+  const [formValues, setFormValues] = useState({ mealPlan, dates, quantity });
+  const [complete, setComplete] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
 
-  const onDateSelected = range => onChange({ accommodationProducts: { [id]: { dates: range } } });
-  const onGuestSelect = quantity => {
-    onChange({ accommodationProducts: { [id]: { quantity, mealPlan } } });
-    onEdit({ id, quantity, mealPlan });
-  };
+  useEffectBoundary(() => {
+    const finished = allPermitted(checks);
+    submitted && setComplete(finished);
+    setSubmitted(finished);
+  }, [checks]);
 
-  const renderDay = day => {
-    const dayRate = prop(formatDate(day), rates);
-    const rateUuid = prop('result', dayRate);
-    const rate = path(['entities', 'rates', rateUuid], dayRate);
+  useEffectBoundary(() => {
+    complete && onSubmit({ accommodationProducts: { [id]: { ...formValues } } });
+  }, [complete]);
 
-    return (
-      <span>
-        <div>{formatDate(day, 'D')}</div>
-        {rate && <DatePrice>{prop('rate', rate)}</DatePrice>}
-      </span>
-    );
+  const ageRanges = getAgeRanges(details);
+  const minMax = getMinMax(details);
+
+  const onFormSubmit = values => {
+    setFormValues(values);
+    onChange(hotelUuid, { accommodationProducts: { [id]: { ...values } } });
+    setSubmitted(true);
   };
 
   const onMonthChange = month => {
@@ -67,11 +118,6 @@ export const SummaryRoomEdit = ({
   };
 
   const onDayPickerShow = () => onDatesShow(hotelUuid, id, firstDate, getEndOfMonth(lastDate));
-
-  const onMealPlanChange = ({ target: { value: value } }) => {
-    onChange({ accommodationProducts: { [id]: { mealPlan: value } } });
-    onEdit({ id, quantity, mealPlan: value });
-  };
 
   const mapMealPlans = ([productUuid, details]) => {
     const rates = pipe(
@@ -96,7 +142,9 @@ export const SummaryRoomEdit = ({
           )
       );
 
-      return <MealPlanRateWrapper key={uuid}>{map(renderRate(gt(length(rates), 1)), rates)}</MealPlanRateWrapper>;
+      const mapRates = map(renderRate(gt(length(rates), 1)));
+
+      return <MealPlanRateWrapper key={uuid}>{mapRates(rates)}</MealPlanRateWrapper>;
     };
 
     const prices = mapObjIndexed(renderRatePrice, rates);
@@ -111,42 +159,94 @@ export const SummaryRoomEdit = ({
     };
   };
 
+  const renderDay = day => {
+    const dayRate = prop(formatDate(day), rates);
+    const rateUuid = prop('result', dayRate);
+    const rate = path(['entities', 'rates', rateUuid], dayRate);
+
+    return (
+      <span>
+        <div>{formatDate(day, 'D')}</div>
+        {rate && <DatePrice>{prop('rate', rate)}</DatePrice>}
+      </span>
+    );
+  };
+
+  const onObjectChange = curry((name, { handleChange }, value) =>
+    handleChange({ target: { name, type: 'object', value } })
+  );
+
+  const renderGuestCheck = (checked, i) => {
+    const errors = pipe(
+      propOr([], 'errors'),
+      map(renderError)
+    )(checked);
+
+    return <Fragment key={i}>{errors}</Fragment>;
+  };
+  const renderGuestsInfo = () => mapWithIndex(renderGuestCheck, propOr([], 'quantity', checks));
+
   return (
     <EditForm>
       <EditFormTitle>{name}</EditFormTitle>
-      <EditFormSection>
-        <GuestSelect ageRanges={ageRanges} onSelected={onGuestSelect} contentOnly={true} selectedValues={quantity} />
-      </EditFormSection>
-      <EditFormSection>
-        <StyledDatePicker
-          label={getPlural('date')}
-          dayPickerProps={{
-            disabledDays: [
-              ...disabled,
-              {
-                before: new Date(firstDate),
-                after: new Date(lastDate),
-              },
-            ],
-            renderDay,
-            onMonthChange,
-          }}
-          onDayPickerShow={onDayPickerShow}
-          selectedValues={dates}
-          onSelected={onDateSelected}
-        />
-      </EditFormSection>
-      <EditFormSection>
-        <EditFormSectionTitle>{getPlural('mealPlan')}</EditFormSectionTitle>
-        <RadioButton
-          value={mealPlan}
-          options={pipe(
-            toPairs,
-            map(mapMealPlans)
-          )(mealPlans)}
-          onChange={onMealPlanChange}
-        />
-      </EditFormSection>
+      <Form
+        initialValues={formValues}
+        onSubmit={onFormSubmit}
+        validationSchema={validation(details)}
+        validateOnBlur={false}
+      >
+        {({ values, errors, ...formProps }) => (
+          <Fragment>
+            <EditFormSection>
+              <GuestSelect
+                ageRanges={ageRanges}
+                onSelected={onObjectChange('quantity', formProps)}
+                contentOnly={true}
+                selectedValues={map(defaultTo({}), prop('quantity', values))}
+                minMax={minMax}
+                errors={renderGuestSelectErrors(prop('quantity', errors))}
+              >
+                {renderGuestsInfo()}
+              </GuestSelect>
+            </EditFormSection>
+            <EditFormSection>
+              <StyledDatePicker
+                label={getPlural('date')}
+                dayPickerProps={{
+                  disabledDays: [
+                    ...disabled,
+                    {
+                      before: new Date(firstDate),
+                      after: new Date(lastDate),
+                    },
+                  ],
+                  renderDay,
+                  onMonthChange,
+                }}
+                onDayPickerShow={onDayPickerShow}
+                selectedValues={prop('dates', values)}
+                onSelected={onObjectChange('dates', formProps)}
+              />
+            </EditFormSection>
+            <EditFormSection>
+              <EditFormSectionTitle>{getPlural('mealPlan')}</EditFormSectionTitle>
+              <RadioButton
+                name="mealPlan"
+                value={prop('mealPlan', values)}
+                options={pipe(
+                  toPairs,
+                  map(mapMealPlans),
+                  prepend({ label: 'None', value: '' })
+                )(mealPlans)}
+                onChange={prop('handleChange', formProps)}
+              />
+            </EditFormSection>
+            <EditFormActions>
+              <EditFormButton type="submit">{path(['buttons', 'update'], uiConfig)}</EditFormButton>
+            </EditFormActions>
+          </Fragment>
+        )}
+      </Form>
     </EditForm>
   );
 };
