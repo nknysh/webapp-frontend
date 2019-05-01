@@ -20,7 +20,7 @@ export const FooterMenu = styled(Menu)`
   padding-bottom: ${theme.gutter * 2}px;
   font-size: ${theme.fonts.sizes.normal}px;
 
-  ${breakpoints.tablet`
+  ${breakpoints.desktop`
     padding-top: ${theme.gutter / 2}px;
     margin-top: ${theme.gutter * 2.3}px;
     width: 100%;
@@ -37,7 +37,7 @@ export const FooterMenu = styled(Menu)`
       letter-spacing: 0.5px;
       line-height: 13px;
 
-      ${breakpoints.tablet`
+      ${breakpoints.desktop`
         padding: 0;
         font-size: ${theme.fonts.sizes.link}px;
       `}
@@ -50,7 +50,7 @@ export const FooterColumns = styled.div`
   padding: ${theme.gutter}px;
   border-top: 2px solid ${theme.borders.medium};
 
-  ${breakpoints.tablet`
+  ${breakpoints.desktop`
     align-items: flex-start;
   `}
 `;
@@ -63,7 +63,7 @@ export const FooterColumn = styled.div`
   color: ${theme.colors['gold-light']};
   width: 100%;
 
-  ${breakpoints.tablet`
+  ${breakpoints.desktop`
     flex: 0 1 25%;
     margin-top: ${theme.gutter * 2.3}px;
     font-size: ${theme.fonts.sizes.link}px;

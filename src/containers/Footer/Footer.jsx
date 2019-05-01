@@ -26,7 +26,7 @@ const currentDate = toDate();
 
 export const Footer = ({ menu, className }) => {
   const currentWidth = useCurrentWidth();
-  const isMobile = currentWidth <= theme.breakpoints.tablet;
+  const isMobile = currentWidth <= theme.breakpoints.desktop;
 
   const footerMenu = <FooterMenu links={menu} />;
 
