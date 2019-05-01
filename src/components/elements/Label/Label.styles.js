@@ -14,7 +14,10 @@ export const StyledLabel = styled.label`
 `;
 
 export const Text = styled.span`
-  color: ${theme.primary};
+  color: ${theme.neutral};
   text-transform: uppercase;
   font-size: ${theme.fonts.sizes.normal}px;
+  letter-spacing: 0.46px;
+  line-height: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
 `;

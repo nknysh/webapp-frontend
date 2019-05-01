@@ -32,7 +32,7 @@ export const EditFormTitle = styled(Heading3)`
   line-height: 29px;
   padding: 0;
   margin: 0 0 ${theme.gutter * 5}px;
-  font-size: ${theme.fonts.sizes.bigger};
+  font-size: ${theme.fonts.sizes.bigger}px;
 `;
 
 export const EditFormSection = styled.div`

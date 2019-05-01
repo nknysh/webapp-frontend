@@ -68,7 +68,7 @@ export const PageContentData = styled.div`
       margin: ${theme.gutter}px 0 ${doubleSpaced * 2}px;
       padding: ${doubleSpaced * 2}px 0;
       border-bottom: 1px solid ${theme.borders.medium};
-      font-size: ${theme.fonts.sizes.bigger};
+      font-size: ${theme.fonts.sizes.bigger}px;
     }
 
     ${breakpoints.tablet`

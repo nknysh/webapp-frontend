@@ -12,6 +12,9 @@ export const StyledInput = styled.input`
   width: 100%;
   box-sizing: border-box;
   padding: ${theme.gutter}px;
+  border-radius: 1px;
+
+  -webkit-appearance: none;
 
   ${({ disabled }) =>
     disabled &&
