@@ -3,15 +3,15 @@ import styled, { css } from 'styled-components';
 import theme from './theme';
 
 export const commonHeaderStyles = css`
-  font-family: ${theme.headingFont};
-  letter-spacing: 1px;
+  font-family: ${theme.fonts.headingFont};
+  letter-spacing: ${theme.fonts.letterSpacing.whole}px;
 `;
 
 export const h1Styling = css`
   ${commonHeaderStyles}
-  color: ${theme.colors['gold-neutral']};
-  font-size: 22px;
-  font-weight: ${theme.bold};
+  color: ${theme.neutral};
+  font-size: ${theme.fonts.sizes.bigger};
+  font-weight: ${theme.fonts.bold};
   margin: ${theme.gutter * 2}px;
 `;
 
@@ -29,7 +29,7 @@ export const Heading2 = styled.h2`
 `;
 
 export const h3Styling = css`
-  font-size: 18px;
+  font-size: ${theme.fonts.sizes.big}px;
   text-transform: uppercase;
   color: ${theme.primary};
 `;

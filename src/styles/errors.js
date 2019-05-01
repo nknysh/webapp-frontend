@@ -7,7 +7,7 @@ import breakpoints from './breakpoints';
 
 export const ServerError = styled(Markdown)`
   border: 1px solid ${theme.primary};
-  background: ${theme.colors.whiteish};
+  background: ${theme.backgrounds.secondary};
   text-align: center;
   padding: ${theme.gutter}px;
   margin-bottom: ${theme.gutter * 2}px;
@@ -17,12 +17,12 @@ export const ServerError = styled(Markdown)`
   `}
 
   h3 {
-    font-family: ${theme.headingFont};
+    font-family: ${theme.fonts.headingFont};
     color: ${theme.primary};
-    font-size: 14px;
+    font-size: ${theme.fonts.sizes.normal}px;
   }
 
   p {
-    font-size: 12px;
+    font-size: ${theme.fonts.sizes.normal}px;
   }
 `;

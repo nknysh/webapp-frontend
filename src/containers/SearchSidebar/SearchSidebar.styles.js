@@ -11,24 +11,24 @@ export const Section = styled.div`
 
   label,
   label > span {
-    color: ${theme.colors['gold-neutral']};
-    font-size: 12px;
+    color: ${theme.neutral};
+    font-size: ${theme.fonts.sizes.normal}px;
     text-transform: uppercase;
   }
 
   p {
-    font-size: 12px;
+    font-size: ${theme.fonts.sizes.normal}px;
     margin: 0 0 ${theme.gutter}px;
-    color: ${theme.colors['gold-neutral']};
+    color: ${theme.neutral};
   }
 `;
 
 export const Title = styled.h4`
-  color: ${theme.colors['gold-neutral']};
-  font-size: 12px;
+  color: ${theme.neutral};
+  font-size: ${theme.fonts.sizes.normal}px;
   font-weight: bold;
   padding: 0 0 ${headerSpacing}px;
   margin: 0 0 ${headerSpacing}px;
   text-transform: uppercase;
-  border-bottom: 1px solid ${theme.colors['gray-medium']};
+  border-bottom: 1px solid ${theme.borders.medium};
 `;

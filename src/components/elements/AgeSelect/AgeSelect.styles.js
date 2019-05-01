@@ -8,7 +8,7 @@ import theme from 'styles/theme';
 
 export const Section = styled.div`
   padding: ${theme.gutter}px;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
 `;
 
 export const Entry = styled.div`
@@ -20,7 +20,7 @@ export const EntryLabel = styled(Label)`
   flex: 1;
 
   > span {
-    font-size: 13px !important;
+    font-size: ${theme.fonts.sizes.less}px !important;
   }
 `;
 
@@ -29,8 +29,8 @@ export const NumberSelect = styled(BaseNumberSelect)`
 `;
 
 export const AgeDropDown = styled.div`
-  border-top: 1px solid ${theme.colors.whiteish};
-  border-bottom: 1px solid ${theme.colors.whiteish};
+  border-top: 1px solid ${theme.backgrounds.secondary};
+  border-bottom: 1px solid ${theme.backgrounds.secondary};
   display: block;
   flex: none;
   margin: ${theme.gutter}px 0;
@@ -40,7 +40,7 @@ export const AgeDropDown = styled.div`
 `;
 
 export const AgeDropDownTitle = styled.p`
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   text-transform: uppercase;
   color: ${theme.primary};
   padding: 0;

@@ -9,7 +9,7 @@ import { Menu } from 'components';
 
 export const StyledFooter = styled.div`
   display: block;
-  background: ${theme.colors['gray-light']};
+  background: ${theme.backgrounds.light};
   padding: ${theme.gutter * 3}px;
 `;
 
@@ -18,7 +18,7 @@ export const FooterContainer = styled(Container)``;
 export const FooterMenu = styled(Menu)`
   text-align: center;
   padding-bottom: ${theme.gutter * 3}px;
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
 
   ${breakpoints.tablet`
     padding-top: ${theme.gutter}px;
@@ -30,7 +30,7 @@ export const FooterMenu = styled(Menu)`
 
     a,
     a:visited {
-      color: ${theme.colors['gold-neutral']} !important;
+      color: ${theme.neutral} !important;
 
       ${breakpoints.tablet`
         padding: 0;
@@ -42,7 +42,7 @@ export const FooterMenu = styled(Menu)`
 export const FooterColumns = styled.div`
   display: flex;
   padding: ${theme.gutter}px;
-  border-top: 1px solid ${theme.colors.gray};
+  border-top: 1px solid ${theme.borders.normal};
 `;
 
 export const FooterColumn = styled.div`
@@ -50,7 +50,7 @@ export const FooterColumn = styled.div`
   justify-content: ${({ align }) => align};
   flex: 0 1 50%
   padding-top: ${theme.gutter}px;
-  font-size: ${theme.linkSize}px;
+  font-size: ${theme.fonts.sizes.link}px;
   color: ${theme.colors['gold-light']}
   width: 100%;
 

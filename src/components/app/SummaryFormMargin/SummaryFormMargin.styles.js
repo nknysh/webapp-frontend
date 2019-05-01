@@ -16,7 +16,7 @@ export const MarginCheckbox = styled(Checkbox)`
 
     > span {
       padding-left: 0 !important;
-      font-size: 12px !important;
+      font-size: ${theme.fonts.sizes.normal}px !important;
       line-height: 14px !important;
       text-transform: uppercase;
       color: ${theme.primary} !important;
@@ -45,15 +45,15 @@ display: flex;
 `;
 
 export const MarginTotal = styled.div`
-  color: ${theme.colors['gold-dark']};
+  color: ${theme.secondary};
   margin: ${theme.gutter}px 0;
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
   line-height: 18px;
 `;
 
 export const MarginTotalAmount = styled.span`
   ${withCurrency};
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
 `;
 
 export const MarginPercentSuffix = styled.span`

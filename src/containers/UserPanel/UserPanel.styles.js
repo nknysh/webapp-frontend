@@ -11,7 +11,7 @@ export const Text = styled.div`
     margin ${theme.gutter / 2}px 0;
     padding: ${theme.gutter / 2}px 0;
     text-transform: uppercase;
-    font-weight: ${theme.bold};
+    font-weight: ${theme.fonts.bold};
     cursor: pointer;
     transition: ${theme.defaultTransition};
 

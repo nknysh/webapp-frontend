@@ -10,7 +10,7 @@ export const LodgingSelectLabel = styled(Label)``;
 
 export const LodgingSelectSection = styled.div`
   padding: ${theme.gutter}px;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
 `;
 
 export const LodgingSelectEntry = styled.div`
@@ -22,7 +22,7 @@ export const LodgingSelectEntryLabel = styled(Label)`
   flex: 1;
 
   > span {
-    font-size: 13px !important;
+    font-size: ${theme.fonts.sizes.less}px !important;
   }
 `;
 

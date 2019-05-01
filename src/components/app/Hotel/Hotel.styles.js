@@ -34,12 +34,12 @@ const HotelDetailsColumn = styled.div`
 
   :not(:empty) {
     padding: ${theme.gutter / 2}px 0;
-    border-bottom: 1px solid ${theme.borderColor};
+    border-bottom: 1px solid ${theme.borders.default};
   }
 
   ${breakpoints.tablet`
         padding: ${theme.gutter / 2}px 0;
-        border-bottom: 1px solid ${theme.borderColor};
+        border-bottom: 1px solid ${theme.borders.default};
         flex: 1;
     `}
 `;
@@ -65,10 +65,10 @@ export const HotelName = styled(CardTitle)`
 `;
 
 export const HotelRegion = styled.h3`
-  font-size: 14px;
-  color: ${theme.colors['gold-neutral']};
+  font-size: ${theme.fonts.sizes.normal}px;
+  color: ${theme.neutral};
   text-transform: uppercase;
-  font-weight: ${theme.normal};
+  font-weight: ${theme.fonts.normal};
   margin: 0 0 ${theme.gutter}px;
   padding: 0;
 `;
@@ -112,12 +112,12 @@ export const HotelSecondaryRating = styled(CardSecondaryRating)`
   ${breakpoints.tablet`
         width: unset;
         text-align: unset;
-        font-weight: ${theme.normal};
+        font-weight: ${theme.fonts.normal};
     `}
 `;
 
 export const HotelDescription = styled.div`
-  color: ${theme.colors['gold-neutral']};
+  color: ${theme.neutral};
   padding: ${theme.gutter}px 0;
 `;
 

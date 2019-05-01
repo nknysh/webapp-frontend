@@ -62,6 +62,6 @@ export const HomeContainer = styled.div`
   }
 
   .small {
-    font-size: 12px;
+    font-size: ${theme.fonts.sizes.normal}px;
   }
 `;

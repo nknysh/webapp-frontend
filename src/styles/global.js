@@ -1,5 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
+import theme from './theme';
+import breakpoints from './breakpoints';
+
 export const GlobalFonts = createGlobalStyle`
     @font-face {
         font-family: HurmeGeometricSans2;
@@ -53,9 +56,13 @@ export const GlobalStyle = createGlobalStyle`
     body {
         display: block;
         margin: 0;
-        padding: 0;
+        padding: ${theme.headerSizes.mobile}px 0 0;
         font-family: HurmeGeometricSans2, "Open Sans", sans-serif;
         height: 100%;
+
+        ${breakpoints.tablet`
+            padding-top: 0;
+        `}
     }
 
     #app {

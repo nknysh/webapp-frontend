@@ -10,8 +10,8 @@ export const StyledLatestOffers = styled(Container)`
 `;
 
 export const Title = styled(Heading2)`
-  font-family: ${theme.defaultFont};
-  font-weight: ${theme.normal};
+  font-family: ${theme.fonts.defaultFont};
+  font-weight: ${theme.fonts.normal};
   text-transform: uppercase;
   text-align: center;
   margin: ${theme.gutter * 4}px ${theme.gutter * 2}px;

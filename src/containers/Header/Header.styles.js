@@ -13,39 +13,57 @@ export const HeaderContainer = styled(Container)`
   height: ${theme.headerSizes.mobile}px;
   align-items: center;
 
+  > div {
+    flex: 1 1 50%;
+    width: 50%;
+    margin: 0 ${theme.gutter * 2}px;
+  }
+
   ${breakpoints.tablet`
     height: ${theme.headerSizes.tablet}px;
+
+    > div {
+      width: unset;
+      flex: 1 1 auto;
+      
+      :first-child, :last-child {
+        margin: 0;
+      }
+    }
   `}
 `;
 
 export const StyledHeader = styled.div`
   position: relative;
-  background: ${theme.backgroundColor}
-  border-bottom: 1px solid ${theme.colors['gray-light']};
-  padding: ${theme.gutter}px ${theme.gutter * 2}px;
+  background: ${theme.backgrounds.default};
+  border-bottom: 1px solid ${theme.borders.default};
+  width: 100%;
+  position: fixed;
+  z-index: 10000;
+  top: 0;
 
   ${breakpoints.tablet`
+    position: relative;
     padding: 0;
   `}
 `;
 
 export const HeaderLogo = styled(Link)`
-  width: auto;
+  margin: ${theme.gutter}px ${theme.gutter * 2}px;
   display: block;
-
-  a {
-    display: block;
-  }
-
-  img {
-    height: 100%;
-    width: auto;
-  }
+  margin: 0;
+  padding: 0;
 
   ${breakpoints.tablet`
-    height: auto;
-    padding: 0 ${theme.gutter}px !important;
+    margin: ${theme.gutter}px;
   `}
+
+  img {
+    display: block;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
 `;
 
 export const HeaderMenuArea = styled.div`
@@ -65,15 +83,15 @@ export const HeaderMobileMenuButton = styled(Icon)`
 
 export const HeaderMenu = styled(Menu)`
   position: absolute;
-  background: ${theme.backgroundColor};
+  background: ${theme.backgrounds.default};
   padding: ${theme.gutter}px;
-  top: ${theme.headerSizes.mobile + theme.gutter * 2}px;
+  top: ${theme.headerSizes.mobile}px;
   right: 0;
   left: 0;
-  border-top: 1px solid ${theme.colors.gold};
+  border-top: 1px solid ${theme.primary};
   transition: ${theme.defaultTransition};
   text-align: left;
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.default}px;
   z-index: 100;
 
   ${({ isOpen }) => css`
@@ -92,6 +110,11 @@ export const HeaderMenu = styled(Menu)`
     opacity: 1;
     pointer-events: auto;
     font-size: 11px;
+    display: flex;
+  
+    > div:not(:last-child) {
+      flex: 0 1 auto;
+    }
   `}
 `;
 

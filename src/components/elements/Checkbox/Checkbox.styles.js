@@ -6,7 +6,7 @@ import theme from 'styles/theme';
 export const StyledCheckBox = styled.div`
   label,
   label span {
-    font-family: ${theme.defaultFont} !important;
+    font-family: ${theme.fonts.defaultFont} !important;
   }
 `;
 

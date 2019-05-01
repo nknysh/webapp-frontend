@@ -24,7 +24,7 @@ export const Crumb = styled.div`
     }
 
     :not(:first-child) {
-        border-left: 1px solid ${theme.borderColor};
+        border-left: 1px solid ${theme.borders.default};
     }
 
     :first-child {
@@ -34,15 +34,15 @@ export const Crumb = styled.div`
 
 export const CrumbLink = styled(Link)`
   color: ${theme.primary} !important;
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: ${theme.fonts.sizes.normal}px;
 
   padding-top: 8px !important;
 
   ${({ ['data-active']: active }) =>
     active &&
     css`
-      color: ${theme.colors['gold-neutral']} !important;
+      color: ${theme.neutral} !important;
     `}
 `;

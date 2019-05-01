@@ -15,21 +15,31 @@ export const breakpoints = Object.freeze({
 export const palette = Object.freeze({
   primary: getColor('gold'),
   secondary: getColor('gold-dark'),
+  neutral: getColor('gold-neutral'),
+  selected: getColor('aqua'),
 
   warning: undefined,
   error: 'red',
   ok: undefined,
 
   navigation: getColor('whiteish'),
-  backgroundColor: getColor('white'),
-  boxShadowColor: getColor('black-light'),
-  boxShadow: `4px 4px 8px 0 rgba(0,0,0,0.1);`,
-  boxShadowEven: `0 0 10px ${getColor('black-light')}`,
-  inputBorder: getColor('gray-medium'),
-  borderColor: getColor('gray-dark'),
-  listSeparatorColor: getColor('gold'),
-  selected: getColor('aqua'),
 
+  boxShadows: {
+    default: '4px 4px 8px 0 rgba(0,0,0,0.1)',
+  },
+  borders: {
+    default: getColor('gray-dark'),
+    medium: getColor('gray-medium'),
+    normal: getColor('gray'),
+  },
+  backgrounds: {
+    default: getColor('white'),
+    defaultOpacity: getColor('white-opacity-1'),
+    secondary: getColor('whiteish'),
+    light: getColor('gray-light'),
+  },
+
+  listSeparatorColor: getColor('gold'),
   opacity: 0.35,
 });
 
@@ -54,20 +64,33 @@ export const animations = Object.freeze({
 export const fonts = Object.freeze({
   defaultFont: 'HurmeGeometricSans2, "Open Sans", sans-serif',
   headingFont: 'NoeDisplay, "Open Sans", sans-serif',
-  linkSize: 11,
+  sizes: {
+    default: 12,
+    less: 13,
+    normal: 14,
+    mid: 16,
+    big: 18,
+    bigger: 22,
+    link: 11,
+  },
   bolder: 800,
   bold: 600,
   normal: 'normal',
   light: 300,
   lighter: 200,
+  letterSpacing: {
+    whole: 1,
+    mid: 0.46,
+    medium: 0.5,
+  },
 });
 
 export default {
   ...animations,
-  ...fonts,
   ...palette,
   ...sizes,
   ...spacing,
   breakpoints,
   colors,
+  fonts,
 };

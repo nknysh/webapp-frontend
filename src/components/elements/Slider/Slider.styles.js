@@ -9,7 +9,7 @@ export const GlobalSliderStyles = createGlobalStyle``;
 const SliderArrow = styled(Icon)`
   position: absolute;
   z-index: 1000;
-  background: ${theme.colors.whiteish};
+  background: ${theme.backgrounds.secondary};
   color: ${theme.primary};
   opacity: 0.8;
   top: 10%;

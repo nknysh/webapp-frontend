@@ -1,4 +1,4 @@
-import { path, prop, map } from 'ramda';
+import { defaultTo, path, prop, map } from 'ramda';
 import client from 'api/offers';
 
 import { successAction, errorFromResponse, loadingAction } from 'store/common';
@@ -21,7 +21,7 @@ export const fetchOffersSuccess = ({ data: { data } }) => dispatch => {
   dispatch(
     setHotels({
       entities: { hotels: hotelsEntities, photos: photosEntities },
-      result: map(prop('hotel'), result),
+      result: map(prop('hotel'), defaultTo([], result)),
     })
   );
   dispatch(successAction(OFFERS_LATEST, { entities: { offers: offersEntities }, result }));

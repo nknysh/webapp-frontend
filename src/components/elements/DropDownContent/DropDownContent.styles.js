@@ -8,7 +8,7 @@ import breakpoints from 'styles/breakpoints';
 export const StyledDropDownContent = styled.div``;
 
 export const DropDownContentOverlay = styled.div`
-  background: ${theme.colors['gold-dark']};
+  background: ${theme.secondary};
   position: fixed;
   top: 0;
   bottom: 0;
@@ -27,9 +27,9 @@ export const DropDownContentInputWrapper = styled.div`
 `;
 
 const dropDownInputStyles = css`
-  font-family: ${theme.defaultFont};
+  font-family: ${theme.fonts.defaultFont};
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: ${theme.fonts.sizes.normal}px;
 
   ::placeholder {
     color: ${theme.colors.gray};
@@ -76,16 +76,16 @@ export const DropDownContentIcon = styled(Icon)`
   position: absolute;
   right: ${theme.gutter / 2}px;
   top: ${theme.gutter / 2}px;
-  font-size: 16px;
+  font-size: ${theme.fonts.sizes.mid}px;
   opacity: 1;
 `;
 
 export const dropDownContentAreaStyles = css`
   position: absolute;
-  background: ${theme.backgroundColor};
-  box-shadow: ${theme.boxShadow};
+  background: ${theme.backgrounds.default};
+  box-shadow: ${theme.boxShadows.default};
   border-radius: ${theme.borderRadius}px;
-  border: 1px solid ${theme.borderColor};
+  border: 1px solid ${theme.borders.default};
   z-index: 1010;
   right: 0;
   left: 0;

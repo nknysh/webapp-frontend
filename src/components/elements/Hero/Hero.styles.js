@@ -11,7 +11,7 @@ const getHeight = (offsetBy, headerSize) =>
 const generateHeight = ({ full, offsetBy = 0 }) => full && `${getHeight(offsetBy, theme.headerSizes.tablet)}px`;
 
 export const StyledHero = styled.div`
-  background-color: ${theme.colors['gray-light']};
+  background-color: ${theme.backgrounds.light};
   background-image: ${({ image }) => image && `url(${image})`};
   background-size: cover;
   background-position: center center;
@@ -69,7 +69,7 @@ export const HeroMask = styled.div`
   right: 0;
   pointer-events: none;
   opacity: 0.3;
-  background: ${theme.colors['gold-dark']};
+  background: ${theme.secondary};
   z-index: 0;
   width: 100%;
   height: 100%;

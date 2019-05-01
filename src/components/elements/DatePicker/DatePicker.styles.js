@@ -56,7 +56,7 @@ export const StyledDatePicker = styled.div`
       ${dropDownContentAreaStyles}
 
       ${breakpoints.tablet`
-        box-shadow: ${theme.boxShadow};
+        box-shadow: ${theme.boxShadows.default};
       `}
 
       .${baseClass}__months {
@@ -81,8 +81,8 @@ export const StyledDatePicker = styled.div`
             flex: 1;
             text-align: center;
             padding: ${theme.gutter}px ${theme.gutter / 3}px;
-            font-size: 13px;
-            font-weight: ${theme.bold};
+            font-size: ${theme.fonts.sizes.less}px;
+            font-weight: ${theme.fonts.bold};
             text-transform: uppercase;
             cursor: pointer;
 
@@ -132,9 +132,9 @@ export const DatePickerNavbar = styled.div`
 `;
 
 export const DatePickerNavbarMonth = styled.div`
-  color: ${theme.colors['gold-neutral']};
-  font-size: 14px;
-  font-weight: ${theme.bold};
+  color: ${theme.neutral};
+  font-size: ${theme.fonts.sizes.normal}px;
+  font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
 `;
 
@@ -165,7 +165,7 @@ export const DatePickerNavbarPrev = styled(DatePickerNavbarNav)``;
 export const DatePickerSummary = styled.div`
   background: ${theme.colors.aqua};
   padding: ${theme.gutter / 2}px ${theme.gutter}px;
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
   color: ${theme.colors.black};
   flex: 0 1;
   margin: -${theme.gutter / 2}px 0;

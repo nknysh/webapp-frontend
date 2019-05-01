@@ -11,7 +11,7 @@ export const GuestSelectLabel = styled(Label)``;
 
 export const GuestSelectSection = styled.div`
   padding: ${theme.gutter}px;
-  border-bottom: 1px solid ${theme.borderColor};
+  border-bottom: 1px solid ${theme.borders.default};
 `;
 
 export const GuestSelectEntry = styled.div`
@@ -23,7 +23,7 @@ export const GuestSelectEntryLabel = styled(Label)`
   flex: 1;
 
   > span {
-    font-size: 13px !important;
+    font-size: ${theme.fonts.sizes.less}px !important;
   }
 `;
 
@@ -34,7 +34,7 @@ export const GuestSelectNumberSelect = styled(NumberSelect)`
 export const RoomTabs = styled(Tabs)`
   ${breakpoints.tablet`
     margin-top: -1px
-    border-top: 1px solid ${theme.borderColor};
+    border-top: 1px solid ${theme.borders.default};
     margin-left: -${theme.gutter * 10 - 1}px;
     margin-right: -${theme.gutter * 10 - 1}px;
   `}
@@ -44,7 +44,7 @@ export const TabLabel = styled.span`
   ${({ ['data-error']: hasError }) =>
     hasError &&
     css`
-      font-weight: ${theme.bold};
+      font-weight: ${theme.fonts.bold};
       color: ${theme.error};
 
       :after {

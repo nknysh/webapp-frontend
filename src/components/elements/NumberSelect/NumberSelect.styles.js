@@ -19,7 +19,7 @@ const buttonStyles = css`
   transition: ${theme.defaultTransition};
   cursor: pointer;
   color: ${theme.colors.white};
-  font-size: 22px !important;
+  font-size: ${theme.fonts.sizes.bigger} !important;
   padding: ${theme.gutter / 2 - 2}px !important;
 
   :hover {
@@ -50,7 +50,7 @@ export const NumberSelectIncrease = styled(Icon)`
 
 export const NumberSelectNumber = styled.div`
   color: ${theme.colors.black};
-  font-weight: ${theme.bold};
+  font-weight: ${theme.fonts.bold};
   padding: ${theme.gutter}px;
   width: 32px;
   text-align: center;

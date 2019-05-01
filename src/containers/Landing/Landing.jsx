@@ -12,22 +12,22 @@ import heroImage from 'config/pages/search/assets/hero-image.png';
 
 import connect from './Landing.state';
 import { propTypes, defaultProps } from './Landing.props';
-import { StyledSearch, SearchHero, SearchMarkdown } from './Landing.styles';
+import { StyledLanding, LandingHero, LandingMarkdown } from './Landing.styles';
 
 export const Landing = ({ fetchLatestOffers, offersStatus, offers }) => {
   const loaded = useFetchData(offersStatus, fetchLatestOffers, [{ limit: 3 }]);
 
   return (
     <Loader isLoading={!loaded}>
-      <StyledSearch>
-        <SearchHero mask media={{ image: heroImage }}>
-          <SearchMarkdown>{heroData}</SearchMarkdown>
+      <StyledLanding>
+        <LandingHero mask media={{ image: heroImage }}>
+          <LandingMarkdown>{heroData}</LandingMarkdown>
           <Container>
             <SearchBar />
           </Container>
-        </SearchHero>
+        </LandingHero>
         <LatestOffers offers={offers} />
-      </StyledSearch>
+      </StyledLanding>
     </Loader>
   );
 };
