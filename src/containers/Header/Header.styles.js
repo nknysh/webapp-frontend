@@ -19,7 +19,7 @@ export const HeaderContainer = styled(Container)`
     margin: 0 ${theme.gutter * 2}px;
   }
 
-  ${breakpoints.tablet`
+  ${breakpoints.desktop`
     height: ${theme.headerSizes.tablet}px;
 
     > div {
@@ -42,7 +42,7 @@ export const StyledHeader = styled.div`
   z-index: 10000;
   top: 0;
 
-  ${breakpoints.tablet`
+  ${breakpoints.desktop`
     position: relative;
     padding: 0;
   `}
@@ -54,7 +54,7 @@ export const HeaderLogo = styled(Link)`
   margin: 0;
   padding: 0;
 
-  ${breakpoints.tablet`
+  ${breakpoints.desktop`
     margin: ${theme.gutter}px;
   `}
 
@@ -76,7 +76,7 @@ export const HeaderMobileMenuButton = styled(Icon)`
   color: ${theme.colors.gold};
   font-size: 38px !important;
 
-  ${breakpoints.tablet`
+  ${breakpoints.desktop`
     display: none !important;
   `}
 `;
@@ -99,7 +99,7 @@ export const HeaderMenu = styled(Menu)`
     pointer-events: ${isOpen ? 'auto' : 'none'};
   `}
 
-  ${breakpoints.tablet`
+  ${breakpoints.desktop`
     border: 0;
     position: relative;
     padding: 0;

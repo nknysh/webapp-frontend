@@ -60,7 +60,7 @@ export const GlobalStyle = createGlobalStyle`
         font-family: HurmeGeometricSans2, "Open Sans", sans-serif;
         height: 100%;
 
-        ${breakpoints.tablet`
+        ${breakpoints.desktop`
             padding-top: 0;
         `}
     }
