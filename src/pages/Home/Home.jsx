@@ -21,7 +21,7 @@ import section2Image from 'config/pages/home/assets/section-2.jpg';
 import section3Image from 'config/pages/home/assets/section-3.jpg';
 
 import { propTypes } from './Home.props';
-import { StyledHome, MoveTo, HomeSection, HomeContainer, HomeHero } from './Home.styles';
+import { StyledHome, MoveTo, HomeSection, HomeContainer, HomeHero, HeroShim } from './Home.styles';
 
 const scrollTo = targetRef => {
   if (!targetRef || !targetRef.current || !windowExists.scroll) return;
@@ -48,7 +48,11 @@ const renderSection = ({ content, image, moveTo, ...props }) => {
           <Markdown>{content}</Markdown>
         </HomeContainer>
       </HomeSection>
-      {image && <HomeHero media={{ image }} />}
+      {image && (
+        <HomeHero strength={750} bgImage={image}>
+          <HeroShim />
+        </HomeHero>
+      )}
     </Fragment>
   );
 };
