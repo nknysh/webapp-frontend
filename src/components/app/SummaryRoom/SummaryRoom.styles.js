@@ -68,7 +68,11 @@ export const RoomMenu = styled(Icon)`
   cursor: pointer;
 `;
 
-export const ExtraSupplement = styled.div``;
+export const ExtraSupplement = styled.div`
+  display: block;
+  width: 100%;
+`;
+
 export const ExtraSupplementRate = styled.span`
   ${withCurrency}
 `;
