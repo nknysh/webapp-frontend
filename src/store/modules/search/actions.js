@@ -68,14 +68,15 @@ export const searchByQuery = query => async dispatch => {
       data: { data, meta },
     } = await client.getSearch(query);
 
-    const hotelsEntities = path(['entities', 'hotels'], data);
+    const hotels = path(['entities', 'hotels'], data);
+    const uploads = path(['entities', 'uploads'], data);
+    const countries = path(['entities', 'countries'], data);
+
     const hotelsResults = path(['result', 'hotels'], data);
-    const photosEntities = path(['entities', 'photos'], data);
-    const countriesEntities = path(['entities', 'countries'], data);
     const countriesResults = path(['result', 'countries'], data);
 
-    dispatch(setHotels({ entities: { hotels: hotelsEntities, photos: photosEntities }, result: hotelsResults }));
-    dispatch(setCountries({ entities: { countries: countriesEntities }, result: countriesResults }));
+    dispatch(setHotels({ entities: { hotels, uploads }, result: hotelsResults }));
+    dispatch(setCountries({ entities: { countries }, result: countriesResults }));
     dispatch(successAction(SEARCH_BY_QUERY, { byQuery: { meta: { term, ...meta }, result: hotelsResults } }));
   } catch (e) {
     dispatch(errorFromResponse(SEARCH_BY_QUERY, e));

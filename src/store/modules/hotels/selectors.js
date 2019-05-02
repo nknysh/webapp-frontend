@@ -16,6 +16,7 @@ import {
   set,
   uniq,
   values,
+  head,
 } from 'ramda';
 
 import { getData, getStatus, getEntities, getResults } from 'store/common/selectors';
@@ -75,18 +76,20 @@ export const getHotelsEntities = pipe(
   prop('hotels')
 );
 
-export const getHotelsPhotos = curry((state, ids) =>
+export const getHotelsUploads = curry((state, ids) =>
   pipe(
-    getHotelsEntities,
-    propOr([], 'photos'),
+    getHotels,
+    getEntities,
+    prop('uploads'),
     pick(ids)
   )(state)
 );
 
-export const getHotelsPhoto = curry((state, id) =>
+export const getHotelsUpload = curry((state, id) =>
   pipe(
-    getHotelsEntities,
-    propOr([], 'photos'),
+    getHotels,
+    getEntities,
+    prop('uploads'),
     prop(id)
   )(state)
 );
@@ -138,8 +141,9 @@ export const getHotelRoom = curry((state, hotelId, roomId) =>
 export const getHotelFeaturedPhoto = curry((state, id) =>
   pipe(
     getHotel(__, id),
-    prop('featuredPhotoUploadUuid'),
-    getHotelsPhoto(state)
+    prop('featuredPhotos'),
+    head,
+    getHotelsUpload(state)
   )(state)
 );
 

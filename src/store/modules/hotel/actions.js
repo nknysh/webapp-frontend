@@ -33,7 +33,7 @@ export const fetchHotel = id => async (dispatch, getState) => {
     const {
       data: { data },
     } = await client.getHotel(id, {
-      associations: join(',', ['photos', 'accommodationProducts', 'transferProducts', 'groundServiceProducts']),
+      associations: join(',', ['uploads', 'accommodationProducts', 'transferProducts', 'groundServiceProducts']),
       startDate: formatDate(startDate),
       endDate: formatDate(endDate),
     });

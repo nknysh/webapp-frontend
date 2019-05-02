@@ -5,7 +5,7 @@ export const propTypes = {
   name: PropTypes.string,
   preferred: PropTypes.bool,
   promotionalText: PropTypes.string,
-  starRating: PropTypes.number,
+  starRating: PropTypes.string,
   suitableForHoneymooners: PropTypes.bool,
   listPrice: PropTypes.string,
   additionalInfo: PropTypes.string,
