@@ -45,6 +45,7 @@ export const StyledHeader = styled.div`
   ${breakpoints.desktop`
     position: relative;
     padding: 0;
+    z-index: 1000;
   `}
 `;
 

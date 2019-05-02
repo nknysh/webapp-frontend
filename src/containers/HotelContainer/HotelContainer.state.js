@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { getHotel, getHotelsPhotos, getHotelProducts } from 'store/modules/hotels/selectors';
+import { getHotel, getHotelsUploads, getHotelProducts } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
 import { fetchHotel } from 'store/modules/hotel/actions';
@@ -13,7 +13,7 @@ import { getBookingByHotelId } from 'store/modules/booking/selectors';
 export const mapStateToProps = (state, { id }) => ({
   dates: getSearchDates(state),
   getBooking: getBookingByHotelId(state),
-  getHotelPhotos: getHotelsPhotos(state),
+  getHotelPhotos: getHotelsUploads(state),
   getAccommodationProducts: getHotelProducts('accommodationProducts', state),
   hotel: getHotel(state, id),
   hotelStatus: getHotelStatus(state),

@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`date formatDate returns formatted date 1`] = `"2019-05-01"`;
+exports[`date formatDate returns formatted date 1`] = `"2019-05-02"`;
 
-exports[`date formatDate returns formatted date 2`] = `"1 05 2019"`;
+exports[`date formatDate returns formatted date 2`] = `"2 05 2019"`;
 
 exports[`date formatDate returns formatted date 3`] = `"2019"`;
 
