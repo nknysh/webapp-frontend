@@ -44,6 +44,7 @@ export const SummaryForm = ({
   children,
   checkBooking,
   removeRoom,
+  transfersTotal,
 }) => {
   const { accommodationProducts, margin } = booking;
   const { name, uuid: hotelUuid, transferProducts } = hotel;
@@ -93,6 +94,8 @@ export const SummaryForm = ({
       total={total}
       transfers={getTransferProducts(transferProducts || [])}
       margin={margin}
+      summaryOnly={summaryOnly}
+      totals={{ transfer: transfersTotal }}
     />
   );
 
@@ -143,7 +146,7 @@ export const SummaryForm = ({
       {renderTotal()}
       {renderHotelName(name)}
       <Rooms>{renderRooms(accommodationProducts)}</Rooms>
-      {!summaryOnly && renderExtras()}
+      {renderExtras()}
       {!summaryOnly && (
         <SummaryFormActions>
           <SummaryFormButton onMouseUp={onBook} disabled={!canBook}>

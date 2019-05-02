@@ -29,6 +29,7 @@ export const Columns = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: ${theme.gutter * 2}px;
+  min-height: ${theme.gutter * 4}px;
 
   ${breakpoints.tablet`
         flex-direction: row;

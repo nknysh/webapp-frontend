@@ -5,21 +5,37 @@ import { RadioButton, Checkbox, Range } from 'components/elements';
 import theme from 'styles/theme';
 import { Button, withCurrency } from 'styles/elements';
 
-const headerSpacing = theme.gutter * 2 - theme.gutter / 2;
-
 export const Title = styled.h4`
   color: ${theme.neutral};
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
   font-weight: bold;
-  padding: 0 0 ${headerSpacing}px;
-  margin: 0 0 ${headerSpacing}px;
+  padding: 0 0 ${theme.gutter * 1.5}px;
+  margin: 0 0 ${theme.gutter * 2.6}px;
   text-transform: uppercase;
   border-bottom: 1px solid ${theme.borders.medium};
+`;
+
+export const FilterCheckbox = styled(Checkbox)`
+  label > span {
+    padding-top: 0;
+    padding-bottom: ${theme.gutter / 2}px;
+  }
+`;
+
+export const RatingsCheckbox = styled(FilterCheckbox)`
+  flex: 1;
 `;
 
 export const SectionField = styled.div`
   position: relative;
   margin-bottom: ${theme.gutter * 3}px;
+  font-size: ${theme.fonts.sizes.default}px !important;
+
+  ${({ ['data-flex']: flex }) =>
+    flex &&
+    css`
+      display: flex;
+    `}
 
   &:last-child {
     margin-bottom: 0;
@@ -36,14 +52,11 @@ export const RegionRadioButton = styled(RadioButton)`
 `;
 
 export const MealPlanRadioButton = styled(RadioButton)`
-  label {
-    max-width: 25%;
-    margin: 0 !important;
+  display: flex;
 
-    > span {
-      width: ${theme.gutter * 2}px;
-      margin-right: ${theme.gutter}px;
-    }
+  label {
+    flex: 1 1 25%;
+    margin-right: ${theme.gutter / 2}px;
   }
 `;
 
@@ -64,7 +77,7 @@ export const MealTypeKey = styled.span`
   flex: 0 1;
 `;
 
-export const RegionCheckbox = styled(Checkbox)`
+export const RegionCheckbox = styled(FilterCheckbox)`
   margin-left: ${theme.gutter * 3}px;
 `;
 

@@ -16,7 +16,7 @@ export const MarginCheckbox = styled(Checkbox)`
 
     > span {
       padding-left: 0 !important;
-      font-size: ${theme.fonts.sizes.normal}px !important;
+      font-size: ${theme.fonts.sizes.default}px !important;
       line-height: 14px !important;
       text-transform: uppercase;
       color: ${theme.primary} !important;
@@ -25,30 +25,35 @@ export const MarginCheckbox = styled(Checkbox)`
 `;
 
 export const MarginInputs = styled.div`
+  .material-select__input {
+    text-transform: capitalize;
+    margin: 0;
+  }
+
   ${breakpoints.tablet`
+    display: flex;
 
-display: flex;
+    > * {
+      flex: 1;
+      margin: ${theme.gutter / 2}px;
 
-> * {
-  flex: 1;
-  margin: ${theme.gutter / 2}px;
+      :first-child {
+        margin-left: 0;
+      }
 
-  :first-child {
-    margin-left: 0;
-  }
-
-  :last-child {
-    margin-right: 0;
-  }
-}
-`}
+      :last-child {
+        margin-right: 0;
+      }
+    }
+  `}
 `;
 
 export const MarginTotal = styled.div`
   color: ${theme.secondary};
-  margin: ${theme.gutter}px 0;
-  font-size: ${theme.fonts.sizes.normal}px;
-  line-height: 18px;
+  margin: ${theme.gutter * 2.2}px 0 0;
+  font-size: ${theme.fonts.sizes.default}px;
+  line-height: ${theme.fonts.sizes.big}px;
+  text-align: center;
 `;
 
 export const MarginTotalAmount = styled.span`

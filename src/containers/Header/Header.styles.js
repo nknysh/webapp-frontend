@@ -36,7 +36,7 @@ export const HeaderContainer = styled(Container)`
 export const StyledHeader = styled.div`
   position: relative;
   background: ${theme.backgrounds.default};
-  border-bottom: 1px solid ${theme.borders.default};
+  border-bottom: 1px solid ${theme.borders.medium};
   width: 100%;
   position: fixed;
   z-index: 10000;

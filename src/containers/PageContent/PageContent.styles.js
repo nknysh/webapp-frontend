@@ -59,20 +59,24 @@ export const PageContentData = styled.div`
 
   h3 {
     ${h3Styling}
+    font-size: ${theme.fonts.sizes.normal}px;
   }
 
   h4 {
     ${h4Styling}
+    font-size: ${theme.fonts.sizes.normal}px;
   }
 
   h5 {
     ${h5Styling}
+    font-size: ${theme.fonts.sizes.normal}px;
   }
 
   p {
     ${pStyling}
-    letter-spacing: 0.64px;
-    line-height: 24px;
+    line-height: ${doubleSpaced}px;
+    font-size: ${theme.fonts.sizes.normal}px;
+    color: ${theme.neutral};
   }
 
   h2 {

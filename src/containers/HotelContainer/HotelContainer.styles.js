@@ -9,13 +9,18 @@ import { Container } from 'styles/elements';
 export const StyledHotelContainer = styled(Container)`
   width: 100%;
   margin-bottom: ${theme.gutter * 2}px;
+
+  ${breakpoints.tablet`
+    padding-top: ${theme.gutter * 6.5}px;
+  `}
 `;
 
 export const StyledHotel = styled(Hotel)`
   ${breakpoints.tablet`
         flex: 1;
-        max-width: 66%;
+        max-width: 64%;
         padding: 0;
+        margin-top: ${theme.gutter * 2}px;
     `}
 `;
 
@@ -38,6 +43,7 @@ export const Back = styled(BackButton)`
 export const Aside = styled.aside`
   ${breakpoints.tablet`
     flex: 1;
-    max-width: 33%;
+    max-width: 36%;
+    margin-top: ${theme.gutter * 2}px;
   `}
 `;

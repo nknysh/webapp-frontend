@@ -12,11 +12,16 @@ export const FormSection = styled.div`
   label {
     text-transform: uppercase;
     color: ${theme.secondary};
+    font-size: ${theme.fonts.sizes.default}px;
+
+    span {
+      font-size: ${theme.fonts.sizes.default}px;
+    }
   }
 `;
 
 export const FormSectionTitle = styled(Heading3)`
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
   color: ${theme.neutral};
   font-weight: ${theme.fonts.bold};
   letter-spacing: ${theme.fonts.letterSpacing.medium}px;

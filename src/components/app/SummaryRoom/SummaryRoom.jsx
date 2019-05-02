@@ -19,6 +19,8 @@ import {
   RoomRow,
   ExtraSupplementRate,
   ExtraSupplement,
+  RoomImage,
+  RoomDetails,
 } from './SummaryRoom.styles';
 
 export const SummaryRoom = ({
@@ -80,36 +82,40 @@ export const SummaryRoom = ({
     dates &&
     gt(length(quantity), 0) && (
       <Room {...props}>
-        <RoomRow>
-          <RoomColumn>
-            <RoomName>
-              {prop('name', details)} ({length(quantity)})
-            </RoomName>
-            <RoomDetail>
-              {datesCount} {getPluralisation('night', datesCount)} | {getFromDateFormat(dates)} {getToDateFormat(dates)}
-            </RoomDetail>
-          </RoomColumn>
-          <RoomColumn data-shrink={true}>
-            <RoomPrice>{total}</RoomPrice>
-          </RoomColumn>
-          {canEdit && (
-            <RoomColumn data-shrink={true}>
-              <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
-                <span onClick={onEditRoom}>{path(['buttons', 'edit'], uiConfig)}</span>
-                <span onClick={onRemoveRoom}>{path(['buttons', 'remove'], uiConfig)}</span>
-              </DropDownMenu>
-            </RoomColumn>
-          )}
-        </RoomRow>
-        <RoomRow>
-          {guestLine('guest', getTotalGuests(quantity))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
-        </RoomRow>
-        <RoomRow>{renderExtraSupplements()}</RoomRow>
-        {mealPlan && (
+        {!canEdit && <RoomImage />}
+        <RoomDetails>
           <RoomRow>
-            {getSingular('mealPlan')}: {prop('name', mealPlan)}
+            <RoomColumn>
+              <RoomName>
+                {prop('name', details)} ({length(quantity)})
+              </RoomName>
+              <RoomDetail>
+                {datesCount} {getPluralisation('night', datesCount)} | {getFromDateFormat(dates)}{' '}
+                {getToDateFormat(dates)}
+              </RoomDetail>
+            </RoomColumn>
+            <RoomColumn data-shrink={true}>
+              <RoomPrice>{total}</RoomPrice>
+            </RoomColumn>
+            {canEdit && (
+              <RoomColumn data-shrink={true}>
+                <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
+                  <span onClick={onEditRoom}>{path(['buttons', 'edit'], uiConfig)}</span>
+                  <span onClick={onRemoveRoom}>{path(['buttons', 'remove'], uiConfig)}</span>
+                </DropDownMenu>
+              </RoomColumn>
+            )}
           </RoomRow>
-        )}
+          <RoomRow>
+            {guestLine('guest', getTotalGuests(quantity))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
+          </RoomRow>
+          <RoomRow>{renderExtraSupplements()}</RoomRow>
+          {mealPlan && (
+            <RoomRow>
+              {getSingular('mealPlan')}: {prop('name', mealPlan)}
+            </RoomRow>
+          )}
+        </RoomDetails>
       </Room>
     )
   );

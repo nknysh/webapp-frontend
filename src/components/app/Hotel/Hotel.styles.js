@@ -60,7 +60,7 @@ export const HotelDetailsColumnRight = styled(HotelDetailsColumn)`
 
 export const HotelName = styled(CardTitle)`
   border-bottom: 0;
-  margin: ${theme.gutter * 2.5}px 0 ${theme.gutter}px;
+  margin: 0 0 ${theme.gutter / 2}px;
   padding: 0;
 `;
 
@@ -98,7 +98,9 @@ export const HotelStarRating = styled(CardStarRating)`
     `}
 `;
 
-export const HotelStar = styled(CardStar)``;
+export const HotelStar = styled(CardStar)`
+  font-size: 20px !important;
+`;
 
 export const HotelStarText = styled(CardStarText)``;
 
@@ -119,6 +121,8 @@ export const HotelSecondaryRating = styled(CardSecondaryRating)`
 export const HotelDescription = styled.div`
   color: ${theme.neutral};
   padding: ${theme.gutter}px 0;
+  font-size: ${theme.fonts.sizes.normal}px;
+  line-height: 17px;
 `;
 
 export const HotelHighlights = styled(CardHighlights)`
@@ -147,7 +151,7 @@ export const HotelGallery = styled.div`
 
   ${breakpoints.tablet`
    margin-bottom: ${theme.gutter * 4}px;
-   margin-right: ${theme.gutter * 2}px;
+   margin-right: ${theme.gutter * 3.6}px;
    margin-left: ${theme.gutter * 2}px;
   `}
 `;

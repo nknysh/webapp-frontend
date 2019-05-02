@@ -11,6 +11,7 @@ import {
   getBookingRoomMealPlans,
   getBookingRoomMealPlan,
   getBookingRoomExtraSupplements,
+  getTransferProductsTotal,
 } from 'store/modules/booking/selectors';
 
 import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
@@ -28,6 +29,7 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   getTransferProducts: getHotelProducts('transferProducts', state),
   getExtraSupplements: getBookingRoomExtraSupplements(state, hotelUuid),
   hotel: getHotel(state, hotelUuid),
+  transfersTotal: getTransferProductsTotal(state, hotelUuid),
   total: getBookingTotal(state, hotelUuid),
 });
 

@@ -10,7 +10,6 @@ export const StyledRadioGroup = styled(RadioGroup)`
 export const RadioFormControl = styled(FormControlLabel)`
   flex: 1 1 100%;
   text-transform: uppercase;
-  margin-bottom: ${theme.gutter}px;
 
   > span {
     font-size: ${theme.fonts.sizes.normal}px !important;

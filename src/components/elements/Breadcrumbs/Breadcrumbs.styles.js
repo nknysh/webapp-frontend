@@ -36,7 +36,8 @@ export const CrumbLink = styled(Link)`
   color: ${theme.primary} !important;
   font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
 
   padding-top: 8px !important;
 

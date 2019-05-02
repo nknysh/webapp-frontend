@@ -247,23 +247,33 @@ export const getBookingRoomMealPlan = curry((state, hotelId, roomId) => {
   return prop(prop('mealPlan', booking), mealPlans);
 });
 
-export const getBookingTotal = curry((state, hotelId) => {
+const getProductTotals = curry((booking, product) => {
+  const mapAccommodationToProduct = ({ quantity }) => {
+    const rates = pathOr([], ['rate', 'rates'], product);
+
+    return getGuestsTotals(rates, quantity);
+  };
+
+  return pipe(
+    prop('accommodationProducts'),
+    mapObjIndexed(mapAccommodationToProduct),
+    values,
+    sum
+  )(booking);
+});
+
+export const getTransferProductsTotal = curry((state, hotelId) => {
   const booking = getBookingByHotelId(state, hotelId);
 
-  const getProductTotals = product => {
-    const mapAccommodationToProduct = ({ quantity }) => {
-      const rates = pathOr([], ['rate', 'rates'], product);
+  return pipe(
+    prop('transfer'),
+    getHotelProduct('transferProducts', state),
+    getProductTotals(booking)
+  )(booking);
+});
 
-      return getGuestsTotals(rates, quantity);
-    };
-
-    return pipe(
-      prop('accommodationProducts'),
-      mapObjIndexed(mapAccommodationToProduct),
-      values,
-      sum
-    )(booking);
-  };
+export const getBookingTotal = curry((state, hotelId) => {
+  const booking = getBookingByHotelId(state, hotelId);
 
   const accommodationProductsTotal = pipe(
     prop('accommodationProducts'),
@@ -272,21 +282,15 @@ export const getBookingTotal = curry((state, hotelId) => {
     sum
   )(booking);
 
-  const transferProductsTotal = pipe(
-    prop('transfer'),
-    getHotelProduct('transferProducts', state),
-    getProductTotals
-  )(booking);
-
   const groundServiceProductsTotal = pipe(
     prop('groundService'),
     getHotelProduct('groundServices', state),
-    getProductTotals
+    getProductTotals(booking)
   )(booking);
 
   return pipe(
     add(accommodationProductsTotal),
-    add(transferProductsTotal),
+    add(getTransferProductsTotal(state, hotelId)),
     add(groundServiceProductsTotal),
     formatPrice
   )(0);

@@ -6,12 +6,14 @@ import Link from 'components/elements/Link';
 import theme from 'styles/theme';
 
 export const Navigation = styled(Link)`
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   text-transform: uppercase;
   color: ${theme.primary} !important;
   display: flex;
   align-items: center;
   font-weight: bold;
+  line-height: ${theme.fonts.sizes.normal}px;
 `;
 
 export const BackWrapper = styled.div`

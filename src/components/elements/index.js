@@ -24,6 +24,7 @@ export { default as Range } from './Range';
 export { default as Select } from './Select';
 export { default as Slider } from './Slider';
 export { default as Tabs } from './Tabs';
+export { default as TextArea } from './TextArea';
 export { default as Title } from './Title';
 export { default as ToolTip } from './ToolTip';
 export { default as Video } from './Video';

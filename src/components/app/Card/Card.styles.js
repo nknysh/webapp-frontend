@@ -19,6 +19,7 @@ import { Icon } from '@material-ui/core';
 export const StyledCard = styled(Base)`
   position: relative;
   margin: 0 0 ${theme.gutter * 2}px;
+  padding-bottom: ${theme.gutter * 1.6}px;
 
   ${breakpoints.tablet`
       margin ${theme.gutter}px;
@@ -87,10 +88,14 @@ export const CardStarRating = styled.div`
 export const CardStar = styled(Icon)`
   fill: ${theme.primary};
   margin-right: ${theme.gutter / 2}px;
+  font-size: ${theme.fonts.sizes.bigger}px;
 `;
 
 export const CardStarText = styled.span`
   flex: 1;
+  font-size: ${theme.fonts.sizes.default}px;
+  letter-spacing: 0.38px;
+  line-height: ${theme.fonts.sizes.normal}px;
 `;
 
 export const Columns = styled.div`
@@ -109,7 +114,9 @@ export const CardSecondaryRating = styled.div`
   font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
   color: ${theme.colors.marine};
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
+  letter-spacing: 0.38px;
+  line-height: ${theme.fonts.sizes.normal}px;
   width: 50%;
 `;
 
@@ -118,8 +125,10 @@ export const CardHighlights = styled.div`
   font-size: ${theme.fonts.sizes.normal}px;
   text-transform: uppercase;
   border-bottom: 1px solid ${theme.borders.default};
-  padding-bottom: ${theme.gutter}px;
+  padding-top: ${theme.gutter}px;
+  padding-bottom: ${theme.gutter * 2}px;
   margin-bottom: ${theme.gutter}px;
+
   ${breakpoints.tablet`
     display: flex;
     flex-wrap: wrap;
@@ -129,6 +138,7 @@ export const CardHighlights = styled.div`
 export const CardHighlight = styled.div`
   margin: ${theme.gutter / 2}px 0;
   display: block;
+  font-size: ${theme.fonts.sizes.default}px;
 
   ${breakpoints.tablet`
     flex: 1 1 50%;
