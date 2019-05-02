@@ -12,19 +12,19 @@ export const fetchOffersAction = payload => ({
 });
 
 export const fetchOffersSuccess = ({ data: { data } }) => dispatch => {
-  const offersEntities = path(['entities', 'offers'], data);
-  const hotelsEntities = path(['entities', 'hotels'], data);
-  const photosEntities = path(['entities', 'photos'], data);
+  const offers = path(['entities', 'offers'], data);
+  const hotels = path(['entities', 'hotels'], data);
+  const uploads = path(['entities', 'uploads'], data);
 
   const result = prop('result', data);
 
   dispatch(
     setHotels({
-      entities: { hotels: hotelsEntities, photos: photosEntities },
+      entities: { hotels, uploads },
       result: map(prop('hotel'), defaultTo([], result)),
     })
   );
-  dispatch(successAction(OFFERS_LATEST, { entities: { offers: offersEntities }, result }));
+  dispatch(successAction(OFFERS_LATEST, { entities: { offers }, result }));
 };
 
 export const fetchLatestOffers = args => async dispatch => {
