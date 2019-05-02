@@ -11,20 +11,34 @@ export const StyledLanding = styled.div`
 export const LandingHero = styled(Hero)`
   overflow: visible;
   min-height: unset;
-  height: 540px;
   display: block;
-  margin-bottom: 350px;
-  padding: ${theme.gutter * 4.5}px 0;
-
-  ${breakpoints.tablet`
-    margin-bottom: 270px;
-    padding: ${theme.gutter * 10.7}px 0 ${theme.gutter * 11.7}px 0;
-  `}
+  padding: ${theme.gutter * 4.5}px 0 ${theme.gutter * 2}px;
 
   ${breakpoints.desktop`
-    height: unset;
-    margin-bottom: unset;
+    padding: ${theme.gutter * 9.7}px 0 ${theme.gutter * 10.7}px;
   `}
+
+  :after {
+    content: '';
+    position: absolute;
+    background: ${theme.backgrounds.default};
+    width: 100%;
+    height: ${theme.gutter * 30}px;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+
+    ${breakpoints.desktop`
+      content: unset;
+      position: unset;
+      background: unset;
+      width: unset;
+      height: unset;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+    `}
+  }
 `;
 
 export const LandingMarkdown = styled(Markdown)`
@@ -41,7 +55,7 @@ export const LandingMarkdown = styled(Markdown)`
 
   h1 {
     font-size: 20px;
-    margin-bottom: ${theme.gutter * 2}px;
+    margin-bottom: ${theme.gutter}px;
 
     ${breakpoints.tablet`
       letter-spacing: 3.27px;
