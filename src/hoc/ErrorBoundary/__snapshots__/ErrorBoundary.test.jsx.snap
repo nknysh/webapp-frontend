@@ -50,7 +50,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                 "componentStyle": ComponentStyle {
                   "componentId": "ErrorBoundarystyles__ErrorBoundaryTitle-sc-26u569-1",
                   "isStatic": true,
-                  "lastClassName": "cqrKaS",
+                  "lastClassName": "gEFevr",
                   "rules": Array [
                     "font-family:",
                     "NoeDisplay, \\"Open Sans\\", sans-serif",
@@ -61,7 +61,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                     "#736A65",
                     ";font-size:",
                     "22",
-                    ";font-weight:",
+                    "px;font-weight:",
                     "600",
                     ";margin:",
                     "20",
@@ -83,7 +83,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <h1
-              className="typography__Heading1-sc-1l0ca1t-0 ErrorBoundarystyles__ErrorBoundaryTitle-sc-26u569-1 cqrKaS"
+              className="typography__Heading1-sc-1l0ca1t-0 ErrorBoundarystyles__ErrorBoundaryTitle-sc-26u569-1 gEFevr"
             >
               Something went wrong
             </h1>

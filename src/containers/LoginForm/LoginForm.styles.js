@@ -8,11 +8,11 @@ import { ServerError } from 'styles/errors';
 import { Button as BaseButton } from 'styles/elements';
 
 export const StyledLoginForm = styled.div`
-  padding: ${theme.gutter}px;
+  padding: ${theme.gutter * 7}px ${theme.gutter * 2}px;
 
   ${breakpoints.tablet`
-    padding: ${theme.gutter * 5}px;
-    min-width: 500px;
+    padding: ${theme.gutter * 5}px ${theme.gutter * 10}px ${theme.gutter * 7.4}px;
+    min-width: 600px;
   `}
 `;
 
@@ -42,9 +42,11 @@ export const ForgotPassword = styled.div`
 `;
 
 export const ForgotLink = styled.span`
-  color: ${theme.primary};
+  color: ${theme.neutral};
   text-transform: uppercase;
   text-align: center;
-  font-size: ${theme.fonts.sizes.normal}px;
+  line-height: ${theme.fonts.sizes.normal}px;
   cursor: pointer;
+  font-size: ${theme.fonts.sizes.default}px;
+  letter-spacing: 0.46px;
 `;

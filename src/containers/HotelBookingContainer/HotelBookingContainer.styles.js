@@ -82,7 +82,7 @@ export const StyledModal = styled(Modal)`
 
 export const ModalTitle = styled(Heading2)`
   color: ${theme.secondary};
-  font-size: ${theme.fonts.sizes.bigger};
+  font-size: ${theme.fonts.sizes.bigger}px;
   font-weight: 500;
   letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 29px;

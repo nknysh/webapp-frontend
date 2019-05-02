@@ -10,7 +10,7 @@ export const commonHeaderStyles = css`
 export const h1Styling = css`
   ${commonHeaderStyles}
   color: ${theme.neutral};
-  font-size: ${theme.fonts.sizes.bigger};
+  font-size: ${theme.fonts.sizes.bigger}px;
   font-weight: ${theme.fonts.bold};
   margin: ${theme.gutter * 2}px;
 `;

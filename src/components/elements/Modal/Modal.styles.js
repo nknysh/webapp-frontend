@@ -14,11 +14,13 @@ export const StyledModal = styled(Modal)`
   width: 100%;
   position: relative;
   overflow: auto;
+  z-index: 20000 !important;
 `;
 
 export const ModalOverlay = styled(Backdrop)`
   background: ${theme.secondary} !important;
   opacity: ${theme.opacity} !important;
+  z-index: 9000;
 `;
 
 export const ModalContent = styled.div`
@@ -26,8 +28,9 @@ export const ModalContent = styled.div`
   overflow: auto;
   width: 100%;
   margin-top: 0;
-  margin-bottom: auto;
+  margin-bottom: 0;
   position: relative;
+  height: 100%;
 
   ${breakpoints.tablet`
         width: auto;

@@ -8,7 +8,7 @@ This privacy policy is provided in a layered format so you can click through to 
 
 ___
 
-<a id="1" />
+<a id="1"></a>
 
 ### 1. IMPORTANT INFORMATION AND WHO WE ARE
 #### Purpose of this privacy policy
@@ -45,7 +45,7 @@ It is important that the personal data we hold about you is accurate and current
 
 This website may include links to third-party websites, plug-ins and applications. Clicking on those links or enabling those connections may allow third parties to collect or share data about you. We do not control these third-party websites and are not responsible for their privacy statements. When you leave our website, we encourage you to read the privacy policy of every website you visit.
 
-<a id="2" />
+<a id="2"></a>
 
 ### 2. THE DATA WE COLLECT ABOUT YOU
 
@@ -70,7 +70,7 @@ We do not collect any Special Categories of Personal Data about you (this includ
 Where we need to collect personal data by law, or under the terms of a contract we have with you, and you fail to provide that data when requested, we may not be able to perform the contract we have or are trying to enter into with you (for example, to provide you with goods or services). In this case, we may have to cancel a product or service you have with us but we will notify you if this is the case at the time.
 
 
-<a id="3" />
+<a id="3"></a>
 
 ### 3. HOW IS YOUR PERSONAL DATA COLLECTED?
 
@@ -88,7 +88,7 @@ We use different methods to collect data from and about you including through:
 - Identity and Contact Data from publicly available sources such as Companies House and the Electoral Register based inside the EU.
 
 
-<a id="4" />
+<a id="4"></a>
 
 ### 4. HOW WE USE YOUR PERSONAL DATA
 
@@ -136,7 +136,7 @@ If we need to use your personal data for an unrelated purpose, we will notify yo
 
 Please note that we may process your personal data without your knowledge or consent, in compliance with the above rules, where this is required or permitted by law.
 
-<a id="5" />
+<a id="5"></a>
 
 ### 5. DISCLOSURES OF YOUR PERSONAL DATA
 
@@ -149,7 +149,7 @@ We may share your personal data with the parties set out below for the purposes 
 
 We require all third parties to respect the security of your personal data and to treat it in accordance with the law. We do not allow our third-party service providers to use your personal data for their own purposes and only permit them to process your personal data for specified purposes and in accordance with our instructions.
 
-<a id="6" />
+<a id="6"></a>
 
 ### 6. INTERNATIONAL TRANSFERS
 
@@ -165,7 +165,7 @@ Whenever we transfer your personal data out of the EEA, we ensure a similar degr
 
 Please contact us if you want further information on the specific mechanism used by us when transferring your personal data out of the EEA.
 
-<a id="7" />
+<a id="7"></a>
 
 ### 7.  DATA SECURITY
 
@@ -173,7 +173,7 @@ We have put in place appropriate security measures to prevent your personal data
 
 We have put in place procedures to deal with any suspected personal data breach and will notify you and any applicable regulator of a breach where we are legally required to do so.
 
-<a id="8" />
+<a id="8"></a>
 
 ### 8.  DATA RETENTION
 
@@ -183,7 +183,7 @@ We will only retain your personal data for as long as reasonably necessary to fu
 
 To determine the appropriate retention period for personal data, we consider the amount, nature and sensitivity of the personal data, the potential risk of harm from unauthorised use or disclosure of your personal data, the purposes for which we process your personal data and whether we can achieve those purposes through other means, and the applicable legal, regulatory, tax, accounting or other requirements.
 
-<a id="9" />
+<a id="9"></a>
 
 ### 9.  YOUR LEGAL RIGHTS
 
@@ -211,7 +211,7 @@ We may need to request specific information from you to help us confirm your ide
 
 We try to respond to all legitimate requests within one month. Occasionally it could take us longer than a month if your request is particularly complex or you have made a number of requests. In this case, we will notify you and keep you updated.
 
-<a id="10" />
+<a id="10"></a>
 
 ### 10. GLOSSARY
 #### LAWFUL BASIS

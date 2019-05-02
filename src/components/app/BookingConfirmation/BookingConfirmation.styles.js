@@ -6,7 +6,7 @@ import { Heading1 } from 'styles/typography';
 export const Confirmation = styled.div``;
 
 export const ConfirmationTitle = styled(Heading1)`
-  font-size: ${theme.fonts.sizes.bigger};
+  font-size: ${theme.fonts.sizes.bigger}px;
   color: ${theme.secondary};
   letter-spacing: 0.85px;
   line-height: 20px;
