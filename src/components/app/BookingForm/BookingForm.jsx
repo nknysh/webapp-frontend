@@ -158,6 +158,7 @@ export const BookingForm = forwardRef(({ showSubmit, renderSubmitButton, classNa
                   )}
                 </Column>
               </Columns>
+              {renderField('comments', prop('comments', values), prop('comments', fields), formProps)}
             </FormSection>
             {showSubmit && renderSubmitButton()}
           </Fragment>

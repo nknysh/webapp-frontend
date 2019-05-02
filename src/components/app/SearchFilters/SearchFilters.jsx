@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { __, set, view, path, prop, propOr, lensPath, pipe, equals, map, merge, head, last, values } from 'ramda';
 
-import { Checkbox, ToolTip } from 'components';
+import { ToolTip } from 'components';
 
 import uiConfig, { getSingular, getPlural } from 'config/ui';
-import { RegionSelectTypes, MealPlanSelectTypes } from 'utils';
+import { RegionSelectTypes, MealPlanSelectTypes, isEmptyOrNil } from 'utils';
 
 import { propTypes, defaultProps } from './SearchFilters.props';
 import {
@@ -20,6 +20,8 @@ import {
   Title,
   MealTypeTip,
   MealTypeKey,
+  FilterCheckbox,
+  RatingsCheckbox,
 } from './SearchFilters.styles';
 
 const filtersRegionTypeLens = lensPath(['filters', 'regions', 'type']);
@@ -89,7 +91,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
   const renderStarRatingsCheckbox = rating =>
     rating && (
-      <Checkbox
+      <RatingsCheckbox
         key={rating}
         name={`starRatings[${rating}]`}
         label={`${rating} ${getSingular('star')}`}
@@ -100,7 +102,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
   const renderFeaturesCheckbox = feature =>
     feature && (
-      <Checkbox
+      <FilterCheckbox
         key={feature}
         name={`features[${feature}]`}
         label={feature}
@@ -151,10 +153,10 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
         />
       </SectionField>
 
-      {starRatings && (
+      {!isEmptyOrNil(starRatings) && (
         <Fragment>
           <Title>{getSingular('starRating')}</Title>
-          <SectionField>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
+          <SectionField data-flex={true}>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
         </Fragment>
       )}
 
@@ -171,7 +173,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
         />
       </SectionField>
 
-      {features && (
+      {!isEmptyOrNil(features) && (
         <Fragment>
           <Title>{getPlural('feature')}</Title>
           <SectionField>{map(renderFeaturesCheckbox, features)}</SectionField>

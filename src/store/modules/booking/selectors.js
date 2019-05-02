@@ -247,23 +247,43 @@ export const getBookingRoomMealPlan = curry((state, hotelId, roomId) => {
   return prop(prop('mealPlan', booking), mealPlans);
 });
 
-export const getBookingTotal = curry((state, hotelId) => {
+const getProductTotals = curry((booking, product) => {
+  const mapAccommodationToProduct = ({ quantity }) => {
+    const rates = pathOr([], ['rate', 'rates'], product);
+
+    return getGuestsTotals(rates, quantity);
+  };
+
+  return pipe(
+    prop('accommodationProducts'),
+    mapObjIndexed(mapAccommodationToProduct),
+    values,
+    sum
+  )(booking);
+});
+
+export const getTransferProductsTotal = curry((state, hotelId) => {
   const booking = getBookingByHotelId(state, hotelId);
 
-  const getProductTotals = product => {
-    const mapAccommodationToProduct = ({ quantity }) => {
-      const rates = pathOr([], ['rate', 'rates'], product);
+  return pipe(
+    prop('transfer'),
+    getHotelProduct('transferProducts', state),
+    getProductTotals(booking)
+  )(booking);
+});
 
-      return getGuestsTotals(rates, quantity);
-    };
+export const getGroundServiceProductsTotal = curry((state, hotelId) => {
+  const booking = getBookingByHotelId(state, hotelId);
 
-    return pipe(
-      prop('accommodationProducts'),
-      mapObjIndexed(mapAccommodationToProduct),
-      values,
-      sum
-    )(booking);
-  };
+  return pipe(
+    prop('groundService'),
+    getHotelProduct('groundServiceProducts', state),
+    getProductTotals(booking)
+  )(booking);
+});
+
+export const getBookingTotal = curry((state, hotelId) => {
+  const booking = getBookingByHotelId(state, hotelId);
 
   const accommodationProductsTotal = pipe(
     prop('accommodationProducts'),
@@ -272,22 +292,10 @@ export const getBookingTotal = curry((state, hotelId) => {
     sum
   )(booking);
 
-  const transferProductsTotal = pipe(
-    prop('transfer'),
-    getHotelProduct('transferProducts', state),
-    getProductTotals
-  )(booking);
-
-  const groundServiceProductsTotal = pipe(
-    prop('groundService'),
-    getHotelProduct('groundServices', state),
-    getProductTotals
-  )(booking);
-
   return pipe(
     add(accommodationProductsTotal),
-    add(transferProductsTotal),
-    add(groundServiceProductsTotal),
+    add(getTransferProductsTotal(state, hotelId)),
+    add(getGroundServiceProductsTotal(state, hotelId)),
     formatPrice
   )(0);
 });

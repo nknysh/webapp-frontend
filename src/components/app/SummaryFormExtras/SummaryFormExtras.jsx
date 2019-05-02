@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 
-import { curry, defaultTo, path, gt, values, map, isEmpty, length, propOr } from 'ramda';
+import { curry, defaultTo, path, gt, values, map, isEmpty, length, propOr, prop } from 'ramda';
 
 import { RadioButton } from 'components/elements';
 import { SummaryFormMargin } from 'components/app';
@@ -8,7 +8,17 @@ import { SummaryFormMargin } from 'components/app';
 import uiConfig, { getPlural } from 'config/ui';
 
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
-import { Extra, OptionLabel, OptionPrice, OptionRate, Title } from './SummaryFormExtras.styles';
+import {
+  Extra,
+  OptionLabel,
+  OptionPrice,
+  OptionRate,
+  Title,
+  ExtraSummary,
+  ExtraSummaryTitle,
+  ExtraSummaryProduct,
+  ExtraSummaryTotal,
+} from './SummaryFormExtras.styles';
 
 const getOption = ({ name, uuid: value, rate }) => {
   const rates = propOr([], 'rates', rate);
@@ -34,7 +44,7 @@ const getOption = ({ name, uuid: value, rate }) => {
 
 const getOptions = map(getOption);
 
-export const SummaryFormExtras = ({ total, booking, transfers, groundServices, onChange }) => {
+export const SummaryFormExtras = ({ total, booking, transfers, groundServices, onChange, summaryOnly, totals }) => {
   const [hasMargin, setHasMargin] = useState(true);
 
   const { margin, transfer, groundService } = booking;
@@ -62,7 +72,16 @@ export const SummaryFormExtras = ({ total, booking, transfers, groundServices, o
     const productsArr = values(products);
 
     return (
-      !isEmpty(productsArr) && (
+      !isEmpty(productsArr) &&
+      (summaryOnly ? (
+        path([value, 'name'], products) && (
+          <ExtraSummary>
+            <ExtraSummaryTitle>{getPlural(type)}:</ExtraSummaryTitle>
+            <ExtraSummaryProduct>{path([value, 'name'], products)}</ExtraSummaryProduct>
+            <ExtraSummaryTotal>{prop(type, totals)}</ExtraSummaryTotal>
+          </ExtraSummary>
+        )
+      ) : (
         <Extra>
           <Title>{getPlural(type)}</Title>
           <RadioButton
@@ -71,7 +90,7 @@ export const SummaryFormExtras = ({ total, booking, transfers, groundServices, o
             onChange={onExtraSelect(type)}
           />
         </Extra>
-      )
+      ))
     );
   };
 
@@ -79,7 +98,7 @@ export const SummaryFormExtras = ({ total, booking, transfers, groundServices, o
     <Fragment>
       {renderExtraOptions('transfer', transfers, transfer)}
       {renderExtraOptions('groundService', groundServices, groundService)}
-      {renderMargin()}
+      {!summaryOnly && renderMargin()}
     </Fragment>
   );
 };

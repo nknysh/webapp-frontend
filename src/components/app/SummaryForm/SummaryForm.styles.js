@@ -23,7 +23,7 @@ export const StyledSummary = styled.div`
 `;
 
 export const Title = styled.h3`
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
   padding: 0 0 ${theme.gutter * 1.5}px;
   text-transform: uppercase;
   font-weight: ${theme.fonts.bold};
@@ -52,7 +52,7 @@ export const Total = styled.p`
 
 export const Text = styled.p`
   color: ${theme.secondary};
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
   line-height: 20px;
   text-transform: uppercase;
   margin: 0;

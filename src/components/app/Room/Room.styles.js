@@ -59,7 +59,7 @@ export const Selection = styled(NumberSelect)`
   .minus {
     > span {
       background: none !important;
-      font-size: ${theme.fonts.sizes.normal}px !important;
+      font-size: ${theme.fonts.sizes.default}px !important;
       line-height: 25px !important;
       font-weight: ${theme.fonts.bold};
     }
@@ -67,7 +67,7 @@ export const Selection = styled(NumberSelect)`
 
   .count {
     color: ${theme.colors.white};
-    font-size: ${theme.fonts.sizes.normal}px !important;
+    font-size: ${theme.fonts.sizes.default}px !important;
     width: 100% !important;
   }
 `;

@@ -6,13 +6,14 @@ import { withCurrency } from 'styles/elements';
 
 export const Room = styled.article`
   position: relative;
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
   color: ${theme.secondary};
   text-transform: uppercase;
   border-bottom: 1px solid ${theme.borders.default};
   padding: ${theme.gutter * 2}px 0;
   letter-spacing: ${theme.fonts.letterSpacing.mid}px;
   line-height: 24px;
+  display: flex;
 
   :first-child {
     padding-top: 0;
@@ -67,7 +68,20 @@ export const RoomMenu = styled(Icon)`
   cursor: pointer;
 `;
 
-export const ExtraSupplement = styled.div``;
+export const ExtraSupplement = styled.div`
+  display: block;
+  width: 100%;
+`;
+
 export const ExtraSupplementRate = styled.span`
   ${withCurrency}
+`;
+
+export const RoomDetails = styled.div`
+  flex: 1;
+`;
+
+export const RoomImage = styled.div`
+  width: 25%;
+  display: block;
 `;

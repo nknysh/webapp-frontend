@@ -1,6 +1,6 @@
 import { prop } from 'ramda';
 
-import { Checkbox, Select } from 'components/elements';
+import { Checkbox, Select, TextArea } from 'components/elements';
 
 import formConfig from 'config/forms';
 
@@ -93,5 +93,10 @@ export default {
       },
       default: false,
     },
+  },
+  comments: {
+    label: 'Comments (optional)',
+    Component: TextArea,
+    default: '',
   },
 };
