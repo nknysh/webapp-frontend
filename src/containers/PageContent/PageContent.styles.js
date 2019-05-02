@@ -43,6 +43,16 @@ export const PageContentData = styled.div`
     border-bottom: 1px solid ${theme.borders.normal};
   }
 
+  a,
+  a:visited,
+  a:active,
+  a:hover {
+    color: ${theme.secondary};
+    font-weight: ${theme.fonts.bold};
+    text-decoration: underline;
+    text-transform: uppercase;
+  }
+
   h2 {
     ${h2Styling}
   }
@@ -61,6 +71,8 @@ export const PageContentData = styled.div`
 
   p {
     ${pStyling}
+    letter-spacing: 0.64px;
+    line-height: 24px;
   }
 
   h2 {
