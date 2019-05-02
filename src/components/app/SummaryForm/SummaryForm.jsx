@@ -45,6 +45,7 @@ export const SummaryForm = ({
   checkBooking,
   removeRoom,
   transfersTotal,
+  groundServicesTotal,
 }) => {
   const { accommodationProducts, margin } = booking;
   const { name, uuid: hotelUuid, transferProducts } = hotel;
@@ -95,7 +96,7 @@ export const SummaryForm = ({
       transfers={getTransferProducts(transferProducts || [])}
       margin={margin}
       summaryOnly={summaryOnly}
-      totals={{ transfer: transfersTotal }}
+      totals={{ transfer: transfersTotal, groundService: groundServicesTotal }}
     />
   );
 

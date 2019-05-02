@@ -272,6 +272,16 @@ export const getTransferProductsTotal = curry((state, hotelId) => {
   )(booking);
 });
 
+export const getGroundServiceProductsTotal = curry((state, hotelId) => {
+  const booking = getBookingByHotelId(state, hotelId);
+
+  return pipe(
+    prop('groundService'),
+    getHotelProduct('groundServiceProducts', state),
+    getProductTotals(booking)
+  )(booking);
+});
+
 export const getBookingTotal = curry((state, hotelId) => {
   const booking = getBookingByHotelId(state, hotelId);
 
@@ -282,16 +292,10 @@ export const getBookingTotal = curry((state, hotelId) => {
     sum
   )(booking);
 
-  const groundServiceProductsTotal = pipe(
-    prop('groundService'),
-    getHotelProduct('groundServices', state),
-    getProductTotals(booking)
-  )(booking);
-
   return pipe(
     add(accommodationProductsTotal),
     add(getTransferProductsTotal(state, hotelId)),
-    add(groundServiceProductsTotal),
+    add(getGroundServiceProductsTotal(state, hotelId)),
     formatPrice
   )(0);
 });
