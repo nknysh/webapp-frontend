@@ -11,25 +11,15 @@ import {
   pick,
   pipe,
   prop,
-  propOr,
   reduce,
   set,
-  uniq,
   values,
   head,
 } from 'ramda';
 
-import { getData, getStatus, getEntities, getResults } from 'store/common/selectors';
+import { getData, getStatus, getEntities, getResults } from 'store/common';
 
-const reduceByKey = curry((key, accum, value) => (value ? [...accum, prop(key, value)] : accum));
-const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum, ...propOr([], key, value)] : accum));
-
-const getMapped = (key, reducer = reduceByKey) =>
-  pipe(
-    values,
-    reduce(reducer(key), []),
-    uniq
-  );
+import { getMapped, reduceArrayByKey } from 'utils';
 
 const extractAgeFromOptions = (accum, rate) => {
   const products = path(['entities', 'products'], rate);

@@ -1,6 +1,7 @@
-import { curry, prop, pipe, path, when, always, inc, evolve, propOr } from 'ramda';
+import { curry, prop, pipe, path, when, always, inc, evolve, propOr, pathOr } from 'ramda';
 
-import { getStatus, getData } from 'store/common/selectors';
+import { getStatus, getData } from 'store/common';
+
 import { isEmptyOrNil, toDate } from 'utils';
 
 const defaultFromDate = toDate();
@@ -60,4 +61,19 @@ export const getSearchDates = pipe(
 export const getSearchLodgings = pipe(
   getSearchQuery,
   prop('lodging')
+);
+
+export const getSearchFiltersRegions = pipe(
+  getSearchResultsMeta,
+  pathOr([], ['filters', 'regions'])
+);
+
+export const getSearchFiltersStarRatings = pipe(
+  getSearchResultsMeta,
+  pathOr([], ['filters', 'starRatings'])
+);
+
+export const getSearchFiltersFeatures = pipe(
+  getSearchResultsMeta,
+  pathOr([], ['filters', 'amenities'])
 );

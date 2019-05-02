@@ -1,38 +1,33 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { fetchHotels } from 'store/modules/hotels/actions';
 import { setSearchQuery, searchFiltersReset, searchByName } from 'store/modules/search/actions';
+import {
+  getSearchQuery,
+  getSearchStatus,
+  getSearchFiltersRegions,
+  getSearchFiltersStarRatings,
+  getSearchFiltersFeatures,
+} from 'store/modules/search/selectors';
 
 import { getCountriesData, getCountryName } from 'store/modules/countries/selectors';
-import {
-  getHotelFeatures,
-  getHotelName,
-  getHotelRegions,
-  getHotelsData,
-  getHotelsStatus,
-  getHotelStarRatings,
-} from 'store/modules/hotels/selectors';
-import { getSearchQuery, getSearchStatus } from 'store/modules/search/selectors';
+
+import { getHotelName, getHotelsData, getHotelsStatus } from 'store/modules/hotels/selectors';
 
 export const mapStateToProps = state => ({
   countries: getCountriesData(state),
-  features: getHotelFeatures(state),
+  features: getSearchFiltersFeatures(state, 'byQuery'),
   getCountryName: getCountryName(state),
   getHotelName: getHotelName(state),
   hotels: getHotelsData(state),
   hotelsStatus: getHotelsStatus(state),
-  regions: getHotelRegions(state),
+  regions: getSearchFiltersRegions(state, 'byQuery'),
   searchQuery: getSearchQuery(state),
   searchStatus: getSearchStatus(state),
-  starRatings: getHotelStarRatings(state),
+  starRatings: getSearchFiltersStarRatings(state, 'byQuery'),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchHotels: pipe(
-    fetchHotels,
-    dispatch
-  ),
   setSearchQuery: pipe(
     setSearchQuery,
     dispatch
