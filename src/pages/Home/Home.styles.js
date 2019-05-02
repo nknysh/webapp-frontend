@@ -1,11 +1,10 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
+import { Parallax } from 'react-parallax';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { h2Styling, h1Styling } from 'styles/typography';
-
-import { Hero } from 'components';
 
 export const StyledHome = styled.div`
   height: 100%;
@@ -34,8 +33,10 @@ export const HomeSection = styled.div`
   }
 `;
 
-export const HomeHero = styled(Hero)`
-  background-attachment: fixed;
+export const HomeHero = styled(Parallax)``;
+
+export const HeroShim = styled.div`
+  height: 50vh;
 `;
 
 export const HomeContainer = styled.div`
