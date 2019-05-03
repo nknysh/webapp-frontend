@@ -39,7 +39,7 @@ export const StyledHeader = styled.div`
   border-bottom: 1px solid ${theme.borders.medium};
   width: 100%;
   position: fixed;
-  z-index: 10000;
+  z-index: 800;
   top: 0;
 
   ${breakpoints.desktop`

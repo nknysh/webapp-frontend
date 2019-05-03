@@ -14,13 +14,13 @@ export const StyledModal = styled(Modal)`
   width: 100%;
   position: relative;
   overflow: auto;
-  z-index: 20000 !important;
+  z-index: 1000 !important;
 `;
 
 export const ModalOverlay = styled(Backdrop)`
   background: ${theme.secondary} !important;
   opacity: ${theme.opacity} !important;
-  z-index: 9000;
+  z-index: 800;
 `;
 
 export const ModalContent = styled.div`
@@ -46,5 +46,5 @@ export const ModalClose = styled(Icon)`
   top: ${theme.gutter * 2}px;
   right: ${theme.gutter * 2}px;
   cursor: pointer;
-  z-index: 10000;
+  z-index: 850;
 `;
