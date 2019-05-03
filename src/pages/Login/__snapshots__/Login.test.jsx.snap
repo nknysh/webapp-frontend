@@ -8,7 +8,7 @@ exports[`<Login /> render matches snapshot 1`] = `
     onClose={[Function]}
     open={true}
   >
-    <withAuthentication(Connect(LoginForm)) />
+    <withAuthentication(withRouter(Connect(LoginForm))) />
   </Modal>
 </Fragment>
 `;

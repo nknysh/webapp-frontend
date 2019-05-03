@@ -1,4 +1,5 @@
 import { prop, propEq, omit } from 'ramda';
+import { FORBIDDEN } from 'http-status';
 
 import client from 'api/auth';
 
@@ -118,13 +119,14 @@ export const logIn = values => async dispatch => {
     const userUuid = prop('uuid', data);
 
     if (propEq('status', AccountStatus.PENDING, data)) {
-      return dispatch(errorAction(AUTH_REQUEST, { status: 403, unverified: true }));
+      return dispatch(errorAction(AUTH_REQUEST, { status: FORBIDDEN, unverified: true }));
     }
 
-    dispatch(successAction(AUTH_REQUEST, { user: { ...data } }));
-    dispatch(setToken(userUuid));
     setRememberedToken(userUuid);
     setRememberedUser(data);
+    dispatch(setToken(userUuid));
+
+    dispatch(successAction(AUTH_REQUEST, { user: { ...data } }));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_REQUEST, e));
     throw e;

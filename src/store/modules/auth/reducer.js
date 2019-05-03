@@ -1,7 +1,7 @@
-import { tryCatch, always } from 'ramda';
+import { tryCatch, always, lensProp, set, pipe, lensPath } from 'ramda';
 
+import { initialState, successReducer, errorReducer, sendingReducer } from 'store/common';
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
-import { initialState, loadingReducer, successReducer, errorReducer, sendingReducer } from 'store/common';
 
 import {
   AUTH_TOKEN,
@@ -15,33 +15,30 @@ import {
   AUTH_LOG_OUT,
 } from './actions';
 
-const authSetToken = (state, { payload: { token } }) => ({
-  ...state,
-  token,
-});
+const parseJson = tryCatch(JSON.parse, always(undefined));
+
+const tokenLens = lensProp('token');
+const userLens = lensPath(['data', 'user']);
+
+const authSetToken = (state, { payload: { token } }) => set(tokenLens, token, state);
 
 const authReset = () => ({ ...initialState });
-
-const parseJson = tryCatch(JSON.parse, always(undefined));
 
 export default (state = initialState, payload) => {
   const localStorageUser = parseJson(localStorage.getItem(AUTH_USER));
   const localStorageToken = localStorage.getItem(AUTH_TOKEN) || undefined;
 
-  const tokenState = {
-    ...state,
-    token: localStorageToken,
-    data: {
-      user: localStorageUser,
-    },
-  };
+  const tokenState = pipe(
+    set(tokenLens, localStorageToken),
+    set(userLens, localStorageUser)
+  )(state);
 
   return createReducer(
     {
       [AUTH_SET_TOKEN]: authSetToken,
       [AUTH_RESET]: authReset,
 
-      [AUTH_REQUEST]: loadingReducer,
+      [AUTH_REQUEST]: sendingReducer,
       [getSuccessActionName(AUTH_REQUEST)]: successReducer,
       [getErrorActionName(AUTH_REQUEST)]: errorReducer,
 

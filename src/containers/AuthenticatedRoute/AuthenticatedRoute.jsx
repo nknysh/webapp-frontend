@@ -5,13 +5,16 @@ import { compose, path } from 'ramda';
 import config from 'config/ui';
 import { Loader } from 'components';
 import { NotFound } from 'pages';
-import { withAuthentication } from 'hoc/withAuthentication';
+import { withAuthentication } from 'hoc';
 
 import { propTypes, defaultProps } from './AuthenticatedRoute.props';
 
 const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
 
-const renderRedirect = (path = '/login') => <Redirect to={path} />;
+// eslint-disable-next-line react/prop-types
+const renderRedirect = ({ pathname, search }, path = '/login') => (
+  <Redirect to={`${path}?origin=${encodeURIComponent(`${pathname}${search}`)}`} />
+);
 
 const renderRoute = (Component, props) => (Component && <Component {...props} />) || <Route component={NotFound} />;
 
@@ -37,11 +40,11 @@ export const AuthenticatedRoute = ({
   }
 
   if (!routeIsAuthenticated && authRedirect) {
-    return renderRedirect(authRedirect);
+    return renderRedirect(location, authRedirect);
   }
 
   if (!routeIsAuthenticated) {
-    return renderRedirect();
+    return renderRedirect(location);
   }
 
   return renderRoute(Route, routeProps);

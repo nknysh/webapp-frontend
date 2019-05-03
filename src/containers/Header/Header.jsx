@@ -75,10 +75,7 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
     links: isAuthenticated ? menu : loggedOutMenu,
   };
 
-  const shouldRedirectHome =
-    isAuthenticated &&
-    (currentPath === path(['createAccount', 'href'], loggedOutMenuLinks) ||
-      currentPath === path([contextTypes.LOGIN, 'href'], loggedOutMenuLinks));
+  const shouldRedirectHome = isAuthenticated && currentPath === path(['createAccount', 'href'], loggedOutMenuLinks);
 
   if (shouldRedirectHome) return <Redirect to="/" />;
 

@@ -1,11 +1,12 @@
 import React, { useState, Fragment } from 'react';
-import { compose, prop, path } from 'ramda';
+import { withRouter } from 'react-router-dom';
+import { compose, prop, path, pipe, tap } from 'ramda';
 
 import { Form, Loader, Title, FormField, FormFieldError } from 'components';
 import { PasswordResetForm } from 'containers';
 import { withAuthentication } from 'hoc';
 
-import { getFormPath, extractFieldDefaults, sanitizeValues, getServerError } from 'utils/form';
+import { getFormPath, extractFieldDefaults, sanitizeValues, getServerError, parseQueryString } from 'utils';
 
 import { isSending, isSuccess } from 'store/common';
 
@@ -23,7 +24,14 @@ import {
   StyledLoginForm,
   SubmitButton,
   SubmitText,
+  CompleteIcon,
 } from './LoginForm.styles';
+
+const originRedirect = pipe(
+  parseQueryString,
+  prop('origin'),
+  decodeURIComponent
+);
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
@@ -40,7 +48,7 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
   />
 );
 
-export const LoginForm = ({ requestStatus, onLogin, error }) => {
+export const LoginForm = ({ requestStatus, isAuthenticated, location: { search }, history, onLogin, error }) => {
   const [submitted, setSubmitted] = useState(false);
   const [forgotten, setForgotten] = useState(false);
   const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
@@ -89,6 +97,12 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
     </Form>
   );
 
+  const renderComplete = () => {
+    history.push(originRedirect(search) || '/');
+
+    return <CompleteIcon>done_all</CompleteIcon>;
+  };
+
   if (forgotten) return <PasswordResetForm />;
 
   return (
@@ -96,7 +110,7 @@ export const LoginForm = ({ requestStatus, onLogin, error }) => {
       <Loader isLoading={submitted && isLoggingIn && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
         <Title>{path(['titles', 'default'], data)}</Title>
         {renderServerError(getServerError(prop('errors', data), error))}
-        {renderForm()}
+        {(submitted && success) || isAuthenticated ? renderComplete() : renderForm()}
       </Loader>
     </StyledLoginForm>
   );
@@ -107,5 +121,6 @@ LoginForm.defaultProps = defaultProps;
 
 export default compose(
   withAuthentication,
+  withRouter,
   connect
 )(LoginForm);

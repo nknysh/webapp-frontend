@@ -6,7 +6,7 @@ Object {
     "user": null,
   },
   "error": undefined,
-  "status": "LOADING",
+  "status": "SENDING",
   "token": undefined,
 }
 `;
@@ -17,7 +17,7 @@ Object {
     "user": null,
   },
   "error": undefined,
-  "status": "LOADING",
+  "status": "SENDING",
   "token": undefined,
 }
 `;

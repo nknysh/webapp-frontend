@@ -20,7 +20,7 @@ export const palette = Object.freeze({
 
   warning: undefined,
   error: 'red',
-  ok: undefined,
+  ok: 'green',
 
   navigation: getColor('whiteish'),
 
