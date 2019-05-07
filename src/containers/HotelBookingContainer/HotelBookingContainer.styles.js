@@ -58,6 +58,8 @@ export const Chevron = styled(Icon)`
 `;
 
 export const BookingPathSegment = styled.span`
+  font-size: ${theme.fonts.sizes.default}px;
+
   ${({ ['data-active']: active }) =>
     active &&
     css`

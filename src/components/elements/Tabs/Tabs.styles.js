@@ -17,12 +17,12 @@ export const Tab = styled(BaseTab)`
   color: ${theme.colors['gold-light']} !important;
   flex-grow: 1 !important;
   font-family: ${theme.fonts.defaultFont} !important;
-  font-size: ${theme.fonts.sizes.normal}px !important;
+  font-size: ${theme.fonts.sizes.default}px !important;
   text-transform: uppercase;
-  font-weight: ${theme.fonts.bold} !important
-    ${({ selected }) =>
-      selected &&
-      css`
-        color: ${theme.secondary} !important;
-      `};
+  font-weight: ${theme.fonts.bold} !important;
+  ${({ selected }) =>
+    selected &&
+    css`
+      color: ${theme.secondary} !important;
+    `};
 `;

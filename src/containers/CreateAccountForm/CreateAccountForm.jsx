@@ -22,6 +22,8 @@ import {
   SubmitText,
   ServerErrorContent,
   StyledCheckbox,
+  InnerRows,
+  InnerRow,
 } from './CreateAccountForm.styles';
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
@@ -75,34 +77,40 @@ export const CreateAccountForm = ({ requestStatus, onSignUp, error }) => {
               {renderField(
                 'isExistingPartner',
                 prop('isExistingPartner', values),
-                prop('isExistingPartner', fields),
+                { ...prop('isExistingPartner', fields), className: 'existing-partners' },
                 formProps
               )}
-              {renderField(
-                'companySignupInfo[name]',
-                path(['companySignupInfo', 'name'], values),
-                path(['companySignupInfo', 'name'], fields),
-                formProps
-              )}
-              {renderField(
-                'companySignupInfo[country]',
-                path(['companySignupInfo', 'country'], values),
-                path(['companySignupInfo', 'country'], fields),
-                formProps
-              )}
-              {renderField('phoneNumber', prop('phoneNumber', values), prop('phoneNumber', fields), formProps)}
-              {renderField('mobileNumber', prop('mobileNumber', values), prop('mobileNumber', fields), formProps)}
+              <InnerRows>
+                <InnerRow>
+                  {renderField(
+                    'companySignupInfo[name]',
+                    path(['companySignupInfo', 'name'], values),
+                    path(['companySignupInfo', 'name'], fields),
+                    formProps
+                  )}
+                  {renderField(
+                    'companySignupInfo[country]',
+                    path(['companySignupInfo', 'country'], values),
+                    path(['companySignupInfo', 'country'], fields),
+                    formProps
+                  )}
+                </InnerRow>
+                <InnerRow>
+                  {renderField('phoneNumber', prop('phoneNumber', values), prop('phoneNumber', fields), formProps)}
+                  {renderField('mobileNumber', prop('mobileNumber', values), prop('mobileNumber', fields), formProps)}
+                </InnerRow>
+              </InnerRows>
+              <StyledCheckbox
+                name="agreeToTerms"
+                label={path(['agreeToTerms', 'label'], fields)}
+                defaultChecked={prop('agreeToTerms', values)}
+                onChange={prop('handleChange', formProps)}
+                onBlur={prop('handleBlur', formProps)}
+              >
+                {renderFormError(path(['errors', 'agreeToTerms'], formProps))}
+              </StyledCheckbox>
             </Column>
           </Columns>
-          <StyledCheckbox
-            name="agreeToTerms"
-            label={path(['agreeToTerms', 'label'], fields)}
-            defaultChecked={prop('agreeToTerms', values)}
-            onChange={prop('handleChange', formProps)}
-            onBlur={prop('handleBlur', formProps)}
-          >
-            {renderFormError(path(['errors', 'agreeToTerms'], formProps))}
-          </StyledCheckbox>
           <Actions>
             <SubmitButton type="submit">
               <SubmitText>{path(['buttons', 'request'], uiConfig)}</SubmitText>

@@ -12,7 +12,8 @@ export const RadioFormControl = styled(FormControlLabel)`
   text-transform: uppercase;
 
   > span {
-    font-size: ${theme.fonts.sizes.normal}px !important;
+    color: ${theme.secondary} !important;
+    font-size: ${theme.fonts.sizes.default}px !important;
     font-family: ${theme.fonts.defaultFont} !important;
   }
 `;
