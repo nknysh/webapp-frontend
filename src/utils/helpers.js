@@ -20,6 +20,8 @@ import {
   T,
   unapply,
   uniq,
+  propOr,
+  values,
 } from 'ramda';
 
 export const noop = () => {};
@@ -58,3 +60,13 @@ export const toList = unapply(identity);
 
 export const castToType = data =>
   cond([[isArray, always([...data])], [isObject, always({ ...data })], [T, identity]])(data);
+
+export const getMapped = (key, reducer = reduceByKey) =>
+  pipe(
+    values,
+    reduce(reducer(key), []),
+    uniq
+  );
+
+export const reduceByKey = curry((key, accum, value) => (value ? [...accum, prop(key, value)] : accum));
+export const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum, ...propOr([], key, value)] : accum));
