@@ -1,5 +1,5 @@
 import React from 'react';
-import { pick, curry, map, has, cond, T, both, propOr, omit, pipe, merge } from 'ramda';
+import { pick, curry, map, has, cond, T, both, propOr, omit, pipe, mergeDeepRight } from 'ramda';
 import { Route, Redirect } from 'react-router-dom';
 import hash from 'object-hash';
 
@@ -22,7 +22,7 @@ const renderComponentWithRouteProps = curry((Component, route) => (
   <Route
     key={getRouteHash(route)}
     {...omit(['component'], sanitizeRoute(route))}
-    render={props => <Component {...merge(props, sanitizeRoute(route))} />}
+    render={props => <Component {...mergeDeepRight(props, sanitizeRoute(route))} />}
   />
 ));
 

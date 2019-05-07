@@ -2,7 +2,7 @@ import React from 'react';
 
 import { LoginForm } from './LoginForm';
 
-const getComponent = props => shallow(<LoginForm {...props} />);
+const getComponent = props => shallow(<LoginForm location={{}} {...props} />);
 
 describe('<LoginForm />', () => {
   describe('render', () => {

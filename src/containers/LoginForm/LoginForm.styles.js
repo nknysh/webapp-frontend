@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Icon } from '@material-ui/core';
 
 import { Checkbox } from 'components';
 
@@ -49,4 +50,12 @@ export const ForgotLink = styled.span`
   cursor: pointer;
   font-size: ${theme.fonts.sizes.default}px;
   letter-spacing: 0.46px;
+`;
+
+export const CompleteIcon = styled(Icon)`
+  font-size: 85px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  width: 100% !important;
+  color: ${theme.ok} !important;
 `;

@@ -1,3 +1,5 @@
+import { CONFLICT } from 'http-status';
+
 import info from './content/info.md';
 import complete from './content/complete.md';
 import exists from './content/error--exists.md';
@@ -14,6 +16,6 @@ export default {
   },
   errors: {
     default: unknown,
-    409: exists,
+    [CONFLICT]: exists,
   },
 };
