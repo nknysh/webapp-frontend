@@ -41,12 +41,12 @@ import {
 } from 'ramda';
 import { createSelector } from 'reselect';
 
-import { isEmptyOrNil, formatPrice, formatDate, getDaysBetween } from 'utils';
+import { isEmptyOrNil, formatPrice, formatDate, getDaysBetween, isAdult } from 'utils';
 
 import { getHotelRoom, getHotelProduct } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
-import { canBook, getTotalRate, getGuestsTotals, isAdult, getTotalExtraSupplements } from './utils';
+import { canBook, getTotalRate, getGuestsTotals, getTotalExtraSupplements } from './utils';
 
 export const getBooking = prop('booking');
 

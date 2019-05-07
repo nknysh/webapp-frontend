@@ -14,6 +14,7 @@ export const mapStateToProps = (state, { id }) => ({
   dates: getSearchDates(state),
   getBooking: getBookingByHotelId(state),
   getHotelPhotos: getHotelsUploads(state),
+  getRoomUploads: getHotelsUploads(state),
   getAccommodationProducts: getHotelProducts('accommodationProducts', state),
   hotel: getHotel(state, id),
   hotelStatus: getHotelStatus(state),

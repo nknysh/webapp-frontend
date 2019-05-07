@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose, prop, path, pipe, tap } from 'ramda';
+import { compose, prop, path, pipe } from 'ramda';
 
 import { Form, Loader, Title, FormField, FormFieldError } from 'components';
 import { PasswordResetForm } from 'containers';

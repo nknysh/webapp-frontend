@@ -44,6 +44,7 @@ export const Hotel = ({
   selectedRooms,
   starRating,
   suitableForHoneymooners,
+  getRoomUploads,
   ...props
 }) => {
   const sliderMain = useRef(null);
@@ -101,7 +102,12 @@ export const Hotel = ({
             </HotelDetailsColumnRight>
           </HotelDetailsRow>
         </HotelInfo>
-        <StyledRooms onRoomSelect={onRoomSelect} selectedRooms={selectedRooms} rooms={values(accommodationProducts)} />
+        <StyledRooms
+          onRoomSelect={onRoomSelect}
+          getRoomUploads={getRoomUploads}
+          selectedRooms={selectedRooms}
+          rooms={values(accommodationProducts)}
+        />
       </HotelDetails>
     </StyledHotel>
   );

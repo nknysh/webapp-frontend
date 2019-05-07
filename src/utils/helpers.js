@@ -22,6 +22,8 @@ import {
   uniq,
   propOr,
   values,
+  equals,
+  test,
 } from 'ramda';
 
 export const noop = () => {};
@@ -70,3 +72,6 @@ export const getMapped = (key, reducer = reduceByKey) =>
 
 export const reduceByKey = curry((key, accum, value) => (value ? [...accum, prop(key, value)] : accum));
 export const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum, ...propOr([], key, value)] : accum));
+
+export const testAdult = test(/^adult$/i);
+export const isAdult = either(testAdult, equals('default'));

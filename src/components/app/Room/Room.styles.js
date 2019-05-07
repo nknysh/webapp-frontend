@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { NumberSelect } from 'components/elements';
+import { NumberSelect, ToolTip } from 'components/elements';
 
 import theme from 'styles/theme';
 import { withCurrency } from 'styles/elements';
@@ -18,6 +18,10 @@ export const StyledRoom = styled.article`
     display: flex;
     flex-direction: row;
   `}
+
+  .tooltip, .tooltip > div {
+    font-size: ${theme.fonts.sizes.normal}px !important;
+  }
 `;
 
 export const RoomImage = styled.div`
@@ -26,10 +30,10 @@ export const RoomImage = styled.div`
   min-height: 55px;
 
   ${breakpoints.tablet`
-        height: 300px;
-        max-width: 45%;
-        width: 45%;
-    `}
+    min-height: 300px;
+    max-width: 45%;
+    width: 45%;
+  `}
 `;
 
 export const Img = styled.img`
@@ -110,10 +114,12 @@ export const Price = styled.div`
     margin-bottom: 0;
   `}
 `;
+
 export const PriceAmount = styled.span`
   ${withCurrency};
   font-size: ${theme.fonts.sizes.big}px;
 `;
+
 export const PriceLabel = styled.span`
   font-size: ${theme.fonts.sizes.big}px;
   font-weight: ${theme.fonts.light};
@@ -122,7 +128,7 @@ export const PriceLabel = styled.span`
 
 export const Info = styled.p`
   color: ${theme.neutral};
-  padding: 0 0 ${theme.gutter * 2}px;
+  padding: 0 0 ${theme.gutter * 3}px;
   margin: 0 0 ${theme.gutter * 2}px;
   border-bottom: 1px solid ${theme.borders.default};
   font-size: ${theme.fonts.sizes.normal}px;
@@ -131,7 +137,7 @@ export const Info = styled.p`
 export const Details = styled.div`
   color: ${theme.secondary};
   text-transform: uppercase;
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
   padding: 0 0 ${theme.gutter * 2}px;
   margin: 0 0 ${theme.gutter * 2}px;
   flex: 1;
@@ -144,7 +150,9 @@ export const Details = styled.div`
 
 export const Detail = styled.p`
   padding: 0;
-  margin: 0 0 ${theme.gutter * 1.5}px;
+  margin: 0;
+  letter-spacing: 0.46px;
+  line-height: 20px;
 
   ${breakpoints.tablet`
     margin-bottom: ${theme.gutter / 4}px;
@@ -162,9 +170,11 @@ export const Button = styled.a`
   display: block;
   cursor: pointer;
   color: ${theme.primary};
-  font-size: ${theme.fonts.sizes.normal}px;
+  font-size: ${theme.fonts.sizes.default}px;
   font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
+  line-height: 14px;
+  letter-spacing: 0.38px;
 
   :before {
     content: '+ ';
@@ -173,4 +183,15 @@ export const Button = styled.a`
 
 export const Brochures = styled.div`
   text-align: right;
+`;
+
+export const MoreInfoToolTip = styled(ToolTip)``;
+
+export const Limits = styled.ul``;
+
+export const Limit = styled.li`
+  font-size: ${theme.fonts.sizes.default}px;
+  line-height: 14px;
+  letter-spacing: 0.38px;
+  margin-bottom: ${theme.gutter / 2}px;
 `;
