@@ -1,12 +1,10 @@
-import React from 'react';
-import { prop, path, map, complement, equals, values, last, pipe } from 'ramda';
+import React, { Fragment } from 'react';
+import { prop, path, map, complement, equals, values, last, pipe, propEq, find } from 'ramda';
 import { format } from 'date-fns';
 
-import { ToolTip } from 'components/elements';
+import { isEmptyOrNil, isAdult } from 'utils';
 
-import { isEmptyOrNil } from 'utils';
-
-import uiConfig, { getPluralisation, getSingular } from 'config/ui';
+import uiConfig, { getPluralisation, getSingular, getPlural } from 'config/ui';
 
 import { propTypes, defaultProps } from './Room.props';
 import {
@@ -28,6 +26,9 @@ import {
   Selection,
   StyledRoom,
   Title,
+  MoreInfoToolTip,
+  Limits,
+  Limit,
 } from './Room.styles';
 
 const isNotZero = complement(equals(0));
@@ -74,11 +75,11 @@ const renderAmenities = amenities => amenities && map(renderAmenity, amenities);
 const renderSize = size =>
   size && (
     <Detail>
-      {path(['labels', 'roomSize'], uiConfig)}: {size}
+      {path(['labels', 'roomSize'], uiConfig)}: {size} {path(['labels', 'squareMeters'], uiConfig)}
     </Detail>
   );
 
-const renderStandardOccupancy = standardOccupancy =>
+const renderStandardOccupancy = ({ standardOccupancy }) =>
   standardOccupancy && (
     <Detail>
       {path(['labels', 'standardOccupancy'], uiConfig)}: {standardOccupancy}{' '}
@@ -86,12 +87,33 @@ const renderStandardOccupancy = standardOccupancy =>
     </Detail>
   );
 
+// eslint-disable-next-line react/prop-types
+const renderMinMaxLimit = ({ name, maximum, minimum }) => (
+  <Limit key={name}>
+    ({`${isAdult(name) ? getPlural('adult') : getPlural(name) || name}`} - {path(['labels', 'max'], uiConfig)} {maximum}{' '}
+    {path(['labels', 'min'], uiConfig)} {minimum})
+  </Limit>
+);
+
+// eslint-disable-next-line react/prop-types
+const renderMinMax = ({ maximumPeople, limits }) => (
+  <Fragment>
+    <Detail>
+      {`${path(['labels', 'maxOccupancy'], uiConfig)}: `}
+      {isNotZero(maximumPeople) && maximumPeople}
+      {` `}
+    </Detail>
+
+    {!isEmptyOrNil(limits) && <Limits>{map(renderMinMaxLimit, limits)}</Limits>}
+  </Fragment>
+);
+
 const renderAdditionalInfo = additionalInfo =>
   additionalInfo && (
     <Column>
-      <ToolTip placement="right" label={<Button>{path(['labels', 'moreInfo'], uiConfig)}</Button>}>
+      <MoreInfoToolTip placement="right" label={<Button>{path(['labels', 'moreInfo'], uiConfig)}</Button>}>
         {additionalInfo}
-      </ToolTip>
+      </MoreInfoToolTip>
     </Column>
   );
 
@@ -102,38 +124,26 @@ const renderBrochures = brochures =>
     </Column>
   );
 
-const renderMinMax = (maxAdults, minAdults, minChildren) =>
-  (maxAdults || minChildren || minAdults) && (
-    <Detail>
-      {`${path(['labels', 'maxOccupancy'], uiConfig)}: `}
-      {isNotZero(maxAdults) && `${maxAdults} ${getPluralisation('adult', maxAdults)}`}
-      {isNotZero(minAdults) && ` / ${minAdults} ${getPluralisation('adult', minAdults)}`}
-      {isNotZero(minChildren) && `+ ${minChildren} ${getPluralisation('children', maxAdults)}`}
-    </Detail>
-  );
-
 export const Room = ({
-  additionalInfo,
-  amenities,
-  rates,
   brochures,
   className,
-  information,
-  maxAdults,
-  minAdults,
-  minChildren,
+  meta: { size, description, moreInformation, amenities },
   name,
   onChange,
-  photo,
+  options: { occupancy },
+  rates,
   selectedCount,
-  size,
-  standardOccupancy,
   uuid,
   withSelection,
+  uploads,
 }) => {
   if (!rates) return null;
 
-  const imgUrl = prop('url', photo);
+  const imgUrl = pipe(
+    values,
+    find(propEq('tag', 'photo')),
+    prop('url')
+  )(uploads);
 
   const onRoomSelect = quantity => onChange(uuid, quantity);
   const visibleRate = getVisibleRate(rates);
@@ -159,17 +169,17 @@ export const Room = ({
             )}
           </Column>
         </Columns>
-        <Info>{information}</Info>
+        <Info>{description}</Info>
         <Details>
           {renderSize(size)}
-          {renderStandardOccupancy(standardOccupancy)}
-          {renderMinMax(maxAdults, minAdults, minChildren)}
+          {renderStandardOccupancy(occupancy)}
+          {renderMinMax(occupancy)}
           {renderAmenities(amenities)}
         </Details>
         <AdditionalInfo>
-          {(additionalInfo || !isEmptyOrNil(brochures)) && (
+          {(moreInformation || !isEmptyOrNil(brochures)) && (
             <Columns>
-              {renderAdditionalInfo(additionalInfo)}
+              {renderAdditionalInfo(moreInformation)}
               {renderBrochures(brochures)}
             </Columns>
           )}

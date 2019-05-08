@@ -58,6 +58,7 @@ export const HotelContainer = ({
   getAccommodationProducts,
   history,
   removeRoom,
+  getRoomUploads,
 }) => {
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
@@ -93,6 +94,7 @@ export const HotelContainer = ({
       onRoomSelect={setSelectedRooms}
       photos={photos}
       selectedRooms={viewBooking(roomsLens)}
+      getRoomUploads={getRoomUploads}
     />
   );
 

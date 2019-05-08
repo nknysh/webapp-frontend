@@ -14,7 +14,6 @@ import {
   pipe,
   prop,
   uniq,
-  propOr,
   memoizeWith,
   identity,
   path,
@@ -48,7 +47,7 @@ const toOption = value => ({ [value]: value });
 const getAmenities = memoizeWith(
   identity,
   pipe(
-    map(prop('amenities')),
+    map(path(['meta', 'amenities'])),
     flatten,
     uniq,
     filter(complement(isEmptyOrNil)),
@@ -64,7 +63,7 @@ const filterRoomsByAmenities = (rooms, selected) => {
 
   const containsAmenities = any(contains(__, selected));
   const byAmenities = pipe(
-    propOr([], 'options'),
+    pathOr([], ['meta', 'amenities']),
     containsAmenities
   );
 
@@ -77,7 +76,7 @@ const renderValue = ifElse(
   join(', ')
 );
 
-export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
+export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect, getRoomUploads }) => {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const currentWidth = useCurrentWidth();
 
@@ -87,11 +86,20 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect }) => {
   const renderRoom = room => {
     const selectedCount = length(pathOr([], [prop('uuid', room), 'quantity'], selectedRooms));
 
-    return <StyledRoom key={hash(room)} onChange={onRoomSelect} selectedCount={selectedCount} {...room} />;
+    return (
+      <StyledRoom
+        key={hash(room)}
+        {...room}
+        uploads={getRoomUploads(prop('uploads', room))}
+        onChange={onRoomSelect}
+        selectedCount={selectedCount}
+      />
+    );
   };
 
   const renderRoomsWrapper = children =>
     isMobile(currentWidth) ? <Slider infinite={false}>{children}</Slider> : children;
+
   const renderRooms = () =>
     isEmptyOrNil(filteredRooms) ? (
       <NoResults>{path(['labels', 'noRooms'], uiConfig)}</NoResults>

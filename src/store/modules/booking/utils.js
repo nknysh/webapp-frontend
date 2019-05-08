@@ -27,12 +27,10 @@ import {
   propSatisfies,
   reduce,
   sum,
-  test,
   values,
 } from 'ramda';
 
-export const testAdult = test(/^adult$/i);
-export const isAdult = either(testAdult, equals('default'));
+import { isAdult } from 'utils';
 
 export const noQuantity = pipe(
   length,

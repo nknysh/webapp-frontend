@@ -55,6 +55,9 @@ export default {
     booking: 'Booking',
     included: 'inc.',
     extra: 'Extra',
+    min: 'Min',
+    max: 'Max',
+    squareMeters: 'Square Meters',
 
     yes: 'Yes',
     no: 'No',
