@@ -1,26 +1,6 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import {
-  __,
-  allPass,
-  always,
-  complement,
-  compose,
-  defaultTo,
-  either,
-  equals,
-  has,
-  isNil,
-  lensPath,
-  lensProp,
-  map,
-  path,
-  prop,
-  propOr,
-  set,
-  view,
-  when,
-} from 'ramda';
+import { __, allPass, complement, compose, has, lensProp, path, prop, propOr, view } from 'ramda';
 
 import { Loader, Tabs } from 'components';
 import { BookingContainer } from 'containers';
@@ -41,7 +21,7 @@ import {
   Aside,
 } from './HotelContainer.styles';
 
-const roomsLens = lensProp('accommodationProducts');
+const roomsLens = lensProp('rooms');
 
 const reloadIfMissing = complement(allPass([has('photos'), has('accommodationProducts')]));
 
@@ -53,11 +33,11 @@ export const HotelContainer = ({
   fetchHotel,
   hotelStatus,
   getBooking,
-  updateBooking,
   getHotelPhotos,
-  getAccommodationProducts,
+  accommodationProducts,
   history,
   removeRoom,
+  addRoom,
   getRoomUploads,
 }) => {
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
@@ -65,21 +45,8 @@ export const HotelContainer = ({
 
   const booking = getBooking(id);
   const photos = getHotelPhotos(propOr([], 'photos', hotel));
-  const accommodationProducts = getAccommodationProducts(propOr([], 'accommodationProducts', hotel));
 
-  const setBooking = set(__, __, booking);
   const viewBooking = view(__, booking);
-
-  const setSelectedRooms = (uuid, quantity) => {
-    const quantityLens = lensPath(['accommodationProducts', uuid, 'quantity']);
-    let quantityData = defaultTo([], viewBooking(quantityLens));
-    quantityData.length = quantity;
-    quantityData = map(when(either(isNil, equals(undefined)), always({})), quantityData);
-
-    equals(0, quantityData.length)
-      ? removeRoom({ hotelUuid: id, id: uuid })
-      : updateBooking(id, setBooking(quantityLens, quantityData));
-  };
 
   const onBook = () => history.push(`/hotels/${id}/booking`);
 
@@ -87,11 +54,15 @@ export const HotelContainer = ({
     <StyledBreadcrumbs links={[{ label: renderBackButton() }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
   );
 
+  const onRoomAdd = uuid => addRoom(id, uuid);
+  const onRoomRemove = uuid => removeRoom(id, uuid);
+
   const renderHotel = () => (
     <StyledHotel
       {...hotel}
       accommodationProducts={accommodationProducts}
-      onRoomSelect={setSelectedRooms}
+      onRoomAdd={onRoomAdd}
+      onRoomRemove={onRoomRemove}
       photos={photos}
       selectedRooms={viewBooking(roomsLens)}
       getRoomUploads={getRoomUploads}

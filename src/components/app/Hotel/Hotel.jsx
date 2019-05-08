@@ -38,7 +38,8 @@ export const Hotel = ({
   amenities,
   description,
   name,
-  onRoomSelect,
+  onRoomAdd,
+  onRoomRemove,
   photos,
   region,
   selectedRooms,
@@ -103,7 +104,8 @@ export const Hotel = ({
           </HotelDetailsRow>
         </HotelInfo>
         <StyledRooms
-          onRoomSelect={onRoomSelect}
+          onRoomAdd={onRoomAdd}
+          onRoomRemove={onRoomRemove}
           getRoomUploads={getRoomUploads}
           selectedRooms={selectedRooms}
           rooms={values(accommodationProducts)}

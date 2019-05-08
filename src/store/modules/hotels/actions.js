@@ -1,4 +1,4 @@
-import { prop, values, mergeDeepRight, pathOr } from 'ramda';
+import { prop, values, mergeDeepRight, pathOr, propOr } from 'ramda';
 
 import client from 'api/hotels';
 
@@ -56,9 +56,10 @@ export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endD
     dispatch(
       setHotels({
         entities: {
-          accommodationProducts: {
+          ...propOr({}, 'entities', data),
+          products: {
             [productUuid]: {
-              rates: { ...data },
+              rates: { ...propOr({}, 'result', data) },
             },
           },
         },

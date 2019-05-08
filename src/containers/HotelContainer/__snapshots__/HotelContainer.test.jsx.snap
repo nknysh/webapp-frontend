@@ -26,7 +26,8 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
     />
     <HotelContainerstyles__Full>
       <HotelContainerstyles__StyledHotel
-        onRoomSelect={[Function]}
+        onRoomAdd={[Function]}
+        onRoomRemove={[Function]}
       />
       <HotelContainerstyles__Aside>
         <Connect(Component)

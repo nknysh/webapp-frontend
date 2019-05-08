@@ -39,6 +39,7 @@ const reduceByAge = (accum, data) => {
 export const getTotalGuests = pipe(
   map(
     pipe(
+      defaultTo([]),
       map(length),
       values,
       sum

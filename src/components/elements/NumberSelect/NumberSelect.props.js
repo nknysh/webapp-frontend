@@ -4,6 +4,8 @@ import { noop } from 'utils';
 
 export const propTypes = {
   onChange: PropTypes.func,
+  onAdd: PropTypes.func,
+  onRemove: PropTypes.func,
   value: PropTypes.number,
   zeroText: PropTypes.string,
   prevClassName: PropTypes.string,
@@ -15,6 +17,8 @@ export const propTypes = {
 
 export const defaultProps = {
   onChange: noop,
+  onAdd: noop,
+  onRemove: noop,
   value: 0,
   min: 0,
 };

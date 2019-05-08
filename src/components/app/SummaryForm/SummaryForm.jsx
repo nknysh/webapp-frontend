@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { all, always, equals, mapObjIndexed, path, pipe, values, when, propOr } from 'ramda';
+import { all, always, equals, mapObjIndexed, path, pipe, values, when, propOr, prop } from 'ramda';
 
 import { SummaryRoom, SummaryRoomEdit, SummaryFormExtras, SummaryFormMargin } from 'components/app';
 
@@ -23,32 +23,35 @@ import {
 const renderHotelName = name => name && <HotelName>{name}</HotelName>;
 
 export const SummaryForm = ({
-  hotel,
-  total,
-  saving,
-  className,
   booking,
-  getHotelRoom,
-  getRoomDates,
-  getRoomTotal,
-  getRatesForDates,
-  getRoomMealPlans,
-  getRoomMealPlan,
+  canBook,
+  checkBooking,
+  children,
+  className,
   getAccommodationProductAgeRanges,
   getExtraSupplements,
-  onBookingChange,
-  canBook,
-  onBook,
-  getTransferProducts,
-  summaryOnly,
-  children,
-  checkBooking,
-  removeRoom,
-  transfersTotal,
+  getHotelRoom,
+  getRatesForDates,
+  getRoomDates,
+  getRoomMealPlan,
+  getRoomMealPlans,
+  getRoomTotal,
   groundServicesTotal,
+  hotel,
+  onBook,
+  onBookingChange,
+  removeRoom,
+  saving,
+  summaryOnly,
+  total,
+  transferProducts,
+  transfersTotal,
+  groundServiceProducts,
+  getRate,
+  onBookingExtrasChange,
 }) => {
-  const { accommodationProducts, margin } = booking;
-  const { name, uuid: hotelUuid, transferProducts } = hotel;
+  const { rooms, margin } = booking;
+  const { name, uuid: hotelUuid } = hotel;
 
   const [modalData, setModalData] = useState({});
 
@@ -63,9 +66,9 @@ export const SummaryForm = ({
   };
 
   // eslint-disable-next-line react/prop-types
-  const renderRoom = ({ quantity }, id) => (
+  const renderRoom = ({ guests }, id) => (
     <SummaryRoom
-      {...path(['accommodationProducts', id], booking)}
+      {...prop(id, rooms)}
       canEdit={!summaryOnly}
       dates={getRoomDates(id)}
       details={getHotelRoom(id)}
@@ -76,7 +79,7 @@ export const SummaryForm = ({
       onChange={onBookingChange}
       onEdit={setModalData}
       onRemove={removeRoom}
-      quantity={quantity}
+      guests={guests}
       hotelUuid={hotelUuid}
       total={getRoomTotal(id)}
     />
@@ -90,10 +93,12 @@ export const SummaryForm = ({
 
   const renderExtras = () => (
     <SummaryFormExtras
+      getRate={getRate}
       booking={booking}
-      onChange={onBookingChange}
+      onChange={onBookingExtrasChange}
       total={total}
-      transfers={getTransferProducts(transferProducts || [])}
+      transfers={transferProducts || []}
+      groundServices={groundServiceProducts || []}
       margin={margin}
       summaryOnly={summaryOnly}
       totals={{ transfer: transfersTotal, groundService: groundServicesTotal }}
@@ -103,7 +108,7 @@ export const SummaryForm = ({
   const renderModal = () => {
     const { id } = modalData;
 
-    const bookingRoom = path(['accommodationProducts', id], booking);
+    const bookingRoom = path(['rooms', id], booking);
 
     if (!bookingRoom) return null;
 
@@ -146,7 +151,7 @@ export const SummaryForm = ({
       <Title>{path(['labels', 'totalNet'], uiConfig)}</Title>
       {renderTotal()}
       {renderHotelName(name)}
-      <Rooms>{renderRooms(accommodationProducts)}</Rooms>
+      <Rooms>{renderRooms(rooms)}</Rooms>
       {renderExtras()}
       {!summaryOnly && (
         <SummaryFormActions>

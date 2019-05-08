@@ -195,3 +195,7 @@ export const Limit = styled.li`
   letter-spacing: 0.38px;
   margin-bottom: ${theme.gutter / 2}px;
 `;
+
+export const EndColumn = styled(Column)`
+  align-self: flex-end;
+`;
