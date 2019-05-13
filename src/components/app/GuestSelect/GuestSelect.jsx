@@ -21,7 +21,7 @@ import {
 const renderLabel = label => label && <GuestSelectLabel>{label}</GuestSelectLabel>;
 
 export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues, minMax, errors, children }) => {
-  const quantity = length(selectedValues);
+  const rooms = length(selectedValues);
 
   const onQuantityChange = number => {
     selectedValues.length = number;
@@ -48,9 +48,9 @@ export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues, minM
 
   const renderTabLabels = i => <TabLabel data-error={!isEmptyOrNil(prop(i, errors))}>Room {i + 1}</TabLabel>;
 
-  const labels = (gt(quantity, 1) && times(renderTabLabels, quantity)) || [];
+  const labels = (gt(rooms, 1) && times(renderTabLabels, rooms)) || [];
 
-  const tabs = times(renderTab, quantity);
+  const tabs = times(renderTab, rooms);
 
   return (
     <StyledGuestSelect>
@@ -58,7 +58,7 @@ export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues, minM
       <GuestSelectSection>
         <GuestSelectEntry>
           <GuestSelectEntryLabel>{getPlural('room')}</GuestSelectEntryLabel>
-          <GuestSelectNumberSelect value={quantity} onChange={onQuantityChange} min={1} />
+          <GuestSelectNumberSelect value={rooms} onChange={onQuantityChange} min={1} />
         </GuestSelectEntry>
       </GuestSelectSection>
       <RoomTabs scrollButtons="auto" variant="scrollable" labels={labels}>

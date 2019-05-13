@@ -20,39 +20,52 @@ import {
   ExtraSummaryTotal,
 } from './SummaryFormExtras.styles';
 
-const getOption = ({ name, uuid: value, rate }) => {
-  const rates = propOr([], 'rates', rate);
-  const hasMultipleRates = gt(length(rates), 1);
-  return {
-    label: (
-      <OptionLabel key={name}>
-        {name}
-        {map(
-          ({ rate, name }) => (
-            <OptionRate key={rate}>
-              (+ <OptionPrice>{rate}</OptionPrice>
-              {hasMultipleRates ? ` ${name}` : ''})
-            </OptionRate>
-          ),
-          rates
-        )}
-      </OptionLabel>
-    ),
-    value,
-  };
-};
-
-const getOptions = map(getOption);
-
-export const SummaryFormExtras = ({ total, booking, transfers, groundServices, onChange, summaryOnly, totals }) => {
+export const SummaryFormExtras = ({
+  total,
+  booking,
+  transfers,
+  groundServices,
+  onChange,
+  summaryOnly,
+  totals,
+  getRate,
+}) => {
   const [hasMargin, setHasMargin] = useState(true);
 
-  const { margin, transfer, groundService } = booking;
+  const { margin, products } = booking;
+
+  const transfer = propOr('', 'Transfer', products);
+  const groundService = propOr('', 'Ground Service', products);
 
   const marginType = propOr('percentage', 'type', margin);
   const marginValue = propOr(0, 'value', margin);
 
-  const onExtraSelect = curry((type, e, value) => onChange({ [type]: value }));
+  const onExtraSelect = curry((type, prevValue, e, value) => onChange(prevValue, value));
+
+  const getOption = ({ name, uuid: value, rate: rateUuid }) => {
+    const rates = propOr([], 'rates', getRate(rateUuid));
+
+    const hasMultipleRates = gt(length(rates), 1);
+    return {
+      label: (
+        <OptionLabel key={name}>
+          {name}
+          {map(
+            ({ rate, name }) => (
+              <OptionRate key={rate}>
+                (+ <OptionPrice>{rate}</OptionPrice>
+                {hasMultipleRates ? ` ${name}` : ''})
+              </OptionRate>
+            ),
+            rates
+          )}
+        </OptionLabel>
+      ),
+      value,
+    };
+  };
+
+  const getOptions = map(getOption);
 
   const renderMargin = () => (
     <Extra>
@@ -87,7 +100,7 @@ export const SummaryFormExtras = ({ total, booking, transfers, groundServices, o
           <RadioButton
             value={defaultTo('', value)}
             options={getOptions([{ name: 'None', uuid: '', rate: { rates: [] } }, ...productsArr])}
-            onChange={onExtraSelect(type)}
+            onChange={onExtraSelect(type, defaultTo('', value))}
           />
         </Extra>
       ))

@@ -29,7 +29,7 @@ export const SummaryRoom = ({
   dates,
   total,
   mealPlan,
-  quantity,
+  guests,
   onEdit,
   canEdit,
   extraSupplements,
@@ -38,9 +38,9 @@ export const SummaryRoom = ({
   ...props
 }) => {
   const datesCount = getNumberOfDays(dates);
-  const ageSplits = getAgeSplits(quantity);
+  const ageSplits = getAgeSplits(guests);
 
-  const onRemoveRoom = () => onRemove({ hotelUuid, id });
+  const onRemoveRoom = () => onRemove(hotelUuid, id);
   const onEditRoom = () => onEdit({ id });
 
   const renderExtraSupplement = ([type, rates]) => {
@@ -60,6 +60,7 @@ export const SummaryRoom = ({
         </ExtraSupplement>
       );
     };
+
     const supplements = pipe(
       toPairs,
       map(renderSupplement)
@@ -78,16 +79,14 @@ export const SummaryRoom = ({
   };
 
   return (
-    details &&
-    dates &&
-    gt(length(quantity), 0) && (
+    (details && dates && gt(length(guests), 0) && (
       <Room {...props}>
         {!canEdit && <RoomImage />}
         <RoomDetails>
           <RoomRow>
             <RoomColumn>
               <RoomName>
-                {prop('name', details)} ({length(quantity)})
+                {prop('name', details)} ({length(guests)})
               </RoomName>
               <RoomDetail>
                 {datesCount} {getPluralisation('night', datesCount)} | {getFromDateFormat(dates)}{' '}
@@ -107,7 +106,7 @@ export const SummaryRoom = ({
             )}
           </RoomRow>
           <RoomRow>
-            {guestLine('guest', getTotalGuests(quantity))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
+            {guestLine('guest', getTotalGuests(guests))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
           </RoomRow>
           <RoomRow>{renderExtraSupplements()}</RoomRow>
           {mealPlan && (
@@ -117,7 +116,8 @@ export const SummaryRoom = ({
           )}
         </RoomDetails>
       </Room>
-    )
+    )) ||
+    null
   );
 };
 

@@ -1,30 +1,27 @@
 import {
   append,
   complement,
+  equals,
   head,
   keys,
   last,
   map,
   path,
   pipe,
-  prop,
   propSatisfies,
   reduce,
-  toPairs,
   reverse,
-  equals,
+  toPairs,
 } from 'ramda';
 
 import { isEmptyOrNil, toDate } from 'utils';
 
 const reduceDisabledDays = (accum, [key, dayRate]) => {
-  const rateUuid = prop('result', dayRate);
-  const rate = path(['entities', 'rates', rateUuid], dayRate);
-  if (!rate) return append(key, accum);
+  if (!dayRate) return append(key, accum);
 
   const hasRate = propSatisfies(complement(isEmptyOrNil), 'rate');
 
-  return hasRate(rate) ? accum : append(key, accum);
+  return hasRate(dayRate) ? accum : append(key, accum);
 };
 
 export const getDisabledDays = pipe(

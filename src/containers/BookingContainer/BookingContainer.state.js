@@ -1,7 +1,7 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { updateBooking, checkBooking, removeRoom } from 'store/modules/booking/actions';
+import { updateBooking, checkBooking, removeRoom, updateBookingExtras } from 'store/modules/booking/actions';
 import {
   getBookingByHotelId,
   getBookingTotal,
@@ -16,18 +16,26 @@ import {
 } from 'store/modules/booking/selectors';
 
 import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
-import { getHotel, getHotelRoom, getHotelProductAgeRanges, getHotelProducts } from 'store/modules/hotels/selectors';
+import {
+  getHotel,
+  getHotelRoom,
+  getHotelProductAgeRanges,
+  getHotelProducts,
+  getHotelsRate,
+} from 'store/modules/hotels/selectors';
 
 export const mapStateToProps = (state, { hotelUuid }) => ({
   booking: getBookingByHotelId(state, hotelUuid),
   canBook: getBookingReady(state, hotelUuid),
-  getAccommodationProductAgeRanges: getHotelProductAgeRanges('accommodationProducts', state),
+  getAccommodationProductAgeRanges: getHotelProductAgeRanges(state),
   getHotelRoom: getHotelRoom(state, hotelUuid),
   getRoomDates: getBookingRoomDatesById(state, hotelUuid),
   getRoomMealPlan: getBookingRoomMealPlan(state, hotelUuid),
   getRoomMealPlans: getBookingRoomMealPlans(state, hotelUuid),
   getRoomTotal: getBookingRoomTotal(state, hotelUuid),
-  getTransferProducts: getHotelProducts('transferProducts', state),
+  transferProducts: getHotelProducts(state, hotelUuid, 'transferProducts'),
+  groundServiceProducts: getHotelProducts(state, hotelUuid, 'groundServiceProducts'),
+  getRate: getHotelsRate(state),
   getExtraSupplements: getBookingRoomExtraSupplements(state, hotelUuid),
   hotel: getHotel(state, hotelUuid),
   transfersTotal: getTransferProductsTotal(state, hotelUuid),
@@ -38,6 +46,10 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
 export const mapDispatchToProps = dispatch => ({
   updateBooking: pipe(
     updateBooking,
+    dispatch
+  ),
+  updateBookingExtras: pipe(
+    updateBookingExtras,
     dispatch
   ),
   checkBooking: pipe(

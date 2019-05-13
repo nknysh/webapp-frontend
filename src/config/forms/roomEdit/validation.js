@@ -33,7 +33,7 @@ export default accommodationProduct => () => {
   const ageMinMax = mapObjIndexed(mapMinMaxValidation, minMax(accommodationProduct));
 
   return validators.shape({
-    quantity: array()
+    guests: array()
       .min(1, prop('minOneRoom', errors))
       .of(object().shape(ageMinMax)),
   });

@@ -76,7 +76,7 @@ const renderValue = ifElse(
   join(', ')
 );
 
-export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect, getRoomUploads }) => {
+export const Rooms = ({ className, rooms, selectedRooms, onRoomAdd, onRoomRemove, getRoomUploads }) => {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const currentWidth = useCurrentWidth();
 
@@ -84,14 +84,15 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomSelect, getRoomUp
   const filteredRooms = filterNoRate(filterRoomsByAmenities(rooms, selectedAmenities));
 
   const renderRoom = room => {
-    const selectedCount = length(pathOr([], [prop('uuid', room), 'quantity'], selectedRooms));
+    const selectedCount = length(pathOr([], [prop('uuid', room), 'guests'], selectedRooms));
 
     return (
       <StyledRoom
         key={hash(room)}
         {...room}
         uploads={getRoomUploads(prop('uploads', room))}
-        onChange={onRoomSelect}
+        onRoomAdd={onRoomAdd}
+        onRoomRemove={onRoomRemove}
         selectedCount={selectedCount}
       />
     );

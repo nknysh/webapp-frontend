@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { prop, path, map, complement, equals, values, last, pipe, propEq, find } from 'ramda';
+import { prop, path, map, complement, equals, values, last, pipe, propEq, find, filter } from 'ramda';
 import { format } from 'date-fns';
 
 import { isEmptyOrNil, isAdult } from 'utils';
@@ -15,9 +15,13 @@ import {
   Columns,
   Detail,
   Details,
+  EndColumn,
   Img,
   ImgOffer,
   Info,
+  Limit,
+  Limits,
+  MoreInfoToolTip,
   Price,
   PriceAmount,
   PriceLabel,
@@ -26,17 +30,11 @@ import {
   Selection,
   StyledRoom,
   Title,
-  MoreInfoToolTip,
-  Limits,
-  Limit,
 } from './Room.styles';
 
 const isNotZero = complement(equals(0));
 
 const getVisibleRate = pipe(
-  values,
-  last,
-  path(['entities', 'rates']),
   values,
   last,
   prop('rate')
@@ -49,24 +47,6 @@ const renderImgOffer = bestRate =>
       {format(prop('endDate', bestRate), path(['dates', 'defaultFormat'], uiConfig))}
     </ImgOffer>
   );
-
-const renderSelection = (onChange, selectedCount) => (
-  <Selection
-    nextClassName="add"
-    prevClassName="minus"
-    countClassName="count"
-    zeroText="ADD ACOMMODATION"
-    onChange={onChange}
-    value={selectedCount}
-  />
-);
-
-// eslint-disable-next-line
-const renderBrochure = ({ name, url }) => (
-  <Button href={url} target="_blank">
-    {getSingular('brochure')}: {name}
-  </Button>
-);
 
 const renderAmenity = amenity => <Detail key={amenity}>{amenity}</Detail>;
 
@@ -90,8 +70,8 @@ const renderStandardOccupancy = ({ standardOccupancy }) =>
 // eslint-disable-next-line react/prop-types
 const renderMinMaxLimit = ({ name, maximum, minimum }) => (
   <Limit key={name}>
-    ({`${isAdult(name) ? getPlural('adult') : getPlural(name) || name}`} - {path(['labels', 'max'], uiConfig)} {maximum}{' '}
-    {path(['labels', 'min'], uiConfig)} {minimum})
+    {`${isAdult(name) ? getPlural('adult') : getPlural(name) || name}`} - {path(['labels', 'max'], uiConfig)} {maximum}{' '}
+    {path(['labels', 'min'], uiConfig)} {minimum}
   </Limit>
 );
 
@@ -110,26 +90,33 @@ const renderMinMax = ({ maximumPeople, limits }) => (
 
 const renderAdditionalInfo = additionalInfo =>
   additionalInfo && (
-    <Column>
+    <EndColumn>
       <MoreInfoToolTip placement="right" label={<Button>{path(['labels', 'moreInfo'], uiConfig)}</Button>}>
         {additionalInfo}
       </MoreInfoToolTip>
-    </Column>
+    </EndColumn>
   );
+
+// eslint-disable-next-line
+const renderBrochure = ({ displayName, url }) => (
+  <Button key={displayName + url} href={url} target="_blank">
+    {getSingular('brochure')}: {displayName}
+  </Button>
+);
 
 const renderBrochures = brochures =>
   brochures && (
-    <Column>
+    <EndColumn>
       <Brochures>{map(renderBrochure, brochures)}</Brochures>
-    </Column>
+    </EndColumn>
   );
 
 export const Room = ({
-  brochures,
   className,
   meta: { size, description, moreInformation, amenities },
   name,
-  onChange,
+  onRoomAdd,
+  onRoomRemove,
   options: { occupancy },
   rates,
   selectedCount,
@@ -139,21 +126,40 @@ export const Room = ({
 }) => {
   if (!rates) return null;
 
+  const brochures = pipe(
+    values,
+    filter(propEq('tag', 'floorPlan'))
+  )(uploads);
+
   const imgUrl = pipe(
     values,
     find(propEq('tag', 'photo')),
     prop('url')
   )(uploads);
 
-  const onRoomSelect = quantity => onChange(uuid, quantity);
   const visibleRate = getVisibleRate(rates);
+
+  const onAdd = () => onRoomAdd(uuid);
+  const onRemove = () => onRoomRemove(uuid);
+
+  const renderSelection = () => (
+    <Selection
+      nextClassName="add"
+      prevClassName="minus"
+      countClassName="count"
+      zeroText="ADD ACOMMODATION"
+      onAdd={onAdd}
+      onRemove={onRemove}
+      value={selectedCount}
+    />
+  );
 
   return (
     <StyledRoom className={className}>
       <RoomImage>
         {imgUrl && <Img src={imgUrl} />}
         {renderImgOffer(rates)}
-        {withSelection && visibleRate && renderSelection(onRoomSelect, selectedCount)}
+        {withSelection && visibleRate && renderSelection(onRoomAdd, onRoomRemove, selectedCount)}
       </RoomImage>
       <RoomInfo>
         <Columns>

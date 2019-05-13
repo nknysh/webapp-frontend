@@ -2,6 +2,7 @@ import {
   __,
   add,
   all,
+  always,
   append,
   both,
   curry,
@@ -12,14 +13,12 @@ import {
   find,
   gt,
   gte,
-  head,
   ifElse,
   length,
   lte,
   map,
   mapObjIndexed,
   multiply,
-  path,
   pipe,
   prop,
   propEq,
@@ -48,14 +47,20 @@ export const hasOccupancy = pipe(
 );
 
 export const canBook = pipe(
-  prop('quantity'),
+  prop('guests'),
   ifElse(noQuantity, F, hasOccupancy)
 );
 
-export const getRateAmount = pipe(
-  path(['entities', 'rates']),
+export const categoryEquals = propEq('category');
+
+export const totalShim = always({ total: 0 });
+
+export const toTotal = pipe(
   values,
-  head,
+  sum
+);
+
+export const getRateAmount = pipe(
   propOr(0, 'rate'),
   Number
 );

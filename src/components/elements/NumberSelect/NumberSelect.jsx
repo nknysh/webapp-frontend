@@ -14,6 +14,8 @@ import { defaultProps, propTypes } from './NumberSelect.props';
 
 export const NumberSelect = ({
   onChange,
+  onAdd,
+  onRemove,
   value,
   className,
   zeroText,
@@ -34,11 +36,11 @@ export const NumberSelect = ({
 
   const onDescrease = () => {
     const newCount = canDecrease || !lte(count, min) ? dec(count) : count;
-    ap([setCount, onChange], [newCount]);
+    ap([setCount, onRemove, onChange], [newCount]);
   };
   const onIncrease = () => {
     const newCount = canIncrease ? inc(count) : count;
-    ap([setCount, onChange], [newCount]);
+    ap([setCount, onAdd, onChange], [newCount]);
   };
 
   return (

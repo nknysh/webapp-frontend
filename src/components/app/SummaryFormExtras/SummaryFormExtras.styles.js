@@ -17,6 +17,10 @@ export const OptionPrice = styled.span`
 
 export const Extra = styled.div`
   margin-bottom: ${theme.gutter * 4}px;
+
+  label {
+    margin-bottom: ${theme.gutter}px;
+  }
 `;
 
 export const ExtraSummary = styled.div`
@@ -30,12 +34,13 @@ export const ExtraSummary = styled.div`
 `;
 
 export const ExtraSummaryTitle = styled.div`
-  width: 40%;
+  width: 36%;
   font-weight: ${theme.fonts.bold};
 `;
 
 export const ExtraSummaryProduct = styled.div`
   flex: 1 1 100%;
+  margin: 0 ${theme.gutter}px;
 `;
 
 export const ExtraSummaryTotal = styled.div`

@@ -64,7 +64,7 @@ const renderGuestSelectErrors = ifElse(
 );
 
 const allPermitted = pipe(
-  propOr([], 'quantity'),
+  defaultTo([]),
   map(prop('permitted')),
   all(equals(true))
 );
@@ -74,7 +74,7 @@ export const SummaryRoomEdit = ({
   id,
   dates,
   details: { name, rates },
-  quantity,
+  guests,
   mealPlan,
   mealPlans,
   onSubmit,
@@ -83,7 +83,7 @@ export const SummaryRoomEdit = ({
   checks,
   details,
 }) => {
-  const [formValues, setFormValues] = useState({ mealPlan, dates, quantity });
+  const [formValues, setFormValues] = useState({ mealPlan, dates, guests });
   const [complete, setComplete] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
@@ -95,7 +95,7 @@ export const SummaryRoomEdit = ({
   }, [checks]);
 
   useEffectBoundary(() => {
-    complete && onSubmit({ accommodationProducts: { [id]: { ...formValues } } });
+    complete && onSubmit({ rooms: { [id]: { ...formValues } } });
   }, [complete]);
 
   const ageRanges = getAgeRanges(details);
@@ -103,7 +103,7 @@ export const SummaryRoomEdit = ({
 
   const onFormSubmit = values => {
     setFormValues(values);
-    onChange(hotelUuid, { accommodationProducts: { [id]: { ...values } } });
+    onChange(hotelUuid, { rooms: { [id]: { ...values } } });
     setSubmitted(true);
   };
 
@@ -161,13 +161,11 @@ export const SummaryRoomEdit = ({
 
   const renderDay = day => {
     const dayRate = prop(formatDate(day), rates);
-    const rateUuid = prop('result', dayRate);
-    const rate = path(['entities', 'rates', rateUuid], dayRate);
 
     return (
       <span>
         <div>{formatDate(day, 'D')}</div>
-        {rate && <DatePrice>{prop('rate', rate)}</DatePrice>}
+        {dayRate && <DatePrice>{prop('rate', dayRate)}</DatePrice>}
       </span>
     );
   };
@@ -184,7 +182,8 @@ export const SummaryRoomEdit = ({
 
     return <Fragment key={i}>{errors}</Fragment>;
   };
-  const renderGuestsInfo = () => mapWithIndex(renderGuestCheck, propOr([], 'quantity', checks));
+
+  const renderGuestsInfo = () => mapWithIndex(renderGuestCheck, defaultTo([], checks));
 
   return (
     <EditForm>
@@ -200,11 +199,11 @@ export const SummaryRoomEdit = ({
             <EditFormSection>
               <GuestSelect
                 ageRanges={ageRanges}
-                onSelected={onObjectChange('quantity', formProps)}
+                onSelected={onObjectChange('guests', formProps)}
                 contentOnly={true}
-                selectedValues={map(defaultTo({}), prop('quantity', values))}
+                selectedValues={map(defaultTo({}), prop('guests', values))}
                 minMax={minMax}
-                errors={renderGuestSelectErrors(prop('quantity', errors))}
+                errors={renderGuestSelectErrors(prop('guests', errors))}
               >
                 {renderGuestsInfo()}
               </GuestSelect>

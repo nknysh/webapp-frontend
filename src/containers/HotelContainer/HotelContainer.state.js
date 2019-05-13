@@ -7,7 +7,7 @@ import { getSearchDates } from 'store/modules/search/selectors';
 import { fetchHotel } from 'store/modules/hotel/actions';
 import { getHotelStatus } from 'store/modules/hotel/selectors';
 
-import { updateBooking, removeRoom } from 'store/modules/booking/actions';
+import { updateBooking, removeRoom, addRoom } from 'store/modules/booking/actions';
 import { getBookingByHotelId } from 'store/modules/booking/selectors';
 
 export const mapStateToProps = (state, { id }) => ({
@@ -15,7 +15,7 @@ export const mapStateToProps = (state, { id }) => ({
   getBooking: getBookingByHotelId(state),
   getHotelPhotos: getHotelsUploads(state),
   getRoomUploads: getHotelsUploads(state),
-  getAccommodationProducts: getHotelProducts('accommodationProducts', state),
+  accommodationProducts: getHotelProducts(state, id, 'accommodationProducts'),
   hotel: getHotel(state, id),
   hotelStatus: getHotelStatus(state),
 });
@@ -23,6 +23,10 @@ export const mapStateToProps = (state, { id }) => ({
 export const mapDispatchToProps = dispatch => ({
   fetchHotel: pipe(
     fetchHotel,
+    dispatch
+  ),
+  addRoom: pipe(
+    addRoom,
     dispatch
   ),
   removeRoom: pipe(
