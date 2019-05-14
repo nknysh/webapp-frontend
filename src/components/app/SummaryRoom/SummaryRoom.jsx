@@ -10,37 +10,39 @@ import { getFromDateFormat, getToDateFormat, isEmptyOrNil, getNumberOfDays } fro
 import { guestLine, getTotalGuests, getAgeSplits, extrasHasSplitRates } from './SummaryRoom.utils';
 import { propTypes, defaultProps } from './SummaryRoom.props';
 import {
+  ExtraSupplement,
+  ExtraSupplementRate,
   Room,
   RoomColumn,
   RoomDetail,
+  RoomDetails,
+  RoomImage,
+  RoomImages,
   RoomMenu,
   RoomName,
   RoomPrice,
   RoomRow,
-  ExtraSupplementRate,
-  ExtraSupplement,
-  RoomImage,
-  RoomDetails,
 } from './SummaryRoom.styles';
 
 export const SummaryRoom = ({
-  id,
-  details,
-  dates,
-  total,
-  mealPlan,
-  guests,
-  onEdit,
   canEdit,
+  dates,
+  details,
   extraSupplements,
-  onRemove,
+  guests,
   hotelUuid,
+  id,
+  mealPlan,
+  onEdit,
+  onRemove,
+  photo,
+  total,
   ...props
 }) => {
   const datesCount = getNumberOfDays(dates);
   const ageSplits = getAgeSplits(guests);
 
-  const onRemoveRoom = () => onRemove(hotelUuid, id);
+  const onRemoveRoom = () => onRemove(hotelUuid, id, true);
   const onEditRoom = () => onEdit({ id });
 
   const renderExtraSupplement = ([type, rates]) => {
@@ -81,7 +83,11 @@ export const SummaryRoom = ({
   return (
     (details && dates && gt(length(guests), 0) && (
       <Room {...props}>
-        {!canEdit && <RoomImage />}
+        {!canEdit && prop('url', photo) && (
+          <RoomImages>
+            <RoomImage src={prop('url', photo)} />
+          </RoomImages>
+        )}
         <RoomDetails>
           <RoomRow>
             <RoomColumn>

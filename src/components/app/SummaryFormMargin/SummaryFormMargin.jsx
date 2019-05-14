@@ -15,43 +15,30 @@ import {
   MarginTotalAmount,
 } from './SummaryFormMargin.styles';
 
-export const SummaryFormMargin = ({ onChange, onApply, checked, value, type, summaryOnly, total }) => {
+export const SummaryFormMargin = ({ onChange, checked, value, type, summaryOnly, total }) => {
   const typeIsPercent = equals('percentage', type);
-
-  const onMarginChecked = (e, checked) => {
-    onChange({ margin: { applied: checked } });
-    onApply(checked);
-  };
-
-  const onMarginTypeChange = e => {
-    const type = path(['target', 'value'], e);
-    onChange({ margin: { type } });
-  };
-
-  const onMarginValueChange = e => {
-    const value = Number(path(['target', 'value'], e));
-    onChange({ margin: { type: type, value } });
-  };
 
   return (
     <Margin>
       {!summaryOnly && (
         <MarginCheckbox
-          onChange={onMarginChecked}
+          onChange={onChange}
           checked={checked}
           label={path(['labels', 'applyMargin'], uiConfig)}
+          name="margin[applied]"
         />
       )}
       {checked && (
         <Fragment>
           <MarginInputs>
             <Select
-              onChange={onMarginTypeChange}
+              onChange={onChange}
               disabled={!checked}
               value={type}
               options={prop('marginOptions', uiConfig)}
+              name="margin[type]"
             />
-            <Input type="number" value={value} onChange={onMarginValueChange} disabled={!checked} />
+            <Input type="number" name="margin[value]" value={value} min={0} onChange={onChange} disabled={!checked} />
           </MarginInputs>
         </Fragment>
       )}

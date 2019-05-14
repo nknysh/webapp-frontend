@@ -18,7 +18,7 @@ export default {
       .email(prop('email', errors))
       .required(prop('required', errors)),
   shape: obj => object().shape(obj),
-  boolean: () => string().oneOf(['true'], prop('acceptTerms', errors)),
+  boolean: (message = prop('acceptTerms', errors)) => string().oneOf(['true'], message),
   matches: (refKey, message) =>
     string()
       .oneOf([ref(refKey), null], message)

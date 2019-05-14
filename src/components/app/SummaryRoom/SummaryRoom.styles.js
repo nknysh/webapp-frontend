@@ -14,6 +14,7 @@ export const Room = styled.article`
   letter-spacing: ${theme.fonts.letterSpacing.mid}px;
   line-height: 24px;
   display: flex;
+  align-items: center;
 
   :first-child {
     padding-top: 0;
@@ -81,7 +82,15 @@ export const RoomDetails = styled.div`
   flex: 1;
 `;
 
-export const RoomImage = styled.div`
-  width: 25%;
+export const RoomImages = styled.div`
   display: block;
+  width: 25%;
+  position: relative;
+  padding-right: ${theme.gutter}px;
+`;
+
+export const RoomImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;

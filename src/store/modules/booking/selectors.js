@@ -40,6 +40,7 @@ import {
   values,
   view,
   when,
+  concat,
 } from 'ramda';
 import { createSelector } from 'reselect';
 
@@ -67,6 +68,23 @@ export const ProductType = Object.freeze({
 });
 
 const preMap = cond([[equals('Accommodation'), always(uniq)], [T, always(identity)]]);
+
+const perAccommodationProduct = curry((state, product) => {
+  const rate = getHotelsRate(state, propOr({}, 'rate', product));
+  const defaultRate = find(propEq('default', true), propOr([], 'rates', rate));
+  const hotelUuid = prop('ownerUuid', product);
+  const booking = getBookingByHotelId(state, hotelUuid);
+
+  if (!rate || !defaultRate || !booking) return totalShim();
+
+  const noOfRooms = pipe(
+    prop('rooms'),
+    keys,
+    length
+  );
+
+  return [multiply(propOr(0, 'rate', defaultRate), noOfRooms(booking))];
+});
 
 const perBooking = curry((state, product) => {
   const rate = getHotelsRate(state, propOr({}, 'rate', product));
@@ -151,7 +169,8 @@ const getProductTotal = curry((state, uuid) => {
     [categoryEquals(ProductType.PER_PERSON), perPerson(state)],
     [categoryEquals(ProductType.PER_NIGHT), perNight(state)],
     [categoryEquals(ProductType.PER_PERSON_PER_NIGHT), perPersonPerNight(state)],
-    [T, totalShim],
+    [categoryEquals(ProductType.PER_ACCOMMODATION_PRODUCT), perAccommodationProduct(state)],
+    [T, always(0)],
   ]);
 
   return byCategory(product);
@@ -383,6 +402,19 @@ export const getGroundServiceProductsTotal = curry((state, hotelId) => {
     getProductTotal(state),
     toTotal
   )(booking);
+});
+
+export const getAddonsTotals = curry((state, hotelId) => {
+  const booking = getBookingByHotelId(state, hotelId);
+
+  const fineProducts = pathOr([], ['products', 'Fine'], booking);
+  const supplementProducts = pathOr([], ['products', 'Supplement'], booking);
+
+  const addons = uniq(concat(fineProducts, supplementProducts));
+
+  const getAddonTotal = (accum, uuid) => mergeDeepRight(accum, { [uuid]: head(getProductTotal(state, uuid)) });
+
+  return reduce(getAddonTotal, {}, addons);
 });
 
 export const getBookingTotal = curry((state, hotelId) => {
