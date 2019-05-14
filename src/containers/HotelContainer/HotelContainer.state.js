@@ -13,8 +13,7 @@ import { getBookingByHotelId } from 'store/modules/booking/selectors';
 export const mapStateToProps = (state, { id }) => ({
   dates: getSearchDates(state),
   getBooking: getBookingByHotelId(state),
-  getHotelPhotos: getHotelsUploads(state),
-  getRoomUploads: getHotelsUploads(state),
+  getHotelUploads: getHotelsUploads(state),
   accommodationProducts: getHotelProducts(state, id, 'accommodationProducts'),
   hotel: getHotel(state, id),
   hotelStatus: getHotelStatus(state),

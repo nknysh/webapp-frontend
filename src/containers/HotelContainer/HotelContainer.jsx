@@ -1,24 +1,42 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import { __, allPass, complement, compose, has, lensProp, path, prop, propOr, view } from 'ramda';
+import {
+  __,
+  allPass,
+  complement,
+  compose,
+  defaultTo,
+  has,
+  isEmpty,
+  lensProp,
+  map,
+  path,
+  prop,
+  propOr,
+  values,
+  view,
+} from 'ramda';
 
 import { Loader, Tabs } from 'components';
 import { BookingContainer } from 'containers';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
 
-import uiConfig from 'config/ui';
+import uiConfig, { getPlural } from 'config/ui';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
 import {
-  StyledHotelContainer,
+  Aside,
+  AsideDetails,
   Back,
+  Brochure,
+  Full,
   StyledBreadcrumbs,
   StyledHotel,
+  StyledHotelContainer,
   StyledSummary,
-  Full,
-  Aside,
+  Title,
 } from './HotelContainer.styles';
 
 const roomsLens = lensProp('rooms');
@@ -27,24 +45,31 @@ const reloadIfMissing = complement(allPass([has('photos'), has('accommodationPro
 
 const renderBackButton = () => <Back to="/search">{path(['labels', 'backToSearch'], uiConfig)}</Back>;
 
+// eslint-disable-next-line react/prop-types
+const renderBrochure = ({ uuid, displayName, url }) => (
+  <Brochure key={uuid} href={url} target="_blank">
+    {displayName}
+  </Brochure>
+);
+
 export const HotelContainer = ({
-  hotel,
-  id,
-  fetchHotel,
-  hotelStatus,
-  getBooking,
-  getHotelPhotos,
   accommodationProducts,
-  history,
-  removeRoom,
   addRoom,
-  getRoomUploads,
+  fetchHotel,
+  getBooking,
+  getHotelUploads,
+  history,
+  hotel,
+  hotelStatus,
+  id,
+  removeRoom,
 }) => {
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
 
   const booking = getBooking(id);
-  const photos = getHotelPhotos(propOr([], 'photos', hotel));
+  const photos = getHotelUploads(propOr([], 'photos', hotel));
+  const brochures = defaultTo([], getHotelUploads(propOr([], 'brochures', hotel)));
 
   const viewBooking = view(__, booking);
 
@@ -65,13 +90,19 @@ export const HotelContainer = ({
       onRoomRemove={onRoomRemove}
       photos={photos}
       selectedRooms={viewBooking(roomsLens)}
-      getRoomUploads={getRoomUploads}
+      getRoomUploads={getHotelUploads}
     />
   );
 
   const renderSummary = () => (
     <Aside>
       <BookingContainer Component={StyledSummary} hotelUuid={id} onBook={onBook} />
+      {!isEmpty(brochures) && (
+        <AsideDetails>
+          <Title>{getPlural('brochure')}</Title>
+          {values(map(renderBrochure, brochures))}
+        </AsideDetails>
+      )}
     </Aside>
   );
 

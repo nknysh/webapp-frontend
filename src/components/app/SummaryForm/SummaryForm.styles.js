@@ -12,7 +12,7 @@ import { Heading2 } from 'styles/typography';
 export const StyledSummary = styled.div`
   background: ${theme.backgrounds.secondary};
   padding: ${theme.gutter * 2}px;
-  margin-bottom: ${theme.gutter * 2}px;
+  margin-bottom: ${theme.gutter * 3.5}px;
 
   label,
   label > span {
