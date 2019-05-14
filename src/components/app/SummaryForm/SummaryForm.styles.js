@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Modal } from 'components/elements';
 
@@ -75,7 +75,11 @@ export const HotelName = styled(Heading2)`
 `;
 
 export const Rooms = styled.div`
-  margin-bottom: ${theme.gutter * 4}px;
+  ${({ ['data-summary']: summaryOnly }) =>
+    !summaryOnly &&
+    css`
+      margin-bottom: ${theme.gutter * 4}px;
+    `}
 
   :not(:empty) {
     padding: ${theme.gutter * 2}px 0;

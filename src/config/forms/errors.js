@@ -10,4 +10,5 @@ export default {
   minOneRoom: 'Must have at least one room.',
   minGuests: 'Must have minimum ${min}',
   maxGuests: 'Cannot exceed ${max}',
+  bookingValid: 'Cannot proceed, please check your selections',
 };

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export { Title } from 'components/app/SummaryForm/SummaryForm.styles';
 
+import { Checkbox } from 'components/elements';
+
 import theme from 'styles/theme';
 import { withCurrency } from 'styles/elements';
 
@@ -34,8 +36,9 @@ export const ExtraSummary = styled.div`
 `;
 
 export const ExtraSummaryTitle = styled.div`
-  width: 36%;
+  width: 23%;
   font-weight: ${theme.fonts.bold};
+  flex: 1 0 23%;
 `;
 
 export const ExtraSummaryProduct = styled.div`
@@ -47,4 +50,20 @@ export const ExtraSummaryTotal = styled.div`
   ${withCurrency};
   flex: 1;
   text-align: right;
+`;
+
+export const AddonCheckbox = styled(Checkbox)`
+  label {
+    margin-bottom: ${theme.gutter}px;
+  }
+`;
+
+export const AddonSummaries = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const AddonSummary = styled.div`
+  display: flex;
+  margin-bottom: ${theme.gutter * 2}px;
 `;

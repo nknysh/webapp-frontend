@@ -58,6 +58,7 @@ export default {
     min: 'Min',
     max: 'Max',
     squareMeters: 'Square Meters',
+    addons: 'Addons',
 
     yes: 'Yes',
     no: 'No',
@@ -117,6 +118,7 @@ export default {
     transfer: ['Transfer', 'Transfers'],
     groundService: ['Ground Service', 'Ground Services'],
     'young child': ['Young Child', 'Young Children'],
+    addon: ['Addon', 'Addons'],
   },
 
   mealTypes: {

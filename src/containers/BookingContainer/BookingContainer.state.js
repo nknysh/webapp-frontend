@@ -13,6 +13,7 @@ import {
   getBookingRoomExtraSupplements,
   getTransferProductsTotal,
   getGroundServiceProductsTotal,
+  getAddonsTotals,
 } from 'store/modules/booking/selectors';
 
 import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
@@ -21,7 +22,9 @@ import {
   getHotelRoom,
   getHotelProductAgeRanges,
   getHotelProducts,
+  getHotelAddons,
   getHotelsRate,
+  getHotelsUpload,
 } from 'store/modules/hotels/selectors';
 
 export const mapStateToProps = (state, { hotelUuid }) => ({
@@ -34,13 +37,16 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   getRoomMealPlans: getBookingRoomMealPlans(state, hotelUuid),
   getRoomTotal: getBookingRoomTotal(state, hotelUuid),
   transferProducts: getHotelProducts(state, hotelUuid, 'transferProducts'),
+  addonProducts: getHotelAddons(state, hotelUuid),
   groundServiceProducts: getHotelProducts(state, hotelUuid, 'groundServiceProducts'),
   getRate: getHotelsRate(state),
   getExtraSupplements: getBookingRoomExtraSupplements(state, hotelUuid),
   hotel: getHotel(state, hotelUuid),
   transfersTotal: getTransferProductsTotal(state, hotelUuid),
   groundServicesTotal: getGroundServiceProductsTotal(state, hotelUuid),
+  addonsTotals: getAddonsTotals(state, hotelUuid),
   total: getBookingTotal(state, hotelUuid),
+  getHotelsUpload: getHotelsUpload(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

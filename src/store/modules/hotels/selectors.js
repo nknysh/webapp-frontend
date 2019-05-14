@@ -17,6 +17,7 @@ import {
   reduce,
   set,
   values,
+  mergeDeepRight,
 } from 'ramda';
 
 import { getData, getStatus, getEntities, getResults } from 'store/common';
@@ -119,6 +120,15 @@ export const getHotelProducts = curry((state, id, type) => {
   return ifElse(isArray, pick(__, products), prop(__, products))(hotelProductsIds);
 });
 
+export const getHotelProductsByIds = curry((state, ids) =>
+  pipe(
+    getHotels,
+    getEntities,
+    prop('products'),
+    pick(ids)
+  )(state)
+);
+
 export const getHotelProduct = curry((state, id) =>
   pipe(
     getHotels,
@@ -184,3 +194,9 @@ export const getHotelProductAgeRanges = curry((state, id) =>
 
 export const getHotelsFromSearchResults = (state, ids = []) =>
   map(id => set(lensProp('featuredPhoto'), getHotelFeaturedPhoto(state, id), getHotel(state, id)), ids);
+
+export const getHotelAddons = (state, id) => {
+  const fineProducts = getHotelProducts(state, id, 'fineProducts');
+  const supplementProducts = getHotelProducts(state, id, 'supplementProducts');
+  return mergeDeepRight(fineProducts, supplementProducts);
+};
