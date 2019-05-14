@@ -133,10 +133,16 @@ export const logIn = values => async dispatch => {
   }
 };
 
-export const resetPassword = values => dispatch => {
+export const resetPassword = values => async dispatch => {
   dispatch(authPasswordReset(values));
 
-  return dispatch(successAction(AUTH_PASSWORD_RESET));
+  try {
+    await client.resetPassword({ data: { attributes: values } });
+    dispatch(successAction(AUTH_PASSWORD_RESET, values));
+  } catch (e) {
+    dispatch(errorFromResponse(AUTH_SET_PASSWORD, e));
+    throw e;
+  }
 };
 
 export const setPassword = values => async dispatch => {
@@ -144,7 +150,7 @@ export const setPassword = values => async dispatch => {
 
   try {
     await client.setPassword({ data: { attributes: values } });
-    dispatch(successAction(AUTH_SET_PASSWORD));
+    dispatch(successAction(AUTH_SET_PASSWORD, values));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_SET_PASSWORD, e));
     throw e;

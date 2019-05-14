@@ -8,8 +8,8 @@ export const logIn = values => client.post('/users/login', values);
 
 export const logOut = () => client.post('/users/logout');
 
-export const resetPassword = values => client.post('/users/reset', values);
+export const resetPassword = values => client.post('/users/reset-password', values);
 
-export const setPassword = values => client.patch('/users', values);
+export const setPassword = values => client.patch('/users/set-password', values);
 
 export default { getUser, signUp, logIn, logOut, resetPassword, setPassword };

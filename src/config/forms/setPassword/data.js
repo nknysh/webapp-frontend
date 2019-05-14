@@ -1,4 +1,5 @@
 import unknown from './content/error--unknown.md';
+import expired from './content/error--expired.md';
 
 export default {
   titles: {
@@ -7,5 +8,6 @@ export default {
   },
   errors: {
     default: unknown,
+    401: expired,
   },
 };

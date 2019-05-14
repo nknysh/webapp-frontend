@@ -65,7 +65,7 @@ describe('auth actions', () => {
 
       resetPassword({})(dispatch);
 
-      expect(dispatch).toHaveBeenCalledTimes(2);
+      expect(dispatch).toHaveBeenCalledTimes(1);
     });
   });
   describe('authSetPasswordReset', () => {
