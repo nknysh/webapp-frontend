@@ -179,7 +179,7 @@ export const getHotelRoom = curry((state, hotelId, roomId) =>
 export const getHotelFeaturedPhoto = curry((state, id) =>
   pipe(
     getHotel(__, id),
-    prop('featuredPhotos'),
+    propOr([], 'featuredPhotos'),
     head,
     getHotelsUpload(state)
   )(state)
