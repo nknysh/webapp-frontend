@@ -1,46 +1,48 @@
-import { Home, HomeAuthenticated, NotFound } from 'pages';
+import { AsyncHome } from 'pages/Home';
+import { AsyncHomeAuthenticated } from 'pages/HomeAuthenticated';
+import { AsyncNotFound } from 'pages/NotFound';
 
 export default [
   {
     name: 'Root Path',
     path: '/',
     exact: true,
-    component: HomeAuthenticated,
+    component: AsyncHomeAuthenticated,
     auth: true,
-    authComponent: Home,
+    authComponent: AsyncHome,
   },
   {
     name: 'Messages',
     path: '/messages',
-    component: NotFound,
+    component: AsyncNotFound,
     auth: true,
     authRedirect: '/login',
   },
   {
     name: 'Proposals',
     path: '/proposals',
-    component: NotFound,
+    component: AsyncNotFound,
     auth: true,
     authRedirect: '/login',
   },
   {
     name: 'Bookings',
     path: '/bookings',
-    component: NotFound,
+    component: AsyncNotFound,
     auth: true,
     authRedirect: '/login',
   },
   {
     name: 'Holds',
     path: '/holds',
-    component: NotFound,
+    component: AsyncNotFound,
     auth: true,
     authRedirect: '/login',
   },
   {
     name: 'Calendar',
     path: '/calendar',
-    component: NotFound,
+    component: AsyncNotFound,
     auth: true,
     authRedirect: '/login',
   },

@@ -1,13 +1,14 @@
 import React from 'react';
-import { compose } from 'ramda';
+import { compose, prop } from 'ramda';
 
 import theme from 'styles/theme';
 import { Markdown } from 'components';
 import { useCurrentWidth } from 'effects';
 import { toDate } from 'utils';
 
+import config from 'config/ui';
 import footerText from 'config/ui/footer.md';
-import logo from 'public/img/footer-logo.png';
+import logo from 'public/assets/img/footer-logo.png';
 
 import { propTypes, defaultProps } from './Footer.props';
 import {
@@ -46,7 +47,7 @@ export const Footer = ({ menu, className }) => {
 
           <FooterColumn flex align="flex-end">
             <FooterCopyright>
-              {logo && <img src={logo} />}
+              {logo && <img src={logo} alt={prop('title', config)} />}
               <FooterCopyrightText>&copy; {currentDate.getFullYear()} Pure Escapes</FooterCopyrightText>
             </FooterCopyright>
           </FooterColumn>

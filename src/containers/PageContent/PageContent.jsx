@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { compose, prop, isEmpty } from 'ramda';
 
 import { useLoading } from 'effects';
-import { NotFound } from 'pages';
+import { AsyncNotFound } from 'pages/NotFound';
 import config from 'config/ui';
 import { Markdown, Sidebar, Loader } from 'components';
 
@@ -19,7 +19,7 @@ import {
   PageHero,
 } from './PageContent.styles';
 
-const renderNotFound = () => <NotFound />;
+const renderNotFound = () => <AsyncNotFound />;
 
 export const PageContent = ({ pageId, data, links, title, getPage, className, hero }) => {
   const loadPage = () => getPage(pageId);

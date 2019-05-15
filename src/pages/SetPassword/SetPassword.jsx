@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import { Modal } from 'components';
 import { SetPasswordForm } from 'containers';
-import { Home } from 'pages';
+import { AsyncHome } from 'pages/Home';
 
 import { propTypes } from './SetPassword.props';
 
@@ -14,7 +14,7 @@ export const SetPassword = ({ history, match, ...props }) => {
 
   return (
     <Fragment>
-      <Home history={history} match={match} {...props} />
+      <AsyncHome history={history} match={match} {...props} />
       <Modal open={true} onClose={onClose}>
         <SetPasswordForm token={token} />
       </Modal>

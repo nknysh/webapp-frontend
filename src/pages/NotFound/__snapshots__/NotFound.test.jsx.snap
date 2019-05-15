@@ -3,6 +3,7 @@
 exports[`<NotFound /> render matches snapshots 1`] = `
 <NotFoundstyles__StyledNotFound>
   <NotFoundstyles__NotFoundImage
+    alt="Not Found"
     src=""
   />
   <NotFoundstyles__NotFoundHeading>

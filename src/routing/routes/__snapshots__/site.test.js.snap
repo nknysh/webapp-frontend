@@ -3,8 +3,18 @@
 exports[`routing routes match snapshot 1`] = `
 Object {
   "auth": true,
-  "authComponent": [Function],
-  "component": [Function],
+  "authComponent": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "exact": true,
   "name": "Root Path",
   "path": "/",
@@ -15,7 +25,12 @@ exports[`routing routes match snapshot 2`] = `
 Object {
   "auth": true,
   "authRedirect": "/login",
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "Messages",
   "path": "/messages",
 }
@@ -25,7 +40,12 @@ exports[`routing routes match snapshot 3`] = `
 Object {
   "auth": true,
   "authRedirect": "/login",
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "Proposals",
   "path": "/proposals",
 }
@@ -35,7 +55,12 @@ exports[`routing routes match snapshot 4`] = `
 Object {
   "auth": true,
   "authRedirect": "/login",
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "Bookings",
   "path": "/bookings",
 }
@@ -45,7 +70,12 @@ exports[`routing routes match snapshot 5`] = `
 Object {
   "auth": true,
   "authRedirect": "/login",
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "Holds",
   "path": "/holds",
 }
@@ -55,7 +85,12 @@ exports[`routing routes match snapshot 6`] = `
 Object {
   "auth": true,
   "authRedirect": "/login",
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "Calendar",
   "path": "/calendar",
 }

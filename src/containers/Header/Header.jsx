@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { compose, lensProp, set, view, pipe, values, path } from 'ramda';
+import { compose, lensProp, set, view, pipe, values, path, prop } from 'ramda';
 
+import config from 'config/ui';
 import loggedOutMenuLinks from 'config/links/header--logged-out';
 
 import { Modal } from 'components';
-import { CreateAccountForm, LoginForm, UserPanel } from 'containers';
-import { withAuthentication } from 'hoc/withAuthentication';
 
-import logo from 'public/img/main-logo.png';
+import CreateAccountForm from 'containers/CreateAccountForm';
+import LoginForm from 'containers/LoginForm';
+import UserPanel from 'containers/UserPanel';
+
+import { withAuthentication } from 'hoc';
+
+import logo from 'public/assets/img/main-logo.png';
 
 import { propTypes, defaultProps, contextTypes } from './Header.props';
 import connect from './Header.state';
@@ -82,7 +87,7 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   return (
     <StyledHeader className={className}>
       <HeaderContainer>
-        <HeaderLogo to="/">{logo && <img src={logo} />}</HeaderLogo>
+        <HeaderLogo to="/">{logo && <img src={logo} alt={prop('title', config)} />}</HeaderLogo>
         <HeaderMenuArea>
           <HeaderMobileMenuButton onClick={onClickToggle}>menu</HeaderMobileMenuButton>
           <HeaderMenu {...headerMenuProps}>

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { __, set, view, path, prop, propOr, lensPath, pipe, equals, map, merge, head, last, values } from 'ramda';
 
-import { ToolTip } from 'components';
+import { ToolTip } from 'components/elements';
 
 import uiConfig, { getSingular, getPlural } from 'config/ui';
 import { RegionSelectTypes, MealPlanSelectTypes, isEmptyOrNil } from 'utils';

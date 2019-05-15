@@ -1,1 +1,1 @@
-export { default as SetPasswordForm } from './SetPasswordForm';
+export { default } from './SetPasswordForm';

@@ -1,4 +1,5 @@
 @font-face {
+  font-display: auto;
   font-family: NoeDisplay;
   src: local('NoeDisplay'), url('./assets/Noe Display Regular.otf');
 }

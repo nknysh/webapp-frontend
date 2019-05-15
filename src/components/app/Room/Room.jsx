@@ -131,10 +131,9 @@ export const Room = ({
     filter(propEq('tag', 'floorPlan'))
   )(uploads);
 
-  const imgUrl = pipe(
+  const img = pipe(
     values,
-    find(propEq('tag', 'photo')),
-    prop('url')
+    find(propEq('tag', 'photo'))
   )(uploads);
 
   const visibleRate = getVisibleRate(rates);
@@ -157,7 +156,7 @@ export const Room = ({
   return (
     <StyledRoom className={className}>
       <RoomImage>
-        {imgUrl && <Img src={imgUrl} />}
+        {img && <Img src={prop('url', img)} alt={prop('displayName', img)} />}
         {renderImgOffer(rates)}
         {withSelection && visibleRate && renderSelection(onRoomAdd, onRoomRemove, selectedCount)}
       </RoomImage>

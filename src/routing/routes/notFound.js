@@ -1,8 +1,8 @@
-import { NotFound } from 'pages';
+import { AsyncNotFound } from 'pages/NotFound';
 
 export default [
   {
     name: 'Not Found',
-    component: NotFound,
+    component: AsyncNotFound,
   },
 ];

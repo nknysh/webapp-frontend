@@ -1,13 +1,16 @@
 import React from 'react';
+import { prop } from 'ramda';
 
-import peLogo from 'public/img/PE_logo.png';
+import config from 'config/ui';
+
+import peLogo from 'public/assets/img/PE_logo.png';
 
 import { propTypes, defaultProps } from './Title.props';
 import { StyledTitle } from './Title.styles';
 
 export const Title = ({ children }) => (
   <StyledTitle>
-    <img src={peLogo} />
+    <img src={peLogo} alt={prop('title', config)} />
     {children}
   </StyledTitle>
 );

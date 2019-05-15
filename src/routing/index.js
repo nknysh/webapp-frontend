@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { pick, curry, map, has, cond, T, both, propOr, omit, pipe, mergeDeepRight } from 'ramda';
 import { Route, Redirect } from 'react-router-dom';
 import hash from 'object-hash';
 
 import { AuthenticatedRoute } from 'containers';
+import { Loader } from 'components/elements';
 
 const isRedirect = both(has('from'), has('to'));
 const requiresAuth = both(has('auth'), propOr(false, 'auth'));
@@ -22,7 +23,11 @@ const renderComponentWithRouteProps = curry((Component, route) => (
   <Route
     key={getRouteHash(route)}
     {...omit(['component'], sanitizeRoute(route))}
-    render={props => <Component {...mergeDeepRight(props, sanitizeRoute(route))} />}
+    render={props => (
+      <Suspense fallback={<Loader />}>
+        <Component {...mergeDeepRight(props, sanitizeRoute(route))} />
+      </Suspense>
+    )}
   />
 ));
 

@@ -1,1 +1,1 @@
-export { default as BookingContainer } from './BookingContainer';
+export { default } from './BookingContainer';

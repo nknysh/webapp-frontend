@@ -19,7 +19,7 @@ import {
   values,
 } from 'ramda';
 
-import { isObject } from 'utils';
+import { isObject } from 'utils/helpers';
 
 const equalsLiteralTrue = value => value == 'true';
 const equalsLiteralFalse = value => value == 'false';

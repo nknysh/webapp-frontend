@@ -1,10 +1,10 @@
-import { Search } from 'pages';
+import { AsyncSearch } from 'pages/Search';
 
 export default [
   {
     name: 'Search page',
     path: '/search',
-    component: Search,
+    component: AsyncSearch,
     auth: true,
   },
 ];

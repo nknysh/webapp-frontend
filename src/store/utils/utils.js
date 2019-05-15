@@ -1,6 +1,6 @@
 import { curry, lensProp, pipe, identity, defaultTo, view, set, reduce, merge, prop } from 'ramda';
 
-import { Status } from 'store/common';
+import { Status } from 'store/common/status';
 
 export const statusLens = lensProp('status');
 export const errorLens = lensProp('error');

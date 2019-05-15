@@ -1,17 +1,18 @@
-import { Hotel, HotelBooking } from 'pages';
+import { AsyncHotel } from 'pages/Hotel';
+import { AsyncHotelBooking } from 'pages/HotelBooking';
 
 export default [
   {
     name: 'Hotel',
     path: '/hotels/:id',
-    component: Hotel,
+    component: AsyncHotel,
     auth: true,
     exact: true,
   },
   {
     name: 'Hotel',
     path: '/hotels/:id/booking/:complete?',
-    component: HotelBooking,
+    component: AsyncHotelBooking,
     auth: true,
     exact: true,
   },

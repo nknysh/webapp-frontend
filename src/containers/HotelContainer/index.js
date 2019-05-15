@@ -1,1 +1,1 @@
-export { default as HotelContainer } from './HotelContainer';
+export { default } from './HotelContainer';

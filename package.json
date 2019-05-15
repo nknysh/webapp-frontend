@@ -22,6 +22,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.3",
     "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
@@ -34,6 +35,8 @@
     "babel-loader": "^8.0.5",
     "babel-plugin-styled-components": "^1.10.0",
     "canvas": "^2.3.1",
+    "circular-dependency-plugin": "^5.0.2",
+    "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.0",
     "dotenv-webpack": "^1.7.0",
     "enzyme": "^3.9.0",
@@ -51,6 +54,7 @@
     "jest": "^24.1.0",
     "jest-canvas-mock": "^2.0.0-alpha.3",
     "markdown-loader": "^5.0.0",
+    "offline-plugin": "^5.0.7",
     "patch-package": "^6.0.5",
     "prop-types": "^15.7.2",
     "raw-loader": "^1.0.0",
@@ -60,7 +64,8 @@
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3",
     "webpack-dashboard": "^3.0.0",
-    "webpack-dev-server": "^3.2.0"
+    "webpack-dev-server": "^3.2.0",
+    "webpack-pwa-manifest": "^4.0.0"
   },
   "dependencies": {
     "@material-ui/core": "^3.9.2",

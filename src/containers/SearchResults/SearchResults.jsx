@@ -2,7 +2,7 @@ import React, { useState, Fragment, memo } from 'react';
 import { compose, length, map, path, defaultTo, prop, toLower } from 'ramda';
 
 import { Card, Loader, Modal } from 'components';
-import { SearchSidebar } from 'containers';
+import SearchSidebar from 'containers/SearchSidebar';
 import { useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile } from 'utils';
 

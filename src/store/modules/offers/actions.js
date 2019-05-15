@@ -3,6 +3,7 @@ import client from 'api/offers';
 
 import { successAction, errorFromResponse, loadingAction } from 'store/common';
 import { setHotels } from 'store/modules/hotels/actions';
+import { enqueueNotification } from 'store/modules/ui/actions';
 
 export const OFFERS_LATEST = 'OFFERS_LATEST';
 
@@ -37,6 +38,6 @@ export const fetchLatestOffers = args => async dispatch => {
     dispatch(fetchOffersSuccess({ data }));
   } catch (e) {
     dispatch(errorFromResponse(OFFERS_LATEST, e));
-    throw e;
+    dispatch(enqueueNotification({ message: 'Could not fetch latest offers.', options: { variant: 'error' } }));
   }
 };

@@ -4,7 +4,7 @@ import { compose, path } from 'ramda';
 
 import config from 'config/ui';
 import { Loader } from 'components';
-import { NotFound } from 'pages';
+import { AsyncNotFound } from 'pages/NotFound';
 import { withAuthentication } from 'hoc';
 
 import { propTypes, defaultProps } from './AuthenticatedRoute.props';
@@ -16,7 +16,8 @@ const renderRedirect = ({ pathname, search }, path = '/login') => (
   <Redirect to={`${path}?origin=${encodeURIComponent(`${pathname}${search}`)}`} />
 );
 
-const renderRoute = (Component, props) => (Component && <Component {...props} />) || <Route component={NotFound} />;
+const renderRoute = (Component, props) =>
+  (Component && <Component {...props} />) || <Route component={AsyncNotFound} />;
 
 export const AuthenticatedRoute = ({
   auth,

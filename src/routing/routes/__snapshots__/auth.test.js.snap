@@ -2,7 +2,12 @@
 
 exports[`routing routes match snapshot 1`] = `
 Object {
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "Login",
   "path": "/login",
 }
@@ -10,7 +15,12 @@ Object {
 
 exports[`routing routes match snapshot 2`] = `
 Object {
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "Create Account",
   "path": "/sign-up",
 }
@@ -18,7 +28,12 @@ Object {
 
 exports[`routing routes match snapshot 3`] = `
 Object {
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "exact": true,
   "name": "Password Reset",
   "path": "/password-reset",
@@ -27,7 +42,12 @@ Object {
 
 exports[`routing routes match snapshot 4`] = `
 Object {
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "exact": true,
   "name": "Password Reset",
   "path": "/password-reset/:token",

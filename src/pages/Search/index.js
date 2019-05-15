@@ -1,1 +1,5 @@
-export { default as Search } from './Search';
+import { lazy } from 'react';
+
+export { default } from './Search';
+
+export const AsyncSearch = lazy(() => import('./Search'));

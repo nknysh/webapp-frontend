@@ -11,7 +11,7 @@ const renderSrcs = map(renderSrc);
 export const Video = ({ srcs, fallbackImage, ...props }) => (
   <video {...props}>
     {renderSrcs(srcs)}
-    {fallbackImage && <FallbackImage src={fallbackImage} />}
+    {fallbackImage && <FallbackImage src={fallbackImage} alt="" />}
   </video>
 );
 

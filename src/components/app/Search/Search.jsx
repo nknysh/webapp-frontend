@@ -3,7 +3,8 @@ import { __, path, lensProp, defaultTo, set, view, pipe, prop } from 'ramda';
 import debounce from 'lodash.debounce';
 
 import uiConfig from 'config/ui';
-import { DatePicker, LodgingSelect, Checkbox } from 'components';
+import { DatePicker, Checkbox } from 'components/elements';
+import LodgingSelect from 'components/app/LodgingSelect';
 import { isLoading } from 'store/common';
 
 import { propTypes, defaultProps } from './Search.props';

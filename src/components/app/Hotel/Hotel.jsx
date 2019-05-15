@@ -30,7 +30,7 @@ import {
 } from './Hotel.styles';
 
 // eslint-disable-next-line
-const renderImage = ({ url }) => <img key={url} src={url} />;
+const renderImage = ({ displayName, url }) => <img key={url} src={url} alt={displayName} />;
 const renderFeature = value => <HotelHighlight key={value}>{value}</HotelHighlight>;
 
 export const Hotel = ({

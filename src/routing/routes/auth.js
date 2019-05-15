@@ -1,26 +1,29 @@
-import { CreateAccount, Login, PasswordReset, SetPassword } from 'pages';
+import { AsyncCreateAccount } from 'pages/CreateAccount';
+import { AsyncLogin } from 'pages/Login';
+import { AsyncSetPassword } from 'pages/SetPassword';
+import { AsyncPasswordReset } from 'pages/PasswordReset';
 
 export default [
   {
     name: 'Login',
     path: '/login',
-    component: Login,
+    component: AsyncLogin,
   },
   {
     name: 'Create Account',
     path: '/sign-up',
-    component: CreateAccount,
+    component: AsyncCreateAccount,
   },
   {
     name: 'Password Reset',
     path: '/password-reset',
     exact: true,
-    component: PasswordReset,
+    component: AsyncPasswordReset,
   },
   {
     name: 'Password Reset',
     path: '/password-reset/:token',
     exact: true,
-    component: SetPassword,
+    component: AsyncSetPassword,
   },
 ];

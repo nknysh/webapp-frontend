@@ -2,7 +2,8 @@ import React from 'react';
 import { compose } from 'ramda';
 
 import { Loader } from 'components';
-import { SearchBar, LatestOffers } from 'containers';
+import LatestOffers from 'containers/LatestOffers';
+import SearchBar from 'containers/SearchBar';
 import { useFetchData } from 'effects';
 
 import { Container } from 'styles/elements';

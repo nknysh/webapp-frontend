@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { __, allPass, complement, compose, has, lensProp, path, prop, propOr, view } from 'ramda';
 
 import { Loader, Tabs } from 'components';
-import { BookingContainer } from 'containers';
+import BookingContainer from 'containers/BookingContainer';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
 

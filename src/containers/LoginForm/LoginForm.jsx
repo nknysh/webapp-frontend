@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose, prop, path, pipe } from 'ramda';
 
 import { Form, Loader, Title, FormField, FormFieldError } from 'components';
-import { PasswordResetForm } from 'containers';
+import PasswordResetForm from 'containers/PasswordResetForm';
 import { withAuthentication } from 'hoc';
 
 import { getFormPath, extractFieldDefaults, sanitizeValues, getServerError, parseQueryString } from 'utils';
