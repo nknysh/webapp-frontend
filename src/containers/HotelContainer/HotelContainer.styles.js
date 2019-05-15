@@ -60,7 +60,12 @@ export const Title = styled.h3`
 `;
 
 export const AsideDetails = styled.div`
-  margin-bottom: ${theme.gutter * 3.5}px;
+  margin: 0 ${theme.gutter * 2}px ${theme.gutter * 3.5}px;
+
+  ${breakpoints.tablet`
+    margin-left: 0;
+    margin-right: 0;
+  `}
 `;
 
 export const Brochure = styled.a`
