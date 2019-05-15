@@ -98,8 +98,8 @@ const renderAdditionalInfo = additionalInfo =>
   );
 
 // eslint-disable-next-line
-const renderBrochure = ({ displayName, url }) => (
-  <Button key={displayName + url} href={url} target="_blank">
+const renderBrochure = ({ uuid, displayName, url }) => (
+  <Button key={uuid} href={url} target="_blank">
     {getSingular('brochure')}: {displayName}
   </Button>
 );

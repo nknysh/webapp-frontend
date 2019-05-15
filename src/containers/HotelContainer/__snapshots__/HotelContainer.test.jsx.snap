@@ -26,6 +26,7 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
     />
     <HotelContainerstyles__Full>
       <HotelContainerstyles__StyledHotel
+        getRoomUploads={[Function]}
         onRoomAdd={[Function]}
         onRoomRemove={[Function]}
       />
