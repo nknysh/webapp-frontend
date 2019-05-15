@@ -51,7 +51,7 @@ module.exports = (env, argv) => ({
     optimization: {
         splitChunks: {
             maxInitialRequests: Infinity,
-            minSize: 1000000,
+            maxSize: 1000000,
             chunks: 'all',
         },
     },
