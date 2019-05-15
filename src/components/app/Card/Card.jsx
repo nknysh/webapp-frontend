@@ -33,16 +33,16 @@ export const Card = ({
   promotionalText,
   starRating,
   suitableForHoneymooners,
-  listPrice,
   additionalInfo,
   amenities,
+  cheapestNight,
 }) => (
   <StyledCard>
     <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
       {preferred && <CardPreferred>Preferred</CardPreferred>}
-      {listPrice && (
+      {cheapestNight && (
         <CardChip>
-          <CardPrice>{listPrice}</CardPrice> /{getSingular('guest')}
+          <CardPrice>{cheapestNight}</CardPrice> /{getSingular('guest')}
         </CardChip>
       )}
       {promotionalText && <CardName>{promotionalText}</CardName>}
