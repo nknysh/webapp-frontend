@@ -74,7 +74,7 @@ export const PasswordResetForm = ({ requestStatus, onReset, error }) => {
 
   return (
     <StyledPasswordResetForm>
-      <Loader isLoading={submitted && isResetting && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
+      <Loader isLoading={submitted && isResetting && !success} text={path(['messages', 'passwordReset'], uiConfig)}>
         <Title>{title}</Title>
         <StyledMarkdown>{description}</StyledMarkdown>
         {renderServerError(getServerError(prop('errors', data), error))}
