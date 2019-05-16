@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import OfflinePluginRuntime from 'offline-plugin/runtime';
 
 import store from 'store';
+
+import headerMeta from 'config/meta';
+import headerLink from 'config/link';
 
 import getRoutes from 'routing';
 import appRoutes from 'routing/routes/apps';
@@ -13,7 +17,6 @@ import { GlobalStyle, GlobalFonts } from 'styles/global';
 
 import './styles/fonts/HurmeGeometricSans2.css';
 import './styles/fonts/NoeDisplay.css';
-import registerServiceWorker from './registerServiceWorker';
 
 if (process.env.NODE_ENV !== 'production') {
   const whyDidYouRender = require('@welldone-software/why-did-you-render');
@@ -23,7 +26,8 @@ if (process.env.NODE_ENV !== 'production') {
 ReactDOM.render(
   <Provider store={store}>
     <Helmet>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+      {headerMeta}
+      {headerLink}
     </Helmet>
     <GlobalFonts />
     <GlobalStyle />
@@ -33,4 +37,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 );
-registerServiceWorker();
+
+OfflinePluginRuntime.install();

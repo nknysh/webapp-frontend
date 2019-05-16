@@ -1,40 +1,47 @@
 @font-face {
+  font-display: auto;
   font-family: HurmeGeometricSans2;
   font-weight: 900;
   src: local('HurmeGeometricSans2-Black'), url(./assets/HurmeGeometricSans2-Black.otf);
 }
 
 @font-face {
+  font-display: auto;
   font-family: HurmeGeometricSans2;
   font-weight: 700;
   src: local('HurmeGeometricSans2-Bold'), url(./assets/HurmeGeometricSans2-Bold.otf);
 }
 
 @font-face {
+  font-display: auto;
   font-family: HurmeGeometricSans2;
   font-weight: 600;
   src: local('HurmeGeometricSans2-SemiBold'), url(./assets/HurmeGeometricSans2-SemiBold.otf);
 }
 
 @font-face {
+  font-display: auto;
   font-family: HurmeGeometricSans2;
   font-weight: 400;
   src: local('HurmeGeometricSans2-Regular'), url(./assets/HurmeGeometricSans2-Regular.otf);
 }
 
 @font-face {
+  font-display: auto;
   font-family: HurmeGeometricSans2;
   font-weight: 300;
   src: local('HurmeGeometricSans2-Light'), url(./assets/HurmeGeometricSans2-Light.otf);
 }
 
 @font-face {
+  font-display: auto;
   font-family: HurmeGeometricSans2;
   font-weight: 200;
   src: local('HurmeGeometricSans2-Thin'), url(./assets/HurmeGeometricSans2-Thin.otf);
 }
 
 @font-face {
+  font-display: auto;
   font-family: HurmeGeometricSans2;
   font-weight: 100;
   src: local('HurmeGeometricSans2-Hairline'), url(./assets/HurmeGeometricSans2-Hairline.otf);

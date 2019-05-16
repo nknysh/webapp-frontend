@@ -1,9 +1,9 @@
 import React from 'react';
-import { path } from 'ramda';
+import { path, prop } from 'ramda';
 
 import config from 'config/ui';
 
-import peLogo from 'public/img/PE_logo.png';
+import peLogo from 'public/assets/img/PE_logo.png';
 
 import { propTypes, defaultProps } from './Loader.props';
 import { StyledLoader, LoaderImage, LoaderText } from './Loader.styles';
@@ -13,7 +13,7 @@ const Loader = ({ isLoading, text, showSpinner, children }) => {
 
   return (
     <StyledLoader>
-      {showSpinner && <LoaderImage src={peLogo} />}
+      {showSpinner && <LoaderImage src={peLogo} alt={prop('title', config)} />}
       <LoaderText>{text || path(['messages', 'loading'], config)}</LoaderText>
     </StyledLoader>
   );

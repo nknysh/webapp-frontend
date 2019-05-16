@@ -2,7 +2,7 @@ import { pipe, values, reverse, ifElse, always, length, equals, all, complement,
 import { differenceInCalendarDays, format, startOfMonth, endOfMonth, eachDay, subDays } from 'date-fns';
 
 import uiConfig from 'config/ui';
-import { isEmptyOrNil } from 'utils';
+import { isEmptyOrNil } from 'utils/helpers';
 
 export const toDate = date => (date ? new Date(date) : new Date());
 

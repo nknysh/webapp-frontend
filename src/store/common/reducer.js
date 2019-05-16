@@ -1,8 +1,9 @@
 import { pipe, set, propOr, values, map, mergeDeepRight } from 'ramda';
 
-import { isArray } from 'utils';
-import { Status } from 'store/common';
+import { isArray } from 'utils/helpers';
 import { statusLens, errorLens, dataLens } from 'store/utils';
+
+import { Status } from './status';
 
 export const loadingReducer = state => set(statusLens, Status.LOADING, { ...state, error: undefined });
 

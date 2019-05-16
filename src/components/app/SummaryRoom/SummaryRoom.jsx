@@ -85,7 +85,7 @@ export const SummaryRoom = ({
       <Room {...props}>
         {!canEdit && prop('url', photo) && (
           <RoomImages>
-            <RoomImage src={prop('url', photo)} />
+            <RoomImage src={prop('url', photo)} alt={prop('displayName', photo)} />
           </RoomImages>
         )}
         <RoomDetails>

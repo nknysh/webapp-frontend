@@ -15,7 +15,11 @@ import {
   pathOr,
 } from 'ramda';
 
-import { SummaryRoom, SummaryRoomEdit, SummaryFormExtras, SummaryFormMargin } from 'components/app';
+import SummaryRoom from 'components/app/SummaryRoom';
+import SummaryRoomEdit from 'components/app/SummaryRoomEdit';
+import SummaryFormExtras from 'components/app/SummaryFormExtras';
+import SummaryFormMargin from 'components/app/SummaryFormMargin';
+
 import { Form, Input } from 'components/elements';
 import { getFormPath } from 'utils';
 

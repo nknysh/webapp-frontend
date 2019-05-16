@@ -214,7 +214,12 @@ export const checkBooking = (id, payload) => async (dispatch, getState) => {
     dispatch(successAction(BOOKING_CHECKS, { [id]: { rooms: { ...guestChecks } } }));
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_CHECKS, e));
-    throw e;
+    dispatch(
+      enqueueNotification({
+        message: 'Could not check booking. Please try again later.',
+        options: { variant: 'error' },
+      })
+    );
   }
 };
 
@@ -263,6 +268,5 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
       enqueueNotification({ message: 'There was a problem creating your booking.', options: { variant: 'error' } })
     );
     dispatch(errorFromResponse(BOOKING_SUBMIT, e));
-    throw e;
   }
 };

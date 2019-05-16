@@ -53,7 +53,6 @@ export const searchByName = destination => async dispatch => {
     dispatch(successAction(SEARCH_BY_NAME, { byName: { result } }));
   } catch (e) {
     dispatch(errorFromResponse(SEARCH_BY_NAME, e));
-    throw e;
   }
 };
 
@@ -80,6 +79,5 @@ export const searchByQuery = query => async dispatch => {
     dispatch(successAction(SEARCH_BY_QUERY, { byQuery: { meta: { term, ...meta }, result: hotelsResults } }));
   } catch (e) {
     dispatch(errorFromResponse(SEARCH_BY_QUERY, e));
-    throw e;
   }
 };

@@ -4,6 +4,7 @@ import { FORBIDDEN } from 'http-status';
 import client from 'api/auth';
 
 import { successAction, errorAction, errorFromResponse } from 'store/common';
+import { enqueueNotification } from 'store/modules/ui/actions';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
@@ -78,7 +79,9 @@ export const getUser = async dispatch => {
     dispatch(successAction(AUTH_REQUEST, data));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_REQUEST, e));
-    throw e;
+    dispatch(
+      enqueueNotification({ message: 'There was a problem fetching the current user.', options: { variant: 'error' } })
+    );
   }
 };
 
@@ -90,7 +93,6 @@ export const signUp = values => async dispatch => {
     dispatch(successAction(AUTH_SIGN_UP, data));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_SIGN_UP, e));
-    throw e;
   }
 };
 
@@ -105,7 +107,7 @@ export const logOut = token => async dispatch => {
     dispatch(successAction(AUTH_LOG_OUT));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_LOG_OUT, e));
-    throw e;
+    dispatch(enqueueNotification({ message: 'Could not log out the user.', options: { variant: 'error' } }));
   }
 };
 
@@ -129,7 +131,6 @@ export const logIn = values => async dispatch => {
     dispatch(successAction(AUTH_REQUEST, { user: { ...data } }));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_REQUEST, e));
-    throw e;
   }
 };
 
@@ -153,6 +154,5 @@ export const setPassword = values => async dispatch => {
     dispatch(successAction(AUTH_SET_PASSWORD, values));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_SET_PASSWORD, e));
-    throw e;
   }
 };

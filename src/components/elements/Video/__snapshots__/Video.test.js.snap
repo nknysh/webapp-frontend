@@ -20,6 +20,7 @@ exports[`<Video /> render matches snapshot 3`] = `
     type="video/mp4"
   />
   <Videostyles__FallbackImage
+    alt=""
     src="http://foo"
   />
 </video>

@@ -7,10 +7,11 @@ import userPanelLinks from 'config/links/user-panel';
 import { DropDownMenu, Link } from 'components';
 import { withAuthentication } from 'hoc';
 
+import { isSending } from 'store/common';
+
 import connect from './UserPanel.state';
 import { propTypes, defaultProps } from './UserPanel.props';
 import { StyledUserPanel, Text } from './UserPanel.styles';
-import { isSending } from 'store/common';
 
 const logoutClickLens = lensPath(['logout', 'onClick']);
 

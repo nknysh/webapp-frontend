@@ -3,6 +3,7 @@
 exports[`<Loader /> render matches snapshots 1`] = `
 <Loaderstyles__StyledLoader>
   <Loaderstyles__LoaderImage
+    alt="Pure Escapes"
     src=""
   />
   <Loaderstyles__LoaderText>
@@ -14,6 +15,7 @@ exports[`<Loader /> render matches snapshots 1`] = `
 exports[`<Loader /> render matches snapshots 2`] = `
 <Loaderstyles__StyledLoader>
   <Loaderstyles__LoaderImage
+    alt="Pure Escapes"
     src=""
   />
   <Loaderstyles__LoaderText>
@@ -25,6 +27,7 @@ exports[`<Loader /> render matches snapshots 2`] = `
 exports[`<Loader /> render matches snapshots 3`] = `
 <Loaderstyles__StyledLoader>
   <Loaderstyles__LoaderImage
+    alt="Pure Escapes"
     src=""
   />
   <Loaderstyles__LoaderText>

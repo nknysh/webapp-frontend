@@ -20,7 +20,7 @@ import {
   uniq,
 } from 'ramda';
 
-import { SummaryFormMargin } from 'components/app';
+import SummaryFormMargin from 'components/app/SummaryFormMargin';
 import { RadioButton } from 'components/elements';
 
 import uiConfig, { getPlural } from 'config/ui';

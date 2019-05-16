@@ -4,6 +4,7 @@ import client from 'api/hotels';
 
 import { successAction, errorFromResponse } from 'store/common';
 import { index } from 'store/modules/indexes/actions';
+import { enqueueNotification } from 'store/modules/ui/actions';
 
 import { getHotelsEntities } from './selectors';
 import schema from './schema';
@@ -41,7 +42,7 @@ export const fetchHotels = params => async dispatch => {
     dispatch(setHotels(data));
   } catch (e) {
     dispatch(errorFromResponse(HOTELS, e));
-    throw e;
+    dispatch(enqueueNotification({ message: 'There was a problem getting hotels.', options: { variant: 'error' } }));
   }
 };
 
@@ -67,6 +68,6 @@ export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endD
     );
   } catch (e) {
     dispatch(errorFromResponse(HOTELS, e));
-    throw e;
+    dispatch(enqueueNotification({ message: 'Could not fetch rates for those dates.', options: { variant: 'error' } }));
   }
 };

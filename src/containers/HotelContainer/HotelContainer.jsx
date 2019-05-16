@@ -18,7 +18,7 @@ import {
 } from 'ramda';
 
 import { Loader, Tabs } from 'components';
-import { BookingContainer } from 'containers';
+import BookingContainer from 'containers/BookingContainer';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
 

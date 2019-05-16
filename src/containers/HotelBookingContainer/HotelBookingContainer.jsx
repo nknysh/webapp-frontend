@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { equals, compose, prop, path, pathOr } from 'ramda';
 
 import { Loader, RadioButton, BankTransferForm, BookingConfirmation } from 'components';
-import { BookingContainer } from 'containers';
+import BookingContainer from 'containers/BookingContainer';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile, noop } from 'utils';
 

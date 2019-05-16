@@ -1,10 +1,10 @@
-import { ContentPage } from 'pages';
+import { AsyncContentPage } from 'pages/ContentPage';
 
 export default [
   {
     name: 'Content Pages',
     exact: true,
     path: '/:pageId',
-    component: ContentPage,
+    component: AsyncContentPage,
   },
 ];

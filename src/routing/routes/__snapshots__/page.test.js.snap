@@ -2,7 +2,12 @@
 
 exports[`routing routes match snapshot 1`] = `
 Object {
-  "component": [Function],
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "exact": true,
   "name": "Content Pages",
   "path": "/:pageId",

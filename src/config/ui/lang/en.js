@@ -1,5 +1,7 @@
 export default {
   title: 'Pure Escapes',
+  description:
+    'Pure Escapes is a full-service destination management company with over 10 years’ experience and expertise across the Indian Ocean. We are dedicated and trusted to creating and delivering the ultimate travel experiences for the most discerning travellers. As the only luxury specialist wholesaler in the Indian Ocean, we have built an extensive network over the years and have long-standing relationships with leading luxury resorts and service providers.',
 
   messages: {
     loading: 'Loading...',

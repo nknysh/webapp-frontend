@@ -25,7 +25,7 @@ import { isThisMonth } from 'date-fns';
 import uiConfig, { getPlural } from 'config/ui';
 
 import { RadioButton, Form, FormFieldError } from 'components/elements';
-import { GuestSelect } from 'components/app';
+import GuestSelect from 'components/app/GuestSelect';
 import { useEffectBoundary } from 'effects';
 import { formatDate, getEndOfMonth, getStartOfMonth, toDate, isEmptyOrNil, isArray, mapWithIndex } from 'utils';
 

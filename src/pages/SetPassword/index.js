@@ -1,1 +1,5 @@
-export { default as SetPassword } from './SetPassword';
+import { lazy } from 'react';
+
+export { default } from './SetPassword';
+
+export const AsyncSetPassword = lazy(() => import('./SetPassword'));

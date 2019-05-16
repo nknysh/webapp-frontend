@@ -2,117 +2,175 @@
 
 exports[`<App /> render matches snapshot 1`] = `
 <withRouter(Layout)>
-  <Switch>
-    <Route
-      auth={true}
-      authComponent={[Function]}
-      exact={true}
-      key="5f160202a8dcaaabeadf9bee291c623a7d3f1a1c"
-      name="Root Path"
-      path="/"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      authRedirect="/login"
-      key="80101d61e626421b2db3c5f8a34bf3878b80d51a"
-      name="Messages"
-      path="/messages"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      authRedirect="/login"
-      key="b39dbf7287b1aeef982ddba3f39cd4025f17a822"
-      name="Proposals"
-      path="/proposals"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      authRedirect="/login"
-      key="0d357fdfaee005362c382ad4f8ebbbccc877d6bf"
-      name="Bookings"
-      path="/bookings"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      authRedirect="/login"
-      key="0e83f0e60914061161c208ed2ef07508db6f602a"
-      name="Holds"
-      path="/holds"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      authRedirect="/login"
-      key="3719134dff536ed5474a1df95412b7fe19a2e502"
-      name="Calendar"
-      path="/calendar"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      key="17c782e7d4e39ebecc43aaf235a17a41bbf43b22"
-      name="Search page"
-      path="/search"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      exact={true}
-      key="2ed872f49357b36ccc01eeae870296cad458e6d8"
-      name="Hotel"
-      path="/hotels/:id"
-      render={[Function]}
-    />
-    <Route
-      auth={true}
-      exact={true}
-      key="acb8fa83c2e168bb41783568d711694db065cd11"
-      name="Hotel"
-      path="/hotels/:id/booking/:complete?"
-      render={[Function]}
-    />
-    <Route
-      component={[Function]}
-      key="2ee726a5e790bd03f0d2000777a30a1eaa355525"
-      name="Login"
-      path="/login"
-    />
-    <Route
-      component={[Function]}
-      key="6dfe9ea18159fe3caf34d7cd34a21dac9e876f83"
-      name="Create Account"
-      path="/sign-up"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      key="303c6af8abda09ba1b1564a0efa89a9b982ead62"
-      name="Password Reset"
-      path="/password-reset"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      key="de6820d6f6cd78cb111a78ee07887aa7aa12c9a3"
-      name="Password Reset"
-      path="/password-reset/:token"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      key="f8523930459db6784973f5c9dde9dba62842916d"
-      name="Content Pages"
-      path="/:pageId"
-    />
-    <Route
-      component={[Function]}
-      key="323217f643c3e3f1fe7532e72ac01bb0748c97be"
-      name="Not Found"
-    />
-  </Switch>
+  <React.Suspense
+    fallback={
+      <Loader
+        isLoading={true}
+        showSpinner={true}
+      />
+    }
+  >
+    <Switch>
+      <Route
+        auth={true}
+        authComponent={
+          Object {
+            "$$typeof": Symbol(react.lazy),
+            "_ctor": [Function],
+            "_result": null,
+            "_status": -1,
+          }
+        }
+        exact={true}
+        key="5f160202a8dcaaabeadf9bee291c623a7d3f1a1c"
+        name="Root Path"
+        path="/"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        authRedirect="/login"
+        key="80101d61e626421b2db3c5f8a34bf3878b80d51a"
+        name="Messages"
+        path="/messages"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        authRedirect="/login"
+        key="b39dbf7287b1aeef982ddba3f39cd4025f17a822"
+        name="Proposals"
+        path="/proposals"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        authRedirect="/login"
+        key="0d357fdfaee005362c382ad4f8ebbbccc877d6bf"
+        name="Bookings"
+        path="/bookings"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        authRedirect="/login"
+        key="0e83f0e60914061161c208ed2ef07508db6f602a"
+        name="Holds"
+        path="/holds"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        authRedirect="/login"
+        key="3719134dff536ed5474a1df95412b7fe19a2e502"
+        name="Calendar"
+        path="/calendar"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        key="17c782e7d4e39ebecc43aaf235a17a41bbf43b22"
+        name="Search page"
+        path="/search"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        exact={true}
+        key="2ed872f49357b36ccc01eeae870296cad458e6d8"
+        name="Hotel"
+        path="/hotels/:id"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        exact={true}
+        key="acb8fa83c2e168bb41783568d711694db065cd11"
+        name="Hotel"
+        path="/hotels/:id/booking/:complete?"
+        render={[Function]}
+      />
+      <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.lazy),
+            "_ctor": [Function],
+            "_result": null,
+            "_status": -1,
+          }
+        }
+        key="2ee726a5e790bd03f0d2000777a30a1eaa355525"
+        name="Login"
+        path="/login"
+      />
+      <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.lazy),
+            "_ctor": [Function],
+            "_result": null,
+            "_status": -1,
+          }
+        }
+        key="6dfe9ea18159fe3caf34d7cd34a21dac9e876f83"
+        name="Create Account"
+        path="/sign-up"
+      />
+      <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.lazy),
+            "_ctor": [Function],
+            "_result": null,
+            "_status": -1,
+          }
+        }
+        exact={true}
+        key="303c6af8abda09ba1b1564a0efa89a9b982ead62"
+        name="Password Reset"
+        path="/password-reset"
+      />
+      <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.lazy),
+            "_ctor": [Function],
+            "_result": null,
+            "_status": -1,
+          }
+        }
+        exact={true}
+        key="de6820d6f6cd78cb111a78ee07887aa7aa12c9a3"
+        name="Password Reset"
+        path="/password-reset/:token"
+      />
+      <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.lazy),
+            "_ctor": [Function],
+            "_result": null,
+            "_status": -1,
+          }
+        }
+        exact={true}
+        key="f8523930459db6784973f5c9dde9dba62842916d"
+        name="Content Pages"
+        path="/:pageId"
+      />
+      <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.lazy),
+            "_ctor": [Function],
+            "_result": null,
+            "_status": -1,
+          }
+        }
+        key="323217f643c3e3f1fe7532e72ac01bb0748c97be"
+        name="Not Found"
+      />
+    </Switch>
+  </React.Suspense>
 </withRouter(Layout)>
 `;
