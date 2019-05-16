@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { compose, lensProp, set, view, pipe, values, path, prop } from 'ramda';
 
 import config from 'config/ui';
-import loggedOutMenuLinks from 'config/links/header--logged-out';
+import headerLinks from 'config/links/header';
 
 import { Modal } from 'components';
 
@@ -33,6 +33,7 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContext, setModalContext] = useState('');
+  const loggedOutMenuLinks = prop('loggedOut', headerLinks);
 
   const onClickToggle = () => setMenuOpen(!menuOpen);
   const onClickAway = () => setMenuOpen(false);

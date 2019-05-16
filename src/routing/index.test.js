@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getRoutes from './index';
+import { getRoutes } from './index';
 
 const MockComponent = () => <div />;
 

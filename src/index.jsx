@@ -9,9 +9,9 @@ import store from 'store';
 
 import headerMeta from 'config/meta';
 import headerLink from 'config/link';
+import entryRoutes from 'routing/entry';
 
-import getRoutes from 'routing';
-import appRoutes from 'routing/routes/apps';
+import { getRoutes } from 'routing';
 
 import { GlobalStyle, GlobalFonts } from 'styles/global';
 
@@ -32,7 +32,7 @@ ReactDOM.render(
     <GlobalFonts />
     <GlobalStyle />
     <BrowserRouter>
-      <Switch>{getRoutes(appRoutes)}</Switch>
+      <Switch>{getRoutes(entryRoutes)}</Switch>
     </BrowserRouter>
   </Provider>,
   document.getElementById('app')

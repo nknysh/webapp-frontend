@@ -3,6 +3,7 @@
 exports[`<Link /> render matches default link snapshot 1`] = `
 <Linkstyles__StyledLink
   bold={false}
+  hard={false}
   inverse={false}
   onClick={[Function]}
   spaced={false}
@@ -17,6 +18,7 @@ exports[`<Link /> render matches default link snapshot 1`] = `
 exports[`<Link /> render matches inverse link snapshot 1`] = `
 <Linkstyles__StyledLink
   bold={false}
+  hard={false}
   inverse={true}
   onClick={[Function]}
   spaced={false}

@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose, prop, path, pipe } from 'ramda';
+import { compose, prop, propOr, defaultTo, path, pipe } from 'ramda';
 
 import { Form, Loader, Title, FormField, FormFieldError } from 'components';
 import PasswordResetForm from 'containers/PasswordResetForm';
@@ -29,7 +29,7 @@ import {
 
 const originRedirect = pipe(
   parseQueryString,
-  prop('origin'),
+  propOr('', 'origin'),
   decodeURIComponent
 );
 
@@ -98,7 +98,8 @@ export const LoginForm = ({ requestStatus, isAuthenticated, location: { search }
   );
 
   const renderComplete = () => {
-    history.push(originRedirect(search) || '/');
+    const redirect = defaultTo('/', originRedirect(search));
+    history.push(redirect);
 
     return <CompleteIcon>done_all</CompleteIcon>;
   };

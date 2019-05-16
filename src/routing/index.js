@@ -1,10 +1,12 @@
 import React, { Suspense } from 'react';
-import { pick, curry, map, has, cond, T, both, propOr, omit, pipe, mergeDeepRight } from 'ramda';
+import { pathOr, path, pick, curry, map, has, cond, T, both, propOr, omit, pipe, mergeDeepRight } from 'ramda';
 import { Route, Redirect } from 'react-router-dom';
 import hash from 'object-hash';
 
 import { AuthenticatedRoute } from 'containers';
 import { Loader } from 'components/elements';
+
+import config from './config';
 
 const isRedirect = both(has('from'), has('to'));
 const requiresAuth = both(has('auth'), propOr(false, 'auth'));
@@ -37,6 +39,6 @@ const getRedirect = renderComponentWithRoute(Redirect);
 
 const renderRoute = cond([[isRedirect, getRedirect], [requiresAuth, getAuthRoute], [T, getRoute]]);
 
-const getRoutes = map(renderRoute);
+export const getRoutes = map(renderRoute);
 
-export default getRoutes;
+export const getAppRoutes = app => getRoutes(pathOr(path(['apps', 'default'], config), ['apps', app], config));

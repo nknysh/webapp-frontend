@@ -4,7 +4,6 @@ import {
   authRequest,
   logIn,
   authLogOut,
-  logOut,
   resetPassword,
   setPassword,
   authSetPasswordReset,
@@ -43,15 +42,6 @@ describe('auth actions', () => {
   describe('authLogOut', () => {
     it('returns action', () => {
       expect(authLogOut({})).toMatchSnapshot();
-    });
-  });
-  describe('logOut', () => {
-    it('calls dispatch thunks', () => {
-      const dispatch = jest.fn();
-
-      logOut({})(dispatch);
-
-      expect(dispatch).toHaveBeenCalledTimes(1);
     });
   });
   describe('authPasswordReset', () => {

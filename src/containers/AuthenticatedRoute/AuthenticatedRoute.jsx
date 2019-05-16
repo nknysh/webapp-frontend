@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-import { compose, path } from 'ramda';
+import { compose, path, prop } from 'ramda';
 
 import config from 'config/ui';
 import { Loader } from 'components';
@@ -12,12 +12,12 @@ import { propTypes, defaultProps } from './AuthenticatedRoute.props';
 const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
 
 // eslint-disable-next-line react/prop-types
-const renderRedirect = ({ pathname, search }, path = '/login') => (
-  <Redirect to={`${path}?origin=${encodeURIComponent(`${pathname}${search}`)}`} />
-);
+const renderRedirect = ({ pathname, search }, props, path = '/login') => {
+  const returnPath = prop('ignore', props) ? '' : `?origin=${encodeURIComponent(`${pathname}${search}`)}`;
+  return <Redirect to={`${path}${returnPath}`} />;
+};
 
-const renderRoute = (Component, props) =>
-  (Component && <Component {...props} />) || <Route component={AsyncNotFound} />;
+const renderRoute = (Component, props) => (Component && <Component {...props} />) || <Route render={AsyncNotFound} />;
 
 export const AuthenticatedRoute = ({
   auth,
@@ -41,11 +41,11 @@ export const AuthenticatedRoute = ({
   }
 
   if (!routeIsAuthenticated && authRedirect) {
-    return renderRedirect(location, authRedirect);
+    return renderRedirect(location, routeProps, authRedirect);
   }
 
   if (!routeIsAuthenticated) {
-    return renderRedirect(location);
+    return renderRedirect(location, routeProps);
   }
 
   return renderRoute(Route, routeProps);

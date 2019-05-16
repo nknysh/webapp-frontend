@@ -155,14 +155,16 @@ Object {
 
 exports[`routing app routes match snapshot 11`] = `
 Object {
+  "auth": true,
   "component": Object {
     "$$typeof": Symbol(react.lazy),
     "_ctor": [Function],
     "_result": null,
     "_status": -1,
   },
-  "name": "Create Account",
-  "path": "/sign-up",
+  "ignore": true,
+  "name": "Logout",
+  "path": "/logout",
 }
 `;
 
@@ -174,9 +176,8 @@ Object {
     "_result": null,
     "_status": -1,
   },
-  "exact": true,
-  "name": "Password Reset",
-  "path": "/password-reset",
+  "name": "Create Account",
+  "path": "/sign-up",
 }
 `;
 
@@ -190,11 +191,25 @@ Object {
   },
   "exact": true,
   "name": "Password Reset",
-  "path": "/password-reset/:token",
+  "path": "/password-reset",
 }
 `;
 
 exports[`routing app routes match snapshot 14`] = `
+Object {
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "exact": true,
+  "name": "Password Reset",
+  "path": "/password-reset/:token",
+}
+`;
+
+exports[`routing app routes match snapshot 15`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
@@ -208,7 +223,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 15`] = `
+exports[`routing app routes match snapshot 16`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
