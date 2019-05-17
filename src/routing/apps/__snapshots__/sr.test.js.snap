@@ -16,6 +16,50 @@ Object {
 
 exports[`routing app routes match snapshot 2`] = `
 Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "name": "Search page",
+  "path": "/search",
+}
+`;
+
+exports[`routing app routes match snapshot 3`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "exact": true,
+  "name": "Hotel",
+  "path": "/hotels/:id",
+}
+`;
+
+exports[`routing app routes match snapshot 4`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "exact": true,
+  "name": "Hotel",
+  "path": "/hotels/:id/booking/:complete?",
+}
+`;
+
+exports[`routing app routes match snapshot 5`] = `
+Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
     "_ctor": [Function],
@@ -27,7 +71,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 3`] = `
+exports[`routing app routes match snapshot 6`] = `
 Object {
   "auth": true,
   "component": Object {
@@ -42,7 +86,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 4`] = `
+exports[`routing app routes match snapshot 7`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
@@ -55,7 +99,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 5`] = `
+exports[`routing app routes match snapshot 8`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
@@ -69,7 +113,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 6`] = `
+exports[`routing app routes match snapshot 9`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
@@ -83,7 +127,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 7`] = `
+exports[`routing app routes match snapshot 10`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
@@ -97,7 +141,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 8`] = `
+exports[`routing app routes match snapshot 11`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),

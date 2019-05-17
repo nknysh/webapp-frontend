@@ -1,3 +1,9 @@
+import auth from 'routing/common/auth';
+import page from 'routing/common/page';
+import notFound from 'routing/common/notFound';
+import search from 'routing/common/search';
+import hotels from 'routing/common/hotels';
+
 import { AsyncHome } from 'pages/Home';
 import { AsyncHomeAuthenticated } from 'pages/HomeAuthenticated';
 import { AsyncNotFound } from 'pages/NotFound';
@@ -46,4 +52,9 @@ export default [
     auth: true,
     authRedirect: '/login',
   },
+  ...search,
+  ...hotels,
+  ...auth,
+  ...page,
+  ...notFound,
 ];

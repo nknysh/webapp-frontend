@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-import { Container } from 'styles/elements';
+import { Container, SearchArea, SearchBar } from './Dashboard.styles';
 
 export const Dashboard = () => (
-  <Container>
-    <h1>Dashboard</h1>
-  </Container>
+  <Fragment>
+    <SearchArea>
+      <Container>
+        <SearchBar />
+      </Container>
+    </SearchArea>
+    <Container>
+      <h1>Dashboard</h1>
+    </Container>
+  </Fragment>
 );
 
 export default Dashboard;
