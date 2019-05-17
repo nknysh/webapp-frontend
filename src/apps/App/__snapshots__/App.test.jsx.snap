@@ -91,17 +91,10 @@ exports[`<App /> render matches snapshot 1`] = `
         render={[Function]}
       />
       <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.lazy),
-            "_ctor": [Function],
-            "_result": null,
-            "_status": -1,
-          }
-        }
         key="2ee726a5e790bd03f0d2000777a30a1eaa355525"
         name="Login"
         path="/login"
+        render={[Function]}
       />
       <Route
         auth={true}
@@ -112,71 +105,36 @@ exports[`<App /> render matches snapshot 1`] = `
         render={[Function]}
       />
       <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.lazy),
-            "_ctor": [Function],
-            "_result": null,
-            "_status": -1,
-          }
-        }
         key="6dfe9ea18159fe3caf34d7cd34a21dac9e876f83"
         name="Create Account"
         path="/sign-up"
+        render={[Function]}
       />
       <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.lazy),
-            "_ctor": [Function],
-            "_result": null,
-            "_status": -1,
-          }
-        }
         exact={true}
         key="303c6af8abda09ba1b1564a0efa89a9b982ead62"
         name="Password Reset"
         path="/password-reset"
+        render={[Function]}
       />
       <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.lazy),
-            "_ctor": [Function],
-            "_result": null,
-            "_status": -1,
-          }
-        }
         exact={true}
         key="de6820d6f6cd78cb111a78ee07887aa7aa12c9a3"
         name="Password Reset"
         path="/password-reset/:token"
+        render={[Function]}
       />
       <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.lazy),
-            "_ctor": [Function],
-            "_result": null,
-            "_status": -1,
-          }
-        }
         exact={true}
         key="f8523930459db6784973f5c9dde9dba62842916d"
         name="Content Pages"
         path="/:pageId"
+        render={[Function]}
       />
       <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.lazy),
-            "_ctor": [Function],
-            "_result": null,
-            "_status": -1,
-          }
-        }
         key="323217f643c3e3f1fe7532e72ac01bb0748c97be"
         name="Not Found"
+        render={[Function]}
       />
     </Switch>
   </React.Suspense>

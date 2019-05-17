@@ -17,19 +17,25 @@ const getRouteHash = pipe(
   hash
 );
 
-const renderComponentWithRoute = curry((Component, route) => (
-  <Component key={getRouteHash(route)} {...sanitizeRoute(route)} />
+export const routeRenderer = (Component, props) => (
+  <Suspense fallback={<Loader />}>
+    <Component {...props} />
+  </Suspense>
+);
+
+const renderComponentWithRoute = curry((Component, { component: RouteComponent, ...route }) => (
+  <Component
+    key={getRouteHash(route)}
+    {...sanitizeRoute(route)}
+    render={props => routeRenderer(RouteComponent, mergeDeepRight(props, sanitizeRoute(route)))}
+  />
 ));
 
 const renderComponentWithRouteProps = curry((Component, route) => (
   <Route
     key={getRouteHash(route)}
     {...omit(['component'], sanitizeRoute(route))}
-    render={props => (
-      <Suspense fallback={<Loader />}>
-        <Component {...mergeDeepRight(props, sanitizeRoute(route))} />
-      </Suspense>
-    )}
+    render={props => routeRenderer(Component, mergeDeepRight(props, sanitizeRoute(route)))}
   />
 ));
 

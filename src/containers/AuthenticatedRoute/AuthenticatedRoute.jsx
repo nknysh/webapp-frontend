@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, path, prop } from 'ramda';
 
@@ -9,6 +9,12 @@ import { withAuthentication } from 'hoc';
 
 import { propTypes, defaultProps } from './AuthenticatedRoute.props';
 
+export const routeRenderer = (Component, props) => (
+  <Suspense fallback={<Loader />}>
+    <Component {...props} />
+  </Suspense>
+);
+
 const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
 
 // eslint-disable-next-line react/prop-types
@@ -17,8 +23,10 @@ const renderRedirect = ({ pathname, search }, props, path = '/login') => {
   return <Redirect to={`${path}${returnPath}`} />;
 };
 
-const renderRoute = (Component, props) =>
-  (Component && <Component {...props} />) || <Route component={AsyncNotFound} />;
+const renderRoute = (Component, { component: RouteComponent, ...props }) =>
+  (Component && <Component {...props} render={props => routeRenderer(RouteComponent, props)} />) || (
+    <Route component={AsyncNotFound} />
+  );
 
 export const AuthenticatedRoute = ({
   auth,
