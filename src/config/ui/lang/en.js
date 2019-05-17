@@ -16,6 +16,7 @@ export default {
     gettingHotel: 'Getting hotel details...',
     preparingBooking: 'Preparing booking...',
     submittingBooking: 'Submitting booking...',
+    redirecting: 'Redirecting...',
   },
 
   labels: {
