@@ -1,3 +1,5 @@
+import { ADMIN_BASE_URL } from 'config';
+
 export default {
   loggedOut: {
     createAccount: {
@@ -41,17 +43,17 @@ export default {
     },
     {
       title: 'Bookings',
-      href: `${process.env.ADMIN_BASE_URL}/index.html#/bookings`,
+      href: `${ADMIN_BASE_URL}/index.html#/bookings`,
       hard: true,
     },
     {
       title: 'Holds',
-      href: `${process.env.ADMIN_BASE_URL}/index.html#/holds`,
+      href: `${ADMIN_BASE_URL}/index.html#/holds`,
       hard: true,
     },
     {
       title: 'Travel Agents',
-      href: `${process.env.ADMIN_BASE_URL}/index.html#/travel-agents`,
+      href: `${ADMIN_BASE_URL}/index.html#/travel-agents`,
       hard: true,
     },
   ],
