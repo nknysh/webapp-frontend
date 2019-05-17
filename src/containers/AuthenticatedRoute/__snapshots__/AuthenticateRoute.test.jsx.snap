@@ -2,9 +2,9 @@
 
 exports[`<AuthenticatedRoute /> render custom auth redirect route when not authenticated 1`] = `
 <MockAuthRedirect
+  component={[Function]}
   location={Object {}}
   path="/about-us"
-  render={[Function]}
 />
 `;
 

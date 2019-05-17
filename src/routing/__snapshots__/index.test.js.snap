@@ -12,14 +12,13 @@ exports[`getRoutes builds redirect components 1`] = `
 <Redirect
   from="/from"
   push={false}
-  render={[Function]}
   to="/to"
 />
 `;
 
 exports[`getRoutes builds route components 1`] = `
 <Route
+  component={[Function]}
   path="/"
-  render={[Function]}
 />
 `;
