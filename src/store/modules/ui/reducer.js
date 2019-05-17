@@ -1,15 +1,30 @@
-import { __, prop, lensPath, set, mergeDeepRight, complement, pipe, equals, filter, objOf } from 'ramda';
+import {
+  __,
+  prop,
+  tryCatch,
+  always,
+  lensPath,
+  propOr,
+  set,
+  mergeDeepRight,
+  complement,
+  pipe,
+  equals,
+  filter,
+  objOf,
+} from 'ramda';
 
-import headerLinks from 'config/links/header--authenticated';
+import headerLinks from 'config/links/header';
 import footerLinks from 'config/links/footer';
 
 import { createReducer } from 'store/utils';
 
-import { AUTH_TOKEN, AUTH_SET_TOKEN } from 'store/modules/auth/actions';
+import { AUTH_TOKEN, AUTH_SET_TOKEN, AUTH_USER } from 'store/modules/auth/actions';
 
 import { UI_ENQUEUE_NOTIFICATION, UI_REMOVE_NOTIFICATION } from './actions';
 
 const headerLens = lensPath(['menus', 'header']);
+const parseJson = tryCatch(JSON.parse, always(undefined));
 
 const initialState = {
   menus: {
@@ -19,7 +34,16 @@ const initialState = {
   notifications: [],
 };
 
-const authenticatedState = set(headerLens, headerLinks);
+const defaultProp = prop('default');
+
+const authenticatedState = state => {
+  const localStorageUser = parseJson(localStorage.getItem(AUTH_USER));
+  return set(
+    headerLens,
+    propOr(defaultProp(headerLinks), propOr('default', 'type', localStorageUser), headerLinks),
+    state
+  );
+};
 
 export const setAuthenticatedState = state => ({ ...state, ...authenticatedState(state) });
 

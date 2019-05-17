@@ -26,6 +26,7 @@ module.exports = (env, argv) => ({
     devtool: modeIsDev(argv) && 'source-map',
     devServer: {
         historyApiFallback: true,
+        port: 8080,
         proxy: {
             '/api/**': {
                 target: 'http://localhost:8002',
@@ -51,7 +52,7 @@ module.exports = (env, argv) => ({
     optimization: {
         splitChunks: {
             maxInitialRequests: Infinity,
-            maxSize: 1000000,
+            maxSize: 500000,
             chunks: 'all',
         },
     },

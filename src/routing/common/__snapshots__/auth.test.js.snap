@@ -15,6 +15,21 @@ Object {
 
 exports[`routing routes match snapshot 2`] = `
 Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "ignore": true,
+  "name": "Logout",
+  "path": "/logout",
+}
+`;
+
+exports[`routing routes match snapshot 3`] = `
+Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
     "_ctor": [Function],
@@ -26,7 +41,7 @@ Object {
 }
 `;
 
-exports[`routing routes match snapshot 3`] = `
+exports[`routing routes match snapshot 4`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
@@ -40,7 +55,7 @@ Object {
 }
 `;
 
-exports[`routing routes match snapshot 4`] = `
+exports[`routing routes match snapshot 5`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),

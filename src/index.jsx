@@ -7,18 +7,19 @@ import OfflinePluginRuntime from 'offline-plugin/runtime';
 
 import store from 'store';
 
+import { APP_ENV } from 'config';
 import headerMeta from 'config/meta';
 import headerLink from 'config/link';
+import entryRoutes from 'routing/entry';
 
-import getRoutes from 'routing';
-import appRoutes from 'routing/routes/apps';
+import { getRoutes } from 'routing';
 
 import { GlobalStyle, GlobalFonts } from 'styles/global';
 
 import './styles/fonts/HurmeGeometricSans2.css';
 import './styles/fonts/NoeDisplay.css';
 
-if (process.env.NODE_ENV !== 'production') {
+if (APP_ENV !== 'production') {
   const whyDidYouRender = require('@welldone-software/why-did-you-render');
   whyDidYouRender(React);
 }
@@ -32,7 +33,7 @@ ReactDOM.render(
     <GlobalFonts />
     <GlobalStyle />
     <BrowserRouter>
-      <Switch>{getRoutes(appRoutes)}</Switch>
+      <Switch>{getRoutes(entryRoutes)}</Switch>
     </BrowserRouter>
   </Provider>,
   document.getElementById('app')

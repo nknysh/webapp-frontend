@@ -1,11 +1,11 @@
 import { map } from 'ramda';
 
-import appsRoutes from './apps';
+import appRoutes from './index';
 
 const takeSnapshot = route => expect(route).toMatchSnapshot();
 
 describe('routing', () => {
-  it('routes match snapshot', () => {
-    map(takeSnapshot, appsRoutes);
+  it('app routes match snapshot', () => {
+    map(takeSnapshot, appRoutes);
   });
 });

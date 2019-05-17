@@ -5,6 +5,7 @@ import client from 'api/auth';
 
 import { successAction, errorAction, errorFromResponse } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
+import { isAuthenticated } from './selectors';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
@@ -96,7 +97,11 @@ export const signUp = values => async dispatch => {
   }
 };
 
-export const logOut = token => async dispatch => {
+export const logOut = token => async (dispatch, getState) => {
+  if (!isAuthenticated(getState())) {
+    return dispatch(successAction(AUTH_LOG_OUT));
+  }
+
   dispatch(authLogOut(token));
   deleteRememberedToken();
   deleteRememberedUser();
@@ -106,8 +111,7 @@ export const logOut = token => async dispatch => {
     dispatch(authReset());
     dispatch(successAction(AUTH_LOG_OUT));
   } catch (e) {
-    dispatch(errorFromResponse(AUTH_LOG_OUT, e));
-    dispatch(enqueueNotification({ message: 'Could not log out the user.', options: { variant: 'error' } }));
+    return true;
   }
 };
 

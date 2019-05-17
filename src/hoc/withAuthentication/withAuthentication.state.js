@@ -1,5 +1,7 @@
+import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 import { getAuthStatus, getAuthToken, isAuthenticated } from 'store/modules/auth/selectors';
+import { logOut } from 'store/modules/auth/actions';
 import { isLoading } from 'store/common';
 
 const mapStateToProps = state => ({
@@ -8,4 +10,14 @@ const mapStateToProps = state => ({
   token: getAuthToken(state),
 });
 
-export default connect(mapStateToProps);
+const mapDispatchToProps = dispatch => ({
+  logOut: pipe(
+    logOut,
+    dispatch
+  ),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+);

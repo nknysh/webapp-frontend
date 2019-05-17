@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing app routes match snapshot 1`] = `
+Object {
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "name": "Login",
+  "path": "/login",
+}
+`;
+
+exports[`routing app routes match snapshot 2`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "ignore": true,
+  "name": "Logout",
+  "path": "/logout",
+}
+`;
+
+exports[`routing app routes match snapshot 3`] = `
+Object {
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "name": "Create Account",
+  "path": "/sign-up",
+}
+`;
+
+exports[`routing app routes match snapshot 4`] = `
+Object {
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "exact": true,
+  "name": "Password Reset",
+  "path": "/password-reset",
+}
+`;
+
+exports[`routing app routes match snapshot 5`] = `
+Object {
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "exact": true,
+  "name": "Password Reset",
+  "path": "/password-reset/:token",
+}
+`;
+
+exports[`routing app routes match snapshot 6`] = `
+Object {
+  "name": "Redirect to Admin",
+  "render": [Function],
+}
+`;

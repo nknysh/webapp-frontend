@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routing routes match snapshot 1`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "name": "Search page",
+  "path": "/search",
+}
+`;

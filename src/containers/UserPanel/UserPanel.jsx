@@ -22,7 +22,7 @@ const renderLink = ({ title, ...props }) => (
   </Link>
 );
 
-export const UserPanel = ({ isAuthenticated, currentUser, requestStatus, token, onLogout }) => {
+export const UserPanel = ({ isAuthenticated, currentUser, requestStatus, token, logOut }) => {
   if (!isAuthenticated || !currentUser) return null;
 
   const [logout, setLogout] = useState(false);
@@ -31,7 +31,7 @@ export const UserPanel = ({ isAuthenticated, currentUser, requestStatus, token, 
 
   const onLogoutClick = () => {
     setLogout(true);
-    onLogout(token);
+    logOut(token);
   };
 
   const links = set(logoutClickLens, onLogoutClick, userPanelLinks);

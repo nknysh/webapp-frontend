@@ -1,10 +1,11 @@
 import React from 'react';
+import { prop } from 'ramda';
 
-import headerLinks from 'config/links/header--authenticated';
+import headerLinks from 'config/links/header';
 
 import Menu from './Menu';
 
-const getComponent = props => shallow(<Menu isAuthenticated={false} links={headerLinks} {...props} />);
+const getComponent = props => shallow(<Menu isAuthenticated={false} links={prop('default', headerLinks)} {...props} />);
 
 describe('<Menu />', () => {
   describe('render', () => {

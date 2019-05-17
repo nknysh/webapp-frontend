@@ -104,6 +104,14 @@ exports[`<App /> render matches snapshot 1`] = `
         path="/login"
       />
       <Route
+        auth={true}
+        ignore={true}
+        key="389f64b2402428d0673fc85de311e5583f5b534a"
+        name="Logout"
+        path="/logout"
+        render={[Function]}
+      />
+      <Route
         component={
           Object {
             "$$typeof": Symbol(react.lazy),

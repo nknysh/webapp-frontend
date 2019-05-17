@@ -1,11 +1,10 @@
 import React, { Suspense } from 'react';
 import { Switch, withRouter } from 'react-router-dom';
-import { compose } from 'ramda';
+import { compose, prop } from 'ramda';
 
-import getRoutes from 'routing';
-import routes from 'routing/app';
+import { getAppRoutes } from 'routing';
 
-import { useScrollToTop, useTokenFromWindow, useEffectBoundary } from 'effects';
+import { useScrollToTop, useEffectBoundary } from 'effects';
 import { Loader } from 'components/elements';
 import { Layout } from 'components/layouts/Layout';
 import { ErrorBoundary } from 'hoc';
@@ -13,8 +12,7 @@ import { ErrorBoundary } from 'hoc';
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 
-export const App = ({ location: { pathname }, setToken, resetStatuses }) => {
-  useTokenFromWindow(setToken);
+export const App = ({ location: { pathname }, currentUser, resetStatuses }) => {
   useScrollToTop(pathname);
 
   useEffectBoundary(() => {
@@ -24,7 +22,7 @@ export const App = ({ location: { pathname }, setToken, resetStatuses }) => {
   return (
     <Layout>
       <Suspense fallback={<Loader />}>
-        <Switch>{getRoutes(routes)}</Switch>
+        <Switch>{getAppRoutes(prop('type', currentUser))}</Switch>
       </Suspense>
     </Layout>
   );
