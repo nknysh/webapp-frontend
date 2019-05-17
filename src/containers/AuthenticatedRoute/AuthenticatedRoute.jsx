@@ -9,13 +9,13 @@ import { withAuthentication } from 'hoc';
 
 import { propTypes, defaultProps } from './AuthenticatedRoute.props';
 
-const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
-
 export const routeRenderer = (Component, props) => (
-  <Suspense fallback={renderLoadingMessage()}>
+  <Suspense fallback={<Loader />}>
     <Component {...props} />
   </Suspense>
 );
+
+const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
 
 // eslint-disable-next-line react/prop-types
 const renderRedirect = ({ pathname, search }, props, path = '/login') => {
