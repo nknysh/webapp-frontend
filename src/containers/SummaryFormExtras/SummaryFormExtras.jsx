@@ -18,6 +18,7 @@ import {
   includes,
   without,
   uniq,
+  compose,
 } from 'ramda';
 
 import SummaryFormMargin from 'components/app/SummaryFormMargin';
@@ -25,6 +26,7 @@ import { RadioButton } from 'components/elements';
 
 import uiConfig, { getPlural } from 'config/ui';
 
+import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
 import {
   Extra,
@@ -52,15 +54,19 @@ const renderOptionRate = multiple => ({ rate, name }) => (
 export const SummaryFormExtras = ({
   total,
   transfers,
+  transfersTotal,
+  groundServicesTotal,
   groundServices,
   addons,
+  addonsTotals,
   onChange,
   onExtraChange,
   summaryOnly,
-  totals,
   getRate,
   values,
 }) => {
+  const totals = { transfer: transfersTotal, groundService: groundServicesTotal, addon: addonsTotals };
+
   const getOption = (accum, { name, uuid: value, rate }) => {
     const rates = prop('rates', getRate(rate));
 
@@ -150,7 +156,7 @@ export const SummaryFormExtras = ({
         )
       ) : (
         <AddonCheckbox
-          name={`addons`}
+          name="addons"
           checked={checked}
           onChange={onChecked}
           key={uuid}
@@ -201,4 +207,4 @@ export const SummaryFormExtras = ({
 SummaryFormExtras.propTypes = propTypes;
 SummaryFormExtras.defaultProps = defaultProps;
 
-export default SummaryFormExtras;
+export default compose(connect)(SummaryFormExtras);

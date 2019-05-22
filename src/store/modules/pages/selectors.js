@@ -1,5 +1,6 @@
-import { createSelector } from 'reselect';
 import { prop } from 'ramda';
+
+import { createSelector } from 'store/utils';
 
 export const getPages = prop('pages');
 

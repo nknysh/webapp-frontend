@@ -25,34 +25,9 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
       }
     />
     <HotelContainerstyles__Full>
-      <HotelContainerstyles__StyledHotel
-        getRoomUploads={[Function]}
-        onRoomAdd={[Function]}
-        onRoomRemove={[Function]}
-      />
+      <HotelContainerstyles__StyledHotel />
       <HotelContainerstyles__Aside>
-        <Connect(Component)
-          Component={
-            Object {
-              "$$typeof": Symbol(react.forward_ref),
-              "attrs": Array [],
-              "componentStyle": ComponentStyle {
-                "componentId": "HotelContainerstyles__StyledSummary-sc-1gsnu6z-2",
-                "isStatic": true,
-                "rules": Array [],
-              },
-              "displayName": "HotelContainerstyles__StyledSummary",
-              "foldedComponentIds": Array [],
-              "render": [Function],
-              "styledComponentId": "HotelContainerstyles__StyledSummary-sc-1gsnu6z-2",
-              "target": [Function],
-              "toString": [Function],
-              "warnTooManyClasses": [Function],
-              "withComponent": [Function],
-            }
-          }
-          onBook={[Function]}
-        />
+        <HotelContainerstyles__StyledSummary />
       </HotelContainerstyles__Aside>
     </HotelContainerstyles__Full>
   </HotelContainerstyles__StyledHotelContainer>

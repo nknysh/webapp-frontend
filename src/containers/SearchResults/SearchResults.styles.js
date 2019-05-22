@@ -12,6 +12,8 @@ export const modalStyles = {
 
 export const StyledResults = styled.div`
   padding ${theme.gutter * 2}px;
+  position: relative;
+  min-height: ${theme.gutter * 100}px;
 
   ${breakpoints.tablet`
     padding: 0;

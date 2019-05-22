@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { default as BaseBookingForm } from 'components/app/BookingForm';
 import { Markdown, Modal } from 'components/elements';
-import { SummaryForm } from 'components/app';
+import SummaryForm from 'containers/SummaryForm';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';

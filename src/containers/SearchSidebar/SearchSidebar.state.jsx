@@ -18,7 +18,7 @@ export const mapStateToProps = state => ({
   countries: getCountriesData(state),
   features: getSearchFiltersFeatures(state, 'byQuery'),
   getCountryName: getCountryName(state),
-  getHotelName: getHotelName(state),
+  getHotelName: name => getHotelName(state, name),
   hotels: getHotelsData(state),
   hotelsStatus: getHotelsStatus(state),
   regions: getSearchFiltersRegions(state, 'byQuery'),

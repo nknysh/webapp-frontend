@@ -20,7 +20,17 @@ import {
 
 const renderLabel = label => label && <GuestSelectLabel>{label}</GuestSelectLabel>;
 
-export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues, minMax, errors, children }) => {
+export const GuestSelect = ({
+  ageRanges,
+  label,
+  onSelected,
+  selectedValues,
+  minMax,
+  errors,
+  children,
+  onRoomChange,
+  selectedRoom,
+}) => {
   const rooms = length(selectedValues);
 
   const onQuantityChange = number => {
@@ -46,7 +56,11 @@ export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues, minM
     </Fragment>
   );
 
-  const renderTabLabels = i => <TabLabel data-error={!isEmptyOrNil(prop(i, errors))}>Room {i + 1}</TabLabel>;
+  const renderTabLabels = i => (
+    <TabLabel key={i} value={i} data-error={!isEmptyOrNil(prop(i, errors))}>
+      Room {i + 1}
+    </TabLabel>
+  );
 
   const labels = (gt(rooms, 1) && times(renderTabLabels, rooms)) || [];
 
@@ -61,7 +75,7 @@ export const GuestSelect = ({ ageRanges, label, onSelected, selectedValues, minM
           <GuestSelectNumberSelect value={rooms} onChange={onQuantityChange} min={1} />
         </GuestSelectEntry>
       </GuestSelectSection>
-      <RoomTabs scrollButtons="auto" variant="scrollable" labels={labels}>
+      <RoomTabs value={selectedRoom} scrollButtons="auto" variant="scrollable" labels={labels} onChange={onRoomChange}>
         {tabs}
       </RoomTabs>
     </StyledGuestSelect>

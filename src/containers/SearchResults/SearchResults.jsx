@@ -45,8 +45,8 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
 
   return (
     <Fragment>
-      <Loader text={path(['messages', 'searching'], uiConfig)} isLoading={isActive(searchStatus)}>
-        <StyledResults>
+      <StyledResults>
+        <Loader text={path(['messages', 'searching'], uiConfig)} isLoading={isActive(searchStatus)} showPrev={true}>
           <ResultsTitle>{title}</ResultsTitle>
           {isMobile(currentWidth) && (
             <Filtering>
@@ -54,8 +54,8 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
             </Filtering>
           )}
           <Results>{map(renderResult, defaultTo([], result))}</Results>
-        </StyledResults>
-      </Loader>
+        </Loader>
+      </StyledResults>
       {isMobile(currentWidth) && (
         <Modal open={modalOpen} modalContentProps={modalStyles} onClose={onClose}>
           <SearchSidebar />

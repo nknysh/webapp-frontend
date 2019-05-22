@@ -20,7 +20,6 @@ import {
   mapObjIndexed,
   multiply,
   pipe,
-  prop,
   propEq,
   propOr,
   propSatisfies,
@@ -47,7 +46,7 @@ export const hasOccupancy = pipe(
 );
 
 export const canBook = pipe(
-  prop('guests'),
+  propOr([], 'guests'),
   ifElse(noQuantity, F, hasOccupancy)
 );
 
@@ -65,7 +64,6 @@ export const getRateAmount = pipe(
   Number
 );
 
-export const getTotalRate = (accum, rate) => append(getRateAmount(rate), accum);
 export const totalByQuantity = curry((rate, amount) => multiply(propOr(0, 'rate', rate), amount));
 
 const mapProductRatesToAges = curry((rates, age) => {

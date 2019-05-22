@@ -1,24 +1,7 @@
 import React, { Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import {
-  __,
-  allPass,
-  complement,
-  compose,
-  defaultTo,
-  has,
-  isEmpty,
-  lensProp,
-  map,
-  path,
-  prop,
-  propOr,
-  values,
-  view,
-} from 'ramda';
+import { allPass, complement, compose, has, isEmpty, map, path, prop, values } from 'ramda';
 
 import { Loader, Tabs } from 'components';
-import BookingContainer from 'containers/BookingContainer';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
 
@@ -39,8 +22,6 @@ import {
   Title,
 } from './HotelContainer.styles';
 
-const roomsLens = lensProp('rooms');
-
 const reloadIfMissing = complement(allPass([has('photos'), has('accommodationProducts')]));
 
 const renderBackButton = () => <Back to="/search">{path(['labels', 'backToSearch'], uiConfig)}</Back>;
@@ -52,51 +33,19 @@ const renderBrochure = ({ uuid, displayName, url }) => (
   </Brochure>
 );
 
-export const HotelContainer = ({
-  accommodationProducts,
-  addRoom,
-  fetchHotel,
-  getBooking,
-  getHotelUploads,
-  history,
-  hotel,
-  hotelStatus,
-  id,
-  removeRoom,
-}) => {
+export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, photos }) => {
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
-
-  const booking = getBooking(id);
-  const photos = getHotelUploads(propOr([], 'photos', hotel));
-  const brochures = defaultTo([], getHotelUploads(propOr([], 'brochures', hotel)));
-
-  const viewBooking = view(__, booking);
-
-  const onBook = () => history.push(`/hotels/${id}/booking`);
 
   const renderBreadcrumbs = () => (
     <StyledBreadcrumbs links={[{ label: renderBackButton() }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
   );
 
-  const onRoomAdd = uuid => addRoom(id, uuid);
-  const onRoomRemove = uuid => removeRoom(id, uuid);
-
-  const renderHotel = () => (
-    <StyledHotel
-      {...hotel}
-      accommodationProducts={accommodationProducts}
-      onRoomAdd={onRoomAdd}
-      onRoomRemove={onRoomRemove}
-      photos={photos}
-      selectedRooms={viewBooking(roomsLens)}
-      getRoomUploads={getHotelUploads}
-    />
-  );
+  const renderHotel = () => <StyledHotel {...hotel} id={id} photos={photos} />;
 
   const renderSummary = () => (
     <Aside>
-      <BookingContainer Component={StyledSummary} hotelUuid={id} onBook={onBook} />
+      <StyledSummary hotelUuid={id} />
       {!isEmpty(brochures) && (
         <AsideDetails>
           <Title>{getPlural('brochure')}</Title>
@@ -136,7 +85,4 @@ export const HotelContainer = ({
 HotelContainer.propTypes = propTypes;
 HotelContainer.defaultProps = defaultProps;
 
-export default compose(
-  connect,
-  withRouter
-)(HotelContainer);
+export default compose(connect)(HotelContainer);

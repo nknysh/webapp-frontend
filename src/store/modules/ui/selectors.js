@@ -1,5 +1,6 @@
-import { createSelector } from 'reselect';
 import { prop } from 'ramda';
+
+import { createSelector } from 'store/utils';
 
 import { isAuthenticated } from 'store/modules/auth/selectors';
 

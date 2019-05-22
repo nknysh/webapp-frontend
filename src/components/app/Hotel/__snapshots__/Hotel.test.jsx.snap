@@ -38,12 +38,7 @@ exports[`<Hotel /> render matches snapshot 1`] = `
         <Hotelstyles__HotelDetailsColumnRight />
       </Hotelstyles__HotelDetailsRow>
     </Hotelstyles__HotelInfo>
-    <Hotelstyles__StyledRooms
-      onRoomAdd={[Function]}
-      onRoomRemove={[Function]}
-      rooms={Array []}
-      selectedRooms={Object {}}
-    />
+    <Hotelstyles__StyledRooms />
   </Hotelstyles__HotelDetails>
 </Hotelstyles__StyledHotel>
 `;

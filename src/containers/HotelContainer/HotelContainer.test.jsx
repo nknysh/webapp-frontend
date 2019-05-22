@@ -5,7 +5,7 @@ import { noop } from 'utils';
 import { HotelContainer } from './HotelContainer';
 
 const getComponent = props =>
-  shallow(<HotelContainer getBooking={noop} getAccommodationProducts={noop} getHotelUploads={noop} {...props} />);
+  shallow(<HotelContainer getBooking={noop} brochures={{}} getHotelUploads={noop} {...props} />);
 
 describe('<HotelContainer />', () => {
   describe('render', () => {

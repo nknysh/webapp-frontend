@@ -16,6 +16,7 @@ exports[`<GuestSelect /> render matches snapshot 1`] = `
   </GuestSelectstyles__GuestSelectSection>
   <GuestSelectstyles__RoomTabs
     labels={Array []}
+    onChange={[Function]}
     scrollButtons="auto"
     variant="scrollable"
   />

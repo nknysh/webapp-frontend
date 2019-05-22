@@ -35,6 +35,7 @@ export const palette = Object.freeze({
   backgrounds: {
     default: getColor('white'),
     defaultOpacity: getColor('white-opacity-1'),
+    whiteOpacity: getColor('white-opacity-2'),
     secondary: getColor('whiteish'),
     light: getColor('gray-light'),
   },

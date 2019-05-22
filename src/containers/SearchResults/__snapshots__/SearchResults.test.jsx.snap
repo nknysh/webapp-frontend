@@ -2,17 +2,18 @@
 
 exports[`<SearchResults /> render matches snapshot 1`] = `
 <Fragment>
-  <Loader
-    isLoading={false}
-    showSpinner={true}
-    text="Getting Results..."
-  >
-    <SearchResultsstyles__StyledResults>
+  <SearchResultsstyles__StyledResults>
+    <Loader
+      isLoading={false}
+      showPrev={true}
+      showSpinner={true}
+      text="Getting Results..."
+    >
       <SearchResultsstyles__ResultsTitle>
         0 properties found
       </SearchResultsstyles__ResultsTitle>
       <SearchResultsstyles__Results />
-    </SearchResultsstyles__StyledResults>
-  </Loader>
+    </Loader>
+  </SearchResultsstyles__StyledResults>
 </Fragment>
 `;

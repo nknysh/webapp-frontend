@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
+import { Redirect } from 'react-router-dom';
 import {
   all,
-  head,
   always,
   assocPath,
   equals,
@@ -13,18 +13,23 @@ import {
   values,
   when,
   pathOr,
+  compose,
 } from 'ramda';
 
-import SummaryRoom from 'components/app/SummaryRoom';
-import SummaryRoomEdit from 'components/app/SummaryRoomEdit';
-import SummaryFormExtras from 'components/app/SummaryFormExtras';
+import SummaryRoomEdit from 'containers/SummaryRoomEdit';
+import SummaryRoom from 'containers/SummaryRoom';
+import SummaryFormExtras from 'containers/SummaryFormExtras';
+
 import SummaryFormMargin from 'components/app/SummaryFormMargin';
 
-import { Form, Input } from 'components/elements';
+import { Form, Input, Loader } from 'components/elements';
 import { getFormPath } from 'utils';
+
+import { isActive } from 'store/common';
 
 import uiConfig from 'config/ui';
 
+import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
 import {
   HotelName,
@@ -40,79 +45,58 @@ import {
   Total,
 } from './SummaryForm.styles';
 
+const modalProps = { className: 'room-summary-form' };
+
 const renderHotelName = name => name && <HotelName>{name}</HotelName>;
 
 export const SummaryForm = ({
-  addonProducts,
-  addonsTotals,
   booking,
   canBook,
   checkBooking,
   children,
   className,
-  getAccommodationProductAgeRanges,
-  getExtraSupplements,
-  getHotelRoom,
-  getRate,
   getRatesForDates,
-  getRoomDates,
-  getRoomMealPlan,
-  getRoomMealPlans,
-  getRoomTotal,
-  getHotelsUpload,
-  groundServiceProducts,
-  groundServicesTotal,
   hotel,
-  onBook,
-  onBookingChange,
-  onBookingExtrasChange,
   removeRoom,
   saving,
+  status,
   summaryOnly,
   total,
-  transferProducts,
-  transfersTotal,
+  updateBooking,
+  updateBookingExtras,
 }) => {
-  const { rooms, margin } = booking;
+  const { Accommodation, margin } = booking;
   const { name, uuid: hotelUuid } = hotel;
 
   const [modalData, setModalData] = useState({});
+  const [redirectToBooking, setRedirectToBooking] = useState(false);
+
+  if (redirectToBooking) return <Redirect to={`/hotels/${hotelUuid}/booking`} />;
+
+  const isLoading = isActive(status);
 
   const marginType = propOr('percentage', 'type', margin);
   const marginValue = propOr(0, 'value', margin);
 
   const onModalClose = () => setModalData({});
 
-  const onEditChange = (values, close = true) => {
-    onBookingChange(values);
-    close && onModalClose();
-  };
+  const onBookingChange = (id, values) => updateBooking(prop('uuid', hotel), id, values);
+  const onBookingExtrasChange = (id, values) => updateBookingExtras(prop('uuid', hotel), id, values);
 
   // eslint-disable-next-line react/prop-types
-  const renderRoom = ({ guests }, id) => {
-    const details = getHotelRoom(id);
-    const photo = getHotelsUpload(head(propOr('', 'uploads', details)));
-
-    return (
-      <SummaryRoom
-        {...prop(id, rooms)}
-        canEdit={!summaryOnly}
-        dates={getRoomDates(id)}
-        details={details}
-        extraSupplements={getExtraSupplements(id)}
-        id={id}
-        key={id}
-        mealPlan={getRoomMealPlan(id)}
-        onChange={onBookingChange}
-        onEdit={setModalData}
-        onRemove={removeRoom}
-        guests={guests}
-        hotelUuid={hotelUuid}
-        total={getRoomTotal(id)}
-        photo={photo}
-      />
-    );
-  };
+  const renderRoom = ({ guests }, id) => (
+    <SummaryRoom
+      {...prop(id, Accommodation)}
+      canEdit={!summaryOnly}
+      id={id}
+      key={id}
+      onChange={updateBooking}
+      onEdit={setModalData}
+      onRemove={removeRoom}
+      guests={guests}
+      hotelUuid={hotelUuid}
+    />
+  );
 
   const renderRooms = pipe(
     mapObjIndexed(renderRoom),
@@ -123,23 +107,20 @@ export const SummaryForm = ({
   const renderModal = () => {
     const { id } = modalData;
 
-    const bookingRoom = path(['rooms', id], booking);
+    const bookingRoom = path(['Accommodation', id], booking);
 
     if (!bookingRoom) return null;
 
     return (
-      <StyledModal open={true} onClose={onModalClose} modalContentProps={{ className: 'room-summary-form' }}>
+      <StyledModal open={true} onClose={onModalClose} modalContentProps={modalProps}>
         <SummaryRoomEdit
-          ageRanges={getAccommodationProductAgeRanges(id)}
-          dates={getRoomDates(id)}
-          details={getHotelRoom(id)}
           hotelUuid={hotelUuid}
           id={id}
-          mealPlans={getRoomMealPlans(id)}
-          onSubmit={onEditChange}
+          onComplete={setModalData}
           onDatesShow={getRatesForDates}
           onEdit={setModalData}
           onChange={checkBooking}
+          status={status}
           {...bookingRoom}
         />
       </StyledModal>
@@ -178,22 +159,19 @@ export const SummaryForm = ({
     groundService: pathOr('', ['products', 'Ground Service'], booking),
   };
 
+  const onSubmit = () => setRedirectToBooking(true);
+
   const renderForm = () => {
     return (
-      <Form initialValues={initialValues} onSubmit={onBook}>
+      <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
         {({ values, ...formProps }) => (
           <Fragment>
             <Input type="hidden" value={canBook} name="valid" />
             <SummaryFormExtras
-              getRate={getRate}
+              hotelUuid={hotelUuid}
               onChange={onValuesChange({ values, ...formProps })}
               onExtraChange={onExtrasChange({ values, ...formProps })}
-              total={total}
-              addons={addonProducts}
-              transfers={transferProducts}
-              groundServices={groundServiceProducts}
               summaryOnly={summaryOnly}
-              totals={{ transfer: transfersTotal, groundService: groundServicesTotal, addon: addonsTotals }}
               values={values}
             />
             {!summaryOnly && (
@@ -211,13 +189,15 @@ export const SummaryForm = ({
 
   return (
     <StyledSummary className={className}>
-      <Title>{path(['labels', 'totalNet'], uiConfig)}</Title>
-      {renderTotal()}
-      {renderHotelName(name)}
-      <Rooms data-summary={summaryOnly}>{renderRooms(rooms)}</Rooms>
-      {renderForm()}
+      <Loader isLoading={isLoading} showPrev={true} text="Updating...">
+        <Title>{path(['labels', 'totalNet'], uiConfig)}</Title>
+        {renderTotal()}
+        {renderHotelName(name)}
+        <Rooms data-summary={summaryOnly}>{renderRooms(Accommodation)}</Rooms>
+        {renderForm()}
+        {children}
+      </Loader>
       {!summaryOnly && renderModal()}
-      {children}
     </StyledSummary>
   );
 };
@@ -225,4 +205,4 @@ export const SummaryForm = ({
 SummaryForm.propTypes = propTypes;
 SummaryForm.defaultProps = defaultProps;
 
-export default SummaryForm;
+export default compose(connect)(SummaryForm);

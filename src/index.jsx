@@ -39,4 +39,4 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
-OfflinePluginRuntime.install();
+APP_ENV === 'production' && OfflinePluginRuntime.install();

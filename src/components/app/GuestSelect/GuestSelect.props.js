@@ -6,6 +6,7 @@ export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
   onSelected: PropTypes.func,
+  onRoomChange: PropTypes.func,
   sectionData: PropTypes.object,
   keepOpen: PropTypes.bool,
   errors: PropTypes.array,
@@ -23,6 +24,7 @@ export const propTypes = {
 
 export const defaultProps = {
   onSelected: noop,
+  onRoomChange: noop,
   selectedValues: [],
   errors: [],
 };

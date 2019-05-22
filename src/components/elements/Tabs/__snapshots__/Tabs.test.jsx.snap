@@ -15,11 +15,11 @@ exports[`<Tabs /> render matches snapshot 2`] = `
     value={0}
   >
     <Tabsstyles__Tab
-      key="foo"
+      key="0"
       label="foo"
     />
     <Tabsstyles__Tab
-      key="bar"
+      key="1"
       label="bar"
     />
   </Tabsstyles__StyledTabs>

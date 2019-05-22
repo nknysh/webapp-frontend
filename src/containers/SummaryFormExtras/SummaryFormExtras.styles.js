@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export { Title } from 'components/app/SummaryForm/SummaryForm.styles';
+export { Title } from 'containers/SummaryForm/SummaryForm.styles';
 
 import { Checkbox } from 'components/elements';
 

@@ -4,4 +4,6 @@ export const createBooking = (body, params) => client.post('/bookings', body, { 
 
 export const occupancyCheck = (body, params) => client.post('/bookings/occupancy-check', body, { params });
 
-export default { createBooking, occupancyCheck };
+export const bookingBuilder = (body, params) => client.post('/booking-builder', body, { params });
+
+export default { createBooking, occupancyCheck, bookingBuilder };
