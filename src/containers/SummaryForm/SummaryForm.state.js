@@ -1,9 +1,10 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { updateBooking, checkBooking, removeRoom, updateBookingExtras } from 'store/modules/booking/actions';
+import { updateBooking, removeRoom, updateBookingExtras } from 'store/modules/booking/actions';
 import {
   getBookingByHotelId,
+  getBookingTotals,
   getBookingTotal,
   getBookingReady,
   getBookingStatus,
@@ -17,6 +18,7 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   canBook: getBookingReady(state, hotelUuid),
   hotel: getHotel(state, hotelUuid),
   status: getBookingStatus(state),
+  totals: getBookingTotals(state, hotelUuid),
   total: getBookingTotal(state, hotelUuid),
 });
 
@@ -27,10 +29,6 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateBookingExtras: pipe(
     updateBookingExtras,
-    dispatch
-  ),
-  checkBooking: pipe(
-    checkBooking,
     dispatch
   ),
   removeRoom: pipe(

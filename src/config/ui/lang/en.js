@@ -62,6 +62,7 @@ export default {
     max: 'Max',
     squareMeters: 'Square Meters',
     addons: 'Addons',
+    onRequest: 'On Request',
 
     yes: 'Yes',
     no: 'No',

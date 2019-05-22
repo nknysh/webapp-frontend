@@ -1,5 +1,4 @@
 import {
-  __,
   complement,
   gt,
   map,
@@ -56,10 +55,4 @@ export const getAgeSplits = pipe(
   map(apply(guestLine)),
   filter(complement(equals(false))),
   join(' + ')
-);
-
-export const extrasHasSplitRates = pipe(
-  values,
-  length,
-  gt(__, 1)
 );

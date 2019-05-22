@@ -4,16 +4,16 @@ import {
   all,
   always,
   assocPath,
+  compose,
   equals,
   mapObjIndexed,
   path,
+  pathOr,
   pipe,
   prop,
   propOr,
   values,
   when,
-  pathOr,
-  compose,
 } from 'ramda';
 
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
@@ -52,7 +52,6 @@ const renderHotelName = name => name && <HotelName>{name}</HotelName>;
 export const SummaryForm = ({
   booking,
   canBook,
-  checkBooking,
   children,
   className,
   getRatesForDates,
@@ -61,6 +60,7 @@ export const SummaryForm = ({
   saving,
   status,
   summaryOnly,
+  totals: { oneOrMoreItemsOnRequest },
   total,
   updateBooking,
   updateBookingExtras,
@@ -82,6 +82,28 @@ export const SummaryForm = ({
 
   const onBookingChange = (id, values) => updateBooking(prop('uuid', hotel), id, values);
   const onBookingExtrasChange = (id, values) => updateBookingExtras(prop('uuid', hotel), id, values);
+
+  const onExtrasChange = ({ handleChange, values }) => (e, value) => {
+    const prevValue = path(getFormPath(e.target.name), values);
+    handleChange(e, value);
+    onBookingExtrasChange(prevValue, value);
+  };
+
+  const onValuesChange = ({ handleChange }) => (e, value) => {
+    handleChange(e, value);
+    onBookingChange(
+      assocPath(getFormPath(e.target.name), equals('checkbox', e.target.type) ? e.target.checked : e.target.value, {})
+    );
+  };
+
+  const initialValues = {
+    margin,
+    addons: [...pathOr([], ['products', 'Fine'], booking), ...pathOr([], ['products', 'Supplement'], booking)],
+    transfer: pathOr('', ['products', 'Transfer'], booking),
+    groundService: pathOr('', ['products', 'Ground Service'], booking),
+  };
+
+  const onSubmit = () => setRedirectToBooking(true);
 
   // eslint-disable-next-line react/prop-types
   const renderRoom = ({ guests }, id) => (
@@ -119,7 +141,6 @@ export const SummaryForm = ({
           onComplete={setModalData}
           onDatesShow={getRatesForDates}
           onEdit={setModalData}
-          onChange={checkBooking}
           status={status}
           {...bookingRoom}
         />
@@ -129,7 +150,7 @@ export const SummaryForm = ({
 
   const renderTotal = () => (
     <Section>
-      <Total>{total}</Total>
+      <Total>{oneOrMoreItemsOnRequest ? path(['labels', 'onRequest'], uiConfig) : total}</Total>
       <Text>{path(['labels', 'includesTaxes'], uiConfig)}</Text>
       {saving && (
         <Text>
@@ -142,28 +163,9 @@ export const SummaryForm = ({
     </Section>
   );
 
-  const onExtrasChange = ({ handleChange, values }) => (e, value) => {
-    const prevValue = path(getFormPath(e.target.name), values);
-    handleChange(e, value);
-    onBookingExtrasChange(prevValue, value);
-  };
-
-  const onValuesChange = ({ handleChange }) => (e, value) => {
-    handleChange(e, value);
-    onBookingChange(assocPath(getFormPath(e.target.name), e.target.value, {}));
-  };
-
-  const initialValues = {
-    addons: [...pathOr([], ['products', 'Fine'], booking), ...pathOr([], ['products', 'Supplement'], booking)],
-    transfer: pathOr('', ['products', 'Transfer'], booking),
-    groundService: pathOr('', ['products', 'Ground Service'], booking),
-  };
-
-  const onSubmit = () => setRedirectToBooking(true);
-
   const renderForm = () => {
     return (
-      <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
+      <Form initialValues={initialValues} onSubmit={onSubmit}>
         {({ values, ...formProps }) => (
           <Fragment>
             <Input type="hidden" value={canBook} name="valid" />

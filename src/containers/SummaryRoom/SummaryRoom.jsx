@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { gt, compose, length, path, prop, map, toPairs, pipe, head, last, equals } from 'ramda';
+import React from 'react';
+import { gt, compose, length, path, prop, map, flatten, pipe } from 'ramda';
 
 import uiConfig, { getPluralisation, getSingular } from 'config/ui';
 
@@ -7,7 +7,7 @@ import { DropDownMenu } from 'components/elements';
 
 import { getFromDateFormat, getToDateFormat, isEmptyOrNil, getNumberOfDays, getFromToFromDates } from 'utils';
 
-import { guestLine, getTotalGuests, getAgeSplits, extrasHasSplitRates } from './SummaryRoom.utils';
+import { guestLine, getTotalGuests, getAgeSplits } from './SummaryRoom.utils';
 import connect from './SummaryRoom.state';
 import { propTypes, defaultProps } from './SummaryRoom.props';
 import {
@@ -25,11 +25,23 @@ import {
   RoomRow,
 } from './SummaryRoom.styles';
 
+// eslint-disable-next-line react/prop-types
+const renderSupplement = ({ title, total }) => (
+  <ExtraSupplement>
+    {title} - (<ExtraSupplementRate>{total}</ExtraSupplementRate>)
+  </ExtraSupplement>
+);
+
+const renderSupplements = pipe(
+  map(map(renderSupplement)),
+  flatten
+);
+
 export const SummaryRoom = ({
   canEdit,
   dates: dateArr,
   details,
-  extraSupplements,
+  supplements,
   guests,
   hotelUuid,
   id,
@@ -47,41 +59,6 @@ export const SummaryRoom = ({
 
   const onRemoveRoom = () => onRemove(hotelUuid, id, true);
   const onEditRoom = () => onEdit({ id });
-
-  const renderExtraSupplement = ([type, rates]) => {
-    const renderSupplement = ([rate, { amount, dates }]) => {
-      const firstDate = head(dates);
-      const lastDate = last(dates);
-
-      return (
-        <ExtraSupplement key={`${type}-${rate}`}>
-          {path(['labels', 'extra'], uiConfig)}: {amount} {getPluralisation(type, amount) || type} (+{' '}
-          <ExtraSupplementRate>{rate}</ExtraSupplementRate>/pp){' '}
-          {extrasHasSplitRates(rates) && (
-            <Fragment>
-              | {firstDate} {!equals(lastDate, firstDate) && `- ${lastDate}`}
-            </Fragment>
-          )}
-        </ExtraSupplement>
-      );
-    };
-
-    const supplements = pipe(
-      toPairs,
-      map(renderSupplement)
-    )(rates);
-
-    return <Fragment key={type}>{supplements}</Fragment>;
-  };
-
-  const renderExtraSupplements = () => {
-    const extras = pipe(
-      toPairs,
-      map(renderExtraSupplement)
-    )(extraSupplements);
-
-    return extras;
-  };
 
   return (
     (details && dates && gt(length(guests), 0) && (
@@ -117,7 +94,7 @@ export const SummaryRoom = ({
           <RoomRow>
             {guestLine('guest', getTotalGuests(guests))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
           </RoomRow>
-          <RoomRow>{renderExtraSupplements()}</RoomRow>
+          <RoomRow>{renderSupplements(supplements)}</RoomRow>
           {mealPlan && (
             <RoomRow>
               {getSingular('mealPlan')}: {prop('name', mealPlan)}
