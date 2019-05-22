@@ -84,7 +84,6 @@ export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, 
 
 HotelContainer.propTypes = propTypes;
 HotelContainer.defaultProps = defaultProps;
-HotelContainer.whyDidYouRender = true;
 
 export default compose(
   connect
