@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import {
   all,
+  compose,
   curry,
   defaultTo,
   equals,
@@ -16,7 +17,6 @@ import {
   prepend,
   prop,
   propOr,
-  toPairs,
   toUpper,
   values,
 } from 'ramda';
@@ -24,13 +24,16 @@ import { isThisMonth } from 'date-fns';
 
 import uiConfig, { getPlural } from 'config/ui';
 
-import { RadioButton, Form, FormFieldError } from 'components/elements';
+import { isActive } from 'store/common';
+
+import { RadioButton, Form, FormFieldError, Loader } from 'components/elements';
 import GuestSelect from 'components/app/GuestSelect';
 import { useEffectBoundary } from 'effects';
-import { formatDate, getEndOfMonth, getStartOfMonth, toDate, isEmptyOrNil, isArray, mapWithIndex } from 'utils';
+import { formatDate, getEndOfMonth, getStartOfMonth, toDate, isArray, mapWithIndex } from 'utils';
 
 import { validation } from 'config/forms/roomEdit';
 
+import connect from './SummaryRoomEdit.state';
 import { propTypes, defaultProps } from './SummaryRoomEdit.props';
 import {
   DatePrice,
@@ -42,7 +45,6 @@ import {
   EditFormTitle,
   MealPlanRate,
   MealPlanRatePrice,
-  MealPlanRateWrapper,
   StyledDatePicker,
 } from './SummaryRoomEdit.styles';
 import { getOptionsFromRates, getMinMax, getAgeRanges } from './SummaryRoomEdit.utils';
@@ -73,20 +75,31 @@ export const SummaryRoomEdit = ({
   hotelUuid,
   id,
   dates,
-  details: { name, rates },
+  name,
+  rates,
   guests,
   mealPlan,
   mealPlans,
-  onSubmit,
+  onComplete,
   onChange,
   onDatesShow,
   checks,
   details,
+  status,
+  updateBooking,
+  options,
 }) => {
   const [formValues, setFormValues] = useState({ mealPlan, dates, guests });
   const [complete, setComplete] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [roomContext, setRoomContext] = useState(0);
   const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
+
+  const isLoading = isActive(status);
+
+  useEffectBoundary(() => {
+    roomContext > guests.length - 1 && setRoomContext(guests.length - 1);
+  }, [guests]);
 
   useEffectBoundary(() => {
     const finished = allPermitted(checks);
@@ -95,15 +108,17 @@ export const SummaryRoomEdit = ({
   }, [checks]);
 
   useEffectBoundary(() => {
-    complete && onSubmit({ rooms: { [id]: { ...formValues } } });
+    complete && onComplete({});
   }, [complete]);
 
-  const ageRanges = getAgeRanges(details);
-  const minMax = getMinMax(details);
+  const ageRanges = getAgeRanges(options);
+  const minMax = getMinMax(options);
+
+  const onBookingChange = (id, values) => updateBooking(hotelUuid, id, values);
 
   const onFormSubmit = values => {
     setFormValues(values);
-    onChange(hotelUuid, { rooms: { [id]: { ...values } } });
+    onChange(hotelUuid, { Accommodation: { [id]: { ...values } } });
     setSubmitted(true);
   };
 
@@ -119,43 +134,25 @@ export const SummaryRoomEdit = ({
 
   const onDayPickerShow = () => onDatesShow(hotelUuid, id, firstDate, getEndOfMonth(lastDate));
 
-  const mapMealPlans = ([productUuid, details]) => {
-    const rates = pipe(
-      prop('rates'),
-      values
-    )(details);
+  const onObjectChange = curry((name, { handleChange }, value) => {
+    handleChange({ target: { name, type: 'object', value } });
+    onBookingChange({ Accommodation: { [id]: { [name]: value } } });
+  });
 
-    const hasSplitRates = gt(length(rates), 1);
+  const mapMealPlans = ({ breakdown = [], products = [] }) => {
+    const hasSplitRates = gt(length(breakdown), 1);
 
-    // eslint-disable-next-line
-    const renderRatePrice = ({ rates, dates }, uuid) => {
-      const splitDates = hasSplitRates ? ` | ${head(dates)} - ${last(dates)}` : '';
-
-      const renderRate = curry(
-        (isMulti, { name, rate }) =>
-          !isEmptyOrNil(rate) && (
-            <MealPlanRate key={name}>
-              (+ <MealPlanRatePrice>{rate}</MealPlanRatePrice>
-              {isMulti && ` ${name}`}
-              {splitDates})
-            </MealPlanRate>
-          )
-      );
-
-      const mapRates = map(renderRate(gt(length(rates), 1)));
-
-      return <MealPlanRateWrapper key={uuid}>{mapRates(rates)}</MealPlanRateWrapper>;
-    };
-
-    const prices = mapObjIndexed(renderRatePrice, rates);
+    // eslint-disable-next-line react/prop-types
+    const mapBreakdown = ({ title, dates, total }, i) => (
+      <MealPlanRate key={i}>
+        {title} - (<MealPlanRatePrice>{total}</MealPlanRatePrice>
+        {hasSplitRates && ` | ${head(dates)} - ${last(dates)}`})
+      </MealPlanRate>
+    );
 
     return {
-      value: productUuid,
-      label: (
-        <span>
-          {prop('name', details)} {values(prices)}
-        </span>
-      ),
+      value: JSON.stringify(products),
+      label: mapWithIndex(mapBreakdown, breakdown),
     };
   };
 
@@ -169,10 +166,6 @@ export const SummaryRoomEdit = ({
       </span>
     );
   };
-
-  const onObjectChange = curry((name, { handleChange }, value) =>
-    handleChange({ target: { name, type: 'object', value } })
-  );
 
   const renderGuestCheck = (checked, i) => {
     const errors = pipe(
@@ -195,7 +188,7 @@ export const SummaryRoomEdit = ({
         validateOnBlur={false}
       >
         {({ values, errors, ...formProps }) => (
-          <Fragment>
+          <Loader isLoading={isLoading} showPrev={true} text="Updating...">
             <EditFormSection>
               <GuestSelect
                 ageRanges={ageRanges}
@@ -204,6 +197,8 @@ export const SummaryRoomEdit = ({
                 selectedValues={map(defaultTo({}), prop('guests', values))}
                 minMax={minMax}
                 errors={renderGuestSelectErrors(prop('guests', errors))}
+                onRoomChange={setRoomContext}
+                selectedRoom={roomContext}
               >
                 {renderGuestsInfo()}
               </GuestSelect>
@@ -233,17 +228,16 @@ export const SummaryRoomEdit = ({
                 name="mealPlan"
                 value={prop('mealPlan', values)}
                 options={pipe(
-                  toPairs,
                   map(mapMealPlans),
                   prepend({ label: 'None', value: '' })
-                )(mealPlans)}
+                )(mealPlans[roomContext] || [])}
                 onChange={prop('handleChange', formProps)}
               />
             </EditFormSection>
             <EditFormActions>
               <EditFormButton type="submit">{path(['buttons', 'update'], uiConfig)}</EditFormButton>
             </EditFormActions>
-          </Fragment>
+          </Loader>
         )}
       </Form>
     </EditForm>
@@ -252,5 +246,6 @@ export const SummaryRoomEdit = ({
 
 SummaryRoomEdit.propTypes = propTypes;
 SummaryRoomEdit.defaultProps = defaultProps;
+SummaryRoomEdit.whyDidYouRender = true;
 
-export default SummaryRoomEdit;
+export default compose(connect)(SummaryRoomEdit);

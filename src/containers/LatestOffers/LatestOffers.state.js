@@ -8,9 +8,9 @@ import { getOffersResults, getOffersStatus, getOffer } from 'store/modules/offer
 export const mapStateToProps = state => ({
   offers: getOffersResults(state),
   offersStatus: getOffersStatus(state),
-  getHotel: getHotel(state),
+  getHotel: id => getHotel(state, id),
   getOffer: getOffer(state),
-  getHotelFeaturedPhoto: getHotelFeaturedPhoto(state),
+  getHotelFeaturedPhoto: id => getHotelFeaturedPhoto(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({

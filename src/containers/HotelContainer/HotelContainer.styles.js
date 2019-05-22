@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { BackButton, Breadcrumbs, Hotel, SummaryForm } from 'components';
+import { BackButton, Breadcrumbs, Hotel } from 'components';
+import SummaryForm from 'containers/SummaryForm';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
@@ -41,6 +42,8 @@ export const Back = styled(BackButton)`
 `;
 
 export const Aside = styled.aside`
+  position: relative;
+
   ${breakpoints.tablet`
     flex: 1;
     max-width: 36%;

@@ -5,9 +5,15 @@ import { statusLens, errorLens, dataLens } from 'store/utils';
 
 import { Status } from './status';
 
-export const loadingReducer = state => set(statusLens, Status.LOADING, { ...state, error: undefined });
+export const loadingReducer = pipe(
+  set(statusLens, Status.LOADING),
+  set(errorLens, undefined)
+);
 
-export const sendingReducer = state => set(statusLens, Status.SENDING, { ...state, error: undefined });
+export const sendingReducer = pipe(
+  set(statusLens, Status.SENDING),
+  set(errorLens, undefined)
+);
 
 export const successReducer = (state, { payload }) => {
   const prevData = propOr([], 'data', state);

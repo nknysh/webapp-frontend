@@ -5,7 +5,7 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DotEnvPlugin = require('dotenv-webpack');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const OfflinePlugin = require('offline-plugin');
+// const OfflinePlugin = require('offline-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 const getMode = prop('mode');
@@ -125,12 +125,12 @@ module.exports = (env, argv) => ({
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, sourcePath, 'index.html')
         }),
-        new OfflinePlugin({
-            appShell: '/',
-            externals: [
-                '/'
-            ]
-        }),
+        // new OfflinePlugin({
+        //     appShell: '/',
+        //     externals: [
+        //         '/'
+        //     ]
+        // }),
         new WebpackPwaManifest({
             ...baseManifest,
             icons: [

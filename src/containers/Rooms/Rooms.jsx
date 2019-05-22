@@ -21,6 +21,7 @@ import {
   values,
   pathOr,
   length,
+  compose,
 } from 'ramda';
 import hash from 'object-hash';
 
@@ -30,6 +31,7 @@ import { isEmptyOrNil, isMobile } from 'utils';
 
 import uiConfig from 'config/ui';
 
+import connect from './Rooms.state';
 import { propTypes, defaultProps } from './Rooms.props';
 import {
   StyledRooms,
@@ -76,12 +78,15 @@ const renderValue = ifElse(
   join(', ')
 );
 
-export const Rooms = ({ className, rooms, selectedRooms, onRoomAdd, onRoomRemove, getRoomUploads }) => {
+export const Rooms = ({ hotelUuid, className, rooms, selectedRooms, addRoom, removeRoom, getRoomUploads }) => {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const currentWidth = useCurrentWidth();
 
   const amenities = getAmenities(rooms);
   const filteredRooms = filterNoRate(filterRoomsByAmenities(rooms, selectedAmenities));
+
+  const onRoomAdd = uuid => addRoom(hotelUuid, uuid);
+  const onRoomRemove = uuid => removeRoom(hotelUuid, uuid);
 
   const renderRoom = room => {
     const selectedCount = length(pathOr([], [prop('uuid', room), 'guests'], selectedRooms));
@@ -135,4 +140,4 @@ export const Rooms = ({ className, rooms, selectedRooms, onRoomAdd, onRoomRemove
 Rooms.propTypes = propTypes;
 Rooms.defaultProps = defaultProps;
 
-export default Rooms;
+export default compose(connect)(Rooms);

@@ -6,6 +6,7 @@ export default Object.freeze({
   white: '#FFFFFF',
   whiteish: '#F8F8F8',
   'white-opacity-1': 'rgba(248,248,248,0.85)',
+  'white-opacity-2': 'rgba(255,255,255, 0.9)',
 
   gray: '#EAEAEA',
   'gray-light': '#F8F8F8',

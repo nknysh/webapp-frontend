@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 import theme from 'styles/theme';
 import { Image } from 'styles/elements';
@@ -21,6 +21,19 @@ export const StyledLoader = styled.div`
   width: 100%;
   flex-direction: column;
   flex: 1;
+
+  ${({ ['data-prev']: prev }) =>
+    prev &&
+    css`
+      background: ${theme.backgrounds.whiteOpacity};
+      justify-content: flex-start;
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding-top: ${theme.gutter * 7.5}px;
+    `}
 `;
 
 export const LoaderImage = styled(Image)`

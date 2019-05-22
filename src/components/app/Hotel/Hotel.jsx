@@ -34,18 +34,14 @@ const renderImage = ({ displayName, url }) => <img key={url} src={url} alt={disp
 const renderFeature = value => <HotelHighlight key={value}>{value}</HotelHighlight>;
 
 export const Hotel = ({
-  accommodationProducts,
+  id,
   amenities,
   description,
   name,
-  onRoomAdd,
-  onRoomRemove,
   photos,
   region,
-  selectedRooms,
   starRating,
   suitableForHoneymooners,
-  getRoomUploads,
   ...props
 }) => {
   const sliderMain = useRef(null);
@@ -103,13 +99,7 @@ export const Hotel = ({
             </HotelDetailsColumnRight>
           </HotelDetailsRow>
         </HotelInfo>
-        <StyledRooms
-          onRoomAdd={onRoomAdd}
-          onRoomRemove={onRoomRemove}
-          getRoomUploads={getRoomUploads}
-          selectedRooms={selectedRooms}
-          rooms={values(accommodationProducts)}
-        />
+        <StyledRooms hotelUuid={id} />
       </HotelDetails>
     </StyledHotel>
   );

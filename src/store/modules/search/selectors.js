@@ -1,5 +1,5 @@
 import { curry, prop, pipe, path, when, always, inc, evolve, propOr, pathOr } from 'ramda';
-
+import { createSelector } from 'store/utils';
 import { getStatus, getData } from 'store/common';
 
 import { isEmptyOrNil, toDate } from 'utils';
@@ -52,10 +52,12 @@ const searchDatesTransformations = {
   to: when(isEmptyOrNil, always(defaultToDate)),
 };
 
-export const getSearchDates = pipe(
+export const getSearchDates = createSelector(
   getSearchQuery,
-  prop('dates'),
-  evolve(searchDatesTransformations)
+  pipe(
+    prop('dates'),
+    evolve(searchDatesTransformations)
+  )
 );
 
 export const getSearchLodgings = pipe(

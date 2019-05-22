@@ -1,10 +1,7 @@
-import { createSelector } from 'reselect';
 import {
-  __,
-  curry,
   forEach,
   head,
-  ifElse,
+  partial,
   lensProp,
   map,
   mapObjIndexed,
@@ -20,9 +17,10 @@ import {
   mergeDeepRight,
 } from 'ramda';
 
-import { getData, getStatus, getEntities, getResults } from 'store/common';
+import { createSelector } from 'store/utils';
+import { getData, getStatus, getEntities, getResults, getState, getSecondArg, getUnary } from 'store/common';
 
-import { getMapped, reduceArrayByKey, isArray } from 'utils';
+import { getMapped, reduceArrayByKey } from 'utils';
 
 const extractAgeFromOptions = (accum, rate) => {
   const products = path(['entities', 'products'], rate);
@@ -47,6 +45,24 @@ const extractAges = pipe(
 
 export const getHotels = prop('hotels');
 
+const getProducts = pipe(
+  getHotels,
+  getEntities,
+  prop('products')
+);
+
+const getRates = pipe(
+  getHotels,
+  getEntities,
+  prop('rates')
+);
+
+const getUploads = pipe(
+  getHotels,
+  getEntities,
+  prop('uploads')
+);
+
 export const getHotelsStatus = pipe(
   getHotels,
   getStatus
@@ -69,73 +85,50 @@ export const getHotelsEntities = pipe(
   prop('hotels')
 );
 
-export const getHotelsUploads = curry((state, ids) =>
-  pipe(
-    getHotels,
-    getEntities,
-    prop('uploads'),
-    pick(ids)
-  )(state)
+export const getHotel = createSelector(
+  [getUnary, getHotelsEntities],
+  prop
 );
 
-export const getHotelsUpload = curry((state, id) =>
-  pipe(
-    getHotels,
-    getEntities,
-    prop('uploads'),
-    prop(id)
-  )(state)
+export const getHotelsUploads = createSelector(
+  [getUnary, getUploads],
+  pick
 );
 
-export const getHotelsRates = curry((state, ids) =>
-  pipe(
-    getHotels,
-    getEntities,
-    prop('rates'),
-    pick(ids)
-  )(state)
+export const getHotelsUpload = createSelector(
+  [getUnary, getUploads],
+  prop
 );
 
-export const getHotelsRate = curry((state, id) =>
-  pipe(
-    getHotels,
-    getEntities,
-    prop('rates'),
-    prop(id)
-  )(state)
+export const getHotelsRates = createSelector(
+  [getUnary, getRates],
+  pick
 );
 
-export const getHotelProducts = curry((state, id, type) => {
-  const hotelProductsIds = pipe(
-    getHotel(state),
-    propOr([], type)
-  )(id);
-
-  const products = pipe(
-    getHotels,
-    getEntities,
-    prop('products')
-  )(state);
-
-  return ifElse(isArray, pick(__, products), prop(__, products))(hotelProductsIds);
-});
-
-export const getHotelProductsByIds = curry((state, ids) =>
-  pipe(
-    getHotels,
-    getEntities,
-    prop('products'),
-    pick(ids)
-  )(state)
+export const getHotelsRate = createSelector(
+  [getUnary, getRates],
+  prop
 );
 
-export const getHotelProduct = curry((state, id) =>
-  pipe(
-    getHotels,
-    getEntities,
-    prop('products'),
-    prop(id)
-  )(state)
+const getProductIds = createSelector(
+  [getSecondArg, getHotel],
+  propOr([])
+);
+
+export const getHotelProducts = createSelector(
+  getProductIds,
+  getProducts,
+  pick
+);
+
+export const getHotelProductsByIds = createSelector(
+  [getUnary, getProducts],
+  pick
+);
+
+export const getHotelProduct = createSelector(
+  [getUnary, getProducts],
+  prop
 );
 
 export const getHotelRegions = createSelector(
@@ -153,50 +146,90 @@ export const getHotelFeatures = createSelector(
   getMapped('amenities', reduceArrayByKey)
 );
 
-export const getHotel = curry((state, id) =>
-  pipe(
-    getHotelsEntities,
-    prop(id)
-  )(state)
+export const getHotelName = createSelector(
+  getHotel,
+  prop('name')
 );
 
-export const getHotelName = curry((state, id) =>
-  pipe(
-    getHotel(__, id),
-    prop('name')
-  )(state)
+export const getHotelsAccommodationProducts = createSelector(
+  [getHotel, getProducts],
+  (hotel, products) => pick(propOr([], 'accommodationProducts', hotel), products)
 );
 
-export const getHotelRooms = curry((state, id) => getHotelProducts(state, id, 'accommodationProducts'));
-
-export const getHotelRoom = curry((state, hotelId, roomId) =>
-  pipe(
-    getHotelRooms(__, hotelId),
-    prop(roomId)
-  )(state)
+export const getHotelRoom = createSelector(
+  [getSecondArg, getHotelsAccommodationProducts],
+  prop
 );
 
-export const getHotelFeaturedPhoto = curry((state, id) =>
-  pipe(
-    getHotel(__, id),
-    propOr([], 'featuredPhotos'),
-    head,
-    getHotelsUpload(state)
-  )(state)
+export const getHotelRoomName = createSelector(
+  getHotelRoom,
+  prop('name')
 );
 
-export const getHotelProductAgeRanges = curry((state, id) =>
-  pipe(
-    getHotelProduct(state),
-    extractAges
-  )(id)
+export const getHotelRoomRates = createSelector(
+  getHotelRoom,
+  prop('rates')
+);
+
+export const getHotelRoomOptions = createSelector(
+  getHotelRoom,
+  prop('options')
+);
+
+export const getHotelFeaturedPhoto = createSelector(
+  [getHotel, getState],
+  (hotel, state) =>
+    pipe(
+      propOr([], 'featuredPhotos'),
+      head,
+      partial(getHotelsUpload, [state])
+    )(hotel)
+);
+
+export const getHotelProductAgeRanges = createSelector(
+  getHotelProduct,
+  extractAges
 );
 
 export const getHotelsFromSearchResults = (state, ids = []) =>
   map(id => set(lensProp('featuredPhoto'), getHotelFeaturedPhoto(state, id), getHotel(state, id)), ids);
 
-export const getHotelAddons = (state, id) => {
-  const fineProducts = getHotelProducts(state, id, 'fineProducts');
-  const supplementProducts = getHotelProducts(state, id, 'supplementProducts');
-  return mergeDeepRight(fineProducts, supplementProducts);
-};
+export const getHotelsPhotos = createSelector(
+  [getHotel, getUploads],
+  (hotel, uploads) => pick(propOr([], 'photos', hotel), uploads)
+);
+
+export const getHotelsRoomsPhotos = createSelector(
+  [getHotelRoom, getUploads],
+  (hotel, uploads) => pick(propOr([], 'uploads', hotel), uploads)
+);
+
+export const getHotelsBrochures = createSelector(
+  [getHotel, getUploads],
+  (hotel, uploads) => pick(propOr([], 'brochures', hotel), uploads)
+);
+
+export const getHotelsGroundServiceProducts = createSelector(
+  [getHotel, getProducts],
+  (hotel, products) => pick(propOr([], 'groundServiceProducts', hotel), products)
+);
+
+export const getHotelsTransferProducts = createSelector(
+  [getHotel, getProducts],
+  (hotel, products) => pick(propOr([], 'transferProducts', hotel), products)
+);
+
+export const getHotelsFineProducts = createSelector(
+  [getHotel, getProducts],
+  (hotel, products) => pick(propOr([], 'fineProducts', hotel), products)
+);
+
+export const getHotelsSupplementProducts = createSelector(
+  [getHotel, getProducts],
+  (hotel, products) => pick(propOr([], 'supplementProducts', hotel), products)
+);
+
+export const getHotelAddons = createSelector(
+  [getHotelsFineProducts, getHotelsSupplementProducts],
+  mergeDeepRight
+);

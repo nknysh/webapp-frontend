@@ -10,3 +10,7 @@ export const getResults = pipe(
   getData,
   prop('result')
 );
+
+export const getState = state => state;
+export const getSecondArg = (state, arg1, arg2) => arg2;
+export const getUnary = (state, arg) => arg;

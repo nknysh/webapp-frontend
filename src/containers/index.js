@@ -1,5 +1,4 @@
 export { default as AuthenticatedRoute } from './AuthenticatedRoute';
-export { default as BookingContainer } from './BookingContainer';
 export { default as CreateAccountForm } from './CreateAccountForm';
 export { default as Footer } from './Footer';
 export { default as Header } from './Header';
@@ -15,3 +14,8 @@ export { default as SearchResults } from './SearchResults';
 export { default as SearchSidebar } from './SearchSidebar';
 export { default as SetPasswordForm } from './SetPasswordForm';
 export { default as UserPanel } from './UserPanel';
+export { default as Rooms } from './Rooms';
+export { default as SummaryRoom } from './SummaryRoom';
+export { default as SummaryRoomEdit } from './SummaryRoomEdit';
+export { default as SummaryFormExtras } from './SummaryFormExtras';
+export { default as SummaryForm } from './SummaryForm';

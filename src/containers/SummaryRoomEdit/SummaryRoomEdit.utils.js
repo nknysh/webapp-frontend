@@ -8,6 +8,7 @@ import {
   map,
   path,
   pipe,
+  prop,
   propSatisfies,
   reduce,
   reverse,
@@ -40,13 +41,13 @@ export const getOptionsFromRates = rates => {
 };
 
 export const getAgeRanges = pipe(
-  path(['options', 'ages']),
+  prop('ages'),
   reverse,
   reduce((accum, { name, ...ages }) => ({ ...accum, [name]: ages }), {})
 );
 
 export const getMinMax = pipe(
-  path(['options', 'occupancy', 'limits']),
+  path(['occupancy', 'limits']),
   reduce(
     (accum, { name, maximum, minimum }) => ({
       ...accum,

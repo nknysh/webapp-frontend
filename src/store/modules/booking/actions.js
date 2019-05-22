@@ -5,7 +5,6 @@ import {
   both,
   cond,
   curry,
-  defaultTo,
   equals,
   findLastIndex,
   inc,
@@ -15,10 +14,13 @@ import {
   mapObjIndexed,
   mergeDeepRight,
   objOf,
+  omit,
   over,
+  path,
   pick,
   pipe,
   prop,
+  propSatisfies,
   reduce,
   remove,
   set,
@@ -35,8 +37,10 @@ import { formatDate, getDaysBetween, isEmptyOrNil, isArray } from 'utils';
 import { successAction, errorFromResponse, errorAction } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getHotelRoom, getHotelProduct } from 'store/modules/hotels/selectors';
+import { setHotels } from 'store/modules/hotels/actions';
+import { getSuccessActionName } from 'store/utils';
 
-import { getBookingData, getBookingByHotelId, getBookingRoomDatesById } from './selectors';
+import { getBookingByHotelId, getBookingRoomDatesById, getBookingForBuilder } from './selectors';
 
 const accommodationProductsLens = lensProp('accommodationProducts');
 const datesLens = lensProp('dates');
@@ -98,24 +102,28 @@ export const amendProduct = (id, next, type, unique = true) => (dispatch, getSta
   const handler = cond([[equals('remove'), always(removeBy)], [equals('add'), always(append)], [T, always(always)]]);
 
   const state = getState();
-  const bookingData = getBookingByHotelId(state, id);
 
   const shouldBeUnique = () => unique;
 
   const doAmend = (booking, productId) => {
     const product = getHotelProduct(state, productId);
+    const productType = prop('type', product);
+    const lensType = lensPath(['products', productType]);
 
     if (!product) {
       return dispatch(errorAction(BOOKING_UPDATE, { message: `Could not amend product ${productId} to booking` }));
     }
 
     return pipe(
-      over(lensPath(['products', prop('type', product)]), handler(type)(productId)),
-      over(lensPath(['products', prop('type', product)]), when(both(isArray, shouldBeUnique), uniq))
+      over(lensType, handler(type)(productId)),
+      over(lensType, when(both(isArray, shouldBeUnique), uniq)),
+      view(lensType),
+      objOf(productType),
+      objOf('products')
     )(booking);
   };
 
-  const booking = isArray(next) ? reduce(doAmend, bookingData, next) : doAmend(bookingData, next);
+  const booking = isArray(next) ? reduce(doAmend, {}, next) : doAmend({}, next);
 
   dispatch(updateBooking(id, booking));
 };
@@ -128,67 +136,84 @@ export const removeProduct = (id, productId, unique = true) => dispatch => {
   dispatch(amendProduct(id, productId, 'remove', unique));
 };
 
-export const addRoom = (id, roomId, unique = false) => (dispatch, getState) => {
+export const addRoom = (id, roomId) => (dispatch, getState) => {
   dispatch(addRoomAction({ id, uuid: roomId }));
-  dispatch(addProduct(id, roomId, unique));
 
   const state = getState();
   const hotelbooking = getBookingByHotelId(state, id);
-  const guestsLens = lensPath(['rooms', roomId, 'guests']);
+  const guests = path(['Accommodation', roomId, 'guests'], hotelbooking);
 
-  const booking = over(
-    guestsLens,
-    pipe(
-      defaultTo([]),
-      append({})
-    ),
-    hotelbooking
-  );
-
-  dispatch(updateBooking(id, booking));
+  dispatch(updateBooking(id, { Accommodation: { [roomId]: { guests: append({}, guests) } } }));
 };
 
 export const removeRoom = (id, roomId, all = false) => (dispatch, getState) => {
   dispatch(removeRoomAction({ id, uuid: roomId }));
-  dispatch(removeProduct(id, roomId, all));
 
   const state = getState();
   const hotelbooking = getBookingByHotelId(state, id);
-  const guestsLens = lensPath(['rooms', roomId, 'guests']);
+  const prevAccommodation = prop('Accommodation', hotelbooking);
+  const guests = path([roomId, 'guests'], prevAccommodation);
 
-  const removeRoomQuantity = rooms => {
-    if (rooms.length - 1 < 0) return undefined;
+  guests.length = guests.length - 1 < 0 ? 0 : guests.length - 1;
 
-    rooms.length = rooms.length - 1;
-    return all ? [] : rooms;
-  };
+  const payload = equals(0, guests.length)
+    ? omit([roomId], prop('Accommodation', hotelbooking))
+    : mergeDeepRight(prevAccommodation, { [roomId]: { guests: all ? [] : [...guests] } });
 
-  const booking = over(
-    guestsLens,
-    pipe(
-      defaultTo([]),
-      removeRoomQuantity
-    ),
-    hotelbooking
-  );
-
-  dispatch(updateBooking(id, booking));
+  dispatch({ type: getSuccessActionName(BOOKING_ROOM_REMOVE), payload: { id, ...payload } });
+  dispatch(updateBooking(id, {}));
 };
 
-export const updateBooking = (id, payload) => (dispatch, getState) => {
-  const state = getState();
+export const updateBooking = (id, payload) => async (dispatch, getState) => {
+  getState();
   dispatch(updateBookingAction(payload));
-  dispatch(successAction(BOOKING_UPDATE, mergeDeepRight(getBookingData(state), { [id]: payload })));
-};
+  const state = getState();
 
-export const updateBookingExtras = (id, prev, next) => dispatch => {
-  if (isArray(next)) {
-    dispatch(removeProduct(id, prev));
-    dispatch(addProduct(id, next));
+  const nextBooking = { [id]: payload };
+  const nextState = mergeDeepRight(state, { booking: { data: nextBooking } });
+
+  const bookingBuilderPayload = getBookingForBuilder(nextState, id);
+
+  let result = {};
+
+  try {
+    const hasAccommodation = !propSatisfies(isEmptyOrNil, 'Accommodation', bookingBuilderPayload);
+
+    const response =
+      hasAccommodation && (await client.bookingBuilder({ data: { attributes: { ...bookingBuilderPayload } } }));
+
+    if (!hasAccommodation) {
+      result = set(lensPath(['potentialBooking', 'Accommodation']), [], result);
+    }
+
+    if (response) {
+      const {
+        data: {
+          data: { entities, result: responseResult },
+        },
+      } = response;
+
+      result = responseResult;
+
+      dispatch(setHotels({ entities }));
+    }
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_UPDATE, e));
+    dispatch(
+      enqueueNotification({
+        message: 'Could not update booking. Please try again later.',
+        options: { variant: 'error' },
+      })
+    );
+
     return;
   }
 
-  isEmptyOrNil(next) ? dispatch(removeProduct(id, prev)) : dispatch(amendProduct(id, next));
+  dispatch(successAction(BOOKING_UPDATE, { [id]: { ...payload, ...result } }));
+};
+
+export const updateBookingExtras = (id, prev, next) => dispatch => {
+  dispatch(amendProduct(id, next));
 };
 
 export const checkBooking = (id, payload) => async (dispatch, getState) => {
@@ -200,7 +225,7 @@ export const checkBooking = (id, payload) => async (dispatch, getState) => {
   const nextBooking = mergeDeepRight(booking, payload);
 
   const body = pipe(
-    prop('rooms'),
+    prop('Accommodation'),
     mapObjIndexed(prop('guests'))
   )(nextBooking);
 
@@ -211,7 +236,7 @@ export const checkBooking = (id, payload) => async (dispatch, getState) => {
 
     const guestChecks = getGuestsChecks(data);
 
-    dispatch(successAction(BOOKING_CHECKS, { [id]: { rooms: { ...guestChecks } } }));
+    dispatch(successAction(BOOKING_CHECKS, { [id]: { Accommodation: { ...guestChecks } } }));
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_CHECKS, e));
     dispatch(
