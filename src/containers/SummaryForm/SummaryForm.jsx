@@ -204,6 +204,5 @@ export const SummaryForm = ({
 
 SummaryForm.propTypes = propTypes;
 SummaryForm.defaultProps = defaultProps;
-SummaryForm.whyDidYouRender = true;
 
 export default compose(connect)(SummaryForm);

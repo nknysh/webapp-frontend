@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
-// import OfflinePluginRuntime from 'offline-plugin/runtime';
+import OfflinePluginRuntime from 'offline-plugin/runtime';
 
 import store from 'store';
 
@@ -39,4 +39,4 @@ ReactDOM.render(
   document.getElementById('app')
 );
 
-// APP_ENV === 'production' && OfflinePluginRuntime.install();
+APP_ENV === 'production' && OfflinePluginRuntime.install();
