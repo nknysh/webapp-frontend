@@ -85,7 +85,4 @@ export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, 
 HotelContainer.propTypes = propTypes;
 HotelContainer.defaultProps = defaultProps;
 
-export default compose(
-  connect
-  // withRouter
-)(HotelContainer);
+export default compose(connect)(HotelContainer);
