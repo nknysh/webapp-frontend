@@ -2,6 +2,7 @@
 
 exports[`auth reducer should handle AUTH_REQUEST 1`] = `
 Object {
+  "country": undefined,
   "data": Object {
     "user": null,
   },
@@ -13,6 +14,7 @@ Object {
 
 exports[`auth reducer should handle AUTH_REQUEST_SUCCESS 1`] = `
 Object {
+  "country": undefined,
   "data": Object {
     "user": null,
   },
@@ -24,6 +26,7 @@ Object {
 
 exports[`auth reducer should handle AUTH_SIGN_UP 1`] = `
 Object {
+  "country": undefined,
   "data": Object {
     "user": null,
   },
@@ -33,6 +36,7 @@ Object {
 
 exports[`auth reducer should handle AUTH_SIGN_UP_ERROR 1`] = `
 Object {
+  "country": undefined,
   "data": Object {
     "user": null,
   },
@@ -42,6 +46,7 @@ Object {
 
 exports[`auth reducer should handle AUTH_SIGN_UP_SUCCESS 1`] = `
 Object {
+  "country": undefined,
   "data": Object {
     "user": null,
   },
