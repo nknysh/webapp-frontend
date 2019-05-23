@@ -43,17 +43,17 @@ export default {
     },
     {
       title: 'Bookings',
-      href: `${ADMIN_BASE_URL}/index.html#/bookings`,
+      href: `${ADMIN_BASE_URL}/bookings`,
       hard: true,
     },
     {
       title: 'Holds',
-      href: `${ADMIN_BASE_URL}/index.html#/holds`,
+      href: `${ADMIN_BASE_URL}/holds`,
       hard: true,
     },
     {
       title: 'Travel Agents',
-      href: `${ADMIN_BASE_URL}/index.html#/travel-agents`,
+      href: `${ADMIN_BASE_URL}/travel-agents`,
       hard: true,
     },
   ],

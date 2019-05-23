@@ -17,7 +17,7 @@ import { getHotelName, getHotelsData, getHotelsStatus } from 'store/modules/hote
 export const mapStateToProps = state => ({
   countries: getCountriesData(state),
   features: getSearchFiltersFeatures(state, 'byQuery'),
-  getCountryName: getCountryName(state),
+  getCountryName: code => getCountryName(state, code),
   getHotelName: name => getHotelName(state, name),
   hotels: getHotelsData(state),
   hotelsStatus: getHotelsStatus(state),

@@ -1,6 +1,7 @@
-import { __, prop, pipe, curry, values, propEq, find } from 'ramda';
+import { prop, pipe, reduce, values, sortBy, mergeDeepRight } from 'ramda';
 
-import { getStatus, getData, getResults, getEntities } from 'store/common/selectors';
+import { getStatus, getData, getResults, getEntities, getUnary } from 'store/common/selectors';
+import { createSelector } from 'store/utils';
 
 export const getCountries = prop('countries');
 
@@ -19,30 +20,36 @@ export const getCountriesEntities = pipe(
   getEntities,
   prop('countries')
 );
+
 export const getCountriesResults = pipe(
   getCountries,
   getResults
 );
 
-export const getCountry = curry((state, key) =>
-  pipe(
-    getCountriesEntities,
-    prop(key)
-  )(state)
+export const getCountry = createSelector(
+  [getUnary, getCountriesEntities],
+  prop
 );
 
-export const getCountryName = curry((state, key) =>
-  pipe(
-    getCountry(__, key),
-    prop('name')
-  )(state)
+export const getCountryName = createSelector(
+  getCountry,
+  prop('name')
 );
 
-export const getCountryIdByName = curry((state, name) =>
+export const getCountriesNamesAsKeyValue = createSelector(
+  getCountriesEntities,
   pipe(
-    getCountriesEntities,
     values,
-    find(propEq('name', name)),
-    prop('code')
-  )(state)
+    sortBy(prop('name')),
+    reduce((accum, { code, name }) => mergeDeepRight(accum, { [code]: name }), {})
+  )
+);
+
+export const getCountriesCodesAsKeyValue = createSelector(
+  getCountriesEntities,
+  pipe(
+    values,
+    sortBy(prop('code')),
+    reduce((accum, { code }) => mergeDeepRight(accum, { [code]: code }), {})
+  )
 );

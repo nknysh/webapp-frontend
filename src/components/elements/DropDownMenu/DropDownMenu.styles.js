@@ -26,6 +26,7 @@ export const MaterialMenuItem = styled(MenuItem)`
   margin: 0 ${theme.gutter / 2}px !important;
   padding: ${theme.gutter}px !important;
   text-transform: uppercase;
+  height: auto !important;
 
   &:hover {
     background: none !important;

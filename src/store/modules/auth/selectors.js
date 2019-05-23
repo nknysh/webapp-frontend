@@ -1,33 +1,51 @@
-import { prop, pipe } from 'ramda';
+import { prop } from 'ramda';
+
+import { createSelector } from 'store/utils';
+import { isSr } from 'utils';
 
 export const getAuth = prop('auth');
 
-export const getAuthStatus = pipe(
+export const getAuthStatus = createSelector(
   getAuth,
   prop('status')
 );
 
-export const getAuthData = pipe(
+export const getAuthData = createSelector(
   getAuth,
   prop('data')
 );
 
-export const getAuthError = pipe(
+export const getAuthError = createSelector(
   getAuth,
   prop('error')
 );
 
-export const getAuthToken = pipe(
+export const getAuthToken = createSelector(
   getAuth,
   prop('token')
 );
 
-export const getCurrentUser = pipe(
+export const getCurrentCountry = createSelector(
+  getAuth,
+  prop('country')
+);
+
+export const getCurrentUser = createSelector(
   getAuthData,
   prop('user')
 );
 
-export const isAuthenticated = pipe(
+export const getCurrentUserCountryCode = createSelector(
+  getCurrentUser,
+  prop('countryCode')
+);
+
+export const getUserCountryContext = createSelector(
+  [getCurrentUser, getCurrentCountry, getCurrentUserCountryCode],
+  (currentUser, stateCountry, userCountry) => (isSr(currentUser) ? stateCountry || userCountry : undefined)
+);
+
+export const isAuthenticated = createSelector(
   getAuthToken,
   Boolean
 );

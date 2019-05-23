@@ -1,11 +1,10 @@
-import { prop, propEq, omit } from 'ramda';
+import { prop, propEq, omit, propOr } from 'ramda';
 import { FORBIDDEN } from 'http-status';
 
 import client from 'api/auth';
 
 import { successAction, errorAction, errorFromResponse } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
-import { isAuthenticated } from './selectors';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
@@ -15,10 +14,12 @@ export const AUTH_SIGN_UP = 'AUTH_SIGN_UP';
 export const AUTH_LOG_OUT = 'AUTH_LOG_OUT';
 export const AUTH_PASSWORD_RESET = 'AUTH_PASSWORD_RESET';
 export const AUTH_SET_PASSWORD = 'AUTH_SET_PASSWORD';
+export const AUTH_COUNTRY_SET = 'AUTH_COUNTRY_SET';
 
-// This constant is for Localstorage.
+// Localstorage constants for auth
 export const AUTH_TOKEN = 'authToken';
 export const AUTH_USER = 'authUser';
+export const AUTH_COUNTRY_CODE = 'authCountryCode';
 
 export const AccountStatus = Object.freeze({
   PENDING: 'pending',
@@ -66,11 +67,23 @@ export const authLogOut = token => ({
   payload: token,
 });
 
+export const authSetCountryAction = countryCode => ({
+  type: AUTH_COUNTRY_SET,
+  payload: countryCode,
+});
+
 export const setRememberedToken = token => localStorage.setItem(AUTH_TOKEN, token);
 export const setRememberedUser = user => localStorage.setItem(AUTH_USER, JSON.stringify(user));
+export const setRememberedCountry = countryCode => localStorage.setItem(AUTH_COUNTRY_CODE, countryCode);
 
 export const deleteRememberedToken = () => localStorage.removeItem(AUTH_TOKEN);
 export const deleteRememberedUser = () => localStorage.removeItem(AUTH_USER);
+export const deleteRememberedCountry = () => localStorage.removeItem(AUTH_COUNTRY_CODE);
+
+export const authSetCountry = countryCode => dispatch => {
+  setRememberedCountry(countryCode);
+  dispatch(authSetCountryAction(countryCode));
+};
 
 export const getUser = async dispatch => {
   dispatch(authRequest());
@@ -97,19 +110,18 @@ export const signUp = values => async dispatch => {
   }
 };
 
-export const logOut = token => async (dispatch, getState) => {
-  if (!isAuthenticated(getState())) {
-    return dispatch(successAction(AUTH_LOG_OUT));
-  }
-
+export const logOut = token => async dispatch => {
   dispatch(authLogOut(token));
+
   deleteRememberedToken();
   deleteRememberedUser();
+  deleteRememberedCountry();
+
+  dispatch(authReset());
+  dispatch(successAction(AUTH_LOG_OUT, {}));
 
   try {
     await client.logOut();
-    dispatch(authReset());
-    dispatch(successAction(AUTH_LOG_OUT));
   } catch (e) {
     return true;
   }
@@ -130,8 +142,9 @@ export const logIn = values => async dispatch => {
 
     setRememberedToken(userUuid);
     setRememberedUser(data);
-    dispatch(setToken(userUuid));
+    setRememberedCountry(propOr('GB', 'countryCode', data));
 
+    dispatch(setToken(userUuid));
     dispatch(successAction(AUTH_REQUEST, { user: { ...data } }));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_REQUEST, e));

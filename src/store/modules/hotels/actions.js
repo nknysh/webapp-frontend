@@ -5,6 +5,7 @@ import client from 'api/hotels';
 import { successAction, errorFromResponse } from 'store/common';
 import { index } from 'store/modules/indexes/actions';
 import { enqueueNotification } from 'store/modules/ui/actions';
+import { getUserCountryContext } from 'store/modules/auth/selectors';
 
 import { getHotelsEntities } from './selectors';
 import schema from './schema';
@@ -31,13 +32,14 @@ export const setHotels = data => (dispatch, getState) => {
   dispatch(successAction(HOTELS, data));
 };
 
-export const fetchHotels = params => async dispatch => {
+export const fetchHotels = params => async (dispatch, getState) => {
+  const actingCountryCode = getUserCountryContext(getState());
   dispatch(fetchHotelsAction());
 
   try {
     const {
       data: { data },
-    } = await client.getHotels({ sort: ['hotel.name'], associations: 'featuredPhoto', ...params });
+    } = await client.getHotels({ sort: ['hotel.name'], associations: 'featuredPhoto', actingCountryCode, ...params });
 
     dispatch(setHotels(data));
   } catch (e) {
@@ -46,13 +48,15 @@ export const fetchHotels = params => async dispatch => {
   }
 };
 
-export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endDate) => async dispatch => {
+export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endDate) => async (dispatch, getState) => {
+  const actingCountryCode = getUserCountryContext(getState());
+
   dispatch(fetchHotelsAction());
 
   try {
     const {
       data: { data },
-    } = await client.getHotelRoomRates(productUuid, { startDate, endDate });
+    } = await client.getHotelRoomRates(productUuid, { startDate, endDate, actingCountryCode });
 
     dispatch(
       setHotels({

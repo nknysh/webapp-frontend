@@ -5,6 +5,7 @@ import client from 'api/search';
 import { successAction, errorFromResponse, entitiesObject, loadingAction } from 'store/common';
 
 import { setHotels } from 'store/modules/hotels/actions';
+import { getUserCountryContext } from 'store/modules/auth/selectors';
 import { setCountries } from 'store/modules/countries/actions';
 
 export const SEARCH_QUERY_UPDATE = 'SEARCH_QUERY_UPDATE';
@@ -34,7 +35,9 @@ export const searchByQueryAction = payload => ({
   payload,
 });
 
-export const searchByName = destination => async dispatch => {
+export const searchByName = destination => async (dispatch, getState) => {
+  const actingCountryCode = getUserCountryContext(getState());
+
   dispatch(setSearchQuery({ destination }));
   dispatch(searchByNameAction(destination));
   dispatch(loadingAction(SEARCH_BY_NAME, { destination }));
@@ -42,7 +45,7 @@ export const searchByName = destination => async dispatch => {
   try {
     const {
       data: { data },
-    } = await client.getSearchByName(prop('value', destination));
+    } = await client.getSearchByName(prop('value', destination), { actingCountryCode });
 
     const result = prop('result', data);
     const hotels = pathOr({}, ['entities', 'hotels'], data);
@@ -56,7 +59,9 @@ export const searchByName = destination => async dispatch => {
   }
 };
 
-export const searchByQuery = query => async dispatch => {
+export const searchByQuery = query => async (dispatch, getState) => {
+  const actingCountryCode = getUserCountryContext(getState());
+
   dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
 
@@ -65,12 +70,11 @@ export const searchByQuery = query => async dispatch => {
   try {
     const {
       data: { data, meta },
-    } = await client.getSearch(query);
+    } = await client.getSearch({ ...query, actingCountryCode });
 
     const hotels = path(['entities', 'hotels'], data);
     const uploads = path(['entities', 'uploads'], data);
     const countries = path(['entities', 'countries'], data);
-
     const hotelsResults = path(['result', 'hotels'], data);
     const countriesResults = path(['result', 'countries'], data);
 

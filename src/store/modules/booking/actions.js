@@ -40,6 +40,7 @@ import { successAction, errorFromResponse, errorAction } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getHotelRoom, getHotelProduct } from 'store/modules/hotels/selectors';
 import { setHotels } from 'store/modules/hotels/actions';
+import { getUserCountryContext } from 'store/modules/auth/selectors';
 import { getSuccessActionName } from 'store/utils';
 
 import { getBookingByHotelId, getBookingRoomDatesById, getBookingForBuilder } from './selectors';
@@ -164,6 +165,7 @@ export const removeRoom = (id, roomId, all = false) => (dispatch, getState) => {
 export const updateBooking = (id, payload) => async (dispatch, getState) => {
   dispatch(updateBookingAction(payload));
   const state = getState();
+  const actingCountryCode = getUserCountryContext(state);
 
   const nextBooking = { [id]: payload };
   const nextState = mergeDeepRight(state, { booking: { data: nextBooking } });
@@ -177,7 +179,8 @@ export const updateBooking = (id, payload) => async (dispatch, getState) => {
 
   try {
     const response =
-      shouldCall && (await client.bookingBuilder({ data: { attributes: { ...bookingBuilderPayload } } }));
+      shouldCall &&
+      (await client.bookingBuilder({ data: { attributes: { ...bookingBuilderPayload } } }, { actingCountryCode }));
 
     if (!hasAccommodation) {
       result = set(lensPath(['potentialBooking', 'Accommodation']), [], result);
