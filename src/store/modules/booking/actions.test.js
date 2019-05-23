@@ -12,7 +12,7 @@ describe('booking actions', () => {
 
       updateBooking()(dispatch, () => {});
 
-      expect(dispatch).toHaveBeenCalledTimes(2);
+      expect(dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });

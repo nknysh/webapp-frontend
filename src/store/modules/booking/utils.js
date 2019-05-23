@@ -1,6 +1,5 @@
 import {
   __,
-  add,
   all,
   always,
   append,
@@ -105,12 +104,3 @@ export const getGuestsTotals = curry((rates, quantity = {}) =>
     sum
   )(quantity)
 );
-
-export const getTotalExtraSupplements = (accum, rates) => {
-  mapObjIndexed(({ amount, dates }, rate) => {
-    const total = rate * amount * length(dates);
-    accum = add(accum, total);
-  }, rates);
-
-  return accum;
-};

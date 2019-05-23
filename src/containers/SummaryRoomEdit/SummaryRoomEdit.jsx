@@ -1,10 +1,8 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import {
-  all,
   compose,
   curry,
   defaultTo,
-  equals,
   gt,
   head,
   ifElse,
@@ -16,7 +14,6 @@ import {
   pipe,
   prepend,
   prop,
-  propOr,
   toUpper,
   values,
 } from 'ramda';
@@ -65,33 +62,24 @@ const renderGuestSelectErrors = ifElse(
   renderError
 );
 
-const allPermitted = pipe(
-  defaultTo([]),
-  map(prop('permitted')),
-  all(equals(true))
-);
-
 export const SummaryRoomEdit = ({
+  dates,
+  guests,
   hotelUuid,
   id,
-  dates,
-  name,
-  rates,
-  guests,
   mealPlan,
   mealPlans,
-  onComplete,
+  name,
   onChange,
+  onComplete,
   onDatesShow,
-  checks,
-  details,
+  options,
+  rates,
   status,
   updateBooking,
-  options,
 }) => {
   const [formValues, setFormValues] = useState({ mealPlan, dates, guests });
   const [complete, setComplete] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [roomContext, setRoomContext] = useState(0);
   const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
 
@@ -100,12 +88,6 @@ export const SummaryRoomEdit = ({
   useEffectBoundary(() => {
     roomContext > guests.length - 1 && setRoomContext(guests.length - 1);
   }, [guests]);
-
-  useEffectBoundary(() => {
-    const finished = allPermitted(checks);
-    submitted && setComplete(finished);
-    setSubmitted(finished);
-  }, [checks]);
 
   useEffectBoundary(() => {
     complete && onComplete({});
@@ -119,7 +101,7 @@ export const SummaryRoomEdit = ({
   const onFormSubmit = values => {
     setFormValues(values);
     onChange(hotelUuid, { Accommodation: { [id]: { ...values } } });
-    setSubmitted(true);
+    setComplete(true);
   };
 
   const onMonthChange = month => {
@@ -167,24 +149,13 @@ export const SummaryRoomEdit = ({
     );
   };
 
-  const renderGuestCheck = (checked, i) => {
-    const errors = pipe(
-      propOr([], 'errors'),
-      map(renderError)
-    )(checked);
-
-    return <Fragment key={i}>{errors}</Fragment>;
-  };
-
-  const renderGuestsInfo = () => mapWithIndex(renderGuestCheck, defaultTo([], checks));
-
   return (
     <EditForm>
       <EditFormTitle>{name}</EditFormTitle>
       <Form
         initialValues={formValues}
         onSubmit={onFormSubmit}
-        validationSchema={validation(details)}
+        validationSchema={validation({ options })}
         validateOnBlur={false}
       >
         {({ values, errors, ...formProps }) => (
@@ -199,9 +170,7 @@ export const SummaryRoomEdit = ({
                 errors={renderGuestSelectErrors(prop('guests', errors))}
                 onRoomChange={setRoomContext}
                 selectedRoom={roomContext}
-              >
-                {renderGuestsInfo()}
-              </GuestSelect>
+              />
             </EditFormSection>
             <EditFormSection>
               <StyledDatePicker

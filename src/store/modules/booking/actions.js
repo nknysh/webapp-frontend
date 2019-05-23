@@ -1,12 +1,14 @@
 import {
   __,
   always,
+  anyPass,
   append,
   both,
   cond,
   curry,
   equals,
   findLastIndex,
+  has,
   inc,
   lensPath,
   lensProp,
@@ -46,14 +48,14 @@ const accommodationProductsLens = lensProp('accommodationProducts');
 const datesLens = lensProp('dates');
 const ratesLens = lensPath(['dates', 'rates']);
 
+const triggerCall = anyPass([has('Accommodation')]);
+
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKING_CHECKS = 'BOOKING_CHECKS';
 export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_ROOM_ADD = 'BOOKING_ROOM_ADD';
 export const BOOKING_ROOM_REMOVE = 'BOOKING_ROOM_REMOVE';
 export const BOOKING_REMOVE = 'BOOKING_REMOVE';
-
-const getGuestsChecks = mapObjIndexed(objOf('checks'));
 
 const removeBy = curry((ids, data) => {
   const remover = () => {
@@ -69,11 +71,6 @@ const removeBy = curry((ids, data) => {
 });
 
 export const updateBookingAction = payload => ({
-  type: BOOKING_UPDATE,
-  payload,
-});
-
-export const checkBookingAction = payload => ({
   type: BOOKING_UPDATE,
   payload,
 });
@@ -165,7 +162,6 @@ export const removeRoom = (id, roomId, all = false) => (dispatch, getState) => {
 };
 
 export const updateBooking = (id, payload) => async (dispatch, getState) => {
-  getState();
   dispatch(updateBookingAction(payload));
   const state = getState();
 
@@ -173,14 +169,15 @@ export const updateBooking = (id, payload) => async (dispatch, getState) => {
   const nextState = mergeDeepRight(state, { booking: { data: nextBooking } });
 
   const bookingBuilderPayload = getBookingForBuilder(nextState, id);
+  const hasAccommodation = !propSatisfies(isEmptyOrNil, 'Accommodation', bookingBuilderPayload);
+
+  const shouldCall = triggerCall(payload) && hasAccommodation;
 
   let result = {};
 
   try {
-    const hasAccommodation = !propSatisfies(isEmptyOrNil, 'Accommodation', bookingBuilderPayload);
-
     const response =
-      hasAccommodation && (await client.bookingBuilder({ data: { attributes: { ...bookingBuilderPayload } } }));
+      shouldCall && (await client.bookingBuilder({ data: { attributes: { ...bookingBuilderPayload } } }));
 
     if (!hasAccommodation) {
       result = set(lensPath(['potentialBooking', 'Accommodation']), [], result);
@@ -213,39 +210,13 @@ export const updateBooking = (id, payload) => async (dispatch, getState) => {
 };
 
 export const updateBookingExtras = (id, prev, next) => dispatch => {
-  dispatch(amendProduct(id, next));
-};
-
-export const checkBooking = (id, payload) => async (dispatch, getState) => {
-  dispatch(checkBookingAction(id));
-
-  const state = getState();
-  const booking = getBookingByHotelId(state, id);
-
-  const nextBooking = mergeDeepRight(booking, payload);
-
-  const body = pipe(
-    prop('Accommodation'),
-    mapObjIndexed(prop('guests'))
-  )(nextBooking);
-
-  try {
-    const {
-      data: { data },
-    } = await client.occupancyCheck({ data: body });
-
-    const guestChecks = getGuestsChecks(data);
-
-    dispatch(successAction(BOOKING_CHECKS, { [id]: { Accommodation: { ...guestChecks } } }));
-  } catch (e) {
-    dispatch(errorFromResponse(BOOKING_CHECKS, e));
-    dispatch(
-      enqueueNotification({
-        message: 'Could not check booking. Please try again later.',
-        options: { variant: 'error' },
-      })
-    );
+  if (isArray(next)) {
+    dispatch(removeProduct(id, prev));
+    dispatch(addProduct(id, next));
+    return;
   }
+
+  isEmptyOrNil(next) ? dispatch(removeProduct(id, prev)) : dispatch(amendProduct(id, next));
 };
 
 export const completeBooking = (id, payload) => async (dispatch, getState) => {

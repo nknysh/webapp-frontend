@@ -52,17 +52,17 @@ const renderOptionRate = multiple => ({ rate, name }) => (
 );
 
 export const SummaryFormExtras = ({
-  total,
-  transfers,
-  transfersTotal,
-  groundServicesTotal,
-  groundServices,
   addons,
   addonsTotals,
+  getRate,
+  groundServices,
+  groundServicesTotal,
   onChange,
   onExtraChange,
   summaryOnly,
-  getRate,
+  total,
+  transfers,
+  transfersTotal,
   values,
 }) => {
   const totals = { transfer: transfersTotal, groundService: groundServicesTotal, addon: addonsTotals };
