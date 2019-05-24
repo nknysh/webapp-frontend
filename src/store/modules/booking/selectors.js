@@ -1,5 +1,4 @@
 import {
-  __,
   add,
   all,
   always,
@@ -24,20 +23,18 @@ import {
   length,
   lensProp,
   map,
+  objOf,
   mapObjIndexed,
   mergeDeepRight,
   multiply,
   omit,
   over,
-  partial,
   path,
   pathOr,
-  pickBy,
   pipe,
   prop,
   propEq,
   propOr,
-  props,
   propSatisfies,
   reduce,
   T,
@@ -50,9 +47,9 @@ import { renameKeys } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
 import { addDays } from 'date-fns';
 
-import { isEmptyOrNil, formatPrice, formatDate, getDaysBetween, isArray, minusDays } from 'utils';
+import { isEmptyOrNil, formatPrice, formatDate, getDaysBetween, isArray, minusDays, parseJson } from 'utils';
 
-import { getHotelProduct, getHotelsRates, getHotelsRate } from 'store/modules/hotels/selectors';
+import { getHotelProduct, getHotelsRate } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
 import { getState, getSecondArg, getUnary } from 'store/common';
@@ -279,14 +276,22 @@ export const getBookingRoomMealPlans = createSelector(
   }
 );
 
-export const getBookingRoomSupplements = createSelector(
+export const getPotentialBookingRoomSupplements = createSelector(
   getPotentialBookingByRoomId,
   map(pathOr([], ['subProducts', 'Supplement']))
 );
 
+export const getPotentialBookingRoomMealPlans = createSelector(
+  getPotentialBookingByRoomId,
+  map(pathOr([], ['subProducts', 'Meal Plan']))
+);
+
 export const getBookingRoomMealPlan = createSelector(
-  [getBookingRoomById, getBookingRoomMealPlans],
-  (booking, mealPlans) => prop(prop('mealPlan', booking), mealPlans)
+  getBookingRoomById,
+  pipe(
+    propOr('[]', 'mealPlan'),
+    parseJson
+  )
 );
 
 export const getTransferProductsTotal = createSelector(
@@ -324,35 +329,8 @@ export const getAddonsTotals = createSelector(
 );
 
 export const getBookingRoomTotal = createSelector(
-  [getState, getSecondArg, getPotentialBooking, getBookingRoomById, getBookingRoomDatesById],
-  (state, roomId, potentialBooking, roomBooking, { to, from }) => {
-    const product = getHotelProduct(state, roomId);
-    const rates = prop('rates', product);
-    const guests = prop('guests', roomBooking);
-
-    const days = getDaysBetween(from, to);
-
-    const ratesForDays = pipe(
-      map(formatDate),
-      props(__, rates)
-    )(days);
-
-    const getTotalMealPlans = (accum, rate) => {
-      const selectedMealPlan = prop('mealPlan', roomBooking);
-
-      const mealPlan = pipe(
-        pathOr([], ['addons', 'Meal Plan']),
-        partial(getHotelsRates, [state]),
-        pickBy(propEq('product', selectedMealPlan)),
-        values,
-        head
-      )(rate);
-
-      const mealPlanRates = propOr([], 'rates', mealPlan);
-
-      return isEmptyOrNil(mealPlan) ? accum : append(getGuestsTotals(mealPlanRates, guests), accum);
-    };
-
+  [getState, getSecondArg, getPotentialBooking],
+  (state, roomId, potentialBooking) => {
     const productsForRoom = pipe(
       propOr([], 'Accommodation'),
       filter(propEq('product', roomId))
@@ -379,14 +357,8 @@ export const getBookingRoomTotal = createSelector(
       toTotal
     )(productsForRoom);
 
-    const mealPlansTotal = pipe(
-      reduce(getTotalMealPlans, []),
-      toTotal
-    )(ratesForDays);
-
     return pipe(
       add(roomTotals),
-      add(mealPlansTotal),
       add(subProductsTotal),
       formatPrice
     )(0);
@@ -463,6 +435,9 @@ export const getBookingForBuilder = createSelector(
       const includeDates = propEq('type', 'Accommodation', product);
       const bookingDates = (includeDates && getBookingRoomDatesById(state, hotelId, uuid)) || {};
 
+      const mealPlans = getBookingRoomMealPlan(state, hotelId, uuid) || [];
+      const mealPlan = reduce((accum, uuid) => (uuid ? append(objOf('uuid', uuid), accum) : accum), [], mealPlans);
+
       const numberOfAdults = length(propOr([], 'adult', guestsForIndex));
       const agesOfAllChildren = pipe(
         omit(['adult']),
@@ -472,6 +447,9 @@ export const getBookingForBuilder = createSelector(
 
       const hasAdults = gt(numberOfAdults, 0);
       const hasChildren = !isEmptyOrNil(agesOfAllChildren);
+      const hasMealPlan = !isEmptyOrNil(mealPlan);
+
+      const hasSubProducts = hasMealPlan;
 
       dates = addToDates(bookingDates);
 
@@ -504,6 +482,11 @@ export const getBookingForBuilder = createSelector(
             ...(hasAdults && { numberOfAdults }),
             ...(hasChildren && { agesOfAllChildren }),
           },
+          ...(hasSubProducts && {
+            subProducts: {
+              ...(hasMealPlan && { 'Meal Plan': mealPlan }),
+            },
+          }),
         }),
         ...(includeDates && datesForProductObj(bookingDates)),
       };

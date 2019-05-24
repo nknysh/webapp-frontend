@@ -1,7 +1,9 @@
-import { tryCatch, always, lensProp, set, pipe, lensPath, propOr } from 'ramda';
+import { lensProp, set, pipe, lensPath, propOr } from 'ramda';
 
 import { initialState, successReducer, errorReducer, sendingReducer } from 'store/common';
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
+
+import { parseJson } from 'utils';
 
 import {
   AUTH_COUNTRY_CODE,
@@ -16,8 +18,6 @@ import {
   AUTH_TOKEN,
   AUTH_USER,
 } from './actions';
-
-const parseJson = tryCatch(JSON.parse, always(undefined));
 
 const tokenLens = lensProp('token');
 const countryLens = lensProp('country');
