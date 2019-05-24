@@ -5,6 +5,7 @@ import { noop } from 'utils';
 export const propTypes = {
   indexes: PropTypes.array,
   indexSelectors: PropTypes.array,
+  searchPatterns: PropTypes.array,
   onChange: PropTypes.func,
   onSearch: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -18,6 +19,7 @@ export const propTypes = {
 
 export const defaultProps = {
   indexes: [],
+  searchPatterns: [],
   indexSelectors: [],
   onChange: noop,
   onSearch: noop,

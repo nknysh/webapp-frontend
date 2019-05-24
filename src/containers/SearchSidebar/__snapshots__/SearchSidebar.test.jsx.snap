@@ -22,6 +22,11 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       onChange={[Function]}
       onSearch={[Function]}
       onSubmit={[Function]}
+      searchPatterns={
+        Array [
+          "+isDestination:true",
+        ]
+      }
       searchQuery={
         Object {
           "filters": Object {
@@ -89,6 +94,11 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       onChange={[Function]}
       onSearch={[Function]}
       onSubmit={[Function]}
+      searchPatterns={
+        Array [
+          "+isDestination:true",
+        ]
+      }
       searchQuery={Object {}}
       showSubmit={false}
       vertical={true}

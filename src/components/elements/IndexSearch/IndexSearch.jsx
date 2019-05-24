@@ -56,17 +56,17 @@ export const IndexSearch = ({
     setSelected(value);
   }, [value]);
 
-  const getResults = index => {
+  const getResults = (index, i) => {
     if (!index) return [];
 
-    const searchString =
-      (!isEmpty(search) && replace('{search}', search, propOr('{search}*', index, searchPatterns))) || '';
-    const results = index.search(searchString);
+    const searchString = `${propOr('', i, searchPatterns)}{search}*`;
+
+    const results = index.search(replace('{search}', search, searchString));
     return limit ? take(limit, results) : results;
   };
 
   const searchIndexes = () => {
-    const indexResults = map(getResults, indexes);
+    const indexResults = mapWithIndex(getResults, indexes);
     setResults(indexResults);
   };
 

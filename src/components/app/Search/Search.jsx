@@ -17,12 +17,13 @@ const honeymoonersLens = lensProp('suitableForHoneymooners');
 
 export const Search = ({
   indexes,
-  searchStatus,
-  searchQuery,
+  searchPatterns,
+  indexSelectors,
   onChange,
   onSearch,
-  indexSelectors,
   onSubmit,
+  searchQuery,
+  searchStatus,
   showSubmit,
   vertical,
 }) => {
@@ -62,6 +63,7 @@ export const Search = ({
           openOnFocus={false}
           placeholder={path(['placeholders', 'search'], uiConfig)}
           selectors={indexSelectors}
+          searchPatterns={searchPatterns}
           value={prop('value', getSearchQueryData(destinationLens))}
         />
       </SearchBarSection>
