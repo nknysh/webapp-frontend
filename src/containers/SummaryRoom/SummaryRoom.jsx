@@ -26,14 +26,26 @@ import {
 } from './SummaryRoom.styles';
 
 // eslint-disable-next-line react/prop-types
-const renderSupplement = ({ title, total }) => (
+const renderSupplement = ({ title, total, quantity }) => (
   <ExtraSupplement>
-    {title} - (<ExtraSupplementRate>{total}</ExtraSupplementRate>)
+    {quantity} x {title} - (<ExtraSupplementRate>{total}</ExtraSupplementRate>)
   </ExtraSupplement>
 );
 
 const renderSupplements = pipe(
   map(map(renderSupplement)),
+  flatten
+);
+
+// eslint-disable-next-line react/prop-types
+const renderMealPlan = ({ title, quantity }) => (
+  <RoomRow>
+    {getSingular('mealPlan')}: {quantity} x {title}
+  </RoomRow>
+);
+
+const renderMealPlans = pipe(
+  map(map(renderMealPlan)),
   flatten
 );
 
@@ -45,7 +57,7 @@ export const SummaryRoom = ({
   guests,
   hotelUuid,
   id,
-  mealPlan,
+  mealPlans,
   onEdit,
   onRemove,
   photo,
@@ -95,11 +107,7 @@ export const SummaryRoom = ({
             {guestLine('guest', getTotalGuests(guests))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
           </RoomRow>
           <RoomRow>{renderSupplements(supplements)}</RoomRow>
-          {mealPlan && (
-            <RoomRow>
-              {getSingular('mealPlan')}: {prop('name', mealPlan)}
-            </RoomRow>
-          )}
+          <RoomRow>{renderMealPlans(mealPlans)}</RoomRow>
         </RoomDetails>
       </Room>
     )) ||

@@ -24,6 +24,7 @@ import {
   values,
   equals,
   test,
+  tryCatch,
 } from 'ramda';
 
 export const noop = () => {};
@@ -75,3 +76,5 @@ export const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum,
 
 export const testAdult = test(/^adult$/i);
 export const isAdult = either(testAdult, equals('default'));
+
+export const parseJson = tryCatch(JSON.parse, identity);

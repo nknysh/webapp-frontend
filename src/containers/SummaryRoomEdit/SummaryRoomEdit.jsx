@@ -11,6 +11,7 @@ import {
   map,
   mapObjIndexed,
   path,
+  equals,
   pipe,
   prepend,
   prop,
@@ -46,6 +47,11 @@ import {
 } from './SummaryRoomEdit.styles';
 import { getOptionsFromRates, getMinMax, getAgeRanges } from './SummaryRoomEdit.utils';
 
+const getMonthToDisplay = pipe(
+  prop('to'),
+  toDate
+);
+
 const renderError = message => message && <FormFieldError key={message}>{message}</FormFieldError>;
 const renderKeyedError = (msg, key) => renderError(`${toUpper(key)} - ${msg}`);
 
@@ -70,7 +76,6 @@ export const SummaryRoomEdit = ({
   mealPlan,
   mealPlans,
   name,
-  onChange,
   onComplete,
   onDatesShow,
   options,
@@ -100,7 +105,7 @@ export const SummaryRoomEdit = ({
 
   const onFormSubmit = values => {
     setFormValues(values);
-    onChange(hotelUuid, { Accommodation: { [id]: { ...values } } });
+    updateBooking(hotelUuid, { Accommodation: { [id]: { ...values } } });
     setComplete(true);
   };
 
@@ -128,7 +133,7 @@ export const SummaryRoomEdit = ({
     const mapBreakdown = ({ title, dates, total }, i) => (
       <MealPlanRate key={i}>
         {title} - (<MealPlanRatePrice>{total}</MealPlanRatePrice>
-        {hasSplitRates && ` | ${head(dates)} - ${last(dates)}`})
+        {hasSplitRates && ` | ${head(dates)}${!equals(head(dates), last(dates)) ? ` - ${last(dates)}` : ''}`})
       </MealPlanRate>
     );
 
@@ -176,6 +181,7 @@ export const SummaryRoomEdit = ({
               <StyledDatePicker
                 label={getPlural('date')}
                 dayPickerProps={{
+                  month: getMonthToDisplay(dates),
                   disabledDays: [
                     ...disabled,
                     {
