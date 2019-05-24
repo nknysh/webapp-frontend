@@ -14,6 +14,7 @@ exports[`<Search /> render matches snapshot 1`] = `
       onClick={[Function]}
       openOnFocus={false}
       placeholder="Where to"
+      searchPatterns={Array []}
       selectors={Array []}
     />
   </Searchstyles__SearchBarSection>

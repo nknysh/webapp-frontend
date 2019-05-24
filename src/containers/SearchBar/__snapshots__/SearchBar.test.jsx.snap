@@ -23,6 +23,11 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
       onChange={[Function]}
       onSearch={[Function]}
       onSubmit={[Function]}
+      searchPatterns={
+        Array [
+          "+isDestination:true",
+        ]
+      }
       searchQuery={Object {}}
       showSubmit={true}
       vertical={false}

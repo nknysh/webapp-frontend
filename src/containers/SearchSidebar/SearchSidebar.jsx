@@ -36,6 +36,7 @@ export const SearchSidebar = ({
         <Search
           indexes={values(IndexTypes)}
           indexSelectors={[getCountryName, getHotelName]}
+          searchPatterns={['+isDestination:true']}
           onChange={setSearchQuery}
           onSearch={searchByName}
           showSubmit={false}

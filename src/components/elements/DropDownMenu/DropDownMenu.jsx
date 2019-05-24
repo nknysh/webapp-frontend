@@ -14,11 +14,12 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
   const onToggle = () => setOpen(!open);
   const onClose = () => setOpen(false);
 
-  const renderItem = (item, i) => (
-    <ItemComponent onClick={path(['props', 'onClick'], item)} key={`drop-down-menu-item-${i}`}>
-      {item}
-    </ItemComponent>
-  );
+  const renderItem = (item, i) =>
+    item && (
+      <ItemComponent onClick={path(['props', 'onClick'], item)} key={`drop-down-menu-item-${i}`}>
+        {item}
+      </ItemComponent>
+    );
 
   const renderChildren = () => (isArray(children) ? mapWithIndex(renderItem, children) : renderItem(children, 0));
 

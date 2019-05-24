@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { Select } from 'components/elements';
+
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 
@@ -30,3 +32,6 @@ export const Text = styled.div`
         padding: ${theme.gutter / 2}px ${theme.gutter}px;
     `}
 `;
+
+export const Country = styled.div``;
+export const CountrySelect = styled(Select)``;

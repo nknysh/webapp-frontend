@@ -2,5 +2,5 @@ const id = 'code';
 
 export default {
   id,
-  index: ['name'],
+  index: ['name', 'isDestination'],
 };

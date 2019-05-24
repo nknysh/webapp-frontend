@@ -1,11 +1,6 @@
-import { pipe, prop, propOr } from 'ramda';
+import { propEq, defaultTo, pipe } from 'ramda';
 
-import { getQuery } from './location';
-
-const getTokenFromWindow = pipe(
-  prop('location'),
-  getQuery,
-  propOr(false, 'token')
+export const isSr = pipe(
+  defaultTo({}),
+  propEq('type', 'sr')
 );
-
-export const getToken = windowExists => getTokenFromWindow(windowExists) || localStorage.getItem('authToken');

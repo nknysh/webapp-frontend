@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { compose, path, map, lensPath, set, values } from 'ramda';
+import { compose, path, map, lensPath, set, values, equals } from 'ramda';
 
 import uiConfig from 'config/ui';
 import userPanelLinks from 'config/links/user-panel';
 
 import { DropDownMenu, Link } from 'components';
 import { withAuthentication } from 'hoc';
+import { isSr } from 'utils';
 
 import { isSending } from 'store/common';
 
 import connect from './UserPanel.state';
 import { propTypes, defaultProps } from './UserPanel.props';
-import { StyledUserPanel, Text } from './UserPanel.styles';
+import { StyledUserPanel, Text, Country, CountrySelect } from './UserPanel.styles';
 
 const logoutClickLens = lensPath(['logout', 'onClick']);
 
@@ -22,12 +23,26 @@ const renderLink = ({ title, ...props }) => (
   </Link>
 );
 
-export const UserPanel = ({ isAuthenticated, currentUser, requestStatus, token, logOut }) => {
+export const UserPanel = ({
+  isAuthenticated,
+  currentUser,
+  requestStatus,
+  token,
+  logOut,
+  countryContext,
+  userCountry,
+  countries,
+  setCountry,
+}) => {
   if (!isAuthenticated || !currentUser) return null;
 
   const [logout, setLogout] = useState(false);
 
   const { firstName, lastName } = currentUser;
+
+  const onSetCountry = e => {
+    setCountry(e.target.value);
+  };
 
   const onLogoutClick = () => {
     setLogout(true);
@@ -49,10 +64,15 @@ export const UserPanel = ({ isAuthenticated, currentUser, requestStatus, token, 
       <DropDownMenu
         title={
           <Text>
-            {firstName} {lastName}
+            {firstName} {lastName} {isSr(currentUser) && !equals(countryContext, userCountry) && `(${countryContext})`}
           </Text>
         }
       >
+        {isSr(currentUser) && (
+          <Country>
+            Country <CountrySelect value={countryContext} options={countries} onChange={onSetCountry} />
+          </Country>
+        )}
         {values(map(renderLink, links))}
       </DropDownMenu>
     </StyledUserPanel>

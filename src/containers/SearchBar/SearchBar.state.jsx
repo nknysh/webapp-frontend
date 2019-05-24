@@ -10,7 +10,7 @@ import { getSearchQuery, getSearchStatus } from 'store/modules/search/selectors'
 
 export const mapStateToProps = state => ({
   searchStatus: getSearchStatus(state),
-  getCountryName: getCountryName(state),
+  getCountryName: code => getCountryName(state, code),
   getHotelName: name => getHotelName(state, name),
   searchQuery: getSearchQuery(state),
 });
