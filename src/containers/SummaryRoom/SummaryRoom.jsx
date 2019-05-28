@@ -26,8 +26,8 @@ import {
 } from './SummaryRoom.styles';
 
 // eslint-disable-next-line react/prop-types
-const renderSupplement = ({ title, total, quantity }) => (
-  <ExtraSupplement>
+const renderSupplement = ({ product, title, total, quantity }) => (
+  <ExtraSupplement key={product}>
     {quantity} x {title} - (<ExtraSupplementRate>{total}</ExtraSupplementRate>)
   </ExtraSupplement>
 );
@@ -38,8 +38,8 @@ const renderSupplements = pipe(
 );
 
 // eslint-disable-next-line react/prop-types
-const renderMealPlan = ({ title, quantity }) => (
-  <RoomRow>
+const renderMealPlan = ({ product, title, quantity }) => (
+  <RoomRow key={product}>
     {getSingular('mealPlan')}: {quantity} x {title}
   </RoomRow>
 );

@@ -17,9 +17,13 @@ import {
   prop,
   toUpper,
   values,
+  when,
+  evolve,
+  always,
 } from 'ramda';
 import { isThisMonth } from 'date-fns';
 
+import { ProductTypes } from 'config/enums';
 import uiConfig, { getPlural } from 'config/ui';
 
 import { isActive } from 'store/common';
@@ -27,7 +31,7 @@ import { isActive } from 'store/common';
 import { RadioButton, Form, FormFieldError, Loader } from 'components/elements';
 import GuestSelect from 'components/app/GuestSelect';
 import { useEffectBoundary } from 'effects';
-import { formatDate, getEndOfMonth, getStartOfMonth, toDate, isArray, mapWithIndex } from 'utils';
+import { formatDate, getEndOfMonth, getStartOfMonth, toDate, isArray, mapWithIndex, isEmptyOrNil } from 'utils';
 
 import { validation } from 'config/forms/roomEdit';
 
@@ -82,6 +86,7 @@ export const SummaryRoomEdit = ({
   rates,
   status,
   updateBooking,
+  errors: bookingErrors,
 }) => {
   const [formValues, setFormValues] = useState({ mealPlan, dates, guests });
   const [complete, setComplete] = useState(false);
@@ -104,9 +109,13 @@ export const SummaryRoomEdit = ({
   const onBookingChange = (id, values) => updateBooking(hotelUuid, id, values);
 
   const onFormSubmit = values => {
+    const finalValues = evolve({
+      mealPlan: when(isEmptyOrNil, always('[]')),
+    });
+
     setFormValues(values);
-    updateBooking(hotelUuid, { Accommodation: { [id]: { ...values } } });
-    setComplete(true);
+    updateBooking(hotelUuid, { products: { [ProductTypes.ACCOMMODATION]: { [id]: { ...finalValues(values) } } } });
+    setComplete(isEmptyOrNil(bookingErrors));
   };
 
   const onMonthChange = month => {
@@ -123,8 +132,13 @@ export const SummaryRoomEdit = ({
 
   const onObjectChange = curry((name, { handleChange }, value) => {
     handleChange({ target: { name, type: 'object', value } });
-    onBookingChange({ Accommodation: { [id]: { [name]: value } } });
+    onBookingChange({ products: { [ProductTypes.ACCOMMODATION]: { [id]: { [name]: value } } } });
   });
+
+  const onMealPlanChange = ({ handleChange }) => (e, value) => {
+    handleChange(e, value);
+    onBookingChange({ products: { [ProductTypes.ACCOMMODATION]: { [id]: { mealPlan: value } } } });
+  };
 
   const mapMealPlans = ({ breakdown = [], products = [] }) => {
     const hasSplitRates = gt(length(breakdown), 1);
@@ -206,9 +220,16 @@ export const SummaryRoomEdit = ({
                   map(mapMealPlans),
                   prepend({ label: 'None', value: '' })
                 )(mealPlans[roomContext] || [])}
-                onChange={prop('handleChange', formProps)}
+                onChange={onMealPlanChange(formProps)}
               />
             </EditFormSection>
+            {map(
+              pipe(
+                prop('message'),
+                renderError
+              ),
+              bookingErrors
+            )}
             <EditFormActions>
               <EditFormButton type="submit">{path(['buttons', 'update'], uiConfig)}</EditFormButton>
             </EditFormActions>

@@ -1,42 +1,34 @@
 import {
   __,
-  always,
   anyPass,
   append,
-  both,
-  cond,
-  curry,
+  complement,
   equals,
-  findLastIndex,
   has,
-  inc,
   lensPath,
   lensProp,
   map,
   mapObjIndexed,
   mergeDeepRight,
-  objOf,
   omit,
-  over,
+  partialRight,
   path,
   pick,
   pipe,
   prop,
   propSatisfies,
   reduce,
-  remove,
   set,
-  T,
-  uniq,
+  split,
+  toPairs,
   view,
-  when,
-  without,
 } from 'ramda';
 
 import client from 'api/bookings';
-import { formatDate, getDaysBetween, isEmptyOrNil, isArray } from 'utils';
+import { ProductTypes } from 'config/enums';
+import { formatDate, getDaysBetween, isEmptyOrNil } from 'utils';
 
-import { successAction, errorFromResponse, errorAction } from 'store/common';
+import { successAction, errorFromResponse } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getHotelRoom, getHotelProduct } from 'store/modules/hotels/selectors';
 import { setHotels } from 'store/modules/hotels/actions';
@@ -45,31 +37,18 @@ import { getSuccessActionName } from 'store/utils';
 
 import { getBookingByHotelId, getBookingRoomDatesById, getBookingForBuilder } from './selectors';
 
+export const BOOKING_CHECKS = 'BOOKING_CHECKS';
+export const BOOKING_REMOVE = 'BOOKING_REMOVE';
+export const BOOKING_ROOM_ADD = 'BOOKING_ROOM_ADD';
+export const BOOKING_ROOM_REMOVE = 'BOOKING_ROOM_REMOVE';
+export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
+export const BOOKING_UPDATE = 'BOOKING_UPDATE';
+
 const accommodationProductsLens = lensProp('accommodationProducts');
 const datesLens = lensProp('dates');
 const ratesLens = lensPath(['dates', 'rates']);
 
-const triggerCall = anyPass([has('Accommodation')]);
-
-export const BOOKING_UPDATE = 'BOOKING_UPDATE';
-export const BOOKING_CHECKS = 'BOOKING_CHECKS';
-export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
-export const BOOKING_ROOM_ADD = 'BOOKING_ROOM_ADD';
-export const BOOKING_ROOM_REMOVE = 'BOOKING_ROOM_REMOVE';
-export const BOOKING_REMOVE = 'BOOKING_REMOVE';
-
-const removeBy = curry((ids, data) => {
-  const remover = () => {
-    const removeIndex = findLastIndex(equals(ids), data);
-    return remove(removeIndex, inc(removeIndex), data);
-  };
-
-  if (isArray(data)) {
-    return isArray(ids) ? without(ids, data) : remover(ids);
-  }
-
-  return undefined;
-});
+const triggerCall = anyPass([complement(has('margin'))]);
 
 export const updateBookingAction = payload => ({
   type: BOOKING_UPDATE,
@@ -96,52 +75,16 @@ export const removeBooking = payload => ({
   payload,
 });
 
-export const amendProduct = (id, next, type, unique = true) => (dispatch, getState) => {
-  const handler = cond([[equals('remove'), always(removeBy)], [equals('add'), always(append)], [T, always(always)]]);
-
-  const state = getState();
-
-  const shouldBeUnique = () => unique;
-
-  const doAmend = (booking, productId) => {
-    const product = getHotelProduct(state, productId);
-    const productType = prop('type', product);
-    const lensType = lensPath(['products', productType]);
-
-    if (!product) {
-      return dispatch(errorAction(BOOKING_UPDATE, { message: `Could not amend product ${productId} to booking` }));
-    }
-
-    return pipe(
-      over(lensType, handler(type)(productId)),
-      over(lensType, when(both(isArray, shouldBeUnique), uniq)),
-      view(lensType),
-      objOf(productType),
-      objOf('products')
-    )(booking);
-  };
-
-  const booking = isArray(next) ? reduce(doAmend, {}, next) : doAmend({}, next);
-
-  dispatch(updateBooking(id, booking));
-};
-
-export const addProduct = (id, productId, unique = true) => dispatch => {
-  dispatch(amendProduct(id, productId, 'add', unique));
-};
-
-export const removeProduct = (id, productId, unique = true) => dispatch => {
-  dispatch(amendProduct(id, productId, 'remove', unique));
-};
-
 export const addRoom = (id, roomId) => (dispatch, getState) => {
   dispatch(addRoomAction({ id, uuid: roomId }));
 
   const state = getState();
   const hotelbooking = getBookingByHotelId(state, id);
-  const guests = path(['Accommodation', roomId, 'guests'], hotelbooking);
+  const guests = path(['products', ProductTypes.ACCOMMODATION, roomId, 'guests'], hotelbooking);
 
-  dispatch(updateBooking(id, { Accommodation: { [roomId]: { guests: append({}, guests) } } }));
+  dispatch(
+    updateBooking(id, { products: { [ProductTypes.ACCOMMODATION]: { [roomId]: { guests: append({}, guests) } } } })
+  );
 };
 
 export const removeRoom = (id, roomId, all = false) => (dispatch, getState) => {
@@ -149,13 +92,13 @@ export const removeRoom = (id, roomId, all = false) => (dispatch, getState) => {
 
   const state = getState();
   const hotelbooking = getBookingByHotelId(state, id);
-  const prevAccommodation = prop('Accommodation', hotelbooking);
+  const prevAccommodation = path(['products', ProductTypes.ACCOMMODATION], hotelbooking);
   const guests = path([roomId, 'guests'], prevAccommodation);
 
   guests.length = guests.length - 1 < 0 ? 0 : guests.length - 1;
 
   const payload = equals(0, guests.length)
-    ? omit([roomId], prop('Accommodation', hotelbooking))
+    ? omit([roomId], path(['products', ProductTypes.ACCOMMODATION], hotelbooking))
     : mergeDeepRight(prevAccommodation, { [roomId]: { guests: all ? [] : [...guests] } });
 
   dispatch({ type: getSuccessActionName(BOOKING_ROOM_REMOVE), payload: { id, ...payload } });
@@ -164,6 +107,9 @@ export const removeRoom = (id, roomId, all = false) => (dispatch, getState) => {
 
 export const updateBooking = (id, payload) => async (dispatch, getState) => {
   dispatch(updateBookingAction(payload));
+
+  if (!payload) return dispatch(successAction(BOOKING_UPDATE, {}));
+
   const state = getState();
   const actingCountryCode = getUserCountryContext(state);
 
@@ -171,7 +117,7 @@ export const updateBooking = (id, payload) => async (dispatch, getState) => {
   const nextState = mergeDeepRight(state, { booking: { data: nextBooking } });
 
   const bookingBuilderPayload = getBookingForBuilder(nextState, id);
-  const hasAccommodation = !propSatisfies(isEmptyOrNil, 'Accommodation', bookingBuilderPayload);
+  const hasAccommodation = !propSatisfies(isEmptyOrNil, ProductTypes.ACCOMMODATION, bookingBuilderPayload);
 
   const shouldCall = triggerCall(payload) && hasAccommodation;
 
@@ -183,7 +129,7 @@ export const updateBooking = (id, payload) => async (dispatch, getState) => {
       (await client.bookingBuilder({ data: { attributes: { ...bookingBuilderPayload } } }, { actingCountryCode }));
 
     if (!hasAccommodation) {
-      result = set(lensPath(['potentialBooking', 'Accommodation']), [], result);
+      result = set(lensPath(['potentialBooking', ProductTypes.ACCOMMODATION]), [], result);
     }
 
     if (response) {
@@ -212,14 +158,37 @@ export const updateBooking = (id, payload) => async (dispatch, getState) => {
   dispatch(successAction(BOOKING_UPDATE, { [id]: { ...payload, ...result } }));
 };
 
-export const updateBookingExtras = (id, prev, next) => dispatch => {
-  if (isArray(next)) {
-    dispatch(removeProduct(id, prev));
-    dispatch(addProduct(id, next));
-    return;
-  }
+export const updateBookingExtras = (id, rawUuids) => (dispatch, getState) => {
+  const state = getState();
 
-  isEmptyOrNil(next) ? dispatch(removeProduct(id, prev)) : dispatch(amendProduct(id, next));
+  const reduceToExtras = (accum, uuid, selected, direction) => {
+    const product = getHotelProduct(state, uuid);
+
+    if (!product) return accum;
+
+    const initialPath = direction ? [prop('type', product), direction] : [prop('type', product)];
+
+    const productLens = lensPath([...initialPath, uuid]);
+
+    return set(productLens, selected, accum);
+  };
+
+  const getExtrasProducts = pipe(
+    toPairs,
+    reduce((accum, [uuidsData, selected]) => {
+      const [uuidsString, direction] = split('|', uuidsData);
+
+      return mergeDeepRight(
+        accum,
+        pipe(
+          split(','),
+          reduce(partialRight(reduceToExtras, [selected, direction]), {})
+        )(uuidsString)
+      );
+    }, {})
+  );
+
+  dispatch(updateBooking(id, { products: getExtrasProducts(rawUuids) }));
 };
 
 export const completeBooking = (id, payload) => async (dispatch, getState) => {

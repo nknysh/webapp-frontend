@@ -23,10 +23,11 @@ import SummaryFormExtras from 'containers/SummaryFormExtras';
 import SummaryFormMargin from 'components/app/SummaryFormMargin';
 
 import { Form, Input, Loader } from 'components/elements';
-import { getFormPath } from 'utils';
+import { getFormPath, mapWithIndex, isEmptyOrNil } from 'utils';
 
 import { isActive } from 'store/common';
 
+import { ProductTypes } from 'config/enums';
 import uiConfig from 'config/ui';
 
 import connect from './SummaryForm.state';
@@ -43,11 +44,17 @@ import {
   Text,
   Title,
   Total,
+  Errors,
+  Error,
 } from './SummaryForm.styles';
 
 const modalProps = { className: 'room-summary-form' };
 
 const renderHotelName = name => name && <HotelName>{name}</HotelName>;
+
+// eslint-disable-next-line react/prop-types
+const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
+const renderSummaryErrors = errors => !isEmptyOrNil(errors) && <Errors>{mapWithIndex(renderError, errors)}</Errors>;
 
 export const SummaryForm = ({
   booking,
@@ -64,9 +71,11 @@ export const SummaryForm = ({
   total,
   updateBooking,
   updateBookingExtras,
+  errors,
 }) => {
-  const { Accommodation, margin } = booking;
+  const { products, margin } = booking;
   const { name, uuid: hotelUuid } = hotel;
+  const Accommodation = propOr({}, ProductTypes.ACCOMMODATION, products);
 
   const [modalData, setModalData] = useState({});
   const [redirectToBooking, setRedirectToBooking] = useState(false);
@@ -83,24 +92,29 @@ export const SummaryForm = ({
   const onBookingChange = (id, values) => updateBooking(prop('uuid', hotel), id, values);
   const onBookingExtrasChange = (id, values) => updateBookingExtras(prop('uuid', hotel), id, values);
 
-  const onExtrasChange = ({ handleChange, values }) => (e, value) => {
-    const prevValue = path(getFormPath(e.target.name), values);
+  const onExtrasChange = ({ handleChange }) => (e, value) => {
     handleChange(e, value);
-    onBookingExtrasChange(prevValue, value);
+    onBookingExtrasChange({ [path(['target', 'name'], e)]: path(['target', 'checked'], e) });
   };
 
-  const onValuesChange = ({ handleChange }) => (e, value) => {
+  const onValuesChange = ({ handleChange }) => (e, value, isProduct) => {
     handleChange(e, value);
-    onBookingChange(
-      assocPath(getFormPath(e.target.name), equals('checkbox', e.target.type) ? e.target.checked : e.target.value, {})
+
+    const changedValues = assocPath(
+      getFormPath(e.target.name),
+      equals('checkbox', e.target.type) ? e.target.checked : e.target.value,
+      {}
     );
+
+    onBookingChange(isProduct ? { products: changedValues } : changedValues);
   };
 
   const initialValues = {
     margin,
-    addons: [...pathOr([], ['products', 'Fine'], booking), ...pathOr([], ['products', 'Supplement'], booking)],
-    transfer: pathOr('', ['products', 'Transfer'], booking),
-    groundService: pathOr('', ['products', 'Ground Service'], booking),
+    [ProductTypes.TRANSFER]: pathOr('', ['products', ProductTypes.TRANSFER], booking),
+    [ProductTypes.GROUND_SERVICE]: pathOr('', ['products', ProductTypes.GROUND_SERVICE], booking),
+    ...pathOr({}, ['products', ProductTypes.FINE], booking),
+    ...pathOr({}, ['products', ProductTypes.SUPPLEMENT], booking),
   };
 
   const onSubmit = () => setRedirectToBooking(true);
@@ -129,7 +143,7 @@ export const SummaryForm = ({
   const renderModal = () => {
     const { id } = modalData;
 
-    const bookingRoom = path(['Accommodation', id], booking);
+    const bookingRoom = path(['products', ProductTypes.ACCOMMODATION, id], booking);
 
     if (!bookingRoom) return null;
 
@@ -171,11 +185,12 @@ export const SummaryForm = ({
             <Input type="hidden" value={canBook} name="valid" />
             <SummaryFormExtras
               hotelUuid={hotelUuid}
-              onChange={onValuesChange({ values, ...formProps })}
-              onExtraChange={onExtrasChange({ values, ...formProps })}
+              onChange={onValuesChange(formProps)}
+              onExtraChange={onExtrasChange(formProps)}
               summaryOnly={summaryOnly}
               values={values}
             />
+            {!canBook && renderSummaryErrors(errors)}
             {!summaryOnly && (
               <SummaryFormActions>
                 <SummaryFormButton disabled={!canBook} type="submit">

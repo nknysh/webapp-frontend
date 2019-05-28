@@ -5,7 +5,7 @@ import { noop } from 'utils';
 export const propTypes = {
   id: PropTypes.string,
   details: PropTypes.object,
-  dates: PropTypes.object,
+  dates: PropTypes.array,
   total: PropTypes.string,
   mealPlan: PropTypes.object,
   quantity: PropTypes.array,

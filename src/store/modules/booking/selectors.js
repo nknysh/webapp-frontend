@@ -1,45 +1,41 @@
 import {
+  __,
   add,
   all,
   always,
   append,
   concat,
-  cond,
-  curry,
   defaultTo,
   equals,
   evolve,
   filter,
-  find,
   flatten,
   gt,
   head,
-  identity,
   ifElse,
   includes,
   invoker,
-  keys,
   last,
   length,
   lensProp,
   map,
-  objOf,
   mapObjIndexed,
   mergeDeepRight,
-  multiply,
+  objOf,
   omit,
   over,
+  partial,
   path,
   pathOr,
   pipe,
   prop,
   propEq,
   propOr,
+  props,
   propSatisfies,
   reduce,
-  T,
   times,
-  uniq,
+  toPairs,
   values,
   when,
 } from 'ramda';
@@ -47,22 +43,15 @@ import { renameKeys } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
 import { addDays } from 'date-fns';
 
-import { isEmptyOrNil, formatPrice, formatDate, getDaysBetween, isArray, minusDays, parseJson } from 'utils';
+import { ProductTypes } from 'config/enums';
+import { isEmptyOrNil, formatPrice, formatDate, isObject, minusDays, parseJson } from 'utils';
 
-import { getHotelProduct, getHotelsRate } from 'store/modules/hotels/selectors';
+import { getHotelProduct } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
 import { getState, getSecondArg, getUnary } from 'store/common';
 
-import { canBook, getGuestsTotals, categoryEquals, totalShim, toTotal } from './utils';
-
-export const ProductType = Object.freeze({
-  PER_NIGHT: 'perNight',
-  PER_BOOKING: 'perBooking',
-  PER_PERSON: 'perPerson',
-  PER_PERSON_PER_NIGHT: 'perPersonPerNight',
-  PER_ACCOMMODATION_PRODUCT: 'perAccommodationProduct',
-});
+import { canBook, toTotal } from './utils';
 
 const datesForBookingBuild = renameKeys({ from: 'startDate', to: 'endDate' });
 
@@ -74,114 +63,28 @@ const formatDatesForProductObj = evolve({
   ),
 });
 
-const preMap = cond([[equals('Accommodation'), always(uniq)], [T, always(identity)]]);
+const reduceOneWayProducts = (accum, [direction, products]) => {
+  mapObjIndexed((selected, uuid) => {
+    if (!selected) return;
 
-const perAccommodationProduct = curry((state, product) => {
-  const rate = getHotelsRate(state, propOr({}, 'rate', product));
-  const defaultRate = find(propEq('default', true), propOr([], 'rates', rate));
-  const hotelUuid = prop('ownerUuid', product);
-  const booking = getBookingByHotelId(state, hotelUuid);
+    accum = append({ uuid, direction }, accum);
+  }, products);
+  return accum;
+};
 
-  if (!rate || !defaultRate || !booking) return totalShim();
+const getOneWayProducts = pipe(
+  toPairs,
+  reduce(reduceOneWayProducts, [])
+);
 
-  const noOfRooms = pipe(
-    prop('Accommodation'),
-    keys,
-    length
-  );
-
-  return [multiply(propOr(0, 'rate', defaultRate), noOfRooms(booking))];
-});
-
-const perBooking = curry((state, product) => {
-  const rate = getHotelsRate(state, propOr({}, 'rate', product));
-  const defaultRate = find(propEq('default', true), propOr([], 'rates', rate));
-
-  if (!rate || !defaultRate) return totalShim();
-
-  return [propOr(0, 'rate', defaultRate)];
-});
-
-const perPerson = curry((state, product) => {
-  const rate = getHotelsRate(state, propOr({}, 'rate', product));
-  const hotelUuid = prop('ownerUuid', product);
-  const booking = getBookingByHotelId(state, hotelUuid);
-
-  if (!rate || !booking) return totalShim();
-
-  const totalForRoom = (data, uuid) => {
-    const roomBooking = getBookingRoomById(state, hotelUuid, uuid);
-    const guests = prop('guests', roomBooking);
-    const rates = prop('rates', rate);
-
-    if (!rates || !guests) return toTotal(totalShim());
-
-    return getGuestsTotals(rates, guests);
-  };
-
-  const getTotalsForRooms = pipe(
-    prop('Accommodation'),
-    mapObjIndexed(totalForRoom)
-  );
-
-  return getTotalsForRooms(booking);
-});
-
-const perPersonPerNight = curry((state, product) => {
-  const hotelUuid = prop('ownerUuid', product);
-  const totalsPerPerson = perPerson(state, product);
-
-  const totalForNights = (amount, uuid) => {
-    const { from, to } = getBookingRoomDatesById(state, hotelUuid, uuid);
-    const days = getDaysBetween(from, to);
-
-    return multiply(amount, length(days));
-  };
-
-  const getTotalsPerNight = mapObjIndexed(totalForNights);
-
-  return getTotalsPerNight(totalsPerPerson);
-});
-
-const perNight = curry((state, product) => {
-  const rate = getHotelsRate(state, propOr({}, 'rate', product));
-  const hotelUuid = prop('ownerUuid', product);
-  const booking = getBookingByHotelId(state, hotelUuid);
-  const defaultRate = find(propEq('default', true), propOr([], 'rates', rate));
-
-  if (!rate || !booking) return totalShim();
-
-  const totalForRoom = (data, uuid) => {
-    const { from, to } = getBookingRoomDatesById(state, hotelUuid, uuid);
-    const days = getDaysBetween(from, to);
-
-    return multiply(propOr(0, 'rate', defaultRate), length(days));
-  };
-
-  const getTotalsForRooms = pipe(
-    prop('Accommodation'),
-    mapObjIndexed(totalForRoom)
-  );
-
-  return getTotalsForRooms(booking);
-});
-
-const getProductTotal = curry((state, uuid) => {
-  const product = getHotelProduct(state, uuid);
-
-  if (!product) return totalShim();
-
-  const byCategory = cond([
-    [categoryEquals(ProductType.PER_BOOKING), perBooking(state)],
-    [categoryEquals(ProductType.PER_PERSON), perPerson(state)],
-    [categoryEquals(ProductType.PER_NIGHT), perNight(state)],
-    [categoryEquals(ProductType.PER_PERSON_PER_NIGHT), perPersonPerNight(state)],
-    [categoryEquals(ProductType.PER_ACCOMMODATION_PRODUCT), perAccommodationProduct(state)],
-    [T, always(0)],
-  ]);
-
-  return byCategory(product);
-});
+const getSingularProduct = ifElse(
+  isEmptyOrNil,
+  always([]),
+  pipe(
+    objOf('uuid'),
+    append(__, [])
+  )
+);
 
 export const getBooking = prop('booking');
 
@@ -202,7 +105,7 @@ export const getBookingByHotelId = createSelector(
 
 export const getBookingRoomById = createSelector(
   [getBookingByHotelId, getSecondArg],
-  (hotel, roomId) => path(['Accommodation', roomId], hotel)
+  (hotel, roomId) => path(['products', ProductTypes.ACCOMMODATION, roomId], hotel)
 );
 
 export const getBookingRoomDatesById = createSelector(
@@ -224,9 +127,19 @@ export const getPotentialBookingByRoomId = createSelector(
   [getPotentialBooking, getSecondArg],
   (potentialBooking, roomId) =>
     pipe(
-      propOr([], 'Accommodation'),
+      propOr([], ProductTypes.ACCOMMODATION),
       filter(propEq('product', roomId))
     )(potentialBooking)
+);
+
+export const getBookingErrors = createSelector(
+  getBookingByHotelId,
+  propOr([], 'errors')
+);
+
+export const getBookingErrorsByRoomId = createSelector(
+  [getBookingErrors, getSecondArg],
+  (errors, roomId) => filter(propEq('accommodationProductUuid', roomId), errors)
 );
 
 const addLastDay = dates => {
@@ -255,7 +168,7 @@ export const getBookingReady = (state, hotelId) => {
   const canBeBooked = prop('canBeBooked', booking);
 
   const hasGuests = pipe(
-    propOr({}, 'Accommodation'),
+    pathOr({}, ['products', ProductTypes.ACCOMMODATION]),
     values,
     ifElse(isEmptyOrNil, always(false), all(canBook))
   )(booking);
@@ -267,23 +180,48 @@ export const getBookingRoomMealPlans = createSelector(
   [getBookingProductSets, getSecondArg],
   (productSets, roomId) => {
     const mealPlans = pipe(
-      propOr([], 'Accommodation'),
+      propOr([], ProductTypes.ACCOMMODATION),
       filter(propSatisfies(includes(roomId), 'products')),
-      map(path(['availableSubProductSets', 'Meal Plan']))
+      map(path(['availableSubProductSets', ProductTypes.MEAL_PLAN]))
     );
 
     return mealPlans(productSets);
   }
 );
 
+export const getBookingAddons = createSelector(
+  getBookingProductSets,
+  pipe(
+    defaultTo({}),
+    props([ProductTypes.SUPPLEMENT, ProductTypes.FINE]),
+    reduce((accum, products) => (isEmptyOrNil(products) ? accum : concat(products, accum)), [])
+  )
+);
+
+export const getBookingTransfers = createSelector(
+  getBookingProductSets,
+  pipe(
+    defaultTo({}),
+    propOr([], ProductTypes.TRANSFER)
+  )
+);
+
+export const getBookingGroundServices = createSelector(
+  getBookingProductSets,
+  pipe(
+    defaultTo({}),
+    propOr([], ProductTypes.GROUND_SERVICE)
+  )
+);
+
 export const getPotentialBookingRoomSupplements = createSelector(
   getPotentialBookingByRoomId,
-  map(pathOr([], ['subProducts', 'Supplement']))
+  map(pathOr([], ['subProducts', ProductTypes.SUPPLEMENT]))
 );
 
 export const getPotentialBookingRoomMealPlans = createSelector(
   getPotentialBookingByRoomId,
-  map(pathOr([], ['subProducts', 'Meal Plan']))
+  map(pathOr([], ['subProducts', ProductTypes.MEAL_PLAN]))
 );
 
 export const getBookingRoomMealPlan = createSelector(
@@ -294,45 +232,11 @@ export const getBookingRoomMealPlan = createSelector(
   )
 );
 
-export const getTransferProductsTotal = createSelector(
-  [getState, getBookingByHotelId],
-  (state, booking) =>
-    pipe(
-      path(['products', 'Transfer']),
-      getProductTotal(state),
-      toTotal
-    )(booking)
-);
-
-export const getGroundServiceProductsTotal = createSelector(
-  [getState, getBookingByHotelId],
-  (state, booking) =>
-    pipe(
-      path(['products', 'Ground Service']),
-      getProductTotal(state),
-      toTotal
-    )(booking)
-);
-
-export const getAddonsTotals = createSelector(
-  [getState, getBookingByHotelId],
-  (state, booking) => {
-    const fineProducts = pathOr([], ['products', 'Fine'], booking);
-    const supplementProducts = pathOr([], ['products', 'Supplement'], booking);
-
-    const addons = uniq(concat(fineProducts, supplementProducts));
-
-    const getAddonTotal = (accum, uuid) => mergeDeepRight(accum, { [uuid]: head(getProductTotal(state, uuid)) });
-
-    return reduce(getAddonTotal, {}, addons);
-  }
-);
-
 export const getBookingRoomTotal = createSelector(
   [getState, getSecondArg, getPotentialBooking],
   (state, roomId, potentialBooking) => {
     const productsForRoom = pipe(
-      propOr([], 'Accommodation'),
+      propOr([], ProductTypes.ACCOMMODATION),
       filter(propEq('product', roomId))
     )(potentialBooking);
 
@@ -371,46 +275,16 @@ export const getBookingTotals = createSelector(
 );
 
 export const getBookingTotal = createSelector(
-  [getState, getUnary, getBookingByHotelId, getPotentialBooking],
-  (state, id, booking, potentialBooking = {}) => {
-    const products = prop('products', booking);
-
-    const byProductType = (uuids, type) => {
-      const byType = cond([[T, always(getProductTotal(state))]]);
-
-      return pipe(
-        preMap(type),
-        ifElse(isArray, map(byType(type)), byType(type)),
-        map(Number),
-        toTotal
-      )(uuids);
-    };
-
-    const accommodationTotal = pipe(
-      prop('Accommodation'),
-      defaultTo({}),
-      map(prop('product')),
-      values,
-      uniq,
-      map(productId => getBookingRoomTotal(state, id, productId))
-    );
-
-    const deriveTotalsFromProducts = pipe(
-      mapObjIndexed(byProductType),
-      toTotal
-    );
-
-    return pipe(
-      add(accommodationTotal(potentialBooking)),
-      add(deriveTotalsFromProducts(products)),
-      formatPrice
-    )(0);
-  }
+  getBookingByHotelId,
+  pipe(
+    pathOr(0, ['totals', 'total']),
+    formatPrice
+  )
 );
 
 export const getBookingForBuilder = createSelector(
   [getState, getUnary, getBookingByHotelId],
-  (state, hotelId, booking) => {
+  (state, hotelUuid, booking) => {
     let dates = [];
     let guestAges = {};
 
@@ -425,17 +299,19 @@ export const getBookingForBuilder = createSelector(
       datesForBookingBuild
     );
 
-    const getProductObj = curry((uuid, { guests }, i) => {
+    const getAccommodationObject = (uuid, { guests }, i) => {
       const product = getHotelProduct(state, uuid);
 
-      if (!product) return;
+      if (!uuid || !product) return;
+
+      if (!guests) return { uuid };
 
       const guestsForIndex = propOr({}, i, guests);
 
-      const includeDates = propEq('type', 'Accommodation', product);
-      const bookingDates = (includeDates && getBookingRoomDatesById(state, hotelId, uuid)) || {};
+      const includeDates = propEq('type', ProductTypes.ACCOMMODATION, product);
+      const bookingDates = (includeDates && getBookingRoomDatesById(state, hotelUuid, uuid)) || {};
 
-      const mealPlans = getBookingRoomMealPlan(state, hotelId, uuid) || [];
+      const mealPlans = getBookingRoomMealPlan(state, hotelUuid, uuid) || [];
       const mealPlan = reduce((accum, uuid) => (uuid ? append(objOf('uuid', uuid), accum) : accum), [], mealPlans);
 
       const numberOfAdults = length(propOr([], 'adult', guestsForIndex));
@@ -484,27 +360,78 @@ export const getBookingForBuilder = createSelector(
           },
           ...(hasSubProducts && {
             subProducts: {
-              ...(hasMealPlan && { 'Meal Plan': mealPlan }),
+              ...(hasMealPlan && { [ProductTypes.MEAL_PLAN]: mealPlan }),
             },
           }),
         }),
         ...(includeDates && datesForProductObj(bookingDates)),
       };
-    });
+    };
+
+    const getProductObj = (accum, [uuid]) => {
+      const product = getHotelProduct(state, uuid);
+
+      if (!product || !uuid) return accum;
+
+      const productLens = lensProp([prop('type', product)]);
+
+      return over(productLens, append({ uuid }), accum);
+    };
 
     const accommodationProducts = pipe(
-      propOr({}, 'Accommodation'),
-      mapObjIndexed((room, uuid) => times(getProductObj(uuid, room), length(propOr([], 'guests', room)))),
+      pathOr({}, ['products', ProductTypes.ACCOMMODATION]),
+      mapObjIndexed((room, uuid) =>
+        times(partial(getAccommodationObject, [uuid, room]), length(propOr([], 'guests', room)))
+      ),
       values,
       flatten
     );
 
+    const transferProducts = pipe(
+      pathOr('', ['products', ProductTypes.TRANSFER]),
+      ifElse(isObject, getOneWayProducts, getSingularProduct)
+    );
+
+    const groundServiceProducts = pipe(
+      pathOr('', ['products', ProductTypes.GROUND_SERVICE]),
+      ifElse(isObject, getOneWayProducts, getSingularProduct)
+    );
+
+    const extraProducts = pipe(
+      propOr({}, 'products'),
+      omit([ProductTypes.ACCOMMODATION, ProductTypes.TRANSFER, ProductTypes.GROUND_SERVICE]),
+      values,
+      reduce((accum, values) => {
+        mapObjIndexed((selected, uuid) => {
+          accum = mergeDeepRight(accum, { [uuid]: selected });
+        }, values);
+
+        return accum;
+      }, {}),
+      toPairs,
+      filter(
+        pipe(
+          last,
+          equals(true)
+        )
+      ),
+      reduce(getProductObj, {})
+    );
+
+    const products = {
+      [ProductTypes.ACCOMMODATION]: accommodationProducts(booking),
+      [ProductTypes.TRANSFER]: transferProducts(booking),
+      [ProductTypes.GROUND_SERVICE]: groundServiceProducts(booking),
+      ...extraProducts(booking),
+    };
+
     dates.sort();
 
     return {
-      Accommodation: accommodationProducts(booking),
+      hotelUuid,
       startDate: head(dates),
       endDate: last(dates),
+      ...products,
       ...(!isEmptyOrNil(guestAges) && { guestAges }),
     };
   }

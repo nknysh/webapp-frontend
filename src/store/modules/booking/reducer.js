@@ -1,5 +1,6 @@
 import { propOr, pathOr } from 'ramda';
 
+import { ProductTypes } from 'config/enums';
 import { initialState, loadingReducer, successReducer, errorReducer, sendingReducer } from 'store/common';
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
 
@@ -11,7 +12,9 @@ const roomRemove = (state, { payload: { id, ...payload } }) => ({
     ...propOr({}, 'data', state),
     [id]: {
       ...pathOr({}, ['data', id], state),
-      Accommodation: { ...payload },
+      products: {
+        [ProductTypes.ACCOMMODATION]: { ...payload },
+      },
     },
   },
 });
