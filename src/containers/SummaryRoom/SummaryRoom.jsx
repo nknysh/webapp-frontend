@@ -34,7 +34,6 @@ import {
   Error,
 } from './SummaryRoom.styles';
 
-// eslint-disable-next-line react/prop-types
 const renderSupplement = ({ product, title, total, quantity }) => (
   <ExtraSupplement key={product}>
     {quantity} x {title} - (<ExtraSupplementRate>{total}</ExtraSupplementRate>)
@@ -46,7 +45,6 @@ const renderSupplements = pipe(
   flatten
 );
 
-// eslint-disable-next-line react/prop-types
 const renderMealPlan = ({ product, title, quantity }) => (
   <RoomRow key={product}>
     {getSingular('mealPlan')}: {quantity} x {title}
@@ -58,7 +56,6 @@ const renderMealPlans = pipe(
   flatten
 );
 
-// eslint-disable-next-line react/prop-types
 const renderError = message => <Error key={message}>{message}</Error>;
 const renderErrors = pipe(
   groupErrorsByRoomIndex,

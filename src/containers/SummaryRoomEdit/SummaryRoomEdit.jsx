@@ -158,7 +158,6 @@ export const SummaryRoomEdit = ({
   const mapMealPlans = ({ breakdown = [], products = [] }) => {
     const hasSplitRates = gt(length(breakdown), 1);
 
-    // eslint-disable-next-line react/prop-types
     const mapBreakdown = ({ title, dates, total }, i) => (
       <MealPlanRate key={i}>
         {title} - (<MealPlanRatePrice>{total}</MealPlanRatePrice>

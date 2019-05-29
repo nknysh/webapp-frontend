@@ -36,7 +36,6 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
   const countTitle = `${count} ${getPluralisation('result', count)}`;
   const title = prop('isCountryMatch', meta) ? `${toLower(prop('term', meta))} - ${countTitle}` : countTitle;
 
-  // eslint-disable-next-line react/prop-types
   const renderResult = ({ uuid, ...hotel }) => (
     <Result to={`/hotels/${uuid}`} key={uuid}>
       <Card uuid={uuid} {...hotel} />

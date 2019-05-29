@@ -11,7 +11,6 @@ import { propTypes, defaultProps } from './AuthenticatedRoute.props';
 
 const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
 
-// eslint-disable-next-line react/prop-types
 const renderRedirect = ({ pathname, search }, props, path = '/login') => {
   const returnPath = prop('ignore', props) ? '' : `?origin=${encodeURIComponent(`${pathname}${search}`)}`;
   return <Redirect to={`${path}${returnPath}`} />;

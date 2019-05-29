@@ -52,7 +52,6 @@ const modalProps = { className: 'room-summary-form' };
 
 const renderHotelName = name => name && <HotelName>{name}</HotelName>;
 
-// eslint-disable-next-line react/prop-types
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
 const renderSummaryErrors = errors => !isEmptyOrNil(errors) && <Errors>{mapWithIndex(renderError, errors)}</Errors>;
 
@@ -119,7 +118,6 @@ export const SummaryForm = ({
 
   const onSubmit = () => setRedirectToBooking(true);
 
-  // eslint-disable-next-line react/prop-types
   const renderRoom = ({ guests }, id) => (
     <SummaryRoom
       {...prop(id, Accommodation)}

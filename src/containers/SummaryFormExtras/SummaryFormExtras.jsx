@@ -129,7 +129,6 @@ export const SummaryFormExtras = ({
   };
 
   const renderExtraSelects = (type, products, values) => {
-    // eslint-disable-next-line react/prop-types
     const renderSelect = ({ products, breakdown, selected, total }) => {
       const uuids = join(',', products);
       const checked = propOr(false, uuids, values);

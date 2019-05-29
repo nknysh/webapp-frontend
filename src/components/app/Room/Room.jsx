@@ -67,7 +67,6 @@ const renderStandardOccupancy = ({ standardOccupancy }) =>
     </Detail>
   );
 
-// eslint-disable-next-line react/prop-types
 const renderMinMaxLimit = ({ name, maximum, minimum }) => (
   <Limit key={name}>
     {`${isAdult(name) ? getPlural('adult') : getPlural(name) || name}`} - {path(['labels', 'max'], uiConfig)} {maximum}{' '}
@@ -75,7 +74,6 @@ const renderMinMaxLimit = ({ name, maximum, minimum }) => (
   </Limit>
 );
 
-// eslint-disable-next-line react/prop-types
 const renderMinMax = ({ maximumPeople, limits }) => (
   <Fragment>
     <Detail>

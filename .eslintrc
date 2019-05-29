@@ -6,6 +6,9 @@
         "prettier",
         "prettier/react"
     ],
+    "rules": {
+      "react/prop-types": "warn"
+    },
     "plugins": ["react", "jest"],
     "parserOptions": {
         "ecmaFeatures": {
