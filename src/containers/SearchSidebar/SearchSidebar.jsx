@@ -2,9 +2,10 @@ import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { path, compose, values } from 'ramda';
 
+import { IndexTypes } from 'config/enums';
 import { Search, SearchFilters } from 'components';
 import { useEffectBoundary } from 'effects';
-import { buildQueryString, IndexTypes } from 'utils';
+import { buildQueryString } from 'utils';
 
 import uiConfig from 'config/ui';
 

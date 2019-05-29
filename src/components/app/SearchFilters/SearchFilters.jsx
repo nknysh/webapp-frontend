@@ -5,7 +5,7 @@ import { isNaN, isNilOrEmpty } from 'ramda-adjunct';
 import { ToolTip } from 'components/elements';
 
 import uiConfig, { getSingular, getPlural } from 'config/ui';
-import { RegionSelectTypes, MealPlanSelectTypes } from 'utils';
+import { MealPlanSelectTypes, RegionSelectTypes } from 'config/enums';
 
 import { propTypes, defaultProps } from './SearchFilters.props';
 import {
@@ -171,9 +171,9 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
       <SectionField>
         <MealPlanRadioButton
           name="mealPlan"
-          value={getSearchQueryData(filtersMealPlanLens) || MealPlanSelectTypes.BB}
+          value={getSearchQueryData(filtersMealPlanLens) || ''}
           onChange={setMealPlanToSearchQuery}
-          options={mealPlanOptions}
+          options={[{ label: 'Any', value: '' }, ...mealPlanOptions]}
         />
       </SectionField>
 

@@ -55,8 +55,16 @@ export const MealPlanRadioButton = styled(RadioButton)`
   display: flex;
 
   label {
-    flex: 1 1 25%;
+    flex: 1 1 20%;
     margin-right: ${theme.gutter / 2}px;
+
+    > span {
+      padding-right: ${theme.gutter / 2}px;
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
   }
 `;
 

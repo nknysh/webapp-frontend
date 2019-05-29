@@ -37,7 +37,7 @@ import { setHotels } from 'store/modules/hotels/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 import { getSuccessActionName } from 'store/utils';
 
-import { getBookingByHotelId, getBookingRoomDatesById, getBookingForBuilder } from './selectors';
+import { getBookingByHotelId, getBookingRoomDatesById, getBookingForBuilder, getPotentialBooking } from './selectors';
 
 export const BOOKING_CHECKS = 'BOOKING_CHECKS';
 export const BOOKING_REMOVE = 'BOOKING_REMOVE';
@@ -197,39 +197,14 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
   dispatch(updateBooking(id, payload));
 
   const state = getState();
-  const booking = getBookingByHotelId(state, id);
+  const booking = getPotentialBooking(state, id);
 
-  const finaliseAccommodationProducts = (product, productId) => {
-    const hotelRoom = getHotelRoom(state, id, productId);
-    const { to, from } = getBookingRoomDatesById(state, id, productId);
-
-    const rates = prop('rates', hotelRoom);
-
-    const days = getDaysBetween(from, to);
-    const ratesForDays = pipe(
-      map(formatDate),
-      pick(__, rates)
-    )(days);
-
-    return pipe(
-      set(datesLens, { to, from }),
-      set(ratesLens, ratesForDays)
-    )(product);
-  };
-
-  const finalBooking = pipe(
-    set(
-      accommodationProductsLens,
-      mapObjIndexed(finaliseAccommodationProducts, view(accommodationProductsLens, booking))
-    )
-  )(booking);
-
-  dispatch(submitBookingAction(finalBooking));
+  dispatch(submitBookingAction(booking));
 
   try {
     const {
       data: { data },
-    } = await client.createBooking({ data: { attributes: { id, ...finalBooking } } });
+    } = await client.createBooking({ data: { attributes: { id, ...booking } } });
 
     dispatch(updateBooking(id, { reservationId: prop('uuid', data) }));
     dispatch(successAction(BOOKING_SUBMIT, data));

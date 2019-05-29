@@ -8,7 +8,7 @@ import {
   getBookingTotal,
   getBookingReady,
   getBookingStatus,
-  getBookingStopErrors,
+  getBookingNonAccommodationErrors,
 } from 'store/modules/booking/selectors';
 
 import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
@@ -21,7 +21,7 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   status: getBookingStatus(state),
   totals: getBookingTotals(state, hotelUuid),
   total: getBookingTotal(state, hotelUuid),
-  errors: getBookingStopErrors(state, hotelUuid),
+  errors: getBookingNonAccommodationErrors(state, hotelUuid),
 });
 
 export const mapDispatchToProps = dispatch => ({
