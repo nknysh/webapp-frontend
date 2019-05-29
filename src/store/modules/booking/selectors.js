@@ -39,12 +39,12 @@ import {
   values,
   when,
 } from 'ramda';
-import { renameKeys } from 'ramda-adjunct';
+import { renameKeys, isNilOrEmpty } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
 import { addDays } from 'date-fns';
 
 import { ProductTypes } from 'config/enums';
-import { isEmptyOrNil, formatPrice, formatDate, isObject, minusDays, parseJson } from 'utils';
+import { formatPrice, formatDate, isObject, minusDays, parseJson } from 'utils';
 
 import { getHotelProduct } from 'store/modules/hotels/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
@@ -78,7 +78,7 @@ const getOneWayProducts = pipe(
 );
 
 const getSingularProduct = ifElse(
-  isEmptyOrNil,
+  isNilOrEmpty,
   always([]),
   pipe(
     objOf('uuid'),
@@ -113,7 +113,7 @@ export const getBookingRoomDatesById = createSelector(
   (searchDates, booking) => {
     return pipe(
       prop('dates'),
-      when(isEmptyOrNil, always(searchDates))
+      when(isNilOrEmpty, always(searchDates))
     )(booking);
   }
 );
@@ -153,7 +153,7 @@ export const getBookingErrorsByRoomId = createSelector(
 );
 
 const addLastDay = dates => {
-  if (isEmptyOrNil(dates)) return dates;
+  if (isNilOrEmpty(dates)) return dates;
 
   const lastDate = new Date(last(dates));
   return append(formatDate(addDays(lastDate, 1)), dates);
@@ -181,7 +181,7 @@ export const getBookingReady = (state, hotelId) => {
   const hasGuests = pipe(
     pathOr({}, ['products', ProductTypes.ACCOMMODATION]),
     values,
-    ifElse(isEmptyOrNil, always(false), all(canBook))
+    ifElse(isNilOrEmpty, always(false), all(canBook))
   )(booking);
 
   return !mustStop && canBeBooked && hasGuests;
@@ -205,7 +205,7 @@ export const getBookingAddons = createSelector(
   pipe(
     defaultTo({}),
     props([ProductTypes.SUPPLEMENT, ProductTypes.FINE]),
-    reduce((accum, products) => (isEmptyOrNil(products) ? accum : concat(products, accum)), [])
+    reduce((accum, products) => (isNilOrEmpty(products) ? accum : concat(products, accum)), [])
   )
 );
 
@@ -333,8 +333,8 @@ export const getBookingForBuilder = createSelector(
       )(guestsForIndex);
 
       const hasAdults = gt(numberOfAdults, 0);
-      const hasChildren = !isEmptyOrNil(agesOfAllChildren);
-      const hasMealPlan = !isEmptyOrNil(mealPlan);
+      const hasChildren = !isNilOrEmpty(agesOfAllChildren);
+      const hasMealPlan = !isNilOrEmpty(mealPlan);
 
       const hasSubProducts = hasMealPlan;
 
@@ -443,7 +443,7 @@ export const getBookingForBuilder = createSelector(
       startDate: head(dates),
       endDate: last(dates),
       ...products,
-      ...(!isEmptyOrNil(guestAges) && { guestAges }),
+      ...(!isNilOrEmpty(guestAges) && { guestAges }),
     };
   }
 );

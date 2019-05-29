@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import { __, set, view, path, prop, propOr, lensPath, pipe, equals, map, merge, head, last, values } from 'ramda';
+import { isNaN, isNilOrEmpty } from 'ramda-adjunct';
 
 import { ToolTip } from 'components/elements';
 
 import uiConfig, { getSingular, getPlural } from 'config/ui';
-import { RegionSelectTypes, MealPlanSelectTypes, isEmptyOrNil, isNaN } from 'utils';
+import { RegionSelectTypes, MealPlanSelectTypes } from 'utils';
 
 import { propTypes, defaultProps } from './SearchFilters.props';
 import {
@@ -156,7 +157,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
         />
       </SectionField>
 
-      {!isEmptyOrNil(starRatings) && (
+      {!isNilOrEmpty(starRatings) && (
         <Fragment>
           <Title>{getSingular('starRating')}</Title>
           <SectionField data-flex={true}>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
@@ -176,7 +177,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
         />
       </SectionField>
 
-      {!isEmptyOrNil(features) && (
+      {!isNilOrEmpty(features) && (
         <Fragment>
           <Title>{getPlural('feature')}</Title>
           <SectionField>{map(renderFeaturesCheckbox, features)}</SectionField>

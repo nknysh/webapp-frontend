@@ -1,5 +1,6 @@
 import React from 'react';
 import { gt, compose, length, path, prop, map, flatten, pipe } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import uiConfig, { getPluralisation, getSingular } from 'config/ui';
 
@@ -8,7 +9,6 @@ import { DropDownMenu } from 'components/elements';
 import {
   getFromDateFormat,
   getToDateFormat,
-  isEmptyOrNil,
   getNumberOfDays,
   getFromToFromDates,
   replaceAccommodationWithRoom,
@@ -121,7 +121,7 @@ export const SummaryRoom = ({
             )}
           </RoomRow>
           <RoomRow>
-            {guestLine('guest', getTotalGuests(guests))} {!isEmptyOrNil(ageSplits) && `(${ageSplits})`}
+            {guestLine('guest', getTotalGuests(guests))} {!isNilOrEmpty(ageSplits) && `(${ageSplits})`}
           </RoomRow>
           <RoomRow>{renderSupplements(supplements)}</RoomRow>
           <RoomRow>{renderMealPlans(mealPlans)}</RoomRow>

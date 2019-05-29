@@ -1,11 +1,13 @@
 import React, { useRef, forwardRef } from 'react';
 import { defaultTo } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { isEqual } from 'date-fns';
+
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import DateUtils from 'react-day-picker/lib/src/DateUtils';
 
 import DropDownContent from 'components/elements/DropDownContent';
-import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatDate, toDate, isEmptyOrNil } from 'utils';
+import { getNumberOfDays, getFromDateFormat, getToDateFormat, formatDate, toDate } from 'utils';
 
 import { propTypes, defaultProps } from './DatePicker.props';
 import {
@@ -68,7 +70,7 @@ export const DatePicker = ({
   const renderInputContent = () => (
     <DatePickerDatesWrapper>
       <Picked>
-        {!multiple && !isEmptyOrNil(selectedValues) && formatDate(selectedValues)}
+        {!multiple && !isNilOrEmpty(selectedValues) && formatDate(selectedValues)}
         {!from && !to && placeholder}
         {from && getFromDateFormat(selectedValues)}
         {to && getToDateFormat(selectedValues)}
@@ -83,7 +85,7 @@ export const DatePicker = ({
       inputContent={renderInputContent}
       inputProps={{ ref, ...props }}
       maskProps={{
-        ['data-empty']: multiple ? !from : isEmptyOrNil(selectedValues),
+        ['data-empty']: multiple ? !from : isNilOrEmpty(selectedValues),
       }}
     />
   ));

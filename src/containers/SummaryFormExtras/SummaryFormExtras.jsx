@@ -22,13 +22,14 @@ import {
   reject,
   values as Rvalues,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import SummaryFormMargin from 'components/app/SummaryFormMargin';
 import { RadioButton } from 'components/elements';
 
 import { ProductTypes } from 'config/enums';
 import uiConfig, { getPlural } from 'config/ui';
-import { isEmptyOrNil, isString } from 'utils';
+import { isString } from 'utils';
 
 import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
@@ -95,7 +96,7 @@ export const SummaryFormExtras = ({
       const summaries = reduce(renderOptionSummary, [], products);
 
       return (
-        !isEmptyOrNil(summaries) && (
+        !isNilOrEmpty(summaries) && (
           <ExtraSummary>
             <ExtraSummaryTitle>{getPlural(type)}:</ExtraSummaryTitle>
             <AddonSummaries>{summaries}</AddonSummaries>
@@ -114,7 +115,7 @@ export const SummaryFormExtras = ({
     const options = map(getOption, products);
 
     return (
-      !isEmptyOrNil(options) && (
+      !isNilOrEmpty(options) && (
         <Extra>
           <Title>{getPlural(type)}</Title>
           <RadioButton
@@ -164,7 +165,7 @@ export const SummaryFormExtras = ({
     return (
       !isEmpty(selectElements) &&
       (summaryOnly ? (
-        !isEmptyOrNil(filter(propEq('selected', true), products)) && (
+        !isNilOrEmpty(filter(propEq('selected', true), products)) && (
           <ExtraSummary>
             <ExtraSummaryTitle>{getPlural(type)}:</ExtraSummaryTitle>
             <AddonSummaries>{selectElements}</AddonSummaries>

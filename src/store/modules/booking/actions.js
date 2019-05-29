@@ -24,10 +24,11 @@ import {
   view,
   pathOr,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import client from 'api/bookings';
 import { ProductTypes } from 'config/enums';
-import { formatDate, getDaysBetween, isEmptyOrNil } from 'utils';
+import { formatDate, getDaysBetween } from 'utils';
 
 import { successAction, errorFromResponse } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
@@ -118,7 +119,7 @@ export const updateBooking = (id, payload) => async (dispatch, getState) => {
   const nextState = mergeDeepRight(state, { booking: { data: nextBooking } });
 
   const bookingBuilderPayload = getBookingForBuilder(nextState, id);
-  const hasAccommodation = !propSatisfies(isEmptyOrNil, ProductTypes.ACCOMMODATION, bookingBuilderPayload);
+  const hasAccommodation = !propSatisfies(isNilOrEmpty, ProductTypes.ACCOMMODATION, bookingBuilderPayload);
 
   const shouldCall = triggerCall(payload) && hasAccommodation;
 

@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { path, map, values } from 'ramda';
-
-import { isEmptyOrNil } from 'utils';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import uiConfig, { getSingular } from 'config/ui';
 
@@ -52,7 +51,7 @@ export const Hotel = ({
   return (
     <StyledHotel {...props}>
       <HotelDetails>
-        {!isEmptyOrNil(photos) && (
+        {!isNilOrEmpty(photos) && (
           <HotelGallery>
             <MainSlider asNavFor={sliderNav} centerMode={false} fade={true} ref={sliderMain} slidesToShow={1}>
               {renderedPhotos}
@@ -95,7 +94,7 @@ export const Hotel = ({
               <HotelDescription>{description}</HotelDescription>
             </HotelDetailsColumnLeft>
             <HotelDetailsColumnRight>
-              {!isEmptyOrNil(amenities) && <HotelHighlights>{map(renderFeature, amenities)}</HotelHighlights>}
+              {!isNilOrEmpty(amenities) && <HotelHighlights>{map(renderFeature, amenities)}</HotelHighlights>}
             </HotelDetailsColumnRight>
           </HotelDetailsRow>
         </HotelInfo>

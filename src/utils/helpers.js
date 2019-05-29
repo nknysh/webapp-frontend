@@ -5,27 +5,26 @@ import {
   cond,
   curry,
   either,
+  equals,
   filter,
   identity,
   is,
-  isEmpty,
-  isNil,
   lensPath,
   map,
   mapObjIndexed,
   merge,
   pipe,
   prop,
+  propOr,
   reduce,
   T,
-  unapply,
-  uniq,
-  propOr,
-  values,
-  equals,
   test,
   tryCatch,
+  unapply,
+  uniq,
+  values,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 export const noop = () => {};
 
@@ -33,9 +32,6 @@ export const isArray = is(Array);
 export const isObject = is(Object);
 export const isFunction = is(Function);
 export const isString = is(String);
-export const isNaN = equals(NaN);
-
-export const isEmptyOrNil = either(isNil, isEmpty);
 
 export const mapWithIndex = addIndex(map);
 
@@ -47,7 +43,7 @@ export const arrayToKeyValueObject = (keyProp, valueProp) => {
 export const getUniqueMap = map(
   pipe(
     uniq,
-    filter(complement(isEmptyOrNil))
+    filter(complement(isNilOrEmpty))
   )
 );
 

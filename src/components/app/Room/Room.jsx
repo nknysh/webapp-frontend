@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { prop, path, map, complement, equals, values, last, pipe, propEq, find, filter } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { format } from 'date-fns';
 
-import { isEmptyOrNil, isAdult } from 'utils';
+import { isAdult } from 'utils';
 
 import uiConfig, { getPluralisation, getSingular, getPlural } from 'config/ui';
 
@@ -82,7 +83,7 @@ const renderMinMax = ({ maximumPeople, limits }) => (
       {` `}
     </Detail>
 
-    {!isEmptyOrNil(limits) && <Limits>{map(renderMinMaxLimit, limits)}</Limits>}
+    {!isNilOrEmpty(limits) && <Limits>{map(renderMinMaxLimit, limits)}</Limits>}
   </Fragment>
 );
 
@@ -180,7 +181,7 @@ export const Room = ({
           {renderAmenities(amenities)}
         </Details>
         <AdditionalInfo>
-          {(moreInformation || !isEmptyOrNil(brochures)) && (
+          {(moreInformation || !isNilOrEmpty(brochures)) && (
             <Columns>
               {renderAdditionalInfo(moreInformation)}
               {renderBrochures(brochures)}

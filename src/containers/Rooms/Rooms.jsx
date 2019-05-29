@@ -23,11 +23,12 @@ import {
   length,
   compose,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import hash from 'object-hash';
 
 import { Slider } from 'components/elements';
 import { useCurrentWidth } from 'effects';
-import { isEmptyOrNil, isMobile } from 'utils';
+import { isMobile } from 'utils';
 
 import uiConfig from 'config/ui';
 
@@ -52,16 +53,16 @@ const getAmenities = memoizeWith(
     map(path(['meta', 'amenities'])),
     flatten,
     uniq,
-    filter(complement(isEmptyOrNil)),
+    filter(complement(isNilOrEmpty)),
     map(toOption),
     mergeAll
   )
 );
 
-const filterNoRate = filter(propSatisfies(complement(isEmptyOrNil), 'rates'));
+const filterNoRate = filter(propSatisfies(complement(isNilOrEmpty), 'rates'));
 
 const filterRoomsByAmenities = (rooms, selected) => {
-  if (isEmptyOrNil(selected)) return rooms;
+  if (isNilOrEmpty(selected)) return rooms;
 
   const containsAmenities = any(contains(__, selected));
   const byAmenities = pipe(
@@ -73,7 +74,7 @@ const filterRoomsByAmenities = (rooms, selected) => {
 };
 
 const renderValue = ifElse(
-  isEmptyOrNil,
+  isNilOrEmpty,
   always(<span>{path(['labels', 'filterByAmenities'], uiConfig)}</span>),
   join(', ')
 );
@@ -107,7 +108,7 @@ export const Rooms = ({ hotelUuid, className, rooms, selectedRooms, addRoom, rem
     isMobile(currentWidth) ? <Slider infinite={false}>{children}</Slider> : children;
 
   const renderRooms = () =>
-    isEmptyOrNil(filteredRooms) ? (
+    isNilOrEmpty(filteredRooms) ? (
       <NoResults>{path(['labels', 'noRooms'], uiConfig)}</NoResults>
     ) : (
       renderRoomsWrapper(values(map(renderRoom, filteredRooms)))
@@ -120,7 +121,7 @@ export const Rooms = ({ hotelUuid, className, rooms, selectedRooms, addRoom, rem
           <Title>Select Available Accomodations</Title>
         </Column>
         <Column>
-          {!isEmptyOrNil(amenities) && (
+          {!isNilOrEmpty(amenities) && (
             <AmenitiesSelect
               multiple
               displayEmpty
