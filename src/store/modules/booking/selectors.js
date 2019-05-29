@@ -176,6 +176,7 @@ export const getBookingProductSets = createSelector(
 export const getBookingReady = (state, hotelId) => {
   const booking = getBookingByHotelId(state, hotelId);
   const canBeBooked = prop('canBeBooked', booking);
+  const mustStop = prop('mustStop', booking);
 
   const hasGuests = pipe(
     pathOr({}, ['products', ProductTypes.ACCOMMODATION]),
@@ -183,7 +184,7 @@ export const getBookingReady = (state, hotelId) => {
     ifElse(isEmptyOrNil, always(false), all(canBook))
   )(booking);
 
-  return hasGuests || canBeBooked;
+  return !mustStop && canBeBooked && hasGuests;
 };
 
 export const getBookingRoomMealPlans = createSelector(

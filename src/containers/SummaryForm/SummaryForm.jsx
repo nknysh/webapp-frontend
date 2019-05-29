@@ -190,7 +190,7 @@ export const SummaryForm = ({
               summaryOnly={summaryOnly}
               values={values}
             />
-            {!canBook && renderSummaryErrors(errors)}
+            {renderSummaryErrors(errors)}
             {!summaryOnly && (
               <SummaryFormActions>
                 <SummaryFormButton disabled={!canBook} type="submit">
