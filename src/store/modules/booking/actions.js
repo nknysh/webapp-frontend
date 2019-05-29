@@ -22,6 +22,7 @@ import {
   split,
   toPairs,
   view,
+  pathOr,
 } from 'ramda';
 
 import client from 'api/bookings';
@@ -93,7 +94,7 @@ export const removeRoom = (id, roomId, all = false) => (dispatch, getState) => {
   const state = getState();
   const hotelbooking = getBookingByHotelId(state, id);
   const prevAccommodation = path(['products', ProductTypes.ACCOMMODATION], hotelbooking);
-  const guests = path([roomId, 'guests'], prevAccommodation);
+  const guests = pathOr([], [roomId, 'guests'], prevAccommodation);
 
   guests.length = guests.length - 1 < 0 ? 0 : guests.length - 1;
 

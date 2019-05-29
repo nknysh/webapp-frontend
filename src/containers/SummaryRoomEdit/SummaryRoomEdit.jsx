@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import {
+  always,
   compose,
   curry,
   defaultTo,
+  equals,
+  evolve,
   gt,
   head,
   ifElse,
@@ -11,15 +14,12 @@ import {
   map,
   mapObjIndexed,
   path,
-  equals,
   pipe,
   prepend,
   prop,
   toUpper,
   values,
   when,
-  evolve,
-  always,
 } from 'ramda';
 import { isThisMonth } from 'date-fns';
 
@@ -31,7 +31,17 @@ import { isActive } from 'store/common';
 import { RadioButton, Form, FormFieldError, Loader } from 'components/elements';
 import GuestSelect from 'components/app/GuestSelect';
 import { useEffectBoundary } from 'effects';
-import { formatDate, getEndOfMonth, getStartOfMonth, toDate, isArray, mapWithIndex, isEmptyOrNil } from 'utils';
+import {
+  formatDate,
+  getEndOfMonth,
+  getStartOfMonth,
+  toDate,
+  isArray,
+  mapWithIndex,
+  isEmptyOrNil,
+  replaceAccommodationWithRoom,
+  groupErrorsByRoomIndex,
+} from 'utils';
 
 import { validation } from 'config/forms/roomEdit';
 
@@ -72,6 +82,11 @@ const renderGuestSelectErrors = ifElse(
   renderError
 );
 
+const renderRoomErrors = pipe(
+  replaceAccommodationWithRoom,
+  map(map(renderError))
+);
+
 export const SummaryRoomEdit = ({
   dates,
   guests,
@@ -86,13 +101,13 @@ export const SummaryRoomEdit = ({
   rates,
   status,
   updateBooking,
-  errors: bookingErrors,
+  errors,
 }) => {
   const [formValues, setFormValues] = useState({ mealPlan, dates, guests });
   const [complete, setComplete] = useState(false);
   const [roomContext, setRoomContext] = useState(0);
   const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
-
+  const bookingErrors = groupErrorsByRoomIndex(errors);
   const isLoading = isActive(status);
 
   useEffectBoundary(() => {
@@ -189,7 +204,9 @@ export const SummaryRoomEdit = ({
                 errors={renderGuestSelectErrors(prop('guests', errors))}
                 onRoomChange={setRoomContext}
                 selectedRoom={roomContext}
-              />
+              >
+                {renderRoomErrors(bookingErrors)}
+              </GuestSelect>
             </EditFormSection>
             <EditFormSection>
               <StyledDatePicker
@@ -223,13 +240,6 @@ export const SummaryRoomEdit = ({
                 onChange={onMealPlanChange(formProps)}
               />
             </EditFormSection>
-            {map(
-              pipe(
-                prop('message'),
-                renderError
-              ),
-              bookingErrors
-            )}
             <EditFormActions>
               <EditFormButton type="submit">{path(['buttons', 'update'], uiConfig)}</EditFormButton>
             </EditFormActions>

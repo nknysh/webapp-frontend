@@ -132,9 +132,19 @@ export const getPotentialBookingByRoomId = createSelector(
     )(potentialBooking)
 );
 
-export const getBookingErrors = createSelector(
+export const getAllBookingErrors = createSelector(
   getBookingByHotelId,
   propOr([], 'errors')
+);
+
+export const getBookingStopErrors = createSelector(
+  getAllBookingErrors,
+  filter(propEq('type', 'stop'))
+);
+
+export const getBookingErrors = createSelector(
+  getAllBookingErrors,
+  filter(propEq('type', 'booking'))
 );
 
 export const getBookingErrorsByRoomId = createSelector(

@@ -15,11 +15,14 @@ import {
   propOr,
   replace,
   split,
+  map,
   T,
   values,
+  inc,
 } from 'ramda';
 
-import { isObject } from 'utils/helpers';
+import { getSingular } from 'config/ui';
+import { isObject, mapWithIndex } from 'utils/helpers';
 
 const equalsLiteralTrue = value => value == 'true';
 const equalsLiteralFalse = value => value == 'false';
@@ -64,4 +67,19 @@ export const getFormPath = pipe(
 export const groupFieldsBySection = pipe(
   values,
   groupBy(propOr('', 'section'))
+);
+
+export const groupErrorsByRoomIndex = pipe(
+  groupBy(prop('accommodationProductRequestIndex')),
+  values
+);
+
+export const replaceAccommodationWithRoom = mapWithIndex((data, i) =>
+  map(
+    pipe(
+      prop('message'),
+      replace(/Accommodation #[0-9]/g, `${getSingular('room')} ${inc(i)}`)
+    ),
+    data
+  )
 );

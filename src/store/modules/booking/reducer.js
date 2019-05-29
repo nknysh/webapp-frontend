@@ -1,4 +1,4 @@
-import { propOr, pathOr } from 'ramda';
+import { propOr, pathOr, isEmpty } from 'ramda';
 
 import { ProductTypes } from 'config/enums';
 import { initialState, loadingReducer, successReducer, errorReducer, sendingReducer } from 'store/common';
@@ -15,6 +15,12 @@ const roomRemove = (state, { payload: { id, ...payload } }) => ({
       products: {
         [ProductTypes.ACCOMMODATION]: { ...payload },
       },
+      ...(isEmpty(payload) && {
+        errors: [],
+        potentialBooking: {},
+        availableProductSets: {},
+        canBeBooked: false,
+      }),
     },
   },
 });

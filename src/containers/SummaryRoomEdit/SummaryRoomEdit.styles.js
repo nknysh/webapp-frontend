@@ -36,13 +36,13 @@ export const EditFormTitle = styled(Heading3)`
 `;
 
 export const EditFormSection = styled.div`
-  margin: 0 0 ${theme.gutter * 5}px;
+  margin: ${theme.gutter * 5}px 0 0;
 
   > div > label {
     margin-bottom: ${theme.gutter}px;
   }
 
-  :last-child {
+  :first-child {
     margin: 0;
   }
 `;
