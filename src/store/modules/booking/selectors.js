@@ -11,6 +11,7 @@ import {
   filter,
   flatten,
   gt,
+  has,
   head,
   ifElse,
   includes,
@@ -34,6 +35,7 @@ import {
   props,
   propSatisfies,
   reduce,
+  reject,
   times,
   toPairs,
   values,
@@ -145,6 +147,11 @@ export const getBookingStopErrors = createSelector(
 export const getBookingErrors = createSelector(
   getAllBookingErrors,
   filter(propEq('type', 'booking'))
+);
+
+export const getBookingNonAccommodationErrors = createSelector(
+  getAllBookingErrors,
+  reject(has('accommodationProductUuid'))
 );
 
 export const getBookingErrorsByRoomId = createSelector(
