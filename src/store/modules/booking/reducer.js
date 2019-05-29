@@ -20,6 +20,7 @@ const roomRemove = (state, { payload: { id, ...payload } }) => ({
         potentialBooking: {},
         availableProductSets: {},
         canBeBooked: false,
+        totals: {},
       }),
     },
   },
