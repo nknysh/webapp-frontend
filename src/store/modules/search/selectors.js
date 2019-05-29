@@ -1,8 +1,10 @@
 import { curry, prop, pipe, path, when, always, inc, evolve, propOr, pathOr } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
+
 import { createSelector } from 'store/utils';
 import { getStatus, getData } from 'store/common';
 
-import { isEmptyOrNil, toDate } from 'utils';
+import { toDate } from 'utils';
 
 const defaultFromDate = toDate();
 const defaultToDate = toDate();
@@ -48,8 +50,8 @@ export const getSearchValue = pipe(
 );
 
 const searchDatesTransformations = {
-  from: when(isEmptyOrNil, always(defaultFromDate)),
-  to: when(isEmptyOrNil, always(defaultToDate)),
+  from: when(isNilOrEmpty, always(defaultFromDate)),
+  to: when(isNilOrEmpty, always(defaultToDate)),
 };
 
 export const getSearchDates = createSelector(
@@ -78,4 +80,9 @@ export const getSearchFiltersStarRatings = pipe(
 export const getSearchFiltersFeatures = pipe(
   getSearchResultsMeta,
   pathOr([], ['filters', 'amenities'])
+);
+
+export const getSearchFiltersPrices = createSelector(
+  getSearchResultsMeta,
+  pathOr([], ['filters', 'prices'])
 );

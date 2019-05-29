@@ -15,6 +15,7 @@ import {
   values,
   when,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
 import SummaryRoom from 'containers/SummaryRoom';
@@ -23,7 +24,7 @@ import SummaryFormExtras from 'containers/SummaryFormExtras';
 import SummaryFormMargin from 'components/app/SummaryFormMargin';
 
 import { Form, Input, Loader } from 'components/elements';
-import { getFormPath, mapWithIndex, isEmptyOrNil } from 'utils';
+import { getFormPath, mapWithIndex } from 'utils';
 
 import { isActive } from 'store/common';
 
@@ -53,7 +54,7 @@ const modalProps = { className: 'room-summary-form' };
 const renderHotelName = name => name && <HotelName>{name}</HotelName>;
 
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
-const renderSummaryErrors = errors => !isEmptyOrNil(errors) && <Errors>{mapWithIndex(renderError, errors)}</Errors>;
+const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <Errors>{mapWithIndex(renderError, errors)}</Errors>;
 
 export const SummaryForm = ({
   booking,

@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import { curry, length, gt, prop, times, map, when, either, isNil, equals, always } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import { AgeSelect } from 'components/elements';
 
 import { getPlural } from 'config/ui';
-import { isArray, isEmptyOrNil } from 'utils';
+import { isArray } from 'utils';
 
 import { propTypes, defaultProps } from './GuestSelect.props';
 import {
@@ -57,7 +58,7 @@ export const GuestSelect = ({
   );
 
   const renderTabLabels = i => (
-    <TabLabel key={i} value={i} data-error={!isEmptyOrNil(prop(i, errors))}>
+    <TabLabel key={i} value={i} data-error={!isNilOrEmpty(prop(i, errors))}>
       Room {i + 1}
     </TabLabel>
   );

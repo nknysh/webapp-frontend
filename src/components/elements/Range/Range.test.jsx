@@ -8,7 +8,7 @@ describe('<Range />', () => {
   describe('render', () => {
     it('matches snapshots', () => {
       expect(getComponent()).toMatchSnapshot();
-      expect(getComponent({ min: 5, max: 2000 })).toMatchSnapshot();
+      expect(getComponent({ min: 5, max: 1000 })).toMatchSnapshot();
     });
   });
 });

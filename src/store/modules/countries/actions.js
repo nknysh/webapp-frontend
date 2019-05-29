@@ -1,8 +1,8 @@
 import { values, pathOr, prop, mergeDeepRight, propOr } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import { index } from 'store/modules/indexes/actions';
 import { successAction } from 'store/common/actions';
-import { isEmptyOrNil } from 'utils';
 
 import schema from './schema';
 import { getCountriesEntities } from './selectors';
@@ -29,5 +29,5 @@ export const setCountries = data => (dispatch, getState) => {
     })
   );
 
-  dispatch(successAction(COUNTRIES, { result, ...(!isEmptyOrNil(entities) && { entities }) }));
+  dispatch(successAction(COUNTRIES, { result, ...(!isNilOrEmpty(entities) && { entities }) }));
 };

@@ -21,6 +21,7 @@ import {
   values,
   when,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { isThisMonth } from 'date-fns';
 
 import { ProductTypes } from 'config/enums';
@@ -38,7 +39,6 @@ import {
   toDate,
   isArray,
   mapWithIndex,
-  isEmptyOrNil,
   replaceAccommodationWithRoom,
   groupErrorsByRoomIndex,
 } from 'utils';
@@ -125,12 +125,12 @@ export const SummaryRoomEdit = ({
 
   const onFormSubmit = values => {
     const finalValues = evolve({
-      mealPlan: when(isEmptyOrNil, always('[]')),
+      mealPlan: when(isNilOrEmpty, always('[]')),
     });
 
     setFormValues(values);
     updateBooking(hotelUuid, { products: { [ProductTypes.ACCOMMODATION]: { [id]: { ...finalValues(values) } } } });
-    setComplete(isEmptyOrNil(bookingErrors));
+    setComplete(isNilOrEmpty(bookingErrors));
   };
 
   const onMonthChange = month => {

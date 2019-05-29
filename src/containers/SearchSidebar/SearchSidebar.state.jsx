@@ -8,6 +8,7 @@ import {
   getSearchFiltersRegions,
   getSearchFiltersStarRatings,
   getSearchFiltersFeatures,
+  getSearchFiltersPrices,
 } from 'store/modules/search/selectors';
 
 import { getCountriesData, getCountryName } from 'store/modules/countries/selectors';
@@ -25,6 +26,7 @@ export const mapStateToProps = state => ({
   searchQuery: getSearchQuery(state),
   searchStatus: getSearchStatus(state),
   starRatings: getSearchFiltersStarRatings(state, 'byQuery'),
+  prices: getSearchFiltersPrices(state, 'byQuery'),
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -1,19 +1,15 @@
 import {
-  __,
   anyPass,
   append,
   complement,
   equals,
   has,
   lensPath,
-  lensProp,
-  map,
-  mapObjIndexed,
   mergeDeepRight,
   omit,
   partialRight,
   path,
-  pick,
+  pathOr,
   pipe,
   prop,
   propSatisfies,
@@ -21,22 +17,20 @@ import {
   set,
   split,
   toPairs,
-  view,
-  pathOr,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import client from 'api/bookings';
 import { ProductTypes } from 'config/enums';
-import { formatDate, getDaysBetween, isEmptyOrNil } from 'utils';
 
 import { successAction, errorFromResponse } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
-import { getHotelRoom, getHotelProduct } from 'store/modules/hotels/selectors';
+import { getHotelProduct } from 'store/modules/hotels/selectors';
 import { setHotels } from 'store/modules/hotels/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 import { getSuccessActionName } from 'store/utils';
 
-import { getBookingByHotelId, getBookingRoomDatesById, getBookingForBuilder, getPotentialBooking } from './selectors';
+import { getBookingByHotelId, getBookingForBuilder, getPotentialBooking } from './selectors';
 
 export const BOOKING_CHECKS = 'BOOKING_CHECKS';
 export const BOOKING_REMOVE = 'BOOKING_REMOVE';
@@ -44,10 +38,6 @@ export const BOOKING_ROOM_ADD = 'BOOKING_ROOM_ADD';
 export const BOOKING_ROOM_REMOVE = 'BOOKING_ROOM_REMOVE';
 export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
-
-const accommodationProductsLens = lensProp('accommodationProducts');
-const datesLens = lensProp('dates');
-const ratesLens = lensPath(['dates', 'rates']);
 
 const triggerCall = anyPass([complement(has('margin'))]);
 
@@ -118,7 +108,7 @@ export const updateBooking = (id, payload) => async (dispatch, getState) => {
   const nextState = mergeDeepRight(state, { booking: { data: nextBooking } });
 
   const bookingBuilderPayload = getBookingForBuilder(nextState, id);
-  const hasAccommodation = !propSatisfies(isEmptyOrNil, ProductTypes.ACCOMMODATION, bookingBuilderPayload);
+  const hasAccommodation = !propSatisfies(isNilOrEmpty, ProductTypes.ACCOMMODATION, bookingBuilderPayload);
 
   const shouldCall = triggerCall(payload) && hasAccommodation;
 

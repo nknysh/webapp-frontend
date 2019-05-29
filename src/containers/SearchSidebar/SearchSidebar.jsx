@@ -25,6 +25,7 @@ export const SearchSidebar = ({
   features,
   searchByName,
   searchStatus,
+  prices,
 }) => {
   useEffectBoundary(() => {
     history.push(`/search?${buildQueryString(searchQuery)}`);
@@ -53,6 +54,7 @@ export const SearchSidebar = ({
           regions={regions}
           starRatings={starRatings}
           features={features}
+          prices={prices}
           searchQuery={searchQuery}
         />
       </Section>

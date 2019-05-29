@@ -17,8 +17,7 @@ import {
   defaultTo,
   pathOr,
 } from 'ramda';
-
-import { isEmptyOrNil } from 'utils';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import { propTypes, defaultProps } from './AgeSelect.props';
 import {
@@ -39,7 +38,7 @@ export const AgeSelect = ({ values, onSelect, ageRanges, minMax, showAgeDropDown
   const renderEntry = type => {
     const fromAge = path([type, 'ageFrom'], ageRanges);
     const toAge = path([type, 'ageTo'], ageRanges);
-    const fromToAges = !isEmptyOrNil(fromAge) && `(${fromAge}${toAge && ` - ${toAge}`})`;
+    const fromToAges = !isNilOrEmpty(fromAge) && `(${fromAge}${toAge && ` - ${toAge}`})`;
     const values = propOr([], type, selected);
     const value = length(values);
 

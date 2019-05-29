@@ -155,6 +155,6 @@ export default {
   },
 
   defaults: {
-    priceRange: [2000, 10000],
+    priceRange: [1000, 10000],
   },
 };

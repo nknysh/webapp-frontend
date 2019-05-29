@@ -8,6 +8,7 @@ export const propTypes = {
   regions: PropTypes.array,
   starRatings: PropTypes.array,
   features: PropTypes.array,
+  prices: PropTypes.array,
 };
 
 export const defaultProps = {
@@ -16,4 +17,5 @@ export const defaultProps = {
   regions: [],
   starRatings: [],
   features: [],
+  prices: [],
 };

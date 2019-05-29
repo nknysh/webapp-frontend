@@ -14,13 +14,14 @@ import {
   reverse,
   toPairs,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
-import { isEmptyOrNil, toDate } from 'utils';
+import { toDate } from 'utils';
 
 const reduceDisabledDays = (accum, [key, dayRate]) => {
   if (!dayRate) return append(key, accum);
 
-  const hasRate = propSatisfies(complement(isEmptyOrNil), 'rate');
+  const hasRate = propSatisfies(complement(isNilOrEmpty), 'rate');
 
   return hasRate(dayRate) ? accum : append(key, accum);
 };

@@ -1,4 +1,4 @@
-import { prop, pathOr, path } from 'ramda';
+import { prop, pathOr, path, omit } from 'ramda';
 
 import client from 'api/search';
 
@@ -70,7 +70,7 @@ export const searchByQuery = query => async (dispatch, getState) => {
   try {
     const {
       data: { data, meta },
-    } = await client.getSearch({ ...query, actingCountryCode });
+    } = await client.getSearch({ ...omit(['prices'], query), actingCountryCode });
 
     const hotels = path(['entities', 'hotels'], data);
     const uploads = path(['entities', 'uploads'], data);

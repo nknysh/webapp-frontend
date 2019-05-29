@@ -1,7 +1,8 @@
 import { createBrowserHistory } from 'history';
 import { path, prop, pipe, pick, lensPath, lensProp, over, map, when, complement, isNil, identity } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
-import { getQuery, isEmptyOrNil } from 'utils';
+import { getQuery } from 'utils';
 
 import { setSearchQuery } from './actions';
 
@@ -48,7 +49,7 @@ const searchMiddleware = ({ getState }) => next => action => {
 
   // If the redux key is empty but there is a search in the
   // query string, then populate the redux store with it
-  if (isEmptyOrNil(path(['search', 'query'], state)) && !isEmptyOrNil(search)) {
+  if (isNilOrEmpty(path(['search', 'query'], state)) && !isNilOrEmpty(search)) {
     next(setSearchQuery(search));
   }
 

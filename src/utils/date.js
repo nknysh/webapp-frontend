@@ -14,10 +14,10 @@ import {
   head,
   last,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { differenceInCalendarDays, format, startOfMonth, endOfMonth, eachDay, subDays } from 'date-fns';
 
 import uiConfig from 'config/ui';
-import { isEmptyOrNil } from 'utils/helpers';
 
 export const toDate = date => (date ? new Date(date) : new Date());
 
@@ -26,7 +26,7 @@ const correctLength = pipe(
   equals(2)
 );
 
-const allPopulated = all(complement(isEmptyOrNil));
+const allPopulated = all(complement(isNilOrEmpty));
 
 const getDifference = dates => differenceInCalendarDays(...dates);
 
