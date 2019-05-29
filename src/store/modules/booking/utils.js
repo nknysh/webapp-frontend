@@ -1,33 +1,4 @@
-import {
-  __,
-  all,
-  always,
-  append,
-  both,
-  curry,
-  defaultTo,
-  either,
-  equals,
-  F,
-  find,
-  gt,
-  gte,
-  ifElse,
-  length,
-  lte,
-  map,
-  mapObjIndexed,
-  multiply,
-  pipe,
-  propEq,
-  propOr,
-  propSatisfies,
-  reduce,
-  sum,
-  values,
-} from 'ramda';
-
-import { isAdult } from 'utils';
+import { __, all, curry, equals, F, gt, ifElse, length, map, multiply, pipe, propOr, sum, values } from 'ramda';
 
 export const noQuantity = pipe(
   length,
@@ -49,10 +20,6 @@ export const canBook = pipe(
   ifElse(noQuantity, F, hasOccupancy)
 );
 
-export const categoryEquals = propEq('category');
-
-export const totalShim = always({ total: 0 });
-
 export const toTotal = pipe(
   values,
   sum
@@ -64,43 +31,3 @@ export const getRateAmount = pipe(
 );
 
 export const totalByQuantity = curry((rate, amount) => multiply(propOr(0, 'rate', rate), amount));
-
-const mapProductRatesToAges = curry((rates, age) => {
-  const betweenAges = both(propSatisfies(gte(age), 'ageFrom'), propSatisfies(lte(age), 'ageTo'));
-
-  return pipe(
-    find(betweenAges),
-    propOr(0, 'rate')
-  )(rates);
-});
-
-const getGuestRatesTotal = curry((rates, ages, type) => {
-  if (isAdult(type)) {
-    const rate = find(either(propEq('default', true), propEq('name', 'adult')), rates);
-    return totalByQuantity(rate, length(ages));
-  }
-
-  return pipe(
-    defaultTo([]),
-    map(mapProductRatesToAges(rates)),
-    sum
-  )(ages);
-});
-
-const reduceGuestsAndRates = curry((rates, accum, quantity) =>
-  append(
-    pipe(
-      mapObjIndexed(getGuestRatesTotal(rates)),
-      values,
-      sum
-    )(quantity),
-    accum
-  )
-);
-
-export const getGuestsTotals = curry((rates, quantity = {}) =>
-  pipe(
-    reduce(reduceGuestsAndRates(rates), []),
-    sum
-  )(quantity)
-);

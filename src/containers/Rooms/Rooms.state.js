@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
-import { pipe, prop } from 'ramda';
+import { pipe, path } from 'ramda';
+
+import { ProductTypes } from 'config/enums';
 
 import { getHotelsUploads, getHotelsAccommodationProducts } from 'store/modules/hotels/selectors';
 
@@ -8,7 +10,7 @@ import { getBookingByHotelId } from 'store/modules/booking/selectors';
 
 export const mapStateToProps = (state, { hotelUuid }) => {
   const booking = getBookingByHotelId(state, hotelUuid);
-  const selectedRooms = prop('Accommodation', booking);
+  const selectedRooms = path(['products', ProductTypes.ACCOMMODATION], booking);
 
   return {
     getRoomUploads: ids => getHotelsUploads(state, ids),

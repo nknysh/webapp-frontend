@@ -32,6 +32,7 @@ export const noop = () => {};
 export const isArray = is(Array);
 export const isObject = is(Object);
 export const isFunction = is(Function);
+export const isString = is(String);
 
 export const isEmptyOrNil = either(isNil, isEmpty);
 
@@ -77,4 +78,4 @@ export const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum,
 export const testAdult = test(/^adult$/i);
 export const isAdult = either(testAdult, equals('default'));
 
-export const parseJson = tryCatch(JSON.parse, identity);
+export const parseJson = data => tryCatch(JSON.parse, always(identity(data)))(data);

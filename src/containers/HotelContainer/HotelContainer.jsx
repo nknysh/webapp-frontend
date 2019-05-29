@@ -26,7 +26,6 @@ const reloadIfMissing = complement(allPass([has('photos'), has('accommodationPro
 
 const renderBackButton = () => <Back to="/search">{path(['labels', 'backToSearch'], uiConfig)}</Back>;
 
-// eslint-disable-next-line react/prop-types
 const renderBrochure = ({ uuid, displayName, url }) => (
   <Brochure key={uuid} href={url} target="_blank">
     {displayName}

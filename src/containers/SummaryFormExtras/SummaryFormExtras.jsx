@@ -1,30 +1,34 @@
 import React, { Fragment } from 'react';
 
 import {
-  prepend,
   append,
-  pathOr,
-  path,
-  gt,
-  reduce,
-  values as Rvalues,
-  map,
-  isEmpty,
-  length,
-  propOr,
-  prop,
-  pipe,
-  toPairs,
-  includes,
-  without,
-  uniq,
   compose,
+  filter,
+  groupBy,
+  gt,
+  hasPath,
+  isEmpty,
+  join,
+  map,
+  mapObjIndexed,
+  partialRight,
+  path,
+  pathOr,
+  pipe,
+  prop,
+  propEq,
+  propOr,
+  reduce,
+  reject,
+  values as Rvalues,
 } from 'ramda';
 
 import SummaryFormMargin from 'components/app/SummaryFormMargin';
 import { RadioButton } from 'components/elements';
 
+import { ProductTypes } from 'config/enums';
 import uiConfig, { getPlural } from 'config/ui';
+import { isEmptyOrNil, isString } from 'utils';
 
 import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
@@ -43,148 +47,129 @@ import {
   AddonSummaries,
 } from './SummaryFormExtras.styles';
 
+const hasDirection = hasPath(['meta', 'direction']);
+const productsBothWays = reject(hasDirection);
+const productsOneWay = filter(hasDirection);
+
 // eslint-disable-next-line
-const renderOptionRate = multiple => ({ rate, name }) => (
-  <OptionRate key={rate}>
-    (+ <OptionPrice>{rate}</OptionPrice>
-    {multiple ? ` ${name}` : ''})
+const renderOption = ({ total, title, quantity = 0 }) => (
+  <OptionRate key={total}>
+    {gt(quantity, 1) && `${quantity} x`} {title} (+ <OptionPrice>{total}</OptionPrice>)
   </OptionRate>
 );
 
+const renderOptionSummary = (accum, { total, products, breakdown, selected, ...rest }) =>
+  selected
+    ? append(
+        <AddonSummary key={join(',', products)}>
+          <ExtraSummaryProduct>
+            {map(
+              ({ product, title }) => (
+                <span key={product}>
+                  {title}{' '}
+                  {path(['meta', 'direction'], rest) &&
+                    `- ${path(['labels', path(['meta', 'direction'], rest)], uiConfig)}`}
+                </span>
+              ),
+              breakdown
+            )}
+          </ExtraSummaryProduct>
+          <ExtraSummaryTotal>{total}</ExtraSummaryTotal>
+        </AddonSummary>,
+        accum
+      )
+    : accum;
+
 export const SummaryFormExtras = ({
   addons,
-  addonsTotals,
-  getRate,
-  groundServices,
-  groundServicesTotal,
   onChange,
   onExtraChange,
   summaryOnly,
-  total,
+  grandTotal,
   transfers,
-  transfersTotal,
+  groundServices,
   values,
 }) => {
-  const totals = { transfer: transfersTotal, groundService: groundServicesTotal, addon: addonsTotals };
+  const renderExtraOptions = (type, productType, products) => {
+    if (summaryOnly) {
+      const summaries = reduce(renderOptionSummary, [], products);
 
-  const getOption = (accum, { name, uuid: value, rate }) => {
-    const rates = prop('rates', getRate(rate));
-
-    if (!rates) return accum;
-
-    const hasMultipleRates = gt(length(rates), 1);
-    return append(
-      {
-        label: (
-          <OptionLabel key={name}>
-            {name}
-            {map(renderOptionRate(hasMultipleRates), rates)}
-          </OptionLabel>
-        ),
-        value,
-      },
-      accum
-    );
-  };
-
-  const getOptions = pipe(
-    reduce(getOption, []),
-    prepend({ label: 'None', value: '' })
-  );
-
-  const renderMargin = () => (
-    <Extra>
-      <Title>{path(['labels', 'addCommission'], uiConfig)}</Title>
-      <SummaryFormMargin
-        checked={pathOr(true, ['margin', 'applied'], values)}
-        onChange={onChange}
-        total={total}
-        type={pathOr('percentage', ['margin', 'type'], values)}
-        value={pathOr(0, ['margin', 'value'], values)}
-      />
-    </Extra>
-  );
-
-  const renderExtraOptions = (type, products, value) => {
-    const productsArr = Rvalues(products);
-
-    return (
-      !isEmpty(productsArr) &&
-      (summaryOnly ? (
-        path([value, 'name'], products) && (
+      return (
+        !isEmptyOrNil(summaries) && (
           <ExtraSummary>
             <ExtraSummaryTitle>{getPlural(type)}:</ExtraSummaryTitle>
-            <ExtraSummaryProduct>{path([value, 'name'], products)}</ExtraSummaryProduct>
-            <ExtraSummaryTotal>{prop(type, totals)}</ExtraSummaryTotal>
+            <AddonSummaries>{summaries}</AddonSummaries>
           </ExtraSummary>
         )
-      ) : (
+      );
+    }
+
+    const getOption = ({ products, breakdown }) => {
+      const value = join(',', products);
+      const label = map(renderOption, breakdown);
+
+      return { label, value };
+    };
+
+    const options = map(getOption, products);
+
+    return (
+      !isEmptyOrNil(options) && (
         <Extra>
           <Title>{getPlural(type)}</Title>
           <RadioButton
-            name={type}
-            onChange={onExtraChange}
-            options={getOptions(productsArr)}
-            value={prop(type, values)}
+            name={productType}
+            onChange={partialRight(onChange, [true])}
+            options={[{ label: 'None', value: '' }, ...options]}
+            value={isString(propOr('', productType, values)) && propOr('', productType, values)}
           />
         </Extra>
-      ))
+      )
     );
   };
 
   const renderExtraSelects = (type, products, values) => {
-    const renderSelect = (accum, [uuid, { name, rate }]) => {
-      const rates = prop('rates', getRate(rate));
+    const renderSelect = ({ products, breakdown, selected, total }) => {
+      const uuids = join(',', products);
+      const checked = propOr(false, uuids, values);
 
-      if (!rates) return accum;
-
-      const hasMultipleRates = gt(length(rates), 1);
-
-      const onChecked = (e, checked) => {
-        const newValues = checked ? append(e.target.value, values) : without(e.target.value, values);
-        onExtraChange({ target: { type: 'array', name: e.target.name, value: uniq(newValues) } }, newValues);
-      };
-
-      const checked = includes(uuid, values);
-
-      const select = summaryOnly ? (
-        checked && (
-          <AddonSummary key={uuid}>
-            <ExtraSummaryProduct>{path([uuid, 'name'], products)}</ExtraSummaryProduct>
-            <ExtraSummaryTotal>{pathOr(0, [type, uuid], totals)}</ExtraSummaryTotal>
+      return summaryOnly ? (
+        selected && (
+          <AddonSummary key={uuids}>
+            <ExtraSummaryProduct>
+              {map(
+                ({ uuid, title }) => (
+                  <ExtraSummaryProduct key={uuid}>{title}</ExtraSummaryProduct>
+                ),
+                breakdown
+              )}
+            </ExtraSummaryProduct>
+            <ExtraSummaryTotal>{total}</ExtraSummaryTotal>
           </AddonSummary>
         )
       ) : (
         <AddonCheckbox
-          name="addons"
-          checked={checked}
-          onChange={onChecked}
-          key={uuid}
-          label={
-            <OptionLabel>
-              {name}
-              {map(renderOptionRate(hasMultipleRates), rates)}
-            </OptionLabel>
-          }
-          value={uuid}
+          name={uuids}
+          checked={selected || checked}
+          onChange={onExtraChange}
+          key={uuids}
+          label={<OptionLabel>{map(renderOption, breakdown)}</OptionLabel>}
+          value={uuids}
         />
       );
-
-      return select ? append(select, accum) : accum;
     };
 
-    const selectElements = pipe(
-      toPairs,
-      reduce(renderSelect, [])
-    )(products);
+    const selectElements = map(renderSelect, products);
 
     return (
       !isEmpty(selectElements) &&
       (summaryOnly ? (
-        <ExtraSummary>
-          <ExtraSummaryTitle>{getPlural(type)}:</ExtraSummaryTitle>
-          <AddonSummaries>{selectElements}</AddonSummaries>
-        </ExtraSummary>
+        !isEmptyOrNil(filter(propEq('selected', true), products)) && (
+          <ExtraSummary>
+            <ExtraSummaryTitle>{getPlural(type)}:</ExtraSummaryTitle>
+            <AddonSummaries>{selectElements}</AddonSummaries>
+          </ExtraSummary>
+        )
       ) : (
         <Extra>
           <Title>{getPlural(type)}</Title>
@@ -194,11 +179,59 @@ export const SummaryFormExtras = ({
     );
   };
 
+  const renderOneWayProduct = (products, uuids) =>
+    map(({ breakdown, meta: { direction }, selected }) => {
+      const identifier = join('|', [uuids, direction]);
+
+      const renderOneWayOption = breakdownData => (
+        <Fragment key={prop('uuid', breakdownData)}>
+          {renderOption(breakdownData)} - {path(['labels', direction], uiConfig)}
+        </Fragment>
+      );
+
+      return (
+        <AddonCheckbox
+          name={identifier}
+          checked={selected}
+          onChange={onExtraChange}
+          key={identifier}
+          label={map(renderOneWayOption, breakdown)}
+          value={identifier}
+        />
+      );
+    }, products);
+
+  const renderOneWayProducts = pipe(
+    productsOneWay,
+    groupBy(prop('products')),
+    mapObjIndexed(renderOneWayProduct),
+    Rvalues
+  );
+
+  const renderMargin = () => (
+    <Extra>
+      <Title>{path(['labels', 'addCommission'], uiConfig)}</Title>
+      <SummaryFormMargin
+        checked={pathOr(true, ['margin', 'applied'], values)}
+        onChange={onChange}
+        total={grandTotal}
+        type={pathOr('percentage', ['margin', 'type'], values)}
+        value={pathOr(0, ['margin', 'value'], values)}
+      />
+    </Extra>
+  );
+
   return (
     <Fragment>
-      {renderExtraOptions('transfer', transfers, propOr('', 'transfer', values))}
-      {renderExtraOptions('groundService', groundServices, propOr('', 'groundService', values))}
-      {renderExtraSelects('addon', addons, propOr([], 'addons', values))}
+      {renderExtraOptions('transfer', ProductTypes.TRANSFER, summaryOnly ? transfers : productsBothWays(transfers))}
+      {!summaryOnly && renderOneWayProducts(transfers)}
+      {renderExtraOptions(
+        'groundService',
+        ProductTypes.GROUND_SERVICE,
+        summaryOnly ? groundServices : productsBothWays(groundServices)
+      )}
+      {!summaryOnly && renderOneWayProducts(groundServices)}
+      {renderExtraSelects('addon', addons)}
       {!summaryOnly && renderMargin()}
     </Fragment>
   );

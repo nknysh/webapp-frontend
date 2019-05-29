@@ -74,7 +74,7 @@ export const HotelBookingContainer = ({
   const guestFormRef = useRef(undefined);
   const bankTransferFormRef = useRef(undefined);
 
-  const loaded = useFetchData(hotelStatus, fetchHotel, id);
+  const loaded = useFetchData(hotelStatus, fetchHotel, [id]);
   const currentWidth = useCurrentWidth();
 
   const submitError = isError(bookingStatus);

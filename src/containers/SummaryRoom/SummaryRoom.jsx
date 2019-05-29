@@ -5,7 +5,15 @@ import uiConfig, { getPluralisation, getSingular } from 'config/ui';
 
 import { DropDownMenu } from 'components/elements';
 
-import { getFromDateFormat, getToDateFormat, isEmptyOrNil, getNumberOfDays, getFromToFromDates } from 'utils';
+import {
+  getFromDateFormat,
+  getToDateFormat,
+  isEmptyOrNil,
+  getNumberOfDays,
+  getFromToFromDates,
+  replaceAccommodationWithRoom,
+  groupErrorsByRoomIndex,
+} from 'utils';
 
 import { guestLine, getTotalGuests, getAgeSplits } from './SummaryRoom.utils';
 import connect from './SummaryRoom.state';
@@ -23,11 +31,11 @@ import {
   RoomName,
   RoomPrice,
   RoomRow,
+  Error,
 } from './SummaryRoom.styles';
 
-// eslint-disable-next-line react/prop-types
-const renderSupplement = ({ title, total, quantity }) => (
-  <ExtraSupplement>
+const renderSupplement = ({ product, title, total, quantity }) => (
+  <ExtraSupplement key={product}>
     {quantity} x {title} - (<ExtraSupplementRate>{total}</ExtraSupplementRate>)
   </ExtraSupplement>
 );
@@ -37,9 +45,8 @@ const renderSupplements = pipe(
   flatten
 );
 
-// eslint-disable-next-line react/prop-types
-const renderMealPlan = ({ title, quantity }) => (
-  <RoomRow>
+const renderMealPlan = ({ product, title, quantity }) => (
+  <RoomRow key={product}>
     {getSingular('mealPlan')}: {quantity} x {title}
   </RoomRow>
 );
@@ -47,6 +54,13 @@ const renderMealPlan = ({ title, quantity }) => (
 const renderMealPlans = pipe(
   map(map(renderMealPlan)),
   flatten
+);
+
+const renderError = message => <Error key={message}>{message}</Error>;
+const renderErrors = pipe(
+  groupErrorsByRoomIndex,
+  replaceAccommodationWithRoom,
+  map(map(renderError))
 );
 
 export const SummaryRoom = ({
@@ -63,6 +77,7 @@ export const SummaryRoom = ({
   photo,
   total,
   potentialBooking,
+  errors,
   ...props
 }) => {
   const dates = getFromToFromDates(dateArr);
@@ -71,6 +86,8 @@ export const SummaryRoom = ({
 
   const onRemoveRoom = () => onRemove(hotelUuid, id, true);
   const onEditRoom = () => onEdit({ id });
+
+  const hasErrors = gt(length(errors), 1);
 
   return (
     (details && dates && gt(length(guests), 0) && (
@@ -83,8 +100,8 @@ export const SummaryRoom = ({
         <RoomDetails>
           <RoomRow>
             <RoomColumn>
-              <RoomName>
-                {prop('name', details)} ({length(potentialBooking)})
+              <RoomName data-errors={hasErrors}>
+                {prop('name', details)} ({length(potentialBooking)}) {hasErrors && '*'}
               </RoomName>
               <RoomDetail>
                 {datesCount} {getPluralisation('night', datesCount)} | {getFromDateFormat(dates)}{' '}
@@ -108,6 +125,7 @@ export const SummaryRoom = ({
           </RoomRow>
           <RoomRow>{renderSupplements(supplements)}</RoomRow>
           <RoomRow>{renderMealPlans(mealPlans)}</RoomRow>
+          {renderErrors(errors)}
         </RoomDetails>
       </Room>
     )) ||

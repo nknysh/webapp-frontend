@@ -6,6 +6,7 @@ import {
   getPotentialBookingRoomMealPlans,
   getPotentialBookingRoomSupplements,
   getPotentialBookingByRoomId,
+  getBookingErrorsByRoomId,
 } from 'store/modules/booking/selectors';
 import { getHotelRoom, getHotelProductAgeRanges, getHotelsRoomsPhotos } from 'store/modules/hotels/selectors';
 
@@ -18,6 +19,7 @@ export const mapStateToProps = (state, { hotelUuid, id }) => ({
   total: getBookingRoomTotal(state, hotelUuid, id),
   photos: getHotelsRoomsPhotos(state, hotelUuid, id),
   potentialBooking: getPotentialBookingByRoomId(state, hotelUuid, id),
+  errors: getBookingErrorsByRoomId(state, hotelUuid, id),
 });
 
 export default connect(mapStateToProps);

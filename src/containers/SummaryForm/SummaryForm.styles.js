@@ -103,3 +103,17 @@ export const SummaryFormActions = styled.div`
 `;
 
 export const SummaryFormButton = styled(Button)``;
+
+export const Errors = styled.div`
+  text-align: center;
+  color: ${theme.backgrounds.secondary};
+`;
+
+export const Error = styled.p`
+  background: ${theme.error};
+  display: block;
+  margin: 0 0 ${theme.gutter / 2}px;
+  padding: ${theme.gutter}px;
+  text-transform: uppercase;
+  font-weight: ${theme.fonts.bold};
+`;

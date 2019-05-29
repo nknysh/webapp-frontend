@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
 import theme from 'styles/theme';
@@ -52,6 +52,12 @@ export const RoomP = styled.p`
 
 export const RoomName = styled(RoomP)`
   font-weight: ${theme.fonts.bold};
+
+  ${({ ['data-errors']: hasErrors }) =>
+    hasErrors &&
+    css`
+      color: ${theme.error};
+    `}
 `;
 
 export const RoomDetail = styled(RoomP)``;
@@ -93,4 +99,8 @@ export const RoomImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+export const Error = styled(RoomRow)`
+  color: ${theme.error};
 `;

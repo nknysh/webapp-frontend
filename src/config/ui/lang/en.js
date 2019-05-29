@@ -63,6 +63,9 @@ export default {
     squareMeters: 'Square Meters',
     addons: 'Addons',
     onRequest: 'On Request',
+    out: 'Outbound',
+    in: 'Inbound',
+    notReady: 'Booking Not Ready',
 
     yes: 'Yes',
     no: 'No',

@@ -2,7 +2,11 @@ import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
 import { updateBooking } from 'store/modules/booking/actions';
-import { getBookingRoomDatesById, getBookingRoomMealPlans } from 'store/modules/booking/selectors';
+import {
+  getBookingRoomDatesById,
+  getBookingRoomMealPlans,
+  getBookingErrorsByRoomId,
+} from 'store/modules/booking/selectors';
 
 import {
   getHotelRoomName,
@@ -18,6 +22,7 @@ export const mapStateToProps = (state, { hotelUuid, id }) => ({
   rates: getHotelRoomRates(state, hotelUuid, id),
   options: getHotelRoomOptions(state, hotelUuid, id),
   mealPlans: getBookingRoomMealPlans(state, hotelUuid, id),
+  errors: getBookingErrorsByRoomId(state, hotelUuid, id),
 });
 
 export const mapDispatchToProps = dispatch => ({

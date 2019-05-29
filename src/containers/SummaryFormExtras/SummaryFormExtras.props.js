@@ -4,16 +4,16 @@ import { noop } from 'utils';
 
 export const propTypes = {
   total: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  transfers: PropTypes.object,
+  transfers: PropTypes.array,
   booking: PropTypes.object,
-  groundServices: PropTypes.object,
+  groundServices: PropTypes.array,
   onChange: PropTypes.func,
 };
 
 export const defaultProps = {
-  transfers: {},
+  transfers: [],
   booking: {},
-  groundServices: {},
+  groundServices: [],
   onChange: noop,
   total: 0,
 };
