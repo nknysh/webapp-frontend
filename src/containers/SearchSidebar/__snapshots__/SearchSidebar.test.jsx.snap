@@ -48,6 +48,7 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       features={Array []}
       onChange={[Function]}
       onReset={[Function]}
+      prices={Array []}
       regions={
         Array [
           "foo",
@@ -109,6 +110,7 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       features={Array []}
       onChange={[Function]}
       onReset={[Function]}
+      prices={Array []}
       regions={Array []}
       searchQuery={Object {}}
       starRatings={Array []}
