@@ -2,9 +2,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, prop, values } from 'ramda';
 
+import { IndexTypes } from 'config/enums';
 import { Loader, Search } from 'components';
 import { useFetchData } from 'effects';
-import { buildQueryString, IndexTypes } from 'utils';
+import { buildQueryString } from 'utils';
 
 import { propTypes, defaultProps } from './SearchBar.props';
 import { StyledSearchBar } from './SearchBar.styles';

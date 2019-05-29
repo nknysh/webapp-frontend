@@ -4,7 +4,8 @@ import { __, set, view, path, prop, propOr, lensPath, pipe, equals, map, merge, 
 import { ToolTip } from 'components/elements';
 
 import uiConfig, { getSingular, getPlural } from 'config/ui';
-import { RegionSelectTypes, MealPlanSelectTypes, isEmptyOrNil } from 'utils';
+import { MealPlanSelectTypes, RegionSelectTypes } from 'config/enums';
+import { isEmptyOrNil } from 'utils';
 
 import { propTypes, defaultProps } from './SearchFilters.props';
 import {
@@ -167,9 +168,9 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
       <SectionField>
         <MealPlanRadioButton
           name="mealPlan"
-          value={getSearchQueryData(filtersMealPlanLens) || MealPlanSelectTypes.BB}
+          value={getSearchQueryData(filtersMealPlanLens) || ''}
           onChange={setMealPlanToSearchQuery}
-          options={mealPlanOptions}
+          options={[{ label: 'Any', value: '' }, ...mealPlanOptions]}
         />
       </SectionField>
 
