@@ -33,6 +33,7 @@ export const isArray = is(Array);
 export const isObject = is(Object);
 export const isFunction = is(Function);
 export const isString = is(String);
+export const isNaN = equals(NaN);
 
 export const isEmptyOrNil = either(isNil, isEmpty);
 

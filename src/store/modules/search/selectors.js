@@ -79,3 +79,8 @@ export const getSearchFiltersFeatures = pipe(
   getSearchResultsMeta,
   pathOr([], ['filters', 'amenities'])
 );
+
+export const getSearchFiltersPrices = createSelector(
+  getSearchResultsMeta,
+  pathOr([], ['filters', 'prices'])
+);

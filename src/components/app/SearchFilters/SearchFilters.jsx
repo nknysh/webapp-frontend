@@ -4,7 +4,7 @@ import { __, set, view, path, prop, propOr, lensPath, pipe, equals, map, merge, 
 import { ToolTip } from 'components/elements';
 
 import uiConfig, { getSingular, getPlural } from 'config/ui';
-import { RegionSelectTypes, MealPlanSelectTypes, isEmptyOrNil } from 'utils';
+import { RegionSelectTypes, MealPlanSelectTypes, isEmptyOrNil, isNaN } from 'utils';
 
 import { propTypes, defaultProps } from './SearchFilters.props';
 import {
@@ -44,9 +44,12 @@ const renderMealPlanTip = value => (
   </MealTypeTip>
 );
 
-export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features }) => {
+export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features, prices }) => {
   const updateSearchQuery = set(__, __, searchQuery);
   const getSearchQueryData = view(__, searchQuery);
+
+  const priceStart = isNaN(Number(head(prices))) ? head(defaultPriceRange) : Number(head(prices));
+  const priceEnd = isNaN(Number(head(prices))) ? last(defaultPriceRange) : Number(last(prices));
 
   const setRegionsTypeToSearchQuery = pipe(
     path(['currentTarget', 'value']),
@@ -139,17 +142,17 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
         <p>{path(['taglines', 'pricesIn'], uiConfig)}</p>
         <PriceRangeLabels>
           <PriceRangeLabel>
-            {path(['labels', 'from'], uiConfig)} <PriceRangeLabelPrice>{head(defaultPriceRange)}</PriceRangeLabelPrice>
+            {path(['labels', 'from'], uiConfig)} <PriceRangeLabelPrice>{priceStart}</PriceRangeLabelPrice>
           </PriceRangeLabel>
           <PriceRangeLabel data-align="right">
-            {path(['labels', 'to'], uiConfig)} <PriceRangeLabelPrice>{last(defaultPriceRange)}</PriceRangeLabelPrice>
+            {path(['labels', 'to'], uiConfig)} <PriceRangeLabelPrice>{priceEnd}</PriceRangeLabelPrice>
           </PriceRangeLabel>
         </PriceRangeLabels>
         <PriceRange
           value={getSearchQueryData(filtersPricesLens) || defaultPriceRange}
           onAfterChange={setPriceRangeToSearchQuery}
-          min={head(defaultPriceRange)}
-          max={last(defaultPriceRange)}
+          min={priceStart}
+          max={priceEnd}
         />
       </SectionField>
 
