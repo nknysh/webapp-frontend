@@ -1,7 +1,9 @@
 import { values } from 'ramda';
 import lunr from 'lunr';
 
-import { IndexTypes, RegionSelectTypes, searchByQueries } from './search';
+import { IndexTypes, RegionSelectTypes } from 'config/enums';
+
+import { searchByQueries } from './search';
 
 describe('search utils', () => {
   describe('IndexTypes', () => {
