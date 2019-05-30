@@ -21,7 +21,7 @@ import { toDate } from 'utils';
 const reduceDisabledDays = (accum, [key, dayRate]) => {
   if (!dayRate) return append(key, accum);
 
-  const hasRate = propSatisfies(complement(isNilOrEmpty), 'rate');
+  const hasRate = propSatisfies(complement(isNilOrEmpty), 'price');
 
   return hasRate(dayRate) ? accum : append(key, accum);
 };
