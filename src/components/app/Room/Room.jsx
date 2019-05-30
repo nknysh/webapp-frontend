@@ -38,7 +38,7 @@ const isNotZero = complement(equals(0));
 const getVisibleRate = pipe(
   values,
   last,
-  prop('rate')
+  prop('price')
 );
 
 const renderImgOffer = bestRate =>

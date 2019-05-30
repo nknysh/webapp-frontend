@@ -177,7 +177,7 @@ export const SummaryRoomEdit = ({
     return (
       <span>
         <div>{formatDate(day, 'D')}</div>
-        {dayRate && <DatePrice>{prop('rate', dayRate)}</DatePrice>}
+        {dayRate && <DatePrice>{prop('price', dayRate)}</DatePrice>}
       </span>
     );
   };
