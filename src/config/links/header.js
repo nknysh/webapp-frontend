@@ -20,20 +20,9 @@ export default {
       href: '/',
     },
     {
-      title: 'Proposals',
-      href: '/proposals',
-    },
-    {
       title: 'Bookings',
-      href: '/bookings',
-    },
-    {
-      title: 'Holds',
-      href: '/holds',
-    },
-    {
-      title: 'Calendar',
-      href: '/calendar',
+      href: `${ADMIN_BASE_URL}/bookings`,
+      hard: true,
     },
   ],
   sr: [
