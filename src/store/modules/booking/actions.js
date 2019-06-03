@@ -8,6 +8,7 @@ import {
   lensPath,
   lensProp,
   mergeDeepRight,
+  mergeDeepLeft,
   omit,
   over,
   partialRight,
@@ -194,17 +195,21 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
 
   const builderProps = ['errors', 'currency', 'potentialBooking', 'availableProductSets', 'hotel', 'totals'];
 
+  const taMarginAmount = pathOr(0, ['margin', 'value'], booking);
+  const taMarginType = pathOr('percentage', ['margin', 'type'], booking);
+
   const bookingBuild = getBookingForBuilder(state, id);
   const bookingHash = prop('bookingHash', booking);
   const bookingInformation = pipe(
-    omit([...builderProps, 'products', 'canBeBooked', 'mustStop', 'bookingHash']),
+    omit([...builderProps, 'products', 'canBeBooked', 'mustStop', 'bookingHash', 'margin', 'payment']),
     over(
       lensProp('specialRequests'),
       pipe(
         pickBy(equals(true)),
         keys
       )
-    )
+    ),
+    mergeDeepLeft({ taMarginAmount, taMarginType })
   )(booking);
 
   const finalPayload = {
