@@ -180,6 +180,26 @@ export const getBookingProductSets = createSelector(
   prop('availableProductSets')
 );
 
+export const getBookingBuildTotals = createSelector(
+  getBookingByHotelId,
+  prop('totals')
+);
+
+export const getBookingBuildCurrency = createSelector(
+  getBookingByHotelId,
+  prop('totals')
+);
+
+export const getBookingHash = createSelector(
+  getBookingByHotelId,
+  prop('bookingHash')
+);
+
+export const getBookingHotel = createSelector(
+  getBookingByHotelId,
+  prop('hotel')
+);
+
 export const getBookingReady = (state, hotelId) => {
   const booking = getBookingByHotelId(state, hotelId);
   const canBeBooked = prop('canBeBooked', booking);
