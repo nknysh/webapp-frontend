@@ -4,12 +4,16 @@ import {
   complement,
   equals,
   has,
+  keys,
   lensPath,
+  lensProp,
   mergeDeepRight,
   omit,
+  over,
   partialRight,
   path,
   pathOr,
+  pickBy,
   pipe,
   prop,
   propSatisfies,
@@ -30,7 +34,7 @@ import { setHotels } from 'store/modules/hotels/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 import { getSuccessActionName } from 'store/utils';
 
-import { getBookingByHotelId, getBookingForBuilder, getPotentialBooking } from './selectors';
+import { getBookingByHotelId, getBookingForBuilder } from './selectors';
 
 export const BOOKING_CHECKS = 'BOOKING_CHECKS';
 export const BOOKING_REMOVE = 'BOOKING_REMOVE';
@@ -186,14 +190,35 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
   dispatch(updateBooking(id, payload));
 
   const state = getState();
-  const booking = getPotentialBooking(state, id);
+  const booking = getBookingByHotelId(state, id);
 
-  dispatch(submitBookingAction(booking));
+  const builderProps = ['errors', 'currency', 'potentialBooking', 'availableProductSets', 'hotel', 'totals'];
+
+  const bookingBuild = getBookingForBuilder(state, id);
+  const bookingHash = prop('bookingHash', booking);
+  const bookingInformation = pipe(
+    omit([...builderProps, 'products', 'canBeBooked', 'mustStop', 'bookingHash']),
+    over(
+      lensProp('specialRequests'),
+      pipe(
+        pickBy(equals(true)),
+        keys
+      )
+    )
+  )(booking);
+
+  const finalPayload = {
+    bookingBuild,
+    bookingHash,
+    bookingInformation,
+  };
+
+  dispatch(submitBookingAction(finalPayload));
 
   try {
     const {
       data: { data },
-    } = await client.createBooking({ data: { attributes: { id, ...booking } } });
+    } = await client.createBooking({ data: { attributes: finalPayload } });
 
     dispatch(updateBooking(id, { reservationId: prop('uuid', data) }));
     dispatch(successAction(BOOKING_SUBMIT, data));
