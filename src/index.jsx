@@ -5,13 +5,14 @@ import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import OfflinePluginRuntime from 'offline-plugin/runtime';
 
+import './config/i18n';
+
 import store from 'store';
 
 import { APP_ENV } from 'config';
 import headerMeta from 'config/meta';
 import headerLink from 'config/link';
 import entryRoutes from 'routing/entry';
-
 import { getRoutes } from 'routing';
 
 import { GlobalStyle, GlobalFonts } from 'styles/global';

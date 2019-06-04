@@ -1,12 +1,12 @@
 import React from 'react';
-import { compose, prop } from 'ramda';
+import { compose } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import theme from 'styles/theme';
 import { Markdown } from 'components';
 import { useCurrentWidth } from 'effects';
 import { toDate } from 'utils';
 
-import config from 'config/ui';
 import footerText from 'config/ui/footer.md';
 import logo from 'public/assets/img/footer-logo.png';
 
@@ -26,7 +26,9 @@ import connect from './Footer.state';
 const currentDate = toDate();
 
 export const Footer = ({ menu, className }) => {
+  const { t } = useTranslation();
   const currentWidth = useCurrentWidth();
+
   const isMobile = currentWidth <= theme.breakpoints.desktop;
 
   const footerMenu = <FooterMenu links={menu} />;
@@ -47,7 +49,7 @@ export const Footer = ({ menu, className }) => {
 
           <FooterColumn flex align="flex-end">
             <FooterCopyright>
-              {logo && <img src={logo} alt={prop('title', config)} />}
+              {logo && <img src={logo} alt={t('title')} />}
               <FooterCopyrightText>&copy; {currentDate.getFullYear()} Pure Escapes</FooterCopyrightText>
             </FooterCopyright>
           </FooterColumn>

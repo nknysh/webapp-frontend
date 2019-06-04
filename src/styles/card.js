@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
-import uiConfig from 'config/ui';
-
 import theme from './theme';
+import { withCurrency } from './elements';
 import { Heading2 } from './typography';
 
 export const Card = styled.article`
@@ -44,11 +43,8 @@ export const CardChipSecondary = styled(CardChip)`
 `;
 
 export const CardPrice = styled.span`
+    ${withCurrency}
     font-size: ${theme.fonts.sizes.big}px;
-
-    :before {
-        content: '${uiConfig.currency.symbol}';
-    }
 `;
 
 export const CardDetails = styled.div`

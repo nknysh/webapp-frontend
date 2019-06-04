@@ -58,6 +58,7 @@ export const Selection = styled(NumberSelect)`
   position: absolute;
   bottom: 0;
   width: 100%;
+  text-transform: uppercase;
 
   .add,
   .minus {

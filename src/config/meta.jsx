@@ -1,8 +1,8 @@
 import React from 'react';
-import { map, prop } from 'ramda';
+import { map } from 'ramda';
 import hash from 'object-hash';
+import i18n from 'config/i18n';
 
-import uiConfig from 'config/ui';
 import theme from 'styles/theme';
 
 import msApplicationConfig from 'public/browserconfig.xml';
@@ -10,7 +10,7 @@ import msApplicationConfig from 'public/browserconfig.xml';
 export const meta = [
   {
     name: 'Description',
-    content: prop('description', uiConfig),
+    content: i18n.t('description'),
   },
   {
     name: 'msapplication-TileColor',

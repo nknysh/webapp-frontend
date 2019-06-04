@@ -11,6 +11,7 @@ import {
   join,
   map,
   mapObjIndexed,
+  partial,
   partialRight,
   path,
   pathOr,
@@ -23,12 +24,12 @@ import {
   values as Rvalues,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
+import { useTranslation } from 'react-i18next';
 
 import SummaryFormMargin from 'components/app/SummaryFormMargin';
 import { RadioButton } from 'components/elements';
 
 import { ProductTypes } from 'config/enums';
-import uiConfig, { getPlural } from 'config/ui';
 import { isString } from 'utils';
 
 import connect from './SummaryFormExtras.state';
@@ -59,7 +60,7 @@ const renderOption = ({ total, title, quantity = 0 }) => (
   </OptionRate>
 );
 
-const renderOptionSummary = (accum, { total, products, breakdown, selected, ...rest }) =>
+const renderOptionSummary = (t, accum, { total, products, breakdown, selected, ...rest }) =>
   selected
     ? append(
         <AddonSummary key={join(',', products)}>
@@ -67,9 +68,7 @@ const renderOptionSummary = (accum, { total, products, breakdown, selected, ...r
             {map(
               ({ product, title }) => (
                 <span key={product}>
-                  {title}{' '}
-                  {path(['meta', 'direction'], rest) &&
-                    `- ${path(['labels', path(['meta', 'direction'], rest)], uiConfig)}`}
+                  {title} {path(['meta', 'direction'], rest) && `- ${t(`labels.${path(['meta', 'direction'], rest)}`)}`}
                 </span>
               ),
               breakdown
@@ -91,14 +90,16 @@ export const SummaryFormExtras = ({
   groundServices,
   values,
 }) => {
+  const { t } = useTranslation();
+
   const renderExtraOptions = (type, productType, products) => {
     if (summaryOnly) {
-      const summaries = reduce(renderOptionSummary, [], products);
+      const summaries = reduce(partial(renderOptionSummary, [t]), [], products);
 
       return (
         !isNilOrEmpty(summaries) && (
           <ExtraSummary>
-            <ExtraSummaryTitle>{getPlural(type)}:</ExtraSummaryTitle>
+            <ExtraSummaryTitle>{t(`${type}_plural`)}:</ExtraSummaryTitle>
             <AddonSummaries>{summaries}</AddonSummaries>
           </ExtraSummary>
         )
@@ -117,7 +118,7 @@ export const SummaryFormExtras = ({
     return (
       !isNilOrEmpty(options) && (
         <Extra>
-          <Title>{getPlural(type)}</Title>
+          <Title>{t(`${type}_plural`)}</Title>
           <RadioButton
             name={productType}
             onChange={partialRight(onChange, [true])}
@@ -167,13 +168,13 @@ export const SummaryFormExtras = ({
       (summaryOnly ? (
         !isNilOrEmpty(filter(propEq('selected', true), products)) && (
           <ExtraSummary>
-            <ExtraSummaryTitle>{getPlural(type)}:</ExtraSummaryTitle>
+            <ExtraSummaryTitle>{t(`${type}_plural`)}:</ExtraSummaryTitle>
             <AddonSummaries>{selectElements}</AddonSummaries>
           </ExtraSummary>
         )
       ) : (
         <Extra>
-          <Title>{getPlural(type)}</Title>
+          <Title>{t(`${type}_plural`)}</Title>
           {selectElements}
         </Extra>
       ))
@@ -186,7 +187,7 @@ export const SummaryFormExtras = ({
 
       const renderOneWayOption = breakdownData => (
         <Fragment key={prop('uuid', breakdownData)}>
-          {renderOption(breakdownData)} - {path(['labels', direction], uiConfig)}
+          {renderOption(breakdownData)} - {t(`labels.${direction}`)}
         </Fragment>
       );
 
@@ -211,7 +212,7 @@ export const SummaryFormExtras = ({
 
   const renderMargin = () => (
     <Extra>
-      <Title>{path(['labels', 'addCommission'], uiConfig)}</Title>
+      <Title>{t('labels.addCommission')}</Title>
       <SummaryFormMargin
         checked={pathOr(true, ['margin', 'applied'], values)}
         onChange={onChange}

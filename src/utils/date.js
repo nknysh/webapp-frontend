@@ -17,7 +17,7 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { differenceInCalendarDays, format, startOfMonth, endOfMonth, eachDay, subDays } from 'date-fns';
 
-import uiConfig from 'config/ui';
+import config from 'config';
 
 export const toDate = date => (date ? new Date(date) : new Date());
 
@@ -52,7 +52,7 @@ export const getFromDateFormat = ({ from, to }) => {
 
 export const getToDateFormat = ({ to }) => ` - ${format(to, 'D MMM YYYY')}`;
 
-export const formatDate = (date, pattern = path(['dates', 'defaultFormat'], uiConfig)) => format(date, pattern);
+export const formatDate = (date, pattern = path(['defaults', 'dateFormat'], config)) => format(date, pattern);
 
 export const getStartOfMonth = pipe(
   startOfMonth,

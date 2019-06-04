@@ -16,6 +16,7 @@ import {
   when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
+import { useTranslation } from 'react-i18next';
 
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
 import SummaryRoom from 'containers/SummaryRoom';
@@ -29,7 +30,6 @@ import { getFormPath, mapWithIndex } from 'utils';
 import { isActive } from 'store/common';
 
 import { ProductTypes } from 'config/enums';
-import uiConfig from 'config/ui';
 
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
@@ -67,12 +67,13 @@ export const SummaryForm = ({
   saving,
   status,
   summaryOnly,
-  totals: { oneOrMoreItemsOnRequest },
+  isOnRequest,
   total,
   updateBooking,
   updateBookingExtras,
   errors,
 }) => {
+  const { t } = useTranslation();
   const { products, margin } = booking;
   const { name, uuid: hotelUuid } = hotel;
   const Accommodation = propOr({}, ProductTypes.ACCOMMODATION, products);
@@ -163,16 +164,18 @@ export const SummaryForm = ({
 
   const renderTotal = () => (
     <Section>
-      <Total>{oneOrMoreItemsOnRequest ? path(['labels', 'onRequest'], uiConfig) : total}</Total>
-      <Text>{path(['labels', 'includesTaxes'], uiConfig)}</Text>
-      {saving && (
+      <Total data-request={isOnRequest}>{isOnRequest ? t('labels.onRequest') : total}</Total>
+      {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
+      {saving && !isOnRequest && (
         <Text>
-          {path(['labels', 'savingOfPrefix'], uiConfig)}
+          {t('labels.savingOfPrefix')}
           <Saving>{saving}</Saving>
-          {path(['labels', 'savingOfSuffix'], uiConfig)}
+          {t('labels.savingOfSuffix')}
         </Text>
       )}
-      {summaryOnly && <SummaryFormMargin type={marginType} value={marginValue} total={total} summaryOnly={true} />}
+      {summaryOnly && !isOnRequest && (
+        <SummaryFormMargin type={marginType} value={marginValue} total={total} summaryOnly={true} />
+      )}
     </Section>
   );
 
@@ -193,7 +196,7 @@ export const SummaryForm = ({
             {!summaryOnly && (
               <SummaryFormActions>
                 <SummaryFormButton disabled={!canBook} type="submit">
-                  {path(['buttons', 'bookNow'], uiConfig)}
+                  {isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow')}
                 </SummaryFormButton>
               </SummaryFormActions>
             )}
@@ -206,7 +209,7 @@ export const SummaryForm = ({
   return (
     <StyledSummary className={className}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
-        <Title>{path(['labels', 'totalNet'], uiConfig)}</Title>
+        <Title>{t('labels.totalNet')}</Title>
         {renderTotal()}
         {renderHotelName(name)}
         <Rooms data-summary={summaryOnly}>{renderRooms(Accommodation)}</Rooms>

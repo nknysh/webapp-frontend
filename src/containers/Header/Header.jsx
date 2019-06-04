@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { compose, lensProp, set, view, pipe, values, path, prop } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
-import config from 'config/ui';
 import headerLinks from 'config/links/header';
 
 import { Modal } from 'components';
@@ -30,6 +30,8 @@ const createLinkLens = lensProp('createAccount');
 const loginLinkLens = lensProp(contextTypes.LOGIN);
 
 export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
+  const { t } = useTranslation();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContext, setModalContext] = useState('');
@@ -88,7 +90,7 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   return (
     <StyledHeader className={className}>
       <HeaderContainer>
-        <HeaderLogo to="/">{logo && <img src={logo} alt={prop('title', config)} />}</HeaderLogo>
+        <HeaderLogo to="/">{logo && <img src={logo} alt={t('title')} />}</HeaderLogo>
         <HeaderMenuArea>
           <HeaderMobileMenuButton onClick={onClickToggle}>menu</HeaderMobileMenuButton>
           <HeaderMenu {...headerMenuProps}>

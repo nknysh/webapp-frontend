@@ -1,0 +1,1 @@
+We will confirm your booking and be in touch.

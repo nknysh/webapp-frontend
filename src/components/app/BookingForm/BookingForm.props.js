@@ -8,6 +8,7 @@ export const propTypes = {
   renderSubmitButton: PropTypes.func,
   validateOnBlur: PropTypes.bool,
   validateOnChange: PropTypes.bool,
+  children: PropTypes.any,
 };
 
 export const defaultProps = {

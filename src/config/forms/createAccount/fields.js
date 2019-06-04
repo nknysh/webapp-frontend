@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
-import { path, pick, prop, omit } from 'ramda';
+import { pick, prop, omit } from 'ramda';
+import i18n from 'config/i18n';
 
 import { RadioButton, Select } from 'components/elements';
 
 import { arrayToKeyValueObject } from 'utils';
 
-import uiConfig from 'config/ui';
 import formConfig from 'config/forms';
 import countriesData from 'config/data/countries';
 import promotedCountriesData from 'config/data/countries-promoted';
@@ -42,11 +42,11 @@ export default {
     props: {
       options: [
         {
-          label: path(['labels', 'yes'], uiConfig),
+          label: i18n.t('labels.yes'),
           value: 'true',
         },
         {
-          label: path(['labels', 'no'], uiConfig),
+          label: i18n.t('labels.no'),
           value: 'false',
         },
       ],

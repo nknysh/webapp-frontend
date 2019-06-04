@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { compose, path, map, lensPath, set, values, equals } from 'ramda';
+import { compose, map, lensPath, set, values, equals } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
-import uiConfig from 'config/ui';
 import userPanelLinks from 'config/links/user-panel';
 
 import { DropDownMenu, Link } from 'components';
@@ -36,6 +36,7 @@ export const UserPanel = ({
 }) => {
   if (!isAuthenticated || !currentUser) return null;
 
+  const { t } = useTranslation();
   const [logout, setLogout] = useState(false);
 
   const { firstName, lastName } = currentUser;
@@ -52,12 +53,7 @@ export const UserPanel = ({
   const links = set(logoutClickLens, onLogoutClick, userPanelLinks);
 
   if (logout && isSending(requestStatus))
-    return (
-      <DropDownMenu
-        showArrow={false}
-        title={<Text data-placeholder>{path(['messages', 'loggingOut'], uiConfig)}</Text>}
-      />
-    );
+    return <DropDownMenu showArrow={false} title={<Text data-placeholder>{t('messages.loggingOut')}</Text>} />;
 
   return (
     <StyledUserPanel>

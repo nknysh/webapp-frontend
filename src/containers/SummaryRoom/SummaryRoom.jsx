@@ -1,8 +1,7 @@
 import React from 'react';
-import { gt, compose, length, path, prop, map, flatten, pipe } from 'ramda';
+import { gt, compose, length, prop, map, flatten, pipe } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
-
-import uiConfig, { getPluralisation, getSingular } from 'config/ui';
+import { useTranslation } from 'react-i18next';
 
 import { DropDownMenu } from 'components/elements';
 
@@ -45,16 +44,18 @@ const renderSupplements = pipe(
   flatten
 );
 
-const renderMealPlan = ({ product, title, quantity }) => (
+// eslint-disable-next-line
+const renderMealPlan = t => ({ product, title, quantity }) => (
   <RoomRow key={product}>
-    {getSingular('mealPlan')}: {quantity} x {title}
+    {t('mealPlan')}: {quantity} x {title}
   </RoomRow>
 );
 
-const renderMealPlans = pipe(
-  map(map(renderMealPlan)),
-  flatten
-);
+const renderMealPlans = t =>
+  pipe(
+    map(map(renderMealPlan(t))),
+    flatten
+  );
 
 const renderError = message => <Error key={message}>{message}</Error>;
 const renderErrors = pipe(
@@ -80,6 +81,8 @@ export const SummaryRoom = ({
   errors,
   ...props
 }) => {
+  const { t } = useTranslation();
+
   const dates = getFromToFromDates(dateArr);
   const datesCount = getNumberOfDays(dates);
   const ageSplits = getAgeSplits(guests);
@@ -104,8 +107,7 @@ export const SummaryRoom = ({
                 {prop('name', details)} ({length(potentialBooking)}) {hasErrors && '*'}
               </RoomName>
               <RoomDetail>
-                {datesCount} {getPluralisation('night', datesCount)} | {getFromDateFormat(dates)}{' '}
-                {getToDateFormat(dates)}
+                {datesCount} {t('night', { count: datesCount })} | {getFromDateFormat(dates)} {getToDateFormat(dates)}
               </RoomDetail>
             </RoomColumn>
             <RoomColumn data-shrink={true}>
@@ -114,8 +116,8 @@ export const SummaryRoom = ({
             {canEdit && (
               <RoomColumn data-shrink={true}>
                 <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
-                  <span onClick={onEditRoom}>{path(['buttons', 'edit'], uiConfig)}</span>
-                  <span onClick={onRemoveRoom}>{path(['buttons', 'remove'], uiConfig)}</span>
+                  <span onClick={onEditRoom}>{t('buttons.edit')}</span>
+                  <span onClick={onRemoveRoom}>{t('buttons.remove')}</span>
                 </DropDownMenu>
               </RoomColumn>
             )}
@@ -124,7 +126,7 @@ export const SummaryRoom = ({
             {guestLine('guest', getTotalGuests(guests))} {!isNilOrEmpty(ageSplits) && `(${ageSplits})`}
           </RoomRow>
           <RoomRow>{renderSupplements(supplements)}</RoomRow>
-          <RoomRow>{renderMealPlans(mealPlans)}</RoomRow>
+          <RoomRow>{renderMealPlans(t)(mealPlans)}</RoomRow>
           {renderErrors(errors)}
         </RoomDetails>
       </Room>

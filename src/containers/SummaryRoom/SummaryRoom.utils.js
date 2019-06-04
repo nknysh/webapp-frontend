@@ -19,7 +19,7 @@ import {
   equals,
 } from 'ramda';
 
-import { getPluralisation } from 'config/ui';
+import i18n from 'config/i18n';
 
 const reduceByAge = (accum, data) => {
   if (!data) return accum;
@@ -47,7 +47,7 @@ export const getTotalGuests = pipe(
   sum
 );
 
-export const guestLine = (type, amount) => gt(amount, 0) && `${amount} ${getPluralisation(type, amount) || type}`;
+export const guestLine = (type, count) => gt(count, 0) && `${count} ${i18n.t(type, { count }) || type}`;
 
 export const getAgeSplits = pipe(
   reduce(reduceByAge, {}),

@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import { __, path, lensProp, defaultTo, set, view, pipe, prop } from 'ramda';
+import { __, lensProp, defaultTo, set, view, pipe, prop } from 'ramda';
 import debounce from 'lodash.debounce';
+import { useTranslation } from 'react-i18next';
 
-import uiConfig from 'config/ui';
 import { DatePicker, Checkbox } from 'components/elements';
 import LodgingSelect from 'components/app/LodgingSelect';
 import { isLoading } from 'store/common';
@@ -27,6 +27,8 @@ export const Search = ({
   showSubmit,
   vertical,
 }) => {
+  const { t } = useTranslation();
+
   const updateSearchQuery = set(__, __, searchQuery);
   const getSearchQueryData = view(__, searchQuery);
 
@@ -56,12 +58,12 @@ export const Search = ({
         <SearchBarIndexSearch
           indexes={indexes}
           isLoading={isLoading(searchStatus)}
-          label={path(['labels', 'search'], uiConfig)}
+          label={t('labels.search')}
           limit={5}
           onChange={debounce(onSearch, 600)}
           onClick={onIndexSelect}
           openOnFocus={false}
-          placeholder={path(['placeholders', 'search'], uiConfig)}
+          placeholder={t('form.placeholders.search')}
           selectors={indexSelectors}
           searchPatterns={searchPatterns}
           value={prop('value', getSearchQueryData(destinationLens))}
@@ -69,21 +71,21 @@ export const Search = ({
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical} data-large={true}>
         <DatePicker
-          label={path(['labels', 'dates'], uiConfig)}
+          label={t('labels.dates')}
           onSelected={setSelectedDatesToSearchQuery}
           selectedValues={getSearchQueryData(datesLens)}
         />
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical}>
         <LodgingSelect
-          label={path(['labels', 'lodging'], uiConfig)}
+          label={t('labels.lodging')}
           onSelected={setLodgingsToSearchQuery}
           selectedValues={getSearchQueryData(lodgingLens)}
         />
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical} data-constrain={true}>
         <Checkbox
-          label={path(['labels', 'honeymooners'], uiConfig)}
+          label={t('labels.honeymooners')}
           onChange={(e, checked) => setHoneymoonersToSearchQuery(checked)}
           checked={defaultTo(false, getSearchQueryData(honeymoonersLens))}
         />
@@ -91,7 +93,7 @@ export const Search = ({
 
       {showSubmit && (
         <SearchBarSection data-vertical={vertical}>
-          <SearchBarButton onClick={onSubmit}>{path(['buttons', 'search'], uiConfig)}</SearchBarButton>
+          <SearchBarButton onClick={onSubmit}>{t('buttons.search')}</SearchBarButton>
         </SearchBarSection>
       )}
     </Fragment>

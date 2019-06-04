@@ -21,7 +21,7 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }, c
   />
 );
 
-export const BookingForm = forwardRef(({ showSubmit, renderSubmitButton, className, ...props }, ref) => {
+export const BookingForm = forwardRef(({ children, className, ...props }, ref) => {
   const onDateChange = curry((handler, name, type, value) => {
     handler({ target: { name, type, value } });
   });
@@ -160,7 +160,7 @@ export const BookingForm = forwardRef(({ showSubmit, renderSubmitButton, classNa
               </Columns>
               {renderField('comments', prop('comments', values), prop('comments', fields), formProps)}
             </FormSection>
-            {showSubmit && renderSubmitButton()}
+            {children}
           </Fragment>
         )}
       </Form>

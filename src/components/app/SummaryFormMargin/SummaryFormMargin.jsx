@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import { equals, path, prop } from 'ramda';
+import { equals } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
-import uiConfig from 'config/ui';
 import { Input, Select } from 'components/elements';
 import { formatPrice, calculatePercentage } from 'utils';
 
@@ -16,17 +16,13 @@ import {
 } from './SummaryFormMargin.styles';
 
 export const SummaryFormMargin = ({ onChange, checked, value, type, summaryOnly, total }) => {
+  const { t } = useTranslation();
   const typeIsPercent = equals('percentage', type);
 
   return (
     <Margin>
       {!summaryOnly && (
-        <MarginCheckbox
-          onChange={onChange}
-          checked={checked}
-          label={path(['labels', 'applyMargin'], uiConfig)}
-          name="margin[applied]"
-        />
+        <MarginCheckbox onChange={onChange} checked={checked} label={t('labels.applyMargin')} name="margin[applied]" />
       )}
       {checked && (
         <Fragment>
@@ -35,7 +31,10 @@ export const SummaryFormMargin = ({ onChange, checked, value, type, summaryOnly,
               onChange={onChange}
               disabled={!checked}
               value={type}
-              options={prop('marginOptions', uiConfig)}
+              options={{
+                percentage: t('percentage'),
+                flat: t('flatRate'),
+              }}
               name="margin[type]"
             />
             <Input type="number" name="margin[value]" value={value} min={0} onChange={onChange} disabled={!checked} />
@@ -44,15 +43,14 @@ export const SummaryFormMargin = ({ onChange, checked, value, type, summaryOnly,
       )}
       {(checked || summaryOnly) && (
         <MarginTotal>
-          {path(['labels', 'currentMargin'], uiConfig)}{' '}
+          {t('labels.currentMargin')}{' '}
           <MarginTotalAmount>
             {formatPrice(typeIsPercent ? calculatePercentage(total, value) : value)}
           </MarginTotalAmount>
           {typeIsPercent && (
             <Fragment>
               {', '}
-              <MarginPercentSuffix>{value}</MarginPercentSuffix>{' '}
-              {path(['labels', 'currentMarginPercentageSuffix'], uiConfig)}
+              <MarginPercentSuffix>{value}</MarginPercentSuffix> {t('labels.currentMarginPercentageSuffix')}
             </Fragment>
           )}
         </MarginTotal>

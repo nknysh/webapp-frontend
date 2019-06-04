@@ -1,14 +1,14 @@
-import React, { forwardRef, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { path, prop } from 'ramda';
 
 import { Form, FormField } from 'components/elements';
 
 import { getFormPath } from 'utils';
 
-import { fields, validation, data } from 'config/forms/bankTransfer';
+import { fields, validation } from 'config/forms/agreeTo';
 
-import { propTypes, defaultProps } from './BankTransferForm.props';
-import { TransferForm, StyledMarkdown } from './BankTransferForm.styles';
+import { propTypes, defaultProps } from './AgreeToForm.props';
+import { TransferForm } from './AgreeToForm.styles';
 
 const renderField = (name, value, field, { handleChange, handleBlur, errors }, checked) => (
   <FormField
@@ -22,10 +22,10 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }, c
   />
 );
 
-export const BankTransferForm = forwardRef(({ showSubmit, renderSubmitButton, className, ...props }, ref) => (
+export const AgreeToForm = ({ children, renderSubmitButton, className, buttonLabel, ...props }) => (
   <TransferForm className={className}>
-    <StyledMarkdown>{path(['content', 'info'], data)}</StyledMarkdown>
-    <Form ref={ref} validationSchema={validation} {...props}>
+    {children}
+    <Form validationSchema={validation} {...props}>
       {({ values, ...formProps }) => (
         <Fragment>
           {renderField(
@@ -35,15 +35,14 @@ export const BankTransferForm = forwardRef(({ showSubmit, renderSubmitButton, cl
             formProps,
             prop('agreeToTerms', values)
           )}
-          {showSubmit && renderSubmitButton()}
+          {renderSubmitButton(buttonLabel)}
         </Fragment>
       )}
     </Form>
   </TransferForm>
-));
+);
 
-BankTransferForm.displayName = 'BankTransferForm';
-BankTransferForm.propTypes = propTypes;
-BankTransferForm.defaultProps = defaultProps;
+AgreeToForm.propTypes = propTypes;
+AgreeToForm.defaultProps = defaultProps;
 
-export default BankTransferForm;
+export default AgreeToForm;

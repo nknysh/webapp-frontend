@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
-import { path, map, values } from 'ramda';
+import { map, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
-
-import uiConfig, { getSingular } from 'config/ui';
+import { useTranslation } from 'react-i18next';
 
 import { propTypes, defaultProps } from './Hotel.props';
 import {
@@ -43,6 +42,8 @@ export const Hotel = ({
   suitableForHoneymooners,
   ...props
 }) => {
+  const { t } = useTranslation();
+
   const sliderMain = useRef(null);
   const sliderNav = useRef(null);
 
@@ -80,11 +81,11 @@ export const Hotel = ({
                 <HotelStarRating>
                   <HotelStar>star</HotelStar>{' '}
                   <HotelStarText>
-                    {starRating} {getSingular('star')}
+                    {starRating} {t('star')}
                   </HotelStarText>
                 </HotelStarRating>
                 {suitableForHoneymooners && (
-                  <HotelSecondaryRating>{path(['taglines', 'suitableHoneymoon'], uiConfig)}</HotelSecondaryRating>
+                  <HotelSecondaryRating>{t('taglines.suitableHoneymoon')}</HotelSecondaryRating>
                 )}
               </HotelRating>
             </HotelDetailsColumnRight>

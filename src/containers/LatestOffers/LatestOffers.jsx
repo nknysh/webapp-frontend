@@ -1,12 +1,11 @@
 import React, { memo } from 'react';
-import { compose, pipe, path, map, values, when, complement, isNil, prop } from 'ramda';
+import { compose, pipe, map, values, when, complement, isNil, prop } from 'ramda';
 import hash from 'object-hash';
+import { useTranslation } from 'react-i18next';
 
 import { Loader, Offer, Slider } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
-
-import uiConfig from 'config/ui';
 
 import connect from './LatestOffers.state';
 import { propTypes, defaultProps } from './LatestOffers.props';
@@ -20,6 +19,8 @@ export const LatestOffers = ({
   getOffer,
   getHotelFeaturedPhoto,
 }) => {
+  const { t } = useTranslation();
+
   const offersFetched = useFetchData(offersStatus, fetchLatestOffers, [{ limit: 3 }]);
   const currentWidth = useCurrentWidth();
 
@@ -45,7 +46,7 @@ export const LatestOffers = ({
 
   return (
     <StyledLatestOffers>
-      <Title>{path(['sections', 'latestOffers'], uiConfig)}</Title>
+      <Title>{t('sections.latestOffers')}</Title>
       <Loader isLoading={!offersFetched}>{renderOfferContainer()}</Loader>
     </StyledLatestOffers>
   );

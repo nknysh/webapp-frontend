@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
-import { allPass, complement, compose, has, isEmpty, map, path, prop, values } from 'ramda';
+import { allPass, complement, compose, has, isEmpty, map, prop, values } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import { Loader, Tabs } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
-
-import uiConfig, { getPlural } from 'config/ui';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
@@ -24,7 +23,7 @@ import {
 
 const reloadIfMissing = complement(allPass([has('photos'), has('accommodationProducts')]));
 
-const renderBackButton = () => <Back to="/search">{path(['labels', 'backToSearch'], uiConfig)}</Back>;
+const renderBackButton = t => <Back to="/search">{t('labels.backToSearch')}</Back>;
 
 const renderBrochure = ({ uuid, displayName, url }) => (
   <Brochure key={uuid} href={url} target="_blank">
@@ -33,11 +32,13 @@ const renderBrochure = ({ uuid, displayName, url }) => (
 );
 
 export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, photos }) => {
+  const { t } = useTranslation();
+
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
 
   const renderBreadcrumbs = () => (
-    <StyledBreadcrumbs links={[{ label: renderBackButton() }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
+    <StyledBreadcrumbs links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
   );
 
   const renderHotel = () => <StyledHotel {...hotel} id={id} photos={photos} />;
@@ -47,7 +48,7 @@ export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, 
       <StyledSummary hotelUuid={id} />
       {!isEmpty(brochures) && (
         <AsideDetails>
-          <Title>{getPlural('brochure')}</Title>
+          <Title>{t('brochure_plural')}</Title>
           {values(map(renderBrochure, brochures))}
         </AsideDetails>
       )}
@@ -56,8 +57,8 @@ export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, 
 
   const renderTabs = () => (
     <Fragment>
-      {renderBackButton()}
-      <Tabs centered labels={[path(['labels', 'hotelDetails'], uiConfig), path(['labels', 'yourSelection'], uiConfig)]}>
+      {renderBackButton(t)}
+      <Tabs centered labels={[t('labels.hotelDetails'), t('labels.yourSelection')]}>
         {renderHotel()}
         {renderSummary()}
       </Tabs>
@@ -75,7 +76,7 @@ export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, 
   );
 
   return (
-    <Loader isLoading={!loaded} text={path(['messages', 'gettingHotel'], uiConfig)}>
+    <Loader isLoading={!loaded} text={t('messages.gettingHotel')}>
       <StyledHotelContainer>{isMobile(currentWidth) ? renderTabs() : renderFull()}</StyledHotelContainer>
     </Loader>
   );

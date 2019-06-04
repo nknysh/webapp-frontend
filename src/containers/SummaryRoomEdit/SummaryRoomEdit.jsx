@@ -13,7 +13,6 @@ import {
   length,
   map,
   mapObjIndexed,
-  path,
   pipe,
   prepend,
   prop,
@@ -23,9 +22,9 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { isThisMonth } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 import { ProductTypes } from 'config/enums';
-import uiConfig, { getPlural } from 'config/ui';
 
 import { isActive } from 'store/common';
 
@@ -103,6 +102,8 @@ export const SummaryRoomEdit = ({
   updateBooking,
   errors,
 }) => {
+  const { t } = useTranslation();
+
   const [formValues, setFormValues] = useState({ mealPlan, dates, guests });
   const [complete, setComplete] = useState(false);
   const [roomContext, setRoomContext] = useState(0);
@@ -209,7 +210,7 @@ export const SummaryRoomEdit = ({
             </EditFormSection>
             <EditFormSection>
               <StyledDatePicker
-                label={getPlural('date')}
+                label={t('date_plural')}
                 dayPickerProps={{
                   month: getMonthToDisplay(dates),
                   disabledDays: [
@@ -228,7 +229,7 @@ export const SummaryRoomEdit = ({
               />
             </EditFormSection>
             <EditFormSection>
-              <EditFormSectionTitle>{getPlural('mealPlan')}</EditFormSectionTitle>
+              <EditFormSectionTitle>{t('mealPlan_plural')}</EditFormSectionTitle>
               <RadioButton
                 name="mealPlan"
                 value={prop('mealPlan', values)}
@@ -240,7 +241,7 @@ export const SummaryRoomEdit = ({
               />
             </EditFormSection>
             <EditFormActions>
-              <EditFormButton type="submit">{path(['buttons', 'update'], uiConfig)}</EditFormButton>
+              <EditFormButton type="submit">{t('buttons.update')}</EditFormButton>
             </EditFormActions>
           </Loader>
         )}

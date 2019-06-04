@@ -90,6 +90,14 @@ export const ModalTitle = styled(Heading2)`
   line-height: 29px;
 `;
 
+export const ModalBody = styled.div`
+  max-width: 600px;
+  padding: ${theme.gutter * 8.4}px ${theme.gutter * 10}px;
+`;
+export const ModalContent = styled.div`
+  margin-bottom: ${theme.gutter * 6}px;
+`;
+
 export const Total = styled.span`
   ${withCurrency};
 `;

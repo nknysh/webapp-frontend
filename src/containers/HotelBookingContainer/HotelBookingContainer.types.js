@@ -4,6 +4,8 @@ export const ViewType = Object.freeze({
 });
 
 export const PaymentType = Object.freeze({
+  // On Request
+  OR: 'OR',
   CC: 'CC',
   BT: 'BT',
 });
