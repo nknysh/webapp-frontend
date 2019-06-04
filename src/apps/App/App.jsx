@@ -20,13 +20,11 @@ export const App = ({ location: { pathname }, currentUser, resetStatuses }) => {
   }, [pathname]);
 
   return (
-    <Suspense fallback={() => 'foo'}>
-      <Layout>
-        <Suspense fallback={<Loader />}>
-          <Switch>{getAppRoutes(prop('type', currentUser))}</Switch>
-        </Suspense>
-      </Layout>
-    </Suspense>
+    <Layout>
+      <Suspense fallback={<Loader />}>
+        <Switch>{getAppRoutes(prop('type', currentUser))}</Switch>
+      </Suspense>
+    </Layout>
   );
 };
 
