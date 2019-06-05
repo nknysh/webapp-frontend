@@ -1,13 +1,13 @@
 import React, { useState, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { compose, path, prop } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import { Form, Loader, Title, FormField } from 'components';
 import { sanitizeValues, getFormPath, extractFieldDefaults, getServerError } from 'utils/form';
 
 import { isSending, isSuccess } from 'store/common';
 
-import uiConfig from 'config/ui';
 import { validation, fields, data } from 'config/forms/setPassword';
 
 import connect from './SetPasswordForm.state';
@@ -28,6 +28,8 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
 );
 
 export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) => {
+  const { t } = useTranslation();
+
   // No token, no form
   if (!token) return <Redirect to="/" />;
 
@@ -57,7 +59,7 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) 
           {renderField('passwordConfirm', prop('passwordConfirm', values), prop('passwordConfirm', fields), formProps)}
           <Actions>
             <SubmitButton type="submit">
-              <SubmitText>{path(['buttons', 'submit'], uiConfig)}</SubmitText>
+              <SubmitText>{t('buttons.submit')}</SubmitText>
             </SubmitButton>
           </Actions>
         </Fragment>
@@ -71,7 +73,7 @@ export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) 
 
   return (
     <StyledSetPasswordForm>
-      <Loader isLoading={submitted && isSetting && !success} text={path(['messages', 'setPassword'], uiConfig)}>
+      <Loader isLoading={submitted && isSetting && !success} text={t('messages.setPassword')}>
         <Title>{title}</Title>
         {renderServerError(getServerError(prop('errors', data), error))}
         {!isComplete && renderForm()}

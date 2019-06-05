@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import { path, compose, values } from 'ramda';
+import { compose, values } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import { IndexTypes } from 'config/enums';
 import { Search, SearchFilters } from 'components';
 import { useEffectBoundary } from 'effects';
 import { buildQueryString } from 'utils';
-
-import uiConfig from 'config/ui';
 
 import connect from './SearchSidebar.state';
 import { propTypes, defaultProps } from './SearchSidebar.props';
@@ -27,6 +26,8 @@ export const SearchSidebar = ({
   searchStatus,
   prices,
 }) => {
+  const { t } = useTranslation();
+
   useEffectBoundary(() => {
     history.push(`/search?${buildQueryString(searchQuery)}`);
   }, [searchQuery]);
@@ -34,7 +35,7 @@ export const SearchSidebar = ({
   return (
     <Fragment>
       <Section>
-        <Title>{path(['labels', 'searching'], uiConfig)}</Title>
+        <Title>{t('labels.searching')}</Title>
         <Search
           indexes={values(IndexTypes)}
           indexSelectors={[getCountryName, getHotelName]}

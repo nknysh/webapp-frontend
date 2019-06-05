@@ -195,7 +195,7 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
 
   const builderProps = ['errors', 'currency', 'potentialBooking', 'availableProductSets', 'hotel', 'totals'];
 
-  const taMarginAmount = pathOr(0, ['margin', 'value'], booking);
+  const taMarginAmount = pathOr('0.00', ['margin', 'value'], booking);
   const taMarginType = pathOr('percentage', ['margin', 'type'], booking);
 
   const bookingBuild = getBookingForBuilder(state, id);

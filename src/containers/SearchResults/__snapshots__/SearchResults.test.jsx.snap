@@ -10,7 +10,7 @@ exports[`<SearchResults /> render matches snapshot 1`] = `
       text="Getting Results..."
     >
       <SearchResultsstyles__ResultsTitle>
-        0 properties found
+        0 Results
       </SearchResultsstyles__ResultsTitle>
       <SearchResultsstyles__Results />
     </Loader>

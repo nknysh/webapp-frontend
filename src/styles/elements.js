@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import uiConfig from 'config/ui';
+import i18n from 'config/i18n';
 
 import theme from './theme';
 import breakpoints from './breakpoints';
@@ -135,6 +135,6 @@ export const Hr = styled.hr`
 
 export const withCurrency = css`
   :before {
-    content: '${uiConfig.currency.symbol}';
+    content: '${i18n.t('currency.symbol')}';
   }
 `;

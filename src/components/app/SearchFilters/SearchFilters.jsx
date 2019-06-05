@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import { __, set, view, path, prop, propOr, lensPath, pipe, equals, map, merge, head, last, values } from 'ramda';
 import { isNaN, isNilOrEmpty } from 'ramda-adjunct';
+import { useTranslation } from 'react-i18next';
 
 import { ToolTip } from 'components/elements';
 
-import uiConfig, { getSingular, getPlural } from 'config/ui';
+import config from 'config';
 import { MealPlanSelectTypes, RegionSelectTypes } from 'config/enums';
 
 import { propTypes, defaultProps } from './SearchFilters.props';
@@ -32,20 +33,23 @@ const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 const filtersFeaturesLens = lensPath(['filters', 'features']);
 const filtersMealPlanLens = lensPath(['filters', 'mealPlan']);
 
-const defaultPriceRange = path(['defaults', 'priceRange'], uiConfig);
+const defaultPriceRange = path(['defaults', 'priceRange'], config);
 
 const mapMealPlan = value => ({ label: value, value });
 const mapMealPlans = map(mapMealPlan);
 const mealPlanOptions = values(mapMealPlans(MealPlanSelectTypes));
 
-const renderMealPlanTip = value => (
+// eslint-disable-next-line
+const renderMealPlanTip = t => value => (
   <MealTypeTip key={value}>
     <MealTypeKey>{value}</MealTypeKey>
-    {path(['mealTypes', value], uiConfig)}
+    {t(`mealTypes.${value}`)}
   </MealTypeTip>
 );
 
 export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features, prices }) => {
+  const { t } = useTranslation();
+
   const updateSearchQuery = set(__, __, searchQuery);
   const getSearchQueryData = view(__, searchQuery);
 
@@ -98,7 +102,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
       <RatingsCheckbox
         key={rating}
         name={`starRatings[${rating}]`}
-        label={`${rating} ${getSingular('star')}`}
+        label={`${rating} ${t('star')}`}
         checked={propOr(true, rating, getSearchQueryData(filtersStarRatingsLens))}
         onChange={(e, checked) => setStarRatingsToSearchQuery({ [rating]: checked })}
       />
@@ -117,7 +121,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
   return (
     <Fragment>
-      <Title>{getSingular('region')}</Title>
+      <Title>{t('region')}</Title>
       <SectionField>
         <RegionRadioButton
           name="regions[type]"
@@ -125,11 +129,11 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
           onChange={setRegionsTypeToSearchQuery}
           options={[
             {
-              label: path(['labels', 'allRegions'], uiConfig),
+              label: t('labels.allRegions'),
               value: RegionSelectTypes.ALL,
             },
             {
-              label: path(['labels', 'specifyRegions'], uiConfig),
+              label: t('labels.specifyRegions'),
               value: RegionSelectTypes.SPECIFY,
             },
           ]}
@@ -138,15 +142,15 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
           map(renderRegionCheckbox, regions)}
       </SectionField>
 
-      <Title>{getSingular('priceRange')}</Title>
+      <Title>{t('priceRange')}</Title>
       <SectionField>
-        <p>{path(['taglines', 'pricesIn'], uiConfig)}</p>
+        <p>{t('taglines.pricesIn')}</p>
         <PriceRangeLabels>
           <PriceRangeLabel>
-            {path(['labels', 'from'], uiConfig)} <PriceRangeLabelPrice>{priceStart}</PriceRangeLabelPrice>
+            {t('labels.from')} <PriceRangeLabelPrice>{priceStart}</PriceRangeLabelPrice>
           </PriceRangeLabel>
           <PriceRangeLabel data-align="right">
-            {path(['labels', 'to'], uiConfig)} <PriceRangeLabelPrice>{priceEnd}</PriceRangeLabelPrice>
+            {t('labels.to')} <PriceRangeLabelPrice>{priceEnd}</PriceRangeLabelPrice>
           </PriceRangeLabel>
         </PriceRangeLabels>
         <PriceRange
@@ -159,14 +163,14 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
       {!isNilOrEmpty(starRatings) && (
         <Fragment>
-          <Title>{getSingular('starRating')}</Title>
+          <Title>{t('starRating')}</Title>
           <SectionField data-flex={true}>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
         </Fragment>
       )}
 
       <Title>
-        {getSingular('mealPlan')}
-        <ToolTip>{values(map(renderMealPlanTip, MealPlanSelectTypes))}</ToolTip>
+        {t('mealPlan')}
+        <ToolTip>{values(map(renderMealPlanTip(t), MealPlanSelectTypes))}</ToolTip>
       </Title>
       <SectionField>
         <MealPlanRadioButton
@@ -179,13 +183,13 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
       {!isNilOrEmpty(features) && (
         <Fragment>
-          <Title>{getPlural('feature')}</Title>
+          <Title>{t('feature_plural')}</Title>
           <SectionField>{map(renderFeaturesCheckbox, features)}</SectionField>
         </Fragment>
       )}
 
       <SectionField>
-        <SideBarButton onClick={() => onReset()}>{path(['buttons', 'removeFilters'], uiConfig)}</SideBarButton>
+        <SideBarButton onClick={() => onReset()}>{t('buttons.removeFilters')}</SideBarButton>
       </SectionField>
     </Fragment>
   );

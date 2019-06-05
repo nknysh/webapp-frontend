@@ -1,10 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { compose, prop, isEmpty } from 'ramda';
+import { compose, isEmpty } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
-import { useLoading } from 'effects';
 import { AsyncNotFound } from 'pages/NotFound';
-import config from 'config/ui';
+import { useLoading } from 'effects';
 import { Markdown, Sidebar, Loader } from 'components';
 
 import { propTypes, defaultProps } from './PageContent.props';
@@ -22,6 +22,8 @@ import {
 const renderNotFound = () => <AsyncNotFound />;
 
 export const PageContent = ({ pageId, data, links, title, getPage, className, hero }) => {
+  const { t } = useTranslation();
+
   const loadPage = () => getPage(pageId);
   const loading = useLoading(loadPage, [pageId], true);
 
@@ -36,7 +38,7 @@ export const PageContent = ({ pageId, data, links, title, getPage, className, he
       <StyledPageContent className={className}>
         <Helmet>
           <title>
-            {title || ''} - {prop('title', config)}
+            {title || ''} - {t('title')}
           </title>
         </Helmet>
         {hero && <PageHero {...hero} />}

@@ -1,12 +1,12 @@
 import React, { useState, Fragment } from 'react';
 import { compose, path, prop } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import { Form, Loader, Title, FormField } from 'components';
 import { getFormPath, extractFieldDefaults, sanitizeValues, getServerError } from 'utils/form';
 
 import { isSending, isSuccess } from 'store/common';
 
-import uiConfig from 'config/ui';
 import { validation, fields, data } from 'config/forms/passwordReset';
 
 import connect from './PasswordResetForm.state';
@@ -34,6 +34,8 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
 );
 
 export const PasswordResetForm = ({ requestStatus, onReset, error }) => {
+  const { t } = useTranslation();
+
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
 
@@ -59,7 +61,7 @@ export const PasswordResetForm = ({ requestStatus, onReset, error }) => {
           {renderField('email', prop('email', values), prop('email', fields), formProps)}
           <Actions>
             <SubmitButton type="submit">
-              <SubmitText>{path(['buttons', 'passwordReset'], uiConfig)}</SubmitText>
+              <SubmitText>{t('buttons.passwordReset')}</SubmitText>
             </SubmitButton>
           </Actions>
         </Fragment>
@@ -74,7 +76,7 @@ export const PasswordResetForm = ({ requestStatus, onReset, error }) => {
 
   return (
     <StyledPasswordResetForm>
-      <Loader isLoading={submitted && isResetting && !success} text={path(['messages', 'passwordReset'], uiConfig)}>
+      <Loader isLoading={submitted && isResetting && !success} text={t('messages.passwordReset')}>
         <Title>{title}</Title>
         <StyledMarkdown>{description}</StyledMarkdown>
         {renderServerError(getServerError(prop('errors', data), error))}

@@ -1,7 +1,6 @@
 import React, { useState, Fragment } from 'react';
-import { path, prop } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
-import config from 'config/ui';
 import { useEffectBoundary } from 'effects';
 
 import peLogo from 'public/assets/img/PE_logo.png';
@@ -10,6 +9,8 @@ import { propTypes, defaultProps } from './Loader.props';
 import { StyledLoader, LoaderImage, LoaderText } from './Loader.styles';
 
 const Loader = ({ isLoading, text, showSpinner, children, showPrev }) => {
+  const { t } = useTranslation();
+
   const [prevChildren, setPrevChildren] = useState(children);
 
   useEffectBoundary(() => {
@@ -25,8 +26,8 @@ const Loader = ({ isLoading, text, showSpinner, children, showPrev }) => {
     <Fragment>
       {showPrev && prevChildren}
       <StyledLoader data-prev={showPrev}>
-        {showSpinner && <LoaderImage src={peLogo} alt={prop('title', config)} />}
-        <LoaderText>{text || path(['messages', 'loading'], config)}</LoaderText>
+        {showSpinner && <LoaderImage src={peLogo} alt={t('title')} />}
+        <LoaderText>{text || t('messages.loading')}</LoaderText>
       </StyledLoader>
     </Fragment>
   );

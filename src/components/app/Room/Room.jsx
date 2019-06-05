@@ -2,10 +2,11 @@ import React, { Fragment } from 'react';
 import { prop, path, map, complement, equals, values, last, pipe, propEq, find, filter } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { format } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 import { isAdult } from 'utils';
 
-import uiConfig, { getPluralisation, getSingular, getPlural } from 'config/ui';
+import config from 'config';
 
 import { propTypes, defaultProps } from './Room.props';
 import {
@@ -45,7 +46,7 @@ const renderImgOffer = bestRate =>
   prop('percentage', bestRate) && (
     <ImgOffer>
       -{parseInt(prop('percentage', bestRate))}% by{' '}
-      {format(prop('endDate', bestRate), path(['dates', 'defaultFormat'], uiConfig))}
+      {format(prop('endDate', bestRate), path(['defaults', 'dateFormat'], config))}
     </ImgOffer>
   );
 
@@ -53,60 +54,59 @@ const renderAmenity = amenity => <Detail key={amenity}>{amenity}</Detail>;
 
 const renderAmenities = amenities => amenities && map(renderAmenity, amenities);
 
-const renderSize = size =>
+const renderSize = (t, size) =>
   size && (
     <Detail>
-      {path(['labels', 'roomSize'], uiConfig)}: {size} {path(['labels', 'squareMeters'], uiConfig)}
+      {t('labels.roomSize')}: {size} {t('labels.squareMeters')}
     </Detail>
   );
 
-const renderStandardOccupancy = ({ standardOccupancy }) =>
+const renderStandardOccupancy = (t, { standardOccupancy }) =>
   standardOccupancy && (
     <Detail>
-      {path(['labels', 'standardOccupancy'], uiConfig)}: {standardOccupancy}{' '}
-      {getPluralisation('adult', standardOccupancy)}
+      {t('labels.standardOccupancy')}: {standardOccupancy} {t('adult', { count: standardOccupancy })}
     </Detail>
   );
 
-const renderMinMaxLimit = ({ name, maximum, minimum }) => (
+// eslint-disable-next-line
+const renderMinMaxLimit = t => ({ name, maximum, minimum }) => (
   <Limit key={name}>
-    {`${isAdult(name) ? getPlural('adult') : getPlural(name) || name}`} - {path(['labels', 'max'], uiConfig)} {maximum}{' '}
-    {path(['labels', 'min'], uiConfig)} {minimum}
+    {`${isAdult(name) ? t('adult_plural') : t(`${name}_plural`) || name}`} - {t('labels.max')} {maximum}{' '}
+    {t('labels.min')} {minimum}
   </Limit>
 );
 
-const renderMinMax = ({ maximumPeople, limits }) => (
+const renderMinMax = (t, { maximumPeople, limits }) => (
   <Fragment>
     <Detail>
-      {`${path(['labels', 'maxOccupancy'], uiConfig)}: `}
+      {`${t('labels.maxOccupancy')}: `}
       {isNotZero(maximumPeople) && maximumPeople}
       {` `}
     </Detail>
 
-    {!isNilOrEmpty(limits) && <Limits>{map(renderMinMaxLimit, limits)}</Limits>}
+    {!isNilOrEmpty(limits) && <Limits>{map(renderMinMaxLimit(t), limits)}</Limits>}
   </Fragment>
 );
 
-const renderAdditionalInfo = additionalInfo =>
+const renderAdditionalInfo = (t, additionalInfo) =>
   additionalInfo && (
     <EndColumn>
-      <MoreInfoToolTip placement="right" label={<Button>{path(['labels', 'moreInfo'], uiConfig)}</Button>}>
+      <MoreInfoToolTip placement="right" label={<Button>{t('labels.moreInfo')}</Button>}>
         {additionalInfo}
       </MoreInfoToolTip>
     </EndColumn>
   );
 
-// eslint-disable-next-line
-const renderBrochure = ({ uuid, displayName, url }) => (
+const renderBrochure = (t, { uuid, displayName, url }) => (
   <Button key={uuid} href={url} target="_blank">
-    {getSingular('brochure')}: {displayName}
+    {t('brochure')}: {displayName}
   </Button>
 );
 
-const renderBrochures = brochures =>
+const renderBrochures = t => brochures =>
   brochures && (
     <EndColumn>
-      <Brochures>{map(renderBrochure, brochures)}</Brochures>
+      <Brochures>{map(renderBrochure(t), brochures)}</Brochures>
     </EndColumn>
   );
 
@@ -123,6 +123,8 @@ export const Room = ({
   withSelection,
   uploads,
 }) => {
+  const { t } = useTranslation();
+
   if (!rates) return null;
 
   const brochures = pipe(
@@ -145,7 +147,7 @@ export const Room = ({
       nextClassName="add"
       prevClassName="minus"
       countClassName="count"
-      zeroText="ADD ACOMMODATION"
+      zeroText={t('Add Accommodation')}
       onAdd={onAdd}
       onRemove={onRemove}
       value={selectedCount}
@@ -168,23 +170,23 @@ export const Room = ({
             {visibleRate && (
               <Price>
                 <PriceAmount>{visibleRate}</PriceAmount>
-                <PriceLabel> /{getSingular('guest')} </PriceLabel>
+                <PriceLabel> /{t('guest')} </PriceLabel>
               </Price>
             )}
           </Column>
         </Columns>
         <Info>{description}</Info>
         <Details>
-          {renderSize(size)}
-          {renderStandardOccupancy(occupancy)}
-          {renderMinMax(occupancy)}
-          {renderAmenities(amenities)}
+          {renderSize(t, size)}
+          {renderStandardOccupancy(t, occupancy)}
+          {renderMinMax(t, occupancy)}
+          {renderAmenities(t, amenities)}
         </Details>
         <AdditionalInfo>
           {(moreInformation || !isNilOrEmpty(brochures)) && (
             <Columns>
-              {renderAdditionalInfo(moreInformation)}
-              {renderBrochures(brochures)}
+              {renderAdditionalInfo(t, moreInformation)}
+              {renderBrochures(t, brochures)}
             </Columns>
           )}
         </AdditionalInfo>

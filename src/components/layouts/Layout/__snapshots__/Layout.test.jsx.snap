@@ -2,14 +2,6 @@
 
 exports[`<Layout /> render matches snapshot 1`] = `
 <Fragment>
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <title>
-      Pure Escapes
-    </title>
-  </HelmetWrapper>
   <Layoutstyles__StyledLayout>
     <SnackbarProvider
       anchorOrigin={

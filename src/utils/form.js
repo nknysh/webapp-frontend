@@ -21,7 +21,7 @@ import {
   inc,
 } from 'ramda';
 
-import { getSingular } from 'config/ui';
+import i18n from 'config/i18n';
 import { isObject, mapWithIndex } from 'utils/helpers';
 
 const equalsLiteralTrue = value => value == 'true';
@@ -78,7 +78,7 @@ export const replaceAccommodationWithRoom = mapWithIndex((data, i) =>
   map(
     pipe(
       prop('message'),
-      replace(/Accommodation #[0-9]/g, `${getSingular('room')} ${inc(i)}`)
+      replace(/Accommodation #[0-9]/g, `${i18n.t('room')} ${inc(i)}`)
     ),
     data
   )

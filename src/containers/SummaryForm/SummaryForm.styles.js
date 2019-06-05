@@ -2,8 +2,6 @@ import styled, { css } from 'styled-components';
 
 import { Modal } from 'components/elements';
 
-import uiConfig from 'config/ui';
-
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { Button, withCurrency } from 'styles/elements';
@@ -39,16 +37,17 @@ export const Section = styled.div`
 `;
 
 export const Total = styled.p`
+  ${({ ['data-request']: onRequest }) =>
+    !onRequest &&
+    css`
+      ${withCurrency}
+    `} 
     color: ${theme.secondary};	
     font-size: 42px;	
     letter-spacing: 1.62px;	
     line-height: 20px;
     padding: 0;
     margin: 0 0 ${theme.gutter * 2.5}px;
-    
-    :before {
-        content: '${uiConfig.currency.symbol}';
-      }
 `;
 
 export const Text = styled.p`

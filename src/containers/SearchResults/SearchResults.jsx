@@ -1,12 +1,12 @@
 import React, { useState, Fragment, memo } from 'react';
-import { compose, length, map, path, defaultTo, prop, toLower } from 'ramda';
+import { compose, length, map, defaultTo, prop, toLower } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import { Card, Loader, Modal } from 'components';
 import SearchSidebar from 'containers/SearchSidebar';
 import { useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile } from 'utils';
 
-import uiConfig, { getPluralisation } from 'config/ui';
 import { isActive } from 'store/common';
 
 import connect from './SearchResults.state';
@@ -22,6 +22,8 @@ import {
 } from './SearchResults.styles';
 
 export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, result }) => {
+  const { t } = useTranslation();
+
   useEffectBoundary(() => {
     searchByQuery(searchQuery);
   }, [searchQuery]);
@@ -33,7 +35,7 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
   const onOpen = () => setModalOpen(true);
 
   const count = length(result) || 0;
-  const countTitle = `${count} ${getPluralisation('result', count)}`;
+  const countTitle = `${count} ${t('result', { count })}`;
   const title = prop('isCountryMatch', meta) ? `${toLower(prop('term', meta))} - ${countTitle}` : countTitle;
 
   const renderResult = ({ uuid, ...hotel }) => (
@@ -45,11 +47,11 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
   return (
     <Fragment>
       <StyledResults>
-        <Loader text={path(['messages', 'searching'], uiConfig)} isLoading={isActive(searchStatus)} showPrev={true}>
+        <Loader text={t('messages.searching')} isLoading={isActive(searchStatus)} showPrev={true}>
           <ResultsTitle>{title}</ResultsTitle>
           {isMobile(currentWidth) && (
             <Filtering>
-              <FiltersButton onClick={onOpen}>{path(['buttons', 'refine'], uiConfig)}</FiltersButton>
+              <FiltersButton onClick={onOpen}>{t('buttons.refine')}</FiltersButton>
             </Filtering>
           )}
           <Results>{map(renderResult, defaultTo([], result))}</Results>

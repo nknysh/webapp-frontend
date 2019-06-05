@@ -1,15 +1,15 @@
 import React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-import { compose, path, prop } from 'ramda';
+import { compose, prop } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
-import config from 'config/ui';
 import { Loader } from 'components';
 import { AsyncNotFound } from 'pages/NotFound';
 import { withAuthentication } from 'hoc';
 
 import { propTypes, defaultProps } from './AuthenticatedRoute.props';
 
-const renderLoadingMessage = () => <Loader title={path(['messages', 'authenticating'], config)} />;
+const renderLoadingMessage = t => <Loader title={t('messages.authenticating')} />;
 
 const renderRedirect = ({ pathname, search }, props, path = '/login') => {
   const returnPath = prop('ignore', props) ? '' : `?origin=${encodeURIComponent(`${pathname}${search}`)}`;
@@ -28,10 +28,12 @@ export const AuthenticatedRoute = ({
   authComponent,
   ...props
 }) => {
+  const { t } = useTranslation();
+
   const routeIsAuthenticated = auth && isAuthenticated;
 
   if (isAuthLoading) {
-    return renderLoadingMessage();
+    return renderLoadingMessage(t);
   }
 
   const routeProps = { location, ...props };

@@ -45,6 +45,7 @@ import { renameKeys, isNilOrEmpty } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
 import { addDays } from 'date-fns';
 
+import { BOOKINGS_ON_REQUEST } from 'config';
 import { ProductTypes } from 'config/enums';
 import { formatPrice, formatDate, isObject, minusDays, parseJson } from 'utils';
 
@@ -198,6 +199,11 @@ export const getBookingHash = createSelector(
 export const getBookingHotel = createSelector(
   getBookingByHotelId,
   prop('hotel')
+);
+
+export const isBookingOnRequest = createSelector(
+  getBookingBuildTotals,
+  totals => BOOKINGS_ON_REQUEST || pathOr(false, ['totals', 'oneOrMoreItemsOnRequest'], totals)
 );
 
 export const getBookingReady = (state, hotelId) => {

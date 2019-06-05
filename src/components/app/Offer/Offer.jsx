@@ -1,7 +1,7 @@
 import React from 'react';
-import { path, prop, replace, pipe } from 'ramda';
+import { prop, replace, pipe } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
-import uiConfig, { getSingular } from 'config/ui';
 import { formatDate } from 'utils';
 
 import { propTypes, defaultProps } from './Offer.props';
@@ -22,6 +22,8 @@ import {
 const dateFormat = 'DD MMMM YYYY';
 
 export const Offer = ({ hotel, validFrom, featuredPhoto, validTo, description, name, rate }) => {
+  const { t } = useTranslation();
+
   const image = prop('url', featuredPhoto);
 
   const getDates = pipe(
@@ -34,7 +36,7 @@ export const Offer = ({ hotel, validFrom, featuredPhoto, validTo, description, n
       <OfferImage style={{ backgroundImage: `url(${image})` }}>
         {rate && (
           <OfferChip>
-            <OfferPrice>{prop('rate', rate)}</OfferPrice> /{getSingular('guest')}
+            <OfferPrice>{prop('rate', rate)}</OfferPrice> /{t('guest')}
           </OfferChip>
         )}
         <OfferName>{name}</OfferName>
@@ -42,11 +44,11 @@ export const Offer = ({ hotel, validFrom, featuredPhoto, validTo, description, n
       <OfferDetails>
         <OfferTitle>{prop('name', hotel)}</OfferTitle>
         <OfferDescription>{description}</OfferDescription>
-        <OfferText>{getDates(path(['taglines', 'validFromTo'], uiConfig))}</OfferText>
+        <OfferText>{getDates(t('taglines.validFromTo'))}</OfferText>
       </OfferDetails>
       <OfferCta>
         <OfferCtaButton inverse to={`/hotels/${prop('uuid', hotel)}`}>
-          {path(['buttons', 'moreInfo'], uiConfig)}
+          {t('buttons.moreInfo')}
         </OfferCtaButton>
       </OfferCta>
     </StyledOffer>

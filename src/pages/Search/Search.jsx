@@ -1,15 +1,14 @@
 import React from 'react';
-import { path } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import { SearchSidebar, SearchResults } from 'containers';
 import { useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
 
-import uiConfig from 'config/ui';
-
 import { StyledSearch, Columns, ColumnLeft, ColumnRight, Back } from './Search.styles';
 
 export const Search = () => {
+  const { t } = useTranslation();
   const currentWidth = useCurrentWidth();
 
   return (
@@ -17,7 +16,7 @@ export const Search = () => {
       <Columns>
         {!isMobile(currentWidth) && (
           <ColumnLeft>
-            <Back to="/">{path(['labels', 'backToHome'], uiConfig)}</Back>
+            <Back to="/">{t('labels.backToHome')}</Back>
             <SearchSidebar />
           </ColumnLeft>
         )}

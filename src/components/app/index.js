@@ -1,4 +1,4 @@
-export { default as BankTransferForm } from './BankTransferForm';
+export { default as AgreeToForm } from './AgreeToForm';
 export { default as BookingConfirmation } from './BookingConfirmation';
 export { default as BookingForm } from './BookingForm';
 export { default as Card } from './Card';

@@ -1,10 +1,10 @@
 import React, { useState, Fragment } from 'react';
 import { compose, prop, path } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import { Form, Loader, Title, FormFieldError, FormField } from 'components';
 import { getServerError, extractFieldDefaults, sanitizeValues, getFormPath } from 'utils/form';
 
-import uiConfig from 'config/ui';
 import { fields, validation, data } from 'config/forms/createAccount';
 
 import { isSending, isSuccess } from 'store/common';
@@ -42,6 +42,7 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
 );
 
 export const CreateAccountForm = ({ requestStatus, onSignUp, error }) => {
+  const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
 
@@ -113,7 +114,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp, error }) => {
           </Columns>
           <Actions>
             <SubmitButton type="submit">
-              <SubmitText>{path(['buttons', 'request'], uiConfig)}</SubmitText>
+              <SubmitText>{t('buttons.request')}</SubmitText>
             </SubmitButton>
             <InfoMarkdown>{path(['content', 'info'], data)}</InfoMarkdown>
           </Actions>
@@ -126,7 +127,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp, error }) => {
 
   return (
     <StyledCreateAccount>
-      <Loader isLoading={submitted && isSaving && !saved} text={path(['messages', 'creatingAccount'], uiConfig)}>
+      <Loader isLoading={submitted && isSaving && !saved} text={t('messages.creatingAccount')}>
         <Title>{formTitle}</Title>
         {renderServerError(getServerError(prop('errors', data), error))}
         {submitted && saved ? renderComplete() : renderForm()}

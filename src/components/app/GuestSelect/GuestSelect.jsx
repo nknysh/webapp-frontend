@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
 import { curry, length, gt, prop, times, map, when, either, isNil, equals, always } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
+import { useTranslation } from 'react-i18next';
 
 import { AgeSelect } from 'components/elements';
-
-import { getPlural } from 'config/ui';
 import { isArray } from 'utils';
 
 import { propTypes, defaultProps } from './GuestSelect.props';
@@ -32,6 +31,8 @@ export const GuestSelect = ({
   onRoomChange,
   selectedRoom,
 }) => {
+  const { t } = useTranslation();
+
   const rooms = length(selectedValues);
 
   const onQuantityChange = number => {
@@ -72,7 +73,7 @@ export const GuestSelect = ({
       {renderLabel(label)}
       <GuestSelectSection>
         <GuestSelectEntry>
-          <GuestSelectEntryLabel>{getPlural('room')}</GuestSelectEntryLabel>
+          <GuestSelectEntryLabel>{t('room_plural')}</GuestSelectEntryLabel>
           <GuestSelectNumberSelect value={rooms} onChange={onQuantityChange} min={1} />
         </GuestSelectEntry>
       </GuestSelectSection>

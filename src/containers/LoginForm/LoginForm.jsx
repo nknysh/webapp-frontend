@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, prop, propOr, defaultTo, path, pipe } from 'ramda';
+import { useTranslation } from 'react-i18next';
 
 import { Form, Loader, Title, FormField, FormFieldError } from 'components';
 import PasswordResetForm from 'containers/PasswordResetForm';
@@ -10,7 +11,6 @@ import { getFormPath, extractFieldDefaults, sanitizeValues, getServerError, pars
 
 import { isSending, isSuccess } from 'store/common';
 
-import uiConfig from 'config/ui';
 import { fields, validation, data } from 'config/forms/login';
 
 import { propTypes, defaultProps } from './LoginForm.props';
@@ -49,6 +49,8 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
 );
 
 export const LoginForm = ({ requestStatus, isAuthenticated, location: { search }, history, onLogin, error }) => {
+  const { t } = useTranslation();
+
   const [submitted, setSubmitted] = useState(false);
   const [forgotten, setForgotten] = useState(false);
   const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
@@ -85,11 +87,11 @@ export const LoginForm = ({ requestStatus, isAuthenticated, location: { search }
           </StyledCheckbox>
           <Actions>
             <SubmitButton type="submit">
-              <SubmitText>{path(['buttons', 'login'], uiConfig)}</SubmitText>
+              <SubmitText>{t('buttons.login')}</SubmitText>
             </SubmitButton>
 
             <ForgotPassword onClick={() => setForgotten(true)}>
-              <ForgotLink>{path(['buttons', 'forgotten'], uiConfig)}</ForgotLink>
+              <ForgotLink>{t('buttons.forgotten')}</ForgotLink>
             </ForgotPassword>
           </Actions>
         </Fragment>
@@ -108,7 +110,7 @@ export const LoginForm = ({ requestStatus, isAuthenticated, location: { search }
 
   return (
     <StyledLoginForm>
-      <Loader isLoading={submitted && isLoggingIn && !success} text={path(['messages', 'loggingIn'], uiConfig)}>
+      <Loader isLoading={submitted && isLoggingIn && !success} text={t('messages.loggingIn')}>
         <Title>{path(['titles', 'default'], data)}</Title>
         {renderServerError(getServerError(prop('errors', data), error))}
         {(submitted && success) || isAuthenticated ? renderComplete() : renderForm()}

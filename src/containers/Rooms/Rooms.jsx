@@ -25,12 +25,11 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import hash from 'object-hash';
+import { useTranslation } from 'react-i18next';
 
 import { Slider } from 'components/elements';
 import { useCurrentWidth } from 'effects';
 import { isMobile } from 'utils';
-
-import uiConfig from 'config/ui';
 
 import connect from './Rooms.state';
 import { propTypes, defaultProps } from './Rooms.props';
@@ -73,13 +72,11 @@ const filterRoomsByAmenities = (rooms, selected) => {
   return filter(byAmenities, rooms);
 };
 
-const renderValue = ifElse(
-  isNilOrEmpty,
-  always(<span>{path(['labels', 'filterByAmenities'], uiConfig)}</span>),
-  join(', ')
-);
+const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByAmenities')}</span>), join(', '));
 
 export const Rooms = ({ hotelUuid, className, rooms, selectedRooms, addRoom, removeRoom, getRoomUploads }) => {
+  const { t } = useTranslation();
+
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const currentWidth = useCurrentWidth();
 
@@ -109,7 +106,7 @@ export const Rooms = ({ hotelUuid, className, rooms, selectedRooms, addRoom, rem
 
   const renderRooms = () =>
     isNilOrEmpty(filteredRooms) ? (
-      <NoResults>{path(['labels', 'noRooms'], uiConfig)}</NoResults>
+      <NoResults>{t('labels.noRooms')}</NoResults>
     ) : (
       renderRoomsWrapper(values(map(renderRoom, filteredRooms)))
     );
@@ -127,7 +124,7 @@ export const Rooms = ({ hotelUuid, className, rooms, selectedRooms, addRoom, rem
               displayEmpty
               onSelected={setSelectedAmenities}
               options={amenities}
-              renderValue={renderValue}
+              renderValue={renderValue(t)}
               value={selectedAmenities}
             />
           )}

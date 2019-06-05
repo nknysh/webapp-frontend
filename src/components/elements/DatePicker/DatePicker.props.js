@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 
-import { getSingular, getPlural } from 'config/ui';
+import i18n from 'config/i18n';
+
 import { noop } from 'utils';
 
 export const propTypes = {
@@ -26,8 +27,8 @@ export const defaultProps = {
   onSelected: noop,
   placeholder: 'Select dates',
   showOverlay: true,
-  summaryText: getSingular('night'),
-  summaryTextPlural: getPlural('night'),
+  summaryText: i18n.t('night'),
+  summaryTextPlural: i18n.t('night_plural'),
   selectedValues: undefined,
   multiple: true,
 };
