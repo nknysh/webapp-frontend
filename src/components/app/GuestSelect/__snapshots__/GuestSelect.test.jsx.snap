@@ -9,16 +9,60 @@ exports[`<GuestSelect /> render matches snapshot 1`] = `
       </GuestSelectstyles__GuestSelectEntryLabel>
       <GuestSelectstyles__GuestSelectNumberSelect
         min={1}
-        onChange={[Function]}
-        value={0}
+        value={2}
       />
     </GuestSelectstyles__GuestSelectEntry>
   </GuestSelectstyles__GuestSelectSection>
   <GuestSelectstyles__RoomTabs
-    labels={Array []}
-    onChange={[Function]}
+    labels={
+      Array [
+        <ForwardRef
+          data-error={false}
+          value={0}
+        >
+          Room 
+          1
+        </ForwardRef>,
+        <ForwardRef
+          data-error={false}
+          value={1}
+        >
+          Room 
+          2
+        </ForwardRef>,
+      ]
+    }
     scrollButtons="auto"
     variant="scrollable"
-  />
+  >
+    <AgeSelect
+      ageRanges={
+        Object {
+          "adult": Object {},
+        }
+      }
+      minMax={Object {}}
+      onSelect={[Function]}
+      showAgeDropDown={
+        Object {
+          "adult": false,
+        }
+      }
+    />
+    <AgeSelect
+      ageRanges={
+        Object {
+          "adult": Object {},
+        }
+      }
+      minMax={Object {}}
+      onSelect={[Function]}
+      showAgeDropDown={
+        Object {
+          "adult": false,
+        }
+      }
+    />
+  </GuestSelectstyles__RoomTabs>
 </GuestSelectstyles__StyledGuestSelect>
 `;

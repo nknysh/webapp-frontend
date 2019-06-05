@@ -1,7 +1,9 @@
-import { curry, pipe, propOr, objOf } from 'ramda';
+import { curry, pipe, propOr, objOf, pathOr, forEach } from 'ramda';
 
+import { APP_VERBOSE_ERRORS } from 'config';
 import { isArray } from 'utils';
 import { getErrorActionName, getSuccessActionName, getLoadingActionName } from 'store/utils';
+import { enqueueNotification } from 'store/modules/ui/actions';
 
 export const STATUS_TO_IDLE = 'STATUS_TO_IDLE';
 
@@ -31,6 +33,28 @@ export const entitiesObject = curry((type, data) =>
   )(data)
 );
 
-export const errorFromResponse = curry((action, error) =>
-  errorAction(action, propOr({ message: propOr('Unknown error', 'message', error) }, 'response', error))
-);
+export const errorFromResponse = (action, error, defaultMessage) => async dispatch => {
+  dispatch(errorAction(action, propOr({ message: propOr('Unknown error', 'message', error) }, 'response', error)));
+
+  const errors = pathOr([], ['response', 'data', 'errors'], error);
+
+  defaultMessage &&
+    dispatch(
+      enqueueNotification({
+        message: defaultMessage,
+        options: { variant: 'error' },
+      })
+    );
+
+  APP_VERBOSE_ERRORS &&
+    forEach(
+      ({ detail, message }) =>
+        dispatch(
+          enqueueNotification({
+            message: message || detail || 'Unknown Error',
+            options: { variant: 'error' },
+          })
+        ),
+      errors
+    );
+};

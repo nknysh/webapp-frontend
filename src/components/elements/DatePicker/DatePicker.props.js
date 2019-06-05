@@ -14,8 +14,8 @@ export const propTypes = {
   selectedValues: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({
-      from: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
-      to: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+      startDate: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+      endDate: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
     }),
   ]),
   showOverlay: PropTypes.bool,

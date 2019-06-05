@@ -1,17 +1,24 @@
-import bookingConfirm from './md/bookingConfirm.md';
-import bookingConfirmed from './md/bookingConfirmed.md';
-import bookingConfirmOnRequest from './md/bookingConfirmOnRequest.md';
-import payByBT from './md/payByBT.md';
-import payByBTConfirmed from './md/payByBTConfirmed.md';
-import payByCC from './md/payByCC.md';
-import payByCCConfirmed from './md/payByCCConfirmed.md';
+import booking from './md/booking.md';
+import bookingOnRequest from './md/booking--on-request.md';
+import bookingCC from './md/booking--bt.md';
+import bookingBT from './md/booking--cc.md';
+
+import bookingConfirmed from './md/booking-confirmed.md';
+import bookingConfirmedOnRequest from './md/booking-confirmed--on-request.md';
+import bookingConfirmedCC from './md/booking-confirmed--cc.md';
+import bookingConfirmedBT from './md/booking-confirmed--bt.md';
 
 export default {
-  bookingConfirm,
-  bookingConfirmed,
-  bookingConfirmOnRequest,
-  payByBT,
-  payByBTConfirmed,
-  payByCC,
-  payByCCConfirmed,
+  booking: {
+    default: booking,
+    onRequest: bookingOnRequest,
+    cc: bookingCC,
+    bt: bookingBT,
+    confirmed: {
+      default: bookingConfirmed,
+      onRequest: bookingConfirmedOnRequest,
+      cc: bookingConfirmedCC,
+      bt: bookingConfirmedBT,
+    },
+  },
 };

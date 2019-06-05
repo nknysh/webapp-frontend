@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next';
 import headerLinks from 'config/links/header';
 
 import { Modal } from 'components';
+import { useModalState } from 'effects';
+import { withAuthentication } from 'hoc';
 
 import CreateAccountForm from 'containers/CreateAccountForm';
 import LoginForm from 'containers/LoginForm';
 import UserPanel from 'containers/UserPanel';
-
-import { withAuthentication } from 'hoc';
 
 import logo from 'public/assets/img/main-logo.png';
 
@@ -33,26 +33,26 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   const { t } = useTranslation();
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const [modalContext, setModalContext] = useState('');
+  const { modalOpen, onModalOpen, onModalClose } = useModalState(false);
+
   const loggedOutMenuLinks = prop('loggedOut', headerLinks);
 
   const onClickToggle = () => setMenuOpen(!menuOpen);
-  const onClickAway = () => setMenuOpen(false);
 
   const onClose = () => {
     setModalContext('');
-    setModalOpen(false);
+    onModalClose();
   };
 
   const onCreateClick = () => {
     setModalContext(contextTypes.SIGN_UP);
-    setModalOpen(true);
+    onModalOpen();
   };
 
   const onLoginClick = () => {
     setModalContext(contextTypes.LOGIN);
-    setModalOpen(true);
+    onModalOpen();
   };
 
   // Derives logged out menu links so they have no path
@@ -77,7 +77,7 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
 
   const headerMenuProps = {
     isOpen: menuOpen,
-    onLinkClick: onClickAway,
+    onLinkClick: onModalClose,
     currentPath: currentPath,
     align: 'end',
     links: isAuthenticated ? menu : loggedOutMenu,

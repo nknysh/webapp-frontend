@@ -15,9 +15,10 @@ import {
   last,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
-import { differenceInCalendarDays, format, startOfMonth, endOfMonth, eachDay, subDays } from 'date-fns';
+import { differenceInCalendarDays, eachDay, endOfMonth, format, startOfMonth, subDays } from 'date-fns';
 
 import config from 'config';
+import { isString } from './helpers';
 
 export const toDate = date => (date ? new Date(date) : new Date());
 
@@ -38,19 +39,29 @@ export const getNumberOfDays = pipe(
   ifElse(hasToFrom, getDifference, always(undefined))
 );
 
-export const getFromDateFormat = ({ from, to }) => {
-  if (!from) return '';
+export const getFromDateFormat = (dates = {}) => {
+  let { startDate, endDate } = dates;
 
-  const sameMonth = to && from.getMonth() === to.getMonth();
-  const sameYear = to && from.getYear() === to.getYear();
+  if (!startDate || !endDate) return '';
+
+  startDate = isString(startDate) ? new Date(startDate) : startDate;
+  endDate = isString(endDate) ? new Date(endDate) : endDate;
+
+  const sameMonth = endDate && startDate.getMonth() === endDate.getMonth();
+  const sameYear = endDate && startDate.getYear() === endDate.getYear();
 
   const month = sameMonth && sameYear ? '' : 'MMM';
   const year = sameYear ? '' : 'YYYY';
 
-  return format(from, `D ${month} ${year}`);
+  return format(startDate, `D ${month} ${year}`);
 };
 
-export const getToDateFormat = ({ to }) => ` - ${format(to, 'D MMM YYYY')}`;
+export const getToDateFormat = (dates = {}) => {
+  const { endDate } = dates;
+
+  if (!endDate) return '';
+  return ` - ${format(endDate, 'D MMM YYYY')}`;
+};
 
 export const formatDate = (date, pattern = path(['defaults', 'dateFormat'], config)) => format(date, pattern);
 
@@ -64,10 +75,10 @@ export const getEndOfMonth = pipe(
 );
 
 export const getFromToFromDates = (dates = []) => ({
-  from: head(dates) && new Date(head(dates)),
-  to: last(dates) && new Date(last(dates)),
+  startDate: head(dates) && new Date(head(dates)),
+  endDate: last(dates) && new Date(last(dates)),
 });
 
-export const getDaysBetween = (from, to) => eachDay(from, subDays(to, 1));
+export const getDaysBetween = (startDate, endDate) => eachDay(startDate, subDays(endDate, 1));
 
 export const minusDays = curry((amount, date) => subDays(date, amount));

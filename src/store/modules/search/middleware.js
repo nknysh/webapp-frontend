@@ -8,8 +8,8 @@ import { setSearchQuery } from './actions';
 
 const history = createBrowserHistory();
 
-const datesFromLens = lensPath(['dates', 'from']);
-const datesToLens = lensPath(['dates', 'to']);
+const datesFromLens = lensPath(['dates', 'startDate']);
+const datesToLens = lensPath(['dates', 'endDate']);
 const lodgingLens = lensProp('lodging');
 const honeymoonersLens = lensProp('suitableForHoneymooners');
 const filtersRegionsLens = lensPath(['filters', 'regions', 'selected']);

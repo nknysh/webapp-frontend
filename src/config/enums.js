@@ -23,3 +23,10 @@ export const ProductTypes = Object.freeze({
   FINE: 'Fine',
   SUPPLEMENT: 'Supplement',
 });
+
+export const BookingStatusTypes = Object.freeze({
+  POTENTIAL: 'potential',
+  REQUESTED: 'requested',
+  CONFIRMED: 'confirmed',
+  CANCELLED: 'cancelled',
+});

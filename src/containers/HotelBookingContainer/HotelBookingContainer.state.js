@@ -9,15 +9,16 @@ import { getHotel } from 'store/modules/hotels/selectors';
 import { getHotelStatus } from 'store/modules/hotel/selectors';
 import {
   getBookingTotal,
-  getBookingByHotelId,
+  getBooking,
   getBookingReady,
   getBookingStatus,
   isBookingOnRequest,
-} from 'store/modules/booking/selectors';
+  getBookingCreated,
+} from 'store/modules/bookings/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
 import { fetchHotel } from 'store/modules/hotel/actions';
-import { updateBooking, completeBooking, removeBooking } from 'store/modules/booking/actions';
+import { updateBooking, completeBooking, removeBooking } from 'store/modules/bookings/actions';
 
 import { fields as guestFields } from 'config/forms/bookingForm';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
@@ -26,14 +27,12 @@ export const useHotelBookingContainerState = () => {
   const [complete, setComplete] = useState(false);
   const [view, setView] = useState(ViewType.DETAILS);
   const [paymentType, setPaymentType] = useState(PAYMENT_ENABLED ? PaymentType.CC : PaymentType.OR);
-  const [modalOpen, setModalOpen] = useState(false);
   const [guestFormValues, setGuestFormValues] = useState(extractFieldDefaults(guestFields));
 
   return [
     [complete, setComplete],
     [view, setView],
     [paymentType, setPaymentType],
-    [modalOpen, setModalOpen],
     [guestFormValues, setGuestFormValues],
   ];
 };
@@ -41,12 +40,13 @@ export const useHotelBookingContainerState = () => {
 export const mapStateToProps = (state, { id }) => ({
   hotel: getHotel(state, id),
   hotelStatus: getHotelStatus(state),
-  booking: getBookingByHotelId(state, id),
+  booking: getBooking(state, id),
   bookingStatus: getBookingStatus(state),
   isOnRequest: isBookingOnRequest(state, id),
   dates: getSearchDates(state),
   canBook: getBookingReady(state, id),
   total: getBookingTotal(state, id),
+  created: getBookingCreated(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({

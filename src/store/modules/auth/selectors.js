@@ -45,6 +45,11 @@ export const getUserCountryContext = createSelector(
   (currentUser, stateCountry, userCountry) => (isSr(currentUser) ? stateCountry || userCountry : undefined)
 );
 
+export const getCurrentUserUuid = createSelector(
+  getCurrentUser,
+  prop('uuid')
+);
+
 export const isAuthenticated = createSelector(
   getAuthToken,
   Boolean

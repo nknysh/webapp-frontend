@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { compose, isEmpty } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { AsyncNotFound } from 'pages/NotFound';
+import NotFound from 'pages/NotFound';
 import { useLoading } from 'effects';
 import { Markdown, Sidebar, Loader } from 'components';
 
@@ -19,7 +19,7 @@ import {
   PageHero,
 } from './PageContent.styles';
 
-const renderNotFound = () => <AsyncNotFound />;
+const renderNotFound = () => <NotFound />;
 
 export const PageContent = ({ pageId, data, links, title, getPage, className, hero }) => {
   const { t } = useTranslation();

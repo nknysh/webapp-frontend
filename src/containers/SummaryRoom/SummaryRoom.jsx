@@ -1,20 +1,20 @@
 import React from 'react';
-import { gt, compose, length, prop, map, flatten, pipe } from 'ramda';
-import { isNilOrEmpty } from 'ramda-adjunct';
+import { gt, compose, length, partial, map, flatten, pipe, prop, join, values, mapObjIndexed, head } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { DropDownMenu } from 'components/elements';
 
+import { ProductTypes } from 'config/enums';
+
 import {
+  replaceAccommodationWithRoom,
+  groupErrorsByRoomIndex,
   getFromDateFormat,
   getToDateFormat,
   getNumberOfDays,
-  getFromToFromDates,
-  replaceAccommodationWithRoom,
-  groupErrorsByRoomIndex,
 } from 'utils';
 
-import { guestLine, getTotalGuests, getAgeSplits } from './SummaryRoom.utils';
+import { getProduct, getSupplements, getMealPlans, getTotalGuests, getAgeSplits } from './SummaryRoom.utils';
 import connect from './SummaryRoom.state';
 import { propTypes, defaultProps } from './SummaryRoom.props';
 import {
@@ -33,29 +33,29 @@ import {
   Error,
 } from './SummaryRoom.styles';
 
-const renderSupplement = ({ product, title, total, quantity }) => (
+const renderSupplement = (t, { product, title, total, quantity }) => (
   <ExtraSupplement key={product}>
     {quantity} x {title} - (<ExtraSupplementRate>{total}</ExtraSupplementRate>)
   </ExtraSupplement>
 );
 
-const renderSupplements = pipe(
-  map(map(renderSupplement)),
-  flatten
-);
+const renderSupplements = (t, supplements) =>
+  pipe(
+    map(partial(renderSupplement, [t])),
+    flatten
+  )(supplements);
 
-// eslint-disable-next-line
-const renderMealPlan = t => ({ product, title, quantity }) => (
+const renderMealPlan = (t, { product, title, quantity }) => (
   <RoomRow key={product}>
-    {t('mealPlan')}: {quantity} x {title}
+    {t(ProductTypes.MEAL_PLAN)}: {quantity} x {title}
   </RoomRow>
 );
 
-const renderMealPlans = t =>
+const renderMealPlans = (t, mealPlans) =>
   pipe(
-    map(map(renderMealPlan(t))),
+    map(partial(renderMealPlan, [t])),
     flatten
-  );
+  )(mealPlans);
 
 const renderError = message => <Error key={message}>{message}</Error>;
 const renderErrors = pipe(
@@ -66,72 +66,71 @@ const renderErrors = pipe(
 
 export const SummaryRoom = ({
   canEdit,
-  dates: dateArr,
-  details,
-  supplements,
-  guests,
-  hotelUuid,
-  id,
-  mealPlans,
-  onEdit,
-  onRemove,
-  photo,
-  total,
-  potentialBooking,
+  className,
   errors,
-  ...props
+  id,
+  roomId,
+  onEdit,
+  photo,
+  removeRoom,
+  requestedRooms,
+  rooms,
+  total,
+  dates,
 }) => {
   const { t } = useTranslation();
 
-  const dates = getFromToFromDates(dateArr);
-  const datesCount = getNumberOfDays(dates);
-  const ageSplits = getAgeSplits(guests);
-
-  const onRemoveRoom = () => onRemove(hotelUuid, id, true);
-  const onEditRoom = () => onEdit({ id });
+  const product = getProduct(rooms);
+  const supplements = getSupplements(rooms);
+  const mealPlans = getMealPlans(rooms);
+  const totalNights = getNumberOfDays(head(dates));
+  const totalGuests = getTotalGuests(requestedRooms);
+  const ageSplits = getAgeSplits(product, requestedRooms);
 
   const hasErrors = gt(length(errors), 1);
 
+  const onRemoveRoom = () => removeRoom(id, roomId, true);
+  const onEditRoom = () => onEdit(roomId);
+
   return (
-    (details && dates && gt(length(guests), 0) && (
-      <Room {...props}>
-        {!canEdit && prop('url', photo) && (
-          <RoomImages>
-            <RoomImage src={prop('url', photo)} alt={prop('displayName', photo)} />
-          </RoomImages>
-        )}
-        <RoomDetails>
-          <RoomRow>
-            <RoomColumn>
-              <RoomName data-errors={hasErrors}>
-                {prop('name', details)} ({length(potentialBooking)}) {hasErrors && '*'}
-              </RoomName>
-              <RoomDetail>
-                {datesCount} {t('night', { count: datesCount })} | {getFromDateFormat(dates)} {getToDateFormat(dates)}
-              </RoomDetail>
-            </RoomColumn>
+    <Room key={roomId} className={className}>
+      {!canEdit && prop('url', photo) && (
+        <RoomImages>
+          <RoomImage src={prop('url', photo)} alt={prop('displayName', photo)} />
+        </RoomImages>
+      )}
+      <RoomDetails>
+        <RoomRow>
+          <RoomColumn>
+            <RoomName data-errors={hasErrors}>
+              {prop('name', product)} ({length(rooms)}) {hasErrors && '*'}
+            </RoomName>
+            <RoomDetail>
+              {totalNights} {t('night', { count: totalNights })} | {getFromDateFormat(head(dates))}{' '}
+              {getToDateFormat(head(dates))}
+            </RoomDetail>
+          </RoomColumn>
+          <RoomColumn data-shrink={true}>
+            <RoomPrice>{total}</RoomPrice>
+          </RoomColumn>
+          {canEdit && (
             <RoomColumn data-shrink={true}>
-              <RoomPrice>{total}</RoomPrice>
+              <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
+                <span onClick={onEditRoom}>{t('buttons.edit')}</span>
+                <span onClick={onRemoveRoom}>{t('buttons.remove')}</span>
+              </DropDownMenu>
             </RoomColumn>
-            {canEdit && (
-              <RoomColumn data-shrink={true}>
-                <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
-                  <span onClick={onEditRoom}>{t('buttons.edit')}</span>
-                  <span onClick={onRemoveRoom}>{t('buttons.remove')}</span>
-                </DropDownMenu>
-              </RoomColumn>
-            )}
-          </RoomRow>
-          <RoomRow>
-            {guestLine('guest', getTotalGuests(guests))} {!isNilOrEmpty(ageSplits) && `(${ageSplits})`}
-          </RoomRow>
-          <RoomRow>{renderSupplements(supplements)}</RoomRow>
-          <RoomRow>{renderMealPlans(t)(mealPlans)}</RoomRow>
-          {renderErrors(errors)}
-        </RoomDetails>
-      </Room>
-    )) ||
-    null
+          )}
+        </RoomRow>
+        <RoomRow>
+          {totalGuests} {t('guest', { count: totalGuests })} (
+          {join(' + ', values(mapObjIndexed((value, key) => `${value} ${t(key)}`, ageSplits)))})
+        </RoomRow>
+        <RoomRow>{renderSupplements(t, supplements)}</RoomRow>
+        <RoomRow>{renderMealPlans(t, mealPlans)}</RoomRow>
+        {canEdit && renderErrors(errors)}
+      </RoomDetails>
+    </Room>
   );
 };
 

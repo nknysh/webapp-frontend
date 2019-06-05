@@ -4,7 +4,7 @@ import { compose, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { Loader } from 'components';
-import { AsyncNotFound } from 'pages/NotFound';
+import NotFound from 'pages/NotFound';
 import { withAuthentication } from 'hoc';
 
 import { propTypes, defaultProps } from './AuthenticatedRoute.props';
@@ -16,8 +16,7 @@ const renderRedirect = ({ pathname, search }, props, path = '/login') => {
   return <Redirect to={`${path}${returnPath}`} />;
 };
 
-const renderRoute = (Component, props) =>
-  (Component && <Component {...props} />) || <Route component={AsyncNotFound} />;
+const renderRoute = (Component, props) => (Component && <Component {...props} />) || <Route component={NotFound} />;
 
 export const AuthenticatedRoute = ({
   auth,

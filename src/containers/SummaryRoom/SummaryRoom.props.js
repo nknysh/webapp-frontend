@@ -20,4 +20,5 @@ export const defaultProps = {
   onChange: noop,
   onEdit: noop,
   canEdit: false,
+  dates: {},
 };

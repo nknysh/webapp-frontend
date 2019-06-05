@@ -1,4 +1,4 @@
-import { AsyncSearch } from 'pages/Search';
+import { AsyncSearch } from 'pages/async';
 
 export default [
   {

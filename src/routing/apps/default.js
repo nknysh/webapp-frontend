@@ -3,10 +3,10 @@ import page from 'routing/common/page';
 import notFound from 'routing/common/notFound';
 import search from 'routing/common/search';
 import hotels from 'routing/common/hotels';
+import proposals from 'routing/common/proposals';
+import booking from 'routing/common/booking';
 
-import { AsyncHome } from 'pages/Home';
-import { AsyncHomeAuthenticated } from 'pages/HomeAuthenticated';
-import { AsyncNotFound } from 'pages/NotFound';
+import { AsyncHomeAuthenticated, AsyncHome } from 'pages/async';
 
 export default [
   {
@@ -17,44 +17,15 @@ export default [
     auth: true,
     authComponent: AsyncHome,
   },
-  {
-    name: 'Messages',
-    path: '/messages',
-    component: AsyncNotFound,
-    auth: true,
-    authRedirect: '/login',
-  },
-  {
-    name: 'Proposals',
-    path: '/proposals',
-    component: AsyncNotFound,
-    auth: true,
-    authRedirect: '/login',
-  },
-  {
-    name: 'Bookings',
-    path: '/bookings',
-    component: AsyncNotFound,
-    auth: true,
-    authRedirect: '/login',
-  },
-  {
-    name: 'Holds',
-    path: '/holds',
-    component: AsyncNotFound,
-    auth: true,
-    authRedirect: '/login',
-  },
-  {
-    name: 'Calendar',
-    path: '/calendar',
-    component: AsyncNotFound,
-    auth: true,
-    authRedirect: '/login',
-  },
+
+  // Order is important here
+  ...auth,
   ...search,
   ...hotels,
-  ...auth,
+  ...proposals,
+  ...booking,
+
+  // Page is a catch all /:path
   ...page,
   ...notFound,
 ];

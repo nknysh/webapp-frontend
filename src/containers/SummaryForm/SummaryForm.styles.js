@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { Modal } from 'components/elements';
+import { SummaryFormMargin } from 'components/app';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
@@ -64,16 +65,6 @@ export const Saving = styled.span`
   font-weight: ${theme.fonts.bold};
 `;
 
-export const HotelName = styled(Heading2)`
-  font-size: 20px;
-  font-weight: ${theme.fonts.normal};
-  line-height: 26px;
-  padding: ${theme.gutter * 2}px 0;
-  margin: 0;
-  border-bottom: 1px solid ${theme.borders.default};
-  border-top: 1px solid ${theme.borders.default};
-`;
-
 export const Rooms = styled.div`
   ${({ ['data-summary']: summaryOnly }) =>
     !summaryOnly &&
@@ -115,4 +106,41 @@ export const Error = styled.p`
   padding: ${theme.gutter}px;
   text-transform: uppercase;
   font-weight: ${theme.fonts.bold};
+`;
+
+export const Hotel = styled.div`
+  padding: ${theme.gutter * 1.5}px 0;
+  border-bottom: 1px solid ${theme.borders.default};
+  border-top: 1px solid ${theme.borders.default};
+
+  ${({ ['data-compact']: compact }) =>
+    compact &&
+    css`
+      display: flex;
+      align-items: center;
+      border-top: 0;
+
+      h2 {
+        flex: 1;
+      }
+
+      p {
+        margin: 0;
+        flex: 1;
+        font-size: 20px;
+        letter-spacing: 0.5px;
+        text-align: right;
+      }
+    `})}
+`;
+
+export const HotelName = styled(Heading2)`
+  font-size: 20px;
+  font-weight: ${theme.fonts.normal};
+  margin: 0;
+  padding: 0;
+`;
+
+export const TotalMargin = styled(SummaryFormMargin)`
+  margin-top: 20px;
 `;

@@ -27,7 +27,23 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
     <HotelContainerstyles__Full>
       <HotelContainerstyles__StyledHotel />
       <HotelContainerstyles__Aside>
-        <HotelContainerstyles__StyledSummary />
+        <HotelContainerstyles__StyledSummary
+          onSubmit={[Function]}
+        >
+          <HotelContainerstyles__SummaryActions>
+            <HotelContainerstyles__SummaryAction
+              disabled={true}
+            >
+              Take a hold
+            </HotelContainerstyles__SummaryAction>
+            <HotelContainerstyles__SummaryAction
+              disabled={true}
+              onClick={[Function]}
+            >
+              Add to proposal
+            </HotelContainerstyles__SummaryAction>
+          </HotelContainerstyles__SummaryActions>
+        </HotelContainerstyles__StyledSummary>
       </HotelContainerstyles__Aside>
     </HotelContainerstyles__Full>
   </HotelContainerstyles__StyledHotelContainer>

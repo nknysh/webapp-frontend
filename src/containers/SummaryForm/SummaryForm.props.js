@@ -10,6 +10,7 @@ export const propTypes = {
   hotel: PropTypes.object,
   booking: PropTypes.object,
   summaryOnly: PropTypes.bool,
+  compact: PropTypes.bool,
   onBook: PropTypes.func,
 };
 
@@ -19,5 +20,6 @@ export const defaultProps = {
   hotel: {},
   booking: {},
   summaryOnly: false,
+  compact: false,
   onBook: noop,
 };

@@ -16,6 +16,7 @@ export const palette = Object.freeze({
   primary: getColor('gold'),
   secondary: getColor('gold-dark'),
   neutral: getColor('gold-neutral'),
+  light: getColor('gold-light'),
   selected: getColor('aqua'),
 
   warning: undefined,

@@ -1,4 +1,4 @@
-import { AsyncNotFound } from 'pages/NotFound';
+import { AsyncNotFound } from 'pages/async';
 
 export default [
   {

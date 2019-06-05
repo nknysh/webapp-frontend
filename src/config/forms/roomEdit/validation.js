@@ -1,5 +1,5 @@
-import { pipe, path, reduce, equals, mapObjIndexed, prop, gt } from 'ramda';
-import { array, object } from 'yup';
+import { pipe, path, reduce, equals, prop } from 'ramda';
+import { array, object, number } from 'yup';
 
 import errors from 'config/forms/errors';
 import validators from 'config/forms/validators';
@@ -16,25 +16,18 @@ const minMax = pipe(
   reduce(reduceMinMax, {})
 );
 
-const mapMinMaxValidation = ({ max, min }) => {
-  const schema = array()
-    .default([])
-    .min(min, prop('minGuests', errors))
-    .max(max, prop('maxGuests', errors));
-
-  if (gt(min, 0)) {
-    schema.required(prop('required', errors));
-  }
-
-  return schema;
-};
-
-export default accommodationProduct => () => {
-  const ageMinMax = mapObjIndexed(mapMinMaxValidation, minMax(accommodationProduct));
+export default product => () => {
+  const ageMinMax = minMax(product);
 
   return validators.shape({
-    guests: array()
+    guestsAges: array()
       .min(1, prop('minOneRoom', errors))
-      .of(object().shape(ageMinMax)),
+      .of(
+        object().shape({
+          numberOfAdults: number()
+            .min(path(['adult', 'min'], ageMinMax))
+            .max(path(['adult', 'max'], ageMinMax)),
+        })
+      ),
   });
 };

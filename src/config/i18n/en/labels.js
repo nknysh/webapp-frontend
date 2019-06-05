@@ -22,6 +22,7 @@ export default {
   returnTransfers: 'Return transfers',
   groundService: 'Ground service',
   addOns: 'Addons',
+  addAccommodation: 'Add Accommodation',
   addCommission:
     'Add your commission (If client is paying Pure Escapes directly or if you wish to send this proposal directly to your clients)',
   includesTaxes: 'Includes all applicable taxes.',
@@ -58,4 +59,24 @@ export default {
   bookingConfirmed: 'Booking Confirmation',
   bookingConfirmedOnRequest: 'Booking Request Confirmation',
   bookingConfirmOnRequest: 'Confirm Your booking on request',
+
+  proposalWithId: 'Proposal #{{id}}',
+  proposals: 'Proposals',
+  newProposal: 'New proposal',
+  proposalId: 'Proposal',
+  proposalName: 'New Proposal Name',
+
+  resortsDetails: 'Resorts included',
+  reviewAndGenerate: 'Review and Generate',
+
+  propertiesAndRooms: 'Properties and rooms included in this proposal',
+
+  takeAHold: 'Take a 24 hour hold on this booking with the Proposal',
+
+  createdAt: 'Created on',
+  leadGuestInfo: 'Lead Guest Info',
+  guestsDetails: 'Guest Details',
+  totalNetCost: 'Total Net Cost',
+
+  commission: 'Commission',
 };

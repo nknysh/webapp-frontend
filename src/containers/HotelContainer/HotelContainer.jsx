@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react';
-import { allPass, complement, compose, has, isEmpty, map, prop, values } from 'ramda';
+import React, { Fragment, useState } from 'react';
+import { withRouter, Redirect } from 'react-router-dom';
+import { allPass, complement, compose, has, isEmpty, map, prop, values, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { Loader, Tabs } from 'components';
-import { useFetchData, useCurrentWidth } from 'effects';
+import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 import { isMobile } from 'utils';
 
 import connect from './HotelContainer.state';
@@ -19,11 +20,19 @@ import {
   StyledHotelContainer,
   StyledSummary,
   Title,
+  SummaryActions,
+  SummaryAction,
+  StyledModal,
+  StyledAddToProposalForm,
 } from './HotelContainer.styles';
 
 const reloadIfMissing = complement(allPass([has('photos'), has('accommodationProducts')]));
 
 const renderBackButton = t => <Back to="/search">{t('labels.backToSearch')}</Back>;
+
+const renderBreadcrumbs = (t, { id, hotel }) => (
+  <StyledBreadcrumbs links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
+);
 
 const renderBrochure = ({ uuid, displayName, url }) => (
   <Brochure key={uuid} href={url} target="_blank">
@@ -31,53 +40,100 @@ const renderBrochure = ({ uuid, displayName, url }) => (
   </Brochure>
 );
 
-export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, photos }) => {
+const renderHotel = ({ id, hotel, photos }) => <StyledHotel {...hotel} id={id} photos={photos} />;
+
+const renderActions = (t, { canBook, onModalOpen, setModalContext }) => (
+  <SummaryActions>
+    <SummaryAction disabled={true}>{t('buttons.takeHold')}</SummaryAction>
+    <SummaryAction
+      disabled={!canBook}
+      onClick={() => {
+        setModalContext('proposal');
+        onModalOpen();
+      }}
+    >
+      {t('buttons.addToProposal')}
+    </SummaryAction>
+  </SummaryActions>
+);
+
+const renderSummary = (t, { id, brochures, onSubmit, ...props }) => (
+  <Aside>
+    <StyledSummary id={id} onSubmit={onSubmit}>
+      {renderActions(t, props)}
+    </StyledSummary>
+    {!isEmpty(brochures) && (
+      <AsideDetails>
+        <Title>{t('brochure_plural')}</Title>
+        {values(map(renderBrochure, brochures))}
+      </AsideDetails>
+    )}
+  </Aside>
+);
+
+const renderTabs = (t, props) => (
+  <Fragment>
+    {renderBackButton(t)}
+    <Tabs centered labels={[t('labels.hotelDetails'), t('labels.yourSelection')]}>
+      {renderHotel(props)}
+      {renderSummary(t, props)}
+    </Tabs>
+  </Fragment>
+);
+
+const renderFull = (t, props) => (
+  <Fragment>
+    {renderBreadcrumbs(t, props)}
+    <Full>
+      {renderHotel(props)}
+      {renderSummary(t, props)}
+    </Full>
+  </Fragment>
+);
+
+const renderModal = (t, { id, modalOpen, modalContext, canBook, onModalClose, onModalComplete, booking }) =>
+  modalOpen && (
+    <StyledModal open={modalOpen} onClose={onModalClose}>
+      {equals('proposal', modalContext) && (
+        <StyledAddToProposalForm
+          bookingId={id}
+          onSubmit={onModalComplete}
+          disabled={!canBook}
+          availableToHold={prop('availableToHold', booking)}
+        />
+      )}
+    </StyledModal>
+  );
+
+export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ...props }) => {
   const { t } = useTranslation();
+  const modal = useModalState(false);
+  const [redirectToBooking, setRedirectToBooking] = useState(false);
+
+  const { onModalClose } = modal;
 
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const currentWidth = useCurrentWidth();
 
-  const renderBreadcrumbs = () => (
-    <StyledBreadcrumbs links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
-  );
+  if (redirectToBooking) return <Redirect to={`/hotels/${id}/booking`} />;
 
-  const renderHotel = () => <StyledHotel {...hotel} id={id} photos={photos} />;
+  const onModalComplete = data => {
+    if (equals('proposal', prop('modalContext', modal))) {
+      onModalClose();
+      history.push(`/proposals/${data.toString()}/edit`);
+    }
+  };
 
-  const renderSummary = () => (
-    <Aside>
-      <StyledSummary hotelUuid={id} />
-      {!isEmpty(brochures) && (
-        <AsideDetails>
-          <Title>{t('brochure_plural')}</Title>
-          {values(map(renderBrochure, brochures))}
-        </AsideDetails>
-      )}
-    </Aside>
-  );
-
-  const renderTabs = () => (
-    <Fragment>
-      {renderBackButton(t)}
-      <Tabs centered labels={[t('labels.hotelDetails'), t('labels.yourSelection')]}>
-        {renderHotel()}
-        {renderSummary()}
-      </Tabs>
-    </Fragment>
-  );
-
-  const renderFull = () => (
-    <Fragment>
-      {renderBreadcrumbs()}
-      <Full>
-        {renderHotel()}
-        {renderSummary()}
-      </Full>
-    </Fragment>
-  );
+  const onSubmit = () => setRedirectToBooking(true);
 
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingHotel')}>
-      <StyledHotelContainer>{isMobile(currentWidth) ? renderTabs() : renderFull()}</StyledHotelContainer>
+      <StyledHotelContainer>
+        {isMobile(currentWidth)
+          ? renderTabs(t, { hotel, id, onSubmit, ...modal, ...props })
+          : renderFull(t, { hotel, id, onSubmit, ...modal, ...props })}
+      </StyledHotelContainer>
+      {renderModal(t, { id, ...modal, ...props, onModalComplete })}
     </Loader>
   );
 };
@@ -85,4 +141,7 @@ export const HotelContainer = ({ fetchHotel, hotel, hotelStatus, id, brochures, 
 HotelContainer.propTypes = propTypes;
 HotelContainer.defaultProps = defaultProps;
 
-export default compose(connect)(HotelContainer);
+export default compose(
+  connect,
+  withRouter
+)(HotelContainer);

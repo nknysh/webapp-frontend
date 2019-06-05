@@ -19,3 +19,6 @@ export { default as SummaryRoom } from './SummaryRoom';
 export { default as SummaryRoomEdit } from './SummaryRoomEdit';
 export { default as SummaryFormExtras } from './SummaryFormExtras';
 export { default as SummaryForm } from './SummaryForm';
+export { default as AddToProposalForm } from './AddToProposalForm';
+export { default as ProposalContainer } from './ProposalContainer';
+export { default as BookingContainer } from './BookingContainer';

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * @see https://github.com/facebook/react/issues/14369
@@ -15,3 +15,13 @@ export const useEffectBoundary = (effect, params) =>
       didCancel = true;
     };
   }, params);
+
+export const useModalState = (initialValue, initialContext) => {
+  const [modalOpen, setModalOpen] = useState(initialValue);
+  const [modalContext, setModalContext] = useState(initialContext);
+
+  const onModalClose = () => setModalOpen(false);
+  const onModalOpen = () => setModalOpen(true);
+
+  return { modalOpen, onModalClose, onModalOpen, modalContext, setModalContext };
+};

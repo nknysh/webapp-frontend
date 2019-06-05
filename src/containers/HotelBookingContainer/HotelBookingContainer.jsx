@@ -1,10 +1,11 @@
 import React, { useRef, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { equals, compose, prop, path } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
 import { Loader, RadioButton, AgreeToForm, BookingConfirmation } from 'components';
-import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
+import { useFetchData, useCurrentWidth, useEffectBoundary, useModalState } from 'effects';
 import { isMobile } from 'utils';
 
 import { PAYMENT_ENABLED } from 'config';
@@ -117,7 +118,7 @@ const renderSummary = (
   { mobileView, isReviewView, id, isComplete, onSubmit, canBook, isOnRequest, paymentType, onPaymentChange }
 ) =>
   (!mobileView || isReviewView) && (
-    <StyledSummary hotelUuid={id} summaryOnly={true}>
+    <StyledSummary id={id} summaryOnly={true}>
       {!isComplete && (
         <Fragment>
           {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
@@ -148,12 +149,12 @@ const renderModalContent = (t, { isOnRequest, paymentType, onModalSubmit, total 
   const paymentTypes = {
     [PaymentType.CC]: {
       title: t('labels.payByCC'),
-      content: t('content.payByCC'),
+      content: t('content.booking.cc'),
       buttonLabel: finalizeAndPay,
     },
     [PaymentType.BT]: {
       title: t('labels.payByBT'),
-      content: t('content.payByBT'),
+      content: t('content.booking.bt'),
       buttonLabel: finalizeAndPay,
     },
   };
@@ -163,9 +164,9 @@ const renderModalContent = (t, { isOnRequest, paymentType, onModalSubmit, total 
     (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'title'], paymentTypes)) ||
     t('labels.bookingConfirm');
   const content =
-    (isOnRequest && t('content.bookingConfirmOnRequest')) ||
+    (isOnRequest && t('content.booking.onRequest')) ||
     (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'content'], paymentTypes)) ||
-    t('content.bookingConfirm');
+    t('content.booking.default');
   const buttonLabel =
     (isOnRequest && t('buttons.submitBookingRequest')) ||
     (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'buttonLabel'], paymentTypes)) ||
@@ -228,6 +229,8 @@ export const HotelBookingContainer = ({
   fetchHotel,
   completeBooking,
   id,
+  isOnRequest,
+  created,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -235,9 +238,9 @@ export const HotelBookingContainer = ({
     [complete, setComplete],
     [view, setView],
     [paymentType, setPaymentType],
-    [modalOpen, setModalOpen],
     [guestFormValues, setGuestFormValues],
   ] = useHotelBookingContainerState();
+  const { modalOpen, onModalClose, onModalOpen } = useModalState(false);
   const loaded = useFetchData(hotelStatus, fetchHotel, [id]);
   const guestFormRef = useRef(undefined);
   const currentWidth = useCurrentWidth();
@@ -249,20 +252,25 @@ export const HotelBookingContainer = ({
   const reservationId = prop('reservationId', booking);
 
   const returnToHotelScreen = (!canBook && !isComplete) || (isComplete && !reservationId);
-  const sendToConfirmationScreen = !isComplete && reservationId;
+  const sendToConfirmationScreen = !isComplete && !isNilOrEmpty(created);
 
   useEffectBoundary(() => {
     setComplete(false);
   }, [submitError]);
   useEffectBoundary(() => {
-    setModalOpen(false);
+    onModalClose();
   }, [complete]);
 
   if (!isComplete && complete && isSending(bookingStatus))
     return <Loader isLoading={true} text={t('messages.submittingBooking')} />;
 
+  if (sendToConfirmationScreen)
+    return isOnRequest ? (
+      <Redirect to={`/bookings/${created}/on-request`} />
+    ) : (
+      <Redirect to={`/bookings/${created}/complete`} />
+    );
   if (returnToHotelScreen) return <Redirect to={`/hotels/${id}`} />;
-  if (sendToConfirmationScreen) return <Redirect to={`/hotels/${id}/booking/complete`} />;
 
   const onMobileNavClick = () => setView(ViewType.DETAILS);
   const onPaymentChange = (e, value) => setPaymentType(value);
@@ -270,10 +278,9 @@ export const HotelBookingContainer = ({
     setGuestFormValues(values);
     updateBooking(id, values);
 
-    mobileView && isDetailsView ? setView(ViewType.REVIEW) : setModalOpen(true);
+    mobileView && isDetailsView ? setView(ViewType.REVIEW) : onModalOpen();
   };
   const onSubmit = () => prop('current', guestFormRef) && guestFormRef.current.submitForm();
-  const onModalClose = () => setModalOpen(false);
   const onModalSubmit = values => {
     completeBooking(id, values);
     setComplete(true);
@@ -290,6 +297,7 @@ export const HotelBookingContainer = ({
           id,
           canBook,
           isComplete,
+          isOnRequest,
           ...props,
         })}
         <Main>
@@ -303,6 +311,7 @@ export const HotelBookingContainer = ({
                 mobileView,
                 onGuestFormSubmit,
                 onSubmit,
+                isOnRequest,
                 ...props,
               })}
           <Aside>
@@ -315,6 +324,7 @@ export const HotelBookingContainer = ({
               onPaymentChange,
               onSubmit,
               paymentType,
+              isOnRequest,
               ...props,
             })}
           </Aside>

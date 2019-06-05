@@ -1,8 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Checkbox } from 'components/elements';
-
-export { Title } from 'containers/SummaryForm/SummaryForm.styles';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
@@ -25,6 +23,8 @@ export const MarginCheckbox = styled(Checkbox)`
 `;
 
 export const MarginInputs = styled.div`
+  margin-bottom: ${theme.gutter * 2.2}px;
+
   .material-select__input {
     text-transform: capitalize;
     margin: 0;
@@ -50,10 +50,16 @@ export const MarginInputs = styled.div`
 
 export const MarginTotal = styled.div`
   color: ${theme.secondary};
-  margin: ${theme.gutter * 2.2}px 0 0;
+  margin: 0;
   font-size: ${theme.fonts.sizes.default}px;
   line-height: ${theme.fonts.sizes.big}px;
   text-align: center;
+
+  ${({ ['data-compact']: compact }) =>
+    compact &&
+    css`
+      text-align: right;
+    `}
 `;
 
 export const MarginTotalAmount = styled.span`
@@ -65,4 +71,31 @@ export const MarginPercentSuffix = styled.span`
   :after {
     content: '%';
   }
+`;
+
+export const MarginValue = styled.span`
+  :before {
+    content: ', ';
+  }
+
+  ${({ ['data-compact']: compact }) =>
+    compact &&
+    css`
+      :before {
+        content: '';
+      }
+
+      display: block;
+    `}
+`;
+
+export const Title = styled.h3`
+  font-size: ${theme.fonts.sizes.default}px;
+  padding: 0 0 ${theme.gutter * 1.5}px;
+  text-transform: uppercase;
+  font-weight: ${theme.fonts.bold};
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
+  line-height: 14px;
+  color: ${theme.neutral};
+  border-bottom: 1px solid ${theme.borders.default};
 `;

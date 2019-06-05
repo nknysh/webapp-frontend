@@ -1,8 +1,4 @@
-import { AsyncCreateAccount } from 'pages/CreateAccount';
-import { AsyncLogin } from 'pages/Login';
-import { AsyncLogout } from 'pages/Logout';
-import { AsyncSetPassword } from 'pages/SetPassword';
-import { AsyncPasswordReset } from 'pages/PasswordReset';
+import { AsyncCreateAccount, AsyncLogin, AsyncLogout, AsyncSetPassword, AsyncPasswordReset } from 'pages/async';
 
 export default [
   {
