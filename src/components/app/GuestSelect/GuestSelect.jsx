@@ -97,57 +97,6 @@ export const GuestSelect = ({
       </RoomTabs>
     </StyledGuestSelect>
   );
-
-  // const rooms = length(selectedValues);
-
-  // const onQuantityChange = number => {
-  //   selectedValues.length = number;
-  //   onSelected(map(when(either(isNil, equals(undefined)), always({})), selectedValues));
-  // };
-
-  // const renderTab = i => (
-  //   <Fragment key={i}>
-  //     <AgeSelect
-  //       ageRanges={{ adult: {}, ...ageRanges }}
-  //       onSelect={onAgesChange(i)}
-  //       values={prop(i, selectedValues)}
-  //       minMax={minMax}
-  //     />
-  //     {isArray(errors) && prop(i, errors)}
-  //     {isArray(children) && prop(i, children)}
-  //   </Fragment>
-  // );
-
-  // const renderTabLabels = i => (
-  //   <TabLabel key={i} value={i} data-error={!isNilOrEmpty(prop(i, errors))}>
-  //     Room {i + 1}
-  //   </TabLabel>
-  // );
-
-  // const labels = (gt(rooms, 1) && times(renderTabLabels, rooms)) || [];
-
-  // const tabs = times(renderTab, rooms);
-
-  // return (
-  //   <StyledGuestSelect>
-  //     {renderLabel(label)}
-  //     <GuestSelectSection>
-  //       <GuestSelectEntry>
-  //         <GuestSelectEntryLabel>{t('room_plural')}</GuestSelectEntryLabel>
-  //         <GuestSelectNumberSelect
-  //           value={rooms}
-  //           onAdd={onAddRoom}
-  //           onRemove={onRemoveRoom}
-  //           onChange={onQuantityChange}
-  //           min={1}
-  //         />
-  //       </GuestSelectEntry>
-  //     </GuestSelectSection>
-  //     <RoomTabs value={selectedRoom} scrollButtons="auto" variant="scrollable" labels={labels} onChange={onRoomChange}>
-  //       {tabs}
-  //     </RoomTabs>
-  //   </StyledGuestSelect>
-  // );
 };
 
 GuestSelect.propTypes = propTypes;

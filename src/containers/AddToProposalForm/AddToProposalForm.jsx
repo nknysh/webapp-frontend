@@ -26,17 +26,17 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
 );
 
 export const AddToProposalForm = ({
+  addToProposal,
+  availableToHold,
+  bookingId,
   className,
   createNewProposal,
-  addToProposal,
-  bookingId,
-  onSubmit,
-  fetchProposals,
-  status,
-  proposals,
   disabled,
+  fetchProposals,
+  onSubmit,
+  proposals,
   result,
-  availableToHold,
+  status,
 }) => {
   const { t } = useTranslation();
   const [formValues, setFormValues] = useState({ availableToHold, ...extractFieldDefaults(fields) });
