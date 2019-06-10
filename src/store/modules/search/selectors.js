@@ -1,5 +1,5 @@
 import { curry, prop, pipe, path, when, always, inc, evolve, propOr, pathOr } from 'ramda';
-import { isNilOrEmpty } from 'ramda-adjunct';
+import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 
 import { createSelector } from 'store/utils';
 import { getStatus, getData } from 'store/common';
@@ -58,6 +58,7 @@ export const getSearchDates = createSelector(
   getSearchQuery,
   pipe(
     prop('dates'),
+    renameKeys({ from: 'startDate', to: 'endDate' }),
     evolve(searchDatesTransformations)
   )
 );

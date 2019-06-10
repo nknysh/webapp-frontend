@@ -26,8 +26,8 @@ export const fetchHotel = id => async (dispatch, getState) => {
   const actingCountryCode = getUserCountryContext(state);
   const searchQuery = getSearchQuery(state);
 
-  const startDate = pathOr(Date.now(), ['dates', 'from'], searchQuery);
-  const endDate = pathOr(Date.now(), ['dates', 'to'], searchQuery);
+  const startDate = pathOr(Date.now(), ['dates', 'startDate'], searchQuery);
+  const endDate = pathOr(Date.now(), ['dates', 'endDate'], searchQuery);
 
   dispatch(fetchHotelAction());
 
