@@ -83,21 +83,22 @@ const renderBreadcrumbs = (
   );
 };
 
-const renderBooking = (t, { isEdit, onBookingRemove }, { uuid }) => (
-  <Fragment key={uuid}>
-    <SummaryForm id={uuid} summaryOnly compact>
-      {isEdit && (
-        <ProposalActionsWrapper>
-          <ProposalActions>
-            <DropDownMenu showArrow={false} title={<Menu>more_vert</Menu>}>
-              <span onClick={() => onBookingRemove(uuid)}>{t('buttons.remove')}</span>
-            </DropDownMenu>
-          </ProposalActions>
-        </ProposalActionsWrapper>
-      )}
-    </SummaryForm>
-  </Fragment>
-);
+const renderBooking = (t, { isEdit, onBookingRemove }, booking) =>
+  booking && (
+    <Fragment key={prop('uuid', booking)}>
+      <SummaryForm id={prop('uuid', booking)} summaryOnly compact>
+        {isEdit && (
+          <ProposalActionsWrapper>
+            <ProposalActions>
+              <DropDownMenu showArrow={false} title={<Menu>more_vert</Menu>}>
+                <span onClick={() => onBookingRemove(prop('uuid', booking))}>{t('buttons.remove')}</span>
+              </DropDownMenu>
+            </ProposalActions>
+          </ProposalActionsWrapper>
+        )}
+      </SummaryForm>
+    </Fragment>
+  );
 
 const renderProposalSummary = (t, { isEdit, mobileView, isResortsView, onViewChange, bookings, onBookingRemove }) =>
   (!mobileView || isResortsView) && (
