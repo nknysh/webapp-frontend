@@ -1,3 +1,7 @@
+# Provisional Booking Confirmation
+
+## Booking {{id}}
+
 Thank you for booking with us.
 
 We’d like you to know that Pure Escapes team has received your request and will confirm the accommodations availability as soon as possible.

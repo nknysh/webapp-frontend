@@ -2,7 +2,7 @@
 
 exports[`<CreateAccount /> render matches snapshot 1`] = `
 <Fragment>
-  <React.Lazy />
+  <ErrorBoundary />
   <Modal
     modalContentProps={Object {}}
     onClose={[Function]}

@@ -1,9 +1,9 @@
 import { initialState } from 'store/common';
 
-import { getBooking, getBookingData } from './selectors';
+import { getBookings, getBookingData } from './selectors';
 
 const state = {
-  booking: {
+  bookings: {
     ...initialState,
     data: {
       foo: {
@@ -18,12 +18,12 @@ const state = {
 describe('Booking selectors', () => {
   describe('getBooking', () => {
     it('returns the root key', () => {
-      expect(getBooking(state)).toEqual(state.booking);
+      expect(getBookings(state)).toEqual(state.bookings);
     });
   });
   describe('getBookingData', () => {
     it('returns the data key', () => {
-      expect(getBookingData(state)).toEqual(state.booking.data);
+      expect(getBookingData(state)).toEqual(state.bookings.data);
     });
   });
 });

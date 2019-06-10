@@ -1,24 +1,17 @@
 import { connect } from 'react-redux';
-import { pipe, path } from 'ramda';
-
-import { ProductTypes } from 'config/enums';
+import { pipe } from 'ramda';
 
 import { getHotelsUploads, getHotelsAccommodationProducts } from 'store/modules/hotels/selectors';
 
-import { updateBooking, removeRoom, addRoom } from 'store/modules/booking/actions';
-import { getBookingByHotelId } from 'store/modules/booking/selectors';
+import { updateBooking, removeRoom, addRoom } from 'store/modules/bookings/actions';
+import { getBookingRooms, getBooking } from 'store/modules/bookings/selectors';
 
-export const mapStateToProps = (state, { hotelUuid }) => {
-  const booking = getBookingByHotelId(state, hotelUuid);
-  const selectedRooms = path(['products', ProductTypes.ACCOMMODATION], booking);
-
-  return {
-    getRoomUploads: ids => getHotelsUploads(state, ids),
-    booking,
-    selectedRooms,
-    rooms: getHotelsAccommodationProducts(state, hotelUuid),
-  };
-};
+export const mapStateToProps = (state, { hotelUuid }) => ({
+  getRoomUploads: ids => getHotelsUploads(state, ids),
+  booking: getBooking(state, hotelUuid),
+  requestedRooms: getBookingRooms(state, hotelUuid),
+  rooms: getHotelsAccommodationProducts(state, hotelUuid),
+});
 
 export const mapDispatchToProps = dispatch => ({
   addRoom: pipe(

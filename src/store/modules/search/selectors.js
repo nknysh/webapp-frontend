@@ -50,8 +50,8 @@ export const getSearchValue = pipe(
 );
 
 const searchDatesTransformations = {
-  from: when(isNilOrEmpty, always(defaultFromDate)),
-  to: when(isNilOrEmpty, always(defaultToDate)),
+  startDate: when(isNilOrEmpty, always(defaultFromDate)),
+  endDate: when(isNilOrEmpty, always(defaultToDate)),
 };
 
 export const getSearchDates = createSelector(

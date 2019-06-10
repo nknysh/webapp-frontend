@@ -20,6 +20,11 @@ export default {
       href: '/',
     },
     {
+      title: 'Proposals',
+      href: `${ADMIN_BASE_URL}/proposals`,
+      hard: true,
+    },
+    {
       title: 'Bookings',
       href: `${ADMIN_BASE_URL}/bookings`,
       hard: true,

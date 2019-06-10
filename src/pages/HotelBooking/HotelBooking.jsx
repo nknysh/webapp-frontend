@@ -1,5 +1,4 @@
 import React from 'react';
-import { equals } from 'ramda';
 
 import { HotelBookingContainer } from 'containers';
 
@@ -7,9 +6,9 @@ import { propTypes, defaultProps } from './HotelBooking.props';
 
 export const Hotel = ({
   match: {
-    params: { id, complete },
+    params: { id },
   },
-}) => <HotelBookingContainer id={id} isComplete={equals('complete', complete)} />;
+}) => <HotelBookingContainer id={id} />;
 
 Hotel.propTypes = propTypes;
 Hotel.defaultProps = defaultProps;

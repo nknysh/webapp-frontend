@@ -16,4 +16,7 @@ export default {
   finalizeAndPay: 'Finalize & Pay',
   update: 'Update',
   submitBookingRequest: 'Submit Booking Request',
+  takeHold: 'Take a hold',
+  addToProposal: 'Add to proposal',
+  generateAndSend: 'Generate and Send',
 };

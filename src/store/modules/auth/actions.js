@@ -4,7 +4,6 @@ import { FORBIDDEN } from 'http-status';
 import client from 'api/auth';
 
 import { successAction, errorAction, errorFromResponse } from 'store/common';
-import { enqueueNotification } from 'store/modules/ui/actions';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
@@ -92,10 +91,7 @@ export const getUser = async dispatch => {
     const { data } = await client.getUser();
     dispatch(successAction(AUTH_REQUEST, data));
   } catch (e) {
-    dispatch(errorFromResponse(AUTH_REQUEST, e));
-    dispatch(
-      enqueueNotification({ message: 'There was a problem fetching the current user.', options: { variant: 'error' } })
-    );
+    dispatch(errorFromResponse(AUTH_REQUEST, e, 'There was a problem fetching the current user.'));
   }
 };
 

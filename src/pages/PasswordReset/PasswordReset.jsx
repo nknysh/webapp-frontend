@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import { Modal } from 'components';
 import { PasswordResetForm } from 'containers';
-import { AsyncHome } from 'pages/Home';
+import Home from 'pages/Home';
 
 import { propTypes } from './PasswordReset.props';
 
@@ -13,7 +13,7 @@ export const PasswordReset = ({ history, ...props }) => {
 
   return (
     <Fragment>
-      <AsyncHome history={history} {...props} />
+      <Home history={history} {...props} />
       <Modal open={true} onClose={onClose}>
         <PasswordResetForm />
       </Modal>

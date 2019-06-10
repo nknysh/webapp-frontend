@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Icon } from '@material-ui/core';
 
 import { default as BaseBookingForm } from 'components/app/BookingForm';
 import { Markdown, Modal } from 'components/elements';
@@ -15,7 +16,6 @@ import {
   Aside as BaseAside,
   StyledHotelContainer as BaseStyledHotelContainer,
 } from 'containers/HotelContainer/HotelContainer.styles';
-import { Icon } from '@material-ui/core';
 
 export const StyledHotelContainer = styled(BaseStyledHotelContainer)``;
 
@@ -94,7 +94,7 @@ export const ModalBody = styled.div`
   max-width: 600px;
   padding: ${theme.gutter * 8.4}px ${theme.gutter * 10}px;
 `;
-export const ModalContent = styled.div`
+export const ModalContent = styled(Markdown)`
   margin-bottom: ${theme.gutter * 6}px;
 `;
 

@@ -6,15 +6,16 @@ import { getHotel, getHotelsBrochures, getHotelsPhotos } from 'store/modules/hot
 import { fetchHotel } from 'store/modules/hotel/actions';
 import { getHotelStatus } from 'store/modules/hotel/selectors';
 
-import { updateBooking, removeRoom, addRoom } from 'store/modules/booking/actions';
-import { getBookingByHotelId } from 'store/modules/booking/selectors';
+import { updateBooking, removeRoom, addRoom } from 'store/modules/bookings/actions';
+import { getBooking, getBookingReady } from 'store/modules/bookings/selectors';
 
 export const mapStateToProps = (state, { id }) => {
   const hotel = getHotel(state, id);
   return {
     brochures: getHotelsBrochures(state, id),
+    canBook: getBookingReady(state, id),
     photos: getHotelsPhotos(state, id),
-    booking: getBookingByHotelId(state, id),
+    booking: getBooking(state, id),
     hotel,
     hotelStatus: getHotelStatus(state),
   };

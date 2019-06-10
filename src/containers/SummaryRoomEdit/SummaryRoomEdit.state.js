@@ -1,33 +1,53 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { updateBooking } from 'store/modules/booking/actions';
+import { updateBooking, updateRoom, updateIndividualRoom, addRoom, removeRoom } from 'store/modules/bookings/actions';
 import {
   getBookingRoomDatesById,
   getBookingRoomMealPlans,
   getBookingErrorsByRoomId,
-} from 'store/modules/booking/selectors';
+  getPotentialBookingRoomsById,
+  getBookingRoomsById,
+} from 'store/modules/bookings/selectors';
 
-import {
-  getHotelRoomName,
-  getHotelRoomRates,
-  getHotelRoomOptions,
-  getHotelProductAgeRanges,
-} from 'store/modules/hotels/selectors';
+import { getHotelRoomName, getHotelRoomRates, getHotelRoomOptions } from 'store/modules/hotels/selectors';
 
-export const mapStateToProps = (state, { hotelUuid, id }) => ({
-  ageRanges: getHotelProductAgeRanges(state, id),
-  dates: getBookingRoomDatesById(state, hotelUuid, id),
-  name: getHotelRoomName(state, hotelUuid, id),
-  rates: getHotelRoomRates(state, hotelUuid, id),
-  options: getHotelRoomOptions(state, hotelUuid, id),
-  mealPlans: getBookingRoomMealPlans(state, hotelUuid, id),
-  errors: getBookingErrorsByRoomId(state, hotelUuid, id),
+import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
+
+export const mapStateToProps = (state, { id, roomId }) => ({
+  dates: getBookingRoomDatesById(state, id, roomId),
+  name: getHotelRoomName(state, id, roomId),
+  rates: getHotelRoomRates(state, id, roomId),
+  options: getHotelRoomOptions(state, id, roomId),
+  mealPlans: getBookingRoomMealPlans(state, id, roomId),
+  errors: getBookingErrorsByRoomId(state, id, roomId),
+  rooms: getPotentialBookingRoomsById(state, id, roomId),
+  requestedRooms: getBookingRoomsById(state, id, roomId),
 });
 
 export const mapDispatchToProps = dispatch => ({
   updateBooking: pipe(
     updateBooking,
+    dispatch
+  ),
+  updateRoom: pipe(
+    updateRoom,
+    dispatch
+  ),
+  updateIndividualRoom: pipe(
+    updateIndividualRoom,
+    dispatch
+  ),
+  addRoom: pipe(
+    addRoom,
+    dispatch
+  ),
+  removeRoom: pipe(
+    removeRoom,
+    dispatch
+  ),
+  getRatesForDates: pipe(
+    fetchHotelRoomRatesByDates,
     dispatch
   ),
 });

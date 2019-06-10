@@ -1,25 +1,31 @@
 import { connect } from 'react-redux';
+import { pipe } from 'ramda';
 
 import {
-  getPotentialDatesByRoomId,
   getBookingRoomTotal,
-  getPotentialBookingRoomMealPlans,
-  getPotentialBookingRoomSupplements,
-  getPotentialBookingByRoomId,
+  getPotentialBookingRoomsById,
   getBookingErrorsByRoomId,
-} from 'store/modules/booking/selectors';
-import { getHotelRoom, getHotelProductAgeRanges, getHotelsRoomsPhotos } from 'store/modules/hotels/selectors';
+  getBookingRoomsById,
+  getBookingRoomDatesById,
+} from 'store/modules/bookings/selectors';
+import { removeRoom } from 'store/modules/bookings/actions';
 
-export const mapStateToProps = (state, { hotelUuid, id }) => ({
-  ageRanges: getHotelProductAgeRanges(state, id),
-  dates: getPotentialDatesByRoomId(state, hotelUuid, id),
-  details: getHotelRoom(state, hotelUuid, id),
-  supplements: getPotentialBookingRoomSupplements(state, hotelUuid, id),
-  mealPlans: getPotentialBookingRoomMealPlans(state, hotelUuid, id),
-  total: getBookingRoomTotal(state, hotelUuid, id),
-  photos: getHotelsRoomsPhotos(state, hotelUuid, id),
-  potentialBooking: getPotentialBookingByRoomId(state, hotelUuid, id),
-  errors: getBookingErrorsByRoomId(state, hotelUuid, id),
+export const mapStateToProps = (state, { id, roomId }) => ({
+  errors: getBookingErrorsByRoomId(state, id, roomId),
+  requestedRooms: getBookingRoomsById(state, id, roomId),
+  rooms: getPotentialBookingRoomsById(state, id, roomId),
+  total: getBookingRoomTotal(state, id, roomId),
+  dates: getBookingRoomDatesById(state, id, roomId),
 });
 
-export default connect(mapStateToProps);
+export const mapDispatchToProps = dispatch => ({
+  removeRoom: pipe(
+    removeRoom,
+    dispatch
+  ),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+);

@@ -12,4 +12,6 @@ export default {
   preparingBooking: 'Preparing booking...',
   submittingBooking: 'Submitting booking...',
   redirecting: 'Redirecting...',
+  gettingProposal: 'Getting proposal...',
+  gettingBooking: 'Getting booking...',
 };

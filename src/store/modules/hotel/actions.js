@@ -7,7 +7,6 @@ import client from 'api/hotels';
 import { successAction, errorFromResponse } from 'store/common';
 import { setHotels } from 'store/modules/hotels/actions';
 import { getSearchQuery } from 'store/modules/search/selectors';
-import { enqueueNotification } from 'store/modules/ui/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 
 export const HOTEL = 'HOTEL';
@@ -44,12 +43,6 @@ export const fetchHotel = id => async (dispatch, getState) => {
     dispatch(successAction(HOTEL, data));
     dispatch(setHotels(data));
   } catch (e) {
-    dispatch(errorFromResponse(HOTEL, e));
-    dispatch(
-      enqueueNotification({
-        message: 'There was a problem fetching this hotel. Please try again.',
-        options: { variant: 'error' },
-      })
-    );
+    dispatch(errorFromResponse(HOTEL, e, 'There was a problem fetching this hotel. Please try again.'));
   }
 };

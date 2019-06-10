@@ -1,38 +1,32 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { updateBooking, removeRoom, updateBookingExtras } from 'store/modules/booking/actions';
+import { updateBooking, removeRoom, replaceProducts } from 'store/modules/bookings/actions';
 import {
-  getBookingByHotelId,
+  getBooking,
   getBookingTotals,
   getBookingTotal,
   getBookingReady,
   getBookingStatus,
   getBookingNonAccommodationErrors,
   isBookingOnRequest,
-} from 'store/modules/booking/selectors';
+} from 'store/modules/bookings/selectors';
 
 import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
-import { getHotel } from 'store/modules/hotels/selectors';
 
-export const mapStateToProps = (state, { hotelUuid }) => ({
-  booking: getBookingByHotelId(state, hotelUuid),
-  canBook: getBookingReady(state, hotelUuid),
-  hotel: getHotel(state, hotelUuid),
+export const mapStateToProps = (state, { id }) => ({
+  booking: getBooking(state, id),
+  canBook: getBookingReady(state, id),
   status: getBookingStatus(state),
-  totals: getBookingTotals(state, hotelUuid),
-  total: getBookingTotal(state, hotelUuid),
-  errors: getBookingNonAccommodationErrors(state, hotelUuid),
-  isOnRequest: isBookingOnRequest(state, hotelUuid),
+  totals: getBookingTotals(state, id),
+  total: getBookingTotal(state, id),
+  errors: getBookingNonAccommodationErrors(state, id),
+  isOnRequest: isBookingOnRequest(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({
   updateBooking: pipe(
     updateBooking,
-    dispatch
-  ),
-  updateBookingExtras: pipe(
-    updateBookingExtras,
     dispatch
   ),
   removeRoom: pipe(
@@ -41,6 +35,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   getRatesForDates: pipe(
     fetchHotelRoomRatesByDates,
+    dispatch
+  ),
+  replaceProducts: pipe(
+    replaceProducts,
     dispatch
   ),
 });

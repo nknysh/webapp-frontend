@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
 import {
   __,
-  any,
   always,
+  any,
   complement,
+  compose,
   contains,
   filter,
   flatten,
+  identity,
   ifElse,
   join,
+  length,
   map,
+  memoizeWith,
   mergeAll,
+  path,
+  pathOr,
   pipe,
   prop,
-  uniq,
-  memoizeWith,
-  identity,
-  path,
+  propEq,
   propSatisfies,
+  uniq,
   values,
-  pathOr,
-  length,
-  compose,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import hash from 'object-hash';
@@ -74,7 +75,7 @@ const filterRoomsByAmenities = (rooms, selected) => {
 
 const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByAmenities')}</span>), join(', '));
 
-export const Rooms = ({ hotelUuid, className, rooms, selectedRooms, addRoom, removeRoom, getRoomUploads }) => {
+export const Rooms = ({ hotelUuid, className, rooms, requestedRooms, addRoom, removeRoom, getRoomUploads }) => {
   const { t } = useTranslation();
 
   const [selectedAmenities, setSelectedAmenities] = useState([]);
@@ -87,7 +88,8 @@ export const Rooms = ({ hotelUuid, className, rooms, selectedRooms, addRoom, rem
   const onRoomRemove = uuid => removeRoom(hotelUuid, uuid);
 
   const renderRoom = room => {
-    const selectedCount = length(pathOr([], [prop('uuid', room), 'guests'], selectedRooms));
+    const { uuid } = room;
+    const selectedCount = length(filter(propEq('uuid', uuid), requestedRooms || []));
 
     return (
       <StyledRoom

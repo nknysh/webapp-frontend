@@ -16,6 +16,15 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}
+    href="undefined/proposals"
+    key="d0a77c613f3c3ea60710cdc8518e062873244718"
+    onClick={[Function]}
+    spaced={true}
+  >
+    Proposals
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
     href="undefined/bookings"
     key="7f45ac3eccc542131a023e9e2d19fcdcbbcc93ed"
     onClick={[Function]}
@@ -42,6 +51,15 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}
+    href="undefined/proposals"
+    key="d0a77c613f3c3ea60710cdc8518e062873244718"
+    onClick={[Function]}
+    spaced={true}
+  >
+    Proposals
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
     href="undefined/bookings"
     key="7f45ac3eccc542131a023e9e2d19fcdcbbcc93ed"
     onClick={[Function]}
@@ -65,6 +83,15 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
     to="/"
   >
     Home
+  </Menustyles__MenuLink>
+  <Menustyles__MenuLink
+    data-active={false}
+    href="undefined/proposals"
+    key="d0a77c613f3c3ea60710cdc8518e062873244718"
+    onClick={[Function]}
+    spaced={true}
+  >
+    Proposals
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}

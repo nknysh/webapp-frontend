@@ -1,4 +1,4 @@
-import { AsyncContentPage } from 'pages/ContentPage';
+import { AsyncContentPage } from 'pages/async';
 
 export default [
   {

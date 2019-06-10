@@ -32,7 +32,6 @@ const scrollTo = targetRef => {
   });
 };
 
-// eslint-disable-next-line
 const renderSection = ({ content, image, moveTo, ...props }) => {
   const onMove = () => scrollTo(moveTo);
 

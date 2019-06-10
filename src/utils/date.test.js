@@ -19,19 +19,19 @@ describe('date', () => {
     it('returns days between 2 dates', () => {
       expect(
         getNumberOfDays({
-          from: new Date('2019-04-10'),
-          to: new Date('2019-05-10'),
+          startDate: new Date('2019-04-10'),
+          endDate: new Date('2019-05-10'),
         })
       ).toMatchSnapshot();
-      expect(getNumberOfDays({ from: new Date('2019-04-10') })).toMatchSnapshot();
+      expect(getNumberOfDays({ startDate: new Date('2019-04-10') })).toMatchSnapshot();
     });
   });
   describe('getFromDateFormat', () => {
     it('returns formatted from date', () => {
       expect(
         getFromDateFormat({
-          from: new Date('2019-04-10'),
-          to: new Date('2019-05-10'),
+          startDate: new Date('2019-04-10'),
+          endDate: new Date('2019-05-10'),
         })
       ).toMatchSnapshot();
     });
@@ -40,8 +40,8 @@ describe('date', () => {
     it('returns formatted to date', () => {
       expect(
         getToDateFormat({
-          from: new Date('2019-04-10'),
-          to: new Date('2019-05-10'),
+          startDate: new Date('2019-04-10'),
+          endDate: new Date('2019-05-10'),
         })
       ).toMatchSnapshot();
     });

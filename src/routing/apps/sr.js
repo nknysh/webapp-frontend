@@ -3,8 +3,10 @@ import page from 'routing/common/page';
 import notFound from 'routing/common/notFound';
 import search from 'routing/common/search';
 import hotels from 'routing/common/hotels';
+import booking from 'routing/common/booking';
+import proposals from 'routing/common/proposals';
 
-import { AsyncDashboard } from 'pages/Dashboard';
+import { AsyncDashboard } from 'pages/async';
 
 export default [
   {
@@ -17,5 +19,8 @@ export default [
   ...hotels,
   ...auth,
   ...page,
+  ...proposals,
+  ...booking,
+
   ...notFound,
 ];

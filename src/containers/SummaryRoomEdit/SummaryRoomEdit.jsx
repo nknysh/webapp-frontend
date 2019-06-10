@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
 import {
-  always,
   compose,
-  curry,
-  defaultTo,
   equals,
-  evolve,
   gt,
   head,
   ifElse,
   last,
   length,
+  lt,
   map,
   mapObjIndexed,
+  partial,
+  path,
   pipe,
   prepend,
   prop,
+  propOr,
   toUpper,
   values,
-  when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { isThisMonth } from 'date-fns';
@@ -35,11 +34,11 @@ import {
   formatDate,
   getEndOfMonth,
   getStartOfMonth,
-  toDate,
+  groupErrorsByRoomIndex,
   isArray,
   mapWithIndex,
   replaceAccommodationWithRoom,
-  groupErrorsByRoomIndex,
+  toDate,
 } from 'utils';
 
 import { validation } from 'config/forms/roomEdit';
@@ -58,12 +57,15 @@ import {
   MealPlanRatePrice,
   StyledDatePicker,
 } from './SummaryRoomEdit.styles';
-import { getOptionsFromRates, getMinMax, getAgeRanges } from './SummaryRoomEdit.utils';
-
-const getMonthToDisplay = pipe(
-  prop('to'),
-  toDate
-);
+import {
+  getAgeRanges,
+  getMealPlan,
+  getMinMax,
+  getMonthToDisplay,
+  getOptionsFromRates,
+  parseMealPlans,
+  prepareDates,
+} from './SummaryRoomEdit.utils';
 
 const renderError = message => message && <FormFieldError key={message}>{message}</FormFieldError>;
 const renderKeyedError = (msg, key) => renderError(`${toUpper(key)} - ${msg}`);
@@ -86,52 +88,170 @@ const renderRoomErrors = pipe(
   map(map(renderError))
 );
 
+const renderGuestSelect = (
+  t,
+  {
+    ageRanges,
+    bookingErrors,
+    errors,
+    minMax,
+    onGuestSelectChange,
+    onQuantityChange,
+    roomContext,
+    setRoomContext,
+    totalRooms,
+    values,
+  }
+) => (
+  <GuestSelect
+    ageRanges={ageRanges}
+    errors={renderGuestSelectErrors(prop('guestAges', errors))}
+    minMax={minMax}
+    onQuantityChange={onQuantityChange}
+    onSelected={onGuestSelectChange}
+    onTabChange={setRoomContext}
+    tabIndex={roomContext}
+    totalRooms={totalRooms}
+    values={propOr({}, 'guestAges', values)}
+  >
+    {renderRoomErrors(bookingErrors)}
+  </GuestSelect>
+);
+
+const renderDay = (rates, day) => {
+  const dayRate = prop(formatDate(day), rates);
+
+  return (
+    <span>
+      <div>{formatDate(day, 'D')}</div>
+      {dayRate && <DatePrice>{prop('price', dayRate)}</DatePrice>}
+    </span>
+  );
+};
+
+const renderDatePicker = (
+  t,
+  { dates, rates, disabled, firstDate, lastDate, onMonthChange, onDayPickerShow, values, onDatesChange }
+) => (
+  <StyledDatePicker
+    label={t('date_plural')}
+    dayPickerProps={{
+      month: getMonthToDisplay(dates),
+      disabledDays: [
+        ...disabled,
+        {
+          before: new Date(firstDate),
+          after: new Date(lastDate),
+        },
+      ],
+      renderDay: partial(renderDay, [rates]),
+      onMonthChange,
+    }}
+    onDayPickerShow={onDayPickerShow}
+    selectedValues={prop('dates', values)}
+    onSelected={onDatesChange}
+  />
+);
+
+const mapBreakdown = (hasSplitRates, { title, dates, total }, i) => (
+  <MealPlanRate key={i}>
+    {title} - (<MealPlanRatePrice>{total}</MealPlanRatePrice>
+    {hasSplitRates && ` | ${head(dates)}${!equals(head(dates), last(dates)) ? ` - ${last(dates)}` : ''}`})
+  </MealPlanRate>
+);
+
+const mapMealPlans = ({ breakdown = [], products = [] }) => {
+  const hasSplitRates = gt(length(breakdown), 1);
+  const productUuids = map(prop('uuid'), products);
+
+  return {
+    value: JSON.stringify(productUuids),
+    label: mapWithIndex(partial(mapBreakdown, [hasSplitRates]), breakdown),
+  };
+};
+
+const renderMealPlans = ({ mealPlanOptions, onMealPlanChange, values }) => (
+  <RadioButton name="mealPlan" value={prop('mealPlan', values)} options={mealPlanOptions} onChange={onMealPlanChange} />
+);
+
 export const SummaryRoomEdit = ({
+  addRoom,
   dates,
-  guests,
+  errors,
   hotelUuid,
   id,
-  mealPlan,
   mealPlans,
-  name,
   onComplete,
   onDatesShow,
-  options,
   rates,
+  removeRoom,
+  requestedRooms,
+  roomId,
+  rooms,
   status,
   updateBooking,
-  errors,
+  updateIndividualRoom,
+  updateRoom,
 }) => {
   const { t } = useTranslation();
 
-  const [formValues, setFormValues] = useState({ mealPlan, dates, guests });
-  const [complete, setComplete] = useState(false);
+  const mealPlan = getMealPlan(requestedRooms);
+
   const [roomContext, setRoomContext] = useState(0);
-  const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
-  const bookingErrors = groupErrorsByRoomIndex(errors);
+  const [complete, setComplete] = useState(false);
+  const [formValues, setFormValues] = useState({
+    mealPlan,
+    guestAges: map(prop('guestAges'), requestedRooms),
+    dates: head(dates),
+  });
+
   const isLoading = isActive(status);
+  const totalRooms = length(requestedRooms);
+  const ageRanges = getAgeRanges(rooms);
+  const minMax = getMinMax(rooms);
+  const bookingErrors = groupErrorsByRoomIndex(errors);
+  const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
+  const mealPlanOptions = pipe(
+    map(mapMealPlans),
+    prepend({ label: 'None', value: '[]' })
+  )(mealPlans[roomContext] || []);
 
   useEffectBoundary(() => {
-    roomContext > guests.length - 1 && setRoomContext(guests.length - 1);
-  }, [guests]);
+    setFormValues({
+      ...formValues,
+      guestAges: map(prop('guestAges'), requestedRooms),
+    });
+  }, [requestedRooms]);
 
   useEffectBoundary(() => {
-    complete && onComplete({});
+    setFormValues({
+      ...formValues,
+      dates: head(dates),
+    });
+  }, [dates]);
+
+  useEffectBoundary(() => {
+    setFormValues({
+      ...formValues,
+      mealPlan,
+    });
+  }, [mealPlan]);
+
+  useEffectBoundary(() => {
+    roomContext > totalRooms - 1 && setRoomContext(totalRooms - 1);
+  }, [totalRooms]);
+
+  useEffectBoundary(() => {
+    complete && onComplete();
   }, [complete]);
 
-  const ageRanges = getAgeRanges(options);
-  const minMax = getMinMax(options);
+  const onQuantityChange = quantity => {
+    gt(quantity, totalRooms) && addRoom(id, roomId);
+    lt(quantity, totalRooms) && removeRoom(id, roomId);
+  };
 
-  const onBookingChange = (id, values) => updateBooking(hotelUuid, id, values);
-
-  const onFormSubmit = values => {
-    const finalValues = evolve({
-      mealPlan: when(isNilOrEmpty, always('[]')),
-    });
-
-    setFormValues(values);
-    updateBooking(hotelUuid, { products: { [ProductTypes.ACCOMMODATION]: { [id]: { ...finalValues(values) } } } });
-    setComplete(isNilOrEmpty(bookingErrors));
+  const onGuestSelectChange = (guestAges, i) => {
+    updateIndividualRoom(id, roomId, i, { guestAges });
   };
 
   const onMonthChange = month => {
@@ -144,101 +264,70 @@ export const SummaryRoomEdit = ({
     return month;
   };
 
-  const onDayPickerShow = () => onDatesShow(hotelUuid, id, firstDate, getEndOfMonth(lastDate));
+  const onDayPickerShow = () => onDatesShow(id, roomId, firstDate, getEndOfMonth(lastDate));
 
-  const onObjectChange = curry((name, { handleChange }, value) => {
-    handleChange({ target: { name, type: 'object', value } });
-    onBookingChange({ products: { [ProductTypes.ACCOMMODATION]: { [id]: { [name]: value } } } });
-  });
-
-  const onMealPlanChange = ({ handleChange }) => (e, value) => {
-    handleChange(e, value);
-    onBookingChange({ products: { [ProductTypes.ACCOMMODATION]: { [id]: { mealPlan: value } } } });
+  const onDatesChange = dates => {
+    updateRoom(id, roomId, prepareDates(dates));
   };
 
-  const mapMealPlans = ({ breakdown = [], products = [] }) => {
-    const hasSplitRates = gt(length(breakdown), 1);
-
-    const mapBreakdown = ({ title, dates, total }, i) => (
-      <MealPlanRate key={i}>
-        {title} - (<MealPlanRatePrice>{total}</MealPlanRatePrice>
-        {hasSplitRates && ` | ${head(dates)}${!equals(head(dates), last(dates)) ? ` - ${last(dates)}` : ''}`})
-      </MealPlanRate>
-    );
-
-    return {
-      value: JSON.stringify(products),
-      label: mapWithIndex(mapBreakdown, breakdown),
-    };
+  const onMealPlanChange = (e, value) => {
+    updateRoom(id, roomId, {
+      subProducts: {
+        [ProductTypes.MEAL_PLAN]: parseMealPlans(value),
+      },
+    });
   };
 
-  const renderDay = day => {
-    const dayRate = prop(formatDate(day), rates);
-
-    return (
-      <span>
-        <div>{formatDate(day, 'D')}</div>
-        {dayRate && <DatePrice>{prop('price', dayRate)}</DatePrice>}
-      </span>
-    );
+  const onSubmit = values => {
+    setFormValues(values);
+    updateBooking(hotelUuid, {});
+    setComplete(isNilOrEmpty(bookingErrors));
   };
 
   return (
     <EditForm>
-      <EditFormTitle>{name}</EditFormTitle>
+      <EditFormTitle>{path(['product', 'name'], head(rooms))}</EditFormTitle>
       <Form
         initialValues={formValues}
-        onSubmit={onFormSubmit}
-        validationSchema={validation({ options })}
+        enableReinitialize={true}
+        onSubmit={onSubmit}
+        validationSchema={validation({ options: path(['product', 'options'], head(rooms)) })}
         validateOnBlur={false}
       >
         {({ values, errors, ...formProps }) => (
           <Loader isLoading={isLoading} showPrev={true} text="Updating...">
             <EditFormSection>
-              <GuestSelect
-                ageRanges={ageRanges}
-                onSelected={onObjectChange('guests', formProps)}
-                contentOnly={true}
-                selectedValues={map(defaultTo({}), prop('guests', values))}
-                minMax={minMax}
-                errors={renderGuestSelectErrors(prop('guests', errors))}
-                onRoomChange={setRoomContext}
-                selectedRoom={roomContext}
-              >
-                {renderRoomErrors(bookingErrors)}
-              </GuestSelect>
+              {renderGuestSelect(t, {
+                ageRanges,
+                bookingErrors,
+                errors,
+                minMax,
+                onGuestSelectChange,
+                onQuantityChange,
+                requestedRooms,
+                roomContext,
+                setRoomContext,
+                totalRooms,
+                values,
+                ...formProps,
+              })}
             </EditFormSection>
             <EditFormSection>
-              <StyledDatePicker
-                label={t('date_plural')}
-                dayPickerProps={{
-                  month: getMonthToDisplay(dates),
-                  disabledDays: [
-                    ...disabled,
-                    {
-                      before: new Date(firstDate),
-                      after: new Date(lastDate),
-                    },
-                  ],
-                  renderDay,
-                  onMonthChange,
-                }}
-                onDayPickerShow={onDayPickerShow}
-                selectedValues={prop('dates', values)}
-                onSelected={onObjectChange('dates', formProps)}
-              />
+              {renderDatePicker(t, {
+                dates,
+                rates,
+                disabled,
+                firstDate,
+                lastDate,
+                onMonthChange,
+                onDayPickerShow,
+                onDatesChange,
+                values,
+              })}
             </EditFormSection>
             <EditFormSection>
               <EditFormSectionTitle>{t('mealPlan_plural')}</EditFormSectionTitle>
-              <RadioButton
-                name="mealPlan"
-                value={prop('mealPlan', values)}
-                options={pipe(
-                  map(mapMealPlans),
-                  prepend({ label: 'None', value: '' })
-                )(mealPlans[roomContext] || [])}
-                onChange={onMealPlanChange(formProps)}
-              />
+              {renderMealPlans({ mealPlanOptions, onMealPlanChange, values })}
             </EditFormSection>
             <EditFormActions>
               <EditFormButton type="submit">{t('buttons.update')}</EditFormButton>

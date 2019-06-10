@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { prop, path, map, complement, equals, values, last, pipe, propEq, find, filter } from 'ramda';
+import { prop, path, map, complement, equals, values, last, pipe, propEq, find, filter, partial } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
@@ -52,7 +52,7 @@ const renderImgOffer = bestRate =>
 
 const renderAmenity = amenity => <Detail key={amenity}>{amenity}</Detail>;
 
-const renderAmenities = amenities => amenities && map(renderAmenity, amenities);
+const renderAmenities = (t, amenities) => amenities && map(renderAmenity, amenities);
 
 const renderSize = (t, size) =>
   size && (
@@ -68,8 +68,7 @@ const renderStandardOccupancy = (t, { standardOccupancy }) =>
     </Detail>
   );
 
-// eslint-disable-next-line
-const renderMinMaxLimit = t => ({ name, maximum, minimum }) => (
+const renderMinMaxLimit = (t, { name, maximum, minimum }) => (
   <Limit key={name}>
     {`${isAdult(name) ? t('adult_plural') : t(`${name}_plural`) || name}`} - {t('labels.max')} {maximum}{' '}
     {t('labels.min')} {minimum}
@@ -84,7 +83,7 @@ const renderMinMax = (t, { maximumPeople, limits }) => (
       {` `}
     </Detail>
 
-    {!isNilOrEmpty(limits) && <Limits>{map(renderMinMaxLimit(t), limits)}</Limits>}
+    {!isNilOrEmpty(limits) && <Limits>{map(partial(renderMinMaxLimit, [t]), limits)}</Limits>}
   </Fragment>
 );
 
@@ -103,10 +102,10 @@ const renderBrochure = (t, { uuid, displayName, url }) => (
   </Button>
 );
 
-const renderBrochures = t => brochures =>
+const renderBrochures = (t, brochures) =>
   brochures && (
     <EndColumn>
-      <Brochures>{map(renderBrochure(t), brochures)}</Brochures>
+      <Brochures>{map(partial(renderBrochure, [t]), brochures)}</Brochures>
     </EndColumn>
   );
 
@@ -147,7 +146,7 @@ export const Room = ({
       nextClassName="add"
       prevClassName="minus"
       countClassName="count"
-      zeroText={t('Add Accommodation')}
+      zeroText={t('labels.addAccommodation')}
       onAdd={onAdd}
       onRemove={onRemove}
       value={selectedCount}
@@ -159,7 +158,7 @@ export const Room = ({
       <RoomImage>
         {img && <Img src={prop('url', img)} alt={prop('displayName', img)} />}
         {renderImgOffer(rates)}
-        {withSelection && visibleRate && renderSelection(onRoomAdd, onRoomRemove, selectedCount)}
+        {withSelection && visibleRate && renderSelection()}
       </RoomImage>
       <RoomInfo>
         <Columns>

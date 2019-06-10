@@ -1,5 +1,4 @@
-import { AsyncHotel } from 'pages/Hotel';
-import { AsyncHotelBooking } from 'pages/HotelBooking';
+import { AsyncHotelBooking, AsyncHotel } from 'pages/async';
 
 export default [
   {

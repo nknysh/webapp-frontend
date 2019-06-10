@@ -1,5 +1,21 @@
 import React, { Fragment } from 'react';
-import { __, set, view, path, prop, propOr, lensPath, pipe, equals, map, merge, head, last, values } from 'ramda';
+import {
+  __,
+  set,
+  view,
+  path,
+  prop,
+  partial,
+  propOr,
+  lensPath,
+  pipe,
+  equals,
+  map,
+  merge,
+  head,
+  last,
+  values,
+} from 'ramda';
 import { isNaN, isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
@@ -39,8 +55,7 @@ const mapMealPlan = value => ({ label: value, value });
 const mapMealPlans = map(mapMealPlan);
 const mealPlanOptions = values(mapMealPlans(MealPlanSelectTypes));
 
-// eslint-disable-next-line
-const renderMealPlanTip = t => value => (
+const renderMealPlanTip = (t, value) => (
   <MealTypeTip key={value}>
     <MealTypeKey>{value}</MealTypeKey>
     {t(`mealTypes.${value}`)}
@@ -170,7 +185,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
       <Title>
         {t('mealPlan')}
-        <ToolTip>{values(map(renderMealPlanTip(t), MealPlanSelectTypes))}</ToolTip>
+        <ToolTip>{values(map(partial(renderMealPlanTip[t]), MealPlanSelectTypes))}</ToolTip>
       </Title>
       <SectionField>
         <MealPlanRadioButton

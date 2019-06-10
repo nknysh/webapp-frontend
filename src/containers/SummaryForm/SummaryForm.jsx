@@ -1,20 +1,5 @@
 import React, { useState, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
-import {
-  all,
-  always,
-  assocPath,
-  compose,
-  equals,
-  mapObjIndexed,
-  path,
-  pathOr,
-  pipe,
-  prop,
-  propOr,
-  values,
-  when,
-} from 'ramda';
+import { compose, groupBy, head, mapObjIndexed, partial, path, pathOr, pipe, propOr, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
@@ -22,10 +7,8 @@ import SummaryRoomEdit from 'containers/SummaryRoomEdit';
 import SummaryRoom from 'containers/SummaryRoom';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
-import SummaryFormMargin from 'components/app/SummaryFormMargin';
-
 import { Form, Input, Loader } from 'components/elements';
-import { getFormPath, mapWithIndex } from 'utils';
+import { mapWithIndex } from 'utils';
 
 import { isActive } from 'store/common';
 
@@ -34,6 +17,9 @@ import { ProductTypes } from 'config/enums';
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
 import {
+  Error,
+  Errors,
+  Hotel,
   HotelName,
   Rooms,
   Saving,
@@ -45,178 +31,159 @@ import {
   Text,
   Title,
   Total,
-  Errors,
-  Error,
+  TotalMargin,
 } from './SummaryForm.styles';
 
 const modalProps = { className: 'room-summary-form' };
 
-const renderHotelName = name => name && <HotelName>{name}</HotelName>;
+const getSingleValue = (type, data) =>
+  pipe(
+    pathOr([''], ['breakdown', 'requestedBuild', type]),
+    head,
+    propOr('', 'uuid')
+  )(data);
+
+const renderHotel = (t, { name, total, compact }) => (
+  <Hotel data-compact={compact}>
+    <HotelName>{name}</HotelName>
+    {compact && <Total>{total}</Total>}
+  </Hotel>
+);
 
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
 const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <Errors>{mapWithIndex(renderError, errors)}</Errors>;
+
+const renderRoom = (t, booking, { id, summaryOnly, setModalId, removeRoom, hotelUuid }, rooms, uuid) => (
+  <SummaryRoom
+    canEdit={!summaryOnly}
+    hotelUuid={hotelUuid}
+    id={id}
+    key={uuid}
+    onEdit={setModalId}
+    onRemove={removeRoom}
+    roomId={uuid}
+  />
+);
+
+const renderRooms = (t, { breakdown, ...data }, props) =>
+  pipe(
+    pathOr([], ['potentialBooking', 'Accommodation']),
+    groupBy(path(['product', 'uuid'])),
+    mapObjIndexed(partial(renderRoom, [t, { breakdown, ...data }, props])),
+    values
+  )(breakdown);
+
+const renderModal = (t, { id, hotelUuid, modalId, status, getRatesForDates, setModalId, onModalClose }) => {
+  if (!modalId) return null;
+
+  return (
+    <StyledModal open={true} onClose={onModalClose} modalContentProps={modalProps}>
+      <SummaryRoomEdit
+        hotelUuid={hotelUuid}
+        id={id}
+        onComplete={setModalId}
+        onDatesShow={getRatesForDates}
+        onEdit={setModalId}
+        roomId={modalId}
+        status={status}
+      />
+    </StyledModal>
+  );
+};
+
+const renderTotal = (t, { compact, isOnRequest, total, saving, summaryOnly, taMarginAmount, taMarginType }) =>
+  !compact && (
+    <Fragment>
+      <Title>{t('labels.totalNet')}</Title>
+      <Section>
+        <Total data-request={isOnRequest}>{isOnRequest ? t('labels.onRequest') : total}</Total>
+        {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
+        {saving && !isOnRequest && (
+          <Text>
+            {t('labels.savingOfPrefix')}
+            <Saving>{saving}</Saving>
+            {t('labels.savingOfSuffix')}
+          </Text>
+        )}
+        {summaryOnly && !isOnRequest && (
+          <TotalMargin
+            type={taMarginType || 'percentage'}
+            value={taMarginAmount || 0}
+            total={total}
+            summaryOnly={true}
+          />
+        )}
+      </Section>
+    </Fragment>
+  );
+
+const renderForm = (t, { initialValues, onSubmit, canBook, id, compact, summaryOnly, errors, isOnRequest }) => (
+  <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
+    {({ values }) => (
+      <Fragment>
+        <Input type="hidden" value={canBook} name="valid" />
+        <SummaryFormExtras id={id} summaryOnly={summaryOnly} values={values} compact={compact} />
+        {renderSummaryErrors(errors)}
+        {!summaryOnly && (
+          <SummaryFormActions>
+            <SummaryFormButton disabled={!canBook} type="submit">
+              {isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow')}
+            </SummaryFormButton>
+          </SummaryFormActions>
+        )}
+      </Fragment>
+    )}
+  </Form>
+);
 
 export const SummaryForm = ({
   booking,
   canBook,
   children,
   className,
+  compact,
+  errors,
   getRatesForDates,
-  hotel,
+  id,
+  isOnRequest,
+  onSubmit,
   removeRoom,
   saving,
   status,
   summaryOnly,
-  isOnRequest,
   total,
-  updateBooking,
-  updateBookingExtras,
-  errors,
 }) => {
   const { t } = useTranslation();
-  const { products, margin } = booking;
-  const { name, uuid: hotelUuid } = hotel;
-  const Accommodation = propOr({}, ProductTypes.ACCOMMODATION, products);
+  const { marginApplied, taMarginAmount, taMarginType, hotelUuid, hotelName: name } = booking;
 
-  const [modalData, setModalData] = useState({});
-  const [redirectToBooking, setRedirectToBooking] = useState(false);
-
-  if (redirectToBooking) return <Redirect to={`/hotels/${hotelUuid}/booking`} />;
+  const [modalId, setModalId] = useState();
 
   const isLoading = isActive(status);
 
-  const marginType = propOr('percentage', 'type', margin);
-  const marginValue = propOr(0, 'value', margin);
-
-  const onModalClose = () => setModalData({});
-
-  const onBookingChange = (id, values) => updateBooking(prop('uuid', hotel), id, values);
-  const onBookingExtrasChange = (id, values) => updateBookingExtras(prop('uuid', hotel), id, values);
-
-  const onExtrasChange = ({ handleChange }) => (e, value) => {
-    handleChange(e, value);
-    onBookingExtrasChange({ [path(['target', 'name'], e)]: path(['target', 'checked'], e) });
-  };
-
-  const onValuesChange = ({ handleChange }) => (e, value, isProduct) => {
-    handleChange(e, value);
-
-    const changedValues = assocPath(
-      getFormPath(e.target.name),
-      equals('checkbox', e.target.type) ? e.target.checked : e.target.value,
-      {}
-    );
-
-    onBookingChange(isProduct ? { products: changedValues } : changedValues);
-  };
-
   const initialValues = {
-    margin,
-    [ProductTypes.TRANSFER]: pathOr('', ['products', ProductTypes.TRANSFER], booking),
-    [ProductTypes.GROUND_SERVICE]: pathOr('', ['products', ProductTypes.GROUND_SERVICE], booking),
+    marginApplied,
+    taMarginAmount,
+    taMarginType,
+    [ProductTypes.TRANSFER]: getSingleValue(ProductTypes.TRANSFER, booking),
+    [ProductTypes.GROUND_SERVICE]: getSingleValue(ProductTypes.GROUND_SERVICE, booking),
     ...pathOr({}, ['products', ProductTypes.FINE], booking),
     ...pathOr({}, ['products', ProductTypes.SUPPLEMENT], booking),
   };
 
-  const onSubmit = () => setRedirectToBooking(true);
-
-  const renderRoom = ({ guests }, id) => (
-    <SummaryRoom
-      {...prop(id, Accommodation)}
-      canEdit={!summaryOnly}
-      id={id}
-      key={id}
-      onChange={updateBooking}
-      onEdit={setModalData}
-      onRemove={removeRoom}
-      guests={guests}
-      hotelUuid={hotelUuid}
-    />
-  );
-
-  const renderRooms = pipe(
-    mapObjIndexed(renderRoom),
-    values,
-    when(all(equals(false)), always(null))
-  );
-
-  const renderModal = () => {
-    const { id } = modalData;
-
-    const bookingRoom = path(['products', ProductTypes.ACCOMMODATION, id], booking);
-
-    if (!bookingRoom) return null;
-
-    return (
-      <StyledModal open={true} onClose={onModalClose} modalContentProps={modalProps}>
-        <SummaryRoomEdit
-          hotelUuid={hotelUuid}
-          id={id}
-          onComplete={setModalData}
-          onDatesShow={getRatesForDates}
-          onEdit={setModalData}
-          status={status}
-          {...bookingRoom}
-        />
-      </StyledModal>
-    );
-  };
-
-  const renderTotal = () => (
-    <Section>
-      <Total data-request={isOnRequest}>{isOnRequest ? t('labels.onRequest') : total}</Total>
-      {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
-      {saving && !isOnRequest && (
-        <Text>
-          {t('labels.savingOfPrefix')}
-          <Saving>{saving}</Saving>
-          {t('labels.savingOfSuffix')}
-        </Text>
-      )}
-      {summaryOnly && !isOnRequest && (
-        <SummaryFormMargin type={marginType} value={marginValue} total={total} summaryOnly={true} />
-      )}
-    </Section>
-  );
-
-  const renderForm = () => {
-    return (
-      <Form initialValues={initialValues} onSubmit={onSubmit}>
-        {({ values, ...formProps }) => (
-          <Fragment>
-            <Input type="hidden" value={canBook} name="valid" />
-            <SummaryFormExtras
-              hotelUuid={hotelUuid}
-              onChange={onValuesChange(formProps)}
-              onExtraChange={onExtrasChange(formProps)}
-              summaryOnly={summaryOnly}
-              values={values}
-            />
-            {renderSummaryErrors(errors)}
-            {!summaryOnly && (
-              <SummaryFormActions>
-                <SummaryFormButton disabled={!canBook} type="submit">
-                  {isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow')}
-                </SummaryFormButton>
-              </SummaryFormActions>
-            )}
-          </Fragment>
-        )}
-      </Form>
-    );
-  };
+  const onModalClose = () => setModalId(undefined);
 
   return (
-    <StyledSummary className={className}>
+    <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
-        <Title>{t('labels.totalNet')}</Title>
-        {renderTotal()}
-        {renderHotelName(name)}
-        <Rooms data-summary={summaryOnly}>{renderRooms(Accommodation)}</Rooms>
-        {renderForm()}
+        {renderTotal(t, { compact, isOnRequest, total, saving, summaryOnly, taMarginAmount, taMarginType })}
+        {renderHotel(t, { name, total, compact })}
+        <Rooms data-summary={summaryOnly}>
+          {renderRooms(t, booking, { id, hotelUuid, summaryOnly, setModalId, removeRoom })}
+        </Rooms>
+        {renderForm(t, { initialValues, onSubmit, canBook, id, summaryOnly, errors, isOnRequest, compact })}
         {children}
       </Loader>
-      {!summaryOnly && renderModal()}
+      {!summaryOnly && renderModal(t, { id, hotelUuid, modalId, status, getRatesForDates, setModalId, onModalClose })}
     </StyledSummary>
   );
 };

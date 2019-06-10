@@ -13,10 +13,15 @@ import {
   reduce,
   reverse,
   toPairs,
+  objOf,
+  pathOr,
 } from 'ramda';
-import { isNilOrEmpty } from 'ramda-adjunct';
+import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 
-import { toDate } from 'utils';
+import { ProductTypes } from 'config/enums';
+import { toDate, parseJson } from 'utils';
+
+export { getAgeSplits } from 'containers/SummaryRoom/SummaryRoom.utils';
 
 const reduceDisabledDays = (accum, [key, dayRate]) => {
   if (!dayRate) return append(key, accum);
@@ -41,19 +46,42 @@ export const getOptionsFromRates = rates => {
   return { ratesDates, firstDate, lastDate, disabled };
 };
 
-export const getAgeRanges = pipe(
-  prop('ages'),
-  reverse,
-  reduce((accum, { name, ...ages }) => ({ ...accum, [name]: ages }), {})
+export const getAgeRanges = map(
+  pipe(
+    path(['product', 'options', 'ages']),
+    reverse,
+    reduce((accum, { name, ...ages }) => ({ ...accum, [name]: ages }), {})
+  )
 );
 
-export const getMinMax = pipe(
-  path(['occupancy', 'limits']),
-  reduce(
-    (accum, { name, maximum, minimum }) => ({
-      ...accum,
-      [equals('default', name) ? 'adult' : name]: { max: maximum, min: minimum },
-    }),
-    {}
+export const getMinMax = map(
+  pipe(
+    path(['product', 'options', 'occupancy', 'limits']),
+    reduce(
+      (accum, { name, maximum, minimum }) => ({
+        ...accum,
+        [equals('default', name) ? 'adult' : name]: { max: maximum, min: minimum },
+      }),
+      {}
+    )
   )
+);
+
+export const getMonthToDisplay = pipe(
+  prop('endDate'),
+  toDate
+);
+
+export const prepareDates = renameKeys({ from: 'startDate', to: 'endDate' });
+
+export const parseMealPlans = pipe(
+  parseJson,
+  map(objOf('uuid'))
+);
+
+export const getMealPlan = pipe(
+  head,
+  pathOr([], ['subProducts', ProductTypes.MEAL_PLAN]),
+  map(prop('uuid')),
+  JSON.stringify
 );

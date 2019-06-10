@@ -13,18 +13,19 @@ import {
   MarginPercentSuffix,
   MarginTotal,
   MarginTotalAmount,
+  MarginValue,
 } from './SummaryFormMargin.styles';
 
-export const SummaryFormMargin = ({ onChange, checked, value, type, summaryOnly, total }) => {
+export const SummaryFormMargin = ({ compact, className, onChange, checked, value, type, summaryOnly, total }) => {
   const { t } = useTranslation();
   const typeIsPercent = equals('percentage', type);
 
   return (
-    <Margin>
-      {!summaryOnly && (
-        <MarginCheckbox onChange={onChange} checked={checked} label={t('labels.applyMargin')} name="margin[applied]" />
+    <Margin className={className}>
+      {!summaryOnly && !compact && (
+        <MarginCheckbox onChange={onChange} checked={checked} label={t('labels.applyMargin')} name="marginApplied" />
       )}
-      {checked && (
+      {checked && !summaryOnly && !compact && (
         <Fragment>
           <MarginInputs>
             <Select
@@ -35,23 +36,22 @@ export const SummaryFormMargin = ({ onChange, checked, value, type, summaryOnly,
                 percentage: t('percentage'),
                 flat: t('flatRate'),
               }}
-              name="margin[type]"
+              name="taMarginType"
             />
-            <Input type="number" name="margin[value]" value={value} min={0} onChange={onChange} disabled={!checked} />
+            <Input type="number" name="taMarginAmount" value={value} min={0} onChange={onChange} disabled={!checked} />
           </MarginInputs>
         </Fragment>
       )}
       {(checked || summaryOnly) && (
-        <MarginTotal>
-          {t('labels.currentMargin')}{' '}
+        <MarginTotal data-compact={compact}>
+          {!compact && t('labels.currentMargin')}{' '}
           <MarginTotalAmount>
             {formatPrice(typeIsPercent ? calculatePercentage(total, value) : value)}
           </MarginTotalAmount>
           {typeIsPercent && (
-            <Fragment>
-              {', '}
+            <MarginValue data-compact={compact}>
               <MarginPercentSuffix>{value}</MarginPercentSuffix> {t('labels.currentMarginPercentageSuffix')}
-            </Fragment>
+            </MarginValue>
           )}
         </MarginTotal>
       )}

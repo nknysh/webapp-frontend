@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-import { BackButton, Breadcrumbs, Hotel } from 'components';
+import { BackButton, Breadcrumbs, Hotel, Modal } from 'components';
 import SummaryForm from 'containers/SummaryForm';
+import AddToProposalForm from 'containers/AddToProposalForm';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { Container } from 'styles/elements';
+import { Container, Button } from 'styles/elements';
 
 export const StyledHotelContainer = styled(Container)`
   width: 100%;
@@ -85,4 +86,33 @@ export const Brochure = styled.a`
   :before {
     content: '+ ';
   }
+`;
+
+export const StyledModal = styled(Modal)``;
+
+export const SummaryActions = styled.div`
+  display: flex;
+  margin: ${theme.gutter * 1.5}px 0;
+`;
+
+export const SummaryAction = styled(Button)`
+  background: ${theme.light};
+  flex: 1 1 50%;
+  margin: 0 ${theme.gutter}px;
+
+  :first-child {
+    margin-left: 0;
+  }
+
+  :last-child {
+    margin-right: 0;
+  }
+`;
+
+export const StyledAddToProposalForm = styled(AddToProposalForm)`
+  padding: ${theme.gutter * 4}px ${theme.gutter * 2}px;
+
+  ${breakpoints.tablet`
+    padding: ${theme.gutter * 8}px ${theme.gutter * 10}px;
+  `}
 `;

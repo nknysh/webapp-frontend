@@ -1,89 +1,148 @@
 import React, { useState, Fragment } from 'react';
 import {
-  path,
-  prop,
-  mergeDeepRight,
-  curry,
-  reduce,
-  map,
-  keys,
+  __,
   ap,
-  times,
-  propOr,
-  gt,
-  range,
-  update,
-  length,
+  assocPath,
   defaultTo,
+  flatten,
+  gt,
+  keys,
+  length,
+  lensProp,
+  map,
+  mapObjIndexed,
+  mergeDeepRight,
+  objOf,
+  omit,
+  partial,
+  path,
   pathOr,
+  pipe,
+  prop,
+  propOr,
+  range,
+  reduce,
+  set,
+  times,
+  update,
+  values as Rvalues,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
+import { useTranslation } from 'react-i18next';
+
+import { getAgeSplits } from 'containers/SummaryRoom/SummaryRoom.utils';
+import { isAdult } from 'utils';
 
 import { propTypes, defaultProps } from './AgeSelect.props';
 import {
-  Section,
+  AgeDropDown,
+  AgeDropDownSelect,
+  AgeDropDownTitle,
   Entry,
   EntryLabel,
   NumberSelect,
-  AgeDropDown,
-  AgeDropDownTitle,
-  AgeDropDownSelect,
+  Section,
 } from './AgeSelect.styles';
 
 const reduceRange = (accum, value) => ({ ...accum, [value]: value });
 
+const renderEntry = (
+  t,
+  { ageRanges, onAgeSelectChange, onChange, showAgeDropDown, selected, splits, minMax },
+  type
+) => {
+  const typeIsAdult = isAdult(type);
+  const fromAge = path([type, 'ageFrom'], ageRanges);
+  const toAge = path([type, 'ageTo'], ageRanges);
+  const fromToAges = !isNilOrEmpty(fromAge) && `(${fromAge}${toAge && ` - ${toAge}`})`;
+  const values = propOr([], type, splits);
+  const value = typeIsAdult ? prop('numberOfAdults', selected) : length(values);
+
+  const renderDropDown = i => (
+    <AgeDropDownSelect
+      key={i}
+      options={reduce(reduceRange, {}, range(fromAge, toAge + 1))}
+      value={pathOr(fromAge, [type, i], splits)}
+      onChange={partial(onAgeSelectChange, [type, i])}
+    />
+  );
+
+  return (
+    <Fragment key={type}>
+      <Entry>
+        <EntryLabel>
+          {type} {fromToAges}
+        </EntryLabel>
+        <NumberSelect value={value} onChange={partial(onChange, [type, fromAge])} {...prop(type, minMax)} />
+      </Entry>
+      {propOr(true, type, showAgeDropDown) && gt(value, 0) && (
+        <AgeDropDown>
+          <AgeDropDownTitle>Please specifiy ages:</AgeDropDownTitle>
+          {times(renderDropDown, value)}
+        </AgeDropDown>
+      )}
+    </Fragment>
+  );
+};
+
+const getAgeRangesForSplits = pipe(
+  omit(['adult']),
+  mapObjIndexed((data, name) => ({ name, ...data })),
+  Rvalues,
+  assocPath(['options', 'ages'], __, {}),
+  omit(['adult'])
+);
+
+const renderEntries = (t, { ageRanges, ...props }) =>
+  map(partial(renderEntry, [t, { ageRanges, ...props }]), keys(ageRanges));
+
 export const AgeSelect = ({ values, onSelect, ageRanges, minMax, showAgeDropDown }) => {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(values);
 
-  const renderEntry = type => {
-    const fromAge = path([type, 'ageFrom'], ageRanges);
-    const toAge = path([type, 'ageTo'], ageRanges);
-    const fromToAges = !isNilOrEmpty(fromAge) && `(${fromAge}${toAge && ` - ${toAge}`})`;
-    const values = propOr([], type, selected);
-    const value = length(values);
+  const ageSplits = getAgeSplits(getAgeRangesForSplits(ageRanges), [objOf('guestAges', selected)], true);
 
-    const onChange = curry((type, number) => {
-      const typeArray = propOr([], type, selected);
-      typeArray.length = number;
-      const newValues = mergeDeepRight(selected, { [type]: map(defaultTo(defaultTo(true, fromAge)), typeArray) });
-      ap([setSelected, onSelect], [newValues]);
-    });
+  const [splits, setSplits] = useState(ageSplits);
 
-    const onAgeSelectChange = curry((type, index, e) => {
-      const newValues = mergeDeepRight(selected, {
-        [type]: update(index, Number(path(['target', 'value'], e)), prop(type, selected)),
-      });
-      ap([setSelected, onSelect], [newValues]);
-    });
+  const onChange = (type, defaultVal, number) => {
+    const typeIsAdult = isAdult(type);
 
-    const renderDropDown = i => (
-      <AgeDropDownSelect
-        key={i}
-        options={reduce(reduceRange, {}, range(fromAge, toAge))}
-        value={pathOr(fromAge, [type, i], selected)}
-        onChange={onAgeSelectChange(type, i)}
-      />
+    const typeArray = propOr([], type, splits);
+    if (!typeIsAdult) typeArray.length = number;
+
+    // Don't add adults to the splits object
+    const newSplits = omit(
+      ['adult'],
+      typeIsAdult ? splits : mergeDeepRight(splits, { [type]: map(defaultTo(defaultTo(true, defaultVal)), typeArray) })
     );
 
-    return (
-      <Fragment key={type}>
-        <Entry>
-          <EntryLabel>
-            {type} {fromToAges}
-          </EntryLabel>
-          <NumberSelect value={value} onChange={onChange(type)} {...prop(type, minMax)} />
-        </Entry>
-        {propOr(true, type, showAgeDropDown) && gt(value, 0) && (
-          <AgeDropDown>
-            <AgeDropDownTitle>Please specifiy ages:</AgeDropDownTitle>
-            {times(renderDropDown, value)}
-          </AgeDropDown>
-        )}
-      </Fragment>
-    );
+    const newSelected = typeIsAdult
+      ? set(lensProp('numberOfAdults'), number, selected)
+      : set(lensProp('agesOfAllChildren'), flatten(Rvalues(newSplits)), selected);
+
+    setSplits(newSplits);
+    ap([setSelected, onSelect], [newSelected]);
   };
 
-  return <Section>{map(renderEntry, keys(ageRanges))}</Section>;
+  const onAgeSelectChange = (type, index, e) => {
+    const newSplits = omit(
+      ['adult'],
+      mergeDeepRight(splits, {
+        [type]: update(index, Number(path(['target', 'value'], e)), prop(type, splits)),
+      })
+    );
+
+    const newSelected = set(lensProp('agesOfAllChildren'), flatten(Rvalues(newSplits)), selected);
+
+    setSplits(newSplits);
+    ap([setSelected, onSelect], [newSelected]);
+  };
+
+  return (
+    <Section>
+      {renderEntries(t, { ageRanges, splits, showAgeDropDown, onAgeSelectChange, onChange, selected, minMax })}
+    </Section>
+  );
 };
 
 AgeSelect.propTypes = propTypes;

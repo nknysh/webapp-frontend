@@ -1,10 +1,10 @@
-import React, { useState, Fragment, memo } from 'react';
+import React, { Fragment, memo } from 'react';
 import { compose, length, map, defaultTo, prop, toLower } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { Card, Loader, Modal } from 'components';
 import SearchSidebar from 'containers/SearchSidebar';
-import { useCurrentWidth, useEffectBoundary } from 'effects';
+import { useCurrentWidth, useEffectBoundary, useModalState } from 'effects';
 import { isMobile } from 'utils';
 
 import { isActive } from 'store/common';
@@ -28,11 +28,8 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
     searchByQuery(searchQuery);
   }, [searchQuery]);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const { modalOpen, onModalOpen, onModalClose } = useModalState(false);
   const currentWidth = useCurrentWidth();
-
-  const onClose = () => setModalOpen(false);
-  const onOpen = () => setModalOpen(true);
 
   const count = length(result) || 0;
   const countTitle = `${count} ${t('result', { count })}`;
@@ -51,14 +48,14 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
           <ResultsTitle>{title}</ResultsTitle>
           {isMobile(currentWidth) && (
             <Filtering>
-              <FiltersButton onClick={onOpen}>{t('buttons.refine')}</FiltersButton>
+              <FiltersButton onClick={onModalOpen}>{t('buttons.refine')}</FiltersButton>
             </Filtering>
           )}
           <Results>{map(renderResult, defaultTo([], result))}</Results>
         </Loader>
       </StyledResults>
       {isMobile(currentWidth) && (
-        <Modal open={modalOpen} modalContentProps={modalStyles} onClose={onClose}>
+        <Modal open={modalOpen} modalContentProps={modalStyles} onClose={onModalClose}>
           <SearchSidebar />
         </Modal>
       )}
