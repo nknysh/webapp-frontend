@@ -9,7 +9,6 @@ import { propTypes, defaultProps } from './Breadcrumbs.props';
 import { StyledBreadcrumbs, Crumb, CrumbLink } from './Breadcrumbs.styles';
 
 export const Breadcrumbs = ({ location: { pathname }, links, ...props }) => {
-  // eslint-disable-next-line
   const renderLinks = ({ label, to, ...crumbProps }, i) => (
     <Crumb key={hash({ label: label && label.toString(), to, i })}>
       {to ? (

@@ -7,8 +7,7 @@ import { useEffectBoundary } from 'effects';
 import { propTypes, defaultProps } from './Range.props';
 import { trackStyle, handleStyle } from './Range.styles';
 
-// eslint-disable-next-line
-const renderHandle = ({ value, dragging, index, onChange, ...props }) => {
+const renderHandle = ({ value, dragging, index, ...props }) => {
   return (
     <Tooltip overlay={value} visible={dragging} placement="top" key={index}>
       <Handle value={value} {...props} />

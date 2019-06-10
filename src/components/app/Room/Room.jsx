@@ -68,7 +68,6 @@ const renderStandardOccupancy = (t, { standardOccupancy }) =>
     </Detail>
   );
 
-// eslint-disable-next-line
 const renderMinMaxLimit = (t, { name, maximum, minimum }) => (
   <Limit key={name}>
     {`${isAdult(name) ? t('adult_plural') : t(`${name}_plural`) || name}`} - {t('labels.max')} {maximum}{' '}

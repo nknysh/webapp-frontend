@@ -82,7 +82,6 @@ const extractChosenAddons = (type, data) =>
   pipe(
     prop(type),
     toPairs,
-    // eslint-disable-next-line
     reduce((accum, [uuid, checked]) => (checked ? append(objOf('uuid', uuid), accum) : accum), [])
   )(data);
 

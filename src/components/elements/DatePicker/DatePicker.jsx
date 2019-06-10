@@ -30,8 +30,7 @@ const defaultState = {
   endDate: undefined,
 };
 
-// eslint-disable-next-line
-const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousClick, onNextClick, ...props }) => (
+const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousClick, onNextClick }) => (
   <DatePickerNavbar>
     {
       <DatePickerNavbarPrev data-hide={!showPreviousButton} onClick={() => onPreviousClick()}>
@@ -90,7 +89,7 @@ export const DatePicker = ({
     </DatePickerDatesWrapper>
   );
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/display-name
   const renderInput = forwardRef((props, ref) => (
     <DropDownContent
       inputContent={renderInputContent}
