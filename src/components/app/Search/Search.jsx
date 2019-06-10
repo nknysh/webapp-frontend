@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { __, lensProp, defaultTo, set, view, pipe, prop } from 'ramda';
 import debounce from 'lodash.debounce';
 import { useTranslation } from 'react-i18next';
+import { renameKeys } from 'ramda-adjunct';
 
 import { DatePicker, Checkbox } from 'components/elements';
 import LodgingSelect from 'components/app/LodgingSelect';
@@ -33,6 +34,7 @@ export const Search = ({
   const getSearchQueryData = view(__, searchQuery);
 
   const setSelectedDatesToSearchQuery = pipe(
+    renameKeys({ from: 'startDate', to: 'endDate' }),
     updateSearchQuery(datesLens),
     onChange
   );
