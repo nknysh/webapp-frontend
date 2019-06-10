@@ -185,7 +185,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
       <Title>
         {t('mealPlan')}
-        <ToolTip>{values(map(partial(renderMealPlanTip[t]), MealPlanSelectTypes))}</ToolTip>
+        <ToolTip>{values(map(partial(renderMealPlanTip, [t]), MealPlanSelectTypes))}</ToolTip>
       </Title>
       <SectionField>
         <MealPlanRadioButton
