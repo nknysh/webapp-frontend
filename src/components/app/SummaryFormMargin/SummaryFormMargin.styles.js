@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { Checkbox } from 'components/elements';
+import { Checkbox, ContextMenu as BaseContextMenu } from 'components/elements';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
@@ -58,6 +58,7 @@ export const MarginTotal = styled.div`
   ${({ ['data-compact']: compact }) =>
     compact &&
     css`
+      display: flex;
       text-align: right;
     `}
 `;
@@ -99,3 +100,10 @@ export const Title = styled.h3`
   color: ${theme.neutral};
   border-bottom: 1px solid ${theme.borders.default};
 `;
+
+export const ContextMenu = styled(BaseContextMenu)`
+  flex: 0 1;
+  padding: 0 0 0 ${theme.gutter / 2}px;
+`;
+
+export const MarginWrapper = styled.div``;

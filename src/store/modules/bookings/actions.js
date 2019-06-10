@@ -57,6 +57,7 @@ export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
 export const BOOKING_RESET = 'BOOKING_RESET';
 export const BOOKING_FETCH = 'BOOKING_FETCH';
+export const BOOKING_CANCEL = 'BOOKING_CANCEL';
 
 const ignoreCall = anyPass([has('marginApplied'), has('taMarginType'), has('taMarginAmount')]);
 
@@ -99,6 +100,11 @@ export const bookingsSetAction = payload => ({
 
 export const fetchBookingAction = payload => ({
   type: BOOKING_FETCH,
+  payload,
+});
+
+export const cancelBookingAction = payload => ({
+  type: BOOKING_CANCEL,
   payload,
 });
 
@@ -347,4 +353,37 @@ export const fetchBooking = id => async dispatch => {
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_SUBMIT, e, 'There was a problem fetching the booking.'));
   }
+};
+
+export const cancelBooking = id => async dispatch => {
+  dispatch(cancelBookingAction({ id }));
+
+  try {
+    const {
+      data: { data },
+    } = await client.cancelBooking(id);
+
+    dispatch(successAction(BOOKING_CANCEL, { [id]: data }));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_CANCEL, e, 'There was a problem cancelling the booking.'));
+  }
+};
+
+export const bookingToHotelUuid = id => (dispatch, getState) => {
+  dispatch(updateBookingAction({ id }));
+
+  const booking = getBooking(getState(), id);
+  const hotelUuid = prop('hotelUuid', booking);
+  const newBooking = pick(
+    ['hotelUuid', 'hotelName', 'breakdown', 'startDate', 'endDate', 'guestFirstName', 'guestLastName'],
+    booking
+  );
+
+  const guestFirstName = propOr('', 'guestFirstName', booking);
+  const guestLastName = propOr('', 'guestLastName', booking);
+
+  dispatch(successAction(BOOKING_UPDATE, { [id]: undefined }));
+
+  // Triggers a booking builder call
+  dispatch(updateBooking(hotelUuid, { guestFirstName, guestLastName, ...newBooking }));
 };

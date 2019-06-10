@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DropDownMenu /> render matches snapshot 1`] = `
-<Fragment>
+<div>
   <DropDownMenustyles__Button
     aria-haspopup="true"
     buttonRef={
@@ -28,5 +28,5 @@ exports[`<DropDownMenu /> render matches snapshot 1`] = `
   >
     <Component />
   </DropDownMenustyles__MaterialPopper>
-</Fragment>
+</div>
 `;

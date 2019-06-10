@@ -79,4 +79,5 @@ export default {
   totalNetCost: 'Total Net Cost',
 
   commission: 'Commission',
+  notApplied: 'Not Applied',
 };

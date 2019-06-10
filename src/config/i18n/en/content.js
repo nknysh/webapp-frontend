@@ -8,7 +8,10 @@ import bookingConfirmedOnRequest from './md/booking-confirmed--on-request.md';
 import bookingConfirmedCC from './md/booking-confirmed--cc.md';
 import bookingConfirmedBT from './md/booking-confirmed--bt.md';
 
+import editGuard from './md/edit-guard.md';
+
 export default {
+  editGuard,
   booking: {
     default: booking,
     onRequest: bookingOnRequest,

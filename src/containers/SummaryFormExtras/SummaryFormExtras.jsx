@@ -33,26 +33,30 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
 import SummaryFormMargin from 'components/app/SummaryFormMargin';
-import { RadioButton } from 'components/elements';
+import { RadioButton, Modal } from 'components/elements';
 
 import { ProductTypes } from 'config/enums';
+import { useModalState } from 'effects';
 import { isString } from 'utils';
 
 import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
 import {
+  AddonCheckbox,
+  AddonSummaries,
+  AddonSummary,
+  ContextMenu,
   Extra,
+  ExtraSummary,
+  ExtraSummaryProduct,
+  ExtraSummaryTitle,
+  ExtraSummaryTotal,
   OptionLabel,
   OptionPrice,
   OptionRate,
   Title,
-  ExtraSummary,
-  ExtraSummaryTitle,
-  ExtraSummaryProduct,
-  ExtraSummaryTotal,
-  AddonCheckbox,
-  AddonSummary,
-  AddonSummaries,
+  ModalContent,
+  Button,
 } from './SummaryFormExtras.styles';
 
 const hasDirection = hasPath(['meta', 'direction']);
@@ -94,151 +98,6 @@ const renderOption = ({ total, title, quantity = 0 }) => (
   </OptionRate>
 );
 
-const renderOptionSummary = (t, accum, { total, products, breakdown, selected, ...rest }) =>
-  selected
-    ? append(
-        <AddonSummary key={join(',', products)}>
-          <ExtraSummaryProduct>
-            {map(
-              ({ product, title }) => (
-                <span key={product}>
-                  {title} {path(['meta', 'direction'], rest) && `- ${t(`labels.${path(['meta', 'direction'], rest)}`)}`}
-                </span>
-              ),
-              breakdown
-            )}
-          </ExtraSummaryProduct>
-          <ExtraSummaryTotal>{total}</ExtraSummaryTotal>
-        </AddonSummary>,
-        accum
-      )
-    : accum;
-
-const renderExtraOptions = (t, type, productType, products, { onSingleChange, summaryOnly, values }) => {
-  if (summaryOnly) {
-    const summaries = reduce(partial(renderOptionSummary, [t]), [], products);
-
-    return (
-      !isNilOrEmpty(summaries) && (
-        <ExtraSummary>
-          <ExtraSummaryTitle>{t(`${type}_plural`)}:</ExtraSummaryTitle>
-          <AddonSummaries>{summaries}</AddonSummaries>
-        </ExtraSummary>
-      )
-    );
-  }
-
-  const getOption = ({ products, breakdown }) => {
-    const value = join(',', map(prop('uuid'), products));
-    const label = map(renderOption, breakdown);
-
-    return { label, value };
-  };
-
-  const options = map(getOption, products);
-
-  return (
-    !isNilOrEmpty(options) && (
-      <Extra>
-        <Title>{t(`${type}_plural`)}</Title>
-        <RadioButton
-          name={productType}
-          onChange={partial(onSingleChange, [productType])}
-          options={[{ label: 'None', value: '' }, ...options]}
-          value={isString(propOr('', productType, values)) && propOr('', productType, values)}
-        />
-      </Extra>
-    )
-  );
-};
-
-const renderMargin = (t, { onMarginChange, grandTotal, values, summaryOnly, compact }) =>
-  compact
-    ? propOr(true, 'marginApplied', values) && (
-        <ExtraSummary>
-          <ExtraSummaryTitle>{t('labels.commission')}:</ExtraSummaryTitle>
-          <AddonSummaries>
-            <SummaryFormMargin
-              checked={propOr(true, 'marginApplied', values)}
-              onChange={onMarginChange}
-              total={grandTotal}
-              type={propOr('percentage', 'taMarginType', values)}
-              value={propOr(0, 'taMarginAmount', values)}
-              summaryOnly={summaryOnly}
-              compact={compact}
-            />
-          </AddonSummaries>
-        </ExtraSummary>
-      )
-    : !summaryOnly && (
-        <Extra>
-          <Title>{t('labels.addCommission')}</Title>
-          <SummaryFormMargin
-            checked={propOr(true, 'marginApplied', values)}
-            onChange={onMarginChange}
-            total={grandTotal}
-            type={propOr('percentage', 'taMarginType', values)}
-            value={propOr(0, 'taMarginAmount', values)}
-            summaryOnly={summaryOnly}
-          />
-        </Extra>
-      );
-const renderSelect = (t, { onMultipleChange, summaryOnly, values }, { products, breakdown, selected, total }) => {
-  const uuids = join(',', map(prop('uuid'), products));
-  const checked = propOr(false, uuids, values);
-
-  const productType = pipe(
-    head,
-    prop('type')
-  )(products);
-
-  return summaryOnly ? (
-    selected && (
-      <AddonSummary key={uuids}>
-        <ExtraSummaryProduct>
-          {map(
-            ({ uuid, title }) => (
-              <ExtraSummaryProduct key={uuid}>{title}</ExtraSummaryProduct>
-            ),
-            breakdown
-          )}
-        </ExtraSummaryProduct>
-        <ExtraSummaryTotal>{total}</ExtraSummaryTotal>
-      </AddonSummary>
-    )
-  ) : (
-    <AddonCheckbox
-      name={uuids}
-      checked={selected || checked}
-      onChange={partial(onMultipleChange, [productType])}
-      key={uuids}
-      label={<OptionLabel>{map(renderOption, breakdown)}</OptionLabel>}
-      value={uuids}
-    />
-  );
-};
-
-const renderExtraSelects = (t, type, products, { summaryOnly, ...props }) => {
-  const selectElements = map(partial(renderSelect, [t, { summaryOnly, ...props }]), products);
-
-  return (
-    !isEmpty(selectElements) &&
-    (summaryOnly ? (
-      !isNilOrEmpty(filter(propEq('selected', true), products)) && (
-        <ExtraSummary>
-          <ExtraSummaryTitle>{t(`${type}_plural`)}:</ExtraSummaryTitle>
-          <AddonSummaries>{selectElements}</AddonSummaries>
-        </ExtraSummary>
-      )
-    ) : (
-      <Extra>
-        <Title>{t(`${type}_plural`)}</Title>
-        {selectElements}
-      </Extra>
-    ))
-  );
-};
-
 const renderOneWayOption = (t, direction, breakdownData) => (
   <Fragment key={prop('uuid', breakdownData)}>
     {renderOption(breakdownData)} - {t(`labels.${direction}`)}
@@ -274,6 +133,189 @@ const renderOneWayProducts = (t, productType, products, props) =>
     Rvalues
   )(products);
 
+const renderOptionSummary = (t, accum, { total, products, breakdown, selected, ...rest }) =>
+  selected
+    ? append(
+        <AddonSummary key={join(',', products)}>
+          <ExtraSummaryProduct>
+            {map(
+              ({ product, title }) => (
+                <span key={product}>
+                  {title} {path(['meta', 'direction'], rest) && `- ${t(`labels.${path(['meta', 'direction'], rest)}`)}`}
+                </span>
+              ),
+              breakdown
+            )}
+          </ExtraSummaryProduct>
+          <ExtraSummaryTotal>{total}</ExtraSummaryTotal>
+        </AddonSummary>,
+        accum
+      )
+    : accum;
+
+const renderExtraOptions = (
+  t,
+  type,
+  productType,
+  products,
+  { onSingleChange, onOneWayChange, summaryOnly, values, compactEdit, onEditClick }
+) => {
+  if (summaryOnly || compactEdit) {
+    const summaries = reduce(partial(renderOptionSummary, [t]), [], products);
+
+    return (
+      (!isNilOrEmpty(summaries) || compactEdit) && (
+        <ExtraSummary>
+          <ExtraSummaryTitle>{t(`${type}_plural`)}:</ExtraSummaryTitle>
+          <AddonSummaries>{summaries}</AddonSummaries>
+          {compactEdit && (
+            <ContextMenu>
+              <span onClick={() => onEditClick(type, productType, products)}>{t('buttons.edit')}</span>
+            </ContextMenu>
+          )}
+        </ExtraSummary>
+      )
+    );
+  }
+
+  const getOption = ({ products, breakdown }) => {
+    const value = join(',', map(prop('uuid'), products));
+    const label = map(renderOption, breakdown);
+
+    return { label, value };
+  };
+
+  const options = map(getOption, productsBothWays(products));
+
+  return (
+    !isNilOrEmpty(options) && (
+      <Extra>
+        <Title>{t(`${type}_plural`)}</Title>
+        <RadioButton
+          name={productType}
+          onChange={partial(onSingleChange, [productType])}
+          options={[{ label: 'None', value: '' }, ...options]}
+          value={isString(propOr('', productType, values)) && propOr('', productType, values)}
+        />
+        {!summaryOnly && renderOneWayProducts(t, productType, productsOneWay(products), { onOneWayChange })}
+      </Extra>
+    )
+  );
+};
+
+const renderMargin = (
+  t,
+  { onMarginChange, grandTotal, values, summaryOnly, compact, compactEdit, onEditClick, editGuard, onEditGuard }
+) => {
+  return summaryOnly || compactEdit ? (
+    <ExtraSummary>
+      <ExtraSummaryTitle>{t('labels.commission')}:</ExtraSummaryTitle>
+      <AddonSummaries>
+        <SummaryFormMargin
+          key={Date.now()}
+          checked={propOr(true, 'marginApplied', values)}
+          compact={compact}
+          compactEdit={compactEdit}
+          onChange={onMarginChange}
+          onEditClick={onEditClick}
+          summaryOnly={summaryOnly}
+          editGuard={editGuard}
+          onEditGuard={onEditGuard}
+          total={grandTotal}
+          type={propOr('percentage', 'taMarginType', values)}
+          value={propOr(0, 'taMarginAmount', values)}
+        />
+      </AddonSummaries>
+    </ExtraSummary>
+  ) : (
+    <Extra>
+      <Title>{t('labels.addCommission')}</Title>
+      <SummaryFormMargin
+        checked={propOr(true, 'marginApplied', values)}
+        onChange={onMarginChange}
+        summaryOnly={summaryOnly}
+        total={grandTotal}
+        editGuard={editGuard}
+        onEditGuard={onEditGuard}
+        type={propOr('percentage', 'taMarginType', values)}
+        value={propOr(0, 'taMarginAmount', values)}
+      />
+    </Extra>
+  );
+};
+
+const renderSelect = (
+  t,
+  { onMultipleChange, summaryOnly, values, compactEdit },
+  { products, breakdown, selected, total }
+) => {
+  const uuids = join(',', map(prop('uuid'), products));
+  const checked = propOr(false, uuids, values);
+
+  const productType = pipe(
+    head,
+    prop('type')
+  )(products);
+
+  return summaryOnly || compactEdit ? (
+    selected && (
+      <AddonSummary key={uuids}>
+        <ExtraSummaryProduct>
+          {map(
+            ({ uuid, title }) => (
+              <ExtraSummaryProduct key={uuid}>{title}</ExtraSummaryProduct>
+            ),
+            breakdown
+          )}
+        </ExtraSummaryProduct>
+        <ExtraSummaryTotal>{total}</ExtraSummaryTotal>
+      </AddonSummary>
+    )
+  ) : (
+    <AddonCheckbox
+      name={uuids}
+      checked={selected || checked}
+      onChange={partial(onMultipleChange, [productType])}
+      key={uuids}
+      label={<OptionLabel>{map(renderOption, breakdown)}</OptionLabel>}
+      value={uuids}
+    />
+  );
+};
+
+const renderExtraSelects = (t, type, products, { summaryOnly, onEditClick, compactEdit, ...props }) => {
+  const selectElements = map(partial(renderSelect, [t, { summaryOnly, compactEdit, ...props }]), products);
+
+  return (summaryOnly && !isEmpty(selectElements)) || compactEdit ? (
+    ((summaryOnly && !isNilOrEmpty(filter(propEq('selected', true), products))) || compactEdit) && (
+      <ExtraSummary>
+        <ExtraSummaryTitle>{t(`${type}_plural`)}:</ExtraSummaryTitle>
+        <AddonSummaries>{selectElements}</AddonSummaries>
+        {compactEdit && (
+          <ContextMenu>
+            <span onClick={() => onEditClick(type, type, products)}>{t('buttons.edit')}</span>
+          </ContextMenu>
+        )}
+      </ExtraSummary>
+    )
+  ) : (
+    <Extra>
+      <Title>{t(`${type}_plural`)}</Title>
+      {selectElements}
+    </Extra>
+  );
+};
+
+const renderModal = (t, { modalOpen, modalContent, onClose }) =>
+  modalOpen && (
+    <Modal open={modalOpen} onClose={onClose}>
+      <ModalContent>
+        {modalContent}
+        <Button onClick={onClose}>{t('buttons.update')}</Button>
+      </ModalContent>
+    </Modal>
+  );
+
 export const SummaryFormExtras = ({
   addons,
   grandTotal,
@@ -289,8 +331,12 @@ export const SummaryFormExtras = ({
   values,
   compact,
   id,
+  editGuard,
+  onEditGuard,
 }) => {
   const { t } = useTranslation();
+
+  const compactEdit = !summaryOnly && compact;
 
   const [oneWayProducts, setOneWayProducts] = useState({
     [ProductTypes.TRANSFER]: toOneWayProducts(selectedTransfers),
@@ -301,6 +347,8 @@ export const SummaryFormExtras = ({
     [ProductTypes.SUPPLEMENT]: toSelectedAddon(selectedSupplements),
     [ProductTypes.FINE]: toSelectedAddon(selectedFines),
   });
+
+  const { modalOpen, onModalOpen, onModalClose, setModalContext, modalContext } = useModalState();
 
   const onSingleChange = (type, e, value) => {
     const next = isNilOrEmpty(value) ? [] : [objOf('uuid', value)];
@@ -338,24 +386,76 @@ export const SummaryFormExtras = ({
     replaceProducts(id, type, extractChosenAddons(type, next));
   };
 
+  const onEditClick = type => {
+    if (editGuard) {
+      return onEditGuard();
+    }
+
+    setModalContext(type);
+    onModalOpen();
+  };
+
+  const onClose = () => {
+    setModalContext(undefined);
+    onModalClose();
+  };
+
+  const optionsProps = {
+    compact,
+    onOneWayChange,
+    onSingleChange,
+    summaryOnly,
+    values,
+    compactEdit,
+    onEditClick,
+    editGuard,
+    onEditGuard,
+  };
+
+  let modalContent = null;
+
+  switch (modalContext) {
+    case 'addon':
+      modalContent = renderExtraSelects(t, 'addon', addons, { onMultipleChange, values });
+      break;
+    case 'margin':
+      modalContent = renderMargin(t, { onMarginChange, grandTotal, values });
+      break;
+    case 'transfer':
+      modalContent = renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, {
+        onOneWayChange,
+        onSingleChange,
+        values,
+      });
+      break;
+    case 'groundService':
+      modalContent = renderExtraOptions(t, 'groundService', ProductTypes.GROUND_SERVICE, groundServices, {
+        onOneWayChange,
+        onSingleChange,
+        values,
+      });
+      break;
+    default:
+      modalContent = '';
+  }
+
   return (
     <Fragment>
-      {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, summaryOnly ? transfers : productsBothWays(transfers), {
-        onSingleChange,
-        summaryOnly,
+      {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps)}
+      {renderExtraOptions(t, 'groundService', ProductTypes.GROUND_SERVICE, groundServices, optionsProps)}
+      {renderExtraSelects(t, 'addon', addons, { summaryOnly, onMultipleChange, values, compactEdit, onEditClick })}
+      {renderMargin(t, {
+        onMarginChange,
+        grandTotal,
         values,
+        summaryOnly,
+        compact,
+        compactEdit,
+        onEditClick,
+        editGuard,
+        onEditGuard,
       })}
-      {!summaryOnly && renderOneWayProducts(t, ProductTypes.TRANSFER, transfers, { onOneWayChange })}
-      {renderExtraOptions(
-        t,
-        'groundService',
-        ProductTypes.GROUND_SERVICE,
-        summaryOnly ? groundServices : productsBothWays(groundServices),
-        { onSingleChange, summaryOnly, values }
-      )}
-      {!summaryOnly && renderOneWayProducts(t, ProductTypes.GROUND_SERVICE, groundServices, { onOneWayChange })}
-      {renderExtraSelects(t, 'addon', addons, { summaryOnly, onMultipleChange, values })}
-      {renderMargin(t, { onMarginChange, grandTotal, values, summaryOnly, compact })}
+      {renderModal(t, { modalOpen, modalContent, onClose, modalContext })}
     </Fragment>
   );
 };

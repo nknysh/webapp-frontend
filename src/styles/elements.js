@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Icon } from '@material-ui/core';
 
 import i18n from 'config/i18n';
 
@@ -137,4 +138,13 @@ export const withCurrency = css`
   :before {
     content: '${i18n.t('currency.symbol')}';
   }
+`;
+
+export const MenuIcon = styled(Icon)`
+    font-size: ${theme.fonts.sizes.mid}px !important;
+    font-weight: ${theme.fonts.bold};
+    line-height: 24px
+    overflow: visible !important;
+    padding-top: 4px;
+  cursor: pointer;
 `;

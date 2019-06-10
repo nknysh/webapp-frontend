@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { Icon } from '@material-ui/core';
 
 import theme from 'styles/theme';
 import { withCurrency } from 'styles/elements';
@@ -64,15 +63,6 @@ export const RoomDetail = styled(RoomP)``;
 
 export const RoomPrice = styled.span`
   ${withCurrency};
-`;
-
-export const RoomMenu = styled(Icon)`
-    font-size: ${theme.fonts.sizes.mid}px !important;
-    font-weight: ${theme.fonts.bold};
-    line-height: 24px
-    overflow: visible !important;
-    padding-top: 4px;
-  cursor: pointer;
 `;
 
 export const ExtraSupplement = styled.div`

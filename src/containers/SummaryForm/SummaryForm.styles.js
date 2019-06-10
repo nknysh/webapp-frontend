@@ -66,8 +66,9 @@ export const Saving = styled.span`
 `;
 
 export const Rooms = styled.div`
-  ${({ ['data-summary']: summaryOnly }) =>
+  ${({ ['data-summary']: summaryOnly, ['data-compact']: compact }) =>
     !summaryOnly &&
+    !compact &&
     css`
       margin-bottom: ${theme.gutter * 4}px;
     `}
@@ -143,4 +144,9 @@ export const HotelName = styled(Heading2)`
 
 export const TotalMargin = styled(SummaryFormMargin)`
   margin-top: 20px;
+`;
+
+export const EditGuard = styled.div`
+  max-width: 600px;
+  padding: ${theme.gutter * 6}px;
 `;
