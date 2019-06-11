@@ -7,6 +7,10 @@ import { Checkbox } from 'components/elements';
 import theme from 'styles/theme';
 import { withCurrency } from 'styles/elements';
 
+import { ContextMenu as BaseContextMenu } from 'components/elements';
+
+export { Button } from 'styles/elements';
+
 export const OptionLabel = styled.span``;
 
 export const OptionRate = styled.span`
@@ -26,6 +30,7 @@ export const Extra = styled.div`
 `;
 
 export const ExtraSummary = styled.div`
+  position: relative;
   display: flex;
   font-size: ${theme.fonts.sizes.default}px;
   text-transform: uppercase;
@@ -65,4 +70,14 @@ export const AddonSummaries = styled.div`
 export const AddonSummary = styled.div`
   display: flex;
   margin-bottom: ${theme.gutter * 2}px;
+`;
+
+export const ContextMenu = styled(BaseContextMenu)`
+  flex: 0 1;
+  padding: 0 0 0 ${theme.gutter / 2}px;
+`;
+
+export const ModalContent = styled.div`
+  max-width: 600px;
+  padding: ${theme.gutter * 6}px;
 `;

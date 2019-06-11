@@ -192,6 +192,7 @@ export const SummaryRoomEdit = ({
   updateBooking,
   updateIndividualRoom,
   updateRoom,
+  canChangeDates,
 }) => {
   const { t } = useTranslation();
 
@@ -312,19 +313,21 @@ export const SummaryRoomEdit = ({
                 ...formProps,
               })}
             </EditFormSection>
-            <EditFormSection>
-              {renderDatePicker(t, {
-                dates,
-                rates,
-                disabled,
-                firstDate,
-                lastDate,
-                onMonthChange,
-                onDayPickerShow,
-                onDatesChange,
-                values,
-              })}
-            </EditFormSection>
+            {canChangeDates && (
+              <EditFormSection>
+                {renderDatePicker(t, {
+                  dates,
+                  rates,
+                  disabled,
+                  firstDate,
+                  lastDate,
+                  onMonthChange,
+                  onDayPickerShow,
+                  onDatesChange,
+                  values,
+                })}
+              </EditFormSection>
+            )}
             <EditFormSection>
               <EditFormSectionTitle>{t('mealPlan_plural')}</EditFormSectionTitle>
               {renderMealPlans({ mealPlanOptions, onMealPlanChange, values })}

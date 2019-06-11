@@ -1,12 +1,28 @@
-import { prop, over, lensProp, omit, pathOr, append, pipe, toPairs, fromPairs, reduce } from 'ramda';
+import {
+  append,
+  equals,
+  findIndex,
+  fromPairs,
+  lensPath,
+  lensProp,
+  omit,
+  over,
+  pathOr,
+  pipe,
+  prop,
+  reduce,
+  set,
+  toPairs,
+} from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
 import client from 'api/proposals';
 
 import { BookingStatusTypes } from 'config/enums';
 
-import { completeBooking, setBookings } from 'store/modules/bookings/actions';
-import { successAction, errorFromResponse } from 'store/common';
+import { completeBooking, setBookings, cancelBooking, bookingToHotelUuid } from 'store/modules/bookings/actions';
+import { getBooking } from 'store/modules/bookings/selectors';
+import { successAction, errorFromResponse, errorAction } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getCurrentUserUuid } from 'store/modules/auth/selectors';
 import { getProposal } from 'store/modules/proposals/selectors';
@@ -17,6 +33,8 @@ export const PROPOSALS_FETCH = 'PROPOSALS_FETCH';
 export const PROPOSAL_FETCH = 'PROPOSAL_FETCH';
 export const PROPOSAL_UPDATE = 'PROPOSAL_UPDATE';
 export const PROPOSAL_REMOVE_BOOKING = 'PROPOSAL_REMOVE_BOOKING';
+export const PROPOSAL_AMEND_BOOKING = 'PROPOSAL_AMEND_BOOKING';
+export const PROPOSAL_COMPLETE_BOOKING = 'PROPOSAL_COMPLETE_BOOKING';
 
 const cleanPayload = pipe(
   toPairs,
@@ -51,6 +69,16 @@ export const removeBookingAction = payload => ({
 
 export const fetchProposalsAction = payload => ({
   type: PROPOSALS_FETCH,
+  payload,
+});
+
+export const amendBookingAction = payload => ({
+  type: PROPOSAL_AMEND_BOOKING,
+  payload,
+});
+
+export const completeProposalBookingAction = payload => ({
+  type: PROPOSAL_COMPLETE_BOOKING,
   payload,
 });
 
@@ -168,7 +196,7 @@ export const updateProposal = (proposalUuid, payload) => async (dispatch, getSta
   }
 };
 
-export const removeBooking = (proposalUuid, bookingId) => async dispatch => {
+export const removeBooking = (proposalUuid, bookingId, update = true) => async dispatch => {
   dispatch(removeBookingAction({ id: proposalUuid, bookingId }));
 
   try {
@@ -176,12 +204,44 @@ export const removeBooking = (proposalUuid, bookingId) => async dispatch => {
       data: { data },
     } = await client.removeBooking(proposalUuid, bookingId);
 
-    dispatch(fetchProposal(proposalUuid));
-    dispatch(successAction(PROPOSAL_REMOVE_BOOKING, data));
-    dispatch(
-      enqueueNotification({ message: `Removed '${bookingId}' from proposal.`, options: { variant: 'success' } })
-    );
+    update && dispatch(fetchProposal(proposalUuid));
+    dispatch(successAction(PROPOSAL_REMOVE_BOOKING, update ? data : {}));
+    update &&
+      dispatch(
+        enqueueNotification({ message: `Removed '${bookingId}' from proposal.`, options: { variant: 'success' } })
+      );
   } catch (e) {
     dispatch(errorFromResponse(PROPOSAL_REMOVE_BOOKING, e, 'There was a problem removing the booking.'));
   }
+};
+
+export const amendBooking = (proposalUuid, bookingId) => async (dispatch, getState) => {
+  dispatch(amendBookingAction({ proposalUuid, bookingId }));
+
+  const state = getState();
+  const proposal = getProposal(state, proposalUuid);
+  const booking = getBooking(state, bookingId);
+
+  const bookingIndex = findIndex(equals(bookingId), prop('bookings', proposal));
+
+  if (equals(-1, bookingIndex)) {
+    return dispatch(errorAction(PROPOSAL_AMEND_BOOKING, {}));
+  }
+
+  dispatch(cancelBooking(bookingId));
+  dispatch(bookingToHotelUuid(bookingId));
+
+  const next = set(lensPath(['bookings', bookingIndex]), prop('hotelUuid', booking), proposal);
+
+  dispatch(successAction(PROPOSAL_AMEND_BOOKING, { entities: { proposals: { [proposalUuid]: next } } }));
+  dispatch(removeBooking(proposalUuid, bookingId, false));
+};
+
+export const completeProposalBooking = (proposalUuid, bookingId, payload) => async dispatch => {
+  dispatch(completeProposalBookingAction({ proposalUuid, bookingId, payload }));
+
+  await dispatch(completeBooking(bookingId, { proposalUuid, status: BookingStatusTypes.POTENTIAL }));
+  dispatch(fetchProposal(proposalUuid));
+
+  dispatch(successAction(PROPOSAL_COMPLETE_BOOKING, {}));
 };

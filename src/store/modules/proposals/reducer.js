@@ -1,7 +1,14 @@
 import { initialState, loadingReducer, successReducer, errorReducer } from 'store/common';
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
 
-import { PROPOSALS_NEW, PROPOSALS_FETCH, PROPOSAL_FETCH, PROPOSALS_ADD, PROPOSAL_UPDATE } from './actions';
+import {
+  PROPOSALS_NEW,
+  PROPOSALS_FETCH,
+  PROPOSAL_FETCH,
+  PROPOSALS_ADD,
+  PROPOSAL_UPDATE,
+  PROPOSAL_AMEND_BOOKING,
+} from './actions';
 
 export default createReducer(
   {
@@ -20,6 +27,9 @@ export default createReducer(
     [PROPOSAL_FETCH]: loadingReducer,
     [getSuccessActionName(PROPOSAL_FETCH)]: successReducer,
     [getErrorActionName(PROPOSAL_FETCH)]: errorReducer,
+    [PROPOSAL_AMEND_BOOKING]: loadingReducer,
+    [getSuccessActionName(PROPOSAL_AMEND_BOOKING)]: successReducer,
+    [getErrorActionName(PROPOSAL_AMEND_BOOKING)]: errorReducer,
   },
   initialState
 );

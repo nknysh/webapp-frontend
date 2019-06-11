@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { ADMIN_BASE_URL } from 'config';
-import { Loader, BookingForm, Tabs, Section, DropDownMenu } from 'components';
+import { Loader, BookingForm, Tabs, Section, ContextMenu } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile, formatDate } from 'utils';
 import { fields, validation, data } from 'config/forms/bookingForm';
@@ -23,7 +23,6 @@ import {
   Button,
   Chevron,
   GuestName,
-  Menu,
   Proposal,
   ProposalActions,
   ProposalActionsWrapper,
@@ -83,16 +82,25 @@ const renderBreadcrumbs = (
   );
 };
 
-const renderBooking = (t, { isEdit, onBookingRemove }, booking) =>
+const renderBooking = (t, { isEdit, onBookingRemove, onGuardEditComplete, canEdit, onAmend }, booking) =>
   booking && (
-    <Fragment key={prop('uuid', booking)}>
-      <SummaryForm id={prop('uuid', booking)} summaryOnly compact>
+    <Fragment key={booking}>
+      <SummaryForm
+        bookLabel={t('buttons.amendBooking')}
+        compact
+        id={booking}
+        onGuardEditComplete={onGuardEditComplete}
+        summaryOnly={!isEdit}
+        canEdit={propOr(false, booking, canEdit)}
+        onSubmit={onAmend}
+        canChangeDates={false}
+      >
         {isEdit && (
           <ProposalActionsWrapper>
             <ProposalActions>
-              <DropDownMenu showArrow={false} title={<Menu>more_vert</Menu>}>
-                <span onClick={() => onBookingRemove(prop('uuid', booking))}>{t('buttons.remove')}</span>
-              </DropDownMenu>
+              <ContextMenu>
+                <span onClick={() => onBookingRemove(booking)}>{t('buttons.remove')}</span>
+              </ContextMenu>
             </ProposalActions>
           </ProposalActionsWrapper>
         )}
@@ -100,11 +108,14 @@ const renderBooking = (t, { isEdit, onBookingRemove }, booking) =>
     </Fragment>
   );
 
-const renderProposalSummary = (t, { isEdit, mobileView, isResortsView, onViewChange, bookings, onBookingRemove }) =>
+const renderProposalSummary = (
+  t,
+  { isEdit, mobileView, onGuardEditComplete, isResortsView, onViewChange, bookings, onAmend, onBookingRemove, canEdit }
+) =>
   (!mobileView || isResortsView) && (
     <ProposalSummary>
       {!mobileView && <Title>{t('labels.propertiesAndRooms')}</Title>}
-      {map(partial(renderBooking, [t, { onBookingRemove, isEdit }]), bookings)}
+      {map(partial(renderBooking, [t, { onBookingRemove, onGuardEditComplete, isEdit, onAmend, canEdit }]), bookings)}
       {mobileView && isEdit && <Button onClick={onViewChange}>{t('labels.reviewAndGenerate')}</Button>}
     </ProposalSummary>
   );
@@ -150,6 +161,7 @@ const renderProposalGuestInfo = (t, { isEdit, mobileView, proposal }) =>
 
 export const ProposalContainer = ({
   bookings,
+  amendBooking,
   errors,
   fetchProposal,
   id,
@@ -158,10 +170,12 @@ export const ProposalContainer = ({
   removeBooking,
   status,
   updateProposal,
+  completeProposalBooking,
 }) => {
   const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
   const [view, setView] = useState(ViewTypes.RESORTS);
+  const [canEdit, setCanEdit] = useState({});
   const currentWidth = useCurrentWidth();
 
   const mobileView = isMobile(currentWidth);
@@ -185,6 +199,28 @@ export const ProposalContainer = ({
     updateProposal(id, values);
     setSubmitted(true);
   };
+  const onGuardEditComplete = (bookingId, { hotelUuid }) => {
+    setCanEdit({ ...canEdit, [hotelUuid || bookingId]: true });
+    amendBooking(id, bookingId);
+  };
+
+  const onAmend = (bookingId, values) => {
+    completeProposalBooking(id, bookingId, values);
+  };
+
+  const summaryProps = {
+    mobileView,
+    onGuardEditComplete,
+    isResortsView,
+    isEdit,
+    canEdit,
+    onViewChange,
+    onAmend,
+    bookings,
+    onBookingRemove,
+  };
+  const guestFormProps = { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend };
+  const guestInfoProps = { mobileView, isGenerateView, isEdit, proposal };
 
   const renderFull = () => (
     <Fragment>
@@ -199,10 +235,8 @@ export const ProposalContainer = ({
       })}
       {renderStatusStrip(t, { isEdit, ...proposal })}
       <Proposal>
-        {renderProposalSummary(t, { mobileView, isResortsView, isEdit, onViewChange, bookings, onBookingRemove })}
-        {isEdit
-          ? renderProposalGuestForm(t, { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend })
-          : renderProposalGuestInfo(t, { mobileView, isGenerateView, isEdit, proposal })}
+        {renderProposalSummary(t, summaryProps)}
+        {isEdit ? renderProposalGuestForm(t, guestFormProps) : renderProposalGuestInfo(t, guestInfoProps)}
       </Proposal>
     </Fragment>
   );
@@ -211,8 +245,8 @@ export const ProposalContainer = ({
     <Fragment>
       <ProposalId>{t('labels.proposalWithId', { id })}</ProposalId>
       <Tabs labels={[t('labels.resortsDetails'), t('labels.guestsDetails')]}>
-        {renderProposalSummary(t, { mobileView, isResortsView, onViewChange, bookings, isEdit, onBookingRemove })}
-        {renderProposalGuestInfo(t, { mobileView, isGenerateView, isEdit, proposal })}
+        {renderProposalSummary(t, summaryProps)}
+        {renderProposalGuestInfo(t, guestInfoProps)}
       </Tabs>
     </Fragment>
   );

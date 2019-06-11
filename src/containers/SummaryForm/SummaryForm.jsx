@@ -7,7 +7,7 @@ import SummaryRoomEdit from 'containers/SummaryRoomEdit';
 import SummaryRoom from 'containers/SummaryRoom';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
-import { Form, Input, Loader } from 'components/elements';
+import { Form, Input, Loader, Modal, Markdown } from 'components';
 import { mapWithIndex } from 'utils';
 
 import { isActive } from 'store/common';
@@ -32,6 +32,7 @@ import {
   Title,
   Total,
   TotalMargin,
+  EditGuard,
 } from './SummaryForm.styles';
 
 const modalProps = { className: 'room-summary-form' };
@@ -53,7 +54,13 @@ const renderHotel = (t, { name, total, compact }) => (
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
 const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <Errors>{mapWithIndex(renderError, errors)}</Errors>;
 
-const renderRoom = (t, booking, { id, summaryOnly, setModalId, removeRoom, hotelUuid }, rooms, uuid) => (
+const renderRoom = (
+  t,
+  booking,
+  { id, summaryOnly, setModalId, removeRoom, hotelUuid, editGuard, onEditGuard },
+  rooms,
+  uuid
+) => (
   <SummaryRoom
     canEdit={!summaryOnly}
     hotelUuid={hotelUuid}
@@ -62,6 +69,8 @@ const renderRoom = (t, booking, { id, summaryOnly, setModalId, removeRoom, hotel
     onEdit={setModalId}
     onRemove={removeRoom}
     roomId={uuid}
+    editGuard={editGuard}
+    onEditGuard={onEditGuard}
   />
 );
 
@@ -73,12 +82,16 @@ const renderRooms = (t, { breakdown, ...data }, props) =>
     values
   )(breakdown);
 
-const renderModal = (t, { id, hotelUuid, modalId, status, getRatesForDates, setModalId, onModalClose }) => {
+const renderModal = (
+  t,
+  { id, hotelUuid, modalId, canChangeDates, status, getRatesForDates, setModalId, onModalClose }
+) => {
   if (!modalId) return null;
 
   return (
     <StyledModal open={true} onClose={onModalClose} modalContentProps={modalProps}>
       <SummaryRoomEdit
+        canChangeDates={canChangeDates}
         hotelUuid={hotelUuid}
         id={id}
         onComplete={setModalId}
@@ -117,17 +130,40 @@ const renderTotal = (t, { compact, isOnRequest, total, saving, summaryOnly, taMa
     </Fragment>
   );
 
-const renderForm = (t, { initialValues, onSubmit, canBook, id, compact, summaryOnly, errors, isOnRequest }) => (
-  <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
+const renderForm = (
+  t,
+  {
+    bookLabel,
+    canBook,
+    canEdit,
+    compact,
+    editGuard,
+    errors,
+    id,
+    initialValues,
+    isOnRequest,
+    onEditGuard,
+    onSubmit,
+    summaryOnly,
+  }
+) => (
+  <Form initialValues={initialValues} onSubmit={partial(onSubmit, [id])} enableReinitialize={true}>
     {({ values }) => (
       <Fragment>
         <Input type="hidden" value={canBook} name="valid" />
-        <SummaryFormExtras id={id} summaryOnly={summaryOnly} values={values} compact={compact} />
+        <SummaryFormExtras
+          compact={compact}
+          editGuard={editGuard}
+          id={id}
+          onEditGuard={onEditGuard}
+          summaryOnly={summaryOnly}
+          values={values}
+        />
         {renderSummaryErrors(errors)}
-        {!summaryOnly && (
+        {!summaryOnly && canEdit && (
           <SummaryFormActions>
             <SummaryFormButton disabled={!canBook} type="submit">
-              {isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow')}
+              {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
             </SummaryFormButton>
           </SummaryFormActions>
         )}
@@ -136,27 +172,45 @@ const renderForm = (t, { initialValues, onSubmit, canBook, id, compact, summaryO
   </Form>
 );
 
+const renderEditGuard = (t, { setShowEditGuard, showEditGuard, onEditGuardAccepted }) =>
+  showEditGuard && (
+    <Modal open={showEditGuard} onClose={() => setShowEditGuard(false)}>
+      <EditGuard>
+        <Markdown>{t('content.editGuard')}</Markdown>
+        <SummaryFormButton onClick={onEditGuardAccepted}>{t('buttons.accept')}</SummaryFormButton>
+      </EditGuard>
+    </Modal>
+  );
+
 export const SummaryForm = ({
   booking,
   canBook,
+  canChangeDates,
+  canEdit,
   children,
   className,
   compact,
   errors,
   getRatesForDates,
+  guardEdit,
   id,
   isOnRequest,
+  onGuardEdit,
+  onGuardEditComplete,
   onSubmit,
   removeRoom,
   saving,
   status,
   summaryOnly,
   total,
+  ...props
 }) => {
   const { t } = useTranslation();
-  const { marginApplied, taMarginAmount, taMarginType, hotelUuid, hotelName: name } = booking;
+  const { marginApplied, taMarginAmount, taMarginType, hotelUuid, hotelName: name, status: bookingStatus } = booking;
 
   const [modalId, setModalId] = useState();
+  const [editGuard, setEditGuard] = useState(guardEdit || !isNilOrEmpty(bookingStatus));
+  const [showEditGuard, setShowEditGuard] = useState(false);
 
   const isLoading = isActive(status);
 
@@ -172,18 +226,59 @@ export const SummaryForm = ({
 
   const onModalClose = () => setModalId(undefined);
 
+  const onEditGuard = () => {
+    if (!editGuard) return;
+
+    // This is essentially a custom hook pre-showing the guard message
+    onGuardEdit().then(() => {
+      setShowEditGuard(true);
+    });
+  };
+
+  const onEditGuardAccepted = () => {
+    setShowEditGuard(false);
+    setEditGuard(false);
+
+    onGuardEditComplete(id, booking);
+  };
+
   return (
     <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
-        {renderTotal(t, { compact, isOnRequest, total, saving, summaryOnly, taMarginAmount, taMarginType })}
+        {renderTotal(t, {
+          compact,
+          editGuard,
+          isOnRequest,
+          onEditGuard,
+          saving,
+          summaryOnly,
+          taMarginAmount,
+          taMarginType,
+          total,
+        })}
         {renderHotel(t, { name, total, compact })}
-        <Rooms data-summary={summaryOnly}>
-          {renderRooms(t, booking, { id, hotelUuid, summaryOnly, setModalId, removeRoom })}
+        <Rooms data-summary={summaryOnly} data-compact={compact}>
+          {renderRooms(t, booking, { id, hotelUuid, summaryOnly, setModalId, removeRoom, editGuard, onEditGuard })}
         </Rooms>
-        {renderForm(t, { initialValues, onSubmit, canBook, id, summaryOnly, errors, isOnRequest, compact })}
+        {renderForm(t, {
+          canBook,
+          canEdit,
+          compact,
+          editGuard,
+          errors,
+          id,
+          initialValues,
+          isOnRequest,
+          onEditGuard,
+          onSubmit,
+          summaryOnly,
+          ...props,
+        })}
         {children}
       </Loader>
-      {!summaryOnly && renderModal(t, { id, hotelUuid, modalId, status, getRatesForDates, setModalId, onModalClose })}
+      {!summaryOnly &&
+        renderModal(t, { id, hotelUuid, canChangeDates, modalId, status, getRatesForDates, setModalId, onModalClose })}
+      {renderEditGuard(t, { setShowEditGuard, showEditGuard, onEditGuardAccepted })}
     </StyledSummary>
   );
 };

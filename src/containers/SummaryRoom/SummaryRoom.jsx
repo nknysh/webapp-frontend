@@ -2,10 +2,9 @@ import React from 'react';
 import { gt, compose, length, partial, map, flatten, pipe, prop, join, values, mapObjIndexed, head } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { DropDownMenu } from 'components/elements';
-
 import { ProductTypes } from 'config/enums';
 
+import { ContextMenu } from 'components';
 import {
   replaceAccommodationWithRoom,
   groupErrorsByRoomIndex,
@@ -26,7 +25,6 @@ import {
   RoomDetails,
   RoomImage,
   RoomImages,
-  RoomMenu,
   RoomName,
   RoomPrice,
   RoomRow,
@@ -67,16 +65,18 @@ const renderErrors = pipe(
 export const SummaryRoom = ({
   canEdit,
   className,
+  dates,
+  editGuard,
   errors,
   id,
-  roomId,
   onEdit,
+  onEditGuard,
   photo,
   removeRoom,
   requestedRooms,
+  roomId,
   rooms,
   total,
-  dates,
 }) => {
   const { t } = useTranslation();
 
@@ -90,7 +90,13 @@ export const SummaryRoom = ({
   const hasErrors = gt(length(errors), 1);
 
   const onRemoveRoom = () => removeRoom(id, roomId, true);
-  const onEditRoom = () => onEdit(roomId);
+  const onEditRoom = () => {
+    if (editGuard) {
+      return onEditGuard();
+    }
+
+    onEdit(roomId);
+  };
 
   return (
     <Room key={roomId} className={className}>
@@ -115,10 +121,10 @@ export const SummaryRoom = ({
           </RoomColumn>
           {canEdit && (
             <RoomColumn data-shrink={true}>
-              <DropDownMenu showArrow={false} title={<RoomMenu>more_vert</RoomMenu>}>
+              <ContextMenu>
                 <span onClick={onEditRoom}>{t('buttons.edit')}</span>
                 <span onClick={onRemoveRoom}>{t('buttons.remove')}</span>
-              </DropDownMenu>
+              </ContextMenu>
             </RoomColumn>
           )}
         </RoomRow>

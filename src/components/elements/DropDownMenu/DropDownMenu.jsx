@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { path } from 'ramda';
 import { Grow, ClickAwayListener } from '@material-ui/core';
 
@@ -7,7 +7,7 @@ import { isArray, mapWithIndex } from 'utils';
 import { propTypes, defaultProps } from './DropDownMenu.props';
 import { Button, Area, MaterialPopper, MaterialIcon } from './DropDownMenu.styles';
 
-export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, showArrow }) => {
+export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, showArrow, className }) => {
   const buttonRef = useRef(undefined);
   const [open, setOpen] = useState(false);
 
@@ -24,7 +24,7 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
   const renderChildren = () => (isArray(children) ? mapWithIndex(renderItem, children) : renderItem(children, 0));
 
   return (
-    <Fragment>
+    <div className={className}>
       <Button
         buttonRef={buttonRef}
         aria-owns={open ? 'menu-list-grow' : undefined}
@@ -50,7 +50,7 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
           </Grow>
         )}
       </MaterialPopper>
-    </Fragment>
+    </div>
   );
 };
 

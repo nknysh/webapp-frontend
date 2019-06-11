@@ -1,9 +1,7 @@
-import { defaultTo, prop, pipe, map, propOr, partial, values, reduce, length, gte, mergeDeepRight } from 'ramda';
+import { defaultTo, prop, pipe, propOr, values, reduce, length, gte, mergeDeepRight } from 'ramda';
 
-import { getState, getUnary, getEntities, getData, getStatus, getResults, getErrors } from 'store/common';
+import { getUnary, getEntities, getData, getStatus, getResults, getErrors } from 'store/common';
 import { createSelector } from 'store/utils';
-
-import { getBooking } from 'store/modules/bookings/selectors';
 
 export const getProposals = prop('proposals');
 
@@ -38,6 +36,11 @@ export const getProposal = createSelector(
   prop
 );
 
+export const getProposalBookings = createSelector(
+  getProposal,
+  propOr([], 'bookings')
+);
+
 export const getProposalsKeyValue = createSelector(
   getProposalsEntities,
   pipe(
@@ -49,13 +52,4 @@ export const getProposalsKeyValue = createSelector(
       {}
     )
   )
-);
-
-export const getBookingsForProposal = createSelector(
-  [getState, getProposal],
-  (state, proposal) =>
-    pipe(
-      propOr([], 'bookings'),
-      map(partial(getBooking, [state]))
-    )(proposal)
 );
