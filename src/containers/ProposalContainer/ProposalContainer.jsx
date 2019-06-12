@@ -211,8 +211,7 @@ export const ProposalContainer = ({
     submitted && !isNilOrEmpty(errors) && setSubmitted(false);
   }, [errors]);
 
-  if ((isEdit && submitted) || (isEdit && !propSatisfies(isEmpty, 'uploads', proposal)))
-    return <Redirect to={`/proposals/${id}`} />;
+  if ((isEdit && submitted) || propOr(false, 'locked', proposal)) return <Redirect to={`/proposals/${id}`} />;
 
   const onMobileNavClick = () => setView(ViewTypes.RESORTS);
   const onViewChange = () => setView(ViewTypes.GENERATE);
