@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react';
-import { compose, equals, isEmpty, join, map, partial, pickAll, pipe, prop, propOr, props, propSatisfies } from 'ramda';
+import { compose, equals, isEmpty, join, map, partial, pickAll, pipe, prop, propOr, props } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
