@@ -119,12 +119,14 @@ const renderSummary = (
 ) =>
   (!mobileView || isReviewView) && (
     <StyledSummary id={id} summaryOnly={true}>
-      {!isComplete && (
-        <Fragment>
-          {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
-          {renderSubmitButton(t, { isReviewView, canBook, onSubmit, mobileView, isOnRequest })}
-        </Fragment>
-      )}
+      {() =>
+        !isComplete && (
+          <Fragment>
+            {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
+            {renderSubmitButton(t, { isReviewView, canBook, onSubmit, mobileView, isOnRequest })}
+          </Fragment>
+        )
+      }
     </StyledSummary>
   );
 

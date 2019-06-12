@@ -60,7 +60,7 @@ const renderActions = (t, { canBook, onModalOpen, setModalContext }) => (
 const renderSummary = (t, { id, brochures, onSubmit, ...props }) => (
   <Aside>
     <StyledSummary id={id} onSubmit={onSubmit}>
-      {renderActions(t, props)}
+      {() => renderActions(t, props)}
     </StyledSummary>
     {!isEmpty(brochures) && (
       <AsideDetails>
