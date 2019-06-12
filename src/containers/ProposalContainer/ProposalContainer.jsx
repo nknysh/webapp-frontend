@@ -134,15 +134,17 @@ const renderAdditionalResources = (t, { booking, isEdit, onAdditionalResourceCli
   );
 
   return (
-    <ExtraSummary>
-      <ExtraSummaryTitle>{t(`labels.additionalResources`)}:</ExtraSummaryTitle>
-      <AddonSummaries>
-        {map(
-          partial(renderAdditionalResource, [t, { onAdditionalResourceClick, attachedUploads, isEdit }]),
-          additionalResources
-        )}
-      </AddonSummaries>
-    </ExtraSummary>
+    (isEdit || !isEmpty(attachedUploads)) && (
+      <ExtraSummary>
+        <ExtraSummaryTitle>{t(`labels.additionalResources`)}:</ExtraSummaryTitle>
+        <AddonSummaries>
+          {map(
+            partial(renderAdditionalResource, [t, { onAdditionalResourceClick, attachedUploads, isEdit }]),
+            additionalResources
+          )}
+        </AddonSummaries>
+      </ExtraSummary>
+    )
   );
 };
 
