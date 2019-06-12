@@ -22,4 +22,5 @@ export default {
   submitBookingRequest: 'Submit Booking Request',
   takeHold: 'Take a hold',
   update: 'Update',
+  previewPDF: 'Preview PDF',
 };

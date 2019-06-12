@@ -4,8 +4,8 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { ADMIN_BASE_URL } from 'config';
-import { Loader, BookingForm, Tabs, Section, ContextMenu } from 'components';
+import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
+import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile, formatDate } from 'utils';
 import { fields, validation, data } from 'config/forms/bookingForm';
@@ -35,6 +35,9 @@ import {
   StyledBreadcrumbs,
   StyledProposalContainer,
   Title,
+  BookingFormActions,
+  BookingFormAction,
+  PDFFrame,
 } from './ProposalContainer.styles';
 import { simpleForm, withoutSections } from './ProposalContainer.utils';
 
@@ -120,7 +123,10 @@ const renderProposalSummary = (
     </ProposalSummary>
   );
 
-const renderProposalGuestForm = (t, { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend }) =>
+const renderProposalGuestForm = (
+  t,
+  { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF }
+) =>
   isEdit &&
   ((!mobileView || isGenerateView) && (
     <ProposalGuestForm>
@@ -131,7 +137,12 @@ const renderProposalGuestForm = (t, { mobileView, isGenerateView, isEdit, propos
         validation={validation}
         data={withoutSections(data)}
       >
-        <Button type="submit">{t('buttons.generateAndSend')}</Button>
+        <BookingFormActions>
+          <BookingFormAction type="submit">{t('buttons.generateAndSend')}</BookingFormAction>
+          <BookingFormAction type="button" onClick={onPreviewPDF} data-secondary>
+            {t('buttons.previewPDF')}
+          </BookingFormAction>
+        </BookingFormActions>
       </BookingForm>
     </ProposalGuestForm>
   ));
@@ -159,6 +170,15 @@ const renderProposalGuestInfo = (t, { isEdit, mobileView, proposal }) =>
     </Fragment>
   );
 
+const renderPDFModal = (t, { id, showPDF, setShowPDF }) =>
+  showPDF && (
+    <Modal open={showPDF} onClose={() => setShowPDF(false)}>
+      <PDFFrame>
+        <iframe src={`${API_BASE_URL}/proposals/${id}/pdf`} />
+      </PDFFrame>
+    </Modal>
+  );
+
 export const ProposalContainer = ({
   bookings,
   amendBooking,
@@ -173,10 +193,11 @@ export const ProposalContainer = ({
   completeProposalBooking,
 }) => {
   const { t } = useTranslation();
+  const currentWidth = useCurrentWidth();
   const [submitted, setSubmitted] = useState(false);
   const [view, setView] = useState(ViewTypes.RESORTS);
   const [canEdit, setCanEdit] = useState({});
-  const currentWidth = useCurrentWidth();
+  const [showPDF, setShowPDF] = useState(false);
 
   const mobileView = isMobile(currentWidth);
   const isResortsView = equals(ViewTypes.RESORTS, view);
@@ -190,7 +211,7 @@ export const ProposalContainer = ({
     submitted && !isNilOrEmpty(errors) && setSubmitted(false);
   }, [errors]);
 
-  if (isEdit && submitted) return <Redirect to={`/proposals/${id}`} />;
+  if ((isEdit && submitted) || propOr(false, 'locked', proposal)) return <Redirect to={`/proposals/${id}`} />;
 
   const onMobileNavClick = () => setView(ViewTypes.RESORTS);
   const onViewChange = () => setView(ViewTypes.GENERATE);
@@ -208,6 +229,8 @@ export const ProposalContainer = ({
     completeProposalBooking(id, bookingId, values);
   };
 
+  const onPreviewPDF = () => setShowPDF(true);
+
   const summaryProps = {
     mobileView,
     onGuardEditComplete,
@@ -219,7 +242,7 @@ export const ProposalContainer = ({
     bookings,
     onBookingRemove,
   };
-  const guestFormProps = { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend };
+  const guestFormProps = { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF };
   const guestInfoProps = { mobileView, isGenerateView, isEdit, proposal };
 
   const renderFull = () => (
@@ -254,6 +277,7 @@ export const ProposalContainer = ({
   return (
     <Loader isLoading={loading} text={t('messages.gettingProposal')}>
       <StyledProposalContainer>{!mobileView || isEdit ? renderFull() : renderTabs()}</StyledProposalContainer>
+      {renderPDFModal(t, { id, showPDF, setShowPDF })}
     </Loader>
   );
 };
