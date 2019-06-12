@@ -276,7 +276,7 @@ export const HotelBookingContainer = ({
 
   const onMobileNavClick = () => setView(ViewType.DETAILS);
   const onPaymentChange = (e, value) => setPaymentType(value);
-  const onGuestFormSubmit = (id, values) => {
+  const onGuestFormSubmit = values => {
     setGuestFormValues(values);
     updateBooking(id, values);
 

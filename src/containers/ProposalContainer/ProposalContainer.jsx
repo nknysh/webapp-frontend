@@ -312,7 +312,8 @@ export const ProposalContainer = ({
     setAttachedUploads(propOr([], 'attachedUploads', proposal));
   }, [proposal]);
 
-  if ((isEdit && submitted) || propOr(false, 'locked', proposal)) return <Redirect to={`/proposals/${id}`} />;
+  if ((isEdit && propOr(false, 'isLocked', proposal)) || (isEdit && submitted))
+    return <Redirect to={`/proposals/${id}`} />;
 
   const onMobileNavClick = () => setView(ViewTypes.RESORTS);
 
@@ -341,7 +342,7 @@ export const ProposalContainer = ({
   const onPreviewPDF = () => setShowPDF(true);
 
   const onGenerateAndSend = values => {
-    updateProposal(id, { attachedUploads, ...values });
+    updateProposal(id, { isLocked: true, attachedUploads, ...values });
     setSubmitted(true);
   };
 
