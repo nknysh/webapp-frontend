@@ -110,6 +110,12 @@ export const buttonStyles = css`
 `;
 export const Button = styled.button`
   ${buttonStyles}
+
+  ${({ ['data-secondary']: secondary }) =>
+    secondary &&
+    css`
+      background: ${theme.light};
+    `}
 `;
 
 export const Image = styled.img``;

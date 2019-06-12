@@ -4,6 +4,7 @@ import { Icon } from '@material-ui/core';
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 
+import { Button } from 'styles/elements';
 export { Button } from 'styles/elements';
 
 export {
@@ -157,4 +158,32 @@ export const Menu = styled(Icon)`
     overflow: visible !important;
     padding-top: 4px;
   cursor: pointer;
+`;
+
+export const BookingFormActions = styled.div`
+  display: flex;
+`;
+
+export const BookingFormAction = styled(Button)`
+  flex: 1 1 50%;
+  margin: 0 ${theme.gutter}px;
+
+  :first-child {
+    margin-left: 0;
+  }
+
+  :last-child {
+    margin-right: 0;
+  }
+`;
+
+export const PDFFrame = styled.div`
+  height: 100%;
+
+  iframe {
+    min-height: 768px;
+    min-width: 600px;
+    border: 0;
+    outline: 0;
+  }
 `;
