@@ -274,7 +274,7 @@ export const SummaryForm = ({
           summaryOnly,
           ...props,
         })}
-        {children}
+        {children({ booking })}
       </Loader>
       {!summaryOnly &&
         renderModal(t, { id, hotelUuid, canChangeDates, modalId, status, getRatesForDates, setModalId, onModalClose })}

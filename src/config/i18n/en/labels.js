@@ -80,4 +80,5 @@ export default {
 
   commission: 'Commission',
   notApplied: 'Not Applied',
+  additionalResources: 'Other Resources',
 };
