@@ -5,13 +5,6 @@ import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 
 import { Button } from 'styles/elements';
-export { Button } from 'styles/elements';
-
-export {
-  BookingPath,
-  BookingPathSegment,
-  Chevron,
-} from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
 
 import {
   StyledBreadcrumbs as BaseStyledBreadcrumbs,
@@ -20,6 +13,20 @@ import {
 } from 'containers/HotelContainer/HotelContainer.styles';
 
 import { HotelName as BaseHotelName } from 'containers/SummaryForm/SummaryForm.styles';
+
+export { Button } from 'styles/elements';
+
+export {
+  BookingPath,
+  BookingPathSegment,
+  Chevron,
+} from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
+
+export { Brochure } from 'containers/HotelContainer/HotelContainer.styles';
+
+export { ExtraSummary, ExtraSummaryTitle } from 'containers/SummaryFormExtras/SummaryFormExtras.styles';
+
+import { AddonSummaries as BaseAddonSummaries } from 'containers/SummaryFormExtras/SummaryFormExtras.styles';
 
 export const StyledProposalContainer = styled(BaseStyledHotelContainer)``;
 
@@ -186,4 +193,8 @@ export const PDFFrame = styled.div`
     border: 0;
     outline: 0;
   }
+`;
+
+export const AddonSummaries = styled(BaseAddonSummaries)`
+  text-align: left;
 `;

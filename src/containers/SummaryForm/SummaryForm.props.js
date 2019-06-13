@@ -22,6 +22,7 @@ export const propTypes = {
 };
 
 export const defaultProps = {
+  children: noop,
   booking: {},
   canChangeDates: true,
   canEdit: true,

@@ -119,12 +119,14 @@ const renderSummary = (
 ) =>
   (!mobileView || isReviewView) && (
     <StyledSummary id={id} summaryOnly={true}>
-      {!isComplete && (
-        <Fragment>
-          {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
-          {renderSubmitButton(t, { isReviewView, canBook, onSubmit, mobileView, isOnRequest })}
-        </Fragment>
-      )}
+      {() =>
+        !isComplete && (
+          <Fragment>
+            {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
+            {renderSubmitButton(t, { isReviewView, canBook, onSubmit, mobileView, isOnRequest })}
+          </Fragment>
+        )
+      }
     </StyledSummary>
   );
 
@@ -274,7 +276,7 @@ export const HotelBookingContainer = ({
 
   const onMobileNavClick = () => setView(ViewType.DETAILS);
   const onPaymentChange = (e, value) => setPaymentType(value);
-  const onGuestFormSubmit = (id, values) => {
+  const onGuestFormSubmit = values => {
     setGuestFormValues(values);
     updateBooking(id, values);
 

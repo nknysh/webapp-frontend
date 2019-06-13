@@ -1,11 +1,31 @@
 import React, { useState, Fragment } from 'react';
-import { compose, equals, isEmpty, join, map, partial, pickAll, pipe, prop, propOr, props } from 'ramda';
+import {
+  __,
+  append,
+  compose,
+  equals,
+  filter,
+  includes,
+  isEmpty,
+  join,
+  map,
+  partial,
+  path,
+  pathOr,
+  pickAll,
+  pipe,
+  prop,
+  propOr,
+  props,
+  propSatisfies,
+  without,
+} from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
-import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal } from 'components';
+import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal, Checkbox } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile, formatDate } from 'utils';
 import { fields, validation, data } from 'config/forms/bookingForm';
@@ -17,12 +37,19 @@ import SummaryForm from 'containers/SummaryForm';
 import connect from './ProposalContainer.state';
 import { propTypes, defaultProps } from './ProposalContainer.props';
 import {
+  AddonSummaries,
   Back,
+  BookingFormAction,
+  BookingFormActions,
   BookingPath,
   BookingPathSegment,
+  Brochure,
   Button,
   Chevron,
+  ExtraSummary,
+  ExtraSummaryTitle,
   GuestName,
+  PDFFrame,
   Proposal,
   ProposalActions,
   ProposalActionsWrapper,
@@ -35,9 +62,6 @@ import {
   StyledBreadcrumbs,
   StyledProposalContainer,
   Title,
-  BookingFormActions,
-  BookingFormAction,
-  PDFFrame,
 } from './ProposalContainer.styles';
 import { simpleForm, withoutSections } from './ProposalContainer.utils';
 
@@ -85,27 +109,75 @@ const renderBreadcrumbs = (
   );
 };
 
-const renderBooking = (t, { isEdit, onBookingRemove, onGuardEditComplete, canEdit, onAmend }, booking) =>
-  booking && (
-    <Fragment key={booking}>
+const renderAdditionalResource = (
+  t,
+  { onAdditionalResourceClick, attachedUploads, isEdit },
+  { displayName, uuid, url }
+) => {
+  const selected = includes(uuid, attachedUploads);
+
+  return (
+    <Fragment key={uuid}>
+      {isEdit ? (
+        <Checkbox label={displayName} value={uuid} onChange={onAdditionalResourceClick} checked={selected} />
+      ) : (
+        selected && <Brochure href={url}>{displayName}</Brochure>
+      )}
+    </Fragment>
+  );
+};
+
+const renderAdditionalResources = (t, { booking, isEdit, onAdditionalResourceClick, attachedUploads }) => {
+  const additionalResources = filter(
+    propSatisfies(includes(__, ['floorPlan', 'brochure']), 'tag'),
+    pathOr([], ['breakdown', 'uploads'], booking)
+  );
+
+  return (
+    (isEdit || !isEmpty(attachedUploads)) && (
+      <ExtraSummary>
+        <ExtraSummaryTitle>{t(`labels.additionalResources`)}:</ExtraSummaryTitle>
+        <AddonSummaries>
+          {map(
+            partial(renderAdditionalResource, [t, { onAdditionalResourceClick, attachedUploads, isEdit }]),
+            additionalResources
+          )}
+        </AddonSummaries>
+      </ExtraSummary>
+    )
+  );
+};
+
+const renderBooking = (
+  t,
+  { isEdit, onBookingRemove, onGuardEditComplete, canEdit, onAmend, onAdditionalResourceClick, attachedUploads },
+  uuid
+) =>
+  uuid && (
+    <Fragment key={uuid}>
       <SummaryForm
         bookLabel={t('buttons.amendBooking')}
         compact
-        id={booking}
+        id={uuid}
         onGuardEditComplete={onGuardEditComplete}
         summaryOnly={!isEdit}
-        canEdit={propOr(false, booking, canEdit)}
+        canEdit={propOr(false, uuid, canEdit)}
         onSubmit={onAmend}
         canChangeDates={false}
       >
-        {isEdit && (
-          <ProposalActionsWrapper>
-            <ProposalActions>
-              <ContextMenu>
-                <span onClick={() => onBookingRemove(booking)}>{t('buttons.remove')}</span>
-              </ContextMenu>
-            </ProposalActions>
-          </ProposalActionsWrapper>
+        {({ booking }) => (
+          <Fragment>
+            {renderAdditionalResources(t, { booking, isEdit, onAdditionalResourceClick, attachedUploads })}
+            {isEdit && (
+              <ProposalActionsWrapper>
+                <ProposalActions>
+                  <ContextMenu>
+                    <span onClick={() => onBookingRemove(booking)}>{t('buttons.remove')}</span>
+                  </ContextMenu>
+                </ProposalActions>
+              </ProposalActionsWrapper>
+            )}
+          </Fragment>
         )}
       </SummaryForm>
     </Fragment>
@@ -113,12 +185,38 @@ const renderBooking = (t, { isEdit, onBookingRemove, onGuardEditComplete, canEdi
 
 const renderProposalSummary = (
   t,
-  { isEdit, mobileView, onGuardEditComplete, isResortsView, onViewChange, bookings, onAmend, onBookingRemove, canEdit }
+  {
+    attachedUploads,
+    bookings,
+    canEdit,
+    isEdit,
+    isResortsView,
+    mobileView,
+    onAdditionalResourceClick,
+    onAmend,
+    onBookingRemove,
+    onGuardEditComplete,
+    onViewChange,
+  }
 ) =>
   (!mobileView || isResortsView) && (
     <ProposalSummary>
       {!mobileView && <Title>{t('labels.propertiesAndRooms')}</Title>}
-      {map(partial(renderBooking, [t, { onBookingRemove, onGuardEditComplete, isEdit, onAmend, canEdit }]), bookings)}
+      {map(
+        partial(renderBooking, [
+          t,
+          {
+            onBookingRemove,
+            onGuardEditComplete,
+            isEdit,
+            onAmend,
+            canEdit,
+            onAdditionalResourceClick,
+            attachedUploads,
+          },
+        ]),
+        bookings
+      )}
       {mobileView && isEdit && <Button onClick={onViewChange}>{t('labels.reviewAndGenerate')}</Button>}
     </ProposalSummary>
   );
@@ -200,6 +298,7 @@ export const ProposalContainer = ({
   const [view, setView] = useState(ViewTypes.RESORTS);
   const [canEdit, setCanEdit] = useState({});
   const [showPDF, setShowPDF] = useState(false);
+  const [attachedUploads, setAttachedUploads] = useState(propOr([], 'attachedUploads', proposal));
 
   useEffectBoundary(() => {
     submitted && (isSuccess(status) ? setComplete(true) : setSubmitted(false));
@@ -229,23 +328,34 @@ export const ProposalContainer = ({
     completeProposalBooking(id, bookingId, values);
   };
 
-  const onGenerateAndSend = values => {
-    updateProposal(id, values);
-    setSubmitted(true);
+  const onAdditionalResourceClick = e => {
+    const value = path(['target', 'value'], e);
+
+    value &&
+      setAttachedUploads(
+        includes(value, attachedUploads) ? without(value, attachedUploads) : append(value, attachedUploads)
+      );
   };
 
   const onPreviewPDF = () => setShowPDF(true);
 
+  const onGenerateAndSend = values => {
+    updateProposal(id, { isLocked: true, attachedUploads, ...values });
+    setSubmitted(true);
+  };
+
   const summaryProps = {
-    mobileView,
-    onGuardEditComplete,
-    isResortsView,
-    isEdit,
-    canEdit,
-    onViewChange,
-    onAmend,
+    attachedUploads,
     bookings,
+    canEdit,
+    isEdit,
+    isResortsView,
+    mobileView,
+    onAdditionalResourceClick,
+    onAmend,
     onBookingRemove,
+    onGuardEditComplete,
+    onViewChange,
   };
   const guestFormProps = { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF };
   const guestInfoProps = { mobileView, isGenerateView, isEdit, proposal };
@@ -268,7 +378,6 @@ export const ProposalContainer = ({
       </Proposal>
     </Fragment>
   );
-
   const renderTabs = () => (
     <Fragment>
       <ProposalId>{t('labels.proposalWithId', { id })}</ProposalId>

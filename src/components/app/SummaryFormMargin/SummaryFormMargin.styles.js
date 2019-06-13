@@ -6,7 +6,9 @@ import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { withCurrency } from 'styles/elements';
 
-export const Margin = styled.div``;
+export const Margin = styled.div`
+  margin-left: auto;
+`;
 
 export const MarginCheckbox = styled(Checkbox)`
   label {

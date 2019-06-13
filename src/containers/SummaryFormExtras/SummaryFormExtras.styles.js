@@ -42,7 +42,8 @@ export const ExtraSummary = styled.div`
 
 export const ExtraSummaryTitle = styled.div`
   font-weight: ${theme.fonts.bold};
-  flex: 1 0 100px;
+  flex: 0 0 150px;
+  width: 150px;
 `;
 
 export const ExtraSummaryProduct = styled.div`
@@ -65,6 +66,7 @@ export const AddonCheckbox = styled(Checkbox)`
 export const AddonSummaries = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
 `;
 
 export const AddonSummary = styled.div`
