@@ -1,5 +1,18 @@
 import React, { useState, Fragment } from 'react';
-import { compose, groupBy, head, mapObjIndexed, partial, path, pathOr, pipe, propOr, values } from 'ramda';
+import {
+  compose,
+  groupBy,
+  head,
+  mapObjIndexed,
+  partial,
+  path,
+  pathOr,
+  pipe,
+  propOr,
+  values,
+  prop,
+  length,
+} from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +20,8 @@ import SummaryRoomEdit from 'containers/SummaryRoomEdit';
 import SummaryRoom from 'containers/SummaryRoom';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
-import { Form, Input, Loader, Modal, Markdown } from 'components';
+import { useModalState } from 'effects';
+import { Form, Input, Loader, Modal, Markdown, Title as ModalTitle } from 'components';
 import { mapWithIndex } from 'utils';
 
 import { isActive } from 'store/common';
@@ -33,6 +47,7 @@ import {
   Total,
   TotalMargin,
   EditGuard,
+  ModalContent,
 } from './SummaryForm.styles';
 
 const modalProps = { className: 'room-summary-form' };
@@ -57,7 +72,7 @@ const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <Errors>{mapWithI
 const renderRoom = (
   t,
   booking,
-  { id, summaryOnly, setModalId, removeRoom, hotelUuid, editGuard, onEditGuard },
+  { id, summaryOnly, setModalId, removeRoom, hotelUuid, editGuard, onEditGuard, showRoomImage, showHolds },
   rooms,
   uuid
 ) => (
@@ -71,6 +86,8 @@ const renderRoom = (
     roomId={uuid}
     editGuard={editGuard}
     onEditGuard={onEditGuard}
+    showImage={showRoomImage}
+    showHolds={showHolds}
   />
 );
 
@@ -82,7 +99,7 @@ const renderRooms = (t, { breakdown, ...data }, props) =>
     values
   )(breakdown);
 
-const renderModal = (
+const renderRoomEditModal = (
   t,
   { id, hotelUuid, modalId, canChangeDates, status, getRatesForDates, setModalId, onModalClose }
 ) => {
@@ -139,15 +156,20 @@ const renderForm = (
     compact,
     editGuard,
     errors,
+    holds,
     id,
     initialValues,
     isOnRequest,
     onEditGuard,
     onSubmit,
     summaryOnly,
+    children,
+    booking,
+    showHolds,
+    onHoldModalInit,
   }
 ) => (
-  <Form initialValues={initialValues} onSubmit={partial(onSubmit, [id])} enableReinitialize={true}>
+  <Form initialValues={initialValues} onSubmit={onSubmit && partial(onSubmit, [id])} enableReinitialize={true}>
     {({ values }) => (
       <Fragment>
         <Input type="hidden" value={canBook} name="valid" />
@@ -160,13 +182,29 @@ const renderForm = (
           values={values}
         />
         {renderSummaryErrors(errors)}
-        {!summaryOnly && canEdit && (
-          <SummaryFormActions>
-            <SummaryFormButton disabled={!canBook} type="submit">
+        {children({ booking })}
+        <SummaryFormActions>
+          {showHolds &&
+            holds &&
+            (prop('hasFullHolds', holds) ? (
+              <SummaryFormButton type="button" onClick={() => onHoldModalInit('release')} data-secondary>
+                {t('buttons.releaseHold', { count: length(prop('breakdown', holds)) })}
+              </SummaryFormButton>
+            ) : (
+              <SummaryFormButton
+                disabled={!prop('canHold', holds)}
+                onClick={() => onHoldModalInit('add')}
+                type="button"
+              >
+                {t('buttons.addHold', { count: length(prop('breakdown', holds)) })}
+              </SummaryFormButton>
+            ))}
+          {((!summaryOnly && canEdit) || showHolds) && (
+            <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
               {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
             </SummaryFormButton>
-          </SummaryFormActions>
-        )}
+          )}
+        </SummaryFormActions>
       </Fragment>
     )}
   </Form>
@@ -182,6 +220,44 @@ const renderEditGuard = (t, { setShowEditGuard, showEditGuard, onEditGuardAccept
     </Modal>
   );
 
+const renderHoldModal = (
+  t,
+  { holdModalContext, onHoldRelease, onHoldConfirm, holdModalOpen, onHoldModalClose, id }
+) => {
+  if (!holdModalOpen) return;
+
+  const holdModalInfo = {
+    add: {
+      title: t('labels.confirmYourhold'),
+      content: t('content.holdConfirm'),
+      button: t('buttons.takeHold'),
+      action: partial(onHoldConfirm, [id]),
+    },
+    release: {
+      title: t('labels.releaseHold'),
+      content: t('content.holdRelease'),
+      button: t('buttons.confirmAndRelease'),
+      action: partial(onHoldRelease, [id]),
+    },
+  };
+
+  const modalContent = prop(holdModalContext, holdModalInfo);
+
+  return (
+    modalContent && (
+      <Modal open={true} onClose={onHoldModalClose}>
+        <ModalContent>
+          <ModalTitle>{prop('title', modalContent)}</ModalTitle>
+          <Markdown>{prop('content', modalContent)}</Markdown>
+          <SummaryFormButton type="button" onClick={prop('action', modalContent)}>
+            {prop('button', modalContent)}
+          </SummaryFormButton>
+        </ModalContent>
+      </Modal>
+    )
+  );
+};
+
 export const SummaryForm = ({
   booking,
   canBook,
@@ -193,13 +269,18 @@ export const SummaryForm = ({
   errors,
   getRatesForDates,
   guardEdit,
+  holds,
   id,
   isOnRequest,
+  onAddHolds,
   onGuardEdit,
   onGuardEditComplete,
+  onReleaseHolds,
   onSubmit,
   removeRoom,
   saving,
+  showHolds,
+  showRoomImage,
   status,
   summaryOnly,
   total,
@@ -211,6 +292,13 @@ export const SummaryForm = ({
   const [modalId, setModalId] = useState();
   const [editGuard, setEditGuard] = useState(guardEdit || !isNilOrEmpty(bookingStatus));
   const [showEditGuard, setShowEditGuard] = useState(false);
+  const {
+    modalOpen: holdModalOpen,
+    modalContext: holdModalContext,
+    onModalOpen: onHoldModalOpen,
+    onModalClose: onHoldModalClose,
+    setModalContext: setHoldModalContext,
+  } = useModalState();
 
   const isLoading = isActive(status);
 
@@ -242,6 +330,21 @@ export const SummaryForm = ({
     onGuardEditComplete(id, booking);
   };
 
+  const onHoldModalInit = context => {
+    setHoldModalContext(context);
+    onHoldModalOpen();
+  };
+
+  const onHoldConfirm = id => {
+    onAddHolds(id);
+    onHoldModalClose();
+  };
+
+  const onHoldRelease = id => {
+    onReleaseHolds(id);
+    onHoldModalClose();
+  };
+
   return (
     <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
@@ -258,26 +361,50 @@ export const SummaryForm = ({
         })}
         {renderHotel(t, { name, total, compact })}
         <Rooms data-summary={summaryOnly} data-compact={compact}>
-          {renderRooms(t, booking, { id, hotelUuid, summaryOnly, setModalId, removeRoom, editGuard, onEditGuard })}
+          {renderRooms(t, booking, {
+            id,
+            hotelUuid,
+            showRoomImage,
+            summaryOnly,
+            setModalId,
+            removeRoom,
+            editGuard,
+            onEditGuard,
+            showHolds,
+          })}
         </Rooms>
         {renderForm(t, {
+          booking,
           canBook,
           canEdit,
+          children,
           compact,
           editGuard,
           errors,
+          holds,
           id,
           initialValues,
           isOnRequest,
           onEditGuard,
           onSubmit,
           summaryOnly,
+          showHolds,
+          onHoldModalInit,
           ...props,
         })}
-        {children({ booking })}
       </Loader>
       {!summaryOnly &&
-        renderModal(t, { id, hotelUuid, canChangeDates, modalId, status, getRatesForDates, setModalId, onModalClose })}
+        renderRoomEditModal(t, {
+          id,
+          hotelUuid,
+          canChangeDates,
+          modalId,
+          status,
+          getRatesForDates,
+          setModalId,
+          onModalClose,
+        })}
+      {renderHoldModal(t, { holdModalContext, holdModalOpen, onHoldModalClose, onHoldRelease, onHoldConfirm, id })}
       {renderEditGuard(t, { setShowEditGuard, showEditGuard, onEditGuardAccepted })}
     </StyledSummary>
   );

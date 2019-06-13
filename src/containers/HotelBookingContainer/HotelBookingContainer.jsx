@@ -118,7 +118,7 @@ const renderSummary = (
   { mobileView, isReviewView, id, isComplete, onSubmit, canBook, isOnRequest, paymentType, onPaymentChange }
 ) =>
   (!mobileView || isReviewView) && (
-    <StyledSummary id={id} summaryOnly={true}>
+    <StyledSummary id={id} summaryOnly={true} showRoomImage={false}>
       {() =>
         !isComplete && (
           <Fragment>

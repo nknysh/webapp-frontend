@@ -42,8 +42,8 @@ export const ExtraSummary = styled.div`
 
 export const ExtraSummaryTitle = styled.div`
   font-weight: ${theme.fonts.bold};
-  flex: 0 0 150px;
-  width: 150px;
+  flex: 0 0 140px;
+  width: 140px;
 `;
 
 export const ExtraSummaryProduct = styled.div`

@@ -58,3 +58,8 @@ export const errorFromResponse = (action, error, defaultMessage) => async dispat
       errors
     );
 };
+
+export const genericAction = (type, payload) => ({
+  type,
+  payload,
+});

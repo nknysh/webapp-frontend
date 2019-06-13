@@ -1,16 +1,35 @@
 import React from 'react';
-import { gt, compose, length, partial, map, flatten, pipe, prop, join, values, mapObjIndexed, head } from 'ramda';
+import {
+  gt,
+  compose,
+  length,
+  partial,
+  map,
+  flatten,
+  pipe,
+  prop,
+  join,
+  values,
+  mapObjIndexed,
+  head,
+  propOr,
+  isEmpty,
+  reduce,
+  propEq,
+  append,
+} from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { ProductTypes } from 'config/enums';
 
-import { ContextMenu } from 'components';
+import { ContextMenu, Countdown } from 'components';
 import {
   replaceAccommodationWithRoom,
   groupErrorsByRoomIndex,
   getFromDateFormat,
   getToDateFormat,
   getNumberOfDays,
+  mapWithIndex,
 } from 'utils';
 
 import { getProduct, getSupplements, getMealPlans, getTotalGuests, getAgeSplits } from './SummaryRoom.utils';
@@ -29,6 +48,8 @@ import {
   RoomPrice,
   RoomRow,
   Error,
+  Hold,
+  HoldLabel,
 } from './SummaryRoom.styles';
 
 const renderSupplement = (t, { product, title, total, quantity }) => (
@@ -62,6 +83,14 @@ const renderErrors = pipe(
   map(map(renderError))
 );
 
+const renderHold = (t, hold, i) => (
+  <Countdown key={i} label={t('labels.expiresIn')} date={propOr(Date.now(), 'endDate', hold)}>
+    {t('labels.holdExpired')}
+  </Countdown>
+);
+
+const renderHolds = (t, data) => mapWithIndex(partial(renderHold, [t]), data);
+
 export const SummaryRoom = ({
   canEdit,
   className,
@@ -77,6 +106,9 @@ export const SummaryRoom = ({
   roomId,
   rooms,
   total,
+  hold,
+  showImage,
+  showHolds,
 }) => {
   const { t } = useTranslation();
 
@@ -98,18 +130,29 @@ export const SummaryRoom = ({
     onEdit(roomId);
   };
 
+  const roomHolds = reduce((accum, hold) => (propEq('hasHold', true, hold) ? append(hold, accum) : accum), [], hold);
+
+  const hasHolds = !isEmpty(roomHolds);
+  const hasImage = showImage && photo;
+
   return (
     <Room key={roomId} className={className}>
-      {!canEdit && prop('url', photo) && (
+      {(hasHolds || hasImage) && (
         <RoomImages>
-          <RoomImage src={prop('url', photo)} alt={prop('displayName', photo)} />
+          {hasImage && <RoomImage src={prop('url', photo)} />}
+          {showHolds && hasHolds && (
+            <Hold>
+              <HoldLabel>{t('labels.roomIsHeld', { count: length(hold) })}</HoldLabel>
+              {renderHolds(t, hold)}
+            </Hold>
+          )}
         </RoomImages>
       )}
       <RoomDetails>
         <RoomRow>
           <RoomColumn>
             <RoomName data-errors={hasErrors}>
-              {prop('name', product)} ({length(rooms)}) {hasErrors && '*'}
+              {prop('name', product)} ({length(requestedRooms)}) {hasErrors && '*'}
             </RoomName>
             <RoomDetail>
               {totalNights} {t('night', { count: totalNights })} | {getFromDateFormat(head(dates))}{' '}

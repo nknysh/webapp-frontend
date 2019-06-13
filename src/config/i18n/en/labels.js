@@ -72,6 +72,7 @@ export default {
   propertiesAndRooms: 'Properties and rooms included in this proposal',
 
   takeAHold: 'Take a 24 hour hold on this booking with the Proposal',
+  releaseHold: 'Are you sure you would like to release this provisional booking?',
 
   createdAt: 'Created on',
   leadGuestInfo: 'Lead Guest Info',
@@ -81,4 +82,11 @@ export default {
   commission: 'Commission',
   notApplied: 'Not Applied',
   additionalResources: 'Other Resources',
+
+  roomIsHeld: 'This room has a hold',
+  roomIsHeld_plural: 'This room has {{count}} holds',
+  expiresIn: 'Expires in',
+  holdExpired: 'Hold has expired',
+
+  confirmYourhold: 'Confirm your hold',
 };

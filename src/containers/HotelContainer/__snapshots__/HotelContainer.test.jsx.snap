@@ -29,6 +29,7 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
       <HotelContainerstyles__Aside>
         <HotelContainerstyles__StyledSummary
           onSubmit={[Function]}
+          showRoomImage={false}
         >
           <Component />
         </HotelContainerstyles__StyledSummary>

@@ -14,4 +14,5 @@ export default {
   redirecting: 'Redirecting...',
   gettingProposal: 'Getting proposal...',
   gettingBooking: 'Getting booking...',
+  requesting: 'Requesting...',
 };

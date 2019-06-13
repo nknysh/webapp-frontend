@@ -12,6 +12,8 @@ export const propTypes = {
   onChange: PropTypes.func,
   onEdit: PropTypes.func,
   canEdit: PropTypes.bool,
+  showImage: PropTypes.bool,
+  showHolds: PropTypes.bool,
 };
 
 export const defaultProps = {
@@ -21,4 +23,6 @@ export const defaultProps = {
   onEdit: noop,
   canEdit: false,
   dates: {},
+  showImage: true,
+  showHolds: false,
 };

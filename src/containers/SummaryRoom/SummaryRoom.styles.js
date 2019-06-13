@@ -80,9 +80,10 @@ export const RoomDetails = styled.div`
 
 export const RoomImages = styled.div`
   display: block;
-  width: 25%;
+  width: 150px;
   position: relative;
   padding-right: ${theme.gutter}px;
+  align-self: flex-start;
 `;
 
 export const RoomImage = styled.img`
@@ -130,4 +131,15 @@ export const AddonSummaries = styled.div`
 export const AddonSummary = styled.div`
   display: flex;
   margin-bottom: 20px;
+`;
+
+export const Hold = styled.div`
+  color: ${theme.error};
+  font-size: 10px;
+`;
+
+export const HoldLabel = styled.p`
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
 `;

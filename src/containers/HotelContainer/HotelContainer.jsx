@@ -44,8 +44,11 @@ const renderHotel = ({ id, hotel, photos }) => <StyledHotel {...hotel} id={id} p
 
 const renderActions = (t, { canBook, onModalOpen, setModalContext }) => (
   <SummaryActions>
-    <SummaryAction disabled={true}>{t('buttons.takeHold')}</SummaryAction>
+    <SummaryAction type="button" disabled={true}>
+      {t('buttons.takeHold')}
+    </SummaryAction>
     <SummaryAction
+      type="button"
       disabled={!canBook}
       onClick={() => {
         setModalContext('proposal');
@@ -59,7 +62,7 @@ const renderActions = (t, { canBook, onModalOpen, setModalContext }) => (
 
 const renderSummary = (t, { id, brochures, onSubmit, ...props }) => (
   <Aside>
-    <StyledSummary id={id} onSubmit={onSubmit}>
+    <StyledSummary id={id} onSubmit={onSubmit} showRoomImage={false}>
       {() => renderActions(t, props)}
     </StyledSummary>
     {!isEmpty(brochures) && (

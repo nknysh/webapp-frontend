@@ -7,6 +7,9 @@ import {
   removeBooking,
   amendBooking,
   completeProposalBooking,
+  proposalBookingRequest,
+  proposalBookingHold,
+  proposalBookingRelease,
 } from 'store/modules/proposals/actions';
 
 import { getProposal, getProposalsStatus, getProposalBookings } from 'store/modules/proposals/selectors';
@@ -36,6 +39,18 @@ export const mapDispatchToProps = dispatch => ({
   ),
   completeProposalBooking: pipe(
     completeProposalBooking,
+    dispatch
+  ),
+  proposalBookingRequest: pipe(
+    proposalBookingRequest,
+    dispatch
+  ),
+  proposalBookingHold: pipe(
+    proposalBookingHold,
+    dispatch
+  ),
+  proposalBookingRelease: pipe(
+    proposalBookingRelease,
     dispatch
   ),
 });
