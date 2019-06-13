@@ -9,18 +9,12 @@ import {
   completeProposalBooking,
 } from 'store/modules/proposals/actions';
 
-import {
-  getProposal,
-  getProposalsStatus,
-  getProposalBookings,
-  getProposalsErrors,
-} from 'store/modules/proposals/selectors';
+import { getProposal, getProposalsStatus, getProposalBookings } from 'store/modules/proposals/selectors';
 
 export const mapStateToProps = (state, { id }) => ({
   proposal: getProposal(state, id),
   status: getProposalsStatus(state),
   bookings: getProposalBookings(state, id),
-  errors: getProposalsErrors(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
