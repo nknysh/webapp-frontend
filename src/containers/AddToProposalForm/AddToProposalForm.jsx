@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useFetchData, useEffectBoundary } from 'effects';
 import { FormField, Form, Title, Loader } from 'components';
 import { extractFieldDefaults, getFormPath } from 'utils/form';
+import { isSuccess } from 'store/common';
 
 import { propTypes, defaultProps } from './AddToProposalForm.props';
 import { StyledAddToProposalForm, Actions, SubmitButton, SubmitText } from './AddToProposalForm.styles';
@@ -41,23 +42,26 @@ export const AddToProposalForm = ({
   const { t } = useTranslation();
   const [formValues, setFormValues] = useState({ availableToHold, ...extractFieldDefaults(fields) });
   const [submitted, setSubmitted] = useState(false);
+  const [complete, setComplete] = useState(false);
 
   const loaded = useFetchData(status, fetchProposals, []);
 
   useEffectBoundary(() => {
-    submitted && onSubmit(result);
-  }, [result]);
+    complete && onSubmit(result);
+  }, [complete]);
+
+  useEffectBoundary(() => {
+    submitted && (isSuccess(status) ? setComplete(true) : setSubmitted(false));
+  }, [status]);
 
   const onFormSubmit = values => {
     setFormValues(values);
 
     const placeHolds = prop('placeHolds', values);
 
-    if (isNewProposal(values)) {
-      createNewProposal(prop('proposalName', values), bookingId, placeHolds);
-    } else {
-      addToProposal(prop('proposalId', values), bookingId, placeHolds);
-    }
+    isNewProposal(values)
+      ? createNewProposal(prop('proposalName', values), bookingId, placeHolds)
+      : addToProposal(prop('proposalId', values), bookingId, placeHolds);
 
     setSubmitted(true);
   };
