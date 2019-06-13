@@ -30,7 +30,7 @@ import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile, formatDate } from 'utils';
 import { fields, validation, data } from 'config/forms/bookingForm';
 
-import { isActive } from 'store/common';
+import { isActive, isSuccess } from 'store/common';
 
 import SummaryForm from 'containers/SummaryForm';
 
@@ -280,7 +280,6 @@ const renderPDFModal = (t, { id, showPDF, setShowPDF }) =>
 export const ProposalContainer = ({
   bookings,
   amendBooking,
-  errors,
   fetchProposal,
   id,
   isEdit,
@@ -291,31 +290,28 @@ export const ProposalContainer = ({
   completeProposalBooking,
 }) => {
   const { t } = useTranslation();
+
+  const loaded = useFetchData(status, fetchProposal, [id], undefined, reloadIfMissing(proposal));
   const currentWidth = useCurrentWidth();
   const [submitted, setSubmitted] = useState(false);
+  const [complete, setComplete] = useState(false);
   const [view, setView] = useState(ViewTypes.RESORTS);
   const [canEdit, setCanEdit] = useState({});
   const [showPDF, setShowPDF] = useState(false);
   const [attachedUploads, setAttachedUploads] = useState(propOr([], 'attachedUploads', proposal));
 
+  useEffectBoundary(() => {
+    submitted && (isSuccess(status) ? setComplete(true) : setSubmitted(false));
+  }, [status]);
+
+  const proposalLocked = isEdit && propOr(false, 'isLocked', proposal);
+
+  if (proposalLocked || (isEdit && complete)) return <Redirect to={`/proposals/${id}`} />;
+
   const mobileView = isMobile(currentWidth);
   const isResortsView = equals(ViewTypes.RESORTS, view);
   const isGenerateView = equals(ViewTypes.GENERATE, view);
-
-  const loaded = useFetchData(status, fetchProposal, [id], undefined, reloadIfMissing(proposal));
-
   const loading = !loaded || isActive(status);
-
-  useEffectBoundary(() => {
-    submitted && !isNilOrEmpty(errors) && setSubmitted(false);
-  }, [errors]);
-
-  useEffectBoundary(() => {
-    setAttachedUploads(propOr([], 'attachedUploads', proposal));
-  }, [proposal]);
-
-  if ((isEdit && propOr(false, 'isLocked', proposal)) || (isEdit && submitted))
-    return <Redirect to={`/proposals/${id}`} />;
 
   const onMobileNavClick = () => setView(ViewTypes.RESORTS);
 

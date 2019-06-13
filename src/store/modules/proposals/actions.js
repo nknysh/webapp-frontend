@@ -20,9 +20,10 @@ import client from 'api/proposals';
 
 import { BookingStatusTypes } from 'config/enums';
 
+import { successAction, errorFromResponse, errorAction, isError } from 'store/common';
+
 import { completeBooking, setBookings, cancelBooking, bookingToHotelUuid } from 'store/modules/bookings/actions';
-import { getBooking } from 'store/modules/bookings/selectors';
-import { successAction, errorFromResponse, errorAction } from 'store/common';
+import { getBooking, getBookingStatus } from 'store/modules/bookings/selectors';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getCurrentUserUuid } from 'store/modules/auth/selectors';
 import { getProposal } from 'store/modules/proposals/selectors';
@@ -115,9 +116,7 @@ export const fetchProposal = (id, params) => async dispatch => {
 };
 
 export const createNewProposal = (name, bookingId, placeHolds) => async (dispatch, getState) => {
-  const state = getState();
-
-  const userUuid = getCurrentUserUuid(state);
+  const userUuid = getCurrentUserUuid(getState());
 
   dispatch(createNewProposalAction({ name, userUuid }));
 
@@ -140,6 +139,12 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
       })
     );
 
+    const bookingStatus = getBookingStatus(getState());
+
+    if (isError(bookingStatus)) {
+      throw new Error('Error updating booking');
+    }
+
     dispatch(fetchProposal(proposalUuid));
     dispatch(successAction(PROPOSALS_NEW, data));
     dispatch(
@@ -150,7 +155,7 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
   }
 };
 
-export const addToProposal = (proposalUuid, bookingId, placeHolds) => async dispatch => {
+export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dispatch, getState) => {
   dispatch(addToProposalAction({ proposalUuid, bookingId }));
 
   await dispatch(
@@ -165,8 +170,13 @@ export const addToProposal = (proposalUuid, bookingId, placeHolds) => async disp
     })
   );
 
+  const bookingStatus = getBookingStatus(getState());
+
   dispatch(fetchProposal(proposalUuid));
-  dispatch(successAction(PROPOSALS_ADD, { result: proposalUuid }));
+
+  !isError(bookingStatus)
+    ? dispatch(successAction(PROPOSALS_ADD, { result: proposalUuid }))
+    : dispatch(errorAction(PROPOSALS_ADD, { result: proposalUuid }));
 };
 
 export const updateProposal = (proposalUuid, payload) => async (dispatch, getState) => {

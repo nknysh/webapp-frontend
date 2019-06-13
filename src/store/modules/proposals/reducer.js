@@ -1,4 +1,4 @@
-import { initialState, loadingReducer, successReducer, errorReducer } from 'store/common';
+import { initialState, loadingReducer, successReducer, errorReducer, sendingReducer } from 'store/common';
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
 
 import {
@@ -18,7 +18,7 @@ export default createReducer(
     [PROPOSALS_ADD]: loadingReducer,
     [getSuccessActionName(PROPOSALS_ADD)]: successReducer,
     [getErrorActionName(PROPOSALS_ADD)]: errorReducer,
-    [PROPOSAL_UPDATE]: loadingReducer,
+    [PROPOSAL_UPDATE]: sendingReducer,
     [getSuccessActionName(PROPOSAL_UPDATE)]: successReducer,
     [getErrorActionName(PROPOSAL_UPDATE)]: errorReducer,
     [PROPOSALS_FETCH]: loadingReducer,

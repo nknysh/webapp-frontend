@@ -2,7 +2,7 @@ import { prop, pipe } from 'ramda';
 
 export const getStatus = prop('status');
 export const getData = prop('data');
-export const getErrors = prop('errors');
+export const getErrors = prop('error');
 export const getEntities = pipe(
   getData,
   prop('entities')
