@@ -10,8 +10,13 @@ import bookingConfirmedBT from './md/booking-confirmed--bt.md';
 
 import editGuard from './md/edit-guard.md';
 
+import holdConfirm from './md/hold-confirm.md';
+import holdRelease from './md/hold-release.md';
+
 export default {
   editGuard,
+  holdConfirm,
+  holdRelease,
   booking: {
     default: booking,
     onRequest: bookingOnRequest,

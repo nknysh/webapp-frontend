@@ -62,6 +62,11 @@ export const getBookingsCreated = pipe(
   prop('created')
 );
 
+export const getBookingsHolds = pipe(
+  getBookings,
+  prop('holds')
+);
+
 export const getBookingCreated = createSelector(
   [getUnary, getBookingsCreated],
   prop
@@ -75,6 +80,11 @@ export const getBooking = createSelector(
 export const getBookingBreakdown = createSelector(
   getBooking,
   prop('breakdown')
+);
+
+export const getBookingUploads = createSelector(
+  getBookingBreakdown,
+  prop('uploads')
 );
 
 const getPotentialBooking = createSelector(
@@ -435,4 +445,28 @@ export const getBookingForBuilder = createSelector(
       ...(!isNilOrEmpty(guestAges) && { guestAges }),
     };
   }
+);
+
+export const getBookingHolds = createSelector(
+  [getUnary, getBookingsHolds],
+  prop
+);
+
+export const getBookingRoomHolds = createSelector(
+  [getSecondArg, getBookingHolds],
+  (uuid, hold) =>
+    pipe(
+      propOr([], 'breakdown'),
+      filter(propEq('productUuid', uuid))
+    )(hold)
+);
+
+export const getBookingRoomPhoto = createSelector(
+  [getSecondArg, getBookingUploads],
+  (uuid, uploads) =>
+    pipe(
+      defaultTo([]),
+      filter(propEq('ownerUuid', uuid)),
+      head
+    )(uploads)
 );

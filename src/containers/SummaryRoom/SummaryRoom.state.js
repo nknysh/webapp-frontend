@@ -7,6 +7,8 @@ import {
   getBookingErrorsByRoomId,
   getBookingRoomsById,
   getBookingRoomDatesById,
+  getBookingRoomHolds,
+  getBookingRoomPhoto,
 } from 'store/modules/bookings/selectors';
 import { removeRoom } from 'store/modules/bookings/actions';
 
@@ -16,6 +18,8 @@ export const mapStateToProps = (state, { id, roomId }) => ({
   rooms: getPotentialBookingRoomsById(state, id, roomId),
   total: getBookingRoomTotal(state, id, roomId),
   dates: getBookingRoomDatesById(state, id, roomId),
+  hold: getBookingRoomHolds(state, id, roomId),
+  photo: getBookingRoomPhoto(state, id, roomId),
 });
 
 export const mapDispatchToProps = dispatch => ({

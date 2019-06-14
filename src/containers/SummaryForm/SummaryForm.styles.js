@@ -91,9 +91,22 @@ export const StyledModal = styled(Modal)`
 export const SummaryFormActions = styled.div`
   margin-top: ${theme.gutter}px;
   padding-top: ${theme.gutter}px;
+  display: flex;
 `;
 
-export const SummaryFormButton = styled(Button)``;
+export const SummaryFormButton = styled(Button)`
+  flex: 1;
+
+  margin: 0 ${theme.gutter}px;
+
+  :last-child {
+    margin-right: 0;
+  }
+
+  :first-child {
+    margin-left: 0;
+  }
+`;
 
 export const Errors = styled.div`
   text-align: center;
@@ -149,4 +162,10 @@ export const TotalMargin = styled(SummaryFormMargin)`
 export const EditGuard = styled.div`
   max-width: 600px;
   padding: ${theme.gutter * 6}px;
+`;
+
+export const ModalContent = styled.div`
+  padding: ${theme.gutter * 6}px;
+  max-width: 600px;
+  text-align: center;
 `;

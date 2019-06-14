@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`booking actions fetchHotelAction returns action 1`] = `
-Object {
-  "payload": "foo",
-  "type": "BOOKING_UPDATE",
-}
-`;

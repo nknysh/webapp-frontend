@@ -256,12 +256,7 @@ export const SummaryRoomEdit = ({
   };
 
   const onMonthChange = month => {
-    onDatesShow(
-      hotelUuid,
-      id,
-      isThisMonth(month) ? formatDate(toDate()) : getStartOfMonth(month),
-      getEndOfMonth(month)
-    );
+    onDatesShow(id, roomId, isThisMonth(month) ? formatDate(toDate()) : getStartOfMonth(month), getEndOfMonth(month));
     return month;
   };
 

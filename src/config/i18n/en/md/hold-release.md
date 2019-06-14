@@ -1,0 +1,1 @@
+Upon release, these rooms will no longer be on hold for your clients.

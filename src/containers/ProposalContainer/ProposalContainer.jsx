@@ -5,9 +5,11 @@ import {
   compose,
   equals,
   filter,
+  gt,
   includes,
   isEmpty,
   join,
+  length,
   map,
   partial,
   path,
@@ -30,7 +32,7 @@ import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile, formatDate } from 'utils';
 import { fields, validation, data } from 'config/forms/bookingForm';
 
-import { isActive, isSuccess } from 'store/common';
+import { isLoading, isSuccess, isSending } from 'store/common';
 
 import SummaryForm from 'containers/SummaryForm';
 
@@ -150,25 +152,43 @@ const renderAdditionalResources = (t, { booking, isEdit, onAdditionalResourceCli
 
 const renderBooking = (
   t,
-  { isEdit, onBookingRemove, onGuardEditComplete, canEdit, onAmend, onAdditionalResourceClick, attachedUploads },
+  {
+    attachedUploads,
+    bookings,
+    canEdit,
+    isEdit,
+    onAdditionalResourceClick,
+    onAmend,
+    onBook,
+    onBookingRemove,
+    onGuardEditComplete,
+    onAddHolds,
+    onReleaseHolds,
+  },
   uuid
 ) =>
   uuid && (
     <Fragment key={uuid}>
       <SummaryForm
-        bookLabel={t('buttons.amendBooking')}
+        bookLabel={propOr(false, uuid, canEdit) && t('buttons.amendBooking')}
         compact
         id={uuid}
         onGuardEditComplete={onGuardEditComplete}
         summaryOnly={!isEdit}
         canEdit={propOr(false, uuid, canEdit)}
-        onSubmit={onAmend}
+        canBook={true}
+        onSubmit={propOr(false, uuid, canEdit) ? onAmend : onBook}
         canChangeDates={false}
+        fetch={true}
+        showHolds={true}
+        onAddHolds={onAddHolds}
+        onReleaseHolds={onReleaseHolds}
       >
         {({ booking }) => (
           <Fragment>
-            {renderAdditionalResources(t, { booking, isEdit, onAdditionalResourceClick, attachedUploads })}
-            {isEdit && (
+            {!propOr(false, uuid, canEdit) &&
+              renderAdditionalResources(t, { booking, isEdit, onAdditionalResourceClick, attachedUploads })}
+            {isEdit && gt(1, length(bookings)) && (
               <ProposalActionsWrapper>
                 <ProposalActions>
                   <ContextMenu>
@@ -197,6 +217,9 @@ const renderProposalSummary = (
     onBookingRemove,
     onGuardEditComplete,
     onViewChange,
+    onBook,
+    onAddHolds,
+    onReleaseHolds,
   }
 ) =>
   (!mobileView || isResortsView) && (
@@ -213,6 +236,10 @@ const renderProposalSummary = (
             canEdit,
             onAdditionalResourceClick,
             attachedUploads,
+            bookings,
+            onBook,
+            onAddHolds,
+            onReleaseHolds,
           },
         ]),
         bookings
@@ -278,23 +305,28 @@ const renderPDFModal = (t, { id, showPDF, setShowPDF }) =>
   );
 
 export const ProposalContainer = ({
-  bookings,
   amendBooking,
+  bookings,
+  completeProposalBooking,
   fetchProposal,
   id,
   isEdit,
   proposal,
+  proposalBookingHold,
+  proposalBookingRelease,
+  proposalBookingRequest,
   removeBooking,
   status,
   updateProposal,
-  completeProposalBooking,
 }) => {
   const { t } = useTranslation();
 
   const loaded = useFetchData(status, fetchProposal, [id], undefined, reloadIfMissing(proposal));
   const currentWidth = useCurrentWidth();
   const [submitted, setSubmitted] = useState(false);
+  const [booked, setBooked] = useState(false);
   const [complete, setComplete] = useState(false);
+  const [bookingComplete, setBookingComplete] = useState(false);
   const [view, setView] = useState(ViewTypes.RESORTS);
   const [canEdit, setCanEdit] = useState({});
   const [showPDF, setShowPDF] = useState(false);
@@ -304,14 +336,20 @@ export const ProposalContainer = ({
     submitted && (isSuccess(status) ? setComplete(true) : setSubmitted(false));
   }, [status]);
 
+  useEffectBoundary(() => {
+    booked && (isSuccess(status) && setBookingComplete(true));
+  }, [status]);
+
   const proposalLocked = isEdit && propOr(false, 'isLocked', proposal);
 
   if (proposalLocked || (isEdit && complete)) return <Redirect to={`/proposals/${id}`} />;
+  if (booked && bookingComplete) return <Redirect to={`/bookings/${booked}/complete`} />;
 
   const mobileView = isMobile(currentWidth);
   const isResortsView = equals(ViewTypes.RESORTS, view);
   const isGenerateView = equals(ViewTypes.GENERATE, view);
-  const loading = !loaded || isActive(status);
+  const loading = !loaded || isLoading(status);
+  const sending = isSending(status);
 
   const onMobileNavClick = () => setView(ViewTypes.RESORTS);
 
@@ -325,7 +363,21 @@ export const ProposalContainer = ({
   };
 
   const onAmend = (bookingId, values) => {
+    setCanEdit({ ...canEdit, [bookingId]: false });
     completeProposalBooking(id, bookingId, values);
+  };
+
+  const onBook = bookingId => {
+    setBooked(bookingId);
+    proposalBookingRequest(id, bookingId);
+  };
+
+  const onAddHolds = bookingId => {
+    proposalBookingHold(id, bookingId);
+  };
+
+  const onReleaseHolds = bookingId => {
+    proposalBookingRelease(id, bookingId);
   };
 
   const onAdditionalResourceClick = e => {
@@ -356,6 +408,9 @@ export const ProposalContainer = ({
     onBookingRemove,
     onGuardEditComplete,
     onViewChange,
+    onBook,
+    onAddHolds,
+    onReleaseHolds,
   };
   const guestFormProps = { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF };
   const guestInfoProps = { mobileView, isGenerateView, isEdit, proposal };
@@ -389,7 +444,7 @@ export const ProposalContainer = ({
   );
 
   return (
-    <Loader isLoading={loading} text={t('messages.gettingProposal')}>
+    <Loader isLoading={sending || loading} text={sending ? t('messages.requesting') : t('messages.gettingProposal')}>
       <StyledProposalContainer>{!mobileView || isEdit ? renderFull() : renderTabs()}</StyledProposalContainer>
       {renderPDFModal(t, { id, showPDF, setShowPDF })}
     </Loader>

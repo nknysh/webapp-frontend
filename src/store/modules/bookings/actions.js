@@ -15,6 +15,7 @@ import {
   lensProp,
   map,
   mapObjIndexed,
+  forEach,
   mergeDeepLeft,
   mergeDeepRight,
   omit,
@@ -28,11 +29,13 @@ import {
   propOr,
   propSatisfies,
   reduce,
+  values,
   reject,
   remove,
   set,
   update,
   view,
+  partial,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
@@ -40,73 +43,36 @@ import client from 'api/bookings';
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
 import { formatDate } from 'utils';
 
-import { successAction, errorFromResponse } from 'store/common';
+import { successAction, errorFromResponse, genericAction } from 'store/common';
 import { getSearchDates } from 'store/modules/search/selectors';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 
 import { getBooking, getBookingForBuilder } from './selectors';
 import { addFinalDayToBooking } from './utils';
 
+export const BOOKING_CANCEL = 'BOOKING_CANCEL';
 export const BOOKING_CHECKS = 'BOOKING_CHECKS';
+export const BOOKING_FETCH = 'BOOKING_FETCH';
+export const BOOKING_HOLD = 'BOOKING_HOLD';
+export const BOOKING_HOLDS_FETCH = 'BOOKING_HOLDS_FETCH';
+export const BOOKING_RELEASE = 'BOOKING_RELEASE';
 export const BOOKING_REMOVE = 'BOOKING_REMOVE';
+export const BOOKING_REQUEST = 'BOOKING_REQUEST';
+export const BOOKING_RESET = 'BOOKING_RESET';
 export const BOOKING_ROOM_ADD = 'BOOKING_ROOM_ADD';
-export const BOOKING_ROOM_UPDATE = 'BOOKING_ROOM_UPDATE';
 export const BOOKING_ROOM_REMOVE = 'BOOKING_ROOM_REMOVE';
+export const BOOKING_ROOM_UPDATE = 'BOOKING_ROOM_UPDATE';
 export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
-export const BOOKING_RESET = 'BOOKING_RESET';
-export const BOOKING_FETCH = 'BOOKING_FETCH';
-export const BOOKING_CANCEL = 'BOOKING_CANCEL';
 
 const ignoreCall = anyPass([has('marginApplied'), has('taMarginType'), has('taMarginAmount')]);
 
 const getHotelName = path(['breakdown', 'hotel', 'name']);
 
-export const updateBookingAction = payload => ({
-  type: BOOKING_UPDATE,
-  payload,
-});
+const updateBookingAction = partial(genericAction, [BOOKING_UPDATE]);
 
-export const submitBookingAction = payload => ({
-  type: BOOKING_SUBMIT,
-  payload,
-});
-
-export const addRoomAction = payload => ({
-  type: BOOKING_ROOM_ADD,
-  payload,
-});
-
-export const updateRoomAction = payload => ({
-  type: BOOKING_ROOM_UPDATE,
-  payload,
-});
-
-export const removeRoomAction = payload => ({
-  type: BOOKING_ROOM_REMOVE,
-  payload,
-});
-
-export const removeBooking = payload => ({
-  type: BOOKING_REMOVE,
-  payload,
-});
-
-export const bookingsSetAction = payload => ({
-  type: BOOKINGS_SET,
-  payload,
-});
-
-export const fetchBookingAction = payload => ({
-  type: BOOKING_FETCH,
-  payload,
-});
-
-export const cancelBookingAction = payload => ({
-  type: BOOKING_CANCEL,
-  payload,
-});
+const updateRoomAction = partial(genericAction, [BOOKING_ROOM_UPDATE]);
 
 const productsLens = type => lensPath(['breakdown', 'requestedBuild', type]);
 
@@ -114,8 +80,24 @@ const viewProducts = (type, data) => view(productsLens(type), data);
 const overProducts = (type, handler, data) => over(productsLens(type), handler, data);
 const setProducts = (type, handler, data) => set(productsLens(type), handler, data);
 
+export const removeBooking = partial(genericAction, [BOOKING_REMOVE]);
+
+export const fetchBookingHolds = id => async dispatch => {
+  dispatch(genericAction(BOOKING_HOLDS_FETCH, { id }));
+
+  try {
+    const {
+      data: { data },
+    } = await client.getBookingHolds(id);
+
+    dispatch(successAction(BOOKING_HOLDS_FETCH, { [id]: data }));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_HOLDS_FETCH, e, 'Could not fetch holds for this booking.'));
+  }
+};
+
 export const addRoom = (id, uuid) => (dispatch, getState) => {
-  dispatch(addRoomAction({ id, uuid }));
+  dispatch(genericAction(BOOKING_ROOM_ADD, { id, uuid }));
 
   const dates = map(formatDate, getSearchDates(getState()));
 
@@ -183,7 +165,7 @@ export const updateIndividualRoom = (id, uuid, index, payload) => (dispatch, get
 };
 
 export const removeRoom = (id, uuid, all = false) => (dispatch, getState) => {
-  dispatch(removeRoomAction({ id, uuid }));
+  dispatch(genericAction(BOOKING_ROOM_REMOVE, { id, uuid }));
 
   const state = getState();
   const booking = getBooking(state, id);
@@ -318,7 +300,7 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
     omit(omitProps, payload)
   );
 
-  dispatch(submitBookingAction(finalPayload));
+  dispatch(genericAction(BOOKING_SUBMIT, finalPayload));
 
   try {
     const {
@@ -331,15 +313,19 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
 };
 
 export const setBookings = data => dispatch => {
-  dispatch(bookingsSetAction(bookings));
+  dispatch(genericAction(BOOKINGS_SET, bookings));
 
   const bookings = mapObjIndexed(addFinalDayToBooking, data);
+
+  forEach(({ uuid }) => {
+    dispatch(fetchBookingHolds(uuid));
+  }, values(bookings));
 
   dispatch(successAction(BOOKINGS_SET, bookings));
 };
 
 export const fetchBooking = id => async dispatch => {
-  dispatch(fetchBookingAction(id));
+  dispatch(genericAction(BOOKING_FETCH, id));
 
   try {
     const {
@@ -349,6 +335,7 @@ export const fetchBooking = id => async dispatch => {
     // Backend sees days as day+night so we need to add the last day to each accommodation product
     const booking = addFinalDayToBooking(data);
 
+    dispatch(fetchBookingHolds(id));
     dispatch(successAction(BOOKING_FETCH, { [id]: booking }));
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_SUBMIT, e, 'There was a problem fetching the booking.'));
@@ -356,7 +343,7 @@ export const fetchBooking = id => async dispatch => {
 };
 
 export const cancelBooking = id => async dispatch => {
-  dispatch(cancelBookingAction({ id }));
+  dispatch(genericAction(BOOKING_CANCEL, { id }));
 
   try {
     const {
@@ -386,4 +373,44 @@ export const bookingToHotelUuid = id => (dispatch, getState) => {
 
   // Triggers a booking builder call
   dispatch(updateBooking(hotelUuid, { guestFirstName, guestLastName, ...newBooking }));
+};
+
+export const requestBooking = id => async dispatch => {
+  dispatch(genericAction(BOOKING_REQUEST, id));
+
+  try {
+    const {
+      data: { data },
+    } = await client.requestBooking(id);
+
+    dispatch(successAction(BOOKING_REQUEST, { [id]: data }));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_REQUEST, e, `There was a problem requesting booking '${id}'.`));
+  }
+};
+
+export const holdBooking = id => async dispatch => {
+  dispatch(genericAction(BOOKING_HOLD, id));
+
+  try {
+    await client.holdBooking(id);
+
+    dispatch(fetchBooking(id));
+    dispatch(successAction(BOOKING_HOLD, {}));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_HOLD, e, `There was taking holds for booking '${id}'.`));
+  }
+};
+
+export const releaseBooking = id => async dispatch => {
+  dispatch(genericAction(BOOKING_RELEASE, id));
+
+  try {
+    await client.releaseBooking(id);
+
+    dispatch(fetchBooking(id));
+    dispatch(successAction(BOOKING_RELEASE, {}));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_RELEASE, e, `There was a problem releasing holds on booking '${id}'.`));
+  }
 };
