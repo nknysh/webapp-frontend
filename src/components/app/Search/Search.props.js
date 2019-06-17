@@ -12,6 +12,7 @@ export const propTypes = {
   searchStatus: PropTypes.string,
   showSubmit: PropTypes.bool,
   vertical: PropTypes.bool,
+  canSearch: PropTypes.bool,
   searchQuery: PropTypes.shape({
     value: PropTypes.string,
   }),
@@ -26,6 +27,7 @@ export const defaultProps = {
   onSubmit: noop,
   showSubmit: true,
   vertical: false,
+  canSearch: true,
   searchQuery: {
     value: '',
   },

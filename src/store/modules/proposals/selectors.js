@@ -1,6 +1,6 @@
 import { defaultTo, prop, pipe, propOr, values, reduce, length, gte, mergeDeepRight } from 'ramda';
 
-import { getUnary, getEntities, getData, getStatus, getResults, getErrors } from 'store/common';
+import { getArg, getEntities, getData, getStatus, getResults, getErrors } from 'store/common';
 import { createSelector } from 'store/utils';
 
 export const getProposals = prop('proposals');
@@ -32,7 +32,7 @@ export const getProposalsResults = createSelector(
 );
 
 export const getProposal = createSelector(
-  [getUnary, getProposalsEntities],
+  [getArg(1), getProposalsEntities],
   prop
 );
 

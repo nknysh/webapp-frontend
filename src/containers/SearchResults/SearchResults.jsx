@@ -19,9 +19,10 @@ import {
   Filtering,
   FiltersButton,
   modalStyles,
+  SearchMarkdown,
 } from './SearchResults.styles';
 
-export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, result }) => {
+export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, result, canSearch }) => {
   const { t } = useTranslation();
 
   useEffectBoundary(() => {
@@ -45,13 +46,19 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
     <Fragment>
       <StyledResults>
         <Loader text={t('messages.searching')} isLoading={isActive(searchStatus)} showPrev={true}>
-          <ResultsTitle>{title}</ResultsTitle>
           {isMobile(currentWidth) && (
             <Filtering>
               <FiltersButton onClick={onModalOpen}>{t('buttons.refine')}</FiltersButton>
             </Filtering>
           )}
-          <Results>{map(renderResult, defaultTo([], result))}</Results>
+          {canSearch ? (
+            <Fragment>
+              <ResultsTitle>{title}</ResultsTitle>
+              <Results>{map(renderResult, defaultTo([], result))}</Results>
+            </Fragment>
+          ) : (
+            <SearchMarkdown>{t('content.searchRequired')}</SearchMarkdown>
+          )}
         </Loader>
       </StyledResults>
       {isMobile(currentWidth) && (

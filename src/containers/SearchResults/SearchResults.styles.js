@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import { Markdown } from 'components';
+
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { Button } from 'styles/elements';
@@ -59,4 +61,42 @@ export const Filtering = styled.div`
 
 export const FiltersButton = styled(Button)`
   font-size: ${theme.fonts.sizes.normal}px;
+`;
+
+export const SearchMarkdown = styled(Markdown)`
+  text-transform: uppercase;
+  color: ${theme.light};
+  font-weight: ${theme.fonts.bold};
+  font-size: ${theme.fonts.sizes.default}px;
+  padding ${theme.gutter * 2}px;
+
+  ul {
+    padding: 0;
+    margin: 0 0 0 ${theme.gutter * 2}px;
+
+    li {
+      margin-bottom: ${theme.gutter}px;
+    }
+  }
+  position: relative;
+
+  ${breakpoints.tablet`
+    position: fixed;
+    top: 282px;
+    background: ${theme.backgrounds.default};
+    border: 1px solid ${theme.borders.medium};
+    box-shadow: ${theme.boxShadows.default};
+
+    :before {
+      position: absolute;
+      left: -${theme.gutter}px;
+      top: ${theme.gutter * 3.5}px;
+      content: '';
+      width: 0; 
+      height: 0; 
+      border-top: ${theme.gutter}px solid transparent;
+      border-bottom: ${theme.gutter}px solid transparent; 
+      border-right: ${theme.gutter}px solid ${theme.borders.default}; 
+    }
+  `}
 `;

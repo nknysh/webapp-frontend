@@ -15,44 +15,19 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
           Rooms
         </LodgingSelectstyles__LodgingSelectEntryLabel>
         <LodgingSelectstyles__LodgingSelectNumberSelect
-          onChange={[Function]}
+          onAdd={[Function]}
+          onRemove={[Function]}
           value={0}
         />
       </LodgingSelectstyles__LodgingSelectEntry>
     </LodgingSelectstyles__LodgingSelectSection>
-    <AgeSelect
-      ageRanges={
-        Object {
-          "adult": Object {},
-          "child": Object {
-            "ageFrom": 2,
-            "ageTo": 12,
-          },
-          "infant": Object {
-            "ageFrom": 0,
-            "ageTo": 2,
-          },
-          "teen": Object {
-            "ageFrom": 13,
-            "ageTo": 18,
-          },
-        }
-      }
-      minMax={Object {}}
-      onSelect={[Function]}
-      showAgeDropDown={
-        Object {
-          "adult": false,
-        }
-      }
-      values={
-        Object {
-          "adult": Array [],
-          "child": Array [],
-          "infant": Array [],
-          "teen": Array [],
-        }
-      }
+    <LodgingSelectstyles__Tabs
+      labels={Array []}
+      onChange={[Function]}
+      scrollButtons="auto"
+      tabClassname="lodging-tab"
+      value={0}
+      variant="scrollable"
     />
   </DropDownContent>
 </LodgingSelectstyles__StyledLodgingSelect>

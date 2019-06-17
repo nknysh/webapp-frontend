@@ -6,13 +6,14 @@ import { searchByName } from 'store/modules/search/actions';
 
 import { getCountryName } from 'store/modules/countries/selectors';
 import { getHotelName } from 'store/modules/hotels/selectors';
-import { getSearchQuery, getSearchStatus } from 'store/modules/search/selectors';
+import { getSearchQuery, getSearchStatus, getCanSearch } from 'store/modules/search/selectors';
 
 export const mapStateToProps = state => ({
   searchStatus: getSearchStatus(state),
   getCountryName: code => getCountryName(state, code),
   getHotelName: name => getHotelName(state, name),
   searchQuery: getSearchQuery(state),
+  canSearch: getCanSearch(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

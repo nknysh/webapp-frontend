@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Label, NumberSelect } from 'components/elements';
+import { Label, NumberSelect, Tabs as BaseTabs } from 'components/elements';
 
 import theme from 'styles/theme';
 
@@ -29,3 +29,7 @@ export const LodgingSelectEntryLabel = styled(Label)`
 export const LodgingSelectNumberSelect = styled(NumberSelect)`
   flex: 1;
 `;
+
+export const Tabs = styled(BaseTabs)``;
+
+export const TabLabel = styled.span``;

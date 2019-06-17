@@ -1,8 +1,24 @@
-import React from 'react';
-import { curry, lensProp, view, set, propOr, pipe, omit, values, sum, map, length } from 'ramda';
+import React, { useState } from 'react';
+import {
+  gt,
+  dropLast,
+  update,
+  append,
+  propOr,
+  pipe,
+  reduce,
+  add,
+  length,
+  times,
+  partial,
+  prop,
+  defaultTo,
+} from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
 import { DropDownContent, AgeSelect } from 'components/elements';
+import { useEffectBoundary } from 'effects';
 
 import { propTypes, defaultProps } from './LodgingSelect.props';
 import {
@@ -12,35 +28,76 @@ import {
   LodgingSelectSection,
   LodgingSelectEntry,
   LodgingSelectNumberSelect,
+  Tabs,
+  TabLabel,
 } from './LodgingSelect.styles';
 
-const withoutQuantity = omit(['quantity']);
-const roomsLens = lensProp('quantity');
-const getRoomsCount = propOr(0, 'quantity');
-const getGuestsCount = pipe(
-  withoutQuantity,
-  values,
-  map(length),
-  sum
+const getGuestsCounts = pipe(
+  defaultTo([]),
+  reduce(
+    (accum, guestAges) =>
+      pipe(
+        add(propOr(0, 'numberOfAdults', guestAges)),
+        add(length(propOr([], 'agesOfAllChildren', guestAges)))
+      )(accum),
+    0
+  )
 );
 
 const renderLabel = label => label && <LodgingSelectLabel>{label}</LodgingSelectLabel>;
 
-export const LodgingSelect = ({ label, onSelected, selectedValues, contentOnly }) => {
+const renderTabLabels = (t, { errors }, i) => (
+  <TabLabel key={i} value={i} data-error={!isNilOrEmpty(prop(i, errors))}>
+    Room {i + 1}
+  </TabLabel>
+);
+
+const renderLabels = (t, { totalRooms, ...props }) =>
+  (gt(totalRooms, 1) && times(partial(renderTabLabels, [t, { totalRooms, ...props }]), totalRooms)) || [];
+
+const renderTab = (t, { onAgeChange, rooms }, i) => (
+  <AgeSelect key={i} values={prop(i, rooms)} onSelect={partial(onAgeChange, [i])} />
+);
+
+const renderTabs = (t, { totalRooms, ...props }) =>
+  times(partial(renderTab, [t, { totalRooms, ...props }]), totalRooms);
+
+export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
   const { t } = useTranslation();
 
-  const updateCount = curry((lens, number) => {
-    onSelected(set(lens, number, selectedValues));
-  });
+  const [tabIndex, setTabIndex] = useState(0);
 
-  const rooms = getRoomsCount(selectedValues);
-  const guests = getGuestsCount(selectedValues);
-
-  const roomsSummary = `${rooms} ${t('room', { count: rooms })}`;
-  const guestsSummary = `${guests} ${t('guest', { count: guests })}`;
+  const totalRooms = length(rooms);
+  const totalGuests = getGuestsCounts(rooms);
+  const roomsSummary = `${totalRooms} ${t('room', { count: totalRooms })}`;
+  const guestsSummary = `${totalGuests} ${t('guest', { count: totalGuests })}`;
   const summary = `${roomsSummary}, ${guestsSummary}`;
 
-  const quantity = view(roomsLens, selectedValues);
+  useEffectBoundary(() => {
+    if (totalRooms && gt(tabIndex + 1, totalRooms)) {
+      setTabIndex(totalRooms - 1);
+    }
+  }, [rooms]);
+
+  const onAddRoom = () => {
+    onSelected(
+      append(
+        {
+          numberOfAdults: 0,
+          agesOfAllChildren: [],
+        },
+        rooms
+      )
+    );
+  };
+
+  const onRemoveRoom = () => {
+    onSelected(dropLast(1, rooms));
+  };
+
+  const onAgeChange = (i, values) => {
+    onSelected(update(i, values, rooms));
+  };
 
   return (
     <StyledLodgingSelect>
@@ -49,10 +106,20 @@ export const LodgingSelect = ({ label, onSelected, selectedValues, contentOnly }
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{t('room_plural')}</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect value={quantity} onChange={updateCount(roomsLens)} />
+            <LodgingSelectNumberSelect value={totalRooms} onAdd={onAddRoom} onRemove={onRemoveRoom} />
           </LodgingSelectEntry>
         </LodgingSelectSection>
-        <AgeSelect values={withoutQuantity(selectedValues)} onSelect={onSelected} />
+
+        <Tabs
+          value={tabIndex}
+          scrollButtons="auto"
+          variant="scrollable"
+          labels={renderLabels(t, { totalRooms })}
+          onChange={setTabIndex}
+          tabClassname="lodging-tab"
+        >
+          {renderTabs(t, { totalRooms, onAgeChange, rooms })}
+        </Tabs>
       </DropDownContent>
     </StyledLodgingSelect>
   );

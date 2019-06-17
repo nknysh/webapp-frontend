@@ -4,8 +4,8 @@ import { Tooltip } from '@material-ui/core';
 import { propTypes, defaultProps } from './ToolTip.props';
 import { StyledToolTip, ToolTipIcon, ToolTipContent } from './ToolTip.styles';
 
-const ToolTip = ({ children, label, ...props }) => (
-  <StyledToolTip>
+const ToolTip = ({ className, children, label, ...props }) => (
+  <StyledToolTip className={className}>
     <Tooltip
       disableFocusListener
       placement="top"

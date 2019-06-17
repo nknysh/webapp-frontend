@@ -1,4 +1,7 @@
 import {
+  __,
+  complement,
+  toUpper,
   addIndex,
   adjust,
   anyPass,
@@ -8,6 +11,7 @@ import {
   equals,
   filter,
   findLastIndex,
+  forEach,
   has,
   isEmpty,
   keys,
@@ -15,39 +19,42 @@ import {
   lensProp,
   map,
   mapObjIndexed,
-  forEach,
+  hasPath,
   mergeDeepLeft,
   mergeDeepRight,
   omit,
   over,
+  partial,
   path,
   pick,
   pickBy,
   pipe,
+  uniq,
   prop,
   propEq,
   propOr,
   propSatisfies,
   reduce,
-  values,
   reject,
   remove,
+  objOf,
   set,
   update,
+  values,
   view,
-  partial,
+  when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
 import client from 'api/bookings';
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
-import { formatDate } from 'utils';
+import { formatDate, mapWithIndex } from 'utils';
 
 import { successAction, errorFromResponse, genericAction } from 'store/common';
-import { getSearchDates } from 'store/modules/search/selectors';
+import { getSearchDates, getSearchLodgings, getSearchMealPlan } from 'store/modules/search/selectors';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 
-import { getBooking, getBookingForBuilder } from './selectors';
+import { getBooking, getBookingForBuilder, getBookingMealPlanForRoomByType } from './selectors';
 import { addFinalDayToBooking } from './utils';
 
 export const BOOKING_CANCEL = 'BOOKING_CANCEL';
@@ -80,6 +87,9 @@ const viewProducts = (type, data) => view(productsLens(type), data);
 const overProducts = (type, handler, data) => over(productsLens(type), handler, data);
 const setProducts = (type, handler, data) => set(productsLens(type), handler, data);
 
+const reduceMealPlans = (accum, mealPlan) =>
+  concat(accum, map(path(['product', 'uuid']), propOr([], 'breakdown', mealPlan)));
+
 export const removeBooking = partial(genericAction, [BOOKING_REMOVE]);
 
 export const fetchBookingHolds = id => async dispatch => {
@@ -96,17 +106,65 @@ export const fetchBookingHolds = id => async dispatch => {
   }
 };
 
-export const addRoom = (id, uuid) => (dispatch, getState) => {
+export const addRoom = (id, uuid) => async (dispatch, getState) => {
   dispatch(genericAction(BOOKING_ROOM_ADD, { id, uuid }));
-
   const dates = map(formatDate, getSearchDates(getState()));
+  const lodgings = pipe(
+    getSearchLodgings,
+    map(
+      pipe(
+        over(lensProp('numberOfAdults'), Number),
+        when(has('agesOfAllChildren'), over(lensProp('agesOfAllChildren'), map(Number))),
+        objOf('guestAges')
+      )
+    )
+  )(getState());
 
-  const state = getState();
-  const booking = getBooking(state, id);
+  const booking = getBooking(getState(), id);
 
-  const next = overProducts(ProductTypes.ACCOMMODATION, append({ uuid, ...dates }), booking);
+  const next = overProducts(
+    ProductTypes.ACCOMMODATION,
+    pipe(
+      defaultTo([]),
+      concat(__, map(mergeDeepLeft({ ...dates, uuid }), lodgings))
+    ),
+    booking
+  );
 
-  dispatch(updateBooking(id, pick(['breakdown'], next)));
+  // Update booking first to trigger BB call, which will pull down meal plans
+  await dispatch(updateBooking(id, pick(['breakdown'], next)));
+
+  const mealPlan = pipe(
+    getSearchMealPlan,
+    when(complement(isNilOrEmpty), toUpper)
+  )(getState());
+
+  if (!isNilOrEmpty(mealPlan)) {
+    const roomMealPlans = getBookingMealPlanForRoomByType(getState(), id, uuid, mealPlan);
+
+    const selectedMealPlans = map(
+      pipe(
+        reduce(reduceMealPlans, []),
+        uniq,
+        map(objOf('uuid'))
+      ),
+      roomMealPlans
+    );
+
+    const nextBooking = getBooking(getState(), id);
+    const nextWithMealPlans = overProducts(
+      ProductTypes.ACCOMMODATION,
+      mapWithIndex((accom, i) =>
+        when(
+          complement(hasPath(['subProducts', ProductTypes.MEAL_PLAN])),
+          mergeDeepLeft({ subProducts: { [ProductTypes.MEAL_PLAN]: propOr([], i, selectedMealPlans) } })
+        )(accom)
+      ),
+      nextBooking
+    );
+
+    await dispatch(updateBooking(id, pick(['breakdown'], nextWithMealPlans)));
+  }
 };
 
 export const updateRoom = (id, uuid, payload) => (dispatch, getState) => {
@@ -170,7 +228,7 @@ export const removeRoom = (id, uuid, all = false) => (dispatch, getState) => {
   const state = getState();
   const booking = getBooking(state, id);
 
-  const accommodations = viewProducts(ProductTypes.ACCOMMODATION, booking);
+  const accommodations = defaultTo([], viewProducts(ProductTypes.ACCOMMODATION, booking));
   const lastIndex = findLastIndex(propEq('uuid', uuid), accommodations);
   const next = overProducts(
     ProductTypes.ACCOMMODATION,

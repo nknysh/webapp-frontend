@@ -41,7 +41,7 @@ import { formatPrice, formatDate, toDate } from 'utils';
 
 import { getSearchDates } from 'store/modules/search/selectors';
 
-import { getState, getSecondArg, getUnary } from 'store/common';
+import { getArg } from 'store/common';
 
 import { toTotal } from './utils';
 
@@ -68,12 +68,12 @@ export const getBookingsHolds = pipe(
 );
 
 export const getBookingCreated = createSelector(
-  [getUnary, getBookingsCreated],
+  [getArg(1), getBookingsCreated],
   prop
 );
 
 export const getBooking = createSelector(
-  [getUnary, getBookingData],
+  [getArg(1), getBookingData],
   prop
 );
 
@@ -138,7 +138,7 @@ export const getBookingRooms = createSelector(
 );
 
 export const getBookingRoomsById = createSelector(
-  [getBookingRooms, getSecondArg],
+  [getBookingRooms, getArg(2)],
   (rooms, uuid) => filter(propEq('uuid', uuid), rooms)
 );
 
@@ -169,7 +169,7 @@ const getPotentialBookingRooms = createSelector(
 );
 
 export const getPotentialBookingRoomsById = createSelector(
-  [getPotentialBookingRooms, getSecondArg],
+  [getPotentialBookingRooms, getArg(2)],
   (potentialBookingRooms, roomId) => filter(pathEq(['product', 'uuid'], roomId), potentialBookingRooms)
 );
 
@@ -189,7 +189,7 @@ export const getBookingNonAccommodationErrors = createSelector(
 );
 
 export const getBookingErrorsByRoomId = createSelector(
-  [getBookingErrors, getSecondArg],
+  [getBookingErrors, getArg(2)],
   (errors, roomId) => filter(propEq('accommodationProductUuid', roomId), errors)
 );
 
@@ -223,7 +223,7 @@ export const getBookingReady = (state, hotelId) => {
 };
 
 export const getBookingRoomMealPlans = createSelector(
-  [getBookingProductSets, getSecondArg],
+  [getBookingProductSets, getArg(2)],
   (productSets, roomId) =>
     pipe(
       propOr([], ProductTypes.ACCOMMODATION),
@@ -322,8 +322,8 @@ export const getBookingRoomMealPlan = createSelector(
 );
 
 export const getBookingRoomTotal = createSelector(
-  [getState, getSecondArg, getPotentialBooking],
-  (state, roomId, potentialBooking) => {
+  [getArg(2), getPotentialBooking],
+  (roomId, potentialBooking) => {
     const productsForRoom = pipe(
       propOr([], ProductTypes.ACCOMMODATION),
       filter(pathEq(['product', 'uuid'], roomId))
@@ -372,8 +372,8 @@ export const getBookingTotal = createSelector(
 );
 
 export const getBookingForBuilder = createSelector(
-  [getState, getBooking],
-  (state, booking) => {
+  getBooking,
+  booking => {
     const hotelUuid = prop('hotelUuid', booking);
 
     let dates = [];
@@ -448,12 +448,12 @@ export const getBookingForBuilder = createSelector(
 );
 
 export const getBookingHolds = createSelector(
-  [getUnary, getBookingsHolds],
+  [getArg(1), getBookingsHolds],
   prop
 );
 
 export const getBookingRoomHolds = createSelector(
-  [getSecondArg, getBookingHolds],
+  [getArg(2), getBookingHolds],
   (uuid, hold) =>
     pipe(
       propOr([], 'breakdown'),
@@ -462,11 +462,33 @@ export const getBookingRoomHolds = createSelector(
 );
 
 export const getBookingRoomPhoto = createSelector(
-  [getSecondArg, getBookingUploads],
+  [getArg(2), getBookingUploads],
   (uuid, uploads) =>
     pipe(
       defaultTo([]),
       filter(propEq('ownerUuid', uuid)),
       head
     )(uploads)
+);
+
+export const getBookingMealPlanForRoomByType = createSelector(
+  [getArg(3), getBookingRoomMealPlans],
+  (categoryType, mealPlans) => {
+    const mealPlansOfType = map(
+      reduce((accum, mealPlan) => {
+        const breakdown = propOr([], 'breakdown', mealPlan);
+
+        map(bdProduct => {
+          if (pathEq(['product', 'meta', 'categoryType'], categoryType, bdProduct)) {
+            accum = append(mealPlan, accum);
+          }
+        }, breakdown);
+
+        return accum;
+      }, []),
+      mealPlans
+    );
+
+    return mealPlansOfType;
+  }
 );
