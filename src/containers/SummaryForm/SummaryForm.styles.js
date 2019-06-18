@@ -169,3 +169,16 @@ export const ModalContent = styled.div`
   max-width: 600px;
   text-align: center;
 `;
+
+export const ModalBody = styled.div`
+  max-width: 600px;
+  padding: ${theme.gutter * 8.4}px ${theme.gutter * 10}px;
+`;
+
+export const ModalTitle = styled(Heading2)`
+  color: ${theme.secondary};
+  font-size: ${theme.fonts.sizes.bigger}px;
+  font-weight: 500;
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
+  line-height: 29px;
+`;

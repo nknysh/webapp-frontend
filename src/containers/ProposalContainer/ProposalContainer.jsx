@@ -183,6 +183,7 @@ const renderBooking = (
         showHolds={true}
         onAddHolds={onAddHolds}
         onReleaseHolds={onReleaseHolds}
+        confirm={!propOr(false, uuid, canEdit)}
       >
         {({ booking }) => (
           <Fragment>

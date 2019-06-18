@@ -20,13 +20,14 @@ import SummaryRoomEdit from 'containers/SummaryRoomEdit';
 import SummaryRoom from 'containers/SummaryRoom';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
+import { PAYMENT_ENABLED } from 'config';
 import { useModalState } from 'effects';
-import { Form, Input, Loader, Modal, Markdown, Title as ModalTitle } from 'components';
+import { Form, Input, Loader, Modal, Markdown, AgreeToForm } from 'components';
 import { mapWithIndex } from 'utils';
 
 import { isActive } from 'store/common';
 
-import { ProductTypes } from 'config/enums';
+import { ProductTypes, PaymentTypes } from 'config/enums';
 
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
@@ -48,6 +49,8 @@ import {
   TotalMargin,
   EditGuard,
   ModalContent,
+  ModalBody,
+  ModalTitle,
 } from './SummaryForm.styles';
 
 const modalProps = { className: 'room-summary-form' };
@@ -246,17 +249,76 @@ const renderHoldModal = (
   return (
     modalContent && (
       <Modal open={true} onClose={onHoldModalClose}>
-        <ModalContent>
+        <ModalBody>
           <ModalTitle>{prop('title', modalContent)}</ModalTitle>
           <Markdown>{prop('content', modalContent)}</Markdown>
           <SummaryFormButton type="button" onClick={prop('action', modalContent)}>
             {prop('button', modalContent)}
           </SummaryFormButton>
-        </ModalContent>
+        </ModalBody>
       </Modal>
     )
   );
 };
+
+const renderConfirmModalSubmitButton = label => <SummaryFormButton type="submit">{label}</SummaryFormButton>;
+
+const renderConfirmModalForm = ({ onConfirmSubmit, buttonLabel, initialValues }) => (
+  <AgreeToForm
+    renderSubmitButton={partial(renderConfirmModalSubmitButton, [buttonLabel])}
+    onSubmit={onConfirmSubmit}
+    initialValues={initialValues}
+  />
+);
+
+const renderConfirmModalContent = (t, { isOnRequest, paymentType, onConfirmSubmit, total }) => {
+  const finalizeAndPay = (
+    <Fragment>
+      {t('buttons.finalizeAndPay')} | <Total>{total}</Total>
+    </Fragment>
+  );
+
+  const paymentTypeContent = {
+    [PaymentTypes.CC]: {
+      title: t('labels.payByCC'),
+      content: t('content.booking.cc'),
+      buttonLabel: finalizeAndPay,
+    },
+    [PaymentTypes.BT]: {
+      title: t('labels.payByBT'),
+      content: t('content.booking.bt'),
+      buttonLabel: finalizeAndPay,
+    },
+  };
+
+  const title =
+    (isOnRequest && t('labels.bookingConfirmOnRequest')) ||
+    (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'title'], paymentTypeContent)) ||
+    t('labels.bookingConfirm');
+  const content =
+    (isOnRequest && t('content.booking.onRequest')) ||
+    (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'content'], paymentTypeContent)) ||
+    t('content.booking.default');
+  const buttonLabel =
+    (isOnRequest && t('buttons.submitBookingRequest')) ||
+    (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'buttonLabel'], paymentTypeContent)) ||
+    t('buttons.submitBookingRequest');
+
+  return (
+    <ModalBody>
+      <ModalTitle>{title}</ModalTitle>
+      <ModalContent>{content}</ModalContent>
+      {renderConfirmModalForm({ onConfirmSubmit, buttonLabel, initialValues: { agreeToTerms: false } })}
+    </ModalBody>
+  );
+};
+
+const renderConfirmModal = (t, { confirmModalOpen, onConfirmModalClose, ...props }) =>
+  confirmModalOpen && (
+    <StyledModal open={confirmModalOpen} onClose={onConfirmModalClose}>
+      {renderConfirmModalContent(t, props)}
+    </StyledModal>
+  );
 
 export const SummaryForm = ({
   booking,
@@ -276,7 +338,7 @@ export const SummaryForm = ({
   onGuardEdit,
   onGuardEditComplete,
   onReleaseHolds,
-  onSubmit,
+  onSubmit: onFormSubmit,
   removeRoom,
   saving,
   showHolds,
@@ -284,23 +346,11 @@ export const SummaryForm = ({
   status,
   summaryOnly,
   total,
+  confirm,
   ...props
 }) => {
   const { t } = useTranslation();
   const { marginApplied, taMarginAmount, taMarginType, hotelUuid, hotelName: name, status: bookingStatus } = booking;
-
-  const [modalId, setModalId] = useState();
-  const [editGuard, setEditGuard] = useState(guardEdit || !isNilOrEmpty(bookingStatus));
-  const [showEditGuard, setShowEditGuard] = useState(false);
-  const {
-    modalOpen: holdModalOpen,
-    modalContext: holdModalContext,
-    onModalOpen: onHoldModalOpen,
-    onModalClose: onHoldModalClose,
-    setModalContext: setHoldModalContext,
-  } = useModalState();
-
-  const isLoading = isActive(status);
 
   const initialValues = {
     marginApplied,
@@ -311,6 +361,26 @@ export const SummaryForm = ({
     ...pathOr({}, ['products', ProductTypes.FINE], booking),
     ...pathOr({}, ['products', ProductTypes.SUPPLEMENT], booking),
   };
+
+  const [complete, setCompleted] = useState(!confirm);
+  const [formValues, setFormValues] = useState(initialValues);
+  const [modalId, setModalId] = useState();
+  const [editGuard, setEditGuard] = useState(guardEdit || !isNilOrEmpty(bookingStatus));
+  const [showEditGuard, setShowEditGuard] = useState(false);
+  const {
+    modalOpen: holdModalOpen,
+    modalContext: holdModalContext,
+    onModalOpen: onHoldModalOpen,
+    onModalClose: onHoldModalClose,
+    setModalContext: setHoldModalContext,
+  } = useModalState();
+  const {
+    modalOpen: confirmModalOpen,
+    onModalOpen: onConfirmModalOpen,
+    onModalClose: onConfirmModalClose,
+  } = useModalState();
+
+  const isLoading = isActive(status);
 
   const onModalClose = () => setModalId(undefined);
 
@@ -343,6 +413,18 @@ export const SummaryForm = ({
   const onHoldRelease = id => {
     onReleaseHolds(id);
     onHoldModalClose();
+  };
+
+  const onSubmit = values => {
+    setFormValues(values);
+    confirm && !complete && onConfirmModalOpen();
+    !confirm && complete && onFormSubmit(values);
+  };
+
+  const onConfirmSubmit = () => {
+    onFormSubmit(formValues);
+    setCompleted(true);
+    onConfirmModalClose();
   };
 
   return (
@@ -383,7 +465,7 @@ export const SummaryForm = ({
           errors,
           holds,
           id,
-          initialValues,
+          initialValues: formValues,
           isOnRequest,
           onEditGuard,
           onSubmit,
@@ -404,8 +486,15 @@ export const SummaryForm = ({
           setModalId,
           onModalClose,
         })}
-      {renderHoldModal(t, { holdModalContext, holdModalOpen, onHoldModalClose, onHoldRelease, onHoldConfirm, id })}
       {renderEditGuard(t, { setShowEditGuard, showEditGuard, onEditGuardAccepted })}
+      {renderHoldModal(t, { holdModalContext, holdModalOpen, onHoldModalClose, onHoldRelease, onHoldConfirm, id })}
+      {renderConfirmModal(t, {
+        confirmModalOpen,
+        isOnRequest,
+        onConfirmModalClose,
+        onConfirmModalOpen,
+        onConfirmSubmit,
+      })}
     </StyledSummary>
   );
 };
