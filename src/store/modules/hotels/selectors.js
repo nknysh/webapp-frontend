@@ -157,7 +157,7 @@ export const getHotelsAccommodationProducts = createSelector(
 );
 
 export const getHotelRoom = createSelector(
-  [getHotelsAccommodationProducts],
+  [getArg(2), getHotelsAccommodationProducts],
   prop
 );
 
