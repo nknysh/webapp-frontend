@@ -30,3 +30,9 @@ export const BookingStatusTypes = Object.freeze({
   CONFIRMED: 'confirmed',
   CANCELLED: 'cancelled',
 });
+
+export const PaymentTypes = Object.freeze({
+  // On Request
+  CC: 'CC',
+  BT: 'BT',
+});
