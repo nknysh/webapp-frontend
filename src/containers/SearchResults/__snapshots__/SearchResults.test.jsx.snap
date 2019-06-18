@@ -9,10 +9,7 @@ exports[`<SearchResults /> render matches snapshot 1`] = `
       showSpinner={true}
       text="Getting Results..."
     >
-      <SearchResultsstyles__ResultsTitle>
-        0 properties found
-      </SearchResultsstyles__ResultsTitle>
-      <SearchResultsstyles__Results />
+      <SearchResultsstyles__SearchMarkdown />
     </Loader>
   </SearchResultsstyles__StyledResults>
 </Fragment>

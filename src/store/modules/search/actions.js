@@ -7,6 +7,7 @@ import { successAction, errorFromResponse, entitiesObject, loadingAction } from 
 import { setHotels } from 'store/modules/hotels/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 import { setCountries } from 'store/modules/countries/actions';
+import { getCanSearch } from './selectors';
 
 export const SEARCH_QUERY_UPDATE = 'SEARCH_QUERY_UPDATE';
 export const SEARCH_FILTERS_RESET = 'SEARCH_FILTERS_RESET';
@@ -66,6 +67,10 @@ export const searchByQuery = query => async (dispatch, getState) => {
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
 
   const term = path(['destination', 'value'], query);
+
+  const canSearch = getCanSearch(getState());
+
+  if (!canSearch) return dispatch(successAction(SEARCH_BY_QUERY, {}));
 
   try {
     const {

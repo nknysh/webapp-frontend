@@ -23,7 +23,12 @@ exports[`<Search /> render matches snapshot 1`] = `
     data-vertical={false}
   >
     <DatePicker
-      label="Dates"
+      dayPickerProps={
+        Object {
+          "month": 2019-06-17T21:31:44.166Z,
+        }
+      }
+      label="Dates *"
       multiple={true}
       onSelected={[Function]}
       placeholder="Select dates"
@@ -36,17 +41,9 @@ exports[`<Search /> render matches snapshot 1`] = `
     data-vertical={false}
   >
     <LodgingSelect
-      label="Lodging"
+      label="Lodging *"
       onSelected={[Function]}
-      selectedValues={
-        Object {
-          "adult": Array [],
-          "child": Array [],
-          "infant": Array [],
-          "quantity": 0,
-          "teen": Array [],
-        }
-      }
+      rooms={Array []}
     />
   </Searchstyles__SearchBarSection>
   <Searchstyles__SearchBarSection
@@ -63,6 +60,7 @@ exports[`<Search /> render matches snapshot 1`] = `
     data-vertical={false}
   >
     <Searchstyles__SearchBarButton
+      disabled={false}
       onClick={[Function]}
     >
       Search

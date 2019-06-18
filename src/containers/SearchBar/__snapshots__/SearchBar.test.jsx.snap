@@ -7,6 +7,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
     showSpinner={false}
   >
     <Search
+      canSearch={true}
       indexSelectors={
         Array [
           [Function],

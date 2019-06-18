@@ -7,6 +7,7 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       Search
     </SearchSidebarstyles__Title>
     <Search
+      canSearch={true}
       indexSelectors={
         Array [
           [Function],
@@ -80,6 +81,7 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       Search
     </SearchSidebarstyles__Title>
     <Search
+      canSearch={true}
       indexSelectors={
         Array [
           [Function],

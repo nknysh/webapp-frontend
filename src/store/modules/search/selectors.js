@@ -1,4 +1,23 @@
-import { curry, prop, pipe, path, when, always, inc, evolve, propOr, pathOr } from 'ramda';
+import {
+  __,
+  all,
+  curry,
+  prop,
+  pipe,
+  path,
+  when,
+  always,
+  inc,
+  evolve,
+  propOr,
+  pathOr,
+  allPass,
+  has,
+  complement,
+  and,
+  propSatisfies,
+  gt,
+} from 'ramda';
 import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 
 import { createSelector } from 'store/utils';
@@ -9,6 +28,11 @@ import { toDate } from 'utils';
 const defaultFromDate = toDate();
 const defaultToDate = toDate();
 defaultToDate.setDate(inc(defaultToDate.getDate()));
+
+const hasDate = propName => allPass([has(propName), propSatisfies(complement(isNilOrEmpty), propName)]);
+const hasDates = allPass([complement(isNilOrEmpty), hasDate('startDate'), hasDate('endDate')]);
+const hasAdults = propSatisfies(gt(__, 0), 'numberOfAdults');
+const hasLodgings = allPass([complement(isNilOrEmpty), all(hasAdults)]);
 
 export const getSearch = prop('search');
 
@@ -41,7 +65,7 @@ export const getSearchResultsResult = pipe(
 
 export const getSearchQuery = pipe(
   getSearch,
-  prop('query')
+  propOr({}, 'query')
 );
 
 export const getSearchValue = pipe(
@@ -63,22 +87,27 @@ export const getSearchDates = createSelector(
   )
 );
 
-export const getSearchLodgings = pipe(
+export const getSearchLodgings = createSelector(
   getSearchQuery,
   prop('lodging')
 );
 
-export const getSearchFiltersRegions = pipe(
+export const getSearchMealPlan = createSelector(
+  getSearchQuery,
+  path(['filters', 'mealPlan'])
+);
+
+export const getSearchFiltersRegions = createSelector(
   getSearchResultsMeta,
   pathOr([], ['filters', 'regions'])
 );
 
-export const getSearchFiltersStarRatings = pipe(
+export const getSearchFiltersStarRatings = createSelector(
   getSearchResultsMeta,
   pathOr([], ['filters', 'starRatings'])
 );
 
-export const getSearchFiltersFeatures = pipe(
+export const getSearchFiltersFeatures = createSelector(
   getSearchResultsMeta,
   pathOr([], ['filters', 'amenities'])
 );
@@ -86,4 +115,14 @@ export const getSearchFiltersFeatures = pipe(
 export const getSearchFiltersPrices = createSelector(
   getSearchResultsMeta,
   pathOr([], ['filters', 'prices'])
+);
+
+export const getCanSearch = createSelector(
+  getSearchQuery,
+  ({ dates, lodging }) => {
+    const datesExist = hasDates(dates);
+    const lodgingsExist = hasLodgings(lodging);
+
+    return and(datesExist, lodgingsExist);
+  }
 );

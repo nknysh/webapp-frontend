@@ -18,7 +18,7 @@ import {
 } from 'ramda';
 
 import { createSelector } from 'store/utils';
-import { getData, getStatus, getEntities, getResults, getState, getSecondArg, getUnary } from 'store/common';
+import { getData, getStatus, getEntities, getResults, getArg } from 'store/common';
 
 import { getMapped, reduceArrayByKey } from 'utils';
 
@@ -86,32 +86,32 @@ export const getHotelsEntities = pipe(
 );
 
 export const getHotel = createSelector(
-  [getUnary, getHotelsEntities],
+  [getArg(1), getHotelsEntities],
   prop
 );
 
 export const getHotelsUploads = createSelector(
-  [getUnary, getUploads],
+  [getArg(1), getUploads],
   pick
 );
 
 export const getHotelsUpload = createSelector(
-  [getUnary, getUploads],
+  [getArg(1), getUploads],
   prop
 );
 
 export const getHotelsRates = createSelector(
-  [getUnary, getRates],
+  [getArg(1), getRates],
   pick
 );
 
 export const getHotelsRate = createSelector(
-  [getUnary, getRates],
+  [getArg(1), getRates],
   prop
 );
 
 const getProductIds = createSelector(
-  [getSecondArg, getHotel],
+  [getHotel],
   propOr([])
 );
 
@@ -122,12 +122,12 @@ export const getHotelProducts = createSelector(
 );
 
 export const getHotelProductsByIds = createSelector(
-  [getUnary, getProducts],
+  [getArg(1), getProducts],
   pick
 );
 
 export const getHotelProduct = createSelector(
-  [getUnary, getProducts],
+  [getArg(1), getProducts],
   prop
 );
 
@@ -157,7 +157,7 @@ export const getHotelsAccommodationProducts = createSelector(
 );
 
 export const getHotelRoom = createSelector(
-  [getSecondArg, getHotelsAccommodationProducts],
+  [getHotelsAccommodationProducts],
   prop
 );
 
@@ -177,7 +177,7 @@ export const getHotelRoomOptions = createSelector(
 );
 
 export const getHotelFeaturedPhoto = createSelector(
-  [getHotel, getState],
+  [getHotel, getArg(0)],
   (hotel, state) =>
     pipe(
       propOr([], 'featuredPhotos'),

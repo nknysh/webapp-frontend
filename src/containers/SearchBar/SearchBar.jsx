@@ -20,6 +20,7 @@ export const SearchBar = ({
   searchQuery,
   searchStatus,
   setSearchQuery,
+  canSearch,
   ...props
 }) => {
   useFetchData(searchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
@@ -30,14 +31,15 @@ export const SearchBar = ({
     <StyledSearchBar className={className}>
       <Loader isLoading={false} showSpinner={false}>
         <Search
+          canSearch={canSearch}
           indexes={values(IndexTypes)}
           indexSelectors={[getCountryName, getHotelName]}
-          searchPatterns={['+isDestination:true']}
           onChange={setSearchQuery}
           onSearch={searchByName}
           onSubmit={onSubmit}
-          searchStatus={searchStatus}
+          searchPatterns={['+isDestination:true']}
           searchQuery={searchQuery}
+          searchStatus={searchStatus}
           {...props}
         />
       </Loader>

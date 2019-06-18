@@ -1,6 +1,6 @@
 import { prop, pipe, reduce, values, sortBy, mergeDeepRight } from 'ramda';
 
-import { getStatus, getData, getResults, getEntities, getUnary } from 'store/common/selectors';
+import { getStatus, getData, getResults, getEntities, getArg } from 'store/common/selectors';
 import { createSelector } from 'store/utils';
 
 export const getCountries = prop('countries');
@@ -27,7 +27,7 @@ export const getCountriesResults = pipe(
 );
 
 export const getCountry = createSelector(
-  [getUnary, getCountriesEntities],
+  [getArg(1), getCountriesEntities],
   prop
 );
 

@@ -7,17 +7,17 @@ import {
   getSearchQuery,
   getSearchResultsMeta,
   getSearchResultsResult,
+  getCanSearch,
 } from 'store/modules/search/selectors';
 import { getHotelsFromSearchResults } from 'store/modules/hotels/selectors';
 
-export const mapStateToProps = state => {
-  return {
-    searchQuery: getSearchQuery(state),
-    searchStatus: getSearchStatus(state),
-    result: getHotelsFromSearchResults(state, getSearchResultsResult(state, 'byQuery')),
-    meta: getSearchResultsMeta(state, 'byQuery'),
-  };
-};
+export const mapStateToProps = state => ({
+  searchQuery: getSearchQuery(state),
+  searchStatus: getSearchStatus(state),
+  result: getHotelsFromSearchResults(state, getSearchResultsResult(state, 'byQuery')),
+  meta: getSearchResultsMeta(state, 'byQuery'),
+  canSearch: getCanSearch(state),
+});
 
 export const mapDispatchToProps = dispatch => ({
   searchByQuery: pipe(

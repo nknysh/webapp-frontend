@@ -12,6 +12,6 @@ Object {
 }
 `;
 
-exports[`search selectors getSearchQuery returns the search key 1`] = `undefined`;
+exports[`search selectors getSearchQuery returns the search key 1`] = `Object {}`;
 
 exports[`search selectors getSearchValue returns the search key 1`] = `undefined`;

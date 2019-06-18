@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react';
-import { __, lensProp, defaultTo, set, view, pipe, prop } from 'ramda';
-import debounce from 'lodash.debounce';
 import { useTranslation } from 'react-i18next';
+import { __, lensProp, defaultTo, set, view, pipe, prop } from 'ramda';
 import { renameKeys } from 'ramda-adjunct';
+import debounce from 'lodash.debounce';
 
 import { DatePicker, Checkbox } from 'components/elements';
 import LodgingSelect from 'components/app/LodgingSelect';
 import { isLoading } from 'store/common';
+import { toDate } from 'utils';
 
 import { propTypes, defaultProps } from './Search.props';
 import { SearchBarButton, SearchBarIndexSearch, SearchBarSection } from './Search.styles';
@@ -16,13 +17,25 @@ const datesLens = lensProp('dates');
 const lodgingLens = lensProp('lodging');
 const honeymoonersLens = lensProp('suitableForHoneymooners');
 
+export const getMonthToDisplay = pipe(
+  prop('endDate'),
+  toDate
+);
+
+const renderSearchButton = (t, { canSearch, onSubmit }) => (
+  <SearchBarButton disabled={!canSearch} onClick={onSubmit}>
+    {t('buttons.search')}
+  </SearchBarButton>
+);
+
 export const Search = ({
+  canSearch,
   indexes,
-  searchPatterns,
   indexSelectors,
   onChange,
   onSearch,
   onSubmit,
+  searchPatterns,
   searchQuery,
   searchStatus,
   showSubmit,
@@ -73,16 +86,19 @@ export const Search = ({
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical} data-large={true}>
         <DatePicker
-          label={t('labels.dates')}
+          dayPickerProps={{
+            month: getMonthToDisplay(getSearchQueryData(datesLens)),
+          }}
+          label={`${t('labels.dates')} *`}
           onSelected={setSelectedDatesToSearchQuery}
           selectedValues={getSearchQueryData(datesLens)}
         />
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical}>
         <LodgingSelect
-          label={t('labels.lodging')}
+          label={`${t('labels.lodging')} *`}
           onSelected={setLodgingsToSearchQuery}
-          selectedValues={getSearchQueryData(lodgingLens)}
+          rooms={getSearchQueryData(lodgingLens)}
         />
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical} data-constrain={true}>
@@ -94,9 +110,7 @@ export const Search = ({
       </SearchBarSection>
 
       {showSubmit && (
-        <SearchBarSection data-vertical={vertical}>
-          <SearchBarButton onClick={onSubmit}>{t('buttons.search')}</SearchBarButton>
-        </SearchBarSection>
+        <SearchBarSection data-vertical={vertical}>{renderSearchButton(t, { onSubmit, canSearch })}</SearchBarSection>
       )}
     </Fragment>
   );
