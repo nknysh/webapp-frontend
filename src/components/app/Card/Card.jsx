@@ -1,5 +1,5 @@
 import React from 'react';
-import { map, prop } from 'ramda';
+import { map, prop, pathOr, path } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { propTypes, defaultProps } from './Card.props';
@@ -34,7 +34,7 @@ export const Card = ({
   suitableForHoneymooners,
   additionalInfo,
   amenities,
-  cheapestNight,
+  bookingBuilder,
 }) => {
   const { t } = useTranslation();
 
@@ -42,9 +42,13 @@ export const Card = ({
     <StyledCard>
       <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
         {preferred && <CardPreferred>Preferred</CardPreferred>}
-        {cheapestNight && (
+        {bookingBuilder && (
           <CardChip>
-            <CardPrice>{cheapestNight}</CardPrice> /{t('guest')}
+            {pathOr(true, ['response', 'totals', 'oneOrMoreItemsOnRequest'], bookingBuilder) ? (
+              t('labels.onRequest')
+            ) : (
+              <CardPrice>{path(['response', 'totals', 'total'], bookingBuilder)}</CardPrice>
+            )}
           </CardChip>
         )}
         {promotionalText && <CardName>{promotionalText}</CardName>}

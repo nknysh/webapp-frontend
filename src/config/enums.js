@@ -30,3 +30,7 @@ export const BookingStatusTypes = Object.freeze({
   CONFIRMED: 'confirmed',
   CANCELLED: 'cancelled',
 });
+
+export const SearchPatterns = Object.freeze({
+  COUNTRIES: '+isDestination:true *',
+});

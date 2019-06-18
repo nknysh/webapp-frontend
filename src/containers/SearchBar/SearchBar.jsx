@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, prop, values } from 'ramda';
 
-import { IndexTypes } from 'config/enums';
+import { IndexTypes, SearchPatterns } from 'config/enums';
 import { Loader, Search } from 'components';
 import { useFetchData } from 'effects';
 import { buildQueryString } from 'utils';
@@ -37,7 +37,7 @@ export const SearchBar = ({
           onChange={setSearchQuery}
           onSearch={searchByName}
           onSubmit={onSubmit}
-          searchPatterns={['+isDestination:true']}
+          searchPatterns={[SearchPatterns.COUNTRIES]}
           searchQuery={searchQuery}
           searchStatus={searchStatus}
           {...props}
