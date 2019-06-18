@@ -8,17 +8,18 @@ import { extractFieldDefaults } from 'utils';
 import { getHotel } from 'store/modules/hotels/selectors';
 import { getHotelStatus } from 'store/modules/hotel/selectors';
 import {
-  getBookingTotal,
   getBooking,
+  getBookingCanHold,
+  getBookingCreated,
   getBookingReady,
   getBookingStatus,
+  getBookingTotal,
   isBookingOnRequest,
-  getBookingCreated,
 } from 'store/modules/bookings/selectors';
 import { getSearchDates } from 'store/modules/search/selectors';
 
 import { fetchHotel } from 'store/modules/hotel/actions';
-import { updateBooking, completeBooking, removeBooking } from 'store/modules/bookings/actions';
+import { updateBooking, completeBooking, removeBooking, completeAndHold } from 'store/modules/bookings/actions';
 
 import { fields as guestFields } from 'config/forms/bookingForm';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
@@ -38,15 +39,16 @@ export const useHotelBookingContainerState = () => {
 };
 
 export const mapStateToProps = (state, { id }) => ({
-  hotel: getHotel(state, id),
-  hotelStatus: getHotelStatus(state),
   booking: getBooking(state, id),
   bookingStatus: getBookingStatus(state),
-  isOnRequest: isBookingOnRequest(state, id),
-  dates: getSearchDates(state),
   canBook: getBookingReady(state, id),
-  total: getBookingTotal(state, id),
+  canHold: getBookingCanHold(state, id),
   created: getBookingCreated(state, id),
+  dates: getSearchDates(state),
+  hotel: getHotel(state, id),
+  hotelStatus: getHotelStatus(state),
+  isOnRequest: isBookingOnRequest(state, id),
+  total: getBookingTotal(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -64,6 +66,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   removeBooking: pipe(
     removeBooking,
+    dispatch
+  ),
+  completeAndHold: pipe(
+    completeAndHold,
     dispatch
   ),
 });

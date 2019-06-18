@@ -54,7 +54,7 @@ Object {
   },
   "exact": true,
   "name": "Hotel",
-  "path": "/hotels/:id/booking/:complete?",
+  "path": "/hotels/:id/:stage/:complete?",
 }
 `;
 

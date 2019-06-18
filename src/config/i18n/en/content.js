@@ -7,6 +7,7 @@ import bookingConfirmed from './md/booking-confirmed.md';
 import bookingConfirmedOnRequest from './md/booking-confirmed--on-request.md';
 import bookingConfirmedCC from './md/booking-confirmed--cc.md';
 import bookingConfirmedBT from './md/booking-confirmed--bt.md';
+import bookingConfirmedHold from './md/booking-confirmed--hold.md';
 
 import editGuard from './md/edit-guard.md';
 
@@ -27,6 +28,7 @@ export default {
     bt: bookingBT,
     confirmed: {
       default: bookingConfirmed,
+      hold: bookingConfirmedHold,
       onRequest: bookingConfirmedOnRequest,
       cc: bookingConfirmedCC,
       bt: bookingConfirmedBT,

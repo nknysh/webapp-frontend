@@ -10,7 +10,7 @@ export default [
   },
   {
     name: 'Hotel',
-    path: '/hotels/:id/booking/:complete?',
+    path: '/hotels/:id/:stage/:complete?',
     component: AsyncHotelBooking,
     auth: true,
     exact: true,

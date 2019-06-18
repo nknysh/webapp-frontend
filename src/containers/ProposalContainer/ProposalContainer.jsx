@@ -30,7 +30,7 @@ import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
 import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal, Checkbox } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { isMobile, formatDate } from 'utils';
-import { fields, validation, data } from 'config/forms/bookingForm';
+import { fields, data } from 'config/forms/bookingForm';
 
 import { isLoading, isSuccess, isSending } from 'store/common';
 
@@ -260,7 +260,6 @@ const renderProposalGuestForm = (
         onSubmit={onGenerateAndSend}
         initialValues={pickAll(['guestTitle', 'guestFirstName', 'guestLastName', 'comments'], proposal)}
         fields={simpleForm(fields)}
-        validation={validation}
         data={withoutSections(data)}
       >
         <BookingFormActions>

@@ -42,10 +42,10 @@ const renderBrochure = ({ uuid, displayName, url }) => (
 
 const renderHotel = ({ id, hotel, photos }) => <StyledHotel {...hotel} id={id} photos={photos} />;
 
-const renderActions = (t, { canBook, onModalOpen, setModalContext }) => (
+const renderActions = (t, { canBook, canHold, onModalOpen, onTakeHold, setModalContext }) => (
   <SummaryActions>
-    <SummaryAction type="button" disabled={true}>
-      {t('buttons.takeHold')}
+    <SummaryAction type="button" onClick={onTakeHold} disabled={!canBook || !canHold}>
+      {t('buttons.takeAHold')}
     </SummaryAction>
     <SummaryAction
       type="button"
@@ -112,6 +112,7 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
   const { t } = useTranslation();
   const modal = useModalState(false);
   const [redirectToBooking, setRedirectToBooking] = useState(false);
+  const [redirectToHold, setRedirectToHold] = useState(false);
 
   const { onModalClose } = modal;
 
@@ -119,6 +120,7 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
   const currentWidth = useCurrentWidth();
 
   if (redirectToBooking) return <Redirect to={`/hotels/${id}/booking`} />;
+  if (redirectToHold) return <Redirect to={`/hotels/${id}/hold`} />;
 
   const onModalComplete = data => {
     if (equals('proposal', prop('modalContext', modal))) {
@@ -127,14 +129,15 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
     }
   };
 
+  const onTakeHold = () => setRedirectToHold(true);
   const onSubmit = () => setRedirectToBooking(true);
 
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingHotel')}>
       <StyledHotelContainer>
         {isMobile(currentWidth)
-          ? renderTabs(t, { hotel, id, onSubmit, ...modal, ...props })
-          : renderFull(t, { hotel, id, onSubmit, ...modal, ...props })}
+          ? renderTabs(t, { hotel, id, onTakeHold, onSubmit, ...modal, ...props })
+          : renderFull(t, { hotel, id, onTakeHold, onSubmit, ...modal, ...props })}
       </StyledHotelContainer>
       {renderModal(t, { id, ...modal, ...props, onModalComplete })}
     </Loader>
