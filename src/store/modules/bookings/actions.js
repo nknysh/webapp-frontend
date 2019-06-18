@@ -65,6 +65,7 @@ export const BOOKING_HOLDS_FETCH = 'BOOKING_HOLDS_FETCH';
 export const BOOKING_RELEASE = 'BOOKING_RELEASE';
 export const BOOKING_REMOVE = 'BOOKING_REMOVE';
 export const BOOKING_REQUEST = 'BOOKING_REQUEST';
+export const BOOKING_REQUEST_WITH_HOLD = 'BOOKING_WITH_HOLD';
 export const BOOKING_RESET = 'BOOKING_RESET';
 export const BOOKING_ROOM_ADD = 'BOOKING_ROOM_ADD';
 export const BOOKING_ROOM_REMOVE = 'BOOKING_ROOM_REMOVE';
@@ -314,11 +315,13 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
   dispatch(successAction(BOOKING_UPDATE, { [id]: mergeDeepRight(nextBooking, { breakdown }) }));
 };
 
-export const completeBooking = (id, payload) => async (dispatch, getState) => {
-  dispatch(updateBooking(id, payload));
+export const completeBooking = (id, payload, status = BookingStatusTypes.REQUESTED, placeHolds = false) => async (
+  dispatch,
+  getState
+) => {
+  await dispatch(updateBooking(id, payload));
 
-  const state = getState();
-  const booking = getBooking(state, id);
+  const booking = getBooking(getState(), id);
   const { breakdown } = booking;
 
   const omitProps = [
@@ -332,9 +335,10 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
     'hotelUuid',
     'hotelName',
     'breakdown',
+    'touched',
   ];
 
-  const bookingBuild = getBookingForBuilder(state, id);
+  const bookingBuild = getBookingForBuilder(getState(), id);
   const bookingHash = prop('bookingHash', breakdown);
   const bookingInformation = pipe(
     omit(omitProps),
@@ -347,18 +351,13 @@ export const completeBooking = (id, payload) => async (dispatch, getState) => {
     )
   )(booking);
 
-  const status = BookingStatusTypes.REQUESTED;
-
-  const finalPayload = mergeDeepRight(
-    {
-      status,
-      placeHolds: prop('availableToHold', breakdown),
-      bookingBuild,
-      bookingHash,
-      bookingInformation,
-    },
-    omit(omitProps, payload)
-  );
+  const finalPayload = {
+    status,
+    placeHolds,
+    bookingBuild,
+    bookingHash,
+    bookingInformation,
+  };
 
   dispatch(genericAction(BOOKING_SUBMIT, finalPayload));
 
@@ -460,6 +459,19 @@ export const holdBooking = id => async dispatch => {
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_HOLD, e, `There was taking holds for booking '${id}'.`));
   }
+};
+
+export const completeAndHold = (
+  id,
+  payload,
+  status = BookingStatusTypes.POTENTIAL,
+  placeHolds = true
+) => async dispatch => {
+  dispatch(genericAction(BOOKING_REQUEST_WITH_HOLD, { id, payload }));
+
+  await dispatch(completeBooking(id, payload, status, placeHolds));
+
+  dispatch(successAction(BOOKING_REQUEST_WITH_HOLD, {}));
 };
 
 export const releaseBooking = id => async dispatch => {

@@ -1,6 +1,6 @@
 import React, { useRef, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import { equals, compose, prop, path } from 'ramda';
+import { equals, compose, prop, path, pick, over, lensProp, take } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
@@ -11,6 +11,7 @@ import { isMobile } from 'utils';
 import { PAYMENT_ENABLED } from 'config';
 
 import { isError, isSending } from 'store/common';
+import { fields, validation, data } from 'config/forms/bookingForm';
 
 import connect, { useHotelBookingContainerState } from './HotelBookingContainer.state';
 import { propTypes, defaultProps } from './HotelBookingContainer.props';
@@ -37,6 +38,9 @@ import {
   Total,
 } from './HotelBookingContainer.styles';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
+
+export const simpleForm = pick(['guestTitle', 'guestFirstName', 'guestLastName']);
+export const withoutSections = over(lensProp('sections'), take(1));
 
 const renderBackButton = t => <Back to="/search">{t('labels.backToSearch')}</Back>;
 
@@ -89,10 +93,18 @@ const renderGuestForm = (
     mobileView,
     onGuestFormSubmit,
     onSubmit,
+    holdOnly,
   }
 ) => (
   <FormWrapper data-hidden={mobileView && !isDetailsView}>
-    <BookingForm ref={guestFormRef} onSubmit={onGuestFormSubmit} initialValues={guestFormValues}>
+    <BookingForm
+      ref={guestFormRef}
+      onSubmit={onGuestFormSubmit}
+      initialValues={guestFormValues}
+      fields={holdOnly ? simpleForm(fields) : fields}
+      validation={validation}
+      data={holdOnly ? withoutSections(data) : data}
+    >
       {mobileView && renderSubmitButton(t, { mobileView, isReviewView, canBook, onSubmit, isOnRequest })}
     </BookingForm>
   </FormWrapper>
@@ -115,12 +127,20 @@ const renderPaymentTypes = (t, { isOnRequest, onPaymentChange, paymentType }) =>
 
 const renderSummary = (
   t,
-  { mobileView, isReviewView, id, isComplete, onSubmit, canBook, isOnRequest, paymentType, onPaymentChange }
+  { mobileView, isReviewView, id, isComplete, onSubmit, canBook, isOnRequest, paymentType, onPaymentChange, holdOnly }
 ) =>
   (!mobileView || isReviewView) && (
-    <StyledSummary id={id} summaryOnly={true} showRoomImage={false}>
+    <StyledSummary
+      id={id}
+      summaryOnly={true}
+      showRoomImage={false}
+      holdOnly={holdOnly}
+      onAddHolds={holdOnly && onSubmit}
+      showHolds={holdOnly}
+    >
       {() =>
-        !isComplete && (
+        !isComplete &&
+        !holdOnly && (
           <Fragment>
             {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
             {renderSubmitButton(t, { isReviewView, canBook, onSubmit, mobileView, isOnRequest })}
@@ -222,17 +242,20 @@ const renderConfirmation = (t, { isOnRequest, paymentType, reservationId }) => {
 };
 
 export const HotelBookingContainer = ({
-  canBook,
-  bookingStatus,
-  isComplete,
   booking,
-  updateBooking,
-  hotelStatus,
-  fetchHotel,
+  bookingStatus,
+  canBook,
+  canHold,
+  completeAndHold,
   completeBooking,
-  id,
-  isOnRequest,
   created,
+  fetchHotel,
+  holdOnly,
+  hotelStatus,
+  id,
+  isComplete,
+  isOnRequest,
+  updateBooking,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -253,7 +276,7 @@ export const HotelBookingContainer = ({
   const submitError = isError(bookingStatus);
   const reservationId = prop('reservationId', booking);
 
-  const returnToHotelScreen = (!canBook && !isComplete) || (isComplete && !reservationId);
+  const returnToHotelScreen = (holdOnly && !canHold) || (!canBook && !isComplete) || (isComplete && !reservationId);
   const sendToConfirmationScreen = !isComplete && !isNilOrEmpty(created);
 
   useEffectBoundary(() => {
@@ -267,7 +290,9 @@ export const HotelBookingContainer = ({
     return <Loader isLoading={true} text={t('messages.submittingBooking')} />;
 
   if (sendToConfirmationScreen)
-    return isOnRequest ? (
+    return holdOnly ? (
+      <Redirect to={`/bookings/${created}/hold`} />
+    ) : isOnRequest ? (
       <Redirect to={`/bookings/${created}/on-request`} />
     ) : (
       <Redirect to={`/bookings/${created}/complete`} />
@@ -280,11 +305,14 @@ export const HotelBookingContainer = ({
     setGuestFormValues(values);
     updateBooking(id, values);
 
+    if (holdOnly)
+      return completeAndHold(id, pick(['guestFirstName', 'guestLastName', 'guestTitle'], values), 'potential', true);
+
     mobileView && isDetailsView ? setView(ViewType.REVIEW) : onModalOpen();
   };
   const onSubmit = () => prop('current', guestFormRef) && guestFormRef.current.submitForm();
   const onModalSubmit = values => {
-    completeBooking(id, values);
+    completeBooking(id, values, undefined, canHold);
     setComplete(true);
   };
 
@@ -307,6 +335,7 @@ export const HotelBookingContainer = ({
             ? renderConfirmation(t, { reservationId, paymentType, ...props })
             : renderGuestForm(t, {
                 guestFormRef,
+                holdOnly,
                 guestFormValues,
                 isDetailsView,
                 isReviewView,
@@ -327,6 +356,7 @@ export const HotelBookingContainer = ({
               onSubmit,
               paymentType,
               isOnRequest,
+              holdOnly,
               ...props,
             })}
           </Aside>

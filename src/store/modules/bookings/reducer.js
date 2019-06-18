@@ -35,6 +35,7 @@ const bookingReset = (state, { payload: { id } }) => ({
 
 const bookingComplete = (state, { payload: { id, data } }) =>
   pipe(
+    set(lensProp('status'), Status.SUCCESS),
     set(lensPath(['data', id, 'data']), data),
     over(lensProp('data'), renameKeys({ [id]: propOr(id, 'uuid', data) })),
     set(lensProp('created'), { [id]: propOr(id, 'uuid', data) })

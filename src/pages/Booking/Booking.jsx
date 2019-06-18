@@ -24,6 +24,10 @@ export const Booking = ({
       content = t('content.booking.confirmed.onRequest', { id });
       break;
 
+    case 'hold':
+      content = t('content.booking.confirmed.hold', { id });
+      break;
+
     case 'by-cc':
       content = t('content.booking.confirmed.cc', { id });
       break;

@@ -170,7 +170,8 @@ export const BookingForm = forwardRef(({ fields, validation, data, children, cla
                 </Columns>
               </FormSection>
             )}
-            {renderField('comments', prop('comments', values), prop('comments', fields), formProps)}
+            {prop('comments', fields) &&
+              renderField('comments', prop('comments', values), prop('comments', fields), formProps)}
             {children}
           </Fragment>
         )}

@@ -99,15 +99,16 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
     const proposalUuid = prop('result', data);
 
     await dispatch(
-      completeBooking(bookingId, {
-        status: BookingStatusTypes.POTENTIAL,
-        placeHolds,
-        proposalUuid,
-        bookingInformation: {
+      completeBooking(
+        bookingId,
+        {
+          proposalUuid,
           guestFirstName: '',
           guestLastName: '',
         },
-      })
+        BookingStatusTypes.POTENTIAL,
+        placeHolds
+      )
     );
 
     const bookingStatus = getBookingStatus(getState());
@@ -130,15 +131,16 @@ export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dis
   dispatch(genericAction(PROPOSALS_ADD, { proposalUuid, bookingId }));
 
   await dispatch(
-    completeBooking(bookingId, {
-      status: BookingStatusTypes.POTENTIAL,
-      placeHolds,
-      proposalUuid,
-      bookingInformation: {
+    completeBooking(
+      bookingId,
+      {
+        proposalUuid,
         guestFirstName: '',
         guestLastName: '',
       },
-    })
+      BookingStatusTypes.POTENTIAL,
+      placeHolds
+    )
   );
 
   const bookingStatus = getBookingStatus(getState());
@@ -221,7 +223,7 @@ export const amendBooking = (proposalUuid, bookingId) => async (dispatch, getSta
 export const completeProposalBooking = (proposalUuid, bookingId, payload) => async dispatch => {
   dispatch(genericAction(PROPOSAL_COMPLETE_BOOKING, { proposalUuid, bookingId, payload }));
 
-  await dispatch(completeBooking(bookingId, { proposalUuid, status: BookingStatusTypes.POTENTIAL }));
+  await dispatch(completeBooking(bookingId, { proposalUuid }, BookingStatusTypes.POTENTIAL));
   dispatch(fetchProposal(proposalUuid));
 
   dispatch(successAction(PROPOSAL_COMPLETE_BOOKING, {}));

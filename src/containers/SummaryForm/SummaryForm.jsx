@@ -170,6 +170,7 @@ const renderForm = (
     booking,
     showHolds,
     onHoldModalInit,
+    holdOnly,
   }
 ) => (
   <Form initialValues={initialValues} onSubmit={onSubmit && partial(onSubmit, [id])} enableReinitialize={true}>
@@ -188,21 +189,21 @@ const renderForm = (
         {children({ booking })}
         <SummaryFormActions>
           {showHolds &&
-            holds &&
+            (holdOnly || holds) &&
             (prop('hasFullHolds', holds) ? (
               <SummaryFormButton type="button" onClick={() => onHoldModalInit('release')} data-secondary>
                 {t('buttons.releaseHold', { count: length(prop('breakdown', holds)) })}
               </SummaryFormButton>
             ) : (
               <SummaryFormButton
-                disabled={!prop('canHold', holds)}
+                disabled={!(holdOnly || prop('canHold', holds))}
                 onClick={() => onHoldModalInit('add')}
                 type="button"
               >
-                {t('buttons.addHold', { count: length(prop('breakdown', holds)) })}
+                {holdOnly ? t('buttons.takeHold') : t('buttons.addHold', { count: length(prop('breakdown', holds)) })}
               </SummaryFormButton>
             ))}
-          {((!summaryOnly && canEdit) || showHolds) && (
+          {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && (
             <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
               {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
             </SummaryFormButton>
@@ -347,6 +348,7 @@ export const SummaryForm = ({
   summaryOnly,
   total,
   confirm,
+  holdOnly,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -461,6 +463,7 @@ export const SummaryForm = ({
           canEdit,
           children,
           compact,
+          holdOnly,
           editGuard,
           errors,
           holds,

@@ -214,13 +214,20 @@ export const isBookingOnRequest = createSelector(
   totals => BOOKINGS_ON_REQUEST || pathOr(false, ['totals', 'oneOrMoreItemsOnRequest'], totals)
 );
 
-export const getBookingReady = (state, hotelId) => {
-  const booking = getBooking(state, hotelId);
-  const canBeBooked = path(['breakdown', 'canBeBooked'], booking);
-  const mustStop = path(['breakdown', 'mustStop'], booking);
+export const getBookingReady = createSelector(
+  getBooking,
+  booking => {
+    const canBeBooked = path(['breakdown', 'canBeBooked'], booking);
+    const mustStop = path(['breakdown', 'mustStop'], booking);
 
-  return !mustStop && canBeBooked;
-};
+    return !mustStop && canBeBooked;
+  }
+);
+
+export const getBookingCanHold = createSelector(
+  getBooking,
+  path(['breakdown', 'availableToHold'])
+);
 
 export const getBookingRoomMealPlans = createSelector(
   [getBookingProductSets, getArg(2)],
