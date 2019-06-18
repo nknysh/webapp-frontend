@@ -114,7 +114,10 @@ module.exports = (env, argv) => ({
         ]
     },
     plugins: [
-        new DotEnvPlugin(),
+        new DotEnvPlugin({
+            safe: true,
+            systemvars: true
+        }),
         new CircularDependencyPlugin({
             exclude: /node_modules/,
             failOnError: modeIsDev(argv),
