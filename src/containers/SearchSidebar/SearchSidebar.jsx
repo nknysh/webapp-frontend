@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose, values } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { IndexTypes } from 'config/enums';
+import { IndexTypes, SearchPatterns } from 'config/enums';
 import { Search, SearchFilters } from 'components';
 import { useEffectBoundary } from 'effects';
 import { buildQueryString } from 'utils';
@@ -39,7 +39,7 @@ export const SearchSidebar = ({
         <Search
           indexes={values(IndexTypes)}
           indexSelectors={[getCountryName, getHotelName]}
-          searchPatterns={['+isDestination:true']}
+          searchPatterns={[SearchPatterns.COUNTRIES]}
           onChange={setSearchQuery}
           onSearch={searchByName}
           showSubmit={false}

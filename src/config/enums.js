@@ -31,6 +31,10 @@ export const BookingStatusTypes = Object.freeze({
   CANCELLED: 'cancelled',
 });
 
+export const SearchPatterns = Object.freeze({
+  COUNTRIES: '+isDestination:true *',
+});
+
 export const PaymentTypes = Object.freeze({
   // On Request
   CC: 'CC',

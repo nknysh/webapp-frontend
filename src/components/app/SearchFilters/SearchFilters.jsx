@@ -169,7 +169,7 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
           </PriceRangeLabel>
         </PriceRangeLabels>
         <PriceRange
-          value={getSearchQueryData(filtersPricesLens) || defaultPriceRange}
+          value={getSearchQueryData(filtersPricesLens) || [priceStart, priceEnd]}
           onAfterChange={setPriceRangeToSearchQuery}
           min={priceStart}
           max={priceEnd}

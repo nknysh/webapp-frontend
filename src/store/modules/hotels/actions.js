@@ -1,4 +1,4 @@
-import { prop, values, mergeDeepRight, pathOr, propOr } from 'ramda';
+import { prop, values, mergeDeepRight, pathOr, propOr, forEach } from 'ramda';
 
 import client from 'api/hotels';
 
@@ -8,6 +8,7 @@ import { getUserCountryContext } from 'store/modules/auth/selectors';
 
 import { getHotelsEntities } from './selectors';
 import schema from './schema';
+import { populateBooking } from '../bookings/actions';
 
 export const HOTELS = 'HOTELS';
 export const HOTEL = 'HOTEL';
@@ -28,6 +29,15 @@ export const setHotels = data => (dispatch, getState) => {
       data: values(hotels),
     })
   );
+
+  forEach(({ bookingBuilder, name, uuid }) => {
+    if (!bookingBuilder) return;
+
+    const { request: requestedBuild, response } = bookingBuilder;
+
+    dispatch(populateBooking(uuid, { hotelUuid: uuid, hotelName: name, breakdown: { requestedBuild, ...response } }));
+  }, values(hotels));
+
   dispatch(successAction(HOTELS, data));
 };
 

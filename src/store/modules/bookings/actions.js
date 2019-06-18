@@ -72,6 +72,7 @@ export const BOOKING_ROOM_UPDATE = 'BOOKING_ROOM_UPDATE';
 export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
+export const BOOKING_POPULATE = 'BOOKING_POPULATE';
 
 const ignoreCall = anyPass([has('marginApplied'), has('taMarginType'), has('taMarginAmount')]);
 
@@ -268,6 +269,7 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
     ...payload,
     hotelUuid,
     hotelName: getHotelName(prevBooking),
+    touched: true,
   };
 
   const nextState = over(
@@ -471,4 +473,13 @@ export const releaseBooking = id => async dispatch => {
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_RELEASE, e, `There was a problem releasing holds on booking '${id}'.`));
   }
+};
+
+export const populateBooking = (id, data) => (dispatch, getState) => {
+  dispatch(genericAction(BOOKING_POPULATE, { id, data }));
+  const booking = getBooking(getState(), id);
+
+  if (booking && propOr(false, 'touched', booking)) return;
+
+  dispatch(successAction(BOOKING_POPULATE, { id, data }));
 };

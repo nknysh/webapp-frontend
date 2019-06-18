@@ -13,6 +13,7 @@ import {
   BOOKING_RESET,
   BOOKING_SUBMIT,
   BOOKING_UPDATE,
+  BOOKING_POPULATE,
   BOOKINGS_SET,
 } from './actions';
 
@@ -45,6 +46,8 @@ const bookingHoldsSuccess = (state, { payload }) =>
     holds: payload,
   });
 
+const populateBooking = (state, { payload: { id, data } }) => set(lensPath(['data', id]), data, state);
+
 export default createReducer(
   {
     [BOOKING_CHECKS]: loadingReducer,
@@ -73,6 +76,7 @@ export default createReducer(
     [getSuccessActionName(BOOKING_SUBMIT)]: bookingComplete,
     [getSuccessActionName(BOOKING_UPDATE)]: successReducer,
     [getSuccessActionName(BOOKINGS_SET)]: successReducer,
+    [getSuccessActionName(BOOKING_POPULATE)]: populateBooking,
   },
   initialState
 );

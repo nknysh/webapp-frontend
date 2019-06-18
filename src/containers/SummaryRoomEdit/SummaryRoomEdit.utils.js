@@ -68,6 +68,7 @@ export const getMinMax = map(
 );
 
 export const getMonthToDisplay = pipe(
+  head,
   prop('endDate'),
   toDate
 );
