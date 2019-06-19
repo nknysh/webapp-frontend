@@ -132,12 +132,12 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
   const onTakeHold = () => setRedirectToHold(true);
   const onSubmit = () => setRedirectToBooking(true);
 
+  const defaultProps = { hotel, id, onTakeHold, onSubmit, ...modal, ...props };
+
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingHotel')}>
       <StyledHotelContainer>
-        {isMobile(currentWidth)
-          ? renderTabs(t, { hotel, id, onTakeHold, onSubmit, ...modal, ...props })
-          : renderFull(t, { hotel, id, onTakeHold, onSubmit, ...modal, ...props })}
+        {isMobile(currentWidth) ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}
       </StyledHotelContainer>
       {renderModal(t, { id, ...modal, ...props, onModalComplete })}
     </Loader>

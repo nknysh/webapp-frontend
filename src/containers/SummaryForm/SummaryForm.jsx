@@ -46,7 +46,6 @@ import {
   Text,
   Title,
   Total,
-  TotalMargin,
   EditGuard,
   ModalContent,
   ModalBody,
@@ -124,7 +123,7 @@ const renderRoomEditModal = (
   );
 };
 
-const renderTotal = (t, { compact, isOnRequest, total, saving, summaryOnly, taMarginAmount, taMarginType }) =>
+const renderTotal = (t, { compact, isOnRequest, total, saving }) =>
   !compact && (
     <Fragment>
       <Title>{t('labels.totalNet')}</Title>
@@ -137,14 +136,6 @@ const renderTotal = (t, { compact, isOnRequest, total, saving, summaryOnly, taMa
             <Saving>{saving}</Saving>
             {t('labels.savingOfSuffix')}
           </Text>
-        )}
-        {summaryOnly && !isOnRequest && (
-          <TotalMargin
-            type={taMarginType || 'percentage'}
-            value={taMarginAmount || 0}
-            total={total}
-            summaryOnly={true}
-          />
         )}
       </Section>
     </Fragment>
@@ -171,6 +162,7 @@ const renderForm = (
     showHolds,
     onHoldModalInit,
     holdOnly,
+    showBookNow,
   }
 ) => (
   <Form initialValues={initialValues} onSubmit={onSubmit && partial(onSubmit, [id])} enableReinitialize={true}>
@@ -203,7 +195,7 @@ const renderForm = (
                 {holdOnly ? t('buttons.takeHold') : t('buttons.addHold', { count: length(prop('breakdown', holds)) })}
               </SummaryFormButton>
             ))}
-          {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && (
+          {((!summaryOnly && canEdit) || (showHolds && showBookNow && !holdOnly)) && (
             <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
               {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
             </SummaryFormButton>
@@ -349,6 +341,7 @@ export const SummaryForm = ({
   total,
   confirm,
   holdOnly,
+  showBookNow,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -446,15 +439,15 @@ export const SummaryForm = ({
         {renderHotel(t, { name, total, compact })}
         <Rooms data-summary={summaryOnly} data-compact={compact}>
           {renderRooms(t, booking, {
-            id,
+            editGuard,
             hotelUuid,
+            id,
+            onEditGuard,
+            removeRoom,
+            setModalId,
+            showHolds,
             showRoomImage,
             summaryOnly,
-            setModalId,
-            removeRoom,
-            editGuard,
-            onEditGuard,
-            showHolds,
           })}
         </Rooms>
         {renderForm(t, {
@@ -463,18 +456,19 @@ export const SummaryForm = ({
           canEdit,
           children,
           compact,
-          holdOnly,
           editGuard,
           errors,
+          holdOnly,
           holds,
           id,
           initialValues: formValues,
           isOnRequest,
           onEditGuard,
-          onSubmit,
-          summaryOnly,
-          showHolds,
           onHoldModalInit,
+          onSubmit,
+          showBookNow,
+          showHolds,
+          summaryOnly,
           ...props,
         })}
       </Loader>

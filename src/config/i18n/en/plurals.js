@@ -48,4 +48,10 @@ export default {
 
   comment: 'Comment',
   comment_plural: 'Comments',
+
+  booking: 'Booking',
+  booking_plural: 'Bookings',
+
+  flight: 'Flight',
+  flight_plural: 'Flights',
 };

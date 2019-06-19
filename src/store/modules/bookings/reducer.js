@@ -15,6 +15,8 @@ import {
   BOOKING_UPDATE,
   BOOKING_POPULATE,
   BOOKINGS_SET,
+  BOOKING_CREATED_REMOVE,
+  BOOKING_REQUEST,
 } from './actions';
 
 const bookingReset = (state, { payload: { id } }) => ({
@@ -49,13 +51,16 @@ const bookingHoldsSuccess = (state, { payload }) =>
 
 const populateBooking = (state, { payload: { id, data } }) => set(lensPath(['data', id]), data, state);
 
+const removeCreatedBooking = (state, { payload }) => set(lensProp('created'), payload, state);
+
 export default createReducer(
   {
     [BOOKING_CHECKS]: loadingReducer,
     [BOOKING_FETCH]: loadingReducer,
     [BOOKING_HOLD]: sendingReducer,
-    [BOOKING_RELEASE]: sendingReducer,
     [BOOKING_HOLDS_FETCH]: loadingReducer,
+    [BOOKING_RELEASE]: sendingReducer,
+    [BOOKING_REQUEST]: loadingReducer,
     [BOOKING_RESET]: bookingReset,
     [BOOKING_SUBMIT]: sendingReducer,
     [BOOKING_UPDATE]: loadingReducer,
@@ -64,20 +69,23 @@ export default createReducer(
     [getErrorActionName(BOOKING_CHECKS)]: errorReducer,
     [getErrorActionName(BOOKING_FETCH)]: errorReducer,
     [getErrorActionName(BOOKING_HOLD)]: errorReducer,
-    [getErrorActionName(BOOKING_RELEASE)]: errorReducer,
     [getErrorActionName(BOOKING_HOLDS_FETCH)]: errorReducer,
+    [getErrorActionName(BOOKING_RELEASE)]: errorReducer,
+    [getErrorActionName(BOOKING_REQUEST)]: errorReducer,
     [getErrorActionName(BOOKING_SUBMIT)]: errorReducer,
     [getErrorActionName(BOOKING_UPDATE)]: errorReducer,
 
     [getSuccessActionName(BOOKING_CHECKS)]: successReducer,
+    [getSuccessActionName(BOOKING_CREATED_REMOVE)]: removeCreatedBooking,
     [getSuccessActionName(BOOKING_FETCH)]: successReducer,
     [getSuccessActionName(BOOKING_HOLD)]: successReducer,
-    [getSuccessActionName(BOOKING_RELEASE)]: successReducer,
     [getSuccessActionName(BOOKING_HOLDS_FETCH)]: bookingHoldsSuccess,
+    [getSuccessActionName(BOOKING_POPULATE)]: populateBooking,
+    [getSuccessActionName(BOOKING_RELEASE)]: successReducer,
+    [getSuccessActionName(BOOKING_REQUEST)]: successReducer,
     [getSuccessActionName(BOOKING_SUBMIT)]: bookingComplete,
     [getSuccessActionName(BOOKING_UPDATE)]: successReducer,
     [getSuccessActionName(BOOKINGS_SET)]: successReducer,
-    [getSuccessActionName(BOOKING_POPULATE)]: populateBooking,
   },
   initialState
 );

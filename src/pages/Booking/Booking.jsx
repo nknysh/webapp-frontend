@@ -14,6 +14,7 @@ export const Booking = ({
   const { t } = useTranslation();
 
   let content = undefined;
+  let props = { id };
 
   switch (stage) {
     case 'complete':
@@ -35,10 +36,13 @@ export const Booking = ({
     case 'by-bt':
       content = t('content.booking.confirmed.bt', { id });
       break;
+
+    default:
+      props.isDetails = true;
   }
 
   return (
-    <BookingContainer id={id}>
+    <BookingContainer {...props}>
       <StyledMarkdown>{content}</StyledMarkdown>
     </BookingContainer>
   );

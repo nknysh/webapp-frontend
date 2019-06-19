@@ -27,6 +27,7 @@ import {
   partial,
   path,
   pick,
+  toPairs,
   pickBy,
   pipe,
   uniq,
@@ -54,7 +55,7 @@ import { successAction, errorFromResponse, genericAction } from 'store/common';
 import { getSearchDates, getSearchLodgings, getSearchMealPlan } from 'store/modules/search/selectors';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 
-import { getBooking, getBookingForBuilder, getBookingMealPlanForRoomByType } from './selectors';
+import { getBooking, getBookingForBuilder, getBookingMealPlanForRoomByType, getBookingsCreated } from './selectors';
 import { addFinalDayToBooking } from './utils';
 
 export const BOOKING_CANCEL = 'BOOKING_CANCEL';
@@ -72,6 +73,7 @@ export const BOOKING_ROOM_REMOVE = 'BOOKING_ROOM_REMOVE';
 export const BOOKING_ROOM_UPDATE = 'BOOKING_ROOM_UPDATE';
 export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
+export const BOOKING_CREATED_REMOVE = 'BOOKING_CREATED_REMOVE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
 export const BOOKING_POPULATE = 'BOOKING_POPULATE';
 
@@ -340,6 +342,10 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
 
   const bookingBuild = getBookingForBuilder(getState(), id);
   const bookingHash = prop('bookingHash', breakdown);
+
+  // attempt to get a bookingHash if none exists
+  if (!bookingHash) await dispatch(updateBooking(id), {});
+
   const bookingInformation = pipe(
     omit(omitProps),
     over(
@@ -494,4 +500,17 @@ export const populateBooking = (id, data) => (dispatch, getState) => {
   if (booking && propOr(false, 'touched', booking)) return;
 
   dispatch(successAction(BOOKING_POPULATE, { id, data }));
+};
+
+export const clearCreatedBooking = id => (dispatch, getState) => {
+  dispatch(genericAction(BOOKING_CREATED_REMOVE, { id }));
+  const created = getBookingsCreated(getState());
+
+  const next = pipe(
+    toPairs,
+    reduce((accum, [hotelId, bookingId]) => (equals(bookingId, id) ? [hotelId] : accum), null),
+    when(complement(isNilOrEmpty), omit(__, created))
+  );
+
+  dispatch(successAction(BOOKING_CREATED_REMOVE, next));
 };

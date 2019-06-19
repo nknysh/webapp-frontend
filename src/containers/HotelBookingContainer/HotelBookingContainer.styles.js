@@ -92,7 +92,12 @@ export const ModalTitle = styled(Heading2)`
 
 export const ModalBody = styled.div`
   max-width: 600px;
-  padding: ${theme.gutter * 8.4}px ${theme.gutter * 10}px;
+  padding: ${theme.gutter * 8.4}px ${theme.gutter * 2}px;
+
+  ${breakpoints.tablet`
+    padding-left: ${theme.gutter * 10}px;
+    padding-right: ${theme.gutter * 10}px;
+  `}
 `;
 export const ModalContent = styled(Markdown)`
   margin-bottom: ${theme.gutter * 6}px;

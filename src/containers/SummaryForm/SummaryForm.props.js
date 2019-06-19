@@ -25,6 +25,7 @@ export const propTypes = {
   showRoomImage: PropTypes.bool,
   summaryOnly: PropTypes.bool,
   total: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  showBookNow: PropTypes.bool,
 };
 
 export const defaultProps = {
@@ -46,4 +47,5 @@ export const defaultProps = {
   showHolds: false,
   onReleaseHolds: noop,
   onAddHolds: noop,
+  showBookNow: true,
 };

@@ -99,7 +99,7 @@ const renderBreadcrumbs = (
       {mobileView ? (
         <BookingPath>
           <BookingPathSegment onClick={onMobileNavClick} data-active={isResortsView}>
-            {t('labels.resortsDetails')}
+            {t('labels.resortsIncluded')}
           </BookingPathSegment>
           <Chevron>chevron_right</Chevron>
           <BookingPathSegment data-active={isGenerateView}>{t('labels.reviewAndGenerate')}</BookingPathSegment>
@@ -436,7 +436,7 @@ export const ProposalContainer = ({
   const renderTabs = () => (
     <Fragment>
       <ProposalId>{t('labels.proposalWithId', { id })}</ProposalId>
-      <Tabs labels={[t('labels.resortsDetails'), t('labels.guestsDetails')]}>
+      <Tabs labels={[t('labels.resortsIncluded'), t('labels.guestsDetails')]}>
         {renderProposalSummary(t, summaryProps)}
         {renderProposalGuestInfo(t, guestInfoProps)}
       </Tabs>
