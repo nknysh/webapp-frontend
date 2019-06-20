@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Icon } from '@material-ui/core';
 
 export { Title } from 'containers/SummaryForm/SummaryForm.styles';
 
@@ -82,4 +83,26 @@ export const ContextMenu = styled(BaseContextMenu)`
 export const ModalContent = styled.div`
   max-width: 600px;
   padding: ${theme.gutter * 6}px;
+`;
+
+export const TravelAgent = styled.p`
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: ${theme.gutter}px 0;
+  font-size: ${theme.fonts.sizes.default}px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-top: 1px dotted ${theme.borders.default};
+  border-bottom: 1px dotted ${theme.borders.default};
+  width: 100%;
+`;
+
+export const TravelAgentName = styled.span`
+  flex: 1 0 auto;
+`;
+
+export const Clear = styled(Icon)`
+  color: ${theme.error};
+  flex: 0 0 auto;
 `;

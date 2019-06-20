@@ -97,4 +97,6 @@ export default {
 
   priceBasedOn: 'Price based on:',
   nightsIn: '{{count}} {{nights}} in {{title}}, {{mealPlan}} ({{startDate}} - {{endDate}})',
+
+  searchForTA: 'Search for Travel Agent',
 };

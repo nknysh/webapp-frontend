@@ -8,8 +8,10 @@ import { getHotelStatus } from 'store/modules/hotel/selectors';
 
 import { updateBooking, removeRoom, addRoom } from 'store/modules/bookings/actions';
 import { getBooking, getBookingReady, getBookingCanHold } from 'store/modules/bookings/selectors';
+import { isSR } from 'store/modules/auth/selectors';
 
 export const mapStateToProps = (state, { id }) => ({
+  isSr: isSR(state),
   booking: getBooking(state, id),
   brochures: getHotelsBrochures(state, id),
   canBook: getBookingReady(state, id),

@@ -15,4 +15,5 @@ export default {
   gettingProposal: 'Getting proposal...',
   gettingBooking: 'Getting booking...',
   requesting: 'Requesting...',
+  loadingUsers: 'Loading users...',
 };

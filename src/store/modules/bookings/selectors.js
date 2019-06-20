@@ -43,8 +43,9 @@ import { ProductTypes } from 'config/enums';
 import { formatPrice, formatDate, toDate } from 'utils';
 
 import { getSearchDates } from 'store/modules/search/selectors';
+import { isSR } from 'store/modules/auth/selectors';
 
-import { getArg } from 'store/common';
+import { getArg, getStatus, getData } from 'store/common';
 
 import { toTotal } from './utils';
 
@@ -52,12 +53,12 @@ export const getBookings = prop('bookings');
 
 export const getBookingStatus = pipe(
   getBookings,
-  prop('status')
+  getStatus
 );
 
 export const getBookingData = pipe(
   getBookings,
-  prop('data')
+  getData
 );
 
 export const getBookingsCreated = pipe(
@@ -226,16 +227,6 @@ export const isBookingOnRequest = createSelector(
   totals => BOOKINGS_ON_REQUEST || pathOr(false, ['totals', 'oneOrMoreItemsOnRequest'], totals)
 );
 
-export const getBookingReady = createSelector(
-  getBooking,
-  booking => {
-    const canBeBooked = path(['breakdown', 'canBeBooked'], booking);
-    const mustStop = path(['breakdown', 'mustStop'], booking);
-
-    return !mustStop && canBeBooked;
-  }
-);
-
 export const getBookingCanHold = createSelector(
   getBooking,
   path(['breakdown', 'availableToHold'])
@@ -263,6 +254,11 @@ export const getBookingAddons = createSelector(
     props([ProductTypes.SUPPLEMENT, ProductTypes.FINE]),
     reduce((accum, products) => (isNilOrEmpty(products) ? accum : concat(products, accum)), [])
   )
+);
+
+export const getBookingTravelAgent = createSelector(
+  getBooking,
+  prop('travelAgentUserUuid')
 );
 
 export const getBookingTransfers = createSelector(
@@ -509,5 +505,17 @@ export const getBookingMealPlanForRoomByType = createSelector(
     );
 
     return mealPlansOfType;
+  }
+);
+
+export const getBookingReady = createSelector(
+  [getBooking, isSR, getBookingTravelAgent],
+  (booking, isSr, travelAgent) => {
+    const canBeBooked = path(['breakdown', 'canBeBooked'], booking);
+    const mustStop = path(['breakdown', 'mustStop'], booking);
+
+    const hasTravelAgent = Boolean(!isSr || travelAgent);
+
+    return !mustStop && canBeBooked && hasTravelAgent;
   }
 );

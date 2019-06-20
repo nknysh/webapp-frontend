@@ -21,7 +21,7 @@ import SummaryRoom from 'containers/SummaryRoom';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
 import { PAYMENT_ENABLED } from 'config';
-import { useModalState } from 'effects';
+import { useModalState, useEffectBoundary } from 'effects';
 import { Form, Input, Loader, Modal, Markdown, AgreeToForm } from 'components';
 import { mapWithIndex } from 'utils';
 
@@ -374,6 +374,10 @@ export const SummaryForm = ({
     onModalOpen: onConfirmModalOpen,
     onModalClose: onConfirmModalClose,
   } = useModalState();
+
+  useEffectBoundary(() => {
+    setFormValues(initialValues);
+  }, [booking]);
 
   const isLoading = isActive(status);
 

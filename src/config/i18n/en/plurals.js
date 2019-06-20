@@ -54,4 +54,7 @@ export default {
 
   flight: 'Flight',
   flight_plural: 'Flights',
+
+  travelAgent: 'Travel agent',
+  travelAgent_plural: 'Travel agents',
 };

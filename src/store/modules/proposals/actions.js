@@ -33,7 +33,7 @@ import {
 } from 'store/modules/bookings/actions';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getBooking, getBookingStatus } from 'store/modules/bookings/selectors';
-import { getCurrentUserUuid } from 'store/modules/auth/selectors';
+import { getCurrentUserUuid, isSR } from 'store/modules/auth/selectors';
 import { getProposal } from 'store/modules/proposals/selectors';
 
 export const PROPOSAL_AMEND_BOOKING = 'PROPOSAL_AMEND_BOOKING';
@@ -87,7 +87,9 @@ export const fetchProposal = (id, params) => async dispatch => {
 };
 
 export const createNewProposal = (name, bookingId, placeHolds) => async (dispatch, getState) => {
-  const userUuid = getCurrentUserUuid(getState());
+  const booking = getBooking(getState(), bookingId);
+  const isSr = isSR(getState());
+  const userUuid = isSr ? prop('travelAgentUserUuid', booking) : getCurrentUserUuid(getState());
 
   dispatch(genericAction(PROPOSALS_NEW, { name, userUuid }));
 
