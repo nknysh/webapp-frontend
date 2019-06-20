@@ -16,6 +16,7 @@ import {
   mapObjIndexed,
   over,
   partialRight,
+  find,
   path,
   pathEq,
   pathOr,
@@ -29,6 +30,8 @@ import {
   reject,
   tap,
   uniq,
+  values,
+  equals,
   when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
@@ -59,7 +62,7 @@ export const getBookingData = pipe(
 
 export const getBookingsCreated = pipe(
   getBookings,
-  prop('created')
+  propOr({}, 'created')
 );
 
 export const getBookingsHolds = pipe(
@@ -70,6 +73,15 @@ export const getBookingsHolds = pipe(
 export const getBookingCreated = createSelector(
   [getArg(1), getBookingsCreated],
   prop
+);
+
+export const getBookingCreatedByValue = createSelector(
+  [getArg(1), getBookingsCreated],
+  (id, created) =>
+    pipe(
+      values,
+      find(equals(id))
+    )(created)
 );
 
 export const getBooking = createSelector(

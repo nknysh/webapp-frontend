@@ -15,6 +15,7 @@ import {
   CardText as BaseText,
 } from 'styles/card';
 import { Icon } from '@material-ui/core';
+import { ToolTip as BaseToolTip } from 'components/elements';
 
 export const StyledCard = styled(Base)`
   position: relative;
@@ -160,4 +161,17 @@ export const CardAdditional = styled.p`
   &:last-child {
     margin: 0;
   }
+`;
+
+export const ToolTip = styled(BaseToolTip)`
+  padding: 0;
+`;
+
+export const PriceBreakdown = styled.ul`
+  margin: ${theme.gutter}px;
+  padding: 0;
+`;
+
+export const PriceBreakdownItem = styled.li`
+  margin-bottom: ${theme.gutter / 2}px;
 `;

@@ -84,7 +84,7 @@ const renderErrors = pipe(
 );
 
 const renderHold = (t, hold, i) => (
-  <Countdown key={i} label={t('labels.expiresIn')} date={propOr(Date.now(), 'endDate', hold)}>
+  <Countdown key={i} label={t('labels.expiresIn')} date={propOr(Date.now(), 'expires', hold)}>
     {t('labels.holdExpired')}
   </Countdown>
 );

@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 
 import { Modal } from 'components/elements';
-import { SummaryFormMargin } from 'components/app';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
@@ -155,24 +154,32 @@ export const HotelName = styled(Heading2)`
   padding: 0;
 `;
 
-export const TotalMargin = styled(SummaryFormMargin)`
-  margin-top: 20px;
-`;
-
 export const EditGuard = styled.div`
   max-width: 600px;
-  padding: ${theme.gutter * 6}px;
+  padding: ${theme.gutter * 2}px;
+
+  ${breakpoints.tablet`
+    padding: ${theme.gutter * 6}px;
+  `}
 `;
 
 export const ModalContent = styled.div`
-  padding: ${theme.gutter * 6}px;
+  padding: ${theme.gutter * 2}px;
   max-width: 600px;
   text-align: center;
+
+  ${breakpoints.tablet`
+    padding: ${theme.gutter * 6}px;
+  `}
 `;
 
 export const ModalBody = styled.div`
+  padding: ${theme.gutter * 6}px ${theme.gutter * 2}px;
   max-width: 600px;
-  padding: ${theme.gutter * 8.4}px ${theme.gutter * 10}px;
+
+  ${breakpoints.tablet`
+    padding: ${theme.gutter * 6}px;
+  `}
 `;
 
 export const ModalTitle = styled(Heading2)`

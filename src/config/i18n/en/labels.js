@@ -34,6 +34,7 @@ export default {
   enterGuestDetails: 'Enter guest details',
   reviewAndConfirm: 'Review and confirm',
   booking: 'Booking',
+  bookingWithId: 'Booking #{{id}}',
   included: 'inc.',
   extra: 'Extra',
   min: 'Min',
@@ -66,7 +67,7 @@ export default {
   proposalId: 'Proposal',
   proposalName: 'New Proposal Name',
 
-  resortsDetails: 'Resorts included',
+  resortsIncluded: 'Resorts included',
   reviewAndGenerate: 'Review and Generate',
 
   propertiesAndRooms: 'Properties and rooms included in this proposal',
@@ -76,6 +77,7 @@ export default {
 
   createdAt: 'Created on',
   leadGuestInfo: 'Lead Guest Info',
+  flightInformation: 'Flight information',
   guestsDetails: 'Guest Details',
   totalNetCost: 'Total Net Cost',
 
@@ -89,4 +91,10 @@ export default {
   holdExpired: 'Hold has expired',
 
   confirmYourhold: 'Confirm your hold',
+
+  resortDetails: 'Resort details',
+  repeatGuest: 'Client is a repeating guest',
+
+  priceBasedOn: 'Price based on:',
+  nightsIn: '{{count}} {{nights}} in {{title}}, {{mealPlan}} ({{startDate}} - {{endDate}})',
 };

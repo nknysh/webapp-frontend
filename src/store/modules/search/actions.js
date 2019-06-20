@@ -1,4 +1,5 @@
-import { prop, pathOr, path, omit } from 'ramda';
+import { prop, pathOr, path, omit, mergeDeepLeft, pipe, over, lensPath, partialRight } from 'ramda';
+import { subDays } from 'date-fns';
 
 import client from 'api/search';
 
@@ -72,10 +73,16 @@ export const searchByQuery = query => async (dispatch, getState) => {
 
   if (!canSearch) return dispatch(successAction(SEARCH_BY_QUERY, {}));
 
+  const payload = pipe(
+    omit(['prices']),
+    mergeDeepLeft({ actingCountryCode }),
+    over(lensPath(['dates', 'endDate']), partialRight(subDays, [1]))
+  )(query);
+
   try {
     const {
       data: { data, meta },
-    } = await client.getSearch({ ...omit(['prices'], query), actingCountryCode });
+    } = await client.getSearch(payload);
 
     const hotels = path(['entities', 'hotels'], data);
     const uploads = path(['entities', 'uploads'], data);
