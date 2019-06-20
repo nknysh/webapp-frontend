@@ -94,4 +94,7 @@ export default {
 
   resortDetails: 'Resort details',
   repeatGuest: 'Client is a repeating guest',
+
+  priceBasedOn: 'Price based on:',
+  nightsIn: '{{count}} {{nights}} in {{title}}, {{mealPlan}} ({{startDate}} - {{endDate}})',
 };
