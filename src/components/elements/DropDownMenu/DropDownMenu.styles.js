@@ -3,8 +3,14 @@ import { MenuList, MenuItem, Popper, Icon } from '@material-ui/core';
 
 import theme from 'styles/theme';
 
+export const StyledDropDownMenu = styled.div`
+  position: relative;
+`;
+
 export const Button = styled.span`
   cursor: pointer;
+  display: flex;
+  align-items: center;
 `;
 
 export const Area = styled.div`
@@ -48,9 +54,7 @@ export const MaterialPopper = styled(Popper)`
 `;
 
 export const MaterialIcon = styled(Icon)`
-  position: absolute;
-  right: 0;
+  flex: 0 0 auto;
   font-size: ${theme.fonts.sizes.less}px !important;
   opacity: 1;
-  top: ${theme.gutter - 1}px;
 `;

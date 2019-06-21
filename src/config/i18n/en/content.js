@@ -10,6 +10,7 @@ import bookingConfirmedBT from './md/booking-confirmed--bt.md';
 import bookingConfirmedHold from './md/booking-confirmed--hold.md';
 
 import editGuard from './md/edit-guard.md';
+import amendBooking from './md/booking-amend.md';
 
 import holdConfirm from './md/hold-confirm.md';
 import holdRelease from './md/hold-release.md';
@@ -17,6 +18,7 @@ import holdRelease from './md/hold-release.md';
 import searchRequired from './md/search-required.md';
 
 export default {
+  amendBooking,
   editGuard,
   holdConfirm,
   holdRelease,

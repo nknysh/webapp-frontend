@@ -28,8 +28,8 @@ export const Text = styled.div`
       `}
 
     ${breakpoints.tablet`
-        margin ${theme.gutter / 2}px ${theme.gutter}px;
-        padding: ${theme.gutter / 2}px ${theme.gutter}px;
+      margin-left: ${theme.gutter}px;
+      padding-left: ${theme.gutter}px;
     `}
 `;
 

@@ -26,6 +26,7 @@ export const propTypes = {
   summaryOnly: PropTypes.bool,
   total: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   showBookNow: PropTypes.bool,
+  editGuardContent: PropTypes.any,
 };
 
 export const defaultProps = {

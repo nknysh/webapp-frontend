@@ -2,15 +2,20 @@ import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
 import {
-  fetchBooking,
   clearCreatedBooking,
-  requestBooking,
+  completeBooking,
+  fetchBooking,
   holdBooking,
   releaseBooking,
+  requestBooking,
+  reviewBooking,
+  cancelBooking,
 } from 'store/modules/bookings/actions';
 import { getBooking, getBookingStatus, getBookingCreatedByValue } from 'store/modules/bookings/selectors';
+import { isSR } from 'store/modules/auth/selectors';
 
 export const mapStateToProps = (state, { id }) => ({
+  isSr: isSR(state),
   booking: getBooking(state, id),
   bookingStatus: getBookingStatus(state),
   created: getBookingCreatedByValue(state, id),
@@ -35,6 +40,18 @@ export const mapDispatchToProps = dispatch => ({
   ),
   releaseBooking: pipe(
     releaseBooking,
+    dispatch
+  ),
+  completeBooking: pipe(
+    completeBooking,
+    dispatch
+  ),
+  reviewBooking: pipe(
+    reviewBooking,
+    dispatch
+  ),
+  cancelBooking: pipe(
+    cancelBooking,
     dispatch
   ),
 });
