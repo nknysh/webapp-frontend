@@ -32,6 +32,8 @@ import {
   pipe,
   uniq,
   prop,
+  evolve,
+  partialRight,
   propEq,
   propOr,
   propSatisfies,
@@ -57,6 +59,7 @@ import { getUserCountryContext } from 'store/modules/auth/selectors';
 
 import { getBooking, getBookingForBuilder, getBookingMealPlanForRoomByType, getBookingsCreated } from './selectors';
 import { addFinalDayToBooking } from './utils';
+import { addDays } from 'date-fns';
 
 export const BOOKING_CANCEL = 'BOOKING_CANCEL';
 export const BOOKING_CHECKS = 'BOOKING_CHECKS';
@@ -78,8 +81,10 @@ export const BOOKINGS_SET = 'BOOKINGS_SET';
 export const BOOKING_POPULATE = 'BOOKING_POPULATE';
 
 const ignoreCall = anyPass([has('marginApplied'), has('taMarginType'), has('taMarginAmount')]);
-
 const getHotelName = path(['breakdown', 'hotel', 'name']);
+const dateEvolve = evolve({
+  endDate: partialRight(addDays, [1]),
+});
 
 const updateBookingAction = partial(genericAction, [BOOKING_UPDATE]);
 
@@ -499,7 +504,12 @@ export const populateBooking = (id, data) => (dispatch, getState) => {
 
   if (booking && propOr(false, 'touched', booking)) return;
 
-  dispatch(successAction(BOOKING_POPULATE, { id, data }));
+  const next = pipe(
+    over(lensPath(['breakdown', 'requestedBuild']), dateEvolve),
+    over(lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]), map(dateEvolve))
+  )(data);
+
+  dispatch(successAction(BOOKING_POPULATE, { id, data: next }));
 };
 
 export const clearCreatedBooking = id => (dispatch, getState) => {

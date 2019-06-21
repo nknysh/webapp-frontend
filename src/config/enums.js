@@ -40,3 +40,9 @@ export const PaymentTypes = Object.freeze({
   CC: 'CC',
   BT: 'BT',
 });
+
+export const AuthTypes = Object.freeze({
+  TA: 'ta',
+  SR: 'sr',
+  ADMIN: 'admin',
+});

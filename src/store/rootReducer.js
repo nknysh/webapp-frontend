@@ -11,6 +11,7 @@ import pages from './modules/pages/reducer';
 import proposals from './modules/proposals/reducer';
 import search from './modules/search/reducer';
 import ui from './modules/ui/reducer';
+import users from './modules/users/reducer';
 
 import { STATUS_TO_IDLE, resetStoreStatuses } from './common';
 
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   proposals,
   search,
   ui,
+  users,
 });
 
 export default (state, action) => {

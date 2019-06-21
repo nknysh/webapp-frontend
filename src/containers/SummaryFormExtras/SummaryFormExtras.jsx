@@ -32,11 +32,10 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import SummaryFormMargin from 'components/app/SummaryFormMargin';
-import { RadioButton, Modal } from 'components/elements';
+import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch } from 'components';
 
 import { ProductTypes } from 'config/enums';
-import { useModalState } from 'effects';
+import { useModalState, useFetchData } from 'effects';
 import { isString } from 'utils';
 
 import connect from './SummaryFormExtras.state';
@@ -45,18 +44,21 @@ import {
   AddonCheckbox,
   AddonSummaries,
   AddonSummary,
+  Button,
   ContextMenu,
   Extra,
   ExtraSummary,
   ExtraSummaryProduct,
   ExtraSummaryTitle,
   ExtraSummaryTotal,
+  ModalContent,
   OptionLabel,
   OptionPrice,
   OptionRate,
   Title,
-  ModalContent,
-  Button,
+  TravelAgent,
+  TravelAgentName,
+  Clear,
 } from './SummaryFormExtras.styles';
 
 const hasDirection = hasPath(['meta', 'direction']);
@@ -316,6 +318,41 @@ const renderModal = (t, { modalOpen, modalContent, onClose }) =>
     </Modal>
   );
 
+const renderTASelect = (
+  t,
+  { summaryOnly, compactEdit, isSr, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent, onEditClick }
+) =>
+  isSr &&
+  (summaryOnly || compactEdit ? (
+    <ExtraSummary>
+      <ExtraSummaryTitle>{t('travelAgent')}:</ExtraSummaryTitle>
+      <AddonSummaries>{getUserName(prop('uuid', travelAgent))}</AddonSummaries>
+      {compactEdit && (
+        <ContextMenu>
+          <span onClick={() => onEditClick('travelAgent')}>{t('buttons.edit')}</span>
+        </ContextMenu>
+      )}
+    </ExtraSummary>
+  ) : (
+    <Extra>
+      <Title>{t('travelAgent')}</Title>
+      <Loader isLoading={!usersLoaded} text={t('messages.loadingUsers')}>
+        <IndexSearch
+          placeholder={t('labels.searchForTA')}
+          indexes={['users']}
+          selectors={[getUserName]}
+          onClick={onTASelect}
+        />
+        {!isNilOrEmpty(travelAgent) && (
+          <TravelAgent onClick={onTARemove}>
+            <TravelAgentName>{travelAgent && getUserName(prop('uuid', travelAgent))}</TravelAgentName>{' '}
+            <Clear>clear</Clear>
+          </TravelAgent>
+        )}
+      </Loader>
+    </Extra>
+  ));
+
 export const SummaryFormExtras = ({
   addons,
   grandTotal,
@@ -333,8 +370,14 @@ export const SummaryFormExtras = ({
   id,
   editGuard,
   onEditGuard,
+  isSr,
+  usersStatus,
+  fetchUsers,
+  getUserName,
+  travelAgent,
 }) => {
   const { t } = useTranslation();
+  const usersLoaded = isSr && useFetchData(usersStatus, fetchUsers, []);
 
   const compactEdit = !summaryOnly && compact;
 
@@ -400,6 +443,14 @@ export const SummaryFormExtras = ({
     onModalClose();
   };
 
+  const onTASelect = ({ id: travelAgentUserUuid }) => {
+    updateBooking(id, { travelAgentUserUuid });
+  };
+
+  const onTARemove = () => {
+    updateBooking(id, { travelAgentUserUuid: null });
+  };
+
   const optionsProps = {
     compact,
     onOneWayChange,
@@ -435,6 +486,9 @@ export const SummaryFormExtras = ({
         values,
       });
       break;
+    case 'travelAgent':
+      modalContent = renderTASelect(t, { isSr, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent });
+      break;
     default:
       modalContent = '';
   }
@@ -444,6 +498,17 @@ export const SummaryFormExtras = ({
       {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps)}
       {renderExtraOptions(t, 'groundService', ProductTypes.GROUND_SERVICE, groundServices, optionsProps)}
       {renderExtraSelects(t, 'addon', addons, { summaryOnly, onMultipleChange, values, compactEdit, onEditClick })}
+      {renderTASelect(t, {
+        summaryOnly,
+        compactEdit,
+        isSr,
+        usersLoaded,
+        getUserName,
+        onTASelect,
+        onTARemove,
+        travelAgent,
+        onEditClick,
+      })}
       {renderMargin(t, {
         onMarginChange,
         grandTotal,

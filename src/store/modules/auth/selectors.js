@@ -1,7 +1,12 @@
-import { prop } from 'ramda';
+import { __, propSatisfies, defaultTo, pipe, includes, props, prop } from 'ramda';
 
+import { AuthTypes } from 'config/enums';
 import { createSelector } from 'store/utils';
-import { isSr } from 'utils';
+
+const srCheck = pipe(
+  defaultTo({}),
+  propSatisfies(includes(__, props(['SR', 'ADMIN'], AuthTypes)), 'type')
+);
 
 export const getAuth = prop('auth');
 
@@ -42,7 +47,7 @@ export const getCurrentUserCountryCode = createSelector(
 
 export const getUserCountryContext = createSelector(
   [getCurrentUser, getCurrentCountry, getCurrentUserCountryCode],
-  (currentUser, stateCountry, userCountry) => (isSr(currentUser) ? stateCountry || userCountry : undefined)
+  (currentUser, stateCountry, userCountry) => (srCheck(currentUser) ? stateCountry || userCountry : undefined)
 );
 
 export const getCurrentUserUuid = createSelector(
@@ -53,4 +58,9 @@ export const getCurrentUserUuid = createSelector(
 export const isAuthenticated = createSelector(
   getAuthToken,
   Boolean
+);
+
+export const isSR = createSelector(
+  getCurrentUser,
+  srCheck
 );

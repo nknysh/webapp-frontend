@@ -6,7 +6,6 @@ import userPanelLinks from 'config/links/user-panel';
 
 import { DropDownMenu, Link } from 'components';
 import { withAuthentication } from 'hoc';
-import { isSr } from 'utils';
 
 import { isSending } from 'store/common';
 
@@ -33,6 +32,7 @@ export const UserPanel = ({
   userCountry,
   countries,
   setCountry,
+  isSr,
 }) => {
   if (!isAuthenticated || !currentUser) return null;
 
@@ -60,11 +60,11 @@ export const UserPanel = ({
       <DropDownMenu
         title={
           <Text>
-            {firstName} {lastName} {isSr(currentUser) && !equals(countryContext, userCountry) && `(${countryContext})`}
+            {firstName} {lastName} {isSr && !equals(countryContext, userCountry) && `(${countryContext})`}
           </Text>
         }
       >
-        {isSr(currentUser) && (
+        {isSr && (
           <Country>
             Country <CountrySelect value={countryContext} options={countries} onChange={onSetCountry} />
           </Country>

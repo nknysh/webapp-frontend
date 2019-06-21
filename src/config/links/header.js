@@ -41,8 +41,8 @@ export default {
       hard: true,
     },
     {
-      title: 'Holds',
-      href: `${ADMIN_BASE_URL}/holds`,
+      title: 'Proposals',
+      href: `${ADMIN_BASE_URL}/proposals`,
       hard: true,
     },
     {

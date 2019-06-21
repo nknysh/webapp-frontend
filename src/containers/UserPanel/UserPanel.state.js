@@ -7,14 +7,15 @@ import {
   getCurrentUser,
   getUserCountryContext,
   getCurrentUserCountryCode,
+  isSR,
 } from 'store/modules/auth/selectors';
 import { getCountriesNamesAsKeyValue } from 'store/modules/countries/selectors';
 import { authSetCountry } from 'store/modules/auth/actions';
-import { isSr } from 'utils';
 
 export const mapStateToProps = state => {
   const currentUser = getCurrentUser(state);
-  const countries = isSr(currentUser) && getCountriesNamesAsKeyValue(state);
+  const isSr = isSR(state);
+  const countries = isSr && getCountriesNamesAsKeyValue(state);
 
   return {
     countries,
@@ -23,6 +24,7 @@ export const mapStateToProps = state => {
     error: getAuthError(state),
     requestStatus: getAuthStatus(state),
     userCountry: getCurrentUserCountryCode(state),
+    isSr,
   };
 };
 
