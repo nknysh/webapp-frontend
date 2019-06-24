@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { Container } from 'styles/elements';
+
+import { Status } from 'components';
+
 import { Main as BaseMain, Aside as BaseAside } from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
 import {
   StatusStrip as BaseStatusStrip,
@@ -26,12 +29,23 @@ export const Aside = styled(BaseAside)`
 `;
 
 export const StatusStrip = styled(BaseStatusStrip)`
+  display: flex;
+  position: relative;
+
   ${breakpoints.tablet`
     margin: 0;
   `}
 `;
 
-export const StatusStripDate = styled(BaseStatusStripDate)``;
+export const StatusStripDate = styled(BaseStatusStripDate)`
+  flex: 1;
+  font-weight: ${theme.fonts.normal};
+`;
+
+export const StatusStripStatus = styled(Status)`
+  flex: 0 0 auto;
+  position: relative;
+`;
 
 export const Main = styled(BaseMain)`
   padding: ${theme.gutter * 2}px;

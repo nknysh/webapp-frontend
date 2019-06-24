@@ -15,6 +15,9 @@ export default Object.freeze({
 
   'gray-opacity-1': 'rgba(0,0,0,0.35)',
 
+  'gray-faded': '#9d9591',
+  'gray-neutral': '#a18265',
+
   gold: '#A18265',
   'gold-dark': '#382A21',
   'gold-neutral': '#736A65',
@@ -27,4 +30,6 @@ export default Object.freeze({
   'light-blue': '#F3F9FB',
 
   'red-fade': '#FD5656',
+  yellow: '#f5a623',
+  green: '#56d1bf',
 });

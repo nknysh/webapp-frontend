@@ -5,7 +5,7 @@ import { Grow, ClickAwayListener } from '@material-ui/core';
 import { isArray, mapWithIndex } from 'utils';
 
 import { propTypes, defaultProps } from './DropDownMenu.props';
-import { Button, Area, MaterialPopper, MaterialIcon } from './DropDownMenu.styles';
+import { StyledDropDownMenu, Button, Area, MaterialPopper, MaterialIcon } from './DropDownMenu.styles';
 
 export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, showArrow, className }) => {
   const buttonRef = useRef(undefined);
@@ -24,7 +24,7 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
   const renderChildren = () => (isArray(children) ? mapWithIndex(renderItem, children) : renderItem(children, 0));
 
   return (
-    <div className={className}>
+    <StyledDropDownMenu className={className}>
       <Button
         buttonRef={buttonRef}
         aria-owns={open ? 'menu-list-grow' : undefined}
@@ -50,7 +50,7 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
           </Grow>
         )}
       </MaterialPopper>
-    </div>
+    </StyledDropDownMenu>
   );
 };
 

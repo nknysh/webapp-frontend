@@ -1,37 +1,59 @@
 import React, { Fragment, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { compose, equals, prop, join, props, pipe, map } from 'ramda';
+import {
+  compose,
+  mapObjIndexed,
+  cond,
+  always,
+  pick,
+  equals,
+  prop,
+  join,
+  props,
+  pipe,
+  map,
+  propEq,
+  values,
+  partial,
+} from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { Loader, Breadcrumbs, Tabs, Section } from 'components';
+import { Loader, Breadcrumbs, Tabs, Section, DropDownMenu } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { isMobile, formatDate } from 'utils';
 
 import { ADMIN_BASE_URL } from 'config';
+import { BookingStatusTypes } from 'config/enums';
 import SummaryForm from 'containers/SummaryForm';
 
 import connect from './BookingContainer.state';
 import { propTypes, defaultProps } from './BookingContainer.props';
 import {
-  StyledBookingContainer,
-  Main,
   Aside,
   Back,
+  Bolded,
+  Booking,
   BookingContent,
   BookingTitle,
+  Dot,
+  FlightInfo,
+  FlightInfoList,
+  FlightRow,
   GuestDetails,
   GuestName,
-  FlightInfoList,
-  FlightInfo,
-  Dot,
-  FlightRow,
-  Bolded,
-  Tag,
+  Main,
   StatusStrip,
   StatusStripDate,
-  Booking,
+  StatusStripStatus,
+  StyledBookingContainer,
+  Tag,
 } from './BookingContainer.styles';
+
+const isPotential = equals(BookingStatusTypes.POTENTIAL);
+const isRequested = equals(BookingStatusTypes.REQUESTED);
+const isConfirmed = equals(BookingStatusTypes.CONFIRMED);
+const isCancelled = equals(BookingStatusTypes.CANCELLED);
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search' });
@@ -45,11 +67,49 @@ const renderBreadcrumbs = (t, { id }) => (
   />
 );
 
-const renderStatusStrip = (t, { booking }) => (
-  <StatusStrip>
-    {t('labels.createdAt')} <StatusStripDate>{formatDate(prop('createdAt', booking), 'MMM D, YYYY')}</StatusStripDate>
-  </StatusStrip>
+const renderStatus = (onStatusChange, label, status) => (
+  <StatusStripStatus key={status} onClick={() => onStatusChange && onStatusChange(status)} data-status={status}>
+    {label}
+  </StatusStripStatus>
 );
+const renderBookingStatus = (t, { booking }) =>
+  renderStatus(undefined, t(prop('status', booking)), prop('status', booking));
+
+const renderStatusStrip = (t, { isSr, booking, onStatusChange }) => {
+  const bookingStatus = prop('status', booking);
+
+  const statuses = {
+    [BookingStatusTypes.REQUESTED]: t(`labels.${BookingStatusTypes.REQUESTED}`),
+    [BookingStatusTypes.CONFIRMED]: t(`labels.${BookingStatusTypes.CONFIRMED}`),
+    [BookingStatusTypes.CANCELLED]: t(`labels.${BookingStatusTypes.CANCELLED}`),
+  };
+
+  const availableStatuses = cond([
+    [
+      isPotential,
+      always(
+        pick([BookingStatusTypes.REQUESTED, BookingStatusTypes.CONFIRMED, BookingStatusTypes.CANCELLED], statuses)
+      ),
+    ],
+    [isRequested, always(pick([BookingStatusTypes.CONFIRMED, BookingStatusTypes.CANCELLED], statuses))],
+    [isConfirmed, always(pick([BookingStatusTypes.CANCELLED], statuses))],
+  ]);
+
+  return (
+    <StatusStrip>
+      <StatusStripDate>
+        {t('labels.createdAt')} <Bolded>{formatDate(prop('createdAt', booking), 'MMM D, YYYY')}</Bolded>
+      </StatusStripDate>
+      {isSr && !isCancelled(bookingStatus) ? (
+        <DropDownMenu title={renderBookingStatus(t, { booking })} showArrow={true}>
+          {values(mapObjIndexed(partial(renderStatus, [onStatusChange]), availableStatuses(bookingStatus)))}
+        </DropDownMenu>
+      ) : (
+        renderBookingStatus(t, { booking })
+      )}
+    </StatusStrip>
+  );
+};
 
 const fieldIsEmpty = (key, record) =>
   pipe(
@@ -99,44 +159,48 @@ const renderGuestDetails = (t, { booking }) => (
   <GuestDetails>
     <Section label={t('labels.leadGuestInfo')}>
       <GuestName>{join(' ', props(['guestTitle', 'guestFirstName', 'guestLastName'], booking))}</GuestName>
-      {prop('isRepeatGuest', booking) && <Tag>{t('labels.repeatGuest')}</Tag>}
-      <Tag>{t('labels.repeatGuest')}</Tag>
+      {propEq('isRepeatGuest', true, booking) && <Tag>{t('labels.repeatGuest')}</Tag>}
     </Section>
     <Section label={t('labels.flightInformation')}>{renderFlightInfo(t, { booking })}</Section>
     {!fieldIsEmpty('comments', booking) && <Section label={t('comment_plural')}>{prop('comments', booking)}</Section>}
   </GuestDetails>
 );
 
-const renderDetails = (t, { booking }) => (
+const renderDetails = (t, { booking, onStatusChange, isSr }) => (
   <BookingContent>
-    {renderStatusStrip(t, { booking })}
+    {!isSr && renderStatusStrip(t, { onStatusChange, booking })}
     {renderGuestDetails(t, { booking })}
   </BookingContent>
 );
 
-const renderSummary = (t, { id, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds }) => (
+const renderSummary = (
+  t,
+  { id, canEdit, isSr, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds, onEditGuard }
+) => (
   <SummaryForm
+    editGuardContent={t('content.amendBooking')}
+    bookLabel={canEdit && t('buttons.amendBooking')}
+    onGuardEditComplete={isSr && onEditGuard}
     id={id}
-    summaryOnly
-    showHolds={isDetails}
-    showBookNow={isDetails && isPotential}
+    summaryOnly={!isSr}
+    compact={isSr}
+    showHolds={isDetails && !canEdit}
+    showBookNow={canEdit || (isDetails && isPotential)}
     onSubmit={onSubmit}
+    canEdit={isSr}
     confirm={isPotential}
     onAddHolds={onAddHolds}
     onReleaseHolds={onReleaseHolds}
   />
 );
 
-export const renderTabs = (
-  t,
-  { id, isDetails, children, isPotential, onSubmit, onAddHolds, onReleaseHolds, booking }
-) => (
+export const renderTabs = (t, { isDetails, children, ...props }) => (
   <Fragment>
-    {isDetails ? renderTitle(t, { id }) : renderBackToSearch(t)}
+    {isDetails ? renderTitle(t, props) : renderBackToSearch(t)}
     {isDetails ? (
       <Tabs labels={[t('labels.resortDetails'), t('labels.guestsDetails')]}>
-        {renderSummary(t, { id, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds })}
-        {renderDetails(t, { booking })}
+        {renderSummary(t, { isDetails, ...props })}
+        {renderDetails(t, props)}
       </Tabs>
     ) : (
       <BookingContent>{children}</BookingContent>
@@ -144,47 +208,76 @@ export const renderTabs = (
   </Fragment>
 );
 
-const renderFull = (t, { children, id, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds, booking }) => (
+const renderFull = (t, { children, isSr, isDetails, ...props }) => (
   <Fragment>
-    {isDetails && renderBreadcrumbs(t, { id })}
+    {isDetails && renderBreadcrumbs(t, props)}
+    {isSr && isDetails && renderStatusStrip(t, { isSr, ...props })}
     <Main>
-      {isDetails ? renderDetails(t, { booking }) : <BookingContent>{children}</BookingContent>}
-      <Aside>{renderSummary(t, { id, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds })}</Aside>
+      {isDetails ? renderDetails(t, { isSr, ...props }) : <BookingContent>{children}</BookingContent>}
+      <Aside>{renderSummary(t, { isSr, isDetails, ...props })}</Aside>
     </Main>
   </Fragment>
 );
 
 export const BookingContainer = ({
-  id,
-  children,
-  fetchBooking,
-  bookingStatus,
-  isDetails,
-  created,
-  clearCreatedBooking,
   booking,
-  requestBooking,
+  bookingStatus,
+  reviewBooking,
+  children,
+  clearCreatedBooking,
+  completeBooking,
+  created,
+  fetchBooking,
   holdBooking,
+  id,
+  isDetails,
+  isSr,
   releaseBooking,
+  requestBooking,
+  cancelBooking,
 }) => {
   const { t } = useTranslation();
-  const loaded = useFetchData(bookingStatus, fetchBooking, [id]);
+  const loaded = useFetchData(bookingStatus, fetchBooking, [id], [created]);
   const currentWidth = useCurrentWidth();
   const [hasCreated] = useState(created);
+  const [canEdit, setCanEdit] = useState(false);
 
   if (hasCreated) clearCreatedBooking(id);
-
   if (!isDetails && !hasCreated) return <Redirect to={`/bookings/${id}`} />;
 
   const { status } = booking;
 
   const isPotential = equals('potential', status);
 
-  const onSubmit = () => requestBooking(id);
+  const onSubmit = () => {
+    if (!canEdit) return requestBooking(id);
+
+    if (isSr) {
+      completeBooking(id);
+      cancelBooking(id);
+      window.location.replace(`${ADMIN_BASE_URL}/bookings`);
+      return;
+    }
+  };
   const onAddHolds = () => holdBooking(id);
   const onReleaseHolds = () => releaseBooking(id);
+  const onEditGuard = () => setCanEdit(true);
+  const onStatusChange = status => reviewBooking(id, { status });
 
-  const defaultProps = { id, children, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds, booking };
+  const defaultProps = {
+    id,
+    onEditGuard,
+    canEdit,
+    children,
+    isSr,
+    isDetails,
+    isPotential,
+    onSubmit,
+    onAddHolds,
+    onReleaseHolds,
+    booking,
+    onStatusChange,
+  };
 
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingBooking')}>

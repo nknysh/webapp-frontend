@@ -26,6 +26,7 @@ import {
   over,
   partial,
   path,
+  last,
   pick,
   toPairs,
   pickBy,
@@ -40,6 +41,8 @@ import {
   reduce,
   reject,
   remove,
+  fromPairs,
+  isNil,
   objOf,
   set,
   update,
@@ -61,30 +64,59 @@ import { getBooking, getBookingForBuilder, getBookingMealPlanForRoomByType, getB
 import { addFinalDayToBooking } from './utils';
 import { addDays } from 'date-fns';
 
+export const BOOKING_AMEND = 'BOOKING_AMEND';
 export const BOOKING_CANCEL = 'BOOKING_CANCEL';
 export const BOOKING_CHECKS = 'BOOKING_CHECKS';
+export const BOOKING_CREATED_REMOVE = 'BOOKING_CREATED_REMOVE';
 export const BOOKING_FETCH = 'BOOKING_FETCH';
 export const BOOKING_HOLD = 'BOOKING_HOLD';
 export const BOOKING_HOLDS_FETCH = 'BOOKING_HOLDS_FETCH';
+export const BOOKING_POPULATE = 'BOOKING_POPULATE';
 export const BOOKING_RELEASE = 'BOOKING_RELEASE';
 export const BOOKING_REMOVE = 'BOOKING_REMOVE';
 export const BOOKING_REQUEST = 'BOOKING_REQUEST';
 export const BOOKING_REQUEST_WITH_HOLD = 'BOOKING_WITH_HOLD';
 export const BOOKING_RESET = 'BOOKING_RESET';
+export const BOOKING_REVIEW = 'BOOKING_REVIEW';
 export const BOOKING_ROOM_ADD = 'BOOKING_ROOM_ADD';
 export const BOOKING_ROOM_REMOVE = 'BOOKING_ROOM_REMOVE';
 export const BOOKING_ROOM_UPDATE = 'BOOKING_ROOM_UPDATE';
 export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
-export const BOOKING_CREATED_REMOVE = 'BOOKING_CREATED_REMOVE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
-export const BOOKING_POPULATE = 'BOOKING_POPULATE';
 
 const ignoreCall = anyPass([has('marginApplied'), has('taMarginType'), has('taMarginAmount')]);
 const getHotelName = path(['breakdown', 'hotel', 'name']);
 const dateEvolve = evolve({
   endDate: partialRight(addDays, [1]),
 });
+
+const omitProps = [
+  'canBeBooked',
+  'mustStop',
+  'bookingHash',
+  'marginApplied',
+  'payment',
+  'availableToHold',
+  'agreeToTerms',
+  'hotelUuid',
+  'hotelName',
+  'breakdown',
+  'touched',
+  'uuid',
+  'checkInDate',
+  'checkOutDate',
+  'numAdults',
+  'agesOfAllChildren',
+  'status',
+  'overrideTotal',
+  'bookingComments',
+  'internalComments',
+  'createdAt',
+  'updatedAt',
+  'deletedAt',
+  'clientUuid',
+];
 
 const updateBookingAction = partial(genericAction, [BOOKING_UPDATE]);
 
@@ -331,20 +363,6 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
   const booking = getBooking(getState(), id);
   const { breakdown } = booking;
 
-  const omitProps = [
-    'canBeBooked',
-    'mustStop',
-    'bookingHash',
-    'marginApplied',
-    'payment',
-    'availableToHold',
-    'agreeToTerms',
-    'hotelUuid',
-    'hotelName',
-    'breakdown',
-    'touched',
-  ];
-
   const bookingBuild = getBookingForBuilder(getState(), id);
   const bookingHash = prop('bookingHash', breakdown);
 
@@ -359,7 +377,15 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
         pickBy(equals(true)),
         keys
       )
-    )
+    ),
+    toPairs,
+    reject(
+      pipe(
+        last,
+        isNil
+      )
+    ),
+    fromPairs
   )(booking);
 
   const finalPayload = {
@@ -523,4 +549,30 @@ export const clearCreatedBooking = id => (dispatch, getState) => {
   );
 
   dispatch(successAction(BOOKING_CREATED_REMOVE, next));
+};
+
+export const amendBooking = (id, data) => async dispatch => {
+  dispatch(genericAction(BOOKING_AMEND, { id, data }));
+
+  try {
+    await client.amendBooking(id, { data: { attributes: data } });
+
+    dispatch(fetchBooking(id));
+    dispatch(successAction(BOOKING_AMEND, {}));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_AMEND, e, `There was a problem releasing holds on booking '${id}'.`));
+  }
+};
+
+export const reviewBooking = (id, data) => async dispatch => {
+  dispatch(genericAction(BOOKING_REVIEW, { id, data }));
+
+  try {
+    await client.reviewBooking(id, { data: { attributes: data } });
+
+    dispatch(fetchBooking(id));
+    dispatch(successAction(BOOKING_REVIEW, {}));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_AMEND, e, `There was a problem releasing holds on booking '${id}'.`));
+  }
 };

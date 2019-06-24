@@ -19,7 +19,12 @@ export const palette = Object.freeze({
   light: getColor('gold-light'),
   selected: getColor('aqua'),
 
-  warning: undefined,
+  cancelled: getColor('gray-neutral'),
+  confirmed: getColor('green'),
+  requested: getColor('yellow'),
+  pending: getColor('gray-faded'),
+
+  warning: getColor('yellow'),
   error: 'red',
   ok: 'green',
 

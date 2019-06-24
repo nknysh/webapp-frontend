@@ -195,7 +195,7 @@ const renderForm = (
                 {holdOnly ? t('buttons.takeHold') : t('buttons.addHold', { count: length(prop('breakdown', holds)) })}
               </SummaryFormButton>
             ))}
-          {((!summaryOnly && canEdit) || (showHolds && showBookNow && !holdOnly)) && (
+          {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && showBookNow && (
             <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
               {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
             </SummaryFormButton>
@@ -206,11 +206,11 @@ const renderForm = (
   </Form>
 );
 
-const renderEditGuard = (t, { setShowEditGuard, showEditGuard, onEditGuardAccepted }) =>
+const renderEditGuard = (t, { setShowEditGuard, editGuardContent, showEditGuard, onEditGuardAccepted }) =>
   showEditGuard && (
     <Modal open={showEditGuard} onClose={() => setShowEditGuard(false)}>
       <EditGuard>
-        <Markdown>{t('content.editGuard')}</Markdown>
+        <Markdown>{editGuardContent || t('content.editGuard')}</Markdown>
         <SummaryFormButton onClick={onEditGuardAccepted}>{t('buttons.accept')}</SummaryFormButton>
       </EditGuard>
     </Modal>
@@ -342,6 +342,7 @@ export const SummaryForm = ({
   confirm,
   holdOnly,
   showBookNow,
+  editGuardContent,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -487,7 +488,7 @@ export const SummaryForm = ({
           setModalId,
           onModalClose,
         })}
-      {renderEditGuard(t, { setShowEditGuard, showEditGuard, onEditGuardAccepted })}
+      {renderEditGuard(t, { editGuardContent, setShowEditGuard, showEditGuard, onEditGuardAccepted })}
       {renderHoldModal(t, { holdModalContext, holdModalOpen, onHoldModalClose, onHoldRelease, onHoldConfirm, id })}
       {renderConfirmModal(t, {
         confirmModalOpen,
