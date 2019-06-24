@@ -34,6 +34,11 @@ export const Title = styled.h3`
 
 export const Section = styled.div`
   padding: ${theme.gutter * 3}px 0;
+  border-bottom: 1px solid ${theme.borders.default};
+
+  :last-child {
+    border-bottom: 0;
+  }
 `;
 
 export const Total = styled.p`
@@ -48,6 +53,13 @@ export const Total = styled.p`
     line-height: 20px;
     padding: 0;
     margin: 0 0 ${theme.gutter * 2.5}px;
+
+    ${({ ['data-secondary']: secondary }) =>
+      secondary &&
+      css`
+        color: ${theme.light};
+        text-decoration: line-through;
+      `} 
 `;
 
 export const Text = styled.p`

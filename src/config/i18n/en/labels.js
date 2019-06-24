@@ -18,7 +18,7 @@ export default {
   noRooms: 'No rooms available',
   hotelDetails: 'Hotel Details',
   yourSelection: 'Your Selection',
-  totalNet: 'Total net cost to you',
+  totalNet: 'Total net cost',
   returnTransfers: 'Return transfers',
   groundService: 'Ground service',
   addOns: 'Addons',
@@ -104,4 +104,9 @@ export default {
   requested: 'Requested',
   confirmed: 'Confirmed',
   cancelled: 'Cancelled',
+
+  overrideTotal: 'Override Total',
+  bookingComments: 'Booking comments',
+  internalComments: 'Internal comments',
+  cancelBooking: 'Cancel Booking',
 };

@@ -11,14 +11,22 @@ import {
   reviewBooking,
   cancelBooking,
 } from 'store/modules/bookings/actions';
-import { getBooking, getBookingStatus, getBookingCreatedByValue } from 'store/modules/bookings/selectors';
+import {
+  getBooking,
+  getBookingStatus,
+  getBookingCreatedByValue,
+  getBookingCreated,
+  getBookingHolds,
+} from 'store/modules/bookings/selectors';
 import { isSR } from 'store/modules/auth/selectors';
 
 export const mapStateToProps = (state, { id }) => ({
   isSr: isSR(state),
   booking: getBooking(state, id),
+  holds: getBookingHolds(state, id),
   bookingStatus: getBookingStatus(state),
   created: getBookingCreatedByValue(state, id),
+  amended: getBookingCreated(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({
