@@ -11,6 +11,8 @@ import bookingConfirmedHold from './md/booking-confirmed--hold.md';
 
 import editGuard from './md/edit-guard.md';
 import amendBooking from './md/booking-amend.md';
+import cancelBooking from './md/booking-cancel.md';
+import requestBooking from './md/booking-request.md';
 
 import holdConfirm from './md/hold-confirm.md';
 import holdRelease from './md/hold-release.md';
@@ -24,6 +26,8 @@ export default {
   holdRelease,
   searchRequired,
   booking: {
+    cancel: cancelBooking,
+    request: requestBooking,
     default: booking,
     onRequest: bookingOnRequest,
     cc: bookingCC,

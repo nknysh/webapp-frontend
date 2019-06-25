@@ -13,3 +13,4 @@ export { default as SearchFilters } from './SearchFilters';
 export { default as SummaryFormMargin } from './SummaryFormMargin';
 export { default as Status } from './Status';
 export { default as TableDataStatus } from './TableDataStatus';
+export { default as BookingConfirmationForm } from './BookingConfirmationForm';
