@@ -90,6 +90,9 @@ const getHotelName = path(['breakdown', 'hotel', 'name']);
 const dateEvolve = evolve({
   endDate: partialRight(addDays, [1]),
 });
+const reviewEvolve = evolve({
+  overrideTotal: String,
+});
 
 const omitProps = [
   'canBeBooked',
@@ -568,11 +571,11 @@ export const reviewBooking = (id, data) => async dispatch => {
   dispatch(genericAction(BOOKING_REVIEW, { id, data }));
 
   try {
-    await client.reviewBooking(id, { data: { attributes: data } });
+    await client.reviewBooking(id, { data: { attributes: reviewEvolve(data) } });
 
     dispatch(fetchBooking(id));
     dispatch(successAction(BOOKING_REVIEW, {}));
   } catch (e) {
-    dispatch(errorFromResponse(BOOKING_AMEND, e, `There was a problem releasing holds on booking '${id}'.`));
+    dispatch(errorFromResponse(BOOKING_AMEND, e, `There was a problem updating booking '${id}'. Please try again.`));
   }
 };

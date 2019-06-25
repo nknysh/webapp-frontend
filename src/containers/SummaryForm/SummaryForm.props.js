@@ -27,6 +27,12 @@ export const propTypes = {
   total: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   showBookNow: PropTypes.bool,
   editGuardContent: PropTypes.any,
+  showReleaseHolds: PropTypes.bool,
+  releaseHoldLabel: PropTypes.bool,
+  showAddHolds: PropTypes.bool,
+  addHoldLabel: PropTypes.bool,
+  showOriginalTotal: PropTypes.bool,
+  showFullTotal: PropTypes.bool,
 };
 
 export const defaultProps = {
@@ -49,4 +55,7 @@ export const defaultProps = {
   onReleaseHolds: noop,
   onAddHolds: noop,
   showBookNow: true,
+  showAddHolds: false,
+  showReleaseHolds: false,
+  showOriginalTotal: false,
 };

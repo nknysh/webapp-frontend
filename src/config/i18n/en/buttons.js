@@ -29,4 +29,8 @@ export default {
   addHold_plural: 'Add Holds',
   takeHold: 'Take hold',
   confirmAndRelease: 'Confirm and release',
+  refreshHold: 'Refresh hold',
+  bookingConfirm: 'Confirm booking',
+  cancelBooking: 'Cancel Booking',
+  requestBooking: 'Request Booking',
 };

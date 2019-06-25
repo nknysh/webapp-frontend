@@ -61,10 +61,24 @@ const getSingleValue = (type, data) =>
     propOr('', 'uuid')
   )(data);
 
-const renderHotel = (t, { name, total, compact }) => (
+const renderTotalPrice = (t, { isOnRequest, total, secondary }) => (
+  <Total data-request={isOnRequest} data-secondary={secondary}>
+    {isOnRequest ? t('labels.onRequest') : total}
+  </Total>
+);
+
+const renderHotel = (t, { name, total, compact, showOriginalTotal, overrideTotal, isOnRequest, showFullTotal }) => (
   <Hotel data-compact={compact}>
     <HotelName>{name}</HotelName>
-    {compact && <Total>{total}</Total>}
+    {!showFullTotal && compact && (
+      <Fragment>
+        {renderTotalPrice(t, { isOnRequest, total: overrideTotal || total })}
+        {showOriginalTotal &&
+          overrideTotal &&
+          !isOnRequest &&
+          renderTotalPrice(t, { isOnRequest, total, secondary: true })}
+      </Fragment>
+    )}
   </Hotel>
 );
 
@@ -123,12 +137,16 @@ const renderRoomEditModal = (
   );
 };
 
-const renderTotal = (t, { compact, isOnRequest, total, saving }) =>
-  !compact && (
+const renderTotal = (t, { compact, isOnRequest, total, saving, overrideTotal, showOriginalTotal, showFullTotal }) =>
+  (!compact || showFullTotal) && (
     <Fragment>
       <Title>{t('labels.totalNet')}</Title>
       <Section>
-        <Total data-request={isOnRequest}>{isOnRequest ? t('labels.onRequest') : total}</Total>
+        {showOriginalTotal &&
+          overrideTotal &&
+          !isOnRequest &&
+          renderTotalPrice(t, { isOnRequest, total, secondary: true })}
+        {renderTotalPrice(t, { isOnRequest, total: overrideTotal || total })}
         {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
         {saving && !isOnRequest && (
           <Text>
@@ -144,25 +162,29 @@ const renderTotal = (t, { compact, isOnRequest, total, saving }) =>
 const renderForm = (
   t,
   {
+    addHoldLabel,
+    booking,
     bookLabel,
     canBook,
     canEdit,
+    children,
     compact,
     editGuard,
     errors,
+    holdOnly,
     holds,
     id,
     initialValues,
     isOnRequest,
     onEditGuard,
-    onSubmit,
-    summaryOnly,
-    children,
-    booking,
-    showHolds,
     onHoldModalInit,
-    holdOnly,
+    onSubmit,
+    releaseHoldLabel,
+    showAddHolds,
     showBookNow,
+    showHolds,
+    showReleaseHolds,
+    summaryOnly,
   }
 ) => (
   <Form initialValues={initialValues} onSubmit={onSubmit && partial(onSubmit, [id])} enableReinitialize={true}>
@@ -182,19 +204,21 @@ const renderForm = (
         <SummaryFormActions>
           {showHolds &&
             (holdOnly || holds) &&
-            (prop('hasFullHolds', holds) ? (
+            ((prop('hasFullHolds', holds) || showReleaseHolds) && (
               <SummaryFormButton type="button" onClick={() => onHoldModalInit('release')} data-secondary>
-                {t('buttons.releaseHold', { count: length(prop('breakdown', holds)) })}
-              </SummaryFormButton>
-            ) : (
-              <SummaryFormButton
-                disabled={!(holdOnly || prop('canHold', holds))}
-                onClick={() => onHoldModalInit('add')}
-                type="button"
-              >
-                {holdOnly ? t('buttons.takeHold') : t('buttons.addHold', { count: length(prop('breakdown', holds)) })}
+                {releaseHoldLabel || t('buttons.releaseHold', { count: length(prop('breakdown', holds)) })}
               </SummaryFormButton>
             ))}
+          {((showHolds && !prop('hasFullHolds', holds)) || showAddHolds) && (
+            <SummaryFormButton
+              disabled={!(holdOnly || prop('canHold', holds) || showAddHolds)}
+              onClick={() => onHoldModalInit('add')}
+              type="button"
+            >
+              {addHoldLabel ||
+                (holdOnly ? t('buttons.takeHold') : t('buttons.addHold', { count: length(prop('breakdown', holds)) }))}
+            </SummaryFormButton>
+          )}
           {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && showBookNow && (
             <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
               {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
@@ -343,10 +367,20 @@ export const SummaryForm = ({
   holdOnly,
   showBookNow,
   editGuardContent,
+  showOriginalTotal,
+  showFullTotal,
   ...props
 }) => {
   const { t } = useTranslation();
-  const { marginApplied, taMarginAmount, taMarginType, hotelUuid, hotelName: name, status: bookingStatus } = booking;
+  const {
+    marginApplied,
+    taMarginAmount,
+    taMarginType,
+    hotelUuid,
+    hotelName: name,
+    status: bookingStatus,
+    overrideTotal,
+  } = booking;
 
   const initialValues = {
     marginApplied,
@@ -437,11 +471,12 @@ export const SummaryForm = ({
           onEditGuard,
           saving,
           summaryOnly,
-          taMarginAmount,
-          taMarginType,
           total,
+          overrideTotal,
+          showFullTotal,
+          showOriginalTotal,
         })}
-        {renderHotel(t, { name, total, compact })}
+        {renderHotel(t, { name, total, compact, showOriginalTotal, overrideTotal, isOnRequest, showFullTotal })}
         <Rooms data-summary={summaryOnly} data-compact={compact}>
           {renderRooms(t, booking, {
             editGuard,

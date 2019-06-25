@@ -15,17 +15,20 @@ import {
   propEq,
   values,
   partial,
+  path,
+  anyPass,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { Loader, Breadcrumbs, Tabs, Section, DropDownMenu } from 'components';
-import { useFetchData, useCurrentWidth } from 'effects';
+import { Loader, Breadcrumbs, Tabs, Section, DropDownMenu, Modal, BookingConfirmationForm, Markdown } from 'components';
+import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 import { isMobile, formatDate } from 'utils';
 
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
 import SummaryForm from 'containers/SummaryForm';
+import { Button } from 'styles/elements';
 
 import connect from './BookingContainer.state';
 import { propTypes, defaultProps } from './BookingContainer.props';
@@ -48,12 +51,16 @@ import {
   StatusStripStatus,
   StyledBookingContainer,
   Tag,
+  ModalContent,
+  ModalTitle,
 } from './BookingContainer.styles';
 
 const isPotential = equals(BookingStatusTypes.POTENTIAL);
 const isRequested = equals(BookingStatusTypes.REQUESTED);
 const isConfirmed = equals(BookingStatusTypes.CONFIRMED);
 const isCancelled = equals(BookingStatusTypes.CANCELLED);
+
+const isCancelledOrConfirmed = anyPass([isConfirmed, isCancelled]);
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search' });
@@ -155,7 +162,7 @@ const renderFlightInfo = (t, { booking }) => {
   );
 };
 
-const renderGuestDetails = (t, { booking }) => (
+const renderGuestDetails = (t, { booking, isSr }) => (
   <GuestDetails>
     <Section label={t('labels.leadGuestInfo')}>
       <GuestName>{join(' ', props(['guestTitle', 'guestFirstName', 'guestLastName'], booking))}</GuestName>
@@ -163,34 +170,44 @@ const renderGuestDetails = (t, { booking }) => (
     </Section>
     <Section label={t('labels.flightInformation')}>{renderFlightInfo(t, { booking })}</Section>
     {!fieldIsEmpty('comments', booking) && <Section label={t('comment_plural')}>{prop('comments', booking)}</Section>}
+    {!fieldIsEmpty('bookingComments', booking) && (
+      <Section label={t('labels.bookingComments')}>{prop('bookingComments', booking)}</Section>
+    )}
+    {isSr && !fieldIsEmpty('internalComments', booking) && (
+      <Section label={t('labels.internalComments')}>{prop('internalComments', booking)}</Section>
+    )}
   </GuestDetails>
 );
 
-const renderDetails = (t, { booking, onStatusChange, isSr }) => (
+const renderDetails = (t, { booking, onStatusChange, isSr, mobileView }) => (
   <BookingContent>
-    {!isSr && renderStatusStrip(t, { onStatusChange, booking })}
-    {renderGuestDetails(t, { booking })}
+    {isSr && mobileView && renderStatusStrip(t, { onStatusChange, booking, isSr })}
+    {renderGuestDetails(t, { isSr, booking })}
   </BookingContent>
 );
 
 const renderSummary = (
   t,
-  { id, canEdit, isSr, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds, onEditGuard }
+  { id, booking, canEdit, isSr, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds, onEditGuard, holds }
 ) => (
   <SummaryForm
-    editGuardContent={t('content.amendBooking')}
+    addHoldLabel={isSr && prop('hasFullHolds', holds) && t('buttons.refreshHold')}
     bookLabel={canEdit && t('buttons.amendBooking')}
-    onGuardEditComplete={isSr && onEditGuard}
-    id={id}
-    summaryOnly={!isSr}
-    compact={isSr}
-    showHolds={isDetails && !canEdit}
-    showBookNow={canEdit || (isDetails && isPotential)}
-    onSubmit={onSubmit}
     canEdit={isSr}
+    compact={isSr}
     confirm={isPotential}
+    editGuardContent={t('content.amendBooking')}
+    id={id}
     onAddHolds={onAddHolds}
+    onGuardEditComplete={isSr && onEditGuard}
     onReleaseHolds={onReleaseHolds}
+    onSubmit={onSubmit}
+    showAddHolds={isSr && !isCancelledOrConfirmed(prop('status', booking))}
+    showBookNow={canEdit || (isDetails && !isSr && isPotential)}
+    showFullTotal={true}
+    showHolds={isDetails && !canEdit && !isCancelledOrConfirmed(prop('status', booking))}
+    showOriginalTotal={isSr}
+    summaryOnly={!isSr}
   />
 );
 
@@ -219,6 +236,59 @@ const renderFull = (t, { children, isSr, isDetails, ...props }) => (
   </Fragment>
 );
 
+const renderBookingRequest = (t, { status, onModalSubmit }) => (
+  <Fragment>
+    <Markdown>{t('content.booking.request')}</Markdown>
+    <Button onClick={() => onModalSubmit({ status })}>{t('buttons.requestBooking')}</Button>
+  </Fragment>
+);
+
+const renderBookingConfirm = (t, { booking, status, onModalSubmit }) => (
+  <BookingConfirmationForm
+    onRequest={path(['breakdown', 'totals', 'oneOrMoreItemsOnRequest'], booking)}
+    onSubmit={onModalSubmit}
+    initialValues={{ status }}
+  />
+);
+
+const renderBookingCancel = (t, { status, onModalSubmit }) => (
+  <Fragment>
+    <Markdown>{t('content.booking.cancel')}</Markdown>
+    <Button onClick={() => onModalSubmit({ status })}>{t('buttons.cancelBooking')}</Button>
+  </Fragment>
+);
+
+const renderModal = (t, { booking, modalOpen, modalContext, isSr, onModalClose, onModalSubmit }) => {
+  if (!isSr || !modalContext) return null;
+
+  const modalContent = {
+    [BookingStatusTypes.REQUESTED]: {
+      title: t('labels.bookingConfirm'),
+      content: renderBookingRequest(t, { booking, status: modalContext, onModalSubmit }),
+    },
+    [BookingStatusTypes.CONFIRMED]: {
+      title: t('labels.bookingConfirm'),
+      content: renderBookingConfirm(t, { booking, status: modalContext, onModalSubmit }),
+    },
+    [BookingStatusTypes.CANCELLED]: {
+      title: t('labels.cancelBooking'),
+      content: renderBookingCancel(t, { booking, status: modalContext, onModalSubmit }),
+    },
+  };
+
+  const modal = prop(modalContext, modalContent);
+
+  return (
+    modal && (
+      <Modal open={modalOpen} onClose={onModalClose}>
+        <ModalContent>
+          <ModalTitle>{prop('title', modal)}</ModalTitle>
+          {prop('content', modal)}
+        </ModalContent>
+      </Modal>
+    )
+  );
+};
 export const BookingContainer = ({
   booking,
   bookingStatus,
@@ -235,54 +305,69 @@ export const BookingContainer = ({
   releaseBooking,
   requestBooking,
   cancelBooking,
+  amended,
+  holds,
 }) => {
   const { t } = useTranslation();
   const loaded = useFetchData(bookingStatus, fetchBooking, [id], [created]);
   const currentWidth = useCurrentWidth();
   const [hasCreated] = useState(created);
   const [canEdit, setCanEdit] = useState(false);
+  const modal = useModalState();
 
+  if (amended) return <Redirect to={`/bookings/${amended}`} />;
   if (hasCreated) clearCreatedBooking(id);
   if (!isDetails && !hasCreated) return <Redirect to={`/bookings/${id}`} />;
 
   const { status } = booking;
-
+  const { setModalContext, onModalOpen, onModalClose } = modal;
   const isPotential = equals('potential', status);
+  const mobileView = isMobile(currentWidth);
 
   const onSubmit = () => {
+    setCanEdit(false);
     if (!canEdit) return requestBooking(id);
 
     if (isSr) {
       completeBooking(id);
       cancelBooking(id);
-      window.location.replace(`${ADMIN_BASE_URL}/bookings`);
       return;
     }
   };
   const onAddHolds = () => holdBooking(id);
   const onReleaseHolds = () => releaseBooking(id);
   const onEditGuard = () => setCanEdit(true);
-  const onStatusChange = status => reviewBooking(id, { status });
+  const onStatusChange = status => {
+    setModalContext(status);
+    onModalOpen();
+  };
+  const onModalSubmit = values => {
+    onModalClose();
+    reviewBooking(id, values);
+  };
 
   const defaultProps = {
-    id,
-    onEditGuard,
+    booking,
     canEdit,
     children,
-    isSr,
+    holds,
+    id,
     isDetails,
     isPotential,
-    onSubmit,
+    isSr,
+    mobileView,
     onAddHolds,
+    onEditGuard,
     onReleaseHolds,
-    booking,
     onStatusChange,
+    onSubmit,
   };
 
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingBooking')}>
       <StyledBookingContainer>
-        <Booking>{isMobile(currentWidth) ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}</Booking>
+        <Booking>{mobileView ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}</Booking>
+        {renderModal(t, { isSr, onModalSubmit, booking, ...modal })}
       </StyledBookingContainer>
     </Loader>
   );

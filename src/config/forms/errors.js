@@ -11,4 +11,5 @@ export default {
   minGuests: 'Must have minimum ${min}',
   maxGuests: 'Cannot exceed ${max}',
   bookingValid: 'Cannot proceed, please check your selections',
+  decimalPlaces: 'Cannot be more than 2 decimal places',
 };

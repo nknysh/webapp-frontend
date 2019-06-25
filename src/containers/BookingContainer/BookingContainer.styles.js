@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { Container } from 'styles/elements';
+import { Heading2 } from 'styles/typography';
 
 import { Status } from 'components';
 
@@ -182,4 +183,22 @@ export const Tag = styled.p`
     top: ${theme.gutter}px;
     position: relative;
   }
+`;
+
+export const ModalTitle = styled(Heading2)`
+  color: ${theme.secondary};
+  font-size: ${theme.fonts.sizes.bigger}px;
+  font-weight: 500;
+  letter-spacing: ${theme.fonts.letterSpacing.medium}px;
+  line-height: 29px;
+`;
+
+export const ModalContent = styled.div`
+  margin: ${theme.gutter * 6}px ${theme.gutter}px;
+
+  ${breakpoints.tablet`
+    margin-right: ${theme.gutter * 6}px;
+    margin-left: ${theme.gutter * 6}px;
+    min-width: 600px;
+  `}
 `;
