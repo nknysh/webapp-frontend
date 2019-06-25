@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { map, isEmpty } from 'ramda';
-import hash from 'object-hash';
+import { isEmpty } from 'ramda';
 
 import theme from 'styles/theme';
 import { useCurrentWidth } from 'effects';
+import { mapWithIndex } from 'utils';
 
 import { propTypes, defaultProps } from './Sidebar.props';
 import { StyledSidebar, SidebarTitle, SidebarLinks, SidebarLink, SidebarChildren, SidebarIcon } from './Sidebar.styles';
@@ -29,13 +29,13 @@ export const Sidebar = ({ title, links, isOpen: isOpenProp, children, ...props }
       </SidebarTitle>
     );
 
-  const renderLink = link => (
-    <SidebarLink key={hash(link)} onClick={onClick}>
+  const renderLink = (link, i) => (
+    <SidebarLink key={i} onClick={onClick}>
       {link}
     </SidebarLink>
   );
 
-  const renderLinks = () => hasLinks && <SidebarLinks isOpen={isOpen}>{map(renderLink, links)}</SidebarLinks>;
+  const renderLinks = () => hasLinks && <SidebarLinks isOpen={isOpen}>{mapWithIndex(renderLink, links)}</SidebarLinks>;
 
   const renderChildren = () =>
     children && (

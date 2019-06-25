@@ -31,6 +31,7 @@ import {
   toPairs,
   pickBy,
   pipe,
+  dissocPath,
   uniq,
   prop,
   evolve,
@@ -51,6 +52,7 @@ import {
   when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
+import { addDays } from 'date-fns';
 
 import client from 'api/bookings';
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
@@ -59,10 +61,10 @@ import { formatDate, mapWithIndex } from 'utils';
 import { successAction, errorFromResponse, genericAction } from 'store/common';
 import { getSearchDates, getSearchLodgings, getSearchMealPlan } from 'store/modules/search/selectors';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
+import { USERS_FETCH } from 'store/modules/users/actions';
 
 import { getBooking, getBookingForBuilder, getBookingMealPlanForRoomByType, getBookingsCreated } from './selectors';
 import { addFinalDayToBooking } from './utils';
-import { addDays } from 'date-fns';
 
 export const BOOKING_AMEND = 'BOOKING_AMEND';
 export const BOOKING_CANCEL = 'BOOKING_CANCEL';
@@ -84,6 +86,7 @@ export const BOOKING_ROOM_UPDATE = 'BOOKING_ROOM_UPDATE';
 export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
+export const BOOKINGS_FETCH = 'BOOKINGS_FETCH';
 
 const ignoreCall = anyPass([has('marginApplied'), has('taMarginType'), has('taMarginAmount')]);
 const getHotelName = path(['breakdown', 'hotel', 'name']);
@@ -574,5 +577,36 @@ export const reviewBooking = (id, data) => async dispatch => {
     dispatch(successAction(BOOKING_REVIEW, {}));
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_AMEND, e, `There was a problem releasing holds on booking '${id}'.`));
+  }
+};
+
+export const fetchBookings = params => async dispatch => {
+  dispatch(genericAction(BOOKINGS_FETCH, {}));
+
+  try {
+    const {
+      data: { data },
+    } = await client.getBookings(params);
+
+    const bookings = over(
+      lensPath(['entities', 'bookings']),
+      map(
+        pipe(
+          over(lensPath(['breakdown', 'requestedBuild']), dateEvolve),
+          over(lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]), map(dateEvolve))
+        )
+      ),
+      data
+    );
+
+    const users = pipe(
+      dissocPath(['entities', 'bookings']),
+      dissocPath(['result'])
+    )(bookings);
+
+    await dispatch(successAction(USERS_FETCH, users));
+    dispatch(successAction(BOOKINGS_FETCH, path(['entities', 'bookings'], bookings)));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKINGS_FETCH, e, 'There was a problem fetching bookings.'));
   }
 };

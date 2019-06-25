@@ -17,6 +17,7 @@ import {
   BOOKINGS_SET,
   BOOKING_CREATED_REMOVE,
   BOOKING_REQUEST,
+  BOOKINGS_FETCH,
 } from './actions';
 
 const bookingReset = (state, { payload: { id } }) => ({
@@ -65,6 +66,7 @@ export default createReducer(
     [BOOKING_SUBMIT]: sendingReducer,
     [BOOKING_UPDATE]: loadingReducer,
     [BOOKINGS_SET]: loadingReducer,
+    [BOOKINGS_FETCH]: loadingReducer,
 
     [getErrorActionName(BOOKING_CHECKS)]: errorReducer,
     [getErrorActionName(BOOKING_FETCH)]: errorReducer,
@@ -74,6 +76,7 @@ export default createReducer(
     [getErrorActionName(BOOKING_REQUEST)]: errorReducer,
     [getErrorActionName(BOOKING_SUBMIT)]: errorReducer,
     [getErrorActionName(BOOKING_UPDATE)]: errorReducer,
+    [getErrorActionName(BOOKINGS_FETCH)]: errorReducer,
 
     [getSuccessActionName(BOOKING_CHECKS)]: successReducer,
     [getSuccessActionName(BOOKING_CREATED_REMOVE)]: removeCreatedBooking,
@@ -86,6 +89,7 @@ export default createReducer(
     [getSuccessActionName(BOOKING_SUBMIT)]: bookingComplete,
     [getSuccessActionName(BOOKING_UPDATE)]: successReducer,
     [getSuccessActionName(BOOKINGS_SET)]: successReducer,
+    [getSuccessActionName(BOOKINGS_FETCH)]: successReducer,
   },
   initialState
 );

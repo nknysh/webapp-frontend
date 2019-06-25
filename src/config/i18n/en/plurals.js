@@ -57,4 +57,7 @@ export default {
 
   travelAgent: 'Travel agent',
   travelAgent_plural: 'Travel agents',
+
+  hotel: 'Hotel',
+  hotel_plural: 'Hotels',
 };
