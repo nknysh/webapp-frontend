@@ -1,4 +1,8 @@
+import { BookingStatusTypes } from 'config/enums';
+
 export default {
+  dashboard: 'Dashboard',
+
   search: 'Destination or resort',
   dates: 'Dates',
   lodging: 'Lodging',
@@ -105,6 +109,19 @@ export default {
   confirmed: 'Confirmed',
   cancelled: 'Cancelled',
 
+  latestTa: {
+    [BookingStatusTypes.POTENTIAL]: "Latest TA's Potential Bookings",
+    [BookingStatusTypes.REQUESTED]: "Latest TA's Requested Bookings",
+    [BookingStatusTypes.CONFIRMED]: "Latest TA's Confirmed Bookings",
+    [BookingStatusTypes.CANCELLED]: "Latest TA's Cancelled Bookings",
+  },
+
+  details: 'Details',
+  uuid: 'UUID',
+  status: 'Status',
+
+  latestTaBookings: 'Latest TA Bookings',
+  viewAllBookings: 'View all bookings',
   overrideTotal: 'Override Total',
   bookingComments: 'Booking comments',
   internalComments: 'Internal comments',

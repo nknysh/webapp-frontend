@@ -31,3 +31,6 @@ export { default as Video } from './Video';
 export { default as Section } from './Section';
 export { default as ContextMenu } from './ContextMenu';
 export { default as Countdown } from './Countdown';
+export { default as Table } from './Table';
+export { default as TableData } from './TableData';
+export { default as TableShowButton } from './TableShowButton';

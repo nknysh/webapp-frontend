@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import { DashboardContainer } from 'containers';
 import { Container, SearchArea, SearchBar } from './Dashboard.styles';
 
 export const Dashboard = () => (
@@ -9,9 +10,7 @@ export const Dashboard = () => (
         <SearchBar />
       </Container>
     </SearchArea>
-    <Container>
-      <h1>Dashboard</h1>
-    </Container>
+    <DashboardContainer />
   </Fragment>
 );
 

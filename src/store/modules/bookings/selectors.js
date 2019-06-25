@@ -31,8 +31,10 @@ import {
   tap,
   uniq,
   values,
+  groupBy,
   equals,
   when,
+  partial,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
@@ -44,6 +46,7 @@ import { formatPrice, formatDate, toDate } from 'utils';
 
 import { getSearchDates } from 'store/modules/search/selectors';
 import { isSR } from 'store/modules/auth/selectors';
+import { getUser } from 'store/modules/users/selectors';
 
 import { getArg, getStatus, getData } from 'store/common';
 
@@ -518,4 +521,15 @@ export const getBookingReady = createSelector(
 
     return !mustStop && canBeBooked && hasTravelAgent;
   }
+);
+
+export const getBookingsForDashboard = createSelector(
+  [getArg(0), getBookingData],
+  (state, bookings) =>
+    pipe(
+      defaultTo({}),
+      mapObjIndexed(over(lensProp('travelAgentUserUuid'), partial(getUser, [state]))),
+      values,
+      groupBy(prop('status'))
+    )(bookings)
 );

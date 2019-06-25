@@ -20,6 +20,8 @@ export const releaseBooking = (id, body, params) => client.delete(`/bookings/${i
 
 export const requestBooking = (id, body, params) => client.post(`/bookings/${id}/request`, body, { params });
 
+export const getBookings = params => client.get(`/bookings`, { params });
+
 export default {
   amendBooking,
   bookingBuilder,
@@ -27,6 +29,7 @@ export default {
   createBooking,
   getBooking,
   getBookingHolds,
+  getBookings,
   holdBooking,
   releaseBooking,
   requestBooking,

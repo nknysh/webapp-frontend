@@ -46,10 +46,13 @@ export const Link = styled.a`
 `;
 
 export const Container = styled.div`
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
 
-  ${breakpoints.tablet`width: ${theme.breakpoints.desktop}px`}
+  ${breakpoints.tablet`
+    max-width: 100%;
+    margin: 0 auto;
+    width: ${theme.breakpoints.desktop}px
+  `}
 `;
 
 export const inputStyles = css`
