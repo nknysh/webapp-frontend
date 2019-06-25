@@ -59,6 +59,5 @@ export const DashboardContainer = ({ bookingsStatus, fetchBookings, bookings }) 
 
 DashboardContainer.propTypes = propTypes;
 DashboardContainer.defaultProps = defaultProps;
-DashboardContainer.whyDidYouRender = defaultProps;
 
 export default compose(connect)(DashboardContainer);
