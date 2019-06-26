@@ -48,7 +48,7 @@ export const getOptionsFromRates = rates => {
 
 export const getAgeRanges = map(
   pipe(
-    path(['product', 'options', 'ages']),
+    pathOr([], ['product', 'options', 'ages']),
     reverse,
     reduce((accum, { name, ...ages }) => ({ ...accum, [name]: ages }), {})
   )
