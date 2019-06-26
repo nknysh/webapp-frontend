@@ -48,7 +48,15 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
   />
 );
 
-export const LoginForm = ({ requestStatus, isAuthenticated, location: { search }, history, onLogin, error }) => {
+export const LoginForm = ({
+  requestStatus,
+  isAuthenticated,
+  location: { search },
+  history,
+  onLogin,
+  error,
+  onComplete,
+}) => {
   const { t } = useTranslation();
 
   const [submitted, setSubmitted] = useState(false);
@@ -62,6 +70,7 @@ export const LoginForm = ({ requestStatus, isAuthenticated, location: { search }
     setSubmitted(true);
     setFormValues(values);
     onLogin(sanitizeValues(values));
+    onComplete();
   };
 
   const renderForm = () => (

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { compose, lensProp, set, view, pipe, values, path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import headerLinks from 'config/links/header';
 
 import { Modal } from 'components';
-import { useModalState } from 'effects';
+import { useModalState, useEffectBoundary } from 'effects';
 import { withAuthentication } from 'hoc';
 
 import CreateAccountForm from 'containers/CreateAccountForm';
@@ -29,12 +29,17 @@ import {
 const createLinkLens = lensProp('createAccount');
 const loginLinkLens = lensProp(contextTypes.LOGIN);
 
-export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
+export const Header = ({ menu, className, currentPath, isAuthenticated, location: { pathname } }) => {
   const { t } = useTranslation();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalContext, setModalContext] = useState('');
   const { modalOpen, onModalOpen, onModalClose } = useModalState(false);
+
+  useEffectBoundary(() => {
+    onModalClose();
+    setMenuOpen(false);
+  }, [pathname]);
 
   const loggedOutMenuLinks = prop('loggedOut', headerLinks);
 
@@ -46,11 +51,13 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   };
 
   const onCreateClick = () => {
+    setMenuOpen(false);
     setModalContext(contextTypes.SIGN_UP);
     onModalOpen();
   };
 
   const onLoginClick = () => {
+    setMenuOpen(false);
     setModalContext(contextTypes.LOGIN);
     onModalOpen();
   };
@@ -77,10 +84,18 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
 
   const headerMenuProps = {
     isOpen: menuOpen,
-    onLinkClick: onModalClose,
+    onLinkClick: () => {
+      onModalClose();
+      setMenuOpen(false);
+    },
     currentPath: currentPath,
     align: 'end',
     links: isAuthenticated ? menu : loggedOutMenu,
+  };
+
+  const onFormComplete = () => {
+    onModalClose();
+    setMenuOpen(false);
   };
 
   const shouldRedirectHome = isAuthenticated && currentPath === path(['createAccount', 'href'], loggedOutMenuLinks);
@@ -101,8 +116,8 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
 
       {!isAuthenticated && (
         <Modal open={modalOpen} onClose={onClose}>
-          {modalContext === contextTypes.SIGN_UP && <CreateAccountForm />}
-          {modalContext === contextTypes.LOGIN && <LoginForm />}
+          {modalContext === contextTypes.SIGN_UP && <CreateAccountForm onComplete={onFormComplete} />}
+          {modalContext === contextTypes.LOGIN && <LoginForm onComplete={onFormComplete} />}
         </Modal>
       )}
     </StyledHeader>
@@ -113,6 +128,7 @@ Header.propTypes = propTypes;
 Header.defaultProps = defaultProps;
 
 export default compose(
+  withRouter,
   withAuthentication,
   connect
 )(Header);

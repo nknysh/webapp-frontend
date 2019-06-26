@@ -22,7 +22,7 @@ export const TableData = ({ record, source }) => {
 
 TableData.propTypes = {
   record: PropTypes.object,
-  source: PropTypes.string,
+  source: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };
 TableData.defaultProps = {};
 
