@@ -4,7 +4,7 @@ export default {
   amend: 'Amend',
   amendBooking: 'Amend Booking',
   bookAndPay: 'Book & Pay',
-  bookNow: 'Book now',
+  bookNow: 'Request to book',
   bookOnRequest: 'Book on Request',
   edit: 'Edit',
   finalizeAndPay: 'Finalize & Pay',

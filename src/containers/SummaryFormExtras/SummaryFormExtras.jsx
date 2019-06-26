@@ -59,6 +59,7 @@ import {
   TravelAgent,
   TravelAgentName,
   Clear,
+  Description,
 } from './SummaryFormExtras.styles';
 
 const hasDirection = hasPath(['meta', 'direction']);
@@ -231,7 +232,7 @@ const renderMargin = (
     </ExtraSummary>
   ) : (
     <Extra>
-      <Title>{t('labels.addCommission')}</Title>
+      <Title>{t('labels.commission')}</Title>
       <SummaryFormMargin
         checked={propOr(true, 'marginApplied', values)}
         onChange={onMarginChange}
@@ -242,6 +243,7 @@ const renderMargin = (
         type={propOr('percentage', 'taMarginType', values)}
         value={propOr(0, 'taMarginAmount', values)}
       />
+      <Description>{t('labels.addCommission')}</Description>
     </Extra>
   );
 };

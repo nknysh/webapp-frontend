@@ -106,3 +106,10 @@ export const Clear = styled(Icon)`
   color: ${theme.error};
   flex: 0 0 auto;
 `;
+
+export const Description = styled.p`
+  font-size: ${theme.fonts.sizes.default}px;
+  text-transform: uppercase;
+  color: ${theme.secondary};
+  line-height: 1.5;
+`;
