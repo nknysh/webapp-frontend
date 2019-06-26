@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { compose, lensProp, set, view, pipe, values, path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import headerLinks from 'config/links/header';
 
 import { Modal } from 'components';
-import { useModalState, useEffectBoundary } from 'effects';
+import { useModalState } from 'effects';
 import { withAuthentication } from 'hoc';
 
 import CreateAccountForm from 'containers/CreateAccountForm';
@@ -29,17 +29,12 @@ import {
 const createLinkLens = lensProp('createAccount');
 const loginLinkLens = lensProp(contextTypes.LOGIN);
 
-export const Header = ({ menu, className, currentPath, isAuthenticated, location: { pathname } }) => {
+export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   const { t } = useTranslation();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalContext, setModalContext] = useState('');
   const { modalOpen, onModalOpen, onModalClose } = useModalState(false);
-
-  useEffectBoundary(() => {
-    onModalClose();
-    setMenuOpen(false);
-  }, [pathname]);
 
   const loggedOutMenuLinks = prop('loggedOut', headerLinks);
 
@@ -128,7 +123,6 @@ Header.propTypes = propTypes;
 Header.defaultProps = defaultProps;
 
 export default compose(
-  withRouter,
   withAuthentication,
   connect
 )(Header);
