@@ -60,7 +60,7 @@ export default {
   payByCCConfirmed: 'Booking Confirmation',
   payByBT: 'Pay by bank transfer',
   payByBTConfirmed: 'Provisional Booking Confirmation',
-  bookingConfirm: 'Confirm booking',
+  bookingConfirm: 'Confirm booking request',
   bookingConfirmed: 'Booking Confirmation',
   bookingConfirmedOnRequest: 'Booking Request Confirmation',
   bookingConfirmOnRequest: 'Confirm Your booking on request',
