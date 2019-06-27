@@ -593,10 +593,19 @@ export const fetchBookings = params => async dispatch => {
 
     const bookings = over(
       lensPath(['entities', 'bookings']),
-      map(
-        pipe(
-          over(lensPath(['breakdown', 'requestedBuild']), dateEvolve),
-          over(lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]), map(dateEvolve))
+      pipe(
+        defaultTo([]),
+        map(
+          pipe(
+            over(lensPath(['breakdown', 'requestedBuild']), dateEvolve),
+            over(
+              lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]),
+              pipe(
+                defaultTo([]),
+                map(dateEvolve)
+              )
+            )
+          )
         )
       ),
       data
@@ -611,5 +620,6 @@ export const fetchBookings = params => async dispatch => {
     dispatch(successAction(BOOKINGS_FETCH, path(['entities', 'bookings'], bookings)));
   } catch (e) {
     dispatch(errorFromResponse(BOOKINGS_FETCH, e, 'There was a problem fetching bookings.'));
+    throw e;
   }
 };
