@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from 'react';
 
 import {
+  always,
   append,
+  both,
+  complement,
   compose,
   equals,
   filter,
@@ -20,6 +23,7 @@ import {
   partial,
   path,
   pipe,
+  prepend,
   prop,
   propEq,
   propOr,
@@ -28,6 +32,7 @@ import {
   split,
   toPairs,
   values as Rvalues,
+  when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
@@ -161,7 +166,8 @@ const renderExtraOptions = (
   type,
   productType,
   products,
-  { onSingleChange, onOneWayChange, summaryOnly, values, compactEdit, onEditClick }
+  { onSingleChange, onOneWayChange, summaryOnly, values, compactEdit, onEditClick },
+  optional = true
 ) => {
   if (summaryOnly || compactEdit) {
     const summaries = reduce(partial(renderOptionSummary, [t]), [], products);
@@ -188,7 +194,11 @@ const renderExtraOptions = (
     return { label, value };
   };
 
-  const options = map(getOption, productsBothWays(products));
+  const options = pipe(
+    productsBothWays,
+    map(getOption),
+    when(both(complement(isEmpty), always(optional)), prepend({ label: 'None', value: '' }))
+  )(products);
 
   return (
     !isNilOrEmpty(options) && (
@@ -197,7 +207,7 @@ const renderExtraOptions = (
         <RadioButton
           name={productType}
           onChange={partial(onSingleChange, [productType])}
-          options={[{ label: 'None', value: '' }, ...options]}
+          options={options}
           value={isString(propOr('', productType, values)) && propOr('', productType, values)}
         />
         {!summaryOnly && renderOneWayProducts(t, productType, productsOneWay(products), { onOneWayChange })}
@@ -497,7 +507,7 @@ export const SummaryFormExtras = ({
 
   return (
     <Fragment>
-      {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps)}
+      {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false)}
       {renderExtraOptions(t, 'groundService', ProductTypes.GROUND_SERVICE, groundServices, optionsProps)}
       {renderExtraSelects(t, 'addon', addons, { summaryOnly, onMultipleChange, values, compactEdit, onEditClick })}
       {renderTASelect(t, {
