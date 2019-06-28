@@ -340,8 +340,10 @@ export const ProposalContainer = ({
     booked && (isSuccess(status) && setBookingComplete(true));
   }, [status]);
 
-  const proposalLocked = isEdit && propOr(false, 'isLocked', proposal);
+  const isLocked = propOr(false, 'isLocked', proposal);
+  const proposalLocked = isEdit && isLocked;
 
+  if (!isLocked && !isEdit) return <Redirect to={`/proposals/${id}/edit`} />;
   if (proposalLocked || (isEdit && complete)) return <Redirect to={`/proposals/${id}`} />;
   if (booked && bookingComplete) return <Redirect to={`/bookings/${booked}/complete`} />;
 
