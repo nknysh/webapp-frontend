@@ -46,11 +46,13 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
   };
 
   const onCreateClick = () => {
+    setMenuOpen(false);
     setModalContext(contextTypes.SIGN_UP);
     onModalOpen();
   };
 
   const onLoginClick = () => {
+    setMenuOpen(false);
     setModalContext(contextTypes.LOGIN);
     onModalOpen();
   };
@@ -77,10 +79,18 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
 
   const headerMenuProps = {
     isOpen: menuOpen,
-    onLinkClick: onModalClose,
+    onLinkClick: () => {
+      onModalClose();
+      setMenuOpen(false);
+    },
     currentPath: currentPath,
     align: 'end',
     links: isAuthenticated ? menu : loggedOutMenu,
+  };
+
+  const onFormComplete = () => {
+    onModalClose();
+    setMenuOpen(false);
   };
 
   const shouldRedirectHome = isAuthenticated && currentPath === path(['createAccount', 'href'], loggedOutMenuLinks);
@@ -101,8 +111,8 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
 
       {!isAuthenticated && (
         <Modal open={modalOpen} onClose={onClose}>
-          {modalContext === contextTypes.SIGN_UP && <CreateAccountForm />}
-          {modalContext === contextTypes.LOGIN && <LoginForm />}
+          {modalContext === contextTypes.SIGN_UP && <CreateAccountForm onComplete={onFormComplete} />}
+          {modalContext === contextTypes.LOGIN && <LoginForm onComplete={onFormComplete} />}
         </Modal>
       )}
     </StyledHeader>

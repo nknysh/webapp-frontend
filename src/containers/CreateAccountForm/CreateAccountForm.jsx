@@ -41,7 +41,7 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
   />
 );
 
-export const CreateAccountForm = ({ requestStatus, onSignUp, error }) => {
+export const CreateAccountForm = ({ requestStatus, onSignUp, error, onComplete }) => {
   const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
@@ -53,6 +53,7 @@ export const CreateAccountForm = ({ requestStatus, onSignUp, error }) => {
     setSubmitted(true);
     setFormValues(values);
     onSignUp(sanitizeValues(values));
+    onComplete();
   };
 
   const formTitle = saved && submitted ? path(['titles', 'complete'], data) : path(['titles', 'default'], data);

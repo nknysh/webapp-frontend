@@ -24,6 +24,7 @@ export const DropDownContentOverlay = styled.div`
 
 export const DropDownContentInputWrapper = styled.div`
   position: relative;
+  z-index: 100;
 `;
 
 const dropDownInputStyles = css`
