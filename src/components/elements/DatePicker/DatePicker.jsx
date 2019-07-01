@@ -1,5 +1,5 @@
 import React, { useRef, forwardRef, useState } from 'react';
-import { defaultTo } from 'ramda';
+import { defaultTo, assoc } from 'ramda';
 import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 import { isEqual } from 'date-fns';
 
@@ -59,6 +59,7 @@ export const DatePicker = ({
   summaryText,
   summaryTextPlural,
   multiple,
+  ranged,
   ...props
 }) => {
   const inputRef = useRef(undefined);
@@ -101,6 +102,11 @@ export const DatePicker = ({
   ));
 
   const onDayClick = day => {
+    if (!multiple) {
+      setValues(day);
+      return onSelected(day);
+    }
+
     const equalsStartDate = isEqual(formatDate(day), formatDate(startDate));
     const equalsEndDate = isEqual(formatDate(day), formatDate(endDate));
 
@@ -109,9 +115,10 @@ export const DatePicker = ({
       return onSelected(multiple ? defaultState : undefined);
     }
 
-    if (!multiple) {
-      setValues(day);
-      return onSelected(day);
+    if (!ranged && (startDate && endDate)) {
+      const startOnly = assoc('startDate', day, defaultState);
+      setValues(startOnly);
+      return onSelected(startOnly);
     }
 
     const range = DateUtils.addDayToRange(day, values);
