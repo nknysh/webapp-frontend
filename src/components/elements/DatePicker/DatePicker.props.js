@@ -21,6 +21,7 @@ export const propTypes = {
   showOverlay: PropTypes.bool,
   summaryText: PropTypes.string,
   multiple: PropTypes.bool,
+  ranged: PropTypes.bool,
 };
 
 export const defaultProps = {
@@ -31,4 +32,5 @@ export const defaultProps = {
   summaryTextPlural: i18n.t('night_plural'),
   selectedValues: undefined,
   multiple: true,
+  ranged: false,
 };

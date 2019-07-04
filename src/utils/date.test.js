@@ -48,7 +48,7 @@ describe('date', () => {
   });
   xdescribe('formatDate', () => {
     it('returns formatted date', () => {
-      const date = new Date();
+      const date = new Date('2019-07-01');
       expect(formatDate(date)).toMatchSnapshot();
       expect(formatDate(date, 'D MM YYYY')).toMatchSnapshot();
       expect(formatDate(date, 'YYYY')).toMatchSnapshot();
@@ -56,12 +56,12 @@ describe('date', () => {
   });
   describe('getStartOfMonth', () => {
     it('returns first date of month', () => {
-      expect(getStartOfMonth(new Date())).toMatchSnapshot();
+      expect(getStartOfMonth(new Date('2019-07-01'))).toMatchSnapshot();
     });
   });
   describe('getEndOfMonth', () => {
     it('returns last date of month', () => {
-      expect(getEndOfMonth(new Date())).toMatchSnapshot();
+      expect(getEndOfMonth(new Date('2019-07-01'))).toMatchSnapshot();
     });
   });
 });

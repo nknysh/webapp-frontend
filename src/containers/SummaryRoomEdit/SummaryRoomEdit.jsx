@@ -135,6 +135,7 @@ const renderDatePicker = (
 ) => (
   <StyledDatePicker
     label={t('date_plural')}
+    ranged={true}
     dayPickerProps={{
       month: getMonthToDisplay(dates),
       disabledDays: [
