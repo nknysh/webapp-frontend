@@ -33,6 +33,7 @@ export const propTypes = {
   addHoldLabel: PropTypes.bool,
   showOriginalTotal: PropTypes.bool,
   showFullTotal: PropTypes.bool,
+  showDiscountedPrice: PropTypes.bool,
 };
 
 export const defaultProps = {
@@ -58,4 +59,5 @@ export const defaultProps = {
   showAddHolds: false,
   showReleaseHolds: false,
   showOriginalTotal: false,
+  showDiscountedPrice: true,
 };

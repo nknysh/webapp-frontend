@@ -1,22 +1,23 @@
 import React from 'react';
 import {
-  gt,
+  append,
   compose,
-  length,
-  partial,
-  map,
+  equals,
   flatten,
+  gt,
+  head,
+  isEmpty,
+  join,
+  length,
+  map,
+  mapObjIndexed,
+  partial,
   pipe,
   prop,
-  join,
-  values,
-  mapObjIndexed,
-  head,
-  propOr,
-  isEmpty,
-  reduce,
   propEq,
-  append,
+  propOr,
+  reduce,
+  values,
 } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
@@ -91,6 +92,14 @@ const renderHold = (t, hold, i) => (
 
 const renderHolds = (t, data) => mapWithIndex(partial(renderHold, [t]), data);
 
+const renderOffer = (t, { offer }) => (
+  <RoomRow data-discount={true} key={prop('uuid', offer)}>
+    {t('offer')}: {prop('name', offer)}
+  </RoomRow>
+);
+
+const renderOffers = (t, offers) => map(partial(renderOffer, [t]), offers);
+
 export const SummaryRoom = ({
   canEdit,
   className,
@@ -109,6 +118,8 @@ export const SummaryRoom = ({
   hold,
   showImage,
   showHolds,
+  preDiscountTotal,
+  offers,
 }) => {
   const { t } = useTranslation();
 
@@ -118,6 +129,7 @@ export const SummaryRoom = ({
   const totalNights = getNumberOfDays(head(dates));
   const totalGuests = getTotalGuests(requestedRooms);
   const ageSplits = getAgeSplits(product, requestedRooms);
+  const hasDiscount = !equals(total, preDiscountTotal);
 
   const hasErrors = gt(length(errors), 1);
 
@@ -160,7 +172,8 @@ export const SummaryRoom = ({
             </RoomDetail>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
-            <RoomPrice>{total}</RoomPrice>
+            <RoomPrice data-discount={hasDiscount}>{total}</RoomPrice>
+            {hasDiscount && <RoomPrice data-discounted={hasDiscount}>{preDiscountTotal}</RoomPrice>}
           </RoomColumn>
           {canEdit && (
             <RoomColumn data-shrink={true}>
@@ -177,6 +190,7 @@ export const SummaryRoom = ({
         </RoomRow>
         <RoomRow>{renderSupplements(t, supplements)}</RoomRow>
         <RoomRow>{renderMealPlans(t, mealPlans)}</RoomRow>
+        {!isEmpty(offers) && renderOffers(t, offers)}
         {canEdit && renderErrors(errors)}
       </RoomDetails>
     </Room>

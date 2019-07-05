@@ -41,7 +41,10 @@ export const Section = styled.div`
   }
 `;
 
+export const HotelTotals = styled.div``;
+
 export const Total = styled.p`
+  display: block;
   ${({ ['data-request']: onRequest }) =>
     !onRequest &&
     css`
@@ -60,6 +63,12 @@ export const Total = styled.p`
         color: ${theme.light};
         text-decoration: line-through;
       `} 
+
+      ${({ ['data-discounted']: secondary }) =>
+        secondary &&
+        css`
+          color: ${theme.colors['red-fade']};
+        `}
 `;
 
 export const Text = styled.p`
@@ -69,6 +78,12 @@ export const Text = styled.p`
   text-transform: uppercase;
   margin: 0;
   padding: 0;
+
+  ${({ ['data-discounted']: secondary }) =>
+    secondary &&
+    css`
+      color: ${theme.colors['red-fade']};
+    `}
 `;
 
 export const Saving = styled.span`

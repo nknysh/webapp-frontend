@@ -157,3 +157,18 @@ export const MenuIcon = styled(Icon)`
     padding-top: 4px;
   cursor: pointer;
 `;
+
+export const withDiscountStyles = css`
+  ${({ ['data-discounted']: discounted }) =>
+    discounted &&
+    css`
+      color: ${theme.light};
+      text-decoration: line-through;
+    `}
+
+  ${({ ['data-discount']: discount }) =>
+    discount &&
+    css`
+      color: ${theme.colors['red-fade']};
+    `}
+`;

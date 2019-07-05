@@ -7,6 +7,7 @@ export default {
   dates: 'Dates',
   lodging: 'Lodging',
   room: 'Room',
+  roomWithNumber: 'Room {{number}}',
   guest: 'Guest',
   honeymooners: 'Honeymooners',
   searching: 'Search',
@@ -126,4 +127,7 @@ export default {
   bookingComments: 'Booking comments',
   internalComments: 'Internal comments',
   cancelBooking: 'Cancel Booking',
+
+  includesOffer: 'Includes {{count}} offer',
+  includesOffer_plural: 'Includes {{count}} offers',
 };

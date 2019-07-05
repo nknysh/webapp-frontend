@@ -50,12 +50,15 @@ import {
   AddonSummaries,
   AddonSummary,
   Button,
+  Clear,
   ContextMenu,
+  Description,
   Extra,
   ExtraSummary,
   ExtraSummaryProduct,
   ExtraSummaryTitle,
   ExtraSummaryTotal,
+  ExtraSummaryTotals,
   ModalContent,
   OptionLabel,
   OptionPrice,
@@ -63,8 +66,7 @@ import {
   Title,
   TravelAgent,
   TravelAgentName,
-  Clear,
-  Description,
+  ExtraOffer,
 } from './SummaryFormExtras.styles';
 
 const hasDirection = hasPath(['meta', 'direction']);
@@ -100,9 +102,17 @@ const extractChosenAddons = (type, data) =>
 const toSelectedAddon = reduce((accum, { uuid }) => mergeDeepRight({ [uuid]: true }, accum), {});
 
 // eslint-disable-next-line
-const renderOption = ({ total, title, quantity = 0 }) => (
+const renderOption = ({ total, totalBeforeDiscount, title, quantity = 0 }) => (
   <OptionRate key={total}>
-    {gt(quantity, 1) && `${quantity} x`} {title} (+ <OptionPrice>{total}</OptionPrice>)
+    {gt(quantity, 1) && `${quantity} x`} {title} (+{' '}
+    <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>{totalBeforeDiscount}</OptionPrice>
+    {!equals(total, totalBeforeDiscount) && (
+      <Fragment>
+        {' '}
+        <OptionPrice data-discount={true}>{total}</OptionPrice>
+      </Fragment>
+    )}
+    )
   </OptionRate>
 );
 
@@ -141,7 +151,11 @@ const renderOneWayProducts = (t, productType, products, props) =>
     Rvalues
   )(products);
 
-const renderOptionSummary = (t, accum, { total, products, breakdown, selected, ...rest }) =>
+const renderOptionSummary = (
+  t,
+  accum,
+  { total, totalBeforeDiscount, products, breakdown, selected, offers, ...rest }
+) =>
   selected
     ? append(
         <AddonSummary key={join(',', products)}>
@@ -154,8 +168,19 @@ const renderOptionSummary = (t, accum, { total, products, breakdown, selected, .
               ),
               breakdown
             )}
+            {!isEmpty(offers) &&
+              map(({ offer }) => (
+                <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
+                  {prop('name', offer)}
+                </ExtraOffer>
+              ))}
           </ExtraSummaryProduct>
-          <ExtraSummaryTotal>{total}</ExtraSummaryTotal>
+          <ExtraSummaryTotals>
+            <ExtraSummaryTotal data-discount={!equals(total, totalBeforeDiscount)}>{total}</ExtraSummaryTotal>
+            {!equals(total, totalBeforeDiscount) && (
+              <ExtraSummaryTotal data-discounted={true}>{totalBeforeDiscount}</ExtraSummaryTotal>
+            )}
+          </ExtraSummaryTotals>
         </AddonSummary>,
         accum
       )

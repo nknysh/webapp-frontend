@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import theme from 'styles/theme';
-import { withCurrency } from 'styles/elements';
+import { withCurrency, withDiscountStyles } from 'styles/elements';
 
 export const Room = styled.article`
   position: relative;
@@ -29,6 +29,7 @@ export const RoomRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  ${withDiscountStyles};
 `;
 
 export const RoomColumn = styled.div`
@@ -63,6 +64,10 @@ export const RoomDetail = styled(RoomP)``;
 
 export const RoomPrice = styled.span`
   ${withCurrency};
+  ${withDiscountStyles};
+  display: block;
+  line-height: 1;
+  margin-top: ${theme.gutter / 2}px;
 `;
 
 export const ExtraSupplement = styled.div`

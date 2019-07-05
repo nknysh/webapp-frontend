@@ -10,6 +10,7 @@ export const propTypes = {
   listPrice: PropTypes.string,
   additionalInfo: PropTypes.string,
   amenities: PropTypes.array,
+  showDiscountedPrice: PropTypes.bool,
 };
 
 export const defaultProps = {
@@ -21,4 +22,5 @@ export const defaultProps = {
   listPrice: '',
   additionalInfo: '',
   amenities: [],
+  showDiscountedPrice: true,
 };

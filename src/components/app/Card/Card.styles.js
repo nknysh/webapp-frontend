@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
+import { withDiscountStyles } from 'styles/elements';
 
 import {
   Card as Base,
@@ -34,9 +35,11 @@ export const CardImage = styled(BaseImage)`
 
 export const CardChip = styled(BaseChip)``;
 
-export const CardPrice = styled(BasePrice)``;
+export const CardPrice = styled(BasePrice)`
+  ${withDiscountStyles};
+`;
 
-export const CardName = styled(BaseChipSecondary)``;
+export const CardSecondaryChip = styled(BaseChipSecondary)``;
 
 export const CardDetails = styled(BaseDetails)``;
 
@@ -174,4 +177,12 @@ export const PriceBreakdown = styled.ul`
 
 export const PriceBreakdownItem = styled.li`
   margin-bottom: ${theme.gutter / 2}px;
+`;
+
+export const CardChipStack = styled.div`
+  margin: 0 ${theme.gutter / 2}px;
+
+  > div {
+    margin: ${theme.gutter}px 0 0;
+  }
 `;
