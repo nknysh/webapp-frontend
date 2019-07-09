@@ -1,8 +1,6 @@
-import { defaultTo, path, prop, map } from 'ramda';
 import client from 'api/offers';
 
 import { successAction, errorFromResponse, loadingAction } from 'store/common';
-import { setHotels } from 'store/modules/hotels/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 
 export const OFFERS_LATEST = 'OFFERS_LATEST';
