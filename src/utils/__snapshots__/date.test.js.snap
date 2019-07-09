@@ -6,7 +6,7 @@ exports[`date formatDate returns formatted date 2`] = `"22 05 2019"`;
 
 exports[`date formatDate returns formatted date 3`] = `"2019"`;
 
-exports[`date getEndOfMonth returns last date of month 1`] = `"2019-06-30"`;
+exports[`date getEndOfMonth returns last date of month 1`] = `"2019-07-31"`;
 
 exports[`date getFromDateFormat returns formatted from date 1`] = `"10 Apr "`;
 
@@ -14,6 +14,6 @@ exports[`date getNumberOfDays returns days between 2 dates 1`] = `30`;
 
 exports[`date getNumberOfDays returns days between 2 dates 2`] = `undefined`;
 
-exports[`date getStartOfMonth returns first date of month 1`] = `"2019-06-01"`;
+exports[`date getStartOfMonth returns first date of month 1`] = `"2019-07-01"`;
 
 exports[`date getToDateFormat returns formatted to date 1`] = `" - 10 May 2019"`;
