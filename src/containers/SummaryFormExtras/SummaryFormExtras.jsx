@@ -171,7 +171,7 @@ const renderOptionSummary = (
             {!isEmpty(offers) &&
               map(({ offer }) => (
                 <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
-                  {prop('name', offer)}
+                  {t('offer')}: {prop('name', offer)}
                 </ExtraOffer>
               ))}
           </ExtraSummaryProduct>
@@ -286,7 +286,7 @@ const renderMargin = (
 const renderSelect = (
   t,
   { onMultipleChange, summaryOnly, values, compactEdit },
-  { products, breakdown, selected, total }
+  { products, breakdown, selected, total, totalBeforeDiscount, offers }
 ) => {
   const uuids = join(',', map(prop('uuid'), products));
   const checked = propOr(false, uuids, values);
@@ -306,8 +306,19 @@ const renderSelect = (
             ),
             breakdown
           )}
+          {!isEmpty(offers) &&
+            map(({ offer }) => (
+              <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
+                {t('offer')}: {prop('name', offer)}
+              </ExtraOffer>
+            ))}
         </ExtraSummaryProduct>
-        <ExtraSummaryTotal>{total}</ExtraSummaryTotal>
+        <ExtraSummaryTotals>
+          <ExtraSummaryTotal data-discount={!equals(total, totalBeforeDiscount)}>{total}</ExtraSummaryTotal>
+          {!equals(total, totalBeforeDiscount) && (
+            <ExtraSummaryTotal data-discounted={true}>{totalBeforeDiscount}</ExtraSummaryTotal>
+          )}
+        </ExtraSummaryTotals>
       </AddonSummary>
     )
   ) : (
