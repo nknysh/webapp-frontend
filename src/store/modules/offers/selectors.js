@@ -1,6 +1,7 @@
-import { prop, pipe, curry } from 'ramda';
+import { prop, pipe, propOr, filter, propEq, values } from 'ramda';
 
-import { getStatus, getData, getEntities, getResults } from 'store/common/selectors';
+import { getStatus, getData, getEntities, getResults, getArg } from 'store/common';
+import { createSelector } from 'store/utils';
 
 export const getOffers = prop('offers');
 
@@ -22,12 +23,25 @@ export const getOffersResults = pipe(
 export const getOffersEntities = pipe(
   getOffers,
   getEntities,
-  prop('offers')
+  prop('content')
 );
 
-export const getOffer = curry((state, id) =>
-  pipe(
-    getOffersEntities,
-    prop(id)
-  )(state)
+export const getOffersUploads = pipe(
+  getOffers,
+  getEntities,
+  propOr({}, 'uploads')
+);
+
+export const getOffer = createSelector(
+  [getArg(1), getOffersEntities],
+  propOr({})
+);
+
+export const getOfferUploads = createSelector(
+  [getArg(1), getOffersUploads],
+  (id, uploads) =>
+    pipe(
+      values,
+      filter(propEq('ownerUuid', id))
+    )(uploads)
 );
