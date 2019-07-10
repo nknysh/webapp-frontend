@@ -1,10 +1,10 @@
-import React from 'react';
-import { map, prop, pathOr, path, partial, head, last } from 'ramda';
+import React, { Fragment } from 'react';
+import { add, gt, head, inc, last, length, map, partial, path, pathOr, pipe, prop, propOr, reduce } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { isEqual, addDays, format } from 'date-fns';
 
 import { ProductTypes } from 'config/enums';
-import { getNumberOfDays } from 'utils';
+import { getNumberOfDays, mapWithIndex } from 'utils';
 
 import { propTypes, defaultProps } from './Card.props';
 import {
@@ -12,7 +12,7 @@ import {
   CardImage,
   CardChip,
   CardPrice,
-  CardName,
+  CardSecondaryChip,
   CardDetails,
   CardTitle,
   CardRating,
@@ -25,6 +25,7 @@ import {
   CardHighlight,
   CardAdditionalInfo,
   CardAdditional,
+  CardChipStack,
   ToolTip,
   PriceBreakdown,
   PriceBreakdownItem,
@@ -36,6 +37,16 @@ const getStartDateEndDate = dates => {
 
   return { startDate, endDate };
 };
+
+const getOffers = pipe(
+  pathOr([], ['potentialBooking', ProductTypes.ACCOMMODATION]),
+  map(propOr([], 'offers'))
+);
+
+const getOfferCount = pipe(
+  getOffers,
+  reduce((accum, offers) => add(accum, length(offers)), 0)
+);
 
 const renderFeature = value => <CardHighlight key={value}>{value}</CardHighlight>;
 
@@ -71,45 +82,96 @@ const renderTransfersBreakdown = (t, { title, dates = [], ...product }) => {
   );
 };
 
+const renderPrice = (t, { offerCount, response, showDiscountedPrice }) =>
+  response && (
+    <CardChipStack>
+      <CardChip>
+        {pathOr(true, ['totals', 'oneOrMoreItemsOnRequest'], response) ? (
+          t('labels.onRequest')
+        ) : (
+          <ToolTip
+            label={
+              <CardPrice data-discounted={showDiscountedPrice && gt(offerCount, 0)}>
+                {showDiscountedPrice
+                  ? path(['totals', 'totalBeforeDiscount'], response)
+                  : path(['totals', 'total'], response)}
+              </CardPrice>
+            }
+          >
+            <b>{t('labels.priceBasedOn')}</b>
+            <PriceBreakdown>
+              {map(
+                partial(renderRoomsBreakdown, [t]),
+                pathOr([], ['potentialBooking', ProductTypes.ACCOMMODATION], response)
+              )}
+              {map(
+                partial(renderTransfersBreakdown, [t]),
+                pathOr([], ['potentialBooking', ProductTypes.TRANSFER], response)
+              )}
+            </PriceBreakdown>
+          </ToolTip>
+        )}
+      </CardChip>
+      {showDiscountedPrice && gt(offerCount, 0) && (
+        <CardChip>
+          {pathOr(true, ['totals', 'oneOrMoreItemsOnRequest'], response) ? (
+            t('labels.onRequest')
+          ) : (
+            <CardPrice data-discount={true}>{path(['totals', 'total'], response)}</CardPrice>
+          )}
+        </CardChip>
+      )}
+    </CardChipStack>
+  );
+
+const renderOfferBreakdown = (t, { offer }, i) => (
+  <PriceBreakdownItem key={i + prop('uuid', offer)}>{prop('name', offer)}</PriceBreakdownItem>
+);
+
+const renderOffersBreakdown = (t, roomOffers, i) => (
+  <Fragment key={i}>
+    <b>{t('labels.roomWithNumber', { number: inc(i) })}</b>
+    <PriceBreakdown>{mapWithIndex(partial(renderOfferBreakdown, [t]), roomOffers)}</PriceBreakdown>
+  </Fragment>
+);
+
+const renderOffers = (t, { offerCount, response }) => {
+  const offers = getOffers(response);
+
+  return (
+    gt(offerCount, 0) && (
+      <CardSecondaryChip>
+        <ToolTip label={<span>{t('offerWithCount', { count: offerCount })}</span>}>
+          {mapWithIndex(partial(renderOffersBreakdown, [t]), offers)}
+        </ToolTip>
+      </CardSecondaryChip>
+    )
+  );
+};
+
 export const Card = ({
   featuredPhoto,
   name,
   preferred,
-  promotionalText,
   starRating,
   suitableForHoneymooners,
   additionalInfo,
   amenities,
-  bookingBuilder,
+  bookingBuilder = {},
+  showDiscountedPrice,
 }) => {
   const { t } = useTranslation();
+
+  const { response } = bookingBuilder;
+
+  const offerCount = getOfferCount(response);
 
   return (
     <StyledCard>
       <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
         {preferred && <CardPreferred>Preferred</CardPreferred>}
-        {bookingBuilder && (
-          <CardChip>
-            {pathOr(true, ['response', 'totals', 'oneOrMoreItemsOnRequest'], bookingBuilder) ? (
-              t('labels.onRequest')
-            ) : (
-              <ToolTip label={<CardPrice>{path(['response', 'totals', 'total'], bookingBuilder)}</CardPrice>}>
-                <b>{t('labels.priceBasedOn')}</b>
-                <PriceBreakdown>
-                  {map(
-                    partial(renderRoomsBreakdown, [t]),
-                    pathOr([], ['response', 'potentialBooking', ProductTypes.ACCOMMODATION], bookingBuilder)
-                  )}
-                  {map(
-                    partial(renderTransfersBreakdown, [t]),
-                    pathOr([], ['response', 'potentialBooking', ProductTypes.TRANSFER], bookingBuilder)
-                  )}
-                </PriceBreakdown>
-              </ToolTip>
-            )}
-          </CardChip>
-        )}
-        {promotionalText && <CardName>{promotionalText}</CardName>}
+        {renderPrice(t, { response, offerCount, showDiscountedPrice })}
+        {renderOffers(t, { response, offerCount })}
       </CardImage>
       <CardDetails>
         <CardTitle>{name}</CardTitle>

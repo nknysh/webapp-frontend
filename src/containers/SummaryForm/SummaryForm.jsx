@@ -11,6 +11,7 @@ import {
   propOr,
   values,
   prop,
+  gt,
   length,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
@@ -50,6 +51,7 @@ import {
   ModalContent,
   ModalBody,
   ModalTitle,
+  HotelTotals,
 } from './SummaryForm.styles';
 
 const modalProps = { className: 'room-summary-form' };
@@ -61,23 +63,43 @@ const getSingleValue = (type, data) =>
     propOr('', 'uuid')
   )(data);
 
-const renderTotalPrice = (t, { isOnRequest, total, secondary }) => (
-  <Total data-request={isOnRequest} data-secondary={secondary}>
+const renderTotalPrice = (t, { isOnRequest, total, secondary, discounted }) => (
+  <Total data-request={isOnRequest} data-secondary={secondary} data-discounted={discounted}>
     {isOnRequest ? t('labels.onRequest') : total}
   </Total>
 );
 
-const renderHotel = (t, { name, total, compact, showOriginalTotal, overrideTotal, isOnRequest, showFullTotal }) => (
+const renderHotel = (
+  t,
+  {
+    preDiscountTotal,
+    offersCount,
+    showDiscountedPrice,
+    name,
+    total,
+    compact,
+    showOriginalTotal,
+    overrideTotal,
+    isOnRequest,
+    showFullTotal,
+  }
+) => (
   <Hotel data-compact={compact}>
     <HotelName>{name}</HotelName>
     {!showFullTotal && compact && (
-      <Fragment>
-        {renderTotalPrice(t, { isOnRequest, total: overrideTotal || total })}
-        {showOriginalTotal &&
-          overrideTotal &&
+      <HotelTotals>
+        {renderTotalPrice(t, {
+          isOnRequest,
+          total: overrideTotal || total,
+          discounted: !overrideTotal && showDiscountedPrice && gt(offersCount, 0),
+        })}
+        {overrideTotal &&
+          gt(offersCount, 0) &&
+          renderTotalPrice(t, { isOnRequest, total, secondary: true, discounted: true })}
+        {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
           !isOnRequest &&
-          renderTotalPrice(t, { isOnRequest, total, secondary: true })}
-      </Fragment>
+          renderTotalPrice(t, { isOnRequest, total: preDiscountTotal, secondary: true })}
+      </HotelTotals>
     )}
   </Hotel>
 );
@@ -137,17 +159,37 @@ const renderRoomEditModal = (
   );
 };
 
-const renderTotal = (t, { compact, isOnRequest, total, saving, overrideTotal, showOriginalTotal, showFullTotal }) =>
+const renderTotal = (
+  t,
+  {
+    compact,
+    isOnRequest,
+    total,
+    saving,
+    overrideTotal,
+    showOriginalTotal,
+    showFullTotal,
+    preDiscountTotal,
+    offersCount,
+    showDiscountedPrice,
+  }
+) =>
   (!compact || showFullTotal) && (
     <Fragment>
       <Title>{t('labels.totalNet')}</Title>
       <Section>
-        {showOriginalTotal &&
-          overrideTotal &&
+        {renderTotalPrice(t, {
+          isOnRequest,
+          total: overrideTotal || total,
+          discounted: !overrideTotal && showDiscountedPrice && gt(offersCount, 0),
+        })}
+        {overrideTotal &&
+          gt(offersCount, 0) &&
+          renderTotalPrice(t, { isOnRequest, total, secondary: true, discounted: true })}
+        {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
           !isOnRequest &&
-          renderTotalPrice(t, { isOnRequest, total, secondary: true })}
-        {renderTotalPrice(t, { isOnRequest, total: overrideTotal || total })}
-        {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
+          renderTotalPrice(t, { isOnRequest, total: preDiscountTotal, secondary: true })}
+        {gt(offersCount, 0) && <Text data-discounted={true}>{t('labels.includesOffer', { count: offersCount })}</Text>}
         {saving && !isOnRequest && (
           <Text>
             {t('labels.savingOfPrefix')}
@@ -155,6 +197,7 @@ const renderTotal = (t, { compact, isOnRequest, total, saving, overrideTotal, sh
             {t('labels.savingOfSuffix')}
           </Text>
         )}
+        {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
       </Section>
     </Fragment>
   );
@@ -369,6 +412,10 @@ export const SummaryForm = ({
   editGuardContent,
   showOriginalTotal,
   showFullTotal,
+  preDiscountTotal,
+  offers,
+  offersCount,
+  showDiscountedPrice,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -475,8 +522,24 @@ export const SummaryForm = ({
           overrideTotal,
           showFullTotal,
           showOriginalTotal,
+          preDiscountTotal,
+          offers,
+          offersCount,
+          showDiscountedPrice,
         })}
-        {renderHotel(t, { name, total, compact, showOriginalTotal, overrideTotal, isOnRequest, showFullTotal })}
+        {renderHotel(t, {
+          name,
+          total,
+          compact,
+          showOriginalTotal,
+          overrideTotal,
+          isOnRequest,
+          showFullTotal,
+          preDiscountTotal,
+          offers,
+          offersCount,
+          showDiscountedPrice,
+        })}
         <Rooms data-summary={summaryOnly} data-compact={compact}>
           {renderRooms(t, booking, {
             editGuard,

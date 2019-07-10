@@ -5,18 +5,23 @@ import {
   append,
   concat,
   defaultTo,
+  equals,
   evolve,
   filter,
+  find,
+  groupBy,
   has,
   head,
   invoker,
   last,
+  length,
   lensProp,
+  assoc,
   map,
   mapObjIndexed,
   over,
+  partial,
   partialRight,
-  find,
   path,
   pathEq,
   pathOr,
@@ -31,10 +36,7 @@ import {
   tap,
   uniq,
   values,
-  groupBy,
-  equals,
   when,
-  partial,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
@@ -51,6 +53,18 @@ import { getUser } from 'store/modules/users/selectors';
 import { getArg, getStatus, getData } from 'store/common';
 
 import { toTotal } from './utils';
+
+const reduceOffersFromProducts = reduce((accum, products) => {
+  map(
+    ({ offers = [] }) =>
+      map(offer => {
+        accum = assoc(path(['offer', 'uuid'], offer), offer, accum);
+      }, offers),
+    products
+  );
+
+  return accum;
+}, {});
 
 export const getBookings = prop('bookings');
 
@@ -339,40 +353,75 @@ export const getBookingRoomMealPlan = createSelector(
   )
 );
 
+const getRoomTotal = (key, roomId, potentialBooking) => {
+  const productsForRoom = pipe(
+    propOr([], ProductTypes.ACCOMMODATION),
+    filter(pathEq(['product', 'uuid'], roomId))
+  )(potentialBooking);
+
+  const roomTotals = pipe(
+    map(prop(key)),
+    toTotal
+  )(productsForRoom);
+
+  const subProductsTotal = pipe(
+    map(
+      pipe(
+        propOr({}, 'subProducts'),
+        mapObjIndexed(
+          pipe(
+            map(prop(key)),
+            toTotal
+          )
+        ),
+        toTotal
+      )
+    ),
+    toTotal
+  )(productsForRoom);
+
+  return pipe(
+    add(roomTotals),
+    add(subProductsTotal),
+    formatPrice
+  )(0);
+};
+
 export const getBookingRoomTotal = createSelector(
   [getArg(2), getPotentialBooking],
+  partial(getRoomTotal, ['total'])
+);
+
+export const getBookingRoomTotalBeforeDiscount = createSelector(
+  [getArg(2), getPotentialBooking],
+  partial(getRoomTotal, ['totalBeforeDiscount'])
+);
+
+export const getBookingRoomOffers = createSelector(
+  [getArg(2), getPotentialBooking],
   (roomId, potentialBooking) => {
-    const productsForRoom = pipe(
+    const offersForRoom = pipe(
       propOr([], ProductTypes.ACCOMMODATION),
-      filter(pathEq(['product', 'uuid'], roomId))
+      filter(pathEq(['product', 'uuid'], roomId)),
+      reduce((accum, product) => {
+        map(offer => {
+          accum = assoc(path(['offer', 'uuid'], offer), offer, accum);
+        }, propOr([], 'offers', product));
+
+        map(
+          map(subProduct => {
+            map(offer => {
+              accum = assoc(path(['offer', 'uuid'], offer), offer, accum);
+            }, propOr([], 'offers', subProduct));
+          }),
+          propOr([], 'subProducts', product)
+        );
+        return accum;
+      }, {}),
+      values
     )(potentialBooking);
 
-    const roomTotals = pipe(
-      map(prop('total')),
-      toTotal
-    )(productsForRoom);
-
-    const subProductsTotal = pipe(
-      map(
-        pipe(
-          propOr({}, 'subProducts'),
-          mapObjIndexed(
-            pipe(
-              map(prop('total')),
-              toTotal
-            )
-          ),
-          toTotal
-        )
-      ),
-      toTotal
-    )(productsForRoom);
-
-    return pipe(
-      add(roomTotals),
-      add(subProductsTotal),
-      formatPrice
-    )(0);
+    return offersForRoom;
   }
 );
 
@@ -385,6 +434,14 @@ export const getBookingTotal = createSelector(
   getBookingBreakdown,
   pipe(
     pathOr(0, ['totals', 'total']),
+    formatPrice
+  )
+);
+
+export const getBookingTotalBeforeDiscount = createSelector(
+  getBookingBreakdown,
+  pipe(
+    pathOr(0, ['totals', 'totalBeforeDiscount']),
     formatPrice
   )
 );
@@ -532,4 +589,19 @@ export const getBookingsForDashboard = createSelector(
       values,
       groupBy(prop('status'))
     )(bookings)
+);
+
+export const getBookingAppliedOffers = createSelector(
+  getBookingBreakdown,
+  pipe(
+    propOr({}, 'potentialBooking'),
+    values,
+    reduceOffersFromProducts,
+    values
+  )
+);
+
+export const getBookingAppliedOffersCount = createSelector(
+  getBookingAppliedOffers,
+  length
 );

@@ -11,6 +11,9 @@ import {
   getBookingNonAccommodationErrors,
   isBookingOnRequest,
   getBookingHolds,
+  getBookingAppliedOffers,
+  getBookingAppliedOffersCount,
+  getBookingTotalBeforeDiscount,
 } from 'store/modules/bookings/selectors';
 
 import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
@@ -21,9 +24,12 @@ export const mapStateToProps = (state, { id }) => ({
   status: getBookingStatus(state),
   totals: getBookingTotals(state, id),
   total: getBookingTotal(state, id),
+  preDiscountTotal: getBookingTotalBeforeDiscount(state, id),
   errors: getBookingNonAccommodationErrors(state, id),
   isOnRequest: isBookingOnRequest(state, id),
   holds: getBookingHolds(state, id),
+  offers: getBookingAppliedOffers(state, id),
+  offersCount: getBookingAppliedOffersCount(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({

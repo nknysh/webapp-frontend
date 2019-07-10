@@ -6,7 +6,7 @@ export { Title } from 'containers/SummaryForm/SummaryForm.styles';
 import { Checkbox } from 'components/elements';
 
 import theme from 'styles/theme';
-import { withCurrency } from 'styles/elements';
+import { withCurrency, withDiscountStyles } from 'styles/elements';
 
 import { ContextMenu as BaseContextMenu } from 'components/elements';
 
@@ -20,6 +20,7 @@ export const OptionRate = styled.span`
 
 export const OptionPrice = styled.span`
   ${withCurrency};
+  ${withDiscountStyles};
 `;
 
 export const Extra = styled.div`
@@ -54,7 +55,8 @@ export const ExtraSummaryProduct = styled.div`
 
 export const ExtraSummaryTotal = styled.div`
   ${withCurrency};
-  flex: 1;
+  ${withDiscountStyles};
+  display: block;
   text-align: right;
 `;
 
@@ -112,4 +114,12 @@ export const Description = styled.p`
   text-transform: uppercase;
   color: ${theme.secondary};
   line-height: 1.5;
+`;
+
+export const ExtraSummaryTotals = styled.div`
+  flex: 1;
+`;
+
+export const ExtraOffer = styled.span`
+  ${withDiscountStyles};
 `;

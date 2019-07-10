@@ -20,20 +20,20 @@ export const CardImage = styled.div`
 
 export const CardChip = styled.div`
   color: ${theme.colors.black};
-    background: ${theme.backgrounds.default};
-    padding: ${theme.gutter / 2}px ${theme.gutter}px;
-    font-size: ${theme.fonts.sizes.normal}px;
-    text-transform: uppercase;
-    margin 0 ${theme.gutter / 2}px;
-    line-height: 18px;
+  background: ${theme.backgrounds.default};
+  padding: ${theme.gutter / 2}px ${theme.gutter}px;
+  font-size: ${theme.fonts.sizes.normal}px;
+  text-transform: uppercase;
+  margin 0 ${theme.gutter / 2}px;
+  line-height: 18px;
 
-    :first-child {
-        margin-left: 0;
-    }
+  :first-child {
+      margin-left: 0;
+  }
 
-    :last-child {
-        margin-right: 0;
-    }
+  :last-child {
+      margin-right: 0;
+  }
 `;
 
 export const CardChipSecondary = styled(CardChip)`
