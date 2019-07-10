@@ -3,18 +3,17 @@ import { useTranslation } from 'react-i18next';
 
 import { SearchSidebar, SearchResults } from 'containers';
 import { useCurrentWidth } from 'effects';
-import { isMobile } from 'utils';
 
 import { StyledSearch, Columns, ColumnLeft, ColumnRight, Back } from './Search.styles';
 
 export const Search = () => {
   const { t } = useTranslation();
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
 
   return (
     <StyledSearch>
       <Columns>
-        {!isMobile(currentWidth) && (
+        {!isMobile && (
           <ColumnLeft>
             <Back to="/">{t('labels.backToHome')}</Back>
             <SearchSidebar />

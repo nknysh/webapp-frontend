@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Loader, Tabs } from 'components';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
-import { isMobile } from 'utils';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
@@ -117,7 +116,7 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
   const { onModalClose } = modal;
 
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
 
   if (redirectToBooking) return <Redirect to={`/hotels/${id}/booking`} />;
   if (redirectToHold) return <Redirect to={`/hotels/${id}/hold`} />;
@@ -137,7 +136,7 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingHotel')}>
       <StyledHotelContainer>
-        {isMobile(currentWidth) ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}
+        {isMobile ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}
       </StyledHotelContainer>
       {renderModal(t, { id, ...modal, ...props, onModalComplete })}
     </Loader>

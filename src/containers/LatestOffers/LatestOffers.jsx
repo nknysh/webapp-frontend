@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Loader, Offer, Slider } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
-import { isMobile } from 'utils';
 
 import connect from './LatestOffers.state';
 import { propTypes, defaultProps } from './LatestOffers.props';
@@ -22,7 +21,7 @@ export const LatestOffers = ({
   const { t } = useTranslation();
 
   const offersFetched = useFetchData(offersStatus, fetchLatestOffers, [{ limit: 3 }]);
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
 
   const renderOffer = offerResult => {
     const offer = getOffer(prop('offer', offerResult));
@@ -42,7 +41,7 @@ export const LatestOffers = ({
   const renderAllOffers = () => renderOffers(offers);
 
   const renderOfferContainer = () =>
-    !isMobile(currentWidth) ? <Offers>{renderAllOffers()}</Offers> : <Slider>{renderAllOffers()}</Slider>;
+    !isMobile ? <Offers>{renderAllOffers()}</Offers> : <Slider>{renderAllOffers()}</Slider>;
 
   return (
     <StyledLatestOffers>

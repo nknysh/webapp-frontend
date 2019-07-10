@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { windowExists, addEvent, removeEvent } from 'utils';
+import { windowExists, addEvent, removeEvent, isMobile } from 'utils';
 import { useEffectBoundary } from './genericEffects';
 
 export const useCurrentWidth = () => {
@@ -15,7 +15,7 @@ export const useCurrentWidth = () => {
     };
   });
 
-  return currentWidth;
+  return { currentWidth, isMobile: isMobile(currentWidth) };
 };
 
 const scrollToTop = () => {

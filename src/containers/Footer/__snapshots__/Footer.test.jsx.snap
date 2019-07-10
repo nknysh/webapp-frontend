@@ -3,34 +3,34 @@
 exports[`<Footer /> render matches snapshot 1`] = `
 <Footerstyles__StyledFooter>
   <Footerstyles__FooterContainer>
-    <Footerstyles__FooterMenu
-      links={
-        Array [
-          Object {
-            "href": "/about-us",
-            "title": "About Us",
-          },
-          Object {
-            "href": "/contact-us",
-            "title": "Contact Us",
-          },
-          Object {
-            "href": "/privacy-policy",
-            "title": "Privacy Policy",
-          },
-          Object {
-            "href": "/terms-and-conditions",
-            "title": "Terms and Conditions",
-          },
-        ]
-      }
-    />
     <Footerstyles__FooterColumns>
       <Footerstyles__FooterColumn>
         <Footerstyles__FooterText>
           <Markdown />
         </Footerstyles__FooterText>
       </Footerstyles__FooterColumn>
+      <Footerstyles__FooterMenu
+        links={
+          Array [
+            Object {
+              "href": "/about-us",
+              "title": "About Us",
+            },
+            Object {
+              "href": "/contact-us",
+              "title": "Contact Us",
+            },
+            Object {
+              "href": "/privacy-policy",
+              "title": "Privacy Policy",
+            },
+            Object {
+              "href": "/terms-and-conditions",
+              "title": "Terms and Conditions",
+            },
+          ]
+        }
+      />
       <Footerstyles__FooterColumn
         align="flex-end"
         flex={true}

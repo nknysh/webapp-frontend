@@ -30,7 +30,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Slider } from 'components/elements';
 import { useCurrentWidth } from 'effects';
-import { isMobile } from 'utils';
 
 import connect from './Rooms.state';
 import { propTypes, defaultProps } from './Rooms.props';
@@ -79,7 +78,7 @@ export const Rooms = ({ hotelUuid, className, rooms, requestedRooms, addRoom, re
   const { t } = useTranslation();
 
   const [selectedAmenities, setSelectedAmenities] = useState([]);
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
 
   const amenities = getAmenities(rooms);
   const filteredRooms = filterNoRate(filterRoomsByAmenities(rooms, selectedAmenities));
@@ -103,8 +102,7 @@ export const Rooms = ({ hotelUuid, className, rooms, requestedRooms, addRoom, re
     );
   };
 
-  const renderRoomsWrapper = children =>
-    isMobile(currentWidth) ? <Slider infinite={false}>{children}</Slider> : children;
+  const renderRoomsWrapper = children => (isMobile ? <Slider infinite={false}>{children}</Slider> : children);
 
   const renderRooms = () =>
     isNilOrEmpty(filteredRooms) ? (

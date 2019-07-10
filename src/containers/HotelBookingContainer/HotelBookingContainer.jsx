@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Loader, RadioButton, AgreeToForm, BookingConfirmation } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary, useModalState } from 'effects';
-import { isMobile } from 'utils';
 
 import { PAYMENT_ENABLED } from 'config';
 
@@ -44,11 +43,11 @@ export const withoutSections = over(lensProp('sections'), take(1));
 
 const renderBackButton = t => <Back to="/search">{t('labels.backToSearch')}</Back>;
 
-const renderBreadcrumbs = (t, { isComplete, mobileView, isDetailsView, isReviewView, onMobileNavClick, hotel, id }) => (
+const renderBreadcrumbs = (t, { isComplete, isMobile, isDetailsView, isReviewView, onMobileNavClick, hotel, id }) => (
   <Fragment>
-    {mobileView && renderBackButton(t)}
+    {isMobile && renderBackButton(t)}
     {!isComplete &&
-      (mobileView ? (
+      (isMobile ? (
         <BookingPath>
           <BookingPathSegment onClick={onMobileNavClick} data-active={isDetailsView}>
             {t('labels.enterGuestDetails')}
@@ -68,9 +67,9 @@ const renderBreadcrumbs = (t, { isComplete, mobileView, isDetailsView, isReviewV
   </Fragment>
 );
 
-const renderSubmitButton = (t, { mobileView, isReviewView, canBook, onSubmit, isOnRequest }) => (
+const renderSubmitButton = (t, { isMobile, isReviewView, canBook, onSubmit, isOnRequest }) => (
   <SubmitButton
-    disabled={mobileView ? isReviewView && !canBook : !canBook}
+    disabled={isMobile ? isReviewView && !canBook : !canBook}
     type="button"
     onClick={onSubmit}
     onTouchMove={onSubmit}
@@ -90,13 +89,13 @@ const renderGuestForm = (
     isDetailsView,
     isOnRequest,
     isReviewView,
-    mobileView,
+    isMobile,
     onGuestFormSubmit,
     onSubmit,
     holdOnly,
   }
 ) => (
-  <FormWrapper data-hidden={mobileView && !isDetailsView}>
+  <FormWrapper data-hidden={isMobile && !isDetailsView}>
     <BookingForm
       ref={guestFormRef}
       onSubmit={onGuestFormSubmit}
@@ -105,7 +104,7 @@ const renderGuestForm = (
       validation={validation}
       data={holdOnly ? withoutSections(data) : data}
     >
-      {mobileView && renderSubmitButton(t, { mobileView, isReviewView, canBook, onSubmit, isOnRequest })}
+      {isMobile && renderSubmitButton(t, { isMobile, isReviewView, canBook, onSubmit, isOnRequest })}
     </BookingForm>
   </FormWrapper>
 );
@@ -127,9 +126,9 @@ const renderPaymentTypes = (t, { isOnRequest, onPaymentChange, paymentType }) =>
 
 const renderSummary = (
   t,
-  { mobileView, isReviewView, id, isComplete, onSubmit, canBook, isOnRequest, paymentType, onPaymentChange, holdOnly }
+  { isMobile, isReviewView, id, isComplete, onSubmit, canBook, isOnRequest, paymentType, onPaymentChange, holdOnly }
 ) =>
-  (!mobileView || isReviewView) && (
+  (!isMobile || isReviewView) && (
     <StyledSummary
       id={id}
       summaryOnly={true}
@@ -143,7 +142,7 @@ const renderSummary = (
         !holdOnly && (
           <Fragment>
             {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
-            {renderSubmitButton(t, { isReviewView, canBook, onSubmit, mobileView, isOnRequest })}
+            {renderSubmitButton(t, { isReviewView, canBook, onSubmit, isMobile, isOnRequest })}
           </Fragment>
         )
       }
@@ -268,11 +267,10 @@ export const HotelBookingContainer = ({
   const { modalOpen, onModalClose, onModalOpen } = useModalState(false);
   const loaded = useFetchData(hotelStatus, fetchHotel, [id]);
   const guestFormRef = useRef(undefined);
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
 
   const isDetailsView = equals(ViewType.DETAILS, view);
   const isReviewView = equals(ViewType.REVIEW, view);
-  const mobileView = isMobile(currentWidth);
   const submitError = isError(bookingStatus);
   const reservationId = prop('reservationId', booking);
 
@@ -308,7 +306,7 @@ export const HotelBookingContainer = ({
     if (holdOnly)
       return completeAndHold(id, pick(['guestFirstName', 'guestLastName', 'guestTitle'], values), 'potential', true);
 
-    mobileView && isDetailsView ? setView(ViewType.REVIEW) : onModalOpen();
+    isMobile && isDetailsView ? setView(ViewType.REVIEW) : onModalOpen();
   };
   const onSubmit = () => prop('current', guestFormRef) && guestFormRef.current.submitForm();
   const onModalSubmit = values => {
@@ -320,7 +318,7 @@ export const HotelBookingContainer = ({
     <Loader isLoading={!loaded} text={t('messages.preparingBooking')}>
       <StyledHotelContainer>
         {renderBreadcrumbs(t, {
-          mobileView,
+          isMobile,
           isDetailsView,
           isReviewView,
           onMobileNavClick,
@@ -339,7 +337,7 @@ export const HotelBookingContainer = ({
                 guestFormValues,
                 isDetailsView,
                 isReviewView,
-                mobileView,
+                isMobile,
                 onGuestFormSubmit,
                 onSubmit,
                 isOnRequest,
@@ -351,7 +349,7 @@ export const HotelBookingContainer = ({
               id,
               isComplete,
               isReviewView,
-              mobileView,
+              isMobile,
               onPaymentChange,
               onSubmit,
               paymentType,
