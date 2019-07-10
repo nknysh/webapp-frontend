@@ -3,7 +3,7 @@ import { FORBIDDEN } from 'http-status';
 
 import client from 'api/auth';
 
-import { successAction, errorAction, errorFromResponse } from 'store/common';
+import { successAction, errorAction, errorFromResponse, storeReset } from 'store/common';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_OK = 'AUTH_OK';
@@ -115,6 +115,7 @@ export const logOut = token => async dispatch => {
 
   dispatch(authReset());
   dispatch(successAction(AUTH_LOG_OUT, {}));
+  dispatch(storeReset());
 
   try {
     await client.logOut();

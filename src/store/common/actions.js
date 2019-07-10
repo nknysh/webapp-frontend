@@ -6,9 +6,14 @@ import { getErrorActionName, getSuccessActionName, getLoadingActionName } from '
 import { enqueueNotification } from 'store/modules/ui/actions';
 
 export const STATUS_TO_IDLE = 'STATUS_TO_IDLE';
+export const STORE_RESET = 'STORE_RESET';
 
 export const resetStatuses = () => ({
   type: STATUS_TO_IDLE,
+});
+
+export const storeReset = () => ({
+  type: STORE_RESET,
 });
 
 export const loadingAction = curry((type, data) => ({
