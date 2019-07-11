@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { reduce, merge, keys, values } from 'ramda';
 
-import { getIndex, getIndexesStatus } from 'store/modules/indexes/selectors';
+import { getIndex, getIndexesStatus } from 'store/modules/indexes';
 
 const mapStateToProps = (state, { indexes }) => {
   const buildIndex = (accum, index) => merge(accum, { [index]: getIndex(state, index) });

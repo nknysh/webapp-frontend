@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pages actions getPageById returns action 1`] = `
+exports[`pages actions getPageAction returns action 1`] = `
 Object {
   "payload": Object {
     "pageId": "foo",

@@ -10,9 +10,10 @@ import {
   proposalBookingRequest,
   proposalBookingHold,
   proposalBookingRelease,
-} from 'store/modules/proposals/actions';
-
-import { getProposal, getProposalsStatus, getProposalBookings } from 'store/modules/proposals/selectors';
+  getProposal,
+  getProposalsStatus,
+  getProposalBookings,
+} from 'store/modules/proposals';
 
 export const mapStateToProps = (state, { id }) => ({
   proposal: getProposal(state, id),

@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Loader, Breadcrumbs, Tabs, Section, DropDownMenu, Modal, BookingConfirmationForm, Markdown } from 'components';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
-import { isMobile, formatDate } from 'utils';
+import { formatDate } from 'utils';
 
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
@@ -179,9 +179,9 @@ const renderGuestDetails = (t, { booking, isSr }) => (
   </GuestDetails>
 );
 
-const renderDetails = (t, { booking, onStatusChange, isSr, mobileView }) => (
+const renderDetails = (t, { booking, onStatusChange, isSr, isMobile }) => (
   <BookingContent>
-    {isSr && mobileView && renderStatusStrip(t, { onStatusChange, booking, isSr })}
+    {isSr && isMobile && renderStatusStrip(t, { onStatusChange, booking, isSr })}
     {renderGuestDetails(t, { isSr, booking })}
   </BookingContent>
 );
@@ -310,7 +310,7 @@ export const BookingContainer = ({
 }) => {
   const { t } = useTranslation();
   const loaded = useFetchData(bookingStatus, fetchBooking, [id], [created]);
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
   const [hasCreated] = useState(created);
   const [canEdit, setCanEdit] = useState(false);
   const modal = useModalState();
@@ -322,7 +322,6 @@ export const BookingContainer = ({
   const { status } = booking;
   const { setModalContext, onModalOpen, onModalClose } = modal;
   const isPotential = equals('potential', status);
-  const mobileView = isMobile(currentWidth);
 
   const onSubmit = () => {
     setCanEdit(false);
@@ -355,7 +354,7 @@ export const BookingContainer = ({
     isDetails,
     isPotential,
     isSr,
-    mobileView,
+    isMobile,
     onAddHolds,
     onEditGuard,
     onReleaseHolds,
@@ -366,7 +365,7 @@ export const BookingContainer = ({
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingBooking')}>
       <StyledBookingContainer>
-        <Booking>{mobileView ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}</Booking>
+        <Booking>{isMobile ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}</Booking>
         {renderModal(t, { isSr, onModalSubmit, booking, ...modal })}
       </StyledBookingContainer>
     </Loader>

@@ -1,6 +1,7 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
+import { getCountriesNamesAsKeyValue } from 'store/modules/countries';
 import {
   getAuthStatus,
   getAuthError,
@@ -8,9 +9,8 @@ import {
   getUserCountryContext,
   getCurrentUserCountryCode,
   isSR,
-} from 'store/modules/auth/selectors';
-import { getCountriesNamesAsKeyValue } from 'store/modules/countries/selectors';
-import { authSetCountry } from 'store/modules/auth/actions';
+  authSetCountry,
+} from 'store/modules/auth';
 
 export const mapStateToProps = state => {
   const currentUser = getCurrentUser(state);

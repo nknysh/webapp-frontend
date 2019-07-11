@@ -2,7 +2,6 @@ import React from 'react';
 import { compose } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import theme from 'styles/theme';
 import { Markdown } from 'components';
 import { useCurrentWidth } from 'effects';
 import { toDate } from 'utils';
@@ -27,9 +26,7 @@ const currentDate = toDate();
 
 export const Footer = ({ menu, className }) => {
   const { t } = useTranslation();
-  const currentWidth = useCurrentWidth();
-
-  const isMobile = currentWidth <= theme.breakpoints.desktop;
+  const { isMobile } = useCurrentWidth();
 
   const footerMenu = <FooterMenu links={menu} />;
 

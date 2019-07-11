@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'ramda';
 
-import theme from 'styles/theme';
 import { useCurrentWidth } from 'effects';
 import { mapWithIndex } from 'utils';
 
@@ -9,13 +8,12 @@ import { propTypes, defaultProps } from './Sidebar.props';
 import { StyledSidebar, SidebarTitle, SidebarLinks, SidebarLink, SidebarChildren, SidebarIcon } from './Sidebar.styles';
 
 export const Sidebar = ({ title, links, isOpen: isOpenProp, children, ...props }) => {
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
   const [isOpen, setIsOpen] = useState(isOpenProp);
 
   const onToggle = () => setIsOpen(!isOpen);
   const onClick = () => setIsOpen(false);
 
-  const isMobile = currentWidth <= theme.breakpoints.tablet;
   const hasLinks = !isEmpty(links) || children;
 
   const renderIcon = () =>

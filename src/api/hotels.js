@@ -1,9 +1,10 @@
 import client from './index';
 
-export const getHotels = params => client.get('/hotels', { params });
+export const getHotels = (params, opts) => client.get('/hotels', { params, ...opts });
 
-export const getHotel = (id, params) => client.get(`/hotels/${id}`, { params });
+export const getHotel = (id, params, opts) => client.get(`/hotels/${id}`, { params, ...opts });
 
-export const getHotelRoomRates = (id, params) => client.get(`/accommodation-products/${id}/best-rates`, { params });
+export const getHotelRoomRates = (id, params, opts) =>
+  client.get(`/accommodation-products/${id}/best-rates`, { params, ...opts });
 
 export default { getHotels, getHotel, getHotelRoomRates };

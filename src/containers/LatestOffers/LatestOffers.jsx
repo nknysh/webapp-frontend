@@ -1,10 +1,10 @@
 import React, { memo } from 'react';
-import { compose, pipe, map, values, when, complement, isNil } from 'ramda';
+import { compose, pipe, values, when, complement, isNil } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { Loader, Slider } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
-import { isMobile } from 'utils';
+import { mapWithIndex } from 'utils';
 
 import Offer from 'containers/Offer';
 
@@ -17,25 +17,24 @@ const renderOffer = (offer, i) => <Offer key={i} id={offer} />;
 const renderOffers = when(
   complement(isNil),
   pipe(
-    map(renderOffer),
+    mapWithIndex(renderOffer),
     values
   )
 );
 
-const renderOfferContainer = ({ offers, mobileView }) =>
-  !mobileView ? <Offers>{renderOffers(offers)}</Offers> : <Slider>{renderOffers(offers)}</Slider>;
+const renderOfferContainer = ({ offers, isMobile }) =>
+  !isMobile ? <Offers>{renderOffers(offers)}</Offers> : <Slider>{renderOffers(offers)}</Slider>;
 
 export const LatestOffers = ({ fetchLatestOffers, offers, offersStatus }) => {
   const { t } = useTranslation();
 
   const offersFetched = useFetchData(offersStatus, fetchLatestOffers, []);
-  const currentWidth = useCurrentWidth();
-  const mobileView = isMobile(currentWidth);
+  const { isMobile } = useCurrentWidth();
 
   return (
     <StyledLatestOffers>
       <Title>{t('sections.latestOffers')}</Title>
-      <Loader isLoading={!offersFetched}>{renderOfferContainer({ offers, mobileView })}</Loader>
+      <Loader isLoading={!offersFetched}>{renderOfferContainer({ offers, isMobile })}</Loader>
     </StyledLatestOffers>
   );
 };

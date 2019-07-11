@@ -1,8 +1,14 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { addToProposal, createNewProposal, fetchProposals } from 'store/modules/proposals/actions';
-import { getProposalsKeyValue, getProposalsStatus, getProposalsResults } from 'store/modules/proposals/selectors';
+import {
+  addToProposal,
+  createNewProposal,
+  fetchProposals,
+  getProposalsKeyValue,
+  getProposalsStatus,
+  getProposalsResults,
+} from 'store/modules/proposals';
 
 export const mapStateToProps = state => ({
   status: getProposalsStatus(state),

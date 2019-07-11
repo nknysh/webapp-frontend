@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Card, Loader, Modal } from 'components';
 import SearchSidebar from 'containers/SearchSidebar';
 import { useCurrentWidth, useEffectBoundary, useModalState } from 'effects';
-import { isMobile } from 'utils';
 
 import { isActive } from 'store/common';
 
@@ -30,7 +29,7 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
   }, [searchQuery]);
 
   const { modalOpen, onModalOpen, onModalClose } = useModalState(false);
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
 
   const count = length(result) || 0;
   const countTitle = `${count} ${t('result', { count })}`;
@@ -46,7 +45,7 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
     <Fragment>
       <StyledResults>
         <Loader text={t('messages.searching')} isLoading={isActive(searchStatus)} showPrev={true}>
-          {isMobile(currentWidth) && (
+          {isMobile && (
             <Filtering>
               <FiltersButton onClick={onModalOpen}>{t('buttons.refine')}</FiltersButton>
             </Filtering>
@@ -61,7 +60,7 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
           )}
         </Loader>
       </StyledResults>
-      {isMobile(currentWidth) && (
+      {isMobile && (
         <Modal open={modalOpen} modalContentProps={modalStyles} onClose={onModalClose}>
           <SearchSidebar />
         </Modal>

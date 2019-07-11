@@ -1,8 +1,8 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
-import { getAuthStatus, getAuthToken, isAuthenticated } from 'store/modules/auth/selectors';
-import { logOut } from 'store/modules/auth/actions';
+
 import { isLoading } from 'store/common';
+import { logOut, getAuthStatus, getAuthToken, isAuthenticated } from 'store/modules/auth';
 
 const mapStateToProps = state => ({
   isAuthenticated: isAuthenticated(state),

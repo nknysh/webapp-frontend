@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { getUiHeaderMenu } from 'store/modules/ui/selectors';
+import { getUiHeaderMenu } from 'store/modules/ui';
 
 export const mapStateToProps = state => ({
   menu: getUiHeaderMenu(state),

@@ -1,18 +1,24 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { updateBooking, updateRoom, updateIndividualRoom, addRoom, removeRoom } from 'store/modules/bookings/actions';
 import {
+  fetchHotelRoomRatesByDates,
+  getHotelRoomName,
+  getHotelRoomRates,
+  getHotelRoomOptions,
+} from 'store/modules/hotels';
+import {
+  updateBooking,
+  updateRoom,
+  updateIndividualRoom,
+  addRoom,
+  removeRoom,
   getBookingRoomDatesById,
   getBookingRoomMealPlans,
   getBookingErrorsByRoomId,
   getPotentialBookingRoomsById,
   getBookingRoomsById,
-} from 'store/modules/bookings/selectors';
-
-import { getHotelRoomName, getHotelRoomRates, getHotelRoomOptions } from 'store/modules/hotels/selectors';
-
-import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
+} from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id, roomId }) => ({
   dates: getBookingRoomDatesById(state, id, roomId),

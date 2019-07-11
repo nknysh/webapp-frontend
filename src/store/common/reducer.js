@@ -5,6 +5,11 @@ import { statusLens, errorLens, dataLens } from 'store/utils';
 
 import { Status } from './status';
 
+export const idleReducer = pipe(
+  set(statusLens, Status.IDLE),
+  set(errorLens, undefined)
+);
+
 export const loadingReducer = pipe(
   set(statusLens, Status.LOADING),
   set(errorLens, undefined)

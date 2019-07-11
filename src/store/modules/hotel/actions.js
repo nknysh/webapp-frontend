@@ -5,9 +5,9 @@ import { formatDate } from 'utils';
 import client from 'api/hotels';
 
 import { successAction, errorFromResponse } from 'store/common';
-import { setHotels } from 'store/modules/hotels/actions';
-import { getSearchQuery } from 'store/modules/search/selectors';
-import { getUserCountryContext } from 'store/modules/auth/selectors';
+import { setHotels } from 'store/modules/hotels';
+import { getSearchQuery } from 'store/modules/search';
+import { getUserCountryContext } from 'store/modules/auth';
 
 export const HOTEL = 'HOTEL';
 export const HOTEL_ROOMS = 'HOTEL_ROOMS';

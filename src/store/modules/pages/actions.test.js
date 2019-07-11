@@ -1,16 +1,16 @@
-import { getPageById, getPage } from './actions';
+import { getPageById, getPageAction } from './actions';
 
 describe('pages actions', () => {
-  describe('getPageById', () => {
+  describe('getPageAction', () => {
     it('returns action', () => {
-      expect(getPageById('foo')).toMatchSnapshot();
+      expect(getPageAction('foo')).toMatchSnapshot();
     });
   });
-  describe('getPage', () => {
+  describe('getPageById', () => {
     it('calls dispatch thunks', () => {
       const dispatch = jest.fn();
 
-      getPage('about-us')(dispatch);
+      getPageById('about-us')(dispatch);
 
       expect(dispatch).toHaveBeenCalledTimes(3);
     });

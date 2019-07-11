@@ -1,4 +1,7 @@
+import { equals, mapObjIndexed, always } from 'ramda';
 import { combineReducers } from 'redux';
+
+import { STATUS_TO_IDLE, STORE_RESET, resetStoreStatuses } from './common';
 
 import auth from './modules/auth/reducer';
 import bookings from './modules/bookings/reducer';
@@ -13,7 +16,7 @@ import search from './modules/search/reducer';
 import ui from './modules/ui/reducer';
 import users from './modules/users/reducer';
 
-import { STATUS_TO_IDLE, resetStoreStatuses } from './common';
+const clearState = mapObjIndexed(always(undefined));
 
 const rootReducer = combineReducers({
   auth,
@@ -33,8 +36,12 @@ const rootReducer = combineReducers({
 export default (state, action) => {
   const { type } = action;
 
-  if (type === STATUS_TO_IDLE) {
+  if (equals(type, STATUS_TO_IDLE)) {
     state = resetStoreStatuses(state, action);
+  }
+
+  if (equals(type, STORE_RESET)) {
+    state = clearState(state);
   }
 
   return rootReducer(state, action);

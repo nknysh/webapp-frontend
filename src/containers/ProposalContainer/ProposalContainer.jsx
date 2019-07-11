@@ -29,7 +29,7 @@ import { useTranslation } from 'react-i18next';
 import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
 import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal, Checkbox } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
-import { isMobile, formatDate } from 'utils';
+import { formatDate } from 'utils';
 import { fields, data } from 'config/forms/bookingForm';
 
 import { isLoading, isSuccess, isSending } from 'store/common';
@@ -82,10 +82,7 @@ const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 const renderBackToProposals = t => renderBackButton(t('labels.proposals'), { href: `${ADMIN_BASE_URL}/proposals` });
 const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search' });
 
-const renderBreadcrumbs = (
-  t,
-  { proposal, id, mobileView, onMobileNavClick, isGenerateView, isResortsView, isEdit }
-) => {
+const renderBreadcrumbs = (t, { proposal, id, isMobile, onMobileNavClick, isGenerateView, isResortsView, isEdit }) => {
   const links = isEdit
     ? [
         { label: renderBackToSearch(t) },
@@ -95,8 +92,8 @@ const renderBreadcrumbs = (
     : [{ label: renderBackToProposals(t) }, { label: t('labels.proposalWithId', { id }), to: `/proposals/${id}` }];
   return (
     <Fragment>
-      {mobileView && (isEdit ? renderBackToSearch(t) : renderBackToProposals(t))}
-      {mobileView ? (
+      {isMobile && (isEdit ? renderBackToSearch(t) : renderBackToProposals(t))}
+      {isMobile ? (
         <BookingPath>
           <BookingPathSegment onClick={onMobileNavClick} data-active={isResortsView}>
             {t('labels.resortsIncluded')}
@@ -212,7 +209,7 @@ const renderProposalSummary = (
     canEdit,
     isEdit,
     isResortsView,
-    mobileView,
+    isMobile,
     onAdditionalResourceClick,
     onAmend,
     onBookingRemove,
@@ -223,9 +220,9 @@ const renderProposalSummary = (
     onReleaseHolds,
   }
 ) =>
-  (!mobileView || isResortsView) && (
+  (!isMobile || isResortsView) && (
     <ProposalSummary>
-      {!mobileView && <Title>{t('labels.propertiesAndRooms')}</Title>}
+      {!isMobile && <Title>{t('labels.propertiesAndRooms')}</Title>}
       {map(
         partial(renderBooking, [
           t,
@@ -245,16 +242,13 @@ const renderProposalSummary = (
         ]),
         bookings
       )}
-      {mobileView && isEdit && <Button onClick={onViewChange}>{t('labels.reviewAndGenerate')}</Button>}
+      {isMobile && isEdit && <Button onClick={onViewChange}>{t('labels.reviewAndGenerate')}</Button>}
     </ProposalSummary>
   );
 
-const renderProposalGuestForm = (
-  t,
-  { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF }
-) =>
+const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF }) =>
   isEdit &&
-  ((!mobileView || isGenerateView) && (
+  ((!isMobile || isGenerateView) && (
     <ProposalGuestForm>
       <BookingForm
         onSubmit={onGenerateAndSend}
@@ -279,10 +273,10 @@ const renderStatusStrip = (t, { createdAt, isEdit }) =>
     </StatusStrip>
   );
 
-const renderProposalGuestInfo = (t, { isEdit, mobileView, proposal }) =>
+const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal }) =>
   !isEdit && (
     <Fragment>
-      {mobileView && renderStatusStrip(t, { isEdit, ...proposal })}
+      {isMobile && renderStatusStrip(t, { isEdit, ...proposal })}
       <ProposalGuestInfo>
         <Section label={t('labels.leadGuestInfo')}>
           <GuestName>{join(' ', props(['guestTitle', 'guestFirstName', 'guestLastName'], proposal))}</GuestName>
@@ -322,7 +316,7 @@ export const ProposalContainer = ({
   const { t } = useTranslation();
 
   const loaded = useFetchData(status, fetchProposal, [id], undefined, reloadIfMissing(proposal));
-  const currentWidth = useCurrentWidth();
+  const { isMobile } = useCurrentWidth();
   const [submitted, setSubmitted] = useState(false);
   const [booked, setBooked] = useState(false);
   const [complete, setComplete] = useState(false);
@@ -347,7 +341,6 @@ export const ProposalContainer = ({
   if (proposalLocked || (isEdit && complete)) return <Redirect to={`/proposals/${id}`} />;
   if (booked && bookingComplete) return <Redirect to={`/bookings/${booked}/complete`} />;
 
-  const mobileView = isMobile(currentWidth);
   const isResortsView = equals(ViewTypes.RESORTS, view);
   const isGenerateView = equals(ViewTypes.GENERATE, view);
   const loading = !loaded || isLoading(status);
@@ -404,7 +397,7 @@ export const ProposalContainer = ({
     canEdit,
     isEdit,
     isResortsView,
-    mobileView,
+    isMobile,
     onAdditionalResourceClick,
     onAmend,
     onBookingRemove,
@@ -414,8 +407,8 @@ export const ProposalContainer = ({
     onAddHolds,
     onReleaseHolds,
   };
-  const guestFormProps = { mobileView, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF };
-  const guestInfoProps = { mobileView, isGenerateView, isEdit, proposal };
+  const guestFormProps = { isMobile, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF };
+  const guestInfoProps = { isMobile, isGenerateView, isEdit, proposal };
 
   const renderFull = () => (
     <Fragment>
@@ -424,7 +417,7 @@ export const ProposalContainer = ({
         isEdit,
         isGenerateView,
         isResortsView,
-        mobileView,
+        isMobile,
         onMobileNavClick,
         proposal,
       })}
@@ -447,7 +440,7 @@ export const ProposalContainer = ({
 
   return (
     <Loader isLoading={sending || loading} text={sending ? t('messages.requesting') : t('messages.gettingProposal')}>
-      <StyledProposalContainer>{!mobileView || isEdit ? renderFull() : renderTabs()}</StyledProposalContainer>
+      <StyledProposalContainer>{!isMobile || isEdit ? renderFull() : renderTabs()}</StyledProposalContainer>
       {renderPDFModal(t, { id, showPDF, setShowPDF })}
     </Loader>
   );
