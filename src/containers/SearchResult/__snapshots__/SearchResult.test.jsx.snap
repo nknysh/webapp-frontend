@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchResult /> render matches snapshot 1`] = `
+<SearchResultstyles__StyledCard>
+  <SearchResultstyles__CardImage
+    style={
+      Object {
+        "backgroundImage": "url(undefined)",
+      }
+    }
+  />
+  <SearchResultstyles__CardDetails>
+    <SearchResultstyles__CardTitle />
+    <SearchResultstyles__CardRating>
+      <SearchResultstyles__CardStarRating>
+        <SearchResultstyles__CardStar>
+          star
+        </SearchResultstyles__CardStar>
+         
+        <SearchResultstyles__CardStarText>
+           
+          Star
+        </SearchResultstyles__CardStarText>
+      </SearchResultstyles__CardStarRating>
+      <SearchResultstyles__CardSecondaryRating />
+    </SearchResultstyles__CardRating>
+    <SearchResultstyles__CardHighlights />
+    <SearchResultstyles__CardAdditionalInfo>
+      <SearchResultstyles__CardAdditional />
+    </SearchResultstyles__CardAdditionalInfo>
+  </SearchResultstyles__CardDetails>
+</SearchResultstyles__StyledCard>
+`;

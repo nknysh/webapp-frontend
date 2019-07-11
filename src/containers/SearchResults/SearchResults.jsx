@@ -2,7 +2,8 @@ import React, { Fragment, memo } from 'react';
 import { compose, length, map, defaultTo, prop, toLower } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Card, Loader, Modal } from 'components';
+import { Loader, Modal } from 'components';
+import SearchResult from 'containers/SearchResult';
 import SearchSidebar from 'containers/SearchSidebar';
 import { useCurrentWidth, useEffectBoundary, useModalState } from 'effects';
 
@@ -37,7 +38,7 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
 
   const renderResult = ({ uuid, ...hotel }) => (
     <Result to={`/hotels/${uuid}`} key={uuid}>
-      <Card uuid={uuid} {...hotel} />
+      <SearchResult id={uuid} {...hotel} />
     </Result>
   );
 

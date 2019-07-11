@@ -4,7 +4,7 @@ import { DatePicker } from 'components/elements';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { withCurrency, Button } from 'styles/elements';
+import { withCurrency, withDiscountStyles, Button } from 'styles/elements';
 import { Heading3 } from 'styles/typography';
 
 export const DatePrice = styled.div`
@@ -73,6 +73,12 @@ export const MealPlanRate = styled.span`
 
 export const MealPlanRatePrice = styled.span`
   ${withCurrency};
+  ${withDiscountStyles};
+`;
+
+export const MealPlanRatePriceOffer = styled.span`
+  display: block;
+  ${withDiscountStyles};
 `;
 
 export const MealPlanRateWrapper = styled.div`

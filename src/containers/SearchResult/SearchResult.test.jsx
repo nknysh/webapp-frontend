@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card } from './Card';
+import { SearchResult } from './SearchResult';
 
 const defaultProps = {
   hotel: {
@@ -16,9 +16,9 @@ const defaultProps = {
   },
 };
 
-const getComponent = props => shallow(<Card {...defaultProps} {...props} />);
+const getComponent = props => shallow(<SearchResult {...defaultProps} {...props} />);
 
-describe('<Card />', () => {
+describe('<SearchResult />', () => {
   describe('render', () => {
     it('matches snapshot', () => {
       expect(getComponent()).toMatchSnapshot();

@@ -1,7 +1,6 @@
 export { default as AgreeToForm } from './AgreeToForm';
 export { default as BookingConfirmation } from './BookingConfirmation';
 export { default as BookingForm } from './BookingForm';
-export { default as Card } from './Card';
 export { default as GuestSelect } from './GuestSelect';
 export { default as Hotel } from './Hotel';
 export { default as LodgingSelect } from './LodgingSelect';

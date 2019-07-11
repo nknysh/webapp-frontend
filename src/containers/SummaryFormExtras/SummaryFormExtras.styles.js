@@ -23,6 +23,11 @@ export const OptionPrice = styled.span`
   ${withDiscountStyles};
 `;
 
+export const OptionOffer = styled.span`
+  display: block;
+  ${withDiscountStyles};
+`;
+
 export const Extra = styled.div`
   margin-bottom: ${theme.gutter * 4}px;
 
@@ -121,5 +126,6 @@ export const ExtraSummaryTotals = styled.div`
 `;
 
 export const ExtraOffer = styled.span`
+  display: block;
   ${withDiscountStyles};
 `;

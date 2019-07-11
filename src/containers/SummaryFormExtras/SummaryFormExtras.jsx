@@ -41,7 +41,7 @@ import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch } from 'comp
 
 import { ProductTypes } from 'config/enums';
 import { useModalState, useFetchData } from 'effects';
-import { isString } from 'utils';
+import { isString, mapWithIndex } from 'utils';
 
 import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
@@ -63,6 +63,7 @@ import {
   OptionLabel,
   OptionPrice,
   OptionRate,
+  OptionOffer,
   Title,
   TravelAgent,
   TravelAgentName,
@@ -101,9 +102,15 @@ const extractChosenAddons = (type, data) =>
 
 const toSelectedAddon = reduce((accum, { uuid }) => mergeDeepRight({ [uuid]: true }, accum), {});
 
+const renderOptionOffer = (t, { offer }, i) => (
+  <OptionOffer key={i + prop('uuid', offer)} data-discount={true}>
+    {t('offer')}: {prop('name', offer)}
+  </OptionOffer>
+);
+
 // eslint-disable-next-line
-const renderOption = ({ total, totalBeforeDiscount, title, quantity = 0 }) => (
-  <OptionRate key={total}>
+const renderOption = (t, { uuid, total, totalBeforeDiscount, offers, title, quantity = 0 }) => (
+  <OptionRate key={uuid}>
     {gt(quantity, 1) && `${quantity} x`} {title} (+{' '}
     <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>{totalBeforeDiscount}</OptionPrice>
     {!equals(total, totalBeforeDiscount) && (
@@ -112,13 +119,13 @@ const renderOption = ({ total, totalBeforeDiscount, title, quantity = 0 }) => (
         <OptionPrice data-discount={true}>{total}</OptionPrice>
       </Fragment>
     )}
-    )
+    ){mapWithIndex(partial(renderOptionOffer, [t]), offers)}
   </OptionRate>
 );
 
 const renderOneWayOption = (t, direction, breakdownData) => (
   <Fragment key={prop('uuid', breakdownData)}>
-    {renderOption(breakdownData)} - {t(`labels.${direction}`)}
+    {renderOption(t, breakdownData)} - {t(`labels.${direction}`)}
   </Fragment>
 );
 
@@ -151,29 +158,27 @@ const renderOneWayProducts = (t, productType, products, props) =>
     Rvalues
   )(products);
 
-const renderOptionSummary = (
-  t,
-  accum,
-  { total, totalBeforeDiscount, products, breakdown, selected, offers, ...rest }
-) =>
+const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, breakdown, selected, ...rest }) =>
   selected
     ? append(
         <AddonSummary key={join(',', products)}>
           <ExtraSummaryProduct>
             {map(
-              ({ product, title }) => (
+              ({ product, title, offers }) => (
                 <span key={product}>
                   {title} {path(['meta', 'direction'], rest) && `- ${t(`labels.${path(['meta', 'direction'], rest)}`)}`}
+                  {map(
+                    ({ offer }) => (
+                      <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
+                        {t('offer')}: {prop('name', offer)}
+                      </ExtraOffer>
+                    ),
+                    offers
+                  )}
                 </span>
               ),
               breakdown
             )}
-            {!isEmpty(offers) &&
-              map(({ offer }) => (
-                <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
-                  {t('offer')}: {prop('name', offer)}
-                </ExtraOffer>
-              ))}
           </ExtraSummaryProduct>
           <ExtraSummaryTotals>
             <ExtraSummaryTotal data-discount={!equals(total, totalBeforeDiscount)}>{total}</ExtraSummaryTotal>
@@ -214,7 +219,7 @@ const renderExtraOptions = (
 
   const getOption = ({ products, breakdown }) => {
     const value = join(',', map(prop('uuid'), products));
-    const label = map(renderOption, breakdown);
+    const label = map(partial(renderOption, [t]), breakdown);
 
     return { label, value };
   };
@@ -327,7 +332,7 @@ const renderSelect = (
       checked={selected || checked}
       onChange={partial(onMultipleChange, [productType])}
       key={uuids}
-      label={<OptionLabel>{map(renderOption, breakdown)}</OptionLabel>}
+      label={<OptionLabel>{map(partial(renderOption, [t]), breakdown)}</OptionLabel>}
       value={uuids}
     />
   );

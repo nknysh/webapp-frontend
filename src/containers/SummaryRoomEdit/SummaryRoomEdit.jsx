@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import {
   compose,
   equals,
@@ -56,6 +56,7 @@ import {
   MealPlanRate,
   MealPlanRatePrice,
   StyledDatePicker,
+  MealPlanRatePriceOffer,
 } from './SummaryRoomEdit.styles';
 import {
   getAgeRanges,
@@ -154,20 +155,34 @@ const renderDatePicker = (
   />
 );
 
-const mapBreakdown = (hasSplitRates, { title, dates, total }, i) => (
+const renderMealPlanOffer = (t, { offer }, i) => (
+  <MealPlanRatePriceOffer key={i + prop('uuid', offer)} data-discount={true}>
+    {t('offer')}: {prop('name', offer)}
+  </MealPlanRatePriceOffer>
+);
+
+const mapBreakdown = (t, hasSplitRates, { title, dates, total, totalBeforeDiscount, offers }, i) => (
   <MealPlanRate key={i}>
-    {title} - (<MealPlanRatePrice>{total}</MealPlanRatePrice>
-    {hasSplitRates && ` | ${head(dates)}${!equals(head(dates), last(dates)) ? ` - ${last(dates)}` : ''}`})
+    {title} - (
+    <MealPlanRatePrice data-discounted={!equals(total, totalBeforeDiscount)}>{totalBeforeDiscount}</MealPlanRatePrice>
+    {!equals(total, totalBeforeDiscount) && (
+      <Fragment>
+        {' '}
+        <MealPlanRatePrice data-discount={true}>{total}</MealPlanRatePrice>
+      </Fragment>
+    )}
+    ){hasSplitRates && ` | ${head(dates)}${!equals(head(dates), last(dates)) ? ` - ${last(dates)}` : ''}`}
+    {mapWithIndex(partial(renderMealPlanOffer, [t]), offers)}
   </MealPlanRate>
 );
 
-const mapMealPlans = ({ breakdown = [], products = [] }) => {
+const mapMealPlans = (t, { breakdown = [], products = [] }) => {
   const hasSplitRates = gt(length(breakdown), 1);
   const productUuids = map(prop('uuid'), products);
 
   return {
     value: JSON.stringify(productUuids),
-    label: mapWithIndex(partial(mapBreakdown, [hasSplitRates]), breakdown),
+    label: mapWithIndex(partial(mapBreakdown, [t, hasSplitRates]), breakdown),
   };
 };
 
@@ -214,7 +229,7 @@ export const SummaryRoomEdit = ({
   const bookingErrors = groupErrorsByRoomIndex(errors);
   const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
   const mealPlanOptions = pipe(
-    map(mapMealPlans),
+    map(partial(mapMealPlans, [t])),
     prepend({ label: 'None', value: '[]' })
   )(mealPlans[roomContext] || []);
 

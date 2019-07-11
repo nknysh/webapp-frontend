@@ -23,4 +23,5 @@ export { default as SummaryFormExtras } from './SummaryFormExtras';
 export { default as SummaryRoom } from './SummaryRoom';
 export { default as SummaryRoomEdit } from './SummaryRoomEdit';
 export { default as UserPanel } from './UserPanel';
+export { default as SearchResult } from './SearchResult';
 export { default as Offer } from './Offer';
