@@ -1,14 +1,17 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { getHotel, getHotelsBrochures, getHotelsPhotos } from 'store/modules/hotels/selectors';
-
-import { fetchHotel } from 'store/modules/hotel/actions';
-import { getHotelStatus } from 'store/modules/hotel/selectors';
-
-import { updateBooking, removeRoom, addRoom } from 'store/modules/bookings/actions';
-import { getBooking, getBookingReady, getBookingCanHold } from 'store/modules/bookings/selectors';
-import { isSR } from 'store/modules/auth/selectors';
+import { getHotel, getHotelsBrochures, getHotelsPhotos } from 'store/modules/hotels';
+import { fetchHotel, getHotelStatus } from 'store/modules/hotel';
+import {
+  getBooking,
+  getBookingReady,
+  getBookingCanHold,
+  updateBooking,
+  removeRoom,
+  addRoom,
+} from 'store/modules/bookings';
+import { isSR } from 'store/modules/auth';
 
 export const mapStateToProps = (state, { id }) => ({
   isSr: isSR(state),

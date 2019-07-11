@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { searchByQuery } from 'store/modules/search/actions';
+import { getHotelsFromSearchResults } from 'store/modules/hotels';
 import {
+  searchByQuery,
   getSearchStatus,
   getSearchQuery,
   getSearchResultsMeta,
   getSearchResultsResult,
   getCanSearch,
-} from 'store/modules/search/selectors';
-import { getHotelsFromSearchResults } from 'store/modules/hotels/selectors';
+} from 'store/modules/search';
 
 export const mapStateToProps = state => ({
   searchQuery: getSearchQuery(state),

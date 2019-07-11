@@ -6,13 +6,13 @@ import { PageData } from './config';
 
 export const PAGE = 'PAGE';
 
-export const getPageById = pageId => ({
+export const getPageAction = pageId => ({
   type: PAGE,
   payload: { pageId },
 });
 
-export const getPage = pageId => dispatch => {
-  dispatch(getPageById(pageId));
+export const getPageById = pageId => dispatch => {
+  dispatch(getPageAction(pageId));
   dispatch(loadingAction(PAGE));
 
   const data = prop(pageId, PageData);

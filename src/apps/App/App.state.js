@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
-import { setToken } from 'store/modules/auth/actions';
-import { resetStatuses } from 'store/common/actions';
-import { getCurrentUser } from 'store/modules/auth/selectors';
+import { setToken, getCurrentUser } from 'store/modules/auth';
+import { resetStatuses } from 'store/common';
 
 export const mapStateToProps = state => ({
   currentUser: getCurrentUser(state),

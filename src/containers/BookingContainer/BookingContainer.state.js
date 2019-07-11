@@ -10,15 +10,13 @@ import {
   requestBooking,
   reviewBooking,
   cancelBooking,
-} from 'store/modules/bookings/actions';
-import {
   getBooking,
   getBookingStatus,
   getBookingCreatedByValue,
   getBookingCreated,
   getBookingHolds,
-} from 'store/modules/bookings/selectors';
-import { isSR } from 'store/modules/auth/selectors';
+} from 'store/modules/bookings';
+import { isSR } from 'store/modules/auth';
 
 export const mapStateToProps = (state, { id }) => ({
   isSr: isSR(state),

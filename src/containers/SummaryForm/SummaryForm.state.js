@@ -1,8 +1,12 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { updateBooking, removeRoom, replaceProducts, fetchBooking } from 'store/modules/bookings/actions';
+import { fetchHotelRoomRatesByDates } from 'store/modules/hotels';
 import {
+  updateBooking,
+  removeRoom,
+  replaceProducts,
+  fetchBooking,
   getBooking,
   getBookingTotals,
   getBookingTotal,
@@ -14,9 +18,7 @@ import {
   getBookingAppliedOffers,
   getBookingAppliedOffersCount,
   getBookingTotalBeforeDiscount,
-} from 'store/modules/bookings/selectors';
-
-import { fetchHotelRoomRatesByDates } from 'store/modules/hotels/actions';
+} from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: getBooking(state, id),

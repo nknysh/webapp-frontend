@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { setSearchQuery, searchFiltersReset, searchByName } from 'store/modules/search/actions';
 import {
+  setSearchQuery,
+  searchFiltersReset,
+  searchByName,
   getSearchQuery,
   getSearchStatus,
   getSearchFiltersRegions,
   getSearchFiltersStarRatings,
   getSearchFiltersFeatures,
   getSearchFiltersPrices,
-} from 'store/modules/search/selectors';
-
-import { getCountriesData, getCountryName } from 'store/modules/countries/selectors';
-
-import { getHotelName, getHotelsData, getHotelsStatus } from 'store/modules/hotels/selectors';
+} from 'store/modules/search';
+import { getCountriesData, getCountryName } from 'store/modules/countries';
+import { getHotelName, getHotelsData, getHotelsStatus } from 'store/modules/hotels';
 
 export const mapStateToProps = state => ({
   countries: getCountriesData(state),

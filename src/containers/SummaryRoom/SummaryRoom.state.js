@@ -11,8 +11,8 @@ import {
   getBookingRoomTotal,
   getBookingRoomTotalBeforeDiscount,
   getPotentialBookingRoomsById,
-} from 'store/modules/bookings/selectors';
-import { removeRoom } from 'store/modules/bookings/actions';
+  removeRoom,
+} from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id, roomId }) => ({
   dates: getBookingRoomDatesById(state, id, roomId),

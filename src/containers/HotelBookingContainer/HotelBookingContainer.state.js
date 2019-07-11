@@ -5,8 +5,9 @@ import { pipe } from 'ramda';
 import { PAYMENT_ENABLED } from 'config';
 import { extractFieldDefaults } from 'utils';
 
-import { getHotel } from 'store/modules/hotels/selectors';
-import { getHotelStatus } from 'store/modules/hotel/selectors';
+import { getSearchDates } from 'store/modules/search';
+import { getHotel } from 'store/modules/hotels';
+import { fetchHotel, getHotelStatus } from 'store/modules/hotel';
 import {
   getBooking,
   getBookingCanHold,
@@ -15,13 +16,14 @@ import {
   getBookingStatus,
   getBookingTotal,
   isBookingOnRequest,
-} from 'store/modules/bookings/selectors';
-import { getSearchDates } from 'store/modules/search/selectors';
-
-import { fetchHotel } from 'store/modules/hotel/actions';
-import { updateBooking, completeBooking, removeBooking, completeAndHold } from 'store/modules/bookings/actions';
+  updateBooking,
+  completeBooking,
+  removeBooking,
+  completeAndHold,
+} from 'store/modules/bookings';
 
 import { fields as guestFields } from 'config/forms/bookingForm';
+
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
 
 export const useHotelBookingContainerState = () => {

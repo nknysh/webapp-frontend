@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { setPassword } from 'store/modules/auth/actions';
-import { getAuthStatus, getAuthError } from 'store/modules/auth/selectors';
+import { setPassword, getAuthStatus, getAuthError } from 'store/modules/auth';
 
 export const mapStateToProps = state => ({
   requestStatus: getAuthStatus(state),

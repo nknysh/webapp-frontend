@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
+import { isSR } from 'store/modules/auth';
+import { fetchUsers, getUsersStatus, getUsersEntities, getUserFullName, getUser } from 'store/modules/users';
 import {
   getBookingTotal,
   getBookingAddons,
@@ -11,11 +13,9 @@ import {
   getBookingRequestedSupplements,
   getBookingRequestedFines,
   getBookingTravelAgent,
-} from 'store/modules/bookings/selectors';
-import { replaceProducts, updateBooking } from 'store/modules/bookings/actions';
-import { isSR } from 'store/modules/auth/selectors';
-import { fetchUsers } from 'store/modules/users/actions';
-import { getUsersStatus, getUsersEntities, getUserFullName, getUser } from 'store/modules/users/selectors';
+  replaceProducts,
+  updateBooking,
+} from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id }) => {
   const travelAgentUserUuid = getBookingTravelAgent(state, id);

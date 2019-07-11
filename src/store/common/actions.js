@@ -2,6 +2,7 @@ import { curry, pipe, propOr, objOf, pathOr, forEach } from 'ramda';
 
 import { APP_VERBOSE_ERRORS } from 'config';
 import { isArray } from 'utils';
+
 import { getErrorActionName, getIdleActionName, getSuccessActionName, getLoadingActionName } from 'store/utils';
 import { enqueueNotification } from 'store/modules/ui/actions';
 

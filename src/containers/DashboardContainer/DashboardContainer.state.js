@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { fetchBookings } from 'store/modules/bookings/actions';
-import { getBookingStatus, getBookingsForDashboard } from 'store/modules/bookings/selectors';
+import { fetchBookings, getBookingStatus, getBookingsForDashboard } from 'store/modules/bookings';
 
 export const mapStateToProps = state => ({
   bookingsStatus: getBookingStatus(state),

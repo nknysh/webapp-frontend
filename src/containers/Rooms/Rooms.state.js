@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { getHotelsUploads, getHotelsAccommodationProducts } from 'store/modules/hotels/selectors';
-
-import { updateBooking, removeRoom, addRoom } from 'store/modules/bookings/actions';
-import { getBookingRooms, getBooking } from 'store/modules/bookings/selectors';
+import { getHotelsUploads, getHotelsAccommodationProducts } from 'store/modules/hotels';
+import { getBookingRooms, getBooking, updateBooking, removeRoom, addRoom } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { hotelUuid }) => ({
   getRoomUploads: ids => getHotelsUploads(state, ids),

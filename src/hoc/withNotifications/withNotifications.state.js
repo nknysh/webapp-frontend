@@ -1,8 +1,7 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { getUiNotifications } from 'store/modules/ui/selectors';
-import { removeNotification, enqueueNotification } from 'store/modules/ui/actions';
+import { getUiNotifications, removeNotification, enqueueNotification } from 'store/modules/ui';
 
 export const mapStateToProps = state => ({
   notifications: getUiNotifications(state),

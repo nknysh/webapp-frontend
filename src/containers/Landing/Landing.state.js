@@ -1,11 +1,8 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { fetchLatestOffers } from 'store/modules/offers/actions';
-import { getOffersResults, getOffersStatus } from 'store/modules/offers/selectors';
-
-import { searchByQuery } from 'store/modules/search/actions';
-import { getSearchStatus } from 'store/modules/search/selectors';
+import { fetchLatestOffers, getOffersResults, getOffersStatus } from 'store/modules/offers';
+import { searchByQuery, getSearchStatus } from 'store/modules/search';
 
 export const mapStateToProps = state => ({
   offers: getOffersResults(state),

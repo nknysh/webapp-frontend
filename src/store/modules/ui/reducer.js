@@ -33,9 +33,9 @@ const authenticatedState = state => {
 
 export const setAuthenticatedState = state => ({ ...state, ...authenticatedState(state) });
 
-export const enqueueNotification = (state, { payload }) => mergeDeepRight(state, { notifications: [{ ...payload }] });
+export const addNotification = (state, { payload }) => mergeDeepRight(state, { notifications: [{ ...payload }] });
 
-export const removeNotification = (state, { payload }) => {
+export const clearNotification = (state, { payload }) => {
   const notifications = prop('notifications', state);
 
   const notKey = pipe(
@@ -61,8 +61,8 @@ const uiReducer = (state = initialState, payload) => {
   return createReducer(
     {
       [AUTH_SET_TOKEN]: setAuthenticatedState,
-      [UI_ENQUEUE_NOTIFICATION]: enqueueNotification,
-      [UI_REMOVE_NOTIFICATION]: removeNotification,
+      [UI_ENQUEUE_NOTIFICATION]: addNotification,
+      [UI_REMOVE_NOTIFICATION]: clearNotification,
     },
     initialState
   )(state, payload);

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { getOffer, getOfferUploads } from 'store/modules/offers/selectors';
+import { getOffer, getOfferUploads } from 'store/modules/offers';
 
 export const mapStateToProps = (state, { id }) => ({
   offer: getOffer(state, id),
