@@ -119,7 +119,7 @@ const renderOption = (t, { uuid, total, totalBeforeDiscount, offers, title, quan
         <OptionPrice data-discount={true}>{total}</OptionPrice>
       </Fragment>
     )}
-    ){mapWithIndex(partial(renderOptionOffer, [t]), offers)}
+    ){!equals(total, totalBeforeDiscount) && mapWithIndex(partial(renderOptionOffer, [t]), offers)}
   </OptionRate>
 );
 
@@ -167,14 +167,15 @@ const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, b
               ({ product, title, offers }) => (
                 <span key={product}>
                   {title} {path(['meta', 'direction'], rest) && `- ${t(`labels.${path(['meta', 'direction'], rest)}`)}`}
-                  {map(
-                    ({ offer }) => (
-                      <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
-                        {t('offer')}: {prop('name', offer)}
-                      </ExtraOffer>
-                    ),
-                    offers
-                  )}
+                  {!equals(total, totalBeforeDiscount) &&
+                    map(
+                      ({ offer }) => (
+                        <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
+                          {t('offer')}: {prop('name', offer)}
+                        </ExtraOffer>
+                      ),
+                      offers
+                    )}
                 </span>
               ),
               breakdown
@@ -311,12 +312,15 @@ const renderSelect = (
             ),
             breakdown
           )}
-          {!isEmpty(offers) &&
-            map(({ offer }) => (
-              <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
-                {t('offer')}: {prop('name', offer)}
-              </ExtraOffer>
-            ))}
+          {!equals(total, totalBeforeDiscount) &&
+            map(
+              ({ offer }) => (
+                <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
+                  {t('offer')}: {prop('name', offer)}
+                </ExtraOffer>
+              ),
+              offers
+            )}
         </ExtraSummaryProduct>
         <ExtraSummaryTotals>
           <ExtraSummaryTotal data-discount={!equals(total, totalBeforeDiscount)}>{total}</ExtraSummaryTotal>
