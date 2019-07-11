@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
-import { compose, pipe, map, values, when, complement, isNil } from 'ramda';
+import { compose, pipe, values, when, complement, isNil } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { Loader, Slider } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
+import { mapWithIndex } from 'utils';
 
 import Offer from 'containers/Offer';
 
@@ -16,7 +17,7 @@ const renderOffer = (offer, i) => <Offer key={i} id={offer} />;
 const renderOffers = when(
   complement(isNil),
   pipe(
-    map(renderOffer),
+    mapWithIndex(renderOffer),
     values
   )
 );
