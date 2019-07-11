@@ -130,4 +130,6 @@ export default {
 
   includesOffer: 'Includes {{count}} offer',
   includesOffer_plural: 'Includes {{count}} offers',
+
+  preferred: 'Preferred',
 };

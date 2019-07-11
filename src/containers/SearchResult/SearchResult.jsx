@@ -1,12 +1,13 @@
-import React, { Fragment } from 'react';
-import { add, gt, head, inc, last, length, map, partial, path, pathOr, pipe, prop, propOr, reduce } from 'ramda';
+import React from 'react';
+import { compose, gt, head, last, map, partial, path, pathOr, prop, values } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { isEqual, addDays, format } from 'date-fns';
 
 import { ProductTypes } from 'config/enums';
 import { getNumberOfDays, mapWithIndex } from 'utils';
 
-import { propTypes, defaultProps } from './Card.props';
+import connect from './SearchResult.state';
+import { propTypes, defaultProps } from './SearchResult.props';
 import {
   StyledCard,
   CardImage,
@@ -29,7 +30,7 @@ import {
   ToolTip,
   PriceBreakdown,
   PriceBreakdownItem,
-} from './Card.styles';
+} from './SearchResult.styles';
 
 const getStartDateEndDate = dates => {
   const startDate = head(dates);
@@ -37,16 +38,6 @@ const getStartDateEndDate = dates => {
 
   return { startDate, endDate };
 };
-
-const getOffers = pipe(
-  pathOr([], ['potentialBooking', ProductTypes.ACCOMMODATION]),
-  map(propOr([], 'offers'))
-);
-
-const getOfferCount = pipe(
-  getOffers,
-  reduce((accum, offers) => add(accum, length(offers)), 0)
-);
 
 const renderFeature = value => <CardHighlight key={value}>{value}</CardHighlight>;
 
@@ -128,28 +119,19 @@ const renderOfferBreakdown = (t, { offer }, i) => (
   <PriceBreakdownItem key={i + prop('uuid', offer)}>{prop('name', offer)}</PriceBreakdownItem>
 );
 
-const renderOffersBreakdown = (t, roomOffers, i) => (
-  <Fragment key={i}>
-    <b>{t('labels.roomWithNumber', { number: inc(i) })}</b>
-    <PriceBreakdown>{mapWithIndex(partial(renderOfferBreakdown, [t]), roomOffers)}</PriceBreakdown>
-  </Fragment>
-);
-
-const renderOffers = (t, { offerCount, response }) => {
-  const offers = getOffers(response);
-
+const renderOffers = (t, { offerCount, offers }) => {
   return (
     gt(offerCount, 0) && (
       <CardSecondaryChip>
         <ToolTip label={<span>{t('offerWithCount', { count: offerCount })}</span>}>
-          {mapWithIndex(partial(renderOffersBreakdown, [t]), offers)}
+          {values(mapWithIndex(partial(renderOfferBreakdown, [t]), offers))}
         </ToolTip>
       </CardSecondaryChip>
     )
   );
 };
 
-export const Card = ({
+export const SearchResult = ({
   featuredPhoto,
   name,
   preferred,
@@ -158,20 +140,20 @@ export const Card = ({
   additionalInfo,
   amenities,
   bookingBuilder = {},
+  offers,
+  offerCount,
   showDiscountedPrice,
 }) => {
   const { t } = useTranslation();
 
   const { response } = bookingBuilder;
 
-  const offerCount = getOfferCount(response);
-
   return (
     <StyledCard>
       <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
-        {preferred && <CardPreferred>Preferred</CardPreferred>}
+        {preferred && <CardPreferred>{t('labels.preferred')}</CardPreferred>}
         {renderPrice(t, { response, offerCount, showDiscountedPrice })}
-        {renderOffers(t, { response, offerCount })}
+        {renderOffers(t, { offers, response, offerCount })}
       </CardImage>
       <CardDetails>
         <CardTitle>{name}</CardTitle>
@@ -193,7 +175,7 @@ export const Card = ({
   );
 };
 
-Card.propTypes = propTypes;
-Card.defaultProps = defaultProps;
+SearchResult.propTypes = propTypes;
+SearchResult.defaultProps = defaultProps;
 
-export default Card;
+export default compose(connect)(SearchResult);

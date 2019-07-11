@@ -54,17 +54,17 @@ import { getArg, getStatus, getData } from 'store/common';
 
 import { toTotal } from './utils';
 
-const reduceOffersFromProducts = reduce((accum, products) => {
-  map(
-    ({ offers = [] }) =>
-      map(offer => {
-        accum = assoc(path(['offer', 'uuid'], offer), offer, accum);
-      }, offers),
-    products
-  );
+const reduceOffersFromProducts = (accum, products) => {
+  map(({ offers = [], subProducts }) => {
+    map(offer => {
+      accum = assoc(path(['offer', 'uuid'], offer), offer, accum);
+    }, offers);
+
+    accum = subProducts ? reduce(reduceOffersFromProducts, accum, values(subProducts)) : accum;
+  }, products);
 
   return accum;
-}, {});
+};
 
 export const getBookings = prop('bookings');
 
@@ -596,7 +596,7 @@ export const getBookingAppliedOffers = createSelector(
   pipe(
     propOr({}, 'potentialBooking'),
     values,
-    reduceOffersFromProducts,
+    reduce(reduceOffersFromProducts, {}),
     values
   )
 );

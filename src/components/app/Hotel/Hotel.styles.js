@@ -11,7 +11,7 @@ import {
   CardSecondaryRating,
   CardHighlights,
   CardHighlight,
-} from 'components/app/Card/Card.styles';
+} from 'containers/SearchResult/SearchResult.styles';
 
 import theme from 'styles/theme';
 import { CardTitle } from 'styles/card';
