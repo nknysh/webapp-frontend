@@ -2,7 +2,7 @@ import { curry, pipe, propOr, objOf, pathOr, forEach } from 'ramda';
 
 import { APP_VERBOSE_ERRORS } from 'config';
 import { isArray } from 'utils';
-import { getErrorActionName, getSuccessActionName, getLoadingActionName } from 'store/utils';
+import { getErrorActionName, getIdleActionName, getSuccessActionName, getLoadingActionName } from 'store/utils';
 import { enqueueNotification } from 'store/modules/ui/actions';
 
 export const STATUS_TO_IDLE = 'STATUS_TO_IDLE';
@@ -15,6 +15,11 @@ export const resetStatuses = () => ({
 export const storeReset = () => ({
   type: STORE_RESET,
 });
+
+export const idleAction = curry((type, data) => ({
+  type: getIdleActionName(type),
+  payload: isArray(data) ? [...data] : { ...data },
+}));
 
 export const loadingAction = curry((type, data) => ({
   type: getLoadingActionName(type),

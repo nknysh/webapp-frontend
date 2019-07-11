@@ -8,6 +8,7 @@ export const dataLens = lensProp('data');
 
 const buildActionName = curry((status, type) => `${type}_${status}`);
 
+export const getIdleActionName = buildActionName(Status.IDLE);
 export const getLoadingActionName = buildActionName(Status.LOADING);
 export const getSuccessActionName = buildActionName(Status.SUCCESS);
 export const getErrorActionName = buildActionName(Status.ERROR);

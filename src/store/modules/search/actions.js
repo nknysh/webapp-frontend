@@ -2,8 +2,12 @@ import { prop, pathOr, path, omit, mergeDeepLeft, pipe, over, lensPath, partialR
 import { subDays } from 'date-fns';
 
 import client from 'api/search';
+import { createCancelToken, wasCancelled } from 'api/helpers';
 
-import { successAction, errorFromResponse, entitiesObject, loadingAction } from 'store/common';
+let searchNameCancelToken = undefined;
+let searchQueryCancelToken = undefined;
+
+import { successAction, errorFromResponse, entitiesObject, loadingAction, idleAction } from 'store/common';
 
 import { setHotels } from 'store/modules/hotels/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
@@ -44,10 +48,17 @@ export const searchByName = destination => async (dispatch, getState) => {
   dispatch(searchByNameAction(destination));
   dispatch(loadingAction(SEARCH_BY_NAME, { destination }));
 
+  searchNameCancelToken && searchNameCancelToken.cancel('New search initiated');
+  searchNameCancelToken = createCancelToken();
+
   try {
     const {
       data: { data },
-    } = await client.getSearchByName(prop('value', destination), { actingCountryCode });
+    } = await client.getSearchByName(
+      prop('value', destination),
+      { actingCountryCode },
+      { cancelToken: searchNameCancelToken.token }
+    );
 
     const result = prop('result', data);
     const hotels = pathOr({}, ['entities', 'hotels'], data);
@@ -56,8 +67,9 @@ export const searchByName = destination => async (dispatch, getState) => {
     dispatch(setHotels(entitiesObject('hotels', hotels)));
     dispatch(setCountries(entitiesObject('countries', countries)));
     dispatch(successAction(SEARCH_BY_NAME, { byName: { result } }));
+    searchNameCancelToken = undefined;
   } catch (e) {
-    dispatch(errorFromResponse(SEARCH_BY_NAME, e));
+    wasCancelled(e) ? dispatch(idleAction('SEARCH', {})) : dispatch(errorFromResponse(SEARCH_BY_NAME, e));
   }
 };
 
@@ -68,10 +80,12 @@ export const searchByQuery = query => async (dispatch, getState) => {
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
 
   const term = path(['destination', 'value'], query);
-
   const canSearch = getCanSearch(getState());
 
   if (!canSearch) return dispatch(successAction(SEARCH_BY_QUERY, {}));
+
+  searchQueryCancelToken && searchQueryCancelToken.cancel('New search initiated');
+  searchQueryCancelToken = createCancelToken();
 
   const payload = pipe(
     omit(['prices']),
@@ -82,7 +96,7 @@ export const searchByQuery = query => async (dispatch, getState) => {
   try {
     const {
       data: { data, meta },
-    } = await client.getSearch(payload);
+    } = await client.getSearch(payload, {}, { cancelToken: searchQueryCancelToken.token });
 
     const hotels = path(['entities', 'hotels'], data);
     const uploads = path(['entities', 'uploads'], data);
@@ -93,7 +107,8 @@ export const searchByQuery = query => async (dispatch, getState) => {
     dispatch(setHotels({ entities: { hotels, uploads }, result: hotelsResults }));
     dispatch(setCountries({ entities: { countries }, result: countriesResults }));
     dispatch(successAction(SEARCH_BY_QUERY, { byQuery: { meta: { term, ...meta }, result: hotelsResults } }));
+    searchQueryCancelToken = undefined;
   } catch (e) {
-    dispatch(errorFromResponse(SEARCH_BY_QUERY, e));
+    wasCancelled(e) ? dispatch(idleAction('SEARCH', {})) : dispatch(errorFromResponse(SEARCH_BY_QUERY, e));
   }
 };

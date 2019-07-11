@@ -1,15 +1,15 @@
 import client from './index';
 
-export const getUser = () => client.get('/users/me');
+export const getUser = (params, opts) => client.get('/users/me', { params, ...opts });
 
-export const signUp = values => client.post('/users/signup', values);
+export const signUp = (body, params, opts) => client.post('/users/signup', body, { params, ...opts });
 
-export const logIn = values => client.post('/users/login', values);
+export const logIn = (body, params, opts) => client.post('/users/login', body, { params, ...opts });
 
-export const logOut = () => client.post('/users/logout');
+export const logOut = (body, params, opts) => client.post('/users/logout', body, { params, ...opts });
 
-export const resetPassword = values => client.post('/users/reset-password', values);
+export const resetPassword = (body, params, opts) => client.post('/users/reset-password', body, { params, ...opts });
 
-export const setPassword = values => client.patch('/users/set-password', values);
+export const setPassword = (body, params, opts) => client.patch('/users/set-password', body, { params, ...opts });
 
 export default { getUser, signUp, logIn, logOut, resetPassword, setPassword };
