@@ -4,7 +4,6 @@ export { default as BookingForm } from './BookingForm';
 export { default as GuestSelect } from './GuestSelect';
 export { default as Hotel } from './Hotel';
 export { default as LodgingSelect } from './LodgingSelect';
-export { default as Offer } from './Offer';
 export { default as Room } from './Room';
 export { default as Search } from './Search';
 export { default as Sidebar } from './Sidebar';

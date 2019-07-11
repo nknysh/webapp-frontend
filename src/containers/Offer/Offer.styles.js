@@ -5,13 +5,14 @@ import { Link } from 'components/elements';
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 
+import { h2Styling } from 'styles/typography';
+
 import {
   Card,
   CardImage,
   CardChip,
   CardChipSecondary,
   CardPrice,
-  CardTitle,
   CardDetails,
   CardDescription,
   CardText,
@@ -29,13 +30,43 @@ export const OfferImage = styled(CardImage)``;
 
 export const OfferChip = styled(CardChip)``;
 
-export const OfferPrice = styled(CardPrice)``;
+export const OfferPrice = styled(CardPrice)`
+  text-decoration: none;
+
+  &:before {
+    content: '';
+  }
+`;
 
 export const OfferName = styled(CardChipSecondary)``;
 
-export const OfferDetails = styled(CardDetails)``;
+export const OfferDetails = styled(CardDetails)`
+  h1,
+  h2,
+  h3 {
+    ${h2Styling};
+    border-bottom: 1px solid #e0e0e0;
+  }
 
-export const OfferTitle = styled(CardTitle)``;
+  p {
+    font-size: ${theme.fonts.sizes.normal}px;
+    color: ${theme.secondary};
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    padding: 0 0 ${theme.gutter * 2}px;
+    margin: 0 0 ${theme.gutter * 2}px;
+    border-bottom: 1px solid #e0e0e0;
+
+    &:last-child {
+      border: 0;
+      margin-bottom: 0;
+    }
+  }
+`;
 
 export const OfferDescription = styled(CardDescription)``;
 
