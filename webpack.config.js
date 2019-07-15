@@ -26,10 +26,11 @@ module.exports = (env, argv) => ({
     devtool: modeIsDev(argv) && 'source-map',
     devServer: {
         historyApiFallback: true,
+        host: process.env.WEBPACK_DEV_HOSTNAME || 'localhost',
         port: 8080,
         proxy: {
             '/api/**': {
-                target: 'http://localhost:8002',
+                target: process.env.WEBPACK_DEV_PROXY || 'http://localhost:8002',
                 secure: false,
                 changeOrigin: true,
                 pathRewrite: { '^/api': '' },
