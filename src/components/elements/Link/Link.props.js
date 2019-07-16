@@ -8,6 +8,7 @@ export const propTypes = {
   bold: PropTypes.bool,
   hard: PropTypes.bool,
   onClick: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export const defaultProps = {

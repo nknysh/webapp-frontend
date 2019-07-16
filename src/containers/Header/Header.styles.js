@@ -50,9 +50,9 @@ export const StyledHeader = styled.div`
 `;
 
 export const HeaderLogo = styled(Link)`
-  margin: ${theme.gutter}px ${theme.gutter * 2}px;
+  margin: ${theme.gutter}px ${theme.gutter * 1.5}px;
   display: block;
-  margin: 0;
+  margin: 0 ${theme.gutter * 2}px;
   padding: 0;
 
   ${breakpoints.desktop`
@@ -83,17 +83,22 @@ export const HeaderMobileMenuButton = styled(Icon)`
 `;
 
 export const HeaderMenu = styled(Menu)`
-  position: absolute;
   background: ${theme.backgrounds.default};
-  padding: ${theme.gutter}px;
-  top: ${theme.headerSizes.mobile}px;
-  right: 0;
-  left: 0;
   border-top: 1px solid ${theme.primary};
-  transition: ${theme.defaultTransition};
-  text-align: left;
+  box-shadow: ${theme.boxShadows.default};
   font-size: ${theme.fonts.sizes.default}px;
+  left: 0;
+  padding: 0 ${theme.gutter}px;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  top: ${theme.headerSizes.mobile}px;
+  transition: ${theme.defaultTransition};
   z-index: 100;
+
+  > a {
+    flex: 0;
+  }
 
   ${({ isOpen }) => css`
     opacity: ${isOpen ? 1 : 0};
@@ -102,18 +107,19 @@ export const HeaderMenu = styled(Menu)`
 
   ${breakpoints.desktop`
     border: 0;
-    position: relative;
-    padding: 0;
-    top: unset;
-    right: unset;
-    left: unset;
-    width: 100%;
-    opacity: 1;
-    pointer-events: auto;
-    font-size: 11px;
     display: flex;
-  
-    > div:not(:last-child) {
+    font-size: 11px;
+    left: unset;
+    opacity: 1;
+    padding: 0;
+    pointer-events: auto;
+    position: relative;
+    right: unset;
+    top: unset;
+    width: 100%;
+    box-shadow: 0 0 0;
+
+    > a {
       flex: 0 1 auto;
     }
   `}

@@ -34,6 +34,11 @@ export const MaterialMenuItem = styled(MenuItem)`
   text-transform: uppercase;
   height: auto !important;
 
+  > span {
+    display: block;
+    width: 100%;
+  }
+
   &:hover {
     background: none !important;
   }

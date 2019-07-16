@@ -7,44 +7,6 @@ import theme from './theme';
 import breakpoints from './breakpoints';
 import { Heading1 } from './typography';
 
-export const linkStyles = css`
-  cursor: pointer;
-  color: ${theme.secondary};
-
-  &:active {
-    color: ${theme.primary};
-  }
-
-  padding: ${theme.gutter}px 0;
-
-  ${breakpoints.tablet`
-    ${({ spaced }) =>
-      spaced &&
-      css`
-        padding: ${theme.gutter / 2}px ${theme.gutter}px;
-        margin: ${theme.gutter / 2}px ${theme.gutter}px;
-      `}
-
-    ${({ inverse }) =>
-      inverse &&
-      css`
-        color: ${theme.colors.white};
-        background: ${theme.primary};
-        border-radius: ${theme.borderRadius}px;
-      `}
-
-
-      ${({ bold }) =>
-        bold &&
-        css`
-          font-weight: ${theme.fonts.bold};
-        `}
-    `}
-`;
-export const Link = styled.a`
-  ${linkStyles}
-`;
-
 export const Container = styled.div`
   width: 100%;
 
