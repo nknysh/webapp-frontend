@@ -11,6 +11,8 @@ const history = createBrowserHistory();
 const datesFromLens = lensPath(['dates', 'startDate']);
 const datesToLens = lensPath(['dates', 'endDate']);
 const lodgingLens = lensProp('lodging');
+const occasionsLens = lensProp('occasions');
+const repeatGuestLens = lensProp('repeatGuest');
 const honeymoonersLens = lensProp('suitableForHoneymooners');
 const filtersRegionsLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
@@ -29,6 +31,8 @@ const formatData = pipe(
   over(datesFromLens, newDate),
   over(datesToLens, newDate),
   over(lodgingLens, identity),
+  over(repeatGuestLens, identity),
+  over(occasionsLens, mapSelected),
   over(honeymoonersLens, toBoolean),
   over(filtersRegionsLens, mapSelected),
   over(filtersStarRatingsLens, mapSelected),
@@ -39,7 +43,7 @@ const formatData = pipe(
 const getSearchQuery = pipe(
   prop('location'),
   getQuery,
-  pick(['lodging', 'destination', 'dates', 'suitableForHoneymooners', 'filters']),
+  pick(['lodging', 'destination', 'dates', 'suitableForHoneymooners', 'filters', 'occasions', 'repeatGuest']),
   formatData
 );
 

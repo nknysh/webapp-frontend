@@ -1,6 +1,7 @@
 import { BookingStatusTypes } from 'config/enums';
 
 export default {
+  none: 'None',
   dashboard: 'Dashboard',
 
   search: 'Destination or resort',
@@ -99,6 +100,7 @@ export default {
 
   resortDetails: 'Resort details',
   repeatGuest: 'Client is a repeating guest',
+  isRepeat: 'Repeat Guest',
 
   priceBasedOn: 'Price based on:',
   nightsIn: '{{count}} {{nights}} in {{title}}, {{mealPlan}} ({{startDate}} - {{endDate}})',
@@ -132,4 +134,10 @@ export default {
   includesOffer_plural: 'Includes {{count}} offers',
 
   preferred: 'Preferred',
+
+  occasions: {
+    honeymoon: 'Honeymoon',
+    birthday: 'Birthday',
+    anniversary: 'Anniversary',
+  },
 };

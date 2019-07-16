@@ -36,7 +36,6 @@ export const SearchPatterns = Object.freeze({
 });
 
 export const PaymentTypes = Object.freeze({
-  // On Request
   CC: 'CC',
   BT: 'BT',
 });
@@ -45,4 +44,10 @@ export const AuthTypes = Object.freeze({
   TA: 'ta',
   SR: 'sr',
   ADMIN: 'admin',
+});
+
+export const Occassions = Object.freeze({
+  HONEYMOON: 'honeymoon',
+  BIRTHDAY: 'birthday',
+  ANNIVERSARY: 'anniversary',
 });

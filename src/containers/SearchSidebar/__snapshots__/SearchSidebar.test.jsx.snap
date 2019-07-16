@@ -45,6 +45,22 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
     />
   </SearchSidebarstyles__Section>
   <SearchSidebarstyles__Section>
+    <SearchSidebarstyles__Title>
+      Occasions
+    </SearchSidebarstyles__Title>
+    <OccasionsSelect
+      occasions={
+        Array [
+          "honeymoon",
+          "birthday",
+          "anniversary",
+        ]
+      }
+      onChange={[Function]}
+      selected={Array []}
+    />
+  </SearchSidebarstyles__Section>
+  <SearchSidebarstyles__Section>
     <SearchFilters
       features={Array []}
       onChange={[Function]}
@@ -105,6 +121,22 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       searchQuery={Object {}}
       showSubmit={false}
       vertical={true}
+    />
+  </SearchSidebarstyles__Section>
+  <SearchSidebarstyles__Section>
+    <SearchSidebarstyles__Title>
+      Occasions
+    </SearchSidebarstyles__Title>
+    <OccasionsSelect
+      occasions={
+        Array [
+          "honeymoon",
+          "birthday",
+          "anniversary",
+        ]
+      }
+      onChange={[Function]}
+      selected={Array []}
     />
   </SearchSidebarstyles__Section>
   <SearchSidebarstyles__Section>

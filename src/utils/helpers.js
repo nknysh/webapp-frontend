@@ -34,6 +34,7 @@ export const isFunction = is(Function);
 export const isString = is(String);
 
 export const mapWithIndex = addIndex(map);
+export const reduceWithIndex = addIndex(reduce);
 
 export const arrayToKeyValueObject = (keyProp, valueProp) => {
   const reducer = (accum, item) => merge(accum, { [prop(keyProp, item)]: prop(valueProp, item) });
