@@ -6,19 +6,22 @@ import {
   keys,
   last,
   map,
+  objOf,
   path,
+  pathOr,
+  pick,
   pipe,
   prop,
+  propOr,
   propSatisfies,
   reduce,
   reverse,
   toPairs,
-  objOf,
-  pathOr,
+  values,
 } from 'ramda';
 import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 
-import { ProductTypes } from 'config/enums';
+import { ProductTypes, Occassions } from 'config/enums';
 import { toDate, parseJson } from 'utils';
 
 export { getAgeSplits } from 'containers/SummaryRoom/SummaryRoom.utils';
@@ -69,7 +72,7 @@ export const getMinMax = map(
 
 export const getMonthToDisplay = pipe(
   head,
-  prop('endDate'),
+  prop('startDate'),
   toDate
 );
 
@@ -85,4 +88,14 @@ export const getMealPlan = pipe(
   pathOr([], ['subProducts', ProductTypes.MEAL_PLAN]),
   map(prop('uuid')),
   JSON.stringify
+);
+
+export const getSelectedOccasions = pipe(
+  head,
+  pick(values(Occassions))
+);
+
+export const getRepeatGuest = pipe(
+  head,
+  propOr(false, 'repeatCustomer')
 );

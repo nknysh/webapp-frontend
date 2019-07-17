@@ -33,6 +33,7 @@ import {
   props,
   reduce,
   reject,
+  omit,
   tap,
   uniq,
   values,
@@ -43,8 +44,8 @@ import { createSelector } from 'store/utils';
 import { addDays, subDays } from 'date-fns';
 
 import { BOOKINGS_ON_REQUEST } from 'config';
-import { ProductTypes } from 'config/enums';
-import { formatPrice, formatDate, toDate } from 'utils';
+import { ProductTypes, Occassions } from 'config/enums';
+import { formatPrice, formatDate, toDate, reduceWithIndex } from 'utils';
 
 import { getSearchDates } from 'store/modules/search/selectors';
 import { isSR } from 'store/modules/auth/selectors';
@@ -397,16 +398,25 @@ export const getBookingRoomTotalBeforeDiscount = createSelector(
   partial(getRoomTotal, ['totalBeforeDiscount'])
 );
 
+export const getBookingTextOffers = createSelector(
+  getBookingBreakdown,
+  propOr([], 'textOnlyOffersPerLodging')
+);
+
 export const getBookingRoomOffers = createSelector(
-  [getArg(2), getPotentialBooking],
-  (roomId, potentialBooking) => {
+  [getArg(2), getPotentialBooking, getBookingTextOffers],
+  (roomId, potentialBooking, textOffers) => {
     const offersForRoom = pipe(
       propOr([], ProductTypes.ACCOMMODATION),
       filter(pathEq(['product', 'uuid'], roomId)),
-      reduce((accum, product) => {
-        map(offer => {
-          accum = assoc(path(['offer', 'uuid'], offer), offer, accum);
-        }, propOr([], 'offers', product));
+
+      reduceWithIndex((accum, product, i) => {
+        map(
+          offer => {
+            accum = assoc(path(['offer', 'uuid'], offer), offer, accum);
+          },
+          [...propOr([], i, textOffers), ...propOr([], 'offers', product)]
+        );
 
         map(
           map(subProduct => {
@@ -416,6 +426,7 @@ export const getBookingRoomOffers = createSelector(
           }),
           propOr([], 'subProducts', product)
         );
+
         return accum;
       }, {}),
       values
@@ -496,7 +507,10 @@ export const getBookingForBuilder = createSelector(
             }
           }
         )
-      )
+      ),
+
+      // Temp remove occasions from guestAges
+      over(lensProp('guestAges'), omit([...values(Occassions), 'repeatCustomer']))
     );
 
     const products = {
@@ -592,13 +606,29 @@ export const getBookingsForDashboard = createSelector(
 );
 
 export const getBookingAppliedOffers = createSelector(
-  getBookingBreakdown,
-  pipe(
-    propOr({}, 'potentialBooking'),
-    values,
-    reduce(reduceOffersFromProducts, {}),
-    values
-  )
+  [getPotentialBooking, getBookingTextOffers],
+  (potentialBooking, textOffers) => {
+    const productOffers = pipe(
+      values,
+      reduce(reduceOffersFromProducts, {}),
+      values
+    )(potentialBooking);
+
+    const allOffers = reduce(
+      (accum, offers) => {
+        map(offer => {
+          if (!offer) return;
+          accum = append(offer, accum);
+        }, offers);
+
+        return accum;
+      },
+      productOffers,
+      textOffers
+    );
+
+    return allOffers;
+  }
 );
 
 export const getBookingAppliedOffersCount = createSelector(

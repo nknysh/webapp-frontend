@@ -1,28 +1,30 @@
 import {
   __,
   all,
-  curry,
-  prop,
-  pipe,
-  path,
-  when,
-  always,
-  inc,
-  evolve,
-  propOr,
-  pathOr,
   allPass,
-  has,
-  complement,
+  always,
   and,
-  propSatisfies,
+  complement,
+  curry,
+  evolve,
   gt,
+  has,
+  inc,
+  path,
+  pathOr,
+  pipe,
+  prop,
+  propOr,
+  propSatisfies,
+  values,
+  when,
 } from 'ramda';
 import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 
 import { createSelector } from 'store/utils';
 import { getStatus, getData } from 'store/common';
 
+import { Occassions } from 'config/enums';
 import { toDate } from 'utils';
 
 const defaultFromDate = toDate();
@@ -115,6 +117,11 @@ export const getSearchFiltersFeatures = createSelector(
 export const getSearchFiltersPrices = createSelector(
   getSearchResultsMeta,
   pathOr([], ['filters', 'prices'])
+);
+
+export const getSearchOccassions = createSelector(
+  getSearchResultsMeta,
+  propOr(values(Occassions), 'occasions')
 );
 
 export const getCanSearch = createSelector(

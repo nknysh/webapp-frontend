@@ -15,10 +15,10 @@ import { SearchBarButton, SearchBarIndexSearch, SearchBarSection } from './Searc
 const destinationLens = lensProp('destination');
 const datesLens = lensProp('dates');
 const lodgingLens = lensProp('lodging');
-const honeymoonersLens = lensProp('suitableForHoneymooners');
+const repeatGuestLens = lensProp('repeatGuest');
 
 export const getMonthToDisplay = pipe(
-  prop('endDate'),
+  prop('startDate'),
   toDate
 );
 
@@ -57,8 +57,8 @@ export const Search = ({
     onChange
   );
 
-  const setHoneymoonersToSearchQuery = pipe(
-    updateSearchQuery(honeymoonersLens),
+  const setRepeatGuest = pipe(
+    updateSearchQuery(repeatGuestLens),
     onChange
   );
 
@@ -103,9 +103,9 @@ export const Search = ({
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical} data-constrain={true}>
         <Checkbox
-          label={t('labels.honeymooners')}
-          onChange={(e, checked) => setHoneymoonersToSearchQuery(checked)}
-          checked={defaultTo(false, getSearchQueryData(honeymoonersLens))}
+          label={t('labels.isRepeat')}
+          onChange={(e, checked) => setRepeatGuest(checked)}
+          checked={defaultTo(false, getSearchQueryData(repeatGuestLens))}
         />
       </SearchBarSection>
 

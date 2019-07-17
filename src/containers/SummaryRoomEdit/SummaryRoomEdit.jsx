@@ -27,8 +27,7 @@ import { ProductTypes } from 'config/enums';
 
 import { isActive } from 'store/common';
 
-import { RadioButton, Form, FormFieldError, Loader } from 'components/elements';
-import GuestSelect from 'components/app/GuestSelect';
+import { RadioButton, Form, FormFieldError, Loader, GuestSelect, OccasionsSelect, Checkbox } from 'components';
 import { useEffectBoundary } from 'effects';
 import {
   formatDate,
@@ -55,8 +54,8 @@ import {
   EditFormTitle,
   MealPlanRate,
   MealPlanRatePrice,
-  StyledDatePicker,
   MealPlanRatePriceOffer,
+  StyledDatePicker,
 } from './SummaryRoomEdit.styles';
 import {
   getAgeRanges,
@@ -64,6 +63,8 @@ import {
   getMinMax,
   getMonthToDisplay,
   getOptionsFromRates,
+  getRepeatGuest,
+  getSelectedOccasions,
   parseMealPlans,
   prepareDates,
 } from './SummaryRoomEdit.utils';
@@ -192,6 +193,7 @@ const renderMealPlans = ({ mealPlanOptions, onMealPlanChange, values }) => (
 
 export const SummaryRoomEdit = ({
   addRoom,
+  canChangeDates,
   dates,
   errors,
   hotelUuid,
@@ -208,11 +210,12 @@ export const SummaryRoomEdit = ({
   updateBooking,
   updateIndividualRoom,
   updateRoom,
-  canChangeDates,
 }) => {
   const { t } = useTranslation();
 
   const mealPlan = getMealPlan(requestedRooms);
+  const selectedOccasions = getSelectedOccasions(requestedRooms);
+  const repeatGuest = getRepeatGuest(requestedRooms);
 
   const [roomContext, setRoomContext] = useState(0);
   const [complete, setComplete] = useState(false);
@@ -290,6 +293,14 @@ export const SummaryRoomEdit = ({
     });
   };
 
+  const onOccasionsChange = ({ occasions }) => {
+    updateRoom(id, roomId, occasions);
+  };
+
+  const onRepeatGuestChange = (e, checked) => {
+    updateRoom(id, roomId, { repeatCustomer: checked });
+  };
+
   const onSubmit = values => {
     setFormValues(values);
     updateBooking(hotelUuid, {});
@@ -328,13 +339,13 @@ export const SummaryRoomEdit = ({
               <EditFormSection>
                 {renderDatePicker(t, {
                   dates,
-                  rates,
                   disabled,
                   firstDate,
                   lastDate,
-                  onMonthChange,
-                  onDayPickerShow,
                   onDatesChange,
+                  onDayPickerShow,
+                  onMonthChange,
+                  rates,
                   values,
                 })}
               </EditFormSection>
@@ -342,6 +353,13 @@ export const SummaryRoomEdit = ({
             <EditFormSection>
               <EditFormSectionTitle>{t('mealPlan_plural')}</EditFormSectionTitle>
               {renderMealPlans({ mealPlanOptions, onMealPlanChange, values })}
+            </EditFormSection>
+            <EditFormSection>
+              <EditFormSectionTitle>{t('occasion_plural')}</EditFormSectionTitle>
+              <OccasionsSelect onChange={onOccasionsChange} selected={selectedOccasions} />
+            </EditFormSection>
+            <EditFormSection>
+              <Checkbox label={t('labels.isRepeat')} onChange={onRepeatGuestChange} checked={repeatGuest} />
             </EditFormSection>
             <EditFormActions>
               <EditFormButton type="submit">{t('buttons.update')}</EditFormButton>

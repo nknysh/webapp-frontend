@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose, values } from 'ramda';
+import { compose, values, propOr } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { IndexTypes, SearchPatterns } from 'config/enums';
-import { Search, SearchFilters } from 'components';
+import { Search, SearchFilters, OccasionsSelect } from 'components';
 import { useEffectBoundary } from 'effects';
 import { buildQueryString } from 'utils';
 
@@ -13,18 +13,19 @@ import { propTypes, defaultProps } from './SearchSidebar.props';
 import { Section, Title } from './SearchSidebar.styles';
 
 export const SearchSidebar = ({
+  features,
   getCountryName,
   getHotelName,
-  searchQuery,
-  setSearchQuery,
-  searchFiltersReset,
   history,
-  regions,
-  starRatings,
-  features,
-  searchByName,
-  searchStatus,
+  occasions,
   prices,
+  regions,
+  searchByName,
+  searchFiltersReset,
+  searchQuery,
+  searchStatus,
+  setSearchQuery,
+  starRatings,
 }) => {
   const { t } = useTranslation();
 
@@ -46,6 +47,14 @@ export const SearchSidebar = ({
           searchStatus={searchStatus}
           searchQuery={searchQuery}
           vertical={true}
+        />
+      </Section>
+      <Section>
+        <Title>{t('occasion_plural')}</Title>
+        <OccasionsSelect
+          occasions={occasions}
+          selected={propOr([], 'occasions', searchQuery)}
+          onChange={setSearchQuery}
         />
       </Section>
       <Section>

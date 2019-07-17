@@ -1,4 +1,4 @@
-import { mergeDeepRight, propOr } from 'ramda';
+import { mergeDeepRight, propOr, assocPath } from 'ramda';
 
 import { initialState, loadingReducer, errorReducer, Status } from 'store/common';
 import { createReducer, getSuccessActionName, getLoadingActionName, getErrorActionName } from 'store/utils';
@@ -15,7 +15,7 @@ const setSearchQuery = (state, { payload }) =>
     query: payload,
   });
 
-const searchFiltersReset = state => ({ ...state, query: { filters: {} } });
+const searchFiltersReset = state => assocPath(['query', 'filters'], {}, state);
 
 const searchResults = (state, { payload }) => ({
   ...state,

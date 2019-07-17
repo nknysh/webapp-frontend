@@ -1,4 +1,18 @@
-import { prop, pathOr, path, omit, mergeDeepLeft, pipe, over, lensPath, partialRight } from 'ramda';
+import {
+  lensPath,
+  lensProp,
+  map,
+  mergeDeepLeft,
+  omit,
+  over,
+  partialRight,
+  path,
+  pathOr,
+  pipe,
+  prop,
+  propOr,
+  set,
+} from 'ramda';
 import { subDays } from 'date-fns';
 
 import client from 'api/search';
@@ -78,11 +92,13 @@ export const searchByQuery = query => async (dispatch, getState) => {
 
   dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
-
-  const term = path(['destination', 'value'], query);
   const canSearch = getCanSearch(getState());
 
   if (!canSearch) return dispatch(successAction(SEARCH_BY_QUERY, {}));
+
+  const term = path(['destination', 'value'], query);
+  const occasions = prop('occasions', query);
+  const repeatGuest = prop('repeatGuest', query);
 
   searchQueryCancelToken && searchQueryCancelToken.cancel('New search initiated');
   searchQueryCancelToken = createCancelToken();
@@ -90,7 +106,9 @@ export const searchByQuery = query => async (dispatch, getState) => {
   const payload = pipe(
     omit(['prices']),
     mergeDeepLeft({ actingCountryCode }),
-    over(lensPath(['dates', 'endDate']), partialRight(subDays, [1]))
+    over(lensPath(['dates', 'endDate']), partialRight(subDays, [1])),
+    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
+    set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
   )(query);
 
   try {
