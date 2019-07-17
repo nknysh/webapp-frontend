@@ -3,6 +3,7 @@
 exports[`routing app routes match snapshot 1`] = `
 Object {
   "auth": true,
+  "authCheckIgnore": true,
   "authComponent": Object {
     "$$typeof": Symbol(react.lazy),
     "_ctor": [Function],

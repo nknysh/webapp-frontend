@@ -4,6 +4,7 @@ import currency from './currency';
 import form from './form';
 import labels from './labels';
 import messages from './messages';
+import notifications from './notifications';
 import plurals from './plurals';
 import sections from './sections';
 import taglines from './taglines';
@@ -30,6 +31,7 @@ export default {
     form,
     labels,
     messages,
+    notifications,
     sections,
     taglines,
     ...plurals,

@@ -1,6 +1,6 @@
 import { lensProp, set, pipe, lensPath, propOr } from 'ramda';
 
-import { initialState, successReducer, errorReducer, sendingReducer } from 'store/common';
+import { initialState, successReducer, errorReducer, sendingReducer, loadingReducer } from 'store/common';
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
 
 import { parseJson } from 'utils';
@@ -17,6 +17,7 @@ import {
   AUTH_SIGN_UP,
   AUTH_TOKEN,
   AUTH_USER,
+  AUTH_CHECK,
 } from './actions';
 
 const tokenLens = lensProp('token');
@@ -49,6 +50,10 @@ export default (state = initialState, payload) => {
       [AUTH_REQUEST]: sendingReducer,
       [getSuccessActionName(AUTH_REQUEST)]: successReducer,
       [getErrorActionName(AUTH_REQUEST)]: errorReducer,
+
+      [AUTH_CHECK]: loadingReducer,
+      [getSuccessActionName(AUTH_CHECK)]: successReducer,
+      [getErrorActionName(AUTH_CHECK)]: errorReducer,
 
       [AUTH_SIGN_UP]: sendingReducer,
       [getSuccessActionName(AUTH_SIGN_UP)]: successReducer,
