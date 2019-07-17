@@ -1,5 +1,5 @@
 import React from 'react';
-import { map, equals, partial } from 'ramda';
+import { map, equals, partial, omit } from 'ramda';
 import hash from 'object-hash';
 
 import { propTypes, defaultProps } from './Menu.props';
@@ -26,7 +26,7 @@ const renderLink = ({ currentPath, onLinkClick }, { title, href, hard, ...props 
 const renderLinks = ({ links, ...props }) => map(partial(renderLink, [props]), links);
 
 export const Menu = ({ children, ...props }) => (
-  <Links {...props}>
+  <Links {...omit(['onLinkClick'], props)}>
     {renderLinks(props)}
     {children}
   </Links>

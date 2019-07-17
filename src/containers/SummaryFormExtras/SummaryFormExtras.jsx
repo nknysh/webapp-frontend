@@ -109,8 +109,8 @@ const renderOptionOffer = (t, { offer }, i) => (
 );
 
 // eslint-disable-next-line
-const renderOption = (t, { uuid, total, totalBeforeDiscount, offers, title, quantity = 0 }) => (
-  <OptionRate key={uuid}>
+const renderOption = (t, { total, totalBeforeDiscount, offers, title, quantity = 0, rateUuid }, i) => (
+  <OptionRate key={rateUuid + i}>
     {gt(quantity, 1) && `${quantity} x`} {title} (+{' '}
     <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>{totalBeforeDiscount}</OptionPrice>
     {!equals(total, totalBeforeDiscount) && (
@@ -123,9 +123,9 @@ const renderOption = (t, { uuid, total, totalBeforeDiscount, offers, title, quan
   </OptionRate>
 );
 
-const renderOneWayOption = (t, direction, breakdownData) => (
-  <Fragment key={prop('uuid', breakdownData)}>
-    {renderOption(t, breakdownData)} - {t(`labels.${direction}`)}
+const renderOneWayOption = (t, direction, breakdownData, i) => (
+  <Fragment key={i}>
+    {renderOption(t, breakdownData, i)} - {t(`labels.${direction}`)}
   </Fragment>
 );
 
@@ -139,7 +139,7 @@ const renderOneWayProduct = (t, productType, { onOneWayChange }, products, uuids
         checked={selected}
         onChange={partial(onOneWayChange, [productType])}
         key={identifier}
-        label={map(partial(renderOneWayOption, [t, direction]), breakdown)}
+        label={mapWithIndex(partial(renderOneWayOption, [t, direction]), breakdown)}
         value={identifier}
       />
     );
@@ -220,7 +220,7 @@ const renderExtraOptions = (
 
   const getOption = ({ products, breakdown }) => {
     const value = join(',', map(prop('uuid'), products));
-    const label = map(partial(renderOption, [t]), breakdown);
+    const label = mapWithIndex(partial(renderOption, [t]), breakdown);
 
     return { label, value };
   };
@@ -306,16 +306,16 @@ const renderSelect = (
     selected && (
       <AddonSummary key={uuids}>
         <ExtraSummaryProduct>
-          {map(
-            ({ uuid, title }) => (
-              <ExtraSummaryProduct key={uuid}>{title}</ExtraSummaryProduct>
+          {mapWithIndex(
+            ({ title }, i) => (
+              <ExtraSummaryProduct key={i}>{title}</ExtraSummaryProduct>
             ),
             breakdown
           )}
           {!equals(total, totalBeforeDiscount) &&
-            map(
-              ({ offer }) => (
-                <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
+            mapWithIndex(
+              ({ offer }, i) => (
+                <ExtraOffer key={i} data-discount={true}>
                   {t('offer')}: {prop('name', offer)}
                 </ExtraOffer>
               ),
@@ -336,7 +336,7 @@ const renderSelect = (
       checked={selected || checked}
       onChange={partial(onMultipleChange, [productType])}
       key={uuids}
-      label={<OptionLabel>{map(partial(renderOption, [t]), breakdown)}</OptionLabel>}
+      label={<OptionLabel>{mapWithIndex(partial(renderOption, [t]), breakdown)}</OptionLabel>}
       value={uuids}
     />
   );

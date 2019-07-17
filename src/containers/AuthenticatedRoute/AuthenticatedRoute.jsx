@@ -21,6 +21,9 @@ const renderRedirect = ({ pathname, search }, props, path = '/login') => {
 
 const renderRoute = (Component, props) => (Component && <Component {...props} />) || <Route component={NotFound} />;
 
+const renderRouteComponent = ({ component: Component, ...props }) =>
+  Component && <Route render={routeProps => <Component {...routeProps} />} {...props} />;
+
 export const AuthenticatedRoute = ({
   auth,
   authCheck,
@@ -70,7 +73,7 @@ export const AuthenticatedRoute = ({
     return renderRedirect(location, routeProps);
   }
 
-  return renderRoute(Route, routeProps);
+  return renderRouteComponent(routeProps);
 };
 
 AuthenticatedRoute.propTypes = propTypes;

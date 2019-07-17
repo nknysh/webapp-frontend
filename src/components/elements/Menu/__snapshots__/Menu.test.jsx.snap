@@ -23,7 +23,6 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
       },
     ]
   }
-  onLinkClick={[Function]}
 >
   <Menustyles__MenuLink
     data-active={true}
@@ -78,7 +77,6 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
       },
     ]
   }
-  onLinkClick={[Function]}
 >
   <Menustyles__MenuLink
     data-active={false}
@@ -133,7 +131,6 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
       },
     ]
   }
-  onLinkClick={[Function]}
 >
   <Menustyles__MenuLink
     data-active={false}

@@ -2,22 +2,20 @@
 
 exports[`<Link /> render matches default link snapshot 1`] = `
 <Linkstyles__StyledLink
-  bold={false}
-  hard={false}
-  inverse={false}
+  data-bold={false}
+  data-inverse={false}
+  data-spaced={false}
   onClick={[Function]}
-  spaced={false}
   to="/"
 />
 `;
 
 exports[`<Link /> render matches inverse link snapshot 1`] = `
 <Linkstyles__StyledLink
-  bold={false}
-  hard={false}
-  inverse={true}
+  data-bold={false}
+  data-inverse={true}
+  data-spaced={false}
   onClick={[Function]}
-  spaced={false}
   to="/"
 />
 `;

@@ -10,7 +10,6 @@ export default {
     label: i18n.t('labels.proposalId'),
     Component: Select,
     props: {
-      disablePortal: true,
       options: [{ new: <b>{i18n.t('labels.newProposal')}</b> }],
     },
   },

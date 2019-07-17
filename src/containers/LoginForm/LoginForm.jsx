@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, prop, propOr, defaultTo, path, pipe } from 'ramda';
 import { useTranslation } from 'react-i18next';
@@ -66,12 +66,12 @@ export const LoginForm = ({
   const isLoggingIn = isSending(requestStatus);
   const success = isSuccess(requestStatus);
 
-  const onSubmit = values => {
+  const onSubmit = useCallback(values => {
     setSubmitted(true);
     setFormValues(values);
     onLogin(sanitizeValues(values));
     onComplete();
-  };
+  });
 
   const renderForm = () => (
     <Form

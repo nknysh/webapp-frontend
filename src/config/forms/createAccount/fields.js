@@ -16,7 +16,7 @@ const restCountries = omit(promotedCountriesData, keyValueCountries);
 
 export default {
   title: {
-    label: 'Title (optional)',
+    label: 'Title',
     default: '',
     Component: Select,
     props: {
@@ -57,7 +57,7 @@ export default {
       label: 'Company name',
       default: '',
     },
-    country: {
+    countryCode: {
       label: 'Company country',
       default: '',
       Component: Select,
