@@ -59,19 +59,31 @@ const renderActions = (t, { canBook, canHold, onModalOpen, onTakeHold, setModalC
   </SummaryActions>
 );
 
-const renderSummary = (t, { id, brochures, onSubmit, ...props }) => (
-  <Aside>
-    <StyledSummary id={id} onSubmit={onSubmit} showRoomImage={false}>
-      {() => renderActions(t, props)}
-    </StyledSummary>
-    {!isEmpty(brochures) && (
-      <AsideDetails>
-        <Title>{t('brochure_plural')}</Title>
-        {values(map(renderBrochure, brochures))}
-      </AsideDetails>
-    )}
-  </Aside>
-);
+const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
+  const {
+    hotel: { additionalInfo },
+  } = props;
+
+  return (
+    <Aside>
+      <StyledSummary id={id} onSubmit={onSubmit} showRoomImage={false}>
+        {() => renderActions(t, props)}
+      </StyledSummary>
+      {additionalInfo && (
+        <AsideDetails>
+          <Title>{t('labels.additionalInfo')}</Title>
+          <p>{additionalInfo}</p>
+        </AsideDetails>
+      )}
+      {!isEmpty(brochures) && (
+        <AsideDetails>
+          <Title>{t('brochure_plural')}</Title>
+          {values(map(renderBrochure, brochures))}
+        </AsideDetails>
+      )}
+    </Aside>
+  );
+};
 
 const renderTabs = (t, props) => (
   <Fragment>
