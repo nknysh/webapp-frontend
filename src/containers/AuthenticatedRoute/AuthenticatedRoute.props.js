@@ -9,6 +9,9 @@ export const propTypes = {
   isAuthenticated: PropTypes.bool,
   authRedirect: PropTypes.string,
   authComponent: PropTypes.any,
+  location: PropTypes.object,
 };
 
-export const defaultProps = {};
+export const defaultProps = {
+  location: {},
+};

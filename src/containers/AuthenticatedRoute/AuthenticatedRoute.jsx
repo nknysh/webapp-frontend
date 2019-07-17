@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
-import { compose, prop } from 'ramda';
+import { compose, prop, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { Loader } from 'components';
+import { useFetchData, useEffectBoundary } from 'effects';
 import NotFound from 'pages/NotFound';
 import { withAuthentication } from 'hoc';
 
 import { propTypes, defaultProps } from './AuthenticatedRoute.props';
+
+const getLocationProps = prop('pathname');
 
 const renderLoadingMessage = t => <Loader title={t('messages.authenticating')} />;
 
@@ -20,18 +23,36 @@ const renderRoute = (Component, props) => (Component && <Component {...props} />
 
 export const AuthenticatedRoute = ({
   auth,
-  isAuthLoading,
-  isAuthenticated,
-  location,
-  authRedirect,
+  authCheck,
+  authCheckIgnore,
   authComponent,
+  authRedirect,
+  authStatus,
+  isAuthenticated,
+  isAuthSuccess,
+  location,
   ...props
 }) => {
   const { t } = useTranslation();
+  const [checked, setChecked] = useState(false);
+  const [prevLocation, setPrevLocation] = useState(getLocationProps(location));
+
+  useEffectBoundary(() => {
+    const locationChange = !equals(getLocationProps(location), prevLocation);
+    locationChange && setPrevLocation(getLocationProps(location));
+    locationChange && setChecked(false);
+  }, [location]);
+
+  useEffectBoundary(() => {
+    setChecked(true);
+  }, [isAuthSuccess]);
 
   const routeIsAuthenticated = auth && isAuthenticated;
+  const ignoreCheck = !isAuthenticated && authCheckIgnore;
 
-  if (isAuthLoading) {
+  useFetchData(authStatus, authCheck, [], [], auth, !(auth && !ignoreCheck));
+
+  if (auth && !checked) {
     return renderLoadingMessage(t);
   }
 

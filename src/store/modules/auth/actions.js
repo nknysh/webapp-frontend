@@ -1,11 +1,17 @@
+import i18n from 'config/i18n';
 import { prop, propEq, omit, propOr } from 'ramda';
 import { FORBIDDEN } from 'http-status';
 
 import client from 'api/auth';
+import userClient from 'api/users';
 
-import { successAction, errorAction, errorFromResponse, storeReset } from 'store/common';
+import { genericAction, successAction, errorAction, errorFromResponse, storeReset } from 'store/common';
+import { enqueueNotification } from 'store/modules/ui/actions';
+
+import { isAuthenticated } from './selectors';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const AUTH_CHECK = 'AUTH_CHECK';
 export const AUTH_OK = 'AUTH_OK';
 export const AUTH_RESET = 'AUTH_RESET';
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
@@ -106,9 +112,7 @@ export const signUp = values => async dispatch => {
   }
 };
 
-export const logOut = token => async dispatch => {
-  dispatch(authLogOut(token));
-
+const clearUser = dispatch => {
   deleteRememberedToken();
   deleteRememberedUser();
   deleteRememberedCountry();
@@ -116,12 +120,32 @@ export const logOut = token => async dispatch => {
   dispatch(authReset());
   dispatch(successAction(AUTH_LOG_OUT, {}));
   dispatch(storeReset());
+};
+
+export const logOut = token => async dispatch => {
+  dispatch(authLogOut(token));
+
+  clearUser(dispatch);
 
   try {
     await client.logOut();
   } catch (e) {
     return true;
   }
+};
+
+const persistUser = (dispatch, data) => {
+  const userUuid = prop('uuid', data);
+
+  if (propEq('status', AccountStatus.PENDING, data)) {
+    return dispatch(errorAction(AUTH_REQUEST, { status: FORBIDDEN, unverified: true }));
+  }
+
+  setRememberedToken(userUuid);
+  setRememberedUser(data);
+  setRememberedCountry(propOr('GB', 'countryCode', data));
+
+  dispatch(setToken(userUuid));
 };
 
 export const logIn = values => async dispatch => {
@@ -131,17 +155,8 @@ export const logIn = values => async dispatch => {
     const {
       data: { data },
     } = await client.logIn({ data: { attributes: values } });
-    const userUuid = prop('uuid', data);
 
-    if (propEq('status', AccountStatus.PENDING, data)) {
-      return dispatch(errorAction(AUTH_REQUEST, { status: FORBIDDEN, unverified: true }));
-    }
-
-    setRememberedToken(userUuid);
-    setRememberedUser(data);
-    setRememberedCountry(propOr('GB', 'countryCode', data));
-
-    dispatch(setToken(userUuid));
+    persistUser(dispatch, data);
     dispatch(successAction(AUTH_REQUEST, { user: { ...data } }));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_REQUEST, e));
@@ -168,5 +183,32 @@ export const setPassword = values => async dispatch => {
     dispatch(successAction(AUTH_SET_PASSWORD, values));
   } catch (e) {
     dispatch(errorFromResponse(AUTH_SET_PASSWORD, e));
+  }
+};
+
+export const authCheck = () => async (dispatch, getState) => {
+  dispatch(genericAction(AUTH_CHECK));
+
+  try {
+    const {
+      data: { data },
+    } = await userClient.me();
+    dispatch(successAction(AUTH_CHECK, { user: { ...data } }));
+    persistUser(dispatch, data);
+  } catch (e) {
+    const authenticated = isAuthenticated(getState());
+    clearUser(dispatch);
+
+    if (authenticated) {
+      dispatch(
+        enqueueNotification({ message: i18n.t('notifications.authenticatedLoggedOut'), options: { variant: 'info' } })
+      );
+      return;
+    }
+
+    dispatch(enqueueNotification({ message: i18n.t('notifications.mustBeLoggedIn'), options: { variant: 'error' } }));
+    dispatch(errorAction(AUTH_CHECK, {}));
+
+    throw e;
   }
 };

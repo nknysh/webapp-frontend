@@ -16,6 +16,7 @@ export default [
     component: AsyncHomeAuthenticated,
     auth: true,
     authComponent: AsyncHome,
+    authCheckIgnore: true,
   },
 
   // Order is important here

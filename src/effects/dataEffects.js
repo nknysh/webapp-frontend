@@ -21,10 +21,12 @@ const fetchData = (fetchStatus, fetcher, fetchArgs = []) => {
   return fetched;
 };
 
-export const useFetchData = (fetchStatus, fetcher, fetchArgs = [], changed = [], force = false) => {
+export const useFetchData = (fetchStatus, fetcher, fetchArgs = [], changed = [], force = false, ignore = false) => {
   const [fetched, setFetched] = useState(false);
 
   useEffectBoundary(() => {
+    if (ignore) return;
+
     (force || !fetched) && setFetched(fetchData(fetchStatus, fetcher, fetchArgs));
   }, [force, fetchStatus, ...changed]);
 
