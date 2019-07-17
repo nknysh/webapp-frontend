@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { path } from 'ramda';
 import { Grow, ClickAwayListener } from '@material-ui/core';
 
 import { isArray, mapWithIndex } from 'utils';
@@ -16,7 +15,7 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
 
   const renderItem = (item, i) =>
     item && (
-      <ItemComponent onClick={path(['props', 'onClick'], item)} key={`drop-down-menu-item-${i}`}>
+      <ItemComponent key={`drop-down-menu-item-${i}`} disableGutters>
         {item}
       </ItemComponent>
     );

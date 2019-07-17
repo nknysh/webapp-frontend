@@ -15,24 +15,6 @@ const alignMap = {
 const getAlignment = prop(__, alignMap);
 
 export const Links = styled.div`
-  > div {
-    border-bottom: 1px solid ${theme.borders.default};
-    padding: ${theme.gutter / 2}px;
-
-    ${breakpoints.tablet`
-      padding: 0;
-      border: 0;
-    `}
-
-    :first-child {
-      padding-top: 0;
-    }
-
-    :last-child {
-      border: 0;
-      padding-bottom: 0;
-    }
-  }
   ${breakpoints.tablet`
     display: flex;
     justify-content: ${({ align }) => getAlignment(align)};
@@ -40,21 +22,25 @@ export const Links = styled.div`
 `;
 
 export const MenuLink = styled(Link)`
-  font-weight: ${({ ['data-active']: isActive }) => isActive && 'bold'};
+  border-bottom: 1px solid ${theme.borders.default};
   display: block;
-  transition: ${theme.defaultTransition};
+  font-weight: ${({ ['data-active']: isActive }) => isActive && 'bold'};
+  margin: 0 ${theme.gutter}px;
+  padding: ${theme.gutter * 2}px 0;
   text-transform: uppercase;
-  flex: 1;
+  transition: ${theme.defaultTransition};
 
-  a {
-    padding: 0;
-    margin: 0;
+  &:last-child {
+    border: 0;
   }
 
   ${breakpoints.tablet`
+    border: 0;
+    flex: 1;
     font-size: ${theme.fonts.sizes.link}px;
-    text-align: center;
     height: auto;
+    padding: ${theme.gutter}px;
+    text-align: center;
     transition: ${theme.defaultTransition};
     width: auto;
   `}

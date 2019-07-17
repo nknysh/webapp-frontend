@@ -3,7 +3,27 @@
 exports[`<Menu /> render matched route is active in snapshot 1`] = `
 <Menustyles__Links
   align="middle"
+  currentPath="/"
   isAuthenticated={true}
+  links={
+    Array [
+      Object {
+        "href": "/",
+        "title": "Home",
+      },
+      Object {
+        "hard": true,
+        "href": "undefined/proposals",
+        "title": "Proposals",
+      },
+      Object {
+        "hard": true,
+        "href": "undefined/bookings",
+        "title": "Bookings",
+      },
+    ]
+  }
+  onLinkClick={[Function]}
 >
   <Menustyles__MenuLink
     data-active={true}
@@ -38,7 +58,27 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
 exports[`<Menu /> render matches logged in snapshot 1`] = `
 <Menustyles__Links
   align="middle"
+  currentPath=""
   isAuthenticated={true}
+  links={
+    Array [
+      Object {
+        "href": "/",
+        "title": "Home",
+      },
+      Object {
+        "hard": true,
+        "href": "undefined/proposals",
+        "title": "Proposals",
+      },
+      Object {
+        "hard": true,
+        "href": "undefined/bookings",
+        "title": "Bookings",
+      },
+    ]
+  }
+  onLinkClick={[Function]}
 >
   <Menustyles__MenuLink
     data-active={false}
@@ -73,7 +113,27 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
 exports[`<Menu /> render matches logged out snapshot 1`] = `
 <Menustyles__Links
   align="middle"
+  currentPath=""
   isAuthenticated={false}
+  links={
+    Array [
+      Object {
+        "href": "/",
+        "title": "Home",
+      },
+      Object {
+        "hard": true,
+        "href": "undefined/proposals",
+        "title": "Proposals",
+      },
+      Object {
+        "hard": true,
+        "href": "undefined/bookings",
+        "title": "Bookings",
+      },
+    ]
+  }
+  onLinkClick={[Function]}
 >
   <Menustyles__MenuLink
     data-active={false}

@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 
 import userPanelLinks from 'config/links/user-panel';
 
-import { DropDownMenu, Link } from 'components';
+import { DropDownMenu } from 'components';
 import { withAuthentication } from 'hoc';
 
 import { isSending } from 'store/common';
 
 import connect from './UserPanel.state';
 import { propTypes, defaultProps } from './UserPanel.props';
-import { StyledUserPanel, Text, Country, CountrySelect } from './UserPanel.styles';
+import { StyledUserPanel, Text, Country, CountrySelect, Link } from './UserPanel.styles';
 
 const logoutClickLens = lensPath(['logout', 'onClick']);
 
