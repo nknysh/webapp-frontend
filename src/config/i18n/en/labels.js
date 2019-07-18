@@ -90,6 +90,7 @@ export default {
   commission: 'Commission',
   notApplied: 'Not Applied',
   additionalResources: 'Other Resources',
+  additionalInfo: 'Additional Information',
 
   roomIsHeld: 'This room has a hold',
   roomIsHeld_plural: 'This room has {{count}} holds',
