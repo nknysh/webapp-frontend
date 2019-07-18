@@ -7,10 +7,12 @@ export const propTypes = {
   labels: PropTypes.array,
   current: PropTypes.number,
   onChange: PropTypes.func,
+  onTabScrollButtonChange: PropTypes.func,
 };
 
 export const defaultProps = {
   labels: [],
   value: 0,
   onChange: noop,
+  onTabScrollButtonChange: noop,
 };

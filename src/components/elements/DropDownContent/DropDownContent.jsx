@@ -25,7 +25,7 @@ const renderInputMask = (inputContent, maskProps, showArrow) => (
   </DropDownContentMask>
 );
 
-const renderInput = inputProps => <DropDownContentInput {...inputProps} />;
+const renderInput = inputProps => <DropDownContentInput readOnly {...inputProps} />;
 
 export const DropDownContent = ({
   children,

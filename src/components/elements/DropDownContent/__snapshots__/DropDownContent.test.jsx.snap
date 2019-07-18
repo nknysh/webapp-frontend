@@ -15,6 +15,7 @@ exports[`<DropDownContent /> render matches snapshot 1`] = `
       </DropDownContentstyles__DropDownContentMask>
       <DropDownContentstyles__DropDownContentInput
         onClick={[Function]}
+        readOnly={true}
       />
     </DropDownContentstyles__DropDownContentInputWrapper>
   </DropDownContentstyles__StyledDropDownContent>

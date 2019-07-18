@@ -3,7 +3,7 @@
 exports[`<LodgingSelect /> render matches snapshot 1`] = `
 <LodgingSelectstyles__StyledLodgingSelect>
   <DropDownContent
-    closeOnClickAway={false}
+    closeOnClickAway={true}
     contentOnly={false}
     inputContent="0 Rooms, 0 Guests"
     showArrow={true}
