@@ -28,40 +28,40 @@ const renderInputMask = (inputContent, maskProps, showArrow) => (
 const renderInput = inputProps => <DropDownContentInput readOnly {...inputProps} />;
 
 export const DropDownContent = ({
+  children,
+  closeOnClickAway,
+  contentOnly,
+  inputContent,
+  inputProps,
+  keepOpen,
+  maskProps,
+  onChange,
+  onClick,
+  overlayProps,
+  showArrow,
+  showContent,
+  showInput,
   showOverlay,
   showRawInput,
-  showInput,
-  overlayProps,
-  inputContent,
-  maskProps,
-  showArrow,
-  inputProps,
-  onChange,
-  children,
-  showContent,
-  keepOpen,
-  onClick,
-  contentOnly,
-  closeOnClickAway,
 }) => {
+  const [showArea, setShowArea] = useState(showContent || false);
+
+  const onClose = () => setShowArea(false);
+
+  useKeyboard(27, onClose);
+
   const renderChildren = () => (
     <DropDownContentArea data-content={contentOnly}>{isFunction(children) ? children() : children}</DropDownContentArea>
   );
 
   if (contentOnly) return renderChildren();
 
-  const [showArea, setShowArea] = useState(showContent || false);
-
   const shouldShow = !isNil(showContent) ? showContent : showArea;
   const shouldRenderChildren = keepOpen || (Boolean(children) && showArea && shouldShow);
-
-  const onClose = () => setShowArea(false);
   const onInputClick = e => {
     if (onClick) onClick(e);
     setShowArea(!showArea);
   };
-
-  useKeyboard(27, onClose);
 
   return (
     <ClickAwayListener onClickAway={closeOnClickAway ? onClose : noop}>

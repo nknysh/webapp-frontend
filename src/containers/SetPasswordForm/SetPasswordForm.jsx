@@ -29,12 +29,11 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
 
 export const SetPasswordForm = ({ requestStatus, onSetPassword, token, error }) => {
   const { t } = useTranslation();
+  const [submitted, setSubmitted] = useState(false);
+  const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
 
   // No token, no form
   if (!token) return <Redirect to="/" />;
-
-  const [submitted, setSubmitted] = useState(false);
-  const [formValues, setFormValues] = useState(extractFieldDefaults(fields));
 
   const isSetting = isSending(requestStatus);
   const success = isSuccess(requestStatus);

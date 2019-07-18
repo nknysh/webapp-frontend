@@ -66,7 +66,7 @@ export const BookingForm = forwardRef(({ fields, validation, data, children, cla
                   <Column>
                     {renderField(
                       'isRepeatGuest',
-                      prop('isRepeatGuest', values),
+                      prop('isRepeatGuest', values).toString(),
                       prop('isRepeatGuest', fields),
                       formProps
                     )}

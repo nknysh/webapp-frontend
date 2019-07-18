@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
-import { windowExists, addEvent, removeEvent, isMobile } from 'utils';
+import { windowExists, addEvent, removeEvent, isMobile, isArray } from 'utils';
 import { useEffectBoundary } from './genericEffects';
 
 export const useCurrentWidth = () => {
@@ -43,4 +43,21 @@ export const useKeyboard = (keyCode, callback) => {
       removeEvent('keydown', onKeyPress);
     };
   });
+};
+
+const addBodyClass = className => document && document.body.classList.add(className);
+const removeBodyClass = className => document && document.body.classList.remove(className);
+
+export const useBodyClass = (classes = []) => {
+  const [bodyClass, setBodyClass] = useState(classes);
+
+  const unsetBodyClass = useCallback(className =>
+    setBodyClass(isArray(className) ? className.map(removeBodyClass) : removeBodyClass(className))
+  );
+
+  useEffectBoundary(() => {
+    isArray(bodyClass) ? bodyClass.map(addBodyClass) : addBodyClass(bodyClass);
+  }, [bodyClass]);
+
+  return { bodyClass, setBodyClass, unsetBodyClass };
 };

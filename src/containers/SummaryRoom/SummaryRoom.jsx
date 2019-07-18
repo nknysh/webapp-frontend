@@ -65,23 +65,23 @@ const renderSupplements = (t, supplements) =>
     flatten
   )(supplements);
 
-const renderMealPlan = (t, { product, title, quantity }) => (
-  <RoomRow key={product}>
+const renderMealPlan = (t, { title, quantity }, i) => (
+  <RoomRow key={i}>
     {t(ProductTypes.MEAL_PLAN)}: {quantity} x {title}
   </RoomRow>
 );
 
 const renderMealPlans = (t, mealPlans) =>
   pipe(
-    map(partial(renderMealPlan, [t])),
+    mapWithIndex(partial(renderMealPlan, [t])),
     flatten
   )(mealPlans);
 
-const renderError = message => <Error key={message}>{message}</Error>;
+const renderError = (message, i) => <Error key={i}>{message}</Error>;
 const renderErrors = pipe(
   groupErrorsByRoomIndex,
   replaceAccommodationWithRoom,
-  map(map(renderError))
+  map(mapWithIndex(renderError))
 );
 
 const renderHold = (t, hold, i) => (
@@ -92,13 +92,13 @@ const renderHold = (t, hold, i) => (
 
 const renderHolds = (t, data) => mapWithIndex(partial(renderHold, [t]), data);
 
-const renderOffer = (t, { offer }) => (
-  <RoomRow data-discount={true} key={prop('uuid', offer)}>
+const renderOffer = (t, { offer }, i) => (
+  <RoomRow data-discount={true} key={i}>
     {t('offer')}: {prop('name', offer)}
   </RoomRow>
 );
 
-const renderOffers = (t, offers) => map(partial(renderOffer, [t]), offers);
+const renderOffers = (t, offers) => mapWithIndex(partial(renderOffer, [t]), offers);
 
 export const SummaryRoom = ({
   canEdit,
@@ -148,7 +148,7 @@ export const SummaryRoom = ({
   const hasImage = showImage && photo;
 
   return (
-    <Room key={roomId} className={className}>
+    <Room className={className}>
       {(hasHolds || hasImage) && (
         <RoomImages>
           {hasImage && <RoomImage src={prop('url', photo)} />}

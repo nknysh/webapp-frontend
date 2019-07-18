@@ -16,7 +16,7 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
         Object {
           "agreeToTerms": false,
           "companySignupInfo": Object {
-            "country": "",
+            "countryCode": "",
             "name": "",
           },
           "email": "",
@@ -51,6 +51,7 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
             "email",
             "lastName",
             "firstName",
+            "title",
           ],
           "_options": Object {
             "abortEarly": true,
@@ -102,7 +103,7 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
               "_exclusive": Object {},
               "_mutate": false,
               "_nodes": Array [
-                "country",
+                "countryCode",
                 "name",
               ],
               "_options": Object {
@@ -116,7 +117,7 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
                 "refs": Map {},
               },
               "fields": Object {
-                "country": StringSchema {
+                "countryCode": StringSchema {
                   "_blacklist": RefSet {
                     "list": Set {},
                     "refs": Map {},
@@ -339,6 +340,39 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
                 "refs": Map {},
               },
               "tests": Array [
+                [Function],
+                [Function],
+                [Function],
+              ],
+              "transforms": Array [
+                [Function],
+              ],
+            },
+            "title": StringSchema {
+              "_blacklist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "_conditions": Array [],
+              "_deps": Array [],
+              "_exclusive": Object {
+                "max": true,
+                "min": true,
+                "required": false,
+              },
+              "_mutate": false,
+              "_options": Object {
+                "abortEarly": true,
+                "recursive": true,
+              },
+              "_type": "string",
+              "_typeError": [Function],
+              "_whitelist": RefSet {
+                "list": Set {},
+                "refs": Map {},
+              },
+              "tests": Array [
+                [Function],
                 [Function],
                 [Function],
                 [Function],

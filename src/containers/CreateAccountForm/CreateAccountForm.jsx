@@ -91,9 +91,9 @@ export const CreateAccountForm = ({ requestStatus, onSignUp, error, onComplete }
                     formProps
                   )}
                   {renderField(
-                    'companySignupInfo[country]',
-                    path(['companySignupInfo', 'country'], values),
-                    path(['companySignupInfo', 'country'], fields),
+                    'companySignupInfo[countryCode]',
+                    path(['companySignupInfo', 'countryCode'], values),
+                    path(['companySignupInfo', 'countryCode'], fields),
                     formProps
                   )}
                 </InnerRow>

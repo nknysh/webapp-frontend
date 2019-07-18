@@ -40,10 +40,6 @@ export const IndexSearch = ({
   indexStatus,
   ...props
 }) => {
-  if (isEmpty(indexes)) return null;
-
-  if (disabled) return renderInput({ disabled, ...props });
-
   const [isOpen, setIsOpen] = useState(isOpenProp);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState(value);
@@ -52,18 +48,10 @@ export const IndexSearch = ({
   useEffectBoundary(() => {
     setIsOpen(true);
   }, [flatten(results)]);
+
   useEffectBoundary(() => {
     setSelected(value);
   }, [value]);
-
-  const getResults = (index, i) => {
-    if (!index) return [];
-
-    const searchString = `${propOr('', i, searchPatterns)}{search}*`;
-
-    const results = index.search(replace('{search}', search, searchString));
-    return limit ? take(limit, results) : results;
-  };
 
   const searchIndexes = () => {
     const indexResults = mapWithIndex(getResults, indexes);
@@ -72,24 +60,39 @@ export const IndexSearch = ({
 
   useEffectBoundary(searchIndexes, [value, isOpen, selected, search, indexStatus]);
 
+  const onInputFocus = useCallback(() => setIsOpen(openOnFocus), [openOnFocus]);
   const onInputChange = useCallback(
     e => {
       const newValue = e.currentTarget.value;
-
       setSearch(newValue);
       setSelected('');
       setIsOpen(true);
       !equals(newValue, value) && onChange({ value: newValue });
     },
-    [value]
+    [onChange, value]
   );
+
+  const getResults = useCallback(
+    (index, i) => {
+      if (!index) return [];
+
+      const searchString = `${propOr('', i, searchPatterns)}{search}*`;
+
+      const results = index.search(replace('{search}', search, searchString));
+      return limit ? take(limit, results) : results;
+    },
+    [limit, search, searchPatterns]
+  );
+
+  if (isEmpty(indexes)) return null;
+  if (disabled) return renderInput({ disabled, ...props });
 
   const currentValue = search || selected;
 
   const inputProps = {
     value: currentValue,
     readOnly: false,
-    onFocus: () => setIsOpen(openOnFocus),
+    onFocus: onInputFocus,
     onChange: onInputChange,
     placeholder,
   };

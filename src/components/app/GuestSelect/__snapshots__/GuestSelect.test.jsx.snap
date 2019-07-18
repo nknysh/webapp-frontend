@@ -42,6 +42,8 @@ exports[`<GuestSelect /> render matches snapshot 1`] = `
         }
       }
       minMax={Object {}}
+      onAgeSelectClose={[Function]}
+      onAgeSelectOpen={[Function]}
       onSelect={[Function]}
       showAgeDropDown={
         Object {
@@ -56,6 +58,8 @@ exports[`<GuestSelect /> render matches snapshot 1`] = `
         }
       }
       minMax={Object {}}
+      onAgeSelectClose={[Function]}
+      onAgeSelectOpen={[Function]}
       onSelect={[Function]}
       showAgeDropDown={
         Object {
