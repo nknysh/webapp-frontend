@@ -1,21 +1,18 @@
 import { CONFLICT } from 'http-status';
 
-import info from './content/info.md';
-import complete from './content/complete.md';
-import exists from './content/error--exists.md';
-import unknown from './content/error--unknown.md';
+import i18n from 'config/i18n';
 
 export default {
   titles: {
-    default: 'Create an Account',
-    complete: 'Thank you for your interest!',
+    default: i18n.t('form.titles.createAccount'),
+    complete: i18n.t('form.titles.createAccountComplete'),
   },
   content: {
-    info,
-    complete,
+    info: i18n.t('content.createAccount.info'),
+    complete: i18n.t('content.createAccount.complete'),
   },
   errors: {
-    default: unknown,
-    [CONFLICT]: exists,
+    default: i18n.t('content.createAccount.error.unknown'),
+    [CONFLICT]: i18n.t('content.createAccount.error.exists'),
   },
 };

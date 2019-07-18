@@ -1,17 +1,15 @@
-import unknown from './content/error--unknown.md';
-import description from './content/description.md';
-import complete from './content/complete.md';
+import i18n from 'config/i18n';
 
 export default {
   titles: {
-    default: 'Reset Your Password',
-    complete: 'Help is on the way - check your inbox!',
+    default: i18n.t('form.titles.resetYourPassword'),
+    complete: i18n.t('form.titles.resetYourPasswordComplete'),
   },
   content: {
-    description,
-    complete,
+    description: i18n.t('content.passwordReset.description'),
+    complete: i18n.t('content.passwordReset.complete'),
   },
   errors: {
-    default: unknown,
+    default: i18n.t('content.passwordReset.error.unknown'),
   },
 };

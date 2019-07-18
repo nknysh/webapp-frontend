@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import i18n from 'config/i18n';
 import { Checkbox } from 'components/elements';
 
 export default {
@@ -8,9 +9,9 @@ export default {
     props: {
       label: (
         <Fragment>
-          By concluding the booking process, I accept the{' '}
+          {i18n.t('labels.concludeBooking')}
           <a href="/terms-and-conditions" target="_blank">
-            Terms and Conditions
+            {i18n.t('labels.termsAndConditions')}
           </a>
         </Fragment>
       ),
