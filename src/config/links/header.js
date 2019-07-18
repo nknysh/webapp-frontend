@@ -36,13 +36,13 @@ export default {
       href: '/',
     },
     {
-      title: 'Bookings',
-      href: `${ADMIN_BASE_URL}/bookings`,
+      title: 'Proposals',
+      href: `${ADMIN_BASE_URL}/proposals`,
       hard: true,
     },
     {
-      title: 'Proposals',
-      href: `${ADMIN_BASE_URL}/proposals`,
+      title: 'Bookings',
+      href: `${ADMIN_BASE_URL}/bookings`,
       hard: true,
     },
     {
@@ -57,8 +57,8 @@ export default {
       href: '/',
     },
     {
-      title: 'Bookings',
-      href: `${ADMIN_BASE_URL}/bookings`,
+      title: 'Content',
+      href: `${ADMIN_BASE_URL}/content`,
       hard: true,
     },
     {
@@ -72,8 +72,8 @@ export default {
       hard: true,
     },
     {
-      title: 'Bookings',
-      href: `${ADMIN_BASE_URL}/bookings`,
+      title: 'Offers',
+      href: `${ADMIN_BASE_URL}/offers`,
       hard: true,
     },
     {
@@ -82,13 +82,13 @@ export default {
       hard: true,
     },
     {
-      title: 'Travel Agents',
-      href: `${ADMIN_BASE_URL}/travel-agents`,
+      title: 'Bookings',
+      href: `${ADMIN_BASE_URL}/bookings`,
       hard: true,
     },
     {
-      title: 'Sales Representatives',
-      href: `${ADMIN_BASE_URL}/sales-representatives`,
+      title: 'Users',
+      href: `${ADMIN_BASE_URL}/users`,
       hard: true,
     },
   ],
