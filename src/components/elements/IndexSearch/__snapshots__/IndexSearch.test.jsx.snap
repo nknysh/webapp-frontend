@@ -11,6 +11,7 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
         "onChange": [Function],
         "onFocus": [Function],
         "placeholder": undefined,
+        "readOnly": false,
         "value": "",
       }
     }
@@ -40,6 +41,7 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
         "onChange": [Function],
         "onFocus": [Function],
         "placeholder": undefined,
+        "readOnly": false,
         "value": "",
       }
     }
@@ -66,6 +68,7 @@ exports[`<IndexSearch /> render matches snapshot 2`] = `
         "onChange": [Function],
         "onFocus": [Function],
         "placeholder": undefined,
+        "readOnly": false,
         "value": "",
       }
     }
@@ -98,6 +101,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
         "onChange": [Function],
         "onFocus": [Function],
         "placeholder": undefined,
+        "readOnly": false,
         "value": "",
       }
     }
@@ -124,6 +128,7 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
         "onChange": [Function],
         "onFocus": [Function],
         "placeholder": undefined,
+        "readOnly": false,
         "value": "",
       }
     }
@@ -150,6 +155,7 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
         "onChange": [Function],
         "onFocus": [Function],
         "placeholder": undefined,
+        "readOnly": false,
         "value": "",
       }
     }
@@ -176,6 +182,7 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
         "onChange": [Function],
         "onFocus": [Function],
         "placeholder": undefined,
+        "readOnly": false,
         "value": "default value",
       }
     }
@@ -202,6 +209,7 @@ exports[`<IndexSearch /> render matches snapshot 7`] = `
         "onChange": [Function],
         "onFocus": [Function],
         "placeholder": undefined,
+        "readOnly": false,
         "value": "",
       }
     }
