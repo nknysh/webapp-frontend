@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { isEmpty, map, repeat, length, take, compose, replace, propOr, prop, curry, flatten, equals } from 'ramda';
 import hash from 'object-hash';
 
@@ -60,32 +60,40 @@ export const IndexSearch = ({
 
   useEffectBoundary(searchIndexes, [value, isOpen, selected, search, indexStatus]);
 
-  if (isEmpty(indexes)) return null;
-
-  if (disabled) return renderInput({ disabled, ...props });
-
-  const getResults = (index, i) => {
-    if (!index) return [];
-
-    const searchString = `${propOr('', i, searchPatterns)}{search}*`;
-
-    const results = index.search(replace('{search}', search, searchString));
-    return limit ? take(limit, results) : results;
-  };
-
-  const currentValue = search || selected;
-
-  const inputProps = {
-    value: currentValue,
-    onFocus: () => setIsOpen(openOnFocus),
-    onChange: e => {
+  const onInputFocus = useCallback(() => setIsOpen(openOnFocus), [openOnFocus]);
+  const onInputChange = useCallback(
+    e => {
       const newValue = e.currentTarget.value;
-
       setSearch(newValue);
       setSelected('');
       setIsOpen(true);
       !equals(newValue, value) && onChange({ value: newValue });
     },
+    [onChange, value]
+  );
+
+  const getResults = useCallback(
+    (index, i) => {
+      if (!index) return [];
+
+      const searchString = `${propOr('', i, searchPatterns)}{search}*`;
+
+      const results = index.search(replace('{search}', search, searchString));
+      return limit ? take(limit, results) : results;
+    },
+    [limit, search, searchPatterns]
+  );
+
+  if (isEmpty(indexes)) return null;
+  if (disabled) return renderInput({ disabled, ...props });
+
+  const currentValue = search || selected;
+
+  const inputProps = {
+    value: currentValue,
+    readOnly: false,
+    onFocus: onInputFocus,
+    onChange: onInputChange,
     placeholder,
   };
 

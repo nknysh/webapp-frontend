@@ -1,51 +1,54 @@
 import {
   __,
-  complement,
-  toUpper,
   addIndex,
   adjust,
+  all,
+  allPass,
   anyPass,
   append,
+  both,
+  complement,
   concat,
   defaultTo,
+  dissocPath,
   equals,
+  evolve,
   filter,
   findLastIndex,
   forEach,
+  fromPairs,
   has,
+  hasPath,
   isEmpty,
+  isNil,
   keys,
+  last,
   lensPath,
   lensProp,
   map,
   mapObjIndexed,
-  hasPath,
   mergeDeepLeft,
   mergeDeepRight,
+  objOf,
   omit,
   over,
   partial,
+  partialRight,
   path,
-  last,
   pick,
-  toPairs,
   pickBy,
   pipe,
-  dissocPath,
-  uniq,
   prop,
-  evolve,
-  partialRight,
   propEq,
   propOr,
   propSatisfies,
   reduce,
   reject,
   remove,
-  fromPairs,
-  isNil,
-  objOf,
   set,
+  toPairs,
+  toUpper,
+  uniq,
   update,
   values,
   view,
@@ -87,6 +90,16 @@ export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
 export const BOOKINGS_FETCH = 'BOOKINGS_FETCH';
+
+const propIsNotEmptyOrNil = complement(propSatisfies(isNilOrEmpty));
+
+const hasAccommodation = allPass([
+  propIsNotEmptyOrNil(ProductTypes.ACCOMMODATION),
+  pipe(
+    propOr([], ProductTypes.ACCOMMODATION),
+    all(both(propIsNotEmptyOrNil('startDate'), propIsNotEmptyOrNil('endDate')))
+  ),
+]);
 
 const ignoreCall = anyPass([has('marginApplied'), has('taMarginType'), has('taMarginAmount')]);
 const getHotelName = path(['breakdown', 'hotel', 'name']);
@@ -329,8 +342,7 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
 
   const bookingBuilderPayload = getBookingForBuilder(nextState, id);
 
-  const hasAccommodation = !propSatisfies(isNilOrEmpty, ProductTypes.ACCOMMODATION, bookingBuilderPayload);
-  const shouldCall = forceCall || (!ignoreCall(payload) && hasAccommodation);
+  const shouldCall = forceCall || (!ignoreCall(payload) && hasAccommodation(bookingBuilderPayload));
 
   const actingCountryCode = getUserCountryContext(state);
   let breakdown = {};
