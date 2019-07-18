@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 
 import { noop } from 'utils';
 
+const stringNumber = PropTypes.oneOfType([PropTypes.number, PropTypes.string]);
+
 export const propTypes = {
   id: PropTypes.string,
   label: PropTypes.string,
@@ -10,8 +12,8 @@ export const propTypes = {
   keepOpen: PropTypes.bool,
   rooms: PropTypes.arrayOf(
     PropTypes.shape({
-      numberOfAdults: PropTypes.number,
-      agesOfAllChildren: PropTypes.arrayOf(PropTypes.number),
+      numberOfAdults: stringNumber,
+      agesOfAllChildren: PropTypes.arrayOf(stringNumber),
     })
   ),
 };

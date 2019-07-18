@@ -15,14 +15,14 @@ export const linkStyles = css`
   padding: ${theme.gutter}px 0;
 
   ${breakpoints.tablet`
-    ${({ spaced }) =>
+    ${({ ['data-spaced']: spaced }) =>
       spaced &&
       css`
         padding: ${theme.gutter / 2}px ${theme.gutter}px;
         margin: ${theme.gutter / 2}px ${theme.gutter}px;
       `}
 
-    ${({ inverse }) =>
+    ${({ ['data-inverse']: inverse }) =>
       inverse &&
       css`
         color: ${theme.colors.white};
@@ -30,7 +30,7 @@ export const linkStyles = css`
         border-radius: ${theme.borderRadius}px;
       `}
 
-      ${({ bold }) =>
+      ${({ ['data-bold']: bold }) =>
         bold &&
         css`
           font-weight: ${theme.fonts.bold};

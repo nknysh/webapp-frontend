@@ -88,7 +88,11 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
     links: isAuthenticated ? menu : loggedOutMenu,
   };
 
-  const onFormComplete = () => {
+  const onCreateFormComplete = () => {
+    setMenuOpen(false);
+  };
+
+  const onLoginFormComplete = () => {
     onModalClose();
     setMenuOpen(false);
   };
@@ -111,8 +115,8 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
 
       {!isAuthenticated && (
         <Modal open={modalOpen} onClose={onClose}>
-          {modalContext === contextTypes.SIGN_UP && <CreateAccountForm onComplete={onFormComplete} />}
-          {modalContext === contextTypes.LOGIN && <LoginForm onComplete={onFormComplete} />}
+          {modalContext === contextTypes.SIGN_UP && <CreateAccountForm onComplete={onCreateFormComplete} />}
+          {modalContext === contextTypes.LOGIN && <LoginForm onComplete={onLoginFormComplete} />}
         </Modal>
       )}
     </StyledHeader>
