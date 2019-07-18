@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   gt,
   dropLast,
@@ -79,7 +79,7 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
     }
   }, [rooms]);
 
-  const onAddRoom = () => {
+  const onAddRoom = useCallback(() => {
     onSelected(
       append(
         {
@@ -89,15 +89,18 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
         rooms
       )
     );
-  };
+  }, [rooms, onSelected]);
 
-  const onRemoveRoom = () => {
+  const onRemoveRoom = useCallback(() => {
     onSelected(dropLast(1, rooms));
-  };
+  }, [rooms, onSelected]);
 
-  const onAgeChange = (i, values) => {
-    onSelected(update(i, values, rooms));
-  };
+  const onAgeChange = useCallback(
+    (i, values) => {
+      onSelected(update(i, values, rooms));
+    },
+    [rooms, onSelected]
+  );
 
   return (
     <StyledLodgingSelect>
