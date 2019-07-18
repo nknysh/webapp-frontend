@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { append, mapObjIndexed, values, map, pipe } from 'ramda';
 
+import { useBodyClass } from 'effects';
 import { isArray } from 'utils';
 
 import { propTypes, defaultProps } from './Select.props';
@@ -35,6 +36,7 @@ const mapOverSections = map(renderSection);
 
 export const Select = ({ label, onSelected, options, className, onChange, onOpen, onClose, open, ...props }) => {
   const [isOpen, setIsOpen] = useState(open);
+  const { setBodyClass, removeBodyClass } = useBodyClass();
 
   const onSelect = useCallback(e => {
     onSelected(e.target.value);
@@ -45,6 +47,7 @@ export const Select = ({ label, onSelected, options, className, onChange, onOpen
     (...args) => {
       onOpen(...args);
       setIsOpen(true);
+      setBodyClass('select-open');
     },
     [onOpen]
   );
@@ -53,6 +56,7 @@ export const Select = ({ label, onSelected, options, className, onChange, onOpen
     (...args) => {
       onClose(...args);
       setIsOpen(false);
+      removeBodyClass('select-open');
     },
     [onClose]
   );
