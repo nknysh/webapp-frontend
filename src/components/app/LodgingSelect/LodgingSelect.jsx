@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   gt,
   dropLast,
@@ -55,8 +55,14 @@ const renderTabLabels = (t, { errors }, i) => (
 const renderLabels = (t, { totalRooms, ...props }) =>
   (gt(totalRooms, 1) && times(partial(renderTabLabels, [t, { totalRooms, ...props }]), totalRooms)) || [];
 
-const renderTab = (t, { onAgeChange, rooms }, i) => (
-  <AgeSelect key={i} values={prop(i, rooms)} onSelect={partial(onAgeChange, [i])} />
+const renderTab = (t, { onAgeChange, onAgeSelectOpen, onAgeSelectClose, rooms }, i) => (
+  <AgeSelect
+    key={i}
+    values={prop(i, rooms)}
+    onSelect={partial(onAgeChange, [i])}
+    onAgeSelectOpen={onAgeSelectOpen}
+    onAgeSelectClose={onAgeSelectClose}
+  />
 );
 
 const renderTabs = (t, { totalRooms, ...props }) =>
@@ -66,6 +72,7 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
   const { t } = useTranslation();
 
   const [tabIndex, setTabIndex] = useState(0);
+  const [closeOnClickAway, setCloseOnClickAway] = useState(true);
 
   const totalRooms = length(rooms);
   const totalGuests = getGuestsCounts(rooms);
@@ -79,7 +86,7 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
     }
   }, [rooms]);
 
-  const onAddRoom = () => {
+  const onAddRoom = useCallback(() => {
     onSelected(
       append(
         {
@@ -89,20 +96,30 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
         rooms
       )
     );
-  };
+  }, [rooms]);
 
-  const onRemoveRoom = () => {
+  const onRemoveRoom = useCallback(() => {
     onSelected(dropLast(1, rooms));
-  };
+  }, [rooms]);
 
-  const onAgeChange = (i, values) => {
-    onSelected(update(i, values, rooms));
-  };
+  const onAgeChange = useCallback(
+    (i, values) => {
+      onSelected(update(i, values, rooms));
+    },
+    [rooms]
+  );
+
+  const onAgeSelectOpen = useCallback(() => {
+    setCloseOnClickAway(false);
+  });
+  const onAgeSelectClose = useCallback(() => {
+    setCloseOnClickAway(true);
+  });
 
   return (
     <StyledLodgingSelect>
       {renderLabel(label)}
-      <DropDownContent inputContent={summary} contentOnly={contentOnly} closeOnClickAway={false}>
+      <DropDownContent inputContent={summary} contentOnly={contentOnly} closeOnClickAway={closeOnClickAway}>
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{t('room_plural')}</LodgingSelectEntryLabel>
@@ -118,7 +135,7 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
           onChange={setTabIndex}
           tabClassname="lodging-tab"
         >
-          {renderTabs(t, { totalRooms, onAgeChange, rooms })}
+          {renderTabs(t, { totalRooms, onAgeChange, onAgeSelectOpen, onAgeSelectClose, rooms })}
         </Tabs>
       </DropDownContent>
     </StyledLodgingSelect>

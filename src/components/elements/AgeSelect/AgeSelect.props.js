@@ -7,6 +7,8 @@ export const propTypes = {
   ageRanges: PropTypes.object,
   minMax: PropTypes.object,
   onSelect: PropTypes.func,
+  onAgeSelectOpen: PropTypes.func,
+  onAgeSelectClose: PropTypes.func,
   showAgeDropDown: PropTypes.object,
 };
 
@@ -23,4 +25,6 @@ export const defaultProps = {
     adult: false,
   },
   onSelect: noop,
+  onAgeSelectOpen: noop,
+  onAgeSelectClose: noop,
 };

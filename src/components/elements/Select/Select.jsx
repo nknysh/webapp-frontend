@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { append, mapObjIndexed, values, map, pipe } from 'ramda';
 
 import { isArray } from 'utils';
@@ -33,11 +33,29 @@ const renderSection = pipe(
 
 const mapOverSections = map(renderSection);
 
-export const Select = ({ label, onSelected, options, className, onChange, ...props }) => {
-  const onSelect = e => {
+export const Select = ({ label, onSelected, options, className, onChange, onOpen, onClose, open, ...props }) => {
+  const [isOpen, setIsOpen] = useState(open);
+
+  const onSelect = useCallback(e => {
     onSelected(e.target.value);
     onChange(e);
-  };
+  });
+
+  const onSelectOpen = useCallback(
+    (...args) => {
+      onOpen(...args);
+      setIsOpen(true);
+    },
+    [onOpen]
+  );
+
+  const onSelectClose = useCallback(
+    (...args) => {
+      onClose(...args);
+      setIsOpen(false);
+    },
+    [onClose]
+  );
 
   const renderedOptions = isArray(options) ? mapOverSections(options) : mapOverKeys(options);
 
@@ -45,7 +63,14 @@ export const Select = ({ label, onSelected, options, className, onChange, ...pro
     <StyledSelect className={className}>
       <StyledFormLabel
         control={
-          <MaterialSelect classes={selectClasses} onChange={onSelect} {...props}>
+          <MaterialSelect
+            classes={selectClasses}
+            onChange={onSelect}
+            onClose={onSelectClose}
+            onOpen={onSelectOpen}
+            open={isOpen}
+            {...props}
+          >
             {renderedOptions}
           </MaterialSelect>
         }
