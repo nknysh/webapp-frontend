@@ -1,14 +1,18 @@
 import { prop, values, mergeDeepRight, pathOr, propOr, forEach } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 
 import client from 'api/hotels';
+import { createCancelToken, wasCancelled } from 'api/helpers';
 
 import { successAction, errorFromResponse } from 'store/common';
 import { index } from 'store/modules/indexes/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
+import { populateBooking } from 'store/modules/bookings/actions';
 
 import { getHotelsEntities } from './selectors';
 import schema from './schema';
-import { populateBooking } from '../bookings/actions';
+
+let ratesCanceltoken = undefined;
 
 export const HOTELS = 'HOTELS';
 export const HOTEL = 'HOTEL';
@@ -59,12 +63,21 @@ export const fetchHotels = params => async (dispatch, getState) => {
 export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endDate) => async (dispatch, getState) => {
   const actingCountryCode = getUserCountryContext(getState());
 
+  ratesCanceltoken && ratesCanceltoken.cancel('New rates requested');
+  ratesCanceltoken = createCancelToken();
+
+  if (isNilOrEmpty(startDate) || isNilOrEmpty(endDate)) return;
+
   dispatch(fetchHotelsAction());
 
   try {
     const {
       data: { data },
-    } = await client.getHotelRoomRates(productUuid, { startDate, endDate, actingCountryCode });
+    } = await client.getHotelRoomRates(
+      productUuid,
+      { startDate, endDate, actingCountryCode },
+      { cancelToken: ratesCanceltoken.token }
+    );
 
     dispatch(
       setHotels({
@@ -79,6 +92,6 @@ export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endD
       })
     );
   } catch (e) {
-    dispatch(errorFromResponse(HOTELS, e, 'Could not fetch rates for those dates.'));
+    !wasCancelled(e) && dispatch(errorFromResponse(HOTELS, e, 'Could not fetch rates for those dates.'));
   }
 };

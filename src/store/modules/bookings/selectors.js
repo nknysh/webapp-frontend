@@ -3,6 +3,8 @@ import {
   always,
   any,
   append,
+  assoc,
+  complement,
   concat,
   defaultTo,
   equals,
@@ -16,9 +18,9 @@ import {
   last,
   length,
   lensProp,
-  assoc,
   map,
   mapObjIndexed,
+  omit,
   over,
   partial,
   partialRight,
@@ -33,7 +35,6 @@ import {
   props,
   reduce,
   reject,
-  omit,
   tap,
   uniq,
   values,
@@ -467,10 +468,13 @@ export const getBookingForBuilder = createSelector(
 
     const sanitizeAccommodationProducts = pipe(
       evolve({
-        startDate: formatDate,
-        endDate: pipe(
-          partialRight(subDays, [1]),
-          formatDate
+        startDate: when(complement(isNilOrEmpty), formatDate),
+        endDate: when(
+          complement(isNilOrEmpty),
+          pipe(
+            partialRight(subDays, [1]),
+            formatDate
+          )
         ),
       }),
       // Push dates to dates array

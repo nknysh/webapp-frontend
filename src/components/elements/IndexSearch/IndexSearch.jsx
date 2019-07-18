@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { isEmpty, map, repeat, length, take, compose, replace, propOr, prop, curry, flatten, equals } from 'ramda';
 import hash from 'object-hash';
 
@@ -72,12 +72,8 @@ export const IndexSearch = ({
 
   useEffectBoundary(searchIndexes, [value, isOpen, selected, search, indexStatus]);
 
-  const currentValue = search || selected;
-
-  const inputProps = {
-    value: currentValue,
-    onFocus: () => setIsOpen(openOnFocus),
-    onChange: e => {
+  const onInputChange = useCallback(
+    e => {
       const newValue = e.currentTarget.value;
 
       setSearch(newValue);
@@ -85,6 +81,16 @@ export const IndexSearch = ({
       setIsOpen(true);
       !equals(newValue, value) && onChange({ value: newValue });
     },
+    [value]
+  );
+
+  const currentValue = search || selected;
+
+  const inputProps = {
+    value: currentValue,
+    readOnly: false,
+    onFocus: () => setIsOpen(openOnFocus),
+    onChange: onInputChange,
     placeholder,
   };
 
