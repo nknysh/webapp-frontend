@@ -1,16 +1,9 @@
-import { values, pipe, all, equals, reduce } from 'ramda';
-
 import { isFunction } from 'utils';
 
 import { isSuccess, isIdle } from 'store/common';
 
 import { useEffectBoundary } from './genericEffects';
 import { useState } from 'react';
-
-const allFetched = pipe(
-  values,
-  all(equals(true))
-);
 
 const fetchData = (fetchStatus, fetcher, fetchArgs = []) => {
   const fetched = isSuccess(fetchStatus);
@@ -31,12 +24,4 @@ export const useFetchData = (fetchStatus, fetcher, fetchArgs = [], changed = [],
   }, [force, fetchStatus, ...changed]);
 
   return fetched;
-};
-
-export const useFetchDataMultiple = fetches => {
-  const fetchResult = (accum, args) => [...accum, useFetchData(...args)];
-
-  const fetchResults = reduce(fetchResult, [], fetches);
-
-  return allFetched(fetchResults);
 };

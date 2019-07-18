@@ -40,10 +40,6 @@ export const IndexSearch = ({
   indexStatus,
   ...props
 }) => {
-  if (isEmpty(indexes)) return null;
-
-  if (disabled) return renderInput({ disabled, ...props });
-
   const [isOpen, setIsOpen] = useState(isOpenProp);
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState(value);
@@ -52,9 +48,21 @@ export const IndexSearch = ({
   useEffectBoundary(() => {
     setIsOpen(true);
   }, [flatten(results)]);
+
   useEffectBoundary(() => {
     setSelected(value);
   }, [value]);
+
+  const searchIndexes = () => {
+    const indexResults = mapWithIndex(getResults, indexes);
+    setResults(indexResults);
+  };
+
+  useEffectBoundary(searchIndexes, [value, isOpen, selected, search, indexStatus]);
+
+  if (isEmpty(indexes)) return null;
+
+  if (disabled) return renderInput({ disabled, ...props });
 
   const getResults = (index, i) => {
     if (!index) return [];
@@ -64,13 +72,6 @@ export const IndexSearch = ({
     const results = index.search(replace('{search}', search, searchString));
     return limit ? take(limit, results) : results;
   };
-
-  const searchIndexes = () => {
-    const indexResults = mapWithIndex(getResults, indexes);
-    setResults(indexResults);
-  };
-
-  useEffectBoundary(searchIndexes, [value, isOpen, selected, search, indexStatus]);
 
   const currentValue = search || selected;
 

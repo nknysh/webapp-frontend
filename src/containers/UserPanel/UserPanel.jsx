@@ -34,10 +34,10 @@ export const UserPanel = ({
   setCountry,
   isSr,
 }) => {
-  if (!isAuthenticated || !currentUser) return null;
-
   const { t } = useTranslation();
   const [logout, setLogout] = useState(false);
+
+  if (!isAuthenticated || !currentUser) return null;
 
   const { firstName, lastName } = currentUser;
 

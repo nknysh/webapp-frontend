@@ -412,8 +412,15 @@ const renderTASelect = (
 
 export const SummaryFormExtras = ({
   addons,
+  compact,
+  editGuard,
+  fetchUsers,
+  getUserName,
   grandTotal,
   groundServices,
+  id,
+  isSr,
+  onEditGuard,
   replaceProducts,
   selectedFines,
   selectedGroundServices,
@@ -421,19 +428,13 @@ export const SummaryFormExtras = ({
   selectedTransfers,
   summaryOnly,
   transfers,
-  updateBooking,
-  values,
-  compact,
-  id,
-  editGuard,
-  onEditGuard,
-  isSr,
-  usersStatus,
-  fetchUsers,
-  getUserName,
   travelAgent,
+  updateBooking,
+  usersStatus,
+  values,
 }) => {
   const { t } = useTranslation();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const usersLoaded = isSr && useFetchData(usersStatus, fetchUsers, []);
 
   const compactEdit = !summaryOnly && compact;
