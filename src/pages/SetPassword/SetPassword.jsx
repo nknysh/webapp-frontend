@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 
 import { Modal } from 'components';
 import { SetPasswordForm } from 'containers';
@@ -8,9 +8,9 @@ import { propTypes } from './SetPassword.props';
 
 export const SetPassword = ({ history, match, ...props }) => {
   const { params: token } = match;
-  const onClose = () => {
+  const onClose = useCallback(() => {
     history.push('/');
-  };
+  }, [history]);
 
   return (
     <Fragment>

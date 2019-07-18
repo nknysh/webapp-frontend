@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { equals, lte, gte, gt, dec, inc, ap } from 'ramda';
 
 import { useEffectBoundary } from 'effects';
@@ -34,14 +34,15 @@ export const NumberSelect = ({
   const canDecrease = min ? !lte(count, min) : gt(count, 0);
   const canIncrease = max ? !gte(count, max) : true;
 
-  const onDescrease = () => {
+  const onDescrease = useCallback(() => {
     const newCount = canDecrease || !lte(count, min) ? dec(count) : count;
     ap([setCount, onRemove, onChange], [newCount]);
-  };
-  const onIncrease = () => {
+  }, [canDecrease, count, min, onChange, onRemove]);
+
+  const onIncrease = useCallback(() => {
     const newCount = canIncrease ? inc(count) : count;
     ap([setCount, onAdd, onChange], [newCount]);
-  };
+  }, [canIncrease, count, onAdd, onChange]);
 
   return (
     <StyledNumberSelect className={className}>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 
 import {
   always,
@@ -451,63 +451,81 @@ export const SummaryFormExtras = ({
 
   const { modalOpen, onModalOpen, onModalClose, setModalContext, modalContext } = useModalState();
 
-  const onSingleChange = (type, e, value) => {
-    const next = isNilOrEmpty(value) ? [] : [objOf('uuid', value)];
-    replaceProducts(id, type, next);
-  };
+  const onSingleChange = useCallback(
+    (type, e, value) => {
+      const next = isNilOrEmpty(value) ? [] : [objOf('uuid', value)];
+      replaceProducts(id, type, next);
+    },
+    [id, replaceProducts]
+  );
 
-  const onOneWayChange = (type, e) => {
-    const value = path(['target', 'value'], e);
+  const onOneWayChange = useCallback(
+    (type, e) => {
+      const value = path(['target', 'value'], e);
 
-    const [rawUuids, direction] = split('|', value);
-    const uuids = split(',', rawUuids);
+      const [rawUuids, direction] = split('|', value);
+      const uuids = split(',', rawUuids);
 
-    const next = mergeDeepRight(oneWayProducts, { [type]: { [direction]: uuids } });
+      const next = mergeDeepRight(oneWayProducts, { [type]: { [direction]: uuids } });
 
-    setOneWayProducts(next);
-    replaceProducts(id, type, fromOneWayProducts(type, next));
-  };
+      setOneWayProducts(next);
+      replaceProducts(id, type, fromOneWayProducts(type, next));
+    },
+    [id, oneWayProducts, replaceProducts]
+  );
 
-  const onMarginChange = e => {
-    const name = path(['target', 'name'], e);
-    const value = path(['target', 'value'], e);
-    const type = path(['target', 'type'], e);
-    const checked = path(['target', 'checked'], e);
+  const onMarginChange = useCallback(
+    e => {
+      const name = path(['target', 'name'], e);
+      const value = path(['target', 'value'], e);
+      const type = path(['target', 'type'], e);
+      const checked = path(['target', 'checked'], e);
 
-    updateBooking(id, { [name]: equals('checkbox', type) ? checked : value });
-  };
+      updateBooking(id, { [name]: equals('checkbox', type) ? checked : value });
+    },
+    [id, updateBooking]
+  );
 
-  const onMultipleChange = (type, e) => {
-    const checked = path(['target', 'checked'], e);
-    const value = path(['target', 'value'], e);
+  const onMultipleChange = useCallback(
+    (type, e) => {
+      const checked = path(['target', 'checked'], e);
+      const value = path(['target', 'value'], e);
 
-    const next = mergeDeepRight(chosenAddons, { [type]: { [value]: checked } });
+      const next = mergeDeepRight(chosenAddons, { [type]: { [value]: checked } });
 
-    setChosenAddons(next);
-    replaceProducts(id, type, extractChosenAddons(type, next));
-  };
+      setChosenAddons(next);
+      replaceProducts(id, type, extractChosenAddons(type, next));
+    },
+    [chosenAddons, id, replaceProducts]
+  );
 
-  const onEditClick = type => {
-    if (editGuard) {
-      return onEditGuard();
-    }
+  const onEditClick = useCallback(
+    type => {
+      if (editGuard) {
+        return onEditGuard();
+      }
 
-    setModalContext(type);
-    onModalOpen();
-  };
+      setModalContext(type);
+      onModalOpen();
+    },
+    [editGuard, onEditGuard, onModalOpen, setModalContext]
+  );
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setModalContext(undefined);
     onModalClose();
-  };
+  }, [onModalClose, setModalContext]);
 
-  const onTASelect = ({ id: travelAgentUserUuid }) => {
-    updateBooking(id, { travelAgentUserUuid });
-  };
+  const onTASelect = useCallback(
+    ({ id: travelAgentUserUuid }) => {
+      updateBooking(id, { travelAgentUserUuid });
+    },
+    [id, updateBooking]
+  );
 
-  const onTARemove = () => {
+  const onTARemove = useCallback(() => {
     updateBooking(id, { travelAgentUserUuid: null });
-  };
+  }, [id, updateBooking]);
 
   const optionsProps = {
     compact,

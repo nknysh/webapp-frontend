@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, prop, values } from 'ramda';
 
@@ -25,7 +25,7 @@ export const SearchBar = ({
 }) => {
   useFetchData(searchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
 
-  const onSubmit = () => history.push(`/search?${buildQueryString(searchQuery)}`);
+  const onSubmit = useCallback(() => history.push(`/search?${buildQueryString(searchQuery)}`), [history, searchQuery]);
 
   return (
     <StyledSearchBar className={className}>

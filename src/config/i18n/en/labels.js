@@ -187,4 +187,6 @@ export default {
     mrs: 'Mrs.',
     ms: 'Ms.',
   },
+
+  selectAvailableAccomodations: 'Select Available Accomodations',
 };

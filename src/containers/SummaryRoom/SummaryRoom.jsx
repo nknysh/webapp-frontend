@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   append,
   compose,
@@ -133,14 +133,14 @@ export const SummaryRoom = ({
 
   const hasErrors = gt(length(errors), 1);
 
-  const onRemoveRoom = () => removeRoom(id, roomId, true);
-  const onEditRoom = () => {
+  const onRemoveRoom = useCallback(() => removeRoom(id, roomId, true), [id, removeRoom, roomId]);
+  const onEditRoom = useCallback(() => {
     if (editGuard) {
       return onEditGuard();
     }
 
     onEdit(roomId);
-  };
+  }, [editGuard, onEdit, onEditGuard, roomId]);
 
   const roomHolds = reduce((accum, hold) => (propEq('hasHold', true, hold) ? append(hold, accum) : accum), [], hold);
 

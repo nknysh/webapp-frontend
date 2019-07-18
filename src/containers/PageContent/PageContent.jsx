@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { compose, isEmpty } from 'ramda';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,7 @@ const renderNotFound = () => <NotFound />;
 export const PageContent = ({ pageId, data, links, title, getPage, className, hero }) => {
   const { t } = useTranslation();
 
-  const loadPage = () => getPage(pageId);
+  const loadPage = useCallback(() => getPage(pageId), [getPage, pageId]);
   const loading = useLoading(loadPage, [pageId], true);
 
   const isLoading = !data && loading;

@@ -1,5 +1,5 @@
-import React, { useRef, forwardRef, useState } from 'react';
-import { defaultTo, assoc } from 'ramda';
+import React, { useRef, forwardRef, useState, useCallback } from 'react';
+import { defaultTo, assoc, partial } from 'ramda';
 import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 import { isEqual } from 'date-fns';
 
@@ -48,6 +48,41 @@ const renderNavBar = ({ month, showPreviousButton, showNextButton, onPreviousCli
 
 const renderLabel = label => label && <DatePickerLabel>{label}</DatePickerLabel>;
 
+const renderInput = ({ multiple, values, startDate, endDate, placeholder, nights, summaryText, summaryTextPlural }) =>
+  // eslint-disable-next-line react/display-name
+  forwardRef((props, ref) => (
+    <DropDownContent
+      inputContent={partial(renderInputContent, [
+        { multiple, values, startDate, endDate, placeholder, nights, summaryText, summaryTextPlural },
+      ])}
+      inputProps={{ ref, ...props }}
+      maskProps={{
+        ['data-empty']: multiple ? !startDate : isNilOrEmpty(values),
+      }}
+    />
+  ));
+
+const renderInputContent = ({
+  multiple,
+  values,
+  startDate,
+  endDate,
+  placeholder,
+  nights,
+  summaryText,
+  summaryTextPlural,
+}) => (
+  <DatePickerDatesWrapper>
+    <Picked>
+      {!multiple && !isNilOrEmpty(values) && formatDate(values)}
+      {!startDate && !endDate && placeholder}
+      {startDate && getFromDateFormat({ startDate, endDate })}
+      {endDate && getToDateFormat({ startDate, endDate })}
+    </Picked>
+    {nights && <DatePickerSummary>{`${nights} ${nights === 1 ? summaryText : summaryTextPlural}`}</DatePickerSummary>}
+  </DatePickerDatesWrapper>
+);
+
 export const DatePicker = ({
   className,
   dayPickerProps,
@@ -78,54 +113,34 @@ export const DatePicker = ({
   const isComplete = multiple ? Boolean(startDate && endDate) : Boolean(values);
   const nights = getNumberOfDays(values);
 
-  const renderInputContent = () => (
-    <DatePickerDatesWrapper>
-      <Picked>
-        {!multiple && !isNilOrEmpty(values) && formatDate(values)}
-        {!startDate && !endDate && placeholder}
-        {startDate && getFromDateFormat({ startDate, endDate })}
-        {endDate && getToDateFormat({ startDate, endDate })}
-      </Picked>
-      {nights && <DatePickerSummary>{`${nights} ${nights === 1 ? summaryText : summaryTextPlural}`}</DatePickerSummary>}
-    </DatePickerDatesWrapper>
+  const onDayClick = useCallback(
+    day => {
+      if (!multiple) {
+        setValues(day);
+        return onSelected(day);
+      }
+
+      const equalsStartDate = isEqual(formatDate(day), formatDate(startDate));
+      const equalsEndDate = isEqual(formatDate(day), formatDate(endDate));
+
+      if (multiple ? (startDate && equalsStartDate) || (endDate && equalsEndDate) : isEqual(day, values)) {
+        setValues(multiple ? defaultState : undefined);
+        return onSelected(multiple ? defaultState : undefined);
+      }
+
+      if (!ranged && (startDate && endDate)) {
+        const startOnly = assoc('startDate', day, defaultState);
+        setValues(startOnly);
+        return onSelected(startOnly);
+      }
+
+      const range = DateUtils.addDayToRange(day, values);
+
+      setValues(range);
+      onSelected(range);
+    },
+    [endDate, multiple, onSelected, ranged, startDate, values]
   );
-
-  // eslint-disable-next-line react/display-name
-  const renderInput = forwardRef((props, ref) => (
-    <DropDownContent
-      inputContent={renderInputContent}
-      inputProps={{ ref, ...props }}
-      maskProps={{
-        ['data-empty']: multiple ? !startDate : isNilOrEmpty(values),
-      }}
-    />
-  ));
-
-  const onDayClick = day => {
-    if (!multiple) {
-      setValues(day);
-      return onSelected(day);
-    }
-
-    const equalsStartDate = isEqual(formatDate(day), formatDate(startDate));
-    const equalsEndDate = isEqual(formatDate(day), formatDate(endDate));
-
-    if (multiple ? (startDate && equalsStartDate) || (endDate && equalsEndDate) : isEqual(day, values)) {
-      setValues(multiple ? defaultState : undefined);
-      return onSelected(multiple ? defaultState : undefined);
-    }
-
-    if (!ranged && (startDate && endDate)) {
-      const startOnly = assoc('startDate', day, defaultState);
-      setValues(startOnly);
-      return onSelected(startOnly);
-    }
-
-    const range = DateUtils.addDayToRange(day, values);
-
-    setValues(range);
-    onSelected(range);
-  };
 
   const dayPickerCombinedProps = {
     classNames: datePickerClassnames,
@@ -144,7 +159,16 @@ export const DatePicker = ({
       {renderLabel(label)}
       <DayPickerInput
         ref={inputRef}
-        component={renderInput}
+        component={renderInput({
+          multiple,
+          values,
+          startDate,
+          endDate,
+          placeholder,
+          nights,
+          summaryText,
+          summaryTextPlural,
+        })}
         dayPickerProps={dayPickerCombinedProps}
         hideOnDayClick={!showOverlay || isComplete}
         {...props}

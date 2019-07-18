@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
+import { partial } from 'ramda';
 import { Grow, ClickAwayListener } from '@material-ui/core';
 
 import { isArray, mapWithIndex } from 'utils';
@@ -6,21 +7,24 @@ import { isArray, mapWithIndex } from 'utils';
 import { propTypes, defaultProps } from './DropDownMenu.props';
 import { StyledDropDownMenu, Button, Area, MaterialPopper, MaterialIcon } from './DropDownMenu.styles';
 
+const renderItem = (ItemComponent, item, i) =>
+  item && (
+    <ItemComponent key={`drop-down-menu-item-${i}`} disableGutters>
+      {item}
+    </ItemComponent>
+  );
+
+const renderChildren = ({ ItemComponent, children }) =>
+  isArray(children)
+    ? mapWithIndex(partial(renderItem, [ItemComponent]), children)
+    : renderItem(ItemComponent, children, 0);
+
 export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, showArrow, className }) => {
   const buttonRef = useRef(undefined);
   const [open, setOpen] = useState(false);
 
-  const onToggle = () => setOpen(!open);
-  const onClose = () => setOpen(false);
-
-  const renderItem = (item, i) =>
-    item && (
-      <ItemComponent key={`drop-down-menu-item-${i}`} disableGutters>
-        {item}
-      </ItemComponent>
-    );
-
-  const renderChildren = () => (isArray(children) ? mapWithIndex(renderItem, children) : renderItem(children, 0));
+  const onToggle = useCallback(() => setOpen(!open), [open]);
+  const onClose = useCallback(() => setOpen(false), []);
 
   return (
     <StyledDropDownMenu className={className}>
@@ -43,7 +47,7 @@ export const DropDownMenu = ({ title, children, ListComponent, ItemComponent, sh
           >
             <Area>
               <ClickAwayListener onClickAway={onClose}>
-                <ListComponent>{renderChildren(children, ItemComponent)}</ListComponent>
+                <ListComponent>{renderChildren({ ItemComponent, children })}</ListComponent>
               </ClickAwayListener>
             </Area>
           </Grow>
