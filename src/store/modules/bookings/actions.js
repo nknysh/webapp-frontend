@@ -91,11 +91,13 @@ export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
 export const BOOKINGS_FETCH = 'BOOKINGS_FETCH';
 
+const propIsNotEmptyOrNil = complement(propSatisfies(isNilOrEmpty));
+
 const hasAccommodation = allPass([
-  propSatisfies(complement(isNilOrEmpty), ProductTypes.ACCOMMODATION),
+  propIsNotEmptyOrNil(ProductTypes.ACCOMMODATION),
   pipe(
     propOr([], ProductTypes.ACCOMMODATION),
-    all(both(complement(propSatisfies(isNilOrEmpty, 'startDate')), complement(propSatisfies(isNilOrEmpty, 'endDate'))))
+    all(both(propIsNotEmptyOrNil('startDate'), propIsNotEmptyOrNil('endDate')))
   ),
 ]);
 
