@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import {
   __,
   ap,
@@ -48,7 +48,17 @@ const reduceRange = (accum, value) => ({ ...accum, [value]: value });
 
 const renderEntry = (
   t,
-  { ageRanges, onAgeSelectChange, onChange, showAgeDropDown, selected, splits, minMax },
+  {
+    ageRanges,
+    onAgeSelectChange,
+    onAgeSelectOpen,
+    onAgeSelectClose,
+    onChange,
+    showAgeDropDown,
+    selected,
+    splits,
+    minMax,
+  },
   type
 ) => {
   const typeIsAdult = isAdult(type);
@@ -64,6 +74,8 @@ const renderEntry = (
       options={reduce(reduceRange, {}, range(fromAge, toAge + 1))}
       value={pathOr(fromAge, [type, i], splits)}
       onChange={partial(onAgeSelectChange, [type, i])}
+      onOpen={onAgeSelectOpen}
+      onClose={onAgeSelectClose}
     />
   );
 
@@ -96,7 +108,7 @@ const getAgeRangesForSplits = pipe(
 const renderEntries = (t, { ageRanges, ...props }) =>
   map(partial(renderEntry, [t, { ageRanges, ...props }]), keys(ageRanges));
 
-export const AgeSelect = ({ values, onSelect, ageRanges, minMax, showAgeDropDown }) => {
+export const AgeSelect = ({ values, onSelect, ageRanges, ...props }) => {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(values);
 
@@ -104,45 +116,49 @@ export const AgeSelect = ({ values, onSelect, ageRanges, minMax, showAgeDropDown
 
   const [splits, setSplits] = useState(ageSplits);
 
-  const onChange = (type, defaultVal, number) => {
-    const typeIsAdult = isAdult(type);
+  const onChange = useCallback(
+    (type, defaultVal, number) => {
+      const typeIsAdult = isAdult(type);
 
-    const typeArray = propOr([], type, splits);
-    if (!typeIsAdult) typeArray.length = number;
+      const typeArray = propOr([], type, splits);
+      if (!typeIsAdult) typeArray.length = number;
 
-    // Don't add adults to the splits object
-    const newSplits = omit(
-      ['adult'],
-      typeIsAdult ? splits : mergeDeepRight(splits, { [type]: map(defaultTo(defaultTo(true, defaultVal)), typeArray) })
-    );
+      // Don't add adults to the splits object
+      const newSplits = omit(
+        ['adult'],
+        typeIsAdult
+          ? splits
+          : mergeDeepRight(splits, { [type]: map(defaultTo(defaultTo(true, defaultVal)), typeArray) })
+      );
 
-    const newSelected = typeIsAdult
-      ? set(lensProp('numberOfAdults'), number, selected)
-      : set(lensProp('agesOfAllChildren'), flatten(Rvalues(newSplits)), selected);
+      const newSelected = typeIsAdult
+        ? set(lensProp('numberOfAdults'), number, selected)
+        : set(lensProp('agesOfAllChildren'), flatten(Rvalues(newSplits)), selected);
 
-    setSplits(newSplits);
-    ap([setSelected, onSelect], [newSelected]);
-  };
-
-  const onAgeSelectChange = (type, index, e) => {
-    const newSplits = omit(
-      ['adult'],
-      mergeDeepRight(splits, {
-        [type]: update(index, Number(path(['target', 'value'], e)), prop(type, splits)),
-      })
-    );
-
-    const newSelected = set(lensProp('agesOfAllChildren'), flatten(Rvalues(newSplits)), selected);
-
-    setSplits(newSplits);
-    ap([setSelected, onSelect], [newSelected]);
-  };
-
-  return (
-    <Section>
-      {renderEntries(t, { ageRanges, splits, showAgeDropDown, onAgeSelectChange, onChange, selected, minMax })}
-    </Section>
+      setSplits(newSplits);
+      ap([setSelected, onSelect], [newSelected]);
+    },
+    [splits, selected, onSelect]
   );
+
+  const onAgeSelectChange = useCallback(
+    (type, index, e) => {
+      const newSplits = omit(
+        ['adult'],
+        mergeDeepRight(splits, {
+          [type]: update(index, Number(path(['target', 'value'], e)), prop(type, splits)),
+        })
+      );
+
+      const newSelected = set(lensProp('agesOfAllChildren'), flatten(Rvalues(newSplits)), selected);
+
+      setSplits(newSplits);
+      ap([setSelected, onSelect], [newSelected]);
+    },
+    [splits, selected, onSelect]
+  );
+
+  return <Section>{renderEntries(t, { ageRanges, splits, onAgeSelectChange, onChange, selected, ...props })}</Section>;
 };
 
 AgeSelect.propTypes = propTypes;

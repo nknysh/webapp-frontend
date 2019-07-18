@@ -12,6 +12,9 @@ exports[`<Select /> render matches snapshot 1`] = `
           }
         }
         onChange={[Function]}
+        onClose={[Function]}
+        onOpen={[Function]}
+        open={false}
       />
     }
   />
