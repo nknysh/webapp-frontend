@@ -5,5 +5,5 @@ export const propTypes = {
 };
 
 export const defaultProps = {
-  type: 'li',
+  type: 'ul',
 };
