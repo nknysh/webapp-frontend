@@ -51,8 +51,9 @@ const removeBodyClass = className => document && document.body.classList.remove(
 export const useBodyClass = (classes = []) => {
   const [bodyClass, setBodyClass] = useState(classes);
 
-  const unsetBodyClass = useCallback(className =>
-    setBodyClass(isArray(className) ? className.map(removeBodyClass) : removeBodyClass(className))
+  const unsetBodyClass = useCallback(
+    className => setBodyClass(isArray(className) ? className.map(removeBodyClass) : removeBodyClass(className)),
+    []
   );
 
   useEffectBoundary(() => {

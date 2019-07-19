@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import {
   __,
   set,
@@ -65,40 +65,63 @@ const renderMealPlanTip = (t, value) => (
 export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features, prices }) => {
   const { t } = useTranslation();
 
-  const updateSearchQuery = set(__, __, searchQuery);
-  const getSearchQueryData = view(__, searchQuery);
+  const updateSearchQuery = useCallback(set(__, __, searchQuery), [searchQuery]);
+  const getSearchQueryData = useCallback(view(__, searchQuery), [searchQuery]);
 
   const priceStart = isNaN(Number(head(prices))) ? head(defaultPriceRange) : Number(head(prices));
   const priceEnd = isNaN(Number(head(prices))) ? last(defaultPriceRange) : Number(last(prices));
 
-  const setRegionsTypeToSearchQuery = pipe(
-    path(['currentTarget', 'value']),
-    updateSearchQuery(filtersRegionTypeLens),
-    onChange
+  const setRegionsTypeToSearchQuery = useCallback(
+    pipe(
+      path(['currentTarget', 'value']),
+      updateSearchQuery(filtersRegionTypeLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
-  const setRegionsSelectedToSearchQuery = pipe(
-    merge(getSearchQueryData(filtersRegionSelectedLens)),
-    updateSearchQuery(filtersRegionSelectedLens),
-    onChange
+
+  const setRegionsSelectedToSearchQuery = useCallback(
+    pipe(
+      merge(getSearchQueryData(filtersRegionSelectedLens)),
+      updateSearchQuery(filtersRegionSelectedLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
-  const setPriceRangeToSearchQuery = pipe(
-    updateSearchQuery(filtersPricesLens),
-    onChange
+
+  const setPriceRangeToSearchQuery = useCallback(
+    pipe(
+      updateSearchQuery(filtersPricesLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
-  const setStarRatingsToSearchQuery = pipe(
-    merge(getSearchQueryData(filtersStarRatingsLens)),
-    updateSearchQuery(filtersStarRatingsLens),
-    onChange
+
+  const setStarRatingsToSearchQuery = useCallback(
+    pipe(
+      merge(getSearchQueryData(filtersStarRatingsLens)),
+      updateSearchQuery(filtersStarRatingsLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
-  const setFeaturesToSearchQuery = pipe(
-    merge(getSearchQueryData(filtersFeaturesLens)),
-    updateSearchQuery(filtersFeaturesLens),
-    onChange
+
+  const setFeaturesToSearchQuery = useCallback(
+    pipe(
+      merge(getSearchQueryData(filtersFeaturesLens)),
+      updateSearchQuery(filtersFeaturesLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
-  const setMealPlanToSearchQuery = pipe(
-    path(['currentTarget', 'value']),
-    updateSearchQuery(filtersMealPlanLens),
-    onChange
+
+  const setMealPlanToSearchQuery = useCallback(
+    pipe(
+      path(['currentTarget', 'value']),
+      updateSearchQuery(filtersMealPlanLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
 
   const renderRegionCheckbox = region =>

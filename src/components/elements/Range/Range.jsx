@@ -7,13 +7,11 @@ import { useEffectBoundary } from 'effects';
 import { propTypes, defaultProps } from './Range.props';
 import { trackStyle, handleStyle } from './Range.styles';
 
-const renderHandle = ({ value, dragging, index, ...props }) => {
-  return (
-    <Tooltip overlay={value} visible={dragging} placement="top" key={index}>
-      <Handle value={value} {...props} />
-    </Tooltip>
-  );
-};
+const renderHandle = ({ value, dragging, index, ...props }) => (
+  <Tooltip overlay={value} visible={dragging} placement="top" key={index}>
+    <Handle value={value} {...props} />
+  </Tooltip>
+);
 
 export const Range = ({ value, onChange, ...props }) => {
   const [values, setValues] = useState(value);

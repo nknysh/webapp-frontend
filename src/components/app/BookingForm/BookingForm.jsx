@@ -1,5 +1,5 @@
-import React, { forwardRef, Fragment } from 'react';
-import { prop, path, curry } from 'ramda';
+import React, { forwardRef, Fragment, useCallback } from 'react';
+import { prop, path, partial } from 'ramda';
 
 import { Form, FormField, DatePicker } from 'components/elements';
 
@@ -21,9 +21,9 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }, c
 );
 
 export const BookingForm = forwardRef(({ fields, validation, data, children, className, ...props }, ref) => {
-  const onDateChange = curry((handler, name, type, value) => {
+  const onDateChange = useCallback((handler, name, type, value) => {
     handler({ target: { name, type, value } });
-  });
+  }, []);
 
   return (
     <div className={className}>
@@ -82,7 +82,7 @@ export const BookingForm = forwardRef(({ fields, validation, data, children, cla
                     <DatePicker
                       label={path(['flightArrivalDate', 'label'], fields)}
                       multiple={false}
-                      onSelected={onDateChange(prop('handleChange', formProps), 'flightArrivalDate', 'date')}
+                      onSelected={partial(onDateChange[(prop('handleChange', formProps), 'flightArrivalDate', 'date')])}
                       selectedValues={prop('flightArrivalDate', values)}
                       placeholder=""
                     />
@@ -101,7 +101,9 @@ export const BookingForm = forwardRef(({ fields, validation, data, children, cla
                     <DatePicker
                       label={path(['flightDepartureDate', 'label'], fields)}
                       multiple={false}
-                      onSelected={onDateChange(prop('handleChange', formProps), 'flightDepartureDate', 'date')}
+                      onSelected={partial(
+                        onDateChange[(prop('handleChange', formProps), 'flightDepartureDate', 'date')]
+                      )}
                       selectedValues={prop('flightDepartureDate', values)}
                       placeholder=""
                     />

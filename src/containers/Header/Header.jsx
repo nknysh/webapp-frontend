@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { compose, lensProp, set, view, pipe, values, path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
@@ -38,28 +38,42 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
 
   const loggedOutMenuLinks = prop('loggedOut', headerLinks);
 
-  const onClickToggle = () => setMenuOpen(!menuOpen);
+  const onClickToggle = useCallback(() => setMenuOpen(!menuOpen), [menuOpen]);
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setModalContext('');
     onModalClose();
-  };
+  }, [onModalClose]);
 
-  const onCreateClick = () => {
+  const onCreateClick = useCallback(() => {
     setMenuOpen(false);
     setModalContext(contextTypes.SIGN_UP);
     onModalOpen();
-  };
+  }, [onModalOpen]);
 
-  const onLoginClick = () => {
+  const onLoginClick = useCallback(() => {
     setMenuOpen(false);
     setModalContext(contextTypes.LOGIN);
     onModalOpen();
-  };
+  }, [onModalOpen]);
+
+  const onHeaderLinkClick = useCallback(() => {
+    onModalClose();
+    setMenuOpen(false);
+  }, [onModalClose]);
+
+  const onCreateFormComplete = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
+
+  const onLoginFormComplete = useCallback(() => {
+    onModalClose();
+    setMenuOpen(false);
+  }, [onModalClose]);
 
   // Derives logged out menu links so they have no path
   // and trigger a modal instead
-  const getLoggedOutLinks = pipe(
+  const loggedOutMenu = pipe(
     set(createLinkLens, {
       ...view(createLinkLens, loggedOutMenuLinks),
       onClick: onCreateClick,
@@ -73,28 +87,14 @@ export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
       ['data-active']: modalContext === contextTypes.LOGIN,
     }),
     values
-  );
-
-  const loggedOutMenu = getLoggedOutLinks(loggedOutMenuLinks);
+  )(loggedOutMenuLinks);
 
   const headerMenuProps = {
     isOpen: menuOpen,
-    onLinkClick: () => {
-      onModalClose();
-      setMenuOpen(false);
-    },
+    onLinkClick: onHeaderLinkClick,
     currentPath: currentPath,
     align: 'end',
     links: isAuthenticated ? menu : loggedOutMenu,
-  };
-
-  const onCreateFormComplete = () => {
-    setMenuOpen(false);
-  };
-
-  const onLoginFormComplete = () => {
-    onModalClose();
-    setMenuOpen(false);
   };
 
   const shouldRedirectHome = isAuthenticated && currentPath === path(['createAccount', 'href'], loggedOutMenuLinks);

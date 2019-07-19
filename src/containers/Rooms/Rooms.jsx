@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   __,
   always,
@@ -15,6 +15,7 @@ import {
   map,
   memoizeWith,
   mergeAll,
+  partial,
   path,
   pathOr,
   pipe,
@@ -74,6 +75,32 @@ const filterRoomsByAmenities = (rooms, selected) => {
 
 const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByAmenities')}</span>), join(', '));
 
+const renderRoom = ({ requestedRooms, getRoomUploads, onRoomAdd, onRoomRemove }, room) => {
+  const { uuid } = room;
+  const selectedCount = length(filter(propEq('uuid', uuid), requestedRooms || []));
+
+  return (
+    <StyledRoom
+      key={hash(room)}
+      {...room}
+      uploads={getRoomUploads(prop('uploads', room))}
+      onRoomAdd={onRoomAdd}
+      onRoomRemove={onRoomRemove}
+      selectedCount={selectedCount}
+    />
+  );
+};
+
+const renderRoomsWrapper = ({ isMobile }, children) =>
+  isMobile ? <Slider infinite={false}>{children}</Slider> : children;
+
+const renderRooms = (t, { filteredRooms, ...props }) =>
+  isNilOrEmpty(filteredRooms) ? (
+    <NoResults>{t('labels.noRooms')}</NoResults>
+  ) : (
+    renderRoomsWrapper(props, values(map(partial(renderRoom, [props]), filteredRooms)))
+  );
+
 export const Rooms = ({ hotelUuid, className, rooms, requestedRooms, addRoom, removeRoom, getRoomUploads }) => {
   const { t } = useTranslation();
 
@@ -83,39 +110,14 @@ export const Rooms = ({ hotelUuid, className, rooms, requestedRooms, addRoom, re
   const amenities = getAmenities(rooms);
   const filteredRooms = filterNoRate(filterRoomsByAmenities(rooms, selectedAmenities));
 
-  const onRoomAdd = uuid => addRoom(hotelUuid, uuid);
-  const onRoomRemove = uuid => removeRoom(hotelUuid, uuid);
-
-  const renderRoom = room => {
-    const { uuid } = room;
-    const selectedCount = length(filter(propEq('uuid', uuid), requestedRooms || []));
-
-    return (
-      <StyledRoom
-        key={hash(room)}
-        {...room}
-        uploads={getRoomUploads(prop('uploads', room))}
-        onRoomAdd={onRoomAdd}
-        onRoomRemove={onRoomRemove}
-        selectedCount={selectedCount}
-      />
-    );
-  };
-
-  const renderRoomsWrapper = children => (isMobile ? <Slider infinite={false}>{children}</Slider> : children);
-
-  const renderRooms = () =>
-    isNilOrEmpty(filteredRooms) ? (
-      <NoResults>{t('labels.noRooms')}</NoResults>
-    ) : (
-      renderRoomsWrapper(values(map(renderRoom, filteredRooms)))
-    );
+  const onRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid), [addRoom, hotelUuid]);
+  const onRoomRemove = useCallback(uuid => removeRoom(hotelUuid, uuid), [removeRoom, hotelUuid]);
 
   return (
     <StyledRooms className={className}>
       <Columns>
         <Column>
-          <Title>Select Available Accomodations</Title>
+          <Title>{t('labels.selectAvailableAccomodations')}</Title>
         </Column>
         <Column>
           {!isNilOrEmpty(amenities) && (
@@ -130,7 +132,9 @@ export const Rooms = ({ hotelUuid, className, rooms, requestedRooms, addRoom, re
           )}
         </Column>
       </Columns>
-      <RoomsWrapper>{renderRooms()}</RoomsWrapper>
+      <RoomsWrapper>
+        {renderRooms(t, { filteredRooms, requestedRooms, getRoomUploads, onRoomAdd, onRoomRemove, isMobile })}
+      </RoomsWrapper>
     </StyledRooms>
   );
 };

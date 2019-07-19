@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import {
   compose,
   equals,
@@ -265,47 +265,77 @@ export const SummaryRoomEdit = ({
     complete && onComplete();
   }, [complete]);
 
-  const onQuantityChange = quantity => {
-    gt(quantity, totalRooms) && addRoom(id, roomId);
-    lt(quantity, totalRooms) && removeRoom(id, roomId);
-  };
+  const onQuantityChange = useCallback(
+    quantity => {
+      gt(quantity, totalRooms) && addRoom(id, roomId);
+      lt(quantity, totalRooms) && removeRoom(id, roomId);
+    },
+    [addRoom, id, removeRoom, totalRooms, roomId]
+  );
 
-  const onGuestSelectChange = (guestAges, i) => {
-    updateIndividualRoom(id, roomId, i, { guestAges });
-  };
+  const onGuestSelectChange = useCallback(
+    (guestAges, i) => {
+      updateIndividualRoom(id, roomId, i, { guestAges });
+    },
+    [id, roomId, updateIndividualRoom]
+  );
 
-  const onMonthChange = month => {
-    onDatesShow(id, roomId, isThisMonth(month) ? formatDate(toDate()) : getStartOfMonth(month), getEndOfMonth(month));
-    return month;
-  };
+  const onMonthChange = useCallback(
+    month => {
+      onDatesShow(id, roomId, isThisMonth(month) ? formatDate(toDate()) : getStartOfMonth(month), getEndOfMonth(month));
+      return month;
+    },
+    [id, roomId, onDatesShow]
+  );
 
-  const onDayPickerShow = () => onDatesShow(id, roomId, firstDate, getEndOfMonth(lastDate));
+  const onDayPickerShow = useCallback(() => onDatesShow(id, roomId, firstDate, getEndOfMonth(lastDate)), [
+    onDatesShow,
+    id,
+    roomId,
+    firstDate,
+    lastDate,
+  ]);
 
-  const onDatesChange = dates => {
-    updateRoom(id, roomId, prepareDates(dates));
-  };
+  const onDatesChange = useCallback(
+    dates => {
+      updateRoom(id, roomId, prepareDates(dates));
+    },
+    [id, roomId, updateRoom]
+  );
 
-  const onMealPlanChange = (e, value) => {
-    updateRoom(id, roomId, {
-      subProducts: {
-        [ProductTypes.MEAL_PLAN]: parseMealPlans(value),
-      },
-    });
-  };
+  const onMealPlanChange = useCallback(
+    (e, value) => {
+      updateRoom(id, roomId, {
+        subProducts: {
+          [ProductTypes.MEAL_PLAN]: parseMealPlans(value),
+        },
+      });
+    },
+    [id, roomId, updateRoom]
+  );
 
-  const onOccasionsChange = ({ occasions }) => {
-    updateRoom(id, roomId, occasions);
-  };
+  const onOccasionsChange = useCallback(
+    ({ occasions }) => {
+      updateRoom(id, roomId, occasions);
+    },
+    [id, roomId, updateRoom]
+  );
 
-  const onRepeatGuestChange = (e, checked) => {
-    updateRoom(id, roomId, { repeatCustomer: checked });
-  };
+  const onRepeatGuestChange = useCallback(
+    (e, checked) => {
+      updateRoom(id, roomId, { repeatCustomer: checked });
+    },
+    [id, roomId, updateRoom]
+  );
 
-  const onSubmit = values => {
-    setFormValues(values);
-    updateBooking(hotelUuid, {});
-    setComplete(isNilOrEmpty(bookingErrors));
-  };
+  const onSubmit = useCallback(
+    values => {
+      setFormValues(values);
+      updateBooking(hotelUuid, {});
+      setComplete(isNilOrEmpty(bookingErrors));
+    },
+    [bookingErrors, hotelUuid, updateBooking]
+  );
 
   return (
     <EditForm>

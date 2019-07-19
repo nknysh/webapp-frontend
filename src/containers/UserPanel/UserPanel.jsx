@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { compose, map, lensPath, set, values, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
@@ -37,18 +37,21 @@ export const UserPanel = ({
   const { t } = useTranslation();
   const [logout, setLogout] = useState(false);
 
+  const onSetCountry = useCallback(
+    e => {
+      setCountry(e.target.value);
+    },
+    [setCountry]
+  );
+
+  const onLogoutClick = useCallback(() => {
+    setLogout(true);
+    logOut(token);
+  }, [logOut, token]);
+
   if (!isAuthenticated || !currentUser) return null;
 
   const { firstName, lastName } = currentUser;
-
-  const onSetCountry = e => {
-    setCountry(e.target.value);
-  };
-
-  const onLogoutClick = () => {
-    setLogout(true);
-    logOut(token);
-  };
 
   const links = set(logoutClickLens, onLogoutClick, userPanelLinks);
 

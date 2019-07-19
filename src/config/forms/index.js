@@ -1,19 +1,12 @@
+import i18n from 'config/i18n';
+
 export default {
-  forms: {
-    setPassword: 'Set your password',
-    setPasswordComplete: 'Password has been reset',
-  },
-
   titles: {
-    '': 'No Title',
-    Master: 'Master',
-    Miss: 'Miss',
-    'Mr.': 'Mr.',
-    'Mrs.': 'Mrs.',
-    'Ms.': 'Ms.',
-  },
-
-  labels: {
-    optional: 'Optional',
+    '': i18n.t('labels.personTitles.noTitle'),
+    [i18n.t('labels.personTitles.master')]: i18n.t('labels.personTitles.master'),
+    [i18n.t('labels.personTitles.miss')]: i18n.t('labels.personTitles.miss'),
+    [i18n.t('labels.personTitles.mr')]: i18n.t('labels.personTitles.mr'),
+    [i18n.t('labels.personTitles.mrs')]: i18n.t('labels.personTitles.mrs'),
+    [i18n.t('labels.personTitles.ms')]: i18n.t('labels.personTitles.ms'),
   },
 };

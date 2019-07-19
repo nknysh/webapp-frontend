@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import { allPass, complement, compose, has, isEmpty, map, prop, values, equals } from 'ramda';
+import { allPass, complement, compose, has, isEmpty, map, prop, values, equals, partial } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { Loader, Tabs } from 'components';
@@ -41,19 +41,12 @@ const renderBrochure = ({ uuid, displayName, url }) => (
 
 const renderHotel = ({ id, hotel, photos }) => <StyledHotel {...hotel} id={id} photos={photos} />;
 
-const renderActions = (t, { canBook, canHold, onModalOpen, onTakeHold, setModalContext }) => (
+const renderActions = (t, { canBook, canHold, onActionClick, onTakeHold }) => (
   <SummaryActions>
     <SummaryAction type="button" onClick={onTakeHold} disabled={!canBook || !canHold}>
       {t('buttons.takeAHold')}
     </SummaryAction>
-    <SummaryAction
-      type="button"
-      disabled={!canBook}
-      onClick={() => {
-        setModalContext('proposal');
-        onModalOpen();
-      }}
-    >
+    <SummaryAction type="button" disabled={!canBook} onClick={partial(onActionClick, ['proposal'])}>
       {t('buttons.addToProposal')}
     </SummaryAction>
   </SummaryActions>
@@ -125,25 +118,36 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
   const [redirectToBooking, setRedirectToBooking] = useState(false);
   const [redirectToHold, setRedirectToHold] = useState(false);
 
-  const { onModalClose } = modal;
+  const { onModalClose, setModalContext, onModalOpen } = modal;
 
   const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
   const { isMobile } = useCurrentWidth();
 
+  const onModalComplete = useCallback(
+    data => {
+      if (equals('proposal', prop('modalContext', modal))) {
+        onModalClose();
+        history.push(`/proposals/${data.toString()}/edit`);
+      }
+    },
+    [history, modal, onModalClose]
+  );
+
+  const onTakeHold = useCallback(() => setRedirectToHold(true), []);
+  const onSubmit = useCallback(() => setRedirectToBooking(true), []);
+
+  const onActionClick = useCallback(
+    type => {
+      setModalContext(type);
+      onModalOpen();
+    },
+    [onModalOpen, setModalContext]
+  );
+
   if (redirectToBooking) return <Redirect to={`/hotels/${id}/booking`} />;
   if (redirectToHold) return <Redirect to={`/hotels/${id}/hold`} />;
 
-  const onModalComplete = data => {
-    if (equals('proposal', prop('modalContext', modal))) {
-      onModalClose();
-      history.push(`/proposals/${data.toString()}/edit`);
-    }
-  };
-
-  const onTakeHold = () => setRedirectToHold(true);
-  const onSubmit = () => setRedirectToBooking(true);
-
-  const defaultProps = { hotel, id, onTakeHold, onSubmit, ...modal, ...props };
+  const defaultProps = { hotel, id, onTakeHold, onSubmit, onActionClick, ...modal, ...props };
 
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingHotel')}>

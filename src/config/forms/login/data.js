@@ -1,16 +1,14 @@
 import { FORBIDDEN, UNAUTHORIZED } from 'http-status';
 
-import unverified from './content/error--unverified.md';
-import unknown from './content/error--unknown.md';
-import unauthorized from './content/error--unauthorized.md';
+import i18n from 'config/i18n';
 
 export default {
   titles: {
-    default: 'Sign in',
+    default: i18n.t('form.titles.signIn'),
   },
   errors: {
-    default: unknown,
-    [FORBIDDEN]: unverified,
-    [UNAUTHORIZED]: unauthorized,
+    default: i18n.t('content.login.error.unknown'),
+    [FORBIDDEN]: i18n.t('content.login.error.unverified'),
+    [UNAUTHORIZED]: i18n.t('content.login.error.unauthorized'),
   },
 };

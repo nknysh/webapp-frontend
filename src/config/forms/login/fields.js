@@ -1,17 +1,19 @@
+import i18n from 'config/i18n';
+
 export default {
   email: {
-    label: 'Email Address',
+    label: i18n.t('labels.emailAddress'),
     default: '',
   },
   password: {
-    label: 'Password',
+    label: i18n.t('labels.password'),
     default: '',
     props: {
       type: 'password',
     },
   },
   rememberMe: {
-    label: 'Remember me',
+    label: i18n.t('labels.rememberMe'),
     default: false,
   },
 };

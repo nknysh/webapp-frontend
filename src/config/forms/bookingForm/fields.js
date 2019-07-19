@@ -1,4 +1,5 @@
 import { prop } from 'ramda';
+import i18n from 'config/i18n';
 
 import { Checkbox, Select, TextArea } from 'components/elements';
 
@@ -6,96 +7,96 @@ import formConfig from 'config/forms';
 
 export default {
   guestTitle: {
-    label: 'Title (optional)',
+    label: i18n.t('labels.titleOptional'),
     default: '',
     Component: Select,
     props: {
       options: prop('titles', formConfig),
     },
-    section: 'Lead Guest Info',
+    section: i18n.t('labels.leadGuestInfo'),
   },
   guestFirstName: {
     label: 'First name',
     default: '',
-    section: 'Lead Guest Info',
+    section: i18n.t('labels.leadGuestInfo'),
   },
   guestLastName: {
     label: 'Last name',
     default: '',
-    section: 'Lead Guest Info',
+    section: i18n.t('labels.leadGuestInfo'),
   },
   isRepeatGuest: {
     Component: Checkbox,
     default: false,
-    section: 'Lead Guest Info',
+    section: i18n.t('labels.leadGuestInfo'),
     props: {
-      label: 'This client is a repeating guest',
+      label: i18n.t('labels.fullRepeatGuest'),
     },
   },
   flightArrivalNumber: {
     default: '',
-    label: 'Arrival Flight Number (Optional)',
-    section: 'Flight Information',
+    label: i18n.t('labels.arrivalFlightNumber'),
+    section: i18n.t('labels.flightInformation'),
   },
   flightDepartureNumber: {
     default: '',
-    label: 'Departure Flight Number (Optional)',
-    section: 'Flight Information',
+    label: i18n.t('labels.departureFlightNumber'),
+    section: i18n.t('labels.flightInformation'),
   },
   flightArrivalDate: {
-    label: 'Arrival Date (optional)',
+    label: i18n.t('labels.arrivalDate'),
     default: undefined,
   },
   flightDepartureDate: {
-    label: 'Departure Date (optional)',
+    label: i18n.t('labels.departureDate'),
     default: undefined,
   },
   specialRequests: {
     cribCob: {
       Component: Checkbox,
       props: {
-        label: 'Crib Cob',
+        label: i18n.t('labels.specialRequestOptions.cribCob'),
       },
       default: false,
     },
     bedGuard: {
       Component: Checkbox,
       props: {
-        label: 'Bed Guard',
+        label: i18n.t('labels.specialRequestOptions.bedGuard'),
       },
       default: false,
     },
     adjacentRooms: {
       Component: Checkbox,
       props: {
-        label: 'Adjacent Rooms',
+        label: i18n.t('labels.specialRequestOptions.adjacentRooms'),
       },
       default: false,
     },
     connectingRooms: {
       Component: Checkbox,
       props: {
-        label: 'Connecting Rooms',
+        label: i18n.t('labels.specialRequestOptions.connectingRooms'),
       },
       default: false,
     },
     accessibleRoom: {
       Component: Checkbox,
       props: {
-        label: 'Accessible Room',
+        label: i18n.t('labels.specialRequestOptions.accessibleRoom'),
       },
       default: false,
     },
     dietary: {
       Component: Checkbox,
       props: {
-        label: 'Dietary',
+        label: i18n.t('labels.specialRequestOptions.dietary'),
       },
       default: false,
     },
   },
   comments: {
-    label: 'Comments (optional)',
+    label: i18n.t('labels.commentsOptional'),
     Component: TextArea,
     default: '',
   },

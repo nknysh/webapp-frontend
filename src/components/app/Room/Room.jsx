@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { prop, path, map, complement, equals, values, last, pipe, propEq, find, filter, partial } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { format } from 'date-fns';
@@ -109,6 +109,18 @@ const renderBrochures = (t, brochures) =>
     </EndColumn>
   );
 
+const renderSelection = (t, { onAdd, onRemove, selectedCount }) => (
+  <Selection
+    nextClassName="add"
+    prevClassName="minus"
+    countClassName="count"
+    zeroText={t('labels.addAccommodation')}
+    onAdd={onAdd}
+    onRemove={onRemove}
+    value={selectedCount}
+  />
+);
+
 export const Room = ({
   className,
   meta: { size, description, moreInformation, amenities },
@@ -124,6 +136,9 @@ export const Room = ({
 }) => {
   const { t } = useTranslation();
 
+  const onAdd = useCallback(() => onRoomAdd(uuid), [onRoomAdd, uuid]);
+  const onRemove = useCallback(() => onRoomRemove(uuid), [onRoomRemove, uuid]);
+
   if (!rates) return null;
 
   const brochures = pipe(
@@ -138,27 +153,12 @@ export const Room = ({
 
   const visibleRate = getVisibleRate(rates);
 
-  const onAdd = () => onRoomAdd(uuid);
-  const onRemove = () => onRoomRemove(uuid);
-
-  const renderSelection = () => (
-    <Selection
-      nextClassName="add"
-      prevClassName="minus"
-      countClassName="count"
-      zeroText={t('labels.addAccommodation')}
-      onAdd={onAdd}
-      onRemove={onRemove}
-      value={selectedCount}
-    />
-  );
-
   return (
     <StyledRoom className={className}>
       <RoomImage>
         {img && <Img src={prop('url', img)} alt={prop('displayName', img)} />}
         {renderImgOffer(rates)}
-        {withSelection && visibleRate && renderSelection()}
+        {withSelection && visibleRate && renderSelection(t, { onAdd, onRemove, selectedCount })}
       </RoomImage>
       <RoomInfo>
         <Columns>

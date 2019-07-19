@@ -1,4 +1,4 @@
-import React, { useRef, Fragment } from 'react';
+import React, { useRef, Fragment, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { equals, compose, prop, path, pick, over, lensProp, take } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
@@ -284,6 +284,29 @@ export const HotelBookingContainer = ({
     onModalClose();
   }, [complete]);
 
+  const onMobileNavClick = useCallback(() => setView(ViewType.DETAILS), [setView]);
+  const onPaymentChange = useCallback((e, value) => setPaymentType(value), [setPaymentType]);
+  const onGuestFormSubmit = useCallback(
+    values => {
+      setGuestFormValues(values);
+      updateBooking(id, values);
+
+      if (holdOnly)
+        return completeAndHold(id, pick(['guestFirstName', 'guestLastName', 'guestTitle'], values), 'potential', true);
+
+      isMobile && isDetailsView ? setView(ViewType.REVIEW) : onModalOpen();
+    },
+    [completeAndHold, holdOnly, id, isDetailsView, isMobile, onModalOpen, setGuestFormValues, setView, updateBooking]
+  );
+  const onSubmit = useCallback(() => prop('current', guestFormRef) && guestFormRef.current.submitForm(), []);
+  const onModalSubmit = useCallback(
+    values => {
+      completeBooking(id, values, undefined, canHold);
+      setComplete(true);
+    },
+    [canHold, completeBooking, id, setComplete]
+  );
+
   if (!isComplete && complete && isSending(bookingStatus))
     return <Loader isLoading={true} text={t('messages.submittingBooking')} />;
 
@@ -296,23 +319,6 @@ export const HotelBookingContainer = ({
       <Redirect to={`/bookings/${created}/complete`} />
     );
   if (returnToHotelScreen) return <Redirect to={`/hotels/${id}`} />;
-
-  const onMobileNavClick = () => setView(ViewType.DETAILS);
-  const onPaymentChange = (e, value) => setPaymentType(value);
-  const onGuestFormSubmit = values => {
-    setGuestFormValues(values);
-    updateBooking(id, values);
-
-    if (holdOnly)
-      return completeAndHold(id, pick(['guestFirstName', 'guestLastName', 'guestTitle'], values), 'potential', true);
-
-    isMobile && isDetailsView ? setView(ViewType.REVIEW) : onModalOpen();
-  };
-  const onSubmit = () => prop('current', guestFormRef) && guestFormRef.current.submitForm();
-  const onModalSubmit = values => {
-    completeBooking(id, values, undefined, canHold);
-    setComplete(true);
-  };
 
   return (
     <Loader isLoading={!loaded} text={t('messages.preparingBooking')}>

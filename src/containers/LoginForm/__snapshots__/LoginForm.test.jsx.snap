@@ -8,7 +8,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
     text="Logging in..."
   >
     <Title>
-      Sign in
+      Sign In
     </Title>
     <LoginFormstyles__ServerErrorContent />
     <Form

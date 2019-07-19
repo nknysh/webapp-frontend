@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { __, lensProp, defaultTo, set, view, pipe, prop } from 'ramda';
 import { renameKeys } from 'ramda-adjunct';
@@ -43,29 +43,43 @@ export const Search = ({
 }) => {
   const { t } = useTranslation();
 
-  const updateSearchQuery = set(__, __, searchQuery);
-  const getSearchQueryData = view(__, searchQuery);
+  const updateSearchQuery = useCallback(set(__, __, searchQuery), [searchQuery]);
+  const getSearchQueryData = useCallback(view(__, searchQuery), [searchQuery]);
 
-  const setSelectedDatesToSearchQuery = pipe(
-    renameKeys({ from: 'startDate', to: 'endDate' }),
-    updateSearchQuery(datesLens),
-    onChange
+  const setSelectedDatesToSearchQuery = useCallback(
+    pipe(
+      renameKeys({ from: 'startDate', to: 'endDate' }),
+      updateSearchQuery(datesLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
 
-  const setLodgingsToSearchQuery = pipe(
-    updateSearchQuery(lodgingLens),
-    onChange
+  const setLodgingsToSearchQuery = useCallback(
+    pipe(
+      updateSearchQuery(lodgingLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
 
-  const setRepeatGuest = pipe(
-    updateSearchQuery(repeatGuestLens),
-    onChange
+  const setRepeatGuest = useCallback(
+    pipe(
+      updateSearchQuery(repeatGuestLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
 
-  const onIndexSelect = pipe(
-    updateSearchQuery(destinationLens),
-    onChange
+  const onIndexSelect = useCallback(
+    pipe(
+      updateSearchQuery(destinationLens),
+      onChange
+    ),
+    [updateSearchQuery, onChange]
   );
+
+  const onRepeatGuestChange = useCallback((e, checked) => setRepeatGuest(checked), [setRepeatGuest]);
 
   return (
     <Fragment>
@@ -104,7 +118,7 @@ export const Search = ({
       <SearchBarSection data-vertical={vertical} data-constrain={true}>
         <Checkbox
           label={t('labels.isRepeat')}
-          onChange={(e, checked) => setRepeatGuest(checked)}
+          onChange={onRepeatGuestChange}
           checked={defaultTo(false, getSearchQueryData(repeatGuestLens))}
         />
       </SearchBarSection>

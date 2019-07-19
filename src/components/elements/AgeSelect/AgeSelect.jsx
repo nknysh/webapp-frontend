@@ -30,8 +30,9 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { getAgeSplits } from 'containers/SummaryRoom/SummaryRoom.utils';
 import { isAdult } from 'utils';
+
+import { getAgeSplits } from 'containers/SummaryRoom/SummaryRoom.utils';
 
 import { propTypes, defaultProps } from './AgeSelect.props';
 import {
@@ -44,7 +45,26 @@ import {
   Section,
 } from './AgeSelect.styles';
 
+const getAgeRangesForSplits = pipe(
+  omit(['adult']),
+  mapObjIndexed((data, name) => ({ name, ...data })),
+  Rvalues,
+  assocPath(['options', 'ages'], __, {}),
+  omit(['adult'])
+);
+
 const reduceRange = (accum, value) => ({ ...accum, [value]: value });
+
+const renderDropDown = ({ fromAge, toAge, type, splits, onAgeSelectChange, onAgeSelectOpen, onAgeSelectClose }, i) => (
+  <AgeDropDownSelect
+    key={i}
+    options={reduce(reduceRange, {}, range(fromAge, toAge + 1))}
+    value={pathOr(fromAge, [type, i], splits)}
+    onChange={partial(onAgeSelectChange, [type, i])}
+    onOpen={onAgeSelectOpen}
+    onClose={onAgeSelectClose}
+  />
+);
 
 const renderEntry = (
   t,
@@ -68,17 +88,6 @@ const renderEntry = (
   const values = propOr([], type, splits);
   const value = typeIsAdult ? prop('numberOfAdults', selected) : length(values);
 
-  const renderDropDown = i => (
-    <AgeDropDownSelect
-      key={i}
-      options={reduce(reduceRange, {}, range(fromAge, toAge + 1))}
-      value={pathOr(fromAge, [type, i], splits)}
-      onChange={partial(onAgeSelectChange, [type, i])}
-      onOpen={onAgeSelectOpen}
-      onClose={onAgeSelectClose}
-    />
-  );
-
   return (
     <Fragment key={type}>
       <Entry>
@@ -90,20 +99,17 @@ const renderEntry = (
       {propOr(true, type, showAgeDropDown) && gt(value, 0) && (
         <AgeDropDown>
           <AgeDropDownTitle>Please specifiy ages:</AgeDropDownTitle>
-          {times(renderDropDown, value)}
+          {times(
+            partial(renderDropDown, [
+              { fromAge, toAge, type, splits, onAgeSelectChange, onAgeSelectOpen, onAgeSelectClose },
+            ]),
+            value
+          )}
         </AgeDropDown>
       )}
     </Fragment>
   );
 };
-
-const getAgeRangesForSplits = pipe(
-  omit(['adult']),
-  mapObjIndexed((data, name) => ({ name, ...data })),
-  Rvalues,
-  assocPath(['options', 'ages'], __, {}),
-  omit(['adult'])
-);
 
 const renderEntries = (t, { ageRanges, ...props }) =>
   map(partial(renderEntry, [t, { ageRanges, ...props }]), keys(ageRanges));

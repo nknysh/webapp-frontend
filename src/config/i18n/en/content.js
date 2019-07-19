@@ -19,7 +19,51 @@ import holdRelease from './md/hold-release.md';
 
 import searchRequired from './md/search-required.md';
 
+import createAccountInfo from './md/create-account--info.md';
+import createAccountComplete from './md/create-account--complete.md';
+import createAccountErrorExists from './md/create-account--error--exists.md';
+import createAccountErrorUnknown from './md/create-account--error--unknown.md';
+
+import loginErrorUnauthorized from './md/login--error--unauthorized.md';
+import loginErrorUnknown from './md/login--error--unknown.md';
+import loginErrorUnverified from './md/login--error--unverified.md';
+
+import passwordResetDescription from './md/password-reset--description.md';
+import passwordResetComplete from './md/password-reset--complete.md';
+import passwordResetErrorUnknown from './md/password-reset--error--unknown.md';
+
+import setPasswordErrorUnknown from './md/set-password--error--unknown.md';
+import setPasswordErrorExpired from './md/set-password--error--expired.md';
+
 export default {
+  setPassword: {
+    error: {
+      unknown: setPasswordErrorUnknown,
+      expired: setPasswordErrorExpired,
+    },
+  },
+  passwordReset: {
+    description: passwordResetDescription,
+    complete: passwordResetComplete,
+    error: {
+      unknown: passwordResetErrorUnknown,
+    },
+  },
+  login: {
+    error: {
+      unauthorized: loginErrorUnauthorized,
+      unknown: loginErrorUnknown,
+      unverified: loginErrorUnverified,
+    },
+  },
+  createAccount: {
+    inf: createAccountInfo,
+    complete: createAccountComplete,
+    error: {
+      exists: createAccountErrorExists,
+      unknown: createAccountErrorUnknown,
+    },
+  },
   amendBooking,
   editGuard,
   holdConfirm,

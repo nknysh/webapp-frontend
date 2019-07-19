@@ -16,7 +16,7 @@ const restCountries = omit(promotedCountriesData, keyValueCountries);
 
 export default {
   title: {
-    label: 'Title',
+    label: i18n.t('labels.title'),
     default: '',
     Component: Select,
     props: {
@@ -24,19 +24,19 @@ export default {
     },
   },
   firstName: {
-    label: 'First name',
+    label: i18n.t('labels.firstName'),
     default: '',
   },
   lastName: {
-    label: 'Last name',
+    label: i18n.t('labels.lastName'),
     default: '',
   },
   email: {
-    label: 'Email address',
+    label: i18n.t('labels.emailAddress'),
     default: '',
   },
   isExistingPartner: {
-    label: 'Are you an existing partner?',
+    label: i18n.t('labels.existingPartner'),
     default: 'false',
     Component: RadioButton,
     props: {
@@ -54,11 +54,11 @@ export default {
   },
   companySignupInfo: {
     name: {
-      label: 'Company name',
+      label: i18n.t('labels.company.name'),
       default: '',
     },
     countryCode: {
-      label: 'Company country',
+      label: i18n.t('labels.company.country'),
       default: '',
       Component: Select,
       props: {
@@ -67,19 +67,19 @@ export default {
     },
   },
   phoneNumber: {
-    label: 'Landline',
+    label: i18n.t('labels.landline'),
     default: '',
   },
   mobileNumber: {
-    label: 'Mobile',
+    label: i18n.t('labels.mobile'),
     default: '',
   },
   agreeToTerms: {
     label: (
       <Fragment>
-        I agree to the{' '}
+        {i18n.t('labels.agreeTo')}
         <a href="/terms-and-conditions" target="_blank">
-          Terms and Conditions
+          {i18n.t('labels.termsAndConditions')}
         </a>
       </Fragment>
     ),

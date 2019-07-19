@@ -22,18 +22,16 @@ import {
 } from './Footer.styles';
 import connect from './Footer.state';
 
-const currentDate = toDate();
+const renderFooterMenu = ({ menu }) => <FooterMenu links={menu} />;
 
 export const Footer = ({ menu, className }) => {
   const { t } = useTranslation();
   const { isMobile } = useCurrentWidth();
 
-  const footerMenu = <FooterMenu links={menu} />;
-
   return (
     <StyledFooter className={className}>
       <FooterContainer>
-        {isMobile && footerMenu}
+        {isMobile && renderFooterMenu({ menu })}
 
         <FooterColumns>
           <FooterColumn>
@@ -42,12 +40,12 @@ export const Footer = ({ menu, className }) => {
             </FooterText>
           </FooterColumn>
 
-          {!isMobile && footerMenu}
+          {!isMobile && renderFooterMenu({ menu })}
 
           <FooterColumn flex align="flex-end">
             <FooterCopyright>
               {logo && <img src={logo} alt={t('title')} />}
-              <FooterCopyrightText>&copy; {currentDate.getFullYear()} Pure Escapes</FooterCopyrightText>
+              <FooterCopyrightText>&copy; {toDate().getFullYear()} Pure Escapes</FooterCopyrightText>
             </FooterCopyright>
           </FooterColumn>
         </FooterColumns>

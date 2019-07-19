@@ -40,7 +40,7 @@ export const Tabs = ({ labels, children, onChange, value, tabClassname, onTabScr
 
       setTab(nextTab);
     },
-    [tab, childrenArr, childrenLength]
+    [tab, childrenLength, onTabScrollButtonChange]
   );
 
   const onTabSelect = useCallback(
