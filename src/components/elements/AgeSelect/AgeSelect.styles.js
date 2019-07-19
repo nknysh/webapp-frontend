@@ -5,6 +5,7 @@ import Select from 'components/elements/Select';
 import { default as BaseNumberSelect } from 'components/elements/NumberSelect';
 
 import theme from 'styles/theme';
+import breakpoints from 'styles/breakpoints';
 
 export const Section = styled.div`
   padding: ${theme.gutter}px;
@@ -49,8 +50,12 @@ export const AgeDropDownTitle = styled.p`
   width: 100%;
 `;
 
-export const AgeDropDownSelect = styled(Select)`
-  flex: 0 1 20%;
+export const AgeDropDownSelect = styled(Select)`  
+flex: 1 1 100%;
+
+${breakpoints.tablet`
+  flex: 0 1 25%;
+`}
 
   label {
     width: 100%;
