@@ -61,7 +61,7 @@ const renderActions = (t, { canBook, canHold, onModalOpen, onTakeHold, setModalC
 
 const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
   const {
-    hotel: { additionalInfo },
+    hotel: { additionalInfo, policiesAndRestrictions },
   } = props;
 
   return (
@@ -73,6 +73,12 @@ const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
         <AsideDetails>
           <Title>{t('labels.additionalInfo')}</Title>
           <p>{additionalInfo}</p>
+        </AsideDetails>
+      )}
+      {policiesAndRestrictions && (
+        <AsideDetails>
+          <Title>{t('labels.policiesAndRestrictions')}</Title>
+          <p>{policiesAndRestrictions}</p>
         </AsideDetails>
       )}
       {!isEmpty(brochures) && (
