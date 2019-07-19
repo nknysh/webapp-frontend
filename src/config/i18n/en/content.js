@@ -57,7 +57,7 @@ export default {
     },
   },
   createAccount: {
-    inf: createAccountInfo,
+    info: createAccountInfo,
     complete: createAccountComplete,
     error: {
       exists: createAccountErrorExists,

@@ -1,9 +1,10 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { Fragment, useState, Children, useCallback } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { allPass, complement, compose, has, isEmpty, map, prop, values, equals, partial } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { Loader, Tabs } from 'components';
+import { Loader, Tabs, List } from 'components';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 
 import connect from './HotelContainer.state';
@@ -14,15 +15,16 @@ import {
   Back,
   Brochure,
   Full,
+  StyledAddToProposalForm,
   StyledBreadcrumbs,
   StyledHotel,
   StyledHotelContainer,
-  StyledSummary,
-  Title,
-  SummaryActions,
-  SummaryAction,
   StyledModal,
-  StyledAddToProposalForm,
+  StyledSummary,
+  SummaryAction,
+  SummaryActions,
+  Text,
+  Title,
 } from './HotelContainer.styles';
 
 const reloadIfMissing = complement(allPass([has('photos'), has('accommodationProducts')]));
@@ -54,7 +56,7 @@ const renderActions = (t, { canBook, canHold, onActionClick, onTakeHold }) => (
 
 const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
   const {
-    hotel: { additionalInfo },
+    hotel: { additionalInfo, policiesAndRestrictions },
   } = props;
 
   return (
@@ -64,8 +66,14 @@ const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
       </StyledSummary>
       {additionalInfo && (
         <AsideDetails>
-          <Title>{t('labels.additionalInfo')}</Title>
-          <p>{additionalInfo}</p>
+          <Title>{t('labels.thingsToBeAwareOf')}</Title>
+          <Text>{additionalInfo}</Text>
+        </AsideDetails>
+      )}
+      {!isNilOrEmpty(policiesAndRestrictions) && (
+        <AsideDetails>
+          <Title>{t('labels.policiesAndRestrictions')}</Title>
+          <List>{Children.toArray(policiesAndRestrictions)}</List>
         </AsideDetails>
       )}
       {!isEmpty(brochures) && (

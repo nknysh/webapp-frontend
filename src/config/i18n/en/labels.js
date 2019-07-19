@@ -98,6 +98,8 @@ export default {
   notApplied: 'Not Applied',
   additionalResources: 'Other Resources',
   additionalInfo: 'Additional Information',
+  thingsToBeAwareOf: 'Things to be aware of with this resort',
+  policiesAndRestrictions: 'Policies & Restrictions',
 
   roomIsHeld: 'This room has a hold',
   roomIsHeld_plural: 'This room has {{count}} holds',
