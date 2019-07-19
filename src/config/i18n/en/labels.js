@@ -100,6 +100,8 @@ export default {
   additionalInfo: 'Additional Information',
   thingsToBeAwareOf: 'Things to be aware of with this resort',
   policiesAndRestrictions: 'Policies & Restrictions',
+  cancellationPolicy: 'Cancellation Policy',
+  paymentTerms: 'Payment Terms',
 
   roomIsHeld: 'This room has a hold',
   roomIsHeld_plural: 'This room has {{count}} holds',

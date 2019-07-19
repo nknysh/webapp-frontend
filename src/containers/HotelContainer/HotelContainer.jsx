@@ -57,6 +57,7 @@ const renderActions = (t, { canBook, canHold, onActionClick, onTakeHold }) => (
 const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
   const {
     hotel: { additionalInfo, policiesAndRestrictions },
+    policiesAndTerms: { paymentTerms, cancellationPolicy },
   } = props;
 
   return (
@@ -74,6 +75,18 @@ const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
         <AsideDetails>
           <Title>{t('labels.policiesAndRestrictions')}</Title>
           <List>{Children.toArray(policiesAndRestrictions)}</List>
+        </AsideDetails>
+      )}
+      {!isNilOrEmpty(cancellationPolicy) && (
+        <AsideDetails>
+          <Title>{t('labels.cancellationPolicy')}</Title>
+          <List>{map(prop('cancellationPolicy'), values(cancellationPolicy))}</List>
+        </AsideDetails>
+      )}
+      {!isNilOrEmpty(paymentTerms) && (
+        <AsideDetails>
+          <Title>{t('labels.paymentTerms')}</Title>
+          <List>{map(prop('paymentTerms'), values(paymentTerms))}</List>
         </AsideDetails>
       )}
       {!isEmpty(brochures) && (
