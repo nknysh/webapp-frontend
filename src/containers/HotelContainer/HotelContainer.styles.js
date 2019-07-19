@@ -116,3 +116,8 @@ export const StyledAddToProposalForm = styled(AddToProposalForm)`
     padding: ${theme.gutter * 8}px ${theme.gutter * 10}px;
   `}
 `;
+
+export const Text = styled.p`
+  color: ${theme.secondary};
+  font-size: ${theme.fonts.sizes.normal}px;
+`;

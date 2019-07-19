@@ -23,6 +23,7 @@ export { default as Notifications } from './Notifications';
 export { default as NumberSelect } from './NumberSelect';
 export { default as RadioButton } from './RadioButton';
 export { default as Range } from './Range';
+export { default as List } from './List';
 export { default as Section } from './Section';
 export { default as Select } from './Select';
 export { default as Slider } from './Slider';

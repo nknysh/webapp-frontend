@@ -1,9 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, Children } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { allPass, complement, compose, has, isEmpty, map, prop, values, equals } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { Loader, Tabs } from 'components';
+import { Loader, Tabs, List } from 'components';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 
 import connect from './HotelContainer.state';
@@ -14,15 +15,16 @@ import {
   Back,
   Brochure,
   Full,
+  StyledAddToProposalForm,
   StyledBreadcrumbs,
   StyledHotel,
   StyledHotelContainer,
-  StyledSummary,
-  Title,
-  SummaryActions,
-  SummaryAction,
   StyledModal,
-  StyledAddToProposalForm,
+  StyledSummary,
+  SummaryAction,
+  SummaryActions,
+  Text,
+  Title,
 } from './HotelContainer.styles';
 
 const reloadIfMissing = complement(allPass([has('photos'), has('accommodationProducts')]));
@@ -72,13 +74,13 @@ const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
       {additionalInfo && (
         <AsideDetails>
           <Title>{t('labels.additionalInfo')}</Title>
-          <p>{additionalInfo}</p>
+          <Text>{additionalInfo}</Text>
         </AsideDetails>
       )}
-      {policiesAndRestrictions && (
+      {!isNilOrEmpty(policiesAndRestrictions) && (
         <AsideDetails>
           <Title>{t('labels.policiesAndRestrictions')}</Title>
-          <p>{policiesAndRestrictions}</p>
+          <List>{Children.toArray(policiesAndRestrictions)}</List>
         </AsideDetails>
       )}
       {!isEmpty(brochures) && (
