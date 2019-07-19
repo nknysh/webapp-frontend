@@ -22,6 +22,7 @@ import {
   mapObjIndexed,
   omit,
   over,
+  assocPath,
   partial,
   partialRight,
   path,
@@ -67,6 +68,24 @@ const reduceOffersFromProducts = (accum, products) => {
 
   return accum;
 };
+
+const reducePoliciesAndTerms = reduce((accum, products) => {
+  map(({ rateUuid, title, paymentTerms, cancellationPolicy, subProducts }) => {
+    if (paymentTerms) {
+      accum = assocPath(['paymentTerms', rateUuid], { title, paymentTerms }, accum);
+    }
+
+    if (cancellationPolicy) {
+      accum = assocPath(['cancellationPolicy', rateUuid], { title, cancellationPolicy }, accum);
+    }
+
+    if (!isNilOrEmpty(subProducts)) {
+      accum = reducePoliciesAndTerms(accum, values(subProducts));
+    }
+  }, products);
+
+  return accum;
+});
 
 export const getBookings = prop('bookings');
 
@@ -638,4 +657,12 @@ export const getBookingAppliedOffers = createSelector(
 export const getBookingAppliedOffersCount = createSelector(
   getBookingAppliedOffers,
   length
+);
+
+export const getBookingPoliciesAndTerms = createSelector(
+  getPotentialBooking,
+  pipe(
+    values,
+    reducePoliciesAndTerms({ cancellationPolicy: {}, paymentTerms: {} })
+  )
 );
