@@ -36,12 +36,15 @@ const mapOverSections = map(renderSection);
 
 export const Select = ({ label, onSelected, options, className, onChange, onOpen, onClose, open, ...props }) => {
   const [isOpen, setIsOpen] = useState(open);
-  const { setBodyClass, removeBodyClass } = useBodyClass();
+  const { setBodyClass, unsetBodyClass } = useBodyClass();
 
-  const onSelect = useCallback(e => {
-    onSelected(e.target.value);
-    onChange(e);
-  });
+  const onSelect = useCallback(
+    e => {
+      onSelected(e.target.value);
+      onChange(e);
+    },
+    [onChange, onSelected]
+  );
 
   const onSelectOpen = useCallback(
     (...args) => {
@@ -49,16 +52,16 @@ export const Select = ({ label, onSelected, options, className, onChange, onOpen
       setIsOpen(true);
       setBodyClass('select-open');
     },
-    [onOpen]
+    [onOpen, setBodyClass]
   );
 
   const onSelectClose = useCallback(
     (...args) => {
       onClose(...args);
       setIsOpen(false);
-      removeBodyClass('select-open');
+      unsetBodyClass('select-open');
     },
-    [onClose]
+    [onClose, unsetBodyClass]
   );
 
   const renderedOptions = isArray(options) ? mapOverSections(options) : mapOverKeys(options);

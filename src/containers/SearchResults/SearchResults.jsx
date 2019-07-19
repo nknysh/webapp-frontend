@@ -22,6 +22,12 @@ import {
   SearchMarkdown,
 } from './SearchResults.styles';
 
+const renderResult = ({ uuid, ...hotel }) => (
+  <Result to={`/hotels/${uuid}`} key={uuid}>
+    <SearchResult id={uuid} {...hotel} />
+  </Result>
+);
+
 export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, result, canSearch }) => {
   const { t } = useTranslation();
 
@@ -35,12 +41,6 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
   const count = length(result) || 0;
   const countTitle = `${count} ${t('result', { count })}`;
   const title = prop('isCountryMatch', meta) ? `${toLower(prop('term', meta))} - ${countTitle}` : countTitle;
-
-  const renderResult = ({ uuid, ...hotel }) => (
-    <Result to={`/hotels/${uuid}`} key={uuid}>
-      <SearchResult id={uuid} {...hotel} />
-    </Result>
-  );
 
   return (
     <Fragment>

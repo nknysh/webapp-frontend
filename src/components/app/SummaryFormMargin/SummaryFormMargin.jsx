@@ -33,12 +33,16 @@ export const SummaryFormMargin = ({
   const { t } = useTranslation();
   const typeIsPercent = equals('percentage', type);
 
+  const notSummaryAndNotCompact = !summaryOnly && !compact;
+  const checkedAndNotSummaryAndNotCompact = checked && notSummaryAndNotCompact;
+  const checkedOrSummaryOrCompactEdit = checked || summaryOnly || compactEdit;
+
   return (
     <Margin className={className}>
-      {!summaryOnly && !compact && (
+      {notSummaryAndNotCompact && (
         <MarginCheckbox onChange={onChange} checked={checked} label={t('labels.applyMargin')} name="marginApplied" />
       )}
-      {checked && !summaryOnly && !compact && (
+      {checkedAndNotSummaryAndNotCompact && (
         <Fragment>
           <MarginInputs>
             <Select
@@ -55,7 +59,7 @@ export const SummaryFormMargin = ({
           </MarginInputs>
         </Fragment>
       )}
-      {(checked || summaryOnly || compactEdit) && (
+      {checkedOrSummaryOrCompactEdit && (
         <MarginTotal data-compact={compact}>
           <MarginWrapper>
             {!compact && t('labels.currentMargin')}{' '}

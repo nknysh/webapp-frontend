@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import {
   __,
   append,
@@ -298,6 +298,49 @@ const renderPDFModal = (t, { id, showPDF, setShowPDF }) =>
     </Modal>
   );
 
+const renderFull = (
+  t,
+  {
+    id,
+    isEdit,
+    isGenerateView,
+    isResortsView,
+    isMobile,
+    onMobileNavClick,
+    proposal,
+    summaryProps,
+    guestFormProps,
+    guestInfoProps,
+  }
+) => (
+  <Fragment>
+    {renderBreadcrumbs(t, {
+      id,
+      isEdit,
+      isGenerateView,
+      isResortsView,
+      isMobile,
+      onMobileNavClick,
+      proposal,
+    })}
+    {renderStatusStrip(t, { isEdit, ...proposal })}
+    <Proposal>
+      {renderProposalSummary(t, summaryProps)}
+      {isEdit ? renderProposalGuestForm(t, guestFormProps) : renderProposalGuestInfo(t, guestInfoProps)}
+    </Proposal>
+  </Fragment>
+);
+
+const renderTabs = (t, { id, summaryProps, guestInfoProps }) => (
+  <Fragment>
+    <ProposalId>{t('labels.proposalWithId', { id })}</ProposalId>
+    <Tabs labels={[t('labels.resortsIncluded'), t('labels.guestsDetails')]}>
+      {renderProposalSummary(t, summaryProps)}
+      {renderProposalGuestInfo(t, guestInfoProps)}
+    </Tabs>
+  </Fragment>
+);
+
 export const ProposalContainer = ({
   amendBooking,
   bookings,
@@ -334,6 +377,72 @@ export const ProposalContainer = ({
     booked && (isSuccess(status) && setBookingComplete(true));
   }, [status]);
 
+  const onMobileNavClick = useCallback(() => setView(ViewTypes.RESORTS), []);
+
+  const onViewChange = useCallback(() => setView(ViewTypes.GENERATE), []);
+
+  const onBookingRemove = useCallback(bookingId => removeBooking(id, bookingId), [id, removeBooking]);
+
+  const onGuardEditComplete = useCallback(
+    (bookingId, { hotelUuid }) => {
+      setCanEdit({ ...canEdit, [hotelUuid || bookingId]: true });
+      amendBooking(id, bookingId);
+    },
+    [amendBooking, canEdit, id]
+  );
+
+  const onAmend = useCallback(
+    (bookingId, values) => {
+      setCanEdit({ ...canEdit, [bookingId]: false });
+      completeProposalBooking(id, bookingId, values);
+    },
+    [canEdit, completeProposalBooking, id]
+  );
+
+  const onBook = useCallback(
+    bookingId => {
+      setBooked(bookingId);
+      proposalBookingRequest(id, bookingId);
+    },
+    [id, proposalBookingRequest]
+  );
+
+  const onAddHolds = useCallback(
+    bookingId => {
+      proposalBookingHold(id, bookingId);
+    },
+    [id, proposalBookingHold]
+  );
+
+  const onReleaseHolds = useCallback(
+    bookingId => {
+      proposalBookingRelease(id, bookingId);
+    },
+    [id, proposalBookingRelease]
+  );
+
+  const onAdditionalResourceClick = useCallback(
+    e => {
+      const value = path(['target', 'value'], e);
+
+      value &&
+        setAttachedUploads(
+          includes(value, attachedUploads) ? without(value, attachedUploads) : append(value, attachedUploads)
+        );
+    },
+    [attachedUploads]
+  );
+
+  const onPreviewPDF = useCallback(() => setShowPDF(true), []);
+
+  const onGenerateAndSend = useCallback(
+    values => {
+      updateProposal(id, { isLocked: true, attachedUploads, ...values });
+      setSubmitted(true);
+    },
+    [attachedUploads, id, updateProposal]
+  );
+
   const isLocked = propOr(false, 'isLocked', proposal);
   const proposalLocked = isEdit && isLocked;
 
@@ -345,51 +454,6 @@ export const ProposalContainer = ({
   const isGenerateView = equals(ViewTypes.GENERATE, view);
   const loading = !loaded || isLoading(status);
   const sending = isSending(status);
-
-  const onMobileNavClick = () => setView(ViewTypes.RESORTS);
-
-  const onViewChange = () => setView(ViewTypes.GENERATE);
-
-  const onBookingRemove = bookingId => removeBooking(id, bookingId);
-
-  const onGuardEditComplete = (bookingId, { hotelUuid }) => {
-    setCanEdit({ ...canEdit, [hotelUuid || bookingId]: true });
-    amendBooking(id, bookingId);
-  };
-
-  const onAmend = (bookingId, values) => {
-    setCanEdit({ ...canEdit, [bookingId]: false });
-    completeProposalBooking(id, bookingId, values);
-  };
-
-  const onBook = bookingId => {
-    setBooked(bookingId);
-    proposalBookingRequest(id, bookingId);
-  };
-
-  const onAddHolds = bookingId => {
-    proposalBookingHold(id, bookingId);
-  };
-
-  const onReleaseHolds = bookingId => {
-    proposalBookingRelease(id, bookingId);
-  };
-
-  const onAdditionalResourceClick = e => {
-    const value = path(['target', 'value'], e);
-
-    value &&
-      setAttachedUploads(
-        includes(value, attachedUploads) ? without(value, attachedUploads) : append(value, attachedUploads)
-      );
-  };
-
-  const onPreviewPDF = () => setShowPDF(true);
-
-  const onGenerateAndSend = values => {
-    updateProposal(id, { isLocked: true, attachedUploads, ...values });
-    setSubmitted(true);
-  };
 
   const summaryProps = {
     attachedUploads,
@@ -410,37 +474,24 @@ export const ProposalContainer = ({
   const guestFormProps = { isMobile, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF };
   const guestInfoProps = { isMobile, isGenerateView, isEdit, proposal };
 
-  const renderFull = () => (
-    <Fragment>
-      {renderBreadcrumbs(t, {
-        id,
-        isEdit,
-        isGenerateView,
-        isResortsView,
-        isMobile,
-        onMobileNavClick,
-        proposal,
-      })}
-      {renderStatusStrip(t, { isEdit, ...proposal })}
-      <Proposal>
-        {renderProposalSummary(t, summaryProps)}
-        {isEdit ? renderProposalGuestForm(t, guestFormProps) : renderProposalGuestInfo(t, guestInfoProps)}
-      </Proposal>
-    </Fragment>
-  );
-  const renderTabs = () => (
-    <Fragment>
-      <ProposalId>{t('labels.proposalWithId', { id })}</ProposalId>
-      <Tabs labels={[t('labels.resortsIncluded'), t('labels.guestsDetails')]}>
-        {renderProposalSummary(t, summaryProps)}
-        {renderProposalGuestInfo(t, guestInfoProps)}
-      </Tabs>
-    </Fragment>
-  );
-
   return (
     <Loader isLoading={sending || loading} text={sending ? t('messages.requesting') : t('messages.gettingProposal')}>
-      <StyledProposalContainer>{!isMobile || isEdit ? renderFull() : renderTabs()}</StyledProposalContainer>
+      <StyledProposalContainer>
+        {!isMobile || isEdit
+          ? renderFull(t, {
+              id,
+              isEdit,
+              isGenerateView,
+              isResortsView,
+              isMobile,
+              onMobileNavClick,
+              proposal,
+              summaryProps,
+              guestFormProps,
+              guestInfoProps,
+            })
+          : renderTabs(t, { id, summaryProps, guestInfoProps })}
+      </StyledProposalContainer>
       {renderPDFModal(t, { id, showPDF, setShowPDF })}
     </Loader>
   );

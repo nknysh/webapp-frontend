@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import {
   compose,
@@ -315,15 +315,7 @@ export const BookingContainer = ({
   const [canEdit, setCanEdit] = useState(false);
   const modal = useModalState();
 
-  if (amended) return <Redirect to={`/bookings/${amended}`} />;
-  if (hasCreated) clearCreatedBooking(id);
-  if (!isDetails && !hasCreated) return <Redirect to={`/bookings/${id}`} />;
-
-  const { status } = booking;
-  const { setModalContext, onModalOpen, onModalClose } = modal;
-  const isPotential = equals('potential', status);
-
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
     setCanEdit(false);
     if (!canEdit) return requestBooking(id);
 
@@ -332,18 +324,32 @@ export const BookingContainer = ({
       cancelBooking(id);
       return;
     }
-  };
-  const onAddHolds = () => holdBooking(id);
-  const onReleaseHolds = () => releaseBooking(id);
-  const onEditGuard = () => setCanEdit(true);
-  const onStatusChange = status => {
-    setModalContext(status);
-    onModalOpen();
-  };
-  const onModalSubmit = values => {
-    onModalClose();
-    reviewBooking(id, values);
-  };
+  }, [canEdit, cancelBooking, completeBooking, id, isSr, requestBooking]);
+  const onAddHolds = useCallback(() => holdBooking(id), [holdBooking, id]);
+  const onReleaseHolds = useCallback(() => releaseBooking(id), [releaseBooking, id]);
+  const onEditGuard = useCallback(() => setCanEdit(true), []);
+  const onStatusChange = useCallback(
+    status => {
+      setModalContext(status);
+      onModalOpen();
+    },
+    [onModalOpen, setModalContext]
+  );
+  const onModalSubmit = useCallback(
+    values => {
+      onModalClose();
+      reviewBooking(id, values);
+    },
+    [onModalClose, reviewBooking, id]
+  );
+
+  if (amended) return <Redirect to={`/bookings/${amended}`} />;
+  if (hasCreated) clearCreatedBooking(id);
+  if (!isDetails && !hasCreated) return <Redirect to={`/bookings/${id}`} />;
+
+  const { status } = booking;
+  const { setModalContext, onModalOpen, onModalClose } = modal;
+  const isPotential = equals('potential', status);
 
   const defaultProps = {
     booking,

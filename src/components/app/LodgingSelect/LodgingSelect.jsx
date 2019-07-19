@@ -96,25 +96,26 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
         rooms
       )
     );
-  }, [rooms]);
+  }, [rooms, onSelected]);
 
   const onRemoveRoom = useCallback(() => {
     onSelected(dropLast(1, rooms));
-  }, [rooms]);
+  }, [rooms, onSelected]);
 
   const onAgeChange = useCallback(
     (i, values) => {
       onSelected(update(i, values, rooms));
     },
-    [rooms]
+    [rooms, onSelected]
   );
 
   const onAgeSelectOpen = useCallback(() => {
     setCloseOnClickAway(false);
-  });
+  }, []);
+
   const onAgeSelectClose = useCallback(() => {
     setCloseOnClickAway(true);
-  });
+  }, []);
 
   return (
     <StyledLodgingSelect>

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import {
   compose,
   groupBy,
@@ -463,50 +463,62 @@ export const SummaryForm = ({
 
   const isLoading = isActive(status);
 
-  const onModalClose = () => setModalId(undefined);
+  const onModalClose = useCallback(() => setModalId(undefined), []);
 
-  const onEditGuard = () => {
+  const onEditGuard = useCallback(() => {
     if (!editGuard) return;
 
     // This is essentially a custom hook pre-showing the guard message
     onGuardEdit().then(() => {
       setShowEditGuard(true);
     });
-  };
+  }, [editGuard, onGuardEdit]);
 
-  const onEditGuardAccepted = () => {
+  const onEditGuardAccepted = useCallback(() => {
     setShowEditGuard(false);
     setEditGuard(false);
 
     onGuardEditComplete(id, booking);
-  };
+  }, [booking, id, onGuardEditComplete]);
 
-  const onHoldModalInit = context => {
-    setHoldModalContext(context);
-    onHoldModalOpen();
-  };
+  const onHoldModalInit = useCallback(
+    context => {
+      setHoldModalContext(context);
+      onHoldModalOpen();
+    },
+    [onHoldModalOpen, setHoldModalContext]
+  );
 
-  const onHoldConfirm = id => {
-    onAddHolds(id);
-    onHoldModalClose();
-  };
+  const onHoldConfirm = useCallback(
+    id => {
+      onAddHolds(id);
+      onHoldModalClose();
+    },
+    [onAddHolds, onHoldModalClose]
+  );
 
-  const onHoldRelease = id => {
-    onReleaseHolds(id);
-    onHoldModalClose();
-  };
+  const onHoldRelease = useCallback(
+    id => {
+      onReleaseHolds(id);
+      onHoldModalClose();
+    },
+    [onReleaseHolds, onHoldModalClose]
+  );
 
-  const onSubmit = values => {
-    setFormValues(values);
-    confirm && !complete && onConfirmModalOpen();
-    !confirm && complete && onFormSubmit(values);
-  };
+  const onSubmit = useCallback(
+    values => {
+      setFormValues(values);
+      confirm && !complete && onConfirmModalOpen();
+      !confirm && complete && onFormSubmit(values);
+    },
+    [complete, confirm, onConfirmModalOpen, onFormSubmit]
+  );
 
-  const onConfirmSubmit = () => {
+  const onConfirmSubmit = useCallback(() => {
     onFormSubmit(formValues);
     setCompleted(true);
     onConfirmModalClose();
-  };
+  }, [formValues, onConfirmModalClose, onFormSubmit]);
 
   return (
     <StyledSummary className={className} data-compact={compact}>

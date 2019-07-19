@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import { gt, prop, times, partial } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
@@ -75,10 +75,13 @@ export const GuestSelect = ({
 }) => {
   const { t } = useTranslation();
 
-  const onAgesChange = (i, ageValues) => {
-    values[i] = ageValues;
-    onSelected(ageValues, i);
-  };
+  const onAgesChange = useCallback(
+    (i, ageValues) => {
+      values[i] = ageValues;
+      onSelected(ageValues, i);
+    },
+    [onSelected, values]
+  );
 
   return (
     <StyledGuestSelect>

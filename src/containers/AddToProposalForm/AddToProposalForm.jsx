@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import { path, prop, propEq, compose, over, lensPath, append } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
@@ -54,17 +54,20 @@ export const AddToProposalForm = ({
     submitted && (isSuccess(status) ? setComplete(true) : setSubmitted(false));
   }, [status]);
 
-  const onFormSubmit = values => {
-    setFormValues(values);
+  const onFormSubmit = useCallback(
+    values => {
+      setFormValues(values);
 
-    const placeHolds = prop('placeHolds', values);
+      const placeHolds = prop('placeHolds', values);
 
-    isNewProposal(values)
-      ? createNewProposal(prop('proposalName', values), bookingId, placeHolds)
-      : addToProposal(prop('proposalId', values), bookingId, placeHolds);
+      isNewProposal(values)
+        ? createNewProposal(prop('proposalName', values), bookingId, placeHolds)
+        : addToProposal(prop('proposalId', values), bookingId, placeHolds);
 
-    setSubmitted(true);
-  };
+      setSubmitted(true);
+    },
+    [addToProposal, bookingId, createNewProposal]
+  );
 
   const proposalId = over(lensPath(['proposalId', 'props', 'options']), append(proposals), fields);
 

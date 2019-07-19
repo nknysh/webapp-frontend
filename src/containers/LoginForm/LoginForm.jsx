@@ -48,6 +48,48 @@ const renderField = (name, value, field, { handleChange, handleBlur, errors }) =
   />
 );
 
+const renderForm = (t, { formValues, onSubmit, onForgottenClick }) => (
+  <Form
+    initialValues={formValues}
+    onSubmit={onSubmit}
+    validationSchema={validation}
+    validateOnBlur={false}
+    validateOnChange={false}
+  >
+    {({ values, ...formProps }) => (
+      <Fragment>
+        {renderField('email', prop('email', values), prop('email', fields), formProps)}
+        {renderField('password', prop('password', values), prop('password', fields), formProps)}
+        <StyledCheckbox
+          name="rememberMe"
+          label={path(['rememberMe', 'label'], fields)}
+          defaultChecked={prop('rememberMe', values)}
+          onChange={prop('handleChange', formProps)}
+          onBlur={prop('handleBlur', formProps)}
+        >
+          {renderFormError(path(['errors', 'rememberMe'], formProps))}
+        </StyledCheckbox>
+        <Actions>
+          <SubmitButton type="submit">
+            <SubmitText>{t('buttons.login')}</SubmitText>
+          </SubmitButton>
+
+          <ForgotPassword onClick={onForgottenClick}>
+            <ForgotLink>{t('buttons.forgotten')}</ForgotLink>
+          </ForgotPassword>
+        </Actions>
+      </Fragment>
+    )}
+  </Form>
+);
+
+const renderComplete = ({ search, history }) => {
+  const redirect = defaultTo('/', originRedirect(search));
+  history.push(redirect);
+
+  return <CompleteIcon>done_all</CompleteIcon>;
+};
+
 export const LoginForm = ({
   requestStatus,
   isAuthenticated,
@@ -66,54 +108,17 @@ export const LoginForm = ({
   const isLoggingIn = isSending(requestStatus);
   const success = isSuccess(requestStatus);
 
-  const onSubmit = useCallback(values => {
-    setSubmitted(true);
-    setFormValues(values);
-    onLogin(sanitizeValues(values));
-    onComplete();
-  });
-
-  const renderForm = () => (
-    <Form
-      initialValues={formValues}
-      onSubmit={onSubmit}
-      validationSchema={validation}
-      validateOnBlur={false}
-      validateOnChange={false}
-    >
-      {({ values, ...formProps }) => (
-        <Fragment>
-          {renderField('email', prop('email', values), prop('email', fields), formProps)}
-          {renderField('password', prop('password', values), prop('password', fields), formProps)}
-          <StyledCheckbox
-            name="rememberMe"
-            label={path(['rememberMe', 'label'], fields)}
-            defaultChecked={prop('rememberMe', values)}
-            onChange={prop('handleChange', formProps)}
-            onBlur={prop('handleBlur', formProps)}
-          >
-            {renderFormError(path(['errors', 'rememberMe'], formProps))}
-          </StyledCheckbox>
-          <Actions>
-            <SubmitButton type="submit">
-              <SubmitText>{t('buttons.login')}</SubmitText>
-            </SubmitButton>
-
-            <ForgotPassword onClick={() => setForgotten(true)}>
-              <ForgotLink>{t('buttons.forgotten')}</ForgotLink>
-            </ForgotPassword>
-          </Actions>
-        </Fragment>
-      )}
-    </Form>
+  const onSubmit = useCallback(
+    values => {
+      setSubmitted(true);
+      setFormValues(values);
+      onLogin(sanitizeValues(values));
+      onComplete();
+    },
+    [onComplete, onLogin]
   );
 
-  const renderComplete = () => {
-    const redirect = defaultTo('/', originRedirect(search));
-    history.push(redirect);
-
-    return <CompleteIcon>done_all</CompleteIcon>;
-  };
+  const onForgottenClick = useCallback(() => setForgotten(true), []);
 
   if (forgotten) return <PasswordResetForm />;
 
@@ -122,7 +127,9 @@ export const LoginForm = ({
       <Loader isLoading={submitted && isLoggingIn && !success} text={t('messages.loggingIn')}>
         <Title>{path(['titles', 'default'], data)}</Title>
         {renderServerError(getServerError(prop('errors', data), error))}
-        {(submitted && success) || isAuthenticated ? renderComplete() : renderForm()}
+        {(submitted && success) || isAuthenticated
+          ? renderComplete({ search, history })
+          : renderForm(t, { formValues, onSubmit, onForgottenClick })}
       </Loader>
     </StyledLoginForm>
   );

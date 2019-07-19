@@ -3,6 +3,7 @@ import { forEach, append, compose, includes } from 'ramda';
 import { withSnackbar } from 'notistack';
 
 import { withNotifications } from 'hoc';
+import { useEffectBoundary } from 'effects';
 
 import { defaultProps, propTypes } from './Notifications.props';
 
@@ -19,13 +20,15 @@ const shouldUpdate = ({ notifications: oldNotifications = [] }, { notifications:
 export const Notifications = ({ notifications, enqueueSnackbar, removeNotification }) => {
   const [displayed, setDisplayed] = useState([]);
 
-  forEach(({ key, message, options }) => {
-    if (!key || includes(key, displayed)) return;
+  useEffectBoundary(() => {
+    forEach(({ key, message, options }) => {
+      if (!key || includes(key, displayed)) return;
 
-    enqueueSnackbar(message, options);
-    setDisplayed(append(key, displayed));
-    removeNotification(key);
-  }, notifications);
+      enqueueSnackbar(message, options);
+      setDisplayed(append(key, displayed));
+      removeNotification(key);
+    }, notifications);
+  }, [notifications]);
 
   return null;
 };

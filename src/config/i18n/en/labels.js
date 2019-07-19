@@ -51,6 +51,10 @@ export default {
   out: 'Outbound',
   in: 'Inbound',
   notReady: 'Booking Not Ready',
+  termsAndConditions: 'Terms and Conditions',
+  password: 'Password',
+  repeatPassword: 'Repeat password',
+  rememberMe: 'Remember me',
 
   yes: 'Yes',
   no: 'No',
@@ -77,6 +81,8 @@ export default {
   reviewAndGenerate: 'Review and Generate',
 
   propertiesAndRooms: 'Properties and rooms included in this proposal',
+  concludeBooking: 'By concluding the booking process, I accept the ',
+  agreeTo: 'I agree to ',
 
   takeAHold: 'Take a 24 hour hold on this booking with the Proposal',
   releaseHold: 'Are you sure you would like to release this provisional booking?',
@@ -84,6 +90,7 @@ export default {
   createdAt: 'Created on',
   leadGuestInfo: 'Lead Guest Info',
   flightInformation: 'Flight information',
+  specialRequests: 'Special Requests',
   guestsDetails: 'Guest Details',
   totalNetCost: 'Total Net Cost',
 
@@ -91,7 +98,8 @@ export default {
   notApplied: 'Not Applied',
   additionalResources: 'Other Resources',
   additionalInfo: 'Additional Information',
-  policiesAndRestrictions: 'Things to be aware of with this resort',
+  thingsToBeAwareOf: 'Things to be aware of with this resort',
+  policiesAndRestrictions: 'Policies & Restrictions',
 
   roomIsHeld: 'This room has a hold',
   roomIsHeld_plural: 'This room has {{count}} holds',
@@ -103,6 +111,7 @@ export default {
   resortDetails: 'Resort details',
   repeatGuest: 'Client is a repeating guest',
   isRepeat: 'Repeat Guest',
+  fullRepeatGuest: 'This client is a repeating guest',
 
   priceBasedOn: 'Price based on:',
   nightsIn: '{{count}} {{nights}} in {{title}}, {{mealPlan}} ({{startDate}} - {{endDate}})',
@@ -142,4 +151,44 @@ export default {
     birthday: 'Birthday',
     anniversary: 'Anniversary',
   },
+
+  title: 'Title',
+  titleOptional: 'Title (optional)',
+
+  firstName: 'First Name',
+  lastName: 'Last Name',
+  emailAddress: 'Email address',
+  existingPartner: 'Are you an existing partner?',
+  company: {
+    name: 'Company name',
+    country: 'Company country',
+  },
+  landline: 'Landline',
+  mobile: 'Mobile',
+
+  arrivalFlightNumber: 'Arrival Flight Number (Optional)',
+  departureFlightNumber: 'Departure Flight Number (Optional)',
+  arrivalDate: 'Arrival Date (optional)',
+  departureDate: 'Departure Date (optional)',
+  commentsOptional: 'Comments (optional)',
+
+  specialRequestOptions: {
+    cribCob: 'Crib Cob',
+    bedGuard: 'Bed Guard',
+    adjacentRooms: 'Adjacent Rooms',
+    connectingRooms: 'Connecting Rooms',
+    accessibleRoom: 'Accessible Room',
+    dietary: 'Dietary',
+  },
+
+  personTitles: {
+    noTitle: 'No Title',
+    master: 'Master',
+    miss: 'Miss',
+    mr: 'Mr.',
+    mrs: 'Mrs.',
+    ms: 'Ms.',
+  },
+
+  selectAvailableAccomodations: 'Select Available Accomodations',
 };

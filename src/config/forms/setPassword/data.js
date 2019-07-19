@@ -1,13 +1,14 @@
-import unknown from './content/error--unknown.md';
-import expired from './content/error--expired.md';
+import { UNAUTHORIZED } from 'http-status';
+
+import i18n from 'config/i18n';
 
 export default {
   titles: {
-    default: 'Set your password',
-    complete: 'Password has been reset',
+    default: i18n.t('form.titles.setPassword'),
+    complete: i18n.t('form.titles.setPasswordComplete'),
   },
   errors: {
-    default: unknown,
-    401: expired,
+    default: i18n.t('content.setPassword.error.unknown'),
+    [UNAUTHORIZED]: i18n.t('content.setPassword.error.expired'),
   },
 };

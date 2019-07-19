@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { isEmpty, map, repeat, length, take, compose, replace, propOr, prop, curry, flatten, equals } from 'ramda';
+import { isEmpty, map, repeat, length, take, compose, replace, propOr, prop, partial, flatten, equals } from 'ramda';
 import hash from 'object-hash';
 
 import DropDownContent from 'components/elements/DropDownContent';
@@ -20,6 +20,25 @@ import {
 
 const renderLabel = label => label && <IndexSearchLabel>{label}</IndexSearchLabel>;
 const renderInput = props => <IndexSearchInput {...props} />;
+
+const renderResult = ({ selectors, onHitClick }, index, hit) => {
+  const ref = prop('ref', hit);
+
+  return (
+    !isEmpty(hit) && (
+      <IndexSearchHit data-search-hit={ref} key={hash(hit)} onMouseDown={partial(onHitClick, [ref, index])}>
+        <IndexSearchHitContent>{propOr(noop, index, selectors)(prop('ref', hit))}</IndexSearchHitContent>
+      </IndexSearchHit>
+    )
+  );
+};
+
+const renderResults = ({ indexes, ...props }, hits, i) =>
+  !isEmpty(hits) && (
+    <IndexSearchHits data-search-hits={indexes[i]} key={hash(hits)}>
+      {map(partial(renderResult, [props, i]), hits)}
+    </IndexSearchHits>
+  );
 
 export const IndexSearch = ({
   children,
@@ -71,6 +90,25 @@ export const IndexSearch = ({
     },
     [onChange, value]
   );
+  const onSelect = useCallback((value, isOpen) => {
+    setSearch('');
+    setSelected(value);
+    setIsOpen(isOpen);
+  }, []);
+  const onHitClick = useCallback(
+    (ref, index) => {
+      const value = propOr(noop, index, selectors)(ref);
+      setSelected(value);
+      setSearch(value);
+
+      onClick({
+        type: indexKeys[index],
+        id: ref,
+        value,
+      });
+    },
+    [indexKeys, onClick, selectors]
+  );
 
   const getResults = useCallback(
     (index, i) => {
@@ -101,43 +139,6 @@ export const IndexSearch = ({
     ['data-empty']: !currentValue || isEmpty(currentValue),
   };
 
-  const onSelect = (value, isOpen) => {
-    setSearch('');
-    setSelected(value);
-    setIsOpen(isOpen);
-  };
-
-  const renderResult = (index, hit) => {
-    const ref = prop('ref', hit);
-
-    const onHitClick = () => {
-      const value = propOr(noop, index, selectors)(ref);
-      setSelected(value);
-      setSearch(value);
-
-      onClick({
-        type: indexKeys[index],
-        id: ref,
-        value,
-      });
-    };
-
-    return (
-      !isEmpty(hit) && (
-        <IndexSearchHit data-search-hit={ref} key={hash(hit)} onMouseDown={onHitClick}>
-          <IndexSearchHitContent>{propOr(noop, index, selectors)(prop('ref', hit))}</IndexSearchHitContent>
-        </IndexSearchHit>
-      )
-    );
-  };
-
-  const renderResults = (hits, i) =>
-    !isEmpty(hits) && (
-      <IndexSearchHits data-search-hits={indexes[i]} key={hash(hits)}>
-        {map(curry(renderResult)(i), hits)}
-      </IndexSearchHits>
-    );
-
   return (
     <StyledIndexSearch className={className}>
       {renderLabel(label)}
@@ -150,7 +151,11 @@ export const IndexSearch = ({
         showContent={isOpen}
       >
         {(children && isFunction(children) && isOpen && children({ search, results, onSelect })) ||
-          (isOpen && <IndexSearchResults>{mapWithIndex(renderResults, results)}</IndexSearchResults>)}
+          (isOpen && (
+            <IndexSearchResults>
+              {mapWithIndex(partial(renderResults, [{ selectors, onHitClick, indexes }]), results)}
+            </IndexSearchResults>
+          ))}
       </DropDownContent>
     </StyledIndexSearch>
   );

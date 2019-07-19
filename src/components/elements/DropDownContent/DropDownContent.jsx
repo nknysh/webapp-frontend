@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { isNil } from 'ramda';
 import { ClickAwayListener } from '@material-ui/core';
 
@@ -27,6 +27,10 @@ const renderInputMask = (inputContent, maskProps, showArrow) => (
 
 const renderInput = inputProps => <DropDownContentInput readOnly {...inputProps} />;
 
+const renderChildren = ({ contentOnly, children }) => (
+  <DropDownContentArea data-content={contentOnly}>{isFunction(children) ? children() : children}</DropDownContentArea>
+);
+
 export const DropDownContent = ({
   children,
   closeOnClickAway,
@@ -46,22 +50,21 @@ export const DropDownContent = ({
 }) => {
   const [showArea, setShowArea] = useState(showContent || false);
 
-  const onClose = () => setShowArea(false);
-
   useKeyboard(27, onClose);
 
-  const renderChildren = () => (
-    <DropDownContentArea data-content={contentOnly}>{isFunction(children) ? children() : children}</DropDownContentArea>
+  const onClose = useCallback(() => setShowArea(false), []);
+  const onInputClick = useCallback(
+    e => {
+      if (onClick) onClick(e);
+      setShowArea(!showArea);
+    },
+    [onClick, showArea]
   );
 
-  if (contentOnly) return renderChildren();
+  if (contentOnly) return renderChildren({ contentOnly, children });
 
   const shouldShow = !isNil(showContent) ? showContent : showArea;
   const shouldRenderChildren = keepOpen || (Boolean(children) && showArea && shouldShow);
-  const onInputClick = e => {
-    if (onClick) onClick(e);
-    setShowArea(!showArea);
-  };
 
   return (
     <ClickAwayListener onClickAway={closeOnClickAway ? onClose : noop}>
@@ -71,7 +74,7 @@ export const DropDownContent = ({
           {!showRawInput && renderInputMask(inputContent, maskProps, showArrow)}
           {showInput && renderInput({ showRawInput, onChange, onClick: onInputClick, ...inputProps })}
         </DropDownContentInputWrapper>
-        {shouldRenderChildren && renderChildren()}
+        {shouldRenderChildren && renderChildren({ contentOnly, children })}
       </StyledDropDownContent>
     </ClickAwayListener>
   );
