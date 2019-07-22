@@ -35,10 +35,10 @@ import {
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 import { formatDate } from 'utils';
 
+import { Button } from 'components';
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
 import SummaryForm from 'containers/SummaryForm';
-import { Button } from 'styles/elements';
 
 import connect from './BookingContainer.state';
 import { propTypes, defaultProps } from './BookingContainer.props';

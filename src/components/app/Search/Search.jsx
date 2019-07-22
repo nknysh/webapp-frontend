@@ -4,13 +4,13 @@ import { __, lensProp, defaultTo, set, view, pipe, prop } from 'ramda';
 import { renameKeys } from 'ramda-adjunct';
 import debounce from 'lodash.debounce';
 
-import { DatePicker, Checkbox } from 'components/elements';
+import { DatePicker, Checkbox, Button } from 'components/elements';
 import LodgingSelect from 'components/app/LodgingSelect';
 import { isLoading } from 'store/common';
 import { toDate } from 'utils';
 
 import { propTypes, defaultProps } from './Search.props';
-import { SearchBarButton, SearchBarIndexSearch, SearchBarSection } from './Search.styles';
+import { SearchBarIndexSearch, SearchBarSection } from './Search.styles';
 
 const destinationLens = lensProp('destination');
 const datesLens = lensProp('dates');
@@ -23,9 +23,9 @@ export const getMonthToDisplay = pipe(
 );
 
 const renderSearchButton = (t, { canSearch, onSubmit }) => (
-  <SearchBarButton disabled={!canSearch} onClick={onSubmit}>
+  <Button disabled={!canSearch} onClick={onSubmit}>
     {t('buttons.search')}
-  </SearchBarButton>
+  </Button>
 );
 
 export const Search = ({

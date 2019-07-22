@@ -4,7 +4,7 @@ import { Icon } from '@material-ui/core';
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 
-import { Button } from 'styles/elements';
+import { Button } from 'components';
 
 import {
   StyledBreadcrumbs as BaseStyledBreadcrumbs,
@@ -13,8 +13,6 @@ import {
 } from 'containers/HotelContainer/HotelContainer.styles';
 
 import { HotelName as BaseHotelName } from 'containers/SummaryForm/SummaryForm.styles';
-
-export { Button } from 'styles/elements';
 
 export {
   BookingPath,

@@ -4,7 +4,7 @@ import { equals, compose, prop, path, pick, over, lensProp, take } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { Loader, RadioButton, AgreeToForm, BookingConfirmation } from 'components';
+import { Loader, RadioButton, AgreeToForm, BookingConfirmation, Button } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary, useModalState } from 'effects';
 
 import { PAYMENT_ENABLED } from 'config';
@@ -33,7 +33,6 @@ import {
   StyledHotelContainer,
   StyledModal,
   StyledSummary,
-  SubmitButton,
   Total,
 } from './HotelBookingContainer.styles';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
@@ -68,7 +67,7 @@ const renderBreadcrumbs = (t, { isComplete, isMobile, isDetailsView, isReviewVie
 );
 
 const renderSubmitButton = (t, { isMobile, isReviewView, canBook, onSubmit, isOnRequest }) => (
-  <SubmitButton
+  <Button
     disabled={isMobile ? isReviewView && !canBook : !canBook}
     type="button"
     onClick={onSubmit}
@@ -77,7 +76,7 @@ const renderSubmitButton = (t, { isMobile, isReviewView, canBook, onSubmit, isOn
     {PAYMENT_ENABLED && !isOnRequest && t('buttons.bookAndPay')}
     {!PAYMENT_ENABLED && !isOnRequest && t('buttons.bookNow')}
     {isOnRequest && t('buttons.bookOnRequest')}
-  </SubmitButton>
+  </Button>
 );
 
 const renderGuestForm = (

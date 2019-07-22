@@ -3,14 +3,10 @@ import { Icon } from '@material-ui/core';
 
 export { Title } from 'containers/SummaryForm/SummaryForm.styles';
 
-import { Checkbox } from 'components/elements';
+import { Checkbox, ContextMenu as BaseContextMenu } from 'components/elements';
 
 import theme from 'styles/theme';
 import { withCurrency, withDiscountStyles } from 'styles/elements';
-
-import { ContextMenu as BaseContextMenu } from 'components/elements';
-
-export { Button } from 'styles/elements';
 
 export const OptionLabel = styled.span``;
 

@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
 
-import { RadioButton, Checkbox, Range } from 'components/elements';
+import { RadioButton, Checkbox, Range, Button } from 'components/elements';
 
 import theme from 'styles/theme';
-import { Button, withCurrency } from 'styles/elements';
+import { withCurrency } from 'styles/elements';
 
 export const Title = styled.h4`
   color: ${theme.neutral};

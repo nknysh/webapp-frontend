@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
-import { Markdown, Checkbox } from 'components';
+import { Markdown, Checkbox, Button } from 'components';
 import theme from 'styles/theme';
-import { Button as BaseButton } from 'styles/elements';
 import { ServerError } from 'styles/errors';
 import breakpoints from 'styles/breakpoints';
 
@@ -32,7 +31,7 @@ export const Actions = styled.div`
   margin-top: 50px;
 `;
 
-export const SubmitButton = styled(BaseButton)`
+export const SubmitButton = styled(Button)`
   ${breakpoints.tablet`
     width: 400px;
   `}

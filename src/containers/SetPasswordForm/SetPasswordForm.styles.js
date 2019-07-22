@@ -5,7 +5,7 @@ import { Checkbox, Markdown } from 'components';
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 import { ServerError } from 'styles/errors';
-import { Input as BaseInput, Button as BaseButton } from 'styles/elements';
+import { Input as BaseInput } from 'styles/elements';
 
 export const StyledSetPasswordForm = styled.div`
   padding: ${theme.gutter}px;
@@ -34,8 +34,6 @@ export const Input = styled(BaseInput)``;
 export const Actions = styled.div`
   margin-top: 50px;
 `;
-
-export const SubmitButton = styled(BaseButton)``;
 
 export const SubmitText = styled.span`
   color: ${theme.colors.white};

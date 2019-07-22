@@ -2,12 +2,12 @@ import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
 import { default as BaseBookingForm } from 'components/app/BookingForm';
-import { Markdown, Modal } from 'components/elements';
+import { Markdown, Modal } from 'components';
 import SummaryForm from 'containers/SummaryForm';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { Button, withCurrency } from 'styles/elements';
+import { withCurrency } from 'styles/elements';
 import { Heading2 } from 'styles/typography';
 
 import {
@@ -35,8 +35,6 @@ export const Main = styled.main`
 export const Aside = styled(BaseAside)``;
 
 export const BookingForm = styled(BaseBookingForm)``;
-
-export const SubmitButton = styled(Button)``;
 
 export const BookingPath = styled.div`
   background: ${theme.backgrounds.secondary};

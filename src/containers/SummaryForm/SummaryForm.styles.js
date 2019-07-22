@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
 
-import { Modal } from 'components/elements';
+import { Modal, Button } from 'components';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { Button, withCurrency } from 'styles/elements';
+import { withCurrency } from 'styles/elements';
 import { Heading2 } from 'styles/typography';
 
 export const StyledSummary = styled.div`

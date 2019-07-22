@@ -4,18 +4,7 @@ import { Icon } from '@material-ui/core';
 import i18n from 'config/i18n';
 
 import theme from './theme';
-import breakpoints from './breakpoints';
 import { Heading1 } from './typography';
-
-export const Container = styled.div`
-  width: 100%;
-
-  ${breakpoints.tablet`
-    max-width: 100%;
-    margin: 0 auto;
-    width: ${theme.breakpoints.desktop}px
-  `}
-`;
 
 export const inputStyles = css`
   font-family: ${theme.fonts.defaultFont};
@@ -49,38 +38,6 @@ export const InputError = styled.div`
   margin: ${theme.gutter}px 0;
   display: block;
   font-weight: ${theme.fonts.bold};
-`;
-
-export const buttonStyles = css`
-  width: 100%;
-  font-size: ${theme.fonts.sizes.big}px;
-  text-transform: uppercase;
-  font-weight: ${theme.fonts.bold};
-  font-family: ${theme.fonts.defaultFont};
-  color: ${theme.colors.white};
-  background: ${theme.primary};
-  outline: none;
-  border: 0;
-  padding: ${theme.gutter}px ${theme.gutter}px;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
-  &:hover {
-    background: ${theme.secondary};
-  }
-`;
-export const Button = styled.button`
-  ${buttonStyles}
-
-  ${({ ['data-secondary']: secondary }) =>
-    secondary &&
-    css`
-      background: ${theme.light};
-    `}
 `;
 
 export const Image = styled.img``;
