@@ -2,7 +2,7 @@ import React from 'react';
 import { map } from 'ramda';
 import hash from 'object-hash';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 import appleTouchIcon from 'public/assets/apple-touch-icon.png';
 import favicon32 from 'public/assets/favicon-32x32.png';

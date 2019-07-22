@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { Select, FormControlLabel, MenuItem } from '@material-ui/core';
 
-import theme from 'styles/theme';
-import { inputStyles, Hr } from 'styles/elements';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints, inputStyles } from 'styles';
 
 const baseClass = 'material';
 
@@ -53,5 +51,3 @@ export const MaterialSelect = styled(Select)`
 `;
 
 export const SelectMenuItem = styled(MenuItem)``;
-
-export const SectionDivider = styled(Hr)``;

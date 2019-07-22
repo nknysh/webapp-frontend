@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { Heading3 } from 'styles/typography';
+import { theme, breakpoints, Heading3 } from 'styles';
 
 export const FormSection = styled.div`
   display: block;

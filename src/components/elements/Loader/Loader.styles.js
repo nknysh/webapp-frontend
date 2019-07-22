@@ -1,8 +1,8 @@
 import styled, { keyframes, css } from 'styled-components';
 
-import theme from 'styles/theme';
-import { Image } from 'styles/elements';
-import { P } from 'styles/typography';
+import Image from 'components/elements/Image';
+
+import { theme, P } from 'styles';
 
 const rotate = keyframes`
   from {

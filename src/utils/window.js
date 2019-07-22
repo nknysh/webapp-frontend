@@ -1,6 +1,6 @@
 import { __, lte, path } from 'ramda';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const windowExists = typeof window !== 'undefined' ? window : {};
 

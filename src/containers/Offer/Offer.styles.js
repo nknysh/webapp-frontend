@@ -1,13 +1,7 @@
 import styled from 'styled-components';
 
 import { Link, Card, Chip } from 'components';
-
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-
-import { h2Styling } from 'styles/typography';
-
-import { buttonStyles } from 'styles/elements';
+import { theme, breakpoints, h2Styling, buttonStyles } from 'styles';
 
 export const StyledOffer = styled(Card)`
   ${breakpoints.tablet`

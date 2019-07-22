@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
-import breakpoints from 'styles/breakpoints';
-import theme from 'styles/theme';
-import { P } from 'styles/typography';
-
 import { Menu } from 'components';
+import { theme, breakpoints, P } from 'styles';
 
 export const StyledFooter = styled.div`
   display: block;

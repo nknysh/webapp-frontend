@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 import { Container } from 'components';
 
-import theme from 'styles/theme';
-import { Heading2 } from 'styles/typography';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints, Heading2 } from 'styles';
 
 export const StyledLatestOffers = styled(Container)`
   padding: 0;

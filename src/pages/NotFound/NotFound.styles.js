@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-import { Image } from 'styles/elements';
-import { Heading1 } from 'styles/typography';
+import { Image } from 'components';
+
+import { Heading1 } from 'styles';
 
 export const StyledNotFound = styled.div`
   display: flex;

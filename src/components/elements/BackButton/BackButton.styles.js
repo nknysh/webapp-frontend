@@ -3,7 +3,7 @@ import { Icon } from '@material-ui/core';
 
 import Link from 'components/elements/Link';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const Navigation = styled(Link)`
   font-size: ${theme.fonts.sizes.default}px;

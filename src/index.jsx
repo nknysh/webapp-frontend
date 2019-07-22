@@ -15,7 +15,7 @@ import headerLink from 'config/link';
 import entryRoutes from 'routing/entry';
 import { getRoutes } from 'routing';
 
-import { GlobalStyle, GlobalFonts } from 'styles/global';
+import { GlobalStyle, GlobalFonts } from 'styles';
 
 import './styles/fonts/HurmeGeometricSans2.css';
 import './styles/fonts/NoeDisplay.css';

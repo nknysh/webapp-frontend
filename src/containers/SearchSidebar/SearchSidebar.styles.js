@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 import { Title as BaseTitle } from 'components/app/SearchFilters/SearchFilters.styles';
 

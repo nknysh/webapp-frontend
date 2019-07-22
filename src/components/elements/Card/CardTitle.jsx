@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import { Heading2 } from 'styles/typography';
+import { theme, Heading2 } from 'styles';
 
 export const CardTitle = styled(Heading2)`
   color: ${theme.primary};

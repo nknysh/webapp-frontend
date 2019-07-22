@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import { Pre } from 'styles/elements';
-import { Heading1 } from 'styles/typography';
+import { Heading1 } from 'styles';
 
 export const StyledErrorBoundary = styled.div`
   display: flex;
@@ -13,7 +12,7 @@ export const StyledErrorBoundary = styled.div`
 
 export const ErrorBoundaryTitle = styled(Heading1)``;
 
-export const ErrorBoundaryPre = styled(Pre)`
+export const ErrorBoundaryPre = styled.pre`
   max-height: 300px;
   overflow: auto;
 `;

@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import theme from 'styles/theme';
-import { withCurrency, withDiscountStyles } from 'styles/elements';
+import { theme, withCurrency, withDiscountStyles } from 'styles';
 
 export const Room = styled.article`
   position: relative;

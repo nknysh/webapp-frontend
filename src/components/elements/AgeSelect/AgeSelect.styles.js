@@ -4,8 +4,7 @@ import Label from 'components/elements/Label';
 import Select from 'components/elements/Select';
 import { default as BaseNumberSelect } from 'components/elements/NumberSelect';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const Section = styled.div`
   padding: ${theme.gutter}px;

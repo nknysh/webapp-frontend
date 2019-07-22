@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { __, prop } from 'ramda';
 
-import breakpoints from 'styles/breakpoints';
-import theme from 'styles/theme';
+import { theme, breakpoints } from 'styles';
 
 import Link from 'components/elements/Link';
 

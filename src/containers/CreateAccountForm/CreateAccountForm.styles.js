@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
-import { Markdown, Checkbox, Button } from 'components';
-import theme from 'styles/theme';
-import { ServerError } from 'styles/errors';
-import breakpoints from 'styles/breakpoints';
+import { Markdown, Checkbox, Button, ServerError } from 'components/elements';
+import { theme, breakpoints } from 'styles';
 
 export const StyledCreateAccount = styled.div`
   padding: ${theme.gutter * 7}px ${theme.gutter * 2}px;

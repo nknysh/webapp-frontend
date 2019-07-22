@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 import { Button } from 'components/elements';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const StyledAddToProposalForm = styled.div`
   label,

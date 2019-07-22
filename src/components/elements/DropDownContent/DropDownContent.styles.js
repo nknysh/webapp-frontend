@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import { Input, inputStyles } from 'styles/elements';
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import Input from 'components/elements/Input';
+
+import { theme, breakpoints, inputStyles } from 'styles';
 
 export const StyledDropDownContent = styled.div``;
 

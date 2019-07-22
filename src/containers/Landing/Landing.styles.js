@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
 import { Hero, Markdown } from 'components';
+import { theme, breakpoints } from 'styles';
 
 export const StyledLanding = styled.div`
   width: 100%;

@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-
 import { Button } from 'components';
+import { theme, breakpoints } from 'styles';
 
 import {
   StyledBreadcrumbs as BaseStyledBreadcrumbs,

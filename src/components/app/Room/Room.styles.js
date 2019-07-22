@@ -2,10 +2,7 @@ import styled from 'styled-components';
 
 import { NumberSelect, ToolTip, Chip } from 'components/elements';
 
-import theme from 'styles/theme';
-import { withCurrency } from 'styles/elements';
-import breakpoints from 'styles/breakpoints';
-import { Heading1 } from 'styles/typography';
+import { theme, withCurrency, breakpoints, Heading1 } from 'styles';
 
 export const StyledRoom = styled.article`
   background: ${theme.backgrounds.secondary};

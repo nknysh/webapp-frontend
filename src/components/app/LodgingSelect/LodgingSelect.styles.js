@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Label, NumberSelect, Tabs as BaseTabs } from 'components/elements';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const StyledLodgingSelect = styled.div``;
 

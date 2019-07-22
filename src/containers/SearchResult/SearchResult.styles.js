@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 import { Card, Chip } from 'components/elements';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 import { Icon } from '@material-ui/core';
 import { ToolTip as BaseToolTip } from 'components/elements';

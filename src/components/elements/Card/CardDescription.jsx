@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const CardDescription = styled.div`
   color: ${theme.secondary};

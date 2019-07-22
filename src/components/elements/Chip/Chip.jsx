@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const CardChip = styled.div`
   color: ${theme.colors.black};

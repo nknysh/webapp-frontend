@@ -2,9 +2,7 @@ import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 import { Parallax } from 'react-parallax';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { h2Styling, h1Styling } from 'styles/typography';
+import { theme, breakpoints, h2Styling, h1Styling } from 'styles';
 
 export const StyledHome = styled.div`
   height: 100%;

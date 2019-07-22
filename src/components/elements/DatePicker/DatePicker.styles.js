@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
+import { theme, breakpoints } from 'styles';
+
 import Label from 'components/elements/Label';
 import { dropDownContentAreaStyles } from 'components/elements/DropDownContent/DropDownContent.styles';
-import breakpoints from 'styles/breakpoints';
-import theme from 'styles/theme';
 
 const baseClass = 'date-picker';
 

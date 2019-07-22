@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Markdown } from 'components';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const StyledMarkdown = styled(Markdown)`
   h1 {

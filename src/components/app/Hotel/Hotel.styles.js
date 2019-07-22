@@ -13,8 +13,7 @@ import {
   CardHighlight,
 } from 'containers/SearchResult/SearchResult.styles';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const StyledHotel = styled.div``;
 

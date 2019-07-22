@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const StyledNumberSelect = styled.div`
   display: flex;

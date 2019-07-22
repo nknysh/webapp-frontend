@@ -1,8 +1,7 @@
+import styled from 'styled-components';
 import { TableRow as BaseTableRow } from '@material-ui/core';
 
-import styled from 'styled-components';
-import { Heading2 } from 'styles/typography';
-import theme from 'styles/theme';
+import { theme, Heading2 } from 'styles';
 
 export const TableTitle = styled(Heading2)`
   padding: ${theme.gutter / 1.5}px 0 ${theme.gutter * 2.25}px;

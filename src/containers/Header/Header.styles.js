@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import breakpoints from 'styles/breakpoints';
-import theme from 'styles/theme';
+import { theme, breakpoints } from 'styles';
 
 import { Link, Menu, Container } from 'components';
 

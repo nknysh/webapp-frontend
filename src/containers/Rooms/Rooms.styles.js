@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { Select } from 'components/elements';
 import Room from 'components/app/Room';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const StyledRooms = styled.div`
   margin: ${theme.gutter}px ${theme.gutter * 2}px;

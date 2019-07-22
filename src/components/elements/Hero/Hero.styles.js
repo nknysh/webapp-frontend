@@ -1,9 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { theme, breakpoints } from 'styles';
 import { windowExists } from 'utils';
-
-import breakpoints from 'styles/breakpoints';
-import theme from 'styles/theme';
 
 const getHeight = (offsetBy, headerSize) =>
   windowExists.innerHeight && windowExists.innerHeight - (offsetBy || headerSize);

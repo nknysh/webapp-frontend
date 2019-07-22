@@ -1,12 +1,7 @@
 import styled from 'styled-components';
 
-import { Checkbox, Markdown } from 'components';
-
-import { Button } from 'components';
-
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { ServerError } from 'styles/errors';
+import { Button, ServerError, Checkbox, Markdown } from 'components/elements';
+import { theme, breakpoints } from 'styles';
 
 export const StyledPasswordResetForm = styled.div`
   padding: ${theme.gutter}px;

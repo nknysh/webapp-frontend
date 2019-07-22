@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const Ul = styled.ul`
   list-style: none;

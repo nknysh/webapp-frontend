@@ -5,10 +5,7 @@ import { default as BaseBookingForm } from 'components/app/BookingForm';
 import { Markdown, Modal } from 'components';
 import SummaryForm from 'containers/SummaryForm';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { withCurrency } from 'styles/elements';
-import { Heading2 } from 'styles/typography';
+import { theme, breakpoints, withCurrency, Heading2 } from 'styles';
 
 import {
   StyledBreadcrumbs as BaseStyledBreadcrumbs,

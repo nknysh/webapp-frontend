@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-
 import { SearchBar as BaseSearchBar } from 'containers';
+import { theme, breakpoints } from 'styles';
 
 export const SearchArea = styled.div`
   background: ${theme.backgrounds.defaultOpacity};

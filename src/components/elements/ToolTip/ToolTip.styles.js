@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import theme from 'styles/theme';
-import { h2Styling } from 'styles/typography';
+import { theme, h2Styling } from 'styles';
 
 export const StyledToolTip = styled.div`
   padding: 0 ${theme.gutter / 2}px;

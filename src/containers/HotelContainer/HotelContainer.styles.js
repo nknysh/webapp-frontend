@@ -4,8 +4,7 @@ import { Container, BackButton, Breadcrumbs, Hotel, Modal, Button } from 'compon
 import SummaryForm from 'containers/SummaryForm';
 import AddToProposalForm from 'containers/AddToProposalForm';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const StyledHotelContainer = styled(Container)`
   width: 100%;

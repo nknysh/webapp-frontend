@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { Heading2 } from 'styles/typography';
-
 import { Status } from 'components';
+import { theme, breakpoints, Heading2 } from 'styles';
 
 import { Main as BaseMain, Aside as BaseAside } from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
 import {
