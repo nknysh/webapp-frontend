@@ -6,7 +6,7 @@
   "scripts": {
     "dashboard": "webpack-dashboard -- npm run dev",
     "dev": "NODE_ENV=development webpack-dev-server --mode development --inline --progress",
-    "prod": "NODE_ENV=production  webpack-dev-server --mode production --inline --progress",
+    "prod": "NODE_ENV=production webpack-dev-server --mode production --inline --progress",
     "build": "NODE_ENV=production webpack --mode production",
     "build:dev": "NODE_ENV=development webpack --mode development",
     "test": "NODE_ENV=development jest",

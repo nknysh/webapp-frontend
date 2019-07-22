@@ -4,16 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import connect from './Offer.state';
 import { propTypes, defaultProps } from './Offer.props';
-import {
-  StyledOffer,
-  OfferImage,
-  OfferChip,
-  OfferPrice,
-  OfferName,
-  OfferDetails,
-  OfferCta,
-  OfferCtaButton,
-} from './Offer.styles';
+import { OfferChip, OfferCta, OfferCtaButton, OfferDetails, OfferImage, OfferPrice, StyledOffer } from './Offer.styles';
 
 export const Offer = ({ offer, uploads }) => {
   const { t } = useTranslation();
@@ -27,7 +18,7 @@ export const Offer = ({ offer, uploads }) => {
         <OfferChip>
           <OfferPrice>{title}</OfferPrice>
         </OfferChip>
-        <OfferName>{subtitle}</OfferName>
+        <OfferChip data-secondary={true}>{subtitle}</OfferChip>
       </OfferImage>
       <OfferDetails dangerouslySetInnerHTML={{ __html: body }} />
       {ctaUrl && (

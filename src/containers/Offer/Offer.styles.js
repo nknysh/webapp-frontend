@@ -1,22 +1,12 @@
 import styled from 'styled-components';
 
-import { Link } from 'components/elements';
+import { Link, Card, Chip } from 'components';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
 
 import { h2Styling } from 'styles/typography';
 
-import {
-  Card,
-  CardImage,
-  CardChip,
-  CardChipSecondary,
-  CardPrice,
-  CardDetails,
-  CardDescription,
-  CardText,
-} from 'styles/card';
 import { buttonStyles } from 'styles/elements';
 
 export const StyledOffer = styled(Card)`
@@ -26,11 +16,11 @@ export const StyledOffer = styled(Card)`
   `}
 `;
 
-export const OfferImage = styled(CardImage)``;
+export const OfferImage = styled(Card.Image)``;
 
-export const OfferChip = styled(CardChip)``;
+export const OfferChip = styled(Chip)``;
 
-export const OfferPrice = styled(CardPrice)`
+export const OfferPrice = styled(Card.Price)`
   text-decoration: none;
 
   &:before {
@@ -38,9 +28,9 @@ export const OfferPrice = styled(CardPrice)`
   }
 `;
 
-export const OfferName = styled(CardChipSecondary)``;
+export const OfferDetails = styled.div`
+  padding: ${theme.gutter * 2}px;
 
-export const OfferDetails = styled(CardDetails)`
   h1,
   h2,
   h3 {
@@ -67,10 +57,6 @@ export const OfferDetails = styled(CardDetails)`
     }
   }
 `;
-
-export const OfferDescription = styled(CardDescription)``;
-
-export const OfferText = styled(CardText)``;
 
 export const OfferCta = styled.div`
   padding: 0 ${theme.gutter * 2}px ${theme.gutter * 2}px;

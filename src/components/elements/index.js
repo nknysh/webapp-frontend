@@ -35,3 +35,5 @@ export { default as TextArea } from './TextArea';
 export { default as Title } from './Title';
 export { default as ToolTip } from './ToolTip';
 export { default as Video } from './Video';
+export { default as Chip } from './Chip';
+export { default as Card } from './Card';
