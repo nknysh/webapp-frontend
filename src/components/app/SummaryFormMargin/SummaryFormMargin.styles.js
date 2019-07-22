@@ -2,9 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { Checkbox, ContextMenu as BaseContextMenu } from 'components/elements';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { withCurrency } from 'styles/elements';
+import { theme, breakpoints, withCurrency } from 'styles';
 
 export const Margin = styled.div`
   margin-left: auto;

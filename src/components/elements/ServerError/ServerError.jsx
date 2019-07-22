@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
-import { Markdown } from 'components';
+import Markdown from 'components/elements/Markdown';
 
-import theme from './theme';
-import breakpoints from './breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const ServerError = styled(Markdown)`
   border: 1px solid ${theme.primary};
@@ -26,3 +25,5 @@ export const ServerError = styled(Markdown)`
     font-size: ${theme.fonts.sizes.normal}px;
   }
 `;
+
+export default ServerError;

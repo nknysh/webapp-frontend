@@ -1,11 +1,9 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import { Container } from 'styles/elements';
-import breakpoints from 'styles/breakpoints';
-import theme from 'styles/theme';
+import { theme, breakpoints } from 'styles';
 
-import { Link, Menu } from 'components';
+import { Link, Menu, Container } from 'components';
 
 export const HeaderContainer = styled(Container)`
   display: flex;

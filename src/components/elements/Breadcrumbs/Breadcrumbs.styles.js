@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import Link from 'components/elements/Link';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const StyledBreadcrumbs = styled.div`
   padding: ${theme.gutter}px 0;

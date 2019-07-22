@@ -44,7 +44,7 @@ const getVisibleRate = pipe(
 
 const renderImgOffer = bestRate =>
   prop('percentage', bestRate) && (
-    <ImgOffer>
+    <ImgOffer data-secondary={true}>
       -{parseInt(prop('percentage', bestRate))}% by{' '}
       {format(prop('endDate', bestRate), path(['defaults', 'dateFormat'], config))}
     </ImgOffer>

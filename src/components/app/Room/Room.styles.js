@@ -1,13 +1,8 @@
 import styled from 'styled-components';
 
-import { NumberSelect, ToolTip } from 'components/elements';
+import { NumberSelect, ToolTip, Chip } from 'components/elements';
 
-import theme from 'styles/theme';
-import { withCurrency } from 'styles/elements';
-import breakpoints from 'styles/breakpoints';
-import { Heading1 } from 'styles/typography';
-
-import { CardChipSecondary } from 'styles/card';
+import { theme, withCurrency, breakpoints, Heading1 } from 'styles';
 
 export const StyledRoom = styled.article`
   background: ${theme.backgrounds.secondary};
@@ -42,7 +37,7 @@ export const Img = styled.img`
   object-fit: cover;
 `;
 
-export const ImgOffer = styled(CardChipSecondary)`
+export const ImgOffer = styled(Chip)`
   position: absolute;
   top: 0;
   left: ${theme.gutter * 2}px;

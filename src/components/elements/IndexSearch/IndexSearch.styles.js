@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 import Label from 'components/elements/Label';
+import Input from 'components/elements/Input';
 
-import theme from 'styles/theme';
-import { Input } from 'styles/elements';
+import { theme } from 'styles';
 
 export const StyledIndexSearch = styled.div`
   position: relative;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 import { Checkbox as BaseCheckbox } from 'components/elements';
 
 export const Checkbox = styled(BaseCheckbox)`

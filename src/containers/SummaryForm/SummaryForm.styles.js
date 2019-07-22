@@ -1,11 +1,7 @@
 import styled, { css } from 'styled-components';
 
-import { Modal } from 'components/elements';
-
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { Button, withCurrency } from 'styles/elements';
-import { Heading2 } from 'styles/typography';
+import { Modal, Button } from 'components';
+import { theme, breakpoints, withCurrency, Heading2 } from 'styles';
 
 export const StyledSummary = styled.div`
   background: ${theme.backgrounds.secondary};

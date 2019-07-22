@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 
-import { DatePicker } from 'components/elements';
-
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { withCurrency, withDiscountStyles, Button } from 'styles/elements';
-import { Heading3 } from 'styles/typography';
+import { DatePicker, Button } from 'components';
+import { theme, breakpoints, withCurrency, withDiscountStyles, Heading3 } from 'styles';
 
 export const DatePrice = styled.div`
   ${withCurrency};

@@ -1,24 +1,13 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { withDiscountStyles } from 'styles/elements';
+import { Card, Chip } from 'components/elements';
 
-import {
-  Card as Base,
-  CardImage as BaseImage,
-  CardChip as BaseChip,
-  CardChipSecondary as BaseChipSecondary,
-  CardPrice as BasePrice,
-  CardTitle as BaseTitle,
-  CardDetails as BaseDetails,
-  CardDescription as BaseDescription,
-  CardText as BaseText,
-} from 'styles/card';
+import { theme, breakpoints } from 'styles';
+
 import { Icon } from '@material-ui/core';
 import { ToolTip as BaseToolTip } from 'components/elements';
 
-export const StyledCard = styled(Base)`
+export const StyledCard = styled(Card)`
   position: relative;
   margin: 0 0 ${theme.gutter * 2}px;
   padding-bottom: ${theme.gutter * 1.6}px;
@@ -28,31 +17,31 @@ export const StyledCard = styled(Base)`
     `}
 `;
 
-export const CardImage = styled(BaseImage)`
+export const CardImage = styled(Card.Image)`
   position: relative;
   border-bottom: 1px solid ${theme.borders.default};
 `;
 
-export const CardChip = styled(BaseChip)``;
+export const CardChip = styled(Chip)``;
 
-export const CardPrice = styled(BasePrice)`
-  ${withDiscountStyles};
+export const CardPrice = styled(Card.Price)``;
+
+export const CardDetails = styled.div`
+  padding ${theme.gutter * 2}px;
 `;
 
-export const CardSecondaryChip = styled(BaseChipSecondary)``;
-
-export const CardDetails = styled(BaseDetails)``;
-
-export const CardTitle = styled(BaseTitle)`
+export const CardTitle = styled(Card.Title)`
   margin-bottom: ${theme.gutter}px;
 `;
 
-export const CardDescription = styled(BaseDescription)`
+export const CardDescription = styled(Card.Description)`
   border: 0;
   margin: 0;
 `;
 
-export const CardText = styled(BaseText)``;
+export const CardText = styled.div`
+  color: ${theme.neutral};
+`;
 
 export const CardPreferred = styled.div`
     background: ${theme.primary};

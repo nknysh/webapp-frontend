@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 
-import { BackButton, Breadcrumbs, Hotel, Modal } from 'components';
+import { Container, BackButton, Breadcrumbs, Hotel, Modal, Button } from 'components';
 import SummaryForm from 'containers/SummaryForm';
 import AddToProposalForm from 'containers/AddToProposalForm';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { Container, Button } from 'styles/elements';
+import { theme, breakpoints } from 'styles';
 
 export const StyledHotelContainer = styled(Container)`
   width: 100%;

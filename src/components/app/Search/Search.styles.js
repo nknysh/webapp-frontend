@@ -1,8 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import theme from 'styles/theme';
-import { Button } from 'styles/elements';
-
+import { theme } from 'styles';
 import { IndexSearch } from 'components/elements';
 
 export const SearchBarSection = styled.div`
@@ -89,5 +87,3 @@ export const SearchBarHitContent = styled.div`
   color: ${theme.colors.black};
   border-bottom: 1px solid ${theme.borders.medium};
 `;
-
-export const SearchBarButton = styled(Button)``;

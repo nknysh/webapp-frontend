@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
-import { Markdown, Checkbox } from 'components';
-import theme from 'styles/theme';
-import { Button as BaseButton } from 'styles/elements';
-import { ServerError } from 'styles/errors';
-import breakpoints from 'styles/breakpoints';
+import { Markdown, Checkbox, Button, ServerError } from 'components/elements';
+import { theme, breakpoints } from 'styles';
 
 export const StyledCreateAccount = styled.div`
   padding: ${theme.gutter * 7}px ${theme.gutter * 2}px;
@@ -32,7 +29,7 @@ export const Actions = styled.div`
   margin-top: 50px;
 `;
 
-export const SubmitButton = styled(BaseButton)`
+export const SubmitButton = styled(Button)`
   ${breakpoints.tablet`
     width: 400px;
   `}

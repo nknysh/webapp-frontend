@@ -1,8 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const GlobalSliderStyles = createGlobalStyle``;
 

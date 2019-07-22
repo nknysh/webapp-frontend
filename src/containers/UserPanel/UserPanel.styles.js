@@ -2,8 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { Select, Link as BaseLink } from 'components/elements';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const StyledUserPanel = styled.div`
   position: relative;

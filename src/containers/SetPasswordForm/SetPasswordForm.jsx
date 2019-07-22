@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { compose, path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Form, Loader, Title, FormField } from 'components';
+import { Form, Loader, Title, FormField, Button } from 'components';
 import { sanitizeValues, getFormPath, extractFieldDefaults, getServerError } from 'utils/form';
 
 import { isSending, isSuccess } from 'store/common';
@@ -12,7 +12,7 @@ import { validation, fields, data } from 'config/forms/setPassword';
 
 import connect from './SetPasswordForm.state';
 import { propTypes, defaultProps } from './SetPasswordForm.props';
-import { StyledSetPasswordForm, Actions, SubmitButton, SubmitText, ServerErrorContent } from './SetPasswordForm.styles';
+import { StyledSetPasswordForm, Actions, SubmitText, ServerErrorContent } from './SetPasswordForm.styles';
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
@@ -40,9 +40,9 @@ const renderForm = (t, { formValues, onSubmit }) => (
         {renderField('password', prop('password', values), prop('password', fields), formProps)}
         {renderField('passwordConfirm', prop('passwordConfirm', values), prop('passwordConfirm', fields), formProps)}
         <Actions>
-          <SubmitButton type="submit">
+          <Button type="submit">
             <SubmitText>{t('buttons.submit')}</SubmitText>
-          </SubmitButton>
+          </Button>
         </Actions>
       </Fragment>
     )}

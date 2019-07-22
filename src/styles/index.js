@@ -1,4 +1,5 @@
-export { default as colors } from './colors';
-export { default as elements } from './elements';
-export { default as global } from './global';
-export { default as typography } from './typography';
+export { default as theme } from './theme';
+export { default as breakpoints } from './breakpoints';
+export * from './elements';
+export * from './global';
+export * from './typography';

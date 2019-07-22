@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 
-import { BackButton } from 'components';
-
-import theme from 'styles/theme';
-import { Container } from 'styles/elements';
-import breakpoints from 'styles/breakpoints';
+import { BackButton, Container } from 'components';
+import { theme, breakpoints } from 'styles';
 
 export const StyledSearch = styled(Container)`
   width: 100%;

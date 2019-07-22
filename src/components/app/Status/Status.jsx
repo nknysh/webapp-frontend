@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 import { BookingStatusTypes } from 'config/enums';
 
 const statusStyles = type => {

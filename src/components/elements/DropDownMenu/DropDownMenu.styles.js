@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { MenuList, MenuItem, Popper, Icon } from '@material-ui/core';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const StyledDropDownMenu = styled.div`
   position: relative;

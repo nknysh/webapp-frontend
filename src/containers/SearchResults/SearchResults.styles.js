@@ -1,12 +1,9 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { Markdown } from 'components';
+import { Markdown, Button } from 'components';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { Button } from 'styles/elements';
-import { Heading2 } from 'styles/typography';
+import { theme, breakpoints, Heading2 } from 'styles';
 
 export const modalStyles = {
   style: { backgroundColor: theme.backgrounds.secondary, paddingTop: theme.gutter * 4 },

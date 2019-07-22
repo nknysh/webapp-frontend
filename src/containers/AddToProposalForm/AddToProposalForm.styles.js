@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { Button as BaseButton } from 'styles/elements';
+import { Button } from 'components/elements';
+
+import { theme, breakpoints } from 'styles';
 
 export const StyledAddToProposalForm = styled.div`
   label,
@@ -20,7 +20,7 @@ export const Actions = styled.div`
   margin-top: 50px;
 `;
 
-export const SubmitButton = styled(BaseButton)`
+export const SubmitButton = styled(Button)`
   ${breakpoints.tablet`
     width: 400px;
   `}

@@ -1,12 +1,9 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import { Checkbox } from 'components';
+import { Checkbox, ServerError } from 'components/elements';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { ServerError } from 'styles/errors';
-import { Button as BaseButton } from 'styles/elements';
+import { theme, breakpoints } from 'styles';
 
 export const StyledLoginForm = styled.div`
   padding: ${theme.gutter * 7}px ${theme.gutter * 2}px;
@@ -20,8 +17,6 @@ export const StyledLoginForm = styled.div`
 export const Actions = styled.div`
   margin-top: 50px;
 `;
-
-export const SubmitButton = styled(BaseButton)``;
 
 export const SubmitText = styled.span`
   color: ${theme.colors.white};

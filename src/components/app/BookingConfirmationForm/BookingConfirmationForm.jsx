@@ -2,8 +2,7 @@ import React, { Fragment } from 'react';
 import { path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Form, FormField } from 'components/elements';
-import { Button } from 'styles/elements';
+import { Form, FormField, Button } from 'components/elements';
 
 import { getFormPath } from 'utils';
 

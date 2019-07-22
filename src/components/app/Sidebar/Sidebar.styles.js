@@ -1,9 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { Heading1 } from 'styles/typography';
+import { theme, breakpoints, Heading1 } from 'styles';
 
 const doubleSpaced = theme.gutter * 2;
 const sidebarGutter = `${doubleSpaced}px`;

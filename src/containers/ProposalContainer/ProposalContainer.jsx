@@ -27,7 +27,7 @@ import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
-import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal, Checkbox } from 'components';
+import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal, Checkbox, Button } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { formatDate } from 'utils';
 import { fields, data } from 'config/forms/bookingForm';
@@ -46,7 +46,6 @@ import {
   BookingPath,
   BookingPathSegment,
   Brochure,
-  Button,
   Chevron,
   ExtraSummary,
   ExtraSummaryTitle,

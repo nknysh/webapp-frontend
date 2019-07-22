@@ -1,18 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { append, mapObjIndexed, values, map, pipe } from 'ramda';
 
+import Hr from 'components/elements/Hr';
 import { useBodyClass } from 'effects';
 import { isArray } from 'utils';
 
 import { propTypes, defaultProps } from './Select.props';
-import {
-  StyledSelect,
-  StyledFormLabel,
-  MaterialSelect,
-  SelectMenuItem,
-  selectClasses,
-  SectionDivider,
-} from './Select.styles';
+import { MaterialSelect, selectClasses, SelectMenuItem, StyledFormLabel, StyledSelect } from './Select.styles';
 
 const renderItem = (value, key) => (
   <SelectMenuItem key={key} value={key}>
@@ -29,7 +23,7 @@ const mapOverKeys = pipe(
 
 const renderSection = pipe(
   mapOverKeys,
-  append(<SectionDivider />)
+  append(<Hr />)
 );
 
 const mapOverSections = map(renderSection);

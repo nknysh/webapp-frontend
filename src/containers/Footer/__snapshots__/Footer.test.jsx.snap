@@ -2,7 +2,7 @@
 
 exports[`<Footer /> render matches snapshot 1`] = `
 <Footerstyles__StyledFooter>
-  <Footerstyles__FooterContainer>
+  <Container>
     <Footerstyles__FooterColumns>
       <Footerstyles__FooterColumn>
         <Footerstyles__FooterText>
@@ -44,6 +44,6 @@ exports[`<Footer /> render matches snapshot 1`] = `
         </Footerstyles__FooterCopyright>
       </Footerstyles__FooterColumn>
     </Footerstyles__FooterColumns>
-  </Footerstyles__FooterContainer>
+  </Container>
 </Footerstyles__StyledFooter>
 `;

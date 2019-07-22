@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 import BaseSlider from 'react-slick';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 import 'slick-carousel/slick/slick.css';
 

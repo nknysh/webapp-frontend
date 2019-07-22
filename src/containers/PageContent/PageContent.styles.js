@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { Container } from 'styles/elements';
-import { h3Styling, h2Styling, h4Styling, h5Styling, pStyling } from 'styles/typography';
+import { Container } from 'components';
 
 import { Hero } from 'components';
+import { theme, breakpoints, h3Styling, h2Styling, h4Styling, h5Styling, pStyling } from 'styles';
 
 const fiveSpaced = theme.gutter * 5;
 const doubleSpaced = theme.gutter * 2;

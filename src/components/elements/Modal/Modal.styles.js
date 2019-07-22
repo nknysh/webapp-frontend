@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { Modal, Backdrop, Icon } from '@material-ui/core';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const StyledModal = styled(Modal)`
   display: flex;

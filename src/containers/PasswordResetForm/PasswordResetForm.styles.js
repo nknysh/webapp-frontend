@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 
-import { Checkbox, Markdown } from 'components';
-
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
-import { ServerError } from 'styles/errors';
-import { Button as BaseButton } from 'styles/elements';
+import { Button, ServerError, Checkbox, Markdown } from 'components/elements';
+import { theme, breakpoints } from 'styles';
 
 export const StyledPasswordResetForm = styled.div`
   padding: ${theme.gutter}px;
@@ -19,7 +15,7 @@ export const Actions = styled.div`
   margin-top: 50px;
 `;
 
-export const SubmitButton = styled(BaseButton)``;
+export const SubmitButton = styled(Button)``;
 
 export const SubmitText = styled.span`
   color: ${theme.colors.white};

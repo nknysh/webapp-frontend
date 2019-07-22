@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Link as RouterLink } from 'react-router-dom';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const linkStyles = css`
   cursor: pointer;

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
-import theme from 'styles/theme';
-import { Heading1 } from 'styles/typography';
+import { theme, Heading1 } from 'styles';
 
 export const Confirmation = styled.div``;
 

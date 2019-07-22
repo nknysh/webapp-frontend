@@ -3,7 +3,7 @@ import { map } from 'ramda';
 import hash from 'object-hash';
 import i18n from 'config/i18n';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 import msApplicationConfig from 'public/browserconfig.xml';
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const StyledRadioGroup = styled(RadioGroup)`
   flex-direction: row !important;

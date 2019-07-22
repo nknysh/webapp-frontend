@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose, prop, propOr, defaultTo, path, pipe } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Form, Loader, Title, FormField, FormFieldError } from 'components';
+import { Form, Loader, Title, FormField, FormFieldError, Button } from 'components';
 import PasswordResetForm from 'containers/PasswordResetForm';
 import { withAuthentication } from 'hoc';
 
@@ -22,7 +22,6 @@ import {
   ServerErrorContent,
   StyledCheckbox,
   StyledLoginForm,
-  SubmitButton,
   SubmitText,
   CompleteIcon,
 } from './LoginForm.styles';
@@ -70,9 +69,9 @@ const renderForm = (t, { formValues, onSubmit, onForgottenClick }) => (
           {renderFormError(path(['errors', 'rememberMe'], formProps))}
         </StyledCheckbox>
         <Actions>
-          <SubmitButton type="submit">
+          <Button type="submit">
             <SubmitText>{t('buttons.login')}</SubmitText>
-          </SubmitButton>
+          </Button>
 
           <ForgotPassword onClick={onForgottenClick}>
             <ForgotLink>{t('buttons.forgotten')}</ForgotLink>

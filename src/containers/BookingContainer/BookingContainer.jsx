@@ -21,14 +21,24 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { Loader, Breadcrumbs, Tabs, Section, DropDownMenu, Modal, BookingConfirmationForm, Markdown } from 'components';
+import {
+  Loader,
+  Breadcrumbs,
+  Tabs,
+  Section,
+  DropDownMenu,
+  Modal,
+  BookingConfirmationForm,
+  Markdown,
+  Container,
+} from 'components';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 import { formatDate } from 'utils';
 
+import { Button } from 'components';
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
 import SummaryForm from 'containers/SummaryForm';
-import { Button } from 'styles/elements';
 
 import connect from './BookingContainer.state';
 import { propTypes, defaultProps } from './BookingContainer.props';
@@ -49,7 +59,6 @@ import {
   StatusStrip,
   StatusStripDate,
   StatusStripStatus,
-  StyledBookingContainer,
   Tag,
   ModalContent,
   ModalTitle,
@@ -370,10 +379,10 @@ export const BookingContainer = ({
 
   return (
     <Loader isLoading={!loaded} text={t('messages.gettingBooking')}>
-      <StyledBookingContainer>
+      <Container>
         <Booking>{isMobile ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}</Booking>
         {renderModal(t, { isSr, onModalSubmit, booking, ...modal })}
-      </StyledBookingContainer>
+      </Container>
     </Loader>
   );
 };

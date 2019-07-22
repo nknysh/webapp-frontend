@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Tabs, Tab as BaseTab } from '@material-ui/core';
 
-import theme from 'styles/theme';
+import { theme } from 'styles';
 
 export const StyledTabs = styled(Tabs)`
   background: ${theme.backgrounds.secondary};

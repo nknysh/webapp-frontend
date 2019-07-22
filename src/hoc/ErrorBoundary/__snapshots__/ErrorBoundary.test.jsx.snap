@@ -104,9 +104,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                   ],
                 },
                 "displayName": "ErrorBoundarystyles__ErrorBoundaryPre",
-                "foldedComponentIds": Array [
-                  "elements__Pre-lhmas5-5",
-                ],
+                "foldedComponentIds": Array [],
                 "render": [Function],
                 "styledComponentId": "ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2",
                 "target": "pre",
@@ -118,7 +116,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <pre
-              className="elements__Pre-lhmas5-5 ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2 iKAuqu"
+              className="ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2 iKAuqu"
             >
               Error: It doesn't work!
             </pre>
@@ -139,9 +137,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
                   ],
                 },
                 "displayName": "ErrorBoundarystyles__ErrorBoundaryPre",
-                "foldedComponentIds": Array [
-                  "elements__Pre-lhmas5-5",
-                ],
+                "foldedComponentIds": Array [],
                 "render": [Function],
                 "styledComponentId": "ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2",
                 "target": "pre",
@@ -153,7 +149,7 @@ exports[`ErrorBoundary HOC displays error when component catches 1`] = `
             forwardedRef={null}
           >
             <pre
-              className="elements__Pre-lhmas5-5 ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2 iKAuqu"
+              className="ErrorBoundarystyles__ErrorBoundaryPre-sc-26u569-2 iKAuqu"
             >
               Ref: 
               ca5c2d93118cc215d7109b525da8f67c4a592154

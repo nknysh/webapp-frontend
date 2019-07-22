@@ -2,8 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { Label, NumberSelect, Tabs } from 'components/elements';
 
-import theme from 'styles/theme';
-import breakpoints from 'styles/breakpoints';
+import { theme, breakpoints } from 'styles';
 
 export const StyledGuestSelect = styled.div``;
 

@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 
+import { Container } from 'components';
 import { DashboardContainer } from 'containers';
-import { Container, SearchArea, SearchBar } from './Dashboard.styles';
+
+import { SearchArea, SearchBar } from './Dashboard.styles';
 
 export const Dashboard = () => (
   <Fragment>

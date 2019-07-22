@@ -37,7 +37,7 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch } from 'components';
+import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch, Button } from 'components';
 
 import { ProductTypes } from 'config/enums';
 import { useModalState, useFetchData } from 'effects';
@@ -49,11 +49,11 @@ import {
   AddonCheckbox,
   AddonSummaries,
   AddonSummary,
-  Button,
   Clear,
   ContextMenu,
   Description,
   Extra,
+  ExtraOffer,
   ExtraSummary,
   ExtraSummaryProduct,
   ExtraSummaryTitle,
@@ -61,13 +61,12 @@ import {
   ExtraSummaryTotals,
   ModalContent,
   OptionLabel,
+  OptionOffer,
   OptionPrice,
   OptionRate,
-  OptionOffer,
   Title,
   TravelAgent,
   TravelAgentName,
-  ExtraOffer,
 } from './SummaryFormExtras.styles';
 
 const hasDirection = hasPath(['meta', 'direction']);
