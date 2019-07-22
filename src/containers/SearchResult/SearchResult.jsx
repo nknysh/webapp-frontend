@@ -121,7 +121,7 @@ const renderOfferBreakdown = (t, { offer }, i) => (
 const renderOffers = (t, { offerCount, offers }) => {
   return (
     gt(offerCount, 0) && (
-      <CardChip data-secodary={true}>
+      <CardChip data-secondary={true}>
         <ToolTip label={<span>{t('offerWithCount', { count: offerCount })}</span>}>
           {values(mapWithIndex(partial(renderOfferBreakdown, [t]), offers))}
         </ToolTip>

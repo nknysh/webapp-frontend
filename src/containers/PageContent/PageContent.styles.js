@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
+import { Container } from 'components';
+
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { Container } from 'styles/elements';
 import { h3Styling, h2Styling, h4Styling, h5Styling, pStyling } from 'styles/typography';
 
 import { Hero } from 'components';

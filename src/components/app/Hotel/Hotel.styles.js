@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Slider } from 'components/elements';
+import { Slider, Card } from 'components/elements';
 import Rooms from 'containers/Rooms';
 
 import {
@@ -14,7 +14,6 @@ import {
 } from 'containers/SearchResult/SearchResult.styles';
 
 import theme from 'styles/theme';
-import { CardTitle } from 'styles/card';
 import breakpoints from 'styles/breakpoints';
 
 export const StyledHotel = styled.div``;
@@ -58,7 +57,7 @@ export const HotelDetailsColumnRight = styled(HotelDetailsColumn)`
     `}
 `;
 
-export const HotelName = styled(CardTitle)`
+export const HotelName = styled(Card.Title)`
   border-bottom: 0;
   margin: 0 0 ${theme.gutter / 2}px;
   padding: 0;

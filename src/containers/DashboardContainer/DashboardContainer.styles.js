@@ -1,11 +1,8 @@
 import styled, { css } from 'styled-components';
 
 import { Sidebar as BaseSidebar, Link } from 'components';
-import { Container } from 'styles/elements';
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-
-export const StyledDashboardContainer = styled(Container)``;
 
 export const Dashboard = styled.div`
   width: 100%;

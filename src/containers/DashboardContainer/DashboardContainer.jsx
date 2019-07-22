@@ -4,19 +4,12 @@ import { equals, map, partial, values, prop, compose, isEmpty } from 'ramda';
 
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
-import { Table, Loader, TableData, TableDataStatus, TableShowButton } from 'components';
+import { Table, Loader, TableData, TableDataStatus, TableShowButton, Container } from 'components';
 import { useFetchData } from 'effects';
 
 import connect from './DashboardContainer.state';
 import { propTypes, defaultProps } from './DashboardContainer.props';
-import {
-  StyledDashboardContainer,
-  Dashboard,
-  DashboardContent,
-  Sidebar,
-  SidebarItem,
-  ShowAll,
-} from './DashboardContainer.styles';
+import { Dashboard, DashboardContent, Sidebar, SidebarItem, ShowAll } from './DashboardContainer.styles';
 
 const renderSidebarItem = (t, { tableContext, setTableContext }, status) => (
   <SidebarItem data-active={equals(status, tableContext)} key={status} onClick={() => setTableContext(status)}>
@@ -32,7 +25,7 @@ export const DashboardContainer = ({ bookingsStatus, fetchBookings, bookings }) 
   const loaded = useFetchData(bookingsStatus, fetchBookings, undefined, [isEmpty(bookings)]);
 
   return (
-    <StyledDashboardContainer>
+    <Container>
       <Dashboard>
         <Sidebar title={t('labels.dashboard')} links={renderSidebarLinks(t, { tableContext, setTableContext })} />
         <DashboardContent>
@@ -53,7 +46,7 @@ export const DashboardContainer = ({ bookingsStatus, fetchBookings, bookings }) 
           </ShowAll>
         </DashboardContent>
       </Dashboard>
-    </StyledDashboardContainer>
+    </Container>
   );
 };
 

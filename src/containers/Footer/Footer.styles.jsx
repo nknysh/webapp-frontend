@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import breakpoints from 'styles/breakpoints';
 import theme from 'styles/theme';
-import { Container } from 'styles/elements';
 import { P } from 'styles/typography';
 
 import { Menu } from 'components';
@@ -12,8 +11,6 @@ export const StyledFooter = styled.div`
   background: ${theme.backgrounds.light};
   padding: ${theme.gutter * 3}px ${theme.gutter * 2}px ${theme.gutter}px;
 `;
-
-export const FooterContainer = styled(Container)``;
 
 export const FooterMenu = styled(Menu)`
   text-align: center;

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 import theme from 'styles/theme';
 import breakpoints from 'styles/breakpoints';
-import { Container } from 'styles/elements';
 import { Heading2 } from 'styles/typography';
 
 import { Status } from 'components';
@@ -14,8 +13,6 @@ import {
 } from 'containers/ProposalContainer/ProposalContainer.styles';
 
 export { Back } from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
-
-export const StyledBookingContainer = styled(Container)``;
 
 export const Booking = styled.div`
   ${breakpoints.tablet`

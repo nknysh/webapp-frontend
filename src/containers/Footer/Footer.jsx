@@ -2,7 +2,7 @@ import React from 'react';
 import { compose } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Markdown } from 'components';
+import { Markdown, Container } from 'components';
 import { useCurrentWidth } from 'effects';
 import { toDate } from 'utils';
 
@@ -13,7 +13,6 @@ import { propTypes, defaultProps } from './Footer.props';
 import {
   FooterColumn,
   FooterColumns,
-  FooterContainer,
   FooterCopyright,
   FooterCopyrightText,
   FooterMenu,
@@ -30,7 +29,7 @@ export const Footer = ({ menu, className }) => {
 
   return (
     <StyledFooter className={className}>
-      <FooterContainer>
+      <Container>
         {isMobile && renderFooterMenu({ menu })}
 
         <FooterColumns>
@@ -49,7 +48,7 @@ export const Footer = ({ menu, className }) => {
             </FooterCopyright>
           </FooterColumn>
         </FooterColumns>
-      </FooterContainer>
+      </Container>
     </StyledFooter>
   );
 };
