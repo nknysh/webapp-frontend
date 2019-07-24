@@ -149,7 +149,7 @@ const renderSummary = (
   );
 
 // eslint-disable-next-line
-const renderModalSubmitButton = label => () => <SubmitButton type="submit">{label}</SubmitButton>;
+const renderModalSubmitButton = label => () => <Button type="submit">{label}</Button>;
 
 const renderModalForm = ({ onModalSubmit, buttonLabel, initialValues }) => (
   <AgreeToForm
