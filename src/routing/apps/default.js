@@ -1,11 +1,4 @@
-import auth from 'routing/common/auth';
-import page from 'routing/common/page';
-import notFound from 'routing/common/notFound';
-import search from 'routing/common/search';
-import hotels from 'routing/common/hotels';
-import proposals from 'routing/common/proposals';
-import booking from 'routing/common/booking';
-
+import { auth, page, notFound, search, proposals, booking, user, hotels } from 'routing/common';
 import { AsyncHomeAuthenticated, AsyncHome } from 'pages/async';
 
 export default [
@@ -25,6 +18,7 @@ export default [
   ...hotels,
   ...proposals,
   ...booking,
+  ...user,
 
   // Page is a catch all /:path
   ...page,

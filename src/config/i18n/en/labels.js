@@ -193,4 +193,7 @@ export default {
   },
 
   selectAvailableAccomodations: 'Select Available Accomodations',
+
+  logout: 'Logout',
+  settings: 'Settings',
 };
