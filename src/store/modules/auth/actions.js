@@ -1,14 +1,11 @@
-import i18n from 'config/i18n';
 import { prop, propEq, omit, propOr } from 'ramda';
 import { FORBIDDEN } from 'http-status';
 
 import client from 'api/auth';
 import userClient from 'api/users';
+import { UserStatusTypes } from 'config/enums';
 
 import { genericAction, successAction, errorAction, errorFromResponse, storeReset } from 'store/common';
-import { enqueueNotification } from 'store/modules/ui/actions';
-
-import { isAuthenticated } from './selectors';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_CHECK = 'AUTH_CHECK';
@@ -25,13 +22,6 @@ export const AUTH_COUNTRY_SET = 'AUTH_COUNTRY_SET';
 export const AUTH_TOKEN = 'authToken';
 export const AUTH_USER = 'authUser';
 export const AUTH_COUNTRY_CODE = 'authCountryCode';
-
-export const AccountStatus = Object.freeze({
-  PENDING: 'pending',
-  REJECTED: 'rejected',
-  ACCEPTED: 'accepted',
-  VERIFIED: 'verified',
-});
 
 const authReset = () => ({
   type: AUTH_RESET,
@@ -137,7 +127,7 @@ export const logOut = token => async dispatch => {
 const persistUser = (dispatch, data) => {
   const userUuid = prop('uuid', data);
 
-  if (propEq('status', AccountStatus.PENDING, data)) {
+  if (propEq('status', UserStatusTypes.PENDING, data)) {
     return dispatch(errorAction(AUTH_REQUEST, { status: FORBIDDEN, unverified: true }));
   }
 
@@ -186,7 +176,7 @@ export const setPassword = values => async dispatch => {
   }
 };
 
-export const authCheck = () => async (dispatch, getState) => {
+export const authCheck = () => async dispatch => {
   dispatch(genericAction(AUTH_CHECK));
 
   try {
@@ -196,18 +186,7 @@ export const authCheck = () => async (dispatch, getState) => {
     dispatch(successAction(AUTH_CHECK, { user: { ...data } }));
     persistUser(dispatch, data);
   } catch (e) {
-    const authenticated = isAuthenticated(getState());
     clearUser(dispatch);
-
-    if (authenticated) {
-      dispatch(
-        enqueueNotification({ message: i18n.t('notifications.authenticatedLoggedOut'), options: { variant: 'info' } })
-      );
-      return;
-    }
-
-    dispatch(enqueueNotification({ message: i18n.t('notifications.mustBeLoggedIn'), options: { variant: 'error' } }));
-    dispatch(errorAction(AUTH_CHECK, {}));
 
     throw e;
   }
