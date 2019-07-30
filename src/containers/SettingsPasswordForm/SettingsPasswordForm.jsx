@@ -8,7 +8,7 @@ import { withAuthentication } from 'hoc';
 import { fields, validation } from 'config/forms/updatePassword';
 
 import connect from './SettingsPasswordForm.state';
-// import { propTypes, defaultProps } from './SettingsPasswordForm.props';
+import { propTypes, defaultProps } from './SettingsPasswordForm.props';
 import { PasswordReset } from './SettingsPasswordForm.styles';
 
 export const SettingsPasswordForm = ({ updatePassword, onComplete }) => {
@@ -48,8 +48,8 @@ export const SettingsPasswordForm = ({ updatePassword, onComplete }) => {
   );
 };
 
-// SettingsPasswordForm.propTypes = propTypes;
-// SettingsPasswordForm.defaultProps = defaultProps;
+SettingsPasswordForm.propTypes = propTypes;
+SettingsPasswordForm.defaultProps = defaultProps;
 
 export default compose(
   withAuthentication,

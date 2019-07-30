@@ -9,7 +9,7 @@ import { withAuthentication, withUser } from 'hoc';
 import { fields, validation } from 'config/forms/settings';
 
 import connect from './SettingsForm.state';
-// import { propTypes, defaultProps } from './SettingsForm.props';
+import { propTypes, defaultProps } from './SettingsForm.props';
 import { Settings, Title } from './SettingsForm.styles';
 import { isActive } from 'store/common';
 
@@ -68,8 +68,8 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
   );
 };
 
-// SettingsForm.propTypes = propTypes;
-// SettingsForm.defaultProps = defaultProps;
+SettingsForm.propTypes = propTypes;
+SettingsForm.defaultProps = defaultProps;
 
 export default compose(
   withAuthentication,

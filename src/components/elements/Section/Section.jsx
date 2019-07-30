@@ -11,7 +11,7 @@ export const Section = ({ label, children }) => (
 );
 
 Section.propTypes = {
-  label: PropTypes.label,
+  label: PropTypes.any,
   children: PropTypes.any,
 };
 
