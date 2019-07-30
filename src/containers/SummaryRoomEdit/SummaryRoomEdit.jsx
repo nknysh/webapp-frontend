@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useCallback } from 'react';
+import React, { useState, Fragment, useCallback, useRef } from 'react';
 import {
   compose,
   equals,
@@ -133,9 +133,10 @@ const renderDay = (rates, day) => {
 
 const renderDatePicker = (
   t,
-  { dates, rates, disabled, firstDate, lastDate, onMonthChange, onDayPickerShow, values, onDatesChange }
+  { datePickerRef, dates, rates, disabled, firstDate, lastDate, onMonthChange, onDayPickerShow, values, onDatesChange }
 ) => (
   <StyledDatePicker
+    ref={datePickerRef}
     label={t('date_plural')}
     ranged={true}
     dayPickerProps={{
@@ -217,8 +218,10 @@ export const SummaryRoomEdit = ({
   const selectedOccasions = getSelectedOccasions(requestedRooms);
   const repeatGuest = getRepeatGuest(requestedRooms);
 
+  const datePickerRef = useRef();
   const [roomContext, setRoomContext] = useState(0);
   const [complete, setComplete] = useState(false);
+  const [firstHit, setFirstHit] = useState(true);
   const [formValues, setFormValues] = useState({
     mealPlan,
     guestAges: map(prop('guestAges'), requestedRooms),
@@ -249,6 +252,16 @@ export const SummaryRoomEdit = ({
       dates: head(dates),
     });
   }, [dates]);
+
+  useEffectBoundary(() => {
+    const input = path(['current', 'input'], datePickerRef);
+
+    if (firstHit) {
+      setFirstHit(false);
+      return;
+    }
+    input && input.focus();
+  }, [rates]);
 
   useEffectBoundary(() => {
     setFormValues({
@@ -368,6 +381,7 @@ export const SummaryRoomEdit = ({
             {canChangeDates && (
               <EditFormSection>
                 {renderDatePicker(t, {
+                  datePickerRef,
                   dates,
                   disabled,
                   firstDate,
