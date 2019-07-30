@@ -8,14 +8,14 @@ export default {
       type: 'password',
     },
   },
-  password: {
+  newPassword: {
     label: i18n.t('labels.password'),
     default: '',
     props: {
       type: 'password',
     },
   },
-  passwordConfirm: {
+  newPasswordConfirm: {
     label: i18n.t('labels.repeatPassword'),
     default: '',
     props: {

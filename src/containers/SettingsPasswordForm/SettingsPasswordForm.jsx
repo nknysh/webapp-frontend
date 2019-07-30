@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { prop, compose } from 'ramda';
 
 import { Form, Button, Title } from 'components';
-import { withAuthentication, withUser } from 'hoc';
+import { withAuthentication } from 'hoc';
 
 import { fields, validation } from 'config/forms/updatePassword';
 
@@ -11,16 +11,14 @@ import connect from './SettingsPasswordForm.state';
 // import { propTypes, defaultProps } from './SettingsPasswordForm.props';
 import { PasswordReset } from './SettingsPasswordForm.styles';
 
-export const SettingsPasswordForm = ({ user, updatePassword }) => {
+export const SettingsPasswordForm = ({ updatePassword, onComplete }) => {
   const { t } = useTranslation();
-
-  const { uuid } = user;
-
   const onSubmit = useCallback(
     values => {
-      updatePassword(uuid, values);
+      updatePassword(values);
+      onComplete();
     },
-    [updatePassword, uuid]
+    [updatePassword, onComplete]
   );
 
   return (
@@ -35,11 +33,11 @@ export const SettingsPasswordForm = ({ user, updatePassword }) => {
               prop('currentPassword', fields),
               formProps
             )}
-            {Form.renderField('password', prop('password', values), prop('password', fields), formProps)}
+            {Form.renderField('newPassword', prop('newPassword', values), prop('newPassword', fields), formProps)}
             {Form.renderField(
-              'passwordConfirm',
-              prop('passwordConfirm', values),
-              prop('passwordConfirm', fields),
+              'newPasswordConfirm',
+              prop('newPasswordConfirm', values),
+              prop('newPasswordConfirm', fields),
               formProps
             )}
             <Button type="submit">{t('buttons.updatePassword')}</Button>
@@ -55,6 +53,5 @@ export const SettingsPasswordForm = ({ user, updatePassword }) => {
 
 export default compose(
   withAuthentication,
-  withUser,
   connect
 )(SettingsPasswordForm);

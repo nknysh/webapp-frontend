@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { getAuthStatus, getAuthError, authCheck } from 'store/modules/auth';
-import { updateUser, getUsersStatus } from 'store/modules/users';
+import { getAuthStatus, getAuthError, authCheck, updatePassword } from 'store/modules/auth';
+import { getUsersStatus } from 'store/modules/users';
 
 export const mapStateToProps = state => ({
   authStatus: getAuthStatus(state),
@@ -15,8 +15,8 @@ export const mapDispatchToProps = dispatch => ({
     authCheck,
     dispatch
   ),
-  updateMe: pipe(
-    updateUser,
+  updatePassword: pipe(
+    updatePassword,
     dispatch
   ),
 });

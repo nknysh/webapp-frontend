@@ -1,6 +1,6 @@
-import React, { useCallback, Fragment } from 'react';
+import React, { useCallback, useMemo, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
-import { prop, compose } from 'ramda';
+import { prop, compose, pick, keys } from 'ramda';
 import { Grid } from '@material-ui/core';
 
 import { Form, Section, Button, Status, Loader, Link } from 'components';
@@ -42,13 +42,15 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
     [updateMe, uuid]
   );
 
+  const formValues = useMemo(() => pick(keys(fields), user), [user]);
+
   return (
     <Settings>
       <Title>{t('labels.profileDetails')}</Title>
       <Loader isLoading={isActive(usersStatus)} showPrev={true}>
         <Grid container spacing={32}>
           <Grid item xs={12} sm={6}>
-            {renderForm(t, { formValues: user, onSubmit })}
+            {renderForm(t, { formValues, onSubmit })}
           </Grid>
           <Grid item xs={12} sm={6}>
             {!isSr && (

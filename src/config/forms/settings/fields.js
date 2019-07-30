@@ -1,6 +1,6 @@
 import { prop } from 'ramda';
 
-import { Select, Checkbox } from 'components';
+import { Select } from 'components';
 import i18n from 'config/i18n';
 
 import formConfig from 'config/forms';
@@ -25,12 +25,5 @@ export default {
   email: {
     label: i18n.t('labels.emailAddress'),
     default: '',
-  },
-  receiveEmailAlerts: {
-    Component: Checkbox,
-    default: false,
-    props: {
-      label: i18n.t('labels.receiveEmailAlerts'),
-    },
   },
 };

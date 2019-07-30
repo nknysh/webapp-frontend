@@ -41,7 +41,7 @@ export const User = ({ history, match, ...props }) => {
       <Main>{Component && <Component {...props} />}</Main>
       {equals('password', active) && (
         <Modal open={true} onClose={onClose}>
-          <SettingsPasswordForm {...props} />
+          <SettingsPasswordForm onComplete={onClose} {...props} />
         </Modal>
       )}
     </UserContainer>

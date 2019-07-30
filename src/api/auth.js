@@ -12,4 +12,6 @@ export const resetPassword = (body, params, opts) => client.post('/users/reset-p
 
 export const setPassword = (body, params, opts) => client.patch('/users/set-password', body, { params, ...opts });
 
-export default { getUser, signUp, logIn, logOut, resetPassword, setPassword };
+export const updatePassword = (body, params, opts) => client.patch('/users/update-password', body, { params, ...opts });
+
+export default { getUser, signUp, logIn, logOut, resetPassword, setPassword, updatePassword };

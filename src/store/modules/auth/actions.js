@@ -6,6 +6,7 @@ import userClient from 'api/users';
 import { UserStatusTypes } from 'config/enums';
 
 import { genericAction, successAction, errorAction, errorFromResponse, storeReset } from 'store/common';
+import { enqueueNotification } from 'store/modules/ui/actions';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_CHECK = 'AUTH_CHECK';
@@ -17,6 +18,7 @@ export const AUTH_LOG_OUT = 'AUTH_LOG_OUT';
 export const AUTH_PASSWORD_RESET = 'AUTH_PASSWORD_RESET';
 export const AUTH_SET_PASSWORD = 'AUTH_SET_PASSWORD';
 export const AUTH_COUNTRY_SET = 'AUTH_COUNTRY_SET';
+export const AUTH_PASSWORD_UPDATE = 'AUTH_PASSWORD_UPDATE';
 
 // Localstorage constants for auth
 export const AUTH_TOKEN = 'authToken';
@@ -189,5 +191,17 @@ export const authCheck = () => async dispatch => {
     clearUser(dispatch);
 
     throw e;
+  }
+};
+
+export const updatePassword = body => async dispatch => {
+  dispatch(genericAction(AUTH_PASSWORD_UPDATE, body));
+
+  try {
+    await client.updatePassword({ data: { attributes: body } });
+    dispatch(successAction(AUTH_SET_PASSWORD, body));
+    dispatch(enqueueNotification({ message: 'Password has been updated.', options: { variant: 'success' } }));
+  } catch (e) {
+    dispatch(errorFromResponse(AUTH_PASSWORD_UPDATE, e));
   }
 };
