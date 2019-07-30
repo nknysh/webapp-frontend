@@ -3,7 +3,7 @@ import { compose, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { DropDownMenu } from 'components';
-import { withAuthentication } from 'hoc';
+import { withAuthentication, withUser } from 'hoc';
 
 import { isSending } from 'store/common';
 
@@ -20,7 +20,7 @@ const renderLink = ({ title, ...props }) => (
 
 export const UserPanel = ({
   isAuthenticated,
-  currentUser,
+  user,
   requestStatus,
   token,
   logOut,
@@ -45,9 +45,9 @@ export const UserPanel = ({
     logOut(token);
   }, [logOut, token]);
 
-  if (!isAuthenticated || !currentUser) return null;
+  if (!isAuthenticated || !user) return null;
 
-  const { firstName, lastName } = currentUser;
+  const { firstName, lastName } = user;
 
   if (logout && isSending(requestStatus))
     return <DropDownMenu showArrow={false} title={<Text data-placeholder>{t('messages.loggingOut')}</Text>} />;
@@ -78,5 +78,6 @@ UserPanel.defaultProps = defaultProps;
 
 export default compose(
   withAuthentication,
+  withUser,
   connect
 )(UserPanel);

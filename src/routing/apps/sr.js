@@ -1,4 +1,4 @@
-import { auth, page, notFound, search, hotels, booking, proposals } from 'routing/common';
+import { auth, page, notFound, search, hotels, booking, proposals, user } from 'routing/common';
 
 import { AsyncDashboard } from 'pages/async';
 
@@ -12,9 +12,10 @@ export default [
   ...search,
   ...hotels,
   ...auth,
-  ...page,
   ...proposals,
   ...booking,
+  ...user,
 
+  ...page,
   ...notFound,
 ];

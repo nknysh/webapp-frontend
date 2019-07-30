@@ -6,13 +6,13 @@ import { StyledLink, Link as PlainLink } from './Link.styles';
 
 const omitProps = omit(['hard', 'onLinkClick']);
 
-export const Link = ({ children, inverse, spaced, bold, ...props }) =>
+export const Link = ({ children, button, inverse, spaced, bold, ...props }) =>
   prop('to', props) ? (
-    <StyledLink data-inverse={inverse} data-spaced={spaced} data-bold={bold} {...omitProps(props)}>
+    <StyledLink data-inverse={inverse} data-button={button} data-spaced={spaced} data-bold={bold} {...omitProps(props)}>
       {children}
     </StyledLink>
   ) : (
-    <PlainLink data-inverse={inverse} data-spaced={spaced} data-bold={bold} {...omitProps(props)}>
+    <PlainLink data-inverse={inverse} data-button={button} data-spaced={spaced} data-bold={bold} {...omitProps(props)}>
       {children}
     </PlainLink>
   );

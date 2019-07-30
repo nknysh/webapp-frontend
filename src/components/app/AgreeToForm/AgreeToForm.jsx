@@ -1,26 +1,12 @@
 import React, { Fragment } from 'react';
-import { path, prop } from 'ramda';
+import { prop } from 'ramda';
 
-import { Form, FormField } from 'components/elements';
-
-import { getFormPath } from 'utils';
+import { Form } from 'components/elements';
 
 import { fields, validation } from 'config/forms/agreeTo';
 
 import { propTypes, defaultProps } from './AgreeToForm.props';
 import { TransferForm } from './AgreeToForm.styles';
-
-const renderField = (name, value, field, { handleChange, handleBlur, errors }, checked) => (
-  <FormField
-    name={name}
-    value={value}
-    checked={checked}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    error={path(getFormPath(name), errors)}
-    {...field}
-  />
-);
 
 export const AgreeToForm = ({ children, renderSubmitButton, className, buttonLabel, ...props }) => (
   <TransferForm className={className}>
@@ -28,7 +14,7 @@ export const AgreeToForm = ({ children, renderSubmitButton, className, buttonLab
     <Form validationSchema={validation} {...props}>
       {({ values, ...formProps }) => (
         <Fragment>
-          {renderField(
+          {Form.renderField(
             'agreeToTerms',
             undefined,
             prop('agreeToTerms', fields),

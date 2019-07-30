@@ -2,8 +2,8 @@ import React, { useState, Fragment, useCallback } from 'react';
 import { compose, path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Form, Loader, Title, FormField } from 'components';
-import { getFormPath, extractFieldDefaults, sanitizeValues, getServerError } from 'utils/form';
+import { Form, Loader, Title } from 'components';
+import { extractFieldDefaults, sanitizeValues, getServerError } from 'utils/form';
 
 import { isSending, isSuccess } from 'store/common';
 
@@ -22,17 +22,6 @@ import {
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
-const renderField = (name, value, field, { handleChange, handleBlur, errors }) => (
-  <FormField
-    name={name}
-    value={value}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    error={path(getFormPath(name), errors)}
-    {...field}
-  />
-);
-
 const renderForm = (t, { formValues, onSubmit }) => (
   <Form
     initialValues={formValues}
@@ -43,7 +32,7 @@ const renderForm = (t, { formValues, onSubmit }) => (
   >
     {({ values, ...formProps }) => (
       <Fragment>
-        {renderField('email', prop('email', values), prop('email', fields), formProps)}
+        {Form.renderField('email', prop('email', values), prop('email', fields), formProps)}
         <Actions>
           <SubmitButton type="submit">
             <SubmitText>{t('buttons.passwordReset')}</SubmitText>

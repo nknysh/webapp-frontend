@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { theme, breakpoints } from 'styles';
+import { theme, breakpoints, buttonStyles } from 'styles';
 
 export const linkStyles = css`
   cursor: pointer;
@@ -29,11 +29,21 @@ export const linkStyles = css`
         border-radius: ${theme.borderRadius}px;
       `}
 
-      ${({ ['data-bold']: bold }) =>
-        bold &&
+      ${({ ['data-bold']: bold, ['data-active']: active }) =>
+        (bold || active) &&
         css`
           font-weight: ${theme.fonts.bold};
         `}
+    `}
+
+  ${({ ['data-button']: button }) =>
+    button &&
+    css`
+      ${buttonStyles};
+      background: ${theme.light};
+      display: block;
+      text-align: center;
+      margin-bottom: ${theme.gutter * 2}px;
     `}
 `;
 export const Link = styled.a`

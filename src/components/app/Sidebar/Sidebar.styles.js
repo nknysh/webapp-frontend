@@ -13,8 +13,7 @@ const sidebarUl = css`
   margin: 0;
   transition: ${theme.defaultTransition};
   position: absolute;
-  left: -${sidebarGutter};
-  right: -${sidebarGutter};
+  width: 100%;
   padding: ${theme.gutter}px ${sidebarGutter};
   margin-top: -${doubleSpaced}px;
 
@@ -28,6 +27,12 @@ const sidebarUl = css`
 
   ${breakpoints.tablet`
     box-shadow: 0 0 0;
+    position: relative;
+    top: unset;
+    right: unset;
+    left: unset;
+    padding-left: 0;
+    padding-right: 0;
 
     ${({ isOpen }) =>
       !isOpen &&

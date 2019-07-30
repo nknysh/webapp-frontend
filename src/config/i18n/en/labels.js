@@ -52,6 +52,7 @@ export default {
   in: 'Inbound',
   notReady: 'Booking Not Ready',
   termsAndConditions: 'Terms and Conditions',
+  currentPassword: 'Current password',
   password: 'Password',
   repeatPassword: 'Repeat password',
   rememberMe: 'Remember me',
@@ -196,4 +197,9 @@ export default {
 
   logout: 'Logout',
   settings: 'Settings',
+
+  profileDetails: 'Profile Details',
+  companyDetails: 'Company Details',
+
+  receiveEmailAlerts: 'Receive Email Alerts',
 };

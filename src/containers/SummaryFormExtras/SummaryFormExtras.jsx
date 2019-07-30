@@ -41,6 +41,7 @@ import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch, Button } fr
 
 import { ProductTypes } from 'config/enums';
 import { useModalState, useFetchData } from 'effects';
+import { withUser } from 'hoc';
 import { isString, mapWithIndex } from 'utils';
 
 import connect from './SummaryFormExtras.state';
@@ -603,4 +604,7 @@ export const SummaryFormExtras = ({
 SummaryFormExtras.propTypes = propTypes;
 SummaryFormExtras.defaultProps = defaultProps;
 
-export default compose(connect)(SummaryFormExtras);
+export default compose(
+  connect,
+  withUser
+)(SummaryFormExtras);

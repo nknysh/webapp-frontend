@@ -5,6 +5,7 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
 import { Loader, Tabs, List } from 'components';
+import { withUser } from 'hoc';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 
 import connect from './HotelContainer.state';
@@ -185,5 +186,6 @@ HotelContainer.defaultProps = defaultProps;
 
 export default compose(
   connect,
-  withRouter
+  withRouter,
+  withUser
 )(HotelContainer);

@@ -1,21 +1,24 @@
 import styled, { css } from 'styled-components';
 
 import { theme } from 'styles';
-import { BookingStatusTypes } from 'config/enums';
+import { BookingStatusTypes, UserStatusTypes } from 'config/enums';
 
 const statusStyles = type => {
   switch (type) {
     case BookingStatusTypes.CANCELLED:
+    case UserStatusTypes.REJECTED:
       return css`
         background-color: ${theme.cancelled};
       `;
 
     case BookingStatusTypes.REQUESTED:
+    case UserStatusTypes.ACCEPTED:
       return css`
         background-color: ${theme.requested};
       `;
 
     case BookingStatusTypes.CONFIRMED:
+    case UserStatusTypes.VERIFIED:
       return css`
         background-color: ${theme.confirmed};
       `;

@@ -13,6 +13,7 @@ export default {
     resetYourPasswordComplete: 'Help is on the way - check your inbox!',
     setPassword: 'Set your password',
     setPasswordComplete: 'Password has been reset',
+    updateYourPassword: 'Update your password',
   },
   errors: {
     required: 'This field is required',

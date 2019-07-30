@@ -33,4 +33,6 @@ export default {
   bookingConfirm: 'Confirm booking',
   cancelBooking: 'Cancel Booking',
   requestBooking: 'Request Booking',
+  updateDetails: 'Update Details',
+  updatePassword: 'Update Password',
 };
