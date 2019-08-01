@@ -1,12 +1,13 @@
-import { prop, propEq, omit, propOr } from 'ramda';
+import { prop, propEq, omit, propOr, mergeDeepLeft, equals } from 'ramda';
 import { FORBIDDEN } from 'http-status';
 
 import client from 'api/auth';
 import userClient from 'api/users';
-import { UserStatusTypes } from 'config/enums';
+import { UserStatusTypes, AuthTypes } from 'config/enums';
 
 import { genericAction, successAction, errorAction, errorFromResponse, storeReset } from 'store/common';
 import { enqueueNotification } from 'store/modules/ui/actions';
+import { getCurrentUserType } from './selectors';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_CHECK = 'AUTH_CHECK';
@@ -178,13 +179,19 @@ export const setPassword = values => async dispatch => {
   }
 };
 
-export const authCheck = () => async dispatch => {
+export const authCheck = params => async (dispatch, getState) => {
   dispatch(genericAction(AUTH_CHECK));
+
+  const role = getCurrentUserType(getState());
+
+  const authParams = mergeDeepLeft(params, {
+    associations: equals(AuthTypes.TA, role) ? 'assignedSalesRepresentatives' : 'assignedTravelAgents',
+  });
 
   try {
     const {
       data: { data },
-    } = await userClient.me();
+    } = await userClient.me(authParams);
     dispatch(successAction(AUTH_CHECK, { user: { ...data } }));
     persistUser(dispatch, data);
   } catch (e) {

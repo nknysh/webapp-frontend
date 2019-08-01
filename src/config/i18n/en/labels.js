@@ -202,4 +202,7 @@ export default {
   companyDetails: 'Company Details',
 
   receiveEmailAlerts: 'Receive Email Alerts',
+
+  accountRep: 'Your Pure Escapes Representative',
+  accountStatus: 'Your Account Status',
 };

@@ -1,17 +1,23 @@
 import React, { useCallback, useMemo, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
-import { prop, compose, pick, keys } from 'ramda';
+import { prop, compose, pick, keys, equals, propOr, pipe, props, join, isEmpty, map } from 'ramda';
 import { Grid } from '@material-ui/core';
 
 import { Form, Section, Button, Status, Loader, Link } from 'components';
 import { withAuthentication, withUser } from 'hoc';
 
+import { AuthTypes } from 'config/enums';
 import { fields, validation } from 'config/forms/settings';
 
 import connect from './SettingsForm.state';
 import { propTypes, defaultProps } from './SettingsForm.props';
 import { Settings, Title } from './SettingsForm.styles';
 import { isActive } from 'store/common';
+
+const mapRep = pipe(
+  props(['title', 'firstName', 'lastName']),
+  join(' ')
+);
 
 const renderForm = (t, { formValues, onSubmit }) => (
   <Form initialValues={formValues} onSubmit={onSubmit} enableReinitialize={true} validationSchema={validation}>
@@ -33,7 +39,7 @@ const renderForm = (t, { formValues, onSubmit }) => (
 export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
   const { t } = useTranslation();
 
-  const { uuid, status } = user;
+  const { uuid, status, type } = user;
 
   const onSubmit = useCallback(
     values => {
@@ -43,6 +49,12 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
   );
 
   const formValues = useMemo(() => pick(keys(fields), user), [user]);
+  const assignedKey = useMemo(
+    () => (equals(AuthTypes.TA, type) ? 'assignedSalesRepresentatives' : 'assignedTravelAgents'),
+    [type]
+  );
+
+  const assigned = propOr([], assignedKey, user);
 
   return (
     <Settings>
@@ -55,8 +67,8 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
           <Grid item xs={12} sm={6}>
             {!isSr && (
               <Fragment>
-                <Section label="Your Pure Escapes Representative">Mr Sales Rep</Section>
-                <Section label="Your Account Status">
+                {!isEmpty(assigned) && <Section label={t('labels.accountRep')}>{map(mapRep, assigned)}</Section>}
+                <Section label={t('labels.accountStatus')}>
                   <Status data-status={status}>{status}</Status>
                 </Section>
               </Fragment>

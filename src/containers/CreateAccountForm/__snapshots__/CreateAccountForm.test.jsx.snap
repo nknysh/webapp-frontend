@@ -12,6 +12,7 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
     </Title>
     <CreateAccountFormstyles__ServerErrorContent />
     <Form
+      fields={Array []}
       initialValues={
         Object {
           "agreeToTerms": false,

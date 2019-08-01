@@ -55,6 +55,11 @@ export const getCurrentUserUuid = createSelector(
   prop('uuid')
 );
 
+export const getCurrentUserType = createSelector(
+  getCurrentUser,
+  prop('type')
+);
+
 export const isAuthenticated = createSelector(
   getAuthToken,
   Boolean
