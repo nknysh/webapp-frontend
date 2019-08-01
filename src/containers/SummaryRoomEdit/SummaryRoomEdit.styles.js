@@ -8,6 +8,7 @@ export const DatePrice = styled.div`
   color: ${theme.colors.black};
   font-weight: ${theme.fonts.normal};
   margin-top: ${theme.gutter / 2}px;
+  word-break: break-all;
 `;
 
 export const EditForm = styled.section`
