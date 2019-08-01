@@ -100,6 +100,13 @@ exports[`<App /> render matches snapshot 1`] = `
         render={[Function]}
       />
       <Route
+        auth={true}
+        key="8fdf46ed087281dd3b50712d360ef51138a968b5"
+        name="User"
+        path="/settings/:section?"
+        render={[Function]}
+      />
+      <Route
         exact={true}
         key="f8523930459db6784973f5c9dde9dba62842916d"
         name="Content Pages"

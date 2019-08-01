@@ -2,8 +2,8 @@ import React, { useState, Fragment, useCallback } from 'react';
 import { compose, prop, path } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Form, Loader, Title, FormFieldError, FormField } from 'components';
-import { getServerError, extractFieldDefaults, sanitizeValues, getFormPath } from 'utils/form';
+import { Form, Loader, Title } from 'components';
+import { getServerError, extractFieldDefaults, sanitizeValues } from 'utils/form';
 
 import { fields, validation, data } from 'config/forms/createAccount';
 
@@ -28,19 +28,6 @@ import {
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
-const renderFormError = error => error && <FormFieldError>{error}</FormFieldError>;
-
-const renderField = (name, value, field, { handleChange, handleBlur, errors }) => (
-  <FormField
-    name={name}
-    value={value}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    error={path(getFormPath(name), errors)}
-    {...field}
-  />
-);
-
 const renderForm = (t, { formValues, onSubmit }) => (
   <Form
     initialValues={formValues}
@@ -53,13 +40,13 @@ const renderForm = (t, { formValues, onSubmit }) => (
       <Fragment>
         <Columns>
           <Column>
-            {renderField('title', prop('title', values), prop('title', fields), formProps)}
-            {renderField('firstName', prop('firstName', values), prop('firstName', fields), formProps)}
-            {renderField('lastName', prop('lastName', values), prop('lastName', fields), formProps)}
-            {renderField('email', prop('email', values), prop('email', fields), formProps)}
+            {Form.renderField('title', prop('title', values), prop('title', fields), formProps)}
+            {Form.renderField('firstName', prop('firstName', values), prop('firstName', fields), formProps)}
+            {Form.renderField('lastName', prop('lastName', values), prop('lastName', fields), formProps)}
+            {Form.renderField('email', prop('email', values), prop('email', fields), formProps)}
           </Column>
           <Column>
-            {renderField(
+            {Form.renderField(
               'isExistingPartner',
               prop('isExistingPartner', values),
               { ...prop('isExistingPartner', fields), className: 'existing-partners' },
@@ -67,13 +54,13 @@ const renderForm = (t, { formValues, onSubmit }) => (
             )}
             <InnerRows>
               <InnerRow>
-                {renderField(
+                {Form.renderField(
                   'companySignupInfo[name]',
                   path(['companySignupInfo', 'name'], values),
                   path(['companySignupInfo', 'name'], fields),
                   formProps
                 )}
-                {renderField(
+                {Form.renderField(
                   'companySignupInfo[countryCode]',
                   path(['companySignupInfo', 'countryCode'], values),
                   path(['companySignupInfo', 'countryCode'], fields),
@@ -81,8 +68,13 @@ const renderForm = (t, { formValues, onSubmit }) => (
                 )}
               </InnerRow>
               <InnerRow>
-                {renderField('phoneNumber', prop('phoneNumber', values), prop('phoneNumber', fields), formProps)}
-                {renderField('mobileNumber', prop('mobileNumber', values), prop('mobileNumber', fields), formProps)}
+                {Form.renderField('phoneNumber', prop('phoneNumber', values), prop('phoneNumber', fields), formProps)}
+                {Form.renderField(
+                  'mobileNumber',
+                  prop('mobileNumber', values),
+                  prop('mobileNumber', fields),
+                  formProps
+                )}
               </InnerRow>
             </InnerRows>
             <StyledCheckbox
@@ -92,7 +84,7 @@ const renderForm = (t, { formValues, onSubmit }) => (
               onChange={prop('handleChange', formProps)}
               onBlur={prop('handleBlur', formProps)}
             >
-              {renderFormError(path(['errors', 'agreeToTerms'], formProps))}
+              {Form.renderFieldError(path(['errors', 'agreeToTerms'], formProps))}
             </StyledCheckbox>
           </Column>
         </Columns>

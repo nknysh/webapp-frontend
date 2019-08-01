@@ -33,6 +33,7 @@ import {
   Container,
 } from 'components';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
+import { withUser } from 'hoc';
 import { formatDate } from 'utils';
 
 import { Button } from 'components';
@@ -390,4 +391,7 @@ export const BookingContainer = ({
 BookingContainer.propTypes = propTypes;
 BookingContainer.defaultProps = defaultProps;
 
-export default compose(connect)(BookingContainer);
+export default compose(
+  withUser,
+  connect
+)(BookingContainer);

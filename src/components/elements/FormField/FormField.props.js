@@ -4,7 +4,7 @@ import Input from 'components/elements/Input';
 
 export const propTypes = {
   label: PropTypes.string,
-  Component: PropTypes.func,
+  Component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
 };
 
 export const defaultProps = {

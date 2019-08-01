@@ -3,9 +3,7 @@ import React from 'react';
 import i18n from 'config/i18n';
 import { Loader } from 'components/elements';
 
-import auth from 'routing/common/auth';
-import booking from 'routing/common/booking';
-import proposals from 'routing/common/proposals';
+import { auth, booking, proposals, user } from 'routing/common';
 
 import { ADMIN_BASE_URL } from 'config';
 
@@ -13,6 +11,8 @@ export default [
   ...auth,
   ...booking,
   ...proposals,
+  ...user,
+
   {
     name: 'Redirect to Admin',
     // eslint-disable-next-line react/display-name

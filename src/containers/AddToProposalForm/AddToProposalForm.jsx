@@ -1,10 +1,10 @@
 import React, { useState, Fragment, useCallback } from 'react';
-import { path, prop, propEq, compose, over, lensPath, append } from 'ramda';
+import { prop, propEq, compose, over, lensPath, append } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
 import { useFetchData, useEffectBoundary } from 'effects';
-import { FormField, Form, Title, Loader } from 'components';
-import { extractFieldDefaults, getFormPath } from 'utils/form';
+import { Form, Title, Loader } from 'components';
+import { extractFieldDefaults } from 'utils/form';
 import { isSuccess } from 'store/common';
 
 import { propTypes, defaultProps } from './AddToProposalForm.props';
@@ -14,17 +14,6 @@ import connect from './AddToProposalForm.state';
 import { fields, validation, data } from 'config/forms/addToProposal';
 
 const isNewProposal = propEq('proposalId', 'new');
-
-const renderField = (name, value, field, { handleChange, handleBlur, errors }) => (
-  <FormField
-    name={name}
-    value={value}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    error={path(getFormPath(name), errors)}
-    {...field}
-  />
-);
 
 export const AddToProposalForm = ({
   addToProposal,
@@ -84,12 +73,12 @@ export const AddToProposalForm = ({
         {({ values, ...formProps }) => (
           <Fragment>
             <Loader isLoading={!loaded}>
-              {renderField('proposalId', prop('proposalId', values), prop('proposalId', proposalId), formProps)}
+              {Form.renderField('proposalId', prop('proposalId', values), prop('proposalId', proposalId), formProps)}
             </Loader>
             {isNewProposal(values) &&
-              renderField('proposalName', prop('proposalName', values), prop('proposalName', fields), formProps)}
+              Form.renderField('proposalName', prop('proposalName', values), prop('proposalName', fields), formProps)}
             {availableToHold &&
-              renderField('placeHolds', prop('placeHolds', values), prop('placeHolds', fields), formProps)}
+              Form.renderField('placeHolds', prop('placeHolds', values), prop('placeHolds', fields), formProps)}
             <Actions>
               <SubmitButton type="submit" disabled={disabled}>
                 <SubmitText>{t('buttons.addToProposal')}</SubmitText>

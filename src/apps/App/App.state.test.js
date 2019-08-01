@@ -1,17 +1,9 @@
-import { mapStateToProps, mapDispatchToProps } from './App.state';
+import { mapStateToProps } from './App.state';
 
 describe('App.state', () => {
   describe('mapStateToProps', () => {
     it('returns empty object', () => {
       expect(mapStateToProps()).toEqual({});
     });
-  });
-
-  describe('mapDispatchToProps', () => {
-    const dispatch = jest.fn();
-    const mappedDispatchToProps = mapDispatchToProps(dispatch);
-
-    mappedDispatchToProps.setToken('foo');
-    expect(dispatch).toHaveBeenCalled();
   });
 });

@@ -31,7 +31,7 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
         }
         onLinkClick={[Function]}
       >
-        <withAuthentication(Connect(UserPanel)) />
+        <withAuthentication(withUser(Connect(UserPanel))) />
       </Headerstyles__HeaderMenu>
     </Headerstyles__HeaderMenuArea>
   </Headerstyles__HeaderContainer>
@@ -73,7 +73,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
         }
         onLinkClick={[Function]}
       >
-        <withAuthentication(Connect(UserPanel)) />
+        <withAuthentication(withUser(Connect(UserPanel))) />
       </Headerstyles__HeaderMenu>
     </Headerstyles__HeaderMenuArea>
   </Headerstyles__HeaderContainer>

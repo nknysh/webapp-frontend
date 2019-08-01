@@ -52,6 +52,7 @@ export default {
   in: 'Inbound',
   notReady: 'Booking Not Ready',
   termsAndConditions: 'Terms and Conditions',
+  currentPassword: 'Current password',
   password: 'Password',
   repeatPassword: 'Repeat password',
   rememberMe: 'Remember me',
@@ -193,4 +194,15 @@ export default {
   },
 
   selectAvailableAccomodations: 'Select Available Accomodations',
+
+  logout: 'Logout',
+  settings: 'Settings',
+
+  profileDetails: 'Profile Details',
+  companyDetails: 'Company Details',
+
+  receiveEmailAlerts: 'Receive Email Alerts',
+
+  accountRep: 'Your Pure Escapes Representative',
+  accountStatus: 'Your Account Status',
 };

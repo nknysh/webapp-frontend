@@ -16,10 +16,8 @@ import {
   getBookingCreated,
   getBookingHolds,
 } from 'store/modules/bookings';
-import { isSR } from 'store/modules/auth';
 
 export const mapStateToProps = (state, { id }) => ({
-  isSr: isSR(state),
   booking: getBooking(state, id),
   holds: getBookingHolds(state, id),
   bookingStatus: getBookingStatus(state),

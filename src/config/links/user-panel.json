@@ -1,4 +1,8 @@
 {
+  "settings": {
+    "title": "Settings",
+    "to": "/user"
+  },
   "logout": {
     "title": "Logout"
   }

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { isSR } from 'store/modules/auth';
 import { fetchUsers, getUsersStatus, getUsersEntities, getUserFullName, getUser } from 'store/modules/users';
 import {
   getBookingTotal,
@@ -22,7 +21,6 @@ export const mapStateToProps = (state, { id }) => {
   const travelAgent = getUser(state, travelAgentUserUuid);
 
   return {
-    isSr: isSR(state),
     addons: getBookingAddons(state, id),
     groundServices: getBookingGroundServices(state, id),
     transfers: getBookingTransfers(state, id),

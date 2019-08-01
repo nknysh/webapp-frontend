@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom';
 import { compose, path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Form, Loader, Title, FormField, Button } from 'components';
-import { sanitizeValues, getFormPath, extractFieldDefaults, getServerError } from 'utils/form';
+import { Form, Loader, Title, Button } from 'components';
+import { sanitizeValues, extractFieldDefaults, getServerError } from 'utils/form';
 
 import { isSending, isSuccess } from 'store/common';
 
@@ -16,17 +16,6 @@ import { StyledSetPasswordForm, Actions, SubmitText, ServerErrorContent } from '
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
-const renderField = (name, value, field, { handleChange, handleBlur, errors }) => (
-  <FormField
-    name={name}
-    value={value}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    error={path(getFormPath(name), errors)}
-    {...field}
-  />
-);
-
 const renderForm = (t, { formValues, onSubmit }) => (
   <Form
     initialValues={formValues}
@@ -37,8 +26,13 @@ const renderForm = (t, { formValues, onSubmit }) => (
   >
     {({ values, ...formProps }) => (
       <Fragment>
-        {renderField('password', prop('password', values), prop('password', fields), formProps)}
-        {renderField('passwordConfirm', prop('passwordConfirm', values), prop('passwordConfirm', fields), formProps)}
+        {Form.renderField('password', prop('password', values), prop('password', fields), formProps)}
+        {Form.renderField(
+          'passwordConfirm',
+          prop('passwordConfirm', values),
+          prop('passwordConfirm', fields),
+          formProps
+        )}
         <Actions>
           <Button type="submit">
             <SubmitText>{t('buttons.submit')}</SubmitText>

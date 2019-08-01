@@ -1,19 +1,15 @@
 import React, { useState, useCallback } from 'react';
-import { compose, map, lensPath, set, values, equals } from 'ramda';
+import { compose, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import userPanelLinks from 'config/links/user-panel';
-
 import { DropDownMenu } from 'components';
-import { withAuthentication } from 'hoc';
+import { withAuthentication, withUser } from 'hoc';
 
 import { isSending } from 'store/common';
 
 import connect from './UserPanel.state';
 import { propTypes, defaultProps } from './UserPanel.props';
 import { StyledUserPanel, Text, Country, CountrySelect, Link } from './UserPanel.styles';
-
-const logoutClickLens = lensPath(['logout', 'onClick']);
 
 // eslint-disable-next-line
 const renderLink = ({ title, ...props }) => (
@@ -24,7 +20,7 @@ const renderLink = ({ title, ...props }) => (
 
 export const UserPanel = ({
   isAuthenticated,
-  currentUser,
+  user,
   requestStatus,
   token,
   logOut,
@@ -49,11 +45,9 @@ export const UserPanel = ({
     logOut(token);
   }, [logOut, token]);
 
-  if (!isAuthenticated || !currentUser) return null;
+  if (!isAuthenticated || !user) return null;
 
-  const { firstName, lastName } = currentUser;
-
-  const links = set(logoutClickLens, onLogoutClick, userPanelLinks);
+  const { firstName, lastName } = user;
 
   if (logout && isSending(requestStatus))
     return <DropDownMenu showArrow={false} title={<Text data-placeholder>{t('messages.loggingOut')}</Text>} />;
@@ -72,7 +66,8 @@ export const UserPanel = ({
             Country <CountrySelect value={countryContext} options={countries} onChange={onSetCountry} />
           </Country>
         )}
-        {values(map(renderLink, links))}
+        {renderLink({ title: t('labels.settings'), to: '/settings' })}
+        {renderLink({ title: t('labels.logout'), onClick: onLogoutClick })}
       </DropDownMenu>
     </StyledUserPanel>
   );
@@ -83,5 +78,6 @@ UserPanel.defaultProps = defaultProps;
 
 export default compose(
   withAuthentication,
+  withUser,
   connect
 )(UserPanel);

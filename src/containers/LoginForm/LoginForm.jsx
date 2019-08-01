@@ -3,11 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { compose, prop, propOr, defaultTo, path, pipe } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { Form, Loader, Title, FormField, FormFieldError, Button } from 'components';
+import { Form, Loader, Title, Button } from 'components';
 import PasswordResetForm from 'containers/PasswordResetForm';
 import { withAuthentication } from 'hoc';
 
-import { getFormPath, extractFieldDefaults, sanitizeValues, getServerError, parseQueryString } from 'utils';
+import { extractFieldDefaults, sanitizeValues, getServerError, parseQueryString } from 'utils';
 
 import { isSending, isSuccess } from 'store/common';
 
@@ -34,19 +34,6 @@ const originRedirect = pipe(
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
-const renderFormError = error => error && <FormFieldError>{error}</FormFieldError>;
-
-const renderField = (name, value, field, { handleChange, handleBlur, errors }) => (
-  <FormField
-    name={name}
-    value={value}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    error={path(getFormPath(name), errors)}
-    {...field}
-  />
-);
-
 const renderForm = (t, { formValues, onSubmit, onForgottenClick }) => (
   <Form
     initialValues={formValues}
@@ -57,8 +44,8 @@ const renderForm = (t, { formValues, onSubmit, onForgottenClick }) => (
   >
     {({ values, ...formProps }) => (
       <Fragment>
-        {renderField('email', prop('email', values), prop('email', fields), formProps)}
-        {renderField('password', prop('password', values), prop('password', fields), formProps)}
+        {Form.renderField('email', prop('email', values), prop('email', fields), formProps)}
+        {Form.renderField('password', prop('password', values), prop('password', fields), formProps)}
         <StyledCheckbox
           name="rememberMe"
           label={path(['rememberMe', 'label'], fields)}
@@ -66,7 +53,7 @@ const renderForm = (t, { formValues, onSubmit, onForgottenClick }) => (
           onChange={prop('handleChange', formProps)}
           onBlur={prop('handleBlur', formProps)}
         >
-          {renderFormError(path(['errors', 'rememberMe'], formProps))}
+          {Form.renderFieldError(path(['errors', 'rememberMe'], formProps))}
         </StyledCheckbox>
         <Actions>
           <Button type="submit">

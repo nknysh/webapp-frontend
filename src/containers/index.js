@@ -25,3 +25,5 @@ export { default as SummaryRoomEdit } from './SummaryRoomEdit';
 export { default as UserPanel } from './UserPanel';
 export { default as SearchResult } from './SearchResult';
 export { default as Offer } from './Offer';
+export { default as SettingsForm } from './SettingsForm';
+export { default as SettingsPasswordForm } from './SettingsPasswordForm';

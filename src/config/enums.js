@@ -51,3 +51,10 @@ export const Occassions = Object.freeze({
   BIRTHDAY: 'birthday',
   ANNIVERSARY: 'anniversary',
 });
+
+export const UserStatusTypes = Object.freeze({
+  PENDING: 'pending',
+  REJECTED: 'rejected',
+  ACCEPTED: 'accepted',
+  VERIFIED: 'verified',
+});

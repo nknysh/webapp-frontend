@@ -12,6 +12,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
     </Title>
     <LoginFormstyles__ServerErrorContent />
     <Form
+      fields={Array []}
       initialValues={
         Object {
           "email": "",
