@@ -571,7 +571,13 @@ export const SummaryFormExtras = ({
   return (
     <Fragment>
       {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false)}
-      {renderExtraOptions(t, 'groundService', ProductTypes.GROUND_SERVICE, groundServices, optionsProps)}
+      {renderExtraSelects(t, 'groundService', groundServices, {
+        summaryOnly,
+        onMultipleChange,
+        values,
+        compactEdit,
+        onEditClick,
+      })}
       {renderExtraSelects(t, 'addon', addons, { summaryOnly, onMultipleChange, values, compactEdit, onEditClick })}
       {renderTASelect(t, {
         summaryOnly,
