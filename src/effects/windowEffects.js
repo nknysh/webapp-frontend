@@ -5,7 +5,7 @@ import { useEffectBoundary } from './genericEffects';
 
 export const useCurrentWidth = () => {
   const [currentWidth, setCurrentWidth] = useState(windowExists.innerWidth || 0);
-  const updateWidth = () => setCurrentWidth(windowExists.innerWidth || 0);
+  const updateWidth = useCallback(() => setCurrentWidth(windowExists.innerWidth || 0), []);
 
   useEffectBoundary(() => {
     addEvent('resize', updateWidth);

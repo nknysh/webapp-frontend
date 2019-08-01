@@ -555,11 +555,7 @@ export const SummaryFormExtras = ({
       });
       break;
     case 'groundService':
-      modalContent = renderExtraOptions(t, 'groundService', ProductTypes.GROUND_SERVICE, groundServices, {
-        onOneWayChange,
-        onSingleChange,
-        values,
-      });
+      modalContent = renderExtraSelects(t, 'groundService', groundServices, { onMultipleChange, values });
       break;
     case 'travelAgent':
       modalContent = renderTASelect(t, { isSr, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent });
@@ -571,7 +567,13 @@ export const SummaryFormExtras = ({
   return (
     <Fragment>
       {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false)}
-      {renderExtraOptions(t, 'groundService', ProductTypes.GROUND_SERVICE, groundServices, optionsProps)}
+      {renderExtraSelects(t, 'groundService', groundServices, {
+        summaryOnly,
+        onMultipleChange,
+        values,
+        compactEdit,
+        onEditClick,
+      })}
       {renderExtraSelects(t, 'addon', addons, { summaryOnly, onMultipleChange, values, compactEdit, onEditClick })}
       {renderTASelect(t, {
         summaryOnly,
