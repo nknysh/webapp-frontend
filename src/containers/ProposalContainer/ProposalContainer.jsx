@@ -27,7 +27,7 @@ import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
-import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal, Checkbox, Button } from 'components';
+import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal, Checkbox, Button, Summary } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { formatDate } from 'utils';
 import { fields, data } from 'config/forms/bookingForm';
@@ -39,7 +39,6 @@ import SummaryForm from 'containers/SummaryForm';
 import connect from './ProposalContainer.state';
 import { propTypes, defaultProps } from './ProposalContainer.props';
 import {
-  AddonSummaries,
   Back,
   BookingFormAction,
   BookingFormActions,
@@ -47,8 +46,6 @@ import {
   BookingPathSegment,
   Brochure,
   Chevron,
-  ExtraSummary,
-  ExtraSummaryTitle,
   GuestName,
   PDFFrame,
   Proposal,
@@ -133,15 +130,12 @@ const renderAdditionalResources = (t, { booking, isEdit, onAdditionalResourceCli
 
   return (
     (isEdit || !isEmpty(attachedUploads)) && (
-      <ExtraSummary>
-        <ExtraSummaryTitle>{t(`labels.additionalResources`)}:</ExtraSummaryTitle>
-        <AddonSummaries>
-          {map(
-            partial(renderAdditionalResource, [t, { onAdditionalResourceClick, attachedUploads, isEdit }]),
-            additionalResources
-          )}
-        </AddonSummaries>
-      </ExtraSummary>
+      <Summary title={t(`labels.additionalResources`)}>
+        {map(
+          partial(renderAdditionalResource, [t, { onAdditionalResourceClick, attachedUploads, isEdit }]),
+          additionalResources
+        )}
+      </Summary>
     )
   );
 };

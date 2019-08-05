@@ -59,7 +59,7 @@ export const MarginTotal = styled.div`
     compact &&
     css`
       display: flex;
-      text-align: right;
+      text-align: left;
     `}
 `;
 
@@ -106,4 +106,6 @@ export const ContextMenu = styled(BaseContextMenu)`
   padding: 0 0 0 ${theme.gutter / 2}px;
 `;
 
-export const MarginWrapper = styled.div``;
+export const MarginWrapper = styled.div`
+  margin: 0 ${theme.gutter}px;
+`;

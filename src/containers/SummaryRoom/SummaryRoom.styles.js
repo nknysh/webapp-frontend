@@ -100,43 +100,6 @@ export const Error = styled(RoomRow)`
   color: ${theme.error};
 `;
 
-export const ExtraSummary = styled.div`
-  display: flex;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.46px;
-  line-height: 20px;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 10px 0;
-`;
-
-export const ExtraSummaryTitle = styled.div`
-  width: 23%;
-  font-weight: bold;
-  flex: 1 0 23%;
-`;
-
-export const ExtraSummaryProduct = styled.div`
-  flex: 1 1 100%;
-  margin: 0 10px;
-`;
-
-export const ExtraSummaryTotal = styled.div`
-  ${withCurrency};
-  flex: 1;
-  text-align: right;
-`;
-
-export const AddonSummaries = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const AddonSummary = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-`;
-
 export const Hold = styled.div`
   color: ${theme.error};
   font-size: 10px;
