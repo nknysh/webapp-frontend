@@ -60,7 +60,7 @@ export const SummaryFormMargin = ({
         </Fragment>
       )}
       {checkedOrSummaryOrCompactEdit && (
-        <MarginTotal data-compact={compact}>
+        <MarginTotal data-compact={checkedOrSummaryOrCompactEdit}>
           <MarginWrapper>
             {!compact && t('labels.currentMargin')}{' '}
             {!checked && compactEdit ? (

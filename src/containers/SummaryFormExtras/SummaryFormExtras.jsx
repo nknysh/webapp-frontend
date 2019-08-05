@@ -37,7 +37,7 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch, Button } from 'components';
+import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch, Button, Summary } from 'components';
 
 import { ProductTypes } from 'config/enums';
 import { useModalState, useFetchData } from 'effects';
@@ -48,18 +48,10 @@ import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
 import {
   AddonCheckbox,
-  AddonSummaries,
-  AddonSummary,
   Clear,
   ContextMenu,
   Description,
   Extra,
-  ExtraOffer,
-  ExtraSummary,
-  ExtraSummaryProduct,
-  ExtraSummaryTitle,
-  ExtraSummaryTotal,
-  ExtraSummaryTotals,
   ModalContent,
   OptionLabel,
   OptionOffer,
@@ -161,8 +153,8 @@ const renderOneWayProducts = (t, productType, products, props) =>
 const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, breakdown, selected, ...rest }) =>
   selected
     ? append(
-        <AddonSummary key={join(',', products)}>
-          <ExtraSummaryProduct>
+        <Fragment key={join(',', products)}>
+          <Summary.Product>
             {map(
               ({ product, title, offers }) => (
                 <span key={product}>
@@ -170,9 +162,9 @@ const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, b
                   {!equals(total, totalBeforeDiscount) &&
                     map(
                       ({ offer }) => (
-                        <ExtraOffer key={prop('uuid', offer)} data-discount={true}>
+                        <Summary.Offer key={prop('uuid', offer)} data-discount={true}>
                           {t('offer')}: {prop('name', offer)}
-                        </ExtraOffer>
+                        </Summary.Offer>
                       ),
                       offers
                     )}
@@ -180,14 +172,14 @@ const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, b
               ),
               breakdown
             )}
-          </ExtraSummaryProduct>
-          <ExtraSummaryTotals>
-            <ExtraSummaryTotal data-discount={!equals(total, totalBeforeDiscount)}>{total}</ExtraSummaryTotal>
+          </Summary.Product>
+          <Summary.Totals>
+            <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{total}</Summary.Total>
             {!equals(total, totalBeforeDiscount) && (
-              <ExtraSummaryTotal data-discounted={true}>{totalBeforeDiscount}</ExtraSummaryTotal>
+              <Summary.Total data-discounted={true}>{totalBeforeDiscount}</Summary.Total>
             )}
-          </ExtraSummaryTotals>
-        </AddonSummary>,
+          </Summary.Totals>
+        </Fragment>,
         accum
       )
     : accum;
@@ -205,15 +197,18 @@ const renderExtraOptions = (
 
     return (
       (!isNilOrEmpty(summaries) || compactEdit) && (
-        <ExtraSummary>
-          <ExtraSummaryTitle>{t(`${type}_plural`)}:</ExtraSummaryTitle>
-          <AddonSummaries>{summaries}</AddonSummaries>
-          {compactEdit && (
-            <ContextMenu>
-              <span onClick={() => onEditClick(type, productType, products)}>{t('buttons.edit')}</span>
-            </ContextMenu>
-          )}
-        </ExtraSummary>
+        <Summary
+          title={t(`${type}_plural`)}
+          actions={
+            compactEdit && (
+              <ContextMenu>
+                <span onClick={() => onEditClick(type, productType, products)}>{t('buttons.edit')}</span>
+              </ContextMenu>
+            )
+          }
+        >
+          {summaries}
+        </Summary>
       )
     );
   }
@@ -252,25 +247,22 @@ const renderMargin = (
   { onMarginChange, grandTotal, values, summaryOnly, compact, compactEdit, onEditClick, editGuard, onEditGuard }
 ) => {
   return summaryOnly || compactEdit ? (
-    <ExtraSummary>
-      <ExtraSummaryTitle>{t('labels.commission')}:</ExtraSummaryTitle>
-      <AddonSummaries>
-        <SummaryFormMargin
-          key={Date.now()}
-          checked={propOr(true, 'marginApplied', values)}
-          compact={compact}
-          compactEdit={compactEdit}
-          onChange={onMarginChange}
-          onEditClick={onEditClick}
-          summaryOnly={summaryOnly}
-          editGuard={editGuard}
-          onEditGuard={onEditGuard}
-          total={grandTotal}
-          type={propOr('percentage', 'taMarginType', values)}
-          value={propOr(0, 'taMarginAmount', values)}
-        />
-      </AddonSummaries>
-    </ExtraSummary>
+    <Summary title={t('labels.commission')}>
+      <SummaryFormMargin
+        key={Date.now()}
+        checked={propOr(true, 'marginApplied', values)}
+        compact={compact}
+        compactEdit={compactEdit}
+        onChange={onMarginChange}
+        onEditClick={onEditClick}
+        summaryOnly={summaryOnly}
+        editGuard={editGuard}
+        onEditGuard={onEditGuard}
+        total={grandTotal}
+        type={propOr('percentage', 'taMarginType', values)}
+        value={propOr(0, 'taMarginAmount', values)}
+      />
+    </Summary>
   ) : (
     <Extra>
       <Title>{t('labels.commission')}</Title>
@@ -304,31 +296,31 @@ const renderSelect = (
 
   return summaryOnly || compactEdit ? (
     selected && (
-      <AddonSummary key={uuids}>
-        <ExtraSummaryProduct>
+      <Fragment key={uuids}>
+        <Summary.Product>
           {mapWithIndex(
             ({ title }, i) => (
-              <ExtraSummaryProduct key={i}>{title}</ExtraSummaryProduct>
+              <span key={i}>{title}</span>
             ),
             breakdown
           )}
           {!equals(total, totalBeforeDiscount) &&
             mapWithIndex(
               ({ offer }, i) => (
-                <ExtraOffer key={i} data-discount={true}>
+                <Summary.Offer key={i} data-discount={true}>
                   {t('offer')}: {prop('name', offer)}
-                </ExtraOffer>
+                </Summary.Offer>
               ),
               offers
             )}
-        </ExtraSummaryProduct>
-        <ExtraSummaryTotals>
-          <ExtraSummaryTotal data-discount={!equals(total, totalBeforeDiscount)}>{total}</ExtraSummaryTotal>
+        </Summary.Product>
+        <Summary.Totals>
+          <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{total}</Summary.Total>
           {!equals(total, totalBeforeDiscount) && (
-            <ExtraSummaryTotal data-discounted={true}>{totalBeforeDiscount}</ExtraSummaryTotal>
+            <Summary.Total data-discounted={true}>{totalBeforeDiscount}</Summary.Total>
           )}
-        </ExtraSummaryTotals>
-      </AddonSummary>
+        </Summary.Totals>
+      </Fragment>
     )
   ) : (
     <AddonCheckbox
@@ -347,15 +339,18 @@ const renderExtraSelects = (t, type, products, { summaryOnly, onEditClick, compa
 
   return (summaryOnly && !isEmpty(selectElements)) || compactEdit ? (
     ((summaryOnly && !isNilOrEmpty(filter(propEq('selected', true), products))) || compactEdit) && (
-      <ExtraSummary>
-        <ExtraSummaryTitle>{t(`${type}_plural`)}:</ExtraSummaryTitle>
-        <AddonSummaries>{selectElements}</AddonSummaries>
-        {compactEdit && (
-          <ContextMenu>
-            <span onClick={() => onEditClick(type, type, products)}>{t('buttons.edit')}</span>
-          </ContextMenu>
-        )}
-      </ExtraSummary>
+      <Summary
+        title={t(`${type}_plural`)}
+        actions={
+          compactEdit && (
+            <ContextMenu>
+              <span onClick={() => onEditClick(type, type, products)}>{t('buttons.edit')}</span>
+            </ContextMenu>
+          )
+        }
+      >
+        {selectElements}
+      </Summary>
     )
   ) : (
     <Extra>
@@ -381,15 +376,18 @@ const renderTASelect = (
 ) =>
   isSr &&
   (summaryOnly || compactEdit ? (
-    <ExtraSummary>
-      <ExtraSummaryTitle>{t('travelAgent')}:</ExtraSummaryTitle>
-      <AddonSummaries>{getUserName(prop('uuid', travelAgent))}</AddonSummaries>
-      {compactEdit && (
-        <ContextMenu>
-          <span onClick={() => onEditClick('travelAgent')}>{t('buttons.edit')}</span>
-        </ContextMenu>
-      )}
-    </ExtraSummary>
+    <Summary
+      title={t('travelAgent')}
+      actions={
+        compactEdit && (
+          <ContextMenu>
+            <span onClick={() => onEditClick('travelAgent')}>{t('buttons.edit')}</span>
+          </ContextMenu>
+        )
+      }
+    >
+      {getUserName(prop('uuid', travelAgent))}
+    </Summary>
   ) : (
     <Extra>
       <Title>{t('travelAgent')}</Title>

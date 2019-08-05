@@ -30,45 +30,10 @@ export const Extra = styled.div`
   }
 `;
 
-export const ExtraSummary = styled.div`
-  position: relative;
-  display: flex;
-  font-size: ${theme.fonts.sizes.default}px;
-  text-transform: uppercase;
-  letter-spacing: 0.46px;
-  line-height: 20px;
-  border-bottom: 1px solid ${theme.borders.default};
-  padding: ${theme.gutter * 2}px 0;
-`;
-
-export const ExtraSummaryTitle = styled.div`
-  font-weight: ${theme.fonts.bold};
-  flex: 0 0 140px;
-  width: 140px;
-`;
-
-export const ExtraSummaryProduct = styled.div`
-  flex: 1 1 100%;
-  margin: 0 ${theme.gutter}px;
-`;
-
-export const ExtraSummaryTotal = styled.div`
-  ${withCurrency};
-  ${withDiscountStyles};
-  display: block;
-  text-align: right;
-`;
-
 export const AddonCheckbox = styled(Checkbox)`
   label {
     margin-bottom: ${theme.gutter}px;
   }
-`;
-
-export const AddonSummaries = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 `;
 
 export const AddonSummary = styled.div`
@@ -113,13 +78,4 @@ export const Description = styled.p`
   text-transform: uppercase;
   color: ${theme.secondary};
   line-height: 1.5;
-`;
-
-export const ExtraSummaryTotals = styled.div`
-  flex: 1;
-`;
-
-export const ExtraOffer = styled.span`
-  display: block;
-  ${withDiscountStyles};
 `;
