@@ -39,7 +39,7 @@ import {
   HotelName,
   Rooms,
   Saving,
-  Section,
+  FullTotal,
   StyledModal,
   StyledSummary,
   SummaryFormActions,
@@ -177,7 +177,7 @@ const renderTotal = (
   (!compact || showFullTotal) && (
     <Fragment>
       <Title>{t('labels.totalNet')}</Title>
-      <Section>
+      <FullTotal>
         {renderTotalPrice(t, {
           isOnRequest,
           total: overrideTotal || total,
@@ -198,7 +198,7 @@ const renderTotal = (
           </Text>
         )}
         {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
-      </Section>
+      </FullTotal>
     </Fragment>
   );
 
@@ -416,18 +416,11 @@ export const SummaryForm = ({
   offers,
   offersCount,
   showDiscountedPrice,
+  hotelName,
   ...props
 }) => {
   const { t } = useTranslation();
-  const {
-    marginApplied,
-    taMarginAmount,
-    taMarginType,
-    hotelUuid,
-    hotelName: name,
-    status: bookingStatus,
-    overrideTotal,
-  } = booking;
+  const { marginApplied, taMarginAmount, taMarginType, hotelUuid, status: bookingStatus, overrideTotal } = booking;
 
   const initialValues = {
     marginApplied,
@@ -540,7 +533,7 @@ export const SummaryForm = ({
           showDiscountedPrice,
         })}
         {renderHotel(t, {
-          name,
+          name: hotelName,
           total,
           compact,
           showOriginalTotal,

@@ -1,7 +1,7 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { fetchHotelRoomRatesByDates } from 'store/modules/hotels';
+import { fetchHotelRoomRatesByDates, getHotelName } from 'store/modules/hotels';
 import {
   updateBooking,
   removeRoom,
@@ -32,6 +32,7 @@ export const mapStateToProps = (state, { id }) => ({
   holds: getBookingHolds(state, id),
   offers: getBookingAppliedOffers(state, id),
   offersCount: getBookingAppliedOffersCount(state, id),
+  hotelName: getHotelName(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({
