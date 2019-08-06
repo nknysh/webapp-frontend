@@ -86,9 +86,18 @@ const renderExtra = ({ title, children }) => (
   </Extra>
 );
 
+const wrapOfferToolTip = ({ name, furtherInformation }) =>
+  !isNilOrEmpty(furtherInformation) ? (
+    <ToolTip helpText={true} label={name}>
+      {furtherInformation}
+    </ToolTip>
+  ) : (
+    name
+  );
+
 const renderOptionOffer = (t, { offer }, i) => (
   <OptionOffer key={i + prop('uuid', offer)} data-discount={true}>
-    {t('offer')}: {prop('name', offer)}
+    {t('offer')}: {wrapOfferToolTip(offer)}
   </OptionOffer>
 );
 
@@ -146,7 +155,7 @@ const renderOneWayProducts = (t, productType, products, props) =>
 
 const renderSummaryOffer = (t, { offer }, i) => (
   <Summary.Offer key={i || prop('uuid', offer)} data-discount={true}>
-    {t('offer')}: {prop('name', offer)}
+    {t('offer')}: {wrapOfferToolTip(offer)}
   </Summary.Offer>
 );
 
