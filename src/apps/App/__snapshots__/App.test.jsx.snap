@@ -35,7 +35,6 @@ exports[`<App /> render matches snapshot 1`] = `
         render={[Function]}
       />
       <Route
-        auth={true}
         ignore={true}
         key="389f64b2402428d0673fc85de311e5583f5b534a"
         name="Logout"

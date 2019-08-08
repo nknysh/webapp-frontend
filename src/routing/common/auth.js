@@ -10,7 +10,6 @@ export default [
     name: 'Logout',
     path: '/logout',
     component: AsyncLogout,
-    auth: true,
     ignore: true,
   },
   {
