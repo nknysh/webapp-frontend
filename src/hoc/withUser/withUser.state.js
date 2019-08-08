@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 
-import { isSR, getCurrentUser } from 'store/modules/auth';
+import { isSR, isRL, getCurrentUser } from 'store/modules/auth';
 
 const mapStateToProps = state => ({
   isSr: isSR(state),
+  isRl: isRL(state),
   user: getCurrentUser(state),
 });
 

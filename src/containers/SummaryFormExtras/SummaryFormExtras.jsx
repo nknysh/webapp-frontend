@@ -372,9 +372,9 @@ const renderModal = (t, { modalOpen, modalContent, onClose }) =>
 
 const renderTASelect = (
   t,
-  { summaryOnly, compactEdit, isSr, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent, onEditClick }
+  { summaryOnly, compactEdit, hasTASelect, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent, onEditClick }
 ) =>
-  isSr &&
+  hasTASelect &&
   (summaryOnly || compactEdit ? (
     <Summary
       title={t('travelAgent')}
@@ -418,6 +418,7 @@ export const SummaryFormExtras = ({
   groundServices,
   id,
   isSr,
+  isRl,
   onEditGuard,
   replaceProducts,
   selectedFines,
@@ -432,8 +433,9 @@ export const SummaryFormExtras = ({
   values,
 }) => {
   const { t } = useTranslation();
+  const hasTASelect = isSr && !isRl;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const usersLoaded = isSr && useFetchData(usersStatus, fetchUsers, []);
+  const usersLoaded = hasTASelect && useFetchData(usersStatus, fetchUsers, []);
 
   const compactEdit = !summaryOnly && compact;
 
@@ -557,7 +559,7 @@ export const SummaryFormExtras = ({
       modalContent = renderExtraSelects(t, 'groundService', groundServices, { onMultipleChange, values });
       break;
     case 'travelAgent':
-      modalContent = renderTASelect(t, { isSr, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent });
+      modalContent = renderTASelect(t, { hasTASelect, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent });
       break;
     default:
       modalContent = '';
@@ -577,7 +579,7 @@ export const SummaryFormExtras = ({
       {renderTASelect(t, {
         summaryOnly,
         compactEdit,
-        isSr,
+        hasTASelect,
         usersLoaded,
         getUserName,
         onTASelect,
