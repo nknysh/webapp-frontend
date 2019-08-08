@@ -25,6 +25,8 @@ export default {
       ai: 'All Inclusive',
     },
 
+    'Meal Plan': 'Meal Plan',
+
     buttons,
     content,
     currency,

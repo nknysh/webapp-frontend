@@ -2,9 +2,9 @@ import { createBrowserHistory } from 'history';
 import { path, prop, pipe, pick, lensPath, lensProp, over, map, when, complement, isNil, identity } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
-import { getQuery } from 'utils';
+import { getQuery, parseJson } from 'utils';
 
-import { setSearchQuery } from './actions';
+import { setSearchQuery, SEARCH_BY_QUERY } from './actions';
 
 const history = createBrowserHistory();
 
@@ -27,6 +27,12 @@ const isNotNil = complement(isNil);
 const mapNumbers = when(isNotNil, map(Number));
 const mapSelected = when(isNotNil, map(toBoolean));
 
+const fromLocalStorage = pipe(
+  // Ramda can't invoke getItem properly without the browser throwing a fit
+  key => localStorage.getItem(key),
+  parseJson
+);
+
 const formatData = pipe(
   over(datesFromLens, newDate),
   over(datesToLens, newDate),
@@ -43,18 +49,27 @@ const formatData = pipe(
 const getSearchQuery = pipe(
   prop('location'),
   getQuery,
-  pick(['lodging', 'destination', 'dates', 'suitableForHoneymooners', 'filters', 'occasions', 'repeatGuest']),
-  formatData
+  when(
+    complement(isNilOrEmpty),
+    pipe(
+      pick(['lodging', 'destination', 'dates', 'suitableForHoneymooners', 'filters', 'occasions', 'repeatGuest']),
+      formatData
+    )
+  )
 );
 
 const searchMiddleware = ({ getState }) => next => action => {
   const state = getState();
-  const search = getSearchQuery(history);
+  const localSearch = fromLocalStorage(SEARCH_BY_QUERY);
+  const querySearch = getSearchQuery(history);
 
-  // If the redux key is empty but there is a search in the
-  // query string, then populate the redux store with it
-  if (isNilOrEmpty(path(['search', 'query'], state)) && !isNilOrEmpty(search)) {
-    next(setSearchQuery(search));
+  const searchFromQuery = !isNilOrEmpty(querySearch);
+  const searchFromStorage = !isNilOrEmpty(localSearch);
+
+  // Populate the search keys from either local storage or query string
+  if (isNilOrEmpty(path(['search', 'query'], state)) && (searchFromQuery || searchFromStorage)) {
+    const nextSearch = (searchFromQuery && querySearch) || (searchFromStorage && localSearch);
+    nextSearch && next(setSearchQuery(nextSearch));
   }
 
   next(action);

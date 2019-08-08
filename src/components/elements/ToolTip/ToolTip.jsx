@@ -2,9 +2,9 @@ import React from 'react';
 import { Tooltip } from '@material-ui/core';
 
 import { propTypes, defaultProps } from './ToolTip.props';
-import { StyledToolTip, ToolTipIcon, ToolTipContent } from './ToolTip.styles';
+import { StyledToolTip, ToolTipIcon, ToolTipContent, Label } from './ToolTip.styles';
 
-const ToolTip = ({ className, children, label, ...props }) => (
+const ToolTip = ({ className, children, label, helpText, ...props }) => (
   <StyledToolTip className={className}>
     <Tooltip
       disableFocusListener
@@ -14,7 +14,7 @@ const ToolTip = ({ className, children, label, ...props }) => (
       {...props}
       title={<ToolTipContent>{children}</ToolTipContent>}
     >
-      {label || <ToolTipIcon>info</ToolTipIcon>}
+      {label ? <Label data-highlight={helpText}>{label}</Label> : <ToolTipIcon>info</ToolTipIcon>}
     </Tooltip>
   </StyledToolTip>
 );

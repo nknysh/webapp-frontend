@@ -4,6 +4,7 @@ import {
   any,
   append,
   assoc,
+  assocPath,
   complement,
   concat,
   defaultTo,
@@ -22,13 +23,13 @@ import {
   mapObjIndexed,
   omit,
   over,
-  assocPath,
   partial,
   partialRight,
   path,
   pathEq,
   pathOr,
   pick,
+  pickAll,
   pipe,
   prop,
   propEq,
@@ -659,10 +660,22 @@ export const getBookingAppliedOffersCount = createSelector(
   length
 );
 
-export const getBookingPoliciesAndTerms = createSelector(
-  getPotentialBooking,
-  pipe(
-    values,
-    reducePoliciesAndTerms({ cancellationPolicy: {}, paymentTerms: {} })
+export const getBookingAppliedOffersTerms = createSelector(
+  getBookingAppliedOffers,
+  map(
+    pipe(
+      prop('offer'),
+      pickAll(['name', 'termsAndConditions'])
+    )
   )
+);
+
+export const getBookingPoliciesAndTerms = createSelector(
+  [getPotentialBooking, getBookingAppliedOffersTerms],
+  (potentialBooking, offersTerms) =>
+    pipe(
+      values,
+      reducePoliciesAndTerms({ cancellationPolicy: {}, paymentTerms: {} }),
+      assoc('offersTerms', offersTerms)
+    )(potentialBooking)
 );

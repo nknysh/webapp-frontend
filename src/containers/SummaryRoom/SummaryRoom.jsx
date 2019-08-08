@@ -19,11 +19,12 @@ import {
   reduce,
   values,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
 import { ProductTypes } from 'config/enums';
 
-import { ContextMenu, Countdown } from 'components';
+import { ContextMenu, Countdown, ToolTip } from 'components';
 import {
   replaceAccommodationWithRoom,
   groupErrorsByRoomIndex,
@@ -92,9 +93,18 @@ const renderHold = (t, hold, i) => (
 
 const renderHolds = (t, data) => mapWithIndex(partial(renderHold, [t]), data);
 
+const wrapOfferToolTip = ({ name, furtherInformation }) =>
+  !isNilOrEmpty(furtherInformation) ? (
+    <ToolTip helpText={true} label={name}>
+      {furtherInformation}
+    </ToolTip>
+  ) : (
+    name
+  );
+
 const renderOffer = (t, { offer }, i) => (
   <RoomRow data-discount={true} key={i}>
-    {t('offer')}: {prop('name', offer)}
+    {t('offer')}: {wrapOfferToolTip(offer)}
   </RoomRow>
 );
 
