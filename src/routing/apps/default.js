@@ -1,16 +1,7 @@
-import { auth, page, notFound, search, proposals, booking, user, hotels } from 'routing/common';
-import { AsyncHomeAuthenticated, AsyncHome } from 'pages/async';
+import { auth, page, notFound, search, proposals, booking, user, hotels, root } from 'routing/common';
 
 export default [
-  {
-    name: 'Root Path',
-    path: '/',
-    exact: true,
-    component: AsyncHomeAuthenticated,
-    auth: true,
-    authComponent: AsyncHome,
-    authCheckIgnore: true,
-  },
+  ...root,
 
   // Order is important here
   ...auth,

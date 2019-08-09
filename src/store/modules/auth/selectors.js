@@ -1,11 +1,13 @@
-import { __, propSatisfies, defaultTo, pipe, includes, props, prop } from 'ramda';
+import { __, propSatisfies, defaultTo, pipe, includes, props, prop, equals } from 'ramda';
 
 import { AuthTypes } from 'config/enums';
 import { createSelector } from 'store/utils';
 
+const qualifiesAsSr = ['SR', 'ADMIN', 'RL'];
+
 const srCheck = pipe(
   defaultTo({}),
-  propSatisfies(includes(__, props(['SR', 'ADMIN'], AuthTypes)), 'type')
+  propSatisfies(includes(__, props(qualifiesAsSr, AuthTypes)), 'type')
 );
 
 export const getAuth = prop('auth');
@@ -68,4 +70,9 @@ export const isAuthenticated = createSelector(
 export const isSR = createSelector(
   getCurrentUser,
   srCheck
+);
+
+export const isRL = createSelector(
+  getCurrentUserType,
+  equals(AuthTypes.RL)
 );

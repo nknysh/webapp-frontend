@@ -1,5 +1,7 @@
 import { lazy } from 'react';
 
+export const AsyncAdminRedirect = lazy(() => import('./AdminRedirect'));
+export const AsyncBooking = lazy(() => import('./Booking'));
 export const AsyncContentPage = lazy(() => import('./ContentPage'));
 export const AsyncCreateAccount = lazy(() => import('./CreateAccount'));
 export const AsyncDashboard = lazy(() => import('./Dashboard'));
@@ -14,5 +16,4 @@ export const AsyncPasswordReset = lazy(() => import('./PasswordReset'));
 export const AsyncProposal = lazy(() => import('./Proposal'));
 export const AsyncSearch = lazy(() => import('./Search'));
 export const AsyncSetPassword = lazy(() => import('./SetPassword'));
-export const AsyncBooking = lazy(() => import('./Booking'));
 export const AsyncUser = lazy(() => import('./User'));

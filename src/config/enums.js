@@ -44,6 +44,7 @@ export const AuthTypes = Object.freeze({
   TA: 'ta',
   SR: 'sr',
   ADMIN: 'admin',
+  RL: 'rl',
 });
 
 export const Occassions = Object.freeze({

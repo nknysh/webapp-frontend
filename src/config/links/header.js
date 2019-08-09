@@ -30,6 +30,23 @@ export default {
       hard: true,
     },
   ],
+  rl: [
+    {
+      title: 'Hotels',
+      href: `${ADMIN_BASE_URL}/hotels`,
+      hard: true,
+    },
+    {
+      title: 'Offers',
+      href: `${ADMIN_BASE_URL}/offers`,
+      hard: true,
+    },
+    {
+      title: 'Content',
+      href: `${ADMIN_BASE_URL}/contents`,
+      hard: true,
+    },
+  ],
   sr: [
     {
       title: 'Dashboard',
@@ -57,11 +74,6 @@ export default {
       href: '/',
     },
     {
-      title: 'Content',
-      href: `${ADMIN_BASE_URL}/content`,
-      hard: true,
-    },
-    {
       title: 'Companies',
       href: `${ADMIN_BASE_URL}/companies`,
       hard: true,
@@ -74,6 +86,11 @@ export default {
     {
       title: 'Offers',
       href: `${ADMIN_BASE_URL}/offers`,
+      hard: true,
+    },
+    {
+      title: 'Content',
+      href: `${ADMIN_BASE_URL}/contents`,
       hard: true,
     },
     {
