@@ -3,14 +3,15 @@ import { pipe } from 'ramda';
 
 import { fetchUsers, getUsersStatus, getUsersEntities, getUserFullName, getUser } from 'store/modules/users';
 import {
-  getBookingTotal,
   getBookingAddons,
-  getBookingTransfers,
   getBookingGroundServices,
-  getBookingRequestedTransfers,
+  getBookingReady,
+  getBookingRequestedFines,
   getBookingRequestedGroundServices,
   getBookingRequestedSupplements,
-  getBookingRequestedFines,
+  getBookingRequestedTransfers,
+  getBookingTotal,
+  getBookingTransfers,
   getBookingTravelAgent,
   replaceProducts,
   updateBooking,
@@ -22,18 +23,19 @@ export const mapStateToProps = (state, { id }) => {
 
   return {
     addons: getBookingAddons(state, id),
-    groundServices: getBookingGroundServices(state, id),
-    transfers: getBookingTransfers(state, id),
+    canBook: getBookingReady(state, id),
+    getUser: id => getUser(state, id),
+    getUserName: id => getUserFullName(state, id),
     grandTotal: getBookingTotal(state, id),
-    selectedTransfers: getBookingRequestedTransfers(state, id),
+    groundServices: getBookingGroundServices(state, id),
+    selectedFines: getBookingRequestedFines(state, id),
     selectedGroundServices: getBookingRequestedGroundServices(state, id),
     selectedSupplements: getBookingRequestedSupplements(state, id),
-    selectedFines: getBookingRequestedFines(state, id),
+    selectedTransfers: getBookingRequestedTransfers(state, id),
+    transfers: getBookingTransfers(state, id),
     travelAgent,
-    usersStatus: getUsersStatus(state),
     users: getUsersEntities(state),
-    getUserName: id => getUserFullName(state, id),
-    getUser: id => getUser(state, id),
+    usersStatus: getUsersStatus(state),
   };
 };
 

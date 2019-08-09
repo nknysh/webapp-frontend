@@ -28,13 +28,8 @@ export const Title = styled.h3`
   border-bottom: 1px solid ${theme.borders.default};
 `;
 
-export const Section = styled.div`
+export const FullTotal = styled.div`
   padding: ${theme.gutter * 3}px 0;
-  border-bottom: 1px solid ${theme.borders.default};
-
-  :last-child {
-    border-bottom: 0;
-  }
 `;
 
 export const HotelTotals = styled.div``;

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Loader, Tabs, List } from 'components';
 import { withUser } from 'hoc';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
+import { mapWithIndex } from 'utils';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
@@ -58,7 +59,7 @@ const renderActions = (t, { canBook, canHold, onActionClick, onTakeHold }) => (
 const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
   const {
     hotel: { additionalInfo, policiesAndRestrictions },
-    policiesAndTerms: { paymentTerms, cancellationPolicy },
+    policiesAndTerms: { paymentTerms, cancellationPolicy, offersTerms },
   } = props;
 
   return (
@@ -88,6 +89,22 @@ const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
         <AsideDetails>
           <Title>{t('labels.paymentTerms')}</Title>
           <List>{map(prop('paymentTerms'), values(paymentTerms))}</List>
+        </AsideDetails>
+      )}
+      {!isNilOrEmpty(offersTerms) && (
+        <AsideDetails>
+          <Title>{t('labels.offersTerms')}</Title>
+          <List>
+            {mapWithIndex(
+              ({ name, termsAndConditions }, i) => (
+                <Fragment key={i}>
+                  <span>{name}</span>
+                  <p>{termsAndConditions}</p>
+                </Fragment>
+              ),
+              values(offersTerms)
+            )}
+          </List>
         </AsideDetails>
       )}
       {!isEmpty(brochures) && (

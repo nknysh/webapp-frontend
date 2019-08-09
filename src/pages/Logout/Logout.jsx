@@ -8,11 +8,12 @@ import { Loader } from 'components/elements';
 
 import { propTypes, defaultProps } from './Logout.props';
 
-export const Logout = ({ token, logOut }) => {
+export const Logout = ({ token, isAuthenticated, logOut }) => {
   const { t } = useTranslation();
-  if (!token) return <Redirect to="/login" />;
-
   logOut(token);
+
+  if (!isAuthenticated) return <Redirect to="/login" />;
+
   return <Loader text={t('messages.loggingOut')} />;
 };
 

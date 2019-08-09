@@ -1,6 +1,6 @@
 import { mergeDeepRight, propOr, assocPath } from 'ramda';
 
-import { initialState, loadingReducer, errorReducer, Status } from 'store/common';
+import { initialState, loadingReducer, errorReducer, Status, STORE_RESET } from 'store/common';
 import { createReducer, getSuccessActionName, getLoadingActionName, getErrorActionName } from 'store/utils';
 
 import { SEARCH_BY_NAME, SEARCH_BY_QUERY, SEARCH_QUERY_UPDATE, SEARCH_FILTERS_RESET } from './actions';
@@ -23,6 +23,11 @@ const searchResults = (state, { payload }) => ({
   data: { ...propOr({}, 'data', state), ...payload },
 });
 
+const removeLocalStorage = () => {
+  localStorage.removeItem(SEARCH_BY_NAME);
+  localStorage.removeItem(SEARCH_BY_QUERY);
+};
+
 export default createReducer(
   {
     [SEARCH_QUERY_UPDATE]: setSearchQuery,
@@ -33,6 +38,7 @@ export default createReducer(
     [getLoadingActionName(SEARCH_BY_QUERY)]: loadingReducer,
     [getSuccessActionName(SEARCH_BY_QUERY)]: searchResults,
     [getErrorActionName(SEARCH_BY_QUERY)]: errorReducer,
+    [STORE_RESET]: removeLocalStorage,
   },
   searchState
 );

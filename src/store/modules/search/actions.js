@@ -32,7 +32,6 @@ export const SEARCH_QUERY_UPDATE = 'SEARCH_QUERY_UPDATE';
 export const SEARCH_FILTERS_RESET = 'SEARCH_FILTERS_RESET';
 export const SEARCH_RESULTS = 'SEARCH_RESULTS';
 export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
-
 export const SEARCH_BY_QUERY = 'SEARCH_BY_QUERY';
 
 export const setSearchQuery = payload => ({
@@ -64,6 +63,8 @@ export const searchByName = destination => async (dispatch, getState) => {
 
   searchNameCancelToken && searchNameCancelToken.cancel('New search initiated');
   searchNameCancelToken = createCancelToken();
+
+  localStorage.setItem(SEARCH_BY_NAME, JSON.stringify(destination));
 
   try {
     const {
@@ -110,6 +111,8 @@ export const searchByQuery = query => async (dispatch, getState) => {
     over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
     set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
   )(query);
+
+  localStorage.setItem(SEARCH_BY_QUERY, JSON.stringify(payload));
 
   try {
     const {

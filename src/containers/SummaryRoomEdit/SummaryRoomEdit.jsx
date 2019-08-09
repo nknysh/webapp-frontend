@@ -15,6 +15,7 @@ import {
   pipe,
   prepend,
   prop,
+  propEq,
   propOr,
   toUpper,
   values,
@@ -27,7 +28,7 @@ import { ProductTypes } from 'config/enums';
 
 import { isActive } from 'store/common';
 
-import { RadioButton, Form, FormFieldError, Loader, GuestSelect, OccasionsSelect, Checkbox } from 'components';
+import { RadioButton, Form, FormFieldError, Loader, GuestSelect, OccasionsSelect, Checkbox, ToolTip } from 'components';
 import { useEffectBoundary } from 'effects';
 import {
   formatDate,
@@ -163,9 +164,18 @@ const renderMealPlanOffer = (t, { offer }, i) => (
   </MealPlanRatePriceOffer>
 );
 
-const mapBreakdown = (t, hasSplitRates, { title, dates, total, totalBeforeDiscount, offers }, i) => (
+const wrapProductToolTip = (label, { meta }) =>
+  propEq(isNilOrEmpty, 'description', meta) ? (
+    label
+  ) : (
+    <ToolTip helpText={true} label={label}>
+      {prop('description', meta)}
+    </ToolTip>
+  );
+
+const mapBreakdown = (t, hasSplitRates, { title, dates, total, totalBeforeDiscount, offers, product }, i) => (
   <MealPlanRate key={i}>
-    {title} - (
+    {wrapProductToolTip(title, product)} - (
     <MealPlanRatePrice data-discounted={!equals(total, totalBeforeDiscount)}>{totalBeforeDiscount}</MealPlanRatePrice>
     {!equals(total, totalBeforeDiscount) && (
       <Fragment>

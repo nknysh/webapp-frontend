@@ -1,10 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 
 import { theme, h2Styling } from 'styles';
 
 export const StyledToolTip = styled.div`
-  padding: 0 ${theme.gutter / 2}px;
   display: inline-block;
 
   .tooltip,
@@ -27,6 +26,7 @@ export const StyledToolTip = styled.div`
 
 export const ToolTipIcon = styled(Icon)`
   font-size: ${theme.fonts.sizes.normal}px !important;
+  margin: 0 ${theme.gutter}px;
   cursor: pointer;
 `;
 
@@ -41,4 +41,13 @@ export const ToolTipContent = styled.div`
   border-radius: ${theme.borderRadius}px;
   box-shadow: ${theme.boxShadows.default};
   position: relative;
+`;
+
+export const Label = styled.span`
+  ${({ ['data-highlight']: highlight }) =>
+    highlight &&
+    css`
+      cursor: help;
+      border-bottom: 1px dotted ${theme.borders.default};
+    `}
 `;

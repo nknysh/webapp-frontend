@@ -8,11 +8,7 @@ import {
   compose,
   equals,
   filter,
-  flatten,
-  groupBy,
   gt,
-  has,
-  hasPath,
   head,
   isEmpty,
   join,
@@ -28,16 +24,14 @@ import {
   propEq,
   propOr,
   reduce,
-  reject,
   split,
-  toPairs,
   values as Rvalues,
   when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 
-import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch, Button, Summary } from 'components';
+import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch, Button, Summary, ToolTip } from 'components';
 
 import { ProductTypes } from 'config/enums';
 import { useModalState, useFetchData } from 'effects';
@@ -61,49 +55,65 @@ import {
   TravelAgent,
   TravelAgentName,
 } from './SummaryFormExtras.styles';
+import {
+  productsBothWays,
+  productsOneWay,
+  fromOneWayProducts,
+  toOneWayProducts,
+  extractChosenAddons,
+  toSelectedAddon,
+  groupByProductsUuid,
+} from './SummaryFormExtras.utils';
 
-const hasDirection = hasPath(['meta', 'direction']);
-const productsBothWays = reject(hasDirection);
-const productsOneWay = filter(hasDirection);
+const renderAddonCheckbox = props => <AddonCheckbox {...props} />;
 
-const fromOneWayProducts = (type, data) => {
-  const products = propOr({}, type, data);
-
-  const reduced = pipe(
-    mapObjIndexed((uuids, direction) => map(uuid => ({ uuid, direction }), uuids)),
-    reject(propEq('uuid', '')),
-    Rvalues,
-    flatten
-  )(products);
-
-  return reduced;
-};
-
-const toOneWayProducts = pipe(
-  filter(has('direction')),
-  groupBy(prop('direction')),
-  map(map(prop('uuid')))
+const renderSummaryArea = ({ key, children, total, totalBeforeDiscount }) => (
+  <Fragment key={key}>
+    <Summary.Product>{children}</Summary.Product>
+    <Summary.Totals>
+      <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{total}</Summary.Total>
+      {!equals(total, totalBeforeDiscount) && (
+        <Summary.Total data-discounted={true}>{totalBeforeDiscount}</Summary.Total>
+      )}
+    </Summary.Totals>
+  </Fragment>
 );
 
-const extractChosenAddons = (type, data) =>
-  pipe(
-    prop(type),
-    toPairs,
-    reduce((accum, [uuid, checked]) => (checked ? append(objOf('uuid', uuid), accum) : accum), [])
-  )(data);
+const renderExtra = ({ title, children }) => (
+  <Extra>
+    <Title>{title}</Title>
+    {children}
+  </Extra>
+);
 
-const toSelectedAddon = reduce((accum, { uuid }) => mergeDeepRight({ [uuid]: true }, accum), {});
+const wrapOfferToolTip = ({ name, furtherInformation }) =>
+  !isNilOrEmpty(furtherInformation) ? (
+    <ToolTip helpText={true} label={name}>
+      {furtherInformation}
+    </ToolTip>
+  ) : (
+    name
+  );
 
 const renderOptionOffer = (t, { offer }, i) => (
   <OptionOffer key={i + prop('uuid', offer)} data-discount={true}>
-    {t('offer')}: {prop('name', offer)}
+    {t('offer')}: {wrapOfferToolTip(offer)}
   </OptionOffer>
 );
 
+const wrapProductToolTip = (label, { meta }) =>
+  propEq(isNilOrEmpty, 'description', meta) ? (
+    label
+  ) : (
+    <ToolTip helpText={true} label={label}>
+      {prop('description', meta)}
+    </ToolTip>
+  );
+
 // eslint-disable-next-line
-const renderOption = (t, { total, totalBeforeDiscount, offers, title, quantity = 0, rateUuid }, i) => (
+const renderOption = (t, { total, totalBeforeDiscount, offers, title, product, quantity = 0, rateUuid }, i) => (
   <OptionRate key={rateUuid + i}>
-    {gt(quantity, 1) && `${quantity} x`} {title} (+{' '}
+    {gt(quantity, 1) && `${quantity} x`} {wrapProductToolTip(title, product)} (+{' '}
     <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>{totalBeforeDiscount}</OptionPrice>
     {!equals(total, totalBeforeDiscount) && (
       <Fragment>
@@ -125,64 +135,62 @@ const renderOneWayProduct = (t, productType, { onOneWayChange }, products, uuids
   map(({ breakdown, meta: { direction }, selected }) => {
     const identifier = join('|', [uuids, direction]);
 
-    return (
-      <AddonCheckbox
-        name={productType}
-        checked={selected}
-        onChange={partial(onOneWayChange, [productType])}
-        key={identifier}
-        label={mapWithIndex(partial(renderOneWayOption, [t, direction]), breakdown)}
-        value={identifier}
-      />
-    );
+    return renderAddonCheckbox({
+      name: productType,
+      checked: selected,
+      onChange: partial(onOneWayChange, [productType]),
+      key: identifier,
+      label: mapWithIndex(partial(renderOneWayOption, [t, direction]), breakdown),
+      value: identifier,
+    });
   }, products);
 
 const renderOneWayProducts = (t, productType, products, props) =>
   pipe(
     productsOneWay,
-    groupBy(
-      pipe(
-        prop('products'),
-        map(prop('uuid'))
-      )
-    ),
+    groupByProductsUuid,
     mapObjIndexed(partial(renderOneWayProduct, [t, productType, props])),
     Rvalues
   )(products);
 
-const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, breakdown, selected, ...rest }) =>
+const renderSummaryOffer = (t, { offer }, i) => (
+  <Summary.Offer key={i || prop('uuid', offer)} data-discount={true}>
+    {t('offer')}: {wrapOfferToolTip(offer)}
+  </Summary.Offer>
+);
+
+const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, breakdown, selected, ...props }) =>
   selected
     ? append(
-        <Fragment key={join(',', products)}>
-          <Summary.Product>
-            {map(
-              ({ product, title, offers }) => (
-                <span key={product}>
-                  {title} {path(['meta', 'direction'], rest) && `- ${t(`labels.${path(['meta', 'direction'], rest)}`)}`}
-                  {!equals(total, totalBeforeDiscount) &&
-                    map(
-                      ({ offer }) => (
-                        <Summary.Offer key={prop('uuid', offer)} data-discount={true}>
-                          {t('offer')}: {prop('name', offer)}
-                        </Summary.Offer>
-                      ),
-                      offers
-                    )}
-                </span>
-              ),
-              breakdown
-            )}
-          </Summary.Product>
-          <Summary.Totals>
-            <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{total}</Summary.Total>
-            {!equals(total, totalBeforeDiscount) && (
-              <Summary.Total data-discounted={true}>{totalBeforeDiscount}</Summary.Total>
-            )}
-          </Summary.Totals>
-        </Fragment>,
+        renderSummaryArea({
+          key: join(',', products),
+          total,
+          totalBeforeDiscount,
+          children: (
+            <Fragment>
+              {map(
+                ({ product, title, offers }) => (
+                  <span key={product}>
+                    {wrapProductToolTip(title, product)}{' '}
+                    {path(['meta', 'direction'], props) && `- ${t(`labels.${path(['meta', 'direction'], props)}`)}`}
+                    {!equals(total, totalBeforeDiscount) && map(partial(renderSummaryOffer, [t]), offers)}
+                  </span>
+                ),
+                breakdown
+              )}
+            </Fragment>
+          ),
+        }),
         accum
       )
     : accum;
+
+const getOption = (t, { products, breakdown }) => {
+  const value = join(',', map(prop('uuid'), products));
+  const label = mapWithIndex(partial(renderOption, [t]), breakdown);
+
+  return { label, value };
+};
 
 const renderExtraOptions = (
   t,
@@ -192,6 +200,8 @@ const renderExtraOptions = (
   { onSingleChange, onOneWayChange, summaryOnly, values, compactEdit, onEditClick },
   optional = true
 ) => {
+  if (isNilOrEmpty(products)) return;
+
   if (summaryOnly || compactEdit) {
     const summaries = reduce(partial(renderOptionSummary, [t]), [], products);
 
@@ -213,39 +223,48 @@ const renderExtraOptions = (
     );
   }
 
-  const getOption = ({ products, breakdown }) => {
-    const value = join(',', map(prop('uuid'), products));
-    const label = mapWithIndex(partial(renderOption, [t]), breakdown);
-
-    return { label, value };
-  };
-
   const options = pipe(
     productsBothWays,
-    map(getOption),
+    map(partial(getOption, [t])),
     when(both(complement(isEmpty), always(optional)), prepend({ label: 'None', value: '' }))
   )(products);
 
   return (
-    !isNilOrEmpty(options) && (
-      <Extra>
-        <Title>{t(`${type}_plural`)}</Title>
-        <RadioButton
-          name={productType}
-          onChange={partial(onSingleChange, [productType])}
-          options={options}
-          value={isString(propOr('', productType, values)) && propOr('', productType, values)}
-        />
-        {!summaryOnly && renderOneWayProducts(t, productType, productsOneWay(products), { onOneWayChange })}
-      </Extra>
-    )
+    !isNilOrEmpty(options) &&
+    renderExtra({
+      title: t(`${type}_plural`),
+      children: (
+        <Fragment>
+          <RadioButton
+            name={productType}
+            onChange={partial(onSingleChange, [productType])}
+            options={options}
+            value={isString(propOr('', productType, values)) && propOr('', productType, values)}
+          />
+          {!summaryOnly && renderOneWayProducts(t, productType, productsOneWay(products), { onOneWayChange })}
+        </Fragment>
+      ),
+    })
   );
 };
 
 const renderMargin = (
   t,
-  { onMarginChange, grandTotal, values, summaryOnly, compact, compactEdit, onEditClick, editGuard, onEditGuard }
+  {
+    onMarginChange,
+    grandTotal,
+    values,
+    summaryOnly,
+    compact,
+    compactEdit,
+    onEditClick,
+    editGuard,
+    onEditGuard,
+    canBook,
+  }
 ) => {
+  if (!canBook) return;
+
   return summaryOnly || compactEdit ? (
     <Summary title={t('labels.commission')}>
       <SummaryFormMargin
@@ -264,20 +283,24 @@ const renderMargin = (
       />
     </Summary>
   ) : (
-    <Extra>
-      <Title>{t('labels.commission')}</Title>
-      <SummaryFormMargin
-        checked={propOr(true, 'marginApplied', values)}
-        onChange={onMarginChange}
-        summaryOnly={summaryOnly}
-        total={grandTotal}
-        editGuard={editGuard}
-        onEditGuard={onEditGuard}
-        type={propOr('percentage', 'taMarginType', values)}
-        value={propOr(0, 'taMarginAmount', values)}
-      />
-      <Description>{t('labels.addCommission')}</Description>
-    </Extra>
+    renderExtra({
+      title: t('labels.commission'),
+      children: (
+        <Fragment>
+          <SummaryFormMargin
+            checked={propOr(true, 'marginApplied', values)}
+            onChange={onMarginChange}
+            summaryOnly={summaryOnly}
+            total={grandTotal}
+            editGuard={editGuard}
+            onEditGuard={onEditGuard}
+            type={propOr('percentage', 'taMarginType', values)}
+            value={propOr(0, 'taMarginAmount', values)}
+          />
+          <Description>{t('labels.addCommission')}</Description>
+        </Fragment>
+      ),
+    })
   );
 };
 
@@ -294,70 +317,55 @@ const renderSelect = (
     prop('type')
   )(products);
 
-  return summaryOnly || compactEdit ? (
-    selected && (
-      <Fragment key={uuids}>
-        <Summary.Product>
-          {mapWithIndex(
-            ({ title }, i) => (
-              <span key={i}>{title}</span>
-            ),
-            breakdown
-          )}
-          {!equals(total, totalBeforeDiscount) &&
-            mapWithIndex(
-              ({ offer }, i) => (
-                <Summary.Offer key={i} data-discount={true}>
-                  {t('offer')}: {prop('name', offer)}
-                </Summary.Offer>
-              ),
-              offers
-            )}
-        </Summary.Product>
-        <Summary.Totals>
-          <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{total}</Summary.Total>
-          {!equals(total, totalBeforeDiscount) && (
-            <Summary.Total data-discounted={true}>{totalBeforeDiscount}</Summary.Total>
-          )}
-        </Summary.Totals>
-      </Fragment>
-    )
-  ) : (
-    <AddonCheckbox
-      name={uuids}
-      checked={selected || checked}
-      onChange={partial(onMultipleChange, [productType])}
-      key={uuids}
-      label={<OptionLabel>{mapWithIndex(partial(renderOption, [t]), breakdown)}</OptionLabel>}
-      value={uuids}
-    />
-  );
+  return summaryOnly || compactEdit
+    ? selected &&
+        renderSummaryArea({
+          key: uuids,
+          total,
+          totalBeforeDiscount,
+          children: (
+            <Fragment>
+              {mapWithIndex(
+                ({ title, product }, i) => (
+                  <span key={i}>{wrapProductToolTip(title, product)}</span>
+                ),
+                breakdown
+              )}
+              {!equals(total, totalBeforeDiscount) && mapWithIndex(partial(renderSummaryOffer, [t]), offers)}
+            </Fragment>
+          ),
+        })
+    : renderAddonCheckbox({
+        name: uuids,
+        checked: selected || checked,
+        onChange: partial(onMultipleChange, [productType]),
+        key: uuids,
+        label: <OptionLabel>{mapWithIndex(partial(renderOption, [t]), breakdown)}</OptionLabel>,
+        value: uuids,
+      });
 };
 
 const renderExtraSelects = (t, type, products, { summaryOnly, onEditClick, compactEdit, ...props }) => {
+  if (isNilOrEmpty(products)) return;
+
   const selectElements = map(partial(renderSelect, [t, { summaryOnly, compactEdit, ...props }]), products);
 
-  return (summaryOnly && !isEmpty(selectElements)) || compactEdit ? (
-    ((summaryOnly && !isNilOrEmpty(filter(propEq('selected', true), products))) || compactEdit) && (
-      <Summary
-        title={t(`${type}_plural`)}
-        actions={
-          compactEdit && (
-            <ContextMenu>
-              <span onClick={() => onEditClick(type, type, products)}>{t('buttons.edit')}</span>
-            </ContextMenu>
-          )
-        }
-      >
-        {selectElements}
-      </Summary>
-    )
-  ) : (
-    <Extra>
-      <Title>{t(`${type}_plural`)}</Title>
-      {selectElements}
-    </Extra>
-  );
+  return (summaryOnly && !isEmpty(selectElements)) || compactEdit
+    ? ((summaryOnly && !isNilOrEmpty(filter(propEq('selected', true), products))) || compactEdit) && (
+        <Summary
+          title={t(`${type}_plural`)}
+          actions={
+            compactEdit && (
+              <ContextMenu>
+                <span onClick={() => onEditClick(type, type, products)}>{t('buttons.edit')}</span>
+              </ContextMenu>
+            )
+          }
+        >
+          {selectElements}
+        </Summary>
+      )
+    : renderExtra({ title: t(`${type}_plural`), children: selectElements });
 };
 
 const renderModal = (t, { modalOpen, modalContent, onClose }) =>
@@ -389,27 +397,30 @@ const renderTASelect = (
       {getUserName(prop('uuid', travelAgent))}
     </Summary>
   ) : (
-    <Extra>
-      <Title>{t('travelAgent')}</Title>
-      <Loader isLoading={!usersLoaded} text={t('messages.loadingUsers')}>
-        <IndexSearch
-          placeholder={t('labels.searchForTA')}
-          indexes={['users']}
-          selectors={[getUserName]}
-          onClick={onTASelect}
-        />
-        {!isNilOrEmpty(travelAgent) && (
-          <TravelAgent onClick={onTARemove}>
-            <TravelAgentName>{travelAgent && getUserName(prop('uuid', travelAgent))}</TravelAgentName>{' '}
-            <Clear>clear</Clear>
-          </TravelAgent>
-        )}
-      </Loader>
-    </Extra>
+    renderExtra({
+      title: t('travelAgent'),
+      children: (
+        <Loader isLoading={!usersLoaded} text={t('messages.loadingUsers')}>
+          <IndexSearch
+            placeholder={t('labels.searchForTA')}
+            indexes={['users']}
+            selectors={[getUserName]}
+            onClick={onTASelect}
+          />
+          {!isNilOrEmpty(travelAgent) && (
+            <TravelAgent onClick={onTARemove}>
+              <TravelAgentName>{travelAgent && getUserName(prop('uuid', travelAgent))}</TravelAgentName>{' '}
+              <Clear>clear</Clear>
+            </TravelAgent>
+          )}
+        </Loader>
+      ),
+    })
   ));
 
 export const SummaryFormExtras = ({
   addons,
+  canBook,
   compact,
   editGuard,
   fetchUsers,
@@ -597,6 +608,7 @@ export const SummaryFormExtras = ({
         onEditClick,
         editGuard,
         onEditGuard,
+        canBook,
       })}
       {renderModal(t, { modalOpen, modalContent, onClose, modalContext })}
     </Fragment>
