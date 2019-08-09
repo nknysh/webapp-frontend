@@ -90,7 +90,7 @@ export default {
     },
     {
       title: 'Content',
-      href: `${ADMIN_BASE_URL}/content`,
+      href: `${ADMIN_BASE_URL}/contents`,
       hard: true,
     },
     {
