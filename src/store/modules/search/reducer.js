@@ -23,9 +23,11 @@ const searchResults = (state, { payload }) => ({
   data: { ...propOr({}, 'data', state), ...payload },
 });
 
-const removeLocalStorage = () => {
+const removeLocalStorage = state => {
   localStorage.removeItem(SEARCH_BY_NAME);
   localStorage.removeItem(SEARCH_BY_QUERY);
+
+  return state;
 };
 
 export default createReducer(
