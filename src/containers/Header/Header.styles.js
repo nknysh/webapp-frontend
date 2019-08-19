@@ -52,6 +52,7 @@ export const HeaderLogo = styled(Link)`
   display: block;
   margin: 0 ${theme.gutter * 2}px;
   padding: 0;
+  outline: 0;
 
   ${breakpoints.desktop`
     margin: ${theme.gutter}px;
