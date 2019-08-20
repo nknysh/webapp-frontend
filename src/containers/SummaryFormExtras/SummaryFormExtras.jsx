@@ -23,6 +23,7 @@ import {
   prop,
   propEq,
   propOr,
+  propSatisfies,
   reduce,
   split,
   values as Rvalues,
@@ -102,7 +103,7 @@ const renderOptionOffer = (t, { offer }, i) => (
 );
 
 const wrapProductToolTip = (label, { meta }) =>
-  propEq(isNilOrEmpty, 'description', meta) ? (
+  propSatisfies(isNilOrEmpty, 'description', meta) ? (
     label
   ) : (
     <ToolTip helpText={true} label={label}>

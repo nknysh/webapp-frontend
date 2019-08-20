@@ -12,10 +12,11 @@ import { ErrorBoundary, withUser } from 'hoc';
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 
-export const App = ({ location: { pathname }, user, resetStatuses }) => {
+export const App = ({ location: { pathname }, user, resetStatuses, pageChange }) => {
   useScrollToTop(pathname);
 
   useEffectBoundary(() => {
+    pageChange(pathname);
     resetStatuses();
   }, [pathname]);
 

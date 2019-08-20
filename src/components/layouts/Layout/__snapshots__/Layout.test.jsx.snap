@@ -16,6 +16,10 @@ exports[`<Layout /> render matches snapshot 1`] = `
     >
       <Component />
     </SnackbarProvider>
+    <DriftWidget
+      attributes={Object {}}
+      enabled={true}
+    />
     <Layoutstyles__LayoutHeader
       currentPath=""
     />
