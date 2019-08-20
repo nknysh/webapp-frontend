@@ -8,6 +8,7 @@ import { enqueueNotification } from 'store/modules/ui/actions';
 
 export const STATUS_TO_IDLE = 'STATUS_TO_IDLE';
 export const STORE_RESET = 'STORE_RESET';
+export const PAGE_CHANGE = 'PAGE_CHANGE';
 
 export const resetStatuses = () => ({
   type: STATUS_TO_IDLE,
@@ -72,5 +73,10 @@ export const errorFromResponse = (action, error, defaultMessage) => async dispat
 
 export const genericAction = (type, payload) => ({
   type,
+  payload,
+});
+
+export const pageChange = payload => ({
+  type: PAGE_CHANGE,
   payload,
 });
