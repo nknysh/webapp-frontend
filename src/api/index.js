@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { map, curry } from 'ramda';
 
+import { API_BASE_URL } from 'config';
+
 import middleware from './middleware';
 
-const baseURL = '/api'; // defaultTo('/api', API_BASE_URL);
-
-const client = axios.create({ baseURL });
+const client = axios.create({ API_BASE_URL });
 
 const useInterceptor = curry((type, interceptor) => client.interceptors[type].use(interceptor));
 

@@ -1,9 +1,9 @@
-import { defaultTo, equals, split } from 'ramda';
+import { equals, split } from 'ramda';
 
 export const APP_ENV = process.env.NODE_ENV;
 export const APP_VERBOSE_ERRORS = equals('true', process.env.APP_VERBOSE_ERRORS);
 
-export const API_BASE_URL = defaultTo('/api', process.env.API_BASE_URL);
+export const API_BASE_URL = '/api'; // TODO: once tests fixed, set to process.env.API_BASE_URL
 export const ADMIN_BASE_URL = process.env.ADMIN_BASE_URL;
 
 export const PAYMENT_ENABLED = equals('true', process.env.PAYMENT_ENABLED);
