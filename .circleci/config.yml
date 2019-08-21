@@ -51,9 +51,9 @@ jobs:
       - run:
           name: build react app
           command: npm i && npm run build
-      - run:
-          name: Run tests
-          command: npm run test:ci
+      # - run:
+      #     name: Run tests
+      #     command: npm run test:ci
       - persist_to_workspace:
           root: .
           paths: .
