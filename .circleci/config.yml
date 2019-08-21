@@ -35,6 +35,8 @@ jobs:
       ADMIN_BASE_URL: undefined
       PAYMENT_ENABLED: "false"
       BOOKINGS_ON_REQUEST: "false"
+      DRIFT_APP_ID: undefined
+      DRIFT_ENABLED_ROLES: ta
     steps:
       - checkout
       - persist_to_workspace:
