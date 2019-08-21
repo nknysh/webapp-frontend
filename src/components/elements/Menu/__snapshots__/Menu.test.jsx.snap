@@ -13,12 +13,12 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
       },
       Object {
         "hard": true,
-        "href": "undefined/proposals",
+        "href": "/adminapi/proposals",
         "title": "Proposals",
       },
       Object {
         "hard": true,
-        "href": "undefined/bookings",
+        "href": "/adminapi/bookings",
         "title": "Bookings",
       },
     ]
@@ -35,8 +35,8 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}
-    href="undefined/proposals"
-    key="d0a77c613f3c3ea60710cdc8518e062873244718"
+    href="/adminapi/proposals"
+    key="a0f67a2565e41ba4ddc16523148c8f938ece8ee8"
     onClick={[Function]}
     spaced={true}
   >
@@ -44,8 +44,8 @@ exports[`<Menu /> render matched route is active in snapshot 1`] = `
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}
-    href="undefined/bookings"
-    key="7f45ac3eccc542131a023e9e2d19fcdcbbcc93ed"
+    href="/adminapi/bookings"
+    key="c00bbec074586d35b85b35c8eac656d1b0b45f29"
     onClick={[Function]}
     spaced={true}
   >
@@ -67,12 +67,12 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
       },
       Object {
         "hard": true,
-        "href": "undefined/proposals",
+        "href": "/adminapi/proposals",
         "title": "Proposals",
       },
       Object {
         "hard": true,
-        "href": "undefined/bookings",
+        "href": "/adminapi/bookings",
         "title": "Bookings",
       },
     ]
@@ -89,8 +89,8 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}
-    href="undefined/proposals"
-    key="d0a77c613f3c3ea60710cdc8518e062873244718"
+    href="/adminapi/proposals"
+    key="a0f67a2565e41ba4ddc16523148c8f938ece8ee8"
     onClick={[Function]}
     spaced={true}
   >
@@ -98,8 +98,8 @@ exports[`<Menu /> render matches logged in snapshot 1`] = `
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}
-    href="undefined/bookings"
-    key="7f45ac3eccc542131a023e9e2d19fcdcbbcc93ed"
+    href="/adminapi/bookings"
+    key="c00bbec074586d35b85b35c8eac656d1b0b45f29"
     onClick={[Function]}
     spaced={true}
   >
@@ -121,12 +121,12 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
       },
       Object {
         "hard": true,
-        "href": "undefined/proposals",
+        "href": "/adminapi/proposals",
         "title": "Proposals",
       },
       Object {
         "hard": true,
-        "href": "undefined/bookings",
+        "href": "/adminapi/bookings",
         "title": "Bookings",
       },
     ]
@@ -143,8 +143,8 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}
-    href="undefined/proposals"
-    key="d0a77c613f3c3ea60710cdc8518e062873244718"
+    href="/adminapi/proposals"
+    key="a0f67a2565e41ba4ddc16523148c8f938ece8ee8"
     onClick={[Function]}
     spaced={true}
   >
@@ -152,8 +152,8 @@ exports[`<Menu /> render matches logged out snapshot 1`] = `
   </Menustyles__MenuLink>
   <Menustyles__MenuLink
     data-active={false}
-    href="undefined/bookings"
-    key="7f45ac3eccc542131a023e9e2d19fcdcbbcc93ed"
+    href="/adminapi/bookings"
+    key="c00bbec074586d35b85b35c8eac656d1b0b45f29"
     onClick={[Function]}
     spaced={true}
   >
