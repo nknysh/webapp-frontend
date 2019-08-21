@@ -1,11 +1,9 @@
 import axios from 'axios';
-import { defaultTo, map, curry } from 'ramda';
-
-import { API_BASE_URL } from 'config';
+import { map, curry } from 'ramda';
 
 import middleware from './middleware';
 
-const baseURL = defaultTo('/api', API_BASE_URL);
+const baseURL = '/api'; // defaultTo('/api', API_BASE_URL);
 
 const client = axios.create({ baseURL });
 
