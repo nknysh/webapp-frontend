@@ -1,28 +1,15 @@
-import { prop } from 'ramda';
+import { mergeDeepRight, pick } from 'ramda';
 
-import {
-  initialState as baseInitialState,
-  loadingReducer,
-  errorReducer,
-  successResetReducer,
-  Status,
-} from 'store/common';
+import { initialState, loadingReducer, errorReducer, successResetReducer, Status } from 'store/common';
 import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
-
-import schema from 'store/modules/hotels/schema';
 
 import { HOTEL, HOTEL_ROOMS } from './actions';
 
-const initialState = {
-  ...baseInitialState,
-  id: undefined,
-};
-
-export const setId = (state, { payload }) => ({
-  ...state,
-  status: Status.SUCCESS,
-  id: prop(prop('id', schema), payload),
-});
+export const setId = (state, { payload }) =>
+  mergeDeepRight(state, {
+    status: Status.SUCCESS,
+    data: pick(['result'], payload),
+  });
 
 export default createReducer(
   {
