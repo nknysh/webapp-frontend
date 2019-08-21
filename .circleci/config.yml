@@ -31,8 +31,8 @@ jobs:
       NODE_ENV: development
       APP_ENV: development
       APP_VERBOSE_ERRORS: "false"
-      API_BASE_URL: ''
-      ADMIN_BASE_URL: ''
+      API_BASE_URL: undefined
+      ADMIN_BASE_URL: undefined
       PAYMENT_ENABLED: "false"
       BOOKINGS_ON_REQUEST: "false"
     steps:
