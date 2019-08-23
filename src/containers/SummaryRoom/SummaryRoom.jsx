@@ -21,10 +21,11 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
+import { ToolTip } from '@pure-escapes/webapp-ui-components';
 
 import { ProductTypes } from 'config/enums';
 
-import { ContextMenu, Countdown, ToolTip } from 'components';
+import { ContextMenu } from 'components';
 import {
   replaceAccommodationWithRoom,
   groupErrorsByRoomIndex,
@@ -52,6 +53,7 @@ import {
   Error,
   Hold,
   HoldLabel,
+  HoldCountdown,
 } from './SummaryRoom.styles';
 
 const renderSupplement = (t, { product, title, total, quantity }) => (
@@ -86,9 +88,9 @@ const renderErrors = pipe(
 );
 
 const renderHold = (t, hold, i) => (
-  <Countdown key={i} label={t('labels.expiresIn')} date={propOr(Date.now(), 'expires', hold)}>
+  <HoldCountdown key={i} label={t('labels.expiresIn')} date={propOr(Date.now(), 'expires', hold)}>
     {t('labels.holdExpired')}
-  </Countdown>
+  </HoldCountdown>
 );
 
 const renderHolds = (t, data) => mapWithIndex(partial(renderHold, [t]), data);

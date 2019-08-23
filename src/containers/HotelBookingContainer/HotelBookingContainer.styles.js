@@ -1,11 +1,11 @@
 import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
+import { Markdown, Modal } from '@pure-escapes/webapp-ui-components';
 
-import { default as BaseBookingForm } from 'components/app/BookingForm';
-import { Markdown, Modal } from 'components';
+import { default as BaseBookingForm } from 'components/BookingForm';
 import SummaryForm from 'containers/SummaryForm';
 
-import { theme, breakpoints, withCurrency, Heading2 } from 'styles';
+import { theme, withCurrency, Heading2 } from 'styles';
 
 import {
   StyledBreadcrumbs as BaseStyledBreadcrumbs,
@@ -23,9 +23,9 @@ export const StyledBreadcrumbs = styled(BaseStyledBreadcrumbs)``;
 export const Back = styled(BaseBack)``;
 
 export const Main = styled.main`
-  ${breakpoints.tablet`  
+  ${props => props.theme.breakpoints.tablet`  
     display: flex;
-    margin: ${theme.gutter * 6}px ${theme.gutter}px 0;
+    margin: ${theme.spacing.gutter * 6}px ${theme.spacing.gutter}px 0;
   `}
 `;
 
@@ -36,8 +36,8 @@ export const BookingForm = styled(BaseBookingForm)``;
 export const BookingPath = styled.div`
   background: ${theme.backgrounds.secondary};
   color: ${theme.colors['gold-light']};
-  padding: ${theme.gutter * 2}px;
-  border-bottom: 1px solid ${theme.primary};
+  padding: ${theme.spacing.gutter * 2}px;
+  border-bottom: 1px solid ${theme.palette.primary};
   font-size: ${theme.fonts.sizes.normal}px;
   line-height: 14px;
   font-weight: ${theme.fonts.bold};
@@ -47,7 +47,7 @@ export const BookingPath = styled.div`
 `;
 
 export const Chevron = styled(Icon)`
-  margin: 0 ${theme.gutter * 1.5}px;
+  margin: 0 ${theme.spacing.gutter * 1.5}px;
   font-size: ${theme.fonts.sizes.normal}px !important;
   height: auto !important;
 `;
@@ -58,27 +58,27 @@ export const BookingPathSegment = styled.span`
   ${({ ['data-active']: active }) =>
     active &&
     css`
-      color: ${theme.secondary};
+      color: ${theme.palette.secondary};
     `}
 `;
 
 export const PaymentMethod = styled.div`
-  padding: ${theme.gutter * 4}px 0;
+  padding: ${theme.spacing.gutter * 4}px 0;
 `;
 
 export const StyledModal = styled(Modal)`
   .pay-by {
-    padding: ${theme.gutter * 4}px ${theme.gutter * 2}px;
+    padding: ${theme.spacing.gutter * 4}px ${theme.spacing.gutter * 2}px;
 
-    ${breakpoints.tablet`
-      padding: ${theme.gutter * 8.5}px ${theme.gutter * 10}px;
+    ${props => props.theme.breakpoints.tablet`
+      padding: ${theme.spacing.gutter * 8.5}px ${theme.spacing.gutter * 10}px;
       width: 600px;
     `}
   }
 `;
 
 export const ModalTitle = styled(Heading2)`
-  color: ${theme.secondary};
+  color: ${theme.palette.secondary};
   font-size: ${theme.fonts.sizes.bigger}px;
   font-weight: 500;
   letter-spacing: ${theme.fonts.letterSpacing.medium}px;
@@ -87,15 +87,15 @@ export const ModalTitle = styled(Heading2)`
 
 export const ModalBody = styled.div`
   max-width: 600px;
-  padding: ${theme.gutter * 8.4}px ${theme.gutter * 2}px;
+  padding: ${theme.spacing.gutter * 8.4}px ${theme.spacing.gutter * 2}px;
 
-  ${breakpoints.tablet`
-    padding-left: ${theme.gutter * 10}px;
-    padding-right: ${theme.gutter * 10}px;
+  ${props => props.theme.breakpoints.tablet`
+    padding-left: ${theme.spacing.gutter * 10}px;
+    padding-right: ${theme.spacing.gutter * 10}px;
   `}
 `;
 export const ModalContent = styled(Markdown)`
-  margin-bottom: ${theme.gutter * 6}px;
+  margin-bottom: ${theme.spacing.gutter * 6}px;
 `;
 
 export const Total = styled.span`
@@ -103,12 +103,12 @@ export const Total = styled.span`
 `;
 
 export const FormWrapper = styled.div`
-  margin: ${theme.gutter * 5}px ${theme.gutter * 2}px;
+  margin: ${theme.spacing.gutter * 5}px ${theme.spacing.gutter * 2}px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     flex: 1;
     margin-top: 0;
-    margin-right: ${theme.gutter * 15}px;
+    margin-right: ${theme.spacing.gutter * 15}px;
   `}
 
   ${({ ['data-hidden']: hidden }) =>

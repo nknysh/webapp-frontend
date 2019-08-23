@@ -2,8 +2,8 @@ import React, { useState, Fragment, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, prop, propOr, defaultTo, path, pipe } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Form, Loader, Title, Button } from '@pure-escapes/webapp-ui-components';
 
-import { Form, Loader, Title, Button } from 'components';
 import PasswordResetForm from 'containers/PasswordResetForm';
 import { withAuthentication } from 'hoc';
 

@@ -1,7 +1,7 @@
 import React from 'react';
+import { Loader } from '@pure-escapes/webapp-ui-components';
 
 import i18n from 'config/i18n';
-import { Loader } from 'components';
 
 import { ADMIN_BASE_URL } from 'config';
 

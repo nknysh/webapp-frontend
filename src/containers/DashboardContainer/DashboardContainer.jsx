@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { equals, map, partial, values, prop, compose, isEmpty } from 'ramda';
+import {
+  Loader,
+  Table,
+  TableData,
+  TableDataStatus,
+  TableShowButton,
+  Container,
+} from '@pure-escapes/webapp-ui-components';
 
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
-import { Table, Loader, TableData, TableDataStatus, TableShowButton, Container } from 'components';
 import { useFetchData } from 'effects';
 
 import connect from './DashboardContainer.state';

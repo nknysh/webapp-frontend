@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const StyledSearchBar = styled.div`
-  color: ${theme.primary};
+  color: ${theme.palette.primary};
   background: ${theme.backgrounds.defaultOpacity};
-  padding: ${theme.gutter}px;
-  margin: ${theme.gutter * 10}px 0 0;
+  padding: ${theme.spacing.gutter}px;
+  margin: ${theme.spacing.gutter * 10}px 0 0;
   max-width: none;
   text-align: left;
   display: flex;
@@ -19,10 +19,10 @@ export const StyledSearchBar = styled.div`
     line-height: ${theme.fonts.sizes.normal}px;
   }
 
-  ${breakpoints.desktop`
+  ${props => props.theme.breakpoints.desktop`
     flex-direction: row;
     align-items: flex-end;
-    margin-left: ${theme.gutter * 4}px;
-    margin-right: ${theme.gutter * 4}px;
+    margin-left: ${theme.spacing.gutter * 4}px;
+    margin-right: ${theme.spacing.gutter * 4}px;
   `}
 `;

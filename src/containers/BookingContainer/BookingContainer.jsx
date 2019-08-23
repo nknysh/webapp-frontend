@@ -20,23 +20,22 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
-
 import {
-  Loader,
-  Breadcrumbs,
-  Tabs,
-  Section,
-  DropDownMenu,
-  Modal,
-  BookingConfirmationForm,
-  Markdown,
+  Button,
   Container,
-} from 'components';
+  DropDownMenu,
+  Loader,
+  Markdown,
+  Modal,
+  Section,
+  Tabs,
+} from '@pure-escapes/webapp-ui-components';
+
+import { BookingConfirmationForm, Breadcrumbs } from 'components';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 import { withUser } from 'hoc';
 import { formatDate } from 'utils';
 
-import { Button } from 'components';
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
 import SummaryForm from 'containers/SummaryForm';

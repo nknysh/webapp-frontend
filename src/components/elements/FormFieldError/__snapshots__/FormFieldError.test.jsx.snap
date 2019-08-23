@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<FormFieldError /> render matches snapshot 1`] = `
-<FormFieldErrorstyles__StyledFormFieldError>
-  An error
-</FormFieldErrorstyles__StyledFormFieldError>
-`;

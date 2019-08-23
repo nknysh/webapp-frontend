@@ -2,9 +2,9 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { compose } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Loader } from '@pure-escapes/webapp-ui-components';
 
 import { withAuthentication } from 'hoc';
-import { Loader } from 'components/elements';
 
 import { propTypes, defaultProps } from './Logout.props';
 

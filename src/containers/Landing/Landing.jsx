@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'ramda';
+import { Loader, Container } from '@pure-escapes/webapp-ui-components';
 
-import { Loader, Container } from 'components';
 import LatestOffers from 'containers/LatestOffers';
 import SearchBar from 'containers/SearchBar';
 import { useFetchData } from 'effects';

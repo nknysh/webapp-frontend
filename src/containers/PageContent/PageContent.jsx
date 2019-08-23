@@ -2,10 +2,10 @@ import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { compose, isEmpty } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Loader, Markdown, Sidebar } from '@pure-escapes/webapp-ui-components';
 
 import NotFound from 'pages/NotFound';
 import { useLoading } from 'effects';
-import { Markdown, Sidebar, Loader } from 'components';
 
 import { propTypes, defaultProps } from './PageContent.props';
 import connect from './PageContent.state';
@@ -36,7 +36,7 @@ export const PageContent = ({ pageId, data, links, title, getPage, className, he
   return (
     <Loader isLoading={isLoading}>
       <StyledPageContent className={className}>
-        <Helmet>
+        <Helmet key={title}>
           <title>
             {title || ''} - {t('title')}
           </title>

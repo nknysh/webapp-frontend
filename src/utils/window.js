@@ -16,4 +16,4 @@ export const removeEvent = (event, callback, context = windowExists) => {
   }
 };
 
-export const isMobile = lte(__, path(['breakpoints', 'tablet'], theme));
+export const isMobile = lte(__, path(['breakpointSizes', 'tablet'], theme));

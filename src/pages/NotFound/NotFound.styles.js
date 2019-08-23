@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-
-import { Image } from 'components';
+import { Image } from '@pure-escapes/webapp-ui-components';
 
 import { Heading1 } from 'styles';
 

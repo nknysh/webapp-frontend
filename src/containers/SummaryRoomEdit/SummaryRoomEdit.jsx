@@ -23,12 +23,13 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { isThisMonth } from 'date-fns';
 import { useTranslation } from 'react-i18next';
+import { RadioButton, Form, FormFieldError, Loader, Checkbox, ToolTip } from '@pure-escapes/webapp-ui-components';
 
 import { ProductTypes } from 'config/enums';
 
 import { isActive } from 'store/common';
 
-import { RadioButton, Form, FormFieldError, Loader, GuestSelect, OccasionsSelect, Checkbox, ToolTip } from 'components';
+import { GuestSelect, OccasionsSelect } from 'components';
 import { useEffectBoundary } from 'effects';
 import {
   formatDate,

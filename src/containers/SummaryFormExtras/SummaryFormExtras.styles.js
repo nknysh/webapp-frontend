@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
+import { Checkbox } from '@pure-escapes/webapp-ui-components';
 
-import { Checkbox, ContextMenu as BaseContextMenu } from 'components';
+import { ContextMenu as BaseContextMenu } from 'components';
 import { theme, withCurrency, withDiscountStyles } from 'styles';
 
 export { Title } from 'containers/SummaryForm/SummaryForm.styles';
@@ -23,38 +24,38 @@ export const OptionOffer = styled.span`
 `;
 
 export const Extra = styled.div`
-  margin-bottom: ${theme.gutter * 4}px;
+  margin-bottom: ${theme.spacing.gutter * 4}px;
 
   label {
-    margin-bottom: ${theme.gutter}px;
+    margin-bottom: ${theme.spacing.gutter}px;
   }
 `;
 
 export const AddonCheckbox = styled(Checkbox)`
   label {
-    margin-bottom: ${theme.gutter}px;
+    margin-bottom: ${theme.spacing.gutter}px;
   }
 `;
 
 export const AddonSummary = styled.div`
   display: flex;
-  margin-bottom: ${theme.gutter * 2}px;
+  margin-bottom: ${theme.spacing.gutter * 2}px;
 `;
 
 export const ContextMenu = styled(BaseContextMenu)`
   flex: 0 1;
-  padding: 0 0 0 ${theme.gutter / 2}px;
+  padding: 0 0 0 ${theme.spacing.gutter / 2}px;
 `;
 
 export const ModalContent = styled.div`
   max-width: 600px;
-  padding: ${theme.gutter * 6}px;
+  padding: ${theme.spacing.gutter * 6}px;
 `;
 
 export const TravelAgent = styled.p`
   text-transform: uppercase;
   font-weight: bold;
-  padding: ${theme.gutter}px 0;
+  padding: ${theme.spacing.gutter}px 0;
   font-size: ${theme.fonts.sizes.default}px;
   cursor: pointer;
   display: flex;
@@ -76,6 +77,6 @@ export const Clear = styled(Icon)`
 export const Description = styled.p`
   font-size: ${theme.fonts.sizes.default}px;
   text-transform: uppercase;
-  color: ${theme.secondary};
+  color: ${theme.palette.secondary};
   line-height: 1.5;
 `;

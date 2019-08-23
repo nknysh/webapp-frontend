@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { prop, equals } from 'ramda';
+import { Sidebar, Link, Modal } from '@pure-escapes/webapp-ui-components';
 
-import { Sidebar, Link, Modal } from 'components';
 import { SettingsForm, SettingsPasswordForm } from 'containers';
 
 import { propTypes } from './User.props';

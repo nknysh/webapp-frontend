@@ -1,12 +1,12 @@
 import styled from 'styled-components';
+import { Select } from '@pure-escapes/webapp-ui-components';
 
-import { Select } from 'components/elements';
-import Room from 'components/app/Room';
+import Room from 'components/Room';
 
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const StyledRooms = styled.div`
-  margin: ${theme.gutter}px ${theme.gutter * 2}px;
+  margin: ${theme.spacing.gutter}px ${theme.spacing.gutter * 2}px;
 `;
 
 export const Title = styled.h3`
@@ -15,11 +15,11 @@ export const Title = styled.h3`
   text-transform: uppercase;
   letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 19px;
-  color: ${theme.secondary};
+  color: ${theme.palette.secondary};
   padding: 0;
-  margin: ${theme.gutter}px 0 ${theme.gutter * 2}px;
+  margin: ${theme.spacing.gutter}px 0 ${theme.spacing.gutter * 2}px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     margin-bottom: 0;
   `}
 `;
@@ -27,26 +27,26 @@ export const Title = styled.h3`
 export const Columns = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: ${theme.gutter * 2}px;
-  min-height: ${theme.gutter * 4}px;
+  margin-bottom: ${theme.spacing.gutter * 2}px;
+  min-height: ${theme.spacing.gutter * 4}px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         flex-direction: row;
         align-items: center;
     `}
 `;
 
 export const Column = styled.div`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         width: 50%;
         flex: 1 1 50%;
     `}
 `;
 
 export const RoomsWrapper = styled.div`
-  margin: 0 -${theme.gutter * 2}px;
+  margin: 0 -${theme.spacing.gutter * 2}px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     margin: 0;
   `}
 `;
@@ -59,9 +59,9 @@ export const AmenitiesSelect = styled(Select)`
 `;
 
 export const StyledRoom = styled(Room)`
-  margin: ${theme.gutter * 2}px ${theme.gutter}px;
+  margin: ${theme.spacing.gutter * 2}px ${theme.spacing.gutter}px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     margin-right: 0;
     margin-left: 0;
   `}

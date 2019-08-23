@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
+import { Checkbox } from '@pure-escapes/webapp-ui-components';
 
 import i18n from 'config/i18n';
-import { Checkbox } from 'components/elements';
 
 export default {
   agreeToTerms: {

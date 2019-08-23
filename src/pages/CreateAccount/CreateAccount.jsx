@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback } from 'react';
+import { Modal } from '@pure-escapes/webapp-ui-components';
 
-import { Modal } from 'components';
 import { CreateAccountForm } from 'containers';
 import Home from 'pages/Home';
 

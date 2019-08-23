@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 import { Parallax } from 'react-parallax';
 
-import { theme, breakpoints, h2Styling, h1Styling } from 'styles';
+import { theme, h2Styling, h1Styling } from 'styles';
 
 export const StyledHome = styled.div`
   height: 100%;
@@ -39,10 +39,10 @@ export const HeroShim = styled.div`
 
 export const HomeContainer = styled.div`
   text-align: center;
-  padding: ${theme.gutter * 5}px;
+  padding: ${theme.spacing.gutter * 5}px;
 
-  ${breakpoints.tablet`
-    padding: 120px ${theme.gutter}px;
+  ${props => props.theme.breakpoints.tablet`
+    padding: 120px ${theme.spacing.gutter}px;
     max-width: 600px;
     margin: 0 auto;
   `}
@@ -57,7 +57,7 @@ export const HomeContainer = styled.div`
 
   p,
   .small {
-    color: ${theme.primary};
+    color: ${theme.palette.primary};
   }
 
   .small {

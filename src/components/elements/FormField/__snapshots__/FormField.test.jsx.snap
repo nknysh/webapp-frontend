@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<FormField /> render matches snapshot 1`] = `
-<FormFieldstyles__Field>
-  <Label />
-  <Input />
-</FormFieldstyles__Field>
-`;

@@ -1,8 +1,8 @@
 import React, { Fragment, memo } from 'react';
 import { compose, length, map, defaultTo, prop, toLower } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Loader, Modal } from '@pure-escapes/webapp-ui-components';
 
-import { Loader, Modal } from 'components';
 import SearchResult from 'containers/SearchResult';
 import SearchSidebar from 'containers/SearchSidebar';
 import { useCurrentWidth, useEffectBoundary, useModalState } from 'effects';

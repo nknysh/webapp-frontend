@@ -1,23 +1,21 @@
 import styled from 'styled-components';
+import { Container, Hero } from '@pure-escapes/webapp-ui-components';
 
-import { Container } from 'components';
+import { theme, h3Styling, h2Styling, h4Styling, h5Styling, pStyling } from 'styles';
 
-import { Hero } from 'components';
-import { theme, breakpoints, h3Styling, h2Styling, h4Styling, h5Styling, pStyling } from 'styles';
-
-const fiveSpaced = theme.gutter * 5;
-const doubleSpaced = theme.gutter * 2;
+const fiveSpaced = theme.spacing.gutter * 5;
+const doubleSpaced = theme.spacing.gutter * 2;
 const pageGutter = `${doubleSpaced}px`;
 
 export const StyledPageContent = styled.div`
-  color: ${theme.neutral};
+  color: ${theme.palette.neutral};
   width: 100%;
 `;
 
 export const PageHero = styled(Hero)`
   min-height: 140px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     margin-bottom: ${fiveSpaced}px;
     min-height: 350px;
   `}
@@ -45,7 +43,7 @@ export const PageContentData = styled.div`
   a:visited,
   a:active,
   a:hover {
-    color: ${theme.secondary};
+    color: ${theme.palette.secondary};
     font-weight: ${theme.fonts.bold};
     text-decoration: underline;
     text-transform: uppercase;
@@ -74,24 +72,24 @@ export const PageContentData = styled.div`
     ${pStyling}
     line-height: ${doubleSpaced}px;
     font-size: ${theme.fonts.sizes.normal}px;
-    color: ${theme.neutral};
+    color: ${theme.palette.neutral};
   }
 
   h2 {
     :not(:empty) {
-      margin: ${theme.gutter}px 0 ${doubleSpaced * 2}px;
+      margin: ${theme.spacing.gutter}px 0 ${doubleSpaced * 2}px;
       padding: ${doubleSpaced * 2}px 0;
       border-bottom: 1px solid ${theme.borders.medium};
       font-size: ${theme.fonts.sizes.bigger}px;
     }
 
-    ${breakpoints.tablet`
-      min-height: ${theme.gutter * 6}px;
-      padding: ${theme.gutter}px 0;
+    ${props => props.theme.breakpoints.tablet`
+      min-height: ${theme.spacing.gutter * 6}px;
+      padding: ${theme.spacing.gutter}px 0;
       border-bottom: 1px solid ${theme.borders.medium};
       
       :not(:empty), :empty{
-        padding: ${theme.gutter}px 0;
+        padding: ${theme.spacing.gutter}px 0;
         margin-top: 0;
       }
     `}
@@ -109,17 +107,17 @@ export const PageContentData = styled.div`
       margin: 0;
       padding: 0;
 
-      ${breakpoints.tablet`
+      ${props => props.theme.breakpoints.tablet`
         display: flex;
       `}
 
       li {
         flex: 1 1 50%;
-        margin: 0 0 ${theme.gutter * 4}px;
+        margin: 0 0 ${theme.spacing.gutter * 4}px;
         padding: 0;
 
         h4 {
-          color: ${theme.primary};
+          color: ${theme.palette.primary};
         }
       }
     }
@@ -129,20 +127,20 @@ export const PageContentData = styled.div`
 export const Columns = styled.div`
   display: block;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     display: flex;
   `}
 `;
 
 export const ColumnLeft = styled.div`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     flex: 1 1 25%;
-    padding-right: ${theme.gutter * 13}px;
+    padding-right: ${theme.spacing.gutter * 13}px;
   `}
 `;
 
 export const ColumnRight = styled.div`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
   flex: 1 1 50%;
   padding-bottom: ${fiveSpaced}px;
 `}

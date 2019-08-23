@@ -1,38 +1,36 @@
 import styled from 'styled-components';
+import { BackButton, Container } from '@pure-escapes/webapp-ui-components';
 
-import { BackButton, Container } from 'components';
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const StyledSearch = styled(Container)`
-  width: 100%;
-
-  ${breakpoints.tablet`
-    padding: ${theme.gutter * 6}px 0;
+  ${props => props.theme.breakpoints.tablet`
+    padding: ${theme.spacing.gutter * 6}px 0;
   `}
 `;
 
 export const Columns = styled.div`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         display: flex;
     `}
 `;
 
 export const Column = styled.div`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         flex: 1;
     `}
 `;
 
 export const ColumnLeft = styled(Column)`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         flex-width: 27%;
         min-width: 27%;
-        padding-right: ${theme.gutter * 3}px;
+        padding-right: ${theme.spacing.gutter * 3}px;
     `}
 `;
 
 export const ColumnRight = styled(Column)`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         flex-width: 73%;
         min-width: 73%;
 
@@ -40,5 +38,5 @@ export const ColumnRight = styled(Column)`
 `;
 
 export const Back = styled(BackButton)`
-  margin-bottom: ${theme.gutter * 6}px;
+  margin-bottom: ${theme.spacing.gutter * 6}px;
 `;

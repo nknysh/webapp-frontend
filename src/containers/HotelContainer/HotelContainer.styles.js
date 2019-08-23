@@ -1,34 +1,34 @@
 import styled from 'styled-components';
+import { Container, BackButton, Modal, Button } from '@pure-escapes/webapp-ui-components';
 
-import { Container, BackButton, Breadcrumbs, Hotel, Modal, Button } from 'components';
+import { Breadcrumbs, Hotel } from 'components';
 import SummaryForm from 'containers/SummaryForm';
 import AddToProposalForm from 'containers/AddToProposalForm';
 
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const StyledHotelContainer = styled(Container)`
-  width: 100%;
-  margin-bottom: ${theme.gutter * 2}px;
+  margin-bottom: ${theme.spacing.gutter * 2}px;
 
-  ${breakpoints.tablet`
-    padding-top: ${theme.gutter * 6.5}px;
+  ${props => props.theme.breakpoints.tablet`
+    padding-top: ${theme.spacing.gutter * 6.5}px;
   `}
 `;
 
 export const StyledHotel = styled(Hotel)`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         flex: 1;
         max-width: 64%;
         padding: 0;
-        margin-top: ${theme.gutter * 2}px;
+        margin-top: ${theme.spacing.gutter * 2}px;
     `}
 `;
 
 export const StyledSummary = styled(SummaryForm)``;
 
 export const StyledBreadcrumbs = styled(Breadcrumbs)`
-  margin-left: ${theme.gutter}px;
-  margin-right: ${theme.gutter}px;
+  margin-left: ${theme.spacing.gutter}px;
+  margin-right: ${theme.spacing.gutter}px;
 `;
 
 export const Full = styled.div`
@@ -37,34 +37,34 @@ export const Full = styled.div`
 
 export const Back = styled(BackButton)`
   display: flex;
-  padding ${theme.gutter * 2}px !important;
+  padding ${theme.spacing.gutter * 2}px !important;
 `;
 
 export const Aside = styled.aside`
   position: relative;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     flex: 1;
     max-width: 36%;
-    margin-top: ${theme.gutter * 2}px;
+    margin-top: ${theme.spacing.gutter * 2}px;
   `}
 `;
 
 export const Title = styled.h3`
   font-size: ${theme.fonts.sizes.default}px;
-  padding: 0 0 ${theme.gutter * 1.45}px;
+  padding: 0 0 ${theme.spacing.gutter * 1.45}px;
   text-transform: uppercase;
   font-weight: ${theme.fonts.bold};
   letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 14px;
-  color: ${theme.neutral};
+  color: ${theme.palette.neutral};
   border-bottom: 1px solid ${theme.borders.default};
 `;
 
 export const AsideDetails = styled.div`
-  margin: 0 ${theme.gutter * 2}px ${theme.gutter * 3.5}px;
+  margin: 0 ${theme.spacing.gutter * 2}px ${theme.spacing.gutter * 3.5}px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     margin-left: 0;
     margin-right: 0;
   `}
@@ -73,13 +73,13 @@ export const AsideDetails = styled.div`
 export const Brochure = styled.a`
   display: block;
   cursor: pointer;
-  color: ${theme.primary};
+  color: ${theme.palette.primary};
   font-size: ${theme.fonts.sizes.default}px;
   font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
   line-height: 14px;
   letter-spacing: 0.38px;
-  padding: ${theme.gutter * 0.75}px 0;
+  padding: ${theme.spacing.gutter * 0.75}px 0;
 
   :before {
     content: '+ ';
@@ -90,13 +90,13 @@ export const StyledModal = styled(Modal)``;
 
 export const SummaryActions = styled.div`
   display: flex;
-  margin: ${theme.gutter * 1.5}px 0;
+  margin: ${theme.spacing.gutter * 1.5}px 0;
 `;
 
 export const SummaryAction = styled(Button)`
-  background: ${theme.light};
+  background: ${theme.palette.light};
   flex: 1 1 50%;
-  margin: 0 ${theme.gutter}px;
+  margin: 0 ${theme.spacing.gutter}px;
 
   :first-child {
     margin-left: 0;
@@ -108,14 +108,14 @@ export const SummaryAction = styled(Button)`
 `;
 
 export const StyledAddToProposalForm = styled(AddToProposalForm)`
-  padding: ${theme.gutter * 4}px ${theme.gutter * 2}px;
+  padding: ${theme.spacing.gutter * 4}px ${theme.spacing.gutter * 2}px;
 
-  ${breakpoints.tablet`
-    padding: ${theme.gutter * 8}px ${theme.gutter * 10}px;
+  ${props => props.theme.breakpoints.tablet`
+    padding: ${theme.spacing.gutter * 8}px ${theme.spacing.gutter * 10}px;
   `}
 `;
 
 export const Text = styled.p`
-  color: ${theme.secondary};
+  color: ${theme.palette.secondary};
   font-size: ${theme.fonts.sizes.normal}px;
 `;

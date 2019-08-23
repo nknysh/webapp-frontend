@@ -1,8 +1,8 @@
 import React from 'react';
 import { compose } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Markdown, Container } from '@pure-escapes/webapp-ui-components';
 
-import { Markdown, Container } from 'components';
 import { useCurrentWidth } from 'effects';
 import { toDate } from 'utils';
 

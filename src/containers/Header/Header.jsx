@@ -2,10 +2,10 @@ import React, { useState, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { compose, lensProp, set, view, pipe, values, path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Modal } from '@pure-escapes/webapp-ui-components';
 
 import headerLinks from 'config/links/header';
 
-import { Modal } from 'components';
 import { useModalState } from 'effects';
 import { withAuthentication } from 'hoc';
 

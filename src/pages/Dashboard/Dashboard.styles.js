@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { SearchBar as BaseSearchBar } from 'containers';
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const SearchArea = styled.div`
   background: ${theme.backgrounds.defaultOpacity};
@@ -10,7 +10,7 @@ export const SearchArea = styled.div`
 export const SearchBar = styled(BaseSearchBar)`
   margin: 0;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         padding: 0;
     `}
 `;

@@ -1,9 +1,9 @@
 import React, { useState, Fragment, useCallback } from 'react';
 import { prop, propEq, compose, over, lensPath, append } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Loader, Form, Title } from '@pure-escapes/webapp-ui-components';
 
 import { useFetchData, useEffectBoundary } from 'effects';
-import { Form, Title, Loader } from 'components';
 import { extractFieldDefaults } from 'utils/form';
 import { isSuccess } from 'store/common';
 

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, prop, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Loader } from '@pure-escapes/webapp-ui-components';
 
-import { Loader } from 'components';
 import { useFetchData, useEffectBoundary } from 'effects';
 import NotFound from 'pages/NotFound';
 import { withAuthentication } from 'hoc';

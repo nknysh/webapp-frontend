@@ -28,8 +28,8 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import hash from 'object-hash';
 import { useTranslation } from 'react-i18next';
+import { Slider } from '@pure-escapes/webapp-ui-components';
 
-import { Slider } from 'components/elements';
 import { useCurrentWidth } from 'effects';
 
 import connect from './Rooms.state';

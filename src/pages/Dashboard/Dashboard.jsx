@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
+import { Container } from '@pure-escapes/webapp-ui-components';
 
-import { Container } from 'components';
 import { DashboardContainer } from 'containers';
 
 import { SearchArea, SearchBar } from './Dashboard.styles';

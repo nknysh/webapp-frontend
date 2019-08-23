@@ -14,7 +14,7 @@ export const meta = [
   },
   {
     name: 'msapplication-TileColor',
-    content: theme.primary,
+    content: theme.palette.primary,
   },
   {
     name: 'msapplication-config',
@@ -22,7 +22,7 @@ export const meta = [
   },
   {
     name: 'theme-color',
-    content: theme.primary,
+    content: theme.palette.primary,
   },
 ];
 

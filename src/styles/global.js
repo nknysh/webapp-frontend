@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 import theme from './theme';
-import breakpoints from './breakpoints';
 
 export const GlobalFonts = createGlobalStyle`
     @font-face {
@@ -63,11 +62,11 @@ export const GlobalStyle = createGlobalStyle`
     body {
         display: block;
         margin: 0;
-        padding: ${theme.headerSizes.mobile}px 0 0;
+        padding: ${theme.sizes.headerSizes.mobile}px 0 0;
         font-family: HurmeGeometricSans2, "Open Sans", sans-serif;
         height: 100%;
 
-        ${breakpoints.desktop`
+        ${theme.breakpoints.desktop`
             padding-top: 0;
         `}
 
@@ -81,8 +80,13 @@ export const GlobalStyle = createGlobalStyle`
         height: 100%;
     }
 
-    a {
+    a, a:visited {
+        color: ${theme.palette.link.default};
         text-decoration: none;
+
+        :active, :hover {
+            color: ${theme.palette.link.active};
+        }
 
         :before, :after {
             min-height: none;

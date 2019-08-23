@@ -1,19 +1,17 @@
 import styled from 'styled-components';
-
-import { Card, Chip } from 'components/elements';
-
-import { theme, breakpoints } from 'styles';
-
 import { Icon } from '@material-ui/core';
-import { ToolTip as BaseToolTip } from 'components/elements';
+import { Chip, ToolTip as BaseToolTip } from '@pure-escapes/webapp-ui-components';
+
+import Card from 'components/Card';
+import { theme } from 'styles';
 
 export const StyledCard = styled(Card)`
   position: relative;
-  margin: 0 0 ${theme.gutter * 2}px;
-  padding-bottom: ${theme.gutter * 1.6}px;
+  margin: 0 0 ${theme.spacing.gutter * 2}px;
+  padding-bottom: ${theme.spacing.gutter * 1.6}px;
 
-  ${breakpoints.tablet`
-      margin ${theme.gutter}px;
+  ${props => props.theme.breakpoints.tablet`
+      margin ${theme.spacing.gutter}px;
     `}
 `;
 
@@ -27,11 +25,11 @@ export const CardChip = styled(Chip)``;
 export const CardPrice = styled(Card.Price)``;
 
 export const CardDetails = styled.div`
-  padding ${theme.gutter * 2}px;
+  padding ${theme.spacing.gutter * 2}px;
 `;
 
 export const CardTitle = styled(Card.Title)`
-  margin-bottom: ${theme.gutter}px;
+  margin-bottom: ${theme.spacing.gutter}px;
 `;
 
 export const CardDescription = styled(Card.Description)`
@@ -40,23 +38,23 @@ export const CardDescription = styled(Card.Description)`
 `;
 
 export const CardText = styled.div`
-  color: ${theme.neutral};
+  color: ${theme.palette.neutral};
 `;
 
 export const CardPreferred = styled.div`
-    background: ${theme.primary};
+    background: ${theme.palette.primary};
     font-size: ${theme.fonts.sizes.normal}px;
     font-weight: ${theme.fonts.bold};
     position: absolute;
     top:0;
-    left: ${theme.gutter * 2}px;
-    padding ${theme.gutter}px ${theme.gutter * 2}px;
+    left: ${theme.spacing.gutter * 2}px;
+    padding ${theme.spacing.gutter}px ${theme.spacing.gutter * 2}px;
     color: ${theme.colors.white};
     text-transform: uppercase;
 `;
 
 export const CardCta = styled.div`
-  padding: 0 ${theme.gutter * 2}px ${theme.gutter * 2}px;
+  padding: 0 ${theme.spacing.gutter * 2}px ${theme.spacing.gutter * 2}px;
 `;
 
 export const CardRating = styled.div`
@@ -64,13 +62,13 @@ export const CardRating = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid ${theme.borders.default};
-  padding-bottom: ${theme.gutter}px;
-  margin-bottom: ${theme.gutter}px;
+  padding-bottom: ${theme.spacing.gutter}px;
+  margin-bottom: ${theme.spacing.gutter}px;
 `;
 
 export const CardStarRating = styled.div`
   font-size: ${theme.fonts.sizes.normal}px;
-  color: ${theme.primary};
+  color: ${theme.palette.primary};
   font-weight: ${theme.fonts.bold};
   text-transform: uppercase;
   flex: 1;
@@ -79,8 +77,8 @@ export const CardStarRating = styled.div`
 `;
 
 export const CardStar = styled(Icon)`
-  fill: ${theme.primary};
-  margin-right: ${theme.gutter / 2}px;
+  fill: ${theme.palette.primary};
+  margin-right: ${theme.spacing.gutter / 2}px;
   font-size: ${theme.fonts.sizes.bigger}px;
 `;
 
@@ -92,13 +90,13 @@ export const CardStarText = styled.span`
 `;
 
 export const Columns = styled.div`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         display: flex;
     `}
 `;
 
 export const Column = styled.div`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
         flex: 1;
     `}
 `;
@@ -118,22 +116,22 @@ export const CardHighlights = styled.div`
   font-size: ${theme.fonts.sizes.normal}px;
   text-transform: uppercase;
   border-bottom: 1px solid ${theme.borders.default};
-  padding-top: ${theme.gutter}px;
-  padding-bottom: ${theme.gutter * 2}px;
-  margin-bottom: ${theme.gutter}px;
+  padding-top: ${theme.spacing.gutter}px;
+  padding-bottom: ${theme.spacing.gutter * 2}px;
+  margin-bottom: ${theme.spacing.gutter}px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     display: flex;
     flex-wrap: wrap;
   `}
 `;
 
 export const CardHighlight = styled.div`
-  margin: ${theme.gutter / 2}px 0;
+  margin: ${theme.spacing.gutter / 2}px 0;
   display: block;
   font-size: ${theme.fonts.sizes.default}px;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     flex: 1 1 50%;
     width: 50%;
   `}
@@ -141,14 +139,14 @@ export const CardHighlight = styled.div`
 
 export const CardAdditionalInfo = styled.div`
   display: block;
-  padding-top: ${theme.gutter}px;
+  padding-top: ${theme.spacing.gutter}px;
 `;
 
 export const CardAdditional = styled.p`
   display: block;
-  margin: ${theme.gutter}px 0;
+  margin: ${theme.spacing.gutter}px 0;
   font-size: ${theme.fonts.sizes.normal}px;
-  color: ${theme.neutral};
+  color: ${theme.palette.neutral};
 
   &:last-child {
     margin: 0;
@@ -160,18 +158,18 @@ export const ToolTip = styled(BaseToolTip)`
 `;
 
 export const PriceBreakdown = styled.ul`
-  margin: ${theme.gutter}px;
+  margin: ${theme.spacing.gutter}px;
   padding: 0;
 `;
 
 export const PriceBreakdownItem = styled.li`
-  margin-bottom: ${theme.gutter / 2}px;
+  margin-bottom: ${theme.spacing.gutter / 2}px;
 `;
 
 export const CardChipStack = styled.div`
-  margin: 0 ${theme.gutter / 2}px;
+  margin: 0 ${theme.spacing.gutter / 2}px;
 
   > div {
-    margin: ${theme.gutter}px 0 0;
+    margin: ${theme.spacing.gutter}px 0 0;
   }
 `;

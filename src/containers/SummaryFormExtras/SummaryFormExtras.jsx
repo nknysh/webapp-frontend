@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useCallback } from 'react';
-
 import {
   always,
   append,
@@ -31,10 +30,11 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
-
-import { SummaryFormMargin, RadioButton, Modal, Loader, IndexSearch, Button, Summary, ToolTip } from 'components';
+import { RadioButton, Modal, Loader, Button, ToolTip } from '@pure-escapes/webapp-ui-components';
 
 import { ProductTypes } from 'config/enums';
+
+import { SummaryFormMargin, IndexSearch, Summary } from 'components';
 import { useModalState, useFetchData } from 'effects';
 import { withUser } from 'hoc';
 import { isString, mapWithIndex } from 'utils';

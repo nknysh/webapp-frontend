@@ -16,14 +16,15 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
+import { Form, Input, Loader, Modal, Markdown } from '@pure-escapes/webapp-ui-components';
 
+import AgreeToForm from 'components/AgreeToForm';
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
 import SummaryRoom from 'containers/SummaryRoom';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
 import { PAYMENT_ENABLED } from 'config';
 import { useModalState, useEffectBoundary } from 'effects';
-import { Form, Input, Loader, Modal, Markdown, AgreeToForm } from 'components';
 import { mapWithIndex } from 'utils';
 
 import { isActive } from 'store/common';
@@ -533,7 +534,7 @@ export const SummaryForm = ({
           showDiscountedPrice,
         })}
         {renderHotel(t, {
-          name: hotelName,
+          name: hotelName || prop('hotelName', booking) || 'Hotel',
           total,
           compact,
           showOriginalTotal,

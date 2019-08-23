@@ -7,6 +7,7 @@ const DotEnvPlugin = require('dotenv-webpack');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const OfflinePlugin = require('offline-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const getMode = prop('mode');
 const isDev = equals('development');
@@ -54,7 +55,7 @@ module.exports = (env, argv) => ({
         splitChunks: {
             maxInitialRequests: Infinity,
             maxSize: 500000,
-            chunks: 'all',
+            chunks: 'all'
         },
     },
     module: {
@@ -121,7 +122,7 @@ module.exports = (env, argv) => ({
         }),
         new CircularDependencyPlugin({
             exclude: /node_modules/,
-            failOnError: modeIsDev(argv),
+            failOnError: false,
             allowAsyncCycles: false,
             cwd: process.cwd(),
         }),
@@ -143,6 +144,7 @@ module.exports = (env, argv) => ({
                     sizes: [96, 128, 192, 256, 384, 512]
                 }
             ]
-        })
+        }),
+        // new BundleAnalyzerPlugin()
     ]
 })

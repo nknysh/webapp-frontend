@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import { Status } from '@pure-escapes/webapp-ui-components';
 
-import { Status } from 'components';
-import { theme, breakpoints, Heading2 } from 'styles';
+import { theme, Heading2 } from 'styles';
 
 import { Main as BaseMain, Aside as BaseAside } from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
 import {
@@ -12,13 +12,13 @@ import {
 export { Back } from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
 
 export const Booking = styled.div`
-  ${breakpoints.tablet`
-    margin: ${theme.gutter * 8.5}px ${theme.gutter * 2}px ${theme.gutter * 2}px;
+  ${props => props.theme.breakpoints.tablet`
+    margin: ${theme.spacing.gutter * 8.5}px ${theme.spacing.gutter * 2}px ${theme.spacing.gutter * 2}px;
   `}
 `;
 
 export const Aside = styled(BaseAside)`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     margin-top: 0;
   `}
 `;
@@ -27,7 +27,7 @@ export const StatusStrip = styled(BaseStatusStrip)`
   display: flex;
   position: relative;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     margin: 0;
   `}
 `;
@@ -43,10 +43,10 @@ export const StatusStripStatus = styled(Status)`
 `;
 
 export const Main = styled(BaseMain)`
-  padding: ${theme.gutter * 2}px;
-  margin-top: ${theme.gutter * 2}px !important;
+  padding: ${theme.spacing.gutter * 2}px;
+  margin-top: ${theme.spacing.gutter * 2}px !important;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     padding: 0;
     flex: 1;
     display: flex;
@@ -54,11 +54,11 @@ export const Main = styled(BaseMain)`
 `;
 
 export const BookingContent = styled.article`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     margin: 0;
     padding: 0;
     flex: 1;
-    margin-right: ${theme.gutter * 14.5}px;
+    margin-right: ${theme.spacing.gutter * 14.5}px;
   `}
 `;
 
@@ -67,15 +67,15 @@ export const BookingTitle = styled.h1`
   margin: 0;
   padding: 0;
   font-size: 22px;
-  color: ${theme.neutral};
+  color: ${theme.palette.neutral};
   line-height: 29px;
-  margin: ${theme.gutter * 3}px ${theme.gutter * 2}px;
+  margin: ${theme.spacing.gutter * 3}px ${theme.spacing.gutter * 2}px;
 `;
 export const GuestDetails = styled.div`
-  margin: ${theme.gutter * 2}px;
+  margin: ${theme.spacing.gutter * 2}px;
 
-  ${breakpoints.tablet`
-    margin: ${theme.gutter * 4}px 0;
+  ${props => props.theme.breakpoints.tablet`
+    margin: ${theme.spacing.gutter * 4}px 0;
   `}
 `;
 
@@ -84,7 +84,7 @@ export const GuestName = styled.p`
   text-transform: uppercase;
   font-weight: ${theme.fonts.bold};
   color: ${theme.dark};
-  margin-bottom: ${theme.gutter}px;
+  margin-bottom: ${theme.spacing.gutter}px;
 `;
 
 export const FlightInfoList = styled.ul`
@@ -110,14 +110,14 @@ export const Bolded = styled.span`
 
 export const FlightInfo = styled.li`
   position: relative;
-  padding: ${theme.gutter}px 0 ${theme.gutter * 2.5}px ${theme.gutter * 3.5}px;
+  padding: ${theme.spacing.gutter}px 0 ${theme.spacing.gutter * 2.5}px ${theme.spacing.gutter * 3.5}px;
 
   &:first-child {
-    padding-top: ${theme.gutter}px;
+    padding-top: ${theme.spacing.gutter}px;
   }
 
   &:last-child {
-    padding-bottom: ${theme.gutter}px;
+    padding-bottom: ${theme.spacing.gutter}px;
   }
 
   &:before {
@@ -134,8 +134,8 @@ export const FlightInfo = styled.li`
 export const Dot = styled.span`
   background-color: #736a65;
   display: block;
-  width: ${theme.gutter}px;
-  height: ${theme.gutter}px;
+  width: ${theme.spacing.gutter}px;
+  height: ${theme.spacing.gutter}px;
   border-radius: 50%;
   position: absolute;
   left: 8px;
@@ -147,7 +147,7 @@ export const FlightRow = styled.span`
   color: ${theme.dark};
   letter-spacing: 0.5px;
   line-height: 17px;
-  margin-bottom: ${theme.gutter}px;
+  margin-bottom: ${theme.spacing.gutter}px;
   text-transform: uppercase;
 
   &:last-child {
@@ -159,8 +159,8 @@ export const Tag = styled.p`
   margin: 0;
   font-size: ${theme.fonts.sizes.default}px;
   text-transform: uppercase;
-  color: ${theme.neutral};
-  padding: 0 0 ${theme.gutter}px ${theme.gutter * 1.5}px;
+  color: ${theme.palette.neutral};
+  padding: 0 0 ${theme.spacing.gutter}px ${theme.spacing.gutter * 1.5}px;
 
   &:last-child {
     padding-bottom: 0;
@@ -173,14 +173,14 @@ export const Tag = styled.p`
     display: block;
     height: 0;
     width: 0;
-    left: -${theme.gutter}px;
-    top: ${theme.gutter}px;
+    left: -${theme.spacing.gutter}px;
+    top: ${theme.spacing.gutter}px;
     position: relative;
   }
 `;
 
 export const ModalTitle = styled(Heading2)`
-  color: ${theme.secondary};
+  color: ${theme.palette.secondary};
   font-size: ${theme.fonts.sizes.bigger}px;
   font-weight: 500;
   letter-spacing: ${theme.fonts.letterSpacing.medium}px;
@@ -188,11 +188,11 @@ export const ModalTitle = styled(Heading2)`
 `;
 
 export const ModalContent = styled.div`
-  margin: ${theme.gutter * 6}px ${theme.gutter}px;
+  margin: ${theme.spacing.gutter * 6}px ${theme.spacing.gutter}px;
 
-  ${breakpoints.tablet`
-    margin-right: ${theme.gutter * 6}px;
-    margin-left: ${theme.gutter * 6}px;
+  ${props => props.theme.breakpoints.tablet`
+    margin-right: ${theme.spacing.gutter * 6}px;
+    margin-left: ${theme.spacing.gutter * 6}px;
     min-width: 600px;
   `}
 `;
