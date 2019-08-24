@@ -28,11 +28,11 @@ jobs:
       - image: circleci/node:dubnium
     working_directory: ~/deploy
     environment:
-      NODE_ENV: development
-      APP_ENV: development
+      NODE_ENV: qa
+      APP_ENV: qa
       APP_VERBOSE_ERRORS: "false"
-      API_BASE_URL: undefined
-      ADMIN_BASE_URL: undefined
+      API_BASE_URL: 'https://qa.pure-escapes.com/'
+      ADMIN_BASE_URL: 'https://qa.pure-escapes.com/admin'
       PAYMENT_ENABLED: "false"
       BOOKINGS_ON_REQUEST: "false"
       DRIFT_APP_ID: undefined
