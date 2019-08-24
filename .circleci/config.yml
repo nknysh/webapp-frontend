@@ -75,7 +75,7 @@ jobs:
           command: sudo pip install awscli
       - s3deploy:
           to: qa.pure-escapes.com
-          cf_distribution_id: E3ORIVR4RVEU9Q
+          cf_distribution_id: E3DKVF7CKJKFV
           dir: /home/circleci/deploy/dist
 workflows:
   version: 2
