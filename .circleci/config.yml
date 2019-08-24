@@ -31,8 +31,8 @@ jobs:
       NODE_ENV: qa
       APP_ENV: qa
       APP_VERBOSE_ERRORS: "false"
-      API_BASE_URL: 'https://qa.pure-escapes.com/'
-      ADMIN_BASE_URL: 'https://qa.pure-escapes.com/admin'
+      API_BASE_URL: https://qa.pure-escapes.com/api
+      ADMIN_BASE_URL: https://qa.pure-escapes.com/admin
       PAYMENT_ENABLED: "false"
       BOOKINGS_ON_REQUEST: "false"
       DRIFT_APP_ID: undefined
