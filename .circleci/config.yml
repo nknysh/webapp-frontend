@@ -32,10 +32,10 @@ jobs:
       APP_ENV: qa
       APP_VERBOSE_ERRORS: "false"
       API_BASE_URL: https://qa.pure-escapes.com/api
-      ADMIN_BASE_URL: https://qa.pure-escapes.com/admin
+      ADMIN_BASE_URL: http://admin.qa.pure-escapes.com
       PAYMENT_ENABLED: "false"
       BOOKINGS_ON_REQUEST: "false"
-      DRIFT_APP_ID: undefined
+      DRIFT_APP_ID: b5ivt3e4xa3w
       DRIFT_ENABLED_ROLES: ta
     steps:
       - checkout
