@@ -90,3 +90,7 @@ workflows:
           requires:
             - build
           context: deployments
+          filters:
+            branches:
+              only:
+                - master
