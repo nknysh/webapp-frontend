@@ -84,7 +84,8 @@ workflows:
   version: 2
   deploy:
     jobs:
-      - build
+      - build:
+          context: deployments
       - deploy_qa:
           requires:
             - build
