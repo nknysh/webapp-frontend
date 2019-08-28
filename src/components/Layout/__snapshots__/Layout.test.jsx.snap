@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Layout /> render matches snapshot 1`] = `
+<Fragment>
+  <Layoutstyles__StyledLayout>
+    <SnackbarProvider
+      anchorOrigin={
+        Object {
+          "horizontal": "right",
+          "vertical": "top",
+        }
+      }
+      dense={false}
+      maxSnack={3}
+      preventDuplicate={false}
+    >
+      <Component />
+    </SnackbarProvider>
+    <B
+      attributes={Object {}}
+      enabled={true}
+    />
+    <Layoutstyles__LayoutHeader
+      currentPath=""
+    />
+    <Layoutstyles__LayoutChildren>
+      <h1>
+        Some content
+      </h1>
+    </Layoutstyles__LayoutChildren>
+    <Layoutstyles__LayoutFooter
+      currentPath=""
+    />
+  </Layoutstyles__StyledLayout>
+</Fragment>
+`;

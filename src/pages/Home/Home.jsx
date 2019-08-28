@@ -1,11 +1,9 @@
 import React, { useRef, Fragment } from 'react';
 import { compose, prop, map } from 'ramda';
 import hash from 'object-hash';
+import { ErrorBoundary, Hero, Markdown } from '@pure-escapes/webapp-ui-components';
 
 import { windowExists } from 'utils';
-
-import { Hero, Markdown } from 'components';
-import { ErrorBoundary } from 'hoc/ErrorBoundary';
 
 import heroData from 'config/pages/home/hero.md';
 import section1 from 'config/pages/home/section-1.md';

@@ -2,9 +2,9 @@ import React, { Suspense } from 'react';
 import { pathOr, path, pick, curry, map, has, cond, T, both, propOr, omit, pipe, mergeDeepRight } from 'ramda';
 import { Route, Redirect } from 'react-router-dom';
 import hash from 'object-hash';
+import { Loader } from '@pure-escapes/webapp-ui-components';
 
 import { AuthenticatedRoute } from 'containers';
-import { Loader } from 'components/elements';
 
 import config from './config';
 

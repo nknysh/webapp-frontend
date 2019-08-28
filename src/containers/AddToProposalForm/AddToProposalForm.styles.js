@@ -1,8 +1,7 @@
 import styled from 'styled-components';
+import { Button } from '@pure-escapes/webapp-ui-components';
 
-import { Button } from 'components/elements';
-
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const StyledAddToProposalForm = styled.div`
   label,
@@ -21,7 +20,7 @@ export const Actions = styled.div`
 `;
 
 export const SubmitButton = styled(Button)`
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     width: 400px;
   `}
 `;

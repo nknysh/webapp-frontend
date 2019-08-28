@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
+import { Checkbox, ServerError } from '@pure-escapes/webapp-ui-components';
 
-import { Checkbox, ServerError } from 'components/elements';
-
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const StyledLoginForm = styled.div`
-  padding: ${theme.gutter * 7}px ${theme.gutter * 2}px;
+  padding: ${theme.spacing.gutter * 7}px ${theme.spacing.gutter * 2}px;
 
-  ${breakpoints.tablet`
-    padding: ${theme.gutter * 5}px ${theme.gutter * 10}px ${theme.gutter * 7.4}px;
+  ${props => props.theme.breakpoints.tablet`
+    padding: ${theme.spacing.gutter * 5}px ${theme.spacing.gutter * 10}px ${theme.spacing.gutter * 7.4}px;
     min-width: 600px;
   `}
 `;
@@ -29,16 +28,16 @@ export const StyledCheckbox = styled(Checkbox)`
 `;
 
 export const ServerErrorContent = styled(ServerError)`
-  margin-bottom: ${theme.gutter * 2}px;
+  margin-bottom: ${theme.spacing.gutter * 2}px;
 `;
 
 export const ForgotPassword = styled.div`
-  margin-top: ${theme.gutter * 3}px;
+  margin-top: ${theme.spacing.gutter * 3}px;
   text-align: center;
 `;
 
 export const ForgotLink = styled.span`
-  color: ${theme.neutral};
+  color: ${theme.palette.neutral};
   text-transform: uppercase;
   text-align: center;
   line-height: ${theme.fonts.sizes.normal}px;

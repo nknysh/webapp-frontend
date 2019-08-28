@@ -3,8 +3,9 @@ import { Redirect } from 'react-router-dom';
 import { equals, compose, prop, path, pick, over, lensProp, take } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
+import { Loader, RadioButton, Button } from '@pure-escapes/webapp-ui-components';
 
-import { Loader, RadioButton, AgreeToForm, BookingConfirmation, Button } from 'components';
+import { AgreeToForm, BookingConfirmation } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary, useModalState } from 'effects';
 
 import { PAYMENT_ENABLED } from 'config';

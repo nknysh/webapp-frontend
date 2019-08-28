@@ -11,10 +11,10 @@ export const buttonStyles = css`
   font-weight: ${theme.fonts.bold};
   font-family: ${theme.fonts.defaultFont};
   color: ${theme.colors.white};
-  background: ${theme.primary};
+  background: ${theme.palette.primary};
   outline: none;
   border: 0;
-  padding: ${theme.gutter}px ${theme.gutter}px;
+  padding: ${theme.spacing.gutter}px ${theme.spacing.gutter}px;
   cursor: pointer;
 
   &:disabled {
@@ -23,20 +23,20 @@ export const buttonStyles = css`
   }
 
   &:hover {
-    background: ${theme.secondary};
+    background: ${theme.palette.secondary};
   }
 `;
 
 export const inputStyles = css`
   font-family: ${theme.fonts.defaultFont};
   background: ${theme.backgrounds.default};
-  margin-top: ${theme.gutter / 2}px;
+  margin-top: ${theme.spacing.gutter / 2}px;
   display: block;
   border: 1px solid ${theme.borders.default};
   color: ${theme.colors.black};
   width: 100%;
   box-sizing: border-box;
-  padding: ${theme.gutter}px;
+  padding: ${theme.spacing.gutter}px;
 
   ${({ disabled }) =>
     disabled &&
@@ -59,7 +59,7 @@ export const withDiscountStyles = css`
   ${({ ['data-discounted']: discounted }) =>
     discounted &&
     css`
-      color: ${theme.light};
+      color: ${theme.palette.light};
       text-decoration: line-through;
     `}
 

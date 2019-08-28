@@ -1,14 +1,13 @@
 import styled from 'styled-components';
+import { Checkbox, Markdown, ServerError } from '@pure-escapes/webapp-ui-components';
 
-import { Checkbox, Markdown, ServerError } from 'components/elements';
-
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const StyledSetPasswordForm = styled.div`
-  padding: ${theme.gutter}px;
+  padding: ${theme.spacing.gutter}px;
 
-  ${breakpoints.tablet`
-    padding: ${theme.gutter * 5}px;
+  ${props => props.theme.breakpoints.tablet`
+    padding: ${theme.spacing.gutter * 5}px;
     min-width: 500px;
   `}
 `;
@@ -17,13 +16,13 @@ export const Fields = styled.div`
   margin-top: 50px;
   text-align: left;
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     min-width: 400px;
   `}
 `;
 
 export const Field = styled.div`
-  margin-bottom: ${theme.gutter * 2}px;
+  margin-bottom: ${theme.spacing.gutter * 2}px;
 `;
 
 export const Actions = styled.div`
@@ -46,10 +45,10 @@ export const StyledMarkdown = styled(Markdown)`
   text-align: center;
 
   p {
-    margin: ${theme.gutter / 2}px 0;
+    margin: ${theme.spacing.gutter / 2}px 0;
   }
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     width: 400px;
   `}
 `;

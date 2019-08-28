@@ -31,7 +31,7 @@ export const links = [
   {
     rel: 'mask-icon',
     href: maskIcon,
-    color: theme.primary,
+    color: theme.palette.primary,
   },
   {
     rel: 'shortcut icon',

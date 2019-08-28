@@ -3,8 +3,8 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { allPass, complement, compose, has, isEmpty, map, prop, values, equals, partial } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
+import { Loader, Tabs, List } from '@pure-escapes/webapp-ui-components';
 
-import { Loader, Tabs, List } from 'components';
 import { withUser } from 'hoc';
 import { useFetchData, useCurrentWidth, useModalState } from 'effects';
 import { mapWithIndex } from 'utils';

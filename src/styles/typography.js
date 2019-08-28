@@ -9,10 +9,10 @@ export const commonHeaderStyles = css`
 
 export const h1Styling = css`
   ${commonHeaderStyles}
-  color: ${theme.neutral};
+  color: ${theme.palette.neutral};
   font-size: ${theme.fonts.sizes.bigger}px;
   font-weight: ${theme.fonts.bold};
-  margin: ${theme.gutter * 2}px;
+  margin: ${theme.spacing.gutter * 2}px;
 `;
 
 export const Heading1 = styled.h1`
@@ -21,7 +21,7 @@ export const Heading1 = styled.h1`
 
 export const h2Styling = css`
   ${commonHeaderStyles}
-  color: ${theme.primary};
+  color: ${theme.palette.primary};
 `;
 
 export const Heading2 = styled.h2`
@@ -31,7 +31,7 @@ export const Heading2 = styled.h2`
 export const h3Styling = css`
   font-size: ${theme.fonts.sizes.big}px;
   text-transform: uppercase;
-  color: ${theme.primary};
+  color: ${theme.palette.primary};
 `;
 
 export const Heading3 = styled.h3`

@@ -1,8 +1,8 @@
 import React, { useCallback, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { prop, compose } from 'ramda';
+import { Form, Button, Title } from '@pure-escapes/webapp-ui-components';
 
-import { Form, Button, Title } from 'components';
 import { withAuthentication } from 'hoc';
 
 import { fields, validation } from 'config/forms/updatePassword';

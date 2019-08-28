@@ -1,7 +1,7 @@
 import { prop } from 'ramda';
-import i18n from 'config/i18n';
+import { Checkbox, Select, TextArea } from '@pure-escapes/webapp-ui-components';
 
-import { Checkbox, Select, TextArea } from 'components/elements';
+import i18n from 'config/i18n';
 
 import formConfig from 'config/forms';
 

@@ -1,13 +1,13 @@
 import styled from 'styled-components';
+import { Button, ServerError, Checkbox, Markdown } from '@pure-escapes/webapp-ui-components';
 
-import { Button, ServerError, Checkbox, Markdown } from 'components/elements';
-import { theme, breakpoints } from 'styles';
+import { theme } from 'styles';
 
 export const StyledPasswordResetForm = styled.div`
-  padding: ${theme.gutter}px;
+  padding: ${theme.spacing.gutter}px;
 
-  ${breakpoints.tablet`
-    padding: ${theme.gutter * 5}px;
+  ${props => props.theme.breakpoints.tablet`
+    padding: ${theme.spacing.gutter * 5}px;
   `}
 `;
 
@@ -28,18 +28,18 @@ export const StyledCheckbox = styled(Checkbox)`
 `;
 
 export const ServerErrorContent = styled(ServerError)`
-  margin-top: ${theme.gutter * 2}px;
+  margin-top: ${theme.spacing.gutter * 2}px;
 `;
 
 export const StyledMarkdown = styled(Markdown)`
   text-align: center;
-  margin-bottom: ${theme.gutter * 4}px;
+  margin-bottom: ${theme.spacing.gutter * 4}px;
 
   p {
-    margin: ${theme.gutter / 2}px 0;
+    margin: ${theme.spacing.gutter / 2}px 0;
   }
 
-  ${breakpoints.tablet`
+  ${props => props.theme.breakpoints.tablet`
     width: 400px;
   `}
 `;

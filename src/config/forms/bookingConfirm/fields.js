@@ -1,5 +1,5 @@
 import i18n from 'config/i18n';
-import { TextArea } from 'components/elements';
+import { TextArea } from '@pure-escapes/webapp-ui-components';
 
 export default {
   overrideTotal: {

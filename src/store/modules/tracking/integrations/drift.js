@@ -7,7 +7,7 @@ import { createReducer, getSuccessActionName, getErrorActionName } from 'store/u
 import { BOOKING_SUBMIT, BOOKING_FETCH } from 'store/modules/bookings';
 import { HOTEL as HOTEL_FETCH } from 'store/modules/hotel';
 import { PAGE_CHANGE } from 'store/common';
-import { PROPOSAL_NEW, PROPOSAL_FETCH } from 'store/modules/proposals';
+import { PROPOSALS_NEW, PROPOSAL_FETCH } from 'store/modules/proposals';
 import { SEARCH_BY_QUERY } from 'store/modules/search';
 
 const BOOKING_COMPLETE = getSuccessActionName(BOOKING_SUBMIT);
@@ -15,7 +15,7 @@ const BOOKING_ERROR = getErrorActionName(BOOKING_SUBMIT);
 const BOOKING_VIEW = getSuccessActionName(BOOKING_FETCH);
 const HOTEL = getSuccessActionName(HOTEL_FETCH);
 const PAGE = PAGE_CHANGE;
-const PROPOSAL_CREATE = getSuccessActionName(PROPOSAL_NEW);
+const PROPOSAL_CREATE = getSuccessActionName(PROPOSALS_NEW);
 const PROPOSAL_VIEW = getSuccessActionName(PROPOSAL_FETCH);
 const SEARCH = getSuccessActionName(SEARCH_BY_QUERY);
 

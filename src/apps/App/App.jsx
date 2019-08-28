@@ -1,13 +1,13 @@
 import React, { Suspense } from 'react';
 import { Switch, withRouter } from 'react-router-dom';
 import { compose, prop } from 'ramda';
+import { ErrorBoundary, Loader } from '@pure-escapes/webapp-ui-components';
 
 import { getAppRoutes } from 'routing';
 
+import { Layout } from 'components';
 import { useScrollToTop, useEffectBoundary } from 'effects';
-import { Loader } from 'components/elements';
-import { Layout } from 'components/layouts/Layout';
-import { ErrorBoundary, withUser } from 'hoc';
+import { withUser } from 'hoc';
 
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';

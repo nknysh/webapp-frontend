@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 import { compose, pipe, values, when, complement, isNil } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Loader, Slider } from '@pure-escapes/webapp-ui-components';
 
-import { Loader, Slider } from 'components';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { mapWithIndex } from 'utils';
 

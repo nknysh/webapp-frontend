@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { compose, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { DropDownMenu } from '@pure-escapes/webapp-ui-components';
 
-import { DropDownMenu } from 'components';
 import { withAuthentication, withUser } from 'hoc';
 
 import { isSending } from 'store/common';

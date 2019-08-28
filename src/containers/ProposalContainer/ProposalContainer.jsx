@@ -25,9 +25,10 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Loader, Tabs, Section, Modal, Checkbox, Button } from '@pure-escapes/webapp-ui-components';
 
 import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
-import { Loader, BookingForm, Tabs, Section, ContextMenu, Modal, Checkbox, Button, Summary } from 'components';
+import { BookingForm, ContextMenu, Summary } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { formatDate } from 'utils';
 import { fields, data } from 'config/forms/bookingForm';

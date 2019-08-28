@@ -1,8 +1,8 @@
 import React, { useState, Fragment, useCallback } from 'react';
 import { compose, path, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
+import { Loader, Form, Title } from '@pure-escapes/webapp-ui-components';
 
-import { Form, Loader, Title } from 'components';
 import { extractFieldDefaults, sanitizeValues, getServerError } from 'utils/form';
 
 import { isSending, isSuccess } from 'store/common';

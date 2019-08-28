@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, prop, values } from 'ramda';
+import { Loader } from '@pure-escapes/webapp-ui-components';
 
 import { IndexTypes, SearchPatterns } from 'config/enums';
-import { Loader, Search } from 'components';
+
+import { Search } from 'components';
 import { useFetchData } from 'effects';
 import { buildQueryString } from 'utils';
 

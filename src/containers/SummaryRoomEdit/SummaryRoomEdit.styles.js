@@ -1,42 +1,42 @@
 import styled from 'styled-components';
+import { DatePicker, Button } from '@pure-escapes/webapp-ui-components';
 
-import { DatePicker, Button } from 'components';
-import { theme, breakpoints, withCurrency, withDiscountStyles, Heading3 } from 'styles';
+import { theme, withCurrency, withDiscountStyles, Heading3 } from 'styles';
 
 export const DatePrice = styled.div`
   ${withCurrency};
   color: ${theme.colors.black};
   font-weight: ${theme.fonts.normal};
-  margin-top: ${theme.gutter / 2}px;
+  margin-top: ${theme.spacing.gutter / 2}px;
   word-break: break-all;
 `;
 
 export const EditForm = styled.section`
-  padding: ${theme.gutter * 8}px ${theme.gutter * 2}px;
+  padding: ${theme.spacing.gutter * 8}px ${theme.spacing.gutter * 2}px;
   position: relative;
 
-  ${breakpoints.tablet`
-    padding: ${theme.gutter * 8}px ${theme.gutter * 10}px;
+  ${props => props.theme.breakpoints.tablet`
+    padding: ${theme.spacing.gutter * 8}px ${theme.spacing.gutter * 10}px;
     min-width: 600px;
   `}
 `;
 
 export const EditFormTitle = styled(Heading3)`
   font-family: ${theme.fonts.headingFont};
-  color: ${theme.secondary};
+  color: ${theme.palette.secondary};
   text-transform: capitalize;
   letter-spacing: ${theme.fonts.letterSpacing.medium}px;
   line-height: 29px;
   padding: 0;
-  margin: 0 0 ${theme.gutter * 5}px;
+  margin: 0 0 ${theme.spacing.gutter * 5}px;
   font-size: ${theme.fonts.sizes.bigger}px;
 `;
 
 export const EditFormSection = styled.div`
-  margin: ${theme.gutter * 5}px 0 0;
+  margin: ${theme.spacing.gutter * 5}px 0 0;
 
   > div > label {
-    margin-bottom: ${theme.gutter}px;
+    margin-bottom: ${theme.spacing.gutter}px;
   }
 
   :first-child {
@@ -45,8 +45,8 @@ export const EditFormSection = styled.div`
 `;
 
 export const EditFormSectionTitle = styled.label`
-  margin: 0 0 ${theme.gutter}px;
-  padding: 0 0 ${theme.gutter}px;
+  margin: 0 0 ${theme.spacing.gutter}px;
+  padding: 0 0 ${theme.spacing.gutter}px;
   border-bottom: 1px solid ${theme.borders.default};
   display: block;
   width: 100%;
@@ -56,7 +56,7 @@ export const StyledDatePicker = styled(DatePicker)`
   position: relative;
 
   .date-picker {
-    margin: ${theme.gutter}px 0;
+    margin: ${theme.spacing.gutter}px 0;
 
     .date-picker__day {
       min-height: 55px !important;

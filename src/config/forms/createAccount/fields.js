@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { pick, prop, omit } from 'ramda';
-import i18n from 'config/i18n';
+import { RadioButton, Select } from '@pure-escapes/webapp-ui-components';
 
-import { RadioButton, Select } from 'components/elements';
+import i18n from 'config/i18n';
 
 import { arrayToKeyValueObject } from 'utils';
 

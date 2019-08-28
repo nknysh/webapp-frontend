@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { prop, compose, pick, keys, equals, propOr, pipe, props, join, isEmpty, map } from 'ramda';
 import { Grid } from '@material-ui/core';
+import { Form, Section, Button, Status, Loader, Link } from '@pure-escapes/webapp-ui-components';
 
-import { Form, Section, Button, Status, Loader, Link } from 'components';
 import { withAuthentication, withUser } from 'hoc';
 
 import { AuthTypes } from 'config/enums';
