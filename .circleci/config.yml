@@ -49,6 +49,9 @@ jobs:
           name: Set env variables
           command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
       - run:
+          name: Auth with NPM private registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/deploy/.npmrc
+      - run:
           name: build react app
           command: npm i && npm run build
       # - run:
