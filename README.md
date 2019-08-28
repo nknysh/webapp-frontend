@@ -1,4 +1,4 @@
-![Build status](https://codebuild.eu-west-2.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiT2dYTFZ6RmlwRmpwS0NZYVZwWGFYQURtTFZTVkw3Sm1GMTdvekdHVEdndHBYZEJlOXJQbUVWVGFMMCtoNVc1M1I5Q1Rwd25jUEl5MVVTTVBvOHJjb3dZPSIsIml2UGFyYW1ldGVyU3BlYyI6IlZoVDBaVHhmZkFBOVBWclIiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+[![Build Status](https://circleci.com/gh/pure-escapes/webapp-frontend.svg?style=svg)](https://circleci.com/gh/pure-escapes/webapp-frontend)
 
 # Pure Escapes Webapp Frontned
 
@@ -6,4 +6,3 @@
 
 1. `npm i`
 1. `npm run dev`
-

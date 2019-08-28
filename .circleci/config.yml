@@ -1,0 +1,91 @@
+---
+version: 2.1
+
+commands:
+  s3deploy:
+    description: "Deploy to S3"
+    parameters:
+      to:
+        type: string
+      cf_distribution_id:
+        type: string
+      dir:
+        type: string
+    steps:
+      - run: |
+          aws configure set preview.cloudfront true
+      - run: |
+          aws s3 sync << parameters.dir >> s3://<< parameters.to >> \
+            --acl public-read --delete \
+            --cache-control max-age=31536000
+      - run: |
+          aws cloudfront create-invalidation \
+              --distribution-id << parameters.cf_distribution_id >> \
+              --paths /\*
+jobs:
+  build:
+    docker:
+      - image: circleci/node:dubnium
+    working_directory: ~/deploy
+    environment:
+      NODE_ENV: qa
+      APP_ENV: qa
+      APP_VERBOSE_ERRORS: "false"
+      API_BASE_URL: https://qa.pure-escapes.com/api
+      ADMIN_BASE_URL: https://qa.pure-escapes.com/admin
+      PAYMENT_ENABLED: "false"
+      BOOKINGS_ON_REQUEST: "false"
+      DRIFT_APP_ID: b5ivt3e4xa3w
+      DRIFT_ENABLED_ROLES: ta
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+      - attach_workspace:
+          at: .
+      - run:
+          name: Set env variables
+          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
+      - run:
+          name: Auth with NPM private registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/deploy/.npmrc
+      - run:
+          name: build react app
+          command: npm i && npm run build
+      # - run:
+      #     name: Run tests
+      #     command: npm run test:ci
+      - persist_to_workspace:
+          root: .
+          paths: .
+  deploy_qa:
+    docker:
+      - image: circleci/python:3.6-jessie
+    working_directory: ~/deploy
+    environment:
+      NODE_ENV: QA
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Set env variables
+          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+      - s3deploy:
+          to: qa.pure-escapes.com
+          cf_distribution_id: E3DKVF7CKJKFV
+          dir: /home/circleci/deploy/dist
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - build
+      - deploy_qa:
+          requires:
+            - build
+          context: deployments
