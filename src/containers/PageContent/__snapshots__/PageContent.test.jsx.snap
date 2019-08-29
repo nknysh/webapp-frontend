@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<PageContent /> render matches snapshot while loading 1`] = `
-<withThemeProvider(Po)
+<withThemeProvider(Ao)
   isLoading={true}
   theme={
     Object {
@@ -87,6 +87,20 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
         },
       },
       "muiTheme": Object {
+        "backgrounds": Object {
+          "default": "#FFFFFF",
+          "defaultOpacity": "rgba(248,248,248,0.85)",
+          "light": "#F8F8F8",
+          "secondary": "#F8F8F8",
+          "whiteOpacity": "rgba(255,255,255, 0.9)",
+        },
+        "borders": Object {
+          "default": "#E0E0E0",
+          "medium": "#E9E8E9",
+          "normal": "#EAEAEA",
+          "range": "#816850",
+          "secondary": "#E1E1E1",
+        },
         "breakpoints": Object {
           "between": [Function],
           "down": [Function],
@@ -109,6 +123,29 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
           "width": [Function],
         },
         "direction": "ltr",
+        "fonts": Object {
+          "bold": 600,
+          "bolder": 800,
+          "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+          "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+          "letterSpacing": Object {
+            "medium": 0.5,
+            "mid": 0.46,
+            "whole": 1,
+          },
+          "light": 300,
+          "lighter": 200,
+          "normal": "normal",
+          "sizes": Object {
+            "big": 18,
+            "bigger": 22,
+            "default": 12,
+            "less": 13,
+            "link": 11,
+            "mid": 16,
+            "normal": 14,
+          },
+        },
         "mixins": Object {
           "gutters": [Function],
           "toolbar": Object {
@@ -486,6 +523,20 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -508,6 +559,29 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -792,7 +866,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(La)
+          <withThemeProvider(Za)
             theme={
               Object {
                 "animations": Object {
@@ -877,6 +951,20 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                   },
                 },
                 "muiTheme": Object {
+                  "backgrounds": Object {
+                    "default": "#FFFFFF",
+                    "defaultOpacity": "rgba(248,248,248,0.85)",
+                    "light": "#F8F8F8",
+                    "secondary": "#F8F8F8",
+                    "whiteOpacity": "rgba(255,255,255, 0.9)",
+                  },
+                  "borders": Object {
+                    "default": "#E0E0E0",
+                    "medium": "#E9E8E9",
+                    "normal": "#EAEAEA",
+                    "range": "#816850",
+                    "secondary": "#E1E1E1",
+                  },
                   "breakpoints": Object {
                     "between": [Function],
                     "down": [Function],
@@ -899,6 +987,29 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                     "width": [Function],
                   },
                   "direction": "ltr",
+                  "fonts": Object {
+                    "bold": 600,
+                    "bolder": 800,
+                    "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                    "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                    "letterSpacing": Object {
+                      "medium": 0.5,
+                      "mid": 0.46,
+                      "whole": 1,
+                    },
+                    "light": 300,
+                    "lighter": 200,
+                    "normal": "normal",
+                    "sizes": Object {
+                      "big": 18,
+                      "bigger": 22,
+                      "default": 12,
+                      "less": 13,
+                      "link": 11,
+                      "mid": 16,
+                      "normal": 14,
+                    },
+                  },
                   "mixins": Object {
                     "gutters": [Function],
                     "toolbar": Object {
@@ -1181,7 +1292,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
               }
             }
           >
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -1266,6 +1377,20 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -1288,6 +1413,29 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -1570,11 +1718,11 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                 }
               }
             />
-          </withThemeProvider(La)>
+          </withThemeProvider(Za)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -1659,6 +1807,20 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -1681,6 +1843,29 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -1968,11 +2153,11 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Po)>
+</withThemeProvider(Ao)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 1`] = `
-<withThemeProvider(Po)
+<withThemeProvider(Ao)
   isLoading={false}
   theme={
     Object {
@@ -2058,6 +2243,20 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
         },
       },
       "muiTheme": Object {
+        "backgrounds": Object {
+          "default": "#FFFFFF",
+          "defaultOpacity": "rgba(248,248,248,0.85)",
+          "light": "#F8F8F8",
+          "secondary": "#F8F8F8",
+          "whiteOpacity": "rgba(255,255,255, 0.9)",
+        },
+        "borders": Object {
+          "default": "#E0E0E0",
+          "medium": "#E9E8E9",
+          "normal": "#EAEAEA",
+          "range": "#816850",
+          "secondary": "#E1E1E1",
+        },
         "breakpoints": Object {
           "between": [Function],
           "down": [Function],
@@ -2080,6 +2279,29 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
           "width": [Function],
         },
         "direction": "ltr",
+        "fonts": Object {
+          "bold": 600,
+          "bolder": 800,
+          "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+          "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+          "letterSpacing": Object {
+            "medium": 0.5,
+            "mid": 0.46,
+            "whole": 1,
+          },
+          "light": 300,
+          "lighter": 200,
+          "normal": "normal",
+          "sizes": Object {
+            "big": 18,
+            "bigger": 22,
+            "default": 12,
+            "less": 13,
+            "link": 11,
+            "mid": 16,
+            "normal": 14,
+          },
+        },
         "mixins": Object {
           "gutters": [Function],
           "toolbar": Object {
@@ -2457,6 +2679,20 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -2479,6 +2715,29 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -2763,7 +3022,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(La)
+          <withThemeProvider(Za)
             theme={
               Object {
                 "animations": Object {
@@ -2848,6 +3107,20 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                   },
                 },
                 "muiTheme": Object {
+                  "backgrounds": Object {
+                    "default": "#FFFFFF",
+                    "defaultOpacity": "rgba(248,248,248,0.85)",
+                    "light": "#F8F8F8",
+                    "secondary": "#F8F8F8",
+                    "whiteOpacity": "rgba(255,255,255, 0.9)",
+                  },
+                  "borders": Object {
+                    "default": "#E0E0E0",
+                    "medium": "#E9E8E9",
+                    "normal": "#EAEAEA",
+                    "range": "#816850",
+                    "secondary": "#E1E1E1",
+                  },
                   "breakpoints": Object {
                     "between": [Function],
                     "down": [Function],
@@ -2870,6 +3143,29 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                     "width": [Function],
                   },
                   "direction": "ltr",
+                  "fonts": Object {
+                    "bold": 600,
+                    "bolder": 800,
+                    "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                    "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                    "letterSpacing": Object {
+                      "medium": 0.5,
+                      "mid": 0.46,
+                      "whole": 1,
+                    },
+                    "light": 300,
+                    "lighter": 200,
+                    "normal": "normal",
+                    "sizes": Object {
+                      "big": 18,
+                      "bigger": 22,
+                      "default": 12,
+                      "less": 13,
+                      "link": 11,
+                      "mid": 16,
+                      "normal": 14,
+                    },
+                  },
                   "mixins": Object {
                     "gutters": [Function],
                     "toolbar": Object {
@@ -3152,7 +3448,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
               }
             }
           >
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -3237,6 +3533,20 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -3259,6 +3569,29 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -3541,11 +3874,11 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                 }
               }
             />
-          </withThemeProvider(La)>
+          </withThemeProvider(Za)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -3630,6 +3963,20 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -3652,6 +3999,29 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -3935,17 +4305,17 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
               }
             >
               ### some data
-            </withThemeProvider(_o)>
+            </withThemeProvider(qo)>
           </PageContentstyles__PageContentData>
         </PageContentstyles__ColumnRight>
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Po)>
+</withThemeProvider(Ao)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 2`] = `
-<withThemeProvider(Po)
+<withThemeProvider(Ao)
   isLoading={false}
   theme={
     Object {
@@ -4031,6 +4401,20 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
         },
       },
       "muiTheme": Object {
+        "backgrounds": Object {
+          "default": "#FFFFFF",
+          "defaultOpacity": "rgba(248,248,248,0.85)",
+          "light": "#F8F8F8",
+          "secondary": "#F8F8F8",
+          "whiteOpacity": "rgba(255,255,255, 0.9)",
+        },
+        "borders": Object {
+          "default": "#E0E0E0",
+          "medium": "#E9E8E9",
+          "normal": "#EAEAEA",
+          "range": "#816850",
+          "secondary": "#E1E1E1",
+        },
         "breakpoints": Object {
           "between": [Function],
           "down": [Function],
@@ -4053,6 +4437,29 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
           "width": [Function],
         },
         "direction": "ltr",
+        "fonts": Object {
+          "bold": 600,
+          "bolder": 800,
+          "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+          "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+          "letterSpacing": Object {
+            "medium": 0.5,
+            "mid": 0.46,
+            "whole": 1,
+          },
+          "light": 300,
+          "lighter": 200,
+          "normal": "normal",
+          "sizes": Object {
+            "big": 18,
+            "bigger": 22,
+            "default": 12,
+            "less": 13,
+            "link": 11,
+            "mid": 16,
+            "normal": 14,
+          },
+        },
         "mixins": Object {
           "gutters": [Function],
           "toolbar": Object {
@@ -4432,6 +4839,20 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -4454,6 +4875,29 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -4738,7 +5182,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(La)
+          <withThemeProvider(Za)
             theme={
               Object {
                 "animations": Object {
@@ -4823,6 +5267,20 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                   },
                 },
                 "muiTheme": Object {
+                  "backgrounds": Object {
+                    "default": "#FFFFFF",
+                    "defaultOpacity": "rgba(248,248,248,0.85)",
+                    "light": "#F8F8F8",
+                    "secondary": "#F8F8F8",
+                    "whiteOpacity": "rgba(255,255,255, 0.9)",
+                  },
+                  "borders": Object {
+                    "default": "#E0E0E0",
+                    "medium": "#E9E8E9",
+                    "normal": "#EAEAEA",
+                    "range": "#816850",
+                    "secondary": "#E1E1E1",
+                  },
                   "breakpoints": Object {
                     "between": [Function],
                     "down": [Function],
@@ -4845,6 +5303,29 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                     "width": [Function],
                   },
                   "direction": "ltr",
+                  "fonts": Object {
+                    "bold": 600,
+                    "bolder": 800,
+                    "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                    "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                    "letterSpacing": Object {
+                      "medium": 0.5,
+                      "mid": 0.46,
+                      "whole": 1,
+                    },
+                    "light": 300,
+                    "lighter": 200,
+                    "normal": "normal",
+                    "sizes": Object {
+                      "big": 18,
+                      "bigger": 22,
+                      "default": 12,
+                      "less": 13,
+                      "link": 11,
+                      "mid": 16,
+                      "normal": 14,
+                    },
+                  },
                   "mixins": Object {
                     "gutters": [Function],
                     "toolbar": Object {
@@ -5128,7 +5609,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
             }
             title="foo"
           >
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -5213,6 +5694,20 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -5235,6 +5730,29 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -5517,11 +6035,11 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                 }
               }
             />
-          </withThemeProvider(La)>
+          </withThemeProvider(Za)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -5606,6 +6124,20 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -5628,6 +6160,29 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -5911,17 +6466,17 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
               }
             >
               ### some data
-            </withThemeProvider(_o)>
+            </withThemeProvider(qo)>
           </PageContentstyles__PageContentData>
         </PageContentstyles__ColumnRight>
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Po)>
+</withThemeProvider(Ao)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 3`] = `
-<withThemeProvider(Po)
+<withThemeProvider(Ao)
   isLoading={false}
   theme={
     Object {
@@ -6007,6 +6562,20 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
         },
       },
       "muiTheme": Object {
+        "backgrounds": Object {
+          "default": "#FFFFFF",
+          "defaultOpacity": "rgba(248,248,248,0.85)",
+          "light": "#F8F8F8",
+          "secondary": "#F8F8F8",
+          "whiteOpacity": "rgba(255,255,255, 0.9)",
+        },
+        "borders": Object {
+          "default": "#E0E0E0",
+          "medium": "#E9E8E9",
+          "normal": "#EAEAEA",
+          "range": "#816850",
+          "secondary": "#E1E1E1",
+        },
         "breakpoints": Object {
           "between": [Function],
           "down": [Function],
@@ -6029,6 +6598,29 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
           "width": [Function],
         },
         "direction": "ltr",
+        "fonts": Object {
+          "bold": 600,
+          "bolder": 800,
+          "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+          "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+          "letterSpacing": Object {
+            "medium": 0.5,
+            "mid": 0.46,
+            "whole": 1,
+          },
+          "light": 300,
+          "lighter": 200,
+          "normal": "normal",
+          "sizes": Object {
+            "big": 18,
+            "bigger": 22,
+            "default": 12,
+            "less": 13,
+            "link": 11,
+            "mid": 16,
+            "normal": 14,
+          },
+        },
         "mixins": Object {
           "gutters": [Function],
           "toolbar": Object {
@@ -6408,6 +7000,20 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -6430,6 +7036,29 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -6714,7 +7343,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(La)
+          <withThemeProvider(Za)
             theme={
               Object {
                 "animations": Object {
@@ -6799,6 +7428,20 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                   },
                 },
                 "muiTheme": Object {
+                  "backgrounds": Object {
+                    "default": "#FFFFFF",
+                    "defaultOpacity": "rgba(248,248,248,0.85)",
+                    "light": "#F8F8F8",
+                    "secondary": "#F8F8F8",
+                    "whiteOpacity": "rgba(255,255,255, 0.9)",
+                  },
+                  "borders": Object {
+                    "default": "#E0E0E0",
+                    "medium": "#E9E8E9",
+                    "normal": "#EAEAEA",
+                    "range": "#816850",
+                    "secondary": "#E1E1E1",
+                  },
                   "breakpoints": Object {
                     "between": [Function],
                     "down": [Function],
@@ -6821,6 +7464,29 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                     "width": [Function],
                   },
                   "direction": "ltr",
+                  "fonts": Object {
+                    "bold": 600,
+                    "bolder": 800,
+                    "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                    "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                    "letterSpacing": Object {
+                      "medium": 0.5,
+                      "mid": 0.46,
+                      "whole": 1,
+                    },
+                    "light": 300,
+                    "lighter": 200,
+                    "normal": "normal",
+                    "sizes": Object {
+                      "big": 18,
+                      "bigger": 22,
+                      "default": 12,
+                      "less": 13,
+                      "link": 11,
+                      "mid": 16,
+                      "normal": 14,
+                    },
+                  },
                   "mixins": Object {
                     "gutters": [Function],
                     "toolbar": Object {
@@ -7104,7 +7770,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
             }
             title="foo"
           >
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -7189,6 +7855,20 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -7211,6 +7891,29 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -7494,12 +8197,12 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               }
             >
               - a link
-            </withThemeProvider(_o)>
-          </withThemeProvider(La)>
+            </withThemeProvider(qo)>
+          </withThemeProvider(Za)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -7584,6 +8287,20 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -7606,6 +8323,29 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -7889,17 +8629,17 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               }
             >
               ### some data
-            </withThemeProvider(_o)>
+            </withThemeProvider(qo)>
           </PageContentstyles__PageContentData>
         </PageContentstyles__ColumnRight>
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Po)>
+</withThemeProvider(Ao)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 4`] = `
-<withThemeProvider(Po)
+<withThemeProvider(Ao)
   isLoading={false}
   theme={
     Object {
@@ -7985,6 +8725,20 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
         },
       },
       "muiTheme": Object {
+        "backgrounds": Object {
+          "default": "#FFFFFF",
+          "defaultOpacity": "rgba(248,248,248,0.85)",
+          "light": "#F8F8F8",
+          "secondary": "#F8F8F8",
+          "whiteOpacity": "rgba(255,255,255, 0.9)",
+        },
+        "borders": Object {
+          "default": "#E0E0E0",
+          "medium": "#E9E8E9",
+          "normal": "#EAEAEA",
+          "range": "#816850",
+          "secondary": "#E1E1E1",
+        },
         "breakpoints": Object {
           "between": [Function],
           "down": [Function],
@@ -8007,6 +8761,29 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
           "width": [Function],
         },
         "direction": "ltr",
+        "fonts": Object {
+          "bold": 600,
+          "bolder": 800,
+          "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+          "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+          "letterSpacing": Object {
+            "medium": 0.5,
+            "mid": 0.46,
+            "whole": 1,
+          },
+          "light": 300,
+          "lighter": 200,
+          "normal": "normal",
+          "sizes": Object {
+            "big": 18,
+            "bigger": 22,
+            "default": 12,
+            "less": 13,
+            "link": 11,
+            "mid": 16,
+            "normal": 14,
+          },
+        },
         "mixins": Object {
           "gutters": [Function],
           "toolbar": Object {
@@ -8387,6 +9164,20 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -8409,6 +9200,29 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -8776,6 +9590,20 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -8798,6 +9626,29 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -9082,7 +9933,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(La)
+          <withThemeProvider(Za)
             theme={
               Object {
                 "animations": Object {
@@ -9167,6 +10018,20 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                   },
                 },
                 "muiTheme": Object {
+                  "backgrounds": Object {
+                    "default": "#FFFFFF",
+                    "defaultOpacity": "rgba(248,248,248,0.85)",
+                    "light": "#F8F8F8",
+                    "secondary": "#F8F8F8",
+                    "whiteOpacity": "rgba(255,255,255, 0.9)",
+                  },
+                  "borders": Object {
+                    "default": "#E0E0E0",
+                    "medium": "#E9E8E9",
+                    "normal": "#EAEAEA",
+                    "range": "#816850",
+                    "secondary": "#E1E1E1",
+                  },
                   "breakpoints": Object {
                     "between": [Function],
                     "down": [Function],
@@ -9189,6 +10054,29 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                     "width": [Function],
                   },
                   "direction": "ltr",
+                  "fonts": Object {
+                    "bold": 600,
+                    "bolder": 800,
+                    "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                    "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                    "letterSpacing": Object {
+                      "medium": 0.5,
+                      "mid": 0.46,
+                      "whole": 1,
+                    },
+                    "light": 300,
+                    "lighter": 200,
+                    "normal": "normal",
+                    "sizes": Object {
+                      "big": 18,
+                      "bigger": 22,
+                      "default": 12,
+                      "less": 13,
+                      "link": 11,
+                      "mid": 16,
+                      "normal": 14,
+                    },
+                  },
                   "mixins": Object {
                     "gutters": [Function],
                     "toolbar": Object {
@@ -9472,7 +10360,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             }
             title="foo"
           >
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -9557,6 +10445,20 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -9579,6 +10481,29 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -9862,12 +10787,12 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               }
             >
               - a link
-            </withThemeProvider(_o)>
-          </withThemeProvider(La)>
+            </withThemeProvider(qo)>
+          </withThemeProvider(Za)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(_o)
+            <withThemeProvider(qo)
               theme={
                 Object {
                   "animations": Object {
@@ -9952,6 +10877,20 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                     },
                   },
                   "muiTheme": Object {
+                    "backgrounds": Object {
+                      "default": "#FFFFFF",
+                      "defaultOpacity": "rgba(248,248,248,0.85)",
+                      "light": "#F8F8F8",
+                      "secondary": "#F8F8F8",
+                      "whiteOpacity": "rgba(255,255,255, 0.9)",
+                    },
+                    "borders": Object {
+                      "default": "#E0E0E0",
+                      "medium": "#E9E8E9",
+                      "normal": "#EAEAEA",
+                      "range": "#816850",
+                      "secondary": "#E1E1E1",
+                    },
                     "breakpoints": Object {
                       "between": [Function],
                       "down": [Function],
@@ -9974,6 +10913,29 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                       "width": [Function],
                     },
                     "direction": "ltr",
+                    "fonts": Object {
+                      "bold": 600,
+                      "bolder": 800,
+                      "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                      "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                      "letterSpacing": Object {
+                        "medium": 0.5,
+                        "mid": 0.46,
+                        "whole": 1,
+                      },
+                      "light": 300,
+                      "lighter": 200,
+                      "normal": "normal",
+                      "sizes": Object {
+                        "big": 18,
+                        "bigger": 22,
+                        "default": 12,
+                        "less": 13,
+                        "link": 11,
+                        "mid": 16,
+                        "normal": 14,
+                      },
+                    },
                     "mixins": Object {
                       "gutters": [Function],
                       "toolbar": Object {
@@ -10257,11 +11219,11 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               }
             >
               ### some data
-            </withThemeProvider(_o)>
+            </withThemeProvider(qo)>
           </PageContentstyles__PageContentData>
         </PageContentstyles__ColumnRight>
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Po)>
+</withThemeProvider(Ao)>
 `;
