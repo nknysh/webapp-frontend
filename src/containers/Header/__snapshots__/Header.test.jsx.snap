@@ -87,6 +87,20 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
           },
         },
         "muiTheme": Object {
+          "backgrounds": Object {
+            "default": "#FFFFFF",
+            "defaultOpacity": "rgba(248,248,248,0.85)",
+            "light": "#F8F8F8",
+            "secondary": "#F8F8F8",
+            "whiteOpacity": "rgba(255,255,255, 0.9)",
+          },
+          "borders": Object {
+            "default": "#E0E0E0",
+            "medium": "#E9E8E9",
+            "normal": "#EAEAEA",
+            "range": "#816850",
+            "secondary": "#E1E1E1",
+          },
           "breakpoints": Object {
             "between": [Function],
             "down": [Function],
@@ -109,6 +123,29 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
             "width": [Function],
           },
           "direction": "ltr",
+          "fonts": Object {
+            "bold": 600,
+            "bolder": 800,
+            "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+            "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+            "letterSpacing": Object {
+              "medium": 0.5,
+              "mid": 0.46,
+              "whole": 1,
+            },
+            "light": 300,
+            "lighter": 200,
+            "normal": "normal",
+            "sizes": Object {
+              "big": 18,
+              "bigger": 22,
+              "default": 12,
+              "less": 13,
+              "link": 11,
+              "mid": 16,
+              "normal": 14,
+            },
+          },
           "mixins": Object {
             "gutters": [Function],
             "toolbar": Object {
@@ -476,6 +513,20 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -498,6 +549,29 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -889,6 +963,20 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
               },
             },
             "muiTheme": Object {
+              "backgrounds": Object {
+                "default": "#FFFFFF",
+                "defaultOpacity": "rgba(248,248,248,0.85)",
+                "light": "#F8F8F8",
+                "secondary": "#F8F8F8",
+                "whiteOpacity": "rgba(255,255,255, 0.9)",
+              },
+              "borders": Object {
+                "default": "#E0E0E0",
+                "medium": "#E9E8E9",
+                "normal": "#EAEAEA",
+                "range": "#816850",
+                "secondary": "#E1E1E1",
+              },
               "breakpoints": Object {
                 "between": [Function],
                 "down": [Function],
@@ -911,6 +999,29 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
                 "width": [Function],
               },
               "direction": "ltr",
+              "fonts": Object {
+                "bold": 600,
+                "bolder": 800,
+                "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                "letterSpacing": Object {
+                  "medium": 0.5,
+                  "mid": 0.46,
+                  "whole": 1,
+                },
+                "light": 300,
+                "lighter": 200,
+                "normal": "normal",
+                "sizes": Object {
+                  "big": 18,
+                  "bigger": 22,
+                  "default": 12,
+                  "less": 13,
+                  "link": 11,
+                  "mid": 16,
+                  "normal": 14,
+                },
+              },
               "mixins": Object {
                 "gutters": [Function],
                 "toolbar": Object {
@@ -1287,6 +1398,20 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
           },
         },
         "muiTheme": Object {
+          "backgrounds": Object {
+            "default": "#FFFFFF",
+            "defaultOpacity": "rgba(248,248,248,0.85)",
+            "light": "#F8F8F8",
+            "secondary": "#F8F8F8",
+            "whiteOpacity": "rgba(255,255,255, 0.9)",
+          },
+          "borders": Object {
+            "default": "#E0E0E0",
+            "medium": "#E9E8E9",
+            "normal": "#EAEAEA",
+            "range": "#816850",
+            "secondary": "#E1E1E1",
+          },
           "breakpoints": Object {
             "between": [Function],
             "down": [Function],
@@ -1309,6 +1434,29 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
             "width": [Function],
           },
           "direction": "ltr",
+          "fonts": Object {
+            "bold": 600,
+            "bolder": 800,
+            "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+            "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+            "letterSpacing": Object {
+              "medium": 0.5,
+              "mid": 0.46,
+              "whole": 1,
+            },
+            "light": 300,
+            "lighter": 200,
+            "normal": "normal",
+            "sizes": Object {
+              "big": 18,
+              "bigger": 22,
+              "default": 12,
+              "less": 13,
+              "link": 11,
+              "mid": 16,
+              "normal": 14,
+            },
+          },
           "mixins": Object {
             "gutters": [Function],
             "toolbar": Object {
@@ -1676,6 +1824,20 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -1698,6 +1860,29 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -2093,6 +2278,20 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
               },
             },
             "muiTheme": Object {
+              "backgrounds": Object {
+                "default": "#FFFFFF",
+                "defaultOpacity": "rgba(248,248,248,0.85)",
+                "light": "#F8F8F8",
+                "secondary": "#F8F8F8",
+                "whiteOpacity": "rgba(255,255,255, 0.9)",
+              },
+              "borders": Object {
+                "default": "#E0E0E0",
+                "medium": "#E9E8E9",
+                "normal": "#EAEAEA",
+                "range": "#816850",
+                "secondary": "#E1E1E1",
+              },
               "breakpoints": Object {
                 "between": [Function],
                 "down": [Function],
@@ -2115,6 +2314,29 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
                 "width": [Function],
               },
               "direction": "ltr",
+              "fonts": Object {
+                "bold": 600,
+                "bolder": 800,
+                "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+                "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+                "letterSpacing": Object {
+                  "medium": 0.5,
+                  "mid": 0.46,
+                  "whole": 1,
+                },
+                "light": 300,
+                "lighter": 200,
+                "normal": "normal",
+                "sizes": Object {
+                  "big": 18,
+                  "bigger": 22,
+                  "default": 12,
+                  "less": 13,
+                  "link": 11,
+                  "mid": 16,
+                  "normal": 14,
+                },
+              },
               "mixins": Object {
                 "gutters": [Function],
                 "toolbar": Object {
@@ -2401,7 +2623,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
       </Headerstyles__HeaderMenu>
     </Headerstyles__HeaderMenuArea>
   </Headerstyles__HeaderContainer>
-  <withThemeProvider(Jo)
+  <withThemeProvider(Xo)
     onClose={[Function]}
     open={false}
     theme={
@@ -2488,6 +2710,20 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
           },
         },
         "muiTheme": Object {
+          "backgrounds": Object {
+            "default": "#FFFFFF",
+            "defaultOpacity": "rgba(248,248,248,0.85)",
+            "light": "#F8F8F8",
+            "secondary": "#F8F8F8",
+            "whiteOpacity": "rgba(255,255,255, 0.9)",
+          },
+          "borders": Object {
+            "default": "#E0E0E0",
+            "medium": "#E9E8E9",
+            "normal": "#EAEAEA",
+            "range": "#816850",
+            "secondary": "#E1E1E1",
+          },
           "breakpoints": Object {
             "between": [Function],
             "down": [Function],
@@ -2510,6 +2746,29 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
             "width": [Function],
           },
           "direction": "ltr",
+          "fonts": Object {
+            "bold": 600,
+            "bolder": 800,
+            "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+            "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+            "letterSpacing": Object {
+              "medium": 0.5,
+              "mid": 0.46,
+              "whole": 1,
+            },
+            "light": 300,
+            "lighter": 200,
+            "normal": "normal",
+            "sizes": Object {
+              "big": 18,
+              "bigger": 22,
+              "default": 12,
+              "less": 13,
+              "link": 11,
+              "mid": 16,
+              "normal": 14,
+            },
+          },
           "mixins": Object {
             "gutters": [Function],
             "toolbar": Object {

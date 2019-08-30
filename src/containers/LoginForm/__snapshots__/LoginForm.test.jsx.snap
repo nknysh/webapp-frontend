@@ -2,7 +2,7 @@
 
 exports[`<LoginForm /> render matches snapshot 1`] = `
 <LoginFormstyles__StyledLoginForm>
-  <withThemeProvider(Po)
+  <withThemeProvider(Ao)
     isLoading={false}
     text="Logging in..."
     theme={
@@ -89,6 +89,20 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
           },
         },
         "muiTheme": Object {
+          "backgrounds": Object {
+            "default": "#FFFFFF",
+            "defaultOpacity": "rgba(248,248,248,0.85)",
+            "light": "#F8F8F8",
+            "secondary": "#F8F8F8",
+            "whiteOpacity": "rgba(255,255,255, 0.9)",
+          },
+          "borders": Object {
+            "default": "#E0E0E0",
+            "medium": "#E9E8E9",
+            "normal": "#EAEAEA",
+            "range": "#816850",
+            "secondary": "#E1E1E1",
+          },
           "breakpoints": Object {
             "between": [Function],
             "down": [Function],
@@ -111,6 +125,29 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
             "width": [Function],
           },
           "direction": "ltr",
+          "fonts": Object {
+            "bold": 600,
+            "bolder": 800,
+            "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+            "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+            "letterSpacing": Object {
+              "medium": 0.5,
+              "mid": 0.46,
+              "whole": 1,
+            },
+            "light": 300,
+            "lighter": 200,
+            "normal": "normal",
+            "sizes": Object {
+              "big": 18,
+              "bigger": 22,
+              "default": 12,
+              "less": 13,
+              "link": 11,
+              "mid": 16,
+              "normal": 14,
+            },
+          },
           "mixins": Object {
             "gutters": [Function],
             "toolbar": Object {
@@ -393,7 +430,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
       }
     }
   >
-    <withThemeProvider(ji)
+    <withThemeProvider(Li)
       theme={
         Object {
           "animations": Object {
@@ -478,6 +515,20 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -500,6 +551,29 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -783,7 +857,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
       }
     >
       Sign In
-    </withThemeProvider(ji)>
+    </withThemeProvider(Li)>
     <LoginFormstyles__ServerErrorContent
       theme={
         Object {
@@ -869,6 +943,20 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -891,6 +979,29 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -1266,6 +1377,20 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
             },
           },
           "muiTheme": Object {
+            "backgrounds": Object {
+              "default": "#FFFFFF",
+              "defaultOpacity": "rgba(248,248,248,0.85)",
+              "light": "#F8F8F8",
+              "secondary": "#F8F8F8",
+              "whiteOpacity": "rgba(255,255,255, 0.9)",
+            },
+            "borders": Object {
+              "default": "#E0E0E0",
+              "medium": "#E9E8E9",
+              "normal": "#EAEAEA",
+              "range": "#816850",
+              "secondary": "#E1E1E1",
+            },
             "breakpoints": Object {
               "between": [Function],
               "down": [Function],
@@ -1288,6 +1413,29 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
               "width": [Function],
             },
             "direction": "ltr",
+            "fonts": Object {
+              "bold": 600,
+              "bolder": 800,
+              "defaultFont": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
+              "headingFont": "NoeDisplay, \\"Open Sans\\", sans-serif",
+              "letterSpacing": Object {
+                "medium": 0.5,
+                "mid": 0.46,
+                "whole": 1,
+              },
+              "light": 300,
+              "lighter": 200,
+              "normal": "normal",
+              "sizes": Object {
+                "big": 18,
+                "bigger": 22,
+                "default": 12,
+                "less": 13,
+                "link": 11,
+                "mid": 16,
+                "normal": 14,
+              },
+            },
             "mixins": Object {
               "gutters": [Function],
               "toolbar": Object {
@@ -1672,6 +1820,6 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
     >
       <Component />
     </withThemeProvider(Form)>
-  </withThemeProvider(Po)>
+  </withThemeProvider(Ao)>
 </LoginFormstyles__StyledLoginForm>
 `;

@@ -27,12 +27,6 @@ const isNotNil = complement(isNil);
 const mapNumbers = when(isNotNil, map(Number));
 const mapSelected = when(isNotNil, map(toBoolean));
 
-const fromLocalStorage = pipe(
-  // Ramda can't invoke getItem properly without the browser throwing a fit
-  key => localStorage.getItem(key),
-  parseJson
-);
-
 const formatData = pipe(
   over(datesFromLens, newDate),
   over(datesToLens, newDate),
@@ -44,6 +38,13 @@ const formatData = pipe(
   over(filtersStarRatingsLens, mapSelected),
   over(filtersPricesLens, mapNumbers),
   over(filtersFeaturesLens, mapSelected)
+);
+
+const fromLocalStorage = pipe(
+  // Ramda can't invoke getItem properly without the browser throwing a fit
+  key => localStorage.getItem(key),
+  parseJson,
+  formatData
 );
 
 const getSearchQuery = pipe(
