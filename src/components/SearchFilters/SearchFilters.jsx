@@ -181,7 +181,6 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
       <Title>{t('priceRange')}</Title>
       <SectionField>
-        <p>{t('taglines.pricesIn')}</p>
         <PriceRangeLabels>
           <PriceRangeLabel>
             {t('labels.from')} <PriceRangeLabelPrice>{priceStart}</PriceRangeLabelPrice>

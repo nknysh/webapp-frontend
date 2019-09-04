@@ -160,10 +160,10 @@ const renderModalForm = ({ onModalSubmit, buttonLabel, initialValues }) => (
   />
 );
 
-const renderModalContent = (t, { isOnRequest, paymentType, onModalSubmit, total }) => {
+const renderModalContent = (t, { isOnRequest, paymentType, onModalSubmit, total, currencyCode }) => {
   const finalizeAndPay = (
     <Fragment>
-      {t('buttons.finalizeAndPay')} | <Total>{total}</Total>
+      {t('buttons.finalizeAndPay')} | <Total>{`${currencyCode}${total}`}</Total>
     </Fragment>
   );
 

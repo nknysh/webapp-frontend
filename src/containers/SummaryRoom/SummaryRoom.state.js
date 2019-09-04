@@ -13,8 +13,10 @@ import {
   getPotentialBookingRoomsById,
   removeRoom,
 } from 'store/modules/bookings';
+import { getHotelCurrencySymbol } from 'store/modules/hotels';
 
 export const mapStateToProps = (state, { id, roomId }) => ({
+  currencyCode: getHotelCurrencySymbol(state, id),
   dates: getBookingRoomDatesById(state, id, roomId),
   errors: getBookingErrorsByRoomId(state, id, roomId),
   hold: getBookingRoomHolds(state, id, roomId),

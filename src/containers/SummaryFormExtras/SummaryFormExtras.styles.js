@@ -3,7 +3,7 @@ import { Icon } from '@material-ui/core';
 import { Checkbox } from '@pure-escapes/webapp-ui-components';
 
 import { ContextMenu as BaseContextMenu } from 'components';
-import { theme, withCurrency, withDiscountStyles } from 'styles';
+import { theme, withDiscountStyles } from 'styles';
 
 export { Title } from 'containers/SummaryForm/SummaryForm.styles';
 
@@ -14,7 +14,6 @@ export const OptionRate = styled.span`
 `;
 
 export const OptionPrice = styled.span`
-  ${withCurrency};
   ${withDiscountStyles};
 `;
 

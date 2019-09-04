@@ -68,13 +68,13 @@ import {
 
 const renderAddonCheckbox = props => <AddonCheckbox {...props} />;
 
-const renderSummaryArea = ({ key, children, total, totalBeforeDiscount }) => (
+const renderSummaryArea = ({ currencyCode, key, children, total, totalBeforeDiscount }) => (
   <Fragment key={key}>
     <Summary.Product>{children}</Summary.Product>
     <Summary.Totals>
-      <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{total}</Summary.Total>
+      <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{`${currencyCode}${total}`}</Summary.Total>
       {!equals(total, totalBeforeDiscount) && (
-        <Summary.Total data-discounted={true}>{totalBeforeDiscount}</Summary.Total>
+        <Summary.Total data-discounted={true}>{`${currencyCode}${totalBeforeDiscount}`}</Summary.Total>
       )}
     </Summary.Totals>
   </Fragment>
@@ -111,28 +111,34 @@ const wrapProductToolTip = (label, { meta }) =>
     </ToolTip>
   );
 
-// eslint-disable-next-line
-const renderOption = (t, { total, totalBeforeDiscount, offers, title, product, quantity = 0, rateUuid }, i) => (
+const renderOption = (
+  t,
+  { currencyCode },
+  { total, totalBeforeDiscount, offers, title, product, quantity = 0, rateUuid },
+  i
+) => (
   <OptionRate key={rateUuid + i}>
-    {gt(quantity, 1) && `${quantity} x`} {wrapProductToolTip(title, product)} (+{' '}
-    <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>{totalBeforeDiscount}</OptionPrice>
+    {gt(quantity, 1) && `${quantity} x`} {wrapProductToolTip(title, product)} (+
+    <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>
+      {`${currencyCode}${totalBeforeDiscount}`}
+    </OptionPrice>
     {!equals(total, totalBeforeDiscount) && (
       <Fragment>
         {' '}
-        <OptionPrice data-discount={true}>{total}</OptionPrice>
+        <OptionPrice data-discount={true}>{`${currencyCode}${total}`}</OptionPrice>
       </Fragment>
     )}
     ){!equals(total, totalBeforeDiscount) && mapWithIndex(partial(renderOptionOffer, [t]), offers)}
   </OptionRate>
 );
 
-const renderOneWayOption = (t, direction, breakdownData, i) => (
+const renderOneWayOption = (t, direction, currencyCode, breakdownData, i) => (
   <Fragment key={i}>
-    {renderOption(t, breakdownData, i)} - {t(`labels.${direction}`)}
+    {renderOption(t, { currencyCode }, breakdownData, i)} - {t(`labels.${direction}`)}
   </Fragment>
 );
 
-const renderOneWayProduct = (t, productType, { onOneWayChange }, products, uuids) =>
+const renderOneWayProduct = (t, productType, { onOneWayChange, currencyCode }, products, uuids) =>
   map(({ breakdown, meta: { direction }, selected }) => {
     const identifier = join('|', [uuids, direction]);
 
@@ -141,7 +147,7 @@ const renderOneWayProduct = (t, productType, { onOneWayChange }, products, uuids
       checked: selected,
       onChange: partial(onOneWayChange, [productType]),
       key: identifier,
-      label: mapWithIndex(partial(renderOneWayOption, [t, direction]), breakdown),
+      label: mapWithIndex(partial(renderOneWayOption, [t, direction, currencyCode]), breakdown),
       value: identifier,
     });
   }, products);
@@ -160,11 +166,17 @@ const renderSummaryOffer = (t, { offer }, i) => (
   </Summary.Offer>
 );
 
-const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, breakdown, selected, ...props }) =>
+const renderOptionSummary = (
+  t,
+  { currencyCode },
+  accum,
+  { total, totalBeforeDiscount, products, breakdown, selected, ...props }
+) =>
   selected
     ? append(
         renderSummaryArea({
           key: join(',', products),
+          currencyCode,
           total,
           totalBeforeDiscount,
           children: (
@@ -186,9 +198,9 @@ const renderOptionSummary = (t, accum, { total, totalBeforeDiscount, products, b
       )
     : accum;
 
-const getOption = (t, { products, breakdown }) => {
+const getOption = (t, props, { products, breakdown }) => {
   const value = join(',', map(prop('uuid'), products));
-  const label = mapWithIndex(partial(renderOption, [t]), breakdown);
+  const label = mapWithIndex(partial(renderOption, [t, props]), breakdown);
 
   return { label, value };
 };
@@ -198,13 +210,13 @@ const renderExtraOptions = (
   type,
   productType,
   products,
-  { onSingleChange, onOneWayChange, summaryOnly, values, compactEdit, onEditClick },
+  { onSingleChange, onOneWayChange, summaryOnly, values, compactEdit, onEditClick, currencyCode },
   optional = true
 ) => {
   if (isNilOrEmpty(products)) return;
 
   if (summaryOnly || compactEdit) {
-    const summaries = reduce(partial(renderOptionSummary, [t]), [], products);
+    const summaries = reduce(partial(renderOptionSummary, [t, { currencyCode }]), [], products);
 
     return (
       (!isNilOrEmpty(summaries) || compactEdit) && (
@@ -226,7 +238,7 @@ const renderExtraOptions = (
 
   const options = pipe(
     productsBothWays,
-    map(partial(getOption, [t])),
+    map(partial(getOption, [t, { currencyCode }])),
     when(both(complement(isEmpty), always(optional)), prepend({ label: 'None', value: '' }))
   )(products);
 
@@ -242,7 +254,8 @@ const renderExtraOptions = (
             options={options}
             value={isString(propOr('', productType, values)) && propOr('', productType, values)}
           />
-          {!summaryOnly && renderOneWayProducts(t, productType, productsOneWay(products), { onOneWayChange })}
+          {!summaryOnly &&
+            renderOneWayProducts(t, productType, productsOneWay(products), { onOneWayChange, currencyCode })}
         </Fragment>
       ),
     })
@@ -262,6 +275,7 @@ const renderMargin = (
     editGuard,
     onEditGuard,
     canBook,
+    currencyCode,
   }
 ) => {
   if (!canBook) return;
@@ -269,15 +283,16 @@ const renderMargin = (
   return summaryOnly || compactEdit ? (
     <Summary title={t('labels.commission')}>
       <SummaryFormMargin
-        key={Date.now()}
         checked={propOr(true, 'marginApplied', values)}
         compact={compact}
         compactEdit={compactEdit}
+        currencyCode={currencyCode}
+        editGuard={editGuard}
+        key={Date.now()}
         onChange={onMarginChange}
         onEditClick={onEditClick}
-        summaryOnly={summaryOnly}
-        editGuard={editGuard}
         onEditGuard={onEditGuard}
+        summaryOnly={summaryOnly}
         total={grandTotal}
         type={propOr('percentage', 'taMarginType', values)}
         value={propOr(0, 'taMarginAmount', values)}
@@ -290,11 +305,12 @@ const renderMargin = (
         <Fragment>
           <SummaryFormMargin
             checked={propOr(true, 'marginApplied', values)}
+            currencyCode={currencyCode}
+            editGuard={editGuard}
             onChange={onMarginChange}
+            onEditGuard={onEditGuard}
             summaryOnly={summaryOnly}
             total={grandTotal}
-            editGuard={editGuard}
-            onEditGuard={onEditGuard}
             type={propOr('percentage', 'taMarginType', values)}
             value={propOr(0, 'taMarginAmount', values)}
           />
@@ -307,7 +323,7 @@ const renderMargin = (
 
 const renderSelect = (
   t,
-  { onMultipleChange, summaryOnly, values, compactEdit },
+  { onMultipleChange, summaryOnly, values, compactEdit, currencyCode },
   { products, breakdown, selected, total, totalBeforeDiscount, offers }
 ) => {
   const uuids = join(',', map(prop('uuid'), products));
@@ -321,6 +337,7 @@ const renderSelect = (
   return summaryOnly || compactEdit
     ? selected &&
         renderSummaryArea({
+          currencyCode,
           key: uuids,
           total,
           totalBeforeDiscount,
@@ -337,11 +354,12 @@ const renderSelect = (
           ),
         })
     : renderAddonCheckbox({
+        currencyCode,
         name: uuids,
         checked: selected || checked,
         onChange: partial(onMultipleChange, [productType]),
         key: uuids,
-        label: <OptionLabel>{mapWithIndex(partial(renderOption, [t]), breakdown)}</OptionLabel>,
+        label: <OptionLabel>{mapWithIndex(partial(renderOption, [t, { currencyCode }]), breakdown)}</OptionLabel>,
         value: uuids,
       });
 };
@@ -423,14 +441,15 @@ export const SummaryFormExtras = ({
   addons,
   canBook,
   compact,
+  currencyCode,
   editGuard,
   fetchUsers,
   getUserName,
   grandTotal,
   groundServices,
   id,
-  isSr,
   isRl,
+  isSr,
   onEditGuard,
   replaceProducts,
   selectedFines,
@@ -541,6 +560,7 @@ export const SummaryFormExtras = ({
 
   const optionsProps = {
     compact,
+    currencyCode,
     onOneWayChange,
     onSingleChange,
     summaryOnly,
@@ -555,23 +575,32 @@ export const SummaryFormExtras = ({
 
   switch (modalContext) {
     case 'addon':
-      modalContent = renderExtraSelects(t, 'addon', addons, { onMultipleChange, values });
+      modalContent = renderExtraSelects(t, 'addon', addons, { currencyCode, onMultipleChange, values });
       break;
     case 'margin':
-      modalContent = renderMargin(t, { onMarginChange, grandTotal, values });
+      modalContent = renderMargin(t, { currencyCode, onMarginChange, grandTotal, values });
       break;
     case 'transfer':
       modalContent = renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, {
+        currencyCode,
         onOneWayChange,
         onSingleChange,
         values,
       });
       break;
     case 'groundService':
-      modalContent = renderExtraSelects(t, 'groundService', groundServices, { onMultipleChange, values });
+      modalContent = renderExtraSelects(t, 'groundService', groundServices, { currencyCode, onMultipleChange, values });
       break;
     case 'travelAgent':
-      modalContent = renderTASelect(t, { hasTASelect, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent });
+      modalContent = renderTASelect(t, {
+        currencyCode,
+        hasTASelect,
+        usersLoaded,
+        getUserName,
+        onTASelect,
+        onTARemove,
+        travelAgent,
+      });
       break;
     default:
       modalContent = '';
@@ -581,14 +610,23 @@ export const SummaryFormExtras = ({
     <Fragment>
       {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false)}
       {renderExtraSelects(t, 'groundService', groundServices, {
+        currencyCode,
         summaryOnly,
         onMultipleChange,
         values,
         compactEdit,
         onEditClick,
       })}
-      {renderExtraSelects(t, 'addon', addons, { summaryOnly, onMultipleChange, values, compactEdit, onEditClick })}
+      {renderExtraSelects(t, 'addon', addons, {
+        currencyCode,
+        summaryOnly,
+        onMultipleChange,
+        values,
+        compactEdit,
+        onEditClick,
+      })}
       {renderTASelect(t, {
+        currencyCode,
         summaryOnly,
         compactEdit,
         hasTASelect,
@@ -600,6 +638,7 @@ export const SummaryFormExtras = ({
         onEditClick,
       })}
       {renderMargin(t, {
+        currencyCode,
         onMarginChange,
         grandTotal,
         values,
@@ -611,7 +650,7 @@ export const SummaryFormExtras = ({
         onEditGuard,
         canBook,
       })}
-      {renderModal(t, { modalOpen, modalContent, onClose, modalContext })}
+      {renderModal(t, { currencyCode, modalOpen, modalContent, onClose, modalContext })}
     </Fragment>
   );
 };

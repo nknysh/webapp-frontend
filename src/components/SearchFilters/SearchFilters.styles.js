@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { RadioButton, Checkbox, Range, Button } from '@pure-escapes/webapp-ui-components';
 
-import { theme, withCurrency } from 'styles';
+import { theme } from 'styles';
 
 export const Title = styled.h4`
   color: ${theme.palette.neutral};
@@ -109,6 +109,5 @@ export const PriceRangeLabel = styled.div`
 `;
 
 export const PriceRangeLabelPrice = styled.span`
-  ${withCurrency};
   font-weight: ${theme.fonts.bold};
 `;

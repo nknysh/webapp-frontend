@@ -75,7 +75,7 @@ const filterRoomsByAmenities = (rooms, selected) => {
 
 const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByAmenities')}</span>), join(', '));
 
-const renderRoom = ({ requestedRooms, getRoomUploads, onRoomAdd, onRoomRemove }, room) => {
+const renderRoom = ({ requestedRooms, getRoomUploads, currencyCode, onRoomAdd, onRoomRemove }, room) => {
   const { uuid } = room;
   const selectedCount = length(filter(propEq('uuid', uuid), requestedRooms || []));
 
@@ -83,6 +83,7 @@ const renderRoom = ({ requestedRooms, getRoomUploads, onRoomAdd, onRoomRemove },
     <StyledRoom
       key={hash(room)}
       {...room}
+      currencyCode={currencyCode}
       uploads={getRoomUploads(prop('uploads', room))}
       onRoomAdd={onRoomAdd}
       onRoomRemove={onRoomRemove}
@@ -101,8 +102,9 @@ const renderRooms = (t, { filteredRooms, ...props }) =>
     renderRoomsWrapper(props, values(map(partial(renderRoom, [props]), filteredRooms)))
   );
 
-export const Rooms = ({ hotelUuid, className, rooms, requestedRooms, addRoom, removeRoom, getRoomUploads }) => {
+export const Rooms = props => {
   const { t } = useTranslation();
+  const { hotelUuid, className, rooms, addRoom, removeRoom } = props;
 
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const { isMobile } = useCurrentWidth();
@@ -132,9 +134,7 @@ export const Rooms = ({ hotelUuid, className, rooms, requestedRooms, addRoom, re
           )}
         </Column>
       </Columns>
-      <RoomsWrapper>
-        {renderRooms(t, { filteredRooms, requestedRooms, getRoomUploads, onRoomAdd, onRoomRemove, isMobile })}
-      </RoomsWrapper>
+      <RoomsWrapper>{renderRooms(t, { filteredRooms, onRoomAdd, onRoomRemove, isMobile, ...props })}</RoomsWrapper>
     </StyledRooms>
   );
 };

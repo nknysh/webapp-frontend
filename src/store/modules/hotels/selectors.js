@@ -20,7 +20,7 @@ import {
 import { createSelector } from 'store/utils';
 import { getData, getStatus, getEntities, getResults, getArg } from 'store/common';
 
-import { getMapped, reduceArrayByKey } from 'utils';
+import { getMapped, reduceArrayByKey, getCurrencySymbol } from 'utils';
 
 const extractAgeFromOptions = (accum, rate) => {
   const products = path(['entities', 'products'], rate);
@@ -149,6 +149,14 @@ export const getHotelFeatures = createSelector(
 export const getHotelName = createSelector(
   getHotel,
   prop('name')
+);
+
+export const getHotelCurrencySymbol = createSelector(
+  getHotel,
+  pipe(
+    prop('defaultCurrency'),
+    getCurrencySymbol
+  )
 );
 
 export const getHotelsAccommodationProducts = createSelector(

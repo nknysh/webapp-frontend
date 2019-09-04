@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { NumberSelect, ToolTip, Chip } from '@pure-escapes/webapp-ui-components';
 
-import { theme, withCurrency, Heading1 } from 'styles';
+import { theme, Heading1 } from 'styles';
 
 export const StyledRoom = styled.article`
   background: ${theme.backgrounds.secondary};
@@ -111,7 +111,6 @@ export const Price = styled.div`
 `;
 
 export const PriceAmount = styled.span`
-  ${withCurrency};
   font-size: ${theme.fonts.sizes.big}px;
 `;
 

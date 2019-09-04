@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Countdown } from '@pure-escapes/webapp-ui-components';
 
-import { theme, withCurrency, withDiscountStyles } from 'styles';
+import { theme, withDiscountStyles } from 'styles';
 
 export const Room = styled.article`
   position: relative;
@@ -63,7 +63,6 @@ export const RoomName = styled(RoomP)`
 export const RoomDetail = styled(RoomP)``;
 
 export const RoomPrice = styled.span`
-  ${withCurrency};
   ${withDiscountStyles};
   display: block;
   line-height: 1;
@@ -75,9 +74,7 @@ export const ExtraSupplement = styled.div`
   width: 100%;
 `;
 
-export const ExtraSupplementRate = styled.span`
-  ${withCurrency}
-`;
+export const ExtraSupplementRate = styled.span``;
 
 export const RoomDetails = styled.div`
   flex: 1;
@@ -98,7 +95,7 @@ export const RoomImage = styled.img`
 `;
 
 export const Error = styled(RoomRow)`
-  color: ${theme.error};
+  color: ${theme.palette.error};
 `;
 
 export const Hold = styled.div`

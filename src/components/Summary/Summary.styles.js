@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { theme, withCurrency, withDiscountStyles } from 'styles';
+import { theme, withDiscountStyles } from 'styles';
 
 export const StyledSummary = styled.div`
   position: relative;
@@ -38,7 +38,6 @@ export const Totals = styled.div`
 `;
 
 export const Total = styled.div`
-  ${withCurrency};
   ${withDiscountStyles};
   display: block;
   text-align: right;

@@ -16,6 +16,7 @@ import {
   replaceProducts,
   updateBooking,
 } from 'store/modules/bookings';
+import { getHotelCurrencySymbol } from 'store/modules/hotels';
 
 export const mapStateToProps = (state, { id }) => {
   const travelAgentUserUuid = getBookingTravelAgent(state, id);
@@ -24,6 +25,7 @@ export const mapStateToProps = (state, { id }) => {
   return {
     addons: getBookingAddons(state, id),
     canBook: getBookingReady(state, id),
+    currencyCode: getHotelCurrencySymbol(state, id),
     getUser: id => getUser(state, id),
     getUserName: id => getUserFullName(state, id),
     grandTotal: getBookingTotal(state, id),

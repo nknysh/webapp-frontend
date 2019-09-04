@@ -29,6 +29,7 @@ export const SummaryFormMargin = ({
   total,
   compactEdit,
   onEditClick,
+  currencyCode,
 }) => {
   const { t } = useTranslation();
   const typeIsPercent = equals('percentage', type);
@@ -67,7 +68,7 @@ export const SummaryFormMargin = ({
               t('labels.notApplied')
             ) : (
               <MarginTotalAmount>
-                {formatPrice(typeIsPercent ? calculatePercentage(total, value) : value)}
+                {`${currencyCode}${formatPrice(typeIsPercent ? calculatePercentage(total, value) : value)}`}
               </MarginTotalAmount>
             )}
             {typeIsPercent && (

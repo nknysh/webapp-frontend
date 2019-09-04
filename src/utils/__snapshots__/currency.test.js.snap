@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`currency getCurrency matches snapshot 1`] = `
+Object {
+  "code": "GBP",
+  "decimal_digits": 2,
+  "name": "British Pound Sterling",
+  "name_plural": "British pounds sterling",
+  "rounding": 0,
+  "symbol": "£",
+  "symbol_native": "£",
+}
+`;
+
+exports[`currency getCurrencySymbol matches snapshot 1`] = `"£"`;

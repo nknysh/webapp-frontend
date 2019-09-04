@@ -123,6 +123,7 @@ const renderSelection = (t, { onAdd, onRemove, selectedCount }) => (
 
 export const Room = ({
   className,
+  currencyCode,
   meta: { size, description, moreInformation, amenities },
   name,
   onRoomAdd,
@@ -130,9 +131,9 @@ export const Room = ({
   options: { occupancy },
   rates,
   selectedCount,
+  uploads,
   uuid,
   withSelection,
-  uploads,
 }) => {
   const { t } = useTranslation();
 
@@ -168,7 +169,7 @@ export const Room = ({
           <Column>
             {visibleRate && (
               <Price>
-                <PriceAmount>{visibleRate}</PriceAmount>
+                <PriceAmount>{`${currencyCode}${visibleRate}`}</PriceAmount>
                 <PriceLabel> /{t('guest')} </PriceLabel>
               </Price>
             )}

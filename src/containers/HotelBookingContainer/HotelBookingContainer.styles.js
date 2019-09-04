@@ -5,7 +5,7 @@ import { Markdown, Modal } from '@pure-escapes/webapp-ui-components';
 import { default as BaseBookingForm } from 'components/BookingForm';
 import SummaryForm from 'containers/SummaryForm';
 
-import { theme, withCurrency, Heading2 } from 'styles';
+import { theme, Heading2 } from 'styles';
 
 import {
   StyledBreadcrumbs as BaseStyledBreadcrumbs,
@@ -98,9 +98,7 @@ export const ModalContent = styled(Markdown)`
   margin-bottom: ${theme.spacing.gutter * 6}px;
 `;
 
-export const Total = styled.span`
-  ${withCurrency};
-`;
+export const Total = styled.span``;
 
 export const FormWrapper = styled.div`
   margin: ${theme.spacing.gutter * 5}px ${theme.spacing.gutter * 2}px;
