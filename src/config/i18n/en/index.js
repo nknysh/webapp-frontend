@@ -1,6 +1,5 @@
 import buttons from './buttons';
 import content from './content';
-import currency from './currency';
 import form from './form';
 import labels from './labels';
 import messages from './messages';
@@ -29,7 +28,6 @@ export default {
 
     buttons,
     content,
-    currency,
     form,
     labels,
     messages,

@@ -6,6 +6,7 @@ import {
   getHotelRoomName,
   getHotelRoomRates,
   getHotelRoomOptions,
+  getHotelCurrencySymbol,
 } from 'store/modules/hotels';
 import {
   updateBooking,
@@ -21,14 +22,15 @@ import {
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id, roomId }) => ({
+  currencyCode: getHotelCurrencySymbol(state, id),
   dates: getBookingRoomDatesById(state, id, roomId),
-  name: getHotelRoomName(state, id, roomId),
-  rates: getHotelRoomRates(state, id, roomId),
-  options: getHotelRoomOptions(state, id, roomId),
-  mealPlans: getBookingRoomMealPlans(state, id, roomId),
   errors: getBookingErrorsByRoomId(state, id, roomId),
-  rooms: getPotentialBookingRoomsById(state, id, roomId),
+  mealPlans: getBookingRoomMealPlans(state, id, roomId),
+  name: getHotelRoomName(state, id, roomId),
+  options: getHotelRoomOptions(state, id, roomId),
+  rates: getHotelRoomRates(state, id, roomId),
   requestedRooms: getBookingRoomsById(state, id, roomId),
+  rooms: getPotentialBookingRoomsById(state, id, roomId),
 });
 
 export const mapDispatchToProps = dispatch => ({

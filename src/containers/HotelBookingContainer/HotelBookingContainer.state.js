@@ -6,7 +6,7 @@ import { PAYMENT_ENABLED } from 'config';
 import { extractFieldDefaults } from 'utils';
 
 import { getSearchDates } from 'store/modules/search';
-import { getHotel } from 'store/modules/hotels';
+import { getHotel, getHotelCurrencySymbol } from 'store/modules/hotels';
 import { fetchHotel, getHotelStatus } from 'store/modules/hotel';
 import {
   getBooking,
@@ -46,6 +46,7 @@ export const mapStateToProps = (state, { id }) => ({
   canBook: getBookingReady(state, id),
   canHold: getBookingCanHold(state, id),
   created: getBookingCreated(state, id),
+  currencyCode: getHotelCurrencySymbol(state, id),
   dates: getSearchDates(state),
   hotel: getHotel(state, id),
   hotelStatus: getHotelStatus(state),

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Modal, Button } from '@pure-escapes/webapp-ui-components';
 
-import { theme, withCurrency, Heading2 } from 'styles';
+import { theme, Heading2 } from 'styles';
 
 export const StyledSummary = styled.div`
   background: ${theme.backgrounds.secondary};
@@ -36,30 +36,26 @@ export const HotelTotals = styled.div``;
 
 export const Total = styled.p`
   display: block;
-  ${({ ['data-request']: onRequest }) =>
-    !onRequest &&
+
+  color: ${theme.palette.secondary};
+  font-size: 42px;
+  letter-spacing: 1.62px;
+  line-height: 20px;
+  padding: 0;
+  margin: 0 0 ${theme.spacing.gutter * 2.5}px;
+
+  ${({ ['data-secondary']: secondary }) =>
+    secondary &&
     css`
-      ${withCurrency}
-    `} 
-    color: ${theme.palette.secondary};	
-    font-size: 42px;	
-    letter-spacing: 1.62px;	
-    line-height: 20px;
-    padding: 0;
-    margin: 0 0 ${theme.spacing.gutter * 2.5}px;
+      color: ${theme.palette.light};
+      text-decoration: line-through;
+    `}
 
-    ${({ ['data-secondary']: secondary }) =>
-      secondary &&
-      css`
-        color: ${theme.palette.light};
-        text-decoration: line-through;
-      `} 
-
-      ${({ ['data-discounted']: secondary }) =>
-        secondary &&
-        css`
-          color: ${theme.colors['red-fade']};
-        `}
+  ${({ ['data-discounted']: secondary }) =>
+    secondary &&
+    css`
+      color: ${theme.colors['red-fade']};
+    `}
 `;
 
 export const Text = styled.p`
@@ -78,7 +74,6 @@ export const Text = styled.p`
 `;
 
 export const Saving = styled.span`
-  ${withCurrency};
   font-weight: ${theme.fonts.bold};
 `;
 
@@ -125,16 +120,11 @@ export const SummaryFormButton = styled(Button)`
   }
 `;
 
-export const Errors = styled.div`
-  text-align: center;
-  color: ${theme.backgrounds.secondary};
-`;
-
 export const Error = styled.p`
-  background: ${theme.error};
+  color: ${theme.palette.error};
   display: block;
-  margin: 0 0 ${theme.spacing.gutter / 2}px;
-  padding: ${theme.spacing.gutter}px;
+  margin: 0;
+  padding: 0;
   text-transform: uppercase;
   font-weight: ${theme.fonts.bold};
 `;

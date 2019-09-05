@@ -15,8 +15,8 @@ import {
   pipe,
   prepend,
   prop,
-  propEq,
   propOr,
+  propSatisfies,
   toUpper,
   values,
 } from 'ramda';
@@ -122,20 +122,32 @@ const renderGuestSelect = (
   </GuestSelect>
 );
 
-const renderDay = (rates, day) => {
+const renderDay = (rates, currencyCode, day) => {
   const dayRate = prop(formatDate(day), rates);
 
   return (
     <span>
       <div>{formatDate(day, 'D')}</div>
-      {dayRate && <DatePrice>{prop('price', dayRate)}</DatePrice>}
+      {dayRate && <DatePrice>{`${currencyCode}${prop('price', dayRate)}`}</DatePrice>}
     </span>
   );
 };
 
 const renderDatePicker = (
   t,
-  { datePickerRef, dates, rates, disabled, firstDate, lastDate, onMonthChange, onDayPickerShow, values, onDatesChange }
+  {
+    datePickerRef,
+    dates,
+    rates,
+    disabled,
+    firstDate,
+    lastDate,
+    onMonthChange,
+    onDayPickerShow,
+    values,
+    onDatesChange,
+    currencyCode,
+  }
 ) => (
   <StyledDatePicker
     ref={datePickerRef}
@@ -150,7 +162,7 @@ const renderDatePicker = (
           after: new Date(lastDate),
         },
       ],
-      renderDay: partial(renderDay, [rates]),
+      renderDay: partial(renderDay, [rates, currencyCode]),
       onMonthChange,
     }}
     onDayPickerShow={onDayPickerShow}
@@ -166,7 +178,7 @@ const renderMealPlanOffer = (t, { offer }, i) => (
 );
 
 const wrapProductToolTip = (label, { meta }) =>
-  propEq(isNilOrEmpty, 'description', meta) ? (
+  propSatisfies(isNilOrEmpty, 'description', meta) ? (
     label
   ) : (
     <ToolTip helpText={true} label={label}>
@@ -174,14 +186,21 @@ const wrapProductToolTip = (label, { meta }) =>
     </ToolTip>
   );
 
-const mapBreakdown = (t, hasSplitRates, { title, dates, total, totalBeforeDiscount, offers, product }, i) => (
+const mapBreakdown = (
+  t,
+  { hasSplitRates, currencyCode },
+  { title, dates, total, totalBeforeDiscount, offers, product },
+  i
+) => (
   <MealPlanRate key={i}>
     {wrapProductToolTip(title, product)} - (
-    <MealPlanRatePrice data-discounted={!equals(total, totalBeforeDiscount)}>{totalBeforeDiscount}</MealPlanRatePrice>
+    <MealPlanRatePrice data-discounted={!equals(total, totalBeforeDiscount)}>
+      {`${currencyCode}${totalBeforeDiscount}`}
+    </MealPlanRatePrice>
     {!equals(total, totalBeforeDiscount) && (
       <Fragment>
         {' '}
-        <MealPlanRatePrice data-discount={true}>{total}</MealPlanRatePrice>
+        <MealPlanRatePrice data-discount={true}>{`${currencyCode}${total}`}</MealPlanRatePrice>
       </Fragment>
     )}
     ){hasSplitRates && ` | ${head(dates)}${!equals(head(dates), last(dates)) ? ` - ${last(dates)}` : ''}`}
@@ -189,13 +208,13 @@ const mapBreakdown = (t, hasSplitRates, { title, dates, total, totalBeforeDiscou
   </MealPlanRate>
 );
 
-const mapMealPlans = (t, { breakdown = [], products = [] }) => {
+const mapMealPlans = (t, props, { breakdown = [], products = [] }) => {
   const hasSplitRates = gt(length(breakdown), 1);
   const productUuids = map(prop('uuid'), products);
 
   return {
     value: JSON.stringify(productUuids),
-    label: mapWithIndex(partial(mapBreakdown, [t, hasSplitRates]), breakdown),
+    label: mapWithIndex(partial(mapBreakdown, [t, { hasSplitRates, ...props }]), breakdown),
   };
 };
 
@@ -222,6 +241,7 @@ export const SummaryRoomEdit = ({
   updateBooking,
   updateIndividualRoom,
   updateRoom,
+  currencyCode,
 }) => {
   const { t } = useTranslation();
 
@@ -246,7 +266,7 @@ export const SummaryRoomEdit = ({
   const bookingErrors = groupErrorsByRoomIndex(errors);
   const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
   const mealPlanOptions = pipe(
-    map(partial(mapMealPlans, [t])),
+    map(partial(mapMealPlans, [t, { currencyCode }])),
     prepend({ label: 'None', value: '[]' })
   )(mealPlans[roomContext] || []);
 
@@ -402,6 +422,7 @@ export const SummaryRoomEdit = ({
                   onMonthChange,
                   rates,
                   values,
+                  currencyCode,
                 })}
               </EditFormSection>
             )}

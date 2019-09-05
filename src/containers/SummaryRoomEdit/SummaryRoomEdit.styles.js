@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { DatePicker, Button } from '@pure-escapes/webapp-ui-components';
 
-import { theme, withCurrency, withDiscountStyles, Heading3 } from 'styles';
+import { theme, withDiscountStyles, Heading3 } from 'styles';
 
 export const DatePrice = styled.div`
-  ${withCurrency};
   color: ${theme.colors.black};
   font-weight: ${theme.fonts.normal};
   margin-top: ${theme.spacing.gutter / 2}px;
@@ -69,7 +68,6 @@ export const MealPlanRate = styled.span`
 `;
 
 export const MealPlanRatePrice = styled.span`
-  ${withCurrency};
   ${withDiscountStyles};
 `;
 

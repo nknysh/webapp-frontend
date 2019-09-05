@@ -56,15 +56,15 @@ import {
   HoldCountdown,
 } from './SummaryRoom.styles';
 
-const renderSupplement = (t, { product, title, total, quantity }) => (
+const renderSupplement = (t, { currencyCode }, { product, title, total, quantity }) => (
   <ExtraSupplement key={product}>
-    {quantity} x {title} - (<ExtraSupplementRate>{total}</ExtraSupplementRate>)
+    {quantity} x {title} - (<ExtraSupplementRate>{`${currencyCode}${total}`}</ExtraSupplementRate>)
   </ExtraSupplement>
 );
 
-const renderSupplements = (t, supplements) =>
+const renderSupplements = (t, props, supplements) =>
   pipe(
-    map(partial(renderSupplement, [t])),
+    map(partial(renderSupplement, [t, props])),
     flatten
   )(supplements);
 
@@ -115,23 +115,24 @@ const renderOffers = (t, offers) => mapWithIndex(partial(renderOffer, [t]), offe
 export const SummaryRoom = ({
   canEdit,
   className,
+  currencyCode,
   dates,
   editGuard,
   errors,
+  hold,
   id,
+  offers,
   onEdit,
   onEditGuard,
   photo,
+  preDiscountTotal,
   removeRoom,
   requestedRooms,
   roomId,
   rooms,
-  total,
-  hold,
-  showImage,
   showHolds,
-  preDiscountTotal,
-  offers,
+  showImage,
+  total,
 }) => {
   const { t } = useTranslation();
 
@@ -184,8 +185,8 @@ export const SummaryRoom = ({
             </RoomDetail>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
-            <RoomPrice data-discount={hasDiscount}>{total}</RoomPrice>
-            {hasDiscount && <RoomPrice data-discounted={hasDiscount}>{preDiscountTotal}</RoomPrice>}
+            <RoomPrice data-discount={hasDiscount}>{`${currencyCode}${total}`}</RoomPrice>
+            {hasDiscount && <RoomPrice data-discounted={hasDiscount}>{`${currencyCode}${preDiscountTotal}`}</RoomPrice>}
           </RoomColumn>
           {canEdit && (
             <RoomColumn data-shrink={true}>
@@ -200,7 +201,7 @@ export const SummaryRoom = ({
           {totalGuests} {t('guest', { count: totalGuests })} (
           {join(' + ', values(mapObjIndexed((value, key) => `${value} ${t(key)}`, ageSplits)))})
         </RoomRow>
-        <RoomRow>{renderSupplements(t, supplements)}</RoomRow>
+        <RoomRow>{renderSupplements(t, { currencyCode }, supplements)}</RoomRow>
         <RoomRow>{renderMealPlans(t, mealPlans)}</RoomRow>
         {!isEmpty(offers) && renderOffers(t, offers)}
         {canEdit && renderErrors(errors)}

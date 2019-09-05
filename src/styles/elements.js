@@ -1,7 +1,5 @@
 import { css } from 'styled-components';
 
-import i18n from 'config/i18n';
-
 import theme from './theme';
 
 export const buttonStyles = css`
@@ -46,12 +44,6 @@ export const inputStyles = css`
 
   ::placeholder {
     color: ${theme.colors.gray};
-  }
-`;
-
-export const withCurrency = css`
-  :before {
-    content: '${i18n.t('currency.symbol')}';
   }
 `;
 

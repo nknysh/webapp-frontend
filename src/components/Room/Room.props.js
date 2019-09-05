@@ -6,6 +6,7 @@ export const propTypes = {
   withSelection: PropTypes.bool,
   onChange: PropTypes.func,
   selectedCount: PropTypes.number,
+  currencyCode: PropTypes.string,
 };
 
 export const defaultProps = {

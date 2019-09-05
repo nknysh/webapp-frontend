@@ -3,7 +3,7 @@ import { Checkbox } from '@pure-escapes/webapp-ui-components';
 
 import { default as BaseContextMenu } from 'components/ContextMenu';
 
-import { theme, withCurrency } from 'styles';
+import { theme } from 'styles';
 
 export const Margin = styled.div`
   margin-left: auto;
@@ -65,7 +65,6 @@ export const MarginTotal = styled.div`
 `;
 
 export const MarginTotalAmount = styled.span`
-  ${withCurrency};
   font-weight: ${theme.fonts.bold};
 `;
 

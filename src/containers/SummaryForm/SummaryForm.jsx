@@ -16,7 +16,7 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
-import { Form, Input, Loader, Modal, Markdown } from '@pure-escapes/webapp-ui-components';
+import { Form, Input, Loader, Modal, Markdown, List } from '@pure-escapes/webapp-ui-components';
 
 import AgreeToForm from 'components/AgreeToForm';
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
@@ -35,7 +35,6 @@ import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
 import {
   Error,
-  Errors,
   Hotel,
   HotelName,
   Rooms,
@@ -64,9 +63,9 @@ const getSingleValue = (type, data) =>
     propOr('', 'uuid')
   )(data);
 
-const renderTotalPrice = (t, { isOnRequest, total, secondary, discounted }) => (
+const renderTotalPrice = (t, { currencyCode, isOnRequest, total, secondary, discounted }) => (
   <Total data-request={isOnRequest} data-secondary={secondary} data-discounted={discounted}>
-    {isOnRequest ? t('labels.onRequest') : total}
+    {isOnRequest ? t('labels.onRequest') : `${currencyCode}${total}`}
   </Total>
 );
 
@@ -106,7 +105,7 @@ const renderHotel = (
 );
 
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
-const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <Errors>{mapWithIndex(renderError, errors)}</Errors>;
+const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <List>{mapWithIndex(renderError, errors)}</List>;
 
 const renderRoom = (
   t,
@@ -173,6 +172,7 @@ const renderTotal = (
     preDiscountTotal,
     offersCount,
     showDiscountedPrice,
+    currencyCode,
   }
 ) =>
   (!compact || showFullTotal) && (
@@ -180,21 +180,22 @@ const renderTotal = (
       <Title>{t('labels.totalNet')}</Title>
       <FullTotal>
         {renderTotalPrice(t, {
+          currencyCode,
           isOnRequest,
           total: overrideTotal || total,
           discounted: !overrideTotal && showDiscountedPrice && gt(offersCount, 0),
         })}
         {overrideTotal &&
           gt(offersCount, 0) &&
-          renderTotalPrice(t, { isOnRequest, total, secondary: true, discounted: true })}
+          renderTotalPrice(t, { currencyCode, isOnRequest, total, secondary: true, discounted: true })}
         {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
           !isOnRequest &&
-          renderTotalPrice(t, { isOnRequest, total: preDiscountTotal, secondary: true })}
+          renderTotalPrice(t, { currencyCode, isOnRequest, total: preDiscountTotal, secondary: true })}
         {gt(offersCount, 0) && <Text data-discounted={true}>{t('labels.includesOffer', { count: offersCount })}</Text>}
         {saving && !isOnRequest && (
           <Text>
             {t('labels.savingOfPrefix')}
-            <Saving>{saving}</Saving>
+            <Saving>{`${currencyCode}${saving}`}</Saving>
             {t('labels.savingOfSuffix')}
           </Text>
         )}
@@ -332,10 +333,10 @@ const renderConfirmModalForm = ({ onConfirmSubmit, buttonLabel, initialValues })
   />
 );
 
-const renderConfirmModalContent = (t, { isOnRequest, paymentType, onConfirmSubmit, total }) => {
+const renderConfirmModalContent = (t, { isOnRequest, paymentType, onConfirmSubmit, total, currencyCode }) => {
   const finalizeAndPay = (
     <Fragment>
-      {t('buttons.finalizeAndPay')} | <Total>{total}</Total>
+      {t('buttons.finalizeAndPay')} | <Total>{`${currencyCode}${total}`}</Total>
     </Fragment>
   );
 
@@ -381,46 +382,24 @@ const renderConfirmModal = (t, { confirmModalOpen, onConfirmModalClose, ...props
     </StyledModal>
   );
 
-export const SummaryForm = ({
-  booking,
-  canBook,
-  canChangeDates,
-  canEdit,
-  children,
-  className,
-  compact,
-  confirm,
-  editGuardContent,
-  errors,
-  getRatesForDates,
-  guardEdit,
-  holdOnly,
-  holds,
-  hotelName,
-  id,
-  isOnRequest,
-  offers,
-  offersCount,
-  onAddHolds,
-  onGuardEdit,
-  onGuardEditComplete,
-  onReleaseHolds,
-  onSubmit: onFormSubmit,
-  preDiscountTotal,
-  removeRoom,
-  saving,
-  showBookNow,
-  showDiscountedPrice,
-  showFullTotal,
-  showHolds,
-  showOriginalTotal,
-  showRoomImage,
-  status,
-  summaryOnly,
-  total,
-  ...props
-}) => {
+export const SummaryForm = props => {
   const { t } = useTranslation();
+
+  const {
+    booking,
+    className,
+    compact,
+    confirm,
+    guardEdit,
+    hotelName,
+    id,
+    onAddHolds,
+    onGuardEdit,
+    onGuardEditComplete,
+    onReleaseHolds,
+    onSubmit: onFormSubmit,
+    summaryOnly,
+  } = props;
   const { marginApplied, taMarginAmount, taMarginType, hotelUuid, status: bookingStatus, overrideTotal } = booking;
 
   const initialValues = {
@@ -518,88 +497,58 @@ export const SummaryForm = ({
     <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
         {renderTotal(t, {
-          compact,
           editGuard,
-          isOnRequest,
           onEditGuard,
-          saving,
-          summaryOnly,
-          total,
           overrideTotal,
-          showFullTotal,
-          showOriginalTotal,
-          preDiscountTotal,
-          offers,
-          offersCount,
-          showDiscountedPrice,
+          ...props,
         })}
         {renderHotel(t, {
           name: hotelName || prop('hotelName', booking) || 'Hotel',
-          total,
-          compact,
-          showOriginalTotal,
           overrideTotal,
-          isOnRequest,
-          showFullTotal,
-          preDiscountTotal,
-          offers,
-          offersCount,
-          showDiscountedPrice,
+          ...props,
         })}
         <Rooms data-summary={summaryOnly} data-compact={compact}>
           {renderRooms(t, booking, {
             editGuard,
             hotelUuid,
-            id,
             onEditGuard,
-            removeRoom,
             setModalId,
-            showHolds,
-            showRoomImage,
-            summaryOnly,
+            ...props,
           })}
         </Rooms>
         {renderForm(t, {
-          booking,
-          canBook,
-          canEdit,
-          children,
-          compact,
           editGuard,
-          errors,
-          holdOnly,
-          holds,
-          id,
           initialValues: formValues,
-          isOnRequest,
           onEditGuard,
           onHoldModalInit,
           onSubmit,
-          showBookNow,
-          showHolds,
-          summaryOnly,
           ...props,
         })}
       </Loader>
       {!summaryOnly &&
         renderRoomEditModal(t, {
-          id,
           hotelUuid,
-          canChangeDates,
           modalId,
           status,
-          getRatesForDates,
           setModalId,
           onModalClose,
+          ...props,
         })}
-      {renderEditGuard(t, { editGuardContent, setShowEditGuard, showEditGuard, onEditGuardAccepted })}
-      {renderHoldModal(t, { holdModalContext, holdModalOpen, onHoldModalClose, onHoldRelease, onHoldConfirm, id })}
+      {renderEditGuard(t, { setShowEditGuard, showEditGuard, onEditGuardAccepted, ...props })}
+      {renderHoldModal(t, {
+        holdModalContext,
+        holdModalOpen,
+        onHoldModalClose,
+        onHoldRelease,
+        onHoldConfirm,
+        ...props,
+      })}
       {renderConfirmModal(t, {
         confirmModalOpen,
-        isOnRequest,
         onConfirmModalClose,
         onConfirmModalOpen,
         onConfirmSubmit,
+        ...props,
       })}
     </StyledSummary>
   );

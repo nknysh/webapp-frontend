@@ -72,7 +72,7 @@ const renderTransfersBreakdown = (t, { title, dates = [], ...product }) => {
   );
 };
 
-const renderPrice = (t, { offerCount, response, showDiscountedPrice }) =>
+const renderPrice = (t, { offerCount, response, showDiscountedPrice, currencyCode }) =>
   response && (
     <CardChipStack>
       <CardChip>
@@ -82,9 +82,11 @@ const renderPrice = (t, { offerCount, response, showDiscountedPrice }) =>
           <ToolTip
             label={
               <CardPrice data-discounted={showDiscountedPrice && gt(offerCount, 0)}>
-                {showDiscountedPrice
-                  ? path(['totals', 'totalBeforeDiscount'], response)
-                  : path(['totals', 'total'], response)}
+                {`${currencyCode}${
+                  showDiscountedPrice
+                    ? path(['totals', 'totalBeforeDiscount'], response)
+                    : path(['totals', 'total'], response)
+                }`}
               </CardPrice>
             }
           >
@@ -107,7 +109,7 @@ const renderPrice = (t, { offerCount, response, showDiscountedPrice }) =>
           {pathOr(true, ['totals', 'oneOrMoreItemsOnRequest'], response) ? (
             t('labels.onRequest')
           ) : (
-            <CardPrice data-discount={true}>{path(['totals', 'total'], response)}</CardPrice>
+            <CardPrice data-discount={true}>{`${currencyCode}${path(['totals', 'total'], response)}`}</CardPrice>
           )}
         </CardChip>
       )}
@@ -131,17 +133,18 @@ const renderOffers = (t, { offerCount, offers }) => {
 };
 
 export const SearchResult = ({
-  featuredPhoto,
-  name,
-  preferred,
-  starRating,
-  suitableForHoneymooners,
   additionalInfo,
   amenities,
   bookingBuilder = {},
-  offers,
+  currencyCode,
+  featuredPhoto,
+  name,
   offerCount,
+  offers,
+  preferred,
   showDiscountedPrice,
+  starRating,
+  suitableForHoneymooners,
 }) => {
   const { t } = useTranslation();
 
@@ -151,7 +154,7 @@ export const SearchResult = ({
     <StyledCard>
       <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
         {preferred && <CardPreferred>{t('labels.preferred')}</CardPreferred>}
-        {renderPrice(t, { response, offerCount, showDiscountedPrice })}
+        {renderPrice(t, { response, offerCount, showDiscountedPrice, currencyCode })}
         {renderOffers(t, { offers, response, offerCount })}
       </CardImage>
       <CardDetails>
