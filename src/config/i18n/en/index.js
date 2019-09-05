@@ -7,6 +7,7 @@ import notifications from './notifications';
 import plurals from './plurals';
 import sections from './sections';
 import taglines from './taglines';
+import rooms from './rooms';
 
 export default {
   translation: {
@@ -35,5 +36,6 @@ export default {
     sections,
     taglines,
     ...plurals,
+    ...rooms,
   },
 };

@@ -134,6 +134,7 @@ export const Room = ({
   uploads,
   uuid,
   withSelection,
+  category,
 }) => {
   const { t } = useTranslation();
 
@@ -170,7 +171,7 @@ export const Room = ({
             {visibleRate && (
               <Price>
                 <PriceAmount>{`${currencyCode}${visibleRate}`}</PriceAmount>
-                <PriceLabel> /{t('guest')} </PriceLabel>
+                <PriceLabel> /{t(category)} </PriceLabel>
               </Price>
             )}
           </Column>
