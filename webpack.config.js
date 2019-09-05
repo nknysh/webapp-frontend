@@ -36,9 +36,6 @@ module.exports = (env, argv) => ({
                 changeOrigin: true,
                 pathRewrite: { '^/api': '' },
             },
-        },
-        watchOptions: {
-            poll: true
         }
     },
     entry: [
