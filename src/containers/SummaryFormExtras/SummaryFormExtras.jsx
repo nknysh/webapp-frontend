@@ -37,7 +37,7 @@ import { ProductTypes } from 'config/enums';
 import { SummaryFormMargin, IndexSearch, Summary } from 'components';
 import { useModalState, useFetchData } from 'effects';
 import { withUser } from 'hoc';
-import { isString, mapWithIndex } from 'utils';
+import { isString, mapWithIndex, formatPrice } from 'utils';
 
 import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
@@ -72,9 +72,11 @@ const renderSummaryArea = ({ currencyCode, key, children, total, totalBeforeDisc
   <Fragment key={key}>
     <Summary.Product>{children}</Summary.Product>
     <Summary.Totals>
-      <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{`${currencyCode}${total}`}</Summary.Total>
+      <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{`${currencyCode}${formatPrice(
+        total
+      )}`}</Summary.Total>
       {!equals(total, totalBeforeDiscount) && (
-        <Summary.Total data-discounted={true}>{`${currencyCode}${totalBeforeDiscount}`}</Summary.Total>
+        <Summary.Total data-discounted={true}>{`${currencyCode}${formatPrice(totalBeforeDiscount)}`}</Summary.Total>
       )}
     </Summary.Totals>
   </Fragment>
@@ -120,7 +122,7 @@ const renderOption = (
   <OptionRate key={rateUuid + i}>
     {gt(quantity, 1) && `${quantity} x`} {wrapProductToolTip(title, product)} (+
     <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>
-      {`${currencyCode}${totalBeforeDiscount}`}
+      {`${currencyCode}${formatPrice(totalBeforeDiscount)}`}
     </OptionPrice>
     {!equals(total, totalBeforeDiscount) && (
       <Fragment>

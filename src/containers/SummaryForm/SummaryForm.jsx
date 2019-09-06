@@ -53,7 +53,7 @@ import {
   ModalTitle,
   HotelTotals,
 } from './SummaryForm.styles';
-
+import { formatPrice } from '../../utils';
 const modalProps = { className: 'room-summary-form' };
 
 const getSingleValue = (type, data) =>
@@ -65,7 +65,7 @@ const getSingleValue = (type, data) =>
 
 const renderTotalPrice = (t, { currencyCode, isOnRequest, total, secondary, discounted }) => (
   <Total data-request={isOnRequest} data-secondary={secondary} data-discounted={discounted}>
-    {isOnRequest ? t('labels.onRequest') : `${currencyCode}${total}`}
+    {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(total)}`}
   </Total>
 );
 
@@ -195,7 +195,7 @@ const renderTotal = (
         {saving && !isOnRequest && (
           <Text>
             {t('labels.savingOfPrefix')}
-            <Saving>{`${currencyCode}${saving}`}</Saving>
+            <Saving>{`${currencyCode}${formatPrice(saving)}`}</Saving>
             {t('labels.savingOfSuffix')}
           </Text>
         )}
@@ -336,7 +336,7 @@ const renderConfirmModalForm = ({ onConfirmSubmit, buttonLabel, initialValues })
 const renderConfirmModalContent = (t, { isOnRequest, paymentType, onConfirmSubmit, total, currencyCode }) => {
   const finalizeAndPay = (
     <Fragment>
-      {t('buttons.finalizeAndPay')} | <Total>{`${currencyCode}${total}`}</Total>
+      {t('buttons.finalizeAndPay')} | <Total>{`${currencyCode}${formatPrice(total)}`}</Total>
     </Fragment>
   );
 

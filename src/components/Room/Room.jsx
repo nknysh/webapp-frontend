@@ -4,7 +4,7 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
-import { isAdult } from 'utils';
+import { isAdult, formatPrice } from 'utils';
 
 import config from 'config';
 
@@ -170,7 +170,7 @@ export const Room = ({
           <Column>
             {visibleRate && (
               <Price>
-                <PriceAmount>{`${currencyCode}${visibleRate}`}</PriceAmount>
+                <PriceAmount>{`${currencyCode}${formatPrice(visibleRate)}`}</PriceAmount>
                 <PriceLabel> /{t(category)} </PriceLabel>
               </Price>
             )}

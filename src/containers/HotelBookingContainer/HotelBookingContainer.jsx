@@ -37,6 +37,7 @@ import {
   Total,
 } from './HotelBookingContainer.styles';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
+import { formatPrice } from 'utils';
 
 export const simpleForm = pick(['guestTitle', 'guestFirstName', 'guestLastName']);
 export const withoutSections = over(lensProp('sections'), take(1));
@@ -163,7 +164,7 @@ const renderModalForm = ({ onModalSubmit, buttonLabel, initialValues }) => (
 const renderModalContent = (t, { isOnRequest, paymentType, onModalSubmit, total, currencyCode }) => {
   const finalizeAndPay = (
     <Fragment>
-      {t('buttons.finalizeAndPay')} | <Total>{`${currencyCode}${total}`}</Total>
+      {t('buttons.finalizeAndPay')} | <Total>{`${currencyCode}${formatPrice(total)}`}</Total>
     </Fragment>
   );
 

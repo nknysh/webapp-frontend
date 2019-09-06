@@ -33,6 +33,7 @@ import {
   getToDateFormat,
   getNumberOfDays,
   mapWithIndex,
+  formatPrice
 } from 'utils';
 
 import { getProduct, getSupplements, getMealPlans, getTotalGuests, getAgeSplits } from './SummaryRoom.utils';
@@ -58,7 +59,7 @@ import {
 
 const renderSupplement = (t, { currencyCode }, { product, title, total, quantity }) => (
   <ExtraSupplement key={product}>
-    {quantity} x {title} - (<ExtraSupplementRate>{`${currencyCode}${total}`}</ExtraSupplementRate>)
+    {quantity} x {title} - (<ExtraSupplementRate>{`${currencyCode}${formatPrice(total)}`}</ExtraSupplementRate>)
   </ExtraSupplement>
 );
 
@@ -185,8 +186,10 @@ export const SummaryRoom = ({
             </RoomDetail>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
-            <RoomPrice data-discount={hasDiscount}>{`${currencyCode}${total}`}</RoomPrice>
-            {hasDiscount && <RoomPrice data-discounted={hasDiscount}>{`${currencyCode}${preDiscountTotal}`}</RoomPrice>}
+            <RoomPrice data-discount={hasDiscount}>{`${currencyCode}${formatPrice(total)}`}</RoomPrice>
+            {hasDiscount && (
+              <RoomPrice data-discounted={hasDiscount}>{`${currencyCode}${formatPrice(preDiscountTotal)}`}</RoomPrice>
+            )}
           </RoomColumn>
           {canEdit && (
             <RoomColumn data-shrink={true}>

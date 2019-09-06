@@ -40,6 +40,7 @@ import {
   mapWithIndex,
   replaceAccommodationWithRoom,
   toDate,
+  formatPrice
 } from 'utils';
 
 import { validation } from 'config/forms/roomEdit';
@@ -128,7 +129,7 @@ const renderDay = (rates, currencyCode, day) => {
   return (
     <span>
       <div>{formatDate(day, 'D')}</div>
-      {dayRate && <DatePrice>{`${currencyCode}${prop('price', dayRate)}`}</DatePrice>}
+      {dayRate && <DatePrice>{`${currencyCode}${formatPrice(prop('price', dayRate))}`}</DatePrice>}
     </span>
   );
 };
@@ -195,12 +196,12 @@ const mapBreakdown = (
   <MealPlanRate key={i}>
     {wrapProductToolTip(title, product)} - (
     <MealPlanRatePrice data-discounted={!equals(total, totalBeforeDiscount)}>
-      {`${currencyCode}${totalBeforeDiscount}`}
+      {`${currencyCode}${formatPrice(totalBeforeDiscount)}`}
     </MealPlanRatePrice>
     {!equals(total, totalBeforeDiscount) && (
       <Fragment>
         {' '}
-        <MealPlanRatePrice data-discount={true}>{`${currencyCode}${total}`}</MealPlanRatePrice>
+        <MealPlanRatePrice data-discount={true}>{`${currencyCode}${formatPrice(total)}`}</MealPlanRatePrice>
       </Fragment>
     )}
     ){hasSplitRates && ` | ${head(dates)}${!equals(head(dates), last(dates)) ? ` - ${last(dates)}` : ''}`}

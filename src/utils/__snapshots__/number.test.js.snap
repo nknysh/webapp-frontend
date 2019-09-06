@@ -2,4 +2,4 @@
 
 exports[`number utils calcualtePercentage returns correct percentage 1`] = `28.08`;
 
-exports[`number utils formatPrice returns formatted price 1`] = `"1000.00"`;
+exports[`number utils formatPrice returns formatted price 1`] = `"1,000.00"`;

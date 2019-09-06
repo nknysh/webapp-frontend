@@ -30,6 +30,7 @@ import {
   PriceBreakdown,
   PriceBreakdownItem,
 } from './SearchResult.styles';
+import { formatPrice } from 'utils';
 
 const getStartDateEndDate = dates => {
   const startDate = head(dates);
@@ -84,8 +85,8 @@ const renderPrice = (t, { offerCount, response, showDiscountedPrice, currencyCod
               <CardPrice data-discounted={showDiscountedPrice && gt(offerCount, 0)}>
                 {`${currencyCode}${
                   showDiscountedPrice
-                    ? path(['totals', 'totalBeforeDiscount'], response)
-                    : path(['totals', 'total'], response)
+                    ? formatPrice(path(['totals', 'totalBeforeDiscount'], response))
+                    : formatPrice(path(['totals', 'total'], response))
                 }`}
               </CardPrice>
             }
@@ -109,7 +110,9 @@ const renderPrice = (t, { offerCount, response, showDiscountedPrice, currencyCod
           {pathOr(true, ['totals', 'oneOrMoreItemsOnRequest'], response) ? (
             t('labels.onRequest')
           ) : (
-            <CardPrice data-discount={true}>{`${currencyCode}${path(['totals', 'total'], response)}`}</CardPrice>
+            <CardPrice data-discount={true}>{`${currencyCode}${formatPrice(
+              path(['totals', 'total'], response)
+            )}`}</CardPrice>
           )}
         </CardChip>
       )}
