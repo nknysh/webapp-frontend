@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   __,
   always,
@@ -7,22 +7,16 @@ import {
   compose,
   contains,
   filter,
-  flatten,
-  identity,
   ifElse,
   join,
   length,
   map,
-  memoizeWith,
-  mergeAll,
   partial,
-  path,
   pathOr,
   pipe,
   prop,
   propEq,
   propSatisfies,
-  uniq,
   values,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
@@ -44,20 +38,6 @@ import {
   StyledRoom,
   NoResults,
 } from './Rooms.styles';
-
-const toOption = value => ({ [value]: value });
-
-const getAmenities = memoizeWith(
-  identity,
-  pipe(
-    map(path(['meta', 'amenities'])),
-    flatten,
-    uniq,
-    filter(complement(isNilOrEmpty)),
-    map(toOption),
-    mergeAll
-  )
-);
 
 const filterNoRate = filter(propSatisfies(complement(isNilOrEmpty), 'rates'));
 
@@ -109,7 +89,19 @@ export const Rooms = props => {
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const { isMobile } = useCurrentWidth();
 
-  const amenities = getAmenities(rooms);
+  /**
+   * loop over all the rooms in `rooms` and build a React select-compatible
+   * array of all the amenities
+   */
+  const amenities = useMemo(() => {
+    const amenities = Object.values(rooms).reduce((accum, room) => {
+      accum = accum.concat(room.meta.amenities.map(amenity => ({ [amenity]: amenity })));
+      return accum;
+    }, []);
+
+    return amenities;
+  }, [rooms]);
+
   const filteredRooms = filterNoRate(filterRoomsByAmenities(rooms, selectedAmenities));
 
   const onRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid), [addRoom, hotelUuid]);
