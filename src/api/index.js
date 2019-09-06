@@ -7,7 +7,10 @@ import middleware from './middleware';
 
 const baseURL = defaultTo('/api', API_BASE_URL);
 
-const client = axios.create({ baseURL });
+const client = axios.create({
+  baseURL,
+  withCredentials: true,
+});
 
 const useInterceptor = curry((type, interceptor) => client.interceptors[type].use(interceptor));
 
