@@ -95,9 +95,9 @@ export const Rooms = props => {
    */
   const amenities = useMemo(() => {
     const amenities = Object.values(rooms).reduce((accum, room) => {
-      accum = accum.concat(room.meta.amenities.map(amenity => ({ [amenity]: amenity })));
+      room.meta.amenities.forEach(amenity => (accum[amenity] = amenity));
       return accum;
-    }, []);
+    }, {});
 
     return amenities;
   }, [rooms]);
@@ -126,7 +126,15 @@ export const Rooms = props => {
           )}
         </Column>
       </Columns>
-      <RoomsWrapper>{renderRooms(t, { filteredRooms, onRoomAdd, onRoomRemove, isMobile, ...props })}</RoomsWrapper>
+      <RoomsWrapper>
+        {renderRooms(t, {
+          filteredRooms,
+          onRoomAdd,
+          onRoomRemove,
+          isMobile,
+          ...props,
+        })}
+      </RoomsWrapper>
     </StyledRooms>
   );
 };
