@@ -40,7 +40,7 @@ import {
   mapWithIndex,
   replaceAccommodationWithRoom,
   toDate,
-  formatPrice
+  formatPrice,
 } from 'utils';
 
 import { validation } from 'config/forms/roomEdit';

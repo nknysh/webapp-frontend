@@ -33,7 +33,7 @@ import {
   getToDateFormat,
   getNumberOfDays,
   mapWithIndex,
-  formatPrice
+  formatPrice,
 } from 'utils';
 
 import { getProduct, getSupplements, getMealPlans, getTotalGuests, getAgeSplits } from './SummaryRoom.utils';
