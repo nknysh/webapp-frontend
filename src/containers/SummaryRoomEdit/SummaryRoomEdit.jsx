@@ -14,6 +14,7 @@ import {
   path,
   pipe,
   prepend,
+  mergeDeepLeft,
   prop,
   propOr,
   propSatisfies,
@@ -271,18 +272,14 @@ export const SummaryRoomEdit = ({
   )(mealPlans[roomContext] || []);
 
   useEffectBoundary(() => {
-    setFormValues({
-      ...formValues,
-      guestAges: map(prop('guestAges'), requestedRooms),
-    });
-  }, [requestedRooms]);
-
-  useEffectBoundary(() => {
-    setFormValues({
-      ...formValues,
-      dates: head(dates),
-    });
-  }, [dates]);
+    setFormValues(
+      mergeDeepLeft({
+        guestAges: map(prop('guestAges'), requestedRooms),
+        mealPlan,
+        dates: head(dates),
+      })
+    );
+  }, [requestedRooms, mealPlan, dates]);
 
   useEffectBoundary(() => {
     const input = path(['current', 'input'], datePickerRef);
@@ -293,13 +290,6 @@ export const SummaryRoomEdit = ({
     }
     input && input.focus();
   }, [rates]);
-
-  useEffectBoundary(() => {
-    setFormValues({
-      ...formValues,
-      mealPlan,
-    });
-  }, [mealPlan]);
 
   useEffectBoundary(() => {
     roomContext > totalRooms - 1 && setRoomContext(totalRooms - 1);
@@ -449,5 +439,6 @@ export const SummaryRoomEdit = ({
 
 SummaryRoomEdit.propTypes = propTypes;
 SummaryRoomEdit.defaultProps = defaultProps;
+SummaryRoomEdit.whyDidYouRender = true;
 
 export default compose(connect)(SummaryRoomEdit);
