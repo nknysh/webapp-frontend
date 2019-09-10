@@ -66,7 +66,13 @@ import { getSearchDates, getSearchLodgings, getSearchMealPlan } from 'store/modu
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 import { USERS_FETCH } from 'store/modules/users/actions';
 
-import { getBooking, getBookingForBuilder, getBookingMealPlanForRoomByType, getBookingsCreated } from './selectors';
+import {
+  getBooking,
+  getBookingForBuilder,
+  getBookingMealPlanForRoomByType,
+  getBookingsCreated,
+  getBookingRoomsById,
+} from './selectors';
 import { addFinalDayToBooking } from './utils';
 
 export const BOOKING_AMEND = 'BOOKING_AMEND';
@@ -168,6 +174,7 @@ export const fetchBookingHolds = id => async dispatch => {
 
 export const addRoom = (id, uuid) => async (dispatch, getState) => {
   dispatch(genericAction(BOOKING_ROOM_ADD, { id, uuid }));
+
   const dates = map(formatDate, getSearchDates(getState()));
   const lodgings = pipe(
     getSearchLodgings,
@@ -181,12 +188,17 @@ export const addRoom = (id, uuid) => async (dispatch, getState) => {
   )(getState());
 
   const booking = getBooking(getState(), id);
+  const prevRooms = getBookingRoomsById(getState(), id, uuid);
+
+  // If there was a previous room with this uuid, pop the last room selection and
+  // use it for the new room's data.
+  const prevRoom = !isNilOrEmpty(prevRooms) && last(prevRooms);
 
   const next = overProducts(
     ProductTypes.ACCOMMODATION,
     pipe(
       defaultTo([]),
-      concat(__, map(mergeDeepLeft({ ...dates, uuid }), lodgings))
+      concat(__, prevRoom ? [prevRoom] : map(mergeDeepLeft({ ...dates, uuid }), lodgings))
     ),
     booking
   );
