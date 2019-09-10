@@ -82,6 +82,9 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
   const summary = `${roomsSummary}, ${guestsSummary}`;
 
   useEffectBoundary(() => {
+    // If the rooms total has changed and we are on an tab index
+    // that no longer exists, then always default back to the
+    // last tab
     if (totalRooms && gt(tabIndex + 1, totalRooms)) {
       setTabIndex(totalRooms - 1);
     }

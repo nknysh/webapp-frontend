@@ -10,19 +10,45 @@ const searchState = {
   query: undefined,
 };
 
+/**
+ * Set search query reducer
+ *
+ * @param {object} state
+ * @param {object}
+ * @returns {object}
+ */
 const setSearchQuery = (state, { payload }) =>
   mergeDeepRight(state, {
     query: payload,
   });
 
+/**
+ * Search filters reset reducer
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 const searchFiltersReset = state => assocPath(['query', 'filters'], {}, state);
 
+/**
+ * Search results reducer
+ *
+ * @param {object} state
+ * @param {object}
+ * @returns {object}
+ */
 const searchResults = (state, { payload }) => ({
   ...state,
   status: Status.SUCCESS,
   data: { ...propOr({}, 'data', state), ...payload },
 });
 
+/**
+ * Remove local storage reducer
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 const removeLocalStorage = state => {
   localStorage.removeItem(SEARCH_BY_NAME);
   localStorage.removeItem(SEARCH_BY_QUERY);

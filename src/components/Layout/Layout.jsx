@@ -16,6 +16,14 @@ const ANCHOR_ORIGIN = Object.freeze({
   horizontal: 'right',
 });
 
+/**
+ * Drift enabled
+ *
+ * Compares role to env var to see if drift should be enabled
+ *
+ * @param {string} role
+ * @returns {boolean}
+ */
 const driftEnabled = role => includes('all', DRIFT_ENABLED_ROLES) || includes(role, DRIFT_ENABLED_ROLES);
 
 export const Layout = ({ user, children, location: { pathname } }) => {

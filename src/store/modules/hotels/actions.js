@@ -17,14 +17,29 @@ let ratesCanceltoken = undefined;
 export const HOTELS = 'HOTELS';
 export const HOTEL = 'HOTEL';
 
+/**
+ * Fetch hotels action
+ *
+ * @returns {object}
+ */
 export const fetchHotelsAction = () => ({
   type: HOTELS,
 });
 
+/**
+ * Set hotels
+ *
+ * Sets hotels into state from difference sources. Triggers
+ * a lunr reindex when there are new hotels.
+ *
+ * @param {object} data
+ * @returns {Function}
+ */
 export const setHotels = data => (dispatch, getState) => {
   const prevData = getHotelsEntities(getState());
   const hotels = mergeDeepRight(prevData, pathOr({}, ['entities', 'hotels'], data));
 
+  // Re-index all the hotels
   dispatch(
     index({
       index: 'hotels',
@@ -34,6 +49,9 @@ export const setHotels = data => (dispatch, getState) => {
     })
   );
 
+  // Run through the hotels, and if there are booking builder objects
+  // then trigger a BOOKING_POPULATE action to pre-populate the booking
+  // for the hotel
   forEach(({ bookingBuilder, name, uuid }) => {
     if (!bookingBuilder) return;
 
@@ -45,6 +63,12 @@ export const setHotels = data => (dispatch, getState) => {
   dispatch(successAction(HOTELS, data));
 };
 
+/**
+ * Fetch hotels
+ *
+ * @param {*} params
+ * @returns {Function}
+ */
 export const fetchHotels = params => async (dispatch, getState) => {
   const actingCountryCode = getUserCountryContext(getState());
   dispatch(fetchHotelsAction());
@@ -60,9 +84,22 @@ export const fetchHotels = params => async (dispatch, getState) => {
   }
 };
 
+/**
+ * Fetch hotel room rates by dates
+ *
+ * Fetchs the given hotels room rates based on the dates supplied. Used by the rate
+ * drop down calendar when editing rooms
+ *
+ * @param {string} hotelId
+ * @param {string} productUuid
+ * @param {string | Date} startDate
+ * @param {string | Date} endDate
+ */
 export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endDate) => async (dispatch, getState) => {
   const actingCountryCode = getUserCountryContext(getState());
 
+  // Build aa cancel token so that requests can be cancelled when user
+  // navigates to anotther month
   ratesCanceltoken && ratesCanceltoken.cancel('New rates requested');
   ratesCanceltoken = createCancelToken();
 
@@ -85,6 +122,7 @@ export const fetchHotelRoomRatesByDates = (hotelId, productUuid, startDate, endD
           ...propOr({}, 'entities', data),
           products: {
             [productUuid]: {
+              // Add rates to the products they are assigned to
               rates: { ...propOr({}, 'result', data) },
             },
           },

@@ -12,6 +12,16 @@ const client = axios.create({
   withCredentials: true,
 });
 
+/**
+ * Use interceptor
+ *
+ * Curried function that attachs interceptors (middlewares)
+ * to Axios instance
+ *
+ * @param {string} type Type of interceptor (request/response)
+ * @param {Function} interceptor Middleware to execute
+ * @returns {Function | object}
+ */
 const useInterceptor = curry((type, interceptor) => client.interceptors[type].use(interceptor));
 
 map(useInterceptor('request'), middleware.request);

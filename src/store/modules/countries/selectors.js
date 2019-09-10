@@ -1,41 +1,92 @@
 import { prop, pipe, reduce, values, sortBy, mergeDeepRight } from 'ramda';
 
-import { getStatus, getData, getResults, getEntities, getArg } from 'store/common/selectors';
+import { getStatus, getData, getResults, getEntities, getArg } from 'store/common';
 import { createSelector } from 'store/utils';
 
+/**
+ * Get countries selector
+ *
+ * @param {object}
+ * @returns {object}
+ */
 export const getCountries = prop('countries');
 
-export const getCountriesStatus = pipe(
+/**
+ * Get countries status selector
+ *
+ * @param {object}
+ * @returns {string}
+ */
+export const getCountriesStatus = createSelector(
   getCountries,
   getStatus
 );
 
-export const getCountriesData = pipe(
+/**
+ * Get countries data selector
+ *
+ * @param {object}
+ * @returns {*}
+ */
+export const getCountriesData = createSelector(
   getCountries,
   getData
 );
 
-export const getCountriesEntities = pipe(
+/**
+ * Get countries entities selector
+ *
+ * @param {object}
+ * @returns {object}
+ */
+export const getCountriesEntities = createSelector(
   getCountries,
   getEntities,
   prop('countries')
 );
 
-export const getCountriesResults = pipe(
+/**
+ * Get countries results selector
+ *
+ * @param {object}
+ * @returns {Array | string}
+ */
+export const getCountriesResults = createSelector(
   getCountries,
   getResults
 );
 
+/**
+ * Get country selector
+ *
+ * @param {object}
+ * @param {string}
+ * @returns {object}
+ */
 export const getCountry = createSelector(
   [getArg(1), getCountriesEntities],
   prop
 );
 
+/**
+ * Get country name selector
+ *
+ * @param {object}
+ * @param {string}
+ * @returns {string}
+ */
 export const getCountryName = createSelector(
   getCountry,
   prop('name')
 );
 
+/**
+ * Get countries names as key value selector
+ *
+ * @param {object}
+ * @param {string}
+ * @returns {object}
+ */
 export const getCountriesNamesAsKeyValue = createSelector(
   getCountriesEntities,
   pipe(
@@ -45,6 +96,13 @@ export const getCountriesNamesAsKeyValue = createSelector(
   )
 );
 
+/**
+ * Get countries codes as key value selector
+ *
+ * @param {object}
+ * @param {string}
+ * @returns {object}
+ */
 export const getCountriesCodesAsKeyValue = createSelector(
   getCountriesEntities,
   pipe(

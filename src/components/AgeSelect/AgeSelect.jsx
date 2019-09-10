@@ -45,6 +45,14 @@ import {
   Section,
 } from './AgeSelect.styles';
 
+/**
+ * Get age ranges for splits
+ *
+ * Function to extract age ranges inside age splits
+ *
+ * @param {object}
+ * @returns {object}
+ */
 const getAgeRangesForSplits = pipe(
   omit(['adult']),
   mapObjIndexed((data, name) => ({ name, ...data })),
@@ -53,6 +61,13 @@ const getAgeRangesForSplits = pipe(
   omit(['adult'])
 );
 
+/**
+ * Reduce range
+ *
+ * @param {object} accum
+ * @param {string} value
+ * @returns {object}
+ */
 const reduceRange = (accum, value) => ({ ...accum, [value]: value });
 
 const renderDropDown = ({ fromAge, toAge, type, splits, onAgeSelectChange, onAgeSelectOpen, onAgeSelectClose }, i) => (
@@ -98,7 +113,7 @@ const renderEntry = (
       </Entry>
       {propOr(true, type, showAgeDropDown) && gt(value, 0) && (
         <AgeDropDown>
-          <AgeDropDownTitle>Please specifiy ages:</AgeDropDownTitle>
+          <AgeDropDownTitle>{t('labels.specifyAges')}</AgeDropDownTitle>
           {times(
             partial(renderDropDown, [
               { fromAge, toAge, type, splits, onAgeSelectChange, onAgeSelectOpen, onAgeSelectClose },
@@ -127,6 +142,8 @@ export const AgeSelect = ({ values, onSelect, ageRanges, ...props }) => {
       const typeIsAdult = isAdult(type);
 
       const typeArray = propOr([], type, splits);
+
+      // If this is not adult, then we make the child array the lenght it should be
       if (!typeIsAdult) typeArray.length = number;
 
       // Don't add adults to the splits object

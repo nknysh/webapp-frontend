@@ -13,10 +13,14 @@ import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange }) => {
+  // Scroll to top on path change
   useScrollToTop(pathname);
 
   useEffectBoundary(() => {
+    // Trigger page change action on pathname change
     pageChange(pathname);
+
+    // Reset statuses on page change
     resetStatuses();
   }, [pathname]);
 

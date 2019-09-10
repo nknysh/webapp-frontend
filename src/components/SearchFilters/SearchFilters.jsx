@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from 'react';
+import React, { Fragment, useCallback, useMemo } from 'react';
 import {
   __,
   set,
@@ -61,12 +61,46 @@ const renderMealPlanTip = (t, value) => (
   </MealTypeTip>
 );
 
+const renderRegionCheckbox = ({ getSearchQueryData, setRegionsSelectedToSearchQuery }, region) =>
+  region && (
+    <RegionCheckbox
+      key={region}
+      name={`regions[selected][${region}]`}
+      label={region}
+      checked={prop(region, getSearchQueryData(filtersRegionSelectedLens))}
+      onChange={(e, checked) => setRegionsSelectedToSearchQuery({ [region]: checked })}
+    />
+  );
+
+const renderStarRatingsCheckbox = (t, { getSearchQueryData, setStarRatingsToSearchQuery }, rating) =>
+  rating && (
+    <RatingsCheckbox
+      key={rating}
+      name={`starRatings[${rating}]`}
+      label={`${rating} ${t('star')}`}
+      checked={propOr(true, rating, getSearchQueryData(filtersStarRatingsLens))}
+      onChange={(e, checked) => setStarRatingsToSearchQuery({ [rating]: checked })}
+    />
+  );
+
+const renderFeaturesCheckbox = ({ getSearchQueryData, setFeaturesToSearchQuery }, feature) =>
+  feature && (
+    <FilterCheckbox
+      key={feature}
+      name={`features[${feature}]`}
+      label={feature}
+      checked={propOr(false, feature, getSearchQueryData(filtersFeaturesLens))}
+      onChange={(e, checked) => setFeaturesToSearchQuery({ [feature]: checked })}
+    />
+  );
+
 export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features, prices }) => {
   const { t } = useTranslation();
 
   const updateSearchQuery = useCallback(set(__, __, searchQuery), [searchQuery]);
   const getSearchQueryData = useCallback(view(__, searchQuery), [searchQuery]);
 
+  // Defualt the start and end price to the values from redux until the data is available in `prices`
   const priceStart = isNaN(Number(head(prices))) ? head(defaultPriceRange) : Number(head(prices));
   const priceEnd = isNaN(Number(head(prices))) ? last(defaultPriceRange) : Number(last(prices));
 
@@ -123,38 +157,23 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
     [updateSearchQuery, onChange]
   );
 
-  const renderRegionCheckbox = region =>
-    region && (
-      <RegionCheckbox
-        key={region}
-        name={`regions[selected][${region}]`}
-        label={region}
-        checked={prop(region, getSearchQueryData(filtersRegionSelectedLens))}
-        onChange={(e, checked) => setRegionsSelectedToSearchQuery({ [region]: checked })}
-      />
-    );
+  const regionRadios = useMemo(
+    () => [
+      {
+        label: t('labels.allRegions'),
+        value: RegionSelectTypes.ALL,
+      },
+      {
+        label: t('labels.specifyRegions'),
+        value: RegionSelectTypes.SPECIFY,
+      },
+    ],
+    [t]
+  );
 
-  const renderStarRatingsCheckbox = rating =>
-    rating && (
-      <RatingsCheckbox
-        key={rating}
-        name={`starRatings[${rating}]`}
-        label={`${rating} ${t('star')}`}
-        checked={propOr(true, rating, getSearchQueryData(filtersStarRatingsLens))}
-        onChange={(e, checked) => setStarRatingsToSearchQuery({ [rating]: checked })}
-      />
-    );
+  const mealPlanRadios = useMemo(() => [{ label: 'Any', value: '' }, ...mealPlanOptions], []);
 
-  const renderFeaturesCheckbox = feature =>
-    feature && (
-      <FilterCheckbox
-        key={feature}
-        name={`features[${feature}]`}
-        label={feature}
-        checked={propOr(false, feature, getSearchQueryData(filtersFeaturesLens))}
-        onChange={(e, checked) => setFeaturesToSearchQuery({ [feature]: checked })}
-      />
-    );
+  const handleReset = useCallback(() => onReset(), [onReset]);
 
   return (
     <Fragment>
@@ -164,19 +183,10 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
           name="regions[type]"
           value={getSearchQueryData(filtersRegionTypeLens) || RegionSelectTypes.ALL}
           onChange={setRegionsTypeToSearchQuery}
-          options={[
-            {
-              label: t('labels.allRegions'),
-              value: RegionSelectTypes.ALL,
-            },
-            {
-              label: t('labels.specifyRegions'),
-              value: RegionSelectTypes.SPECIFY,
-            },
-          ]}
+          options={regionRadios}
         />
         {equals(RegionSelectTypes.SPECIFY, getSearchQueryData(filtersRegionTypeLens)) &&
-          map(renderRegionCheckbox, regions)}
+          map(partial(renderRegionCheckbox, [{ getSearchQueryData, setRegionsSelectedToSearchQuery }]), regions)}
       </SectionField>
 
       <Title>{t('priceRange')}</Title>
@@ -200,10 +210,14 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
       {!isNilOrEmpty(starRatings) && (
         <Fragment>
           <Title>{t('starRating')}</Title>
-          <SectionField data-flex={true}>{map(renderStarRatingsCheckbox, starRatings)}</SectionField>
+          <SectionField data-flex={true}>
+            {map(
+              partial(renderStarRatingsCheckbox, [t, { getSearchQueryData, setStarRatingsToSearchQuery }]),
+              starRatings
+            )}
+          </SectionField>
         </Fragment>
       )}
-
       <Title>
         {t('mealPlan')}
         <ToolTip>{values(map(partial(renderMealPlanTip, [t]), MealPlanSelectTypes))}</ToolTip>
@@ -213,19 +227,21 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
           name="mealPlan"
           value={getSearchQueryData(filtersMealPlanLens) || ''}
           onChange={setMealPlanToSearchQuery}
-          options={[{ label: 'Any', value: '' }, ...mealPlanOptions]}
+          options={mealPlanRadios}
         />
       </SectionField>
 
       {!isNilOrEmpty(features) && (
         <Fragment>
           <Title>{t('feature_plural')}</Title>
-          <SectionField>{map(renderFeaturesCheckbox, features)}</SectionField>
+          <SectionField>
+            {map(partial(renderFeaturesCheckbox, [{ getSearchQueryData, setFeaturesToSearchQuery }]), features)}
+          </SectionField>
         </Fragment>
       )}
 
       <SectionField>
-        <SideBarButton onClick={() => onReset()}>{t('buttons.removeFilters')}</SideBarButton>
+        <SideBarButton onClick={handleReset}>{t('buttons.removeFilters')}</SideBarButton>
       </SectionField>
     </Fragment>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 import { compose, prop, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
@@ -37,10 +37,12 @@ export const AuthenticatedRoute = ({
   ...props
 }) => {
   const { t } = useTranslation();
+  // Flag to say we have checked the route fully
   const [checked, setChecked] = useState(false);
   const [prevLocation, setPrevLocation] = useState(getLocationProps(location));
 
   useEffectBoundary(() => {
+    // Prop check here to see if location has changed
     const locationChange = !equals(getLocationProps(location), prevLocation);
     locationChange && setPrevLocation(getLocationProps(location));
     locationChange && setChecked(false);
@@ -53,26 +55,31 @@ export const AuthenticatedRoute = ({
   const routeIsAuthenticated = auth && isAuthenticated;
   const ignoreCheck = !isAuthenticated && authCheckIgnore;
 
+  // Do a `/me` check
   useFetchData(authStatus, authCheck, [], [], auth, !(auth && !ignoreCheck));
+
+  const routeProps = useMemo(() => ({ location, ...props }), [location, props]);
 
   if (auth && !checked) {
     return renderLoadingMessage(t);
   }
 
-  const routeProps = { location, ...props };
-
+  // Route is authenticated, user isn't, auth component present. Render auth component
   if (!routeIsAuthenticated && authComponent) {
     return renderRoute(authComponent, routeProps);
   }
 
+  // Route is authenticated and there is an authRedirect
   if (!routeIsAuthenticated && authRedirect) {
     return renderRedirect(location, routeProps, authRedirect);
   }
 
+  // Route is auth but the user isn't authenticated
   if (!routeIsAuthenticated) {
     return renderRedirect(location, routeProps);
   }
 
+  // Render route as normal
   return renderRouteComponent(routeProps);
 };
 

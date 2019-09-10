@@ -27,6 +27,8 @@ export const SearchBar = ({
 }) => {
   useFetchData(searchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
 
+  // Push to history stack so the url is updated with the new query but a location change isn't triggered (which
+  // would cause a full re-render of the search results)
   const onSubmit = useCallback(() => history.push(`/search?${buildQueryString(searchQuery)}`), [history, searchQuery]);
 
   return (

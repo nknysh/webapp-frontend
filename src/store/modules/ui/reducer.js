@@ -20,29 +20,72 @@ const initialState = {
   notifications: [],
 };
 
+/**
+ * Default prop
+ *
+ * @param {object}
+ * @returns {*}
+ */
 const defaultProp = prop('default');
 
+/**
+ * Authenticated state reducer
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 const authenticatedState = state => {
   const localStorageUser = parseJson(localStorage.getItem(AUTH_USER));
   return set(
     headerLens,
+    // Extracts which links to use in the header based on the current user's role
     propOr(defaultProp(headerLinks), propOr('default', 'type', localStorageUser), headerLinks),
     state
   );
 };
 
+/**
+ * Set authenticated state reducer
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 export const setAuthenticatedState = state => ({ ...state, ...authenticatedState(state) });
 
+/**
+ * Add notification reducer
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 export const addNotification = (state, { payload }) => mergeDeepRight(state, { notifications: [{ ...payload }] });
 
+/**
+ * Clear notification reducer
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 export const clearNotification = (state, { payload }) => {
   const notifications = prop('notifications', state);
 
+  /**
+   * Not key
+   *
+   * @param {object}
+   * @returns {boolean}
+   */
   const notKey = pipe(
     prop('key'),
     complement(equals(__, payload))
   );
 
+  /**
+   * Filter notification key
+   *
+   * @param {object}
+   * @returns {object}
+   */
   const filterNotificationKey = pipe(
     filter(notKey),
     objOf('notifications')
@@ -51,6 +94,12 @@ export const clearNotification = (state, { payload }) => {
   return mergeDeepRight(state, filterNotificationKey(notifications));
 };
 
+/**
+ * UI reducer
+ *
+ * @param {object} state
+ * @param {object} payload
+ */
 const uiReducer = (state = initialState, payload) => {
   const { type } = payload;
 

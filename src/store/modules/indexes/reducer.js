@@ -8,6 +8,12 @@ const initialState = {
 
 import { INDEXING } from './actions';
 
+/**
+ * Search index reducer
+ *
+ * @param {object} state
+ * @param {object}
+ */
 const searchIndex = (state, { payload }) => {
   return {
     ...state,

@@ -19,14 +19,54 @@ const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 const filtersFeaturesLens = lensPath(['filters', 'features']);
 
+/**
+ * New date
+ *
+ * @param {string} value
+ * @returns {Date}
+ */
 const newDate = value => value && new Date(value);
+
+/**
+ * To boolean
+ *
+ * @param {string} value
+ * @returns {Boolean}
+ */
 const toBoolean = value => value && value === 'true';
 
+/**
+ * Is not nil
+ *
+ * @param {*}
+ * @returns {boolean}
+ */
 const isNotNil = complement(isNil);
 
+/**
+ * Map numbers
+ *
+ * @param {*}
+ * @returns {Array<Number>}
+ */
 const mapNumbers = when(isNotNil, map(Number));
+
+/**
+ * Map numbers
+ *
+ * @param {*}
+ * @returns {Array<Boolean>}
+ */
 const mapSelected = when(isNotNil, map(toBoolean));
 
+/**
+ * Format data
+ *
+ * Normalize data from query string/local storage
+ *
+ * @param {object}
+ * @returns {object}
+ */
 const formatData = pipe(
   over(datesFromLens, newDate),
   over(datesToLens, newDate),
@@ -40,6 +80,14 @@ const formatData = pipe(
   over(filtersFeaturesLens, mapSelected)
 );
 
+/**
+ * From local storage
+ *
+ * Extracts key from local storage and formats
+ *
+ * @param {string}
+ * @returns {object}
+ */
 const fromLocalStorage = pipe(
   // Ramda can't invoke getItem properly without the browser throwing a fit
   key => localStorage.getItem(key),
@@ -47,12 +95,19 @@ const fromLocalStorage = pipe(
   formatData
 );
 
+/**
+ * Get search query
+ *
+ * @param {object}
+ * @returns {object}
+ */
 const getSearchQuery = pipe(
   prop('location'),
   getQuery,
   when(
     complement(isNilOrEmpty),
     pipe(
+      // Keys that can be picked out of the query
       pick(['lodging', 'destination', 'dates', 'suitableForHoneymooners', 'filters', 'occasions', 'repeatGuest']),
       formatData
     )
@@ -69,6 +124,7 @@ const searchMiddleware = ({ getState }) => next => action => {
 
   // Populate the search keys from either local storage or query string
   if (isNilOrEmpty(path(['search', 'query'], state)) && (searchFromQuery || searchFromStorage)) {
+    // Query takes precedence over local storage
     const nextSearch = (searchFromQuery && querySearch) || (searchFromStorage && localSearch);
     nextSearch && next(setSearchQuery(nextSearch));
   }

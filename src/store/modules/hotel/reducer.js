@@ -5,6 +5,13 @@ import { createReducer, getErrorActionName, getSuccessActionName } from 'store/u
 
 import { HOTEL, HOTEL_ROOMS } from './actions';
 
+/**
+ * Set id
+ *
+ * @param {object} state
+ * @param {object}
+ * @returns {object}
+ */
 export const setId = (state, { payload }) =>
   mergeDeepRight(state, {
     status: Status.SUCCESS,

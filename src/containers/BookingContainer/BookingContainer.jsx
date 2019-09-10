@@ -320,14 +320,21 @@ export const BookingContainer = ({
   const { t } = useTranslation();
   const loaded = useFetchData(bookingStatus, fetchBooking, [id], [created]);
   const { isMobile } = useCurrentWidth();
+
+  // Whether there is a created ID for this booking
   const [hasCreated] = useState(created);
+
+  // Whether a user can edit this booking
   const [canEdit, setCanEdit] = useState(false);
   const modal = useModalState();
 
   const onSubmit = useCallback(() => {
     setCanEdit(false);
+
+    // If a user can request a booking but can't edit the booking
     if (!canEdit) return requestBooking(id);
 
+    // SR can complete the booking
     if (isSr) {
       completeBooking(id);
       cancelBooking(id);
@@ -352,8 +359,14 @@ export const BookingContainer = ({
     [onModalClose, reviewBooking, id]
   );
 
+  // Because "amending" a booking is actually creating a new one, redirect to the
+  // new booking id's page
   if (amended) return <Redirect to={`/bookings/${amended}`} />;
+
+  // If there is a created flag for this booking, remove it from the redux store
   if (hasCreated) clearCreatedBooking(id);
+
+  // Redirect to the booking details page if user shouldn't be on this page
   if (!isDetails && !hasCreated) return <Redirect to={`/bookings/${id}`} />;
 
   const { status } = booking;

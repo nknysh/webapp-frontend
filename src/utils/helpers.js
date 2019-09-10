@@ -1,12 +1,9 @@
 import {
   addIndex,
   always,
-  complement,
-  cond,
   curry,
   either,
   equals,
-  filter,
   identity,
   is,
   lensPath,
@@ -17,14 +14,11 @@ import {
   prop,
   propOr,
   reduce,
-  T,
   test,
   tryCatch,
-  unapply,
   uniq,
   values,
 } from 'ramda';
-import { isNilOrEmpty } from 'ramda-adjunct';
 
 export const noop = () => {};
 
@@ -36,33 +30,81 @@ export const isString = is(String);
 export const mapWithIndex = addIndex(map);
 export const reduceWithIndex = addIndex(reduce);
 
-export const arrayToKeyValueObject = (keyProp, valueProp) => {
-  const reducer = (accum, item) => merge(accum, { [prop(keyProp, item)]: prop(valueProp, item) });
-  return reduce(reducer, {});
-};
+/**
+ * Array to key value object
+ *
+ * Returns an object from an array based on which prop
+ * to use in the array as key and which prop to use as the value
+ *
+ * @param {string} keyProp
+ * @param {string} valueProp
+ * @returns {object}
+ */
+export const arrayToKeyValueObject = (keyProp, valueProp) =>
+  reduce((accum, item) => merge(accum, { [prop(keyProp, item)]: prop(valueProp, item) }), {});
 
-export const getUniqueMap = map(
-  pipe(
-    uniq,
-    filter(complement(isNilOrEmpty))
-  )
-);
-
+/**
+ * Lens from object
+ *
+ * Curried function to create lenses from an object.  Handles deep objects
+ * by recursing to infinite depth
+ *
+ * @param {array} previousKeys
+ * @param {*} value
+ * @param {string} key
+ * @returns {Function}
+ */
 const lensFromObject = curry((previousKeys, value, key) => {
+  // Keeps adding to the path as we recurse
   const currentPath = [...previousKeys, key];
 
+  // If the value is an object, then recurse until we find a non-object
   if (isObject(value)) return mapObjIndexed(lensFromObject(currentPath), value);
 
+  // Returns built lens
   return lensPath(currentPath);
 });
 
+/**
+ * Build lenses from object
+ *
+ * @param {object}
+ * @returns {object}
+ */
 export const buildLensesFromObject = mapObjIndexed(lensFromObject([]));
 
-export const toList = unapply(identity);
+/**
+ * Reduce by key
+ *
+ * Curried function to reduce by top level key
+ *
+ * @param {string} key
+ * @param {array} accum
+ * @param {*} value
+ * @returns {Function | array}
+ */
+export const reduceByKey = curry((key, accum, value) => (value ? [...accum, prop(key, value)] : accum));
 
-export const castToType = data =>
-  cond([[isArray, always([...data])], [isObject, always({ ...data })], [T, identity]])(data);
+/**
+ * Reduce by key
+ *
+ * Curried function to reduce by array level key
+ *
+ * @param {string} key
+ * @param {array} accum
+ * @param {*} value
+ * @returns {Function | array}
+ */
+export const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum, ...propOr([], key, value)] : accum));
 
+/**
+ * Get mapped
+ *
+ * Returns values mapped by specific key
+ *
+ * @param {string} key
+ * @param {Function} reducer
+ */
 export const getMapped = (key, reducer = reduceByKey) =>
   pipe(
     values,
@@ -70,10 +112,31 @@ export const getMapped = (key, reducer = reduceByKey) =>
     uniq
   );
 
-export const reduceByKey = curry((key, accum, value) => (value ? [...accum, prop(key, value)] : accum));
-export const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum, ...propOr([], key, value)] : accum));
-
+/**
+ * Test adult
+ *
+ * Tests to see if string contains adult
+ *
+ * @param {string}
+ * @returns {boolean}
+ */
 export const testAdult = test(/^adult$/i);
+
+/**
+ * Is Adult
+ *
+ * @param {string}
+ * @returns {boolean}
+ */
 export const isAdult = either(testAdult, equals('default'));
 
+/**
+ * Parse JSON
+ *
+ * Custom function that will add try catch round JSON.parse
+ * returning the original data if it couldn't be parsed
+ *
+ * @param {string} data
+ * @returns {string | object}
+ */
 export const parseJson = data => tryCatch(JSON.parse, always(identity(data)))(data);
