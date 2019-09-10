@@ -206,4 +206,7 @@ export default {
 
   accountRep: 'Your Pure Escapes Representative',
   accountStatus: 'Your Account Status',
+
+  availability: 'Availability',
+  availableToHold: 'This hotel has accommodation available to hold',
 };

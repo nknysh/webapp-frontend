@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, gt, head, last, map, partial, path, pathOr, prop, values } from 'ramda';
+import { compose, gt, head, last, map, partial, path, pathOr, prop, values, propOr } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { isEqual, addDays, format } from 'date-fns';
 
@@ -11,6 +11,7 @@ import { propTypes, defaultProps } from './SearchResult.props';
 import {
   StyledCard,
   CardImage,
+  CardChipAvailability,
   CardChip,
   CardPrice,
   CardDetails,
@@ -135,6 +136,16 @@ const renderOffers = (t, { offerCount, offers }) => {
   );
 };
 
+const renderAvailabilityChip = (t, { availableToHold }) => {
+  return (
+    availableToHold && (
+      <CardChipAvailability>
+        <ToolTip label={<span>{t('availability')}</span>}>{t('availableToHold')}</ToolTip>
+      </CardChipAvailability>
+    )
+  );
+};
+
 export const SearchResult = ({
   additionalInfo,
   amenities,
@@ -152,6 +163,7 @@ export const SearchResult = ({
   const { t } = useTranslation();
 
   const { response } = bookingBuilder;
+  const availableToHold = propOr(false, 'availableToHold', response);
 
   return (
     <StyledCard>
@@ -159,6 +171,7 @@ export const SearchResult = ({
         {preferred && <CardPreferred>{t('labels.preferred')}</CardPreferred>}
         {renderPrice(t, { response, offerCount, showDiscountedPrice, currencyCode })}
         {renderOffers(t, { offers, response, offerCount })}
+        {renderAvailabilityChip(t, { availableToHold })}
       </CardImage>
       <CardDetails>
         <CardTitle>{name}</CardTitle>

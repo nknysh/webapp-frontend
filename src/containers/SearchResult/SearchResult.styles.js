@@ -22,6 +22,10 @@ export const CardImage = styled(Card.Image)`
 
 export const CardChip = styled(Chip)``;
 
+export const CardChipAvailability = styled(Chip)`
+  color: ${props => props.theme.palette.available};
+`;
+
 export const CardPrice = styled(Card.Price)``;
 
 export const CardDetails = styled.div`
