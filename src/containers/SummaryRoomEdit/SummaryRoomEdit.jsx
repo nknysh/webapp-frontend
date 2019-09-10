@@ -439,6 +439,5 @@ export const SummaryRoomEdit = ({
 
 SummaryRoomEdit.propTypes = propTypes;
 SummaryRoomEdit.defaultProps = defaultProps;
-SummaryRoomEdit.whyDidYouRender = true;
 
 export default compose(connect)(SummaryRoomEdit);
