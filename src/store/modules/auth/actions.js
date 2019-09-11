@@ -25,6 +25,8 @@ export const AUTH_PASSWORD_UPDATE = 'AUTH_PASSWORD_UPDATE';
 export const AUTH_TOKEN = 'authToken';
 export const AUTH_USER = 'authUser';
 export const AUTH_COUNTRY_CODE = 'authCountryCode';
+export const AUTH_ROLE = 'role';
+export const AUTH_USERNAME = 'username';
 
 const authReset = () => ({
   type: AUTH_RESET,
@@ -73,10 +75,14 @@ export const authSetCountryAction = countryCode => ({
 export const setRememberedToken = token => localStorage.setItem(AUTH_TOKEN, token);
 export const setRememberedUser = user => localStorage.setItem(AUTH_USER, JSON.stringify(user));
 export const setRememberedCountry = countryCode => localStorage.setItem(AUTH_COUNTRY_CODE, countryCode);
+export const setRememberedRole = role => localStorage.setItem(AUTH_ROLE, role);
+export const setRememberedUsername = username => localStorage.setItem(AUTH_USERNAME, username);
 
 export const deleteRememberedToken = () => localStorage.removeItem(AUTH_TOKEN);
 export const deleteRememberedUser = () => localStorage.removeItem(AUTH_USER);
 export const deleteRememberedCountry = () => localStorage.removeItem(AUTH_COUNTRY_CODE);
+export const deleteRememberedRole = () => localStorage.removeItem(AUTH_ROLE);
+export const deleteRememberedUsername = () => localStorage.removeItem(AUTH_USERNAME);
 
 export const authSetCountry = countryCode => dispatch => {
   setRememberedCountry(countryCode);
@@ -109,6 +115,8 @@ const clearUser = dispatch => {
   deleteRememberedToken();
   deleteRememberedUser();
   deleteRememberedCountry();
+  deleteRememberedRole();
+  deleteRememberedUsername();
 
   dispatch(authReset());
   dispatch(successAction(AUTH_LOG_OUT, {}));
@@ -137,6 +145,8 @@ const persistUser = (dispatch, data) => {
   setRememberedToken(userUuid);
   setRememberedUser(data);
   setRememberedCountry(propOr('GB', 'countryCode', data));
+  setRememberedRole(propOr('ta', 'type', data));
+  setRememberedUsername(`${data.firstName} ${data.lastName}`);
 
   dispatch(setToken(userUuid));
 };
