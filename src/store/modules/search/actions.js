@@ -88,6 +88,17 @@ export const searchByName = destination => async (dispatch, getState) => {
   }
 };
 
+export const getPayloadFromSearchQuery = (query, actingCountryCode, repeatGuest, occasions) => {
+  return pipe(
+    omit(['prices']),
+    mergeDeepLeft({ actingCountryCode }),
+    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
+    set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
+  )(query);
+};
+
+export const subDaysFromPayload = over(lensPath(['dates', 'endDate']), partialRight(subDays, [1]));
+
 export const searchByQuery = query => async (dispatch, getState) => {
   const actingCountryCode = getUserCountryContext(getState());
 
@@ -104,15 +115,11 @@ export const searchByQuery = query => async (dispatch, getState) => {
   searchQueryCancelToken && searchQueryCancelToken.cancel('New search initiated');
   searchQueryCancelToken = createCancelToken();
 
-  const payload = pipe(
-    omit(['prices']),
-    mergeDeepLeft({ actingCountryCode }),
-    over(lensPath(['dates', 'endDate']), partialRight(subDays, [1])),
-    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
-    set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
-  )(query);
+  const payloadWithRawDays = getPayloadFromSearchQuery(query, actingCountryCode, repeatGuest, occasions);
 
-  localStorage.setItem(SEARCH_BY_QUERY, JSON.stringify(payload));
+  localStorage.setItem(SEARCH_BY_QUERY, JSON.stringify(payloadWithRawDays));
+
+  const payload = subDaysFromPayload(payloadWithRawDays);
 
   try {
     const {
