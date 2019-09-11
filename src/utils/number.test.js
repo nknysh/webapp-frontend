@@ -34,9 +34,26 @@ describe('number utils', () => {
       expect(formatPrice('foobar')).toEqual('NaN');
     });
   });
+
   describe('calculatePercentage', () => {
     it('returns correct percentage', () => {
-      expect(calculatePercentage(234, 12)).toMatchSnapshot();
+      expect(calculatePercentage(234, 12)).toEqual(28.08);
+    });
+
+    it('returns 0 when value is 0', () => {
+      expect(calculatePercentage(100, 0)).toEqual(0);
+    });
+
+    it('returns 0 when total is 0', () => {
+      expect(calculatePercentage(0, 20)).toEqual(0);
+    });
+
+    it('works when total is a string number (still returns a number)', () => {
+      expect(calculatePercentage('1000', 10)).toEqual(100);
+    });
+
+    it('handles a formatted number correctly', () => {
+      expect(calculatePercentage('1,000', 10)).toEqual(100);
     });
   });
 });

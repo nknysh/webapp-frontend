@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`number utils calculatePercentage returns correct percentage 1`] = `28.08`;
-
 exports[`number utils formatPrice returns formatted price for a number 1`] = `"1,000.00"`;

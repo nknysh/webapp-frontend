@@ -10,4 +10,5 @@ export const formatPrice = pipe(
   replace(/\B(?=(\d{3})+(?!\d))/g, ',') // regex taken from https://stackoverflow.com/a/2901298
 );
 
-export const calculatePercentage = (amount, percent) => divide(multiply(Number(amount), Number(percent)), 100);
+export const calculatePercentage = (amount, percent) =>
+  divide(multiply(Number(removeCommasIfString(amount)), Number(percent)), 100);
