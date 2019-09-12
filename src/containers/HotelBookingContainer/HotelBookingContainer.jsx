@@ -267,7 +267,10 @@ export const HotelBookingContainer = ({
   ] = useHotelBookingContainerState();
   const { modalOpen, onModalClose, onModalOpen } = useModalState(false);
   const loaded = useFetchData(hotelStatus, fetchHotel, [id]);
+
+  // ref used to control guest form from anywhere
   const guestFormRef = useRef(undefined);
+
   const { isMobile } = useCurrentWidth();
 
   const isDetailsView = equals(ViewType.DETAILS, view);
@@ -281,6 +284,7 @@ export const HotelBookingContainer = ({
   useEffectBoundary(() => {
     setComplete(false);
   }, [submitError]);
+
   useEffectBoundary(() => {
     onModalClose();
   }, [complete]);
@@ -292,6 +296,7 @@ export const HotelBookingContainer = ({
       setGuestFormValues(values);
       updateBooking(id, values);
 
+      // When form is submitted and we aare only holding, trigger the redux action
       if (holdOnly)
         return completeAndHold(id, pick(['guestFirstName', 'guestLastName', 'guestTitle'], values), 'potential', true);
 

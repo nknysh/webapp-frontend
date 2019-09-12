@@ -8,6 +8,16 @@ const headerContentTypePutLens = lensPath(['headers', 'put', 'Content-Type']);
 
 const applicationType = 'application/json';
 
+/**
+ * Header middleware
+ *
+ * Runs through config adding application type
+ * to every possible header combination ensuring
+ * `application/json` in all requests
+ *
+ * @param {AxiosRequestConfig} config
+ * @returns {AxiosRequestConfig}
+ */
 const headerMiddleware = pipe(
   set(headerAcceptLens, applicationType),
   set(headerContentTypeLens, applicationType),

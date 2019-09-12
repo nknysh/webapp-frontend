@@ -48,12 +48,25 @@ export const PROPOSALS_ADD = 'PROPOSALS_ADD';
 export const PROPOSALS_FETCH = 'PROPOSALS_FETCH';
 export const PROPOSALS_NEW = 'PROPOSALS_NEW';
 
+/**
+ * Clean payload
+ *
+ * Removes values that are empty or null from the payload
+ *
+ * @param {object}
+ * @returns {object}
+ */
 const cleanPayload = pipe(
   toPairs,
   reduce((accum, [key, value]) => (!isNilOrEmpty(value) ? append([key, value], accum) : accum), []),
   fromPairs
 );
 
+/**
+ * Fetch proposals
+ *
+ * @param {*} params
+ */
 export const fetchProposals = params => async dispatch => {
   dispatch(genericAction(PROPOSALS_FETCH, params));
 
@@ -68,6 +81,13 @@ export const fetchProposals = params => async dispatch => {
   }
 };
 
+/**
+ * Fetch proposal
+ *
+ * @param {string} id
+ * @param {*} params
+ * @returns {Function}
+ */
 export const fetchProposal = (id, params) => async dispatch => {
   dispatch(genericAction(PROPOSAL_FETCH, { id }));
 
@@ -76,7 +96,10 @@ export const fetchProposal = (id, params) => async dispatch => {
       data: { data },
     } = await client.getProposal(id, params);
 
+    // Omit any bookings from the entities
     const proposal = over(lensProp('entities'), omit(['bookings']), data);
+
+    // Extract the bookings and trigger the `setBookings` action
     const bookings = pathOr({}, ['entities', 'bookings'], data);
 
     dispatch(setBookings(bookings));
@@ -86,25 +109,43 @@ export const fetchProposal = (id, params) => async dispatch => {
   }
 };
 
+/**
+ * Create new proposal
+ *
+ * @param {string} name
+ * @param {string} bookingId
+ * @param {boolean} placeHolds
+ * @returns {Function}
+ */
 export const createNewProposal = (name, bookingId, placeHolds) => async (dispatch, getState) => {
   const booking = getBooking(getState(), bookingId);
   const isSr = isSR(getState());
+
+  // If the current user is a SR, then we use the `travelAgentUserUuid` from the booking rather than
+  // the current user's UUID
   const userUuid = isSr ? prop('travelAgentUserUuid', booking) : getCurrentUserUuid(getState());
 
   dispatch(genericAction(PROPOSALS_NEW, { name, userUuid }));
 
+  // Creating a proposal isn't a one step process...
   try {
+    // 1. We create the empty proposal so we can access the UUID
     const {
       data: { data },
     } = await client.createProposal({ data: { attributes: { name, userUuid } } });
 
     const proposalUuid = prop('result', data);
 
+    // 2. We then need to "complete" the booking into a state of POTENTIAL
     await dispatch(
       completeBooking(
         bookingId,
         {
+          // Use the UUID from step 1 to attach the booking to the proposal
           proposalUuid,
+
+          // Fields are mandatory but we don't have them at this point so
+          // default them to empty
           guestFirstName: '',
           guestLastName: '',
         },
@@ -115,10 +156,14 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
 
     const bookingStatus = getBookingStatus(getState());
 
+    // Make sure the booking worked
     if (isError(bookingStatus)) {
       throw new Error('Error updating booking');
     }
 
+    // We do a fetch here so that the most up to date data is in redux.  Backend does some
+    // moving about of data so it's easier to grab a clean copy than to try and transform the
+    // data here
     dispatch(fetchProposal(proposalUuid));
     dispatch(successAction(PROPOSALS_NEW, data));
     dispatch(
@@ -129,9 +174,21 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
   }
 };
 
+/**
+ * Add to proposal
+ *
+ * Adds a booking to a proposal
+ *
+ * @param {string} proposalUuid
+ * @param {string} bookingId
+ * @param {boolean} placeHolds
+ * @returns {Function}
+ */
 export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSALS_ADD, { proposalUuid, bookingId }));
 
+  // This time we just need to complete the booking with status POTENTIAL.
+  /** @todo this is a duplicate of `createProposal` functionality and should be split out into a resuable function */
   await dispatch(
     completeBooking(
       bookingId,
@@ -154,6 +211,15 @@ export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dis
     : dispatch(errorAction(PROPOSALS_ADD, { result: proposalUuid }));
 };
 
+/**
+ * Update proposal
+ *
+ * Updates the proposal data (not the bookings in a proposal)
+ *
+ * @param {string} proposalUuid
+ * @param {object} payload
+ * @returns {Function}
+ */
 export const updateProposal = (proposalUuid, payload) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSAL_UPDATE, { id: proposalUuid, payload }));
   const proposal = getProposal(getState(), proposalUuid);
@@ -161,6 +227,7 @@ export const updateProposal = (proposalUuid, payload) => async (dispatch, getSta
   const name = prop('name', proposal);
   const userUuid = prop('userUuid', proposal);
 
+  // Make sure that the name and userUuid are sent with the patch
   const attributes = {
     name,
     userUuid,
@@ -181,6 +248,16 @@ export const updateProposal = (proposalUuid, payload) => async (dispatch, getSta
   }
 };
 
+/**
+ * Remove booking
+ *
+ * Removes given booking from the proposal
+ *
+ * @param {string} proposalUuid
+ * @param {string} bookingId
+ * @param {boolean} update Optionally update the proposal via patch at the same time
+ * @returns {Function}
+ */
 export const removeBooking = (proposalUuid, bookingId, update = true) => async dispatch => {
   dispatch(genericAction(PROPOSAL_REMOVE_BOOKING, { id: proposalUuid, bookingId }));
 
@@ -189,8 +266,12 @@ export const removeBooking = (proposalUuid, bookingId, update = true) => async d
       data: { data },
     } = await client.removeBooking(proposalUuid, bookingId);
 
+    // If we are showing updates, then we need clean proposal from backend
     update && dispatch(fetchProposal(proposalUuid));
+
     dispatch(successAction(PROPOSAL_REMOVE_BOOKING, update ? data : {}));
+
+    // If the proposal is updated show a notification
     update &&
       dispatch(
         enqueueNotification({ message: `Removed '${bookingId}' from proposal.`, options: { variant: 'success' } })
@@ -200,6 +281,17 @@ export const removeBooking = (proposalUuid, bookingId, update = true) => async d
   }
 };
 
+/**
+ * Amend booking
+ *
+ * Amends a booking inside a proposal.  When we amend a booking we are actually
+ * cancelling a booking, removing it from the proposal and creating a new
+ * potential booking and attaching it again
+ *
+ * @param {string} proposalUuid
+ * @param {strin} bookingId
+ * @returns {Function}
+ */
 export const amendBooking = (proposalUuid, bookingId) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSAL_AMEND_BOOKING, { proposalUuid, bookingId }));
 
@@ -207,21 +299,39 @@ export const amendBooking = (proposalUuid, bookingId) => async (dispatch, getSta
   const proposal = getProposal(state, proposalUuid);
   const booking = getBooking(state, bookingId);
 
+  // Need the index of the booking which we are currently "amending"
   const bookingIndex = findIndex(equals(bookingId), prop('bookings', proposal));
 
   if (equals(-1, bookingIndex)) {
     return dispatch(errorAction(PROPOSAL_AMEND_BOOKING, {}));
   }
 
+  // Steps to "amend" a booking in a proposal
+
+  // 1. Cancel the booking
   dispatch(cancelBooking(bookingId));
+
+  // 2. Attach the booking back to the bookings key as the hotel uuid
   dispatch(bookingToHotelUuid(bookingId));
 
+  // 3. Create the new proposal with the hotelUuid as the booking uuid (we swapped this in 2)
+  // so that it shows up in this proposal
   const next = set(lensPath(['bookings', bookingIndex]), prop('hotelUuid', booking), proposal);
 
   dispatch(successAction(PROPOSAL_AMEND_BOOKING, { entities: { proposals: { [proposalUuid]: next } } }));
+
+  // 4. Remove the old booking from the proposal in the backend
   dispatch(removeBooking(proposalUuid, bookingId, false));
 };
 
+/**
+ * Complete proposal booking
+ *
+ * @param {string} proposalUuid
+ * @param {string} bookingId
+ * @param {object} payload
+ * @returns {Function}
+ */
 export const completeProposalBooking = (proposalUuid, bookingId, payload) => async dispatch => {
   dispatch(genericAction(PROPOSAL_COMPLETE_BOOKING, { proposalUuid, bookingId, payload }));
 
@@ -231,9 +341,20 @@ export const completeProposalBooking = (proposalUuid, bookingId, payload) => asy
   dispatch(successAction(PROPOSAL_COMPLETE_BOOKING, {}));
 };
 
+/**
+ * Proposal booking request
+ *
+ * Complete the booking in the proposal as if we had gone through
+ * the booking flow normally
+ *
+ * @param {string} proposalId
+ * @param {string} bookingId
+ * @returns {Function}
+ */
 export const proposalBookingRequest = (proposalId, bookingId) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSAL_BOOKING_REQUEST, { proposalId, bookingId }));
 
+  // Finalise the booking request
   await dispatch(requestBooking(bookingId));
 
   const bookingStatus = getBookingStatus(getState());
@@ -243,10 +364,20 @@ export const proposalBookingRequest = (proposalId, bookingId) => async (dispatch
     return;
   }
 
+  // Remove the booking from proposal since it's been finalised
   dispatch(removeBooking(proposalId, bookingId));
   dispatch(successAction(PROPOSAL_BOOKING_REQUEST, { bookingId }));
 };
 
+/**
+ * Proposal booking hold
+ *
+ * Take holds of booking that is in a proposal
+ *
+ * @param {string} proposalId
+ * @param {string} bookingId
+ * @returns {Function}
+ */
 export const proposalBookingHold = (proposalId, bookingId) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSAL_BOOKING_HOLD, { proposalId, bookingId }));
 
@@ -262,6 +393,15 @@ export const proposalBookingHold = (proposalId, bookingId) => async (dispatch, g
   dispatch(successAction(PROPOSAL_BOOKING_HOLD, { bookingId }));
 };
 
+/**
+ * Proposal booking release
+ *
+ * Release holds of booking that is in a proposal
+ *
+ * @param {string} proposalId
+ * @param {string} bookingId
+ * @returns {Function}
+ */
 export const proposalBookingRelease = (proposalId, bookingId) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSAL_BOOKING_RELEASE, { proposalId, bookingId }));
 

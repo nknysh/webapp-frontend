@@ -36,10 +36,12 @@ export const AddToProposalForm = ({
   const loaded = useFetchData(status, fetchProposals, []);
 
   useEffectBoundary(() => {
+    // When complete this is the final trigger
     complete && onSubmit(result);
   }, [complete]);
 
   useEffectBoundary(() => {
+    // Wait for data to come back from API submit redux action
     submitted && (isSuccess(status) ? setComplete(true) : setSubmitted(false));
   }, [status]);
 

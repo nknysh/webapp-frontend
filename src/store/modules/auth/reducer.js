@@ -20,18 +20,57 @@ import {
   AUTH_CHECK,
 } from './actions';
 
+/**
+ * Token lens
+ *
+ * @returns {Function}
+ */
 const tokenLens = lensProp('token');
+
+/**
+ * Country lens
+ *
+ * @returns {Function}
+ */
 const countryLens = lensProp('country');
+
+/**
+ * User lens
+ *
+ * @returns {Function}
+ */
 const userLens = lensPath(['data', 'user']);
 
+/**
+ * Auth set token reducer
+ *
+ * @param {object} state
+ * @param {object}
+ * @returns {object}
+ */
 const authSetToken = (state, { payload: { token } }) => set(tokenLens, token, state);
+
+/**
+ * Auth set country reducer
+ *
+ * @param {object} state
+ * @param {object}
+ * @returns {object}
+ */
 const authSetCountry = (state, { payload }) => set(countryLens, payload, state);
 
+/**
+ * Auth reset reducer
+ *
+ * @returns {object}
+ */
 const authReset = () => ({ ...initialState });
 
 export default (state = initialState, payload) => {
   const localStorageUser = parseJson(localStorage.getItem(AUTH_USER));
   const localStorageToken = localStorage.getItem(AUTH_TOKEN) || undefined;
+
+  // Get country either from local storage or direct off the user
   const localStorageCountry =
     localStorage.getItem(AUTH_COUNTRY_CODE) || propOr(undefined, 'countryCode', localStorageUser);
 

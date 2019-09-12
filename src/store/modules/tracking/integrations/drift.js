@@ -30,11 +30,24 @@ const TrackableEventTypes = Object.freeze({
   [SEARCH]: 'Search',
 });
 
+/**
+ * Search to attributes
+ *
+ * @param {object}
+ * @returns {object}
+ */
 const searchToAttributes = pipe(
   prop('byQuery'),
   when(complement(isNilOrEmpty), pipe(over(lensProp('result'), length)))
 );
 
+/**
+ * Booking complete event
+ *
+ * @param {object} state
+ * @param {object}
+ * @returns {object}
+ */
 const bookingComplete = (state, { payload }) => {
   const data = prop('data', payload);
   windowExists.drift &&
@@ -42,26 +55,56 @@ const bookingComplete = (state, { payload }) => {
   return state;
 };
 
+/**
+ * Booking error event
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 const bookingError = state => {
   windowExists.drift && windowExists.drift.track(TrackableEventTypes.BOOKING_ERROR);
   return state;
 };
 
+/**
+ * Booking view event
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 const bookingView = (state, { type, payload }) => {
   windowExists.drift && windowExists.drift.track(TrackableEventTypes[type], head(head(toPairs(payload))));
   return state;
 };
 
+/**
+ * Page event
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 const page = state => {
   windowExists.drift && windowExists.drift.page();
   return state;
 };
 
+/**
+ * Search event
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 const search = (state, { type, payload }) => {
   windowExists.drift && windowExists.drift.track(TrackableEventTypes[type], searchToAttributes(payload));
   return state;
 };
 
+/**
+ * Result event
+ *
+ * @param {object} state
+ * @returns {object}
+ */
 const resultEvent = (state, { type, payload }) => {
   windowExists.drift && windowExists.drift.track(TrackableEventTypes[type], pick(['result'], payload));
   return state;

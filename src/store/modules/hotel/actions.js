@@ -12,20 +12,39 @@ import { getUserCountryContext } from 'store/modules/auth';
 export const HOTEL = 'HOTEL';
 export const HOTEL_ROOMS = 'HOTEL_ROOMS';
 
+/**
+ * Fetch hotel action
+ *
+ * @returns {object}
+ */
 export const fetchHotelAction = () => ({
   type: HOTEL,
 });
 
+/**
+ * Fetch hotel action
+ *
+ * @param {object}
+ * @returns {object}
+ */
 export const fetchHotelRoomsAction = payload => ({
   type: HOTEL_ROOMS,
   payload,
 });
 
+/**
+ * Fetch hotel
+ *
+ * @param {string} id
+ */
 export const fetchHotel = id => async (dispatch, getState) => {
   const state = getState();
+
+  // If this is an SR then the acting country code is needed
   const actingCountryCode = getUserCountryContext(state);
   const searchQuery = getSearchQuery(state);
 
+  // Default to todays date if there are no dates in the search query in redux
   const startDate = pathOr(Date.now(), ['dates', 'startDate'], searchQuery);
   const endDate = pathOr(Date.now(), ['dates', 'endDate'], searchQuery);
 

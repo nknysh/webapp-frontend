@@ -61,9 +61,9 @@ import client from 'api/bookings';
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
 import { formatDate, mapWithIndex } from 'utils';
 
-import { successAction, errorFromResponse, genericAction } from 'store/common';
 import { getSearchDates, getSearchLodgings, getSearchMealPlan } from 'store/modules/search/selectors';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
+import { successAction, errorFromResponse, genericAction } from 'store/common';
 import { USERS_FETCH } from 'store/modules/users/actions';
 
 import {
@@ -97,67 +97,206 @@ export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
 export const BOOKINGS_FETCH = 'BOOKINGS_FETCH';
 
+const omitProps = [
+  'agesOfAllChildren',
+  'agreeToTerms',
+  'availableToHold',
+  'bookingComments',
+  'bookingHash',
+  'breakdown',
+  'canBeBooked',
+  'checkInDate',
+  'checkOutDate',
+  'clientUuid',
+  'createdAt',
+  'deletedAt',
+  'hotelName',
+  'hotelUuid',
+  'internalComments',
+  'marginApplied',
+  'mustStop',
+  'numAdults',
+  'overrideTotal',
+  'payment',
+  'status',
+  'touched',
+  'updatedAt',
+  'uuid',
+];
+
+/**
+ * Prop is not empty or nil
+ *
+ * Function that waits for key and data
+ *
+ * @returns {Function}
+ */
 const propIsNotEmptyOrNil = complement(propSatisfies(isNilOrEmpty));
 
+/**
+ * Has start and end date
+ *
+ * Checks an object has both start and end date
+ *
+ * @param {object}
+ * @returns {boolean}
+ */
+const hasStartAndEndDate = both(propIsNotEmptyOrNil('startDate'), propIsNotEmptyOrNil('endDate'));
+
+/**
+ * All have start and end date
+ *
+ * Checks that an array of objects all have start and end dates
+ *
+ * @param {Array<Object>}
+ */
+const allHaveStartAndEndDate = all(hasStartAndEndDate);
+
+/**
+ * Has accommodation
+ *
+ * Checks to see if a booking has accommodation products
+ *
+ * @param {object}
+ * @returns {boolean}
+ */
 const hasAccommodation = allPass([
+  // Has acommodation product key
   propIsNotEmptyOrNil(ProductTypes.ACCOMMODATION),
   pipe(
     propOr([], ProductTypes.ACCOMMODATION),
-    all(both(propIsNotEmptyOrNil('startDate'), propIsNotEmptyOrNil('endDate')))
+    allHaveStartAndEndDate
   ),
 ]);
 
+/**
+ * Ignore call
+ *
+ * List of predicates to determine if booking builder call should be ignored
+ *
+ * @param {object}
+ * @returns {boolean}
+ */
 const ignoreCall = anyPass([has('marginApplied'), has('taMarginType'), has('taMarginAmount')]);
+
+/**
+ * Get hotel name
+ *
+ * @param {object}
+ * @returns {string}
+ */
 const getHotelName = path(['breakdown', 'hotel', 'name']);
+
+/**
+ * Date evolve
+ *
+ * Evolution of end date that adds one day
+ *
+ * @param {object}
+ * @returns {object}
+ */
 const dateEvolve = evolve({
   endDate: partialRight(addDays, [1]),
 });
+
+/**
+ * Review evolve
+ *
+ * @param {object}
+ * @returns {object}
+ */
 const reviewEvolve = evolve({
   overrideTotal: String,
 });
 
-const omitProps = [
-  'canBeBooked',
-  'mustStop',
-  'bookingHash',
-  'marginApplied',
-  'payment',
-  'availableToHold',
-  'agreeToTerms',
-  'hotelUuid',
-  'hotelName',
-  'breakdown',
-  'touched',
-  'uuid',
-  'checkInDate',
-  'checkOutDate',
-  'numAdults',
-  'agesOfAllChildren',
-  'status',
-  'overrideTotal',
-  'bookingComments',
-  'internalComments',
-  'createdAt',
-  'updatedAt',
-  'deletedAt',
-  'clientUuid',
-];
-
-const updateBookingAction = partial(genericAction, [BOOKING_UPDATE]);
-
-const updateRoomAction = partial(genericAction, [BOOKING_ROOM_UPDATE]);
-
+/**
+ * Products lens
+ *
+ * Returns a lens with the path to the product type
+ *
+ * @param {string} type
+ * @returns {Function}
+ */
 const productsLens = type => lensPath(['breakdown', 'requestedBuild', type]);
 
+/**
+ * View products
+ *
+ * Takes a product lens and runs view aginst it
+ *
+ * @param {string} type
+ * @param {object} data
+ * @returns {*}
+ */
 const viewProducts = (type, data) => view(productsLens(type), data);
+
+/**
+ * Over products
+ *
+ * Takes a product lens, handler and data running over aginst it
+ *
+ * @param {string} type
+ * @param {Function} handler
+ * @param {object} data
+ * @returns {object}
+ */
 const overProducts = (type, handler, data) => over(productsLens(type), handler, data);
+
+/**
+ * Set products
+ *
+ * Takes a product lens, handler and data running set aginst it
+ *
+ * @param {string} type
+ * @param {Function} handler
+ * @param {object} data
+ * @returns {object}
+ */
 const setProducts = (type, handler, data) => set(productsLens(type), handler, data);
 
+/**
+ * Reduce meal plans
+ *
+ * @param {Array<String>} accum
+ * @param {string} mealPlan
+ * @returns {Array<String>}
+ */
 const reduceMealPlans = (accum, mealPlan) =>
   concat(accum, map(path(['product', 'uuid']), propOr([], 'breakdown', mealPlan)));
 
+/**
+ * Update booking action
+ *
+ * @param {object}
+ * @param {object}
+ * @returns {object}
+ */
+const updateBookingAction = partial(genericAction, [BOOKING_UPDATE]);
+
+/**
+ * Update room action
+ *
+ * @param {object}
+ * @param {object}
+ * @returns {object}
+ */
+const updateRoomAction = partial(genericAction, [BOOKING_ROOM_UPDATE]);
+
+/**
+ * Remove booking action
+ *
+ * @param {object}
+ * @param {object}
+ * @returns {object}
+ */
 export const removeBooking = partial(genericAction, [BOOKING_REMOVE]);
 
+/**
+ * Fetch bookings holds action
+ *
+ * @param {string} id Booking ID
+ * @returns {Function}
+ */
 export const fetchBookingHolds = id => async dispatch => {
   dispatch(genericAction(BOOKING_HOLDS_FETCH, { id }));
 
@@ -172,16 +311,28 @@ export const fetchBookingHolds = id => async dispatch => {
   }
 };
 
+/**
+ * Add Room action
+ *
+ * @param {string} id Booking ID
+ * @param {string} uuid Room UUID
+ * @returns {Function}
+ */
 export const addRoom = (id, uuid) => async (dispatch, getState) => {
   dispatch(genericAction(BOOKING_ROOM_ADD, { id, uuid }));
 
+  // Get the search dates from search state key and format them
   const dates = map(formatDate, getSearchDates(getState()));
   const lodgings = pipe(
+    // Extract lodgings from state
     getSearchLodgings,
     map(
       pipe(
+        // Format number of adults to  a number (as it could be string)
         over(lensProp('numberOfAdults'), Number),
+        // Same with children, if they exist
         when(has('agesOfAllChildren'), over(lensProp('agesOfAllChildren'), map(Number))),
+        // Wrap it up in a new object
         objOf('guestAges')
       )
     )
@@ -206,14 +357,18 @@ export const addRoom = (id, uuid) => async (dispatch, getState) => {
   // Update booking first to trigger BB call, which will pull down meal plans
   await dispatch(updateBooking(id, pick(['breakdown'], next)));
 
+  // Format meal plan so it's all uppercase
   const mealPlan = pipe(
     getSearchMealPlan,
     when(complement(isNilOrEmpty), toUpper)
   )(getState());
 
+  // If there is a meal plan, then we need to attach those as sub products
   if (!isNilOrEmpty(mealPlan)) {
+    // Get the selected meal plan in this accommodation product type
     const roomMealPlans = getBookingMealPlanForRoomByType(getState(), id, uuid, mealPlan);
 
+    // Get the selected meal plans
     const selectedMealPlans = map(
       pipe(
         reduce(reduceMealPlans, []),
@@ -223,12 +378,16 @@ export const addRoom = (id, uuid) => async (dispatch, getState) => {
       roomMealPlans
     );
 
+    // This is current booking that will be manipulated
     const nextBooking = getBooking(getState(), id);
+
+    // Adds the meal plans to the booking
     const nextWithMealPlans = overProducts(
       ProductTypes.ACCOMMODATION,
       mapWithIndex((accom, i) =>
         when(
           complement(hasPath(['subProducts', ProductTypes.MEAL_PLAN])),
+          // Adds the selected meal plans as sub products of the accommodation product selected
           mergeDeepLeft({ subProducts: { [ProductTypes.MEAL_PLAN]: propOr([], i, selectedMealPlans) } })
         )(accom)
       ),
@@ -239,6 +398,16 @@ export const addRoom = (id, uuid) => async (dispatch, getState) => {
   }
 };
 
+/**
+ * Update room action
+ *
+ * Updates a room type (all instances of a room type)
+ *
+ * @param {string} id Booking ID
+ * @param {string} uuid Room UUID
+ * @param {object} payload
+ * @returns {Function}
+ */
 export const updateRoom = (id, uuid, payload) => (dispatch, getState) => {
   dispatch(updateRoomAction({ id, uuid, payload }));
 
@@ -246,10 +415,20 @@ export const updateRoom = (id, uuid, payload) => (dispatch, getState) => {
   const booking = getBooking(state, id);
   const accommodations = viewProducts(ProductTypes.ACCOMMODATION, booking);
 
+  /**
+   * Where UUID
+   *
+   * Function to see if prop equals supplied uuid
+   *
+   * @param {string}
+   * @returns {boolean}
+   */
   const whereUuid = propEq('uuid', uuid);
 
   const rooms = pipe(
+    // Get all rooms with the supplied uuid
     filter(whereUuid),
+    // Map over them and merge in the new data
     map(mergeDeepLeft(payload))
   )(accommodations);
 
@@ -266,6 +445,17 @@ export const updateRoom = (id, uuid, payload) => (dispatch, getState) => {
   dispatch(updateBooking(id, pick(['breakdown'], next)));
 };
 
+/**
+ * Update individual room action
+ *
+ * Updates a single room within a room type
+ *
+ * @param {string} id Booking ID
+ * @param {string} uuid
+ * @param {number} index
+ * @param {object} payload
+ * @returns {Function}
+ */
 export const updateIndividualRoom = (id, uuid, index, payload) => (dispatch, getState) => {
   dispatch(updateRoomAction({ id, uuid, index, payload }));
 
@@ -275,7 +465,7 @@ export const updateIndividualRoom = (id, uuid, index, payload) => (dispatch, get
 
   const whereUuid = propEq('uuid', uuid);
 
-  // preserve original indexes
+  // Preserve original indexes
   const originalIndexes = addIndex(reduce)(
     (accum, room, i) => (whereUuid(room) ? append(i, accum) : accum),
     [],
@@ -285,6 +475,7 @@ export const updateIndividualRoom = (id, uuid, index, payload) => (dispatch, get
   const rooms = pipe(
     filter(whereUuid),
     defaultTo([]),
+    // Update the index with the new payload
     adjust(index, mergeDeepLeft(payload))
   )(accommodations);
 
@@ -294,6 +485,17 @@ export const updateIndividualRoom = (id, uuid, index, payload) => (dispatch, get
   dispatch(updateBooking(id, pick(['breakdown'], next)));
 };
 
+/**
+ * Remove room action
+ *
+ * Removes a room from the selected room types. If passed
+ * all then will remove all of a room type
+ *
+ * @param {string} id Booking ID
+ * @param {string} uuid
+ * @param {boolean} all
+ * @returns {Function}
+ */
 export const removeRoom = (id, uuid, all = false) => (dispatch, getState) => {
   dispatch(genericAction(BOOKING_ROOM_REMOVE, { id, uuid }));
 
@@ -304,6 +506,7 @@ export const removeRoom = (id, uuid, all = false) => (dispatch, getState) => {
   const lastIndex = findLastIndex(propEq('uuid', uuid), accommodations);
   const next = overProducts(
     ProductTypes.ACCOMMODATION,
+    // Either remove all or remove the last of type
     all ? reject(propEq('uuid', uuid)) : remove(lastIndex, 1),
     booking
   );
@@ -315,6 +518,16 @@ export const removeRoom = (id, uuid, all = false) => (dispatch, getState) => {
   isEmpty(nextProducts) && dispatch({ type: BOOKING_RESET, payload: { id } });
 };
 
+/**
+ * Replace products action
+ *
+ * Replaces all products of a specific type
+ *
+ * @param {string} id Booking ID
+ * @param {string} type
+ * @param {object} payload
+ * @returns {Function}
+ */
 export const replaceProducts = (id, type, payload) => (dispatch, getState) => {
   const state = getState();
   const booking = getBooking(state, id);
@@ -324,9 +537,21 @@ export const replaceProducts = (id, type, payload) => (dispatch, getState) => {
   dispatch(updateBooking(id, pick(['breakdown'], next)));
 };
 
+/**
+ * Update booking action
+ *
+ * This is the main action for the booking flow.  Responsible for formatting the
+ * data in a booking object and passing it on to the booking builder
+ *
+ * @param {string} id Booking ID
+ * @param {object} payload
+ * @param {boolean} forceCall
+ * @returns {Function}
+ */
 export const updateBooking = (id, payload, forceCall = false) => async (dispatch, getState) => {
   dispatch(updateBookingAction(payload));
 
+  // Success fast if nothing was passed to update booking
   if (!payload) return dispatch(successAction(BOOKING_UPDATE, {}));
 
   const state = getState();
@@ -353,8 +578,10 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
   );
 
   const bookingBuilderPayload = getBookingForBuilder(nextState, id);
+  const withAccommodation = hasAccommodation(bookingBuilderPayload);
 
-  const shouldCall = forceCall || (!ignoreCall(payload) && hasAccommodation(bookingBuilderPayload));
+  // Whether there should be a booking builder call
+  const shouldCall = forceCall || (!ignoreCall(payload) && withAccommodation);
 
   const actingCountryCode = getUserCountryContext(state);
   let breakdown = {};
@@ -364,7 +591,8 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
       shouldCall &&
       (await client.bookingBuilder({ data: { attributes: { ...bookingBuilderPayload } } }, { actingCountryCode }));
 
-    if (!hasAccommodation) {
+    // If there was no accommodation then we need to set the potentialBooking accommodation key to empty
+    if (!withAccommodation) {
       breakdown = set(lensPath(['potentialBooking', ProductTypes.ACCOMMODATION]), [], breakdown);
     }
 
@@ -373,7 +601,10 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
         data: { data },
       } = response;
 
+      // Replace the breakdown with the new data
       breakdown = data;
+
+      // Hotel name needs to be pulled from the hotel object
       nextBooking.hotelName = path(['hotel', 'name'], breakdown);
     }
   } catch (e) {
@@ -384,6 +615,15 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
   dispatch(successAction(BOOKING_UPDATE, { [id]: mergeDeepRight(nextBooking, { breakdown }) }));
 };
 
+/**
+ * Complete booking action
+ *
+ * @param {string} id Booking ID
+ * @param {object} payload
+ * @param {string} status
+ * @param {boolean} placeHolds
+ * @returns {Function}
+ */
 export const completeBooking = (id, payload, status = BookingStatusTypes.REQUESTED, placeHolds = false) => async (
   dispatch,
   getState
@@ -399,8 +639,12 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
   // attempt to get a bookingHash if none exists
   if (!bookingHash) await dispatch(updateBooking(id), {});
 
+  // Get the booking information from the booking object.  This is the final screen
+  // in the booking flow
   const bookingInformation = pipe(
     omit(omitProps),
+    // Extract the special request keys and only use
+    // ones that are true
     over(
       lensProp('specialRequests'),
       pipe(
@@ -409,6 +653,7 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
       )
     ),
     toPairs,
+    // Filter out empty keys
     reject(
       pipe(
         last,
@@ -418,6 +663,7 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
     fromPairs
   )(booking);
 
+  // Final payload is the object that the backend will accept
   const finalPayload = {
     status,
     placeHolds,
@@ -438,9 +684,18 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
   }
 };
 
+/**
+ * Set bookings action
+ *
+ * Sets bookings from proposals
+ *
+ * @param {object} data
+ * @returns {Function}
+ */
 export const setBookings = data => dispatch => {
   dispatch(genericAction(BOOKINGS_SET, bookings));
 
+  // Adds the missing day in the proposal bookings data that is returned
   const bookings = mapObjIndexed(addFinalDayToBooking, data);
 
   forEach(({ uuid }) => {
@@ -450,6 +705,12 @@ export const setBookings = data => dispatch => {
   dispatch(successAction(BOOKINGS_SET, bookings));
 };
 
+/**
+ * Fetch booking action
+ *
+ * @param {string} id Booking ID
+ * @returns {Function}
+ */
 export const fetchBooking = id => async dispatch => {
   dispatch(genericAction(BOOKING_FETCH, id));
 
@@ -468,6 +729,12 @@ export const fetchBooking = id => async dispatch => {
   }
 };
 
+/**
+ * Cancel booking action
+ *
+ * @param {string} id Booking ID
+ * @returns {Function}
+ */
 export const cancelBooking = id => async dispatch => {
   dispatch(genericAction(BOOKING_CANCEL, { id }));
 
@@ -482,11 +749,21 @@ export const cancelBooking = id => async dispatch => {
   }
 };
 
+/**
+ * Booking to Hotel UUID
+ *
+ * Changes a bookings ID from hotel uuid to booking uuiid
+ *
+ * @param {string} id Booking ID
+ * @returns {Function}
+ */
 export const bookingToHotelUuid = id => (dispatch, getState) => {
   dispatch(updateBookingAction({ id }));
 
   const booking = getBooking(getState(), id);
   const hotelUuid = prop('hotelUuid', booking);
+
+  // Pick only the data we need from the booking
   const newBooking = pick(
     ['hotelUuid', 'hotelName', 'breakdown', 'startDate', 'endDate', 'guestFirstName', 'guestLastName'],
     booking
@@ -501,6 +778,12 @@ export const bookingToHotelUuid = id => (dispatch, getState) => {
   dispatch(updateBooking(hotelUuid, { guestFirstName, guestLastName, ...newBooking }));
 };
 
+/**
+ * Request booking action
+ *
+ * @param {string} id Booking ID
+ * @returns {Function}
+ */
 export const requestBooking = id => async dispatch => {
   dispatch(genericAction(BOOKING_REQUEST, id));
 
@@ -515,6 +798,12 @@ export const requestBooking = id => async dispatch => {
   }
 };
 
+/**
+ * Hold booking action
+ *
+ * @param {string} id Booking ID
+ * @returns {Function}
+ */
 export const holdBooking = id => async dispatch => {
   dispatch(genericAction(BOOKING_HOLD, id));
 
@@ -528,6 +817,17 @@ export const holdBooking = id => async dispatch => {
   }
 };
 
+/**
+ * Complete and hold action
+ *
+ * Action that combines completing a booking and taking a hold in one function
+ *
+ * @param {string} id Booking ID
+ * @param {object} payload
+ * @param {string} status
+ * @param {boolean} placeHolds
+ * @returns {Function}
+ */
 export const completeAndHold = (
   id,
   payload,
@@ -541,6 +841,12 @@ export const completeAndHold = (
   dispatch(successAction(BOOKING_REQUEST_WITH_HOLD, {}));
 };
 
+/**
+ * Release booking action
+ *
+ * @param {string} id Booking ID
+ * @returns {Function}
+ */
 export const releaseBooking = id => async dispatch => {
   dispatch(genericAction(BOOKING_RELEASE, id));
 
@@ -554,33 +860,68 @@ export const releaseBooking = id => async dispatch => {
   }
 };
 
+/**
+ * Populate booking action
+ *
+ * When a search result comes in, this actions is used to pre-populated booking
+ * objects so that if a user goes through to the hotel, the booking is prepopulated
+ *
+ * @param {string} id Booking ID
+ * @param {object} data
+ * @returns {Function}
+ */
 export const populateBooking = (id, data) => (dispatch, getState) => {
   dispatch(genericAction(BOOKING_POPULATE, { id, data }));
   const booking = getBooking(getState(), id);
 
+  // Bookings have a touched flag.  If false, then we can update this booking
+  // with the new booking object from the search.  If it's true then the user has amended
+  // this booking already and we should leave it as it is
   if (booking && propOr(false, 'touched', booking)) return;
 
   const next = pipe(
+    // Adds the extra day to the top level date
     over(lensPath(['breakdown', 'requestedBuild']), dateEvolve),
+
+    // Adds the extra date to the internal dates
     over(lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]), map(dateEvolve))
   )(data);
 
   dispatch(successAction(BOOKING_POPULATE, { id, data: next }));
 };
 
+/**
+ * Clear created booking action
+ *
+ * This will remove the booking from the list of created bookings
+ * in redux.
+ *
+ * @param {string} id Booking ID
+ * @returns {Function}
+ */
 export const clearCreatedBooking = id => (dispatch, getState) => {
   dispatch(genericAction(BOOKING_CREATED_REMOVE, { id }));
   const created = getBookingsCreated(getState());
 
   const next = pipe(
     toPairs,
+    // Get only the booking with this hotelId
     reduce((accum, [hotelId, bookingId]) => (equals(bookingId, id) ? [hotelId] : accum), null),
+
+    // Omit it from the created key
     when(complement(isNilOrEmpty), omit(__, created))
   );
 
   dispatch(successAction(BOOKING_CREATED_REMOVE, next));
 };
 
+/**
+ * Amend booking action
+ *
+ * @param {string} id Booking ID
+ * @param {object} data
+ * @returns {Function}
+ */
 export const amendBooking = (id, data) => async dispatch => {
   dispatch(genericAction(BOOKING_AMEND, { id, data }));
 
@@ -594,6 +935,13 @@ export const amendBooking = (id, data) => async dispatch => {
   }
 };
 
+/**
+ * Review booking action
+ *
+ * @param {string} id Booking ID
+ * @param {object} data
+ * @returns {Function}
+ */
 export const reviewBooking = (id, data) => async dispatch => {
   dispatch(genericAction(BOOKING_REVIEW, { id, data }));
 
@@ -607,6 +955,12 @@ export const reviewBooking = (id, data) => async dispatch => {
   }
 };
 
+/**
+ * Fetch bookings action
+ *
+ * @param {object} params
+ * @returns {Function}
+ */
 export const fetchBookings = params => async dispatch => {
   dispatch(genericAction(BOOKINGS_FETCH, {}));
 
@@ -621,7 +975,10 @@ export const fetchBookings = params => async dispatch => {
         defaultTo([]),
         map(
           pipe(
+            // Add the final day to top level
             over(lensPath(['breakdown', 'requestedBuild']), dateEvolve),
+
+            // Add the final day to internal dates
             over(
               lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]),
               pipe(
@@ -635,6 +992,7 @@ export const fetchBookings = params => async dispatch => {
       data
     );
 
+    // Get users entities from payload by removing bookings entities and result
     const users = pipe(
       dissocPath(['entities', 'bookings']),
       dissocPath(['result'])

@@ -40,6 +40,8 @@ export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, 
 
   const count = length(result) || 0;
   const countTitle = `${count} ${t('result', { count })}`;
+
+  // If a country match then show the country name in the title
   const title = prop('isCountryMatch', meta) ? `${toLower(prop('term', meta))} - ${countTitle}` : countTitle;
 
   return (

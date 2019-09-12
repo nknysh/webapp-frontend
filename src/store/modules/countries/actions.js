@@ -9,17 +9,37 @@ import { getCountriesEntities } from './selectors';
 
 export const COUNTRIES = 'COUNTRIES';
 
+/**
+ * Set countries action
+ *
+ * @param {object} payload
+ * @return {object}
+ */
 export const setCountriesAction = payload => ({
   type: COUNTRIES,
   payload,
 });
 
+/**
+ * Set countries
+ *
+ * @param {object} data
+ * @returns {Function}
+ */
 export const setCountries = data => (dispatch, getState) => {
+  // Gets previous countries
   const prevData = getCountriesEntities(getState());
+
+  // Merges next countries into previous
   const countries = mergeDeepRight(prevData, pathOr({}, ['entities', 'countries'], data));
+
+  // Extract the result uuids
   const result = propOr([], 'result', data);
+
+  // Get the actual countries entities
   const entities = propOr({}, 'entities', data);
 
+  // Index the data with lunr
   dispatch(
     index({
       index: 'countries',

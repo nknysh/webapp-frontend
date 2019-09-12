@@ -6,6 +6,7 @@ import { createReducer, getErrorActionName, getSuccessActionName } from 'store/u
 
 import { COUNTRIES } from './actions';
 
+// Populate the intial state with countries from the json file
 const initialCountriesState = mergeDeepRight(initialState, {
   data: {
     entities: {

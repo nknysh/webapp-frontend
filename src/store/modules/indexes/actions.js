@@ -5,11 +5,27 @@ import { successAction } from 'store/common';
 
 export const INDEXING = 'INDEXING';
 
+/**
+ * Indexing action
+ *
+ * @param {object} payload
+ * @returns {object}
+ */
 export const indexing = payload => ({
   type: INDEXING,
   payload,
 });
 
+/**
+ * New index
+ *
+ * Creates a new lunr index instance for use
+ *
+ * @param {string} ref
+ * @param {Array} fields
+ * @param {Array} data
+ * @returns {object}
+ */
 function newIndex(ref, fields = [], data = []) {
   return lunr(function() {
     this.ref(ref);
@@ -22,6 +38,14 @@ function newIndex(ref, fields = [], data = []) {
   });
 }
 
+/**
+ * Index
+ *
+ * Creates a new lunr index and stores it in redux
+ *
+ * @param {object} payload
+ * @returns {Function}
+ */
 export const index = payload => dispatch => {
   const { index, ref, fields, data } = payload;
 

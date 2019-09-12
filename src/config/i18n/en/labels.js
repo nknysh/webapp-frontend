@@ -209,4 +209,6 @@ export default {
 
   availability: 'Availability',
   availableToHold: 'This hotel has accommodation available to hold',
+
+  specifyAges: 'Please specifiy ages:',
 };

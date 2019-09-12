@@ -29,9 +29,9 @@ export const SearchSidebar = ({
 }) => {
   const { t } = useTranslation();
 
-  useEffectBoundary(() => {
-    history.push(`/search?${buildQueryString(searchQuery)}`);
-  }, [searchQuery]);
+  // Push to history stack so the url is updated with the new query but a location change isn't triggered (which
+  // would cause a full re-render of the search results)
+  useEffectBoundary(() => history.push(`/search?${buildQueryString(searchQuery)}`), [searchQuery]);
 
   return (
     <Fragment>
