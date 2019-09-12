@@ -14,7 +14,7 @@ import {
   set,
 } from 'ramda';
 import { subDays } from 'date-fns';
-
+import i18n from 'config/i18n';
 import client from 'api/search';
 import { createCancelToken, wasCancelled } from 'api/helpers';
 
@@ -192,6 +192,8 @@ export const searchByQuery = query => async (dispatch, getState) => {
     // Reset the cancel token
     searchQueryCancelToken = undefined;
   } catch (e) {
-    wasCancelled(e) ? dispatch(idleAction('SEARCH', {})) : dispatch(errorFromResponse(SEARCH_BY_QUERY, e));
+    wasCancelled(e)
+      ? dispatch(idleAction('SEARCH', {}))
+      : dispatch(errorFromResponse(SEARCH_BY_QUERY, e, i18n.t('searchByQueryErrorResponse')));
   }
 };

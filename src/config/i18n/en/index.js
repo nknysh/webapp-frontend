@@ -8,6 +8,7 @@ import plurals from './plurals';
 import sections from './sections';
 import taglines from './taglines';
 import rooms from './rooms';
+import errors from './errors';
 
 export default {
   translation: {
@@ -37,5 +38,6 @@ export default {
     taglines,
     ...plurals,
     ...rooms,
+    ...errors,
   },
 };
