@@ -34,26 +34,28 @@ import {
   Columns,
   Column,
   RoomsWrapper,
-  AmenitiesSelect,
+  CategoryTypesSelect,
   StyledRoom,
   NoResults,
 } from './Rooms.styles';
 
 const filterNoRate = filter(propSatisfies(complement(isNilOrEmpty), 'rates'));
 
-const filterRoomsByAmenities = (rooms, selected) => {
-  if (isNilOrEmpty(selected)) return rooms;
+export const filterRoomsByCategoryType = (rooms, categoryTypes) => {
+  if (categoryTypes.length <= 0) {
+    return rooms;
+  }
 
-  const containsAmenities = any(contains(__, selected));
-  const byAmenities = pipe(
-    pathOr([], ['meta', 'amenities']),
-    containsAmenities
-  );
+  return Object.values(rooms).reduce((accum, room) => {
+    if (categoryTypes.includes(room.meta.categoryType)) {
+      accum[room.uuid] = room;
+    }
 
-  return filter(byAmenities, rooms);
+    return accum;
+  }, {});
 };
 
-const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByAmenities')}</span>), join(', '));
+const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByCategoryTypes')}</span>), join(', '));
 
 const renderRoom = ({ requestedRooms, getRoomUploads, currencyCode, onRoomAdd, onRoomRemove }, room) => {
   const { uuid } = room;
@@ -86,23 +88,19 @@ export const Rooms = props => {
   const { t } = useTranslation();
   const { hotelUuid, className, rooms, addRoom, removeRoom } = props;
 
-  const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [selectedCategoryTypes, setSelectedCategoryTypes] = useState([]);
   const { isMobile } = useCurrentWidth();
 
-  /**
-   * loop over all the rooms in `rooms` and build a React select-compatible
-   * array of all the amenities
-   */
-  const amenities = useMemo(() => {
-    const amenities = Object.values(rooms).reduce((accum, room) => {
-      room.meta.amenities.forEach(amenity => (accum[amenity] = amenity));
+  const categoryTypes = useMemo(() => {
+    const categoryTypes = Object.values(rooms).reduce((accum, room) => {
+      accum[room.meta.categoryType] = room.meta.categoryType;
       return accum;
     }, {});
 
-    return amenities;
+    return categoryTypes;
   }, [rooms]);
 
-  const filteredRooms = filterNoRate(filterRoomsByAmenities(rooms, selectedAmenities));
+  const filteredRooms = filterNoRate(filterRoomsByCategoryType(rooms, selectedCategoryTypes));
 
   const onRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid), [addRoom, hotelUuid]);
   const onRoomRemove = useCallback(uuid => removeRoom(hotelUuid, uuid), [removeRoom, hotelUuid]);
@@ -114,14 +112,14 @@ export const Rooms = props => {
           <Title>{t('labels.selectAvailableAccomodations')}</Title>
         </Column>
         <Column>
-          {!isNilOrEmpty(amenities) && (
-            <AmenitiesSelect
+          {!isNilOrEmpty(categoryTypes) && (
+            <CategoryTypesSelect
               multiple
               displayEmpty
-              onSelected={setSelectedAmenities}
-              options={amenities}
+              onSelected={setSelectedCategoryTypes}
+              options={categoryTypes}
               renderValue={renderValue(t)}
-              value={selectedAmenities}
+              value={selectedCategoryTypes}
             />
           )}
         </Column>

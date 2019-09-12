@@ -58,6 +58,13 @@ export const AmenitiesSelect = styled(Select)`
   }
 `;
 
+export const CategoryTypesSelect = styled(Select)`
+  label,
+  .material-select {
+    width: 100%;
+  }
+`;
+
 export const StyledRoom = styled(Room)`
   margin: ${theme.spacing.gutter * 2}px ${theme.spacing.gutter}px;
 

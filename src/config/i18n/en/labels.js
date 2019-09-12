@@ -21,6 +21,7 @@ export default {
   maxOccupancy: 'Max occupancy',
   moreInfo: 'More information',
   filterByAmenities: 'Filter by amenities',
+  filterByCategoryTypes: 'Filter by room types',
   noRooms: 'No rooms available',
   hotelDetails: 'Hotel Details',
   yourSelection: 'Your Selection',
