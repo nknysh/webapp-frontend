@@ -4,7 +4,7 @@ import { createSelector } from 'store/utils';
 import { getData, getStatus, getEntities, getResults, getArg } from 'store/common';
 import { extractAges } from 'store/modules/bookings/utils';
 
-import { getMapped, reduceArrayByKey, getCurrencySymbol } from 'utils';
+import { getMapped, reduceArrayByKey } from 'utils';
 
 /**
  * Get hotels selector
@@ -271,7 +271,7 @@ export const getHotelName = createSelector(
 );
 
 /**
- * Get hotel currency symbol selector
+ * Get hotel default currency
  *
  * Returns the currency symbol for the default currency attached to the hotel
  *
@@ -279,12 +279,9 @@ export const getHotelName = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getHotelCurrencySymbol = createSelector(
+export const getHotelDefaultCurrency = createSelector(
   getHotel,
-  pipe(
-    prop('defaultCurrency'),
-    getCurrencySymbol
-  )
+  prop('defaultCurrency')
 );
 
 /**

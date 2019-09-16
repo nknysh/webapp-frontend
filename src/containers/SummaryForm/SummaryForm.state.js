@@ -1,29 +1,30 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { fetchHotelRoomRatesByDates, getHotelName, getHotelCurrencySymbol } from 'store/modules/hotels';
+import { fetchHotelRoomRatesByDates, getHotelName } from 'store/modules/hotels';
 import {
-  updateBooking,
-  removeRoom,
-  replaceProducts,
   fetchBooking,
   getBooking,
-  getBookingTotals,
-  getBookingTotal,
-  getBookingReady,
-  getBookingStatus,
-  getBookingNonAccommodationErrors,
-  isBookingOnRequest,
-  getBookingHolds,
   getBookingAppliedOffers,
   getBookingAppliedOffersCount,
+  getBookingCurrencySymbol,
+  getBookingHolds,
+  getBookingNonAccommodationErrors,
+  getBookingReady,
+  getBookingStatus,
+  getBookingTotal,
   getBookingTotalBeforeDiscount,
+  getBookingTotals,
+  isBookingOnRequest,
+  removeRoom,
+  replaceProducts,
+  updateBooking,
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: getBooking(state, id),
   canBook: getBookingReady(state, id),
-  currencyCode: getHotelCurrencySymbol(state, id),
+  currencyCode: getBookingCurrencySymbol(state, id),
   errors: getBookingNonAccommodationErrors(state, id),
   holds: getBookingHolds(state, id),
   hotelName: getHotelName(state, id),
