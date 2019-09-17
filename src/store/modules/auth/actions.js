@@ -1,4 +1,4 @@
-import { prop, propEq, omit, propOr, mergeDeepLeft, equals } from 'ramda';
+import { prop, propEq, omit, propOr, mergeDeepLeft, equals, has } from 'ramda';
 import { FORBIDDEN } from 'http-status';
 
 import client from 'api/auth';
@@ -268,7 +268,7 @@ const persistUser = (dispatch, data) => {
 
   setRememberedToken(userUuid);
   setRememberedUser(data);
-  setRememberedCountry(propOr('GB', 'countryCode', data));
+  has('countryCode', data) && setRememberedCountry(propOr('countryCode', data));
   setRememberedRole(propOr('ta', 'type', data));
   setRememberedUsername(`${data.firstName} ${data.lastName}`);
 
@@ -353,8 +353,11 @@ export const authCheck = params => async (dispatch, getState) => {
     const {
       data: { data },
     } = await userClient.me(authParams);
-    dispatch(successAction(AUTH_CHECK, { user: { ...data } }));
-    persistUser(dispatch, data);
+
+    const user = omit(['countryCode'], data);
+
+    dispatch(successAction(AUTH_CHECK, { user }));
+    persistUser(dispatch, user);
   } catch (e) {
     clearUser(dispatch);
 
