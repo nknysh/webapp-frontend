@@ -1,96 +1,99 @@
 ---
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.16
 
-commands:
-  s3deploy:
-    description: "Deploy to S3"
-    parameters:
-      to:
-        type: string
-      cf_distribution_id:
-        type: string
-      dir:
-        type: string
-    steps:
-      - run: |
-          aws configure set preview.cloudfront true
-      - run: |
-          aws s3 sync << parameters.dir >> s3://<< parameters.to >> \
-            --acl public-read --delete --exclude "admin/*" \
-            --cache-control max-age=31536000
-      - run: |
-          aws cloudfront create-invalidation \
-              --distribution-id << parameters.cf_distribution_id >> \
-              --paths /\*
+docker_images: &docker_images
+  docker:
+    - image: circleci/node:dubnium
+  working_directory: ~/deploy
+
+pe_fe_env_vars: &env_vars
+  environment:
+    # APP_VERBOSE_ERRORS: "false"
+    # PAYMENT_ENABLED: "false"
+    # BOOKINGS_ON_REQUEST: "false"
+    # DRIFT_APP_ID: b5ivt3e4xa3w
+    # DRIFT_ENABLED_ROLES: ta
+
 jobs:
-  build:
-    docker:
-      - image: circleci/node:dubnium
-    working_directory: ~/deploy
+  deploy_develop:
+    <<: *docker_images
+    <<: *env_vars
     environment:
-      # NODE_ENV: qa
-      APP_ENV:  development
-      APP_VERBOSE_ERRORS: "false"
+      NODE_ENV: develop
+      APP_ENV: develop
       API_BASE_URL: https://client-api.qa.pure-escapes.com
       ADMIN_BASE_URL: https://qa.pure-escapes.com/admin
-      PAYMENT_ENABLED: "false"
-      BOOKINGS_ON_REQUEST: "false"
-      DRIFT_APP_ID: b5ivt3e4xa3w
-      DRIFT_ENABLED_ROLES: ta
+    executor: aws-cli/default
     steps:
       - checkout
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-      - attach_workspace:
-          at: .
-      - run:
-          name: Set env variables
-          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
       - run:
           name: Auth with NPM private registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/deploy/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - run:
           name: build react app
           command: npm i && npm run build:dev
       # - run:
       #     name: Run tests
       #     command: npm run test:ci
-      - persist_to_workspace:
-          root: .
-          paths: .
-  deploy_qa:
-    docker:
-      - image: circleci/python:3.6-jessie
-    working_directory: ~/deploy
+      - aws-cli/setup:
+          profile-name: default
+      - run: |
+          aws configure set preview.cloudfront true
+      - run: |
+          aws s3 sync ./dist s3://$CIRCLE_BRANCH.pure-escapes.com \
+            --acl public-read --delete --exclude "admin/*" \
+            --cache-control max-age=31536000
+      - run: |
+          aws cloudfront create-invalidation \
+              --distribution-id E3DKVF7CKJKFV \
+              --paths /\*
+  deploy_sandbox:
+    <<: *docker_images
+    <<: *env_vars
     environment:
-      NODE_ENV: QA
+      NODE_ENV: develop
+      APP_ENV: develop
+      API_BASE_URL: https://client-api.sandbox.pure-escapes.com
+      ADMIN_BASE_URL: https://sandbox.pure-escapes.com/admin
+    executor: aws-cli/default
     steps:
       - checkout
-      - attach_workspace:
-          at: .
       - run:
-          name: Set env variables
-          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
+          name: Auth with NPM private registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - run:
-          name: Install awscli
-          command: sudo pip install awscli
-      - s3deploy:
-          to: qa.pure-escapes.com
-          cf_distribution_id: E3DKVF7CKJKFV
-          dir: /home/circleci/deploy/dist
+          name: build react app
+          command: npm i && npm run build:dev
+      # - run:
+      #     name: Run tests
+      #     command: npm run test:ci
+      - aws-cli/setup:
+          profile-name: default
+      - run: |
+          aws configure set preview.cloudfront true
+      - run: |
+          aws s3 sync ./dist s3://$CIRCLE_BRANCH.pure-escapes.com \
+            --acl public-read --delete \
+            --cache-control max-age=31536000
+      - run: |
+          aws cloudfront create-invalidation \
+              --distribution-id E73FC4CF0OSGY \
+              --paths /\*
 workflows:
   version: 2
-  deploy:
+  build_and_deploy:
     jobs:
-      - build:
-          context: deployments
-      - deploy_qa:
-          requires:
-            - build
+      - deploy_develop:
           context: deployments
           filters:
             branches:
               only:
                 - develop
+      - deploy_sandbox:
+          context: deployments
+          filters:
+            branches:
+              only:
+                - sandbox
