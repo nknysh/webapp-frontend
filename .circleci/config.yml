@@ -42,7 +42,7 @@ jobs:
       - run: |
           aws configure set preview.cloudfront true
       - run: |
-          aws s3 sync ./dist s3://$CIRCLE_BRANCH.pure-escapes.com \
+          aws s3 sync ./dist s3://qa.pure-escapes.com \
             --acl public-read --delete --exclude "admin/*" \
             --cache-control max-age=31536000
       - run: |
@@ -74,7 +74,7 @@ jobs:
       - run: |
           aws configure set preview.cloudfront true
       - run: |
-          aws s3 sync ./dist s3://$CIRCLE_BRANCH.pure-escapes.com \
+          aws s3 sync ./dist s3://sandbox.pure-escapes.com \
             --acl public-read --delete \
             --cache-control max-age=31536000
       - run: |
