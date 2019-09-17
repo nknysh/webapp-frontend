@@ -25,7 +25,6 @@ import { successAction, errorFromResponse, entitiesObject, loadingAction, idleAc
 
 import { setHotels } from 'store/modules/hotels/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
-import { setCountries } from 'store/modules/countries/actions';
 import { getCanSearch } from './selectors';
 
 export const SEARCH_QUERY_UPDATE = 'SEARCH_QUERY_UPDATE';
@@ -112,13 +111,9 @@ export const searchByName = destination => async (dispatch, getState) => {
 
     const result = prop('result', data);
     const hotels = pathOr({}, ['entities', 'hotels'], data);
-    const countries = pathOr({}, ['entities', 'countries'], data);
 
     // Set the hotels to the hotels key in redux
     dispatch(setHotels(entitiesObject('hotels', hotels)));
-
-    // Set the countries to the countries keys in redux
-    dispatch(setCountries(entitiesObject('countries', countries)));
     dispatch(successAction(SEARCH_BY_NAME, { byName: { result } }));
 
     // Reset the search token
@@ -181,12 +176,9 @@ export const searchByQuery = query => async (dispatch, getState) => {
     // the data ends up in the right keys
     const hotels = path(['entities', 'hotels'], data);
     const uploads = path(['entities', 'uploads'], data);
-    const countries = path(['entities', 'countries'], data);
     const hotelsResults = path(['result', 'hotels'], data);
-    const countriesResults = path(['result', 'countries'], data);
 
     dispatch(setHotels({ entities: { hotels, uploads }, result: hotelsResults }));
-    dispatch(setCountries({ entities: { countries }, result: countriesResults }));
     dispatch(successAction(SEARCH_BY_QUERY, { byQuery: { meta: { term, ...meta }, result: hotelsResults } }));
 
     // Reset the cancel token
