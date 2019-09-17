@@ -124,13 +124,19 @@ const renderGuestSelect = (
   </GuestSelect>
 );
 
-const renderDay = (rates, currencyCode, day) => {
+const renderDay = (t, rates, currencyCode, day) => {
   const dayRate = prop(formatDate(day), rates);
 
   return (
     <span>
       <div>{formatDate(day, 'D')}</div>
-      {dayRate && <DatePrice>{`${currencyCode}${formatPrice(prop('price', dayRate))}`}</DatePrice>}
+      {prop('price', dayRate) && (
+        <DatePrice>
+          {prop('isOnRequest', dayRate)
+            ? t('labels.isOnRequest')
+            : `${currencyCode}${formatPrice(prop('price', dayRate), 0)}`}
+        </DatePrice>
+      )}
     </span>
   );
 };
@@ -164,7 +170,7 @@ const renderDatePicker = (
           after: new Date(lastDate),
         },
       ],
-      renderDay: partial(renderDay, [rates, currencyCode]),
+      renderDay: partial(renderDay, [t, rates, currencyCode]),
       onMonthChange,
     }}
     onDayPickerShow={onDayPickerShow}

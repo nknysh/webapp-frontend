@@ -131,6 +131,7 @@ const renderOption = (
       `(${t('labels.onRequest')})`
     ) : (
       <Fragment>
+        {' '}
         (+
         <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>
           {`${currencyCode}${formatPrice(totalBeforeDiscount)}`}

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, Fragment } from 'react';
 import {
   append,
   compose,
@@ -134,6 +134,7 @@ export const SummaryRoom = ({
   showHolds,
   showImage,
   total,
+  isOnRequest,
 }) => {
   const { t } = useTranslation();
 
@@ -186,9 +187,17 @@ export const SummaryRoom = ({
             </RoomDetail>
           </RoomColumn>
           <RoomColumn data-shrink={true}>
-            <RoomPrice data-discount={hasDiscount}>{`${currencyCode}${formatPrice(total)}`}</RoomPrice>
-            {hasDiscount && (
-              <RoomPrice data-discounted={hasDiscount}>{`${currencyCode}${formatPrice(preDiscountTotal)}`}</RoomPrice>
+            {isOnRequest ? (
+              <RoomPrice>{t('labels.onRequest')}</RoomPrice>
+            ) : (
+              <Fragment>
+                <RoomPrice data-discount={hasDiscount}>{`${currencyCode}${formatPrice(total)}`}</RoomPrice>
+                {hasDiscount && (
+                  <RoomPrice data-discounted={hasDiscount}>{`${currencyCode}${formatPrice(
+                    preDiscountTotal
+                  )}`}</RoomPrice>
+                )}
+              </Fragment>
             )}
           </RoomColumn>
           {canEdit && (
