@@ -131,7 +131,7 @@ const renderOption = (
       `(${t('labels.onRequest')})`
     ) : (
       <Fragment>
-        (+{' '}
+        (+
         <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>
           {`${currencyCode}${formatPrice(totalBeforeDiscount)}`}
         </OptionPrice>
@@ -141,6 +141,7 @@ const renderOption = (
             <OptionPrice data-discount={true}>{`${currencyCode}${total}`}</OptionPrice>
           </Fragment>
         )}
+        )
       </Fragment>
     )}
     {!equals(total, totalBeforeDiscount) && mapWithIndex(partial(renderOptionOffer, [t]), offers)}
