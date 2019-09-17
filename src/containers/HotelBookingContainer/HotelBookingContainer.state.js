@@ -6,20 +6,21 @@ import { PAYMENT_ENABLED } from 'config';
 import { extractFieldDefaults } from 'utils';
 
 import { getSearchDates } from 'store/modules/search';
-import { getHotel, getHotelCurrencySymbol } from 'store/modules/hotels';
+import { getHotel } from 'store/modules/hotels';
 import { fetchHotel, getHotelStatus } from 'store/modules/hotel';
 import {
+  completeAndHold,
+  completeBooking,
   getBooking,
   getBookingCanHold,
   getBookingCreated,
+  getBookingCurrencySymbol,
   getBookingReady,
   getBookingStatus,
   getBookingTotal,
   isBookingOnRequest,
-  updateBooking,
-  completeBooking,
   removeBooking,
-  completeAndHold,
+  updateBooking,
 } from 'store/modules/bookings';
 
 import { fields as guestFields } from 'config/forms/bookingForm';
@@ -46,7 +47,7 @@ export const mapStateToProps = (state, { id }) => ({
   canBook: getBookingReady(state, id),
   canHold: getBookingCanHold(state, id),
   created: getBookingCreated(state, id),
-  currencyCode: getHotelCurrencySymbol(state, id),
+  currencyCode: getBookingCurrencySymbol(state, id),
   dates: getSearchDates(state),
   hotel: getHotel(state, id),
   hotelStatus: getHotelStatus(state),

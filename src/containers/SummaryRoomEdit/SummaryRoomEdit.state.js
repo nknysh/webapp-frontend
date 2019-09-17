@@ -4,25 +4,25 @@ import { connect } from 'react-redux';
 import {
   fetchHotelRoomRatesByDates,
   getHotelRoomName,
-  getHotelRoomRates,
   getHotelRoomOptions,
-  getHotelCurrencySymbol,
+  getHotelRoomRates,
 } from 'store/modules/hotels';
 import {
-  updateBooking,
-  updateRoom,
-  updateIndividualRoom,
   addRoom,
-  removeRoom,
+  getBookingCurrencySymbol,
+  getBookingErrorsByRoomId,
   getBookingRoomDatesById,
   getBookingRoomMealPlans,
-  getBookingErrorsByRoomId,
-  getPotentialBookingRoomsById,
   getBookingRoomsById,
+  getPotentialBookingRoomsById,
+  removeRoom,
+  updateBooking,
+  updateIndividualRoom,
+  updateRoom,
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id, roomId }) => ({
-  currencyCode: getHotelCurrencySymbol(state, id),
+  currencyCode: getBookingCurrencySymbol(state, id),
   dates: getBookingRoomDatesById(state, id, roomId),
   errors: getBookingErrorsByRoomId(state, id, roomId),
   mealPlans: getBookingRoomMealPlans(state, id, roomId),
