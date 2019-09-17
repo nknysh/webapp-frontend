@@ -583,7 +583,7 @@ export const getPotentialDatesByRoomId = createSelector(
  */
 export const isBookingOnRequest = createSelector(
   getBookingBuildTotals,
-  totals => BOOKINGS_ON_REQUEST || pathOr(false, ['totals', 'oneOrMoreItemsOnRequest'], totals)
+  totals => BOOKINGS_ON_REQUEST || propOr(false, 'oneOrMoreItemsOnRequest', totals)
 );
 
 /**
