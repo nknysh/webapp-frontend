@@ -115,7 +115,7 @@ export const getCurrentUserCountryCode = createSelector(
  */
 export const getUserCountryContext = createSelector(
   [getCurrentUser, getCurrentCountry, getCurrentUserCountryCode],
-  (currentUser, stateCountry, userCountry) => (srCheck(currentUser) ? stateCountry || userCountry : undefined)
+  (currentUser, stateCountry, userCountry) => (srCheck(currentUser) ? stateCountry || userCountry : '')
 );
 
 /**
