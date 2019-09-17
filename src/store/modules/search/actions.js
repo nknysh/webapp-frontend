@@ -117,7 +117,7 @@ export const searchByName = destination => async (dispatch, getState) => {
 
     // Set the hotels to the hotels key in redux
     dispatch(setHotels(entitiesObject('hotels', hotels)));
-    // Set the countries to the countries keys in redux	
+    // Set the countries to the countries keys in redux
     dispatch(setCountries(entitiesObject('countries', countries)));
     dispatch(successAction(SEARCH_BY_NAME, { byName: { result } }));
 
@@ -184,7 +184,7 @@ export const searchByQuery = query => async (dispatch, getState) => {
     const countries = path(['entities', 'countries'], data);
     const hotelsResults = path(['result', 'hotels'], data);
     const countriesResults = path(['result', 'countries'], data);
-    
+
     dispatch(setCountries({ entities: { countries }, result: countriesResults }));
     dispatch(setHotels({ entities: { hotels, uploads }, result: hotelsResults }));
     dispatch(successAction(SEARCH_BY_QUERY, { byQuery: { meta: { term, ...meta }, result: hotelsResults } }));
