@@ -41,8 +41,10 @@ export const getCountriesData = createSelector(
  */
 export const getCountriesEntities = createSelector(
   getCountries,
-  getEntities,
-  prop('countries')
+  pipe(
+    getEntities,
+    prop('countries')
+  )
 );
 
 /**

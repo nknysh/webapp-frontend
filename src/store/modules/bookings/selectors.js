@@ -48,11 +48,12 @@ import { addDays, subDays } from 'date-fns';
 
 import { BOOKINGS_ON_REQUEST } from 'config';
 import { ProductTypes, Occassions } from 'config/enums';
-import { formatPrice, formatDate, toDate, reduceWithIndex } from 'utils';
+import { formatPrice, formatDate, toDate, reduceWithIndex, getCurrencySymbol } from 'utils';
 
 import { getSearchDates } from 'store/modules/search/selectors';
 import { isSR } from 'store/modules/auth/selectors';
 import { getUser } from 'store/modules/users/selectors';
+import { getHotelDefaultCurrency } from 'store/modules/hotels/selectors';
 
 import { getArg, getStatus, getData } from 'store/common';
 
@@ -319,6 +320,18 @@ export const getBookingHotel = createSelector(
 );
 
 /**
+ * Get booking hotel default currency
+ *
+ * @param {object}
+ * @param {string}
+ * @return {string}
+ */
+export const getBookingHotelDefaultCurrency = createSelector(
+  getBookingHotel,
+  prop('defaultCurrency')
+);
+
+/**
  * Get booking requested build selector
  *
  * @param {object}
@@ -366,6 +379,23 @@ export const getBookingBuildTotals = createSelector(
 export const getBookingBuildCurrency = createSelector(
   getBookingBreakdown,
   prop('currency')
+);
+
+/**
+ * Get booking currency symbol
+ *
+ * Returns the currency symbol for the booking, starting with the
+ * booking currency, if empty then the hotel default currency in the booking,
+ * if empty the default currency from the hotel in state
+ *
+ * @param {object}
+ * @param {string}
+ * @returns {string}
+ */
+export const getBookingCurrencySymbol = createSelector(
+  [getBookingBuildCurrency, getBookingHotelDefaultCurrency, getHotelDefaultCurrency],
+  (bookingCurrencyCode, bookingHotelCurrencyCode, hotelCurrencyCode) =>
+    getCurrencySymbol(bookingCurrencyCode || bookingHotelCurrencyCode || hotelCurrencyCode) || ''
 );
 
 /**
