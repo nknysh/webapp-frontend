@@ -12,15 +12,17 @@ const removeCommasIfString = when(isString, replace(/,/g, ''));
 /**
  * Format price
  *
- * @param {string | number}
+ * @param {string | number} data
+ * @param {number} decimals
  * @returns {string}
  */
-export const formatPrice = pipe(
-  removeCommasIfString,
-  Number,
-  invoker(1, 'toFixed')(2),
-  replace(/\B(?=(\d{3})+(?!\d))/g, ',') // regex taken from https://stackoverflow.com/a/2901298
-);
+export const formatPrice = (data, decimals = 2) =>
+  pipe(
+    removeCommasIfString,
+    Number,
+    invoker(1, 'toFixed')(decimals),
+    replace(/\B(?=(\d{3})+(?!\d))/g, ',') // regex taken from https://stackoverflow.com/a/2901298
+  )(data);
 
 /**
  * Calculate percentage

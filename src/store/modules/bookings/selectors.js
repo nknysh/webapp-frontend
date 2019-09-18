@@ -613,7 +613,7 @@ export const getPotentialDatesByRoomId = createSelector(
  */
 export const isBookingOnRequest = createSelector(
   getBookingBuildTotals,
-  totals => BOOKINGS_ON_REQUEST || pathOr(false, ['totals', 'oneOrMoreItemsOnRequest'], totals)
+  totals => BOOKINGS_ON_REQUEST || propOr(false, 'oneOrMoreItemsOnRequest', totals)
 );
 
 /**
@@ -1310,4 +1310,20 @@ export const getBookingPoliciesAndTerms = createSelector(
       reducePoliciesAndTerms({ cancellationPolicy: {}, paymentTerms: {} }),
       assoc('offersTerms', offersTerms)
     )(potentialBooking)
+);
+
+/**
+ * Get booking rooms by id is on request selector
+ *
+ * Checks to see if any of the selected rooms of given id type
+ * are on request
+ *
+ * @param {object}
+ * @param {string}
+ * @param {string}
+ * @returns {boolean}
+ */
+export const getBookingRoomsByIdIsOnRequest = createSelector(
+  getPotentialBookingRoomsById,
+  any(propEq('isOnRequest', true))
 );

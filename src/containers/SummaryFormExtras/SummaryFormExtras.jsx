@@ -68,15 +68,21 @@ import {
 
 const renderAddonCheckbox = props => <AddonCheckbox {...props} />;
 
-const renderSummaryArea = ({ currencyCode, key, children, total, totalBeforeDiscount }) => (
+const renderSummaryArea = (t, { currencyCode, key, children, total, totalBeforeDiscount, isOnRequest }) => (
   <Fragment key={key}>
     <Summary.Product>{children}</Summary.Product>
     <Summary.Totals>
-      <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>{`${currencyCode}${formatPrice(
-        total
-      )}`}</Summary.Total>
-      {!equals(total, totalBeforeDiscount) && (
-        <Summary.Total data-discounted={true}>{`${currencyCode}${formatPrice(totalBeforeDiscount)}`}</Summary.Total>
+      {isOnRequest ? (
+        <Summary.Total>{t('labels.onRequest')}</Summary.Total>
+      ) : (
+        <Fragment>
+          <Summary.Total data-discount={!equals(total, totalBeforeDiscount)}>
+            {`${currencyCode}${formatPrice(total)}`}
+          </Summary.Total>
+          {!equals(total, totalBeforeDiscount) && (
+            <Summary.Total data-discounted={true}>{`${currencyCode}${formatPrice(totalBeforeDiscount)}`}</Summary.Total>
+          )}
+        </Fragment>
       )}
     </Summary.Totals>
   </Fragment>
@@ -116,21 +122,30 @@ const wrapProductToolTip = (label, { meta }) =>
 const renderOption = (
   t,
   { currencyCode },
-  { total, totalBeforeDiscount, offers, title, product, quantity = 0, rateUuid },
+  { total, totalBeforeDiscount, offers, title, product, quantity = 0, rateUuid, isOnRequest },
   i
 ) => (
   <OptionRate key={rateUuid + i}>
-    {gt(quantity, 1) && `${quantity} x`} {wrapProductToolTip(title, product)} (+
-    <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>
-      {`${currencyCode}${formatPrice(totalBeforeDiscount)}`}
-    </OptionPrice>
-    {!equals(total, totalBeforeDiscount) && (
+    {gt(quantity, 1) && `${quantity} x`} {wrapProductToolTip(title, product)}
+    {isOnRequest ? (
+      `(${t('labels.onRequest')})`
+    ) : (
       <Fragment>
         {' '}
-        <OptionPrice data-discount={true}>{`${currencyCode}${total}`}</OptionPrice>
+        (+
+        <OptionPrice data-discounted={!equals(total, totalBeforeDiscount)}>
+          {`${currencyCode}${formatPrice(totalBeforeDiscount)}`}
+        </OptionPrice>
+        {!equals(total, totalBeforeDiscount) && (
+          <Fragment>
+            {' '}
+            <OptionPrice data-discount={true}>{`${currencyCode}${total}`}</OptionPrice>
+          </Fragment>
+        )}
+        )
       </Fragment>
     )}
-    ){!equals(total, totalBeforeDiscount) && mapWithIndex(partial(renderOptionOffer, [t]), offers)}
+    {!equals(total, totalBeforeDiscount) && mapWithIndex(partial(renderOptionOffer, [t]), offers)}
   </OptionRate>
 );
 
@@ -172,15 +187,16 @@ const renderOptionSummary = (
   t,
   { currencyCode },
   accum,
-  { total, totalBeforeDiscount, products, breakdown, selected, ...props }
+  { total, totalBeforeDiscount, products, breakdown, selected, isOnRequest, ...props }
 ) =>
   selected
     ? append(
-        renderSummaryArea({
+        renderSummaryArea(t, {
           key: join(',', products),
           currencyCode,
           total,
           totalBeforeDiscount,
+          isOnRequest,
           children: (
             <Fragment>
               {map(
@@ -326,7 +342,7 @@ const renderMargin = (
 const renderSelect = (
   t,
   { onMultipleChange, summaryOnly, values, compactEdit, currencyCode },
-  { products, breakdown, selected, total, totalBeforeDiscount, offers }
+  { products, breakdown, selected, total, totalBeforeDiscount, offers, isOnRequest }
 ) => {
   const uuids = join(',', map(prop('uuid'), products));
   const checked = propOr(false, uuids, values);
@@ -338,11 +354,12 @@ const renderSelect = (
 
   return summaryOnly || compactEdit
     ? selected &&
-        renderSummaryArea({
+        renderSummaryArea(t, {
           currencyCode,
           key: uuids,
           total,
           totalBeforeDiscount,
+          isOnRequest,
           children: (
             <Fragment>
               {mapWithIndex(
