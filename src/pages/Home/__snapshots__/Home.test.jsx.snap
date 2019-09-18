@@ -2,7 +2,7 @@
 
 exports[`<Home /> render matches snapshot 1`] = `
 <Homestyles__StyledHome>
-  <withThemeProvider(uo)
+  <withThemeProvider(Wo)
     full={true}
     media={
       Object {
@@ -54,6 +54,7 @@ exports[`<Home /> render matches snapshot 1`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -418,6 +419,7 @@ exports[`<Home /> render matches snapshot 1`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -438,7 +440,7 @@ exports[`<Home /> render matches snapshot 1`] = `
       }
     }
   >
-    <withThemeProvider(qo)
+    <withThemeProvider(Ta)
       theme={
         Object {
           "animations": Object {
@@ -480,6 +482,7 @@ exports[`<Home /> render matches snapshot 1`] = `
             "gold-dark": "#382A21",
             "gold-light": "#9D9591",
             "gold-neutral": "#736A65",
+            "gold-opacity": "rgba(161,130,101, 0.75)",
             "gray": "#EAEAEA",
             "gray-dark": "#E0E0E0",
             "gray-faded": "#9d9591",
@@ -844,6 +847,7 @@ exports[`<Home /> render matches snapshot 1`] = `
             "opacity": 0.35,
             "pending": "#9d9591",
             "primary": "#A18265",
+            "primaryOpacity": "rgba(161,130,101, 0.75)",
             "requested": "#f5a623",
             "secondary": "#382A21",
             "sectionLabel": "#736A65",
@@ -864,7 +868,7 @@ exports[`<Home /> render matches snapshot 1`] = `
         }
       }
     />
-  </withThemeProvider(uo)>
+  </withThemeProvider(Wo)>
   <Homestyles__HomeSection>
     <Homestyles__MoveTo
       onClick={[Function]}
@@ -873,7 +877,7 @@ exports[`<Home /> render matches snapshot 1`] = `
       keyboard_arrow_down
     </Homestyles__MoveTo>
     <Homestyles__HomeContainer>
-      <withThemeProvider(qo)
+      <withThemeProvider(Ta)
         theme={
           Object {
             "animations": Object {
@@ -915,6 +919,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "gold-dark": "#382A21",
               "gold-light": "#9D9591",
               "gold-neutral": "#736A65",
+              "gold-opacity": "rgba(161,130,101, 0.75)",
               "gray": "#EAEAEA",
               "gray-dark": "#E0E0E0",
               "gray-faded": "#9d9591",
@@ -1279,6 +1284,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "opacity": 0.35,
               "pending": "#9d9591",
               "primary": "#A18265",
+              "primaryOpacity": "rgba(161,130,101, 0.75)",
               "requested": "#f5a623",
               "secondary": "#382A21",
               "sectionLabel": "#736A65",
@@ -1305,7 +1311,7 @@ exports[`<Home /> render matches snapshot 1`] = `
     data-striped={true}
   >
     <Homestyles__HomeContainer>
-      <withThemeProvider(qo)
+      <withThemeProvider(Ta)
         theme={
           Object {
             "animations": Object {
@@ -1347,6 +1353,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "gold-dark": "#382A21",
               "gold-light": "#9D9591",
               "gold-neutral": "#736A65",
+              "gold-opacity": "rgba(161,130,101, 0.75)",
               "gray": "#EAEAEA",
               "gray-dark": "#E0E0E0",
               "gray-faded": "#9d9591",
@@ -1711,6 +1718,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "opacity": 0.35,
               "pending": "#9d9591",
               "primary": "#A18265",
+              "primaryOpacity": "rgba(161,130,101, 0.75)",
               "requested": "#f5a623",
               "secondary": "#382A21",
               "sectionLabel": "#736A65",
@@ -1735,7 +1743,7 @@ exports[`<Home /> render matches snapshot 1`] = `
   </Homestyles__HomeSection>
   <Homestyles__HomeSection>
     <Homestyles__HomeContainer>
-      <withThemeProvider(qo)
+      <withThemeProvider(Ta)
         theme={
           Object {
             "animations": Object {
@@ -1777,6 +1785,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "gold-dark": "#382A21",
               "gold-light": "#9D9591",
               "gold-neutral": "#736A65",
+              "gold-opacity": "rgba(161,130,101, 0.75)",
               "gray": "#EAEAEA",
               "gray-dark": "#E0E0E0",
               "gray-faded": "#9d9591",
@@ -2141,6 +2150,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "opacity": 0.35,
               "pending": "#9d9591",
               "primary": "#A18265",
+              "primaryOpacity": "rgba(161,130,101, 0.75)",
               "requested": "#f5a623",
               "secondary": "#382A21",
               "sectionLabel": "#736A65",
@@ -2165,7 +2175,7 @@ exports[`<Home /> render matches snapshot 1`] = `
   </Homestyles__HomeSection>
   <Homestyles__HomeSection>
     <Homestyles__HomeContainer>
-      <withThemeProvider(qo)
+      <withThemeProvider(Ta)
         theme={
           Object {
             "animations": Object {
@@ -2207,6 +2217,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "gold-dark": "#382A21",
               "gold-light": "#9D9591",
               "gold-neutral": "#736A65",
+              "gold-opacity": "rgba(161,130,101, 0.75)",
               "gray": "#EAEAEA",
               "gray-dark": "#E0E0E0",
               "gray-faded": "#9d9591",
@@ -2571,6 +2582,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "opacity": 0.35,
               "pending": "#9d9591",
               "primary": "#A18265",
+              "primaryOpacity": "rgba(161,130,101, 0.75)",
               "requested": "#f5a623",
               "secondary": "#382A21",
               "sectionLabel": "#736A65",
@@ -2595,7 +2607,7 @@ exports[`<Home /> render matches snapshot 1`] = `
   </Homestyles__HomeSection>
   <Homestyles__HomeSection>
     <Homestyles__HomeContainer>
-      <withThemeProvider(qo)
+      <withThemeProvider(Ta)
         theme={
           Object {
             "animations": Object {
@@ -2637,6 +2649,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "gold-dark": "#382A21",
               "gold-light": "#9D9591",
               "gold-neutral": "#736A65",
+              "gold-opacity": "rgba(161,130,101, 0.75)",
               "gray": "#EAEAEA",
               "gray-dark": "#E0E0E0",
               "gray-faded": "#9d9591",
@@ -3001,6 +3014,7 @@ exports[`<Home /> render matches snapshot 1`] = `
               "opacity": 0.35,
               "pending": "#9d9591",
               "primary": "#A18265",
+              "primaryOpacity": "rgba(161,130,101, 0.75)",
               "requested": "#f5a623",
               "secondary": "#382A21",
               "sectionLabel": "#736A65",

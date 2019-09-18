@@ -2,7 +2,7 @@
 
 exports[`<SearchBar /> render matches snapshot 1`] = `
 <SearchBarstyles__StyledSearchBar>
-  <withThemeProvider(Ao)
+  <withThemeProvider(ka)
     isLoading={false}
     showSpinner={false}
     theme={
@@ -46,6 +46,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -410,6 +411,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -457,6 +459,6 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
       showSubmit={true}
       vertical={false}
     />
-  </withThemeProvider(Ao)>
+  </withThemeProvider(ka)>
 </SearchBarstyles__StyledSearchBar>
 `;

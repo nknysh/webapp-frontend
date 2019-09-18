@@ -2,7 +2,7 @@
 
 exports[`<IndexSearch /> children is called as function when open 1`] = `
 <IndexSearchstyles__StyledIndexSearch>
-  <withThemeProvider(Dt)
+  <withThemeProvider(Tr)
     inputContent=""
     inputProps={
       Object {
@@ -62,6 +62,7 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -426,6 +427,7 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -447,13 +449,13 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
     }
   >
     <IndexSearchstyles__IndexSearchResults />
-  </withThemeProvider(Dt)>
+  </withThemeProvider(Tr)>
 </IndexSearchstyles__StyledIndexSearch>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 1`] = `
 <IndexSearchstyles__StyledIndexSearch>
-  <withThemeProvider(Dt)
+  <withThemeProvider(Tr)
     inputContent=""
     inputProps={
       Object {
@@ -512,6 +514,7 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -876,6 +879,7 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -901,7 +905,7 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
 
 exports[`<IndexSearch /> render matches snapshot 2`] = `
 <IndexSearchstyles__StyledIndexSearch>
-  <withThemeProvider(Dt)
+  <withThemeProvider(Tr)
     inputContent=""
     inputProps={
       Object {
@@ -961,6 +965,7 @@ exports[`<IndexSearch /> render matches snapshot 2`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -1325,6 +1330,7 @@ exports[`<IndexSearch /> render matches snapshot 2`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -1346,7 +1352,7 @@ exports[`<IndexSearch /> render matches snapshot 2`] = `
     }
   >
     <IndexSearchstyles__IndexSearchResults />
-  </withThemeProvider(Dt)>
+  </withThemeProvider(Tr)>
 </IndexSearchstyles__StyledIndexSearch>
 `;
 
@@ -1394,6 +1400,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -1758,6 +1765,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -1780,7 +1788,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
   >
     with label
   </IndexSearchstyles__IndexSearchLabel>
-  <withThemeProvider(Dt)
+  <withThemeProvider(Tr)
     inputContent=""
     inputProps={
       Object {
@@ -1839,6 +1847,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -2203,6 +2212,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -2228,7 +2238,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
 
 exports[`<IndexSearch /> render matches snapshot 4`] = `
 <IndexSearchstyles__StyledIndexSearch>
-  <withThemeProvider(Dt)
+  <withThemeProvider(Tr)
     inputContent=""
     inputProps={
       Object {
@@ -2287,6 +2297,7 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -2651,6 +2662,7 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -2676,7 +2688,7 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
 
 exports[`<IndexSearch /> render matches snapshot 5`] = `
 <IndexSearchstyles__StyledIndexSearch>
-  <withThemeProvider(Dt)
+  <withThemeProvider(Tr)
     inputContent=""
     inputProps={
       Object {
@@ -2735,6 +2747,7 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -3099,6 +3112,7 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -3124,7 +3138,7 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
 
 exports[`<IndexSearch /> render matches snapshot 6`] = `
 <IndexSearchstyles__StyledIndexSearch>
-  <withThemeProvider(Dt)
+  <withThemeProvider(Tr)
     inputContent="default value"
     inputProps={
       Object {
@@ -3183,6 +3197,7 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -3547,6 +3562,7 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -3572,7 +3588,7 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
 
 exports[`<IndexSearch /> render matches snapshot 7`] = `
 <IndexSearchstyles__StyledIndexSearch>
-  <withThemeProvider(Dt)
+  <withThemeProvider(Tr)
     inputContent=""
     inputProps={
       Object {
@@ -3632,6 +3648,7 @@ exports[`<IndexSearch /> render matches snapshot 7`] = `
           "gold-dark": "#382A21",
           "gold-light": "#9D9591",
           "gold-neutral": "#736A65",
+          "gold-opacity": "rgba(161,130,101, 0.75)",
           "gray": "#EAEAEA",
           "gray-dark": "#E0E0E0",
           "gray-faded": "#9d9591",
@@ -3996,6 +4013,7 @@ exports[`<IndexSearch /> render matches snapshot 7`] = `
           "opacity": 0.35,
           "pending": "#9d9591",
           "primary": "#A18265",
+          "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
           "secondary": "#382A21",
           "sectionLabel": "#736A65",
@@ -4017,7 +4035,7 @@ exports[`<IndexSearch /> render matches snapshot 7`] = `
     }
   >
     <IndexSearchstyles__IndexSearchResults />
-  </withThemeProvider(Dt)>
+  </withThemeProvider(Tr)>
 </IndexSearchstyles__StyledIndexSearch>
 `;
 

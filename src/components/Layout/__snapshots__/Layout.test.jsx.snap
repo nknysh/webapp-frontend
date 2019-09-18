@@ -16,7 +16,7 @@ exports[`<Layout /> render matches snapshot 1`] = `
     >
       <Component />
     </SnackbarProvider>
-    <R
+    <Component
       attributes={Object {}}
       enabled={true}
     />

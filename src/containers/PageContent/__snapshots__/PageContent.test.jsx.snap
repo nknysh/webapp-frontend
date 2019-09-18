@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<PageContent /> render matches snapshot while loading 1`] = `
-<withThemeProvider(Ao)
+<withThemeProvider(ka)
   isLoading={true}
   theme={
     Object {
@@ -44,6 +44,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
         "gold-dark": "#382A21",
         "gold-light": "#9D9591",
         "gold-neutral": "#736A65",
+        "gold-opacity": "rgba(161,130,101, 0.75)",
         "gray": "#EAEAEA",
         "gray-dark": "#E0E0E0",
         "gray-faded": "#9d9591",
@@ -408,6 +409,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
         "opacity": 0.35,
         "pending": "#9d9591",
         "primary": "#A18265",
+        "primaryOpacity": "rgba(161,130,101, 0.75)",
         "requested": "#f5a623",
         "secondary": "#382A21",
         "sectionLabel": "#736A65",
@@ -480,6 +482,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
             "gold-dark": "#382A21",
             "gold-light": "#9D9591",
             "gold-neutral": "#736A65",
+            "gold-opacity": "rgba(161,130,101, 0.75)",
             "gray": "#EAEAEA",
             "gray-dark": "#E0E0E0",
             "gray-faded": "#9d9591",
@@ -844,6 +847,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
             "opacity": 0.35,
             "pending": "#9d9591",
             "primary": "#A18265",
+            "primaryOpacity": "rgba(161,130,101, 0.75)",
             "requested": "#f5a623",
             "secondary": "#382A21",
             "sectionLabel": "#736A65",
@@ -866,7 +870,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(Za)
+          <withThemeProvider(Ni)
             theme={
               Object {
                 "animations": Object {
@@ -908,6 +912,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                   "gold-dark": "#382A21",
                   "gold-light": "#9D9591",
                   "gold-neutral": "#736A65",
+                  "gold-opacity": "rgba(161,130,101, 0.75)",
                   "gray": "#EAEAEA",
                   "gray-dark": "#E0E0E0",
                   "gray-faded": "#9d9591",
@@ -1272,6 +1277,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                   "opacity": 0.35,
                   "pending": "#9d9591",
                   "primary": "#A18265",
+                  "primaryOpacity": "rgba(161,130,101, 0.75)",
                   "requested": "#f5a623",
                   "secondary": "#382A21",
                   "sectionLabel": "#736A65",
@@ -1292,7 +1298,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
               }
             }
           >
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -1334,6 +1340,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -1698,6 +1705,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -1718,11 +1726,11 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                 }
               }
             />
-          </withThemeProvider(Za)>
+          </withThemeProvider(Ni)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -1764,6 +1772,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -2128,6 +2137,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -2153,11 +2163,11 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Ao)>
+</withThemeProvider(ka)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 1`] = `
-<withThemeProvider(Ao)
+<withThemeProvider(ka)
   isLoading={false}
   theme={
     Object {
@@ -2200,6 +2210,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
         "gold-dark": "#382A21",
         "gold-light": "#9D9591",
         "gold-neutral": "#736A65",
+        "gold-opacity": "rgba(161,130,101, 0.75)",
         "gray": "#EAEAEA",
         "gray-dark": "#E0E0E0",
         "gray-faded": "#9d9591",
@@ -2564,6 +2575,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
         "opacity": 0.35,
         "pending": "#9d9591",
         "primary": "#A18265",
+        "primaryOpacity": "rgba(161,130,101, 0.75)",
         "requested": "#f5a623",
         "secondary": "#382A21",
         "sectionLabel": "#736A65",
@@ -2636,6 +2648,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
             "gold-dark": "#382A21",
             "gold-light": "#9D9591",
             "gold-neutral": "#736A65",
+            "gold-opacity": "rgba(161,130,101, 0.75)",
             "gray": "#EAEAEA",
             "gray-dark": "#E0E0E0",
             "gray-faded": "#9d9591",
@@ -3000,6 +3013,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
             "opacity": 0.35,
             "pending": "#9d9591",
             "primary": "#A18265",
+            "primaryOpacity": "rgba(161,130,101, 0.75)",
             "requested": "#f5a623",
             "secondary": "#382A21",
             "sectionLabel": "#736A65",
@@ -3022,7 +3036,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(Za)
+          <withThemeProvider(Ni)
             theme={
               Object {
                 "animations": Object {
@@ -3064,6 +3078,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                   "gold-dark": "#382A21",
                   "gold-light": "#9D9591",
                   "gold-neutral": "#736A65",
+                  "gold-opacity": "rgba(161,130,101, 0.75)",
                   "gray": "#EAEAEA",
                   "gray-dark": "#E0E0E0",
                   "gray-faded": "#9d9591",
@@ -3428,6 +3443,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                   "opacity": 0.35,
                   "pending": "#9d9591",
                   "primary": "#A18265",
+                  "primaryOpacity": "rgba(161,130,101, 0.75)",
                   "requested": "#f5a623",
                   "secondary": "#382A21",
                   "sectionLabel": "#736A65",
@@ -3448,7 +3464,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
               }
             }
           >
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -3490,6 +3506,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -3854,6 +3871,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -3874,11 +3892,11 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                 }
               }
             />
-          </withThemeProvider(Za)>
+          </withThemeProvider(Ni)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -3920,6 +3938,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -4284,6 +4303,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -4305,17 +4325,17 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
               }
             >
               ### some data
-            </withThemeProvider(qo)>
+            </withThemeProvider(Ta)>
           </PageContentstyles__PageContentData>
         </PageContentstyles__ColumnRight>
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Ao)>
+</withThemeProvider(ka)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 2`] = `
-<withThemeProvider(Ao)
+<withThemeProvider(ka)
   isLoading={false}
   theme={
     Object {
@@ -4358,6 +4378,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
         "gold-dark": "#382A21",
         "gold-light": "#9D9591",
         "gold-neutral": "#736A65",
+        "gold-opacity": "rgba(161,130,101, 0.75)",
         "gray": "#EAEAEA",
         "gray-dark": "#E0E0E0",
         "gray-faded": "#9d9591",
@@ -4722,6 +4743,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
         "opacity": 0.35,
         "pending": "#9d9591",
         "primary": "#A18265",
+        "primaryOpacity": "rgba(161,130,101, 0.75)",
         "requested": "#f5a623",
         "secondary": "#382A21",
         "sectionLabel": "#736A65",
@@ -4796,6 +4818,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
             "gold-dark": "#382A21",
             "gold-light": "#9D9591",
             "gold-neutral": "#736A65",
+            "gold-opacity": "rgba(161,130,101, 0.75)",
             "gray": "#EAEAEA",
             "gray-dark": "#E0E0E0",
             "gray-faded": "#9d9591",
@@ -5160,6 +5183,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
             "opacity": 0.35,
             "pending": "#9d9591",
             "primary": "#A18265",
+            "primaryOpacity": "rgba(161,130,101, 0.75)",
             "requested": "#f5a623",
             "secondary": "#382A21",
             "sectionLabel": "#736A65",
@@ -5182,7 +5206,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(Za)
+          <withThemeProvider(Ni)
             theme={
               Object {
                 "animations": Object {
@@ -5224,6 +5248,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                   "gold-dark": "#382A21",
                   "gold-light": "#9D9591",
                   "gold-neutral": "#736A65",
+                  "gold-opacity": "rgba(161,130,101, 0.75)",
                   "gray": "#EAEAEA",
                   "gray-dark": "#E0E0E0",
                   "gray-faded": "#9d9591",
@@ -5588,6 +5613,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                   "opacity": 0.35,
                   "pending": "#9d9591",
                   "primary": "#A18265",
+                  "primaryOpacity": "rgba(161,130,101, 0.75)",
                   "requested": "#f5a623",
                   "secondary": "#382A21",
                   "sectionLabel": "#736A65",
@@ -5609,7 +5635,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
             }
             title="foo"
           >
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -5651,6 +5677,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -6015,6 +6042,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -6035,11 +6063,11 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                 }
               }
             />
-          </withThemeProvider(Za)>
+          </withThemeProvider(Ni)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -6081,6 +6109,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -6445,6 +6474,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -6466,17 +6496,17 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
               }
             >
               ### some data
-            </withThemeProvider(qo)>
+            </withThemeProvider(Ta)>
           </PageContentstyles__PageContentData>
         </PageContentstyles__ColumnRight>
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Ao)>
+</withThemeProvider(ka)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 3`] = `
-<withThemeProvider(Ao)
+<withThemeProvider(ka)
   isLoading={false}
   theme={
     Object {
@@ -6519,6 +6549,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
         "gold-dark": "#382A21",
         "gold-light": "#9D9591",
         "gold-neutral": "#736A65",
+        "gold-opacity": "rgba(161,130,101, 0.75)",
         "gray": "#EAEAEA",
         "gray-dark": "#E0E0E0",
         "gray-faded": "#9d9591",
@@ -6883,6 +6914,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
         "opacity": 0.35,
         "pending": "#9d9591",
         "primary": "#A18265",
+        "primaryOpacity": "rgba(161,130,101, 0.75)",
         "requested": "#f5a623",
         "secondary": "#382A21",
         "sectionLabel": "#736A65",
@@ -6957,6 +6989,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
             "gold-dark": "#382A21",
             "gold-light": "#9D9591",
             "gold-neutral": "#736A65",
+            "gold-opacity": "rgba(161,130,101, 0.75)",
             "gray": "#EAEAEA",
             "gray-dark": "#E0E0E0",
             "gray-faded": "#9d9591",
@@ -7321,6 +7354,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
             "opacity": 0.35,
             "pending": "#9d9591",
             "primary": "#A18265",
+            "primaryOpacity": "rgba(161,130,101, 0.75)",
             "requested": "#f5a623",
             "secondary": "#382A21",
             "sectionLabel": "#736A65",
@@ -7343,7 +7377,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(Za)
+          <withThemeProvider(Ni)
             theme={
               Object {
                 "animations": Object {
@@ -7385,6 +7419,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                   "gold-dark": "#382A21",
                   "gold-light": "#9D9591",
                   "gold-neutral": "#736A65",
+                  "gold-opacity": "rgba(161,130,101, 0.75)",
                   "gray": "#EAEAEA",
                   "gray-dark": "#E0E0E0",
                   "gray-faded": "#9d9591",
@@ -7749,6 +7784,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                   "opacity": 0.35,
                   "pending": "#9d9591",
                   "primary": "#A18265",
+                  "primaryOpacity": "rgba(161,130,101, 0.75)",
                   "requested": "#f5a623",
                   "secondary": "#382A21",
                   "sectionLabel": "#736A65",
@@ -7770,7 +7806,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
             }
             title="foo"
           >
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -7812,6 +7848,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -8176,6 +8213,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -8197,12 +8235,12 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               }
             >
               - a link
-            </withThemeProvider(qo)>
-          </withThemeProvider(Za)>
+            </withThemeProvider(Ta)>
+          </withThemeProvider(Ni)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -8244,6 +8282,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -8608,6 +8647,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -8629,17 +8669,17 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               }
             >
               ### some data
-            </withThemeProvider(qo)>
+            </withThemeProvider(Ta)>
           </PageContentstyles__PageContentData>
         </PageContentstyles__ColumnRight>
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Ao)>
+</withThemeProvider(ka)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 4`] = `
-<withThemeProvider(Ao)
+<withThemeProvider(ka)
   isLoading={false}
   theme={
     Object {
@@ -8682,6 +8722,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
         "gold-dark": "#382A21",
         "gold-light": "#9D9591",
         "gold-neutral": "#736A65",
+        "gold-opacity": "rgba(161,130,101, 0.75)",
         "gray": "#EAEAEA",
         "gray-dark": "#E0E0E0",
         "gray-faded": "#9d9591",
@@ -9046,6 +9087,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
         "opacity": 0.35,
         "pending": "#9d9591",
         "primary": "#A18265",
+        "primaryOpacity": "rgba(161,130,101, 0.75)",
         "requested": "#f5a623",
         "secondary": "#382A21",
         "sectionLabel": "#736A65",
@@ -9121,6 +9163,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             "gold-dark": "#382A21",
             "gold-light": "#9D9591",
             "gold-neutral": "#736A65",
+            "gold-opacity": "rgba(161,130,101, 0.75)",
             "gray": "#EAEAEA",
             "gray-dark": "#E0E0E0",
             "gray-faded": "#9d9591",
@@ -9485,6 +9528,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             "opacity": 0.35,
             "pending": "#9d9591",
             "primary": "#A18265",
+            "primaryOpacity": "rgba(161,130,101, 0.75)",
             "requested": "#f5a623",
             "secondary": "#382A21",
             "sectionLabel": "#736A65",
@@ -9547,6 +9591,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             "gold-dark": "#382A21",
             "gold-light": "#9D9591",
             "gold-neutral": "#736A65",
+            "gold-opacity": "rgba(161,130,101, 0.75)",
             "gray": "#EAEAEA",
             "gray-dark": "#E0E0E0",
             "gray-faded": "#9d9591",
@@ -9911,6 +9956,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             "opacity": 0.35,
             "pending": "#9d9591",
             "primary": "#A18265",
+            "primaryOpacity": "rgba(161,130,101, 0.75)",
             "requested": "#f5a623",
             "secondary": "#382A21",
             "sectionLabel": "#736A65",
@@ -9933,7 +9979,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
     >
       <PageContentstyles__Columns>
         <PageContentstyles__ColumnLeft>
-          <withThemeProvider(Za)
+          <withThemeProvider(Ni)
             theme={
               Object {
                 "animations": Object {
@@ -9975,6 +10021,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                   "gold-dark": "#382A21",
                   "gold-light": "#9D9591",
                   "gold-neutral": "#736A65",
+                  "gold-opacity": "rgba(161,130,101, 0.75)",
                   "gray": "#EAEAEA",
                   "gray-dark": "#E0E0E0",
                   "gray-faded": "#9d9591",
@@ -10339,6 +10386,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                   "opacity": 0.35,
                   "pending": "#9d9591",
                   "primary": "#A18265",
+                  "primaryOpacity": "rgba(161,130,101, 0.75)",
                   "requested": "#f5a623",
                   "secondary": "#382A21",
                   "sectionLabel": "#736A65",
@@ -10360,7 +10408,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             }
             title="foo"
           >
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -10402,6 +10450,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -10766,6 +10815,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -10787,12 +10837,12 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               }
             >
               - a link
-            </withThemeProvider(qo)>
-          </withThemeProvider(Za)>
+            </withThemeProvider(Ta)>
+          </withThemeProvider(Ni)>
         </PageContentstyles__ColumnLeft>
         <PageContentstyles__ColumnRight>
           <PageContentstyles__PageContentData>
-            <withThemeProvider(qo)
+            <withThemeProvider(Ta)
               theme={
                 Object {
                   "animations": Object {
@@ -10834,6 +10884,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                     "gold-dark": "#382A21",
                     "gold-light": "#9D9591",
                     "gold-neutral": "#736A65",
+                    "gold-opacity": "rgba(161,130,101, 0.75)",
                     "gray": "#EAEAEA",
                     "gray-dark": "#E0E0E0",
                     "gray-faded": "#9d9591",
@@ -11198,6 +11249,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
                     "opacity": 0.35,
                     "pending": "#9d9591",
                     "primary": "#A18265",
+                    "primaryOpacity": "rgba(161,130,101, 0.75)",
                     "requested": "#f5a623",
                     "secondary": "#382A21",
                     "sectionLabel": "#736A65",
@@ -11219,11 +11271,11 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               }
             >
               ### some data
-            </withThemeProvider(qo)>
+            </withThemeProvider(Ta)>
           </PageContentstyles__PageContentData>
         </PageContentstyles__ColumnRight>
       </PageContentstyles__Columns>
     </PageContentstyles__PageContainer>
   </PageContentstyles__StyledPageContent>
-</withThemeProvider(Ao)>
+</withThemeProvider(ka)>
 `;
