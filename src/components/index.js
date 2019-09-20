@@ -17,5 +17,6 @@ export { default as OccasionsSelect } from './OccasionsSelect';
 export { default as Room } from './Room';
 export { default as Search } from './Search';
 export { default as SearchFilters } from './SearchFilters';
+export { default as NameSearch } from './NameSearch';
 export { default as Summary } from './Summary';
 export { default as SummaryFormMargin } from './SummaryFormMargin';

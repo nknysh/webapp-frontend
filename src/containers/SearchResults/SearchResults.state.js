@@ -13,7 +13,7 @@ import {
 
 export const mapStateToProps = state => ({
   searchQuery: getSearchQuery(state),
-  searchStatus: getSearchStatus(state),
+  searchStatus: getSearchStatus(state, 'byQuery'),
   result: getHotelsFromSearchResults(state, getSearchResultsResult(state, 'byQuery')),
   meta: getSearchResultsMeta(state, 'byQuery'),
   canSearch: getCanSearch(state),

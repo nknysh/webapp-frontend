@@ -13,6 +13,7 @@ import {
   propOr,
   set,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { subDays } from 'date-fns';
 import i18n from 'config/i18n';
 import client from 'api/search';
@@ -87,7 +88,7 @@ export const searchByQueryAction = payload => ({
  * @param {object} destination
  * @returns {Function}
  */
-export const searchByName = destination => async (dispatch, getState) => {
+export const searchByName = (destination, limit) => async (dispatch, getState) => {
   // SRs can be a different country so get actingCountryCode
   const actingCountryCode = getUserCountryContext(getState());
 
@@ -107,7 +108,7 @@ export const searchByName = destination => async (dispatch, getState) => {
       data: { data },
     } = await client.getSearchByName(
       prop('value', destination),
-      { actingCountryCode },
+      { actingCountryCode: isNilOrEmpty(actingCountryCode) ? undefined : actingCountryCode, limit },
       { cancelToken: searchNameCancelToken.token }
     );
 
@@ -131,7 +132,7 @@ export const searchByName = destination => async (dispatch, getState) => {
 export const getPayloadFromSearchQuery = (query, actingCountryCode, repeatGuest, occasions) => {
   return pipe(
     omit(['prices']),
-    mergeDeepLeft({ actingCountryCode }),
+    mergeDeepLeft({ actingCountryCode: isNilOrEmpty(actingCountryCode) ? undefined : actingCountryCode }),
     over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
     set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
   )(query);

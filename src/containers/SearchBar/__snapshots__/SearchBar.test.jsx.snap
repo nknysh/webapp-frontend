@@ -434,27 +434,15 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
   >
     <Search
       canSearch={true}
-      indexSelectors={
-        Array [
-          [Function],
-          [Function],
-        ]
-      }
-      indexes={
-        Array [
-          "countries",
-          "hotels",
-        ]
-      }
+      getCountryName={[Function]}
+      getHotelName={[Function]}
+      indexSelectors={Array []}
+      indexes={Array []}
       isLoading={false}
       onChange={[Function]}
       onSearch={[Function]}
       onSubmit={[Function]}
-      searchPatterns={
-        Array [
-          "+isDestination:true *",
-        ]
-      }
+      searchPatterns={Array []}
       searchQuery={Object {}}
       showSubmit={true}
       vertical={false}

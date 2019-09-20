@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose, values, propOr } from 'ramda';
+import { compose, propOr, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
 
-import { IndexTypes, SearchPatterns } from 'config/enums';
 import { Search, SearchFilters, OccasionsSelect } from 'components';
-import { useEffectBoundary } from 'effects';
+import { useEffectBoundary, useFetchData } from 'effects';
 import { buildQueryString } from 'utils';
 
 import connect from './SearchSidebar.state';
@@ -14,8 +13,6 @@ import { Section, Title } from './SearchSidebar.styles';
 
 export const SearchSidebar = ({
   features,
-  getCountryName,
-  getHotelName,
   history,
   occasions,
   prices,
@@ -26,8 +23,11 @@ export const SearchSidebar = ({
   searchStatus,
   setSearchQuery,
   starRatings,
+  ...props
 }) => {
   const { t } = useTranslation();
+
+  useFetchData(searchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
 
   // Push to history stack so the url is updated with the new query but a location change isn't triggered (which
   // would cause a full re-render of the search results)
@@ -38,15 +38,13 @@ export const SearchSidebar = ({
       <Section>
         <Title>{t('labels.searching')}</Title>
         <Search
-          indexes={values(IndexTypes)}
-          indexSelectors={[getCountryName, getHotelName]}
-          searchPatterns={[SearchPatterns.COUNTRIES]}
           onChange={setSearchQuery}
           onSearch={searchByName}
           showSubmit={false}
           searchStatus={searchStatus}
           searchQuery={searchQuery}
           vertical={true}
+          {...props}
         />
       </Section>
       <Section>

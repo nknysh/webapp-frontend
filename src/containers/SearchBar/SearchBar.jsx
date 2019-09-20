@@ -1,9 +1,7 @@
 import React, { useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose, prop, values } from 'ramda';
+import { compose, prop } from 'ramda';
 import { Loader } from '@pure-escapes/webapp-ui-components';
-
-import { IndexTypes, SearchPatterns } from 'config/enums';
 
 import { Search } from 'components';
 import { useFetchData } from 'effects';
@@ -15,17 +13,15 @@ import connect from './SearchBar.state';
 
 export const SearchBar = ({
   className,
-  getCountryName,
-  getHotelName,
   history,
   searchByName,
   searchQuery,
-  searchStatus,
+  nameSearchStatus,
   setSearchQuery,
   canSearch,
   ...props
 }) => {
-  useFetchData(searchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
+  useFetchData(nameSearchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
 
   // Push to history stack so the url is updated with the new query but a location change isn't triggered (which
   // would cause a full re-render of the search results)
@@ -36,14 +32,11 @@ export const SearchBar = ({
       <Loader isLoading={false} showSpinner={false}>
         <Search
           canSearch={canSearch}
-          indexes={values(IndexTypes)}
-          indexSelectors={[getCountryName, getHotelName]}
           onChange={setSearchQuery}
           onSearch={searchByName}
           onSubmit={onSubmit}
-          searchPatterns={[SearchPatterns.COUNTRIES]}
           searchQuery={searchQuery}
-          searchStatus={searchStatus}
+          searchStatus={nameSearchStatus}
           {...props}
         />
       </Loader>

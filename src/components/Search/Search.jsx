@@ -30,16 +30,14 @@ const renderSearchButton = (t, { canSearch, onSubmit }) => (
 
 export const Search = ({
   canSearch,
-  indexes,
-  indexSelectors,
   onChange,
   onSearch,
   onSubmit,
-  searchPatterns,
   searchQuery,
   searchStatus,
   showSubmit,
   vertical,
+  nameSearchResults,
 }) => {
   const { t } = useTranslation();
 
@@ -85,16 +83,12 @@ export const Search = ({
     <Fragment>
       <SearchBarSection data-vertical={vertical}>
         <SearchBarIndexSearch
-          indexes={indexes}
           isLoading={isLoading(searchStatus)}
           label={t('labels.search')}
-          limit={5}
           onChange={debounce(onSearch, 600)}
           onClick={onIndexSelect}
-          openOnFocus={false}
           placeholder={t('form.placeholders.search')}
-          selectors={indexSelectors}
-          searchPatterns={searchPatterns}
+          results={nameSearchResults}
           value={prop('value', getSearchQueryData(destinationLens))}
         />
       </SearchBarSection>

@@ -8,26 +8,15 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
     </SearchSidebarstyles__Title>
     <Search
       canSearch={true}
-      indexSelectors={
-        Array [
-          [Function],
-          undefined,
-        ]
-      }
-      indexes={
-        Array [
-          "countries",
-          "hotels",
-        ]
-      }
+      fetchHotels={[Function]}
+      getCountryName={[Function]}
+      getHotel={[Function]}
+      indexSelectors={Array []}
+      indexes={Array []}
       onChange={[Function]}
       onSearch={[Function]}
       onSubmit={[Function]}
-      searchPatterns={
-        Array [
-          "+isDestination:true *",
-        ]
-      }
+      searchPatterns={Array []}
       searchQuery={
         Object {
           "filters": Object {
@@ -98,26 +87,15 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
     </SearchSidebarstyles__Title>
     <Search
       canSearch={true}
-      indexSelectors={
-        Array [
-          [Function],
-          undefined,
-        ]
-      }
-      indexes={
-        Array [
-          "countries",
-          "hotels",
-        ]
-      }
+      fetchHotels={[Function]}
+      getCountryName={[Function]}
+      getHotel={[Function]}
+      indexSelectors={Array []}
+      indexes={Array []}
       onChange={[Function]}
       onSearch={[Function]}
       onSubmit={[Function]}
-      searchPatterns={
-        Array [
-          "+isDestination:true *",
-        ]
-      }
+      searchPatterns={Array []}
       searchQuery={Object {}}
       showSubmit={false}
       vertical={true}

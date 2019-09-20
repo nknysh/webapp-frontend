@@ -1,4 +1,4 @@
-import { pipe, set, propOr, values, map, mergeDeepRight } from 'ramda';
+import { pipe, set, propOr, values, includes, mergeDeepRight, toPairs, fromPairs, reduce, append } from 'ramda';
 
 import { isArray } from 'utils/helpers';
 import { statusLens, errorLens, dataLens } from 'store/utils';
@@ -123,6 +123,8 @@ export const successResetReducer = (state, { payload }) => {
   return setData(state);
 };
 
+const ignoreKeys = ['search'];
+
 /**
  * Reset store statuses
  *
@@ -133,5 +135,13 @@ export const successResetReducer = (state, { payload }) => {
  */
 export const resetStoreStatuses = state => {
   const setStatusToIdle = set(statusLens, Status.IDLE);
-  return map(setStatusToIdle, state);
+  return pipe(
+    toPairs,
+    reduce(
+      (accum, [key, keyState]) =>
+        append(!includes(key, ignoreKeys) ? [key, setStatusToIdle(keyState)] : [key, keyState], accum),
+      []
+    ),
+    fromPairs
+  )(state);
 };

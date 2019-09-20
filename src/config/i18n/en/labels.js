@@ -212,4 +212,6 @@ export default {
   availableToHold: 'This hotel has accommodation available to hold',
 
   specifyAges: 'Please specifiy ages:',
+
+  noResults: 'No results found',
 };

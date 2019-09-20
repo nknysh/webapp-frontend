@@ -12,23 +12,23 @@ import {
   getSearchFiltersFeatures,
   getSearchFiltersPrices,
   getSearchOccassions,
+  getMappedSearchResults,
 } from 'store/modules/search';
-import { getCountriesData, getCountryName } from 'store/modules/countries';
-import { getHotelName, getHotelsData, getHotelsStatus } from 'store/modules/hotels';
+import { getCountriesData } from 'store/modules/countries';
+import { getHotelsData, getHotelsStatus } from 'store/modules/hotels';
 
 export const mapStateToProps = state => ({
   countries: getCountriesData(state),
   features: getSearchFiltersFeatures(state, 'byQuery'),
-  getCountryName: code => getCountryName(state, code),
-  getHotelName: name => getHotelName(state, name),
   hotels: getHotelsData(state),
   hotelsStatus: getHotelsStatus(state),
+  nameSearchResults: getMappedSearchResults(state, 'byName'),
+  occasions: getSearchOccassions(state, 'byQuery'),
+  prices: getSearchFiltersPrices(state, 'byQuery'),
   regions: getSearchFiltersRegions(state, 'byQuery'),
   searchQuery: getSearchQuery(state),
-  searchStatus: getSearchStatus(state),
+  searchStatus: getSearchStatus(state, 'byName'),
   starRatings: getSearchFiltersStarRatings(state, 'byQuery'),
-  prices: getSearchFiltersPrices(state, 'byQuery'),
-  occasions: getSearchOccassions(state, 'byQuery'),
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -1,12 +1,19 @@
-import { mergeDeepRight, propOr, assocPath } from 'ramda';
+import { mergeDeepRight, pipe, assocPath, set, propOr } from 'ramda';
 
-import { initialState, loadingReducer, errorReducer, Status, STORE_RESET } from 'store/common';
+import { initialState, Status, STORE_RESET, STATUS_TO_IDLE } from 'store/common';
 import { createReducer, getSuccessActionName, getLoadingActionName, getErrorActionName } from 'store/utils';
+import { errorLens, dataLens } from 'store/utils';
+
+import { isArray } from 'utils';
 
 import { SEARCH_BY_NAME, SEARCH_BY_QUERY, SEARCH_QUERY_UPDATE, SEARCH_FILTERS_RESET } from './actions';
 
 const searchState = {
   ...initialState,
+  status: {
+    byName: Status.IDLE,
+    byQuery: Status.IDLE,
+  },
   query: undefined,
 };
 
@@ -37,11 +44,13 @@ const searchFiltersReset = state => assocPath(['query', 'filters'], {}, state);
  * @param {object}
  * @returns {object}
  */
-const searchResults = (state, { payload }) => ({
-  ...state,
-  status: Status.SUCCESS,
-  data: { ...propOr({}, 'data', state), ...payload },
-});
+const searchResults = type => (state, { payload }) =>
+  mergeDeepRight(state, {
+    status: {
+      [type]: Status.SUCCESS,
+    },
+    data: payload,
+  });
 
 /**
  * Remove local storage reducer
@@ -56,17 +65,52 @@ const removeLocalStorage = state => {
   return state;
 };
 
+const searchLoading = type =>
+  pipe(
+    assocPath(['status', type], Status.LOADING),
+    set(errorLens, undefined)
+  );
+
+const searchError = type => (state, { payload }) => {
+  const prevData = propOr([], 'data', state);
+
+  /**
+   * Set data
+   *
+   * Sets status to ERROR, replaces the data with previous data
+   * and adds errors to errors key
+   *
+   * @param {object}
+   * @returns {object}
+   */
+  const setData = pipe(
+    assocPath(['status', type], Status.ERROR),
+    set(dataLens, prevData),
+    set(errorLens, isArray(payload) ? [...payload] : payload)
+  );
+
+  return setData(state);
+};
+
+const statusesToIdle = mergeDeepRight({
+  status: {
+    byName: Status.IDLE,
+    byQuery: Status.IDLE,
+  },
+});
+
 export default createReducer(
   {
-    [SEARCH_QUERY_UPDATE]: setSearchQuery,
+    [getErrorActionName(SEARCH_BY_NAME)]: searchError('byName'),
+    [getErrorActionName(SEARCH_BY_QUERY)]: searchError('byQuery'),
+    [getLoadingActionName(SEARCH_BY_NAME)]: searchLoading('byName'),
+    [getLoadingActionName(SEARCH_BY_QUERY)]: searchLoading('byQuery'),
+    [getSuccessActionName(SEARCH_BY_NAME)]: searchResults('byName'),
+    [getSuccessActionName(SEARCH_BY_QUERY)]: searchResults('byQuery'),
     [SEARCH_FILTERS_RESET]: searchFiltersReset,
-    [getLoadingActionName(SEARCH_BY_NAME)]: loadingReducer,
-    [getSuccessActionName(SEARCH_BY_NAME)]: searchResults,
-    [getErrorActionName(SEARCH_BY_NAME)]: errorReducer,
-    [getLoadingActionName(SEARCH_BY_QUERY)]: loadingReducer,
-    [getSuccessActionName(SEARCH_BY_QUERY)]: searchResults,
-    [getErrorActionName(SEARCH_BY_QUERY)]: errorReducer,
+    [SEARCH_QUERY_UPDATE]: setSearchQuery,
     [STORE_RESET]: removeLocalStorage,
+    [STATUS_TO_IDLE]: statusesToIdle,
   },
   searchState
 );
