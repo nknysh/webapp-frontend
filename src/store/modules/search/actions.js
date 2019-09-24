@@ -86,13 +86,17 @@ export const searchByQueryAction = payload => ({
  * Auto complete search bar using name only
  *
  * @param {object} destination
+ * @param {string} destination.value the typed in value for the name
+ * @param {boolean} destination.doSearch if true, we should set the search query, thus triggering a search
  * @returns {Function}
  */
 export const searchByName = (destination, limit) => async (dispatch, getState) => {
   // SRs can be a different country so get actingCountryCode
   const actingCountryCode = getUserCountryContext(getState());
 
-  dispatch(setSearchQuery({ destination }));
+  if (destination.doSearch) {
+    dispatch(setSearchQuery({ destination }));
+  }
   dispatch(searchByNameAction(destination));
   dispatch(loadingAction(SEARCH_BY_NAME, { destination }));
 
