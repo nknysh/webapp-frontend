@@ -94,6 +94,9 @@ export const searchByName = (destination, limit) => async (dispatch, getState) =
   // SRs can be a different country so get actingCountryCode
   const actingCountryCode = getUserCountryContext(getState());
 
+  // we only want to set the search query (and thus perform an actual search)
+  // under specific circumstances
+  // @see https://pureescapes.atlassian.net/browse/OWA-628
   if (destination.doSearch) {
     dispatch(setSearchQuery({ destination }));
   }

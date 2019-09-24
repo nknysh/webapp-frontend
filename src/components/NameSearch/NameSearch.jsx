@@ -25,6 +25,14 @@ const renderResults = (t, { results, ...props }) => (
   </ResultsSet>
 );
 
+/**
+ * `NameSearch` wraps a auto-complete text box to allow searching for countries and hotels
+ * to filter a search
+ *
+ * `doSearch` is set and passed as part of `onChange` based on if we want to re-fill the dropdown,
+ * or actually perform a search
+ * @see https://pureescapes.atlassian.net/browse/OWA-628 for further details
+ */
 export const NameSearch = ({ label, onChange, value, results, isLoading, onClick, placeholder }) => {
   const { t } = useTranslation();
 
