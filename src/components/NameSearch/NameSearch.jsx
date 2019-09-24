@@ -9,7 +9,11 @@ import { useEffectBoundary } from 'effects';
 import { propTypes, defaultProps } from './NameSearch.props';
 import { Label, Searching, ResultsSet, Results, Result } from './NameSearch.styles';
 
-const renderResult = (id, label, onClick) => <Result onClick={() => onClick({ id, value: label })}>{label}</Result>;
+const renderResult = (id, label, onClick) => (
+  <Result key={id} onClick={() => onClick({ id, value: label })}>
+    {label}
+  </Result>
+);
 
 const renderCountry = ({ onClick }, { code, name }) => renderResult(code, name, onClick);
 const renderHotel = ({ onClick }, { uuid, name }) => renderResult(uuid, name, onClick);
