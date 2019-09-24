@@ -36,7 +36,8 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
       const value = path(['currentTarget', 'value'], e);
       setIsOpen(true);
       setSearchValue(value);
-      onChange({ value });
+      const doSearch = value === '' ? true : false;
+      onChange({ value, doSearch });
     },
     [onChange]
   );
@@ -45,8 +46,9 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
     result => {
       onClick(result);
       setIsOpen(false);
+      onChange({ value: result.value, doSearch: true });
     },
-    [onClick]
+    [onClick, onChange]
   );
 
   const onFocus = useCallback(() => setIsOpen(true), [setIsOpen]);
