@@ -268,7 +268,7 @@ const persistUser = (dispatch, data) => {
 
   setRememberedToken(userUuid);
   setRememberedUser(data);
-  has('countryCode', data) && setRememberedCountry(propOr('countryCode', data));
+  has('countryCode', data) && setRememberedCountry(propOr(null, 'countryCode', data));
   setRememberedRole(propOr('ta', 'type', data));
   setRememberedUsername(`${data.firstName} ${data.lastName}`);
 
