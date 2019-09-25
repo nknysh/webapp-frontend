@@ -40,7 +40,7 @@ const getStartDateEndDate = dates => {
   return { startDate, endDate };
 };
 
-const renderFeature = value => <CardHighlight key={`${value}:${new Date().getTime()}`}>{value}</CardHighlight>;
+const renderAmenity = (amenity, hotelName) => <CardHighlight key={`${hotelName}:${amenity}`}>{amenity}</CardHighlight>;
 
 const renderRoomsBreakdown = (t, { title, dates = [], subProducts, ...product }) => {
   const { startDate, endDate } = getStartDateEndDate(dates);
@@ -184,7 +184,7 @@ export const SearchResult = ({
           </CardStarRating>
           <CardSecondaryRating>{suitableForHoneymooners && t('taglines.suitableHoneymoon')}</CardSecondaryRating>
         </CardRating>
-        <CardHighlights>{amenities && map(renderFeature, amenities)}</CardHighlights>
+        <CardHighlights>{amenities && amenities.map(a => renderAmenity(a, name))}</CardHighlights>
         <CardAdditionalInfo>
           <CardAdditional>{additionalInfo}</CardAdditional>
         </CardAdditionalInfo>
