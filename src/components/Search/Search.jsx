@@ -70,14 +70,32 @@ export const Search = ({
   );
 
   const onIndexSelect = useCallback(
-    pipe(
-      updateSearchQuery(destinationLens),
-      onChange
-    ),
+    result => {
+      // we need to do specific logic if the user has chosen to clean,
+      // because actually searching is heavily tied into setting the search query
+      // @see https://pureescapes.atlassian.net/browse/OWA-628
+      if (result.id === 'CLEAR') {
+        return pipe(onChange);
+      } else {
+        return pipe(
+          updateSearchQuery(destinationLens),
+          onChange
+        );
+      }
+    },
     [updateSearchQuery, onChange]
   );
 
   const onRepeatGuestChange = useCallback((e, checked) => setRepeatGuest(checked), [setRepeatGuest]);
+
+  // index an `admins` option into the select
+  // @see https://pureescapes.atlassian.net/browse/OWA-628
+  nameSearchResults['admins'] = [
+    {
+      id: 'CLEAR',
+      name: t('form.placeholders.nameSearchClear'),
+    },
+  ];
 
   return (
     <Fragment>

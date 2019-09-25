@@ -15,11 +15,13 @@ const renderResult = (id, label, onClick) => (
   </Result>
 );
 
+const renderAdmin = ({ onClick }, { id, name }) => renderResult(id, name, onClick);
 const renderCountry = ({ onClick }, { code, name }) => renderResult(code, name, onClick);
 const renderHotel = ({ onClick }, { uuid, name }) => renderResult(uuid, name, onClick);
 
 const renderResults = (t, { results, ...props }) => (
   <ResultsSet>
+    <Results id="admins">{map(partial(renderAdmin, [props]), propOr([], 'admins', results))}</Results>
     <Results id="countries">{map(partial(renderCountry, [props]), propOr([], 'countries', results))}</Results>
     <Results id="hotels">{map(partial(renderHotel, [props]), propOr([], 'hotels', results))}</Results>
   </ResultsSet>
@@ -44,8 +46,7 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
       const value = path(['currentTarget', 'value'], e);
       setIsOpen(true);
       setSearchValue(value);
-      const doSearch = value === '' ? true : false;
-      onChange({ value, doSearch });
+      onChange({ value, doSearch: false });
     },
     [onChange]
   );
@@ -54,7 +55,13 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
     result => {
       onClick(result);
       setIsOpen(false);
-      onChange({ value: result.value, doSearch: true });
+
+      // special scenario for clicking the admin "ALL COUNTRIES AND RESORTS" option
+      // in this case, do a special onChange with a blank value (so searches for all names)
+      // @see https://pureescapes.atlassian.net/browse/OWA-628
+      const value = result.id === 'CLEAR' ? '' : result.value;
+      setSearchValue(value);
+      onChange({ value, doSearch: true });
     },
     [onClick, onChange]
   );

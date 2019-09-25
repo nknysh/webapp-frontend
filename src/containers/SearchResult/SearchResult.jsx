@@ -40,7 +40,7 @@ const getStartDateEndDate = dates => {
   return { startDate, endDate };
 };
 
-const renderFeature = value => <CardHighlight key={value}>{value}</CardHighlight>;
+const renderFeature = value => <CardHighlight key={`${value}:${new Date().getTime()}`}>{value}</CardHighlight>;
 
 const renderRoomsBreakdown = (t, { title, dates = [], subProducts, ...product }) => {
   const { startDate, endDate } = getStartDateEndDate(dates);
