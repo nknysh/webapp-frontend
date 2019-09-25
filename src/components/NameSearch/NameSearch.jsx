@@ -9,7 +9,11 @@ import { useEffectBoundary } from 'effects';
 import { propTypes, defaultProps } from './NameSearch.props';
 import { Label, Searching, ResultsSet, Results, Result } from './NameSearch.styles';
 
-const renderResult = (id, label, onClick) => <Result onClick={() => onClick({ id, value: label })}>{label}</Result>;
+const renderResult = (id, label, onClick) => (
+  <Result key={id} onClick={() => onClick({ id, value: label })}>
+    {label}
+  </Result>
+);
 
 const renderCountry = ({ onClick }, { code, name }) => renderResult(code, name, onClick);
 const renderHotel = ({ onClick }, { uuid, name }) => renderResult(uuid, name, onClick);
@@ -21,6 +25,14 @@ const renderResults = (t, { results, ...props }) => (
   </ResultsSet>
 );
 
+/**
+ * `NameSearch` wraps a auto-complete text box to allow searching for countries and hotels
+ * to filter a search
+ *
+ * `doSearch` is set and passed as part of `onChange` based on if we want to re-fill the dropdown,
+ * or actually perform a search
+ * @see https://pureescapes.atlassian.net/browse/OWA-628 for further details
+ */
 export const NameSearch = ({ label, onChange, value, results, isLoading, onClick, placeholder }) => {
   const { t } = useTranslation();
 
@@ -32,7 +44,8 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
       const value = path(['currentTarget', 'value'], e);
       setIsOpen(true);
       setSearchValue(value);
-      onChange({ value });
+      const doSearch = value === '' ? true : false;
+      onChange({ value, doSearch });
     },
     [onChange]
   );
@@ -41,8 +54,9 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
     result => {
       onClick(result);
       setIsOpen(false);
+      onChange({ value: result.value, doSearch: true });
     },
-    [onClick]
+    [onClick, onChange]
   );
 
   const onFocus = useCallback(() => setIsOpen(true), [setIsOpen]);

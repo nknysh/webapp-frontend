@@ -24,7 +24,7 @@ import {
 
 const renderResult = ({ uuid, ...hotel }) => (
   <Result to={`/hotels/${uuid}`} key={uuid}>
-    <SearchResult id={uuid} {...hotel} />
+    <SearchResult key={uuid} id={uuid} {...hotel} />
   </Result>
 );
 
