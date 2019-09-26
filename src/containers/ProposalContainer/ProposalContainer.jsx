@@ -283,14 +283,16 @@ const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal }) =>
     </Fragment>
   );
 
-const renderPDFModal = (t, { id, showPDF, setShowPDF }) =>
-  showPDF && (
+const renderPDFModal = (t, { id, proposal, showPDF, setShowPDF }) => {
+    const { guestTitle, guestFirstName, guestLastName } = proposal;
+    return showPDF && (
     <Modal open={showPDF} onClose={() => setShowPDF(false)}>
       <PDFFrame>
-        <iframe src={`${API_BASE_URL}/proposals/${id}/pdf`} />
+        <iframe src={`${API_BASE_URL}/proposals/${id}/pdf?guestTitle=${guestTitle}&guestFirstName=${guestFirstName}&guestLastName=${guestLastName}`} />
       </PDFFrame>
     </Modal>
-  );
+  )
+};
 
 const renderFull = (
   t,
@@ -486,7 +488,7 @@ export const ProposalContainer = ({
             })
           : renderTabs(t, { id, summaryProps, guestInfoProps })}
       </StyledProposalContainer>
-      {renderPDFModal(t, { id, showPDF, setShowPDF })}
+      {renderPDFModal(t, { id, proposal, showPDF, setShowPDF })}
     </Loader>
   );
 };
