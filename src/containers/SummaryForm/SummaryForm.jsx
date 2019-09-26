@@ -82,6 +82,7 @@ const renderHotel = (
     overrideTotal,
     isOnRequest,
     showFullTotal,
+    currencyCode,
   }
 ) => (
   <Hotel data-compact={compact}>
@@ -89,16 +90,17 @@ const renderHotel = (
     {!showFullTotal && compact && (
       <HotelTotals>
         {renderTotalPrice(t, {
+          currencyCode,
           isOnRequest,
           total: overrideTotal || total,
           discounted: !overrideTotal && showDiscountedPrice && gt(offersCount, 0),
         })}
         {overrideTotal &&
           gt(offersCount, 0) &&
-          renderTotalPrice(t, { isOnRequest, total, secondary: true, discounted: true })}
+          renderTotalPrice(t, { currencyCode, isOnRequest, total, secondary: true, discounted: true })}
         {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
           !isOnRequest &&
-          renderTotalPrice(t, { isOnRequest, total: preDiscountTotal, secondary: true })}
+          renderTotalPrice(t, { currencyCode, isOnRequest, total: preDiscountTotal, secondary: true })}
       </HotelTotals>
     )}
   </Hotel>
