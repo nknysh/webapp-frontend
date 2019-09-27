@@ -67,6 +67,7 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
   );
 
   const onFocus = useCallback(() => setIsOpen(true), [setIsOpen]);
+  const onVisibilityChange = useCallback(setIsOpen);
 
   const inputProps = useMemo(
     () => ({ onFocus, placeholder, value: searchValue, onChange: onSearchChange, readOnly: false }),
@@ -81,7 +82,12 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
   return (
     <Fragment>
       {label && <Label>{label}</Label>}
-      <DropDownContent inputProps={inputProps} showRawInput={true} showContent={isOpen}>
+      <DropDownContent
+        inputProps={inputProps}
+        showRawInput={true}
+        showContent={isOpen}
+        onVisibilityChange={onVisibilityChange}
+      >
         {isLoading && <Searching>{t('messages.searching')}</Searching>}
         {!isNilOrEmpty(results) ? (
           renderResults(t, { results, onClick: onResultClick })
