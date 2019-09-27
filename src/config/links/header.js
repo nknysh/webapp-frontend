@@ -25,7 +25,7 @@ export default {
       hard: true,
     },
     {
-      title: 'Bookings',
+      title: 'Enquiries and Bookings',
       href: `${ADMIN_BASE_URL}/bookings`,
       hard: true,
     },
@@ -58,7 +58,7 @@ export default {
       hard: true,
     },
     {
-      title: 'Bookings',
+      title: 'Enquiries and Bookings',
       href: `${ADMIN_BASE_URL}/bookings`,
       hard: true,
     },
@@ -99,7 +99,7 @@ export default {
       hard: true,
     },
     {
-      title: 'Bookings',
+      title: 'Enquiries and Bookings',
       href: `${ADMIN_BASE_URL}/bookings`,
       hard: true,
     },
