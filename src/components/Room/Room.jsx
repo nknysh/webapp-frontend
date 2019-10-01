@@ -38,8 +38,7 @@ const isNotZero = complement(equals(0));
 
 const getVisibleRate = pipe(
   values,
-  last,
-  prop('price')
+  last
 );
 
 const renderImgOffer = bestRate =>
@@ -168,10 +167,15 @@ export const Room = ({
             <Title>{name}</Title>
           </Column>
           <Column>
-            {visibleRate && (
+            {visibleRate && !visibleRate.isOnRequest && (
               <Price>
-                <PriceAmount>{`${currencyCode}${formatPrice(visibleRate)}`}</PriceAmount>
+                <PriceAmount>{`${currencyCode}${formatPrice(visibleRate.price)}`}</PriceAmount>
                 <PriceLabel> /{t(category)} </PriceLabel>
+              </Price>
+            )}
+            {visibleRate && visibleRate.isOnRequest && (
+              <Price>
+                <PriceAmount>{t('labels.onRequest')}</PriceAmount>
               </Price>
             )}
           </Column>

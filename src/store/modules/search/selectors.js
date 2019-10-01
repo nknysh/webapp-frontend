@@ -10,7 +10,10 @@ import {
   gt,
   has,
   inc,
+  map,
+  partial,
   path,
+  reject,
   pathOr,
   pipe,
   prop,
@@ -22,7 +25,9 @@ import {
 import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 
 import { createSelector } from 'store/utils';
-import { getStatus, getData } from 'store/common';
+import { getStatus, getData, getArg } from 'store/common';
+import { getCountry } from 'store/modules/countries/selectors';
+import { getHotel } from 'store/modules/hotels/selectors';
 
 import { Occassions } from 'config/enums';
 import { toDate } from 'utils';
@@ -82,9 +87,13 @@ export const getSearch = prop('search');
  * @param {object}
  * @returns {string}
  */
-export const getSearchStatus = pipe(
-  getSearch,
-  getStatus
+export const getSearchStatus = createSelector(
+  [getSearch, getArg(1)],
+  (search, type) =>
+    pipe(
+      getStatus,
+      prop(type)
+    )(search)
 );
 
 /**
@@ -261,4 +270,19 @@ export const getCanSearch = createSelector(
 
     return and(datesExist, lodgingsExist);
   }
+);
+
+export const getMappedSearchResults = createSelector(
+  [getArg(0), getSearchResultsResult],
+  (state, results) =>
+    evolve({
+      countries: pipe(
+        map(partial(getCountry, [state])),
+        reject(isNilOrEmpty)
+      ),
+      hotels: pipe(
+        map(partial(getHotel, [state])),
+        reject(isNilOrEmpty)
+      ),
+    })(results)
 );

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { theme } from 'styles';
-import IndexSearch from 'components/IndexSearch';
+import NameSearch from 'components/NameSearch';
 
 export const SearchBarSection = styled.div`
   flex: 1;
@@ -38,7 +38,7 @@ export const SearchBarSection = styled.div`
   }
 `;
 
-export const SearchBarIndexSearch = styled(IndexSearch)`
+export const SearchBarIndexSearch = styled(NameSearch)`
   font-size: ${theme.fonts.sizes.normal}px;
   position: relative;
 `;

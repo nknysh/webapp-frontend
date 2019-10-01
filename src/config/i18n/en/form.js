@@ -3,6 +3,7 @@ export default {
     search: 'Where to',
     dates: 'Select dates',
     overrideTotal: 'Override Total',
+    nameSearchClear: 'All countries and resorts',
   },
   titles: {
     addToProposal: 'Add to proposal',

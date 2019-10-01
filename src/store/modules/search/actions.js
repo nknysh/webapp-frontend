@@ -13,6 +13,7 @@ import {
   propOr,
   set,
 } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { subDays } from 'date-fns';
 import i18n from 'config/i18n';
 import client from 'api/search';
@@ -85,13 +86,20 @@ export const searchByQueryAction = payload => ({
  * Auto complete search bar using name only
  *
  * @param {object} destination
+ * @param {string} destination.value the typed in value for the name
+ * @param {boolean} destination.doSearch if true, we should set the search query, thus triggering a search
  * @returns {Function}
  */
-export const searchByName = destination => async (dispatch, getState) => {
+export const searchByName = (destination, limit) => async (dispatch, getState) => {
   // SRs can be a different country so get actingCountryCode
   const actingCountryCode = getUserCountryContext(getState());
 
-  dispatch(setSearchQuery({ destination }));
+  // we only want to set the search query (and thus perform an actual search)
+  // under specific circumstances
+  // @see https://pureescapes.atlassian.net/browse/OWA-628
+  if (destination.doSearch) {
+    dispatch(setSearchQuery({ destination }));
+  }
   dispatch(searchByNameAction(destination));
   dispatch(loadingAction(SEARCH_BY_NAME, { destination }));
 
@@ -107,7 +115,7 @@ export const searchByName = destination => async (dispatch, getState) => {
       data: { data },
     } = await client.getSearchByName(
       prop('value', destination),
-      { actingCountryCode },
+      { actingCountryCode: isNilOrEmpty(actingCountryCode) ? undefined : actingCountryCode, limit },
       { cancelToken: searchNameCancelToken.token }
     );
 
@@ -131,7 +139,7 @@ export const searchByName = destination => async (dispatch, getState) => {
 export const getPayloadFromSearchQuery = (query, actingCountryCode, repeatGuest, occasions) => {
   return pipe(
     omit(['prices']),
-    mergeDeepLeft({ actingCountryCode }),
+    mergeDeepLeft({ actingCountryCode: isNilOrEmpty(actingCountryCode) ? undefined : actingCountryCode }),
     over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
     set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
   )(query);

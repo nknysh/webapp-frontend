@@ -223,7 +223,7 @@ const getOption = (t, props, { products, breakdown }) => {
   return { label, value };
 };
 
-const renderExtraOptions = (
+const renderTransferOptions = (
   t,
   type,
   productType,
@@ -254,14 +254,27 @@ const renderExtraOptions = (
     );
   }
 
-  const options = pipe(
-    productsBothWays,
+  // given some products, convert them to options to be used in radio button or checkbox rendering
+  const convertProductsToOptions = pipe(
     map(partial(getOption, [t, { currencyCode }])),
     when(both(complement(isEmpty), always(optional)), prepend({ label: 'None', value: '' }))
+  );
+
+  // get all the options for transfers that are both ways
+  const bothWayOptions = pipe(
+    productsBothWays,
+    convertProductsToOptions
+  )(products);
+
+  // get all the options for transfers that are 1 way
+  const oneWayOptions = pipe(
+    productsOneWay,
+    convertProductsToOptions
   )(products);
 
   return (
-    !isNilOrEmpty(options) &&
+    // `renderExtra` if we have some return transfers OR some one way transfers
+    (!isNilOrEmpty(bothWayOptions) || !isNilOrEmpty(oneWayOptions)) &&
     renderExtra({
       title: t(`${type}_plural`),
       children: (
@@ -269,7 +282,7 @@ const renderExtraOptions = (
           <RadioButton
             name={productType}
             onChange={partial(onSingleChange, [productType])}
-            options={options}
+            options={bothWayOptions} // `RadioButton` should only render both way transfers
             value={isString(propOr('', productType, values)) && propOr('', productType, values)}
           />
           {!summaryOnly &&
@@ -600,7 +613,7 @@ export const SummaryFormExtras = ({
       modalContent = renderMargin(t, { currencyCode, onMarginChange, grandTotal, values });
       break;
     case 'transfer':
-      modalContent = renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, {
+      modalContent = renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, {
         currencyCode,
         onOneWayChange,
         onSingleChange,
@@ -627,7 +640,7 @@ export const SummaryFormExtras = ({
 
   return (
     <Fragment>
-      {renderExtraOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false)}
+      {renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false)}
       {renderExtraSelects(t, 'groundService', groundServices, {
         currencyCode,
         summaryOnly,
