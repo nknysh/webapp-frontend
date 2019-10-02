@@ -46,7 +46,7 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
       const value = path(['currentTarget', 'value'], e);
       setIsOpen(true);
       setSearchValue(value);
-      onChange({ value, doSearch: false });
+      onChange({ value });
     },
     [onChange]
   );
@@ -61,7 +61,7 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
       // @see https://pureescapes.atlassian.net/browse/OWA-628
       const value = result.id === 'CLEAR' ? '' : result.value;
       setSearchValue(value);
-      onChange({ value, doSearch: true });
+      onChange({ value });
     },
     [onClick, onChange]
   );

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '@pure-escapes/webapp-ui-components';
 
 import { theme } from 'styles';
 
@@ -26,3 +27,7 @@ export const Section = styled.div`
 `;
 
 export const Title = styled(BaseTitle)``;
+
+export const SideBarButton = styled(Button)`
+  font-size: ${theme.fonts.sizes.normal}px;
+`;
