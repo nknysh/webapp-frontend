@@ -97,9 +97,8 @@ export const searchByName = (destination, limit) => async (dispatch, getState) =
   // we only want to set the search query (and thus perform an actual search)
   // under specific circumstances
   // @see https://pureescapes.atlassian.net/browse/OWA-628
-  if (destination.doSearch) {
-    dispatch(setSearchQuery({ destination }));
-  }
+  dispatch(setSearchQuery({ destination }));
+
   dispatch(searchByNameAction(destination));
   dispatch(loadingAction(SEARCH_BY_NAME, { destination }));
 
