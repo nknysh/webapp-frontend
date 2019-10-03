@@ -6,7 +6,13 @@ import { errorLens, dataLens } from 'store/utils';
 
 import { isArray } from 'utils';
 
-import { SEARCH_BY_NAME, SEARCH_BY_QUERY, SEARCH_QUERY_UPDATE, SEARCH_FILTERS_RESET } from './actions';
+import {
+  SEARCH_BY_NAME,
+  SEARCH_BY_QUERY,
+  SEARCH_QUERY_UPDATE,
+  SEARCH_QUERY_RESET,
+  SEARCH_FILTERS_RESET,
+} from './actions';
 
 const searchState = {
   ...initialState,
@@ -28,6 +34,18 @@ const setSearchQuery = (state, { payload }) =>
   mergeDeepRight(state, {
     query: payload,
   });
+
+/**
+ * Reset search query reducer
+ *
+ * @param {object} state
+ * @param {object}
+ * @returns {object}
+ */
+const resetSearchQuery = (state, { payload }) => ({
+  ...state,
+  query: payload,
+});
 
 /**
  * Search filters reset reducer
@@ -109,6 +127,7 @@ export default createReducer(
     [getSuccessActionName(SEARCH_BY_QUERY)]: searchResults('byQuery'),
     [SEARCH_FILTERS_RESET]: searchFiltersReset,
     [SEARCH_QUERY_UPDATE]: setSearchQuery,
+    [SEARCH_QUERY_RESET]: resetSearchQuery,
     [STORE_RESET]: removeLocalStorage,
     [STATUS_TO_IDLE]: statusesToIdle,
   },

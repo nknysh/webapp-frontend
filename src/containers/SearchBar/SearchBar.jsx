@@ -18,6 +18,7 @@ export const SearchBar = ({
   searchQuery,
   nameSearchStatus,
   setSearchQuery,
+  resetSearchQuery,
   canSearch,
   ...props
 }) => {
@@ -25,7 +26,10 @@ export const SearchBar = ({
 
   // Push to history stack so the url is updated with the new query but a location change isn't triggered (which
   // would cause a full re-render of the search results)
-  const onSubmit = useCallback(() => history.push(`/search?${buildQueryString(searchQuery)}`), [history, searchQuery]);
+  const onSubmit = useCallback(() => {
+    resetSearchQuery(searchQuery);
+    history.push(`/search?${buildQueryString(searchQuery)}`);
+  }, [history, searchQuery]);
 
   return (
     <StyledSearchBar className={className}>

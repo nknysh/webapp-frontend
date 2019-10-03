@@ -21,6 +21,7 @@ import {
   propSatisfies,
   values,
   when,
+  pick,
 } from 'ramda';
 import { isNilOrEmpty, renameKeys } from 'ramda-adjunct';
 
@@ -151,6 +152,17 @@ export const getSearchResultsResult = pipe(
 export const getSearchQuery = pipe(
   getSearch,
   propOr({}, 'query')
+);
+
+/**
+ * Get base search query selector
+ *
+ * @param {object}
+ * @returns {object}
+ */
+export const getBaseSearchQuery = pipe(
+  getSearchQuery,
+  pick(['dates', 'lodging', 'repeatGuest', 'destination'])
 );
 
 /**
