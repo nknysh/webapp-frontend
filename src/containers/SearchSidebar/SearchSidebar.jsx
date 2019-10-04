@@ -27,6 +27,7 @@ export const SearchSidebar = ({
   setSearchQuery,
   starRatings,
   canSearch,
+  currentCountry,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -41,7 +42,7 @@ export const SearchSidebar = ({
 
   useEffectBoundary(() => {
     searchByQuery(searchQuery);
-  }, [version]);
+  }, [version, currentCountry]);
 
   return (
     <Fragment>

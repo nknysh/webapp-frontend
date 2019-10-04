@@ -18,9 +18,11 @@ import {
 } from 'store/modules/search';
 import { getCountriesData } from 'store/modules/countries';
 import { getHotelsData, getHotelsStatus } from 'store/modules/hotels';
+import { getCurrentCountry } from 'store/modules/auth';
 
 export const mapStateToProps = state => ({
   countries: getCountriesData(state),
+  currentCountry: getCurrentCountry(state),
   features: getSearchFiltersFeatures(state, 'byQuery'),
   hotels: getHotelsData(state),
   hotelsStatus: getHotelsStatus(state),
