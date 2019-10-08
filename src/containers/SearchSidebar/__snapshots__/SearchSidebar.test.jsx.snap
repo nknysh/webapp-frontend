@@ -4,7 +4,7 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
 <Fragment>
   <SearchSidebarstyles__Section>
     <Search
-      canSearch={true}
+      canSearch={false}
       fetchHotels={[Function]}
       getCountryName={[Function]}
       getHotel={[Function]}
@@ -514,7 +514,7 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
 <Fragment>
   <SearchSidebarstyles__Section>
     <Search
-      canSearch={true}
+      canSearch={false}
       fetchHotels={[Function]}
       getCountryName={[Function]}
       getHotel={[Function]}

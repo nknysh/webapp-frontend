@@ -31,6 +31,7 @@ export const SearchSidebar = ({
   ...props
 }) => {
   const { t } = useTranslation();
+  const disableSearchButton = !canSearch || isActive(querySearchStatus);
 
   const [version, setVersion] = useState(0);
 
@@ -56,6 +57,7 @@ export const SearchSidebar = ({
           searchStatus={nameSearchStatus}
           searchQuery={searchQuery}
           vertical={true}
+          canSearch={!disableSearchButton}
           {...props}
         />
       </Section>
@@ -79,7 +81,7 @@ export const SearchSidebar = ({
         />
       </Section>
       <Section>
-        <SideBarButton onClick={() => setVersion(version + 1)} disabled={!canSearch || isActive(querySearchStatus)}>
+        <SideBarButton onClick={() => setVersion(version + 1)} disabled={disableSearchButton}>
           {t('buttons.search')}
         </SideBarButton>
       </Section>

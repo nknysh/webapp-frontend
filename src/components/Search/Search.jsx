@@ -134,7 +134,9 @@ export const Search = ({
         />
       </SearchBarSection>
 
-      <SearchBarSection data-vertical={vertical}>{renderSearchButton(t, { onSubmit, canSearch })}</SearchBarSection>
+      <SearchBarSection data-vertical={vertical} disabled={!canSearch}>
+        {renderSearchButton(t, { onSubmit, canSearch })}
+      </SearchBarSection>
     </Fragment>
   );
 };
