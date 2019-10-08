@@ -10,7 +10,6 @@ export const propTypes = {
   onSearch: PropTypes.func,
   onSubmit: PropTypes.func,
   searchStatus: PropTypes.string,
-  showSubmit: PropTypes.bool,
   vertical: PropTypes.bool,
   canSearch: PropTypes.bool,
   searchQuery: PropTypes.shape({
@@ -25,7 +24,6 @@ export const defaultProps = {
   onChange: noop,
   onSearch: noop,
   onSubmit: noop,
-  showSubmit: true,
   vertical: false,
   canSearch: true,
   searchQuery: {

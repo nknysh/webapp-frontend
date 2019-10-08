@@ -35,7 +35,6 @@ export const Search = ({
   onSubmit,
   searchQuery,
   searchStatus,
-  showSubmit,
   vertical,
   nameSearchResults,
 }) => {
@@ -135,9 +134,7 @@ export const Search = ({
         />
       </SearchBarSection>
 
-      {showSubmit && (
-        <SearchBarSection data-vertical={vertical}>{renderSearchButton(t, { onSubmit, canSearch })}</SearchBarSection>
-      )}
+      <SearchBarSection data-vertical={vertical}>{renderSearchButton(t, { onSubmit, canSearch })}</SearchBarSection>
     </Fragment>
   );
 };

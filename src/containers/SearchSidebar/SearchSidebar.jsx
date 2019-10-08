@@ -47,11 +47,12 @@ export const SearchSidebar = ({
   return (
     <Fragment>
       <Section>
-        <Title>{t('labels.searching')}</Title>
         <Search
           onChange={setSearchQuery}
+          onSubmit={() => {
+            setVersion(version + 1);
+          }}
           onSearch={searchByName}
-          showSubmit={false}
           searchStatus={nameSearchStatus}
           searchQuery={searchQuery}
           vertical={true}
