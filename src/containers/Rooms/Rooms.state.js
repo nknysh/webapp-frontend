@@ -10,6 +10,7 @@ import {
   removeRoom,
   addRoom,
 } from 'store/modules/bookings';
+import { fetchHotelWithAccommodationProducts } from 'store/modules/hotel';
 
 export const mapStateToProps = (state, { hotelUuid }) => ({
   booking: getBooking(state, hotelUuid),
@@ -30,6 +31,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateBooking: pipe(
     updateBooking,
+    dispatch
+  ),
+  fetchHotelWithAccommodationProducts: pipe(
+    fetchHotelWithAccommodationProducts,
     dispatch
   ),
 });

@@ -1,4 +1,4 @@
-import { head, lensProp, map, mergeDeepRight, partial, pick, pipe, prop, propOr, set } from 'ramda';
+import { head, lensProp, map, mergeDeepRight, partial, pick, pipe, prop, propOr, set, isEmpty, filter } from 'ramda';
 
 import { createSelector } from 'store/utils';
 import { getData, getStatus, getEntities, getResults, getArg } from 'store/common';
@@ -401,7 +401,16 @@ export const getHotelsFromSearchResults = (state, ids = []) =>
  */
 export const getHotelsPhotos = createSelector(
   [getHotel, getUploads],
-  (hotel, uploads) => pick(propOr([], 'photos', hotel), uploads)
+  (hotel, uploads) => {
+    if (!hotel || !uploads || isEmpty(hotel) || isEmpty(uploads)) {
+      return {};
+    }
+
+    return filter(
+      upload => upload.ownerType === 'Hotel' && upload.tag === 'photo' && upload.ownerUuid === hotel.uuid,
+      uploads
+    );
+  }
 );
 
 /**

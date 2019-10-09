@@ -284,14 +284,18 @@ const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal }) =>
   );
 
 const renderPDFModal = (t, { id, proposal, showPDF, setShowPDF }) => {
-    const { guestTitle, guestFirstName, guestLastName } = proposal;
-    return showPDF && (
-    <Modal open={showPDF} onClose={() => setShowPDF(false)}>
-      <PDFFrame>
-        <iframe src={`${API_BASE_URL}/proposals/${id}/pdf?guestTitle=${guestTitle}&guestFirstName=${guestFirstName}&guestLastName=${guestLastName}`} />
-      </PDFFrame>
-    </Modal>
-  )
+  const { guestTitle, guestFirstName, guestLastName } = proposal;
+  return (
+    showPDF && (
+      <Modal open={showPDF} onClose={() => setShowPDF(false)}>
+        <PDFFrame>
+          <iframe
+            src={`${API_BASE_URL}/proposals/${id}/pdf?guestTitle=${guestTitle}&guestFirstName=${guestFirstName}&guestLastName=${guestLastName}`}
+          />
+        </PDFFrame>
+      </Modal>
+    )
+  );
 };
 
 const renderFull = (

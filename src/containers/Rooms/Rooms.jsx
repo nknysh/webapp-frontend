@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   always,
   complement,
@@ -17,8 +17,7 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import hash from 'object-hash';
 import { useTranslation } from 'react-i18next';
-import { Slider } from '@pure-escapes/webapp-ui-components';
-
+import { Slider, Loader } from '@pure-escapes/webapp-ui-components';
 import { useCurrentWidth } from 'effects';
 
 import connect from './Rooms.state';
@@ -81,7 +80,16 @@ const renderRooms = (t, { filteredRooms, ...props }) =>
 
 export const Rooms = props => {
   const { t } = useTranslation();
-  const { hotelUuid, className, rooms, addRoom, removeRoom } = props;
+  const { hotelUuid, className, rooms, addRoom, removeRoom, fetchHotelWithAccommodationProducts } = props;
+  const [isLoading, setIsLoaded] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      await fetchHotelWithAccommodationProducts(hotelUuid);
+      setIsLoaded(false);
+    }
+    load();
+  }, [fetchHotelWithAccommodationProducts, hotelUuid]);
 
   const [selectedCategoryTypes, setSelectedCategoryTypes] = useState([]);
   const { isMobile } = useCurrentWidth();
@@ -119,15 +127,17 @@ export const Rooms = props => {
           )}
         </Column>
       </Columns>
-      <RoomsWrapper>
-        {renderRooms(t, {
-          filteredRooms,
-          onRoomAdd,
-          onRoomRemove,
-          isMobile,
-          ...props,
-        })}
-      </RoomsWrapper>
+      <Loader isLoading={isLoading} text={t('messages.gettingAccommodationProducts')}>
+        <RoomsWrapper>
+          {renderRooms(t, {
+            filteredRooms,
+            onRoomAdd,
+            onRoomRemove,
+            isMobile,
+            ...props,
+          })}
+        </RoomsWrapper>
+      </Loader>
     </StyledRooms>
   );
 };

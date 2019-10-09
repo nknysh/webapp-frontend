@@ -24,8 +24,9 @@ import {
   MainSlider,
   NavSlider,
   StyledHotel,
-  StyledRooms,
 } from './Hotel.styles';
+
+import Rooms from '../../containers/Rooms';
 
 // eslint-disable-next-line
 const renderImage = ({ displayName, url }) => <img key={url} src={url} alt={displayName} />;
@@ -99,7 +100,7 @@ export const Hotel = ({
             </HotelDetailsColumnRight>
           </HotelDetailsRow>
         </HotelInfo>
-        <StyledRooms hotelUuid={id} />
+        <Rooms hotelUuid={id} />
       </HotelDetails>
     </StyledHotel>
   );

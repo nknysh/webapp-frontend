@@ -1,12 +1,11 @@
-import React, { Fragment, useState, Children, useCallback } from 'react';
+import React, { Fragment, useState, Children, useCallback, useEffect } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import { allPass, complement, compose, has, isEmpty, map, prop, values, equals, partial } from 'ramda';
+import { compose, isEmpty, map, prop, values, equals, partial } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { Loader, Tabs, List } from '@pure-escapes/webapp-ui-components';
-
 import { withUser } from 'hoc';
-import { useFetchData, useCurrentWidth, useModalState } from 'effects';
+import { useCurrentWidth, useModalState } from 'effects';
 import { mapWithIndex } from 'utils';
 
 import connect from './HotelContainer.state';
@@ -29,11 +28,16 @@ import {
   Title,
 } from './HotelContainer.styles';
 
-const reloadIfMissing = complement(allPass([has('photos'), has('accommodationProducts')]));
-
 const renderBackButton = t => <Back to="/search">{t('labels.backToSearch')}</Back>;
 
-const renderBreadcrumbs = (t, { id, hotel }) => (
+/**
+ *
+ * @param {object} t translation
+ * @param {object} props
+ * @param {string} props.id the id
+ * @param {object} props.hotel the hotel object
+ */
+export const renderBreadcrumbs = (t, { id, hotel }) => (
   <StyledBreadcrumbs links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
 );
 
@@ -43,7 +47,14 @@ const renderBrochure = ({ uuid, displayName, url }) => (
   </Brochure>
 );
 
-const renderHotel = ({ id, hotel, photos }) => <StyledHotel {...hotel} id={id} photos={photos} />;
+/**
+ *
+ * @param {object} props
+ * @param {string} props.id the id
+ * @param {object} props.hotel the hotel object
+ * @param {object} props.photos hotel photos
+ */
+export const renderHotel = ({ id, hotel, photos }) => <StyledHotel {...hotel} id={id} photos={photos} />;
 
 const renderActions = (t, { canBook, canHold, onActionClick, onTakeHold }) => (
   <SummaryActions>
@@ -127,7 +138,7 @@ const renderTabs = (t, props) => (
   </Fragment>
 );
 
-const renderFull = (t, props) => (
+export const renderFull = (t, props) => (
   <Fragment>
     {renderBreadcrumbs(t, props)}
     <Full>
@@ -151,17 +162,24 @@ const renderModal = (t, { id, modalOpen, modalContext, canBook, onModalClose, on
     </StyledModal>
   );
 
-export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ...props }) => {
+export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, ...props }) => {
   const { t } = useTranslation();
   const modal = useModalState(false);
   const [redirectToBooking, setRedirectToBooking] = useState(false);
   const [redirectToHold, setRedirectToHold] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { onModalClose, setModalContext, onModalOpen } = modal;
 
-  const loaded = useFetchData(hotelStatus, fetchHotel, [id], undefined, reloadIfMissing(hotel));
-  const { isMobile } = useCurrentWidth();
+  useEffect(() => {
+    async function load() {
+      await fetchHotel(id);
+      setIsLoading(false);
+    }
+    load();
+  }, [fetchHotel, id]);
 
+  const { isMobile } = useCurrentWidth();
   const onModalComplete = useCallback(
     data => {
       if (equals('proposal', prop('modalContext', modal))) {
@@ -171,10 +189,8 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
     },
     [history, modal, onModalClose]
   );
-
   const onTakeHold = useCallback(() => setRedirectToHold(true), []);
   const onSubmit = useCallback(() => setRedirectToBooking(true), []);
-
   const onActionClick = useCallback(
     type => {
       setModalContext(type);
@@ -186,16 +202,24 @@ export const HotelContainer = ({ history, fetchHotel, hotel, hotelStatus, id, ..
   if (redirectToBooking) return <Redirect to={`/hotels/${id}/booking`} />;
   if (redirectToHold) return <Redirect to={`/hotels/${id}/hold`} />;
 
-  const defaultProps = { hotel, id, onTakeHold, onSubmit, onActionClick, ...modal, ...props };
+  const defaultProps = { hotel, photos, id, onTakeHold, onSubmit, onActionClick, ...modal, ...props };
 
-  return (
-    <Loader isLoading={!loaded} text={t('messages.gettingHotel')}>
+  const renderWithLoader = () => (
+    <Loader isLoading={isLoading} text={t('messages.gettingHotel')}>
+      {renderWithoutLoader()}
+    </Loader>
+  );
+
+  const renderWithoutLoader = () => (
+    <React.Fragment>
       <StyledHotelContainer>
         {isMobile ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}
       </StyledHotelContainer>
       {renderModal(t, { id, ...modal, ...props, onModalComplete })}
-    </Loader>
+    </React.Fragment>
   );
+
+  return isEmpty(hotel) ? renderWithLoader() : renderWithoutLoader();
 };
 
 HotelContainer.propTypes = propTypes;

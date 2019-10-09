@@ -16,4 +16,5 @@ export default {
   gettingBooking: 'Getting booking...',
   requesting: 'Requesting...',
   loadingUsers: 'Loading users...',
+  gettingAccommodationProducts: 'Loading available accommodations...',
 };
