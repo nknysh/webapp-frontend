@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, Fragment } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { path, map, propOr, partial } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
@@ -35,7 +35,7 @@ const renderResults = (t, { results, ...props }) => (
  * or actually perform a search
  * @see https://pureescapes.atlassian.net/browse/OWA-628 for further details
  */
-export const NameSearch = ({ label, onChange, value, results, isLoading, onClick, placeholder }) => {
+export const NameSearch = ({ label, onChange, value, results, isLoading, onClick, placeholder, className }) => {
   const { t } = useTranslation();
 
   const [searchValue, setSearchValue] = useState(value);
@@ -80,7 +80,7 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
   }, [value]);
 
   return (
-    <Fragment>
+    <div className={className}>
       {label && <Label>{label}</Label>}
       <DropDownContent
         inputProps={inputProps}
@@ -95,7 +95,7 @@ export const NameSearch = ({ label, onChange, value, results, isLoading, onClick
           <Searching>{t('labels.noResults')}</Searching>
         )}
       </DropDownContent>
-    </Fragment>
+    </div>
   );
 };
 
