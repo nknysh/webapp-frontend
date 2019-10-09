@@ -106,7 +106,7 @@ export const Search = ({
           onClick={onIndexSelect}
           placeholder={t('form.placeholders.search')}
           results={nameSearchResults}
-          value={prop('value', getSearchQueryData(destinationLens))}
+          value={prop('value', getSearchQueryData(destinationLens)) || ''}
         />
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical} data-large={true}>
