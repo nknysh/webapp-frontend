@@ -5,6 +5,7 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
   <withThemeProvider(Tr)
     closeOnClickAway={true}
     inputContent="0 Rooms, 0 Guests"
+    keepOpen={false}
     theme={
       Object {
         "animations": Object {
