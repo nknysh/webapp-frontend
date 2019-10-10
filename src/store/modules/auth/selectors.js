@@ -71,6 +71,11 @@ export const getAuthToken = createSelector(
   prop('token')
 );
 
+export const getLoggedIn = createSelector(
+  getAuth,
+  prop('loggedIn')
+);
+
 /**
  * Get current country selector
  *

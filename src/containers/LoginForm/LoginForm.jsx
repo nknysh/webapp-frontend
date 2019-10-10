@@ -1,13 +1,13 @@
 import React, { useState, Fragment, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose, prop, propOr, defaultTo, path, pipe } from 'ramda';
+import { compose, prop, path } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { Form, Loader, Title, Button } from '@pure-escapes/webapp-ui-components';
 
 import PasswordResetForm from 'containers/PasswordResetForm';
 import { withAuthentication } from 'hoc';
 
-import { extractFieldDefaults, sanitizeValues, getServerError, parseQueryString } from 'utils';
+import { extractFieldDefaults, sanitizeValues, getServerError } from 'utils';
 
 import { isSending, isSuccess } from 'store/common';
 
@@ -23,14 +23,7 @@ import {
   StyledCheckbox,
   StyledLoginForm,
   SubmitText,
-  CompleteIcon,
 } from './LoginForm.styles';
-
-const originRedirect = pipe(
-  parseQueryString,
-  propOr('', 'origin'),
-  decodeURIComponent
-);
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
 
@@ -69,22 +62,7 @@ const renderForm = (t, { formValues, onSubmit, onForgottenClick }) => (
   </Form>
 );
 
-const renderComplete = ({ search, history }) => {
-  const redirect = defaultTo('/', originRedirect(search));
-  history.push(redirect);
-
-  return <CompleteIcon>done_all</CompleteIcon>;
-};
-
-export const LoginForm = ({
-  requestStatus,
-  isAuthenticated,
-  location: { search },
-  history,
-  onLogin,
-  error,
-  onComplete,
-}) => {
+export const LoginForm = ({ requestStatus, onLogin, error, onComplete }) => {
   const { t } = useTranslation();
 
   const [submitted, setSubmitted] = useState(false);
@@ -113,9 +91,7 @@ export const LoginForm = ({
       <Loader isLoading={submitted && isLoggingIn && !success} text={t('messages.loggingIn')}>
         <Title>{path(['titles', 'default'], data)}</Title>
         {renderServerError(getServerError(prop('errors', data), error))}
-        {(submitted && success) || isAuthenticated
-          ? renderComplete({ search, history })
-          : renderForm(t, { formValues, onSubmit, onForgottenClick })}
+        {renderForm(t, { formValues, onSubmit, onForgottenClick })}
       </Loader>
     </StyledLoginForm>
   );

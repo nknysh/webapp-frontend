@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react';
-import { Redirect } from 'react-router-dom';
-import { compose, lensProp, set, view, pipe, values, path, prop } from 'ramda';
+import { Redirect, withRouter } from 'react-router-dom';
+import { compose, lensProp, set, view, pipe, values, path, prop, propOr, defaultTo } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '@pure-escapes/webapp-ui-components';
 
 import headerLinks from 'config/links/header';
+import { parseQueryString } from 'utils';
 
-import { useModalState } from 'effects';
+import { useModalState, useEffectBoundary } from 'effects';
 import { withAuthentication } from 'hoc';
 
 import CreateAccountForm from 'containers/CreateAccountForm';
@@ -29,8 +30,30 @@ import {
 const createLinkLens = lensProp('createAccount');
 const loginLinkLens = lensProp(contextTypes.LOGIN);
 
-export const Header = ({ menu, className, currentPath, isAuthenticated }) => {
+const originRedirect = pipe(
+  parseQueryString,
+  propOr('', 'origin'),
+  decodeURIComponent
+);
+
+export const Header = ({
+  menu,
+  className,
+  currentPath,
+  isAuthenticated,
+  loggedIn,
+  history,
+  location: { search },
+  isSR,
+}) => {
   const { t } = useTranslation();
+
+  useEffectBoundary(() => {
+    if (loggedIn) {
+      const redirect = isSR ? '/' : defaultTo('/', originRedirect(search));
+      history.push(redirect);
+    }
+  }, [loggedIn]);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalContext, setModalContext] = useState('');
@@ -128,5 +151,6 @@ Header.defaultProps = defaultProps;
 
 export default compose(
   withAuthentication,
+  withRouter,
   connect
 )(Header);

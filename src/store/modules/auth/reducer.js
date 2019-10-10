@@ -15,6 +15,7 @@ import {
   AUTH_SET_PASSWORD,
   AUTH_SET_TOKEN,
   AUTH_SIGN_UP,
+  AUTH_LOG_IN,
   AUTH_TOKEN,
   AUTH_USER,
   AUTH_CHECK,
@@ -41,6 +42,8 @@ const countryLens = lensProp('country');
  */
 const userLens = lensPath(['data', 'user']);
 
+const loggedInLens = lensProp('loggedIn');
+
 /**
  * Auth set token reducer
  *
@@ -65,6 +68,8 @@ const authSetCountry = (state, { payload }) => set(countryLens, payload, state);
  * @returns {object}
  */
 const authReset = () => ({ ...initialState });
+
+const loggedIn = state => set(loggedInLens, true, state);
 
 export default (state = initialState, payload) => {
   const localStorageUser = parseJson(localStorage.getItem(AUTH_USER));
@@ -93,6 +98,8 @@ export default (state = initialState, payload) => {
       [AUTH_CHECK]: loadingReducer,
       [getSuccessActionName(AUTH_CHECK)]: successReducer,
       [getErrorActionName(AUTH_CHECK)]: errorReducer,
+
+      [getSuccessActionName(AUTH_LOG_IN)]: loggedIn,
 
       [AUTH_SIGN_UP]: sendingReducer,
       [getSuccessActionName(AUTH_SIGN_UP)]: successReducer,
