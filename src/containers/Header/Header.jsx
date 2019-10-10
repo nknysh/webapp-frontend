@@ -51,9 +51,9 @@ export const Header = ({
   useEffectBoundary(() => {
     if (loggedIn) {
       const redirect = isSR ? '/' : defaultTo('/', originRedirect(search));
-      history.push(redirect);
+      history.replace(redirect);
     }
-  }, [loggedIn]);
+  }, [loggedIn, isSR]);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalContext, setModalContext] = useState('');
