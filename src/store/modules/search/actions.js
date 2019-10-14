@@ -18,6 +18,7 @@ import { subDays } from 'date-fns';
 import i18n from 'config/i18n';
 import client from 'api/search';
 import { createCancelToken, wasCancelled } from 'api/helpers';
+import mockResponse from 'store/mockData/searchResponse_multi.json';
 
 let searchNameCancelToken = undefined;
 let searchQueryCancelToken = undefined;
@@ -192,9 +193,11 @@ export const searchByQuery = query => async (dispatch, getState) => {
   const payload = subDaysFromPayload(payloadWithRawDays);
 
   try {
+    // const res = await client.getSearch(payload, {}, { cancelToken: searchQueryCancelToken.token });
+    const res = { data: mockResponse };
     const {
       data: { data, meta },
-    } = await client.getSearch(payload, {}, { cancelToken: searchQueryCancelToken.token });
+    } = res;
 
     // We get everything back in one payload so we need to trigger multiple actions so
     // the data ends up in the right keys
