@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback } from 'react';
-import { prop, path, map, complement, equals, values, last, pipe, propEq, find, filter, partial } from 'ramda';
+import { prop, path, map, complement, equals, partial } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
@@ -26,20 +26,19 @@ import {
   MoreInfoToolTip,
   Price,
   PriceAmount,
-  PriceLabel,
   RoomImage,
   RoomInfo,
   Selection,
   StyledRoom,
   Title,
+  Total,
+  AccommodationOffer,
+  AvailableToHoldBadge,
 } from './Room.styles';
 
-const isNotZero = complement(equals(0));
+import { ToolTip } from '../../containers/SearchResult/SearchResult.styles';
 
-const getVisibleRate = pipe(
-  values,
-  last
-);
+const isNotZero = complement(equals(0));
 
 const renderImgOffer = bestRate =>
   prop('percentage', bestRate) && (
@@ -120,60 +119,109 @@ const renderSelection = (t, { onAdd, onRemove, selectedCount }) => (
   />
 );
 
+/**
+ * render price totals information. if 1 or more applied offers given,
+ * total and totalBeforeDiscount are both rendered, and totalBeforeDiscount
+ * has a strikethrough
+ *
+ * @param  {string} currencyCode
+ * @param  {string} total
+ * @param  {string} totalBeforeDiscount
+ * @param  {number} datesCount
+ * @param  {string[]} appliedOfferNames
+ * @return {JSX}
+ */
+const renderPrices = (currencyCode, total, totalBeforeDiscount, datesCount, appliedOfferNames) => {
+  if (appliedOfferNames.length <= 0) {
+    // no discounts
+    return (
+      <Price>
+        <Total>{`${currencyCode}${formatPrice(total)}`}</Total>
+      </Price>
+    );
+  }
+  return (
+    <React.Fragment>
+      <Price>
+        <Total data-discounted={true}>{`${currencyCode}${formatPrice(total)}`}</Total>
+        <Total data-secondary={true}>{`${currencyCode}${formatPrice(totalBeforeDiscount)}`}</Total>
+      </Price>
+
+      {appliedOfferNames &&
+        appliedOfferNames.map(offerName => <AccommodationOffer key={offerName}>Offer: {offerName}</AccommodationOffer>)}
+    </React.Fragment>
+  );
+};
+
+const renderAvailabilityChip = (t, availableToHold) => {
+  return (
+    availableToHold && (
+      <AvailableToHoldBadge>
+        <ToolTip label={<span>{t('available')}</span>}>{t('labels.availableToHoldRoom')}</ToolTip>
+      </AvailableToHoldBadge>
+    )
+  );
+};
+
+/**
+ *
+ * @param {object} props
+ * @param {object} props.totals
+ * @param {boolean} props.totals.oneOrMoreItemsOnRequest
+ * @param {number} props.totals.totalForPricedItemsCents
+ * @param {number} props.totals.totalBeforeDiscountForPricedItemsCents
+ * @param {string} props.totals.totalForPricedItems
+ * @param {string} props.totals.totalBeforeDiscountForPricedItems
+ * @param {string} props.totals.total
+ * @param {string} props.totals.totalBeforeDiscount
+ */
 export const Room = ({
   className,
   currencyCode,
-  meta: { size, description, moreInformation, amenities },
-  name,
+  size,
+  description,
+  moreInformation,
+  amenities,
+  title,
   onRoomAdd,
   onRoomRemove,
-  options: { occupancy },
+  occupancy,
   rates,
   selectedCount,
-  uploads,
+  photos,
+  floorPlans,
   uuid,
   withSelection,
-  category,
+  totals,
+  datesCount,
+  appliedOfferNames,
+  availableToHold,
 }) => {
   const { t } = useTranslation();
 
   const onAdd = useCallback(() => onRoomAdd(uuid), [onRoomAdd, uuid]);
   const onRemove = useCallback(() => onRoomRemove(uuid), [onRoomRemove, uuid]);
 
-  if (!rates) return null;
-
-  const brochures = pipe(
-    values,
-    filter(propEq('tag', 'floorPlan'))
-  )(uploads);
-
-  const img = pipe(
-    values,
-    find(propEq('tag', 'photo'))
-  )(uploads);
-
-  const visibleRate = getVisibleRate(rates);
+  const brochures = floorPlans;
 
   return (
     <StyledRoom className={className}>
+      {renderAvailabilityChip(t, availableToHold)}
       <RoomImage>
-        {img && <Img src={prop('url', img)} alt={prop('displayName', img)} />}
+        {photos && <Img src={prop('url', photos[0])} alt={prop('displayName', photos[0])} />}
         {renderImgOffer(rates)}
-        {withSelection && visibleRate && renderSelection(t, { onAdd, onRemove, selectedCount })}
+        {withSelection && totals && renderSelection(t, { onAdd, onRemove, selectedCount })}
       </RoomImage>
       <RoomInfo>
         <Columns>
           <Column>
-            <Title>{name}</Title>
+            <Title>{title}</Title>
           </Column>
           <Column>
-            {visibleRate && !visibleRate.isOnRequest && (
-              <Price>
-                <PriceAmount>{`${currencyCode}${formatPrice(visibleRate.price)}`}</PriceAmount>
-                <PriceLabel> /{t(category)} </PriceLabel>
-              </Price>
-            )}
-            {visibleRate && visibleRate.isOnRequest && (
+            {!totals.oneOrMoreItemsOnRequest &&
+              renderPrices(currencyCode, totals.total, totals.totalBeforeDiscount, datesCount, appliedOfferNames)}
+
+            {totals.oneOrMoreItemsOnRequest && (
               <Price>
                 <PriceAmount>{t('labels.onRequest')}</PriceAmount>
               </Price>

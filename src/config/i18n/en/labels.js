@@ -112,7 +112,8 @@ export default {
   holdExpired: 'Hold has expired',
 
   confirmYourhold: 'Confirm your hold',
-
+  accommodationPricesInfo:
+    'Accommodation prices given for full stay with standard occupancy, default meal plan and includes all taxes. Excludes transfers, extra person supplements and any further add ons',
   resortDetails: 'Resort details',
   repeatGuest: 'Client is a repeating guest',
   isRepeat: 'Repeat Guest',
@@ -210,6 +211,7 @@ export default {
 
   availability: 'Availability',
   availableToHold: 'This hotel has accommodation available to hold',
+  availableToHoldRoom: 'This accommodation is available to hold',
 
   specifyAges: 'Please specifiy ages:',
 
