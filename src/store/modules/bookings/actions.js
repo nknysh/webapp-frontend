@@ -83,6 +83,7 @@ export const BOOKING_FETCH = 'BOOKING_FETCH';
 export const BOOKING_HOLD = 'BOOKING_HOLD';
 export const BOOKING_HOLDS_FETCH = 'BOOKING_HOLDS_FETCH';
 export const BOOKING_POPULATE = 'BOOKING_POPULATE';
+export const BOOKING_POPULATE_BULK = 'BOOKING_POPULATE_BULK';
 export const BOOKING_RELEASE = 'BOOKING_RELEASE';
 export const BOOKING_REMOVE = 'BOOKING_REMOVE';
 export const BOOKING_REQUEST = 'BOOKING_REQUEST';
@@ -905,6 +906,13 @@ export const populateBooking = (id, data) => (dispatch, getState) => {
 
   dispatch(successAction(BOOKING_POPULATE, { id, data: next }));
 };
+
+export const populateBookingBulk = data => ({
+  type: BOOKING_POPULATE_BULK,
+  payload: {
+    data,
+  },
+});
 
 /**
  * Clear created booking action
