@@ -8,10 +8,12 @@ import {
   pipe,
   prop,
   propOr,
+  pathOr,
   set,
   isEmpty,
   filter,
   sortBy,
+  isNil,
 } from 'ramda';
 
 import { createSelector } from 'store/utils';
@@ -406,7 +408,10 @@ export const getHotelProductAgeRanges = createSelector(
 export const getHotelsFromSearchResults = (state, ids = []) =>
   pipe(
     map(id => set(lensProp('featuredPhoto'), getHotelFeaturedPhoto(state, id), getHotel(state, id))),
-    sortBy(prop('name'))
+    sortBy(item => {
+      const total = pathOr(null, ['bookingBuilder', 'response', 'totals', 'total'], item);
+      return isNil(total) ? Infinity : parseFloat(total);
+    })
   )(ids);
 
 /**
