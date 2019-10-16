@@ -888,7 +888,6 @@ export const releaseBooking = id => async dispatch => {
  * @returns {Function}
  */
 export const populateBooking = (id, data) => (dispatch, getState) => {
-  dispatch(genericAction(BOOKING_POPULATE, { id, data }));
   const booking = getBooking(getState(), id);
 
   // Bookings have a touched flag.  If false, then we can update this booking
