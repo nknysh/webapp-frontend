@@ -1,4 +1,20 @@
-import { head, lensProp, map, mergeDeepRight, partial, pick, pipe, prop, propOr, set, isEmpty, filter } from 'ramda';
+import {
+  head,
+  lensProp,
+  map,
+  mergeDeepRight,
+  partial,
+  pick,
+  pipe,
+  prop,
+  propOr,
+  pathOr,
+  set,
+  isEmpty,
+  filter,
+  sortBy,
+  isNil,
+} from 'ramda';
 
 import { createSelector } from 'store/utils';
 import { getData, getStatus, getEntities, getResults, getArg } from 'store/common';
@@ -390,7 +406,13 @@ export const getHotelProductAgeRanges = createSelector(
  * @returns {string}
  */
 export const getHotelsFromSearchResults = (state, ids = []) =>
-  map(id => set(lensProp('featuredPhoto'), getHotelFeaturedPhoto(state, id), getHotel(state, id)), ids);
+  pipe(
+    map(id => set(lensProp('featuredPhoto'), getHotelFeaturedPhoto(state, id), getHotel(state, id))),
+    sortBy(item => {
+      const total = pathOr(null, ['bookingBuilder', 'response', 'totals', 'total'], item);
+      return isNil(total) ? Infinity : parseFloat(total);
+    })
+  )(ids);
 
 /**
  * Get hotels photos selector
