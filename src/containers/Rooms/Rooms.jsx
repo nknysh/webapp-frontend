@@ -22,6 +22,10 @@ import {
 } from './Rooms.styles';
 
 export const filterRoomsByCategoryType = (rooms, categoryTypes) => {
+  if (!Array.isArray(categoryTypes)) {
+    categoryTypes = [categoryTypes];
+  }
+
   if (categoryTypes.length <= 0) {
     return rooms;
   }
