@@ -8,12 +8,10 @@ import {
   pipe,
   prop,
   propOr,
-  pathOr,
   set,
   isEmpty,
   filter,
-  sortBy,
-  isNil,
+  pathOr,
 } from 'ramda';
 
 import { createSelector } from 'store/utils';
@@ -21,6 +19,8 @@ import { getData, getStatus, getEntities, getResults, getArg } from 'store/commo
 import { extractAges } from 'store/modules/bookings/utils';
 
 import { getMapped, reduceArrayByKey } from 'utils';
+import { create } from 'domain';
+import { getSearchResultsResult } from '../search/selectors';
 
 /**
  * Get hotels selector
@@ -405,14 +405,18 @@ export const getHotelProductAgeRanges = createSelector(
  * @param {Array} ids
  * @returns {string}
  */
-export const getHotelsFromSearchResults = (state, ids = []) =>
-  pipe(
-    map(id => set(lensProp('featuredPhoto'), getHotelFeaturedPhoto(state, id), getHotel(state, id))),
-    sortBy(item => {
-      const total = pathOr(null, ['bookingBuilder', 'response', 'totals', 'total'], item);
-      return isNil(total) ? Infinity : parseFloat(total);
-    })
-  )(ids);
+
+export const getHotelsFromSearchResults = createSelector(
+  [getHotels],
+  state => {
+    const hotels = pathOr({}, ['data', 'entities', 'hotels'], state);
+    const uploads = pathOr({}, ['data', 'entities', 'uploads'], state);
+    return Object.keys(hotels).map(id => ({
+      ...hotels[id],
+      featuredPhoto: uploads[hotels[id].featuredPhotos[0]],
+    }));
+  }
+);
 
 /**
  * Get hotels photos selector

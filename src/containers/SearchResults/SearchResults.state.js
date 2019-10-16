@@ -7,14 +7,13 @@ import {
   getSearchStatus,
   getSearchQuery,
   getSearchResultsMeta,
-  getSearchResultsResult,
   getCanSearch,
 } from 'store/modules/search';
 
 export const mapStateToProps = state => ({
   searchQuery: getSearchQuery(state),
   searchStatus: getSearchStatus(state, 'byQuery'),
-  result: getHotelsFromSearchResults(state, getSearchResultsResult(state, 'byQuery')),
+  result: getHotelsFromSearchResults(state),
   meta: getSearchResultsMeta(state, 'byQuery'),
   canSearch: getCanSearch(state),
 });
