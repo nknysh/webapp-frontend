@@ -38,7 +38,7 @@ exports[`<Hotel /> render matches snapshot 1`] = `
         <Hotelstyles__HotelDetailsColumnRight />
       </Hotelstyles__HotelDetailsRow>
     </Hotelstyles__HotelInfo>
-    <Hotelstyles__StyledRooms />
+    <Connect(Rooms) />
   </Hotelstyles__HotelDetails>
 </Hotelstyles__StyledHotel>
 `;
