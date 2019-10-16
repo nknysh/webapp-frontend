@@ -93,7 +93,5 @@ workflows:
                 - develop
       - deploy_sandbox:
           context: deployments
-          filters:
-            branches:
-              only:
-                - sandbox
+          requires:
+            - deploy_develop
