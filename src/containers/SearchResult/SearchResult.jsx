@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose, gt, head, last, map, partial, path, pathOr, prop, values, propOr } from 'ramda';
 import { useTranslation } from 'react-i18next';
-import { isEqual, addDays, format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 
 import { ProductTypes } from 'config/enums';
 import { getNumberOfDays, mapWithIndex } from 'utils';
@@ -35,7 +35,7 @@ import { formatPrice } from 'utils';
 
 const getStartDateEndDate = dates => {
   const startDate = head(dates);
-  const endDate = isEqual(startDate, last(dates)) ? addDays(last(dates), 1) : last(dates);
+  const endDate = addDays(last(dates), 1);
 
   return { startDate, endDate };
 };
@@ -64,13 +64,9 @@ const renderRoomsBreakdown = (t, { title, dates = [], subProducts, ...product })
 
 const renderTransfersBreakdown = (t, { title, dates = [], ...product }) => {
   const { startDate, endDate } = getStartDateEndDate(dates);
-  const isOneWay = pathOr(false, ['product', 'options', 'isOneWay'], product);
 
   return (
-    <PriceBreakdownItem key={path(['product', 'uuid'], product) + startDate + endDate}>
-      {title} ({format(startDate, 'YYYY-MM-DD')}
-      {!isOneWay && ` - ${format(endDate, 'YYYY-MM-DD')}`})
-    </PriceBreakdownItem>
+    <PriceBreakdownItem key={path(['product', 'uuid'], product) + startDate + endDate}>{title}</PriceBreakdownItem>
   );
 };
 
