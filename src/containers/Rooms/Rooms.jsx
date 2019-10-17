@@ -1,24 +1,9 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import {
-  always,
-  complement,
-  compose,
-  filter,
-  ifElse,
-  join,
-  length,
-  map,
-  partial,
-  prop,
-  propEq,
-  propSatisfies,
-  values,
-} from 'ramda';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { always, compose, filter, ifElse, join, length, map, partial, propEq, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import hash from 'object-hash';
 import { useTranslation } from 'react-i18next';
-import { Slider } from '@pure-escapes/webapp-ui-components';
-
+import { Slider, Loader } from '@pure-escapes/webapp-ui-components';
 import { useCurrentWidth } from 'effects';
 
 import connect from './Rooms.state';
@@ -32,27 +17,27 @@ import {
   CategoryTypesSelect,
   StyledRoom,
   NoResults,
+  AccommodationPricesInfo,
+  RoomsError,
 } from './Rooms.styles';
 
-const filterNoRate = filter(propSatisfies(complement(isNilOrEmpty), 'rates'));
-
 export const filterRoomsByCategoryType = (rooms, categoryTypes) => {
+  if (!Array.isArray(categoryTypes)) {
+    categoryTypes = [categoryTypes];
+  }
+
   if (categoryTypes.length <= 0) {
     return rooms;
   }
 
-  return Object.values(rooms).reduce((accum, room) => {
-    if (categoryTypes.includes(room.meta.categoryType)) {
-      accum[room.uuid] = room;
-    }
-
-    return accum;
-  }, {});
+  return rooms.filter(room => {
+    return categoryTypes.includes(room.categoryType);
+  });
 };
 
 const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByCategoryTypes')}</span>), join(', '));
 
-const renderRoom = ({ requestedRooms, getRoomUploads, currencyCode, onRoomAdd, onRoomRemove }, room) => {
+const renderRoom = ({ requestedRooms, currencyCode, onRoomAdd, onRoomRemove }, room) => {
   const { uuid } = room;
   const selectedCount = length(filter(propEq('uuid', uuid), requestedRooms || []));
 
@@ -61,7 +46,6 @@ const renderRoom = ({ requestedRooms, getRoomUploads, currencyCode, onRoomAdd, o
       key={hash(room)}
       {...room}
       currencyCode={currencyCode}
-      uploads={getRoomUploads(prop('uploads', room))}
       onRoomAdd={onRoomAdd}
       onRoomRemove={onRoomRemove}
       selectedCount={selectedCount}
@@ -81,21 +65,38 @@ const renderRooms = (t, { filteredRooms, ...props }) =>
 
 export const Rooms = props => {
   const { t } = useTranslation();
-  const { hotelUuid, className, rooms, addRoom, removeRoom } = props;
+  const {
+    hotelUuid,
+    className,
+    rooms,
+    roomsError,
+    addRoom,
+    removeRoom,
+    fetchCurrentHotelAccommodationProductDisplays,
+  } = props;
+  const [isLoading, setIsLoaded] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      await fetchCurrentHotelAccommodationProductDisplays(hotelUuid);
+      setIsLoaded(false);
+    }
+    load();
+  }, [fetchCurrentHotelAccommodationProductDisplays, hotelUuid]);
 
   const [selectedCategoryTypes, setSelectedCategoryTypes] = useState([]);
   const { isMobile } = useCurrentWidth();
 
   const categoryTypes = useMemo(() => {
-    const categoryTypes = Object.values(rooms).reduce((accum, room) => {
-      accum[room.meta.categoryType] = room.meta.categoryType;
+    const categoryTypes = rooms.reduce((accum, room) => {
+      accum[room.categoryType] = room.categoryType;
       return accum;
     }, {});
 
     return categoryTypes;
   }, [rooms]);
 
-  const filteredRooms = filterNoRate(filterRoomsByCategoryType(rooms, selectedCategoryTypes));
+  const filteredRooms = filterRoomsByCategoryType(rooms, selectedCategoryTypes);
 
   const onRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid), [addRoom, hotelUuid]);
   const onRoomRemove = useCallback(uuid => removeRoom(hotelUuid, uuid), [removeRoom, hotelUuid]);
@@ -119,15 +120,22 @@ export const Rooms = props => {
           )}
         </Column>
       </Columns>
-      <RoomsWrapper>
-        {renderRooms(t, {
-          filteredRooms,
-          onRoomAdd,
-          onRoomRemove,
-          isMobile,
-          ...props,
-        })}
-      </RoomsWrapper>
+      {roomsError && <RoomsError>{t('errors.getCurrentHotelAccommodationProducts')}</RoomsError>}
+      {!roomsError && (
+        <Loader isLoading={isLoading} text={t('messages.gettingAccommodationProducts')}>
+          <AccommodationPricesInfo>{t('labels.accommodationPricesInfo')}</AccommodationPricesInfo>
+          <RoomsWrapper>
+            {!isNilOrEmpty(filteredRooms) &&
+              renderRooms(t, {
+                filteredRooms,
+                onRoomAdd,
+                onRoomRemove,
+                isMobile,
+                ...props,
+              })}
+          </RoomsWrapper>
+        </Loader>
+      )}
     </StyledRooms>
   );
 };

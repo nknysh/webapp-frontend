@@ -445,7 +445,6 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
       onSubmit={[Function]}
       searchPatterns={Array []}
       searchQuery={Object {}}
-      showSubmit={true}
       vertical={false}
     />
   </withThemeProvider(ka)>

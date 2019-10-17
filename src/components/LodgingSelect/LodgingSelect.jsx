@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import {
   gt,
   dropLast,
@@ -74,6 +74,8 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
 
   const [tabIndex, setTabIndex] = useState(0);
   const [closeOnClickAway, setCloseOnClickAway] = useState(true);
+  const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
+  const dropdownEl = useRef(null);
 
   const totalRooms = length(rooms);
   const totalGuests = getGuestsCounts(rooms);
@@ -90,7 +92,7 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
     }
   }, [rooms]);
 
-  const onAddRoom = useCallback(() => {
+  const handleAddRoom = useCallback(() => {
     onSelected(
       append(
         {
@@ -102,7 +104,7 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
     );
   }, [rooms, onSelected]);
 
-  const onRemoveRoom = useCallback(() => {
+  const handleRemoveRoom = useCallback(() => {
     onSelected(dropLast(1, rooms));
   }, [rooms, onSelected]);
 
@@ -113,22 +115,42 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
     [rooms, onSelected]
   );
 
-  const onAgeSelectOpen = useCallback(() => {
-    setCloseOnClickAway(false);
+  const handleAgeSelectOpen = useCallback(() => {
+    setIsAgeDropdownOpen(true);
   }, []);
 
-  const onAgeSelectClose = useCallback(() => {
-    setCloseOnClickAway(true);
+  // Handle "click outside" event
+  useEffect(() => {
+    const clickHandler = e => {
+      const clickIsOutside = !dropdownEl.current.contains(e.target);
+      const targetIsOption = e.target.getAttribute('role') === 'option';
+
+      if (!targetIsOption && clickIsOutside) {
+        setCloseOnClickAway(true);
+        setIsAgeDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('click', clickHandler);
+
+    return () => {
+      document.removeEventListener('click', clickHandler);
+    };
   }, []);
 
   return (
-    <StyledLodgingSelect>
+    <StyledLodgingSelect ref={dropdownEl}>
       {renderLabel(label)}
-      <DropDownContent inputContent={summary} contentOnly={contentOnly} closeOnClickAway={closeOnClickAway}>
+      <DropDownContent
+        inputContent={summary}
+        contentOnly={contentOnly}
+        keepOpen={isAgeDropdownOpen}
+        closeOnClickAway={closeOnClickAway}
+      >
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{t('room_plural')}</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect value={totalRooms} onAdd={onAddRoom} onRemove={onRemoveRoom} />
+            <LodgingSelectNumberSelect value={totalRooms} onAdd={handleAddRoom} onRemove={handleRemoveRoom} />
           </LodgingSelectEntry>
         </LodgingSelectSection>
 
@@ -140,7 +162,12 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
           onChange={setTabIndex}
           tabClassname="lodging-tab"
         >
-          {renderTabs(t, { totalRooms, onAgeChange, onAgeSelectOpen, onAgeSelectClose, rooms })}
+          {renderTabs(t, {
+            totalRooms,
+            onAgeChange,
+            onAgeSelectOpen: handleAgeSelectOpen,
+            rooms,
+          })}
         </Tabs>
       </DropDownContent>
     </StyledLodgingSelect>

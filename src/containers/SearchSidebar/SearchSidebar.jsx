@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, propOr, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
@@ -6,10 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { Search, SearchFilters, OccasionsSelect } from 'components';
 import { useEffectBoundary, useFetchData } from 'effects';
 import { buildQueryString } from 'utils';
+import { isActive } from 'store/common';
 
 import connect from './SearchSidebar.state';
 import { propTypes, defaultProps } from './SearchSidebar.props';
-import { Section, Title } from './SearchSidebar.styles';
+import { Section, Title, SideBarButton } from './SearchSidebar.styles';
 
 export const SearchSidebar = ({
   features,
@@ -20,30 +21,43 @@ export const SearchSidebar = ({
   searchByName,
   searchFiltersReset,
   searchQuery,
-  searchStatus,
+  nameSearchStatus,
+  querySearchStatus,
+  searchByQuery,
   setSearchQuery,
   starRatings,
+  canSearch,
+  currentCountry,
   ...props
 }) => {
   const { t } = useTranslation();
+  const disableSearchButton = !canSearch || isActive(querySearchStatus);
 
-  useFetchData(searchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
+  const [version, setVersion] = useState(0);
+
+  useFetchData(nameSearchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
 
   // Push to history stack so the url is updated with the new query but a location change isn't triggered (which
   // would cause a full re-render of the search results)
   useEffectBoundary(() => history.push(`/search?${buildQueryString(searchQuery)}`), [searchQuery]);
 
+  useEffectBoundary(() => {
+    searchByQuery(searchQuery);
+  }, [version, currentCountry]);
+
   return (
     <Fragment>
       <Section>
-        <Title>{t('labels.searching')}</Title>
         <Search
           onChange={setSearchQuery}
+          onSubmit={() => {
+            setVersion(version + 1);
+          }}
           onSearch={searchByName}
-          showSubmit={false}
-          searchStatus={searchStatus}
+          searchStatus={nameSearchStatus}
           searchQuery={searchQuery}
           vertical={true}
+          canSearch={!disableSearchButton}
           {...props}
         />
       </Section>
@@ -65,6 +79,11 @@ export const SearchSidebar = ({
           prices={prices}
           searchQuery={searchQuery}
         />
+      </Section>
+      <Section>
+        <SideBarButton onClick={() => setVersion(version + 1)} disabled={disableSearchButton}>
+          {t('buttons.search')}
+        </SideBarButton>
       </Section>
     </Fragment>
   );

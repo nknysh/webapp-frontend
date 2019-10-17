@@ -1,7 +1,12 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 
-import { getHotelsUploads, getHotelsAccommodationProducts } from 'store/modules/hotels';
+import {
+  fetchCurrentHotelAccommodationProductDisplays,
+  getCurrentHotelAccommodationProducts,
+  getCurrentHotelAccommodationProductsError,
+} from 'store/modules/hotelAccommodationProducts';
+
 import {
   getBookingRooms,
   getBooking,
@@ -14,9 +19,9 @@ import {
 export const mapStateToProps = (state, { hotelUuid }) => ({
   booking: getBooking(state, hotelUuid),
   currencyCode: getBookingCurrencySymbol(state, hotelUuid),
-  getRoomUploads: ids => getHotelsUploads(state, ids),
   requestedRooms: getBookingRooms(state, hotelUuid),
-  rooms: getHotelsAccommodationProducts(state, hotelUuid),
+  rooms: getCurrentHotelAccommodationProducts(state),
+  roomsError: getCurrentHotelAccommodationProductsError(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -30,6 +35,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateBooking: pipe(
     updateBooking,
+    dispatch
+  ),
+  fetchCurrentHotelAccommodationProductDisplays: pipe(
+    fetchCurrentHotelAccommodationProductDisplays,
     dispatch
   ),
 });

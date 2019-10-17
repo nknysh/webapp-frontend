@@ -15,6 +15,7 @@ import proposals from './modules/proposals/reducer';
 import search from './modules/search/reducer';
 import ui from './modules/ui/reducer';
 import users from './modules/users/reducer';
+import hotelAccommodationProducts from './modules/hotelAccommodationProducts/reducer';
 
 const clearState = mapObjIndexed(always(undefined));
 
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   search,
   ui,
   users,
+  hotelAccommodationProducts,
 });
 
 export default (state, action) => {

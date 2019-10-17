@@ -5,7 +5,7 @@ import { Loader, Modal } from '@pure-escapes/webapp-ui-components';
 
 import SearchResult from 'containers/SearchResult';
 import SearchSidebar from 'containers/SearchSidebar';
-import { useCurrentWidth, useEffectBoundary, useModalState } from 'effects';
+import { useCurrentWidth, useModalState } from 'effects';
 
 import { isActive } from 'store/common';
 
@@ -28,12 +28,8 @@ const renderResult = ({ uuid, ...hotel }) => (
   </Result>
 );
 
-export const SearchResults = ({ searchByQuery, searchQuery, searchStatus, meta, result, canSearch }) => {
+export const SearchResults = ({ searchStatus, meta, result, canSearch }) => {
   const { t } = useTranslation();
-
-  useEffectBoundary(() => {
-    searchByQuery(searchQuery);
-  }, [searchQuery]);
 
   const { modalOpen, onModalOpen, onModalClose } = useModalState(false);
   const { isMobile } = useCurrentWidth();

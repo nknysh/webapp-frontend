@@ -73,7 +73,7 @@ const isCancelledOrConfirmed = anyPass([isConfirmed, isCancelled]);
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search' });
-const renderBackToBookings = t => renderBackButton(t('booking_plural'), { href: `${ADMIN_BASE_URL}/bookings` });
+const renderBackToBookings = t => renderBackButton(t('enquiryBooking_plural'), { href: `${ADMIN_BASE_URL}/bookings` });
 
 const renderTitle = (t, { id }) => <BookingTitle>{t('labels.bookingWithId', { id })}</BookingTitle>;
 

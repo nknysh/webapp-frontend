@@ -5,6 +5,7 @@ import {
   setSearchQuery,
   searchFiltersReset,
   searchByName,
+  searchByQuery,
   getSearchQuery,
   getSearchStatus,
   getSearchFiltersRegions,
@@ -13,12 +14,15 @@ import {
   getSearchFiltersPrices,
   getSearchOccassions,
   getMappedSearchResults,
+  getCanSearch,
 } from 'store/modules/search';
 import { getCountriesData } from 'store/modules/countries';
 import { getHotelsData, getHotelsStatus } from 'store/modules/hotels';
+import { getCurrentCountry } from 'store/modules/auth';
 
 export const mapStateToProps = state => ({
   countries: getCountriesData(state),
+  currentCountry: getCurrentCountry(state),
   features: getSearchFiltersFeatures(state, 'byQuery'),
   hotels: getHotelsData(state),
   hotelsStatus: getHotelsStatus(state),
@@ -27,8 +31,10 @@ export const mapStateToProps = state => ({
   prices: getSearchFiltersPrices(state, 'byQuery'),
   regions: getSearchFiltersRegions(state, 'byQuery'),
   searchQuery: getSearchQuery(state),
-  searchStatus: getSearchStatus(state, 'byName'),
+  nameSearchStatus: getSearchStatus(state, 'byName'),
+  querySearchStatus: getSearchStatus(state, 'byQuery'),
   starRatings: getSearchFiltersStarRatings(state, 'byQuery'),
+  canSearch: getCanSearch(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -42,6 +48,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   searchByName: pipe(
     searchByName,
+    dispatch
+  ),
+  searchByQuery: pipe(
+    searchByQuery,
     dispatch
   ),
 });

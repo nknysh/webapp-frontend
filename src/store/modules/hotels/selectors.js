@@ -1,10 +1,26 @@
-import { head, lensProp, map, mergeDeepRight, partial, pick, pipe, prop, propOr, set } from 'ramda';
+import {
+  head,
+  lensProp,
+  map,
+  mergeDeepRight,
+  partial,
+  pick,
+  pipe,
+  prop,
+  propOr,
+  set,
+  isEmpty,
+  filter,
+  pathOr,
+} from 'ramda';
 
 import { createSelector } from 'store/utils';
 import { getData, getStatus, getEntities, getResults, getArg } from 'store/common';
 import { extractAges } from 'store/modules/bookings/utils';
 
 import { getMapped, reduceArrayByKey } from 'utils';
+import { create } from 'domain';
+import { getSearchResultsResult } from '../search/selectors';
 
 /**
  * Get hotels selector
@@ -389,8 +405,18 @@ export const getHotelProductAgeRanges = createSelector(
  * @param {Array} ids
  * @returns {string}
  */
-export const getHotelsFromSearchResults = (state, ids = []) =>
-  map(id => set(lensProp('featuredPhoto'), getHotelFeaturedPhoto(state, id), getHotel(state, id)), ids);
+
+export const getHotelsFromSearchResults = createSelector(
+  [getHotels],
+  state => {
+    const hotels = pathOr({}, ['data', 'entities', 'hotels'], state);
+    const uploads = pathOr({}, ['data', 'entities', 'uploads'], state);
+    return Object.keys(hotels).map(id => ({
+      ...hotels[id],
+      featuredPhoto: uploads[hotels[id].featuredPhotos[0]],
+    }));
+  }
+);
 
 /**
  * Get hotels photos selector
@@ -401,7 +427,16 @@ export const getHotelsFromSearchResults = (state, ids = []) =>
  */
 export const getHotelsPhotos = createSelector(
   [getHotel, getUploads],
-  (hotel, uploads) => pick(propOr([], 'photos', hotel), uploads)
+  (hotel, uploads) => {
+    if (!hotel || !uploads || isEmpty(hotel) || isEmpty(uploads)) {
+      return {};
+    }
+
+    return filter(
+      upload => upload.ownerType === 'Hotel' && upload.tag === 'photo' && upload.ownerUuid === hotel.uuid,
+      uploads
+    );
+  }
 );
 
 /**

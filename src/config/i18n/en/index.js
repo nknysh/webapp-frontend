@@ -38,6 +38,6 @@ export default {
     taglines,
     ...plurals,
     ...rooms,
-    ...errors,
+    errors,
   },
 };

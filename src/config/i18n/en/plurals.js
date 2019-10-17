@@ -6,6 +6,7 @@ export default {
   adult_plural: 'Adults',
   adult: 'Adult',
   booking_plural: 'Bookings',
+  enquiryBooking_plural: 'Enquiries and Bookings',
   booking: 'Booking',
   brochure_plural: 'Brochures',
   brochure: 'Brochure',

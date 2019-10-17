@@ -35,7 +35,6 @@ export const Search = ({
   onSubmit,
   searchQuery,
   searchStatus,
-  showSubmit,
   vertical,
   nameSearchResults,
 }) => {
@@ -107,7 +106,7 @@ export const Search = ({
           onClick={onIndexSelect}
           placeholder={t('form.placeholders.search')}
           results={nameSearchResults}
-          value={prop('value', getSearchQueryData(destinationLens))}
+          value={prop('value', getSearchQueryData(destinationLens)) || ''}
         />
       </SearchBarSection>
       <SearchBarSection data-vertical={vertical} data-large={true}>
@@ -135,9 +134,9 @@ export const Search = ({
         />
       </SearchBarSection>
 
-      {showSubmit && (
-        <SearchBarSection data-vertical={vertical}>{renderSearchButton(t, { onSubmit, canSearch })}</SearchBarSection>
-      )}
+      <SearchBarSection data-vertical={vertical} disabled={!canSearch}>
+        {renderSearchButton(t, { onSubmit, canSearch })}
+      </SearchBarSection>
     </Fragment>
   );
 };

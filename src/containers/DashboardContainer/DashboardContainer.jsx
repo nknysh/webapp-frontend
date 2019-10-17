@@ -37,7 +37,7 @@ export const DashboardContainer = ({ bookingsStatus, fetchBookings, bookings }) 
         <Sidebar title={t('labels.dashboard')} links={renderSidebarLinks(t, { tableContext, setTableContext })} />
         <DashboardContent>
           <Loader isLoading={!loaded}>
-            <Table title={t('labels.latestTaBookings')} data={prop(tableContext, bookings)}>
+            <Table title={t(`labels.latestTa.${tableContext}`)} data={prop(tableContext, bookings)}>
               <TableData label={t('labels.uuid')} source="uuid" />
               <TableData label={t('hotel')} source="hotelName" />
               <TableData

@@ -1,4 +1,4 @@
-import { values, pathOr, prop, mergeDeepRight, propOr } from 'ramda';
+import { values, prop, mergeDeepRight, propOr, path } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
 import { index } from 'store/modules/indexes/actions';
@@ -31,7 +31,8 @@ export const setCountries = data => (dispatch, getState) => {
   const prevData = getCountriesEntities(getState());
 
   // Merges next countries into previous
-  const countries = mergeDeepRight(prevData, pathOr({}, ['entities', 'countries'], data));
+  const newCountries = path(['entities', 'countries'], data);
+  const countries = mergeDeepRight(prevData, newCountries || {});
 
   // Extract the result uuids
   const result = propOr([], 'result', data);
@@ -49,5 +50,5 @@ export const setCountries = data => (dispatch, getState) => {
     })
   );
 
-  dispatch(successAction(COUNTRIES, { result, ...(!isNilOrEmpty(entities) && { entities }) }));
+  dispatch(successAction(COUNTRIES, { result, ...(!isNilOrEmpty(newCountries) && { entities }) }));
 };

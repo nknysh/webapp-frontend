@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { NumberSelect, ToolTip, Chip } from '@pure-escapes/webapp-ui-components';
 
 import { theme, Heading1 } from 'styles';
@@ -192,4 +192,48 @@ export const Limit = styled.li`
 
 export const EndColumn = styled(Column)`
   align-self: flex-end;
+`;
+
+export const Total = styled.p`
+  display: block;
+  color: ${theme.palette.secondary};
+  font-size: 1.4em;
+  letter-spacing: 1.62px;
+  line-height: 20px;
+  padding: 0;
+  margin: 0 0 ${theme.spacing.gutter * 2.5}px;
+
+  ${({ ['data-secondary']: secondary }) =>
+    secondary &&
+    css`
+      font-size: 1.2em;
+      color: ${theme.palette.light};
+      text-decoration: line-through;
+    `}
+
+  ${({ ['data-discounted']: secondary }) =>
+    secondary &&
+    css`
+      margin: 0 0 ${theme.spacing.gutter * 1.4}px;
+      color: ${theme.colors['red-fade']};
+    `}
+`;
+
+export const AccommodationOffer = styled.p`
+  text-transform: uppercase;
+  font-size: 14px;
+  text-align: right;
+  color: ${theme.colors['red-fade']};
+`;
+
+export const AvailableToHoldBadge = styled.div`
+  text-transform: uppercase;
+  color: ${theme.palette.light};
+  position: absolute;
+  z-index: 1;
+  background: ${theme.colors.white};
+  padding: 0.5em;
+  margin-left: 1em;
+  margin-top: 1em;
+  font-size: 14px;
 `;

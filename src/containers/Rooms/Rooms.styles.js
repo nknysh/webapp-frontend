@@ -81,3 +81,13 @@ export const NoResults = styled.div`
   color: ${theme.borders.medium};
   font-size: ${theme.fonts.sizes.big}px;
 `;
+
+export const AccommodationPricesInfo = styled.p`
+  color: ${theme.palette.light};
+  font-style: italic;
+`;
+
+export const RoomsError = styled.p`
+  color: ${theme.palette.light};
+  font-style: italic;
+`;

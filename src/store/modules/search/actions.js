@@ -31,6 +31,7 @@ import { setCountries } from 'store/modules/countries/actions';
 import { getCanSearch } from './selectors';
 
 export const SEARCH_QUERY_UPDATE = 'SEARCH_QUERY_UPDATE';
+export const SEARCH_QUERY_RESET = 'SEARCH_QUERY_RESET';
 export const SEARCH_FILTERS_RESET = 'SEARCH_FILTERS_RESET';
 export const SEARCH_RESULTS = 'SEARCH_RESULTS';
 export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
@@ -44,6 +45,17 @@ export const SEARCH_BY_QUERY = 'SEARCH_BY_QUERY';
  */
 export const setSearchQuery = payload => ({
   type: SEARCH_QUERY_UPDATE,
+  payload,
+});
+
+/**
+ * Reset search query action
+ *
+ * @param {object} payload
+ * @returns {object}
+ */
+export const resetSearchQuery = payload => ({
+  type: SEARCH_QUERY_RESET,
   payload,
 });
 
@@ -97,9 +109,8 @@ export const searchByName = (destination, limit) => async (dispatch, getState) =
   // we only want to set the search query (and thus perform an actual search)
   // under specific circumstances
   // @see https://pureescapes.atlassian.net/browse/OWA-628
-  if (destination.doSearch) {
-    dispatch(setSearchQuery({ destination }));
-  }
+  dispatch(setSearchQuery({ destination }));
+
   dispatch(searchByNameAction(destination));
   dispatch(loadingAction(SEARCH_BY_NAME, { destination }));
 
@@ -159,7 +170,6 @@ export const searchByQuery = query => async (dispatch, getState) => {
   // SRs can be a different country
   const actingCountryCode = getUserCountryContext(getState());
 
-  dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
   const canSearch = getCanSearch(getState());
 
