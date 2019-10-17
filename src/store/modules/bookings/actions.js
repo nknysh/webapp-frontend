@@ -314,32 +314,49 @@ export const fetchBookingHolds = id => async dispatch => {
 /**
  * Add Room action
  *
- * @param {string} id Booking ID
- * @param {string} uuid Room UUID
+ * @param {string} hotelUuid Booking ID
+ * @param {string} roomUuid Room UUID
  * @returns {Function}
  */
-export const addRoom = (id, uuid) => async (dispatch, getState) => {
-  dispatch(genericAction(BOOKING_ROOM_ADD, { id, uuid }));
+export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
+  dispatch(genericAction(BOOKING_ROOM_ADD, { id: hotelUuid, uuid: roomUuid }));
+  const state = getState();
+
+  const isFirstRoom = state.bookings.data && state.bookings.data[hotelUuid] ? false : true;
 
   // Get the search dates from search state key and format them
-  const dates = map(formatDate, getSearchDates(getState()));
-  const lodgings = pipe(
-    // Extract lodgings from state
-    getSearchLodgings,
-    map(
-      pipe(
-        // Format number of adults to  a number (as it could be string)
-        over(lensProp('numberOfAdults'), Number),
-        // Same with children, if they exist
-        when(has('agesOfAllChildren'), over(lensProp('agesOfAllChildren'), map(Number))),
-        // Wrap it up in a new object
-        objOf('guestAges')
-      )
-    )
-  )(getState());
+  const dates = map(formatDate, getSearchDates(state));
 
-  const booking = getBooking(getState(), id);
-  const prevRooms = getBookingRoomsById(getState(), id, uuid);
+  // lodgings needs to be different if this is the first room they're adding to the booking
+  // or not
+  // if it is the first room, we need to use the lodgings from the search query
+  // if its a new room, we need to build a new object based on the standard occupancy of
+  // the room in question
+  let lodgings = null;
+  if (isFirstRoom) {
+    lodgings = pipe(
+      // Extract lodgings from state
+      getSearchLodgings,
+      map(
+        pipe(
+          // Format number of adults to  a number (as it could be string)
+          over(lensProp('numberOfAdults'), Number),
+          // Same with children, if they exist
+          when(has('agesOfAllChildren'), over(lensProp('agesOfAllChildren'), map(Number))),
+          // Wrap it up in a new object
+          objOf('guestAges')
+        )
+      )
+    )(state);
+  } else {
+    // if the room we're adding is not the first room for this hotel, use
+    // the standard occupancy of the room
+    const room = state.hotelAccommodationProducts.data.find(r => r.uuid === roomUuid);
+    lodgings = [{ guestAges: { numberOfAdults: room.occupancy.standardOccupancy, agesOfAllChildren: [] } }];
+  }
+
+  const booking = getBooking(state, hotelUuid);
+  const prevRooms = getBookingRoomsById(state, hotelUuid, roomUuid);
 
   // If there was a previous room with this uuid, pop the last room selection and
   // use it for the new room's data.
@@ -349,24 +366,24 @@ export const addRoom = (id, uuid) => async (dispatch, getState) => {
     ProductTypes.ACCOMMODATION,
     pipe(
       defaultTo([]),
-      concat(__, prevRoom ? [prevRoom] : map(mergeDeepLeft({ ...dates, uuid }), lodgings))
+      concat(__, prevRoom ? [prevRoom] : map(mergeDeepLeft({ ...dates, uuid: roomUuid }), lodgings))
     ),
     booking
   );
 
   // Update booking first to trigger BB call, which will pull down meal plans
-  await dispatch(updateBooking(id, pick(['breakdown'], next)));
+  await dispatch(updateBooking(hotelUuid, pick(['breakdown'], next)));
 
   // Format meal plan so it's all uppercase
   const mealPlan = pipe(
     getSearchMealPlan,
     when(complement(isNilOrEmpty), toUpper)
-  )(getState());
+  )(state);
 
   // If there is a meal plan, then we need to attach those as sub products
   if (!isNilOrEmpty(mealPlan)) {
     // Get the selected meal plan in this accommodation product type
-    const roomMealPlans = getBookingMealPlanForRoomByType(getState(), id, uuid, mealPlan);
+    const roomMealPlans = getBookingMealPlanForRoomByType(state, hotelUuid, roomUuid, mealPlan);
 
     // Get the selected meal plans
     const selectedMealPlans = map(
@@ -379,7 +396,7 @@ export const addRoom = (id, uuid) => async (dispatch, getState) => {
     );
 
     // This is current booking that will be manipulated
-    const nextBooking = getBooking(getState(), id);
+    const nextBooking = getBooking(state, hotelUuid);
 
     // Adds the meal plans to the booking
     const nextWithMealPlans = overProducts(
@@ -394,7 +411,7 @@ export const addRoom = (id, uuid) => async (dispatch, getState) => {
       nextBooking
     );
 
-    await dispatch(updateBooking(id, pick(['breakdown'], nextWithMealPlans)));
+    await dispatch(updateBooking(hotelUuid, pick(['breakdown'], nextWithMealPlans)));
   }
 };
 
