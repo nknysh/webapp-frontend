@@ -170,6 +170,7 @@ export const searchByQuery = query => async (dispatch, getState) => {
   // SRs can be a different country
   const actingCountryCode = getUserCountryContext(getState());
 
+  dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
   const canSearch = getCanSearch(getState());
 

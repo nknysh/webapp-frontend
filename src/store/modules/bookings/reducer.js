@@ -14,7 +14,6 @@ import {
   BOOKING_SUBMIT,
   BOOKING_UPDATE,
   BOOKING_POPULATE,
-  BOOKING_POPULATE_BULK,
   BOOKINGS_SET,
   BOOKING_CREATED_REMOVE,
   BOOKING_REQUEST,
@@ -91,8 +90,6 @@ const bookingHoldsSuccess = (state, { payload }) =>
  */
 const populateBooking = (state, { payload: { id, data } }) => set(lensPath(['data', id]), data, state);
 
-const populateBookingBulkReducer = (state, { payload: { data } }) => set(lensPath(['data']), data, state);
-
 /**
  * Remove created booking reducer
  *
@@ -117,7 +114,6 @@ export default createReducer(
     [BOOKING_UPDATE]: loadingReducer,
     [BOOKINGS_SET]: loadingReducer,
     [BOOKINGS_FETCH]: loadingReducer,
-    [BOOKING_POPULATE_BULK]: populateBookingBulkReducer,
 
     [getErrorActionName(BOOKING_CHECKS)]: errorReducer,
     [getErrorActionName(BOOKING_FETCH)]: errorReducer,
