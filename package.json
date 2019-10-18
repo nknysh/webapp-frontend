@@ -73,7 +73,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^4.2.1",
-    "@pure-escapes/webapp-ui-components": "^1.0.26",
+    "@pure-escapes/webapp-ui-components": "^1.0.27",
     "@types/jest": "^24.0.18",
     "axios": "^0.19.0",
     "date-fns": "^1.30.1",
