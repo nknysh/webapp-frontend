@@ -3,6 +3,7 @@ import { getSearchQuery } from 'store/modules/search';
 import { pathOr, path } from 'ramda';
 import { formatDate } from 'utils';
 import { subDays } from 'date-fns';
+import { getUserCountryContext } from 'store/modules/auth/selectors';
 
 export const actionTypes = {
   FETCH_CURRENT_HOTEL_ACCOMMODATION_PRODUCTS: 'FETCH_CURRENT_HOTEL_ACCOMMODATION_PRODUCTS',
@@ -13,7 +14,7 @@ export const fetchCurrentHotelAccommodationProductDisplays = hotelUuid => async 
   const state = getState();
 
   const searchQuery = getSearchQuery(state);
-
+  const actingCountryCode = getUserCountryContext(state);
   // Default to todays date if there are no dates in the search query in redux
   const startDate = formatDate(pathOr(Date.now(), ['dates', 'startDate'], searchQuery));
 
@@ -25,7 +26,7 @@ export const fetchCurrentHotelAccommodationProductDisplays = hotelUuid => async 
 
   try {
     const responses = await client.get(
-      `/hotel-accommodation-products/${hotelUuid}?startDate=${startDate}&endDate=${endDate}`
+      `/hotel-accommodation-products/${hotelUuid}?startDate=${startDate}&endDate=${endDate}&actingCountryCode=${actingCountryCode}`
     );
 
     dispatch({
