@@ -489,13 +489,7 @@ export const getBookingRoomDatesById = createSelector(
             toDate
           ),
           endDate: pipe(
-            date => {
-              if (isNilOrEmpty(date)) {
-                return prop('endDate', searchDates);
-              }
-
-              return addDays(date, 1);
-            },
+            when(isNilOrEmpty, always(prop('endDate', searchDates))),
             toDate
           ),
         })
