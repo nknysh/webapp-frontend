@@ -47,7 +47,8 @@ export const ImgOffer = styled(Chip)`
 `;
 
 export const Selection = styled(NumberSelect)`
-  background: rgba(161, 130, 101, 0.9);
+  user-select: none;
+  background: ${props => (props.disabled ? `rgba(161, 130, 101, 0.5)` : `rgba(161, 130, 101, 0.9)`)};
   padding: ${theme.spacing.gutter}px;
   position: absolute;
   bottom: 0;

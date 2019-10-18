@@ -107,7 +107,7 @@ const renderBrochures = (t, brochures) =>
     </EndColumn>
   );
 
-const renderSelection = (t, { onAdd, onRemove, selectedCount }) => (
+const renderSelection = (t, { onAdd, onRemove, selectedCount, disabled = false }) => (
   <Selection
     nextClassName="add"
     prevClassName="minus"
@@ -116,6 +116,7 @@ const renderSelection = (t, { onAdd, onRemove, selectedCount }) => (
     onAdd={onAdd}
     onRemove={onRemove}
     value={selectedCount}
+    disabled={disabled}
   />
 );
 
@@ -196,6 +197,7 @@ export const Room = ({
   datesCount,
   appliedOfferNames,
   availableToHold,
+  updateInProgress,
 }) => {
   const { t } = useTranslation();
 
@@ -210,7 +212,7 @@ export const Room = ({
       <RoomImage>
         {photos && <Img src={prop('url', photos[0])} alt={prop('displayName', photos[0])} />}
         {renderImgOffer(rates)}
-        {withSelection && totals && renderSelection(t, { onAdd, onRemove, selectedCount })}
+        {withSelection && totals && renderSelection(t, { onAdd, onRemove, selectedCount, disabled: updateInProgress })}
       </RoomImage>
       <RoomInfo>
         <Columns>

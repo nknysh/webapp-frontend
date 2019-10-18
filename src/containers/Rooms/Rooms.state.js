@@ -8,6 +8,7 @@ import {
 } from 'store/modules/hotelAccommodationProducts';
 
 import {
+  getBookingStatus,
   getBookingRooms,
   getBooking,
   getBookingCurrencySymbol,
@@ -17,6 +18,7 @@ import {
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { hotelUuid }) => ({
+  bookingStatus: getBookingStatus(state),
   booking: getBooking(state, hotelUuid),
   currencyCode: getBookingCurrencySymbol(state, hotelUuid),
   requestedRooms: getBookingRooms(state, hotelUuid),

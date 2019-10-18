@@ -7,10 +7,12 @@ export const propTypes = {
   onChange: PropTypes.func,
   selectedCount: PropTypes.number,
   currencyCode: PropTypes.string,
+  updateInProgress: PropTypes.bool,
 };
 
 export const defaultProps = {
   withSelection: true,
   onChange: noop,
   selectedCount: 0,
+  updateInProgress: false,
 };

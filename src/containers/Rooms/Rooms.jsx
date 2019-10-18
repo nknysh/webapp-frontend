@@ -37,7 +37,7 @@ export const filterRoomsByCategoryType = (rooms, categoryTypes) => {
 
 const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByCategoryTypes')}</span>), join(', '));
 
-const renderRoom = ({ requestedRooms, currencyCode, onRoomAdd, onRoomRemove }, room) => {
+const renderRoom = ({ requestedRooms, currencyCode, onRoomAdd, onRoomRemove, bookingStatus }, room) => {
   const { uuid } = room;
   const selectedCount = length(filter(propEq('uuid', uuid), requestedRooms || []));
 
@@ -49,6 +49,7 @@ const renderRoom = ({ requestedRooms, currencyCode, onRoomAdd, onRoomRemove }, r
       onRoomAdd={onRoomAdd}
       onRoomRemove={onRoomRemove}
       selectedCount={selectedCount}
+      updateInProgress={bookingStatus === 'LOADING'}
     />
   );
 };
@@ -66,6 +67,7 @@ const renderRooms = (t, { filteredRooms, ...props }) =>
 export const Rooms = props => {
   const { t } = useTranslation();
   const {
+    bookingStatus,
     hotelUuid,
     className,
     rooms,
@@ -131,6 +133,7 @@ export const Rooms = props => {
                 onRoomAdd,
                 onRoomRemove,
                 isMobile,
+                bookingStatus,
                 ...props,
               })}
           </RoomsWrapper>
