@@ -33,6 +33,8 @@ import {
   TabLabel,
 } from './LodgingSelect.styles';
 
+const MAX_ROOMS = 99;
+
 const getGuestsCounts = pipe(
   defaultTo([]),
   reduce(
@@ -151,7 +153,12 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
         <LodgingSelectSection>
           <LodgingSelectEntry>
             <LodgingSelectEntryLabel>{t('room_plural')}</LodgingSelectEntryLabel>
-            <LodgingSelectNumberSelect value={totalRooms} onAdd={handleAddRoom} onRemove={handleRemoveRoom} />
+            <LodgingSelectNumberSelect
+              value={totalRooms}
+              onAdd={handleAddRoom}
+              onRemove={handleRemoveRoom}
+              max={MAX_ROOMS}
+            />
           </LodgingSelectEntry>
         </LodgingSelectSection>
 

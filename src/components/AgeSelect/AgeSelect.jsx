@@ -45,6 +45,8 @@ import {
   Section,
 } from './AgeSelect.styles';
 
+const DEFAULT_MAX = 99;
+
 /**
  * Get age ranges for splits
  *
@@ -102,6 +104,7 @@ const renderEntry = (
   const fromToAges = !isNilOrEmpty(fromAge) && `(${fromAge}${toAge && ` - ${toAge}`})`;
   const values = propOr([], type, splits);
   const value = typeIsAdult ? prop('numberOfAdults', selected) : length(values);
+  const limits = prop(type, minMax) || { min: 0, max: DEFAULT_MAX };
 
   return (
     <Fragment key={type}>
@@ -109,7 +112,7 @@ const renderEntry = (
         <EntryLabel>
           {type} {fromToAges}
         </EntryLabel>
-        <NumberSelect value={value} onChange={partial(onChange, [type, fromAge])} {...prop(type, minMax)} />
+        <NumberSelect value={value} onChange={partial(onChange, [type, fromAge])} {...limits} />
       </Entry>
       {propOr(true, type, showAgeDropDown) && gt(value, 0) && (
         <AgeDropDown>
