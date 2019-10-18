@@ -310,7 +310,6 @@ const renderMargin = (
   }
 ) => {
   if (!canBook) return;
-
   return summaryOnly || compactEdit ? (
     <Summary title={t('labels.commission')}>
       <SummaryFormMargin
@@ -538,13 +537,17 @@ export const SummaryFormExtras = ({
   );
 
   const onMarginChange = useCallback(
-    e => {
+    (e, marginType, marginValue) => {
       const name = path(['target', 'name'], e);
       const value = path(['target', 'value'], e);
       const type = path(['target', 'type'], e);
       const checked = path(['target', 'checked'], e);
 
-      updateBooking(id, { [name]: equals('checkbox', type) ? checked : value });
+      const payload = equals('checkbox', type)
+        ? { [name]: checked }
+        : { taMarginType: marginType, taMarginAmount: marginValue };
+
+      updateBooking(id, payload);
     },
     [id, updateBooking]
   );

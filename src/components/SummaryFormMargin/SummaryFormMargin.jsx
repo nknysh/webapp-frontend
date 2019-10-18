@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useCallback } from 'react';
 import { equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { Input, Select } from '@pure-escapes/webapp-ui-components';
@@ -38,6 +38,11 @@ export const SummaryFormMargin = ({
   const checkedAndNotSummaryAndNotCompact = checked && notSummaryAndNotCompact;
   const checkedOrSummaryOrCompactEdit = checked || summaryOnly || compactEdit;
 
+  const handleChange = e => {
+    const updateValue = e.target.name === 'taMarginAmount' ? e.target.value : value;
+    onChange(e, type, updateValue);
+  };
+
   return (
     <Margin className={className}>
       {notSummaryAndNotCompact && (
@@ -47,7 +52,7 @@ export const SummaryFormMargin = ({
         <Fragment>
           <MarginInputs>
             <Select
-              onChange={onChange}
+              onChange={handleChange}
               disabled={!checked}
               value={type}
               options={{
@@ -56,7 +61,14 @@ export const SummaryFormMargin = ({
               }}
               name="taMarginType"
             />
-            <Input type="number" name="taMarginAmount" value={value} min={0} onChange={onChange} disabled={!checked} />
+            <Input
+              type="number"
+              name="taMarginAmount"
+              value={value}
+              min={0}
+              onChange={handleChange}
+              disabled={!checked}
+            />
           </MarginInputs>
         </Fragment>
       )}
