@@ -16,6 +16,7 @@ import {
   filter,
   findLastIndex,
   forEach,
+  find,
   fromPairs,
   has,
   hasPath,
@@ -35,6 +36,7 @@ import {
   partial,
   partialRight,
   path,
+  pathOr,
   pick,
   pickBy,
   pipe,
@@ -58,6 +60,7 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { addDays } from 'date-fns';
 
 import client from 'api/bookings';
+import baseClient from 'api';
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
 import { formatDate, mapWithIndex } from 'utils';
 
@@ -1021,4 +1024,140 @@ export const fetchBookings = params => async dispatch => {
     dispatch(errorFromResponse(BOOKINGS_FETCH, e, 'There was a problem fetching bookings.'));
     throw e;
   }
+};
+
+/**
+ * given an array of guest age sets, update the booking store with that new information
+ *
+ * this function also calls out the occupancy checker endpoint, and stores any errors for
+ * the new guestAgeSets in the store to be displayed later
+ *
+ * @param {string} hotelUuid
+ * @param {string} accommodationProductUuid
+ * @param {object[]} newGuestAgeSets
+ * @param {number} newGuestAgeSets[].numberOfAdults
+ * @param {number[]} newGuestAgeSets[].agesOfAllChildren
+ */
+export const updateAccommodationProductGuestAgeSets = (hotelUuid, accommodationProductUuid, newGuestAgeSets) => async (
+  dispatch,
+  getState
+) => {
+  const state = getState();
+  const dates = map(formatDate, getSearchDates(getState()));
+  const { startDate, endDate } = dates;
+
+  /**
+   * for a guestAgeSet, return the full requestedBuild.Accommodation object
+   * for that age set, with the guestAges overwritten to the new guestAgeSet
+   *
+   * if no oldRequestBuildAccommodation is given, return a new object in the format
+   * of a requestedBuild.Accommodation, with some base data (this is in the event of
+   * adding a new room to an accommodation product)
+   *
+   * @param {object} newGuestAgeSet
+   * @param {number} guestAgeSet.numberOfAdults
+   * @param {number[]} guestAgeSet.agesOfAllChildren
+   * @param {object} oldRequestBuildAccommodation
+   */
+  const mapGuestAgeSetToAccommodationRoom = (newGuestAgeSet, oldRequestBuildAccommodation) => {
+    if (newGuestAgeSet.numberOfAdults <= 0) {
+      const room = state.hotelAccommodationProducts.data.find(r => r.uuid === accommodationProductUuid);
+      newGuestAgeSet.numberOfAdults = room.occupancy.standardOccupancy;
+    }
+    if (newGuestAgeSet.agesOfAllChildren && newGuestAgeSet.agesOfAllChildren.length <= 0) {
+      newGuestAgeSet.agesOfAllChildren = undefined;
+    }
+
+    if (!oldRequestBuildAccommodation) {
+      return {
+        uuid: accommodationProductUuid,
+        endDate,
+        startDate,
+        guestAges: newGuestAgeSet,
+      };
+    }
+
+    oldRequestBuildAccommodation.guestAges = newGuestAgeSet;
+
+    return oldRequestBuildAccommodation;
+  };
+
+  /**
+   * for a given guestAgeSet, build a URL that will hit the occupancy checker
+   * for that guestAgeSet
+   *
+   * @param {object} guestAgeSet
+   * @param {number} guestAgeSet.numberOfAdults
+   * @param {number[]} guestAgeSet.agesOfAllChildren
+   */
+  const buildOccupancyCheckUrlForGuestAgeSet = guestAgeSet => {
+    let url = `/accommodation-products/${accommodationProductUuid}/occupancy-check/ages?numberOfAdults=${
+      guestAgeSet.numberOfAdults
+    }`;
+
+    if (guestAgeSet.agesOfAllChildren && guestAgeSet.agesOfAllChildren.length >= 1) {
+      url += '&' + guestAgeSet.agesOfAllChildren.map(age => `agesOfAllChildren[]=${age}`).join('&');
+    }
+
+    return url;
+  };
+
+  /**
+   * for an array of responses from the occupancy check endpoint, return a nested array of errors
+   * - level 1 is in the index of the room the errors are for
+   * - level 2 is the errors themselves
+   * @param {Response[]} checkResponses
+   * @param {string[]} checkResponses[].data.data.errors
+   */
+  const getAllErrorsFromCheckResponses = checkResponses => {
+    if (!checkResponses || checkResponses.length <= 0) {
+      return [];
+    }
+    const errors = checkResponses
+      .map(checkResponse => {
+        return checkResponse.data.data.errors;
+      })
+      .filter(e => e && e.length >= 1);
+
+    return errors;
+  };
+
+  // get the current bookings.data.[hotelUuid].breakdown.requestedBuild.Accommodation records
+  // out of the store...
+  const currentRequestedBuildAccommodation = pathOr(
+    [],
+    ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
+    state
+  );
+
+  // ...so that we can overwrite their `guestAges` with the new guest age information.
+  const newAccommodationProductSets = newGuestAgeSets.map((guestAgeSet, index) => {
+    return mapGuestAgeSetToAccommodationRoom(guestAgeSet, currentRequestedBuildAccommodation[index]);
+  });
+
+  // then we check for any occupancy errors with the rooms...
+  const checkRequests = newGuestAgeSets.map(guestAgeSet => {
+    return baseClient.get(buildOccupancyCheckUrlForGuestAgeSet(guestAgeSet));
+  });
+  const checkResponses = await Promise.all(checkRequests);
+
+  // ...and store any errors into the store
+  const errors = getAllErrorsFromCheckResponses(checkResponses);
+  dispatch({
+    type: 'SET_ACCOMMODATION_EDIT_ERRORS',
+    payload: {
+      errors,
+    },
+  });
+
+  // finally, we build a payload in the format needed by the `updateBooking` function
+  // and update dispatch an update booking action to update the booking
+  const payload = {
+    breakdown: {
+      requestedBuild: {
+        Accommodation: newAccommodationProductSets,
+      },
+    },
+  };
+  return updateBooking(hotelUuid, payload)(dispatch, getState);
 };

@@ -75,6 +75,7 @@ export const LodgingSelect = ({ label, onSelected, rooms, contentOnly }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [closeOnClickAway, setCloseOnClickAway] = useState(true);
   const [isAgeDropdownOpen, setIsAgeDropdownOpen] = useState(false);
+
   const dropdownEl = useRef(null);
 
   const totalRooms = length(rooms);

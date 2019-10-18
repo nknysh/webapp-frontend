@@ -216,4 +216,5 @@ export default {
   specifyAges: 'Please specifiy ages:',
 
   noResults: 'No results found',
+  roomsAndGuestSelection: 'Rooms & Guests Selection',
 };

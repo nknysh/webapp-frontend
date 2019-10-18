@@ -115,29 +115,32 @@ const renderRoom = (
   { id, summaryOnly, setModalId, removeRoom, hotelUuid, editGuard, onEditGuard, showRoomImage, showHolds },
   rooms,
   uuid
-) => (
-  <SummaryRoom
-    canEdit={!summaryOnly}
-    hotelUuid={hotelUuid}
-    id={id}
-    key={uuid}
-    onEdit={setModalId}
-    onRemove={removeRoom}
-    roomId={uuid}
-    editGuard={editGuard}
-    onEditGuard={onEditGuard}
-    showImage={showRoomImage}
-    showHolds={showHolds}
-  />
-);
+) => {
+  return (
+    <SummaryRoom
+      canEdit={!summaryOnly}
+      hotelUuid={hotelUuid}
+      id={id}
+      key={uuid}
+      onEdit={setModalId}
+      onRemove={removeRoom}
+      roomId={uuid}
+      editGuard={editGuard}
+      onEditGuard={onEditGuard}
+      showImage={showRoomImage}
+      showHolds={showHolds}
+    />
+  );
+};
 
-const renderRooms = (t, { breakdown, ...data }, props) =>
-  pipe(
+const renderRooms = (t, { breakdown, ...data }, props) => {
+  return pipe(
     pathOr([], ['potentialBooking', 'Accommodation']),
     groupBy(path(['product', 'uuid'])),
     mapObjIndexed(partial(renderRoom, [t, { breakdown, ...data }, props])),
     values
   )(breakdown);
+};
 
 const renderRoomEditModal = (
   t,
@@ -401,6 +404,7 @@ export const SummaryForm = props => {
     onReleaseHolds,
     onSubmit: onFormSubmit,
     summaryOnly,
+    accommodationEditErrors,
   } = props;
   const { marginApplied, taMarginAmount, taMarginType, hotelUuid, status: bookingStatus, overrideTotal } = booking;
 
@@ -438,9 +442,11 @@ export const SummaryForm = props => {
 
   const isLoading = isActive(status);
 
-  const onModalClose = useCallback(() => setModalId(undefined), []);
+  const handleAccommodationEditModalClose = useCallback(() => {
+    return accommodationEditErrors ? null : setModalId(undefined);
+  }, [accommodationEditErrors]);
 
-  const onEditGuard = useCallback(() => {
+  const handleEditGuard = useCallback(() => {
     if (!editGuard) return;
 
     // This is essentially a custom hook pre-showing the guard message
@@ -500,7 +506,7 @@ export const SummaryForm = props => {
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
         {renderTotal(t, {
           editGuard,
-          onEditGuard,
+          onEditGuard: handleEditGuard,
           overrideTotal,
           ...props,
         })}
@@ -513,7 +519,7 @@ export const SummaryForm = props => {
           {renderRooms(t, booking, {
             editGuard,
             hotelUuid,
-            onEditGuard,
+            onEditGuard: handleEditGuard,
             setModalId,
             ...props,
           })}
@@ -521,7 +527,7 @@ export const SummaryForm = props => {
         {renderForm(t, {
           editGuard,
           initialValues: formValues,
-          onEditGuard,
+          onEditGuard: handleEditGuard,
           onHoldModalInit,
           onSubmit,
           ...props,
@@ -533,7 +539,7 @@ export const SummaryForm = props => {
           modalId,
           status,
           setModalId,
-          onModalClose,
+          onModalClose: handleAccommodationEditModalClose,
           ...props,
         })}
       {renderEditGuard(t, { setShowEditGuard, showEditGuard, onEditGuardAccepted, ...props })}

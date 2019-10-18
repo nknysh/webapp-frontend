@@ -4,55 +4,47 @@ import {
   equals,
   gt,
   head,
-  ifElse,
   last,
   length,
-  lt,
   map,
-  mapObjIndexed,
   partial,
   path,
   pipe,
   prepend,
   mergeDeepLeft,
   prop,
-  propOr,
   propSatisfies,
-  toUpper,
-  values,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { isThisMonth } from 'date-fns';
 import { useTranslation } from 'react-i18next';
-import { RadioButton, Form, FormFieldError, Loader, Checkbox, ToolTip } from '@pure-escapes/webapp-ui-components';
+import { RadioButton, Form, Loader, Checkbox, ToolTip } from '@pure-escapes/webapp-ui-components';
 
 import { ProductTypes } from 'config/enums';
 
 import { isActive } from 'store/common';
 
-import { GuestSelect, OccasionsSelect } from 'components';
+import { OccasionsSelect } from 'components';
 import { useEffectBoundary } from 'effects';
 import {
   formatDate,
   getEndOfMonth,
   getStartOfMonth,
   groupErrorsByRoomIndex,
-  isArray,
   mapWithIndex,
-  replaceAccommodationWithRoom,
   toDate,
   formatPrice,
 } from 'utils';
 
 import { validation } from 'config/forms/roomEdit';
 
+import LodgingSelect from 'components/LodgingSelect';
+
 import connect from './SummaryRoomEdit.state';
 import { propTypes, defaultProps } from './SummaryRoomEdit.props';
 import {
   DatePrice,
   EditForm,
-  EditFormActions,
-  EditFormButton,
   EditFormSection,
   EditFormSectionTitle,
   EditFormTitle,
@@ -60,11 +52,11 @@ import {
   MealPlanRatePrice,
   MealPlanRatePriceOffer,
   StyledDatePicker,
+  AccommodationEditErrorsHeader,
+  AccommodationEditErrorsError,
 } from './SummaryRoomEdit.styles';
 import {
-  getAgeRanges,
   getMealPlan,
-  getMinMax,
   getMonthToDisplay,
   getOptionsFromRates,
   getRepeatGuest,
@@ -72,57 +64,6 @@ import {
   parseMealPlans,
   prepareDates,
 } from './SummaryRoomEdit.utils';
-
-const renderError = message => message && <FormFieldError key={message}>{message}</FormFieldError>;
-const renderKeyedError = (msg, key) => renderError(`${toUpper(key)} - ${msg}`);
-
-const renderGuestSelectErrors = ifElse(
-  isArray,
-  pipe(
-    map(
-      pipe(
-        mapObjIndexed(renderKeyedError),
-        values
-      )
-    )
-  ),
-  renderError
-);
-
-const renderRoomErrors = pipe(
-  replaceAccommodationWithRoom,
-  map(map(renderError))
-);
-
-const renderGuestSelect = (
-  t,
-  {
-    ageRanges,
-    bookingErrors,
-    errors,
-    minMax,
-    onGuestSelectChange,
-    onQuantityChange,
-    roomContext,
-    setRoomContext,
-    totalRooms,
-    values,
-  }
-) => (
-  <GuestSelect
-    ageRanges={ageRanges}
-    errors={renderGuestSelectErrors(prop('guestAges', errors))}
-    minMax={minMax}
-    onQuantityChange={onQuantityChange}
-    onSelected={onGuestSelectChange}
-    onTabChange={setRoomContext}
-    tabIndex={roomContext}
-    totalRooms={totalRooms}
-    values={propOr({}, 'guestAges', values)}
-  >
-    {renderRoomErrors(bookingErrors)}
-  </GuestSelect>
-);
 
 const renderDay = (t, rates, currencyCode, day) => {
   const dayRate = prop(formatDate(day), rates);
@@ -231,7 +172,6 @@ const renderMealPlans = ({ mealPlanOptions, onMealPlanChange, values }) => (
 );
 
 export const SummaryRoomEdit = ({
-  addRoom,
   canChangeDates,
   dates,
   errors,
@@ -241,15 +181,15 @@ export const SummaryRoomEdit = ({
   onComplete,
   onDatesShow,
   rates,
-  removeRoom,
   requestedRooms,
   roomId,
   rooms,
   status,
   updateBooking,
-  updateIndividualRoom,
+  updateAccommodationProductGuestAgeSets,
   updateRoom,
   currencyCode,
+  accommodationEditErrors,
 }) => {
   const { t } = useTranslation();
 
@@ -269,8 +209,6 @@ export const SummaryRoomEdit = ({
 
   const isLoading = isActive(status);
   const totalRooms = length(requestedRooms);
-  const ageRanges = getAgeRanges(rooms);
-  const minMax = getMinMax(rooms);
   const bookingErrors = groupErrorsByRoomIndex(errors);
   const { firstDate, lastDate, disabled } = getOptionsFromRates(rates);
   const mealPlanOptions = pipe(
@@ -305,21 +243,6 @@ export const SummaryRoomEdit = ({
   useEffectBoundary(() => {
     complete && onComplete();
   }, [complete]);
-
-  const onQuantityChange = useCallback(
-    quantity => {
-      gt(quantity, totalRooms) && addRoom(id, roomId);
-      lt(quantity, totalRooms) && removeRoom(id, roomId);
-    },
-    [addRoom, id, removeRoom, totalRooms, roomId]
-  );
-
-  const onGuestSelectChange = useCallback(
-    (guestAges, i) => {
-      updateIndividualRoom(id, roomId, i, { guestAges });
-    },
-    [id, roomId, updateIndividualRoom]
-  );
 
   const onMonthChange = useCallback(
     month => {
@@ -378,6 +301,35 @@ export const SummaryRoomEdit = ({
     [bookingErrors, hotelUuid, updateBooking]
   );
 
+  const guestAgeSets = requestedRooms.filter(r => r.uuid === roomId).map(r => r.guestAges);
+
+  /**
+   * renders all the accommodationEditErrors
+   * accommodationEditErrors is an array of arrays;
+   * - the 1st level of array indicates the room index
+   * - the 2nd level is the array of strings of actual errors for that room
+   * @param {array[]} accommodationEditErrors
+   */
+  const renderAccommodationEditErrors = accommodationEditErrors => {
+    if (!accommodationEditErrors) {
+      return null;
+    }
+
+    return accommodationEditErrors.map((errorList, index) => {
+      return (
+        <React.Fragment key={`accommodationEditError${index}`}>
+          <AccommodationEditErrorsHeader>Room {index + 1} Errors</AccommodationEditErrorsHeader>
+          {errorList.map((error, innerIndex) => {
+            return (
+              <AccommodationEditErrorsError key={`accommodationEditErrorSingleError${innerIndex}`}>
+                {error}
+              </AccommodationEditErrorsError>
+            );
+          })}
+        </React.Fragment>
+      );
+    });
+  };
   return (
     <EditForm>
       <EditFormTitle>{path(['product', 'name'], head(rooms))}</EditFormTitle>
@@ -388,23 +340,18 @@ export const SummaryRoomEdit = ({
         validationSchema={validation({ options: path(['product', 'options'], head(rooms)) })}
         validateOnBlur={false}
       >
-        {({ values, errors, ...formProps }) => (
+        {({ values }) => (
           <Loader isLoading={isLoading} showPrev={true} text="Updating...">
             <EditFormSection>
-              {renderGuestSelect(t, {
-                ageRanges,
-                bookingErrors,
-                errors,
-                minMax,
-                onGuestSelectChange,
-                onQuantityChange,
-                requestedRooms,
-                roomContext,
-                setRoomContext,
-                totalRooms,
-                values,
-                ...formProps,
-              })}
+              <LodgingSelect
+                updateLocalState={true}
+                label={`${t('labels.roomsAndGuestSelection')}`}
+                onSelected={guestAgeSets => {
+                  updateAccommodationProductGuestAgeSets(id, roomId, guestAgeSets);
+                }}
+                rooms={guestAgeSets}
+              />
+              {renderAccommodationEditErrors(accommodationEditErrors)}
             </EditFormSection>
             {canChangeDates && (
               <EditFormSection>
@@ -434,9 +381,6 @@ export const SummaryRoomEdit = ({
             <EditFormSection>
               <Checkbox label={t('labels.isRepeat')} onChange={onRepeatGuestChange} checked={repeatGuest} />
             </EditFormSection>
-            <EditFormActions>
-              <EditFormButton type="submit">{t('buttons.update')}</EditFormButton>
-            </EditFormActions>
           </Loader>
         )}
       </Form>

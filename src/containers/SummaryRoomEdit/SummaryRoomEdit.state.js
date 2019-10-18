@@ -19,6 +19,8 @@ import {
   updateBooking,
   updateIndividualRoom,
   updateRoom,
+  updateAccommodationProductGuestAgeSets,
+  getAccommodationEditErrors,
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id, roomId }) => ({
@@ -31,6 +33,7 @@ export const mapStateToProps = (state, { id, roomId }) => ({
   rates: getHotelRoomRates(state, id, roomId),
   requestedRooms: getBookingRoomsById(state, id, roomId),
   rooms: getPotentialBookingRoomsById(state, id, roomId),
+  accommodationEditErrors: getAccommodationEditErrors(state, id, roomId),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -44,6 +47,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateIndividualRoom: pipe(
     updateIndividualRoom,
+    dispatch
+  ),
+  updateAccommodationProductGuestAgeSets: pipe(
+    updateAccommodationProductGuestAgeSets,
     dispatch
   ),
   addRoom: pipe(

@@ -1333,3 +1333,8 @@ export const getBookingRoomsByIdIsOnRequest = createSelector(
   getPotentialBookingRoomsById,
   any(propEq('isOnRequest', true))
 );
+
+export const getAccommodationEditErrors = createSelector(
+  getBookings,
+  propOr(null, 'accommodationEditErrors')
+);

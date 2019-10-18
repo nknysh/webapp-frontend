@@ -101,6 +101,11 @@ const populateBooking = (state, { payload: { id, data } }) => set(lensPath(['dat
  */
 const removeCreatedBooking = (state, { payload }) => set(lensProp('created'), payload, state);
 
+const setAccommodationEditErrors = (state, payload) => {
+  state.accommodationEditErrors = payload.payload.errors.length >= 1 ? payload.payload.errors : null;
+  return state;
+};
+
 export default createReducer(
   {
     [BOOKING_CHECKS]: loadingReducer,
@@ -137,6 +142,8 @@ export default createReducer(
     [getSuccessActionName(BOOKING_UPDATE)]: successReducer,
     [getSuccessActionName(BOOKINGS_SET)]: successReducer,
     [getSuccessActionName(BOOKINGS_FETCH)]: successReducer,
+
+    SET_ACCOMMODATION_EDIT_ERRORS: setAccommodationEditErrors,
   },
   initialState
 );
