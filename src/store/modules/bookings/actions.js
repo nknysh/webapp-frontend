@@ -33,7 +33,6 @@ import {
   omit,
   over,
   partial,
-  partialRight,
   path,
   pick,
   pickBy,
@@ -55,11 +54,10 @@ import {
   when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
-import { addDays } from 'date-fns';
 
 import client from 'api/bookings';
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
-import { formatDate, mapWithIndex } from 'utils';
+import { formatDate, mapWithIndex, addDaysUTC } from 'utils';
 
 import { getSearchDates, getSearchLodgings, getSearchMealPlan } from 'store/modules/search/selectors';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
@@ -196,7 +194,7 @@ const getHotelName = path(['breakdown', 'hotel', 'name']);
  * @returns {object}
  */
 const dateEvolve = evolve({
-  endDate: partialRight(addDays, [1]),
+  endDate: date => addDaysUTC(date, 1),
 });
 
 /**

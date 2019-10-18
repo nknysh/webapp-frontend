@@ -1,10 +1,10 @@
 import React from 'react';
 import { compose, gt, head, last, map, partial, path, pathOr, prop, values, propOr } from 'ramda';
 import { useTranslation } from 'react-i18next';
-import { addDays, format } from 'date-fns';
+import { format } from 'date-fns';
 
 import { ProductTypes } from 'config/enums';
-import { getNumberOfDays, mapWithIndex } from 'utils';
+import { getNumberOfDays, mapWithIndex, addDaysUTC } from 'utils';
 
 import connect from './SearchResult.state';
 import { propTypes, defaultProps } from './SearchResult.props';
@@ -35,7 +35,7 @@ import { formatPrice } from 'utils';
 
 const getStartDateEndDate = dates => {
   const startDate = head(dates);
-  const endDate = addDays(last(dates), 1);
+  const endDate = addDaysUTC(last(dates), 1);
 
   return { startDate, endDate };
 };

@@ -15,7 +15,7 @@ import {
   last,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
-import { differenceInCalendarDays, eachDay, endOfMonth, format, startOfMonth, subDays } from 'date-fns';
+import { differenceInCalendarDays, eachDay, endOfMonth, format, startOfMonth, subDays, addDays } from 'date-fns';
 
 import config from 'config';
 import { isString } from './helpers';
@@ -192,3 +192,5 @@ export const getDaysBetween = (startDate, endDate) => eachDay(startDate, subDays
  * @returns {Function | Date}
  */
 export const minusDays = curry((amount, date) => subDays(date, amount));
+
+export const addDaysUTC = (date, amount) => addDays(new Date(date), amount);
