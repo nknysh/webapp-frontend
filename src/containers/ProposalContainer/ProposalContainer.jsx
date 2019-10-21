@@ -354,7 +354,7 @@ export const ProposalContainer = ({
   proposalBookingRequest,
   removeBooking,
   status,
-  updateProposal,
+  completeProposal,
 }) => {
   const { t } = useTranslation();
 
@@ -437,10 +437,10 @@ export const ProposalContainer = ({
 
   const onGenerateAndSend = useCallback(
     values => {
-      updateProposal(id, { isLocked: true, attachedUploads, ...values });
+      completeProposal(id, { attachedUploads, ...values });
       setSubmitted(true);
     },
-    [attachedUploads, id, updateProposal]
+    [attachedUploads, id, completeProposal]
   );
 
   const isLocked = propOr(false, 'isLocked', proposal);

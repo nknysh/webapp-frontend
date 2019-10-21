@@ -43,6 +43,8 @@ export const getProposal = (id, params, opts) => client.get(`/proposals/${id}`, 
  * @returns {Promise}
  */
 export const updateProposal = (id, body, params, opts) => client.patch(`/proposals/${id}`, body, { params, ...opts });
+export const completeProposal = (id, body, params, opts) =>
+  client.post(`/proposals/${id}/complete`, body, { params, ...opts });
 
 /**
  * Remove booking
@@ -56,4 +58,4 @@ export const updateProposal = (id, body, params, opts) => client.patch(`/proposa
 export const removeBooking = (id, bookingId, params, opts) =>
   client.delete(`/proposals/${id}/bookings/${bookingId}`, { params, ...opts });
 
-export default { getProposals, getProposal, createProposal, updateProposal, removeBooking };
+export default { getProposals, getProposal, createProposal, updateProposal, removeBooking, completeProposal };
