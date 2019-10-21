@@ -583,7 +583,7 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
     ...payload,
     hotelUuid,
     hotelName: getHotelName(prevBooking),
-    touched: true,
+    touched: false,
   };
 
   const nextState = over(
