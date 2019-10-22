@@ -330,30 +330,18 @@ export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
   const accommodationProduct = state.hotelAccommodationProducts.data.find(r => r.uuid === roomUuid);
   if (prevRoom) {
     // we have a previous room (which means we've already got a room of this accommodationProduct) which means:
-    // - use the standard occupancy
-    // - merge over the previous room for the rest of the data (dates, meal plans, etc.)
+    // - use the standard occupancy (adding always uses standard occupancy)
+    // - merge over `prevRoom` for the rest of the data (dates, meal plans, etc.)
     newRoomToBeAdded = map(mergeDeepRight(prevRoom), [
       { guestAges: { numberOfAdults: accommodationProduct.occupancy.standardOccupancy, agesOfAllChildren: [] } },
     ]);
   } else {
     // this is the first room we're adding, so
-    // - use the occupancy & dates from the search
+    // - dates from the search
+    // - use the standard occupancy (adding always uses standard occupancy)
     // - use the matching mealPlan from the hotelAccommodationProducts storage domain
     // - merge it all together with the UUID of the accommodation product
-    const guestAges = pipe(
-      // Extract lodgings from state
-      getSearchLodgings,
-      map(
-        pipe(
-          // Format number of adults to  a number (as it could be string)
-          over(lensProp('numberOfAdults'), Number),
-          // Same with children, if they exist
-          when(has('agesOfAllChildren'), over(lensProp('agesOfAllChildren'), map(Number))),
-          // Wrap it up in a new object
-          objOf('guestAges')
-        )
-      )
-    )(state);
+
     const dates = map(formatDate, getSearchDates(state));
     newRoomToBeAdded = map(
       mergeDeepRight({
@@ -367,7 +355,7 @@ export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
           ],
         },
       }),
-      guestAges
+      [{ guestAges: { numberOfAdults: accommodationProduct.occupancy.standardOccupancy, agesOfAllChildren: [] } }]
     );
   }
 
