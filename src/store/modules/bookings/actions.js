@@ -16,7 +16,6 @@ import {
   filter,
   findLastIndex,
   forEach,
-  find,
   fromPairs,
   has,
   hasPath,
@@ -323,19 +322,25 @@ export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
   dispatch(genericAction(BOOKING_ROOM_ADD, { id: hotelUuid, uuid: roomUuid }));
   const state = getState();
 
-  const isFirstRoom = state.bookings.data && state.bookings.data[hotelUuid] ? false : true;
+  const booking = getBooking(state, hotelUuid);
+  const prevRooms = getBookingRoomsById(state, hotelUuid, roomUuid);
+  const prevRoom = !isNilOrEmpty(prevRooms) && last(prevRooms);
 
-  // Get the search dates from search state key and format them
-  const dates = map(formatDate, getSearchDates(state));
-
-  // lodgings needs to be different if this is the first room they're adding to the booking
-  // or not
-  // if it is the first room, we need to use the lodgings from the search query
-  // if its a new room, we need to build a new object based on the standard occupancy of
-  // the room in question
-  let lodgings = null;
-  if (isFirstRoom) {
-    lodgings = pipe(
+  let newRoomToBeAdded = null;
+  const accommodationProduct = state.hotelAccommodationProducts.data.find(r => r.uuid === roomUuid);
+  if (prevRoom) {
+    // we have a previous room (which means we've already got a room of this accommodationProduct) which means:
+    // - use the standard occupancy
+    // - merge over the previous room for the rest of the data (dates, meal plans, etc.)
+    newRoomToBeAdded = map(mergeDeepRight(prevRoom), [
+      { guestAges: { numberOfAdults: accommodationProduct.occupancy.standardOccupancy, agesOfAllChildren: [] } },
+    ]);
+  } else {
+    // this is the first room we're adding, so
+    // - use the occupancy & dates from the search
+    // - use the matching mealPlan from the hotelAccommodationProducts storage domain
+    // - merge it all together with the UUID of the accommodation product
+    const guestAges = pipe(
       // Extract lodgings from state
       getSearchLodgings,
       map(
@@ -349,25 +354,29 @@ export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
         )
       )
     )(state);
-  } else {
-    // if the room we're adding is not the first room for this hotel, use
-    // the standard occupancy of the room
-    const room = state.hotelAccommodationProducts.data.find(r => r.uuid === roomUuid);
-    lodgings = [{ guestAges: { numberOfAdults: room.occupancy.standardOccupancy, agesOfAllChildren: [] } }];
+    const dates = map(formatDate, getSearchDates(state));
+    newRoomToBeAdded = map(
+      mergeDeepRight({
+        ...dates,
+        uuid: roomUuid,
+        subProducts: {
+          'Meal Plan': [
+            {
+              uuid: accommodationProduct.defaultMealPlanUuid,
+            },
+          ],
+        },
+      }),
+      guestAges
+    );
   }
 
-  const booking = getBooking(state, hotelUuid);
-  const prevRooms = getBookingRoomsById(state, hotelUuid, roomUuid);
-
-  // If there was a previous room with this uuid, pop the last room selection and
-  // use it for the new room's data.
-  const prevRoom = !isNilOrEmpty(prevRooms) && last(prevRooms);
-
+  // concat the new room into the Accommodation object
   const next = overProducts(
     ProductTypes.ACCOMMODATION,
     pipe(
       defaultTo([]),
-      concat(__, prevRoom ? [prevRoom] : map(mergeDeepLeft({ ...dates, uuid: roomUuid }), lodgings))
+      concat(__, newRoomToBeAdded)
     ),
     booking
   );
@@ -1025,6 +1034,65 @@ export const fetchBookings = params => async dispatch => {
 };
 
 /**
+ * for a guestAgeSet, return the full requestedBuild.Accommodation object
+ * for that age set, with the guestAges overwritten to the new guestAgeSet
+ *
+ * @param {object} newGuestAgeSet
+ * @param {number} guestAgeSet.numberOfAdults
+ * @param {number[]} guestAgeSet.agesOfAllChildren
+ * @param {object} oldRequestBuildAccommodation
+ */
+export const mapGuestAgeSetToAccommodationRoom = (newGuestAgeSet, oldRequestBuildAccommodation) => {
+  oldRequestBuildAccommodation.guestAges = newGuestAgeSet;
+
+  return oldRequestBuildAccommodation;
+};
+
+/**
+ * for a given guestAgeSet, build a URL that will hit the occupancy checker
+ * for that guestAgeSet
+ *
+ * @param {object} accommodationRecord
+ * @param {number} guestAgeSet.guestAges.numberOfAdults
+ * @param {number[]} guestAgeSet.guestAges.agesOfAllChildren
+ */
+export const buildOccupancyCheckUrlForAccommodationProduct = (accommodationRecord, accommodationProductUuid) => {
+  if (!accommodationRecord || !accommodationRecord.guestAges || !accommodationProductUuid) {
+    return null;
+  }
+
+  let url = `/accommodation-products/${accommodationProductUuid}/occupancy-check/ages?numberOfAdults=${
+    accommodationRecord.guestAges.numberOfAdults
+  }`;
+
+  if (accommodationRecord.guestAges.agesOfAllChildren && accommodationRecord.guestAges.agesOfAllChildren.length >= 1) {
+    url += '&' + accommodationRecord.guestAges.agesOfAllChildren.map(age => `agesOfAllChildren[]=${age}`).join('&');
+  }
+
+  return url;
+};
+
+/**
+ * for an array of responses from the occupancy check endpoint, return a nested array of errors
+ * - level 1 is in the index of the room the errors are for
+ * - level 2 is the errors themselves
+ * @param {Response[]} checkResponses
+ * @param {string[]} checkResponses[].data.data.errors
+ */
+export const getAllErrorsFromCheckResponses = checkResponses => {
+  if (!checkResponses || checkResponses.length <= 0) {
+    return [];
+  }
+  const errors = checkResponses
+    .map(checkResponse => {
+      return checkResponse.data.data.errors;
+    })
+    .filter(e => e && e.length >= 1);
+
+  return errors;
+};
+
+/**
  * given an array of guest age sets, update the booking store with that new information
  *
  * this function also calls out the occupancy checker endpoint, and stores any errors for
@@ -1041,102 +1109,37 @@ export const updateAccommodationProductGuestAgeSets = (hotelUuid, accommodationP
   getState
 ) => {
   const state = getState();
-  const dates = map(formatDate, getSearchDates(getState()));
-  const { startDate, endDate } = dates;
-
-  /**
-   * for a guestAgeSet, return the full requestedBuild.Accommodation object
-   * for that age set, with the guestAges overwritten to the new guestAgeSet
-   *
-   * if no oldRequestBuildAccommodation is given, return a new object in the format
-   * of a requestedBuild.Accommodation, with some base data (this is in the event of
-   * adding a new room to an accommodation product)
-   *
-   * @param {object} newGuestAgeSet
-   * @param {number} guestAgeSet.numberOfAdults
-   * @param {number[]} guestAgeSet.agesOfAllChildren
-   * @param {object} oldRequestBuildAccommodation
-   */
-  const mapGuestAgeSetToAccommodationRoom = (newGuestAgeSet, oldRequestBuildAccommodation) => {
-    if (newGuestAgeSet.numberOfAdults <= 0) {
-      const room = state.hotelAccommodationProducts.data.find(r => r.uuid === accommodationProductUuid);
-      newGuestAgeSet.numberOfAdults = room.occupancy.standardOccupancy;
-    }
-    if (newGuestAgeSet.agesOfAllChildren && newGuestAgeSet.agesOfAllChildren.length <= 0) {
-      newGuestAgeSet.agesOfAllChildren = undefined;
-    }
-
-    if (!oldRequestBuildAccommodation) {
-      return {
-        uuid: accommodationProductUuid,
-        endDate,
-        startDate,
-        guestAges: newGuestAgeSet,
-      };
-    }
-
-    oldRequestBuildAccommodation.guestAges = newGuestAgeSet;
-
-    return oldRequestBuildAccommodation;
-  };
-
-  /**
-   * for a given guestAgeSet, build a URL that will hit the occupancy checker
-   * for that guestAgeSet
-   *
-   * @param {object} guestAgeSet
-   * @param {number} guestAgeSet.numberOfAdults
-   * @param {number[]} guestAgeSet.agesOfAllChildren
-   */
-  const buildOccupancyCheckUrlForGuestAgeSet = guestAgeSet => {
-    let url = `/accommodation-products/${accommodationProductUuid}/occupancy-check/ages?numberOfAdults=${
-      guestAgeSet.numberOfAdults
-    }`;
-
-    if (guestAgeSet.agesOfAllChildren && guestAgeSet.agesOfAllChildren.length >= 1) {
-      url += '&' + guestAgeSet.agesOfAllChildren.map(age => `agesOfAllChildren[]=${age}`).join('&');
-    }
-
-    return url;
-  };
-
-  /**
-   * for an array of responses from the occupancy check endpoint, return a nested array of errors
-   * - level 1 is in the index of the room the errors are for
-   * - level 2 is the errors themselves
-   * @param {Response[]} checkResponses
-   * @param {string[]} checkResponses[].data.data.errors
-   */
-  const getAllErrorsFromCheckResponses = checkResponses => {
-    if (!checkResponses || checkResponses.length <= 0) {
-      return [];
-    }
-    const errors = checkResponses
-      .map(checkResponse => {
-        return checkResponse.data.data.errors;
-      })
-      .filter(e => e && e.length >= 1);
-
-    return errors;
-  };
 
   // get the current bookings.data.[hotelUuid].breakdown.requestedBuild.Accommodation records
-  // out of the store...
+  // out of the store
   const currentRequestedBuildAccommodation = pathOr(
     [],
     ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
     state
   );
 
-  // ...so that we can overwrite their `guestAges` with the new guest age information.
-  const newAccommodationProductSets = newGuestAgeSets.map((guestAgeSet, index) => {
-    return mapGuestAgeSetToAccommodationRoom(guestAgeSet, currentRequestedBuildAccommodation[index]);
-  });
+  // if there are more new guest sets than there are current Accommodation records, it means
+  // we're adding a room - in that case, just call addRoom and return
+  if (newGuestAgeSets.length > currentRequestedBuildAccommodation.length) {
+    return addRoom(hotelUuid, accommodationProductUuid)(dispatch, getState);
+  }
 
-  // then we check for any occupancy errors with the rooms...
-  const checkRequests = newGuestAgeSets.map(guestAgeSet => {
-    return baseClient.get(buildOccupancyCheckUrlForGuestAgeSet(guestAgeSet));
-  });
+  // for each new guest age set, use it to overwrite
+  // the matching Accommodation record's `guestAges`
+  const newAccommodationProductSets = newGuestAgeSets
+    .map((guestAgeSet, index) => {
+      if (!currentRequestedBuildAccommodation[index]) {
+        return null;
+      }
+      return mapGuestAgeSetToAccommodationRoom(guestAgeSet, currentRequestedBuildAccommodation[index]);
+    })
+    .filter(i => i !== null);
+
+  // then we check for any occupancy errors with the new records...
+  const checkRequests = newAccommodationProductSets.map(updatedAccommodationProduct =>
+    baseClient.get(buildOccupancyCheckUrlForAccommodationProduct(updatedAccommodationProduct, accommodationProductUuid))
+  );
+
   const checkResponses = await Promise.all(checkRequests);
 
   // ...and store any errors into the store
@@ -1149,7 +1152,7 @@ export const updateAccommodationProductGuestAgeSets = (hotelUuid, accommodationP
   });
 
   // finally, we build a payload in the format needed by the `updateBooking` function
-  // and update dispatch an update booking action to update the booking
+  // and dispatch an update booking action to update the booking
   const payload = {
     breakdown: {
       requestedBuild: {
@@ -1157,5 +1160,6 @@ export const updateAccommodationProductGuestAgeSets = (hotelUuid, accommodationP
       },
     },
   };
+
   return updateBooking(hotelUuid, payload)(dispatch, getState);
 };

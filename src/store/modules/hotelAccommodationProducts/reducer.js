@@ -34,6 +34,7 @@ const extractDisplayInformationForHotelAccommodationProduct = bookingBuilderResp
     appliedOfferNames: bookingBuilderResponse.appliedOfferNames,
     potentialBooking: bookingBuilderResponse.potentialBooking,
     availableToHold: bookingBuilderResponse.availableToHold,
+    defaultMealPlanUuid: bookingBuilderResponse.mealPlanSubProductSelections[0].uuid,
   };
 };
 
