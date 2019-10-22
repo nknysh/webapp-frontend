@@ -20,6 +20,7 @@ export default {
   standardOccupancy: 'Standard occupancy',
   maxOccupancy: 'Max occupancy',
   moreInfo: 'More information',
+  lessInfo: 'Less information',
   filterByAmenities: 'Filter by amenities',
   filterByCategoryTypes: 'Filter by room types',
   noRooms: 'No rooms available',
@@ -212,6 +213,7 @@ export default {
   availability: 'Availability',
   availableToHold: 'This hotel has accommodation available to hold',
   availableToHoldRoom: 'This accommodation is available to hold',
+  availableToHoldGeneric: 'Available to hold',
 
   specifyAges: 'Please specifiy ages:',
 

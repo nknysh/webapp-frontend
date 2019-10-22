@@ -15,11 +15,12 @@ import {
   Column,
   RoomsWrapper,
   CategoryTypesSelect,
-  StyledRoom,
   NoResults,
   AccommodationPricesInfo,
   RoomsError,
 } from './Rooms.styles';
+
+import AccommodationCard from 'components/AccommodationCard';
 
 export const filterRoomsByCategoryType = (rooms, categoryTypes) => {
   if (!Array.isArray(categoryTypes)) {
@@ -37,19 +38,30 @@ export const filterRoomsByCategoryType = (rooms, categoryTypes) => {
 
 const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByCategoryTypes')}</span>), join(', '));
 
-const renderRoom = ({ requestedRooms, currencyCode, onRoomAdd, onRoomRemove, bookingStatus }, room) => {
+const renderRoom = ({ requestedRooms, currencyCode, handleRoomAdd, handleRoomRemove, bookingStatus }, room) => {
   const { uuid } = room;
   const selectedCount = length(filter(propEq('uuid', uuid), requestedRooms || []));
 
   return (
-    <StyledRoom
+    <AccommodationCard
       key={hash(room)}
-      {...room}
+      id={room.uuid}
+      availableToHold={room.availableToHold}
       currencyCode={currencyCode}
-      onRoomAdd={onRoomAdd}
-      onRoomRemove={onRoomRemove}
+      title={room.title}
+      description={room.description}
+      moreInformation={room.moreInformation}
+      amenities={room.amenities}
+      size={room.size}
+      brochures={room.floorPlans}
+      totals={room.totals}
+      occupancy={room.occupancy}
       selectedCount={selectedCount}
+      appliedOffers={room.appliedOfferNames}
+      imageUri={room.photos[0].url}
       updateInProgress={bookingStatus === 'LOADING'}
+      onRoomAdd={handleRoomAdd}
+      onRoomRemove={handleRoomRemove}
     />
   );
 };
@@ -100,8 +112,8 @@ export const Rooms = props => {
 
   const filteredRooms = filterRoomsByCategoryType(rooms, selectedCategoryTypes);
 
-  const onRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid), [addRoom, hotelUuid]);
-  const onRoomRemove = useCallback(uuid => removeRoom(hotelUuid, uuid), [removeRoom, hotelUuid]);
+  const handleRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid), [addRoom, hotelUuid]);
+  const handleRoomRemove = useCallback(uuid => removeRoom(hotelUuid, uuid), [removeRoom, hotelUuid]);
 
   return (
     <StyledRooms className={className}>
@@ -130,8 +142,8 @@ export const Rooms = props => {
             {!isNilOrEmpty(filteredRooms) &&
               renderRooms(t, {
                 filteredRooms,
-                onRoomAdd,
-                onRoomRemove,
+                handleRoomAdd,
+                handleRoomRemove,
                 isMobile,
                 bookingStatus,
                 ...props,
