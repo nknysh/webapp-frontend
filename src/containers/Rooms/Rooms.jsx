@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { always, compose, filter, ifElse, join, length, map, partial, propEq, values } from 'ramda';
+import { always, compose, filter, ifElse, join, pathOr, length, map, partial, propEq, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import hash from 'object-hash';
 import { useTranslation } from 'react-i18next';
@@ -58,7 +58,7 @@ const renderRoom = ({ requestedRooms, currencyCode, handleRoomAdd, handleRoomRem
       occupancy={room.occupancy}
       selectedCount={selectedCount}
       appliedOffers={room.appliedOfferNames}
-      imageUri={room.photos[0].url}
+      imageUri={pathOr(null, ['photos', 0, 'url'], room)}
       updateInProgress={bookingStatus === 'LOADING'}
       onRoomAdd={handleRoomAdd}
       onRoomRemove={handleRoomRemove}

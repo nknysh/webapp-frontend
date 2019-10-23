@@ -35,7 +35,7 @@ export const AccommodationCard = props => {
   return (
     <div className={props.className} data-role="accomodation-cards">
       {props.availableToHold && <p className="canHold">{t('labels.availableToHoldGeneric')}</p>}
-      <img data-role="ac-image" src={props.imageUri} />
+      {props.imageUri && <img data-role="ac-image" src={props.imageUri} />}
       <h1 data-role="ac-title" className="title">
         {props.title}
       </h1>
