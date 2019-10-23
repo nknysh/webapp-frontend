@@ -44,6 +44,7 @@ export const PROPOSAL_COMPLETE_BOOKING = 'PROPOSAL_COMPLETE_BOOKING';
 export const PROPOSAL_FETCH = 'PROPOSAL_FETCH';
 export const PROPOSAL_REMOVE_BOOKING = 'PROPOSAL_REMOVE_BOOKING';
 export const PROPOSAL_UPDATE = 'PROPOSAL_UPDATE';
+export const PROPOSAL_COMPLETE = 'PROPOSAL_COMPLETE';
 export const PROPOSALS_ADD = 'PROPOSALS_ADD';
 export const PROPOSALS_FETCH = 'PROPOSALS_FETCH';
 export const PROPOSALS_NEW = 'PROPOSALS_NEW';
@@ -245,6 +246,34 @@ export const updateProposal = (proposalUuid, payload) => async (dispatch, getSta
     );
   } catch (e) {
     dispatch(errorFromResponse(PROPOSAL_UPDATE, e, 'There was a problem updating this proposal.'));
+  }
+};
+
+export const completeProposal = (proposalUuid, payload) => async (dispatch, getState) => {
+  dispatch(genericAction(PROPOSAL_COMPLETE, { id: proposalUuid, payload }));
+  const proposal = getProposal(getState(), proposalUuid);
+
+  const name = prop('name', proposal);
+  const userUuid = prop('userUuid', proposal);
+
+  // Make sure that the name and userUuid are sent with the patch
+  const attributes = {
+    name,
+    userUuid,
+    ...cleanPayload(payload),
+  };
+
+  try {
+    const {
+      data: { data },
+    } = await client.completeProposal(proposalUuid, { data: { attributes } });
+
+    dispatch(successAction(PROPOSAL_COMPLETE, data));
+    dispatch(
+      enqueueNotification({ message: `Proposal '${name}' completed succesfully .`, options: { variant: 'success' } })
+    );
+  } catch (e) {
+    dispatch(errorFromResponse(PROPOSAL_COMPLETE, e, 'There was a problem completing this proposal.'));
   }
 };
 

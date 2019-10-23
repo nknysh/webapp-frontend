@@ -3,7 +3,7 @@ import { pipe } from 'ramda';
 
 import {
   fetchProposal,
-  updateProposal,
+  completeProposal,
   removeBooking,
   amendBooking,
   completeProposalBooking,
@@ -26,8 +26,8 @@ export const mapDispatchToProps = dispatch => ({
     fetchProposal,
     dispatch
   ),
-  updateProposal: pipe(
-    updateProposal,
+  completeProposal: pipe(
+    completeProposal,
     dispatch
   ),
   removeBooking: pipe(
