@@ -98,8 +98,10 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
             className="linkButton"
             onClick={[Function]}
           >
-            + 
-            Beach House Brochure
+            <div>
+              + 
+              Beach House Brochure
+            </div>
           </button>
         </li>
         <li
@@ -110,8 +112,10 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
             className="linkButton"
             onClick={[Function]}
           >
-            + 
-            Beach House Floor Plan
+            <div>
+              + 
+              Beach House Floor Plan
+            </div>
           </button>
         </li>
         <li>
@@ -689,8 +693,10 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
             className="linkButton"
             onClick={[Function]}
           >
-            + 
-            Beach House Brochure
+            <div>
+              + 
+              Beach House Brochure
+            </div>
           </button>
         </li>
         <li
@@ -701,8 +707,10 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
             className="linkButton"
             onClick={[Function]}
           >
-            + 
-            Beach House Floor Plan
+            <div>
+              + 
+              Beach House Floor Plan
+            </div>
           </button>
         </li>
         <li>
@@ -1280,8 +1288,10 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
             className="linkButton"
             onClick={[Function]}
           >
-            + 
-            Beach House Brochure
+            <div>
+              + 
+              Beach House Brochure
+            </div>
           </button>
         </li>
         <li
@@ -1292,8 +1302,10 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
             className="linkButton"
             onClick={[Function]}
           >
-            + 
-            Beach House Floor Plan
+            <div>
+              + 
+              Beach House Floor Plan
+            </div>
           </button>
         </li>
         <li>

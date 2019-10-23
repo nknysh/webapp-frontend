@@ -65,7 +65,7 @@ export const AccommodationCard = props => {
             {props.brochures.map(brochure => (
               <li data-role="ac-brochure" key={brochure.uuid}>
                 <button className="linkButton" onClick={openLink(brochure.url)}>
-                  + {brochure.displayName}
+                  <div>+ {brochure.displayName}</div>
                 </button>
               </li>
             ))}

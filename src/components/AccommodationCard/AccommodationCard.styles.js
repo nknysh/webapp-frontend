@@ -110,6 +110,7 @@ export default styled(AccommodationCard)`
     font-weight: ${theme.fonts.bold};
     text-transform: uppercase;
     padding-left: 0;
+    text-align: left;
     cursor: pointer;
 
     &:active {
@@ -123,6 +124,12 @@ export default styled(AccommodationCard)`
     &::-moz-focus-inner {
       border: 0;
     }
+  }
+
+  .linkButton > div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   @media (min-width: 600px) {
