@@ -1,9 +1,8 @@
 [![Build Status](https://circleci.com/gh/pure-escapes/webapp-frontend.svg?style=svg)](https://circleci.com/gh/pure-escapes/webapp-frontend) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-
 # Pure Escapes Webapp Frontend (webapp-frontend)
 
-Webapp Frontend (WAFE) is the main public facing website for Pure Escapes booking portal.  
+Webapp Frontend (WAFE) is the main public facing website for Pure Escapes booking portal.
 
 It is a custom built React/Redux single page application, built on functional principles and uses Ramda heavily.
 
@@ -17,19 +16,19 @@ npm i
 
 ## Running WAFE
 
-There are 2 ways to run WAFE.  Runs on  `http://localhost:8080`
+There are 2 ways to run WAFE. Runs on `http://localhost:8080`
 
 ### Development
 
-Development uses `webpack-dev-server` to run an instance of the SPA locally in development mode.  To do this you can run
+Development uses `webpack-dev-server` to run an instance of the SPA locally in development mode.
 
-```
-npm run dev
-```
+- First, you'll need to create your .env file. You can simply copy what's in .env.example.
+- To run the front end against QA, Update the `API_BASE_URL` to `API_BASE_URL=https://client-api.qa.pure-escapes.com`
+- Then build and run the UI with `npm run dev`
 
 ### Production
 
-Production uses `webpack-dev-server` to run an instance of the SPA locally in production mode.  To do this you can run
+Production uses `webpack-dev-server` to run an instance of the SPA locally in production mode. To do this you can run
 
 ```
 npm run prod
@@ -47,7 +46,7 @@ npm run build:dev
 
 ### Production
 
-Production will build and minify the current SPA to `src/dist`.  How you run it is up to you :)
+Production will build and minify the current SPA to `src/dist`. How you run it is up to you :)
 
 ```
 npm run build
