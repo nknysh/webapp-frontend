@@ -3,6 +3,7 @@ import { NumberSelect } from '@pure-escapes/webapp-ui-components';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { isAdult, formatPrice } from 'utils';
+import LinkButton from 'components/LinkButton';
 
 const renderDescription = info =>
   info.map((d, i) => (
@@ -64,21 +65,21 @@ export const AccommodationCard = props => {
           <ul className="actions">
             {props.brochures.map(brochure => (
               <li data-role="ac-brochure" key={brochure.uuid}>
-                <button className="linkButton" onClick={openLink(brochure.url)}>
-                  <div>+ {brochure.displayName}</div>
-                </button>
+                <LinkButton title={brochure.displayName} onClick={openLink(brochure.url)}>
+                  + {brochure.displayName}
+                </LinkButton>
               </li>
             ))}
             <li>
               {!expanded && (
-                <button data-role="ac-more" className="linkButton" onClick={toggleExpansion}>
+                <LinkButton title={t('labels.moreInfo')} data-role="ac-more" onClick={toggleExpansion}>
                   + {t('labels.moreInfo')}
-                </button>
+                </LinkButton>
               )}
               {expanded && (
-                <button data-role="ac-less" className="linkButton" onClick={toggleExpansion}>
+                <LinkButton title={t('labels.lessInfo')} data-role="ac-less" onClick={toggleExpansion}>
                   - {t('labels.lessInfo')}
-                </button>
+                </LinkButton>
               )}
             </li>
           </ul>

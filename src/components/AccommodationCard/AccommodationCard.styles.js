@@ -101,37 +101,6 @@ export default styled(AccommodationCard)`
     padding-left: 1rem;
   }
 
-  .linkButton {
-    border: none;
-    background: transparent;
-    color: ${theme.palette.primary};
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: ${theme.fonts.bold};
-    text-transform: uppercase;
-    padding-left: 0;
-    text-align: left;
-    cursor: pointer;
-
-    &:active {
-      color: ${theme.palette.light};
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    &::-moz-focus-inner {
-      border: 0;
-    }
-  }
-
-  .linkButton > div {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
   @media (min-width: 600px) {
     .title {
       margin: 1rem 2rem;
