@@ -119,9 +119,7 @@ export const CardHighlights = styled.div`
   color: ${theme.colors.black};
   font-size: ${theme.fonts.sizes.normal}px;
   text-transform: uppercase;
-  border-bottom: 1px solid ${theme.borders.default};
   padding-top: ${theme.spacing.gutter}px;
-  padding-bottom: ${theme.spacing.gutter * 2}px;
   margin-bottom: ${theme.spacing.gutter}px;
 
   ${props => props.theme.breakpoints.tablet`

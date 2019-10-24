@@ -8,7 +8,6 @@ export const propTypes = {
   starRating: PropTypes.string,
   suitableForHoneymooners: PropTypes.bool,
   listPrice: PropTypes.string,
-  additionalInfo: PropTypes.string,
   amenities: PropTypes.array,
   showDiscountedPrice: PropTypes.bool,
 };

@@ -25,9 +25,6 @@ exports[`<SearchResult /> render matches snapshot 1`] = `
       <SearchResultstyles__CardSecondaryRating />
     </SearchResultstyles__CardRating>
     <SearchResultstyles__CardHighlights />
-    <SearchResultstyles__CardAdditionalInfo>
-      <SearchResultstyles__CardAdditional />
-    </SearchResultstyles__CardAdditionalInfo>
   </SearchResultstyles__CardDetails>
 </SearchResultstyles__StyledCard>
 `;

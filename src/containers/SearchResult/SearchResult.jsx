@@ -24,8 +24,6 @@ import {
   CardSecondaryRating,
   CardHighlights,
   CardHighlight,
-  CardAdditionalInfo,
-  CardAdditional,
   CardChipStack,
   ToolTip,
   PriceBreakdown,
@@ -143,7 +141,6 @@ const renderAvailabilityChip = (t, { availableToHold }) => {
 };
 
 export const SearchResult = ({
-  additionalInfo,
   amenities,
   bookingBuilder = {},
   currencyCode,
@@ -181,9 +178,6 @@ export const SearchResult = ({
           <CardSecondaryRating>{suitableForHoneymooners && t('taglines.suitableHoneymoon')}</CardSecondaryRating>
         </CardRating>
         <CardHighlights>{amenities && amenities.map(a => renderAmenity(a, name))}</CardHighlights>
-        <CardAdditionalInfo>
-          <CardAdditional>{additionalInfo}</CardAdditional>
-        </CardAdditionalInfo>
       </CardDetails>
     </StyledCard>
   );
