@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { map, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
@@ -7,17 +7,12 @@ import { propTypes, defaultProps } from './Hotel.props';
 import {
   HotelDescription,
   HotelDetails,
-  HotelDetailsColumnLeft,
-  HotelDetailsColumnRight,
-  HotelDetailsRow,
   HotelGallery,
   HotelHighlight,
   HotelHighlights,
   HotelInfo,
   HotelName,
-  HotelRating,
   HotelRegion,
-  HotelSecondaryRating,
   HotelStar,
   HotelStarRating,
   HotelStarText,
@@ -27,28 +22,21 @@ import {
 } from './Hotel.styles';
 
 import Rooms from '../../containers/Rooms';
+import LinkButton from 'components/LinkButton';
 
 // eslint-disable-next-line
 const renderImage = ({ displayName, url }) => <img key={url} src={url} alt={displayName} />;
 const renderFeature = value => <HotelHighlight key={value}>{value}</HotelHighlight>;
 
-export const Hotel = ({
-  id,
-  amenities,
-  description,
-  name,
-  photos,
-  region,
-  starRating,
-  suitableForHoneymooners,
-  ...props
-}) => {
+export const Hotel = ({ id, amenities, description, name, photos, region, starRating, ...props }) => {
+  const [showAmenities, setShowAmenities] = useState(false);
   const { t } = useTranslation();
 
   const sliderMain = useRef(null);
   const sliderNav = useRef(null);
 
   const renderedPhotos = values(map(renderImage, photos));
+  const buttonPrefix = showAmenities ? '-' : '+';
 
   return (
     <StyledHotel {...props}>
@@ -72,33 +60,22 @@ export const Hotel = ({
           </HotelGallery>
         )}
         <HotelInfo>
-          <HotelDetailsRow>
-            <HotelDetailsColumnLeft>
-              <HotelName>{name}</HotelName>
-              {region && <HotelRegion>{region}</HotelRegion>}
-            </HotelDetailsColumnLeft>
-            <HotelDetailsColumnRight>
-              <HotelRating>
-                <HotelStarRating>
-                  <HotelStar>star</HotelStar>{' '}
-                  <HotelStarText>
-                    {starRating} {t('star')}
-                  </HotelStarText>
-                </HotelStarRating>
-                {suitableForHoneymooners && (
-                  <HotelSecondaryRating>{t('taglines.suitableHoneymoon')}</HotelSecondaryRating>
-                )}
-              </HotelRating>
-            </HotelDetailsColumnRight>
-          </HotelDetailsRow>
-          <HotelDetailsRow>
-            <HotelDetailsColumnLeft>
-              <HotelDescription>{description}</HotelDescription>
-            </HotelDetailsColumnLeft>
-            <HotelDetailsColumnRight>
-              {!isNilOrEmpty(amenities) && <HotelHighlights>{map(renderFeature, amenities)}</HotelHighlights>}
-            </HotelDetailsColumnRight>
-          </HotelDetailsRow>
+          <HotelStarRating>
+            <HotelStar>star</HotelStar>{' '}
+            <HotelStarText>
+              {starRating} {t('star')}
+            </HotelStarText>
+          </HotelStarRating>
+          <HotelName>{name}</HotelName>
+          {region && <HotelRegion>{region}</HotelRegion>}
+          <HotelDescription>{description}</HotelDescription>
+          {!isNilOrEmpty(amenities) && (
+            <LinkButton className="linkButton" onClick={() => setShowAmenities(!showAmenities)}>
+              {showAmenities ? `- ${t('labels.hideAmenities')}` : `+ ${t('labels.seeAmenities')}`}
+            </LinkButton>
+          )}
+
+          {showAmenities && <HotelHighlights>{map(renderFeature, amenities)}</HotelHighlights>}
         </HotelInfo>
         <Rooms hotelUuid={id} />
       </HotelDetails>

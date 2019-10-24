@@ -5,57 +5,22 @@ import Card from 'components/Card';
 import Rooms from 'containers/Rooms';
 
 import {
-  CardRating,
   CardStarRating,
   CardStar,
   CardStarText,
-  CardSecondaryRating,
   CardHighlights,
   CardHighlight,
 } from 'containers/SearchResult/SearchResult.styles';
 
 import { theme } from 'styles';
 
-export const StyledHotel = styled.div``;
+export const StyledHotel = styled.div`
+  .linkButton {
+    margin: 1rem 0;
+  }
+`;
 
 export const HotelDetails = styled.div``;
-
-export const HotelDetailsRow = styled.div`
-  display: block;
-
-  ${props => props.theme.breakpoints.tablet`
-        display: flex;
-    `}
-`;
-
-const HotelDetailsColumn = styled.div`
-  margin: 0;
-
-  :not(:empty) {
-    padding: ${theme.spacing.gutter / 2}px 0;
-    border-bottom: 1px solid ${theme.borders.default};
-  }
-
-  ${props => props.theme.breakpoints.tablet`
-        padding: ${theme.spacing.gutter / 2}px 0;
-        border-bottom: 1px solid ${theme.borders.default};
-        flex: 1;
-    `}
-`;
-
-export const HotelDetailsColumnLeft = styled(HotelDetailsColumn)`
-  ${props => props.theme.breakpoints.tablet`
-    margin-right: ${theme.spacing.gutter}px;
-        max-width: 75%;
-    `}
-`;
-
-export const HotelDetailsColumnRight = styled(HotelDetailsColumn)`
-  ${props => props.theme.breakpoints.tablet`
-  margin-left: ${theme.spacing.gutter}px;
-        max-width: 25%;
-    `}
-`;
 
 export const HotelName = styled(Card.Title)`
   border-bottom: 0;
@@ -70,19 +35,6 @@ export const HotelRegion = styled.h3`
   font-weight: ${theme.fonts.normal};
   margin: 0 0 ${theme.spacing.gutter}px;
   padding: 0;
-`;
-
-export const HotelRating = styled(CardRating)`
-  border: 0;
-  padding: 0;
-
-  :last-child {
-    margin-bottom: 0;
-  }
-
-  ${props => props.theme.breakpoints.tablet`
-        display: block;
-    `}
 `;
 
 export const HotelStarRating = styled(CardStarRating)`
@@ -102,20 +54,6 @@ export const HotelStar = styled(CardStar)`
 `;
 
 export const HotelStarText = styled(CardStarText)``;
-
-export const HotelSecondaryRating = styled(CardSecondaryRating)`
-  text-align: right;
-
-  :last-child {
-    margin-bottom: 0;
-  }
-
-  ${props => props.theme.breakpoints.tablet`
-        width: unset;
-        text-align: unset;
-        font-weight: ${theme.fonts.normal};
-    `}
-`;
 
 export const HotelDescription = styled.div`
   color: ${theme.palette.neutral};
@@ -202,6 +140,7 @@ export const HotelInfo = styled.div`
 
   ${props => props.theme.breakpoints.tablet`
     margin-bottom: ${theme.spacing.gutter * 8}px;
+    padding-right: 5%;
   `}
 `;
 
