@@ -94,39 +94,35 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <button
-            className="linkButton"
+          <LinkButton
             onClick={[Function]}
+            title="Beach House Brochure"
           >
-            <div>
-              + 
-              Beach House Brochure
-            </div>
-          </button>
+            + 
+            Beach House Brochure
+          </LinkButton>
         </li>
         <li
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <button
-            className="linkButton"
+          <LinkButton
             onClick={[Function]}
+            title="Beach House Floor Plan"
           >
-            <div>
-              + 
-              Beach House Floor Plan
-            </div>
-          </button>
+            + 
+            Beach House Floor Plan
+          </LinkButton>
         </li>
         <li>
-          <button
-            className="linkButton"
+          <LinkButton
             data-role="ac-more"
             onClick={[Function]}
+            title="More information"
           >
             + 
             More information
-          </button>
+          </LinkButton>
         </li>
       </ul>
     </div>
@@ -689,39 +685,35 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <button
-            className="linkButton"
+          <LinkButton
             onClick={[Function]}
+            title="Beach House Brochure"
           >
-            <div>
-              + 
-              Beach House Brochure
-            </div>
-          </button>
+            + 
+            Beach House Brochure
+          </LinkButton>
         </li>
         <li
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <button
-            className="linkButton"
+          <LinkButton
             onClick={[Function]}
+            title="Beach House Floor Plan"
           >
-            <div>
-              + 
-              Beach House Floor Plan
-            </div>
-          </button>
+            + 
+            Beach House Floor Plan
+          </LinkButton>
         </li>
         <li>
-          <button
-            className="linkButton"
+          <LinkButton
             data-role="ac-more"
             onClick={[Function]}
+            title="More information"
           >
             + 
             More information
-          </button>
+          </LinkButton>
         </li>
       </ul>
     </div>
@@ -1284,39 +1276,35 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <button
-            className="linkButton"
+          <LinkButton
             onClick={[Function]}
+            title="Beach House Brochure"
           >
-            <div>
-              + 
-              Beach House Brochure
-            </div>
-          </button>
+            + 
+            Beach House Brochure
+          </LinkButton>
         </li>
         <li
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <button
-            className="linkButton"
+          <LinkButton
             onClick={[Function]}
+            title="Beach House Floor Plan"
           >
-            <div>
-              + 
-              Beach House Floor Plan
-            </div>
-          </button>
+            + 
+            Beach House Floor Plan
+          </LinkButton>
         </li>
         <li>
-          <button
-            className="linkButton"
+          <LinkButton
             data-role="ac-more"
             onClick={[Function]}
+            title="More information"
           >
             + 
             More information
-          </button>
+          </LinkButton>
         </li>
       </ul>
     </div>

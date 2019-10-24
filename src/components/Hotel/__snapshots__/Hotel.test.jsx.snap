@@ -8,35 +8,23 @@ exports[`<Hotel /> render matches snapshot 1`] = `
   listPrice="123"
   preferred={true}
   promotionalText=""
+  suitableForHoneymooners={false}
 >
   <Hotelstyles__HotelDetails>
     <Hotelstyles__HotelInfo>
-      <Hotelstyles__HotelDetailsRow>
-        <Hotelstyles__HotelDetailsColumnLeft>
-          <Hotelstyles__HotelName />
-        </Hotelstyles__HotelDetailsColumnLeft>
-        <Hotelstyles__HotelDetailsColumnRight>
-          <Hotelstyles__HotelRating>
-            <Hotelstyles__HotelStarRating>
-              <Hotelstyles__HotelStar>
-                star
-              </Hotelstyles__HotelStar>
-               
-              <Hotelstyles__HotelStarText>
-                5
-                 
-                Star
-              </Hotelstyles__HotelStarText>
-            </Hotelstyles__HotelStarRating>
-          </Hotelstyles__HotelRating>
-        </Hotelstyles__HotelDetailsColumnRight>
-      </Hotelstyles__HotelDetailsRow>
-      <Hotelstyles__HotelDetailsRow>
-        <Hotelstyles__HotelDetailsColumnLeft>
-          <Hotelstyles__HotelDescription />
-        </Hotelstyles__HotelDetailsColumnLeft>
-        <Hotelstyles__HotelDetailsColumnRight />
-      </Hotelstyles__HotelDetailsRow>
+      <Hotelstyles__HotelStarRating>
+        <Hotelstyles__HotelStar>
+          star
+        </Hotelstyles__HotelStar>
+         
+        <Hotelstyles__HotelStarText>
+          5
+           
+          Star
+        </Hotelstyles__HotelStarText>
+      </Hotelstyles__HotelStarRating>
+      <Hotelstyles__HotelName />
+      <Hotelstyles__HotelDescription />
     </Hotelstyles__HotelInfo>
     <Connect(Rooms) />
   </Hotelstyles__HotelDetails>
