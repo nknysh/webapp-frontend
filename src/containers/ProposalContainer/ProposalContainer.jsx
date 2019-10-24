@@ -250,12 +250,16 @@ const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal
         fields={simpleForm(fields)}
         data={withoutSections(data)}
       >
-        <BookingFormActions>
-          <BookingFormAction type="submit">{t('buttons.generateAndSend')}</BookingFormAction>
-          <BookingFormAction type="button" onClick={onPreviewPDF} data-secondary>
-            {t('buttons.previewPDF')}
-          </BookingFormAction>
-        </BookingFormActions>
+        {({ values }) => {
+          return (
+            <BookingFormActions>
+              <BookingFormAction type="submit">{t('buttons.generateAndSend')}</BookingFormAction>
+              <BookingFormAction type="button" onClick={() => onPreviewPDF(values)} data-secondary>
+                {t('buttons.previewPDF')}
+              </BookingFormAction>
+            </BookingFormActions>
+          );
+        }}
       </BookingForm>
     </ProposalGuestForm>
   ));
@@ -283,8 +287,8 @@ const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal }) =>
     </Fragment>
   );
 
-const renderPDFModal = (t, { id, proposal, showPDF, setShowPDF }) => {
-  const { guestTitle, guestFirstName, guestLastName } = proposal;
+const renderPDFModal = (t, { id, showPDF, setShowPDF, guestsDetails }) => {
+  const { guestTitle, guestFirstName, guestLastName } = guestsDetails;
   return (
     showPDF && (
       <Modal open={showPDF} onClose={() => setShowPDF(false)}>
@@ -367,6 +371,7 @@ export const ProposalContainer = ({
   const [view, setView] = useState(ViewTypes.RESORTS);
   const [canEdit, setCanEdit] = useState({});
   const [showPDF, setShowPDF] = useState(false);
+  const [guestsDetails, setGuestDetails] = useState({});
   const [attachedUploads, setAttachedUploads] = useState(propOr([], 'attachedUploads', proposal));
 
   useEffectBoundary(() => {
@@ -433,7 +438,10 @@ export const ProposalContainer = ({
     [attachedUploads]
   );
 
-  const onPreviewPDF = useCallback(() => setShowPDF(true), []);
+  const onPreviewPDF = useCallback(values => {
+    setGuestDetails(values);
+    setShowPDF(true);
+  }, []);
 
   const onGenerateAndSend = useCallback(
     values => {
@@ -492,7 +500,7 @@ export const ProposalContainer = ({
             })
           : renderTabs(t, { id, summaryProps, guestInfoProps })}
       </StyledProposalContainer>
-      {renderPDFModal(t, { id, proposal, showPDF, setShowPDF })}
+      {renderPDFModal(t, { id, showPDF, setShowPDF, guestsDetails })}
     </Loader>
   );
 };
