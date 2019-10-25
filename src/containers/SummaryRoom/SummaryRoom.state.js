@@ -14,6 +14,7 @@ import {
   getBookingRoomTotalBeforeDiscount,
   getPotentialBookingRoomsById,
   removeRoom,
+  getHasUnusedAvailableMealPlanOffers,
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id, roomId }) => ({
@@ -28,6 +29,7 @@ export const mapStateToProps = (state, { id, roomId }) => ({
   requestedRooms: getBookingRoomsById(state, id, roomId),
   rooms: getPotentialBookingRoomsById(state, id, roomId),
   total: getBookingRoomTotal(state, id, roomId),
+  hasUnusedAvailableMealPlanOffers: getHasUnusedAvailableMealPlanOffers(state, id, roomId),
 });
 
 export const mapDispatchToProps = dispatch => ({

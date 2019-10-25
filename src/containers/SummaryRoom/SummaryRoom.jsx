@@ -135,6 +135,7 @@ export const SummaryRoom = ({
   showImage,
   total,
   isOnRequest,
+  hasUnusedAvailableMealPlanOffers,
 }) => {
   const { t } = useTranslation();
 
@@ -216,6 +217,7 @@ export const SummaryRoom = ({
         <RoomRow>{renderSupplements(t, { currencyCode }, supplements)}</RoomRow>
         <RoomRow>{renderMealPlans(t, mealPlans)}</RoomRow>
         {!isEmpty(offers) && renderOffers(t, offers)}
+        {hasUnusedAvailableMealPlanOffers && <p>{t('labels.mealPlanOffersAvailable')}</p>}
         {canEdit && renderErrors(errors)}
       </RoomDetails>
     </Room>

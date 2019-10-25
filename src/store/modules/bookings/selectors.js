@@ -41,6 +41,8 @@ import {
   uniq,
   values,
   when,
+  unnest,
+  flatten,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
@@ -1332,3 +1334,24 @@ export const getAccommodationEditErrors = createSelector(
   getBookings,
   propOr(null, 'accommodationEditErrors')
 );
+
+export const getHasUnusedAvailableMealPlanOffers = (state, hotelUuid, roomUuid) => {
+  // get all the possible offers for meal plans
+  const availableOffers = pipe(
+    pathOr([], ['bookings', 'data', hotelUuid, 'breakdown', 'availableProductSets', 'Accommodation']),
+    map(pathOr(null, ['availableSubProductSets', 'Meal Plan'])),
+    unnest,
+    map(pathOr(null, ['breakdown'])),
+    unnest,
+    map(pathOr(null, ['offers'])),
+    flatten,
+    map(path(['offer', 'name']))
+  )(state);
+
+  // get the offers currently applied to this booking
+  const currentlyAppliedOffers = pathOr([], ['bookings', 'data', hotelUuid, 'breakdown', 'appliedOfferNames'], state);
+
+  // return true if we have available offers that are currently not applied
+  const availableOffersNotApplied = availableOffers.filter(ao => !currentlyAppliedOffers.includes(ao));
+  return availableOffersNotApplied.length >= 1;
+};
