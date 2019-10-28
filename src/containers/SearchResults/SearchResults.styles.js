@@ -38,8 +38,7 @@ export const Results = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Result = styled(Link)`
-  cursor: pointer;
+export const ResultWrapper = styled.div`
   width: 100%;
 
   ${props => props.theme.breakpoints.tablet`

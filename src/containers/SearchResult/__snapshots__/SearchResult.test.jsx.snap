@@ -2,29 +2,47 @@
 
 exports[`<SearchResult /> render matches snapshot 1`] = `
 <SearchResultstyles__StyledCard>
-  <SearchResultstyles__CardImage
-    style={
-      Object {
-        "backgroundImage": "url(undefined)",
+  <Link
+    replace={false}
+    to="/hotels/undefined"
+  >
+    <SearchResultstyles__CardImage
+      style={
+        Object {
+          "backgroundImage": "url(undefined)",
+        }
       }
-    }
-  />
+    />
+  </Link>
   <SearchResultstyles__CardDetails>
-    <SearchResultstyles__CardTitle />
-    <SearchResultstyles__CardRating>
-      <SearchResultstyles__CardStarRating>
-        <SearchResultstyles__CardStar>
-          star
-        </SearchResultstyles__CardStar>
-         
-        <SearchResultstyles__CardStarText>
+    <Link
+      replace={false}
+      to="/hotels/undefined"
+    >
+      <SearchResultstyles__CardTitle />
+      <SearchResultstyles__CardRating>
+        <SearchResultstyles__CardStarRating>
+          <SearchResultstyles__CardStar>
+            star
+          </SearchResultstyles__CardStar>
            
-          Star
-        </SearchResultstyles__CardStarText>
-      </SearchResultstyles__CardStarRating>
-      <SearchResultstyles__CardSecondaryRating />
-    </SearchResultstyles__CardRating>
-    <SearchResultstyles__CardHighlights />
+          <SearchResultstyles__CardStarText>
+             
+            Star
+          </SearchResultstyles__CardStarText>
+        </SearchResultstyles__CardStarRating>
+      </SearchResultstyles__CardRating>
+      <SearchResultstyles__CardHighlights />
+    </Link>
+    <LinkButton
+      aria-label="Show Highlights"
+      data-role="linkButton.showHighlights"
+      onClick={[Function]}
+      role="button"
+    >
+      + 
+      Show Highlights
+    </LinkButton>
   </SearchResultstyles__CardDetails>
 </SearchResultstyles__StyledCard>
 `;

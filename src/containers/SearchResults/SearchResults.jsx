@@ -15,7 +15,7 @@ import {
   StyledResults,
   ResultsTitle,
   Results,
-  Result,
+  ResultWrapper,
   Filtering,
   FiltersButton,
   modalStyles,
@@ -23,9 +23,9 @@ import {
 } from './SearchResults.styles';
 
 const renderResult = ({ uuid, ...hotel }) => (
-  <Result to={`/hotels/${uuid}`} key={uuid}>
+  <ResultWrapper key={uuid}>
     <SearchResult key={uuid} id={uuid} {...hotel} />
-  </Result>
+  </ResultWrapper>
 );
 
 export const SearchResults = ({ searchStatus, meta, result, canSearch }) => {

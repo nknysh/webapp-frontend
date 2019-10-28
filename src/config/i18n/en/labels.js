@@ -24,6 +24,8 @@ export default {
   filterByAmenities: 'Filter by amenities',
   seeAmenities: 'See Amenities',
   hideAmenities: 'Hide Amenities',
+  showHighlights: 'Show Highlights',
+  hideHighlights: 'Hide Highlights',
   filterByCategoryTypes: 'Filter by room types',
   noRooms: 'No rooms available',
   hotelDetails: 'Hotel Details',

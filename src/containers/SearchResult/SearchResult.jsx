@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { compose, gt, head, last, map, partial, path, pathOr, prop, values, propOr } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
@@ -21,7 +21,6 @@ import {
   CardStarRating,
   CardStar,
   CardStarText,
-  CardSecondaryRating,
   CardHighlights,
   CardHighlight,
   CardChipStack,
@@ -30,6 +29,8 @@ import {
   PriceBreakdownItem,
 } from './SearchResult.styles';
 import { formatPrice } from 'utils';
+import LinkButton from 'components/LinkButton';
+import { Link } from 'react-router-dom';
 
 const getStartDateEndDate = dates => {
   const startDate = head(dates);
@@ -141,7 +142,6 @@ const renderAvailabilityChip = (t, { availableToHold }) => {
 };
 
 export const SearchResult = ({
-  amenities,
   bookingBuilder = {},
   currencyCode,
   featuredPhoto,
@@ -151,33 +151,64 @@ export const SearchResult = ({
   preferred,
   showDiscountedPrice,
   starRating,
-  suitableForHoneymooners,
+  id,
+  highlights,
+  overview,
 }) => {
   const { t } = useTranslation();
 
   const { response } = bookingBuilder;
+
+  const [isShowingHighlights, setIsShowingHighlights] = useState(false);
+
   const availableToHold = propOr(false, 'availableToHold', response);
 
   return (
     <StyledCard>
-      <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
-        {preferred && <CardPreferred>{t('labels.preferred')}</CardPreferred>}
-        {renderPrice(t, { response, offerCount, showDiscountedPrice, currencyCode })}
-        {renderOffers(t, { offers, response, offerCount })}
-        {renderAvailabilityChip(t, { availableToHold })}
-      </CardImage>
+      <Link to={`/hotels/${id}`}>
+        <CardImage style={{ backgroundImage: `url(${prop('url', featuredPhoto)})` }}>
+          {preferred && <CardPreferred>{t('labels.preferred')}</CardPreferred>}
+          {renderPrice(t, { response, offerCount, showDiscountedPrice, currencyCode })}
+          {renderOffers(t, { offers, response, offerCount })}
+          {renderAvailabilityChip(t, { availableToHold })}
+        </CardImage>
+      </Link>
       <CardDetails>
-        <CardTitle>{name}</CardTitle>
-        <CardRating>
-          <CardStarRating>
-            <CardStar>star</CardStar>{' '}
-            <CardStarText>
-              {starRating} {t('star')}
-            </CardStarText>
-          </CardStarRating>
-          <CardSecondaryRating>{suitableForHoneymooners && t('taglines.suitableHoneymoon')}</CardSecondaryRating>
-        </CardRating>
-        <CardHighlights>{amenities && amenities.map(a => renderAmenity(a, name))}</CardHighlights>
+        <Link to={`/hotels/${id}`}>
+          <CardTitle>{name}</CardTitle>
+          <CardRating>
+            <CardStarRating>
+              <CardStar>star</CardStar>{' '}
+              <CardStarText>
+                {starRating} {t('star')}
+              </CardStarText>
+            </CardStarRating>
+          </CardRating>
+          <CardHighlights>{overview && overview.map(a => renderAmenity(a, name))}</CardHighlights>
+        </Link>
+        {!isShowingHighlights && (
+          <LinkButton
+            aria-label={t('labels.showHighlights')}
+            data-role="linkButton.showHighlights"
+            role="button"
+            onClick={() => setIsShowingHighlights(true)}
+          >
+            + {t('labels.showHighlights')}
+          </LinkButton>
+        )}
+        {isShowingHighlights && (
+          <LinkButton
+            aria-label={t('labels.hideHighlights')}
+            data-role="linkButton.hideHighlights"
+            role="button"
+            onClick={() => setIsShowingHighlights(false)}
+          >
+            - {t('labels.hideHighlights')}
+          </LinkButton>
+        )}
+        {isShowingHighlights && (
+          <CardHighlights>{highlights && highlights.map(a => renderAmenity(a, name))}</CardHighlights>
+        )}
       </CardDetails>
     </StyledCard>
   );
