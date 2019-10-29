@@ -18,6 +18,9 @@ export const StyledHotel = styled.div`
   .linkButton {
     margin: 1rem 0;
   }
+  .linkButton--in-list {
+    display: block;
+  }
 `;
 
 export const HotelDetails = styled.div``;

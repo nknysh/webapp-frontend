@@ -28,15 +28,27 @@ import LinkButton from 'components/LinkButton';
 const renderImage = ({ displayName, url }) => <img key={url} src={url} alt={displayName} />;
 const renderFeature = value => <HotelHighlight key={value}>{value}</HotelHighlight>;
 
-export const Hotel = ({ id, amenities, description, name, photos, region, starRating, ...props }) => {
+export const Hotel = ({
+  id,
+  amenities,
+  description,
+  name,
+  photos,
+  region,
+  starRating,
+  overview,
+  highlights,
+  ...props
+}) => {
   const [showAmenities, setShowAmenities] = useState(false);
+  const [showOverview, setShowOverview] = useState(false);
+  const [showHighlights, setShowHighlights] = useState(false);
   const { t } = useTranslation();
 
   const sliderMain = useRef(null);
   const sliderNav = useRef(null);
 
   const renderedPhotos = values(map(renderImage, photos));
-  const buttonPrefix = showAmenities ? '-' : '+';
 
   return (
     <StyledHotel {...props}>
@@ -70,12 +82,38 @@ export const Hotel = ({ id, amenities, description, name, photos, region, starRa
           {region && <HotelRegion>{region}</HotelRegion>}
           <HotelDescription>{description}</HotelDescription>
           {!isNilOrEmpty(amenities) && (
-            <LinkButton className="linkButton" onClick={() => setShowAmenities(!showAmenities)}>
+            <LinkButton
+              className="linkButton linkButton--in-list"
+              aria-label={showAmenities ? t('labels.hideAmenities') : t('labels.seeAmenities')}
+              onClick={() => setShowAmenities(!showAmenities)}
+            >
               {showAmenities ? `- ${t('labels.hideAmenities')}` : `+ ${t('labels.seeAmenities')}`}
             </LinkButton>
           )}
-
           {showAmenities && <HotelHighlights>{map(renderFeature, amenities)}</HotelHighlights>}
+
+          {!isNilOrEmpty(overview) && (
+            <LinkButton
+              aria-label={showOverview ? t('labels.hideOverview') : t('labels.seeOverview')}
+              className="linkButton linkButton--in-list"
+              onClick={() => setShowOverview(!showOverview)}
+            >
+              {showOverview ? `- ${t('labels.hideOverview')}` : `+ ${t('labels.seeOverview')}`}
+            </LinkButton>
+          )}
+          {showOverview && <HotelHighlights>{map(renderFeature, overview)}</HotelHighlights>}
+
+          {!isNilOrEmpty(highlights) && (
+            <LinkButton
+              aria-label={showHighlights ? t('labels.hideHighlights') : t('labels.showHighlights')}
+              className="linkButton linkButton--in-list"
+              onClick={() => setShowHighlights(!showHighlights)}
+            >
+              {showHighlights ? `- ${t('labels.hideHighlights')}` : `+ ${t('labels.showHighlights')}`}
+            </LinkButton>
+          )}
+
+          {showHighlights && <HotelHighlights>{map(renderFeature, highlights)}</HotelHighlights>}
         </HotelInfo>
         <Rooms hotelUuid={id} />
       </HotelDetails>
