@@ -42,7 +42,7 @@ export const Hotel = ({
 }) => {
   const [showAmenities, setShowAmenities] = useState(false);
   const [showOverview, setShowOverview] = useState(false);
-  const [showHighlights, setShowHighlights] = useState(false);
+  const [seeHighlights, setSeeHighlights] = useState(false);
   const { t } = useTranslation();
 
   const sliderMain = useRef(null);
@@ -81,16 +81,6 @@ export const Hotel = ({
           <HotelName>{name}</HotelName>
           {region && <HotelRegion>{region}</HotelRegion>}
           <HotelDescription>{description}</HotelDescription>
-          {!isNilOrEmpty(amenities) && (
-            <LinkButton
-              className="linkButton linkButton--in-list"
-              aria-label={showAmenities ? t('labels.hideAmenities') : t('labels.seeAmenities')}
-              onClick={() => setShowAmenities(!showAmenities)}
-            >
-              {showAmenities ? `- ${t('labels.hideAmenities')}` : `+ ${t('labels.seeAmenities')}`}
-            </LinkButton>
-          )}
-          {showAmenities && <HotelHighlights>{map(renderFeature, amenities)}</HotelHighlights>}
 
           {!isNilOrEmpty(overview) && (
             <LinkButton
@@ -105,15 +95,25 @@ export const Hotel = ({
 
           {!isNilOrEmpty(highlights) && (
             <LinkButton
-              aria-label={showHighlights ? t('labels.hideHighlights') : t('labels.showHighlights')}
+              aria-label={seeHighlights ? t('labels.hideHighlights') : t('labels.seeHighlights')}
               className="linkButton linkButton--in-list"
-              onClick={() => setShowHighlights(!showHighlights)}
+              onClick={() => setSeeHighlights(!seeHighlights)}
             >
-              {showHighlights ? `- ${t('labels.hideHighlights')}` : `+ ${t('labels.showHighlights')}`}
+              {seeHighlights ? `- ${t('labels.hideHighlights')}` : `+ ${t('labels.seeHighlights')}`}
             </LinkButton>
           )}
+          {seeHighlights && <HotelHighlights>{map(renderFeature, highlights)}</HotelHighlights>}
 
-          {showHighlights && <HotelHighlights>{map(renderFeature, highlights)}</HotelHighlights>}
+          {!isNilOrEmpty(amenities) && (
+            <LinkButton
+              className="linkButton linkButton--in-list"
+              aria-label={showAmenities ? t('labels.hideAmenities') : t('labels.seeAmenities')}
+              onClick={() => setShowAmenities(!showAmenities)}
+            >
+              {showAmenities ? `- ${t('labels.hideAmenities')}` : `+ ${t('labels.seeAmenities')}`}
+            </LinkButton>
+          )}
+          {showAmenities && <HotelHighlights>{map(renderFeature, amenities)}</HotelHighlights>}
         </HotelInfo>
         <Rooms hotelUuid={id} />
       </HotelDetails>
