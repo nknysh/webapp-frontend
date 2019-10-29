@@ -101,8 +101,8 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
   const getSearchQueryData = useCallback(view(__, searchQuery), [searchQuery]);
 
   // Defualt the start and end price to the values from redux until the data is available in `prices`
-  const priceStart = isNaN(Number(head(prices))) ? head(defaultPriceRange) : Number(head(prices));
-  const priceEnd = isNaN(Number(head(prices))) ? last(defaultPriceRange) : Number(last(prices));
+  const priceStart = 0;
+  const priceEnd = 100000;
 
   const setRegionsTypeToSearchQuery = useCallback(
     pipe(
