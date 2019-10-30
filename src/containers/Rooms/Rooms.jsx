@@ -56,7 +56,7 @@ const renderRoom = ({ requestedRooms, currencyCode, handleRoomAdd, handleRoomRem
       brochures={room.floorPlans}
       totals={room.totals}
       occupancy={room.occupancy}
-      selectedCount={selectedCount}
+      count={selectedCount}
       appliedOffers={room.appliedOfferNames}
       imageUri={pathOr(null, ['photos', 0, 'url'], room)}
       updateInProgress={bookingStatus === 'LOADING'}
