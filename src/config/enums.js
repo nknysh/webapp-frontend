@@ -51,6 +51,7 @@ export const Occassions = Object.freeze({
   HONEYMOON: 'honeymoon',
   BIRTHDAY: 'birthday',
   ANNIVERSARY: 'anniversary',
+  WEDDING: 'wedding',
 });
 
 export const UserStatusTypes = Object.freeze({

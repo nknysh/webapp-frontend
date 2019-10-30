@@ -190,6 +190,7 @@ export const SearchResult = ({
           <LinkButton
             aria-label={t('labels.showHighlights')}
             data-role="linkButton.showHighlights"
+            title={t('labels.showHighlights')}
             role="button"
             onClick={() => setIsShowingHighlights(true)}
           >
@@ -200,6 +201,7 @@ export const SearchResult = ({
           <LinkButton
             aria-label={t('labels.hideHighlights')}
             data-role="linkButton.hideHighlights"
+            title={t('labels.hideHighlights')}
             role="button"
             onClick={() => setIsShowingHighlights(false)}
           >

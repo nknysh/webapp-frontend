@@ -39,6 +39,7 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
           "honeymoon",
           "birthday",
           "anniversary",
+          "wedding",
         ]
       }
       onChange={[Function]}
@@ -538,6 +539,7 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
           "honeymoon",
           "birthday",
           "anniversary",
+          "wedding",
         ]
       }
       onChange={[Function]}

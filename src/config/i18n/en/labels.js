@@ -163,6 +163,7 @@ export default {
     honeymoon: 'Honeymoon',
     birthday: 'Birthday',
     anniversary: 'Anniversary',
+    wedding: 'Wedding',
   },
 
   title: 'Title',
