@@ -298,3 +298,37 @@ export const getMappedSearchResults = createSelector(
       ),
     })(results)
 );
+
+// Proper selectors
+
+const searchDomain = state => state.search;
+
+export const optionsPendingSelector = createSelector(
+  searchDomain,
+  search => search.optionsPending
+);
+
+export const optionsError = createSelector(
+  searchDomain,
+  search => search.optionsPending
+);
+
+export const optionsSelector = createSelector(
+  searchDomain,
+  search => search.options
+);
+
+export const searchFiltersSelector = createSelector(
+  optionsSelector,
+  propOr([], 'filters')
+);
+
+export const searchRegionsSelector = createSelector(
+  optionsSelector,
+  propOr([], 'regions')
+);
+
+export const searchStarRatingsSelector = createSelector(
+  optionsSelector,
+  propOr([], 'starRatings')
+);

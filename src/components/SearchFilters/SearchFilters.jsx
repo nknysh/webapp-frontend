@@ -1,26 +1,9 @@
 import React, { Fragment, useCallback, useMemo } from 'react';
-import {
-  __,
-  set,
-  view,
-  path,
-  prop,
-  partial,
-  propOr,
-  lensPath,
-  pipe,
-  equals,
-  map,
-  merge,
-  head,
-  last,
-  values,
-} from 'ramda';
-import { isNaN, isNilOrEmpty } from 'ramda-adjunct';
+import { __, set, view, path, prop, partial, propOr, lensPath, pipe, equals, map, merge, values } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { ToolTip } from '@pure-escapes/webapp-ui-components';
 
-import config from 'config';
 import { MealPlanSelectTypes, RegionSelectTypes } from 'config/enums';
 
 import { propTypes, defaultProps } from './SearchFilters.props';
@@ -47,8 +30,6 @@ const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 const filtersFeaturesLens = lensPath(['filters', 'features']);
 const filtersMealPlanLens = lensPath(['filters', 'mealPlan']);
-
-const defaultPriceRange = path(['defaults', 'priceRange'], config);
 
 const mapMealPlan = value => ({ label: value, value });
 const mapMealPlans = map(mapMealPlan);
@@ -94,7 +75,7 @@ const renderFeaturesCheckbox = ({ getSearchQueryData, setFeaturesToSearchQuery }
     />
   );
 
-export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features, prices }) => {
+export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features }) => {
   const { t } = useTranslation();
 
   const updateSearchQuery = useCallback(set(__, __, searchQuery), [searchQuery]);

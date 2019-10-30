@@ -37,6 +37,10 @@ export const SEARCH_RESULTS = 'SEARCH_RESULTS';
 export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
 export const SEARCH_BY_QUERY = 'SEARCH_BY_QUERY';
 
+export const SEARCH_OPTIONS_REQUEST = 'SEARCH/SEARCH_OPTIONS_REQUEST';
+export const SEARCH_OPTIONS_SUCCESS = 'SEARCH/SEARCH_OPTIONS_SUCCESS';
+export const SEARCH_OPTIONS_FAILURE = 'SEARCH/SEARCH_OPTIONS_FAILURE';
+
 /**
  * Set search query action
  *
@@ -216,3 +220,27 @@ export const searchByQuery = query => async (dispatch, getState) => {
       : dispatch(errorFromResponse(SEARCH_BY_QUERY, e, i18n.t('searchByQueryErrorResponse')));
   }
 };
+
+export const searchOptionsInitAction = () => async dispatch => {
+  dispatch(searchOptionsRequestAction());
+  try {
+    const options = await client.getOptions();
+    dispatch(searchOptionsSuccessAction({ options }));
+  } catch (error) {
+    dispatch(searchOptionsFailureAction({ error }));
+  }
+};
+
+export const searchOptionsRequestAction = () => ({
+  type: SEARCH_OPTIONS_REQUEST,
+});
+
+export const searchOptionsSuccessAction = response => ({
+  type: SEARCH_OPTIONS_SUCCESS,
+  payload: { ...response.options.data.data }, // <- wtf.
+});
+
+export const searchOptionsFailureAction = error => ({
+  type: SEARCH_OPTIONS_FAILURE,
+  payload: { error },
+});

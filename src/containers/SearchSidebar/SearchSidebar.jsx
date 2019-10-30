@@ -34,7 +34,6 @@ export const SearchSidebar = ({
   const disableSearchButton = !canSearch || isActive(querySearchStatus);
 
   const [version, setVersion] = useState(0);
-
   useFetchData(nameSearchStatus, searchByName, [prop('destination', searchQuery) || { value: '' }]);
 
   // Push to history stack so the url is updated with the new query but a location change isn't triggered (which
