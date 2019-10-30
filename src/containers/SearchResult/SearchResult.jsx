@@ -188,13 +188,13 @@ export const SearchResult = ({
         </Link>
         {!isShowingHighlights && (
           <LinkButton
-            aria-label={t('labels.showHighlights')}
+            aria-label={t('labels.seeHighlights')}
             data-role="linkButton.showHighlights"
             title={t('labels.showHighlights')}
             role="button"
             onClick={() => setIsShowingHighlights(true)}
           >
-            + {t('labels.showHighlights')}
+            + {t('labels.seeHighlights')}
           </LinkButton>
         )}
         {isShowingHighlights && (
