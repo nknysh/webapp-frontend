@@ -1355,7 +1355,7 @@ export const getAccommodationEditModalErrors = (state, hotelUuid, accommodationP
     // temporary for 811 until we re-think booking builder experience
     // @see https://pureescapes.atlassian.net/browse/OWA-811
     errors.bookingBuilderErrors.push(
-      'There are one or more errors with the accommodation booking. Please check your inputted occupancy and dates and try again.'
+      'The dates or selections you have made are not currently available to book online.'
     );
   }
 

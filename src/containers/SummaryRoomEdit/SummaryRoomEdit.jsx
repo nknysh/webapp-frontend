@@ -342,6 +342,14 @@ export const SummaryRoomEdit = ({
       return null;
     }
 
+    // dont show the booking builder errors if we have occupancy errors
+    if (
+      accommodationEditModalErrors.occupancyCheckErrors &&
+      accommodationEditModalErrors.occupancyCheckErrors.length >= 1
+    ) {
+      return null;
+    }
+
     return (
       <React.Fragment>
         {accommodationEditModalErrors.bookingBuilderErrors.map((error, index) => {
