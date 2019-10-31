@@ -404,7 +404,7 @@ export const SummaryForm = props => {
     onReleaseHolds,
     onSubmit: onFormSubmit,
     summaryOnly,
-    accommodationEditErrors,
+    accommodationEditModalErrors,
   } = props;
   const { marginApplied, taMarginAmount, taMarginType, hotelUuid, status: bookingStatus, overrideTotal } = booking;
 
@@ -443,8 +443,8 @@ export const SummaryForm = props => {
   const isLoading = isActive(status);
 
   const handleAccommodationEditModalClose = useCallback(() => {
-    return accommodationEditErrors ? null : setModalId(undefined);
-  }, [accommodationEditErrors]);
+    return accommodationEditModalErrors ? null : setModalId(undefined);
+  }, [accommodationEditModalErrors]);
 
   const handleEditGuard = useCallback(() => {
     if (!editGuard) return;

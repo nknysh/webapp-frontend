@@ -52,8 +52,8 @@ import {
   MealPlanRatePrice,
   MealPlanRatePriceOffer,
   StyledDatePicker,
-  AccommodationEditErrorsHeader,
-  AccommodationEditErrorsError,
+  AccommodationEditModalErrorsHeader,
+  AccommodationEditModalErrorsError,
 } from './SummaryRoomEdit.styles';
 import {
   getMealPlan,
@@ -189,7 +189,7 @@ export const SummaryRoomEdit = ({
   updateAccommodationProductGuestAgeSets,
   updateRoom,
   currencyCode,
-  accommodationEditErrors,
+  accommodationEditModalErrors,
 }) => {
   const { t } = useTranslation();
 
@@ -304,32 +304,57 @@ export const SummaryRoomEdit = ({
   const guestAgeSets = requestedRooms.filter(r => r.uuid === roomId).map(r => r.guestAges);
 
   /**
-   * renders all the accommodationEditErrors
-   * accommodationEditErrors is an array of arrays;
+   * renders all the accommodationEditModalErrors
+   * accommodationEditModalErrors (occupancy ones WIP) is an array of arrays;
    * - the 1st level of array indicates the room index
    * - the 2nd level is the array of strings of actual errors for that room
-   * @param {array[]} accommodationEditErrors
+   * @param {object} accommodationEditModalErrors
+   * @param {array[]} accommodationEditModalErrors.occupancyCheckErrors
+   * @param {string[]} accommodationEditModalErrors.bookingBuilderErrors
    */
-  const renderAccommodationEditErrors = accommodationEditErrors => {
-    if (!accommodationEditErrors) {
+  const renderAccommodationEditModalOccupancyErrors = accommodationEditModalErrors => {
+    if (!accommodationEditModalErrors) {
       return null;
     }
 
-    return accommodationEditErrors.map((errorList, index) => {
-      return (
-        <React.Fragment key={`accommodationEditError${index}`}>
-          <AccommodationEditErrorsHeader>Room {index + 1} Errors</AccommodationEditErrorsHeader>
-          {errorList.map((error, innerIndex) => {
-            return (
-              <AccommodationEditErrorsError key={`accommodationEditErrorSingleError${innerIndex}`}>
-                {error}
-              </AccommodationEditErrorsError>
-            );
-          })}
-        </React.Fragment>
-      );
-    });
+    return (
+      <React.Fragment>
+        {accommodationEditModalErrors.occupancyCheckErrors.map((errorList, index) => {
+          return (
+            <React.Fragment key={`accommodationEditModalOccupancyError${index}`}>
+              <AccommodationEditModalErrorsHeader>Room {index + 1} Errors</AccommodationEditModalErrorsHeader>
+              {errorList.map((error, innerIndex) => {
+                return (
+                  <AccommodationEditModalErrorsError key={`accommodationEditModalErrorsingleError${innerIndex}`}>
+                    {error}
+                  </AccommodationEditModalErrorsError>
+                );
+              })}
+            </React.Fragment>
+          );
+        })}
+      </React.Fragment>
+    );
   };
+
+  const renderAccommodationEditModalBookingBuilderErrors = accommodationEditModalErrors => {
+    if (!accommodationEditModalErrors) {
+      return null;
+    }
+
+    return (
+      <React.Fragment>
+        {accommodationEditModalErrors.bookingBuilderErrors.map((error, index) => {
+          return (
+            <React.Fragment key={`accommodationEditModalBookingBuilderError${index}`}>
+              <AccommodationEditModalErrorsHeader>{error}</AccommodationEditModalErrorsHeader>
+            </React.Fragment>
+          );
+        })}
+      </React.Fragment>
+    );
+  };
+
   return (
     <EditForm>
       <EditFormTitle>{path(['product', 'name'], head(rooms))}</EditFormTitle>
@@ -351,7 +376,7 @@ export const SummaryRoomEdit = ({
                 }}
                 rooms={guestAgeSets}
               />
-              {renderAccommodationEditErrors(accommodationEditErrors)}
+              {renderAccommodationEditModalOccupancyErrors(accommodationEditModalErrors)}
             </EditFormSection>
             {canChangeDates && (
               <EditFormSection>
@@ -370,6 +395,7 @@ export const SummaryRoomEdit = ({
                 })}
               </EditFormSection>
             )}
+            {renderAccommodationEditModalBookingBuilderErrors(accommodationEditModalErrors)}
             <EditFormSection>
               <EditFormSectionTitle>{t('mealPlan_plural')}</EditFormSectionTitle>
               {renderMealPlans({ mealPlanOptions, onMealPlanChange, values })}

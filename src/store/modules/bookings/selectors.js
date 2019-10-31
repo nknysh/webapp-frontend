@@ -1330,12 +1330,43 @@ export const getBookingRoomsByIdIsOnRequest = createSelector(
   any(propEq('isOnRequest', true))
 );
 
-export const getAccommodationEditErrors = createSelector(
-  getBookings,
-  propOr(null, 'accommodationEditErrors')
-);
+export const isRelevantAccommodationError = error => {
+  return error.type === 'stop' && error.meta === 'Accommodation';
+};
 
-export const getHasUnusedAvailableMealPlanOffers = (state, hotelUuid, roomUuid) => {
+export const getAccommodationEditModalErrors = (state, hotelUuid, accommodationProductId) => {
+  const bookings = getBookings(state, hotelUuid, accommodationProductId);
+  if (!bookings.data) {
+    return;
+  }
+
+  const errorsForHotel = bookings.data[hotelUuid].breakdown.errors;
+  const errors = {
+    occupancyCheckErrors: [],
+    bookingBuilderErrors: [],
+  };
+
+  // if we have occupancy check errors, use them
+  if (bookings.occupancyCheckErrors) {
+    errors.occupancyCheckErrors = bookings.occupancyCheckErrors;
+  }
+
+  if (errorsForHotel.some(isRelevantAccommodationError)) {
+    // temporary for 811 until we re-think booking builder experience
+    // @see https://pureescapes.atlassian.net/browse/OWA-811
+    errors.bookingBuilderErrors.push(
+      'There are one or more errors with the accommodation booking. Please check your inputted occupancy and dates and try again.'
+    );
+  }
+
+  if (errors.occupancyCheckErrors.length || errors.bookingBuilderErrors.length) {
+    return errors;
+  }
+
+  return null;
+};
+
+export const getHasUnusedAvailableMealPlanOffers = (state, hotelUuid) => {
   // get all the possible offers for meal plans
   const availableOffers = pipe(
     pathOr([], ['bookings', 'data', hotelUuid, 'breakdown', 'availableProductSets', 'Accommodation']),

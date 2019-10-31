@@ -101,8 +101,19 @@ const populateBooking = (state, { payload: { id, data } }) => set(lensPath(['dat
  */
 const removeCreatedBooking = (state, { payload }) => set(lensProp('created'), payload, state);
 
-const setAccommodationEditErrors = (state, payload) => {
-  state.accommodationEditErrors = payload.payload.errors.length >= 1 ? payload.payload.errors : null;
+/**
+ *
+ * @param {object} state the entire bookings state
+ * @param {object} payload action payload
+ * @param {object} payload.payload action nested payload
+ * @param {object[]} payload.payload.errors the errors from the occupancy check
+ * @param {string} payload.payload.hotelUuid the hotel UUID we had when we were editing
+ */
+const setBookingOccupancyCheckErrors = (state, payload) => {
+  // we set these against the whole bookings state, instead of just against a hotel.
+  // its arguable against a hotel is "more" correct, but we cant close this modal with any errors
+  // anyway (thats the whole point) and keeping them here is simpler and faster
+  state.occupancyCheckErrors = payload.payload.errors.length >= 1 ? payload.payload.errors : null;
   return state;
 };
 
@@ -143,7 +154,7 @@ export default createReducer(
     [getSuccessActionName(BOOKINGS_SET)]: successReducer,
     [getSuccessActionName(BOOKINGS_FETCH)]: successReducer,
 
-    SET_ACCOMMODATION_EDIT_ERRORS: setAccommodationEditErrors,
+    SET_BOOKING_OCCUPANCY_CHECK_ERRORS: setBookingOccupancyCheckErrors,
   },
   initialState
 );

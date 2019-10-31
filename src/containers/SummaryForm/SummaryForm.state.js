@@ -19,7 +19,7 @@ import {
   removeRoom,
   replaceProducts,
   updateBooking,
-  getAccommodationEditErrors,
+  getAccommodationEditModalErrors,
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id }) => ({
@@ -36,7 +36,7 @@ export const mapStateToProps = (state, { id }) => ({
   status: getBookingStatus(state),
   total: getBookingTotal(state, id),
   totals: getBookingTotals(state, id),
-  accommodationEditErrors: getAccommodationEditErrors(state, id),
+  accommodationEditModalErrors: getAccommodationEditModalErrors(state, id),
 });
 
 export const mapDispatchToProps = dispatch => ({

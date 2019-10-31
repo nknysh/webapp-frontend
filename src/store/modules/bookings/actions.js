@@ -1133,8 +1133,9 @@ export const updateAccommodationProductGuestAgeSets = (hotelUuid, accommodationP
   // ...and store any errors into the store
   const errors = getAllErrorsFromCheckResponses(checkResponses);
   dispatch({
-    type: 'SET_ACCOMMODATION_EDIT_ERRORS',
+    type: 'SET_BOOKING_OCCUPANCY_CHECK_ERRORS',
     payload: {
+      hotelUuid,
       errors,
     },
   });

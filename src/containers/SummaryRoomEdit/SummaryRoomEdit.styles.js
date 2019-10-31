@@ -84,13 +84,13 @@ export const EditFormActions = styled.div``;
 
 export const EditFormButton = styled(Button)``;
 
-export const AccommodationEditErrorsHeader = styled.p`
+export const AccommodationEditModalErrorsHeader = styled.p`
   font-size: 14px;
   text-transform: uppercase;
   color: ${theme.colors['red-fade']};
 `;
 
-export const AccommodationEditErrorsError = styled.p`
+export const AccommodationEditModalErrorsError = styled.p`
   font-size: 13px;
   text-transform: uppercase;
   color: ${theme.colors['red-fade']};

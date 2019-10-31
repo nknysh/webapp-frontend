@@ -20,7 +20,7 @@ import {
   updateIndividualRoom,
   updateRoom,
   updateAccommodationProductGuestAgeSets,
-  getAccommodationEditErrors,
+  getAccommodationEditModalErrors,
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { id, roomId }) => ({
@@ -33,7 +33,7 @@ export const mapStateToProps = (state, { id, roomId }) => ({
   rates: getHotelRoomRates(state, id, roomId),
   requestedRooms: getBookingRoomsById(state, id, roomId),
   rooms: getPotentialBookingRoomsById(state, id, roomId),
-  accommodationEditErrors: getAccommodationEditErrors(state, id, roomId),
+  accommodationEditModalErrors: getAccommodationEditModalErrors(state, id, roomId),
 });
 
 export const mapDispatchToProps = dispatch => ({
