@@ -308,9 +308,14 @@ export const optionsPendingSelector = createSelector(
   search => search.optionsPending
 );
 
-export const optionsError = createSelector(
+export const optionsErrorSelector = createSelector(
   searchDomain,
   search => search.optionsPending
+);
+
+export const hasOptionsErrorSelector = createSelector(
+  optionsErrorSelector,
+  Boolean
 );
 
 export const optionsSelector = createSelector(

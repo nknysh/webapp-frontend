@@ -29,7 +29,6 @@ const renderResult = ({ uuid, ...hotel }) => (
 );
 
 export const SearchResults = ({ searchStatus, meta, result, canSearch }) => {
-  console.log(result);
   const { t } = useTranslation();
 
   const { modalOpen, onModalOpen, onModalClose } = useModalState(false);

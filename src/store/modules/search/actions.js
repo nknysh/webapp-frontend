@@ -227,6 +227,8 @@ export const searchOptionsInitAction = () => async dispatch => {
     const options = await client.getOptions();
     dispatch(searchOptionsSuccessAction({ options }));
   } catch (error) {
+    // Try again, and keep trying because sometimes the proxy fails
+    dispatch(searchOptionsInitAction());
     dispatch(searchOptionsFailureAction({ error }));
   }
 };
@@ -237,7 +239,7 @@ export const searchOptionsRequestAction = () => ({
 
 export const searchOptionsSuccessAction = response => ({
   type: SEARCH_OPTIONS_SUCCESS,
-  payload: { ...response.options.data.data }, // <- wtf.
+  payload: { ...response.options.data.data },
 });
 
 export const searchOptionsFailureAction = error => ({

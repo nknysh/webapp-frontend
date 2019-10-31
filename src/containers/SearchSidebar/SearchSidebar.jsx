@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, propOr, prop } from 'ramda';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,9 @@ export const SearchSidebar = ({
   starRatings,
   canSearch,
   currentCountry,
+  loadSearchOptions,
+  isSearchOptionsPending,
+  hasSearchOptionsError,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -43,6 +46,10 @@ export const SearchSidebar = ({
   useEffectBoundary(() => {
     searchByQuery(searchQuery);
   }, [version, currentCountry]);
+
+  useEffect(() => {
+    loadSearchOptions();
+  }, [loadSearchOptions]);
 
   return (
     <Fragment>
@@ -69,15 +76,19 @@ export const SearchSidebar = ({
         />
       </Section>
       <Section>
-        <SearchFilters
-          onReset={searchFiltersReset}
-          onChange={setSearchQuery}
-          regions={regions}
-          starRatings={starRatings}
-          features={features}
-          prices={prices}
-          searchQuery={searchQuery}
-        />
+        {!isSearchOptionsPending && !hasSearchOptionsError ? (
+          <SearchFilters
+            onReset={searchFiltersReset}
+            onChange={setSearchQuery}
+            regions={regions}
+            starRatings={starRatings}
+            features={features}
+            prices={prices}
+            searchQuery={searchQuery}
+          />
+        ) : (
+          <p>Loading filters...</p>
+        )}
       </Section>
       <Section>
         <SideBarButton onClick={() => setVersion(version + 1)} disabled={disableSearchButton}>

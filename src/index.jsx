@@ -15,7 +15,6 @@ import headerMeta from 'config/meta';
 import headerLink from 'config/link';
 import entryRoutes from 'routing/entry';
 import { getRoutes } from 'routing';
-import { searchOptionsInitAction } from './store/modules/search/actions';
 
 import { theme, GlobalStyle, GlobalFonts } from 'styles';
 
@@ -26,8 +25,6 @@ if (APP_ENV !== 'production') {
   const whyDidYouRender = require('@welldone-software/why-did-you-render');
   whyDidYouRender(React);
 }
-
-store.dispatch(searchOptionsInitAction());
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

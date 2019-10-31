@@ -39,7 +39,7 @@ exports[`<SearchResult /> render matches snapshot 1`] = `
       data-role="linkButton.showHighlights"
       onClick={[Function]}
       role="button"
-      title="Show Highlights"
+      title="labels.showHighlights"
     >
       + 
       See Highlights

@@ -10,6 +10,9 @@ export const propTypes = {
   getHotel: PropTypes.func,
   fetchHotels: PropTypes.func,
   getCountryName: PropTypes.func,
+  loadSearchOptions: PropTypes.func,
+  isSearchOptionsPending: PropTypes.bool,
+  hasSearchOptionsError: PropTypes.bool,
 };
 
 export const defaultProps = {

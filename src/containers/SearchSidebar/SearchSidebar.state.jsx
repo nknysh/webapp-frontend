@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
+import { searchOptionsInitAction } from 'store/modules/search/actions';
 
 import {
   setSearchQuery,
@@ -20,6 +21,8 @@ import {
   searchRegionsSelector,
   searchStarRatingsSelector,
   searchFiltersSelector,
+  optionsPendingSelector,
+  hasOptionsErrorSelector,
 } from '../../store/modules/search/selectors';
 
 export const mapStateToProps = state => ({
@@ -38,6 +41,8 @@ export const mapStateToProps = state => ({
   features: searchFiltersSelector(state),
   regions: searchRegionsSelector(state),
   starRatings: searchStarRatingsSelector(state),
+  isSearchOptionsPending: optionsPendingSelector(state),
+  hasSearchOptionsError: hasOptionsErrorSelector(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -55,6 +60,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   searchByQuery: pipe(
     searchByQuery,
+    dispatch
+  ),
+  loadSearchOptions: pipe(
+    searchOptionsInitAction,
     dispatch
   ),
 });
