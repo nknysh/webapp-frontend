@@ -310,7 +310,7 @@ export const optionsPendingSelector = createSelector(
 
 export const optionsErrorSelector = createSelector(
   searchDomain,
-  search => search.optionsPending
+  search => search.optionsError
 );
 
 export const hasOptionsErrorSelector = createSelector(
