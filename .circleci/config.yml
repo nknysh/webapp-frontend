@@ -111,7 +111,7 @@ jobs:
             --cache-control max-age=31536000
       - run: |
           aws cloudfront create-invalidation \
-              --distribution-id E1HJPUWX63XB4L \
+              --distribution-id E1ZNSARBE2K0BC \
               --paths /\*
 workflows:
   version: 2
@@ -128,7 +128,7 @@ workflows:
           requires:
             - deploy_develop
       - deploy_master:
-          context: Production
+          context: deployments
           filters:
             branches:
               only:
