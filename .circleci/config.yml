@@ -128,7 +128,7 @@ workflows:
           requires:
             - deploy_develop
       - deploy_master:
-          context: Productions
+          context: Production
           filters:
             branches:
               only:
