@@ -284,6 +284,18 @@ export const getCanSearch = createSelector(
   }
 );
 
+// We can't use the above selector because it's being used to infer wether
+// the user needs to provide more info in SearchResults.jsx
+export const isSearchQueryValidSelector = createSelector(
+  getSearchQuery,
+  getCanSearch,
+  (query, canSearch) => {
+    const range = pathOr([], ['filters', 'prices'], query);
+    const validRange = range[0] < range[1];
+    return canSearch && validRange;
+  }
+);
+
 export const getMappedSearchResults = createSelector(
   [getArg(0), getSearchResultsResult],
   (state, results) =>

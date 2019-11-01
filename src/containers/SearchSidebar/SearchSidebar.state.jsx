@@ -12,7 +12,6 @@ import {
   getSearchFiltersPrices,
   getSearchOccassions,
   getMappedSearchResults,
-  getCanSearch,
 } from 'store/modules/search';
 import { getCountriesData } from 'store/modules/countries';
 import { getHotelsData, getHotelsStatus } from 'store/modules/hotels';
@@ -23,6 +22,7 @@ import {
   searchFiltersSelector,
   optionsPendingSelector,
   hasOptionsErrorSelector,
+  isSearchQueryValidSelector,
 } from '../../store/modules/search/selectors';
 
 export const mapStateToProps = state => ({
@@ -36,7 +36,7 @@ export const mapStateToProps = state => ({
   searchQuery: getSearchQuery(state),
   nameSearchStatus: getSearchStatus(state, 'byName'),
   querySearchStatus: getSearchStatus(state, 'byQuery'),
-  canSearch: getCanSearch(state),
+  canSearch: isSearchQueryValidSelector(state),
   // Properly memoized selectors
   features: searchFiltersSelector(state),
   regions: searchRegionsSelector(state),
