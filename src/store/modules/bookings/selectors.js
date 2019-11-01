@@ -1340,7 +1340,7 @@ export const getAccommodationEditModalErrors = (state, hotelUuid, accommodationP
     return;
   }
 
-  const errorsForHotel = bookings.data[hotelUuid].breakdown.errors;
+  const errorsForHotel = pathOr([], ['data', hotelUuid, 'breakdown', 'errors'], bookings);
   const errors = {
     occupancyCheckErrors: [],
     bookingBuilderErrors: [],
