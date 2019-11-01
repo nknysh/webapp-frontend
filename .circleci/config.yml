@@ -97,7 +97,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - run:
           name: build react app
-          command: npm i && npm run build:dev
+          command: npm i && npm run build
       # - run:
       #     name: Run tests
       #     command: npm run test:ci
