@@ -21,6 +21,7 @@ import {
   props,
   propSatisfies,
   without,
+  toPairs,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { Redirect } from 'react-router-dom';
@@ -289,13 +290,15 @@ const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal }) =>
 
 const renderPDFModal = (t, { id, showPDF, setShowPDF, guestsDetails }) => {
   const { guestTitle, guestFirstName, guestLastName } = guestsDetails;
+  const queryString = toPairs(guestsDetails)
+    .map(([k, v]) => `${k}=${v ? encodeURIComponent(v) : v}`)
+    .join('&');
+
   return (
     showPDF && (
       <Modal open={showPDF} onClose={() => setShowPDF(false)}>
         <PDFFrame>
-          <iframe
-            src={`${API_BASE_URL}/proposals/${id}/pdf?guestTitle=${guestTitle}&guestFirstName=${guestFirstName}&guestLastName=${guestLastName}`}
-          />
+          <iframe src={`${API_BASE_URL}/proposals/${id}/pdf?${queryString}`} />
         </PDFFrame>
       </Modal>
     )
