@@ -42,7 +42,6 @@ describe('search actions', () => {
     },
     occasions: { honeymoon: false, birthday: true },
     filters: { regions: {} },
-    suitableForHoneymooners: false,
   };
 
   it('should build a payload from a search query & query data with an unmodified date', () => {

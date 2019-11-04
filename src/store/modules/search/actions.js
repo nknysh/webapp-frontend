@@ -166,8 +166,7 @@ export const getPayloadFromSearchQuery = (query, actingCountryCode, repeatGuest,
   return pipe(
     omit(['prices']),
     mergeDeepLeft({ actingCountryCode: isNilOrEmpty(actingCountryCode) ? undefined : actingCountryCode }),
-    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
-    set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
+    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions })))
   )(query);
 };
 
@@ -187,7 +186,7 @@ export const searchByQuery = query => async (dispatch, getState) => {
   const actingCountryCode = getUserCountryContext(getState());
 
   // Sanitize the query object
-  query.filters = pipe(sanitizePriceRange)(query.cleanFilters);
+  query.filters = pipe(sanitizePriceRange)(query.filters);
 
   dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
