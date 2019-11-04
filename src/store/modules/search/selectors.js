@@ -286,12 +286,24 @@ export const getCanSearch = createSelector(
 
 // We can't use the above selector because it's being used to infer wether
 // the user needs to provide more info in SearchResults.jsx
-export const isSearchQueryValidSelector = createSelector(
+export const filtersSelector = createSelector(
   getSearchQuery,
+  query => propOr({}, 'filters', query)
+);
+
+export const priceRangeSelector = createSelector(
+  filtersSelector,
+  filters => {
+    // Remove undefined values
+    return propOr([], 'prices', filters).filter(r => Boolean(r));
+  }
+);
+
+export const isSearchQueryValidSelector = createSelector(
+  priceRangeSelector,
   getCanSearch,
-  (query, canSearch) => {
-    const range = pathOr([], ['filters', 'prices'], query);
-    const validRange = range[0] < range[1];
+  (range, canSearch) => {
+    const validRange = range.length === 2 ? range[0] < range[1] : true;
     return canSearch && validRange;
   }
 );

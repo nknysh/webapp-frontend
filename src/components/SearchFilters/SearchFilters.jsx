@@ -81,8 +81,8 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
   const priceRange = getSearchQueryData(filtersPricesLens) || [];
 
-  const [minPrice, setMinPrice] = useState(priceRange[0] || 0);
-  const [maxPrice, setMaxPrice] = useState(priceRange[1] || 100000);
+  const [minPrice, setMinPrice] = useState(priceRange[0] || '');
+  const [maxPrice, setMaxPrice] = useState(priceRange[1] || '');
   const [priceRangeError, setPriceRangeError] = useState(null);
 
   const updatePriceRange = (type, limit, newValue) => prevState => {
