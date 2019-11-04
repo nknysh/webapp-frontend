@@ -97,6 +97,17 @@ export const searchByQueryAction = payload => ({
 });
 
 /**
+ * Search query object
+ *
+ * @param {object} payload
+ * @returns {Array}
+ */
+const sanitizePriceRange = pipe(
+  propOr([], 'prices'),
+  map(v => (v === '' ? undefined : v))
+);
+
+/**
  * Search by name
  *
  * Auto complete search bar using name only
@@ -170,9 +181,13 @@ export const subDaysFromPayload = over(lensPath(['dates', 'endDate']), partialRi
  * @param {object} query
  * @returns {Function}
  */
+
 export const searchByQuery = query => async (dispatch, getState) => {
   // SRs can be a different country
   const actingCountryCode = getUserCountryContext(getState());
+
+  // Sanitize the query object
+  query.filters = pipe(sanitizePriceRange)(query.cleanFilters);
 
   dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
