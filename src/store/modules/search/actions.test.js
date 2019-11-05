@@ -1,4 +1,4 @@
-import { getPayloadFromSearchQuery, subDaysFromPayload } from './actions';
+import { getPayloadFromSearchQuery, subDaysFromPayload, sanitizePriceRange } from './actions';
 
 describe('search actions', () => {
   const query = {
@@ -20,6 +20,7 @@ describe('search actions', () => {
     },
     filters: {
       regions: {},
+      prices: [1, 2],
     },
   };
   const actingCountryCode = 'GB';
@@ -41,7 +42,7 @@ describe('search actions', () => {
       endDate: '2020-01-25T12:00:00.000Z',
     },
     occasions: { honeymoon: false, birthday: true },
-    filters: { regions: {} },
+    filters: { regions: {}, prices: [1, 2] },
   };
 
   it('should build a payload from a search query & query data with an unmodified date', () => {
@@ -54,5 +55,21 @@ describe('search actions', () => {
     const modifiedPayload = subDaysFromPayload(payload);
 
     expect(modifiedPayload.dates.endDate).toEqual(new Date('2020-01-24T12:00:00.000Z'));
+  });
+
+  describe('Sanitize Price Range', () => {
+    it('Sanitizes price ranges correctly', () => {
+      // Empty strings
+      expect(sanitizePriceRange({ prices: ['', ''] })).toEqual({ prices: [undefined, undefined] });
+      expect(sanitizePriceRange({ prices: [1, ''] })).toEqual({ prices: [1, undefined] });
+      expect(sanitizePriceRange({ prices: ['', 1] })).toEqual({ prices: [undefined, 1] });
+      expect(sanitizePriceRange({ prices: [1, 1] })).toEqual({ prices: [1, 1] });
+
+      // Zeros
+      expect(sanitizePriceRange({ prices: [0, 0] })).toEqual({ prices: [undefined, undefined] });
+      expect(sanitizePriceRange({ prices: [1, 0] })).toEqual({ prices: [1, undefined] });
+      expect(sanitizePriceRange({ prices: [0, 1] })).toEqual({ prices: [undefined, 1] });
+      expect(sanitizePriceRange({ prices: [1, 1] })).toEqual({ prices: [1, 1] });
+    });
   });
 });

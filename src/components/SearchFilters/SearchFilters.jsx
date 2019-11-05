@@ -73,14 +73,9 @@ const renderFeaturesCheckbox = ({ getSearchQueryData, setFeaturesToSearchQuery }
 
 export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features }) => {
   const { t } = useTranslation();
-
   const updateSearchQuery = useCallback(set(__, __, searchQuery), [searchQuery]);
   const getSearchQueryData = useCallback(view(__, searchQuery), [searchQuery]);
-
-  // Defualt the start and end price to the values from redux until the data is available in `prices`
-
   const priceRange = getSearchQueryData(filtersPricesLens) || [];
-
   const [minPrice, setMinPrice] = useState(priceRange[0] || '');
   const [maxPrice, setMaxPrice] = useState(priceRange[1] || '');
   const [priceRangeError, setPriceRangeError] = useState(null);
