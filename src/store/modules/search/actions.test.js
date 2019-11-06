@@ -71,5 +71,9 @@ describe('search actions', () => {
       expect(sanitizePriceRange({ prices: [0, 1] })).toEqual({ prices: [undefined, 1] });
       expect(sanitizePriceRange({ prices: [1, 1] })).toEqual({ prices: [1, 1] });
     });
+
+    it('does not error if prices do not exist', () => {
+      expect(sanitizePriceRange({})).toEqual({});
+    });
   });
 });

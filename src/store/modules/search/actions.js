@@ -1,4 +1,17 @@
-import { lensPath, lensProp, map, mergeDeepLeft, omit, over, partialRight, path, pathOr, pipe, prop } from 'ramda';
+import {
+  lensPath,
+  lensProp,
+  map,
+  mergeDeepLeft,
+  omit,
+  over,
+  partialRight,
+  path,
+  pathOr,
+  pipe,
+  prop,
+  propOr,
+} from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { subDays } from 'date-fns';
 import i18n from 'config/i18n';
@@ -88,7 +101,11 @@ export const searchByQueryAction = payload => ({
  * @param {object} filters
  * @returns {Object}
  */
-export const sanitizePriceRange = over(lensProp('prices'), map(v => (v === '' || v === 0 ? undefined : v)));
+export const sanitizePriceRange = filters => {
+  return (filters = filters.prices
+    ? { ...filters, prices: filters.prices.map(v => (v === '' || v === 0 ? undefined : v)) }
+    : filters);
+};
 
 /**
  * Search by name
@@ -168,7 +185,7 @@ export const searchByQuery = query => async (dispatch, getState) => {
   // SRs can be a different country
   const actingCountryCode = getUserCountryContext(getState());
   // Sanitize the query object
-  query.filters = pipe(sanitizePriceRange)(query.filters);
+  query.filters = pipe(sanitizePriceRange)(propOr({}, query.filters));
 
   dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
