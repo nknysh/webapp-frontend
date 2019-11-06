@@ -191,26 +191,30 @@ export const subDaysFromPayload = over(lensPath(['dates', 'endDate']), partialRi
 export const searchByQuery = query => async (dispatch, getState) => {
   // SRs can be a different country
   const actingCountryCode = getUserCountryContext(getState());
+
   // Sanitize the query object
   const filters = propOr({}, 'filters', query);
-  query.filters = pipe(sanitizePriceRange)(filters);
+  const sanitizedQuery = {
+    ...query,
+    filters: pipe(sanitizePriceRange)(filters),
+  };
 
-  dispatch(searchByQueryAction(query));
-  dispatch(loadingAction(SEARCH_BY_QUERY, query));
+  dispatch(searchByQueryAction(sanitizedQuery));
+  dispatch(loadingAction(SEARCH_BY_QUERY, sanitizedQuery));
   const canSearch = getCanSearch(getState());
 
   // Make sure that we don't trigger an incomplete search
   if (!canSearch) return dispatch(successAction(SEARCH_BY_QUERY, {}));
 
-  const term = path(['destination', 'value'], query);
-  const occasions = prop('occasions', query);
-  const repeatGuest = prop('repeatGuest', query);
+  const term = path(['destination', 'value'], sanitizedQuery);
+  const occasions = prop('occasions', sanitizedQuery);
+  const repeatGuest = prop('repeatGuest', sanitizedQuery);
 
   // Set a cancel token so that multiple trigger cancel the previous request
   searchQueryCancelToken && searchQueryCancelToken.cancel('New search initiated');
   searchQueryCancelToken = createCancelToken();
 
-  const payloadWithRawDays = getPayloadFromSearchQuery(query, actingCountryCode, repeatGuest, occasions);
+  const payloadWithRawDays = getPayloadFromSearchQuery(sanitizedQuery, actingCountryCode, repeatGuest, occasions);
 
   localStorage.setItem(SEARCH_BY_QUERY, JSON.stringify(payloadWithRawDays));
 
