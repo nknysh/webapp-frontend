@@ -2,7 +2,7 @@
 
 exports[`<App /> render matches snapshot 1`] = `
 <withRouter(withUser(Layout))>
-  <React.Suspense
+  <Suspense
     fallback={
       <ForwardRef
         theme={
@@ -543,6 +543,6 @@ exports[`<App /> render matches snapshot 1`] = `
         render={[Function]}
       />
     </Switch>
-  </React.Suspense>
+  </Suspense>
 </withRouter(withUser(Layout))>
 `;

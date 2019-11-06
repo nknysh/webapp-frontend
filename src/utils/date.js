@@ -139,7 +139,6 @@ export const getToDateFormat = (dates = {}) => {
  * @param {string} pattern
  */
 export const formatDate = (date, pattern = path(['defaults', 'dateFormat'], config)) => {
-  console.log('pattern', pattern, date);
   const safeDate = isString(date) ? new Date(date) : date;
   return format(safeDate, pattern);
 };

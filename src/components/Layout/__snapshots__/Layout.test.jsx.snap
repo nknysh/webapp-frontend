@@ -4,19 +4,40 @@ exports[`<Layout /> render matches snapshot 1`] = `
 <Fragment>
   <Layoutstyles__StyledLayout>
     <SnackbarProvider
+      TransitionComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "propTypes": Object {
+            "children": [Function],
+            "direction": [Function],
+            "in": [Function],
+            "onEnter": [Function],
+            "onEntering": [Function],
+            "onExit": [Function],
+            "onExited": [Function],
+            "style": [Function],
+            "timeout": [Function],
+          },
+          "render": [Function],
+        }
+      }
       anchorOrigin={
         Object {
           "horizontal": "right",
           "vertical": "top",
         }
       }
+      autoHideDuration={5000}
+      classes={Object {}}
       dense={false}
+      hideIconVariant={false}
+      iconVariant={Object {}}
       maxSnack={3}
       preventDuplicate={false}
     >
-      <Component />
+      <Memo(WithSnackbar(withNotifications(Notifications))) />
     </SnackbarProvider>
-    <Component
+    <Memo(oc)
       attributes={Object {}}
       enabled={true}
     />

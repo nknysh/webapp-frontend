@@ -3,7 +3,6 @@
 exports[`<SearchResult /> render matches snapshot 1`] = `
 <SearchResultstyles__StyledCard>
   <Link
-    replace={false}
     to="/hotels/undefined"
   >
     <SearchResultstyles__CardImage
@@ -16,7 +15,6 @@ exports[`<SearchResult /> render matches snapshot 1`] = `
   </Link>
   <SearchResultstyles__CardDetails>
     <Link
-      replace={false}
       to="/hotels/undefined"
     >
       <SearchResultstyles__CardTitle />
@@ -39,7 +37,7 @@ exports[`<SearchResult /> render matches snapshot 1`] = `
       data-role="linkButton.showHighlights"
       onClick={[Function]}
       role="button"
-      title="labels.showHighlights"
+      title="Show Highlights"
     >
       + 
       See Highlights

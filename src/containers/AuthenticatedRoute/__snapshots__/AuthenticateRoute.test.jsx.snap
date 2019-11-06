@@ -11,21 +11,18 @@ exports[`<AuthenticatedRoute /> render custom auth redirect route when not authe
 
 exports[`<AuthenticatedRoute /> render message while authenticating 1`] = `
 <Redirect
-  push={false}
   to="/login?origin=undefinedundefined"
 />
 `;
 
 exports[`<AuthenticatedRoute /> render redirect when not authenticated 1`] = `
 <Redirect
-  push={false}
   to="/login?origin=undefinedundefined"
 />
 `;
 
 exports[`<AuthenticatedRoute /> render route when authenticated 1`] = `
 <Redirect
-  push={false}
   to="/login?origin=undefinedundefined"
 />
 `;
