@@ -64,13 +64,18 @@ import {
   parseMealPlans,
   prepareDates,
 } from './SummaryRoomEdit.utils';
+import { isString } from 'util';
 
 const renderDay = (t, rates, currencyCode, day) => {
+  if (!day) {
+    return;
+  }
   const dayRate = prop(formatDate(day), rates);
-
+  const safeDay = isString(day) ? new Date(day) : day;
+  console.log('safeDay', safeDay);
   return (
     <span>
-      <div>{formatDate(day, 'D')}</div>
+      <div>{formatDate(safeDay, 'd')}</div>
       {prop('price', dayRate) && (
         <DatePrice>
           {prop('isOnRequest', dayRate)
@@ -252,13 +257,12 @@ export const SummaryRoomEdit = ({
     [id, roomId, onDatesShow]
   );
 
-  const onDayPickerShow = useCallback(() => onDatesShow(id, roomId, firstDate, getEndOfMonth(lastDate)), [
-    onDatesShow,
-    id,
-    roomId,
-    firstDate,
-    lastDate,
-  ]);
+  const onDayPickerShow = useCallback(() => {
+    if (!lastDate) {
+      return;
+    }
+    return onDatesShow(id, roomId, firstDate, getEndOfMonth(lastDate));
+  }, [onDatesShow, id, roomId, firstDate, lastDate]);
 
   const onDatesChange = useCallback(
     dates => {

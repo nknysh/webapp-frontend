@@ -75,5 +75,13 @@ export const extractAges = pipe(
  */
 export const addFinalDayToBooking = over(
   lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]),
-  map(over(lensProp('endDate'), partialRight(addDays, [1])))
+  map(
+    over(
+      lensProp('endDate'),
+      pipe(
+        input => new Date(input),
+        partialRight(addDays, [1])
+      )
+    )
+  )
 );

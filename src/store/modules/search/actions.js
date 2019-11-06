@@ -177,7 +177,13 @@ export const getPayloadFromSearchQuery = (query, actingCountryCode, repeatGuest,
   )(query);
 };
 
-export const subDaysFromPayload = over(lensPath(['dates', 'endDate']), partialRight(subDays, [1]));
+export const subDaysFromPayload = over(
+  lensPath(['dates', 'endDate']),
+  pipe(
+    input => new Date(input),
+    partialRight(subDays, [1])
+  )
+);
 
 /**
  * Search by query
