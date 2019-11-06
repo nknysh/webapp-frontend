@@ -60,20 +60,20 @@ describe('search actions', () => {
   describe('Sanitize Price Range', () => {
     it('Sanitizes price ranges correctly', () => {
       // Empty strings
-      expect(sanitizePriceRange({ prices: ['', ''] })).toEqual({ prices: [undefined, undefined] });
-      expect(sanitizePriceRange({ prices: [1, ''] })).toEqual({ prices: [1, undefined] });
-      expect(sanitizePriceRange({ prices: ['', 1] })).toEqual({ prices: [undefined, 1] });
-      expect(sanitizePriceRange({ prices: [1, 1] })).toEqual({ prices: [1, 1] });
+      expect(sanitizePriceRange({ prices: ['', ''] })).toEqual({ prices: { min: undefined, max: undefined } });
+      expect(sanitizePriceRange({ prices: [1, ''] })).toEqual({ prices: { min: 1, max: undefined } });
+      expect(sanitizePriceRange({ prices: ['', 1] })).toEqual({ prices: { min: undefined, max: 1 } });
+      expect(sanitizePriceRange({ prices: [1, 1] })).toEqual({ prices: { min: 1, max: 1 } });
 
       // Zeros
-      expect(sanitizePriceRange({ prices: [0, 0] })).toEqual({ prices: [undefined, undefined] });
-      expect(sanitizePriceRange({ prices: [1, 0] })).toEqual({ prices: [1, undefined] });
-      expect(sanitizePriceRange({ prices: [0, 1] })).toEqual({ prices: [undefined, 1] });
-      expect(sanitizePriceRange({ prices: [1, 1] })).toEqual({ prices: [1, 1] });
+      expect(sanitizePriceRange({ prices: [0, 0] })).toEqual({ prices: { min: undefined, max: undefined } });
+      expect(sanitizePriceRange({ prices: [1, 0] })).toEqual({ prices: { min: 1, max: undefined } });
+      expect(sanitizePriceRange({ prices: [0, 1] })).toEqual({ prices: { min: undefined, max: 1 } });
+      expect(sanitizePriceRange({ prices: [1, 1] })).toEqual({ prices: { min: 1, max: 1 } });
     });
 
     it('does not error if prices do not exist', () => {
-      expect(sanitizePriceRange({})).toEqual({});
+      expect(sanitizePriceRange({})).toEqual({ prices: { min: undefined, max: undefined } });
     });
   });
 });

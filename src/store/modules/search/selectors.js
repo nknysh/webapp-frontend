@@ -295,7 +295,7 @@ export const priceRangeSelector = createSelector(
   filtersSelector,
   filters => {
     // Remove undefined values
-    return propOr([], 'prices', filters).filter(r => Boolean(r));
+    return propOr([], 'prices', filters);
   }
 );
 
@@ -303,7 +303,26 @@ export const isSearchQueryValidSelector = createSelector(
   priceRangeSelector,
   getCanSearch,
   (range, canSearch) => {
-    const validRange = range.length === 2 ? range[0] < range[1] : true;
+    let validRange = false;
+
+    if (!range.length) {
+      validRange = true;
+    }
+
+    if (range.length === 2) {
+      const sanitized = range.map((v, i) => {
+        switch (i) {
+          case 0:
+            return v === '' || v === undefined ? 0 : v;
+          case 1:
+            return v === '' || v === undefined ? Infinity : v;
+          default:
+            return v;
+        }
+      });
+      validRange = sanitized[0] < sanitized[1];
+    }
+
     return canSearch && validRange;
   }
 );

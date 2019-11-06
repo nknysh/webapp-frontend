@@ -44,13 +44,6 @@ describe('search selectors', () => {
       const filters = {};
       expect(priceRangeSelector(filters)).toEqual([]);
     });
-
-    it('returns an empty array when prices are undefined', () => {
-      const filters = {
-        prices: [undefined, undefined],
-      };
-      expect(priceRangeSelector(filters)).toEqual([]);
-    });
   });
 
   describe('isSearchQueryValidSelector', () => {
@@ -66,12 +59,23 @@ describe('search selectors', () => {
       expect(isSearchQueryValidSelector([], true)).toEqual(true);
     });
 
-    it('returns true when range is incomplete and canSearch is true', () => {
-      expect(isSearchQueryValidSelector([1], true)).toEqual(true);
-    });
-
     it('returns false when range is invalid', () => {
       expect(isSearchQueryValidSelector([999, 0], true)).toEqual(false);
+    });
+
+    it('returns true when one value is empty or undefined', () => {
+      // Min Set
+      expect(isSearchQueryValidSelector([1, undefined], true)).toEqual(true);
+      expect(isSearchQueryValidSelector([1, ''], true)).toEqual(true);
+      // Max Set
+      expect(isSearchQueryValidSelector([undefined, 1], true)).toEqual(true);
+      expect(isSearchQueryValidSelector(['', 1], true)).toEqual(true);
+    });
+
+    it('returns false when only one value is set', () => {
+      // Classic comment: This should never happen, so if it does,
+      // you've got a bug somewhere else.
+      expect(isSearchQueryValidSelector([1], false)).toEqual(false);
     });
 
     it('always returns false if canSearch is false', () => {

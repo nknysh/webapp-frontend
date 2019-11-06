@@ -102,9 +102,16 @@ export const searchByQueryAction = payload => ({
  * @returns {Object}
  */
 export const sanitizePriceRange = filters => {
-  return (filters = filters.prices
-    ? { ...filters, prices: filters.prices.map(v => (v === '' || v === 0 ? undefined : v)) }
-    : filters);
+  const sanitizedPrices = filters.prices ? filters.prices.map(v => (v === '' || v === 0 ? undefined : v)) : [];
+
+  return {
+    ...filters,
+    // Fun fact: It's prices here, and in the middleware. But it's priceRange in the back end.
+    prices: {
+      min: sanitizedPrices[0],
+      max: sanitizedPrices[1],
+    },
+  };
 };
 
 /**
@@ -185,7 +192,8 @@ export const searchByQuery = query => async (dispatch, getState) => {
   // SRs can be a different country
   const actingCountryCode = getUserCountryContext(getState());
   // Sanitize the query object
-  query.filters = pipe(sanitizePriceRange)(propOr({}, query.filters));
+  const filters = propOr({}, 'filters', query);
+  query.filters = pipe(sanitizePriceRange)(filters);
 
   dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
