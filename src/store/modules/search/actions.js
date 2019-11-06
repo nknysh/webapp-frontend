@@ -1,18 +1,4 @@
-import {
-  lensPath,
-  lensProp,
-  map,
-  mergeDeepLeft,
-  omit,
-  over,
-  partialRight,
-  path,
-  pathOr,
-  pipe,
-  prop,
-  propOr,
-  set,
-} from 'ramda';
+import { lensPath, lensProp, map, mergeDeepLeft, omit, over, partialRight, path, pathOr, pipe, prop } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { subDays } from 'date-fns';
 import i18n from 'config/i18n';
@@ -99,13 +85,10 @@ export const searchByQueryAction = payload => ({
 /**
  * Search query object
  *
- * @param {object} payload
- * @returns {Array}
+ * @param {object} filters
+ * @returns {Object}
  */
-const sanitizePriceRange = pipe(
-  propOr([], 'prices'),
-  map(v => (v === '' ? undefined : v))
-);
+export const sanitizePriceRange = over(lensProp('prices'), map(v => (v === '' || v === 0 ? undefined : v)));
 
 /**
  * Search by name
@@ -166,8 +149,7 @@ export const getPayloadFromSearchQuery = (query, actingCountryCode, repeatGuest,
   return pipe(
     omit(['prices']),
     mergeDeepLeft({ actingCountryCode: isNilOrEmpty(actingCountryCode) ? undefined : actingCountryCode }),
-    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
-    set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
+    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions })))
   )(query);
 };
 
@@ -185,9 +167,8 @@ export const subDaysFromPayload = over(lensPath(['dates', 'endDate']), partialRi
 export const searchByQuery = query => async (dispatch, getState) => {
   // SRs can be a different country
   const actingCountryCode = getUserCountryContext(getState());
-
   // Sanitize the query object
-  query.filters = pipe(sanitizePriceRange)(query.cleanFilters);
+  query.filters = pipe(sanitizePriceRange)(query.filters);
 
   dispatch(searchByQueryAction(query));
   dispatch(loadingAction(SEARCH_BY_QUERY, query));
