@@ -180,7 +180,11 @@ export const getFromToFromDates = (dates = []) => ({
  * @param {string | Date} endDate
  * @returns {Array<Date>}
  */
-export const getDaysBetween = (startDate, endDate) => eachDay(startDate, subDays(endDate, 1));
+export const getDaysBetween = (startDate, endDate) =>
+  eachDay({
+    start: startDate,
+    end: subDays(endDate, 1),
+  });
 
 /**
  * Minus days

@@ -46,7 +46,7 @@ const renderRoomsBreakdown = (t, { title, dates = [], subProducts, ...product })
 
   const count = getNumberOfDays({ startDate, endDate });
   const mealPlan = pathOr('', [ProductTypes.MEAL_PLAN, 0, 'product', 'meta', 'categoryType'], subProducts);
-
+  console.log('startDate', startDate);
   return (
     <PriceBreakdownItem key={path(['product', 'uuid'], product) + startDate + endDate}>
       {t('labels.nightsIn', {
@@ -54,8 +54,8 @@ const renderRoomsBreakdown = (t, { title, dates = [], subProducts, ...product })
         nights: t('night', { count }),
         title,
         mealPlan,
-        startDate: format(startDate, 'YYYY-MM-DD'),
-        endDate: format(endDate, 'YYYY-MM-DD'),
+        startDate: format(new Date(startDate), 'yyyy-mm-dd'),
+        endDate: format(new Date(endDate), 'yyyy-mm-dd'),
       })}
     </PriceBreakdownItem>
   );
