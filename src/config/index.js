@@ -18,7 +18,7 @@ export const isDev = equals('development', APP_ENV);
 
 export default {
   defaults: {
-    dateFormat: 'YYYY-MM-DD',
+    dateFormat: 'yyyy-MM-dd',
     priceRange: [1000, 10000],
   },
 };

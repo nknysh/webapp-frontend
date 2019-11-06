@@ -46,12 +46,12 @@ describe('date', () => {
       ).toMatchSnapshot();
     });
   });
-  xdescribe('formatDate', () => {
+  describe('formatDate', () => {
     it('returns formatted date', () => {
-      const date = new Date('2019-07-01');
+      const date = new Date('2019-05-22');
       expect(formatDate(date)).toMatchSnapshot();
-      expect(formatDate(date, 'D MM YYYY')).toMatchSnapshot();
-      expect(formatDate(date, 'YYYY')).toMatchSnapshot();
+      expect(formatDate(date, 'd MM yyyy')).toMatchSnapshot();
+      expect(formatDate(date, 'yyyy')).toMatchSnapshot();
     });
   });
   describe('getStartOfMonth', () => {

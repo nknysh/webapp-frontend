@@ -15,7 +15,15 @@ import {
   last,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
-import { differenceInCalendarDays, eachDay, endOfMonth, format, startOfMonth, subDays, addDays } from 'date-fns';
+import {
+  differenceInCalendarDays,
+  eachDayOfInterval,
+  endOfMonth,
+  format,
+  startOfMonth,
+  subDays,
+  addDays,
+} from 'date-fns';
 
 import config from 'config';
 import { isString } from './helpers';
@@ -101,10 +109,10 @@ export const getFromDateFormat = (dates = {}) => {
   const sameYear = endDate && startDate.getYear() === endDate.getYear();
 
   const month = sameMonth && sameYear ? '' : 'MMM';
-  const year = sameYear ? '' : 'YYYY';
+  const year = sameYear ? '' : 'yyyy';
 
   // Run date through build format string
-  return format(startDate, `D ${month} ${year}`);
+  return format(startDate, `d ${month} ${year}`);
 };
 
 /**
@@ -119,7 +127,7 @@ export const getToDateFormat = (dates = {}) => {
   const { endDate } = dates;
 
   if (!endDate) return '';
-  return ` - ${format(endDate, 'D MMM YYYY')}`;
+  return ` - ${format(endDate, 'd MMM yyyy')}`;
 };
 
 /**
@@ -130,7 +138,9 @@ export const getToDateFormat = (dates = {}) => {
  * @param {string | Date} date
  * @param {string} pattern
  */
-export const formatDate = (date, pattern = path(['defaults', 'dateFormat'], config)) => format(date, pattern);
+export const formatDate = (date, pattern = path(['defaults', 'dateFormat'], config)) => {
+  return format(date, pattern);
+};
 
 /**
  * Get start of month
@@ -181,7 +191,7 @@ export const getFromToFromDates = (dates = []) => ({
  * @returns {Array<Date>}
  */
 export const getDaysBetween = (startDate, endDate) =>
-  eachDay({
+  eachDayOfInterval({
     start: startDate,
     end: subDays(endDate, 1),
   });
