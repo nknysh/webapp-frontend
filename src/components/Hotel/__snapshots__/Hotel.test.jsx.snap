@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Hotel /> render matches snapshot 1`] = `
-<Hotelstyles__StyledHotel
+<styled.div
   additionalInfo={Array []}
   features={Array []}
   images={Array []}
@@ -10,23 +10,23 @@ exports[`<Hotel /> render matches snapshot 1`] = `
   promotionalText=""
   suitableForHoneymooners={false}
 >
-  <Hotelstyles__HotelDetails>
-    <Hotelstyles__HotelInfo>
-      <Hotelstyles__HotelStarRating>
-        <Hotelstyles__HotelStar>
+  <styled.div>
+    <styled.div>
+      <Styled(styled.div)>
+        <Styled(Styled(WithStyles(ForwardRef(Icon))))>
           star
-        </Hotelstyles__HotelStar>
+        </Styled(Styled(WithStyles(ForwardRef(Icon))))>
          
-        <Hotelstyles__HotelStarText>
+        <Styled(styled.span)>
           5
            
           Star
-        </Hotelstyles__HotelStarText>
-      </Hotelstyles__HotelStarRating>
-      <Hotelstyles__HotelName />
-      <Hotelstyles__HotelDescription />
-    </Hotelstyles__HotelInfo>
-    <Connect(Rooms) />
-  </Hotelstyles__HotelDetails>
-</Hotelstyles__StyledHotel>
+        </Styled(styled.span)>
+      </Styled(styled.div)>
+      <Styled(Styled(styled.h2)) />
+      <styled.div />
+    </styled.div>
+    <Connect(Component) />
+  </styled.div>
+</styled.div>
 `;

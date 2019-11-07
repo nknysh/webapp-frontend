@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CreateAccountForm /> render matches snapshot 1`] = `
-<CreateAccountFormstyles__StyledCreateAccount>
+<styled.div>
   <withThemeProvider(ka)
     isLoading={false}
     text="Sending Request..."
@@ -864,7 +864,7 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
     >
       Create an Account
     </withThemeProvider(_u)>
-    <CreateAccountFormstyles__ServerErrorContent />
+    <Styled(withThemeProvider(Styled(withThemeProvider(Ta)))) />
     <withThemeProvider(Form)
       initialValues={
         Object {
@@ -1665,5 +1665,5 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
       <Component />
     </withThemeProvider(Form)>
   </withThemeProvider(ka)>
-</CreateAccountFormstyles__StyledCreateAccount>
+</styled.div>
 `;

@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Header /> render matches logged in snapshot 1`] = `
-<Headerstyles__StyledHeader>
-  <Headerstyles__HeaderContainer>
-    <Headerstyles__HeaderLogo
+<styled.div>
+  <Styled(withThemeProvider(styled.div))>
+    <Styled(withThemeProvider(Pt))
       to="/"
     />
-    <Headerstyles__HeaderMenuArea>
-      <Headerstyles__HeaderMobileMenuButton
+    <styled.div>
+      <Styled(WithStyles(ForwardRef(Icon)))
         onClick={[Function]}
       >
         menu
-      </Headerstyles__HeaderMobileMenuButton>
-      <Headerstyles__HeaderMenu
+      </Styled(WithStyles(ForwardRef(Icon)))>
+      <Styled(withThemeProvider(wc))
         align="end"
         isOpen={false}
         links={
@@ -31,26 +31,26 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
         }
         onLinkClick={[Function]}
       >
-        <withAuthentication(withUser(Connect(UserPanel))) />
-      </Headerstyles__HeaderMenu>
-    </Headerstyles__HeaderMenuArea>
-  </Headerstyles__HeaderContainer>
-</Headerstyles__StyledHeader>
+        <withAuthentication(withUser(Connect(Component))) />
+      </Styled(withThemeProvider(wc))>
+    </styled.div>
+  </Styled(withThemeProvider(styled.div))>
+</styled.div>
 `;
 
 exports[`<Header /> render matches logged out snapshot 1`] = `
-<Headerstyles__StyledHeader>
-  <Headerstyles__HeaderContainer>
-    <Headerstyles__HeaderLogo
+<styled.div>
+  <Styled(withThemeProvider(styled.div))>
+    <Styled(withThemeProvider(Pt))
       to="/"
     />
-    <Headerstyles__HeaderMenuArea>
-      <Headerstyles__HeaderMobileMenuButton
+    <styled.div>
+      <Styled(WithStyles(ForwardRef(Icon)))
         onClick={[Function]}
       >
         menu
-      </Headerstyles__HeaderMobileMenuButton>
-      <Headerstyles__HeaderMenu
+      </Styled(WithStyles(ForwardRef(Icon)))>
+      <Styled(withThemeProvider(wc))
         align="end"
         isOpen={false}
         links={
@@ -73,10 +73,10 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
         }
         onLinkClick={[Function]}
       >
-        <withAuthentication(withUser(Connect(UserPanel))) />
-      </Headerstyles__HeaderMenu>
-    </Headerstyles__HeaderMenuArea>
-  </Headerstyles__HeaderContainer>
+        <withAuthentication(withUser(Connect(Component))) />
+      </Styled(withThemeProvider(wc))>
+    </styled.div>
+  </Styled(withThemeProvider(styled.div))>
   <withThemeProvider(Ma)
     onClose={[Function]}
     open={false}
@@ -508,5 +508,5 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
       }
     }
   />
-</Headerstyles__StyledHeader>
+</styled.div>
 `;

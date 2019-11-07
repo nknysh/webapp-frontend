@@ -432,16 +432,16 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
     }
   }
 >
-  <HotelContainerstyles__StyledHotelContainer>
-    <HotelContainerstyles__StyledBreadcrumbs
+  <Styled(withThemeProvider(styled.div))>
+    <Styled(withRouter())
       links={
         Array [
           Object {
-            "label": <ForwardRef(HotelContainerstyles__Back)
+            "label": <ForwardRef(Styled(withThemeProvider(Nt)))
               to="/search"
             >
               back to search results
-            </ForwardRef(HotelContainerstyles__Back)>,
+            </ForwardRef(Styled(withThemeProvider(Nt)))>,
           },
           Object {
             "label": undefined,
@@ -450,17 +450,17 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
         ]
       }
     />
-    <HotelContainerstyles__Full>
-      <HotelContainerstyles__StyledHotel />
-      <HotelContainerstyles__Aside>
-        <HotelContainerstyles__StyledSummary
+    <styled.div>
+      <Styled(Component) />
+      <styled.aside>
+        <Styled(Connect(Component))
           onSubmit={[Function]}
           showRoomImage={false}
         >
           <Component />
-        </HotelContainerstyles__StyledSummary>
-      </HotelContainerstyles__Aside>
-    </HotelContainerstyles__Full>
-  </HotelContainerstyles__StyledHotelContainer>
+        </Styled(Connect(Component))>
+      </styled.aside>
+    </styled.div>
+  </Styled(withThemeProvider(styled.div))>
 </withThemeProvider(ka)>
 `;

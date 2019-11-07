@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Footer /> render matches snapshot 1`] = `
-<Footerstyles__StyledFooter>
+<styled.div>
   <withThemeProvider(styled.div)
     theme={
       Object {
@@ -431,9 +431,9 @@ exports[`<Footer /> render matches snapshot 1`] = `
       }
     }
   >
-    <Footerstyles__FooterColumns>
-      <Footerstyles__FooterColumn>
-        <Footerstyles__FooterText>
+    <styled.div>
+      <styled.div>
+        <styled.div>
           <withThemeProvider(Ta)
             theme={
               Object {
@@ -863,9 +863,9 @@ exports[`<Footer /> render matches snapshot 1`] = `
               }
             }
           />
-        </Footerstyles__FooterText>
-      </Footerstyles__FooterColumn>
-      <Footerstyles__FooterMenu
+        </styled.div>
+      </styled.div>
+      <Styled(withThemeProvider(wc))
         links={
           Array [
             Object {
@@ -887,19 +887,19 @@ exports[`<Footer /> render matches snapshot 1`] = `
           ]
         }
       />
-      <Footerstyles__FooterColumn
+      <styled.div
         align="flex-end"
         flex={true}
       >
-        <Footerstyles__FooterCopyright>
-          <Footerstyles__FooterCopyrightText>
+        <styled.div>
+          <Styled(styled.p)>
             © 
             2019
              Pure Escapes
-          </Footerstyles__FooterCopyrightText>
-        </Footerstyles__FooterCopyright>
-      </Footerstyles__FooterColumn>
-    </Footerstyles__FooterColumns>
+          </Styled(styled.p)>
+        </styled.div>
+      </styled.div>
+    </styled.div>
   </withThemeProvider(styled.div)>
-</Footerstyles__StyledFooter>
+</styled.div>
 `;

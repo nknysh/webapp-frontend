@@ -2,8 +2,8 @@
 
 exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
 <Fragment>
-  <SearchSidebarstyles__Section>
-    <Search
+  <styled.div>
+    <Component
       canSearch={false}
       fetchHotels={[Function]}
       getCountryName={[Function]}
@@ -28,12 +28,12 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       }
       vertical={true}
     />
-  </SearchSidebarstyles__Section>
-  <SearchSidebarstyles__Section>
-    <SearchSidebarstyles__Title>
+  </styled.div>
+  <styled.div>
+    <Styled(styled.h4)>
       Occasions
-    </SearchSidebarstyles__Title>
-    <OccasionsSelect
+    </Styled(styled.h4)>
+    <Component
       occasions={
         Array [
           "honeymoon",
@@ -45,9 +45,9 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       onChange={[Function]}
       selected={Array []}
     />
-  </SearchSidebarstyles__Section>
-  <SearchSidebarstyles__Section>
-    <SearchFilters
+  </styled.div>
+  <styled.div>
+    <Component
       features={Array []}
       onChange={[Function]}
       onReset={[Function]}
@@ -72,22 +72,22 @@ exports[`<SearchSidebar /> render matches filtered regions snapshot 1`] = `
       }
       starRatings={Array []}
     />
-  </SearchSidebarstyles__Section>
-  <SearchSidebarstyles__Section>
-    <SearchSidebarstyles__SideBarButton
+  </styled.div>
+  <styled.div>
+    <Styled(withThemeProvider(styled.button))
       disabled={true}
       onClick={[Function]}
     >
       Search
-    </SearchSidebarstyles__SideBarButton>
-  </SearchSidebarstyles__Section>
+    </Styled(withThemeProvider(styled.button))>
+  </styled.div>
 </Fragment>
 `;
 
 exports[`<SearchSidebar /> render matches snapshot 1`] = `
 <Fragment>
-  <SearchSidebarstyles__Section>
-    <Search
+  <styled.div>
+    <Component
       canSearch={false}
       fetchHotels={[Function]}
       getCountryName={[Function]}
@@ -101,12 +101,12 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       searchQuery={Object {}}
       vertical={true}
     />
-  </SearchSidebarstyles__Section>
-  <SearchSidebarstyles__Section>
-    <SearchSidebarstyles__Title>
+  </styled.div>
+  <styled.div>
+    <Styled(styled.h4)>
       Occasions
-    </SearchSidebarstyles__Title>
-    <OccasionsSelect
+    </Styled(styled.h4)>
+    <Component
       occasions={
         Array [
           "honeymoon",
@@ -118,9 +118,9 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       onChange={[Function]}
       selected={Array []}
     />
-  </SearchSidebarstyles__Section>
-  <SearchSidebarstyles__Section>
-    <SearchFilters
+  </styled.div>
+  <styled.div>
+    <Component
       features={Array []}
       onChange={[Function]}
       onReset={[Function]}
@@ -129,14 +129,14 @@ exports[`<SearchSidebar /> render matches snapshot 1`] = `
       searchQuery={Object {}}
       starRatings={Array []}
     />
-  </SearchSidebarstyles__Section>
-  <SearchSidebarstyles__Section>
-    <SearchSidebarstyles__SideBarButton
+  </styled.div>
+  <styled.div>
+    <Styled(withThemeProvider(styled.button))
       disabled={true}
       onClick={[Function]}
     >
       Search
-    </SearchSidebarstyles__SideBarButton>
-  </SearchSidebarstyles__Section>
+    </Styled(withThemeProvider(styled.button))>
+  </styled.div>
 </Fragment>
 `;

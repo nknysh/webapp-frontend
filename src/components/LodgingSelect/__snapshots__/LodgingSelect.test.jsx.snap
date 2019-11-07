@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LodgingSelect /> render matches snapshot 1`] = `
-<LodgingSelectstyles__StyledLodgingSelect>
+<styled.div>
   <withThemeProvider(Tr)
     closeOnClickAway={true}
     inputContent="0 Rooms, 0 Guests"
@@ -434,20 +434,20 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
       }
     }
   >
-    <LodgingSelectstyles__LodgingSelectSection>
-      <LodgingSelectstyles__LodgingSelectEntry>
-        <LodgingSelectstyles__LodgingSelectEntryLabel>
+    <styled.div>
+      <styled.div>
+        <Styled(withThemeProvider(Gn))>
           Rooms
-        </LodgingSelectstyles__LodgingSelectEntryLabel>
-        <LodgingSelectstyles__LodgingSelectNumberSelect
+        </Styled(withThemeProvider(Gn))>
+        <Styled(withThemeProvider(ei))
           max={99}
           onAdd={[Function]}
           onRemove={[Function]}
           value={0}
         />
-      </LodgingSelectstyles__LodgingSelectEntry>
-    </LodgingSelectstyles__LodgingSelectSection>
-    <LodgingSelectstyles__Tabs
+      </styled.div>
+    </styled.div>
+    <Styled(withThemeProvider(Tu))
       labels={Array []}
       onChange={[Function]}
       scrollButtons="auto"
@@ -456,5 +456,5 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
       variant="scrollable"
     />
   </withThemeProvider(Tr)>
-</LodgingSelectstyles__StyledLodgingSelect>
+</styled.div>
 `;

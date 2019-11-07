@@ -431,7 +431,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
     }
   }
 >
-  <PageContentstyles__StyledPageContent>
+  <styled.div>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -441,9 +441,9 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <PageContentstyles__PageContainer>
-      <PageContentstyles__Columns>
-        <PageContentstyles__ColumnLeft>
+    <Styled(withThemeProvider(styled.div))>
+      <styled.div>
+        <styled.div>
           <withThemeProvider(Ni)
             theme={
               Object {
@@ -1303,9 +1303,9 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
               }
             />
           </withThemeProvider(Ni)>
-        </PageContentstyles__ColumnLeft>
-        <PageContentstyles__ColumnRight>
-          <PageContentstyles__PageContentData>
+        </styled.div>
+        <styled.div>
+          <styled.div>
             <withThemeProvider(Ta)
               theme={
                 Object {
@@ -1735,11 +1735,11 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                 }
               }
             />
-          </PageContentstyles__PageContentData>
-        </PageContentstyles__ColumnRight>
-      </PageContentstyles__Columns>
-    </PageContentstyles__PageContainer>
-  </PageContentstyles__StyledPageContent>
+          </styled.div>
+        </styled.div>
+      </styled.div>
+    </Styled(withThemeProvider(styled.div))>
+  </styled.div>
 </withThemeProvider(ka)>
 `;
 
@@ -2174,7 +2174,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
     }
   }
 >
-  <PageContentstyles__StyledPageContent>
+  <styled.div>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -2184,9 +2184,9 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <PageContentstyles__PageContainer>
-      <PageContentstyles__Columns>
-        <PageContentstyles__ColumnLeft>
+    <Styled(withThemeProvider(styled.div))>
+      <styled.div>
+        <styled.div>
           <withThemeProvider(Ni)
             theme={
               Object {
@@ -3046,9 +3046,9 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
               }
             />
           </withThemeProvider(Ni)>
-        </PageContentstyles__ColumnLeft>
-        <PageContentstyles__ColumnRight>
-          <PageContentstyles__PageContentData>
+        </styled.div>
+        <styled.div>
+          <styled.div>
             <withThemeProvider(Ta)
               theme={
                 Object {
@@ -3480,11 +3480,11 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
             >
               ### some data
             </withThemeProvider(Ta)>
-          </PageContentstyles__PageContentData>
-        </PageContentstyles__ColumnRight>
-      </PageContentstyles__Columns>
-    </PageContentstyles__PageContainer>
-  </PageContentstyles__StyledPageContent>
+          </styled.div>
+        </styled.div>
+      </styled.div>
+    </Styled(withThemeProvider(styled.div))>
+  </styled.div>
 </withThemeProvider(ka)>
 `;
 
@@ -3919,7 +3919,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
     }
   }
 >
-  <PageContentstyles__StyledPageContent>
+  <styled.div>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -3931,9 +3931,9 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <PageContentstyles__PageContainer>
-      <PageContentstyles__Columns>
-        <PageContentstyles__ColumnLeft>
+    <Styled(withThemeProvider(styled.div))>
+      <styled.div>
+        <styled.div>
           <withThemeProvider(Ni)
             theme={
               Object {
@@ -4794,9 +4794,9 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
               }
             />
           </withThemeProvider(Ni)>
-        </PageContentstyles__ColumnLeft>
-        <PageContentstyles__ColumnRight>
-          <PageContentstyles__PageContentData>
+        </styled.div>
+        <styled.div>
+          <styled.div>
             <withThemeProvider(Ta)
               theme={
                 Object {
@@ -5228,11 +5228,11 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
             >
               ### some data
             </withThemeProvider(Ta)>
-          </PageContentstyles__PageContentData>
-        </PageContentstyles__ColumnRight>
-      </PageContentstyles__Columns>
-    </PageContentstyles__PageContainer>
-  </PageContentstyles__StyledPageContent>
+          </styled.div>
+        </styled.div>
+      </styled.div>
+    </Styled(withThemeProvider(styled.div))>
+  </styled.div>
 </withThemeProvider(ka)>
 `;
 
@@ -5667,7 +5667,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
     }
   }
 >
-  <PageContentstyles__StyledPageContent>
+  <styled.div>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -5679,9 +5679,9 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <PageContentstyles__PageContainer>
-      <PageContentstyles__Columns>
-        <PageContentstyles__ColumnLeft>
+    <Styled(withThemeProvider(styled.div))>
+      <styled.div>
+        <styled.div>
           <withThemeProvider(Ni)
             theme={
               Object {
@@ -6544,9 +6544,9 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               - a link
             </withThemeProvider(Ta)>
           </withThemeProvider(Ni)>
-        </PageContentstyles__ColumnLeft>
-        <PageContentstyles__ColumnRight>
-          <PageContentstyles__PageContentData>
+        </styled.div>
+        <styled.div>
+          <styled.div>
             <withThemeProvider(Ta)
               theme={
                 Object {
@@ -6978,11 +6978,11 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
             >
               ### some data
             </withThemeProvider(Ta)>
-          </PageContentstyles__PageContentData>
-        </PageContentstyles__ColumnRight>
-      </PageContentstyles__Columns>
-    </PageContentstyles__PageContainer>
-  </PageContentstyles__StyledPageContent>
+          </styled.div>
+        </styled.div>
+      </styled.div>
+    </Styled(withThemeProvider(styled.div))>
+  </styled.div>
 </withThemeProvider(ka)>
 `;
 
@@ -7417,7 +7417,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
     }
   }
 >
-  <PageContentstyles__StyledPageContent>
+  <styled.div>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -7429,12 +7429,12 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <PageContentstyles__PageHero
+    <Styled(withThemeProvider(Wo))
       image="http://foo"
     />
-    <PageContentstyles__PageContainer>
-      <PageContentstyles__Columns>
-        <PageContentstyles__ColumnLeft>
+    <Styled(withThemeProvider(styled.div))>
+      <styled.div>
+        <styled.div>
           <withThemeProvider(Ni)
             theme={
               Object {
@@ -8297,9 +8297,9 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               - a link
             </withThemeProvider(Ta)>
           </withThemeProvider(Ni)>
-        </PageContentstyles__ColumnLeft>
-        <PageContentstyles__ColumnRight>
-          <PageContentstyles__PageContentData>
+        </styled.div>
+        <styled.div>
+          <styled.div>
             <withThemeProvider(Ta)
               theme={
                 Object {
@@ -8731,10 +8731,10 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             >
               ### some data
             </withThemeProvider(Ta)>
-          </PageContentstyles__PageContentData>
-        </PageContentstyles__ColumnRight>
-      </PageContentstyles__Columns>
-    </PageContentstyles__PageContainer>
-  </PageContentstyles__StyledPageContent>
+          </styled.div>
+        </styled.div>
+      </styled.div>
+    </Styled(withThemeProvider(styled.div))>
+  </styled.div>
 </withThemeProvider(ka)>
 `;

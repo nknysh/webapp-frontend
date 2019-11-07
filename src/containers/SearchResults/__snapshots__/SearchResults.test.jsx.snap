@@ -2,7 +2,7 @@
 
 exports[`<SearchResults /> render matches snapshot 1`] = `
 <Fragment>
-  <SearchResultsstyles__StyledResults>
+  <styled.div>
     <withThemeProvider(ka)
       isLoading={false}
       showPrev={true}
@@ -435,8 +435,8 @@ exports[`<SearchResults /> render matches snapshot 1`] = `
         }
       }
     >
-      <SearchResultsstyles__SearchMarkdown />
+      <Styled(withThemeProvider(Ta)) />
     </withThemeProvider(ka)>
-  </SearchResultsstyles__StyledResults>
+  </styled.div>
 </Fragment>
 `;

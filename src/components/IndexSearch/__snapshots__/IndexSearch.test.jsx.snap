@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<IndexSearch /> children is called as function when open 1`] = `
-<IndexSearchstyles__StyledIndexSearch>
+<styled.div>
   <withThemeProvider(Tr)
     inputContent=""
     inputProps={
@@ -449,13 +449,13 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
       }
     }
   >
-    <IndexSearchstyles__IndexSearchResults />
+    <styled.div />
   </withThemeProvider(Tr)>
-</IndexSearchstyles__StyledIndexSearch>
+</styled.div>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 1`] = `
-<IndexSearchstyles__StyledIndexSearch>
+<styled.div>
   <withThemeProvider(Tr)
     inputContent=""
     inputProps={
@@ -902,11 +902,11 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
       }
     }
   />
-</IndexSearchstyles__StyledIndexSearch>
+</styled.div>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 2`] = `
-<IndexSearchstyles__StyledIndexSearch>
+<styled.div>
   <withThemeProvider(Tr)
     inputContent=""
     inputProps={
@@ -1354,16 +1354,16 @@ exports[`<IndexSearch /> render matches snapshot 2`] = `
       }
     }
   >
-    <IndexSearchstyles__IndexSearchResults />
+    <styled.div />
   </withThemeProvider(Tr)>
-</IndexSearchstyles__StyledIndexSearch>
+</styled.div>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 3`] = `
-<IndexSearchstyles__StyledIndexSearch>
-  <IndexSearchstyles__IndexSearchLabel>
+<styled.div>
+  <Styled(withThemeProvider(Gn))>
     with label
-  </IndexSearchstyles__IndexSearchLabel>
+  </Styled(withThemeProvider(Gn))>
   <withThemeProvider(Tr)
     inputContent=""
     inputProps={
@@ -1810,11 +1810,11 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
       }
     }
   />
-</IndexSearchstyles__StyledIndexSearch>
+</styled.div>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 4`] = `
-<IndexSearchstyles__StyledIndexSearch>
+<styled.div>
   <withThemeProvider(Tr)
     inputContent=""
     inputProps={
@@ -2261,11 +2261,11 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
       }
     }
   />
-</IndexSearchstyles__StyledIndexSearch>
+</styled.div>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 5`] = `
-<IndexSearchstyles__StyledIndexSearch>
+<styled.div>
   <withThemeProvider(Tr)
     inputContent=""
     inputProps={
@@ -2712,11 +2712,11 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
       }
     }
   />
-</IndexSearchstyles__StyledIndexSearch>
+</styled.div>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 6`] = `
-<IndexSearchstyles__StyledIndexSearch>
+<styled.div>
   <withThemeProvider(Tr)
     inputContent="default value"
     inputProps={
@@ -3163,11 +3163,11 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
       }
     }
   />
-</IndexSearchstyles__StyledIndexSearch>
+</styled.div>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 7`] = `
-<IndexSearchstyles__StyledIndexSearch>
+<styled.div>
   <withThemeProvider(Tr)
     inputContent=""
     inputProps={
@@ -3615,9 +3615,9 @@ exports[`<IndexSearch /> render matches snapshot 7`] = `
       }
     }
   >
-    <IndexSearchstyles__IndexSearchResults />
+    <styled.div />
   </withThemeProvider(Tr)>
-</IndexSearchstyles__StyledIndexSearch>
+</styled.div>
 `;
 
 exports[`<IndexSearch /> render returns nothing with empty indexes 1`] = `""`;

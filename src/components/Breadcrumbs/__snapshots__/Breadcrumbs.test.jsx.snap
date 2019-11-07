@@ -1,48 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Breadcrumbs /> render matches snapshot 1`] = `<Breadcrumbsstyles__StyledBreadcrumbs />`;
+exports[`<Breadcrumbs /> render matches snapshot 1`] = `<styled.div />`;
 
 exports[`<Breadcrumbs /> render matches snapshot 2`] = `
-<Breadcrumbsstyles__StyledBreadcrumbs>
-  <Breadcrumbsstyles__Crumb
+<styled.div>
+  <styled.div
     key="9ab47eadf44d397992b4cb6b15b1f221e198908b"
   >
     <div />
-  </Breadcrumbsstyles__Crumb>
-</Breadcrumbsstyles__StyledBreadcrumbs>
+  </styled.div>
+</styled.div>
 `;
 
 exports[`<Breadcrumbs /> render matches snapshot 3`] = `
-<Breadcrumbsstyles__StyledBreadcrumbs>
-  <Breadcrumbsstyles__Crumb
+<styled.div>
+  <styled.div
     key="a82e8c5ff9d56218f85ee5fafe0d30fa7bcbcf3b"
   >
-    <Breadcrumbsstyles__CrumbLink
+    <Styled(withThemeProvider(Pt))
       data-active={false}
       to="bar"
     >
       foo
-    </Breadcrumbsstyles__CrumbLink>
-  </Breadcrumbsstyles__Crumb>
-</Breadcrumbsstyles__StyledBreadcrumbs>
+    </Styled(withThemeProvider(Pt))>
+  </styled.div>
+</styled.div>
 `;
 
 exports[`<Breadcrumbs /> render matches snapshot 4`] = `
-<Breadcrumbsstyles__StyledBreadcrumbs>
-  <Breadcrumbsstyles__Crumb
+<styled.div>
+  <styled.div
     key="a82e8c5ff9d56218f85ee5fafe0d30fa7bcbcf3b"
   >
-    <Breadcrumbsstyles__CrumbLink
+    <Styled(withThemeProvider(Pt))
       data-active={false}
       to="bar"
     >
       foo
-    </Breadcrumbsstyles__CrumbLink>
-  </Breadcrumbsstyles__Crumb>
-  <Breadcrumbsstyles__Crumb
+    </Styled(withThemeProvider(Pt))>
+  </styled.div>
+  <styled.div
     key="fcea48774eac6847e055e5309259828d20316a02"
   >
     <div />
-  </Breadcrumbsstyles__Crumb>
-</Breadcrumbsstyles__StyledBreadcrumbs>
+  </styled.div>
+</styled.div>
 `;

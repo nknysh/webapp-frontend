@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LoginForm /> render matches snapshot 1`] = `
-<LoginFormstyles__StyledLoginForm>
+<styled.div>
   <withThemeProvider(ka)
     isLoading={false}
     text="Logging in..."
@@ -864,7 +864,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
     >
       Sign In
     </withThemeProvider(_u)>
-    <LoginFormstyles__ServerErrorContent />
+    <Styled(withThemeProvider(Styled(withThemeProvider(Ta)))) />
     <withThemeProvider(Form)
       initialValues={
         Object {
@@ -1403,5 +1403,5 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
       <Component />
     </withThemeProvider(Form)>
   </withThemeProvider(ka)>
-</LoginFormstyles__StyledLoginForm>
+</styled.div>
 `;

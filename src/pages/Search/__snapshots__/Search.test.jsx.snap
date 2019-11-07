@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Search /> render matches snapshot 1`] = `
-<Searchstyles__StyledSearch>
-  <Searchstyles__Columns>
-    <Searchstyles__ColumnLeft>
-      <Searchstyles__Back
+<Styled(withThemeProvider(styled.div))>
+  <styled.div>
+    <Styled(styled.div)>
+      <Styled(withThemeProvider(Nt))
         to="/"
       >
         back to homepage
-      </Searchstyles__Back>
-      <withRouter(Connect(SearchSidebar)) />
-    </Searchstyles__ColumnLeft>
-    <Searchstyles__ColumnRight>
+      </Styled(withThemeProvider(Nt))>
+      <withRouter(Connect(Component)) />
+    </Styled(styled.div)>
+    <Styled(styled.div)>
       <Connect(Component) />
-    </Searchstyles__ColumnRight>
-  </Searchstyles__Columns>
-</Searchstyles__StyledSearch>
+    </Styled(styled.div)>
+  </styled.div>
+</Styled(withThemeProvider(styled.div))>
 `;
