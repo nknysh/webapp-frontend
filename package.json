@@ -5,10 +5,10 @@
   "main": "src/index.html",
   "scripts": {
     "dashboard": "webpack-dashboard -- npm run dev",
-    "dev": "parcel ./src/index.html -p 8080",
-    "prod": "NODE_ENV=production parcel ./src/index.html",
-    "build": "NODE_ENV=production parcel ./src/index.html",
-    "build:dev": "parcel ./src/index.html",
+    "dev": "NODE_ENV=development webpack-dev-server --mode development --inline --progress",
+    "prod": "NODE_ENV=production webpack-dev-server --mode production --inline --progress",
+    "build": "NODE_ENV=production webpack --mode production",
+    "build:dev": "NODE_ENV=development webpack --mode development",
     "test": "jest",
     "test:ci": "jest --runInBand --ci",
     "test:coverage": "jest --coverage",
@@ -19,39 +19,35 @@
   },
   "author": "",
   "license": "ISC",
-  "alias": {
-    "api": "./src/api",
-    "apps": "./src/apps",
-    "components": "./src/components",
-    "config": "./src/config",
-    "containers": "./src/containers",
-    "effects": "./src/effects",
-    "hoc": "./src/hoc",
-    "pages": "./src/pages",
-    "public": "./src/public",
-    "routing": "./src/routing",
-    "store": "./src/store",
-    "styles": "./src/styles",
-    "utils": "./src/utils"
-  },
   "babel": {
+    "plugins": [
+      "@babel/plugin-transform-runtime",
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-syntax-dynamic-import"
+    ],
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
     "env": {
+      "development": {
+        "plugins": [
+          "babel-plugin-styled-components"
+        ]
+      },
       "test": {
         "plugins": [
           "transform-es2015-modules-commonjs"
         ]
       }
-    },
-    "plugins": [
-      "@babel/plugin-transform-runtime"
-    ]
+    }
   },
   "devDependencies": {
     "@babel/cli": "7.7.0",
     "@babel/core": "7.7.2",
     "@babel/plugin-proposal-class-properties": "7.7.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
-    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/plugin-transform-runtime": "7.6.2",
     "@babel/polyfill": "7.7.0",
     "@babel/preset-env": "7.7.1",
     "@babel/preset-flow": "7.0.0",
@@ -73,12 +69,14 @@
     "@types/styled-components": "4.1.21",
     "@types/yup": "0.26.24",
     "@welldone-software/why-did-you-render": "3.3.8",
+    "awesome-typescript-loader": "5.2.1",
     "babel-core": "6.26.3",
     "babel-eslint": "10.0.3",
     "babel-jest": "24.9.0",
     "babel-loader": "8.0.6",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "canvas": "2.6.0",
+    "circular-dependency-plugin": "5.2.0",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.1",
     "enzyme-to-json": "3.4.3",
@@ -96,9 +94,15 @@
     "patch-package": "6.2.0",
     "prop-types": "15.7.2",
     "react-test-renderer": "16.11.0",
+    "source-map-loader": "0.2.4",
     "storybook": "5.1.11",
     "ts-jest": "24.1.0",
-    "typescript": "3.7.2"
+    "ts-loader": "6.2.1",
+    "typescript": "3.7.2",
+    "webpack-cli": "3.3.10",
+    "webpack-dashboard": "3.2.0",
+    "webpack-dev-server": "3.9.0",
+    "webpack-pwa-manifest": "4.1.1"
   },
   "dependencies": {
     "@material-ui/core": "4.6.0",

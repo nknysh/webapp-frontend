@@ -11,7 +11,7 @@ It is a custom built React/Redux single page application, built on functional pr
 Standard installation using NPM
 
 ```
-npm i
+yarn i
 ```
 
 ## Running WAFE
@@ -61,6 +61,8 @@ npm run storybook
 ```
 
 Storybook will be available on `http://localhost:9001`
+
+## [Contributing](CONTRIBUTING.md)
 
 ## [Routing](src/routing/README.md)
 
