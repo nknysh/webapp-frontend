@@ -9,9 +9,9 @@
     "prod": "NODE_ENV=production parcel ./src/index.html",
     "build": "NODE_ENV=production parcel ./src/index.html",
     "build:dev": "parcel ./src/index.html",
-    "test": "NODE_ENV=development jest",
+    "test": "jest",
     "test:ci": "jest --runInBand --ci",
-    "test:coverage": "NODE_ENV=development jest --coverage",
+    "test:coverage": "jest --coverage",
     "lint": "eslint --ext .jsx --ext .js src/",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "prettier": "prettier 'src/**/*.{js,jsx,json,css,scss}' --write --single-quote=true --print-width=120 --trailing-comma=es5",
@@ -35,18 +35,32 @@
     "utils": "./src/utils"
   },
   "babel": {
+    "env": {
+      "test": {
+        "plugins": [
+          "transform-es2015-modules-commonjs"
+        ]
+      }
+    },
     "plugins": [
       "@babel/plugin-transform-runtime"
     ]
   },
   "devDependencies": {
     "@babel/cli": "7.7.0",
-    "@babel/core": "^7.0.0-0",
+    "@babel/core": "7.7.2",
+    "@babel/plugin-proposal-class-properties": "7.7.0",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/polyfill": "7.7.0",
+    "@babel/preset-env": "7.7.1",
+    "@babel/preset-flow": "7.0.0",
+    "@babel/preset-react": "7.7.0",
     "@parcel/transformer-babel": "^2.0.0-alpha.2",
     "@storybook/addon-actions": "5.2.5",
     "@storybook/addon-knobs": "5.2.5",
     "@storybook/react": "5.2.5",
+    "@types/enzyme": "3.10.3",
     "@types/jest": "24.0.22",
     "@types/node": "12.12.6",
     "@types/qs": "6.5.3",
@@ -59,6 +73,11 @@
     "@types/styled-components": "4.1.21",
     "@types/yup": "0.26.24",
     "@welldone-software/why-did-you-render": "3.3.8",
+    "babel-core": "6.26.3",
+    "babel-eslint": "10.0.3",
+    "babel-jest": "24.9.0",
+    "babel-loader": "8.0.6",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "canvas": "2.6.0",
     "enzyme": "3.10.0",
     "enzyme-adapter-react-16": "1.15.1",
@@ -78,6 +97,7 @@
     "prop-types": "15.7.2",
     "react-test-renderer": "16.11.0",
     "storybook": "5.1.11",
+    "ts-jest": "24.1.0",
     "typescript": "3.7.2"
   },
   "dependencies": {
