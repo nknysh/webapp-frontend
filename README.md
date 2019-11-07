@@ -62,7 +62,7 @@ npm run storybook
 
 Storybook will be available on `http://localhost:9001`
 
-## [Contributing](CONTRIBUTING.md)
+## [Contributing](docs/CONTRIBUTING.md)
 
 ## [Routing](src/routing/README.md)
 
