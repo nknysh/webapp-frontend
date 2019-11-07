@@ -284,6 +284,49 @@ export const getCanSearch = createSelector(
   }
 );
 
+// We can't use the above selector because it's being used to infer wether
+// the user needs to provide more info in SearchResults.jsx
+export const filtersSelector = createSelector(
+  getSearchQuery,
+  query => propOr({}, 'filters', query)
+);
+
+export const priceRangeSelector = createSelector(
+  filtersSelector,
+  filters => {
+    // Remove undefined values
+    return propOr([], 'prices', filters);
+  }
+);
+
+export const isSearchQueryValidSelector = createSelector(
+  priceRangeSelector,
+  getCanSearch,
+  (range, canSearch) => {
+    let validRange = false;
+
+    if (!range.length) {
+      validRange = true;
+    }
+
+    if (range.length === 2) {
+      const sanitized = range.map((v, i) => {
+        switch (i) {
+          case 0:
+            return v === '' || v === undefined ? 0 : v;
+          case 1:
+            return v === '' || v === undefined ? Infinity : v;
+          default:
+            return v;
+        }
+      });
+      validRange = sanitized[0] < sanitized[1];
+    }
+
+    return canSearch && validRange;
+  }
+);
+
 export const getMappedSearchResults = createSelector(
   [getArg(0), getSearchResultsResult],
   (state, results) =>
@@ -297,4 +340,43 @@ export const getMappedSearchResults = createSelector(
         reject(isNilOrEmpty)
       ),
     })(results)
+);
+
+// Proper selectors
+
+const searchDomain = state => state.search;
+
+export const optionsPendingSelector = createSelector(
+  searchDomain,
+  search => search.optionsPending
+);
+
+export const optionsErrorSelector = createSelector(
+  searchDomain,
+  search => search.optionsError
+);
+
+export const hasOptionsErrorSelector = createSelector(
+  optionsErrorSelector,
+  Boolean
+);
+
+export const optionsSelector = createSelector(
+  searchDomain,
+  search => search.options
+);
+
+export const searchFiltersSelector = createSelector(
+  optionsSelector,
+  propOr([], 'filters')
+);
+
+export const searchRegionsSelector = createSelector(
+  optionsSelector,
+  propOr([], 'regions')
+);
+
+export const searchStarRatingsSelector = createSelector(
+  optionsSelector,
+  propOr([], 'starRatings')
 );

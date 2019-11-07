@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
+import { searchOptionsInitAction } from 'store/modules/search/actions';
 
 import {
   setSearchQuery,
@@ -8,33 +9,40 @@ import {
   searchByQuery,
   getSearchQuery,
   getSearchStatus,
-  getSearchFiltersRegions,
-  getSearchFiltersStarRatings,
-  getSearchFiltersFeatures,
   getSearchFiltersPrices,
   getSearchOccassions,
   getMappedSearchResults,
-  getCanSearch,
 } from 'store/modules/search';
 import { getCountriesData } from 'store/modules/countries';
 import { getHotelsData, getHotelsStatus } from 'store/modules/hotels';
 import { getCurrentCountry } from 'store/modules/auth';
+import {
+  searchRegionsSelector,
+  searchStarRatingsSelector,
+  searchFiltersSelector,
+  optionsPendingSelector,
+  hasOptionsErrorSelector,
+  isSearchQueryValidSelector,
+} from '../../store/modules/search/selectors';
 
 export const mapStateToProps = state => ({
   countries: getCountriesData(state),
   currentCountry: getCurrentCountry(state),
-  features: getSearchFiltersFeatures(state, 'byQuery'),
   hotels: getHotelsData(state),
   hotelsStatus: getHotelsStatus(state),
   nameSearchResults: getMappedSearchResults(state, 'byName'),
   occasions: getSearchOccassions(state, 'byQuery'),
   prices: getSearchFiltersPrices(state, 'byQuery'),
-  regions: getSearchFiltersRegions(state, 'byQuery'),
   searchQuery: getSearchQuery(state),
   nameSearchStatus: getSearchStatus(state, 'byName'),
   querySearchStatus: getSearchStatus(state, 'byQuery'),
-  starRatings: getSearchFiltersStarRatings(state, 'byQuery'),
-  canSearch: getCanSearch(state),
+  canSearch: isSearchQueryValidSelector(state),
+  // Properly memoized selectors
+  features: searchFiltersSelector(state),
+  regions: searchRegionsSelector(state),
+  starRatings: searchStarRatingsSelector(state),
+  isSearchOptionsPending: optionsPendingSelector(state),
+  hasSearchOptionsError: hasOptionsErrorSelector(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -52,6 +60,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   searchByQuery: pipe(
     searchByQuery,
+    dispatch
+  ),
+  loadSearchOptions: pipe(
+    searchOptionsInitAction,
     dispatch
   ),
 });

@@ -26,7 +26,7 @@ export default {
   hideAmenities: 'Hide Amenities',
   seeOverview: 'See Overview',
   hideOverview: 'Hide Overview',
-  showHighlights: 'Show Highlights',
+  seeHighlights: 'See Highlights',
   hideHighlights: 'Hide Highlights',
   filterByCategoryTypes: 'Filter by room types',
   noRooms: 'No rooms available',
@@ -227,4 +227,5 @@ export default {
   noResults: 'No results found',
   roomsAndGuestSelection: 'Rooms & Guests Selection',
   mealPlanOffersAvailable: 'Meal plan offers available',
+  invalidPriceRange: 'Min must be greater than Max',
 };

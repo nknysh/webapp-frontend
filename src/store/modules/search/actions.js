@@ -11,7 +11,6 @@ import {
   pipe,
   prop,
   propOr,
-  set,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { subDays } from 'date-fns';
@@ -36,6 +35,10 @@ export const SEARCH_FILTERS_RESET = 'SEARCH_FILTERS_RESET';
 export const SEARCH_RESULTS = 'SEARCH_RESULTS';
 export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
 export const SEARCH_BY_QUERY = 'SEARCH_BY_QUERY';
+
+export const SEARCH_OPTIONS_REQUEST = 'SEARCH/SEARCH_OPTIONS_REQUEST';
+export const SEARCH_OPTIONS_SUCCESS = 'SEARCH/SEARCH_OPTIONS_SUCCESS';
+export const SEARCH_OPTIONS_FAILURE = 'SEARCH/SEARCH_OPTIONS_FAILURE';
 
 /**
  * Set search query action
@@ -91,6 +94,25 @@ export const searchByQueryAction = payload => ({
   type: SEARCH_BY_QUERY,
   payload,
 });
+
+/**
+ * Search query object
+ *
+ * @param {object} filters
+ * @returns {Object}
+ */
+export const sanitizePriceRange = filters => {
+  const sanitizedPrices = filters.prices ? filters.prices.map(v => (v === '' || v === 0 ? undefined : v)) : [];
+
+  return {
+    ...filters,
+    // Fun fact: It's prices here, and in the middleware. But it's priceRange in the back end.
+    prices: {
+      min: sanitizedPrices[0],
+      max: sanitizedPrices[1],
+    },
+  };
+};
 
 /**
  * Search by name
@@ -151,8 +173,7 @@ export const getPayloadFromSearchQuery = (query, actingCountryCode, repeatGuest,
   return pipe(
     omit(['prices']),
     mergeDeepLeft({ actingCountryCode: isNilOrEmpty(actingCountryCode) ? undefined : actingCountryCode }),
-    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions }))),
-    set(lensProp('suitableForHoneymooners'), propOr(false, 'honeymoon', occasions))
+    over(lensProp('lodging'), map(mergeDeepLeft({ repeatCustomer: repeatGuest, ...occasions })))
   )(query);
 };
 
@@ -166,26 +187,34 @@ export const subDaysFromPayload = over(lensPath(['dates', 'endDate']), partialRi
  * @param {object} query
  * @returns {Function}
  */
+
 export const searchByQuery = query => async (dispatch, getState) => {
   // SRs can be a different country
   const actingCountryCode = getUserCountryContext(getState());
 
-  dispatch(searchByQueryAction(query));
-  dispatch(loadingAction(SEARCH_BY_QUERY, query));
+  // Sanitize the query object
+  const filters = propOr({}, 'filters', query);
+  const sanitizedQuery = {
+    ...query,
+    filters: pipe(sanitizePriceRange)(filters),
+  };
+
+  dispatch(searchByQueryAction(sanitizedQuery));
+  dispatch(loadingAction(SEARCH_BY_QUERY, sanitizedQuery));
   const canSearch = getCanSearch(getState());
 
   // Make sure that we don't trigger an incomplete search
   if (!canSearch) return dispatch(successAction(SEARCH_BY_QUERY, {}));
 
-  const term = path(['destination', 'value'], query);
-  const occasions = prop('occasions', query);
-  const repeatGuest = prop('repeatGuest', query);
+  const term = path(['destination', 'value'], sanitizedQuery);
+  const occasions = prop('occasions', sanitizedQuery);
+  const repeatGuest = prop('repeatGuest', sanitizedQuery);
 
   // Set a cancel token so that multiple trigger cancel the previous request
   searchQueryCancelToken && searchQueryCancelToken.cancel('New search initiated');
   searchQueryCancelToken = createCancelToken();
 
-  const payloadWithRawDays = getPayloadFromSearchQuery(query, actingCountryCode, repeatGuest, occasions);
+  const payloadWithRawDays = getPayloadFromSearchQuery(sanitizedQuery, actingCountryCode, repeatGuest, occasions);
 
   localStorage.setItem(SEARCH_BY_QUERY, JSON.stringify(payloadWithRawDays));
 
@@ -216,3 +245,29 @@ export const searchByQuery = query => async (dispatch, getState) => {
       : dispatch(errorFromResponse(SEARCH_BY_QUERY, e, i18n.t('searchByQueryErrorResponse')));
   }
 };
+
+export const searchOptionsInitAction = () => async dispatch => {
+  dispatch(searchOptionsRequestAction());
+  try {
+    const options = await client.getOptions();
+    dispatch(searchOptionsSuccessAction({ options }));
+  } catch (error) {
+    // Try again, and keep trying because sometimes the proxy fails
+    dispatch(searchOptionsInitAction());
+    dispatch(searchOptionsFailureAction({ error }));
+  }
+};
+
+export const searchOptionsRequestAction = () => ({
+  type: SEARCH_OPTIONS_REQUEST,
+});
+
+export const searchOptionsSuccessAction = response => ({
+  type: SEARCH_OPTIONS_SUCCESS,
+  payload: { ...response.options.data.data },
+});
+
+export const searchOptionsFailureAction = error => ({
+  type: SEARCH_OPTIONS_FAILURE,
+  payload: { error },
+});

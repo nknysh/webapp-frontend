@@ -1,35 +1,14 @@
-import React, { Fragment, useCallback, useMemo } from 'react';
-import {
-  __,
-  set,
-  view,
-  path,
-  prop,
-  partial,
-  propOr,
-  lensPath,
-  pipe,
-  equals,
-  map,
-  merge,
-  head,
-  last,
-  values,
-} from 'ramda';
-import { isNaN, isNilOrEmpty } from 'ramda-adjunct';
+import React, { Fragment, useCallback, useMemo, useEffect, useState } from 'react';
+import { __, set, view, path, prop, partial, propOr, lensPath, pipe, equals, map, merge, values } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
-import { ToolTip } from '@pure-escapes/webapp-ui-components';
+import { ToolTip, FormField } from '@pure-escapes/webapp-ui-components';
 
-import config from 'config';
 import { MealPlanSelectTypes, RegionSelectTypes } from 'config/enums';
 
 import { propTypes, defaultProps } from './SearchFilters.props';
 import {
   MealPlanRadioButton,
-  PriceRange,
-  PriceRangeLabel,
-  PriceRangeLabelPrice,
-  PriceRangeLabels,
   RegionCheckbox,
   RegionRadioButton,
   SectionField,
@@ -47,8 +26,6 @@ const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
 const filtersFeaturesLens = lensPath(['filters', 'features']);
 const filtersMealPlanLens = lensPath(['filters', 'mealPlan']);
-
-const defaultPriceRange = path(['defaults', 'priceRange'], config);
 
 const mapMealPlan = value => ({ label: value, value });
 const mapMealPlans = map(mapMealPlan);
@@ -94,15 +71,31 @@ const renderFeaturesCheckbox = ({ getSearchQueryData, setFeaturesToSearchQuery }
     />
   );
 
-export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features, prices }) => {
+export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, regions, features }) => {
   const { t } = useTranslation();
-
   const updateSearchQuery = useCallback(set(__, __, searchQuery), [searchQuery]);
   const getSearchQueryData = useCallback(view(__, searchQuery), [searchQuery]);
+  const priceRange = getSearchQueryData(filtersPricesLens) || [];
+  const [minPrice, setMinPrice] = useState(priceRange[0] || '');
+  const [maxPrice, setMaxPrice] = useState(priceRange[1] || '');
+  const [priceRangeError, setPriceRangeError] = useState(null);
 
-  // Defualt the start and end price to the values from redux until the data is available in `prices`
-  const priceStart = isNaN(Number(head(prices))) ? head(defaultPriceRange) : Number(head(prices));
-  const priceEnd = isNaN(Number(head(prices))) ? last(defaultPriceRange) : Number(last(prices));
+  const updatePriceRange = (type, limit, newValue) => prevState => {
+    if (newValue === '') {
+      return '';
+    }
+    return isNaN(newValue) ? prevState : parseInt(newValue, 10);
+  };
+
+  useEffect(() => {
+    if (parseInt(minPrice) >= parseInt(maxPrice)) {
+      setPriceRangeError(t('labels.invalidPriceRange'));
+    } else {
+      setPriceRangeError(null);
+    }
+
+    setPriceRangeToSearchQuery([minPrice, maxPrice]);
+  }, [minPrice, maxPrice, setPriceRangeError, setPriceRangeToSearchQuery, t]);
 
   const setRegionsTypeToSearchQuery = useCallback(
     pipe(
@@ -191,19 +184,24 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
 
       <Title>{t('priceRange')}</Title>
       <SectionField>
-        <PriceRangeLabels>
-          <PriceRangeLabel>
-            {t('labels.from')} <PriceRangeLabelPrice>{priceStart}</PriceRangeLabelPrice>
-          </PriceRangeLabel>
-          <PriceRangeLabel data-align="right">
-            {t('labels.to')} <PriceRangeLabelPrice>{priceEnd}</PriceRangeLabelPrice>
-          </PriceRangeLabel>
-        </PriceRangeLabels>
-        <PriceRange
-          value={getSearchQueryData(filtersPricesLens) || [priceStart, priceEnd]}
-          onAfterChange={setPriceRangeToSearchQuery}
-          min={priceStart}
-          max={priceEnd}
+        <FormField
+          className="minMaxField"
+          type="text"
+          value={minPrice}
+          onChange={e => {
+            setMinPrice(updatePriceRange('min', maxPrice, e.target.value));
+          }}
+          label={t('labels.min')}
+        />
+        <FormField
+          className="minMaxField"
+          type="text"
+          value={maxPrice}
+          error={priceRangeError}
+          onChange={e => {
+            setMaxPrice(updatePriceRange('max', minPrice, e.target.value));
+          }}
+          label={t('labels.max')}
         />
       </SectionField>
 

@@ -27,4 +27,6 @@ export const getSearch = (query, params, opts) => client.get(`/search?${buildQue
 export const getSearchByName = (term, params, opts) =>
   client.get(`/search/names/${encodeURI(term)}`, { params, ...opts });
 
-export default { getSearch, getSearchByName };
+export const getOptions = () => client.get(`/search/options`);
+
+export default { getSearch, getSearchByName, getOptions };

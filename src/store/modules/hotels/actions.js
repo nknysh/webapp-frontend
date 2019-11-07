@@ -7,7 +7,7 @@ import { createCancelToken, wasCancelled } from 'api/helpers';
 import { successAction, errorFromResponse } from 'store/common';
 import { index } from 'store/modules/indexes/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
-import { populateBooking } from 'store/modules/bookings/actions';
+import { populateBookingBulk } from 'store/modules/bookings/actions';
 
 import { getHotelsEntities } from './selectors';
 import schema from './schema';
@@ -50,16 +50,16 @@ export const setHotels = data => (dispatch, getState) => {
   );
 
   // Run through the hotels, and if there are booking builder objects
-  // then trigger a BOOKING_POPULATE action to pre-populate the booking
-  // for the hotel
+  // then trigger a BOOKING_POPULATE_BULK action to pre-populate the booking
+  // for the hotels
+  const bookingData = {};
   forEach(({ bookingBuilder, name, uuid }) => {
     if (!bookingBuilder) return;
-
     const { request: requestedBuild, response } = bookingBuilder;
-
-    dispatch(populateBooking(uuid, { hotelUuid: uuid, hotelName: name, breakdown: { requestedBuild, ...response } }));
+    bookingData[uuid] = { hotelUuid: uuid, hotelName: name, breakdown: { requestedBuild, ...response } };
   }, values(hotels));
 
+  dispatch(populateBookingBulk(bookingData));
   dispatch(successAction(HOTELS, data));
 };
 

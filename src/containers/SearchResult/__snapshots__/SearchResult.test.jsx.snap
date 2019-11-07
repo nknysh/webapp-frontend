@@ -35,14 +35,14 @@ exports[`<SearchResult /> render matches snapshot 1`] = `
       <SearchResultstyles__CardHighlights />
     </Link>
     <LinkButton
-      aria-label="Show Highlights"
+      aria-label="See Highlights"
       data-role="linkButton.showHighlights"
       onClick={[Function]}
       role="button"
-      title="Show Highlights"
+      title="labels.showHighlights"
     >
       + 
-      Show Highlights
+      See Highlights
     </LinkButton>
   </SearchResultstyles__CardDetails>
 </SearchResultstyles__StyledCard>

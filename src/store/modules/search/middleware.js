@@ -13,7 +13,6 @@ const datesToLens = lensPath(['dates', 'endDate']);
 const lodgingLens = lensProp('lodging');
 const occasionsLens = lensProp('occasions');
 const repeatGuestLens = lensProp('repeatGuest');
-const honeymoonersLens = lensProp('suitableForHoneymooners');
 const filtersRegionsLens = lensPath(['filters', 'regions', 'selected']);
 const filtersPricesLens = lensPath(['filters', 'prices']);
 const filtersStarRatingsLens = lensPath(['filters', 'starRatings']);
@@ -73,7 +72,6 @@ const formatData = pipe(
   over(lodgingLens, identity),
   over(repeatGuestLens, identity),
   over(occasionsLens, mapSelected),
-  over(honeymoonersLens, toBoolean),
   over(filtersRegionsLens, mapSelected),
   over(filtersStarRatingsLens, mapSelected),
   over(filtersPricesLens, mapNumbers),

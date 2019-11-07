@@ -12,6 +12,9 @@ import {
   SEARCH_QUERY_UPDATE,
   SEARCH_QUERY_RESET,
   SEARCH_FILTERS_RESET,
+  SEARCH_OPTIONS_REQUEST,
+  SEARCH_OPTIONS_SUCCESS,
+  SEARCH_OPTIONS_FAILURE,
 } from './actions';
 
 const searchState = {
@@ -21,6 +24,10 @@ const searchState = {
     byQuery: Status.IDLE,
   },
   query: undefined,
+
+  optionsPending: null,
+  optionsError: null,
+  options: null,
 };
 
 /**
@@ -117,6 +124,35 @@ const statusesToIdle = mergeDeepRight({
   },
 });
 
+const searchOptionsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SEARCH_OPTIONS_REQUEST:
+      return {
+        ...state,
+        optionsPending: true,
+        optionsError: null,
+      };
+
+    case SEARCH_OPTIONS_SUCCESS:
+      return {
+        ...state,
+        optionsPending: false,
+        optionsError: null,
+        options: action.payload,
+      };
+
+    case SEARCH_OPTIONS_FAILURE:
+      return {
+        ...state,
+        optionsPending: false,
+        optionsError: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
+
 export default createReducer(
   {
     [getErrorActionName(SEARCH_BY_NAME)]: searchError('byName'),
@@ -130,6 +166,9 @@ export default createReducer(
     [SEARCH_QUERY_RESET]: resetSearchQuery,
     [STORE_RESET]: removeLocalStorage,
     [STATUS_TO_IDLE]: statusesToIdle,
+    [SEARCH_OPTIONS_REQUEST]: searchOptionsReducer,
+    [SEARCH_OPTIONS_SUCCESS]: searchOptionsReducer,
+    [SEARCH_OPTIONS_FAILURE]: searchOptionsReducer,
   },
   searchState
 );
