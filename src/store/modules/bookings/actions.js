@@ -907,7 +907,6 @@ export const populateBooking = (id, data) => (dispatch, getState) => {
 };
 
 export const populateBookingBulk = data => {
-  // This is absoluetely the wrong place to be transforming data.
   const dataWithDates = map(
     pipe(
       // Adds the extra day to the top level date
@@ -1070,9 +1069,7 @@ export const buildOccupancyCheckUrlForAccommodationProduct = (accommodationRecor
     return null;
   }
 
-  let url = `/accommodation-products/${accommodationProductUuid}/occupancy-check/ages?numberOfAdults=${
-    accommodationRecord.guestAges.numberOfAdults
-  }`;
+  let url = `/accommodation-products/${accommodationProductUuid}/occupancy-check/ages?numberOfAdults=${accommodationRecord.guestAges.numberOfAdults}`;
 
   if (accommodationRecord.guestAges.agesOfAllChildren && accommodationRecord.guestAges.agesOfAllChildren.length >= 1) {
     url += '&' + accommodationRecord.guestAges.agesOfAllChildren.map(age => `agesOfAllChildren[]=${age}`).join('&');
