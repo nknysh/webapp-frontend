@@ -34,4 +34,9 @@ module.exports = {
   transform: {
     '^.+\\.(js|jsx|ts|tsx)?$': 'ts-jest',
   },
+  globals: {
+    'ts-jest': {
+      tsConfig: '<rootDir>/tsconfig.json',
+    },
+  },
 };

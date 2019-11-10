@@ -1,13 +1,13 @@
-import backendApi, { ISearchQuery, MealPlanNames, Filters, StarRating } from 'services/BackendApi';
-export const tsTest = (a: number, b: 'string'): string => a + b;
+import { ISearchQuery, MealPlanNames, Filters, StarRating } from './OffersSearch';
 
-const testSearch: ISearchQuery = {
+export const sampleQuery: ISearchQuery = {
   name: 'Amilla Fushi',
   lodgings: [
     {
       numberOfAdults: 1,
       agesOfAllChildren: [],
       repeatCustomer: false,
+      honeymoon: true,
     },
   ],
   mealPlanCategories: [MealPlanNames.BREAKFAST_BOARD],
@@ -18,13 +18,3 @@ const testSearch: ISearchQuery = {
   endDate: '2020-01-07',
   priceRange: { min: 1, max: 100000 },
 };
-
-const test = async () => {
-  try {
-    const res = await backendApi.getOffersSearch(testSearch);
-  } catch (e) {
-    throw e;
-  }
-};
-
-test();

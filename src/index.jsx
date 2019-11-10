@@ -6,6 +6,8 @@ import { Helmet } from 'react-helmet';
 // import OfflinePluginRuntime from 'offline-plugin/runtime';
 import { ThemeProvider } from 'styled-components';
 
+import 'store/modules/fastSearch';
+
 import './config/i18n';
 
 import store from 'store';
