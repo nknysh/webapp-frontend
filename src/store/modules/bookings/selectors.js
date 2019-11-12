@@ -1004,6 +1004,7 @@ export const getBookingTotalBeforeDiscount = createSelector(
  * @param {string}
  * @returns {object}
  */
+
 export const getBookingForBuilder = createSelector(
   getBooking,
   booking => {
@@ -1022,6 +1023,7 @@ export const getBookingForBuilder = createSelector(
         endDate: when(
           complement(isNilOrEmpty),
           pipe(
+            input => new Date(input),
             partialRight(subDays, [1]),
             formatDate
           )

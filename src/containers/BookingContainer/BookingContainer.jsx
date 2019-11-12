@@ -114,7 +114,7 @@ const renderStatusStrip = (t, { isSr, booking, onStatusChange }) => {
   return (
     <StatusStrip>
       <StatusStripDate>
-        {t('labels.createdAt')} <Bolded>{formatDate(prop('createdAt', booking), 'MMM D, YYYY')}</Bolded>
+        {t('labels.createdAt')} <Bolded>{formatDate(prop('createdAt', booking), 'MMM d, yyyy')}</Bolded>
       </StatusStripDate>
       {isSr && !isCancelled(bookingStatus) ? (
         <DropDownMenu title={renderBookingStatus(t, { booking })} showArrow={true}>
@@ -155,7 +155,7 @@ const renderFlightInfo = (t, { booking }) => {
             <Dot />
             <FlightRow>
               <Bolded>
-                {t(direction)} {formatDate(prop(dateSource, booking), 'DD MMMM, YYYY')}
+                {t(direction)} {formatDate(prop(dateSource, booking), 'dd MMM, yyyy')}
               </Bolded>
             </FlightRow>
             {numberSource && (

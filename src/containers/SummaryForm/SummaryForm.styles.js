@@ -152,7 +152,7 @@ export const Hotel = styled.div`
         letter-spacing: 0.5px;
         text-align: right;
       }
-    `})}
+    `}
 `;
 
 export const HotelName = styled(Heading2)`

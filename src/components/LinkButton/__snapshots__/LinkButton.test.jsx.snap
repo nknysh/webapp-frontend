@@ -7,22 +7,52 @@ exports[`<LinkButton /> render matches snapshots (default props) 1`] = `
       "$$typeof": Symbol(react.forward_ref),
       "attrs": Array [],
       "componentStyle": ComponentStyle {
-        "componentId": "LinkButton-sc-1kz5h3x-0",
-        "isStatic": true,
+        "componentId": "sc-hZSUBg",
+        "isStatic": false,
         "rules": Array [
-          "border:none;background:transparent;color:",
+          "
+  border: none;
+  background: transparent;
+  color: ",
           "#A18265",
-          ";font-family:inherit;font-size:inherit;font-weight:",
+          ";
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: ",
           "600",
-          ";text-transform:uppercase;padding-left:0;text-align:left;cursor:pointer;max-width:100%;&:active{color:",
+          ";
+  text-transform: uppercase;
+  padding-left: 0;
+  text-align: left;
+  cursor: pointer;
+  max-width: 100%;
+
+  &:active {
+    color: ",
           "#9D9591",
-          ";}&:focus{outline:none;}&::-moz-focus-inner{border:0;}& > div{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}",
+          ";
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  & > div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+",
         ],
       },
-      "displayName": "LinkButton",
+      "displayName": "Styled(Component)",
       "foldedComponentIds": Array [],
       "render": [Function],
-      "styledComponentId": "LinkButton-sc-1kz5h3x-0",
+      "styledComponentId": "sc-hZSUBg",
       "target": [Function],
       "toString": [Function],
       "warnTooManyClasses": [Function],

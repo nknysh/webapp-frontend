@@ -1,17 +1,20 @@
-import { configure, shallow, render, mount } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import * as Enzyme from 'enzyme';
+import ReactSixteenAdapter from 'enzyme-adapter-react-16';
 import '@babel/polyfill';
 
-configure({adapter: new Adapter()});
+Enzyme.configure({ adapter: new ReactSixteenAdapter() });
 
-global.shallow = shallow;
-global.render = render;
-global.mount = mount;
+// Globals are always bad.
+global.shallow = Enzyme.shallow;
+global.render = Enzyme.render;
+global.mount = Enzyme.mount;
 
-window.matchMedia = window.matchMedia || function() {
+window.matchMedia =
+  window.matchMedia ||
+  function() {
     return {
-        matches : false,
-        addListener : function() {},
-        removeListener: function() {}
+      matches: false,
+      addListener: function() {},
+      removeListener: function() {},
     };
-};
+  };

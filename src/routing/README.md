@@ -1,8 +1,12 @@
 # WAFE Routing
 
-Routing in WAFE is split up into configuration files using [`react-router`](https://github.com/ReactTraining/react-router).
+## NOTE: THIS IS ALL WRONG
+
+The whole point of React Router is that you mount routes just like you'd mount a component, so your entire applicaiton is composable, declarative, and idiomatic React. A config based approach just confuses and complicates everything. However, this _is_ the way things work right now, so it's important to understand why things currently work the way they do.
 
 ## Structure
+
+Routing in WAFE is split up into configuration files using [`react-router`](https://github.com/ReactTraining/react-router).
 
 The following is the structure for routing:
 
@@ -27,7 +31,7 @@ export default [...auth, ...booking, ...proposals, ...user, ...adminRedirect];
 
 ### Common
 
-Common routes are routes that can be shared across any app (role).  Routing configuration should export a default array of routing config objects e.g.
+Common routes are routes that can be shared across any app (role). Routing configuration should export a default array of routing config objects e.g.
 
 ```js
 import { AsyncHotelBooking, AsyncHotel } from 'pages/async';
@@ -56,11 +60,11 @@ This is a configuration of apps that can be supplied to the routing builder
 
 ```js
 export default {
-    apps: {
-        someApp: [...routes],
-        someOtherApp: [...routes],
-    }
-}
+  apps: {
+    someApp: [...routes],
+    someOtherApp: [...routes],
+  },
+};
 ```
 
 ## `entry.js`
@@ -72,6 +76,7 @@ This is the route path that allows us to hit `/` and render the correct apps bas
 Builds out the routes that are passed to the default export and returns an array of route nodes that can be rendered in any `react-router` instance.
 
 ## Routing config
+
 ```ts
 {
     // Route name

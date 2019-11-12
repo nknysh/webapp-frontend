@@ -268,7 +268,7 @@ const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal
 const renderStatusStrip = (t, { createdAt, isEdit }) =>
   !isEdit && (
     <StatusStrip>
-      {t('labels.createdAt')} <StatusStripDate>{formatDate(createdAt, 'MMM D, YYYY')}</StatusStripDate>
+      {t('labels.createdAt')} <StatusStripDate>{formatDate(createdAt, 'MMM d, yyyy')}</StatusStripDate>
     </StatusStrip>
   );
 

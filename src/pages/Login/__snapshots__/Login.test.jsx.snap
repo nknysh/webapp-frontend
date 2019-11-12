@@ -434,7 +434,7 @@ exports[`<Login /> render matches snapshot 1`] = `
       }
     }
   >
-    <withAuthentication(withRouter(Connect(LoginForm))) />
+    <withAuthentication(withRouter(Connect(Component))) />
   </withThemeProvider(Ma)>
 </Fragment>
 `;

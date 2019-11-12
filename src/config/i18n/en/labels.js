@@ -27,6 +27,7 @@ export default {
   seeOverview: 'See Overview',
   hideOverview: 'Hide Overview',
   seeHighlights: 'See Highlights',
+  showHighlights: 'Show Highlights',
   hideHighlights: 'Hide Highlights',
   filterByCategoryTypes: 'Filter by room types',
   noRooms: 'No rooms available',

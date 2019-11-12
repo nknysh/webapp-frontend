@@ -94,35 +94,35 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <LinkButton
+          <Styled(Component)
             onClick={[Function]}
             title="Beach House Brochure"
           >
             + 
             Beach House Brochure
-          </LinkButton>
+          </Styled(Component)>
         </li>
         <li
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <LinkButton
+          <Styled(Component)
             onClick={[Function]}
             title="Beach House Floor Plan"
           >
             + 
             Beach House Floor Plan
-          </LinkButton>
+          </Styled(Component)>
         </li>
         <li>
-          <LinkButton
+          <Styled(Component)
             data-role="ac-more"
             onClick={[Function]}
             title="More information"
           >
             + 
             More information
-          </LinkButton>
+          </Styled(Component)>
         </li>
       </ul>
     </div>
@@ -685,35 +685,35 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <LinkButton
+          <Styled(Component)
             onClick={[Function]}
             title="Beach House Brochure"
           >
             + 
             Beach House Brochure
-          </LinkButton>
+          </Styled(Component)>
         </li>
         <li
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <LinkButton
+          <Styled(Component)
             onClick={[Function]}
             title="Beach House Floor Plan"
           >
             + 
             Beach House Floor Plan
-          </LinkButton>
+          </Styled(Component)>
         </li>
         <li>
-          <LinkButton
+          <Styled(Component)
             data-role="ac-more"
             onClick={[Function]}
             title="More information"
           >
             + 
             More information
-          </LinkButton>
+          </Styled(Component)>
         </li>
       </ul>
     </div>
@@ -1276,35 +1276,35 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <LinkButton
+          <Styled(Component)
             onClick={[Function]}
             title="Beach House Brochure"
           >
             + 
             Beach House Brochure
-          </LinkButton>
+          </Styled(Component)>
         </li>
         <li
           data-role="ac-brochure"
           key="3b4add73-a827-4861-9064-ae3153d881df"
         >
-          <LinkButton
+          <Styled(Component)
             onClick={[Function]}
             title="Beach House Floor Plan"
           >
             + 
             Beach House Floor Plan
-          </LinkButton>
+          </Styled(Component)>
         </li>
         <li>
-          <LinkButton
+          <Styled(Component)
             data-role="ac-more"
             onClick={[Function]}
             title="More information"
           >
             + 
             More information
-          </LinkButton>
+          </Styled(Component)>
         </li>
       </ul>
     </div>

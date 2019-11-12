@@ -434,7 +434,7 @@ exports[`<CreateAccount /> render matches snapshot 1`] = `
       }
     }
   >
-    <Connect(CreateAccountForm) />
+    <Connect(Component) />
   </withThemeProvider(Ma)>
 </Fragment>
 `;

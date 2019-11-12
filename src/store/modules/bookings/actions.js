@@ -61,7 +61,7 @@ import baseClient from 'api';
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
 import { formatDate, mapWithIndex, addDaysUTC } from 'utils';
 
-import { getSearchDates, getSearchLodgings, getSearchMealPlan } from 'store/modules/search/selectors';
+import { getSearchDates, getSearchMealPlan } from 'store/modules/search/selectors';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 import { successAction, errorFromResponse, genericAction } from 'store/common';
 import { USERS_FETCH } from 'store/modules/users/actions';
@@ -906,12 +906,24 @@ export const populateBooking = (id, data) => (dispatch, getState) => {
   dispatch(successAction(BOOKING_POPULATE, { id, data: next }));
 };
 
-export const populateBookingBulk = data => ({
-  type: BOOKING_POPULATE_BULK,
-  payload: {
-    data,
-  },
-});
+export const populateBookingBulk = data => {
+  const dataWithDates = map(
+    pipe(
+      // Adds the extra day to the top level date
+      over(lensPath(['breakdown', 'requestedBuild']), dateEvolve),
+
+      // Adds the extra date to the internal dates
+      over(lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]), map(dateEvolve))
+    )
+  )(data);
+
+  return {
+    type: BOOKING_POPULATE_BULK,
+    payload: {
+      data: dataWithDates,
+    },
+  };
+};
 
 /**
  * Clear created booking action
@@ -1057,9 +1069,7 @@ export const buildOccupancyCheckUrlForAccommodationProduct = (accommodationRecor
     return null;
   }
 
-  let url = `/accommodation-products/${accommodationProductUuid}/occupancy-check/ages?numberOfAdults=${
-    accommodationRecord.guestAges.numberOfAdults
-  }`;
+  let url = `/accommodation-products/${accommodationProductUuid}/occupancy-check/ages?numberOfAdults=${accommodationRecord.guestAges.numberOfAdults}`;
 
   if (accommodationRecord.guestAges.agesOfAllChildren && accommodationRecord.guestAges.agesOfAllChildren.length >= 1) {
     url += '&' + accommodationRecord.guestAges.agesOfAllChildren.map(age => `agesOfAllChildren[]=${age}`).join('&');

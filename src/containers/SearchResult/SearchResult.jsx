@@ -36,7 +36,7 @@ const getStartDateEndDate = dates => {
   const startDate = head(dates);
   const endDate = addDaysUTC(last(dates), 1);
 
-  return { startDate, endDate };
+  return { startDate: new Date(startDate), endDate: new Date(endDate) };
 };
 
 const renderAmenity = (amenity, hotelName) => <CardHighlight key={`${hotelName}:${amenity}`}>{amenity}</CardHighlight>;
@@ -46,7 +46,6 @@ const renderRoomsBreakdown = (t, { title, dates = [], subProducts, ...product })
 
   const count = getNumberOfDays({ startDate, endDate });
   const mealPlan = pathOr('', [ProductTypes.MEAL_PLAN, 0, 'product', 'meta', 'categoryType'], subProducts);
-
   return (
     <PriceBreakdownItem key={path(['product', 'uuid'], product) + startDate + endDate}>
       {t('labels.nightsIn', {
@@ -54,8 +53,8 @@ const renderRoomsBreakdown = (t, { title, dates = [], subProducts, ...product })
         nights: t('night', { count }),
         title,
         mealPlan,
-        startDate: format(startDate, 'YYYY-MM-DD'),
-        endDate: format(endDate, 'YYYY-MM-DD'),
+        startDate: format(new Date(startDate), 'yyyy-MM-dd'),
+        endDate: format(new Date(endDate), 'yyyy-MM-dd'),
       })}
     </PriceBreakdownItem>
   );

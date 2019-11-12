@@ -1,12 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SearchResult /> render matches snapshot 1`] = `
-<SearchResultstyles__StyledCard>
+<Styled(styled.article)>
   <Link
-    replace={false}
     to="/hotels/undefined"
   >
-    <SearchResultstyles__CardImage
+    <Styled(styled.div)
       style={
         Object {
           "backgroundImage": "url(undefined)",
@@ -14,36 +13,35 @@ exports[`<SearchResult /> render matches snapshot 1`] = `
       }
     />
   </Link>
-  <SearchResultstyles__CardDetails>
+  <styled.div>
     <Link
-      replace={false}
       to="/hotels/undefined"
     >
-      <SearchResultstyles__CardTitle />
-      <SearchResultstyles__CardRating>
-        <SearchResultstyles__CardStarRating>
-          <SearchResultstyles__CardStar>
+      <Styled(Styled(styled.h2)) />
+      <styled.div>
+        <styled.div>
+          <Styled(WithStyles(ForwardRef(Icon)))>
             star
-          </SearchResultstyles__CardStar>
+          </Styled(WithStyles(ForwardRef(Icon)))>
            
-          <SearchResultstyles__CardStarText>
+          <styled.span>
              
             Star
-          </SearchResultstyles__CardStarText>
-        </SearchResultstyles__CardStarRating>
-      </SearchResultstyles__CardRating>
-      <SearchResultstyles__CardHighlights />
+          </styled.span>
+        </styled.div>
+      </styled.div>
+      <styled.div />
     </Link>
-    <LinkButton
+    <Styled(Component)
       aria-label="See Highlights"
       data-role="linkButton.showHighlights"
       onClick={[Function]}
       role="button"
-      title="labels.showHighlights"
+      title="Show Highlights"
     >
       + 
       See Highlights
-    </LinkButton>
-  </SearchResultstyles__CardDetails>
-</SearchResultstyles__StyledCard>
+    </Styled(Component)>
+  </styled.div>
+</Styled(styled.article)>
 `;

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Home /> render matches snapshot 1`] = `
-<Homestyles__StyledHome>
+<styled.div>
   <withThemeProvider(Wo)
     full={true}
     media={
@@ -871,14 +871,14 @@ exports[`<Home /> render matches snapshot 1`] = `
       }
     />
   </withThemeProvider(Wo)>
-  <Homestyles__HomeSection>
-    <Homestyles__MoveTo
+  <styled.div>
+    <Styled(WithStyles(ForwardRef(Icon)))
       onClick={[Function]}
       onTouchMove={[Function]}
     >
       keyboard_arrow_down
-    </Homestyles__MoveTo>
-    <Homestyles__HomeContainer>
+    </Styled(WithStyles(ForwardRef(Icon)))>
+    <styled.div>
       <withThemeProvider(Ta)
         theme={
           Object {
@@ -1308,12 +1308,12 @@ exports[`<Home /> render matches snapshot 1`] = `
           }
         }
       />
-    </Homestyles__HomeContainer>
-  </Homestyles__HomeSection>
-  <Homestyles__HomeSection
+    </styled.div>
+  </styled.div>
+  <styled.div
     data-striped={true}
   >
-    <Homestyles__HomeContainer>
+    <styled.div>
       <withThemeProvider(Ta)
         theme={
           Object {
@@ -1743,10 +1743,10 @@ exports[`<Home /> render matches snapshot 1`] = `
           }
         }
       />
-    </Homestyles__HomeContainer>
-  </Homestyles__HomeSection>
-  <Homestyles__HomeSection>
-    <Homestyles__HomeContainer>
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
       <withThemeProvider(Ta)
         theme={
           Object {
@@ -2176,10 +2176,10 @@ exports[`<Home /> render matches snapshot 1`] = `
           }
         }
       />
-    </Homestyles__HomeContainer>
-  </Homestyles__HomeSection>
-  <Homestyles__HomeSection>
-    <Homestyles__HomeContainer>
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
       <withThemeProvider(Ta)
         theme={
           Object {
@@ -2609,10 +2609,10 @@ exports[`<Home /> render matches snapshot 1`] = `
           }
         }
       />
-    </Homestyles__HomeContainer>
-  </Homestyles__HomeSection>
-  <Homestyles__HomeSection>
-    <Homestyles__HomeContainer>
+    </styled.div>
+  </styled.div>
+  <styled.div>
+    <styled.div>
       <withThemeProvider(Ta)
         theme={
           Object {
@@ -3042,7 +3042,7 @@ exports[`<Home /> render matches snapshot 1`] = `
           }
         }
       />
-    </Homestyles__HomeContainer>
-  </Homestyles__HomeSection>
-</Homestyles__StyledHome>
+    </styled.div>
+  </styled.div>
+</styled.div>
 `;

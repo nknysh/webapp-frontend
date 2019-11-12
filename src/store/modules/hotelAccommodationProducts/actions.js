@@ -22,7 +22,7 @@ export const fetchCurrentHotelAccommodationProductDisplays = hotelUuid => async 
   if (!endDate) {
     endDate = Date.now();
   }
-  endDate = formatDate(subDays(endDate, 1));
+  endDate = formatDate(subDays(new Date(endDate), 1));
 
   try {
     const responses = await client.get(

@@ -44,7 +44,7 @@ const renderImgOffer = bestRate =>
   prop('percentage', bestRate) && (
     <ImgOffer data-secondary={true}>
       -{parseInt(prop('percentage', bestRate))}% by{' '}
-      {format(prop('endDate', bestRate), path(['defaults', 'dateFormat'], config))}
+      {format(new Date(prop('endDate', bestRate)), path(['defaults', 'dateFormat'].toLowerCase(), config))}
     </ImgOffer>
   );
 
