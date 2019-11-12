@@ -80,15 +80,11 @@ describe('bookingBuilder utils', () => {
 
   describe('getNightsBreakdownForDates', () => {
     it('should calculate nights and dates', () => {
-      expect(getNightsBreakdownForDates('2019-12-06', '2019-12-13')).toEqual(
-        '7 nights | 6th Dec 2019 - 13th Dec 2019'
-      );
+      expect(getNightsBreakdownForDates('2019-12-06', '2019-12-13')).toEqual('7 nights | 6th Dec 2019 - 13th Dec 2019');
     });
 
     it('should work for 1 night', () => {
-      expect(getNightsBreakdownForDates('2019-12-01', '2019-12-02')).toEqual(
-        '1 night | 1st Dec 2019 - 2nd Dec 2019'
-      );
+      expect(getNightsBreakdownForDates('2019-12-01', '2019-12-02')).toEqual('1 night | 1st Dec 2019 - 2nd Dec 2019');
     });
 
     it('should work for over 10 nights', () => {
@@ -106,9 +102,7 @@ describe('bookingBuilder utils', () => {
 
   describe('getOccupancyBreakdownForAccommodation', () => {
     it('1 adult, no children', () => {
-      expect(getOccupancyBreakdownForAccommodation({ guestAges: { numberOfAdults: 1 } })).toEqual(
-        '1 Guest (1 Adult)'
-      );
+      expect(getOccupancyBreakdownForAccommodation({ guestAges: { numberOfAdults: 1 } })).toEqual('1 Guest (1 Adult)');
     });
     it('2 adults, no children', () => {
       expect(getOccupancyBreakdownForAccommodation({ guestAges: { numberOfAdults: 2 } })).toEqual(
