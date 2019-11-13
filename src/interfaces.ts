@@ -21,6 +21,7 @@ export interface BookingBuilderAvailableProductSetsAccommodation {
   mandatory: boolean;
   selected: boolean;
   isOnRequestOrPartiallyOnRequest: boolean;
+  breakdown: any[];
   availableSubProductSets: {
     'Meal Plan': BookingBuilderAvailableSubProductSetsMealPlan[];
   };

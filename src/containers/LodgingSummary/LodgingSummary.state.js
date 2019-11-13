@@ -5,9 +5,16 @@ import {
   updateRequestedBuildLodgingGuestAges,
   updateRequestedBuildLodgingDates,
   updateRequestedBuildLodgingMealPlan,
+  getBookingCurrencySymbol,
 } from 'store/modules/bookings';
 
-export const mapStateToProps = (state, { id }) => ({});
+export const mapStateToProps = (state, { hotelUuid }) => {
+  console.log('id', hotelUuid);
+
+  return {
+    currencyCode: getBookingCurrencySymbol(state, hotelUuid),
+  };
+};
 
 export const mapDispatchToProps = dispatch => ({
   updateRequestedBuildLodgingGuestAges: pipe(

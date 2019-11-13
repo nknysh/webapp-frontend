@@ -7,4 +7,4 @@ export * from './markdown';
 export * from './number';
 export * from './search';
 export * from './window';
-export * from './bookingBuilder.ts';
+export * from './bookingBuilder.tsx';

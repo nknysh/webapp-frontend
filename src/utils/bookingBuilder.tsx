@@ -1,10 +1,21 @@
+import React from 'react';
+
+import { MealPlanRatePrice } from '../containers/SummaryRoomEdit/SummaryRoomEdit.styles';
+
 // @ts-ignore
 import { differenceInCalendarDays, format } from 'date-fns';
+
+import { uniq, flatten, pipe } from 'ramda';
+
+// @ts-ignore
+import { formatPrice } from 'utils';
+
 import {
   BookingBuilderAvailableProductSets,
   RequestedBuildAccommodation,
   LodgingSummary,
   BookingBuilderAvailableProductSetsAccommodation,
+  // @ts-ignore
 } from 'interfaces';
 
 export const getAvailableProductSetAccommodationForUuid = (
@@ -98,7 +109,8 @@ export const getMealPlanBreakdownForAccommodation = (
 
 export const getAvailableMealPlansForAccommodation = (
   lodging: LodgingSummary,
-  availableProductSets: BookingBuilderAvailableProductSets
+  availableProductSets: BookingBuilderAvailableProductSets,
+  currencyCode: string
 ) => {
   const availableMealPlans: any[] = [];
   const accommodation = getAvailableProductSetAccommodationForUuid(lodging.uuid, availableProductSets);
@@ -107,10 +119,43 @@ export const getAvailableMealPlansForAccommodation = (
     return {};
   }
 
-  accommodation.availableSubProductSets['Meal Plan'].forEach(mealPlan => {
+  accommodation.availableSubProductSets['Meal Plan'].forEach((mealPlan: any) => {
+    // the radio button value is the UUIDs joined with a slash
+    const value = mealPlan.products.map(p => p.uuid).join('/');
+
+    // build the name from all the breakdown names
+    const labelNames = mealPlan.products.map(p => p.name).join(' & ');
+
+    // build the total price from adding up all the breakdown totals
+    const labelPrice = mealPlan.breakdown.reduce((totalPrice, breakdown) => {
+      totalPrice += parseFloat(breakdown.total);
+      return totalPrice;
+    }, 0);
+
+    const labelOffers = flatten(
+      uniq(
+        mealPlan.breakdown.map(b => {
+          return b.offers.map(o => o.offer.name);
+        })
+      )
+    );
+
+    const label = (
+      <div>
+        <div>
+          {labelNames}
+          {labelOffers && <MealPlanRatePrice data-discount="true">{labelOffers.join(' & ')}</MealPlanRatePrice>}
+        </div>
+        <div>
+          {currencyCode}
+          {formatPrice(labelPrice)}
+        </div>
+      </div>
+    );
+
     availableMealPlans.push({
-      value: mealPlan.products.map(p => p.uuid).join('/'),
-      label: mealPlan.products.map(p => p.name).join('/'),
+      value,
+      label,
     });
   });
 

@@ -219,6 +219,32 @@ describe('bookingBuilder utils', () => {
   });
 
   describe.only('getAvailableMealPlansForAccommodation', () => {
+    it('error state - 1 accommodation with 1 product, no available product sets. return empty object', () => {
+      const lodgingSummary = {
+        startDate: '2019-12-13',
+        endDate: '2019-12-20',
+        uuid: '1eb88f1d-6239-495f-a905-68e894ee3f2b',
+        subProducts: {
+          'Meal Plan': [
+            {
+              uuid: '6831e9c0-7e00-4d0c-a4c9-c92f43c893cd',
+            },
+          ],
+        },
+        guestAges: {
+          numberOfAdults: 4,
+          agesOfAllChildren: [],
+        },
+      };
+
+      const availableProductSets = {
+        Accommodation: [],
+      };
+
+      const result = getAvailableMealPlansForAccommodation(lodgingSummary, availableProductSets);
+
+      expect(result).toMatchObject({});
+    });
     it('1 accommodation with 1 product, 3 meal plans each with 1 product', () => {
       const lodging = {
         uuid: 1,

@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { Form, Input, Loader, Modal, Markdown, List } from '@pure-escapes/webapp-ui-components';
 
 import AgreeToForm from 'components/AgreeToForm';
+import { Summary } from 'components';
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
 // import SummaryRoom from 'containers/SummaryRoom';
 import LodgingSummary from 'containers/LodgingSummary';
@@ -137,6 +138,7 @@ const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, avail
 
   return (
     <LodgingSummary
+      hotelUuid={lodging.hotelUuid}
       key={lodging.index}
       lodging={lodging}
       handleRoomEditFunction={handleRoomEdit}
@@ -152,6 +154,8 @@ const renderLodgingSummaries = (t, booking, props) => {
   if (!breakdown || !breakdown.requestedBuild) {
     return [];
   }
+
+  const lodgingErrors = breakdown.errors.filter(e => e.meta === 'Accommodation').map(e => e.message);
 
   const lodgingSummaries = breakdown.requestedBuild.Accommodation.map((accommodationRequestedBuildObject, index) => {
     return {
@@ -173,6 +177,10 @@ const renderLodgingSummaries = (t, booking, props) => {
 
   return (
     <React.Fragment>
+      <Title>{'Lodgings'}</Title>
+      {lodgingErrors.map(error => (
+        <p key={error}>{error}</p>
+      ))}
       {lodgingSummaries.map(l =>
         renderLodgingSummary(l, setModalId, editGuard, onEditGuard, breakdown.availableProductSets)
       )}

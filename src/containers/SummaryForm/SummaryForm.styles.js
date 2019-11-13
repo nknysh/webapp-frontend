@@ -87,7 +87,6 @@ export const Rooms = styled.div`
 
   :not(:empty) {
     padding: ${theme.spacing.gutter * 2}px 0;
-    border-bottom: 1px solid ${theme.borders.default};
   }
 `;
 
