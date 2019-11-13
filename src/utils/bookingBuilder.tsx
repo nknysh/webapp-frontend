@@ -35,7 +35,14 @@ export const getAvailableProductSetAccommodationForUuid = (
 export const getNightsBreakdownForDates = (startDate: any, endDate: any) => {
   const nights = differenceInCalendarDays(new Date(endDate), new Date(startDate));
   const dateRangeText = format(new Date(startDate), 'do LLL yyyy') + ' - ' + format(new Date(endDate), 'do LLL yyyy');
-  return `${nights} ${nights > 1 ? 'nights' : 'night'} | ${dateRangeText}`;
+  return (
+    <span>
+      <strong>
+        {nights} {nights > 1 ? 'nights' : 'night'}
+      </strong>{' '}
+      | {dateRangeText}
+    </span>
+  );
 };
 
 export const getTitleForAccommodationUuid = (
@@ -143,7 +150,7 @@ export const getAvailableMealPlansForAccommodation = (
     const label = (
       <div>
         <div>
-          {labelNames}
+          {labelNames}{' '}
           {labelOffers && <MealPlanRatePrice data-discount="true">{labelOffers.join(' & ')}</MealPlanRatePrice>}
         </div>
         <div>
@@ -160,4 +167,31 @@ export const getAvailableMealPlansForAccommodation = (
   });
 
   return availableMealPlans;
+};
+
+export const getSelectedSupplementsForLodging = (
+  lodging: LodgingSummary,
+  availableProductSets: BookingBuilderAvailableProductSets
+) => {
+  try {
+    const supplements = availableProductSets.Accommodation.filter((a, i) => i === lodging.index)[0]
+      .availableSubProductSets.Supplement;
+
+    const formattedSupplements = supplements.map(supplement => {
+      return supplement.products.map(p => p.name).join(' & ');
+    });
+
+    return formattedSupplements;
+  } catch (e) {
+    return [];
+  }
+};
+
+export const getLodgingTotals = (lodging: LodgingSummary, availableProductSets: BookingBuilderAvailableProductSets) => {
+  const selectedLodging = availableProductSets.Accommodation.filter((a, i) => i === lodging.index)[0];
+
+  return {
+    total: selectedLodging.total,
+    totalBeforeDiscount: selectedLodging.totalBeforeDiscount,
+  };
 };

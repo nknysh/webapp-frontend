@@ -5,7 +5,7 @@ export interface BookingBuilderProduct {
   category: string;
 }
 
-export interface BookingBuilderAvailableSubProductSetsMealPlan {
+export interface BookingBuilderAvailableSubProductSet {
   products: BookingBuilderProduct[];
   isOnRequestOrPartiallyOnRequest: boolean;
   total: string;
@@ -18,12 +18,14 @@ export interface BookingBuilderAvailableSubProductSetsMealPlan {
 export interface BookingBuilderAvailableProductSetsAccommodation {
   products: BookingBuilderProduct[];
   total: string;
+  totalBeforeDiscount: string;
   mandatory: boolean;
   selected: boolean;
   isOnRequestOrPartiallyOnRequest: boolean;
   breakdown: any[];
   availableSubProductSets: {
-    'Meal Plan': BookingBuilderAvailableSubProductSetsMealPlan[];
+    'Meal Plan': BookingBuilderAvailableSubProductSet[];
+    Supplement: BookingBuilderAvailableSubProductSet[];
   };
 }
 

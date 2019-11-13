@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
-import { compose } from 'ramda';
+import { compose, clone } from 'ramda';
+// @ts-ignore
+import { Icon } from '@material-ui/core';
 
+// @ts-ignore
+import { Text } from 'components';
 // @ts-ignore
 import { isNilOrEmpty } from 'ramda-adjunct';
 
 import { LodgingSummary, BookingBuilderAvailableProductSets } from 'interfaces';
 
 // @ts-ignore
-import { getAvailableMealPlansForAccommodation } from 'utils';
+import { getAvailableMealPlansForAccommodation, getSelectedSupplementsForLodging, getLodgingTotals } from 'utils';
 
 // @ts-ignore
 import { DatePicker, RadioButton, NumberSelect } from '@pure-escapes/webapp-ui-components';
 import connect from './LodgingSummary.state';
 
-import { LodgingSummaryCard } from './LodgingSummary.styles';
+import {
+  LodgingSummaryCard,
+  CollapseButton,
+  CollapseHeader,
+  LodgingSummaryTitle,
+  LodgingTotal,
+} from './LodgingSummary.styles';
+
+const CollapseToggle = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: Function }) => {
+  return (
+    <CollapseButton onClick={() => onClick(!isCollapsed)}>
+      {isCollapsed ? <Icon>keyboard_arrow_down</Icon> : <Icon>keyboard_arrow_up</Icon>}
+    </CollapseButton>
+  );
+};
 
 export const LodgingSummaryRender = props => {
   const lodging: LodgingSummary = props.lodging;
@@ -23,29 +41,20 @@ export const LodgingSummaryRender = props => {
   const updateRequestedBuildLodgingMealPlan: Function = props.updateRequestedBuildLodgingMealPlan;
   const currencyCode: string = props.currencyCode;
 
+  const supplements = getSelectedSupplementsForLodging(lodging, availableProductSets);
+  const lodgingTotals = getLodgingTotals(lodging, availableProductSets);
+
   const OccupancyEditor = ({ onUpdate }: { onUpdate: Function }) => {
     const [numberOfAdults, setNumberOfAdults] = useState(lodging.guestAges.numberOfAdults);
     const [agesOfAllChildren, setAgesOfAllChildren] = useState(lodging.guestAges.agesOfAllChildren || []);
-    const [newChildAge, setNewChildAge] = useState('');
 
-    const decrementNumberOfAdults = () => {
-      if (numberOfAdults <= 0) {
-        return;
-      }
-      setNumberOfAdults(numberOfAdults - 1);
+    const updateAgeOfChild = (index, value) => {
+      const newAgesOfAllChildren = clone(agesOfAllChildren);
+      newAgesOfAllChildren[index] = parseInt(value);
+      setAgesOfAllChildren(newAgesOfAllChildren);
     };
 
-    const incrementNumberOfAdults = () => {
-      setNumberOfAdults(numberOfAdults + 1);
-    };
-
-    const addNewChildAge = () => {
-      agesOfAllChildren.push(parseInt(newChildAge));
-      setAgesOfAllChildren(agesOfAllChildren);
-      setNewChildAge('');
-    };
-
-    const update = () => {
+    const handleUpdate = () => {
       const newGuestAges = {
         numberOfAdults,
         agesOfAllChildren,
@@ -56,32 +65,70 @@ export const LodgingSummaryRender = props => {
 
     return (
       <div>
-        <div>
+        <div className="lodging-summary__occupancy-editor__number-of-adults">
           <label>Number of Adults</label>
           <br />
           <NumberSelect
-            style={{ float: 'left' }}
             className="numberSelect"
             min={0}
             max={99}
             value={numberOfAdults}
-            onAdd={incrementNumberOfAdults}
-            onRemove={decrementNumberOfAdults}
+            onAdd={() => setNumberOfAdults(numberOfAdults + 1)}
+            onRemove={() => setNumberOfAdults(numberOfAdults - 1)}
           />
         </div>
 
-        <div style={{ clear: 'both' }}>
-          <label>Ages of all children</label>
+        <div className="lodging-summary__occupancy-editor__number-of-children">
+          <label>Number of Children</label>
           <br />
-          {agesOfAllChildren.map(age => (
-            <p>{age}</p>
-          ))}
-          <input type="number" min="1" max="18" value={newChildAge} onChange={e => setNewChildAge(e.target.value)} />
-          <button onClick={addNewChildAge}>add child</button>
+          <NumberSelect
+            className="numberSelect"
+            min={0}
+            max={99}
+            value={agesOfAllChildren.length}
+            onAdd={() => {
+              setAgesOfAllChildren([...agesOfAllChildren, 0]);
+            }}
+            onRemove={() => {
+              setAgesOfAllChildren(agesOfAllChildren.slice(0, agesOfAllChildren.length - 1));
+            }}
+          />
         </div>
-        <div>
-          <button onClick={update}>Update</button>
-        </div>
+
+        {agesOfAllChildren.length >= 1 && (
+          <div className="className='lodging-summary__occupancy-editor__specify-ages-of-children">
+            <label>Please specify ages of all children:</label>
+
+            {agesOfAllChildren.map((ageOfChild, index) => {
+              return (
+                <React.Fragment>
+                  <select value={ageOfChild} onChange={e => updateAgeOfChild(index, e.target.value)}>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                  </select>
+                </React.Fragment>
+              );
+            })}
+          </div>
+        )}
+
+        <button onClick={handleUpdate}>Update</button>
       </div>
     );
   };
@@ -115,19 +162,15 @@ export const LodgingSummaryRender = props => {
     );
   };
 
-  const DateCollapsible = ({  }: {}) => {
+  const DateCollapsible = () => {
     const [isCollapsed, setIsCollapsed] = useState(true);
-    const CollapseToggle = () => (
-      <button style={{ float: 'right' }} onClick={() => setIsCollapsed(!isCollapsed)}>
-        {isCollapsed ? '+' : '-'}
-      </button>
-    );
 
     return (
       <React.Fragment>
-        <p>
-          {lodging.nightsBreakdown} <CollapseToggle />
-        </p>
+        <CollapseHeader>
+          {lodging.nightsBreakdown}
+          <CollapseToggle isCollapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
+        </CollapseHeader>
 
         {!isCollapsed && (
           <DatePicker
@@ -152,55 +195,58 @@ export const LodgingSummaryRender = props => {
     );
   };
 
-  const OccupancyCollapsible = ({  }: {}) => {
+  const OccupancyCollapsible = () => {
     const [isCollapsed, setIsCollapsed] = useState(true);
-
-    const CollapseToggle = () => (
-      <button style={{ float: 'right' }} onClick={() => setIsCollapsed(!isCollapsed)}>
-        {isCollapsed ? '+' : '-'}
-      </button>
-    );
 
     return (
       <React.Fragment>
-        <p>
-          {lodging.occupancyBreakdown} <CollapseToggle />
-        </p>
+        <CollapseHeader>
+          {lodging.occupancyBreakdown}
+          <CollapseToggle isCollapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
+        </CollapseHeader>
 
         {!isCollapsed && <OccupancyEditor onUpdate={val => setIsCollapsed(val)} />}
       </React.Fragment>
     );
   };
 
-  const MealPlanCollapsible = ({  }: {}) => {
+  const MealPlanCollapsible = () => {
     const [isCollapsed, setIsCollapsed] = useState(true);
-
-    const CollapseToggle = () => (
-      <button style={{ float: 'right' }} onClick={() => setIsCollapsed(!isCollapsed)}>
-        {isCollapsed ? '+' : '-'}
-      </button>
-    );
 
     return (
       <React.Fragment>
-        <p>
-          {lodging.mealPlanBreakdown || 'Meal Plan Selection'} <CollapseToggle />
-        </p>
+        <CollapseHeader>
+          {lodging.mealPlanBreakdown || 'Meal Plan Selection'}
+          <CollapseToggle isCollapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
+        </CollapseHeader>
 
         {!isCollapsed && <MealPlanEditor onUpdate={val => setIsCollapsed(val)} />}
       </React.Fragment>
     );
   };
 
+  console.log('supplements', supplements);
+
   return (
     <LodgingSummaryCard className="lodging-summary">
-      <p>{lodging.title}</p>
-      <label>Dates</label>
+      <Text>
+        <strong>{lodging.title}</strong>
+        <div>
+          <Text>{lodgingTotals.total}</Text>
+          {lodgingTotals.totalBeforeDiscount && <Text>{lodgingTotals.totalBeforeDiscount}</Text>}
+        </div>
+      </Text>
       <DateCollapsible />
-      <label>Occupancy</label>
       <OccupancyCollapsible />
-      <label>Meal Plan</label>
       <MealPlanCollapsible />
+      {supplements && supplements.length >= 1 && (
+        <div>
+          <label>Supplements</label>
+          {supplements.map(s => (
+            <Text>{s}</Text>
+          ))}
+        </div>
+      )}
     </LodgingSummaryCard>
   );
 };
