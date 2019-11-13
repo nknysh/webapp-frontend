@@ -1,59 +1,29 @@
-// @ts-ignore for some reason, typescript can't see the modules? but CAN import them
+// @ts-ignore
 import { differenceInCalendarDays, format } from 'date-fns';
+import {
+  BookingBuilderAvailableProductSets,
+  RequestedBuildAccommodation,
+  LodgingSummary,
+  BookingBuilderAvailableProductSetsAccommodation,
+} from 'interfaces';
 
-interface BookingBuilderProduct {
-  uuid: string;
-  name: string;
-  type: string;
-  category: string;
-}
+export const getAvailableProductSetAccommodationForUuid = (
+  uuid: string,
+  availableProductSets: BookingBuilderAvailableProductSets
+): BookingBuilderAvailableProductSetsAccommodation | undefined => {
+  const selectedAccommodation = availableProductSets.Accommodation.filter(a => {
+    const productIds = a.products.map(p => p.uuid);
+    return productIds.includes(uuid);
+  });
 
-interface BookingBuilderAvailableSubProductSetsMealPlan {
-  products: BookingBuilderProduct[];
-  isOnRequestOrPartiallyOnRequest: boolean;
-  total: string;
-  totalBeforeDiscount: string;
-  mandatory: boolean;
-  breakdown: object;
-  selected: boolean;
-}
-
-interface BookingBuilderAvailableProductSetsAccommodation {
-  products: BookingBuilderProduct[];
-  total: string;
-  mandatory: boolean;
-  selected: boolean;
-  isOnRequestOrPartiallyOnRequest: boolean;
-  availableSubProductSets: {
-    'Meal Plan': BookingBuilderAvailableSubProductSetsMealPlan[];
-  };
-}
-
-interface BookingBuilderAvailableProductSets {
-  Accommodation: BookingBuilderAvailableProductSetsAccommodation[];
-}
-
-interface RequestedBuildAccommodationSubProduct {
-  uuid: string;
-}
-
-interface RequestedBuildAccommodation {
-  uuid: string;
-  subProducts: {
-    'Meal Plan': RequestedBuildAccommodationSubProduct[];
-  };
-  startDate: string;
-  endDate: string;
-  guestAges: {
-    numberOfAdults: number;
-    agesOfAllChildren: number[];
-  };
-}
+  if (selectedAccommodation.length) {
+    return selectedAccommodation[0];
+  }
+};
 
 export const getNightsBreakdownForDates = (startDate: any, endDate: any) => {
   const nights = differenceInCalendarDays(new Date(endDate), new Date(startDate));
-  const dateRangeText =
-    format(new Date(startDate), 'do LLL yyyy') + ' - ' + format(new Date(endDate), 'do LLL yyyy');
+  const dateRangeText = format(new Date(startDate), 'do LLL yyyy') + ' - ' + format(new Date(endDate), 'do LLL yyyy');
   return `${nights} ${nights > 1 ? 'nights' : 'night'} | ${dateRangeText}`;
 };
 
@@ -61,33 +31,30 @@ export const getTitleForAccommodationUuid = (
   uuid: string,
   availableProductSets: BookingBuilderAvailableProductSets
 ): string => {
+  const accommodation = getAvailableProductSetAccommodationForUuid(uuid, availableProductSets);
+
+  if (!accommodation) {
+    return '';
+  }
+
+  // return accommodation.products;
   let productTitles: string[] = [];
 
-  availableProductSets.Accommodation.forEach(accommodation => {
-    if (productTitles.length) {
-      return;
+  accommodation.products.forEach(product => {
+    if (product.uuid === uuid) {
+      productTitles.push(product.name);
     }
-
-    accommodation.products.forEach(product => {
-      if (product.uuid === uuid) {
-        productTitles.push(product.name);
-      }
-    });
   });
 
   return productTitles.join('&');
 };
 
-export const getOccupancyBreakdownForAccommodation = (
-  accommodation: RequestedBuildAccommodation
-) => {
+export const getOccupancyBreakdownForAccommodation = (accommodation: RequestedBuildAccommodation) => {
   const { numberOfAdults, agesOfAllChildren = [] } = accommodation.guestAges;
   const totalGuests = numberOfAdults + agesOfAllChildren.length;
 
   const adultsBreakdownString = `${numberOfAdults} ${numberOfAdults > 1 ? 'Adults' : 'Adult'}`;
-  const childrenBreakdownString = `${agesOfAllChildren.length} ${
-    agesOfAllChildren.length > 1 ? 'Children' : 'Child'
-  }`;
+  const childrenBreakdownString = `${agesOfAllChildren.length} ${agesOfAllChildren.length > 1 ? 'Children' : 'Child'}`;
 
   if (agesOfAllChildren.length) {
     return `${totalGuests} ${
@@ -127,4 +94,25 @@ export const getMealPlanBreakdownForAccommodation = (
   });
 
   return mealPlanTitles.join('&');
+};
+
+export const getAvailableMealPlansForAccommodation = (
+  lodging: LodgingSummary,
+  availableProductSets: BookingBuilderAvailableProductSets
+) => {
+  const availableMealPlans: any[] = [];
+  const accommodation = getAvailableProductSetAccommodationForUuid(lodging.uuid, availableProductSets);
+
+  if (!accommodation) {
+    return {};
+  }
+
+  accommodation.availableSubProductSets['Meal Plan'].forEach(mealPlan => {
+    availableMealPlans.push({
+      value: mealPlan.products.map(p => p.uuid).join('/'),
+      label: mealPlan.products.map(p => p.name).join('/'),
+    });
+  });
+
+  return availableMealPlans;
 };

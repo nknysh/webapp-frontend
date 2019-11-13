@@ -20,7 +20,8 @@ import { Form, Input, Loader, Modal, Markdown, List } from '@pure-escapes/webapp
 
 import AgreeToForm from 'components/AgreeToForm';
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
-import SummaryRoom from 'containers/SummaryRoom';
+// import SummaryRoom from 'containers/SummaryRoom';
+import LodgingSummary from 'containers/LodgingSummary';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
 import { PAYMENT_ENABLED } from 'config';
@@ -126,31 +127,7 @@ const renderHotel = (
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
 const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <List>{mapWithIndex(renderError, errors)}</List>;
 
-const renderRoom = (lodging, data, setModalId, editGuard, onEditGuard, props) => {
-  // return (
-  //   // <SummaryRoom
-  //   //   canEdit={!summaryOnly}
-  //   //   hotelUuid={hotelUuid}
-  //   //   id={id}
-  //   //   key={uuid}
-  //   //   onEdit={setModalId}
-  //   //   onRemove={removeRoom}
-  //   //   roomId={uuid}
-  //   //   editGuard={editGuard}
-  //   //   onEditGuard={onEditGuard}
-  //   //   showImage={showRoomImage}
-  //   //   showHolds={showHolds}
-  //   // />
-  // );
-
-  // const onEditRoom = useCallback(() => {
-  //   if (props.editGuard) {
-  //     return props.onEditGuard();
-  //   }
-
-  //   props.onEdit(lodging.uuid);
-  // }, [props, lodging]);
-
+const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, availableProductSets) => {
   const handleRoomEdit = () => {
     if (editGuard) {
       return onEditGuard();
@@ -159,17 +136,16 @@ const renderRoom = (lodging, data, setModalId, editGuard, onEditGuard, props) =>
   };
 
   return (
-    <React.Fragment>
-      <p>{lodging.title}</p>
-      <p>{lodging.nightsBreakdown}</p>
-      <p>{lodging.occupancyBreakdown}</p>
-      <p>{lodging.mealPlanBreakdown}</p>
-      <button onClick={handleRoomEdit}>edit</button>
-    </React.Fragment>
+    <LodgingSummary
+      key={lodging.index}
+      lodging={lodging}
+      handleRoomEditFunction={handleRoomEdit}
+      availableProductSets={availableProductSets}
+    />
   );
 };
 
-const renderRooms = (t, booking, props) => {
+const renderLodgingSummaries = (t, booking, props) => {
   const { breakdown, ...bookingData } = booking;
   const { editGuard, onEditGuard, setModalId, ...summaryFormProps } = props;
 
@@ -177,9 +153,11 @@ const renderRooms = (t, booking, props) => {
     return [];
   }
 
-  const lodgings = breakdown.requestedBuild.Accommodation.map(accommodationRequestedBuildObject => {
+  const lodgingSummaries = breakdown.requestedBuild.Accommodation.map((accommodationRequestedBuildObject, index) => {
     return {
       ...accommodationRequestedBuildObject,
+      index,
+      hotelUuid: bookingData.hotelUuid,
       title: getTitleForAccommodationUuid(accommodationRequestedBuildObject.uuid, breakdown.availableProductSets),
       nightsBreakdown: getNightsBreakdownForDates(
         accommodationRequestedBuildObject.startDate,
@@ -195,7 +173,9 @@ const renderRooms = (t, booking, props) => {
 
   return (
     <React.Fragment>
-      {lodgings.map(l => renderRoom(l, bookingData, setModalId, editGuard, onEditGuard, props))}
+      {lodgingSummaries.map(l =>
+        renderLodgingSummary(l, setModalId, editGuard, onEditGuard, breakdown.availableProductSets)
+      )}
     </React.Fragment>
   );
 };
@@ -589,7 +569,7 @@ export const SummaryForm = props => {
           ...props,
         })}
         <Rooms data-summary={summaryOnly} data-compact={compact}>
-          {renderRooms(t, booking, {
+          {renderLodgingSummaries(t, booking, {
             editGuard,
             hotelUuid,
             onEditGuard: handleEditGuard,

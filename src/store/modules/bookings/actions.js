@@ -53,6 +53,7 @@ import {
   values,
   view,
   when,
+  clone,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
@@ -74,6 +75,7 @@ import {
   getBookingRoomsById,
 } from './selectors';
 import { addFinalDayToBooking } from './utils';
+import LodgingSummary from 'containers/LodgingSummary/LodgingSummary';
 
 export const BOOKING_AMEND = 'BOOKING_AMEND';
 export const BOOKING_CANCEL = 'BOOKING_CANCEL';
@@ -1164,6 +1166,105 @@ export const updateAccommodationProductGuestAgeSets = (hotelUuid, accommodationP
     breakdown: {
       requestedBuild: {
         Accommodation: newAccommodationProductSets,
+      },
+    },
+  };
+
+  return updateBooking(hotelUuid, payload)(dispatch, getState);
+};
+
+export const updateRequestedBuildLodgingGuestAges = (hotelUuid, lodgingIndex, newGuestAges) => async (
+  dispatch,
+  getState
+) => {
+  const state = getState();
+
+  // get the current bookings.data.[hotelUuid].breakdown.requestedBuild.Accommodation records
+  // out of the store, and then amend the one with the matching index
+  const requestedBuildAccommodation = pathOr(
+    [],
+    ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
+    state
+  );
+  const lodgingToAmend = clone(requestedBuildAccommodation[lodgingIndex]);
+  lodgingToAmend.guestAges = newGuestAges;
+  requestedBuildAccommodation[lodgingIndex] = lodgingToAmend;
+
+  // finally, we build a payload in the format needed by the `updateBooking` function
+  // and dispatch an update booking action to update the booking
+  const payload = {
+    breakdown: {
+      requestedBuild: {
+        Accommodation: requestedBuildAccommodation,
+      },
+    },
+  };
+
+  return updateBooking(hotelUuid, payload)(dispatch, getState);
+};
+
+export const updateRequestedBuildLodgingDates = (hotelUuid, lodgingIndex, startDate, endDate) => async (
+  dispatch,
+  getState
+) => {
+  const state = getState();
+
+  // get the current bookings.data.[hotelUuid].breakdown.requestedBuild.Accommodation records
+  // out of the store, and then amend the one with the matching index
+  const requestedBuildAccommodation = pathOr(
+    [],
+    ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
+    state
+  );
+  const lodgingToAmend = clone(requestedBuildAccommodation[lodgingIndex]);
+  lodgingToAmend.startDate = formatDate(startDate);
+  lodgingToAmend.endDate = formatDate(endDate);
+  requestedBuildAccommodation[lodgingIndex] = lodgingToAmend;
+
+  // finally, we build a payload in the format needed by the `updateBooking` function
+  // and dispatch an update booking action to update the booking
+  const payload = {
+    breakdown: {
+      requestedBuild: {
+        Accommodation: requestedBuildAccommodation,
+      },
+    },
+  };
+
+  return updateBooking(hotelUuid, payload)(dispatch, getState);
+};
+
+export const updateRequestedBuildLodgingMealPlan = (hotelUuid, lodgingIndex, mealPlanUuids) => async (
+  dispatch,
+  getState
+) => {
+  const state = getState();
+
+  console.log('lodgingIndex', lodgingIndex);
+
+  // get the current bookings.data.[hotelUuid].breakdown.requestedBuild.Accommodation records
+  // out of the store, and then amend the one with the matching index
+  const requestedBuildAccommodation = pathOr(
+    [],
+    ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
+    state
+  );
+  const lodgingToAmend = clone(requestedBuildAccommodation[lodgingIndex]);
+
+  lodgingToAmend.subProducts['Meal Plan'] = mealPlanUuids.map(mealPlanUuid => {
+    return {
+      uuid: mealPlanUuid,
+    };
+  });
+
+  requestedBuildAccommodation[lodgingIndex] = lodgingToAmend;
+
+  // finally, we build a payload in the format needed by the `updateBooking` function
+  // and dispatch an update booking action to update the booking
+  const payload = {
+    breakdown: {
+      requestedBuild: {
+        Accommodation: requestedBuildAccommodation,
       },
     },
   };
