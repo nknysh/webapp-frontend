@@ -1,6 +1,6 @@
-import { ISearchQuery, MealPlanNames, Filters, StarRating } from './OffersSearch';
+import { SearchQuery, MealPlanNames, Filters, StarRating } from './SearchQuery';
 
-export const sampleQuery: ISearchQuery = {
+export const sampleQuery: SearchQuery = {
   name: 'Amilla Fushi',
   lodgings: [
     {

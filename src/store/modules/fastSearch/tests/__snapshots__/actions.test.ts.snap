@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 1`] = `
+Object {
+  "type": "fastSearch/DESTINATION_CHANGE",
+  "value": "hello",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 2`] = `
+Object {
+  "filter": "Best for Families",
+  "type": "fastSearch/TOGGLE_FILTER",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 3`] = `
+Object {
+  "type": "fastSearch/TOGGLE_REPEAT_GUEST",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 4`] = `
+Object {
+  "date": "2020-01-01",
+  "type": "fastSearch/DATE_RANGE_START_CHANGE",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 5`] = `
+Object {
+  "date": "2020-01-07",
+  "type": "fastSearch/DATE_RANGE_START_CHANGE",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 6`] = `
+Object {
+  "type": "fastSearch/MIN_PRICE_CHANGE",
+  "value": "10",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 7`] = `
+Object {
+  "type": "fastSearch/MAX_PRICE_CHANGE",
+  "value": "100",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 8`] = `
+Object {
+  "lodgingIndex": 1,
+  "type": "fastSearch/INCREMENT_ROOM",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 9`] = `
+Object {
+  "lodgingIndex": 1,
+  "type": "fastSearch/DECREMENT_ROOM",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 10`] = `
+Object {
+  "lodgingIndex": 1,
+  "type": "fastSearch/INCREMENT_ADULT",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 11`] = `
+Object {
+  "lodgingIndex": 1,
+  "type": "fastSearch/DECREMENT_ADULT",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 12`] = `
+Object {
+  "lodgingIndex": 1,
+  "type": "fastSearch/INCREMENT_CHILD",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 13`] = `
+Object {
+  "lodgingIndex": 1,
+  "type": "fastSearch/DECREMENT_CHILD",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 14`] = `
+Object {
+  "childIndex": 0,
+  "lodgingIndex": 0,
+  "type": "fastSearch/AGE_CHANGE",
+  "value": "10",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 15`] = `
+Object {
+  "type": "fastSearch/OFFERS_SEARCH_REQUEST",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 16`] = `
+Object {
+  "successResponse": "test",
+  "type": "fastSearch/OFFERS_SEARCH_SUCCESS",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 17`] = `
+Object {
+  "errorResponse": "test",
+  "type": "fastSearch/OFFERS_SEARCH_FAILURE",
+}
+`;

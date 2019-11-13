@@ -15,7 +15,7 @@ export enum Occasion {
   wedding = 'wedding',
 }
 
-export type IOccasions = { [key in keyof typeof Occasion]?: boolean };
+export type Occasions = { [key in keyof typeof Occasion]?: boolean };
 
 export enum Filters {
   BEST_FOR_BEACH = 'Best for Beach',
@@ -37,7 +37,7 @@ export enum Filters {
   SPEEDBOAT_TRANSFER = 'Speedboat transfer',
 }
 
-export interface IPriceRange {
+export interface PriceRange {
   min: number | undefined;
   max: number | undefined;
 }
@@ -47,7 +47,7 @@ export interface IStarRatings {
   '5'?: boolean;
 }
 
-export interface ILodging extends IOccasions {
+export interface Lodging extends Occasions {
   // TODO: Are the occasions dupes?
   repeatCustomer: boolean;
   numberOfAdults: number;
@@ -59,22 +59,14 @@ export enum StarRating {
   FiveStarPlus = '5+',
 }
 
-export interface ISearchQuery {
+export interface SearchQuery {
   name: string; // Destination
-  lodgings: ILodging[];
+  lodgings: Lodging[];
   startDate: string;
   endDate: string;
   mealPlanCategories: MealPlanNames[];
   regions: string[];
   starRatings: StarRating[];
   filters: Filters[];
-  priceRange: IPriceRange;
+  priceRange: PriceRange;
 }
-
-interface IT {
-  'hell world': boolean;
-}
-
-const blah: IT = {
-  'hell world': false,
-};

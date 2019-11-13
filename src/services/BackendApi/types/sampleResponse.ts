@@ -1,7 +1,7 @@
-import { SearchResponse } from './OffersSearchResponse';
-import { Filters } from './OffersSearch';
+import { SearchSuccessResponse } from './OffersSearchResponse';
+import { Filters } from './SearchQuery';
 
-export const sampleResponse: SearchResponse = {
+export const sampleResponse: SearchSuccessResponse = {
   meta: {
     type: 'custom',
     isCountryMatch: false,

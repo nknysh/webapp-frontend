@@ -1,4 +1,4 @@
-import { Filters } from './OffersSearch';
+import { Filters } from './SearchQuery';
 
 export type AgeName = 'Infant' | 'Child' | 'Adult' | 'default';
 
@@ -544,7 +544,32 @@ export interface SearchResponseData {
   hotels: HotelResult[];
 }
 
-export interface SearchResponse {
+export interface SearchSuccessResponse {
   meta: Meta;
   data: SearchResponseData;
+}
+
+export interface SearchErrorResponse {
+  errors: [
+    {
+      id: string;
+      status: string;
+      title: string;
+      meta: {
+        errors: [
+          {
+            keyword: string;
+            dataPath: string;
+            schemaPath: string;
+            params: {
+              additionalProperty?: string;
+            };
+            message: string;
+          }
+        ];
+        stack: string;
+      };
+      detail: string;
+    }
+  ];
 }

@@ -1,7 +1,7 @@
-import backendApi, { ISearchQuery, MealPlanNames, Filters, StarRating } from 'services/BackendApi';
+import backendApi, { SearchQuery, MealPlanNames, Filters, StarRating } from 'services/BackendApi';
 export const tsTest = (a: number, b: 'string'): string => a + b;
 
-const testSearch: ISearchQuery = {
+const testSearch: SearchQuery = {
   name: 'Amilla Fushi',
   lodgings: [
     {
