@@ -231,3 +231,22 @@ export const getAppliedOffersForLodging = (lodging: LodgingSummary, potentialBoo
     return [];
   }
 };
+
+export const getLodgingOccassionsBreakdown = (accommodation: RequestedBuildAccommodation) => {
+  const { honeymoon, birthday, anniversary, wedding } = accommodation;
+  const occasions = { honeymoon, birthday, anniversary, wedding };
+
+  const appliedOccasions = Object.keys(occasions)
+    .map(o => (occasions[o] ? o.toUpperCase() : null))
+    .filter(Boolean);
+
+  if (appliedOccasions.length <= 0) {
+    return null;
+  }
+
+  if (appliedOccasions.length === 1) {
+    return appliedOccasions[0];
+  }
+
+  return appliedOccasions.slice(0, -1).join(', ') + ' & ' + appliedOccasions.slice(-1);
+};

@@ -39,6 +39,10 @@ export interface RequestedBuildAccommodationSubProduct {
 
 export interface RequestedBuildAccommodation {
   uuid: string;
+  wedding: boolean;
+  anniversary: boolean;
+  birthday: boolean;
+  honeymoon: boolean;
   subProducts: {
     'Meal Plan': RequestedBuildAccommodationSubProduct[];
   };
@@ -57,4 +61,5 @@ export interface LodgingSummary extends RequestedBuildAccommodation {
   nightsBreakdown: string;
   mealPlanBreakdown: string;
   occupancyBreakdown: string;
+  occasionsBreakdown: string;
 }

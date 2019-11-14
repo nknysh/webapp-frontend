@@ -4,6 +4,7 @@ import {
   getOccupancyBreakdownForAccommodation,
   getAvailableMealPlansForAccommodation,
   getAvailableProductSetAccommodationForUuid,
+  getLodgingOccassionsBreakdown,
 } from './bookingBuilder.tsx';
 
 describe('bookingBuilder utils', () => {
@@ -306,5 +307,51 @@ describe('bookingBuilder utils', () => {
     });
 
     // it('1 accommodation with 1 product, ')
+  });
+
+  describe.only('getLodgingOccassionsBreakdown', () => {
+    it('0 applied gives null', () => {
+      const lodging = {};
+
+      expect(getLodgingOccassionsBreakdown(lodging)).toEqual(null);
+    });
+
+    it('1 applied gives single string', () => {
+      const lodging = {
+        honeymoon: true,
+      };
+
+      expect(getLodgingOccassionsBreakdown(lodging)).toEqual('HONEYMOON');
+    });
+
+    it('2 applied gives ampersand joined string', () => {
+      const lodging = {
+        honeymoon: true,
+        birthday: true,
+      };
+
+      expect(getLodgingOccassionsBreakdown(lodging)).toEqual('HONEYMOON & BIRTHDAY');
+    });
+
+    it('3 applied gives comma separated ampersand joined string', () => {
+      const lodging = {
+        honeymoon: true,
+        wedding: true,
+        birthday: true,
+      };
+
+      expect(getLodgingOccassionsBreakdown(lodging)).toEqual('HONEYMOON, WEDDING & BIRTHDAY');
+    });
+
+    it('4 applied gives comma separated ampersand joined string', () => {
+      const lodging = {
+        honeymoon: true,
+        wedding: true,
+        birthday: true,
+        anniversary: true,
+      };
+
+      expect(getLodgingOccassionsBreakdown(lodging)).toEqual('HONEYMOON, WEDDING, BIRTHDAY & ANNIVERSARY');
+    });
   });
 });

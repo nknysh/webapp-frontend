@@ -15,6 +15,8 @@ import {
   // @ts-ignore
 } from 'utils';
 
+import { OccasionsSelect } from 'components';
+
 // @ts-ignore
 import { Icon } from '@material-ui/core';
 
@@ -42,7 +44,7 @@ export const LodgingSummaryRender = props => {
   const updateRequestedBuildLodgingDates: Function = props.updateRequestedBuildLodgingDates;
   const updateRequestedBuildLodgingMealPlan: Function = props.updateRequestedBuildLodgingMealPlan;
   const removeLodging: Function = props.removeLodging;
-
+  const updateBookingOccasions: Function = props.updateBookingOccasions;
   const currencyCode: string = props.currencyCode;
   const editGuard: boolean = props.editGuard;
   const onEditGuard: Function = props.onEditGuard;
@@ -253,6 +255,29 @@ export const LodgingSummaryRender = props => {
     );
   };
 
+  const OccasionsCollapsible = () => {
+    const [isCollapsed, setIsCollapsed] = useState(true);
+
+    return (
+      <React.Fragment>
+        <CollapseHeader>
+          <label>Occasion(s): </label>
+          {lodging.occasionsBreakdown || <label>None</label>}
+          <CollapseToggle isCollapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
+        </CollapseHeader>
+
+        {!isCollapsed && (
+          <OccasionsSelect
+            onChange={e => {
+              updateBookingOccasions(lodging.hotelUuid, lodging.index, e.occasions);
+            }}
+            selected={lodging}
+          />
+        )}
+      </React.Fragment>
+    );
+  };
+
   return (
     <LodgingSummaryCard className="lodging-summary">
       <LodgingSummaryTitle>
@@ -273,6 +298,7 @@ export const LodgingSummaryRender = props => {
       <DateCollapsible />
       <OccupancyCollapsible />
       <MealPlanCollapsible />
+      <OccasionsCollapsible />
       {supplements && supplements.length >= 1 && (
         <div>
           <label>Applied Supplements</label>

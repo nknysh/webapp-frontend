@@ -17,6 +17,7 @@ import {
   getNightsBreakdownForDates,
   getOccupancyBreakdownForAccommodation,
   getMealPlanBreakdownForLodging,
+  getLodgingOccassionsBreakdown,
 } from 'utils';
 
 import { isActive } from 'store/common';
@@ -160,6 +161,7 @@ const renderLodgingSummaries = (t, booking, props) => {
         breakdown.availableProductSets
       ),
       occupancyBreakdown: getOccupancyBreakdownForAccommodation(accommodationRequestedBuildObject),
+      occasionsBreakdown: getLodgingOccassionsBreakdown(accommodationRequestedBuildObject),
     };
   });
 

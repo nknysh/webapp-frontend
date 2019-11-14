@@ -1291,3 +1291,28 @@ export const removeLodging = (hotelUuid, lodgingIndex) => async (dispatch, getSt
 
   return updateBooking(hotelUuid, payload)(dispatch, getState);
 };
+
+export const updateBookingOccasions = (hotelUuid, lodgingIndex, occasions) => async (dispatch, getState) => {
+  const state = getState();
+
+  const requestedBuildAccommodation = pathOr(
+    [],
+    ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
+    state
+  );
+
+  console.log('occasions', occasions);
+  const lodging = { ...requestedBuildAccommodation[lodgingIndex], ...occasions };
+
+  requestedBuildAccommodation[lodgingIndex] = lodging;
+
+  const payload = {
+    breakdown: {
+      requestedBuild: {
+        Accommodation: requestedBuildAccommodation,
+      },
+    },
+  };
+
+  return updateBooking(hotelUuid, payload)(dispatch, getState);
+};
