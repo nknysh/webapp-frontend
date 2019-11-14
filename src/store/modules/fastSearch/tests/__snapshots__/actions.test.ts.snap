@@ -118,3 +118,10 @@ Object {
   "type": "fastSearch/OFFERS_SEARCH_FAILURE",
 }
 `;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 18`] = `
+Object {
+  "errorResponse": "test",
+  "type": "fastSearch/OFFERS_SEARCH_FAILURE",
+}
+`;

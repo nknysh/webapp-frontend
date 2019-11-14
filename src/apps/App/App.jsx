@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Switch, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { compose, prop } from 'ramda';
 import { ErrorBoundary, Loader } from '@pure-escapes/webapp-ui-components';
 
@@ -11,6 +11,7 @@ import { withUser } from 'hoc';
 
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
+import { FastSearchContainerConnected } from 'containers/FastSearch';
 
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange }) => {
   // Scroll to top on path change
@@ -27,7 +28,10 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange })
   return (
     <Layout>
       <Suspense fallback={<Loader />}>
-        <Switch>{getAppRoutes(prop('type', user))}</Switch>
+        <Switch>
+          <Route path="/search/beta" exact component={FastSearchContainerConnected} />
+          {...getAppRoutes(prop('type', user))}
+        </Switch>
       </Suspense>
     </Layout>
   );

@@ -539,37 +539,12 @@ export interface HotelResult {
   bookingBuilder: BookingBuilder;
 }
 
-export interface SearchResponseData {
+export interface OffersSearchData {
   countries: Country[];
   hotels: HotelResult[];
 }
 
-export interface SearchSuccessResponse {
+export interface OffersSearchSuccessResponse {
   meta: Meta;
-  data: SearchResponseData;
-}
-
-export interface SearchErrorResponse {
-  errors: [
-    {
-      id: string;
-      status: string;
-      title: string;
-      meta: {
-        errors: [
-          {
-            keyword: string;
-            dataPath: string;
-            schemaPath: string;
-            params: {
-              additionalProperty?: string;
-            };
-            message: string;
-          }
-        ];
-        stack: string;
-      };
-      detail: string;
-    }
-  ];
+  data: OffersSearchData;
 }

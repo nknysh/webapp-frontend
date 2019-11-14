@@ -1,7 +1,6 @@
-import { SearchSuccessResponse } from './OffersSearchResponse';
-import { Filters } from './SearchQuery';
+import { OffersSearchSuccessResponse, Filters } from '../../types';
 
-export const sampleResponse: SearchSuccessResponse = {
+export const sampleResponse: OffersSearchSuccessResponse = {
   meta: {
     type: 'custom',
     isCountryMatch: false,

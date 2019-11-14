@@ -1,11 +1,8 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import qs from 'qs';
-import { SearchQuery } from './types/SearchQuery';
-import { SearchErrorResponse } from './types/OffersSearchResponse';
-import { OptionsResponse } from './types/OptionsResponse';
-
+import { SearchQuery, ErrorResponse, SearchOptionsResponse } from './types';
 export enum BackendEndpoints {
-  OPTIONS = 'api/options',
+  SEARCH_OPTIONS = 'api/search/options',
   SEARCH = 'api/search',
 }
 
@@ -16,10 +13,11 @@ export class BackendApiService<T extends AxiosInstance> {
     this.client = client;
   }
 
-  getOptions = async (): Promise<OptionsResponse> => this.client.get(BackendEndpoints.OPTIONS);
+  getSearchOptions = async (): Promise<AxiosResponse<SearchOptionsResponse>> =>
+    this.client.get(BackendEndpoints.SEARCH_OPTIONS);
 
-  getOffersSearch = async (query: SearchQuery): Promise<SearchErrorResponse | SearchErrorResponse> => {
-    const endpoint = `${BackendEndpoints.SEARCH}?kjhkjhk${qs.stringify(query)}`;
+  getOffersSearch = async (query: SearchQuery): Promise<AxiosResponse<ErrorResponse | ErrorResponse>> => {
+    const endpoint = `${BackendEndpoints.SEARCH}?${qs.stringify(query)}`;
     return this.client.get(endpoint);
   };
 }

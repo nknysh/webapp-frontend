@@ -1,4 +1,4 @@
-import { SearchQuery, MealPlanNames, Filters, StarRating } from './SearchQuery';
+import { SearchQuery, MealPlanNames, Filters, StarRating } from '../../types/SearchQuery';
 
 export const sampleQuery: SearchQuery = {
   name: 'Amilla Fushi',

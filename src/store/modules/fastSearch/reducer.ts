@@ -1,69 +1,56 @@
+import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
-import {
-  SearchQuery,
-  HotelResult,
-  SearchErrorResponse,
-  MealPlanNames,
-  Filters,
-  StarRating,
-  OptionsResponse,
-} from 'services/BackendApi';
-
-export interface FastSearchDomain {
-  query: SearchQuery;
-  results?: HotelResult[];
-  error?: SearchErrorResponse;
-  options?: OptionsResponse;
-  showDatePicker: boolean;
-  requestPending: boolean;
-}
-
-export const initialState: FastSearchDomain = {
-  query: {
-    name: 'Amilla Fushi',
-    lodgings: [
-      {
-        numberOfAdults: 1,
-        agesOfAllChildren: [],
-        repeatCustomer: false,
-        honeymoon: true,
-      },
-    ],
-    mealPlanCategories: [MealPlanNames.BREAKFAST_BOARD],
-    regions: [],
-    filters: [Filters.SEAPLANE_TRANSFER],
-    starRatings: [StarRating.FiveStarPlus],
-    startDate: '2020-01-01',
-    endDate: '2020-01-07',
-    priceRange: { min: 1, max: 100000 },
-  },
-  showDatePicker: false,
-  requestPending: false,
-};
 
 export default function fastSearchReducer(
   state: FastSearchDomain = initialState,
   action: Actions.FastSearchAction
 ): FastSearchDomain {
   switch (action.type) {
+    // ------------------------------------------------------
+    // Search Options
+    // ------------------------------------------------------
+    case Actions.OPTIONS_REQUEST:
+      return {
+        ...state,
+        optionsRequestPending: true,
+      };
+
+    case Actions.OPTIONS_SUCCESS:
+      console.log('OPTIONS_SUCCESS', action);
+      return {
+        ...state,
+        options: action.successResponse,
+        optionsRequestPending: false,
+      };
+
+    case Actions.OPTIONS_FAILURE:
+      return {
+        ...state,
+        optionsRequestError: action.errorResponse,
+        offersRequestPending: false,
+      };
+
+    // ------------------------------------------------------
+    // Offers Search
+    // ------------------------------------------------------
     case Actions.OFFERS_SEARCH_REQUEST:
       return {
         ...state,
-        requestPending: true,
+        offersRequestPending: true,
       };
 
     case Actions.OFFERS_SEARCH_SUCCESS:
       return {
         ...state,
         results: action.successResponse.data.hotels,
-        requestPending: false,
+        offersRequestPending: false,
       };
 
     case Actions.OFFERS_SEARCH_FAILURE:
       return {
         ...state,
-        error: action.errorResponse,
-        requestPending: false,
+        offersRequestError: action.errorResponse,
+        offersRequestPending: false,
       };
 
     default:

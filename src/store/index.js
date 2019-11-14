@@ -1,5 +1,7 @@
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import rootSearchSagas from './modules/fastSearch/sagas';
 
 import { APP_ENV } from 'config';
 
@@ -8,12 +10,13 @@ import searchMiddleware from './modules/search/middleware';
 import trackingMiddleware from './modules/tracking/middleware';
 
 import rootReducer from './rootReducer';
-
+const sagaMiddleware = createSagaMiddleware();
 const composedMiddleware = [
   applyMiddleware(thunk),
   applyMiddleware(authMiddleware),
   applyMiddleware(searchMiddleware),
   applyMiddleware(trackingMiddleware),
+  applyMiddleware(sagaMiddleware),
 ];
 
 // Add Redux dev tools if available in non-production environments
@@ -27,3 +30,5 @@ if (APP_ENV !== 'production') {
 const composedEnhancers = compose(...composedMiddleware);
 
 export default createStore(rootReducer, composedEnhancers);
+
+sagaMiddleware.run(rootSearchSagas);
