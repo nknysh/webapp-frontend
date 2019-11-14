@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+// @ts-ignore
 import { LodgingSummary, BookingBuilderAvailableProductSets } from 'interfaces';
 
 // @ts-ignore
