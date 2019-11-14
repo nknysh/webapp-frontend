@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { theme } from 'styles';
 import { Text, Total } from '../SummaryForm/SummaryForm.styles';
 
@@ -30,6 +30,28 @@ export const CollapseHeader = styled(Text)`
   height: 30px;
 `;
 
-export const LodgingTotal = styled(Total)``;
+export const LodgingTotal = styled(Total)`
+  margin: 0;
+  font-size: 16px;
+  line-height: auto;
 
-export const LodgingSummaryTitle = styled.h3``;
+  ${({ ['data-secondary']: secondary }) =>
+    secondary &&
+    css`
+      font-size: 14px;
+    `}
+
+  ${({ ['data-discounted']: secondary }) =>
+    secondary &&
+    css`
+      font-size: 14px;
+    `}
+`;
+
+export const LodgingSummaryTitle = styled(Text)`
+  height: 48px;
+`;
+
+export const LodgingTotalWrapper = styled.div`
+  float: right;
+`;

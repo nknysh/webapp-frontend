@@ -1240,8 +1240,6 @@ export const updateRequestedBuildLodgingMealPlan = (hotelUuid, lodgingIndex, mea
 ) => {
   const state = getState();
 
-  console.log('lodgingIndex', lodgingIndex);
-
   // get the current bookings.data.[hotelUuid].breakdown.requestedBuild.Accommodation records
   // out of the store, and then amend the one with the matching index
   const requestedBuildAccommodation = pathOr(
@@ -1261,6 +1259,28 @@ export const updateRequestedBuildLodgingMealPlan = (hotelUuid, lodgingIndex, mea
 
   // finally, we build a payload in the format needed by the `updateBooking` function
   // and dispatch an update booking action to update the booking
+  const payload = {
+    breakdown: {
+      requestedBuild: {
+        Accommodation: requestedBuildAccommodation,
+      },
+    },
+  };
+
+  return updateBooking(hotelUuid, payload)(dispatch, getState);
+};
+
+export const removeLodging = (hotelUuid, lodgingIndex) => async (dispatch, getState) => {
+  const state = getState();
+
+  const requestedBuildAccommodation = pathOr(
+    [],
+    ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
+    state
+  );
+
+  requestedBuildAccommodation.splice(lodgingIndex, 1);
+
   const payload = {
     breakdown: {
       requestedBuild: {

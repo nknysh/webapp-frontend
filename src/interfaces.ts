@@ -11,7 +11,7 @@ export interface BookingBuilderAvailableSubProductSet {
   total: string;
   totalBeforeDiscount: string;
   mandatory: boolean;
-  breakdown: object;
+  breakdown: any[];
   selected: boolean;
 }
 

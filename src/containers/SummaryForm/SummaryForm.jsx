@@ -32,7 +32,7 @@ import {
   getTitleForAccommodationUuid,
   getNightsBreakdownForDates,
   getOccupancyBreakdownForAccommodation,
-  getMealPlanBreakdownForAccommodation,
+  getMealPlanBreakdownForLodging,
 } from 'utils';
 
 import { isActive } from 'store/common';
@@ -128,7 +128,7 @@ const renderHotel = (
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
 const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <List>{mapWithIndex(renderError, errors)}</List>;
 
-const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, availableProductSets) => {
+const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, availableProductSets, potentialBooking) => {
   const handleRoomEdit = () => {
     if (editGuard) {
       return onEditGuard();
@@ -143,6 +143,9 @@ const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, avail
       lodging={lodging}
       handleRoomEditFunction={handleRoomEdit}
       availableProductSets={availableProductSets}
+      potentialBooking={potentialBooking}
+      editGuard={editGuard}
+      onEditGuard={onEditGuard}
     />
   );
 };
@@ -167,8 +170,9 @@ const renderLodgingSummaries = (t, booking, props) => {
         accommodationRequestedBuildObject.startDate,
         accommodationRequestedBuildObject.endDate
       ),
-      mealPlanBreakdown: getMealPlanBreakdownForAccommodation(
+      mealPlanBreakdown: getMealPlanBreakdownForLodging(
         accommodationRequestedBuildObject,
+        index,
         breakdown.availableProductSets
       ),
       occupancyBreakdown: getOccupancyBreakdownForAccommodation(accommodationRequestedBuildObject),
@@ -182,7 +186,14 @@ const renderLodgingSummaries = (t, booking, props) => {
         <p key={error}>{error}</p>
       ))}
       {lodgingSummaries.map(l =>
-        renderLodgingSummary(l, setModalId, editGuard, onEditGuard, breakdown.availableProductSets)
+        renderLodgingSummary(
+          l,
+          setModalId,
+          editGuard,
+          onEditGuard,
+          breakdown.availableProductSets,
+          breakdown.potentialBooking
+        )
       )}
     </React.Fragment>
   );

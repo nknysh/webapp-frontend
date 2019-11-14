@@ -83,35 +83,45 @@ export const getOccupancyBreakdownForAccommodation = (accommodation: RequestedBu
   return `${totalGuests} ${totalGuests > 1 ? 'Guests' : 'Guest'} (${adultsBreakdownString})`;
 };
 
-export const getMealPlanBreakdownForAccommodation = (
-  accommodation: RequestedBuildAccommodation,
+export const getMealPlanBreakdownForLodging = (
+  requestedBuildLodging: RequestedBuildAccommodation,
+  index: number,
   availableProductSets: BookingBuilderAvailableProductSets
 ) => {
-  if (!accommodation || !accommodation.subProducts['Meal Plan']) {
+  if (!requestedBuildLodging || !requestedBuildLodging.subProducts['Meal Plan']) {
     return null;
   }
 
-  const selectedMealPlanIds = accommodation.subProducts['Meal Plan'].map(mealPlanSubProduct => {
-    return mealPlanSubProduct.uuid;
-  });
+  const availableProductAccommodation = availableProductSets.Accommodation[index];
 
-  let mealPlanTitles: string[] = [];
+  if (!availableProductAccommodation) {
+    return null;
+  }
 
-  availableProductSets.Accommodation.forEach(accommodation => {
-    if (mealPlanTitles.length) {
-      return;
-    }
+  const selectedMealPlanSet = availableProductAccommodation.availableSubProductSets['Meal Plan'].filter(mealPlanSet => {
+    return mealPlanSet.selected;
+  })[0];
 
-    accommodation.availableSubProductSets['Meal Plan'].forEach(mealPlanSubProduct => {
-      mealPlanSubProduct.products.forEach(mealPlanProduct => {
-        if (selectedMealPlanIds.includes(mealPlanProduct.uuid)) {
-          mealPlanTitles.push(mealPlanProduct.name);
-        }
-      });
-    });
-  });
+  // we have the selected meal plan set
+  if (!selectedMealPlanSet) {
+    return null;
+  }
 
-  return mealPlanTitles.join('&');
+  const labelNames: any[] = selectedMealPlanSet.products.map(p => p.name);
+  const labelOffers: any[] = flatten(
+    uniq(
+      selectedMealPlanSet.breakdown.map(b => {
+        return b.offers.map(o => o.offer.name);
+      })
+    )
+  );
+
+  return (
+    <span>
+      {labelNames}{' '}
+      {labelOffers && <MealPlanRatePrice data-discount="true">{labelOffers.join(' & ')}</MealPlanRatePrice>}
+    </span>
+  );
 };
 
 export const getAvailableMealPlansForAccommodation = (
@@ -169,6 +179,21 @@ export const getAvailableMealPlansForAccommodation = (
   return availableMealPlans;
 };
 
+export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any) => {
+  const selectedLodging = potentialBooking.Accommodation[lodging.index];
+
+  if (!selectedLodging) {
+    return {
+      total: null,
+      totalBeforeDiscount: null,
+    };
+  }
+  return {
+    total: selectedLodging.total,
+    totalBeforeDiscount: selectedLodging.totalBeforeDiscount,
+  };
+};
+
 export const getSelectedSupplementsForLodging = (
   lodging: LodgingSummary,
   availableProductSets: BookingBuilderAvailableProductSets
@@ -187,11 +212,22 @@ export const getSelectedSupplementsForLodging = (
   }
 };
 
-export const getLodgingTotals = (lodging: LodgingSummary, availableProductSets: BookingBuilderAvailableProductSets) => {
-  const selectedLodging = availableProductSets.Accommodation.filter((a, i) => i === lodging.index)[0];
+export const getAppliedOffersForLodging = (lodging: LodgingSummary, potentialBooking: any) => {
+  try {
+    // get all the offers for the lodging itself
+    const lodgingOffers = potentialBooking.Accommodation[lodging.index].offers.map(o => {
+      return o.offer.name;
+    });
 
-  return {
-    total: selectedLodging.total,
-    totalBeforeDiscount: selectedLodging.totalBeforeDiscount,
-  };
+    // get the meal plan offers
+    const lodgingSubProductOffers = potentialBooking.Accommodation[lodging.index].subProducts['Meal Plan'].map(m => {
+      return m.offers.map(o => {
+        return o.offer.name;
+      });
+    });
+
+    return flatten([lodgingOffers, lodgingSubProductOffers]);
+  } catch (e) {
+    return [];
+  }
 };

@@ -6,11 +6,10 @@ import {
   updateRequestedBuildLodgingDates,
   updateRequestedBuildLodgingMealPlan,
   getBookingCurrencySymbol,
+  removeLodging,
 } from 'store/modules/bookings';
 
 export const mapStateToProps = (state, { hotelUuid }) => {
-  console.log('id', hotelUuid);
-
   return {
     currencyCode: getBookingCurrencySymbol(state, hotelUuid),
   };
@@ -27,6 +26,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateRequestedBuildLodgingMealPlan: pipe(
     updateRequestedBuildLodgingMealPlan,
+    dispatch
+  ),
+  removeLodging: pipe(
+    removeLodging,
     dispatch
   ),
 });

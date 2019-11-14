@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
-import { compose, clone } from 'ramda';
-// @ts-ignore
-import { Icon } from '@material-ui/core';
-
-// @ts-ignore
-import { Text } from 'components';
-// @ts-ignore
-import { isNilOrEmpty } from 'ramda-adjunct';
 
 import { LodgingSummary, BookingBuilderAvailableProductSets } from 'interfaces';
 
 // @ts-ignore
-import { getAvailableMealPlansForAccommodation, getSelectedSupplementsForLodging, getLodgingTotals } from 'utils';
+import { isNilOrEmpty } from 'ramda-adjunct';
+import { compose, clone } from 'ramda';
+import {
+  formatPrice,
+  getAvailableMealPlansForAccommodation,
+  getSelectedSupplementsForLodging,
+  getLodgingTotals,
+  getAppliedOffersForLodging,
+  // @ts-ignore
+} from 'utils';
 
 // @ts-ignore
-import { DatePicker, RadioButton, NumberSelect } from '@pure-escapes/webapp-ui-components';
-import connect from './LodgingSummary.state';
+import { Icon } from '@material-ui/core';
+
+import { Text } from '../SummaryForm/SummaryForm.styles';
+
+// @ts-ignore
+import { DatePicker, RadioButton, NumberSelect, Button } from '@pure-escapes/webapp-ui-components';
 
 import {
   LodgingSummaryCard,
@@ -23,26 +28,48 @@ import {
   CollapseHeader,
   LodgingSummaryTitle,
   LodgingTotal,
+  LodgingTotalWrapper,
 } from './LodgingSummary.styles';
-
-const CollapseToggle = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: Function }) => {
-  return (
-    <CollapseButton onClick={() => onClick(!isCollapsed)}>
-      {isCollapsed ? <Icon>keyboard_arrow_down</Icon> : <Icon>keyboard_arrow_up</Icon>}
-    </CollapseButton>
-  );
-};
+import connect from './LodgingSummary.state';
 
 export const LodgingSummaryRender = props => {
   const lodging: LodgingSummary = props.lodging;
   const availableProductSets: BookingBuilderAvailableProductSets = props.availableProductSets;
+  const potentialBooking: any = props.potentialBooking;
+
   const updateRequestedBuildLodgingGuestAges: Function = props.updateRequestedBuildLodgingGuestAges;
   const updateRequestedBuildLodgingDates: Function = props.updateRequestedBuildLodgingDates;
   const updateRequestedBuildLodgingMealPlan: Function = props.updateRequestedBuildLodgingMealPlan;
+  const removeLodging: Function = props.removeLodging;
+
   const currencyCode: string = props.currencyCode;
+  const editGuard: boolean = props.editGuard;
+  const onEditGuard: Function = props.onEditGuard;
 
   const supplements = getSelectedSupplementsForLodging(lodging, availableProductSets);
-  const lodgingTotals = getLodgingTotals(lodging, availableProductSets);
+  const lodgingTotals = getLodgingTotals(lodging, potentialBooking);
+  const appliedOffers = getAppliedOffersForLodging(lodging, potentialBooking);
+
+  // const offers =
+  console.log('appliedOffers', appliedOffers);
+
+  /**
+   * handles opening/closing collapsables. makes use of editGuard and onEditGuard
+   */
+  const CollapseToggle = ({ isCollapsed, onClick }: { isCollapsed: boolean; onClick: Function }) => {
+    return (
+      <CollapseButton
+        onClick={() => {
+          if (editGuard) {
+            return onEditGuard();
+          }
+          onClick(!isCollapsed);
+        }}
+      >
+        {isCollapsed ? <Icon>keyboard_arrow_down</Icon> : <Icon>keyboard_arrow_up</Icon>}
+      </CollapseButton>
+    );
+  };
 
   const OccupancyEditor = ({ onUpdate }: { onUpdate: Function }) => {
     const [numberOfAdults, setNumberOfAdults] = useState(lodging.guestAges.numberOfAdults);
@@ -225,28 +252,49 @@ export const LodgingSummaryRender = props => {
     );
   };
 
-  console.log('supplements', supplements);
-
   return (
     <LodgingSummaryCard className="lodging-summary">
-      <Text>
+      <LodgingSummaryTitle>
         <strong>{lodging.title}</strong>
-        <div>
-          <Text>{lodgingTotals.total}</Text>
-          {lodgingTotals.totalBeforeDiscount && <Text>{lodgingTotals.totalBeforeDiscount}</Text>}
-        </div>
-      </Text>
+        <LodgingTotalWrapper>
+          <LodgingTotal data-discounted={true}>
+            {currencyCode}
+            {formatPrice(lodgingTotals.total)}
+          </LodgingTotal>
+          {lodgingTotals.totalBeforeDiscount && (
+            <LodgingTotal data-secondary={true}>
+              {currencyCode}
+              {formatPrice(lodgingTotals.totalBeforeDiscount)}
+            </LodgingTotal>
+          )}
+        </LodgingTotalWrapper>
+      </LodgingSummaryTitle>
       <DateCollapsible />
       <OccupancyCollapsible />
       <MealPlanCollapsible />
       {supplements && supplements.length >= 1 && (
         <div>
-          <label>Supplements</label>
+          <label>Applied Supplements</label>
           {supplements.map(s => (
             <Text>{s}</Text>
           ))}
         </div>
       )}
+      {appliedOffers && appliedOffers.length >= 1 && (
+        <div>
+          <label>Applied Offers</label>
+          {appliedOffers.map(s => (
+            <Text data-discounted="true">{s}</Text>
+          ))}
+        </div>
+      )}
+      <Button
+        onClick={() => {
+          removeLodging(lodging.hotelUuid, lodging.index);
+        }}
+      >
+        Remove Lodging
+      </Button>
     </LodgingSummaryCard>
   );
 };
