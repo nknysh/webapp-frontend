@@ -1,27 +1,11 @@
 import React, { useState, Fragment, useCallback } from 'react';
-import {
-  compose,
-  groupBy,
-  head,
-  mapObjIndexed,
-  partial,
-  path,
-  pathOr,
-  pipe,
-  propOr,
-  values,
-  prop,
-  gt,
-  length,
-} from 'ramda';
+import { compose, head, partial, path, pathOr, pipe, propOr, prop, gt, length } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { Form, Input, Loader, Modal, Markdown, List } from '@pure-escapes/webapp-ui-components';
 
 import AgreeToForm from 'components/AgreeToForm';
-import { Summary } from 'components';
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
-// import SummaryRoom from 'containers/SummaryRoom';
 import LodgingSummary from 'containers/LodgingSummary';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
@@ -152,7 +136,7 @@ const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, avail
 
 const renderLodgingSummaries = (t, booking, props) => {
   const { breakdown, ...bookingData } = booking;
-  const { editGuard, onEditGuard, setModalId, ...summaryFormProps } = props;
+  const { editGuard, onEditGuard, setModalId } = props;
 
   if (!breakdown || !breakdown.requestedBuild) {
     return [];
