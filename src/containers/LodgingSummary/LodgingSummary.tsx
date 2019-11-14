@@ -9,7 +9,7 @@ import { compose, clone } from 'ramda';
 import {
   formatPrice,
   getAvailableMealPlansForAccommodation,
-  getSelectedSupplementsForLodging,
+  getAppliedSupplementsForLodging,
   getLodgingTotals,
   getAppliedOffersForLodging,
   // @ts-ignore
@@ -49,7 +49,7 @@ export const LodgingSummaryRender = props => {
   const editGuard: boolean = props.editGuard;
   const onEditGuard: Function = props.onEditGuard;
 
-  const supplements = getSelectedSupplementsForLodging(lodging, availableProductSets);
+  const appliedSupplements = getAppliedSupplementsForLodging(lodging, availableProductSets, currencyCode);
   const lodgingTotals = getLodgingTotals(lodging, potentialBooking);
   const appliedOffers = getAppliedOffersForLodging(lodging, potentialBooking);
 
@@ -299,10 +299,10 @@ export const LodgingSummaryRender = props => {
       <OccupancyCollapsible />
       <MealPlanCollapsible />
       <OccasionsCollapsible />
-      {supplements && supplements.length >= 1 && (
+      {appliedSupplements && appliedSupplements.length >= 1 && (
         <CollapseHeader>
           <label>Applied Supplements</label>
-          {supplements.map(s => (
+          {appliedSupplements.map(s => (
             <Text>{s}</Text>
           ))}
         </CollapseHeader>

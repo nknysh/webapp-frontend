@@ -214,16 +214,28 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
   };
 };
 
-export const getSelectedSupplementsForLodging = (
+export const getAppliedSupplementsForLodging = (
   lodging: LodgingSummary,
-  availableProductSets: BookingBuilderAvailableProductSets
+  availableProductSets: BookingBuilderAvailableProductSets,
+  currencyCode: string
 ) => {
   try {
-    const supplements = availableProductSets.Accommodation.filter((a, i) => i === lodging.index)[0]
-      .availableSubProductSets.Supplement;
+    const supplements = availableProductSets.Accommodation[lodging.index].availableSubProductSets.Supplement;
+
+    if (!supplements) {
+      return [];
+    }
 
     const formattedSupplements = supplements.map(supplement => {
-      return supplement.products.map(p => p.name).join(' & ');
+      return (
+        <span>
+          {supplement.products.map(p => p.name).join(' & ')}{' '}
+          <label>
+            ({currencyCode}
+            {formatPrice(supplement.total)})
+          </label>
+        </span>
+      );
     });
 
     return formattedSupplements;
