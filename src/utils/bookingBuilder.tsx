@@ -188,9 +188,29 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
       totalBeforeDiscount: null,
     };
   }
+
+  let total = 0;
+  let totalBeforeDiscount = 0;
+
+  // get base lodging prices
+  total += parseFloat(selectedLodging.total);
+  totalBeforeDiscount += parseFloat(selectedLodging.totalBeforeDiscount);
+
+  // add meal plan prices
+  selectedLodging.subProducts['Meal Plan'].forEach(mealPlan => {
+    total += parseFloat(mealPlan.total);
+    totalBeforeDiscount += parseFloat(mealPlan.totalBeforeDiscount);
+  });
+
+  // add supplement prices
+  selectedLodging.subProducts['Supplement'].forEach(supplement => {
+    total += parseFloat(supplement.total);
+    totalBeforeDiscount += parseFloat(supplement.totalBeforeDiscount);
+  });
+
   return {
-    total: selectedLodging.total,
-    totalBeforeDiscount: selectedLodging.totalBeforeDiscount,
+    total: formatPrice(total),
+    totalBeforeDiscount: formatPrice(totalBeforeDiscount),
   };
 };
 

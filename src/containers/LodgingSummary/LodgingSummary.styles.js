@@ -27,7 +27,7 @@ export const CollapseButton = styled.button`
 `;
 
 export const CollapseHeader = styled(Text)`
-  height: 30px;
+  min-height: 40px;
 `;
 
 export const LodgingTotal = styled(Total)`

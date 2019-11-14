@@ -300,20 +300,20 @@ export const LodgingSummaryRender = props => {
       <MealPlanCollapsible />
       <OccasionsCollapsible />
       {supplements && supplements.length >= 1 && (
-        <div>
+        <CollapseHeader>
           <label>Applied Supplements</label>
           {supplements.map(s => (
             <Text>{s}</Text>
           ))}
-        </div>
+        </CollapseHeader>
       )}
       {appliedOffers && appliedOffers.length >= 1 && (
-        <div>
+        <CollapseHeader>
           <label>Applied Offers</label>
           {appliedOffers.map(s => (
             <Text data-discounted="true">{s}</Text>
           ))}
-        </div>
+        </CollapseHeader>
       )}
       <Button
         onClick={() => {
