@@ -309,7 +309,7 @@ describe('bookingBuilder utils', () => {
     // it('1 accommodation with 1 product, ')
   });
 
-  describe.only('getLodgingOccassionsBreakdown', () => {
+  describe('getLodgingOccassionsBreakdown', () => {
     it('0 applied gives null', () => {
       const lodging = {};
 
