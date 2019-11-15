@@ -264,7 +264,7 @@ export const getAppliedOffersForLodging = (lodging: LodgingSummary, potentialBoo
   }
 };
 
-export const getLodgingOccassionsBreakdown = (accommodation: RequestedBuildAccommodation) => {
+export const getOccassionsBreakdownForLodging = (accommodation: RequestedBuildAccommodation) => {
   const { honeymoon, birthday, anniversary, wedding } = accommodation;
   const occasions = { honeymoon, birthday, anniversary, wedding };
 
