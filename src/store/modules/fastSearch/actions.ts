@@ -1,10 +1,19 @@
 import { Filters, OffersSearchSuccessResponse, ErrorResponse } from 'services/BackendApi';
-import { SearchQuery, SearchOptions } from 'services/BackendApi/types';
+import { SearchQuery, SearchOptions, StarRating } from 'services/BackendApi/types';
+import { Occasion } from 'services/BackendApi/types/SearchQuery';
+import { MealPlan } from '../../../services/BackendApi/types/OffersSearchResponse';
+import { MealPlanNames } from '../../../services/BackendApi/types/SearchQuery';
 
 export const DESTINATION_CHANGE = 'fastSearch/DESTINATION_CHANGE';
 export const TOGGLE_FILTER = 'fastSearch/TOGGLE_FILTER';
-export const SET_FILTER = 'fastSearch/SET_FILTER';
+export const SET_FILTERS = 'fastSearch/SET_FILTER';
+export const SET_ALL_FILTERS = 'fastSearch/SET_ALL_FILTERS';
 export const TOGGLE_REPEAT_GUEST = 'fastSearch/TOGGLE_REPEAT_GUEST';
+export const TOGGLE_STAR_RATING = 'fastSearch/TOGGLE_STAR_RATING';
+export const TOGGLE_OCCASION = 'fastSearch/TOGGLE_OCCASION';
+export const TOGGLE_REGION = 'fastSearch/TOGGLE_REGION';
+export const TOGGLE_SHOW_REGIONS = 'fastSearch/TOGGLE_SHOW_REGIONS';
+export const SELECT_MEAN_PLAN = 'fastSearch/SELECT_MEAL_PLAN';
 export const DATE_RANGE_START_CHANGE = 'fastSearch/DATE_RANGE_START_CHANGE';
 export const DATE_RANGE_END_CHANGE = 'fastSearch/DATE_RANGE_END_CHANGE';
 export const MIN_PRICE_CHANGE = 'fastSearch/MIN_PRICE_CHANGE';
@@ -51,16 +60,51 @@ export const toggleFilterAction = (filter: Filters) => ({
   filter,
 });
 
-export type SetFilterAction = ReturnType<typeof setFilterAction>;
-export const setFilterAction = (filter: Filters, value: boolean) => ({
-  type: TOGGLE_FILTER as typeof TOGGLE_FILTER,
-  filter,
+export type SetFiltersAction = ReturnType<typeof setFiltersAction>;
+export const setFiltersAction = (filters: Filters[], value: boolean) => ({
+  type: SET_FILTERS as typeof SET_FILTERS,
+  filters,
+  value,
+});
+
+export type SetAllFiltersAction = ReturnType<typeof setAllFiltersAction>;
+export const setAllFiltersAction = (value: boolean) => ({
+  type: SET_ALL_FILTERS as typeof SET_ALL_FILTERS,
   value,
 });
 
 export type ToggleRepeatGuestAction = ReturnType<typeof toggleRepeatGuestAction>;
 export const toggleRepeatGuestAction = () => ({
   type: TOGGLE_REPEAT_GUEST as typeof TOGGLE_REPEAT_GUEST,
+});
+
+export type ToggleStarRatingAction = ReturnType<typeof toggleStarRatingAction>;
+export const toggleStarRatingAction = (starRating: StarRating) => ({
+  type: TOGGLE_STAR_RATING as typeof TOGGLE_STAR_RATING,
+  starRating,
+});
+
+export type ToggleOccasionAction = ReturnType<typeof toggleOccasionAction>;
+export const toggleOccasionAction = (occasion: Occasion) => ({
+  type: TOGGLE_OCCASION as typeof TOGGLE_OCCASION,
+  occasion,
+});
+
+export type ToggleShowRegionsAction = ReturnType<typeof toggleShowRegionsAction>;
+export const toggleShowRegionsAction = () => ({
+  type: TOGGLE_SHOW_REGIONS as typeof TOGGLE_SHOW_REGIONS,
+});
+
+export type ToggleRegionAction = ReturnType<typeof toggleRegionAction>;
+export const toggleRegionAction = (region: string) => ({
+  type: TOGGLE_REGION as typeof TOGGLE_REGION,
+  region,
+});
+
+export type SelectMealPlanAction = ReturnType<typeof selectMealPlanAction>;
+export const selectMealPlanAction = (mealPlan: MealPlanNames) => ({
+  type: SELECT_MEAN_PLAN as typeof SELECT_MEAN_PLAN,
+  mealPlan,
 });
 
 export type DateRangeStartChangeAction = ReturnType<typeof dateRangeStartChangeAction>;
@@ -76,13 +120,13 @@ export const dateRangeEndChangeAction = (date: string) => ({
 });
 
 export type MinPriceChangeAction = ReturnType<typeof minPriceChangeAction>;
-export const minPriceChangeAction = (value: string) => ({
+export const minPriceChangeAction = (value: number) => ({
   type: MIN_PRICE_CHANGE as typeof MIN_PRICE_CHANGE,
   value,
 });
 
 export type MaxPriceChangeAction = ReturnType<typeof maxPriceChangeAction>;
-export const maxPriceChangeAction = (value: string) => ({
+export const maxPriceChangeAction = (value: number) => ({
   type: MAX_PRICE_CHANGE as typeof MAX_PRICE_CHANGE,
   value,
 });
@@ -172,7 +216,13 @@ export type FastSearchAction =
   | DestinationChangeAction
   | ToggleFilterAction
   | ToggleRepeatGuestAction
-  | SetFilterAction
+  | ToggleStarRatingAction
+  | ToggleOccasionAction
+  | ToggleShowRegionsAction
+  | ToggleRegionAction
+  | SelectMealPlanAction
+  | SetFiltersAction
+  | SetAllFiltersAction
   | DateRangeStartChangeAction
   | DateRangeEndChangeAction
   | MinPriceChangeAction

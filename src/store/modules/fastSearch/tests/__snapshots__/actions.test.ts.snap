@@ -16,81 +16,98 @@ Object {
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 3`] = `
 Object {
-  "type": "fastSearch/TOGGLE_REPEAT_GUEST",
+  "filters": Array [
+    "Best for Families",
+  ],
+  "type": "fastSearch/SET_FILTER",
+  "value": true,
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 4`] = `
+Object {
+  "type": "fastSearch/SET_ALL_FILTERS",
+  "value": true,
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 5`] = `
+Object {
+  "type": "fastSearch/TOGGLE_REPEAT_GUEST",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 6`] = `
 Object {
   "date": "2020-01-01",
   "type": "fastSearch/DATE_RANGE_START_CHANGE",
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 5`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 7`] = `
 Object {
   "date": "2020-01-07",
   "type": "fastSearch/DATE_RANGE_START_CHANGE",
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 6`] = `
-Object {
-  "type": "fastSearch/MIN_PRICE_CHANGE",
-  "value": "10",
-}
-`;
-
-exports[`fastSearchActions Snapshot tests Matches snapshots 7`] = `
-Object {
-  "type": "fastSearch/MAX_PRICE_CHANGE",
-  "value": "100",
-}
-`;
-
 exports[`fastSearchActions Snapshot tests Matches snapshots 8`] = `
 Object {
-  "lodgingIndex": 1,
-  "type": "fastSearch/INCREMENT_ROOM",
+  "type": "fastSearch/MIN_PRICE_CHANGE",
+  "value": 10,
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 9`] = `
 Object {
-  "lodgingIndex": 1,
-  "type": "fastSearch/DECREMENT_ROOM",
+  "type": "fastSearch/MAX_PRICE_CHANGE",
+  "value": 100,
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 10`] = `
 Object {
   "lodgingIndex": 1,
-  "type": "fastSearch/INCREMENT_ADULT",
+  "type": "fastSearch/INCREMENT_ROOM",
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 11`] = `
 Object {
   "lodgingIndex": 1,
-  "type": "fastSearch/DECREMENT_ADULT",
+  "type": "fastSearch/DECREMENT_ROOM",
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 12`] = `
 Object {
   "lodgingIndex": 1,
-  "type": "fastSearch/INCREMENT_CHILD",
+  "type": "fastSearch/INCREMENT_ADULT",
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 13`] = `
 Object {
   "lodgingIndex": 1,
-  "type": "fastSearch/DECREMENT_CHILD",
+  "type": "fastSearch/DECREMENT_ADULT",
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 14`] = `
+Object {
+  "lodgingIndex": 1,
+  "type": "fastSearch/INCREMENT_CHILD",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 15`] = `
+Object {
+  "lodgingIndex": 1,
+  "type": "fastSearch/DECREMENT_CHILD",
+}
+`;
+
+exports[`fastSearchActions Snapshot tests Matches snapshots 16`] = `
 Object {
   "childIndex": 0,
   "lodgingIndex": 0,
@@ -99,27 +116,47 @@ Object {
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 15`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 17`] = `
 Object {
+  "query": Object {
+    "endDate": "2020-01-07",
+    "filters": Array [
+      "Seaplane transfer",
+    ],
+    "lodgings": Array [
+      Object {
+        "agesOfAllChildren": Array [],
+        "honeymoon": true,
+        "numberOfAdults": 1,
+        "repeatCustomer": false,
+      },
+    ],
+    "mealPlanCategories": Array [
+      "BB",
+    ],
+    "name": "Amilla Fushi",
+    "priceRange": Object {
+      "max": 100000,
+      "min": 1,
+    },
+    "regions": Array [],
+    "starRatings": Array [
+      "5+",
+    ],
+    "startDate": "2020-01-01",
+  },
   "type": "fastSearch/OFFERS_SEARCH_REQUEST",
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 16`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 18`] = `
 Object {
   "successResponse": "test",
   "type": "fastSearch/OFFERS_SEARCH_SUCCESS",
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 17`] = `
-Object {
-  "errorResponse": "test",
-  "type": "fastSearch/OFFERS_SEARCH_FAILURE",
-}
-`;
-
-exports[`fastSearchActions Snapshot tests Matches snapshots 18`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 19`] = `
 Object {
   "errorResponse": "test",
   "type": "fastSearch/OFFERS_SEARCH_FAILURE",

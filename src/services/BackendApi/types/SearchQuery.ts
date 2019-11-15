@@ -1,7 +1,7 @@
 // TODO: Backend API In future, this should be a package of it's own
 
 export enum MealPlanNames {
-  ANY = '',
+  ANY = 'Any',
   BREAKFAST_BOARD = 'BB',
   HALF_BOARD = 'HB',
   FULL_BOARD = 'FB',

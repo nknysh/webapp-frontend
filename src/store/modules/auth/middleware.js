@@ -3,7 +3,8 @@ import { UNAUTHORIZED } from 'http-status';
 
 import { logOut, AUTH_CHECK } from './actions';
 
-const authMiddleware = ({ getState }) => next => ({ type, payload }) => {
+const authMiddleware = ({ getState }) => next => action => {
+  const { type, payload } = action;
   // If there is a type and that type is AUTH_CHECK and an action has been dispatched with '_ERROR'
   if (type && !equals(AUTH_CHECK, type) && !isEmpty(match(/_ERROR/g, type))) {
     const status = propOr(path(['response', 'status'], payload), 'status', payload);
@@ -14,7 +15,7 @@ const authMiddleware = ({ getState }) => next => ({ type, payload }) => {
     }
   }
 
-  next({ type, payload });
+  next(action);
 };
 
 export default authMiddleware;
