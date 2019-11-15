@@ -1186,7 +1186,7 @@ export const updateRequestedBuildLodgingGuestAges = (hotelUuid, lodgingIndex, ne
     ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
     state
   );
-  const lodgingToAmend = clone(requestedBuildAccommodation[lodgingIndex]);
+  const lodgingToAmend = requestedBuildAccommodation[lodgingIndex];
   lodgingToAmend.guestAges = newGuestAges;
   requestedBuildAccommodation[lodgingIndex] = lodgingToAmend;
 
@@ -1301,7 +1301,6 @@ export const updateBookingOccasions = (hotelUuid, lodgingIndex, occasions) => as
     state
   );
 
-  console.log('occasions', occasions);
   const lodging = { ...requestedBuildAccommodation[lodgingIndex], ...occasions };
 
   requestedBuildAccommodation[lodgingIndex] = lodging;

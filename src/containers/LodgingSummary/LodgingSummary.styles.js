@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { theme } from 'styles';
 import { Text, Total } from '../SummaryForm/SummaryForm.styles';
+import { Select, Button } from '@pure-escapes/webapp-ui-components';
 
 export const LodgingSummaryCard = styled.div`
   border-bottom: 1px solid ${theme.borders.default};
@@ -54,4 +55,15 @@ export const LodgingSummaryTitle = styled(Text)`
 
 export const LodgingTotalWrapper = styled.div`
   float: right;
+`;
+
+export const ChildAgeSelect = styled(Select)``;
+
+export const CollapsibleSection = styled.div`
+  margin-bottom: 20px;
+`;
+
+export const ButtonSmall = styled(Button)`
+  font-size: 14px;
+  padding: 10px;
 `;
