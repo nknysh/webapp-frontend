@@ -1,18 +1,11 @@
 import * as Actions from './actions';
-import {
-  SearchQuery,
-  HotelResult,
-  ErrorResponse,
-  MealPlanNames,
-  Filters,
-  StarRating,
-  SearchOptions,
-} from 'services/BackendApi';
+import { SearchQuery, HotelResult, ErrorResponse, MealPlanNames, StarRating, SearchOptions } from 'services/BackendApi';
 
 export interface FastSearchDomain {
   options: SearchOptions | null; // We should look at using fp-ts to make use of `Option` types
   showRegions: boolean;
   showDatePicker: boolean;
+  activeLodgingIndex: number;
 
   offersRequestPending: boolean;
   offersRequestError: ErrorResponse | null;
@@ -33,12 +26,19 @@ export const initialState: FastSearchDomain = {
   offersRequestPending: false,
   offersRequestError: null,
   optionsRequestError: null,
+  activeLodgingIndex: 0,
   query: {
     name: 'Maldives',
     lodgings: [
       {
         numberOfAdults: 2,
-        agesOfAllChildren: [],
+        agesOfAllChildren: [1, 2, 4],
+        repeatCustomer: false,
+        honeymoon: true,
+      },
+      {
+        numberOfAdults: 2,
+        agesOfAllChildren: [5],
         repeatCustomer: false,
         honeymoon: true,
       },

@@ -1,8 +1,5 @@
 import { Filters, OffersSearchSuccessResponse, ErrorResponse } from 'services/BackendApi';
-import { SearchQuery, SearchOptions, StarRating } from 'services/BackendApi/types';
-import { Occasion } from 'services/BackendApi/types/SearchQuery';
-import { MealPlan } from '../../../services/BackendApi/types/OffersSearchResponse';
-import { MealPlanNames } from '../../../services/BackendApi/types/SearchQuery';
+import { SearchQuery, SearchOptions, StarRating, Occasion, MealPlanNames } from 'services/BackendApi/types';
 
 export const DESTINATION_CHANGE = 'fastSearch/DESTINATION_CHANGE';
 export const TOGGLE_FILTER = 'fastSearch/TOGGLE_FILTER';
@@ -19,12 +16,10 @@ export const DATE_RANGE_END_CHANGE = 'fastSearch/DATE_RANGE_END_CHANGE';
 export const MIN_PRICE_CHANGE = 'fastSearch/MIN_PRICE_CHANGE';
 export const MAX_PRICE_CHANGE = 'fastSearch/MAX_PRICE_CHANGE';
 export const INCREMENT_ROOM = 'fastSearch/INCREMENT_ROOM';
-export const DECREMENT_ROOM = 'fastSearch/DECREMENT_ROOM';
+export const SET_ACTIVE_LODGING_INDEX = 'fastSearch/SET_ACTIVE_LODGING_INDEX';
 export const INCREMENT_ADULT = 'fastSearch/INCREMENT_ADULT';
-export const DECREMENT_ADULT = 'fastSearch/DECREMENT_ADULT';
 export const INCREMENT_CHILD = 'fastSearch/INCREMENT_CHILD';
-export const DECREMENT_CHILD = 'fastSearch/DECREMENT_CHILD';
-export const AGE_CHANGE = 'fastSearch/AGE_CHANGE';
+export const SET_AGE = 'fastSearch/SET_AGE';
 export const OFFERS_SEARCH_REQUEST = 'fastSearch/OFFERS_SEARCH_REQUEST';
 export const OFFERS_SEARCH_SUCCESS = 'fastSearch/OFFERS_SEARCH_SUCCESS';
 export const OFFERS_SEARCH_FAILURE = 'fastSearch/OFFERS_SEARCH_FAILURE';
@@ -132,44 +127,34 @@ export const maxPriceChangeAction = (value: number) => ({
 });
 
 export type IncrementRoomAction = ReturnType<typeof incrementRoomAction>;
-export const incrementRoomAction = (lodgingIndex: number) => ({
+export const incrementRoomAction = (step: number) => ({
   type: INCREMENT_ROOM as typeof INCREMENT_ROOM,
-  lodgingIndex,
+  step,
 });
 
-export type DecrementRoomAction = ReturnType<typeof decrementRoomAction>;
-export const decrementRoomAction = (lodgingIndex: number) => ({
-  type: DECREMENT_ROOM as typeof DECREMENT_ROOM,
-  lodgingIndex,
+export type SetActiveLodgingIndexAction = ReturnType<typeof setActiveLodgingIndexAction>;
+export const setActiveLodgingIndexAction = (index: number) => ({
+  type: SET_ACTIVE_LODGING_INDEX as typeof SET_ACTIVE_LODGING_INDEX,
+  index,
 });
 
 export type IncrementAdultAction = ReturnType<typeof incrementAdultAction>;
-export const incrementAdultAction = (lodgingIndex: number) => ({
+export const incrementAdultAction = (lodgingIndex: number, step: number) => ({
   type: INCREMENT_ADULT as typeof INCREMENT_ADULT,
   lodgingIndex,
-});
-
-export type DecrementAdultAction = ReturnType<typeof decrementAdultAction>;
-export const decrementAdultAction = (lodgingIndex: number) => ({
-  type: DECREMENT_ADULT as typeof DECREMENT_ADULT,
-  lodgingIndex,
+  step,
 });
 
 export type IncrementChildAction = ReturnType<typeof incrementChildAction>;
-export const incrementChildAction = (lodgingIndex: number) => ({
+export const incrementChildAction = (lodgingIndex: number, step: number) => ({
   type: INCREMENT_CHILD as typeof INCREMENT_CHILD,
   lodgingIndex,
+  step,
 });
 
-export type DecrementChildAction = ReturnType<typeof decrementChildAction>;
-export const decrementChildAction = (lodgingIndex: number) => ({
-  type: DECREMENT_CHILD as typeof DECREMENT_CHILD,
-  lodgingIndex,
-});
-
-export type AgeChangeAction = ReturnType<typeof ageChangeAction>;
-export const ageChangeAction = (lodgingIndex: number, childIndex: number, value: string) => ({
-  type: AGE_CHANGE as typeof AGE_CHANGE,
+export type SetAgeAction = ReturnType<typeof setAgeAction>;
+export const setAgeAction = (lodgingIndex: number, childIndex: number, value: string) => ({
+  type: SET_AGE as typeof SET_AGE,
   lodgingIndex,
   childIndex,
   value,
@@ -228,15 +213,13 @@ export type FastSearchAction =
   | MinPriceChangeAction
   | MaxPriceChangeAction
   | IncrementRoomAction
-  | DecrementRoomAction
   | IncrementAdultAction
-  | DecrementAdultAction
   | IncrementChildAction
-  | DecrementChildAction
-  | AgeChangeAction
+  | SetAgeAction
   | SearchRequestAction
   | OffersSearchSuccessAction
   | OffersSearchFailureAction
   | OptionsRequestAction
   | OptionsSuccessAction
-  | OptionsFailureAction;
+  | OptionsFailureAction
+  | SetActiveLodgingIndexAction;

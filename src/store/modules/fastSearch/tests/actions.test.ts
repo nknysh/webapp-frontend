@@ -16,12 +16,9 @@ describe('fastSearchActions Snapshot tests', () => {
     expect(Actions.minPriceChangeAction(10)).toMatchSnapshot();
     expect(Actions.maxPriceChangeAction(100)).toMatchSnapshot();
     expect(Actions.incrementRoomAction(1)).toMatchSnapshot();
-    expect(Actions.decrementRoomAction(1)).toMatchSnapshot();
-    expect(Actions.incrementAdultAction(1)).toMatchSnapshot();
-    expect(Actions.decrementAdultAction(1)).toMatchSnapshot();
-    expect(Actions.incrementChildAction(1)).toMatchSnapshot();
-    expect(Actions.decrementChildAction(1)).toMatchSnapshot();
-    expect(Actions.ageChangeAction(0, 0, '10')).toMatchSnapshot();
+    expect(Actions.incrementAdultAction(1, 1)).toMatchSnapshot();
+    expect(Actions.incrementChildAction(1, 1)).toMatchSnapshot();
+    expect(Actions.setAgeAction(0, 0, '10')).toMatchSnapshot();
     expect(Actions.offersSearchRequestAction(sampleQuery)).toMatchSnapshot();
     expect(Actions.offersSearchSuccessAction('test' as any)).toMatchSnapshot();
     expect(Actions.offersSearchFailureAction('test' as any)).toMatchSnapshot();

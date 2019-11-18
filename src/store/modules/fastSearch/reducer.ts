@@ -1,8 +1,18 @@
-import { without, difference, omit } from 'ramda';
+import { without, difference, omit, dropLast, update } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
-import { Filters, MealPlan, MealPlanNames } from '../../../services/BackendApi';
-import { TOGGLE_OCCASION, SELECT_MEAN_PLAN, TOGGLE_SHOW_REGIONS, TOGGLE_REGION } from './actions';
+import { Filters, Lodging } from 'services/BackendApi';
+
+const defaultAge = 7;
+const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
+  const lodgingStub: Lodging = {
+    numberOfAdults: 0,
+    agesOfAllChildren: [],
+    repeatCustomer: false,
+  };
+
+  return existingLodging ? { ...existingLodging, ...lodgingStub } : { ...lodgingStub };
+};
 
 export default function fastSearchReducer(
   state: FastSearchDomain = initialState,
@@ -185,6 +195,77 @@ export default function fastSearchReducer(
         query: {
           ...state.query,
           priceRange: { ...state.query.priceRange, max: action.value },
+        },
+      };
+
+    // ------------------------------------------------------
+    // Lodgings
+    // TODO: Break out into subReducer
+    // ------------------------------------------------------
+    case Actions.INCREMENT_ROOM:
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          lodgings:
+            action.step > 0
+              ? [...state.query.lodgings, makeLodgingStub(state.query.lodgings[0])]
+              : dropLast(1, state.query.lodgings),
+        },
+      };
+
+    case Actions.SET_ACTIVE_LODGING_INDEX:
+      return {
+        ...state,
+        activeLodgingIndex: action.index,
+      };
+
+    case Actions.INCREMENT_ADULT:
+      const current = state.query.lodgings[action.lodgingIndex];
+      const newLodging: Lodging = {
+        ...current,
+        numberOfAdults: current.numberOfAdults + action.step,
+      };
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          lodgings: update(action.lodgingIndex, newLodging, state.query.lodgings),
+        },
+      };
+
+    case Actions.INCREMENT_CHILD:
+      const currentWithAges: Lodging = state.query.lodgings[action.lodgingIndex];
+      const currentAges: number[] = currentWithAges.agesOfAllChildren || [];
+      const newAges = action.step > 0 ? [...currentAges, defaultAge] : dropLast(1, currentAges);
+      const newLodgingWithAhes: Lodging = {
+        ...currentWithAges,
+        agesOfAllChildren: newAges,
+      };
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          lodgings: update(action.lodgingIndex, newLodgingWithAhes, state.query.lodgings),
+        },
+      };
+
+    case Actions.SET_AGE:
+      const updatedAges: number[] = update(
+        action.childIndex,
+        parseInt(action.value, 10),
+        state.query.lodgings[action.lodgingIndex].agesOfAllChildren || []
+      );
+
+      const updatedLodging: Lodging = {
+        ...state.query.lodgings[action.lodgingIndex],
+        agesOfAllChildren: updatedAges,
+      };
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          lodgings: update(action.lodgingIndex, updatedLodging, state.query.lodgings),
         },
       };
 

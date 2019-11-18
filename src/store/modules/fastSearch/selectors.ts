@@ -65,3 +65,8 @@ export const showRegionsSelector = createSelector(
   fastSearchDomain,
   (domain): FastSearchDomain['showRegions'] => domain.showRegions
 );
+
+export const activeLodingIndexSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['activeLodgingIndex'] => domain.activeLodgingIndex
+);

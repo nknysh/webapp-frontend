@@ -6,6 +6,10 @@ const StyledFastSearchContainer = styled.div`
   grid-template-columns: 0.25fr 0.75fr;
   grid-column-gap: 1rem;
 
+  width: 100%;
+  max-width: 1280px;
+  margin: 2rem 1rem;
+
   .sideBar {
     grid-area: sideBar;
   }
@@ -22,6 +26,9 @@ const StyledFastSearchContainer = styled.div`
     img {
       width: 300px;
     }
+  }
+
+  .searchResult {
   }
 `;
 

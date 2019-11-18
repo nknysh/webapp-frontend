@@ -6,6 +6,7 @@ import StyledFastSearchContainer from './styles';
 import { SearchSettings } from 'pureUi/SearchSettings';
 import { RangeInput } from 'pureUi/RangeInput';
 import { RangeValueType } from '../../pureUi/RangeInput/index';
+import { LodgingsEditor } from '../../pureUi/LodgingsEditor/index';
 
 import {
   searchOptionsSelector,
@@ -28,7 +29,13 @@ import {
   toggleOccasionAction,
   toggleShowRegionsAction,
   toggleRegionAction,
-  destinationChangeAction
+  destinationChangeAction,
+  incrementRoomAction,
+  incrementAdultAction,
+  incrementChildAction,
+  setAgeAction,
+  setActiveLodgingIndexAction,
+  activeLodingIndexSelector,
 } from 'store/modules/fastSearch';
 
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
@@ -65,6 +72,16 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
         Destination <br />
         <input type="text" value={this.props.searchQuery.name} onChange={this.handleDestinationChange}/>
       </label>
+
+      <LodgingsEditor 
+        lodgings={this.props.searchQuery.lodgings}
+        activeLodgingIndex={this.props.activeLodingIndex}
+        onTabSelect={this.props.setActiveLodgingIndex}
+        onIncrementRoomCount={this.props.incrementRoom}
+        onIncrementAdultCount={this.props.incrementAdult}
+        onIncrementChildCount={this.props.incrementChild}
+        onChildAgeChange={this.props.setAge}
+      />
 
       <RangeInput 
         title="Price Range" 
@@ -103,7 +120,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
     return this.props.searchResults.map(result => {
       return (
-        <div>
+        <div key={result.name}>
           <img
             title={result.bookingBuilder.response.uploads[1] && result.bookingBuilder.response.uploads[1].displayName}
             src={result.bookingBuilder.response.uploads[1] && result.bookingBuilder.response.uploads[1].url}
@@ -121,6 +138,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   };
 
   render() {
+    console.log('Render Search Results');
     if (!this.props.searchOptions) {
       return null;
     }
@@ -158,6 +176,7 @@ const mapStateToProps = createStructuredSelector({
   activeFilters: activeFiltersSelector,
   priceRange: priceRangeSelector,
   showRegions: showRegionsSelector,
+  activeLodingIndex: activeLodingIndexSelector
 });
 
 const actionCreators = {
@@ -173,6 +192,11 @@ const actionCreators = {
   toggleShowRegions: toggleShowRegionsAction,
   toggleRegion: toggleRegionAction,
   destinationChange: destinationChangeAction,
+  incrementRoom: incrementRoomAction,
+  incrementAdult: incrementAdultAction,
+  incrementChild: incrementChildAction,
+  setAge: setAgeAction,
+  setActiveLodgingIndex: setActiveLodgingIndexAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
