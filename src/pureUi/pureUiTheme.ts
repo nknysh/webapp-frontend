@@ -1,3 +1,11 @@
+// This needsa review. The names are nonsense, and it would be better
+// to name colors by their role, not what they look like. e.g.,
+// - primaryActionColor
+// - secondaryActionColor
+// - neutralColor
+// - text
+// ...etc
+
 export const colors = {
   gold: '#A18265',
   goldDark: '#382A21',
@@ -17,11 +25,11 @@ export const colors = {
   whiteOpacity2: 'rgba(255,255,255, 0.9)',
 
   gray: '#EAEAEA',
-  'gray-light': '#F8F8F8',
-  'gray-medium': '#E9E8E9',
-  'gray-dark': '#E0E0E0',
-  'gray-secondary': '#E1E1E1',
-  'gray-label': '#736A65',
+  grayLight: '#F8F8F8',
+  grayMedium: '#E9E8E9',
+  grayDark: '#E0E0E0',
+  graySecondary: '#E1E1E1',
+  grayLabel: '#736A65',
 
   'gray-opacity-1': 'rgba(0,0,0,0.35)',
 
@@ -38,8 +46,15 @@ export const colors = {
   green: '#56d1bf',
 };
 
+const colorRoles = {
+  lightGreyBorder: colors.grayDark,
+};
+
 export const pureUiTheme = {
+  fontSize: '16px',
+  baseUnit: '4px',
   colors,
+  colorRoles,
 };
 
 export type PureUiTheme = typeof pureUiTheme;

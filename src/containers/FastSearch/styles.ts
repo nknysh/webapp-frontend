@@ -2,13 +2,16 @@ import styled from 'styled-components';
 
 const StyledFastSearchContainer = styled.div`
   display: grid;
-  grid-template: 'sideBar searchResults';
-  grid-template-columns: 0.25fr 0.75fr;
+  grid-template:
+    'backbutton title'
+    'sideBar searchResults';
+  grid-template-columns: 345px auto;
   grid-column-gap: 1rem;
 
-  width: 100%;
+  width: 90%;
   max-width: 1280px;
-  margin: 2rem 1rem;
+  margin: 2rem 5%;
+  align-self: center;
 
   .sideBar {
     grid-area: sideBar;
@@ -21,14 +24,8 @@ const StyledFastSearchContainer = styled.div`
   .resultsGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 0.5rem;
-
-    img {
-      width: 300px;
-    }
-  }
-
-  .searchResult {
+    grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
   }
 `;
 

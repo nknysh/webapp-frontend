@@ -6,6 +6,7 @@ export interface FastSearchDomain {
   showRegions: boolean;
   showDatePicker: boolean;
   activeLodgingIndex: number;
+  expandedHighlights: string[];
 
   offersRequestPending: boolean;
   offersRequestError: ErrorResponse | null;
@@ -27,6 +28,7 @@ export const initialState: FastSearchDomain = {
   offersRequestError: null,
   optionsRequestError: null,
   activeLodgingIndex: 0,
+  expandedHighlights: [],
   query: {
     name: 'Maldives',
     lodgings: [

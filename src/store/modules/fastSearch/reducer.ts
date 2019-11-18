@@ -2,6 +2,7 @@ import { without, difference, omit, dropLast, update } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
 import { Filters, Lodging } from 'services/BackendApi';
+import { TOGGLE_HIGHLIGHTS } from './actions';
 
 const defaultAge = 7;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
@@ -140,6 +141,17 @@ export default function fastSearchReducer(
             ? without([action.region], state.query.regions)
             : [...state.query.regions, action.region],
         },
+      };
+
+    // ------------------------------------------------------
+    // Highlights
+    // ------------------------------------------------------
+    case Actions.TOGGLE_HIGHLIGHTS:
+      return {
+        ...state,
+        expandedHighlights: state.expandedHighlights.includes(action.hotelUuid)
+          ? without([action.hotelUuid], state.expandedHighlights)
+          : [...state.expandedHighlights, action.hotelUuid],
       };
 
     // ------------------------------------------------------

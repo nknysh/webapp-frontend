@@ -10,6 +10,7 @@ export const TOGGLE_STAR_RATING = 'fastSearch/TOGGLE_STAR_RATING';
 export const TOGGLE_OCCASION = 'fastSearch/TOGGLE_OCCASION';
 export const TOGGLE_REGION = 'fastSearch/TOGGLE_REGION';
 export const TOGGLE_SHOW_REGIONS = 'fastSearch/TOGGLE_SHOW_REGIONS';
+export const TOGGLE_HIGHLIGHTS = 'fastSearch/TOGGLE_HIGHLIGHTS';
 export const SELECT_MEAN_PLAN = 'fastSearch/SELECT_MEAL_PLAN';
 export const DATE_RANGE_START_CHANGE = 'fastSearch/DATE_RANGE_START_CHANGE';
 export const DATE_RANGE_END_CHANGE = 'fastSearch/DATE_RANGE_END_CHANGE';
@@ -94,6 +95,12 @@ export type ToggleRegionAction = ReturnType<typeof toggleRegionAction>;
 export const toggleRegionAction = (region: string) => ({
   type: TOGGLE_REGION as typeof TOGGLE_REGION,
   region,
+});
+
+export type ToggleHighlightsAction = ReturnType<typeof toggleHighlightsAction>;
+export const toggleHighlightsAction = (hotelUuid: string) => ({
+  type: TOGGLE_HIGHLIGHTS as typeof TOGGLE_HIGHLIGHTS,
+  hotelUuid,
 });
 
 export type SelectMealPlanAction = ReturnType<typeof selectMealPlanAction>;
@@ -205,6 +212,7 @@ export type FastSearchAction =
   | ToggleOccasionAction
   | ToggleShowRegionsAction
   | ToggleRegionAction
+  | ToggleHighlightsAction
   | SelectMealPlanAction
   | SetFiltersAction
   | SetAllFiltersAction

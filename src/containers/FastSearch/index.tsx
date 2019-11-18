@@ -7,6 +7,8 @@ import { SearchSettings } from 'pureUi/SearchSettings';
 import { RangeInput } from 'pureUi/RangeInput';
 import { RangeValueType } from '../../pureUi/RangeInput/index';
 import { LodgingsEditor } from '../../pureUi/LodgingsEditor/index';
+import SearchResultHotel from 'pureUi/SearchResultHotel';
+import {withRouter, RouteComponentProps} from 'react-router-dom';
 
 import {
   searchOptionsSelector,
@@ -29,6 +31,7 @@ import {
   toggleOccasionAction,
   toggleShowRegionsAction,
   toggleRegionAction,
+  toggleHighlightsAction,
   destinationChangeAction,
   incrementRoomAction,
   incrementAdultAction,
@@ -36,6 +39,7 @@ import {
   setAgeAction,
   setActiveLodgingIndexAction,
   activeLodingIndexSelector,
+  expandedHighlightsSelector,
 } from 'store/modules/fastSearch';
 
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
@@ -50,8 +54,11 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   }
 
   handleDestinationChange = (e: React.FormEvent<HTMLInputElement>) => this.props.destinationChange(e.currentTarget.value)
+  
   handleRemoveAllFilters = () => this.props.setAllFilters(false);
+  
   handleSubmit = () => this.props.getOffers(this.props.searchQuery);
+  
   handlePriceRangeChange = (type: RangeValueType, value: string) => {
     if(!isNaN(parseInt(value))) {
       const action = type === 'min'
@@ -59,6 +66,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
         : this.props.maxPriceChange;
       action(parseInt(value, 10))
     }
+  }
+
+  handleSearchResultClick = (hotelUuid: string) => {
+    this.props.history.push(`/hotels/${hotelUuid}`);
   }
 
   renderSideBar = () => (
@@ -118,23 +129,14 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       return <h3>No results</h3>
     }
 
-    return this.props.searchResults.map(result => {
-      return (
-        <div key={result.name}>
-          <img
-            title={result.bookingBuilder.response.uploads[1] && result.bookingBuilder.response.uploads[1].displayName}
-            src={result.bookingBuilder.response.uploads[1] && result.bookingBuilder.response.uploads[1].url}
-          />
-          <h3>{result.name}</h3>
-          <h4>After Discount: {result.bookingBuilder.response.totals.totalForPricedItems}</h4>
-          <ul>
-            <li>Before Discount: {result.bookingBuilder.response.totals.totalBeforeDiscount}</li>
-            <li>Offers Applied: {result.bookingBuilder.response.aggregateTotals.Booking.offers.length}</li>
-            <li>Prefferd: {result.bookingBuilder.response.hotel.preferred ? 'Yes' : 'No'}</li>
-          </ul>
-        </div>
-      );
-    });
+    return this.props.searchResults.map(result => (
+      <SearchResultHotel 
+        key={result.uuid} 
+        result={result}
+        showHighlights={this.props.expandedHighlights.includes(result.uuid)}
+        onToggleHighlights={this.props.toggleHighlights}
+        onNavigateToHotel={this.handleSearchResultClick}
+        />));
   };
 
   render() {
@@ -162,7 +164,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 // -----------------------------------------------------------------------------
 export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
-export interface FastSearchProps extends StateToProps, DispatchToProps {
+export interface FastSearchProps extends StateToProps, DispatchToProps, RouteComponentProps {
   className: string;
 }
 
@@ -176,7 +178,8 @@ const mapStateToProps = createStructuredSelector({
   activeFilters: activeFiltersSelector,
   priceRange: priceRangeSelector,
   showRegions: showRegionsSelector,
-  activeLodingIndex: activeLodingIndexSelector
+  activeLodingIndex: activeLodingIndexSelector,
+  expandedHighlights: expandedHighlightsSelector
 });
 
 const actionCreators = {
@@ -197,6 +200,7 @@ const actionCreators = {
   incrementChild: incrementChildAction,
   setAge: setAgeAction,
   setActiveLodgingIndex: setActiveLodgingIndexAction,
+  toggleHighlights: toggleHighlightsAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -209,4 +213,4 @@ const withConnect = connect<StateToProps, DispatchToProps, FastSearchProps>(
   mapDispatchToProps
 );
 
-export const FastSearchContainerConnected = compose(withConnect)(FastSearchContainer);
+export const FastSearchContainerConnected = compose(withConnect, withRouter)(FastSearchContainer);

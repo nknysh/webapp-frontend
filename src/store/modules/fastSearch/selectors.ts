@@ -38,8 +38,8 @@ export const orderedSearchResults = createSelector(
     }
 
     return results.sort((a: HotelResult, b: HotelResult) => {
-      const totalA = a.bookingBuilder.response.aggregateTotals.Booking.totalForPricedItemsCents;
-      const totalB = b.bookingBuilder.response.aggregateTotals.Booking.totalForPricedItemsCents;
+      const totalA = a.bookingBuilder.response.totals.totalForPricedItemsCents;
+      const totalB = b.bookingBuilder.response.totals.totalForPricedItemsCents;
       return totalA - totalB;
     });
   }
@@ -69,4 +69,9 @@ export const showRegionsSelector = createSelector(
 export const activeLodingIndexSelector = createSelector(
   fastSearchDomain,
   (domain): FastSearchDomain['activeLodgingIndex'] => domain.activeLodgingIndex
+);
+
+export const expandedHighlightsSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['expandedHighlights'] => domain.expandedHighlights
 );
