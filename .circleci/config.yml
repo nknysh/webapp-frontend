@@ -81,6 +81,64 @@ jobs:
           aws cloudfront create-invalidation \
               --distribution-id E73FC4CF0OSGY \
               --paths /\*
+  deploy_demo:
+    <<: *docker_images
+    <<: *env_vars
+    environment:
+      NODE_ENV: develop
+      APP_ENV: develop
+      API_BASE_URL: https://client-api.demo.pure-escapes.com
+      ADMIN_BASE_URL: https://demo.pure-escapes.com/admin
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - run:
+          name: Auth with NPM private registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run:
+          name: build react app
+          command: npm i && npm run build:dev
+      - aws-cli/setup:
+          profile-name: default
+      - run: |
+          aws configure set preview.cloudfront true
+      - run: |
+          aws s3 sync ./dist s3://demo.pure-escapes.com \
+            --acl public-read --delete \
+            --cache-control max-age=31536000
+      - run: |
+          aws cloudfront create-invalidation \
+              --distribution-id E6HAGBWZNMVV2 \
+              --paths /\*
+  deploy_master:
+    <<: *docker_images
+    <<: *env_vars
+    environment:
+      NODE_ENV: production
+      APP_ENV: production
+      API_BASE_URL: https://client-api.production.pure-escapes.com
+      ADMIN_BASE_URL: https://production.pure-escapes.com/admin
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - run:
+          name: Auth with NPM private registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run:
+          name: build react app
+          command: npm i && npm run build
+      - aws-cli/setup:
+          profile-name: default
+      - run: |
+          aws configure set preview.cloudfront true
+      - run: |
+          aws s3 sync ./dist s3://production.pure-escapes.com \
+            --acl public-read --delete \
+            --cache-control max-age=31536000
+      - run: |
+          aws cloudfront create-invalidation \
+              --distribution-id E1ZNSARBE2K0BC \
+              --paths /\*
 workflows:
   version: 2
   build_and_deploy:
@@ -95,3 +153,15 @@ workflows:
           context: deployments
           requires:
             - deploy_develop
+      - deploy_demo:
+          context: deployments
+          filters:
+            branches:
+              only:
+                - demo
+      - deploy_master:
+          context: Production
+          filters:
+            branches:
+              only:
+                - master
