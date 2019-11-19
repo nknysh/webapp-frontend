@@ -53,7 +53,6 @@ import {
   values,
   view,
   when,
-  clone,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
@@ -75,7 +74,6 @@ import {
   getBookingRoomsById,
 } from './selectors';
 import { addFinalDayToBooking } from './utils';
-import LodgingSummary from 'containers/LodgingSummary/LodgingSummary';
 
 export const BOOKING_AMEND = 'BOOKING_AMEND';
 export const BOOKING_CANCEL = 'BOOKING_CANCEL';
@@ -590,7 +588,7 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
     lensPath(['bookings', 'data', id]),
     pipe(
       defaultTo({}),
-      mergeDeepRight(nextBooking)
+      mergeDeepLeft(nextBooking)
     ),
     state
   );
