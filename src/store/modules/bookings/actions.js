@@ -53,6 +53,7 @@ import {
   values,
   view,
   when,
+  clone,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
@@ -1245,7 +1246,7 @@ export const updateRequestedBuildLodgingMealPlan = (hotelUuid, lodgingIndex, mea
     ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
     state
   );
-  const lodgingToAmend = requestedBuildAccommodation[lodgingIndex];
+  const lodgingToAmend = clone(requestedBuildAccommodation[lodgingIndex]);
 
   lodgingToAmend.subProducts['Meal Plan'] = mealPlanUuids.map(mealPlanUuid => {
     return {
