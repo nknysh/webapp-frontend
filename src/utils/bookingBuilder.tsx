@@ -32,13 +32,17 @@ export const getAvailableProductSetAccommodationForUuid = (
   }
 };
 
-export const getNightsBreakdownForDates = (startDate: any, endDate: any) => {
+export const getNightsBreakdownForDates = (startDate: any, endDate: any, translate: Function) => {
   const nights = differenceInCalendarDays(new Date(endDate), new Date(startDate));
   const dateRangeText = format(new Date(startDate), 'do LLL yyyy') + ' - ' + format(new Date(endDate), 'do LLL yyyy');
+
+  const nightSigular = translate ? translate('labels.nightSigular') : 'night';
+  const nightPlural = translate ? translate('labels.nightPlural') : 'nights';
+
   return (
     <span>
       <strong>
-        {nights} {nights > 1 ? 'nights' : 'night'}
+        {nights} {nights > 1 ? nightPlural : nightSigular}
       </strong>{' '}
       | {dateRangeText}
     </span>

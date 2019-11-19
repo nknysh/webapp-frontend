@@ -153,7 +153,8 @@ const renderLodgingSummaries = (t, booking, props) => {
       title: getTitleForAccommodationUuid(accommodationRequestedBuildObject.uuid, breakdown.availableProductSets),
       nightsBreakdown: getNightsBreakdownForDates(
         accommodationRequestedBuildObject.startDate,
-        accommodationRequestedBuildObject.endDate
+        accommodationRequestedBuildObject.endDate,
+        t
       ),
       mealPlanBreakdown: getMealPlanBreakdownForLodging(
         accommodationRequestedBuildObject,

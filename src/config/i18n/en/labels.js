@@ -238,4 +238,6 @@ export default {
   removeLodging: 'Remove Lodging',
   appliedOffers: 'Applied Offers',
   appliedSupplements: 'Applied Supplements',
+  nightSigular: 'night',
+  nightPlural: 'nights',
 };
