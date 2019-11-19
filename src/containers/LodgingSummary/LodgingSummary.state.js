@@ -1,4 +1,5 @@
 import { pipe } from 'ramda';
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
 import {
@@ -16,28 +17,17 @@ export const mapStateToProps = (state, { hotelUuid }) => {
   };
 };
 
-export const mapDispatchToProps = dispatch => ({
-  updateRequestedBuildLodgingGuestAges: pipe(
-    updateRequestedBuildLodgingGuestAges,
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateRequestedBuildLodgingGuestAges,
+      updateRequestedBuildLodgingDates,
+      updateRequestedBuildLodgingMealPlan,
+      removeLodging,
+      updateBookingOccasions,
+    },
     dispatch
-  ),
-  updateRequestedBuildLodgingDates: pipe(
-    updateRequestedBuildLodgingDates,
-    dispatch
-  ),
-  updateRequestedBuildLodgingMealPlan: pipe(
-    updateRequestedBuildLodgingMealPlan,
-    dispatch
-  ),
-  removeLodging: pipe(
-    removeLodging,
-    dispatch
-  ),
-  updateBookingOccasions: pipe(
-    updateBookingOccasions,
-    dispatch
-  ),
-});
+  );
 
 export default connect(
   mapStateToProps,

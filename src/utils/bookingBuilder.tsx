@@ -184,8 +184,8 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
 
   if (!selectedLodging) {
     return {
-      total: null,
-      totalBeforeDiscount: null,
+      total: 0,
+      totalBeforeDiscount: 0,
     };
   }
 
@@ -269,7 +269,7 @@ export const getOccassionsBreakdownForLodging = (accommodation: RequestedBuildAc
   const occasions = { honeymoon, birthday, anniversary, wedding };
 
   const appliedOccasions = Object.keys(occasions)
-    .map(o => (occasions[o] ? o.toUpperCase() : null))
+    .map(o => (occasions[o] ? o : null))
     .filter(Boolean);
 
   if (appliedOccasions.length <= 0) {

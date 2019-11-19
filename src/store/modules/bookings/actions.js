@@ -53,7 +53,6 @@ import {
   values,
   view,
   when,
-  clone,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
@@ -75,7 +74,6 @@ import {
   getBookingRoomsById,
 } from './selectors';
 import { addFinalDayToBooking } from './utils';
-import LodgingSummary from 'containers/LodgingSummary/LodgingSummary';
 
 export const BOOKING_AMEND = 'BOOKING_AMEND';
 export const BOOKING_CANCEL = 'BOOKING_CANCEL';
@@ -590,7 +588,7 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
     lensPath(['bookings', 'data', id]),
     pipe(
       defaultTo({}),
-      mergeDeepLeft(nextBooking)
+      mergeDeepRight(nextBooking)
     ),
     state
   );
@@ -1216,7 +1214,7 @@ export const updateRequestedBuildLodgingDates = (hotelUuid, lodgingIndex, startD
     ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
     state
   );
-  const lodgingToAmend = clone(requestedBuildAccommodation[lodgingIndex]);
+  const lodgingToAmend = requestedBuildAccommodation[lodgingIndex];
   lodgingToAmend.startDate = formatDate(startDate);
   lodgingToAmend.endDate = formatDate(endDate);
   requestedBuildAccommodation[lodgingIndex] = lodgingToAmend;
@@ -1247,7 +1245,7 @@ export const updateRequestedBuildLodgingMealPlan = (hotelUuid, lodgingIndex, mea
     ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
     state
   );
-  const lodgingToAmend = clone(requestedBuildAccommodation[lodgingIndex]);
+  const lodgingToAmend = requestedBuildAccommodation[lodgingIndex];
 
   lodgingToAmend.subProducts['Meal Plan'] = mealPlanUuids.map(mealPlanUuid => {
     return {
@@ -1301,9 +1299,11 @@ export const updateBookingOccasions = (hotelUuid, lodgingIndex, occasions) => as
     state
   );
 
-  const lodging = { ...requestedBuildAccommodation[lodgingIndex], ...occasions };
+  let lodgingToAmend = requestedBuildAccommodation[lodgingIndex];
 
-  requestedBuildAccommodation[lodgingIndex] = lodging;
+  lodgingToAmend = { ...lodgingToAmend, ...occasions };
+
+  requestedBuildAccommodation[lodgingIndex] = lodgingToAmend;
 
   const payload = {
     breakdown: {
