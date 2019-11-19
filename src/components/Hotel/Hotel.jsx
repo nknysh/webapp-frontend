@@ -84,6 +84,7 @@ export const Hotel = ({
 
           {!isNilOrEmpty(overview) && (
             <LinkButton
+              title={showOverview ? t('labels.hideOverview') : t('labels.seeOverview')}
               aria-label={showOverview ? t('labels.hideOverview') : t('labels.seeOverview')}
               className="linkButton linkButton--in-list"
               onClick={() => setShowOverview(!showOverview)}
@@ -95,6 +96,7 @@ export const Hotel = ({
 
           {!isNilOrEmpty(highlights) && (
             <LinkButton
+              title={seeHighlights ? t('labels.hideHighlights') : t('labels.seeHighlights')}
               aria-label={seeHighlights ? t('labels.hideHighlights') : t('labels.seeHighlights')}
               className="linkButton linkButton--in-list"
               onClick={() => setSeeHighlights(!seeHighlights)}
@@ -106,6 +108,7 @@ export const Hotel = ({
 
           {!isNilOrEmpty(amenities) && (
             <LinkButton
+              title={showAmenities ? t('labels.hideAmenities') : t('labels.seeAmenities')}
               className="linkButton linkButton--in-list"
               aria-label={showAmenities ? t('labels.hideAmenities') : t('labels.seeAmenities')}
               onClick={() => setShowAmenities(!showAmenities)}

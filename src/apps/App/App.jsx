@@ -12,9 +12,6 @@ import { withUser } from 'hoc';
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 
-import { tsTest } from 'store/modules/fastSearch';
-console.log(tsTest(1, 'hello'));
-
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange }) => {
   // Scroll to top on path change
   useScrollToTop(pathname);
