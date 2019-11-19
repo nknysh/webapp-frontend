@@ -34,7 +34,7 @@ import { RadioButton, Modal, Loader, Button, ToolTip } from '@pure-escapes/webap
 
 import { ProductTypes } from 'config/enums';
 
-import { SummaryFormMargin, IndexSearch, Summary } from 'components';
+import { SummaryFormMargin, IndexSearch, Summary, AggregateTotalsBreakdown } from 'components';
 import { useModalState, useFetchData } from 'effects';
 import { withUser } from 'hoc';
 import { isString, mapWithIndex, formatPrice } from 'utils';
@@ -470,6 +470,7 @@ const renderTASelect = (
 
 export const SummaryFormExtras = ({
   addons,
+  booking,
   canBook,
   compact,
   currencyCode,
@@ -660,6 +661,14 @@ export const SummaryFormExtras = ({
         compactEdit,
         onEditClick,
       })}
+
+      {booking && booking.breakdown && booking.breakdown.aggregateTotals && (
+        <React.Fragment>
+          <Title>{t('labels.totalCostBreakdown')}</Title>
+          <AggregateTotalsBreakdown currencyCode={currencyCode} aggregateTotals={booking.breakdown.aggregateTotals} />
+        </React.Fragment>
+      )}
+
       {renderTASelect(t, {
         currencyCode,
         summaryOnly,

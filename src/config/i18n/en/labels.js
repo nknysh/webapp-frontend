@@ -229,4 +229,5 @@ export default {
   roomsAndGuestSelection: 'Rooms & Guests Selection',
   mealPlanOffersAvailable: 'Meal plan offers available',
   invalidPriceRange: 'Min must be greater than Max',
+  totalCostBreakdown: 'Total Cost Breakdown',
 };

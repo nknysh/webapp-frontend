@@ -302,6 +302,7 @@ const renderForm = (
           onEditGuard={onEditGuard}
           summaryOnly={summaryOnly}
           values={values}
+          booking={booking}
         />
         {renderSummaryErrors(errors)}
         {children({ booking })}
