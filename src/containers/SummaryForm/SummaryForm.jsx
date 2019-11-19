@@ -153,7 +153,8 @@ const renderLodgingSummaries = (t, booking, props) => {
       title: getTitleForAccommodationUuid(accommodationRequestedBuildObject.uuid, breakdown.availableProductSets),
       nightsBreakdown: getNightsBreakdownForDates(
         accommodationRequestedBuildObject.startDate,
-        accommodationRequestedBuildObject.endDate
+        accommodationRequestedBuildObject.endDate,
+        t
       ),
       mealPlanBreakdown: getMealPlanBreakdownForLodging(
         accommodationRequestedBuildObject,
@@ -167,7 +168,7 @@ const renderLodgingSummaries = (t, booking, props) => {
 
   return (
     <React.Fragment>
-      <Title>{'Lodgings'}</Title>
+      <Title>{t('labels.lodgings')}</Title>
       {lodgingErrors.map(error => (
         <p key={error}>{error}</p>
       ))}

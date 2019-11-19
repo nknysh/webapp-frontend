@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const possibleChildAges = {
   0: '0',
@@ -29,12 +30,15 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { compose, clone } from 'ramda';
 import {
   formatPrice,
+  // @ts-ignore
+} from 'utils';
+
+import {
   getAvailableMealPlansForAccommodation,
   getAppliedSupplementsForLodging,
   getLodgingTotals,
   getAppliedOffersForLodging,
-  // @ts-ignore
-} from 'utils';
+} from '../../utils/bookingBuilder';
 
 // @ts-ignore
 import { OccasionsSelect } from 'components';
@@ -78,6 +82,7 @@ export const LodgingSummaryRender = props => {
   const lodgingTotals = getLodgingTotals(lodging, potentialBooking);
   const appliedOffers = getAppliedOffersForLodging(lodging, potentialBooking);
 
+  const { t } = useTranslation();
   /**
    * handles opening/closing collapsables. makes use of editGuard and onEditGuard
    */
@@ -118,7 +123,7 @@ export const LodgingSummaryRender = props => {
     return (
       <div>
         <div className="lodging-summary__occupancy-editor__number-of-adults">
-          <label>Number of Adults</label>
+          <label>{t('labels.numberOfAdults')}</label>
           <br />
           <div style={{ display: 'inline-block' }}>
             <NumberSelect
@@ -133,7 +138,7 @@ export const LodgingSummaryRender = props => {
         </div>
 
         <div className="lodging-summary__occupancy-editor__number-of-children">
-          <label>Number of Children</label>
+          <label>{t('labels.numberOfChildren')}</label>
           <br />
           <div style={{ display: 'inline-block' }}>
             <NumberSelect
@@ -153,7 +158,7 @@ export const LodgingSummaryRender = props => {
 
         {agesOfAllChildren.length >= 1 && (
           <div className="className='lodging-summary__occupancy-editor__specify-ages-of-children">
-            <label>Please specify ages of all children:</label>
+            <label>{t('labels.pleaseSpecifyAgesOfAllChildren')}:</label>
             <br />
             {agesOfAllChildren.map((ageOfChild, index) => {
               return (
@@ -167,7 +172,7 @@ export const LodgingSummaryRender = props => {
           </div>
         )}
 
-        <ButtonSmall onClick={handleUpdate}>Update Occupancy</ButtonSmall>
+        <ButtonSmall onClick={handleUpdate}>{t('labels.updateOccupancy')}</ButtonSmall>
       </div>
     );
   };
@@ -185,7 +190,7 @@ export const LodgingSummaryRender = props => {
     if (isNilOrEmpty(availableMealPlans)) {
       return (
         <React.Fragment>
-          <p>There are no available meal plans for the selected dates/occupancy</p>
+          <p>{t('labels.noMealPlansForDatesOccupancy')}</p>
         </React.Fragment>
       );
     }
@@ -280,6 +285,7 @@ export const LodgingSummaryRender = props => {
             onChange={e => {
               updateBookingOccasions(lodging.hotelUuid, lodging.index, e.occasions);
             }}
+            occasions={undefined} // need to specify undefined because OccassionsSelect is setup badly
             selected={lodging}
           />
         )}
@@ -312,7 +318,7 @@ export const LodgingSummaryRender = props => {
       <CollapsibleSection>
         {appliedSupplements && appliedSupplements.length >= 1 && (
           <CollapseHeader>
-            <label>Applied Supplements</label>
+            <label>{t('labels.appliedSupplements')}</label>
             {appliedSupplements.map(s => (
               <Text>{s}</Text>
             ))}
@@ -323,7 +329,7 @@ export const LodgingSummaryRender = props => {
       <CollapsibleSection>
         {appliedOffers && appliedOffers.length >= 1 && (
           <CollapseHeader>
-            <label>Applied Offers</label>
+            <label>{t('labels.appliedOffers')}</label>
             {appliedOffers.map(s => (
               <Text data-discounted="true">{s}</Text>
             ))}
@@ -335,7 +341,7 @@ export const LodgingSummaryRender = props => {
           removeLodging(lodging.hotelUuid, lodging.index);
         }}
       >
-        Remove Lodging
+        {t('labels.removeLodging')}
       </ButtonSmall>
     </LodgingSummaryCard>
   );

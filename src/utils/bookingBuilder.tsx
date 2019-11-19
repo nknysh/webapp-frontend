@@ -32,13 +32,17 @@ export const getAvailableProductSetAccommodationForUuid = (
   }
 };
 
-export const getNightsBreakdownForDates = (startDate: any, endDate: any) => {
+export const getNightsBreakdownForDates = (startDate: any, endDate: any, translate: Function) => {
   const nights = differenceInCalendarDays(new Date(endDate), new Date(startDate));
   const dateRangeText = format(new Date(startDate), 'do LLL yyyy') + ' - ' + format(new Date(endDate), 'do LLL yyyy');
+
+  const nightSigular = translate ? translate('labels.nightSigular') : 'night';
+  const nightPlural = translate ? translate('labels.nightPlural') : 'nights';
+
   return (
     <span>
       <strong>
-        {nights} {nights > 1 ? 'nights' : 'night'}
+        {nights} {nights > 1 ? nightPlural : nightSigular}
       </strong>{' '}
       | {dateRangeText}
     </span>
@@ -184,8 +188,8 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
 
   if (!selectedLodging) {
     return {
-      total: null,
-      totalBeforeDiscount: null,
+      total: 0,
+      totalBeforeDiscount: 0,
     };
   }
 
@@ -269,7 +273,7 @@ export const getOccassionsBreakdownForLodging = (accommodation: RequestedBuildAc
   const occasions = { honeymoon, birthday, anniversary, wedding };
 
   const appliedOccasions = Object.keys(occasions)
-    .map(o => (occasions[o] ? o.toUpperCase() : null))
+    .map(o => (occasions[o] ? o : null))
     .filter(Boolean);
 
   if (appliedOccasions.length <= 0) {
