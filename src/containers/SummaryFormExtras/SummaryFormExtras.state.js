@@ -18,6 +18,13 @@ import {
   updateBooking,
 } from 'store/modules/bookings';
 
+import {
+  getIsTransferSectionCollapsed,
+  getIsGroundServicesSectionCollapsed,
+  getIsAddonsSectionCollapsed,
+  setIsBookingSummarySectionCollapsed,
+} from 'store/modules/ui';
+
 export const mapStateToProps = (state, { id }) => {
   const travelAgentUserUuid = getBookingTravelAgent(state, id);
   const travelAgent = getUser(state, travelAgentUserUuid);
@@ -38,6 +45,9 @@ export const mapStateToProps = (state, { id }) => {
     travelAgent,
     users: getUsersEntities(state),
     usersStatus: getUsersStatus(state),
+    isTransferSectionCollapsed: getIsTransferSectionCollapsed(state),
+    isGroundServicesSectionCollapsed: getIsGroundServicesSectionCollapsed(state),
+    isAddonsSectionCollapsed: getIsAddonsSectionCollapsed(state),
   };
 };
 
@@ -52,6 +62,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   fetchUsers: pipe(
     fetchUsers,
+    dispatch
+  ),
+  setIsBookingSummarySectionCollapsed: pipe(
+    setIsBookingSummarySectionCollapsed,
     dispatch
   ),
 });

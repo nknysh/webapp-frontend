@@ -26,6 +26,7 @@ import {
   reduce,
   split,
   values as Rvalues,
+  flatten,
   when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
@@ -37,7 +38,8 @@ import { ProductTypes } from 'config/enums';
 import { SummaryFormMargin, IndexSearch, Summary, AggregateTotalsBreakdown } from 'components';
 import { useModalState, useFetchData } from 'effects';
 import { withUser } from 'hoc';
-import { isString, mapWithIndex, formatPrice } from 'utils';
+import { isString, mapWithIndex, formatPrice, filterByObjectProperties } from 'utils';
+import { Icon } from '@material-ui/core';
 
 import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
@@ -55,6 +57,8 @@ import {
   Title,
   TravelAgent,
   TravelAgentName,
+  CollapseToggle,
+  CollapseTitle,
 } from './SummaryFormExtras.styles';
 import {
   productsBothWays,
@@ -229,7 +233,8 @@ const renderTransferOptions = (
   productType,
   products,
   { onSingleChange, onOneWayChange, summaryOnly, values, compactEdit, onEditClick, currencyCode },
-  optional = true
+  optional = true,
+  renderTitle = true
 ) => {
   if (isNilOrEmpty(products)) return;
 
@@ -276,7 +281,7 @@ const renderTransferOptions = (
     // `renderExtra` if we have some return transfers OR some one way transfers
     (!isNilOrEmpty(bothWayOptions) || !isNilOrEmpty(oneWayOptions)) &&
     renderExtra({
-      title: t(`${type}_plural`),
+      title: renderTitle ? t(`${type}_plural`) : null,
       children: (
         <Fragment>
           <RadioButton
@@ -395,7 +400,13 @@ const renderSelect = (
       });
 };
 
-const renderExtraSelects = (t, type, products, { summaryOnly, onEditClick, compactEdit, ...props }) => {
+const renderExtraSelects = (
+  t,
+  type,
+  products,
+  { summaryOnly, onEditClick, compactEdit, ...props },
+  renderTitle = true
+) => {
   if (isNilOrEmpty(products)) return;
 
   const selectElements = map(partial(renderSelect, [t, { summaryOnly, compactEdit, ...props }]), products);
@@ -403,7 +414,7 @@ const renderExtraSelects = (t, type, products, { summaryOnly, onEditClick, compa
   return (summaryOnly && !isEmpty(selectElements)) || compactEdit
     ? ((summaryOnly && !isNilOrEmpty(filter(propEq('selected', true), products))) || compactEdit) && (
         <Summary
-          title={t(`${type}_plural`)}
+          title={renderTitle === true ? t(`${type}_plural`) : null}
           actions={
             compactEdit && (
               <ContextMenu>
@@ -494,6 +505,10 @@ export const SummaryFormExtras = ({
   updateBooking,
   usersStatus,
   values,
+  isTransferSectionCollapsed,
+  isGroundServicesSectionCollapsed,
+  isAddonsSectionCollapsed,
+  setIsBookingSummarySectionCollapsed,
 }) => {
   const { t } = useTranslation();
   const hasTASelect = isSr && !isRl;
@@ -607,6 +622,182 @@ export const SummaryFormExtras = ({
     onEditGuard,
   };
 
+  const selectedTransfersBreakdown = useCallback(() => {
+    const transfersFormatted = flatten(
+      transfers.map(transfer => {
+        return (transfer.products = transfer.products.map(product => {
+          return {
+            ...product,
+            direction: transfer.meta && transfer.meta.direction ? transfer.meta.direction : undefined,
+            nameWithDirection: `${product.name} (${
+              transfer.meta && transfer.meta.direction ? transfer.meta.direction : 'Return'
+            })`,
+          };
+        }));
+      })
+    );
+
+    const selectedTransferProducts = filterByObjectProperties(transfersFormatted, selectedTransfers, [
+      'uuid',
+      'direction',
+    ]);
+
+    if (selectedTransferProducts.length >= 1) {
+      return selectedTransferProducts.map(stp => stp.nameWithDirection).join(' & ');
+    }
+
+    return 'None selected';
+  }, [selectedTransfers, transfers]);
+
+  const selectedGroundServicesBreakdown = useCallback(() => {
+    const selectedGroundServiceProducts = filterByObjectProperties(
+      flatten(groundServices.map(g => g.products)),
+      selectedGroundServices,
+      ['uuid']
+    );
+
+    if (selectedGroundServiceProducts.length >= 1) {
+      return selectedGroundServiceProducts.map(stp => stp.name).join(' & ');
+    }
+
+    return 'None selected';
+  }, [selectedGroundServices, groundServices]);
+
+  const selectedAddonsBreakdown = useCallback(() => {
+    const selectedAddons = flatten([selectedFines, selectedSupplements]);
+
+    const selectedAddonProducts = filterByObjectProperties(flatten(addons.map(a => a.products)), selectedAddons, [
+      'uuid',
+    ]);
+
+    if (selectedAddonProducts.length >= 1) {
+      return selectedAddonProducts.map(stp => stp.name).join(' & ');
+    }
+
+    return 'None selected';
+  }, [selectedFines, selectedSupplements, addons]);
+
+  const TransfersWrapper = () => {
+    const breakdown = selectedTransfersBreakdown();
+
+    return (
+      <React.Fragment>
+        <CollapseTitle>
+          <span>
+            <label>
+              <strong>{t('labels.transfers')}</strong>
+            </label>
+            <br />
+            <label>{breakdown}</label>
+          </span>
+
+          <CollapseToggle
+            type="button"
+            onClick={() =>
+              setIsBookingSummarySectionCollapsed({
+                type: 'transfers',
+                value: !isTransferSectionCollapsed,
+              })
+            }
+          >
+            <Icon>{isTransferSectionCollapsed === false ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</Icon>
+          </CollapseToggle>
+        </CollapseTitle>
+
+        {isTransferSectionCollapsed === false &&
+          renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false, false)}
+      </React.Fragment>
+    );
+  };
+
+  const GroundServicesWrapper = () => {
+    const breakdown = selectedGroundServicesBreakdown();
+    return (
+      <React.Fragment>
+        <CollapseTitle>
+          <span>
+            <label>
+              <strong>{t('labels.groundServices')}</strong>
+            </label>
+            <br />
+            <label>{breakdown}</label>
+          </span>
+          <CollapseToggle
+            type="button"
+            onClick={() =>
+              setIsBookingSummarySectionCollapsed({
+                type: 'ground_services',
+                value: !isGroundServicesSectionCollapsed,
+              })
+            }
+          >
+            <Icon>{isGroundServicesSectionCollapsed === false ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</Icon>
+          </CollapseToggle>
+        </CollapseTitle>
+
+        {isGroundServicesSectionCollapsed === false &&
+          renderExtraSelects(
+            t,
+            'groundService',
+            groundServices,
+            {
+              currencyCode,
+              summaryOnly,
+              onMultipleChange,
+              values,
+              compactEdit,
+              onEditClick,
+            },
+            false
+          )}
+      </React.Fragment>
+    );
+  };
+
+  const AddonsWrapper = () => {
+    const breakdown = selectedAddonsBreakdown();
+    return (
+      <React.Fragment>
+        <CollapseTitle>
+          <span>
+            <label>
+              <strong>{t('labels.addons')}</strong>
+            </label>
+            <br />
+            <label>{breakdown}</label>
+          </span>
+          <CollapseToggle
+            type="button"
+            onClick={() =>
+              setIsBookingSummarySectionCollapsed({
+                type: 'addons',
+                value: !isAddonsSectionCollapsed,
+              })
+            }
+          >
+            <Icon>{isAddonsSectionCollapsed === false ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</Icon>
+          </CollapseToggle>
+        </CollapseTitle>
+
+        {isAddonsSectionCollapsed === false &&
+          renderExtraSelects(
+            t,
+            'addon',
+            addons,
+            {
+              currencyCode,
+              summaryOnly,
+              onMultipleChange,
+              values,
+              compactEdit,
+              onEditClick,
+            },
+            false
+          )}
+      </React.Fragment>
+    );
+  };
+
   let modalContent = null;
 
   switch (modalContext) {
@@ -644,31 +835,15 @@ export const SummaryFormExtras = ({
 
   return (
     <Fragment>
-      {renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false)}
-      {renderExtraSelects(t, 'groundService', groundServices, {
-        currencyCode,
-        summaryOnly,
-        onMultipleChange,
-        values,
-        compactEdit,
-        onEditClick,
-      })}
-      {renderExtraSelects(t, 'addon', addons, {
-        currencyCode,
-        summaryOnly,
-        onMultipleChange,
-        values,
-        compactEdit,
-        onEditClick,
-      })}
-
+      {transfers.length >= 1 && <TransfersWrapper />}
+      {groundServices.length >= 1 && <GroundServicesWrapper />}
+      {addons.length >= 1 && <AddonsWrapper />}
       {booking && booking.breakdown && booking.breakdown.aggregateTotals && (
         <React.Fragment>
           <Title>{t('labels.totalCostBreakdown')}</Title>
           <AggregateTotalsBreakdown currencyCode={currencyCode} aggregateTotals={booking.breakdown.aggregateTotals} />
         </React.Fragment>
       )}
-
       {renderTASelect(t, {
         currencyCode,
         summaryOnly,

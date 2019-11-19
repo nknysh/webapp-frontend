@@ -230,4 +230,6 @@ export default {
   mealPlanOffersAvailable: 'Meal plan offers available',
   invalidPriceRange: 'Min must be greater than Max',
   totalCostBreakdown: 'Total Cost Breakdown',
+  transfers: 'Transfers',
+  groundServices: 'Ground Services',
 };

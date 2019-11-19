@@ -1,4 +1,4 @@
-import { prop } from 'ramda';
+import { prop, pathOr } from 'ramda';
 
 import { createSelector } from 'store/utils';
 
@@ -55,4 +55,19 @@ export const getUiFooterMenu = createSelector(
 export const getUiNotifications = createSelector(
   getUi,
   prop('notifications')
+);
+
+export const getIsTransferSectionCollapsed = createSelector(
+  getUi,
+  pathOr(true, ['bookingSummarySections', 'transfers'])
+);
+
+export const getIsGroundServicesSectionCollapsed = createSelector(
+  getUi,
+  pathOr(true, ['bookingSummarySections', 'ground_services'])
+);
+
+export const getIsAddonsSectionCollapsed = createSelector(
+  getUi,
+  pathOr(true, ['bookingSummarySections', 'addons'])
 );
