@@ -842,6 +842,7 @@ export const SummaryFormExtras = ({
         <React.Fragment>
           <Title>{t('labels.totalCostBreakdown')}</Title>
           <AggregateTotalsBreakdown currencyCode={currencyCode} aggregateTotals={booking.breakdown.aggregateTotals} />
+          <hr />
         </React.Fragment>
       )}
       {renderTASelect(t, {

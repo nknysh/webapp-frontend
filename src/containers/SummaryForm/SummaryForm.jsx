@@ -182,6 +182,7 @@ const renderLodgingSummaries = (t, booking, props) => {
           breakdown.potentialBooking
         )
       )}
+      {lodgingSummaries.length >= 1 && <hr />}
     </React.Fragment>
   );
 };
@@ -575,15 +576,14 @@ export const SummaryForm = props => {
           overrideTotal,
           ...props,
         })}
-        <Rooms data-summary={summaryOnly} data-compact={compact}>
-          {renderLodgingSummaries(t, booking, {
-            editGuard,
-            hotelUuid,
-            onEditGuard: handleEditGuard,
-            setModalId,
-            ...props,
-          })}
-        </Rooms>
+
+        {renderLodgingSummaries(t, booking, {
+          editGuard,
+          hotelUuid,
+          onEditGuard: handleEditGuard,
+          setModalId,
+          ...props,
+        })}
         {renderForm(t, {
           editGuard,
           initialValues: formValues,

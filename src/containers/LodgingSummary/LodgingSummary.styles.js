@@ -1,10 +1,8 @@
 import styled, { css } from 'styled-components';
-import { theme } from 'styles';
 import { Text, Total } from '../SummaryForm/SummaryForm.styles';
 import { Select, Button } from '@pure-escapes/webapp-ui-components';
 
 export const LodgingSummaryCard = styled.div`
-  border-bottom: 1px solid ${theme.borders.default};
   padding-bottom: 10px;
   margin-top: 15px;
 
