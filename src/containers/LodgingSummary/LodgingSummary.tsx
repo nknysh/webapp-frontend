@@ -218,8 +218,11 @@ export const LodgingSummaryRender = props => {
 
         {!isCollapsed && (
           <DatePicker
-            label={'Date picker'}
+            label={t('labels.datePicker')}
             multiple={true}
+            dayPickerProps={{
+              month: new Date(lodging.startDate),
+            }}
             onSelected={(dateValues: { startDate: Date; from: Date; to: Date }) => {
               if (dateValues.startDate || !dateValues.from || !dateValues.to) {
                 // if we have a `startDate`, or `from` or `to` are empty, return out

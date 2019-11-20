@@ -243,4 +243,5 @@ export default {
   appliedSupplements: 'Applied Supplements',
   nightSigular: 'night',
   nightPlural: 'nights',
+  datePicker: 'Date Picker',
 };
