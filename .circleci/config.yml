@@ -36,7 +36,7 @@ jobs:
           command: npm i && npm run build:dev
       - run:
           name: Run tests
-          command: npm run test:ci
+          command: yarn test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
@@ -68,7 +68,7 @@ jobs:
           command: npm i && npm run build:dev
       - run:
           name: Run tests
-          command: npm run test:ci
+          command: yarn test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
@@ -100,7 +100,7 @@ jobs:
           command: npm i && npm run build:dev
       - run:
           name: Run tests
-          command: npm run test:ci
+          command: yarn test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
