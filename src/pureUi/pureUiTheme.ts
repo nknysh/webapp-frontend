@@ -29,25 +29,35 @@ export const colors = {
   grayMedium: '#E9E8E9',
   grayDark: '#E0E0E0',
   graySecondary: '#E1E1E1',
-  grayLabel: '#736A65',
 
-  'gray-opacity-1': 'rgba(0,0,0,0.35)',
+  grayOpacity1: 'rgba(0,0,0,0.35)',
 
-  'gray-faded': '#9d9591',
-  'gray-neutral': '#a18265',
+  grayFaded: '#9d9591', // duplicate
+  grayNeutral: '#a18265',
 
   marine: '#56D1BF',
   aqua: '#D4F3EE',
 
-  'light-blue': '#F3F9FB',
+  lightBlue: '#F3F9FB',
 
-  'red-fade': '#FD5656',
+  redFade: '#FD5656',
   yellow: '#f5a623',
   green: '#56d1bf',
 };
 
 const colorRoles = {
   lightGreyBorder: colors.grayDark,
+  areaBackground: colors.whiteish,
+  grayLabel: '#736A65',
+  error: colors.redFade,
+};
+
+const checkboxSize = 23;
+const checkboxTittleSize = 6;
+const measurements = {
+  checkboxSize,
+  checkboxTittleSize,
+  controlDottOffset: Math.floor(checkboxSize / 2) - Math.floor(checkboxTittleSize / 2),
 };
 
 export const pureUiTheme = {
@@ -55,6 +65,7 @@ export const pureUiTheme = {
   baseUnit: '4px',
   colors,
   colorRoles,
+  measurements,
 };
 
 export type PureUiTheme = typeof pureUiTheme;

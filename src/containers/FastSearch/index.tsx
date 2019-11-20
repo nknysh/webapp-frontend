@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {FormEvent} from 'react';
 import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import StyledFastSearchContainer from './styles';
-import { SearchSettings } from 'pureUi/SearchSettings';
-import { RangeInput } from 'pureUi/RangeInput';
-import { RangeValueType } from '../../pureUi/RangeInput/index';
+import SearchSettings from 'pureUi/SearchSettings';
+import TextInput from 'pureUi/TextInput';
+import { RangeValueType} from 'pureUi/RangeInput';
 import { LodgingsEditor } from '../../pureUi/LodgingsEditor/index';
 import SearchResultHotel from 'pureUi/SearchResultHotel';
-import {withRouter, RouteComponentProps} from 'react-router-dom';
+import {Link, withRouter, RouteComponentProps} from 'react-router-dom';
+import { Heading2 } from 'styles';
+import { PrimaryButton } from 'pureUi/Buttons';
 
 import {
   searchOptionsSelector,
@@ -19,7 +21,7 @@ import {
   orderedSearchResults,
   offersQuerySelector,
   activeFiltersSelector,
-  offersSearchPending,
+  offersSearchPendingSelector,
   priceRangeSelector,
   showRegionsSelector,
   toggleFilterAction, 
@@ -40,6 +42,11 @@ import {
   setActiveLodgingIndexAction,
   activeLodingIndexSelector,
   expandedHighlightsSelector,
+  totalGuestCountSelector,
+  incrementActiveLodgingIndexAction,
+  toggleLodgingControlsAction,
+  setLodgingControlsVisibilityAction,
+  showLodgingControlsSelector
 } from 'store/modules/fastSearch';
 
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
@@ -53,11 +60,17 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     }
   }
 
-  handleDestinationChange = (e: React.FormEvent<HTMLInputElement>) => this.props.destinationChange(e.currentTarget.value)
+  handleDestinationChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.destinationChange(e.currentTarget.value);
+  }
   
-  handleRemoveAllFilters = () => this.props.setAllFilters(false);
+  handleRemoveAllFilters = () => {
+    this.props.setAllFilters(false);
+  }
   
-  handleSubmit = () => this.props.getOffers(this.props.searchQuery);
+  handleSubmit = () => {
+    this.props.getOffers(this.props.searchQuery);
+  }
   
   handlePriceRangeChange = (type: RangeValueType, value: string) => {
     if(!isNaN(parseInt(value))) {
@@ -72,6 +85,14 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     this.props.history.push(`/hotels/${hotelUuid}`);
   }
 
+  handleToggleLodgingControls = () => {
+    this.props.toggleLodgingControls();
+  }
+
+  handleSetLogdingControlsVisibility = (visible: boolean) => () => {
+    this.props.setLodgingControlsVisibility(visible);
+  }
+
   renderSideBar = () => (
     <div className="sidebar">
       {this.props.optionsRequestPending && <h2>Options Loading</h2>}
@@ -80,25 +101,25 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       )}
 
       <label>
-        Destination <br />
-        <input type="text" value={this.props.searchQuery.name} onChange={this.handleDestinationChange}/>
+        Destination or Resort <br />
+        <TextInput placeholder="Where to" value={this.props.searchQuery.name!} onChange={this.handleDestinationChange}/>
       </label>
 
+      <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
+
       <LodgingsEditor 
+        showControls={this.props.showLodgingControls}
         lodgings={this.props.searchQuery.lodgings}
         activeLodgingIndex={this.props.activeLodingIndex}
+        onIncrementIndex={this.props.incrementActiveLodgingIndex}
         onTabSelect={this.props.setActiveLodgingIndex}
         onIncrementRoomCount={this.props.incrementRoom}
         onIncrementAdultCount={this.props.incrementAdult}
         onIncrementChildCount={this.props.incrementChild}
         onChildAgeChange={this.props.setAge}
-      />
-
-      <RangeInput 
-        title="Price Range" 
-        min={this.props.priceRange.min?.toString() || ''} 
-        max={this.props.priceRange.max?.toString() || ''} 
-        onChange={this.handlePriceRangeChange}
+        totalGuestCount={this.props.totalGuestCount}
+        onClick={this.handleToggleLodgingControls}
+        onBlur={this.handleSetLogdingControlsVisibility(false)}
       />
 
       {this.props.searchOptions && (
@@ -114,9 +135,13 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
           onRegionChange={this.props.toggleRegion}
           canSubmit={this.props.searchPending}
           onRemoveAllFilters={this.handleRemoveAllFilters}
+          onPriceRangeChange={this.handlePriceRangeChange}
           onSubmit={this.handleSubmit}
         />
-      )}
+
+        )}
+
+        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
     </div>
   );
 
@@ -147,11 +172,12 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
     return (
       <StyledFastSearchContainer>
+        <Link to="/" className="backButton">Back to Homepage</Link>
+        {this.props.searchPending && <h1 className="heading">Loading...</h1>}
+        {!this.props.searchPending && <Heading2 className="heading">Search Results {this.props.searchResults?.length}</Heading2>}
         <div className="sideBar">{this.renderSideBar()}</div>
 
         <div className="searchResults">
-          {this.props.searchPending && <h1>Loading...</h1>}
-          {!this.props.searchPending && <h1>Search Results {this.props.searchResults?.length}</h1>}
           <div className="resultsGrid">{this.renderResults()}</div>
         </div>
       </StyledFastSearchContainer>
@@ -172,14 +198,16 @@ const mapStateToProps = createStructuredSelector({
   optionsRequestPending: searchOptionsPendingSelector,
   optionsRequestError: searchOptionsErrorSelector,
   searchOptions: searchOptionsSelector,
-  searchPending: offersSearchPending,
+  searchPending: offersSearchPendingSelector,
   searchResults: orderedSearchResults,
   searchQuery: offersQuerySelector,
   activeFilters: activeFiltersSelector,
   priceRange: priceRangeSelector,
   showRegions: showRegionsSelector,
   activeLodingIndex: activeLodingIndexSelector,
-  expandedHighlights: expandedHighlightsSelector
+  expandedHighlights: expandedHighlightsSelector,
+  totalGuestCount: totalGuestCountSelector,
+  showLodgingControls: showLodgingControlsSelector
 });
 
 const actionCreators = {
@@ -201,6 +229,9 @@ const actionCreators = {
   setAge: setAgeAction,
   setActiveLodgingIndex: setActiveLodgingIndexAction,
   toggleHighlights: toggleHighlightsAction,
+  incrementActiveLodgingIndex: incrementActiveLodgingIndexAction,
+  toggleLodgingControls: toggleLodgingControlsAction,
+  setLodgingControlsVisibility: setLodgingControlsVisibilityAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

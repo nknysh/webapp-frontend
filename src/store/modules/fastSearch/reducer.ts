@@ -2,7 +2,6 @@ import { without, difference, omit, dropLast, update } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
 import { Filters, Lodging } from 'services/BackendApi';
-import { TOGGLE_HIGHLIGHTS } from './actions';
 
 const defaultAge = 7;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
@@ -226,10 +225,28 @@ export default function fastSearchReducer(
         },
       };
 
+    case Actions.TOGGLE_LODGING_CONTROLS:
+      return {
+        ...state,
+        showLodgingControls: !state.showLodgingControls,
+      };
+
+    case Actions.SET_LODGING_CONTOLS_VISBILITY:
+      return {
+        ...state,
+        showLodgingControls: action.visible,
+      };
+
     case Actions.SET_ACTIVE_LODGING_INDEX:
       return {
         ...state,
         activeLodgingIndex: action.index,
+      };
+
+    case Actions.INCREMENT_ACTIVE_LODGING_INDEX:
+      return {
+        ...state,
+        activeLodgingIndex: state.activeLodgingIndex += action.step,
       };
 
     case Actions.INCREMENT_ADULT:

@@ -4,13 +4,13 @@ import { HotelResult } from 'services/BackendApi';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import ImageLoader from 'pureUi/ImageLoader';
-import { getCurrencySymbol } from 'utils';
+import { getCurrencySymbol, formatPrice } from 'utils';
 import { Heading2 } from 'styles';
 import { Icon } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import LinkButton from 'components/LinkButton';
 
-export interface SearchResultHotelProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SearchResultHotelProps extends React.HTMLProps<HTMLDivElement> {
   result: HotelResult;
   showHighlights: boolean;
   onToggleHighlights: (id: string) => void;
@@ -20,6 +20,10 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
   const { result, showHighlights, onToggleHighlights, onNavigateToHotel, onClick, ...otherProps } = props;
   const { t } = useTranslation();
   const currencySymbol = getCurrencySymbol(result.bookingBuilder.response.currency);
+  const offerCount = result.bookingBuilder.response.aggregateTotals.Booking.offers.length;
+  const priceAfterDiscounts = result.bookingBuilder.response.totals.totalForPricedItems;
+  const priceBeforeDiscounts = result.bookingBuilder.response.totals.totalBeforeDiscount;
+  const isPreferred = result.preferred;
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -29,10 +33,30 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
   return (
     <div className={props.className} key={result.name} onClick={handleClick} {...otherProps}>
       <ImageLoader
-        aspectRatio="112:75"
+        aspectRatio="11:7"
         title={result.bookingBuilder.response.uploads[1] && result.bookingBuilder.response.uploads[1].displayName}
         src={result.bookingBuilder.response.uploads[1] && result.bookingBuilder.response.uploads[1].url}
-      />
+      >
+        <>
+          {isPreferred && <span className="badge pref">Preferred</span>}
+          <div className="stack">
+            <div className="stackColumn">
+              {offerCount === 0 && (
+                <span className="badge price">{`${currencySymbol}${formatPrice(priceAfterDiscounts)}`}</span>
+              )}
+              {offerCount > 0 && (
+                <span className="badge price">{`${currencySymbol}${formatPrice(priceAfterDiscounts)}`}</span>
+              )}
+              {offerCount > 0 && (
+                <span className="badge price strike">{`${currencySymbol}${formatPrice(priceBeforeDiscounts)}`}</span>
+              )}
+            </div>
+            <div className="stackColumn">
+              {offerCount > 0 && <span className="badge offer">{`${offerCount} Offers`}</span>}
+            </div>
+          </div>
+        </>
+      </ImageLoader>
       <div className="details">
         <Heading2 className="hotelName">{result.name}</Heading2>
         <p className="starRating">
@@ -74,25 +98,15 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
             {result.highlights && result.highlights.map(highlight => <li key={highlight}>{highlight}</li>)}
           </ul>
         )}
-        {/* <h4>
-            After Discount: {currencySymbol}
-            {result.bookingBuilder.response.totals.totalForPricedItems}
-          </h4>
-          <ul>
-            <li>
-              Before Discount: {currencySymbol}
-              {result.bookingBuilder.response.totals.totalBeforeDiscount}
-            </li>
-            <li>Offers Applied: {result.bookingBuilder.response.aggregateTotals.Booking.offers.length}</li>
-            <li>Prefferd: {result.bookingBuilder.response.hotel.preferred ? 'Yes' : 'No'}</li>
-          </ul> */}
       </div>
     </div>
   );
 };
 
 export default styled(SearchResultHotel)`
-  background-color: ${pureUiTheme.colors.whiteish};
+  position: relative;
+  background-color: ${pureUiTheme.colorRoles.areaBackground};
+  cursor: pointer;
 
   .details {
     padding: 1rem;
@@ -114,7 +128,7 @@ export default styled(SearchResultHotel)`
     font-size: 12px;
     text-transform: uppercase;
     & > span {
-      margin-left: 10px;
+      margin-right: 10px;
     }
   }
 
@@ -132,5 +146,73 @@ export default styled(SearchResultHotel)`
     & > li {
       margin-bottom: 10px;
     }
+  }
+
+  /* TODO: Create compoennts for the following elememnts */
+  .badge {
+    padding: 0 10px;
+    line-height: 35px;
+    font-family: 'HurmeGeometricSans2';
+    font-size: 14px;
+    text-transform: uppercase;
+    color: ${pureUiTheme.colors.white};
+    text-align: center;
+  }
+
+  .badge.pref {
+    position: absolute;
+    top: 0;
+    left: 22px;
+    font-weight: 600;
+    background-color: ${pureUiTheme.colors.gold};
+  }
+
+  .badge.price,
+  .badge.offer {
+    color: ${pureUiTheme.colors.black};
+    background-color: ${pureUiTheme.colors.white};
+  }
+
+  .badge.price {
+    font-size: 18px;
+  }
+
+  .badge.strike {
+    text-decoration: line-through;
+    color: ${pureUiTheme.colors.goldLight};
+  }
+
+  .badge.offer {
+    color: ${pureUiTheme.colors.redFade};
+    font-weight: 600;
+  }
+
+  .stack {
+    position: absolute;
+    bottom: 22px;
+    left: 22px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 0.5rem;
+  }
+
+  .stackColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    & > * {
+      margin-bottom: 5px;
+    }
+
+    & > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .prices {
+  }
+
+  .offers {
   }
 `;

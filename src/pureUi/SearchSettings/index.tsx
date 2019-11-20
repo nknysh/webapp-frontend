@@ -1,8 +1,14 @@
-import React, { memo } from 'react';
+import React, { memo, EventHandler, FormEvent } from 'react';
 import { SearchOptions, MealPlanNames, Filters, StarRating, SearchQuery, Occasion } from 'services/BackendApi';
 import { List } from 'pureUi/List/index';
+import RangeInput, { RangeValueType } from 'pureUi/RangeInput';
+import Checkbox from 'pureUi/Checkbox';
+import RadioButton from 'pureUi/RadioButton';
+import styled from 'styled-components';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
+import { PrimaryButton } from '../Buttons/index';
 
-export interface SearchSettingsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SearchSettingsProps extends React.HTMLProps<HTMLDivElement> {
   options: SearchOptions;
   query: SearchQuery;
   canSubmit: boolean;
@@ -14,39 +20,52 @@ export interface SearchSettingsProps extends React.HTMLAttributes<HTMLDivElement
   onRegionChange: (region: string, cheked: boolean) => void;
   onToggleShowRegions: () => void;
   onRemoveAllFilters: () => void;
+  onPriceRangeChange: (type: RangeValueType, value: string) => void;
   onSubmit: () => void;
 }
-
-// NOTE: This has been cobbled together quickly just to get it usable for basic testing.
-// I'll be breaking component up and removing the duplication soon.
 
 export const SearchSettings = (props: SearchSettingsProps) => {
   const handleFilterChange = (filter: Filters) => () => props.onFilterChange(filter);
 
-  const handleStarRatingChange = (starRating: StarRating) => (e: React.FormEvent<HTMLInputElement>) =>
+  // TODO: These 'EventHandler<FormEvent>' return types shouldn't be necessary. Needs investigation.
+  const handleStarRatingChange = (starRating: StarRating): EventHandler<FormEvent> => (e: React.FormEvent<HTMLInputElement>) =>
     props.onStarRatingChange(starRating, e.currentTarget.checked);
 
-  const handleOccasionChange = (occasion: Occasion) => (e: React.FormEvent<HTMLInputElement>) =>
+  const handleOccasionChange = (occasion: Occasion): EventHandler<FormEvent> => (e: React.FormEvent<HTMLInputElement>) =>
     props.onOccasionChange(occasion, e.currentTarget.checked);
 
-  const handleMealPlanChange = (mealPlan: MealPlanNames) => (e: React.FormEvent<HTMLInputElement>) =>
+  const handleMealPlanChange = (mealPlan: MealPlanNames): EventHandler<FormEvent> => (e: React.FormEvent<HTMLInputElement>) =>
     props.onMealPlanChange(mealPlan, e.currentTarget.checked);
 
   const handleRegionChange = (region: string) => (e: React.FormEvent<HTMLInputElement>) =>
     props.onRegionChange(region, e.currentTarget.checked);
 
+
   return (
     <div className={props.className}>
-      <button disabled={props.canSubmit} onClick={props.onSubmit}>
-        Search
-      </button>
+      <section>
+        <h4>Occasions</h4>
+        <List
+          items={Object.keys(Occasion).map(k => Occasion[k])}
+          render={(occasion: Occasion) => {
+            const isSelected = props.query.lodgings[0][occasion];
+            return (
+              <li key={occasion}>
+                <label>
+                  <Checkbox checked={isSelected} onChange={handleOccasionChange(occasion)} /> {occasion}
+                </label>
+              </li>
+            );
+          }}
+        />
+      </section>
 
       <section>
-        <h3>Regions</h3>
+        <h4>Regions</h4>
         <ul>
           <li>
             <label>
-              <input
+              <RadioButton
                 name="chooseRegions"
                 type="radio"
                 checked={!props.showRegions}
@@ -57,7 +76,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
           </li>
           <li>
             <label>
-              <input
+              <RadioButton
                 name="chooseRegions"
                 type="radio"
                 checked={props.showRegions}
@@ -75,8 +94,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
               return (
                 <li key={region}>
                   <label>
-                    <input name="regions" type="checkbox" checked={isSelected} onChange={handleRegionChange(region)} />{' '}
-                    {region}
+                    <Checkbox name="regions" checked={isSelected} onChange={handleRegionChange(region)} /> {region}
                   </label>
                 </li>
               );
@@ -86,15 +104,30 @@ export const SearchSettings = (props: SearchSettingsProps) => {
       </section>
 
       <section>
-        <h3>Meal Plan</h3>
+        <h4>Price Range</h4>
+        <RangeInput 
+          min={props.query.priceRange.min?.toString() || ''} 
+          max={props.query.priceRange.max?.toString() || ''} 
+          onChange={props.onPriceRangeChange}
+        />
+      </section>
+
+      <section>
+        <h4>Meal Plan</h4>
         <List
+          className="fiveColumn"
           items={Object.keys(MealPlanNames).map(k => MealPlanNames[k])}
           render={(mealPlan: MealPlanNames) => {
             const isSelected = props.query.mealPlanCategories.includes(mealPlan);
             return (
               <li key={mealPlan}>
                 <label>
-                  <input name="mealPlans" type="radio" checked={isSelected} onChange={handleMealPlanChange(mealPlan)} />{' '}
+                  <RadioButton
+                    name="mealPlans"
+                    type="radio"
+                    checked={isSelected}
+                    onChange={handleMealPlanChange(mealPlan)}
+                  />{' '}
                   {mealPlan}
                 </label>
               </li>
@@ -104,33 +137,16 @@ export const SearchSettings = (props: SearchSettingsProps) => {
       </section>
 
       <section>
-        <h3>Occasions</h3>
+        <h4>Star Rating</h4>
         <List
-          items={Object.keys(Occasion).map(k => Occasion[k])}
-          render={(occasion: Occasion) => {
-            const isSelected = props.query.lodgings[0][occasion];
-            return (
-              <li key={occasion}>
-                <label>
-                  <input type="checkbox" checked={isSelected} onChange={handleOccasionChange(occasion)} /> {occasion}
-                </label>
-              </li>
-            );
-          }}
-        />
-      </section>
-
-      <section>
-        <h3>Star Rating</h3>
-        <List
+          className="twoColumn"
           items={props.options.starRatings}
           render={(starRating: StarRating) => {
             const isSelected = props.query.starRatings.includes(starRating);
             return (
               <li key={starRating}>
                 <label>
-                  <input type="checkbox" checked={isSelected} onChange={handleStarRatingChange(starRating)} />{' '}
-                  {starRating}
+                  <Checkbox checked={isSelected} onChange={handleStarRatingChange(starRating)} /> {starRating} Star
                 </label>
               </li>
             );
@@ -139,7 +155,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
       </section>
 
       <section>
-        <h3>Filters</h3>
+        <h4>Filters</h4>
         <List
           items={props.options.filters}
           render={(filter: Filters) => {
@@ -148,19 +164,66 @@ export const SearchSettings = (props: SearchSettingsProps) => {
               <li key={filter}>
                 <label>
                   {' '}
-                  <input type="checkbox" checked={isSelected} onChange={handleFilterChange(filter)} /> {filter}
+                  <Checkbox checked={isSelected} onChange={handleFilterChange(filter)} /> {filter}
                 </label>
               </li>
             );
           }}
         />
-        <button onClick={props.onRemoveAllFilters} disabled={!props.query.filters.length}>
+        <PrimaryButton onClick={props.onRemoveAllFilters} disabled={!props.query.filters.length}>
           Remove all filters
-        </button>
+        </PrimaryButton>
       </section>
-      <button disabled={props.canSubmit} onClick={props.onSubmit}>
-        Search
-      </button>
     </div>
   );
 };
+
+export default styled(SearchSettings)`
+  background-color: ${pureUiTheme.colorRoles.areaBackground};
+  text-transform: uppercase;
+  font-family: 'HurmeGeometricSans2';
+  font-size: 12px;
+  color: ${pureUiTheme.colorRoles.grayLabel};
+  padding: 18px;
+
+  h4 {
+    font-weight: bold;
+    padding-bottom: 15px;
+    border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
+  }
+
+  label {
+    user-select: none;
+  }
+
+  section {
+  }
+
+  ul,
+  li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 17px;
+  }
+
+  .twoColumn {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    li {
+      display: inline;
+    }
+  }
+
+  .fiveColumn {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    li {
+      display: inline;
+    }
+  }
+`;
+

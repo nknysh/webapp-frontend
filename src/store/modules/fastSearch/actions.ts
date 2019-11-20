@@ -11,6 +11,8 @@ export const TOGGLE_OCCASION = 'fastSearch/TOGGLE_OCCASION';
 export const TOGGLE_REGION = 'fastSearch/TOGGLE_REGION';
 export const TOGGLE_SHOW_REGIONS = 'fastSearch/TOGGLE_SHOW_REGIONS';
 export const TOGGLE_HIGHLIGHTS = 'fastSearch/TOGGLE_HIGHLIGHTS';
+export const TOGGLE_LODGING_CONTROLS = 'fastSearch/TOGGLE_LODGING_CONTROLS';
+export const SET_LODGING_CONTOLS_VISBILITY = 'fastSearch/SET_LODGING_CONTOLS_VISBILITY';
 export const SELECT_MEAN_PLAN = 'fastSearch/SELECT_MEAL_PLAN';
 export const DATE_RANGE_START_CHANGE = 'fastSearch/DATE_RANGE_START_CHANGE';
 export const DATE_RANGE_END_CHANGE = 'fastSearch/DATE_RANGE_END_CHANGE';
@@ -18,6 +20,7 @@ export const MIN_PRICE_CHANGE = 'fastSearch/MIN_PRICE_CHANGE';
 export const MAX_PRICE_CHANGE = 'fastSearch/MAX_PRICE_CHANGE';
 export const INCREMENT_ROOM = 'fastSearch/INCREMENT_ROOM';
 export const SET_ACTIVE_LODGING_INDEX = 'fastSearch/SET_ACTIVE_LODGING_INDEX';
+export const INCREMENT_ACTIVE_LODGING_INDEX = 'fastSearch/INCREMENT_ACTIVE_LODGING_INDEX';
 export const INCREMENT_ADULT = 'fastSearch/INCREMENT_ADULT';
 export const INCREMENT_CHILD = 'fastSearch/INCREMENT_CHILD';
 export const SET_AGE = 'fastSearch/SET_AGE';
@@ -103,6 +106,17 @@ export const toggleHighlightsAction = (hotelUuid: string) => ({
   hotelUuid,
 });
 
+export type ToggleLodgingControlsAction = ReturnType<typeof toggleLodgingControlsAction>;
+export const toggleLodgingControlsAction = () => ({
+  type: TOGGLE_LODGING_CONTROLS as typeof TOGGLE_LODGING_CONTROLS,
+});
+
+export type SetLodgingControlsVisibilityAction = ReturnType<typeof setLodgingControlsVisibilityAction>;
+export const setLodgingControlsVisibilityAction = (visible: boolean) => ({
+  type: SET_LODGING_CONTOLS_VISBILITY as typeof SET_LODGING_CONTOLS_VISBILITY,
+  visible,
+});
+
 export type SelectMealPlanAction = ReturnType<typeof selectMealPlanAction>;
 export const selectMealPlanAction = (mealPlan: MealPlanNames) => ({
   type: SELECT_MEAN_PLAN as typeof SELECT_MEAN_PLAN,
@@ -143,6 +157,12 @@ export type SetActiveLodgingIndexAction = ReturnType<typeof setActiveLodgingInde
 export const setActiveLodgingIndexAction = (index: number) => ({
   type: SET_ACTIVE_LODGING_INDEX as typeof SET_ACTIVE_LODGING_INDEX,
   index,
+});
+
+export type IncrementActiveLodgingIndexAction = ReturnType<typeof incrementActiveLodgingIndexAction>;
+export const incrementActiveLodgingIndexAction = (step: number) => ({
+  type: INCREMENT_ACTIVE_LODGING_INDEX as typeof INCREMENT_ACTIVE_LODGING_INDEX,
+  step,
 });
 
 export type IncrementAdultAction = ReturnType<typeof incrementAdultAction>;
@@ -213,6 +233,8 @@ export type FastSearchAction =
   | ToggleShowRegionsAction
   | ToggleRegionAction
   | ToggleHighlightsAction
+  | ToggleLodgingControlsAction
+  | SetLodgingControlsVisibilityAction
   | SelectMealPlanAction
   | SetFiltersAction
   | SetAllFiltersAction
@@ -230,4 +252,5 @@ export type FastSearchAction =
   | OptionsRequestAction
   | OptionsSuccessAction
   | OptionsFailureAction
-  | SetActiveLodgingIndexAction;
+  | SetActiveLodgingIndexAction
+  | IncrementActiveLodgingIndexAction;

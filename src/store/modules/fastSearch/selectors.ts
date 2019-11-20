@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import { FastSearchDomain } from './model';
-import { SearchQuery, SearchOptions, HotelResult } from 'services/BackendApi/types';
-import { ErrorResponse } from '../../../services/BackendApi/types/ErrorResponse';
+import { HotelResult } from 'services/BackendApi/types';
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
 
@@ -20,7 +19,7 @@ export const searchOptionsSelector = createSelector(
   (domain: FastSearchDomain): FastSearchDomain['options'] => domain.options
 );
 
-export const offersSearchPending = createSelector(
+export const offersSearchPendingSelector = createSelector(
   fastSearchDomain,
   (domain: FastSearchDomain): FastSearchDomain['offersRequestPending'] => domain.offersRequestPending
 );
@@ -74,4 +73,19 @@ export const activeLodingIndexSelector = createSelector(
 export const expandedHighlightsSelector = createSelector(
   fastSearchDomain,
   (domain): FastSearchDomain['expandedHighlights'] => domain.expandedHighlights
+);
+
+export const lodgingSelector = createSelector(
+  offersQuerySelector,
+  (query): FastSearchDomain['query']['lodgings'] => query.lodgings
+);
+
+export const totalGuestCountSelector = createSelector(
+  lodgingSelector,
+  (lodgings): number => lodgings.reduce((acc, next) => acc + next.numberOfAdults + next.agesOfAllChildren!.length, 0)
+);
+
+export const showLodgingControlsSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['showLodgingControls'] => domain.showLodgingControls
 );

@@ -5,6 +5,7 @@ export interface FastSearchDomain {
   options: SearchOptions | null; // We should look at using fp-ts to make use of `Option` types
   showRegions: boolean;
   showDatePicker: boolean;
+  showLodgingControls: boolean;
   activeLodgingIndex: number;
   expandedHighlights: string[];
 
@@ -23,6 +24,7 @@ export const initialState: FastSearchDomain = {
   options: null,
   showDatePicker: false,
   showRegions: false,
+  showLodgingControls: false,
   optionsRequestPending: true,
   offersRequestPending: false,
   offersRequestError: null,
@@ -30,25 +32,23 @@ export const initialState: FastSearchDomain = {
   activeLodgingIndex: 0,
   expandedHighlights: [],
   query: {
-    name: 'Maldives',
+    name: '',
     lodgings: [
       {
         numberOfAdults: 2,
         agesOfAllChildren: [1, 2, 4],
         repeatCustomer: false,
-        honeymoon: true,
       },
       {
         numberOfAdults: 2,
         agesOfAllChildren: [5],
         repeatCustomer: false,
-        honeymoon: true,
       },
     ],
     mealPlanCategories: [MealPlanNames.HALF_BOARD],
     regions: [],
     filters: [],
-    starRatings: [StarRating.FiveStarPlus],
+    starRatings: [StarRating.FiveStar, StarRating.FiveStarPlus],
     startDate: '2020-01-01',
     endDate: '2020-01-07',
     priceRange: { min: 1, max: 100000 },

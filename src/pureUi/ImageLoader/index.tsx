@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-export type ImageAspectRatio = '4:3' | '16:9' | '112:75';
+export type ImageAspectRatio = '4:3' | '16:9' | '11:7';
 
-export interface ImageLoaderProps extends React.HTMLAttributes<HTMLImageElement> {
+export interface ImageLoaderProps extends React.HTMLProps<HTMLImageElement> {
   aspectRatio: ImageAspectRatio;
   src: string;
+  children: any;
 }
 
 const ImageLoader = (props: ImageLoaderProps) => {
@@ -26,11 +27,12 @@ const ImageLoader = (props: ImageLoaderProps) => {
     img.src = props.src;
   }, []);
 
-  const { src, aspectRatio, ...otherProps } = props;
+  const { src, aspectRatio, children, ...otherProps } = props;
   return (
     <div className={props.className} {...otherProps}>
       {isLoading && <p className="overlay">Loading</p>}
-      {failed && <p className="overlay">Failed to load</p>}
+      {failed && <p className="overlay">No image</p>}
+      {children && <div className="children">{children}</div>}
     </div>
   );
 };
@@ -39,7 +41,7 @@ const getPaddingForAspectRatio = (aspectRatio: ImageAspectRatio) => {
   switch (aspectRatio) {
     case '16:9':
       return '56.25%';
-    case '112:75':
+    case '11:7':
       return '66.96%';
     case '4:3':
     default:
@@ -64,5 +66,13 @@ export default styled(ImageLoader)`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .children {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 `;

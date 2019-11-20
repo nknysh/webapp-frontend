@@ -60,7 +60,7 @@ export enum StarRating {
 }
 
 export interface SearchQuery {
-  name: string; // Destination
+  name: string | null; // Destination
   lodgings: Lodging[];
   startDate: string;
   endDate: string;
