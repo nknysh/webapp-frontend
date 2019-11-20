@@ -67,7 +67,7 @@ Object {
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 10`] = `
 Object {
-  "lodgingIndex": 1,
+  "step": 1,
   "type": "fastSearch/INCREMENT_ROOM",
 }
 `;
@@ -75,48 +75,29 @@ Object {
 exports[`fastSearchActions Snapshot tests Matches snapshots 11`] = `
 Object {
   "lodgingIndex": 1,
-  "type": "fastSearch/DECREMENT_ROOM",
+  "step": 1,
+  "type": "fastSearch/INCREMENT_ADULT",
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 12`] = `
 Object {
   "lodgingIndex": 1,
-  "type": "fastSearch/INCREMENT_ADULT",
+  "step": 1,
+  "type": "fastSearch/INCREMENT_CHILD",
 }
 `;
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 13`] = `
 Object {
-  "lodgingIndex": 1,
-  "type": "fastSearch/DECREMENT_ADULT",
-}
-`;
-
-exports[`fastSearchActions Snapshot tests Matches snapshots 14`] = `
-Object {
-  "lodgingIndex": 1,
-  "type": "fastSearch/INCREMENT_CHILD",
-}
-`;
-
-exports[`fastSearchActions Snapshot tests Matches snapshots 15`] = `
-Object {
-  "lodgingIndex": 1,
-  "type": "fastSearch/DECREMENT_CHILD",
-}
-`;
-
-exports[`fastSearchActions Snapshot tests Matches snapshots 16`] = `
-Object {
   "childIndex": 0,
   "lodgingIndex": 0,
-  "type": "fastSearch/AGE_CHANGE",
+  "type": "fastSearch/SET_AGE",
   "value": "10",
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 17`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 14`] = `
 Object {
   "query": Object {
     "endDate": "2020-01-07",
@@ -149,14 +130,14 @@ Object {
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 18`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 15`] = `
 Object {
   "successResponse": "test",
   "type": "fastSearch/OFFERS_SEARCH_SUCCESS",
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 19`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 16`] = `
 Object {
   "errorResponse": "test",
   "type": "fastSearch/OFFERS_SEARCH_FAILURE",

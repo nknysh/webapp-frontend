@@ -442,7 +442,7 @@ exports[`<App /> render matches snapshot 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(FastSearchContainer)",
+            "displayName": "Connect(withRouter(FastSearchContainer))",
             "type": [Function],
           }
         }
