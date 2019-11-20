@@ -70,6 +70,7 @@ import { USERS_FETCH } from 'store/modules/users/actions';
 import {
   getBooking,
   getBookingForBuilder,
+  getBookingForBuilderPure,
   getBookingMealPlanForRoomByType,
   getBookingsCreated,
   getBookingRoomsById,
@@ -594,7 +595,8 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
     state
   );
 
-  const bookingBuilderPayload = getBookingForBuilder(nextState, id);
+  const bookingBuilderPayload = getBookingForBuilderPure(nextState, id);
+
   const withAccommodation = hasAccommodation(bookingBuilderPayload);
 
   // Whether there should be a booking builder call
@@ -620,6 +622,10 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
 
       // Replace the breakdown with the new data
       breakdown = data;
+
+      // if we have aggregate totals, we need to completely overwrite that in the breakdown
+      // to ensure it is fully updated, otherwise we might no longer have a total but it is
+      // kept in state
 
       // Hotel name needs to be pulled from the hotel object
       nextBooking.hotelName = path(['hotel', 'name'], breakdown);

@@ -43,34 +43,38 @@ interface BaseAggregateTotals {
   Fine: IAggregateTotal;
 }
 
-export const PriceBreakdown = props => {
-  const { currencyCode, total, totalBeforeDiscount } = props;
-  if (props.totalBeforeDiscount) {
-    return (
-      <React.Fragment>
-        <Price {...props} discount={true}>
-          {currencyCode}
-          {total}
-        </Price>
-        <Price {...props} preDiscount={true}>
-          {currencyCode}
-          {totalBeforeDiscount}
-        </Price>
-      </React.Fragment>
-    );
-  } else {
-    return (
-      <Price>
-        {currencyCode}
-        {total}
-      </Price>
-    );
-  }
-};
-
 export const AggregateTotalsBreakdown = props => {
   const aggregateTotals: BaseAggregateTotals = props.aggregateTotals || {};
   const currencyCode: string = props.currencyCode || '';
+  const translate: Function = props.t;
+
+  const PriceBreakdown = props => {
+    const { currencyCode, total, totalBeforeDiscount } = props;
+    if (!total && !totalBeforeDiscount) {
+      return <label>{translate('labels.itemNoTotal')}</label>;
+    }
+    if (props.totalBeforeDiscount) {
+      return (
+        <React.Fragment>
+          <Price {...props} discount={true}>
+            {currencyCode}
+            {total}
+          </Price>
+          <Price {...props} preDiscount={true}>
+            {currencyCode}
+            {totalBeforeDiscount}
+          </Price>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <Price>
+          {currencyCode}
+          {total}
+        </Price>
+      );
+    }
+  };
 
   const AggregateTotalSection = ({
     aggregateTotal,
@@ -125,13 +129,13 @@ export const AggregateTotalsBreakdown = props => {
 
   const totalSum = Object.keys(aggregateTotals).reduce((sum: number, total: string) => {
     const aggregateTotal: IAggregateTotal = aggregateTotals[total];
-    sum += parseFloat(aggregateTotal.total);
+    sum += aggregateTotal.total ? parseFloat(aggregateTotal.total) : 0;
     return sum;
   }, 0);
 
   const totalBeforeDiscountSum = Object.keys(aggregateTotals).reduce((sum: number, total: string) => {
     const aggregateTotal: IAggregateTotal = aggregateTotals[total];
-    sum += parseFloat(aggregateTotal.totalBeforeDiscount);
+    sum += aggregateTotal.totalBeforeDiscount ? parseFloat(aggregateTotal.totalBeforeDiscount) : 0;
     return sum;
   }, 0);
 

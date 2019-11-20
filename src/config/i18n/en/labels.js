@@ -244,4 +244,5 @@ export default {
   nightSigular: 'night',
   nightPlural: 'nights',
   datePicker: 'Date Picker',
+  itemNoTotal: 'This item has no total',
 };

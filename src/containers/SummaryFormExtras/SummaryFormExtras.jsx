@@ -840,8 +840,13 @@ export const SummaryFormExtras = ({
       {addons.length >= 1 && <AddonsWrapper />}
       {booking && booking.breakdown && booking.breakdown.aggregateTotals && (
         <React.Fragment>
+          <hr />
           <Title>{t('labels.totalCostBreakdown')}</Title>
-          <AggregateTotalsBreakdown currencyCode={currencyCode} aggregateTotals={booking.breakdown.aggregateTotals} />
+          <AggregateTotalsBreakdown
+            translate={t}
+            currencyCode={currencyCode}
+            aggregateTotals={booking.breakdown.aggregateTotals}
+          />
           <hr />
         </React.Fragment>
       )}
