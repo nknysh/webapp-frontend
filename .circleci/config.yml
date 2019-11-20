@@ -34,9 +34,9 @@ jobs:
       - run:
           name: build react app
           command: npm i && npm run build:dev
-      # - run:
-      #     name: Run tests
-      #     command: npm run test:ci
+      - run:
+          name: Run tests
+          command: npm run test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
@@ -66,9 +66,9 @@ jobs:
       - run:
           name: build react app
           command: npm i && npm run build:dev
-      # - run:
-      #     name: Run tests
-      #     command: npm run test:ci
+      - run:
+          name: Run tests
+          command: npm run test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
@@ -98,6 +98,9 @@ jobs:
       - run:
           name: build react app
           command: npm i && npm run build:dev
+      - run:
+          name: Run tests
+          command: npm run test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
