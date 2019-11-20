@@ -168,7 +168,9 @@ const renderLodgingSummaries = (t, booking, props) => {
 
   return (
     <React.Fragment>
-      <Title>{t('labels.lodgings')}</Title>
+      <label>
+        <strong>{t('labels.lodgings')}</strong>
+      </label>
       {lodgingErrors.map(error => (
         <p key={error}>{error}</p>
       ))}

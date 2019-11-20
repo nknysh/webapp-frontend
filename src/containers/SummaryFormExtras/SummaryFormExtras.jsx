@@ -841,7 +841,9 @@ export const SummaryFormExtras = ({
       {booking && booking.breakdown && booking.breakdown.aggregateTotals && (
         <React.Fragment>
           <hr />
-          <Title>{t('labels.totalCostBreakdown')}</Title>
+          <label>
+            <strong>{t('labels.totalCostBreakdown')}</strong>
+          </label>
           <AggregateTotalsBreakdown
             translate={t}
             currencyCode={currencyCode}

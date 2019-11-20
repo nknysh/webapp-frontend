@@ -92,9 +92,7 @@ export const AggregateTotalsBreakdown = props => {
       <React.Fragment>
         <TotalSection>
           <TotalSectionColumn {...props} nestingLevel={nestingLevel} isLeft={true}>
-            <TotalBreakdownSpan>
-              {aggregateTotal.title} {offersBreakdown && <OfferSpan>{offersBreakdown}</OfferSpan>}
-            </TotalBreakdownSpan>
+            <TotalBreakdownSpan>{aggregateTotal.title}</TotalBreakdownSpan>
             <br />
             <PriceBreakdown
               currencyCode={currencyCode}
