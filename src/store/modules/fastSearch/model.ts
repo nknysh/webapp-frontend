@@ -17,14 +17,16 @@ export interface FastSearchDomain {
   optionsRequestError: ErrorResponse | null;
 
   query: SearchQuery;
+  activeHotelId: string | undefined;
 }
 
 export const initialState: FastSearchDomain = {
+  activeHotelId: undefined,
   results: null,
   options: null,
   showDatePicker: false,
   showRegions: false,
-  showLodgingControls: false,
+  showLodgingControls: true,
   optionsRequestPending: true,
   offersRequestPending: false,
   offersRequestError: null,

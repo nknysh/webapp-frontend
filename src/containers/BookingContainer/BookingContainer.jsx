@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useCallback } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import {
   compose,
@@ -404,6 +405,7 @@ BookingContainer.propTypes = propTypes;
 BookingContainer.defaultProps = defaultProps;
 
 export default compose(
+  withRouter,
   withUser,
   connect
 )(BookingContainer);

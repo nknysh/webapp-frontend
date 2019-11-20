@@ -30,7 +30,6 @@ import {
   Error,
   Hotel,
   HotelName,
-  Rooms,
   Saving,
   FullTotal,
   StyledModal,
@@ -469,12 +468,21 @@ export const SummaryForm = props => {
     summaryOnly,
     accommodationEditModalErrors,
   } = props;
-  const { marginApplied, taMarginAmount, taMarginType, hotelUuid, status: bookingStatus, overrideTotal } = booking;
+
+  // const {
+  //   marginApplied,
+  //   taMarginAmount,
+  //   taMarginType,
+  //   uuid:hotelUuid,
+  //   status: bookingStatus,
+  //   overrideTotal,
+  // } = booking.response;
+  // console.log('booking', booking);
 
   const initialValues = {
-    marginApplied,
-    taMarginAmount,
-    taMarginType,
+    // marginApplied,
+    // taMarginAmount,
+    // taMarginType,
     [ProductTypes.TRANSFER]: getSingleValue(ProductTypes.TRANSFER, booking),
     [ProductTypes.GROUND_SERVICE]: getSingleValue(ProductTypes.GROUND_SERVICE, booking),
     ...pathOr({}, ['products', ProductTypes.FINE], booking),
@@ -484,7 +492,7 @@ export const SummaryForm = props => {
   const [complete, setCompleted] = useState(!confirm);
   const [formValues, setFormValues] = useState(initialValues);
   const [modalId, setModalId] = useState();
-  const [editGuard, setEditGuard] = useState(guardEdit || !isNilOrEmpty(bookingStatus));
+  const [editGuard, setEditGuard] = useState(guardEdit);
   const [showEditGuard, setShowEditGuard] = useState(false);
   const {
     modalOpen: holdModalOpen,
@@ -570,18 +578,18 @@ export const SummaryForm = props => {
         {renderTotal(t, {
           editGuard,
           onEditGuard: handleEditGuard,
-          overrideTotal,
+          overrideTotal: booking.response.totals.total,
           ...props,
         })}
         {renderHotel(t, {
-          name: hotelName || prop('hotelName', booking) || 'Hotel',
-          overrideTotal,
+          name: hotelName || booking.response.hotel.name || 'Hotel',
+          overrideTotal: booking.response.totals.total,
           ...props,
         })}
 
-        {renderLodgingSummaries(t, booking, {
+        {renderLodgingSummaries(t, booking.response, {
           editGuard,
-          hotelUuid,
+          hotelUuid: booking.response.hotel.uuid,
           onEditGuard: handleEditGuard,
           setModalId,
           ...props,
@@ -597,7 +605,7 @@ export const SummaryForm = props => {
       </Loader>
       {!summaryOnly &&
         renderRoomEditModal(t, {
-          hotelUuid,
+          hotelUuid: booking.response.hotel.uuid,
           modalId,
           status,
           setModalId,
