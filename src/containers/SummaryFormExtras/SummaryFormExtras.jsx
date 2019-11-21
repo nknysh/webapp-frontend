@@ -833,12 +833,14 @@ export const SummaryFormExtras = ({
       modalContent = '';
   }
 
+  console.log('booking', booking);
+
   return (
     <Fragment>
       {transfers.length >= 1 && <TransfersWrapper />}
       {groundServices.length >= 1 && <GroundServicesWrapper />}
       {addons.length >= 1 && <AddonsWrapper />}
-      {booking && booking.breakdown && booking.breakdown.aggregateTotals && (
+      {booking && booking.response && booking.response.aggregateTotals && (
         <React.Fragment>
           <hr />
           <label>
@@ -847,7 +849,7 @@ export const SummaryFormExtras = ({
           <AggregateTotalsBreakdown
             translate={t}
             currencyCode={currencyCode}
-            aggregateTotals={booking.breakdown.aggregateTotals}
+            aggregateTotals={booking.response.aggregateTotals}
           />
           <hr />
         </React.Fragment>
