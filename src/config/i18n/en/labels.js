@@ -245,4 +245,5 @@ export default {
   nightPlural: 'nights',
   datePicker: 'Date Picker',
   itemNoTotal: 'This item has no total',
+  priceAvailableOnRequest: 'Price available on request',
 };

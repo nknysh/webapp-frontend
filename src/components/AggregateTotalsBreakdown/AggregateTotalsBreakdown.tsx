@@ -88,6 +88,18 @@ export const AggregateTotalsBreakdown = props => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const offersBreakdown = aggregateTotal.offers.join(' & ');
 
+    if (aggregateTotal.oneOrMoreItemsOnRequest) {
+      return (
+        <TotalSection>
+          <TotalSectionColumn {...props} nestingLevel={nestingLevel} isLeft={true}>
+            <TotalBreakdownSpan>{aggregateTotal.title}</TotalBreakdownSpan>
+            <br />
+            <label>{translate ? translate('labels.priceAvailableOnRequest') : 'Price available on request'}</label>
+          </TotalSectionColumn>
+        </TotalSection>
+      );
+    }
+
     return (
       <React.Fragment>
         <TotalSection>
