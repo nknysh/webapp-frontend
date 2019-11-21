@@ -33,10 +33,10 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - run:
           name: build react app
-          command: npm i && npm run build:dev
-      # - run:
-      #     name: Run tests
-      #     command: npm run test:ci
+          command: yarn && yarn run build:dev
+      - run:
+          name: Run tests
+          command: yarn test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
@@ -65,10 +65,10 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - run:
           name: build react app
-          command: npm i && npm run build:dev
-      # - run:
-      #     name: Run tests
-      #     command: npm run test:ci
+          command: yarn && yarn build:dev
+      - run:
+          name: Run tests
+          command: yarn test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
@@ -97,7 +97,10 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - run:
           name: build react app
-          command: npm i && npm run build:dev
+          command: yarn && yarn build:dev
+      - run:
+          name: Run tests
+          command: yarn test:ci
       - aws-cli/setup:
           profile-name: default
       - run: |
@@ -126,7 +129,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
       - run:
           name: build react app
-          command: npm i && npm run build
+          command: yarn && yarn build
       - aws-cli/setup:
           profile-name: default
       - run: |
