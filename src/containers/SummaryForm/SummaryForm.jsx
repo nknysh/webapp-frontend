@@ -135,21 +135,22 @@ const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, avail
 };
 
 const renderLodgingSummaries = (t, booking, props) => {
-  const { breakdown, ...bookingData } = booking;
+  // const { breakdown, ...bookingData } = booking;
+  const { request: bookingRequest, response: bookingResponse } = booking;
   const { editGuard, onEditGuard, setModalId } = props;
 
-  if (!breakdown || !breakdown.requestedBuild) {
+  if (!bookingRequest || !bookingResponse) {
     return [];
   }
 
-  const lodgingErrors = breakdown.errors.filter(e => e.meta === 'Accommodation').map(e => e.message);
+  const lodgingErrors = bookingResponse.errors.filter(e => e.meta === 'Accommodation').map(e => e.message) || [];
 
-  const lodgingSummaries = breakdown.requestedBuild.Accommodation.map((accommodationRequestedBuildObject, index) => {
+  const lodgingSummaries = bookingRequest.Accommodation.map((accommodationRequestedBuildObject, index) => {
     return {
       ...accommodationRequestedBuildObject,
       index,
-      hotelUuid: bookingData.hotelUuid,
-      title: getTitleForAccommodationUuid(accommodationRequestedBuildObject.uuid, breakdown.availableProductSets),
+      hotelUuid: bookingRequest.hotelUuid,
+      title: getTitleForAccommodationUuid(accommodationRequestedBuildObject.uuid, bookingResponse.availableProductSets),
       nightsBreakdown: getNightsBreakdownForDates(
         accommodationRequestedBuildObject.startDate,
         accommodationRequestedBuildObject.endDate,
@@ -158,7 +159,7 @@ const renderLodgingSummaries = (t, booking, props) => {
       mealPlanBreakdown: getMealPlanBreakdownForLodging(
         accommodationRequestedBuildObject,
         index,
-        breakdown.availableProductSets
+        bookingResponse.availableProductSets
       ),
       occupancyBreakdown: getOccupancyBreakdownForAccommodation(accommodationRequestedBuildObject),
       occasionsBreakdown: getOccassionsBreakdownForLodging(accommodationRequestedBuildObject),
@@ -179,8 +180,8 @@ const renderLodgingSummaries = (t, booking, props) => {
           setModalId,
           editGuard,
           onEditGuard,
-          breakdown.availableProductSets,
-          breakdown.potentialBooking
+          bookingResponse.availableProductSets,
+          bookingResponse.potentialBooking
         )
       )}
       {lodgingSummaries.length >= 1 && <hr />}
@@ -587,7 +588,7 @@ export const SummaryForm = props => {
           ...props,
         })}
 
-        {renderLodgingSummaries(t, booking.response, {
+        {renderLodgingSummaries(t, booking, {
           editGuard,
           hotelUuid: booking.response.hotel.uuid,
           onEditGuard: handleEditGuard,
