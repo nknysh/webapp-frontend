@@ -277,6 +277,13 @@ const renderTransferOptions = (
     convertProductsToOptions
   )(products);
 
+  console.log('bothWayOptions', bothWayOptions);
+
+  const radioButtonValue = isString(propOr('', productType, values)) && propOr('', productType, values);
+  console.log('values', values);
+  console.log('productType', productType);
+  console.log('radioButtonValue', radioButtonValue);
+
   return (
     // `renderExtra` if we have some return transfers OR some one way transfers
     (!isNilOrEmpty(bothWayOptions) || !isNilOrEmpty(oneWayOptions)) &&
@@ -832,8 +839,6 @@ export const SummaryFormExtras = ({
     default:
       modalContent = '';
   }
-
-  console.log('booking', booking);
 
   return (
     <Fragment>

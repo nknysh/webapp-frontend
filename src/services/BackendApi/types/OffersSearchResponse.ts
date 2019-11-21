@@ -486,7 +486,7 @@ export interface BookingBuilderResponse {
 }
 
 export interface AggregateTotals {
-  Booking: AggregateRecord;
+  Total: AggregateRecord;
   Accommodation: AggregateRecord;
   'Meal Plan': AggregateRecord;
   Supplement: AggregateRecord;

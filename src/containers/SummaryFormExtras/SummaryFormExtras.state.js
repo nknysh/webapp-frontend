@@ -25,23 +25,33 @@ import {
   setIsBookingSummarySectionCollapsed,
 } from 'store/modules/ui';
 
+import {
+  bookingAvailableTransfers,
+  bookingAvailableGroundServices,
+  bookingAvailableAddons,
+  bookingRequestedTransfers,
+  bookingRequestedGroundServices,
+  bookingRequestedSupplements,
+  bookingRequestedFines,
+} from 'store/modules/fastSearch';
+
 export const mapStateToProps = (state, { id }) => {
   const travelAgentUserUuid = getBookingTravelAgent(state, id);
   const travelAgent = getUser(state, travelAgentUserUuid);
 
   return {
-    addons: getBookingAddons(state, id),
+    addons: bookingAvailableAddons(state),
+    groundServices: bookingAvailableGroundServices(state),
+    transfers: getBookingTransfers(state, id),
+    selectedFines: bookingRequestedFines(state),
+    selectedGroundServices: bookingRequestedGroundServices(state),
+    selectedSupplements: bookingRequestedSupplements(state),
+    selectedTransfers: getBookingRequestedTransfers(state, id),
     canBook: getBookingReady(state, id),
     currencyCode: getBookingCurrencySymbol(state, id),
     getUser: id => getUser(state, id),
     getUserName: id => getUserFullName(state, id),
     grandTotal: getBookingTotal(state, id),
-    groundServices: getBookingGroundServices(state, id),
-    selectedFines: getBookingRequestedFines(state, id),
-    selectedGroundServices: getBookingRequestedGroundServices(state, id),
-    selectedSupplements: getBookingRequestedSupplements(state, id),
-    selectedTransfers: getBookingRequestedTransfers(state, id),
-    transfers: getBookingTransfers(state, id),
     travelAgent,
     users: getUsersEntities(state),
     usersStatus: getUsersStatus(state),

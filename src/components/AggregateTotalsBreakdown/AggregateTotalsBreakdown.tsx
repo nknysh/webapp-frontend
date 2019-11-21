@@ -154,14 +154,6 @@ export const AggregateTotalsBreakdown = props => {
       {Object.keys(aggregateTotals).map(atk => {
         return <AggregateTotalSection nestingLevel={0} aggregateTotal={aggregateTotals[atk]} />;
       })}
-
-      <TotalBreakdownSpan>Total Cost</TotalBreakdownSpan>
-
-      <PriceBreakdown
-        currencyCode={currencyCode}
-        total={formatPrice(totalSum)}
-        totalBeforeDiscount={totalSum != totalBeforeDiscountSum ? formatPrice(totalBeforeDiscountSum) : null}
-      />
     </React.Fragment>
   );
 };

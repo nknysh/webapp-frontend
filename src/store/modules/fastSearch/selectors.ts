@@ -2,6 +2,8 @@ import { createSelector } from 'reselect';
 import { FastSearchDomain } from './model';
 import { HotelResult, BookingBuilder } from 'services/BackendApi/types';
 import { getHotelId } from 'store/modules/hotel';
+import { ProductTypes, Occassions } from 'config/enums';
+import { flatten } from 'ramda'
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
 
@@ -107,8 +109,75 @@ export const bookingBuilderSelector = createSelector(
     const found = results.find(result => {
       return result.uuid === hotelId;
     });
-    console.log('hotelId', hotelId);
-    console.log('found', found?.bookingBuilder);
     return found?.bookingBuilder;
   }
 );
+
+export const bookingRequestSelector = createSelector(bookingBuilderSelector, booking => booking?.request);
+
+export const bookingResponseSelector = createSelector(bookingBuilderSelector, booking => booking?.response);
+
+export const bookingAvailableProductsSelector = createSelector(
+  bookingResponseSelector, (response) => response?.availableProductSets
+);
+
+export const bookingAvailableAccommodations = createSelector(
+  bookingAvailableProductsSelector, availableProductSets => {
+    return availableProductSets ? availableProductSets[ProductTypes.ACCOMMODATION] : [];
+  }
+);
+
+export const bookingAvailableTransfers = createSelector(
+  bookingAvailableProductsSelector, availableProductSets => {
+    return availableProductSets ? availableProductSets[ProductTypes.TRANSFER] : [];
+  }
+);
+
+export const bookingAvailableGroundServices = createSelector(
+  bookingAvailableProductsSelector, availableProducts => {
+    return availableProducts ? availableProducts[ProductTypes.GROUND_SERVICE] : [];
+  }
+)
+
+export const bookingAvailableAddons = createSelector(
+  bookingAvailableProductsSelector, availableProducts => {
+    if (!availableProducts) {
+      return [];
+    }
+    console.log('availableProducts', availableProducts);
+    return flatten([availableProducts[ProductTypes.SUPPLEMENT], availableProducts[ProductTypes.FINE]]);
+  }
+)
+
+export const bookingRequestedAccommodations = createSelector(
+  bookingRequestSelector, request => {
+    return request && request[ProductTypes.ACCOMMODATION] ? request[ProductTypes.ACCOMMODATION] : [];
+  }
+)
+
+export const bookingRequestedTransfers = createSelector(
+  bookingRequestSelector, request => {
+    return request && request[ProductTypes.TRANSFER] ? request[ProductTypes.TRANSFER] : [];
+  }
+)
+
+export const bookingRequestedGroundServices = createSelector(
+  bookingRequestSelector, request => {
+    return request && request[ProductTypes.GROUND_SERVICE] ? request[ProductTypes.GROUND_SERVICE] : [];
+  }
+)
+
+export const bookingRequestedSupplements = createSelector(
+  bookingRequestSelector, request => {
+    return request && request[ProductTypes.SUPPLEMENT]? request[ProductTypes.SUPPLEMENT] : [];
+  }
+)
+
+export const bookingRequestedFines = createSelector(
+  bookingRequestSelector, request => {
+
+    console.log('request', request);
+    
+    return request && request[ProductTypes.FINE] ? request[ProductTypes.FINE] : [];
+  }
+)

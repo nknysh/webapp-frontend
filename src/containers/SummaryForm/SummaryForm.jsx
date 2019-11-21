@@ -55,11 +55,17 @@ const getSingleValue = (type, data) =>
     propOr('', 'uuid')
   )(data);
 
-const renderTotalPrice = (t, { currencyCode, isOnRequest, total, secondary, discounted }) => (
-  <Total data-request={isOnRequest} data-secondary={secondary} data-discounted={discounted}>
-    {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(total)}`}
-  </Total>
-);
+const renderTotalPrice = (t, currencyCode, isOnRequest, value, isSecondary, isDiscounted) => {
+  <Total data-request={isOnRequest} data-secondary={isSecondary} data-discounted={isDiscounted}>
+    {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(value)}`}
+  </Total>;
+};
+
+// const renderTotalPrice = (t, { currencyCode, isOnRequest, total, secondary, discounted }) => (
+//   <Total data-request={isOnRequest} data-secondary={secondary} data-discounted={discounted}>
+//     {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(total)}`}
+//   </Total>
+// );
 
 const renderHotel = (
   t,
@@ -214,6 +220,7 @@ const renderRoomEditModal = (
 const renderTotal = (
   t,
   {
+    totals,
     compact,
     isOnRequest,
     total,
@@ -226,46 +233,75 @@ const renderTotal = (
     showDiscountedPrice,
     currencyCode,
   }
-) =>
-  (!compact || showFullTotal) && (
+) => {
+  if (compact || !showFullTotal) {
+    return;
+  }
+
+  let totalsBlock;
+
+  if (totals.total && totals.totalBeforeDiscount && totals.total !== totals.totalBeforeDiscount) {
+    // show the total and a discount
+    // (t, currencyCode, isOnRequest, value, isSecondary, isDiscounted)
+    totalsBlock = (
+      <React.Fragment>
+        {renderTotalPrice(t, currencyCode, isOnRequest, totals.total, false, true)}
+        {renderTotalPrice(t, currencyCode, isOnRequest, totals.totalBeforeDiscount, true, false)}
+      </React.Fragment>
+    );
+  }
+
+  return (
     <Fragment>
       <Title>{t('labels.totalNet')}</Title>
-      <FullTotal>
-        {renderTotalPrice(t, {
-          currencyCode,
-          isOnRequest,
-          total: overrideTotal || total,
-          discounted: !overrideTotal && showDiscountedPrice && gt(offersCount, 0),
-        })}
-        {overrideTotal &&
-          gt(offersCount, 0) &&
-          renderTotalPrice(t, {
-            currencyCode,
-            isOnRequest,
-            total,
-            secondary: true,
-            discounted: true,
-          })}
-        {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
-          !isOnRequest &&
-          renderTotalPrice(t, {
-            currencyCode,
-            isOnRequest,
-            total: preDiscountTotal,
-            secondary: true,
-          })}
-        {gt(offersCount, 0) && <Text data-discounted={true}>{t('labels.includesOffer', { count: offersCount })}</Text>}
-        {saving && !isOnRequest && (
-          <Text>
-            {t('labels.savingOfPrefix')}
-            <Saving>{`${currencyCode}${formatPrice(saving)}`}</Saving>
-            {t('labels.savingOfSuffix')}
-          </Text>
-        )}
-        {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
-      </FullTotal>
+      {totalsBlock}
     </Fragment>
   );
+
+  // return (
+  //   (!compact || showFullTotal) && (
+  //     <Fragment>
+  //       <Title>{t('labels.totalNet')}</Title>
+  //       <FullTotal>
+  //         {renderTotalPrice(t, {
+  //           currencyCode,
+  //           isOnRequest,
+  //           total: totals.total,
+  //           discounted: !overrideTotal && showDiscountedPrice && gt(offersCount, 0),
+  //         })}
+  //         {overrideTotal &&
+  //           gt(offersCount, 0) &&
+  //           renderTotalPrice(t, {
+  //             currencyCode,
+  //             isOnRequest,
+  //             total: totals.totalBeforeDiscount,
+  //             secondary: true,
+  //             discounted: true,
+  //           })}
+  //         {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
+  //           !isOnRequest &&
+  //           renderTotalPrice(t, {
+  //             currencyCode,
+  //             isOnRequest,
+  //             total: totals.total,
+  //             secondary: true,
+  //           })}
+  //         {gt(offersCount, 0) && (
+  //           <Text data-discounted={true}>{t('labels.includesOffer', { count: offersCount })}</Text>
+  //         )}
+  //         {saving && !isOnRequest && (
+  //           <Text>
+  //             {t('labels.savingOfPrefix')}
+  //             <Saving>{`${currencyCode}${formatPrice(saving)}`}</Saving>
+  //             {t('labels.savingOfSuffix')}
+  //           </Text>
+  //         )}
+  //         {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
+  //       </FullTotal>
+  //     </Fragment>
+  //   )
+  // );
+};
 
 const renderForm = (
   t,
@@ -573,24 +609,26 @@ export const SummaryForm = props => {
     onConfirmModalClose();
   }, [formValues, onConfirmModalClose, onFormSubmit]);
 
+  const hotelUuid = id;
+
   return (
     <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
-        {renderTotal(t, {
+        {/* {renderTotal(t, {
           editGuard,
           onEditGuard: handleEditGuard,
-          overrideTotal: booking.response.totals.total,
+          totals: booking.response.totals,
           ...props,
-        })}
+        })} */}
         {renderHotel(t, {
           name: hotelName || booking.response.hotel.name || 'Hotel',
-          overrideTotal: booking.response.totals.total,
+          overrideTotal: booking?.response?.totals?.total || '0.00',
           ...props,
         })}
 
         {renderLodgingSummaries(t, booking, {
           editGuard,
-          hotelUuid: booking.response.hotel.uuid,
+          hotelUuid,
           onEditGuard: handleEditGuard,
           setModalId,
           ...props,
@@ -606,7 +644,7 @@ export const SummaryForm = props => {
       </Loader>
       {!summaryOnly &&
         renderRoomEditModal(t, {
-          hotelUuid: booking.response.hotel.uuid,
+          hotelUuid,
           modalId,
           status,
           setModalId,
