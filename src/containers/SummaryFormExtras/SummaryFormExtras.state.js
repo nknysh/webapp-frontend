@@ -42,11 +42,11 @@ export const mapStateToProps = (state, { id }) => {
   return {
     addons: bookingAvailableAddons(state),
     groundServices: bookingAvailableGroundServices(state),
-    transfers: getBookingTransfers(state, id),
+    transfers: bookingAvailableTransfers(state, id),
     selectedFines: bookingRequestedFines(state),
     selectedGroundServices: bookingRequestedGroundServices(state),
     selectedSupplements: bookingRequestedSupplements(state),
-    selectedTransfers: getBookingRequestedTransfers(state, id),
+    selectedTransfers: bookingRequestedTransfers(state, id),
     canBook: getBookingReady(state, id),
     currencyCode: getBookingCurrencySymbol(state, id),
     getUser: id => getUser(state, id),

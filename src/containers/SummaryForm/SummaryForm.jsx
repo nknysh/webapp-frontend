@@ -50,7 +50,7 @@ const modalProps = { className: 'room-summary-form' };
 
 const getSingleValue = (type, data) =>
   pipe(
-    pathOr([''], ['breakdown', 'requestedBuild', type]),
+    pathOr([''], ['request', type]),
     head,
     propOr('', 'uuid')
   )(data);
