@@ -105,6 +105,7 @@ export default {
   totalNetCost: 'Total Net Cost',
 
   commission: 'Commission',
+  yourCommission: 'Your Commission',
   notApplied: 'Not Applied',
   additionalResources: 'Other Resources',
   additionalInfo: 'Additional Information',
