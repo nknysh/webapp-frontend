@@ -33,6 +33,8 @@ import {
   bookingRequestedGroundServices,
   bookingRequestedSupplements,
   bookingRequestedFines,
+  updateTransferAction,
+  bookingRequestedTransfersBreakdown,
 } from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { id }) => {
@@ -58,6 +60,7 @@ export const mapStateToProps = (state, { id }) => {
     isTransferSectionCollapsed: getIsTransferSectionCollapsed(state),
     isGroundServicesSectionCollapsed: getIsGroundServicesSectionCollapsed(state),
     isAddonsSectionCollapsed: getIsAddonsSectionCollapsed(state),
+    selectedTransfersBreakdown: bookingRequestedTransfersBreakdown(state),
   };
 };
 
@@ -76,6 +79,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   setIsBookingSummarySectionCollapsed: pipe(
     setIsBookingSummarySectionCollapsed,
+    dispatch
+  ),
+  updateTransferAction: pipe(
+    updateTransferAction,
     dispatch
   ),
 });

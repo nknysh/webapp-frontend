@@ -151,24 +151,20 @@ const renderLodgingSummaries = (t, booking, props) => {
 
   const lodgingErrors = bookingResponse.errors.filter(e => e.meta === 'Accommodation').map(e => e.message) || [];
 
-  const lodgingSummaries = bookingRequest.Accommodation.map((accommodationRequestedBuildObject, index) => {
+  const lodgingSummaries = bookingRequest.Accommodation.map((requestedAccommodation, index) => {
     return {
-      ...accommodationRequestedBuildObject,
+      ...requestedAccommodation,
       index,
       hotelUuid: bookingRequest.hotelUuid,
-      title: getTitleForAccommodationUuid(accommodationRequestedBuildObject.uuid, bookingResponse.availableProductSets),
-      nightsBreakdown: getNightsBreakdownForDates(
-        accommodationRequestedBuildObject.startDate,
-        accommodationRequestedBuildObject.endDate,
-        t
-      ),
+      title: getTitleForAccommodationUuid(requestedAccommodation.uuid, bookingResponse.availableProductSets),
+      nightsBreakdown: getNightsBreakdownForDates(requestedAccommodation.startDate, requestedAccommodation.endDate, t),
       mealPlanBreakdown: getMealPlanBreakdownForLodging(
-        accommodationRequestedBuildObject,
+        requestedAccommodation,
         index,
         bookingResponse.availableProductSets
       ),
-      occupancyBreakdown: getOccupancyBreakdownForAccommodation(accommodationRequestedBuildObject),
-      occasionsBreakdown: getOccassionsBreakdownForLodging(accommodationRequestedBuildObject),
+      occupancyBreakdown: getOccupancyBreakdownForAccommodation(requestedAccommodation),
+      occasionsBreakdown: getOccassionsBreakdownForLodging(requestedAccommodation),
     };
   });
 

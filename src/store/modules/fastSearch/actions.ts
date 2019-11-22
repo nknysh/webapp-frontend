@@ -1,5 +1,13 @@
 import { Filters, OffersSearchSuccessResponse, ErrorResponse } from 'services/BackendApi';
-import { SearchQuery, SearchOptions, StarRating, Occasion, MealPlanNames } from 'services/BackendApi/types';
+import {
+  SearchQuery,
+  SearchOptions,
+  StarRating,
+  Occasion,
+  MealPlanNames,
+  TransferReference,
+  BookingBuilderResponse,
+} from 'services/BackendApi/types';
 
 export const DESTINATION_CHANGE = 'fastSearch/DESTINATION_CHANGE';
 export const TOGGLE_FILTER = 'fastSearch/TOGGLE_FILTER';
@@ -30,6 +38,9 @@ export const OFFERS_SEARCH_FAILURE = 'fastSearch/OFFERS_SEARCH_FAILURE';
 export const OPTIONS_REQUEST = 'fastSearch/OPTIONS_REQUEST';
 export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
+
+export const UPDATE_TRANSFER = 'bookingBuilder/UPDATE_TRANSFER';
+export const UPDATE_BOOKING_SUCCESS = 'bookingBuilder/UPDATE_BOOKING_SUCCESS';
 
 // ---------------------------------------------------------------------------------------
 // How to type Redux Actions with as little boilerplate as possible.
@@ -222,6 +233,20 @@ export const optionsFailureAction = (errorResponse: ErrorResponse) => ({
   errorResponse,
 });
 
+export type UpdateTransferAction = ReturnType<typeof updateTransferAction>;
+export const updateTransferAction = (transfer: TransferReference, hotelUuid: string) => ({
+  type: UPDATE_TRANSFER as typeof UPDATE_TRANSFER,
+  transfer,
+  hotelUuid,
+});
+
+export type UpdateBookingSuccessAction = ReturnType<typeof updateBookingSuccessAction>;
+export const updateBookingSuccessAction = (response: BookingBuilderResponse, hotelUuid: string) => ({
+  type: UPDATE_BOOKING_SUCCESS as typeof UPDATE_BOOKING_SUCCESS,
+  response,
+  hotelUuid,
+});
+
 // 3. Create a union type which we can pass as the reducers action type.
 // goto DestinationChangeAction to see start of these comments.
 export type FastSearchAction =
@@ -253,4 +278,6 @@ export type FastSearchAction =
   | OptionsSuccessAction
   | OptionsFailureAction
   | SetActiveLodgingIndexAction
-  | IncrementActiveLodgingIndexAction;
+  | IncrementActiveLodgingIndexAction
+  | UpdateTransferAction
+  | UpdateBookingSuccessAction;

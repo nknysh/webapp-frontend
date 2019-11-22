@@ -227,6 +227,32 @@ const getOption = (t, props, { products, breakdown }) => {
   return { label, value };
 };
 
+const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, updateTransferAction, hotelUuid) => {
+  return (
+    <ul>
+      {transferOptions.map(to => {
+        const transferReference = {
+          uuid: to.products[0].uuid,
+          direction: to.meta && to.meta.direction && to.meta.direction ? to.meta.direction : undefined,
+        };
+
+        return (
+          <li key={to.products[0].uuid}>
+            <button
+              type="button"
+              onClick={() => {
+                updateTransferAction(transferReference, hotelUuid);
+              }}
+            >
+              {to.products[0].name}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
 const renderTransferOptions = (
   t,
   type,
@@ -276,13 +302,6 @@ const renderTransferOptions = (
     productsOneWay,
     convertProductsToOptions
   )(products);
-
-  console.log('bothWayOptions', bothWayOptions);
-
-  const radioButtonValue = isString(propOr('', productType, values)) && propOr('', productType, values);
-  console.log('values', values);
-  console.log('productType', productType);
-  console.log('radioButtonValue', radioButtonValue);
 
   return (
     // `renderExtra` if we have some return transfers OR some one way transfers
@@ -516,6 +535,8 @@ export const SummaryFormExtras = ({
   isGroundServicesSectionCollapsed,
   isAddonsSectionCollapsed,
   setIsBookingSummarySectionCollapsed,
+  updateTransferAction,
+  selectedTransfersBreakdown,
 }) => {
   const { t } = useTranslation();
   const hasTASelect = isSr && !isRl;
@@ -629,33 +650,6 @@ export const SummaryFormExtras = ({
     onEditGuard,
   };
 
-  const selectedTransfersBreakdown = useCallback(() => {
-    const transfersFormatted = flatten(
-      transfers.map(transfer => {
-        return (transfer.products = transfer.products.map(product => {
-          return {
-            ...product,
-            direction: transfer.meta && transfer.meta.direction ? transfer.meta.direction : undefined,
-            nameWithDirection: `${product.name} (${
-              transfer.meta && transfer.meta.direction ? transfer.meta.direction : 'Return'
-            })`,
-          };
-        }));
-      })
-    );
-
-    const selectedTransferProducts = filterByObjectProperties(transfersFormatted, selectedTransfers, [
-      'uuid',
-      'direction',
-    ]);
-
-    if (selectedTransferProducts.length >= 1) {
-      return selectedTransferProducts.map(stp => stp.nameWithDirection).join(' & ');
-    }
-
-    return 'None selected';
-  }, [selectedTransfers, transfers]);
-
   const selectedGroundServicesBreakdown = useCallback(() => {
     const selectedGroundServiceProducts = filterByObjectProperties(
       flatten(groundServices.map(g => g.products)),
@@ -685,8 +679,7 @@ export const SummaryFormExtras = ({
   }, [selectedFines, selectedSupplements, addons]);
 
   const TransfersWrapper = () => {
-    const breakdown = selectedTransfersBreakdown();
-
+    console.log('transfers wrapper rendering', selectedTransfersBreakdown);
     return (
       <React.Fragment>
         <CollapseTitle>
@@ -695,7 +688,7 @@ export const SummaryFormExtras = ({
               <strong>{t('labels.transfers')}</strong>
             </label>
             <br />
-            <label>{breakdown}</label>
+            <label>{selectedTransfersBreakdown}</label>
           </span>
 
           <CollapseToggle
@@ -712,7 +705,8 @@ export const SummaryFormExtras = ({
         </CollapseTitle>
 
         {isTransferSectionCollapsed === false &&
-          renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false, false)}
+          renderTransferOptionsSimple(selectedTransfers, transfers, updateTransferAction, id)}
+        {/* renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false, false)} */}
       </React.Fragment>
     );
   };

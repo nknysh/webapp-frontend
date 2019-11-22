@@ -1,9 +1,17 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import qs from 'qs';
-import { SearchQuery, ErrorResponse, SearchOptionsResponse } from './types';
+import {
+  SearchQuery,
+  ErrorResponse,
+  SearchOptionsResponse,
+  BookingBuilderRequest,
+  BookingBuilderResponse,
+} from './types';
+
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'api/search/options',
   SEARCH = 'api/search',
+  BOOKING_BUILDER = 'api/booking-builder',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -19,6 +27,21 @@ export class BackendApiService<T extends AxiosInstance> {
   getOffersSearch = async (query: SearchQuery): Promise<AxiosResponse<ErrorResponse | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.SEARCH}?${qs.stringify(query)}`;
     return this.client.get(endpoint);
+  };
+
+  postBookingBuilderRequest = async (
+    bookingBuilderRequest: BookingBuilderRequest
+  ): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {
+    const endpoint = `${BackendEndpoints.BOOKING_BUILDER}`;
+
+    const tempPayloadShape = {
+      data: {
+        attributes: {
+          ...bookingBuilderRequest,
+        },
+      },
+    };
+    return this.client.post(endpoint, tempPayloadShape);
   };
 }
 

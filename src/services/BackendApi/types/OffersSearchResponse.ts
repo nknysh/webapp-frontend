@@ -31,6 +31,11 @@ export interface GuestAges {
   agesOfAllChildren: number[];
 }
 
+export interface TransferReference {
+  uuid: string;
+  direction?: 'in' | 'out';
+}
+
 export interface UuidReference {
   uuid: string;
 }
@@ -55,7 +60,7 @@ export interface BookingBuilderRequest {
   guestAges: GuestAges;
   hotelUuid: string;
   Accommodation: SelectedAccommodation[];
-  Transfer: UuidReference[];
+  Transfer: TransferReference[];
 }
 
 export interface AgeRange {

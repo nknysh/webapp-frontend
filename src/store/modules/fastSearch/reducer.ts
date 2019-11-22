@@ -1,7 +1,10 @@
-import { without, difference, omit, dropLast, update } from 'ramda';
+import { without, difference, omit, dropLast, update, set } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
-import { Filters, Lodging } from 'services/BackendApi';
+import { Filters, Lodging, BookingBuilderRequest } from 'services/BackendApi';
+import { bookingRequestSelector } from './selectors';
+import { getHotelId } from 'store/modules/hotel';
+import lensPath from 'ramda/es/lensPath';
 
 const defaultAge = 7;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
@@ -297,6 +300,34 @@ export default function fastSearchReducer(
           lodgings: update(action.lodgingIndex, updatedLodging, state.query.lodgings),
         },
       };
+
+    case Actions.UPDATE_TRANSFER:
+      const updateTransferHotelRequestIndex = state.results!.findIndex(r => r.uuid === action.hotelUuid);
+      const updatedBookingRequest = state.results![updateTransferHotelRequestIndex].bookingBuilder.request;
+
+      // if no direction, remove all others and keep just this
+      if (!action.transfer.direction) {
+        updatedBookingRequest.Transfer = [action.transfer];
+      }
+
+      // if direction, remove all others without direction or with the same direction
+      if (action.transfer.direction) {
+        updatedBookingRequest.Transfer = updatedBookingRequest.Transfer.filter(
+          t => t.direction && t.direction !== action.transfer.direction
+        ).concat(action.transfer);
+      }
+
+      const path = lensPath(['results', updateTransferHotelRequestIndex, 'bookingBuilder', 'request']);
+
+      const setValue = set(path, updatedBookingRequest, state);
+
+      return setValue;
+
+    case Actions.UPDATE_BOOKING_SUCCESS:
+      const updateBookingSuccessHotelResponseIndex = state.results!.findIndex(r => r.uuid === action.hotelUuid);
+      const responsePath = lensPath(['results', updateBookingSuccessHotelResponseIndex, 'bookingBuilder', 'response']);
+
+      return set(responsePath, action.response, state);
 
     default:
       return state;

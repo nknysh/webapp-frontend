@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect';
 import { FastSearchDomain } from './model';
-import { HotelResult, BookingBuilder } from 'services/BackendApi/types';
+import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/BackendApi/types';
 import { getHotelId } from 'store/modules/hotel';
 import { ProductTypes, Occassions } from 'config/enums';
 import { flatten } from 'ramda'
+import { filterByObjectProperties } from 'utils'
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
 
@@ -102,6 +103,7 @@ export const bookingBuilderSelector = createSelector(
   getHotelId,
   offersSearchResultsSelector,
   (hotelId, results): BookingBuilder | undefined => {
+    console.log('bookingBuilderSelector firing')
     if (!results || !results.length) {
       return undefined;
     }
@@ -113,7 +115,14 @@ export const bookingBuilderSelector = createSelector(
   }
 );
 
-export const bookingRequestSelector = createSelector(bookingBuilderSelector, booking => booking?.request);
+export const bookingRequestSelector = createSelector(bookingBuilderSelector, (booking) : BookingBuilderRequest | undefined => {
+  console.log('bookingRequestSelector firing')
+
+  console.log('booking', booking);
+  console.log('booking.request', booking?.request)
+
+  return booking?.request
+});
 
 export const bookingResponseSelector = createSelector(bookingBuilderSelector, booking => booking?.response);
 
@@ -144,7 +153,6 @@ export const bookingAvailableAddons = createSelector(
     if (!availableProducts) {
       return [];
     }
-    console.log('availableProducts', availableProducts);
     return flatten([availableProducts[ProductTypes.SUPPLEMENT], availableProducts[ProductTypes.FINE]]);
   }
 )
@@ -175,9 +183,35 @@ export const bookingRequestedSupplements = createSelector(
 
 export const bookingRequestedFines = createSelector(
   bookingRequestSelector, request => {
-
-    console.log('request', request);
-    
     return request && request[ProductTypes.FINE] ? request[ProductTypes.FINE] : [];
+  }
+)
+
+export const bookingRequestedTransfersBreakdown = createSelector(
+  bookingAvailableTransfers, bookingRequestedTransfers, (availableTransfers, selectedTransfers) => {
+    const transfersFormatted = flatten(
+      availableTransfers.map(transfer => {
+        return (transfer.products = transfer.products.map(product => {
+          return {
+            ...product,
+            direction: transfer.meta && transfer.meta.direction ? transfer.meta.direction : undefined,
+            nameWithDirection: `${product.name} (${
+              transfer.meta && transfer.meta.direction ? transfer.meta.direction : 'Return'
+            })`,
+          };
+        }));
+      })
+    );
+
+    const selectedTransferProducts = filterByObjectProperties(transfersFormatted, selectedTransfers, [
+      'uuid',
+      'direction',
+    ]);
+
+    if (selectedTransferProducts.length >= 1) {
+      return selectedTransferProducts.map(stp => stp.nameWithDirection).join(' & ');
+    }
+
+    return 'None selected';
   }
 )
