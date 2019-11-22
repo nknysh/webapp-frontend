@@ -311,7 +311,7 @@ const renderGroundServices = (selectedGroundServices, groundServices, updateGrou
             onChange={() => updateGroundServiceAction(gsProduct, hotelUuid)}
             key={`${gsProduct.uuid}/${gsProduct.name}`}
             checked={isChecked}
-            label={`${gsProduct.name})`}
+            label={`${gsProduct.name}`}
           />
         );
       })}
