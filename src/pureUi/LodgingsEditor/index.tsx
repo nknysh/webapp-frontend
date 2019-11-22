@@ -1,4 +1,4 @@
-import React, { FormEvent, EventHandler, HTMLAttributes } from 'react';
+import React, { memo, FormEvent, useEffect, useRef, HTMLAttributes, useCallback } from 'react';
 import styled from 'styled-components';
 import { Lodging } from 'services/BackendApi';
 import { Frame } from 'pureUi/Frame';
@@ -7,7 +7,7 @@ import { Tab } from 'pureUi/Buttons';
 import Stepper from 'pureUi/Stepper';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 
-export interface LodgingsEditorProps extends HTMLAttributes<HTMLDivElement> {
+export interface LodgingsEditorProps extends HTMLAttributes<HTMLButtonElement> {
   lodgings: Lodging[];
   activeLodgingIndex: number;
   totalGuestCount: number;
@@ -18,9 +18,10 @@ export interface LodgingsEditorProps extends HTMLAttributes<HTMLDivElement> {
   onIncrementAdultCount: (lodgingIndex: number, value: number) => void;
   onIncrementChildCount: (lodgingIndex: number, value: number) => void;
   onChildAgeChange: (lodgingIndex: number, childIndex: number, value: string) => void;
+  onClickOutside: (e: MouseEvent) => void;
 }
 
-export const LodgingsEditorComponent = (props: LodgingsEditorProps) => {
+export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
   const { 
     className,
     lodgings, 
@@ -36,19 +37,21 @@ export const LodgingsEditorComponent = (props: LodgingsEditorProps) => {
     ...buttonProps
   } = props;
 
+  const wrapper = useRef<HTMLDivElement>(null);
+
   const handleTabSelect = (tabIndex: number) => () => {
     props.onTabSelect(tabIndex);
   };
 
-  const handleIncrementRoom = (step: number) => (e: FormEvent<HTMLButtonElement>) => {
+  const handleIncrementRoom = (step: number) => {
     props.onIncrementRoomCount(step);
   };
 
-  const handleIncrementAdult = (step: number) => (e: FormEvent<HTMLButtonElement>) => {
+  const handleIncrementAdult = (step: number) => {
     props.onIncrementAdultCount(props.activeLodgingIndex, step);
   };
 
-  const handleIncrementChild = (step: number) => (e: FormEvent<HTMLButtonElement>) => {
+  const handleIncrementChild = (step: number) => {
     props.onIncrementChildCount(props.activeLodgingIndex, step);
   };
   
@@ -56,17 +59,30 @@ export const LodgingsEditorComponent = (props: LodgingsEditorProps) => {
     props.onChildAgeChange(props.activeLodgingIndex, ageIndex, e.currentTarget.value);
   };
 
+  const handleClickOutside = useCallback((e: MouseEvent) => {
+    if(!wrapper.current!.contains(e.target as Node)){
+      props.onClickOutside(e);
+      return;
+    }
+  },[props.onClickOutside]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  })
+
   const activeLodging = props.lodgings[props.activeLodgingIndex];
 
   return (
-    <div className={className}>
-      <div tabIndex={0} className="pseudoSelect" {...buttonProps}>
-        {`${props.lodgings.length} Rooms, ${props.totalGuestCount} Guests`}
-        { showControls && (
+    <div ref={wrapper} className={className}>
+      <button tabIndex={0} className="pseudoSelect" {...buttonProps}>{`${props.lodgings.length} Rooms, ${props.totalGuestCount} Guests`}</button>
+      { showControls && (
         <Frame className="controls">
           <ul>
             <li className="stepItem rooms">
-              Room <Stepper onIncrement={handleIncrementRoom} value={activeLodging.numberOfAdults} max={99} />
+              Room <Stepper onIncrement={handleIncrementRoom} value={lodgings.length} max={99} />
             </li>
 
             <li className="roomTabs">
@@ -82,7 +98,7 @@ export const LodgingsEditorComponent = (props: LodgingsEditorProps) => {
             </li>
 
             <li className="stepItem">
-              Children <Stepper onIncrement={handleIncrementChild} value={activeLodging.numberOfAdults} max={99} />
+              Children <Stepper onIncrement={handleIncrementChild} value={activeLodging.agesOfAllChildren!.length} min={0} max={99} />
             </li>
 
             <li className="childAges">
@@ -99,10 +115,10 @@ export const LodgingsEditorComponent = (props: LodgingsEditorProps) => {
           </ul>
         </Frame>
       )}
-      </div>
+
     </div>
   );
-};
+});
 
 export const LodgingsEditor = styled(LodgingsEditorComponent)`
   position: relative;
@@ -112,10 +128,12 @@ export const LodgingsEditor = styled(LodgingsEditorComponent)`
     position: relative;
     text-transform: uppercase;
     padding: 10px;
+    font-family: 'HurmeGeometricSans2';
     font-size: 14px;
     color: ${pureUiTheme.colors.black};
     text-align: left;
     width: 100%;
+    color: ${pureUiTheme.colors.black};
   }
 
   p {

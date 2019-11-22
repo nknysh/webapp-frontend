@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { memo } from 'react';
 import { HotelResult } from 'services/BackendApi';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
@@ -29,7 +28,7 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
     e.stopPropagation();
     onNavigateToHotel(result.uuid);
   };
-
+  console.log('render search result');
   return (
     <div className={props.className} key={result.name} onClick={handleClick} {...otherProps}>
       <ImageLoader
@@ -103,7 +102,7 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
   );
 };
 
-export default styled(SearchResultHotel)`
+export default styled(memo(SearchResultHotel))`
   position: relative;
   background-color: ${pureUiTheme.colorRoles.areaBackground};
   cursor: pointer;

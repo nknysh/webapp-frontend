@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import StyledFastSearchContainer from './styles';
 import SearchSettings from 'pureUi/SearchSettings';
-import TextInput from 'pureUi/TextInput';
+import PredictiveTextInput from 'pureUi/PredictiveTextInput';
 import { RangeValueType} from 'pureUi/RangeInput';
 import { LodgingsEditor } from '../../pureUi/LodgingsEditor/index';
-import SearchResultHotel from 'pureUi/SearchResultHotel';
+import SidebarGroup from 'pureUi/SidebarGroup';
 import {Link, withRouter, RouteComponentProps} from 'react-router-dom';
+import { List } from 'pureUi/List';
 import { Heading2 } from 'styles';
 import { PrimaryButton } from 'pureUi/Buttons';
+import SearchResultList from 'pureUi/SearchResultsList';
 
 import {
   searchOptionsSelector,
@@ -46,7 +48,10 @@ import {
   incrementActiveLodgingIndexAction,
   toggleLodgingControlsAction,
   setLodgingControlsVisibilityAction,
-  showLodgingControlsSelector
+  showLodgingControlsSelector,
+  nameSearchResultsSelector,
+  setNamesSearchResultsVisibilityAction,
+  showNameSearchResultsSelector,
 } from 'store/modules/fastSearch';
 
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
@@ -57,6 +62,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
     if (!this.props.searchResults) {
       this.props.getOffers(this.props.searchQuery);
+    }
+
+    if(this.props.searchQuery.name === '') {
+      this.props.destinationChange('');
     }
   }
 
@@ -90,11 +99,17 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   }
 
   handleSetLogdingControlsVisibility = (visible: boolean) => () => {
+    console.log('handleSetLogdingControlsVisibility', visible);
     this.props.setLodgingControlsVisibility(visible);
+  }
+
+  handleShowNameSearchDown = (visible: boolean) => () => {
+    this.props.setNamesSearchResultsVisibility(visible);
   }
 
   renderSideBar = () => (
     <div className="sidebar">
+      <SidebarGroup>
       {this.props.optionsRequestPending && <h2>Options Loading</h2>}
       {!this.props.optionsRequestPending && this.props.optionsRequestError && (
         <h2>{this.props.optionsRequestError!.errors.map(e => e.title)}</h2>
@@ -102,10 +117,18 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
       <label>
         Destination or Resort <br />
-        <TextInput placeholder="Where to" value={this.props.searchQuery.name!} onChange={this.handleDestinationChange}/>
-      </label>
+        <PredictiveTextInput 
+          placeholder="Where to" 
+          value={this.props.searchQuery.name!} 
+          onChange={this.handleDestinationChange}
+          options={this.props.nameSearchResults}
+          onOptionSelect={this.props.destinationChange}
+          showDropDown={this.props.showNameSearchResults}
+          onFocus={this.handleShowNameSearchDown(true)}
+          onBlur={this.handleShowNameSearchDown(false)}
+        />
 
-      <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
+      </label>
 
       <LodgingsEditor 
         showControls={this.props.showLodgingControls}
@@ -119,8 +142,12 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
         onChildAgeChange={this.props.setAge}
         totalGuestCount={this.props.totalGuestCount}
         onClick={this.handleToggleLodgingControls}
-        onBlur={this.handleSetLogdingControlsVisibility(false)}
+        onClickOutside={this.handleSetLogdingControlsVisibility(false)}
       />
+
+      <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
+
+      </SidebarGroup>
 
       {this.props.searchOptions && (
         <SearchSettings
@@ -140,8 +167,9 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
         />
 
         )}
-
-        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
+        <SidebarGroup>
+          <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
+        </SidebarGroup>
     </div>
   );
 
@@ -154,18 +182,18 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       return <h3>No results</h3>
     }
 
-    return this.props.searchResults.map(result => (
-      <SearchResultHotel 
-        key={result.uuid} 
-        result={result}
-        showHighlights={this.props.expandedHighlights.includes(result.uuid)}
+    return (
+      <SearchResultList 
+        searchResults={this.props.searchResults}
+        expandedHighlights={this.props.expandedHighlights}
         onToggleHighlights={this.props.toggleHighlights}
         onNavigateToHotel={this.handleSearchResultClick}
-        />));
+      />
+    );
   };
 
   render() {
-    console.log('Render Search Results');
+    console.log('this.props.nameSearchResults', this.props.nameSearchResults);
     if (!this.props.searchOptions) {
       return null;
     }
@@ -207,7 +235,9 @@ const mapStateToProps = createStructuredSelector({
   activeLodingIndex: activeLodingIndexSelector,
   expandedHighlights: expandedHighlightsSelector,
   totalGuestCount: totalGuestCountSelector,
-  showLodgingControls: showLodgingControlsSelector
+  showLodgingControls: showLodgingControlsSelector,
+  nameSearchResults: nameSearchResultsSelector,
+  showNameSearchResults: showNameSearchResultsSelector,
 });
 
 const actionCreators = {
@@ -232,6 +262,7 @@ const actionCreators = {
   incrementActiveLodgingIndex: incrementActiveLodgingIndexAction,
   toggleLodgingControls: toggleLodgingControlsAction,
   setLodgingControlsVisibility: setLodgingControlsVisibilityAction,
+  setNamesSearchResultsVisibility: setNamesSearchResultsVisibilityAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

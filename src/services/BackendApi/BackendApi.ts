@@ -11,6 +11,7 @@ import {
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'api/search/options',
   SEARCH = 'api/search',
+  NAMES = 'api/search/names',
   BOOKING_BUILDER = 'api/booking-builder',
 }
 
@@ -29,6 +30,11 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
+  getNamesSearch = async (name: string): Promise<AxiosResponse<ErrorResponse | ErrorResponse>> => {
+    const endpoint = `${BackendEndpoints.NAMES}/?name=${encodeURI(name)}`;
+    return this.client.get(endpoint);
+  };
+  
   postBookingBuilderRequest = async (
     bookingBuilderRequest: BookingBuilderRequest
   ): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {

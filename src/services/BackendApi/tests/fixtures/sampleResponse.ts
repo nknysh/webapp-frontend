@@ -5092,8 +5092,8 @@ export const sampleResponse: OffersSearchSuccessResponse = {
             },
             minimumNightsReview: false,
             aggregateTotals: {
-              Booking: {
-                title: 'Booking',
+              Total: {
+                title: 'Total',
                 quantity: 1,
                 oneOrMoreItemsOnRequest: false,
                 totalForPricedItemsCents: 2244000,

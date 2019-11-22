@@ -5,8 +5,9 @@ import {
   StarRating,
   Occasion,
   MealPlanNames,
-  TransferReference,
-  BookingBuilderResponse,
+  NameSearchResponseData,
+ TransferReference,
+ BookingBuilderResponse,
 } from 'services/BackendApi/types';
 
 export const DESTINATION_CHANGE = 'fastSearch/DESTINATION_CHANGE';
@@ -38,6 +39,9 @@ export const OFFERS_SEARCH_FAILURE = 'fastSearch/OFFERS_SEARCH_FAILURE';
 export const OPTIONS_REQUEST = 'fastSearch/OPTIONS_REQUEST';
 export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
+export const NAME_SEARCH_SUCCESS = 'fastSearch/NAME_SEARCH_SUCCESS';
+export const NAME_SEARCH_FAILURE = 'fastSearch/NAME_SEARCH_FAILURE';
+export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RESUTS_VISIBILITY';
 
 export const UPDATE_TRANSFER = 'bookingBuilder/UPDATE_TRANSFER';
 export const UPDATE_BOOKING_SUCCESS = 'bookingBuilder/UPDATE_BOOKING_SUCCESS';
@@ -233,6 +237,24 @@ export const optionsFailureAction = (errorResponse: ErrorResponse) => ({
   errorResponse,
 });
 
+export type NamesSearchSuccessAction = ReturnType<typeof namesSearchSuccessAction>;
+export const namesSearchSuccessAction = (successResponse: NameSearchResponseData) => ({
+  type: NAME_SEARCH_SUCCESS as typeof NAME_SEARCH_SUCCESS,
+  successResponse,
+});
+
+export type NamesSearchFailureAction = ReturnType<typeof namesSearchFailureAction>;
+export const namesSearchFailureAction = (errorResponse: ErrorResponse) => ({
+  type: NAME_SEARCH_FAILURE as typeof NAME_SEARCH_FAILURE,
+  errorResponse,
+});
+
+export type SetNamesSearchResultsVisibilityAction = ReturnType<typeof setNamesSearchResultsVisibilityAction>;
+export const setNamesSearchResultsVisibilityAction = (visible: boolean) => ({
+  type: SET_NAME_SEARCH_RESUTS_VISIBILITY as typeof SET_NAME_SEARCH_RESUTS_VISIBILITY,
+  visible,
+});
+
 export type UpdateTransferAction = ReturnType<typeof updateTransferAction>;
 export const updateTransferAction = (transfer: TransferReference, hotelUuid: string) => ({
   type: UPDATE_TRANSFER as typeof UPDATE_TRANSFER,
@@ -279,5 +301,8 @@ export type FastSearchAction =
   | OptionsFailureAction
   | SetActiveLodgingIndexAction
   | IncrementActiveLodgingIndexAction
-  | UpdateTransferAction
-  | UpdateBookingSuccessAction;
+  | NamesSearchSuccessAction
+  | NamesSearchFailureAction
+  | SetNamesSearchResultsVisibilityAction
+ | UpdateTransferAction
+ | UpdateBookingSuccessAction;

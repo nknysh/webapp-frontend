@@ -4,10 +4,10 @@ import { List } from 'pureUi/List/index';
 import RangeInput, { RangeValueType } from 'pureUi/RangeInput';
 import Checkbox from 'pureUi/Checkbox';
 import RadioButton from 'pureUi/RadioButton';
+import SidebarGroup from 'pureUi/SidebarGroup';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { PrimaryButton } from '../Buttons/index';
-
 export interface SearchSettingsProps extends React.HTMLProps<HTMLDivElement> {
   options: SearchOptions;
   query: SearchQuery;
@@ -43,7 +43,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
 
   return (
     <div className={props.className}>
-      <section>
+      <SidebarGroup>
         <h4>Occasions</h4>
         <List
           items={Object.keys(Occasion).map(k => Occasion[k])}
@@ -58,8 +58,9 @@ export const SearchSettings = (props: SearchSettingsProps) => {
             );
           }}
         />
-      </section>
-
+      </SidebarGroup>
+      
+      <SidebarGroup>
       <section>
         <h4>Regions</h4>
         <ul>
@@ -174,17 +175,16 @@ export const SearchSettings = (props: SearchSettingsProps) => {
           Remove all filters
         </PrimaryButton>
       </section>
+      </SidebarGroup>
     </div>
   );
 };
 
 export default styled(SearchSettings)`
-  background-color: ${pureUiTheme.colorRoles.areaBackground};
   text-transform: uppercase;
   font-family: 'HurmeGeometricSans2';
   font-size: 12px;
   color: ${pureUiTheme.colorRoles.grayLabel};
-  padding: 18px;
 
   h4 {
     font-weight: bold;
