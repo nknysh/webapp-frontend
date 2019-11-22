@@ -13,11 +13,13 @@ import {
   updateBooking,
 } from 'store/modules/bookings';
 
+import { bookingCanBookSelector, bookingCanHoldSelector } from 'store/modules/fastSearch';
+
 export const mapStateToProps = (state, { id }) => ({
   booking: getBooking(state, id),
   brochures: getHotelsBrochures(state, id),
-  canBook: getBookingReady(state, id),
-  canHold: getBookingCanHold(state, id),
+  canBook: bookingCanBookSelector(state),
+  canHold: bookingCanHoldSelector(state),
   hotel: getHotel(state, id),
   photos: getHotelsPhotos(state, id),
   policiesAndTerms: getBookingPoliciesAndTerms(state, id),

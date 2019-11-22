@@ -242,6 +242,16 @@ export const bookingCanBookSelector = createSelector(
   }
 );
 
+export const bookingCanHoldSelector = createSelector(
+  bookingBuilderSelector, (booking) => {
+    if (!booking) {
+      return false;
+    }
+
+    return booking.response.availableToHold;
+  }
+);
+
 /**
  * HACKS AHEAD
  * this selector SHOULD be able to rely on 
@@ -287,5 +297,15 @@ export const bookingRequestedTransfersBreakdownSelector = createSelector(
     }
 
     return 'None selected';
+  }
+)
+
+export const bookingResponseNonAccommodationErrors = createSelector(
+  bookingBuilderSelector, (booking) => {
+    if (!booking || !booking.response.errors) {
+      return [];
+    }
+    // following the logic in `getBookingNonAccommodationErrors` in `src/store/modules/bookings/selectors.js`
+    return booking.response.errors.filter(e => e.accommodationProductUuid == null);
   }
 )

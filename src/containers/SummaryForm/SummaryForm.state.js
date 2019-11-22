@@ -22,13 +22,13 @@ import {
   getAccommodationEditModalErrors,
 } from 'store/modules/bookings';
 
-import { bookingCanBookSelector } from 'store/modules/fastSearch';
+import { bookingCanBookSelector, bookingResponseNonAccommodationErrors } from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: bookingBuilderSelector(state),
-  canBook: bookingCanBookSelector(state, id),
+  canBook: bookingCanBookSelector(state),
   currencyCode: getBookingCurrencySymbol(state, id),
-  errors: getBookingNonAccommodationErrors(state, id),
+  errors: bookingResponseNonAccommodationErrors(state),
   holds: getBookingHolds(state, id),
   hotelName: getHotelName(state, id),
   isOnRequest: isBookingOnRequest(state, id),

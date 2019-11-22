@@ -338,7 +338,7 @@ const renderAddons = (
             onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
             key={`${supplementProduct.uuid}/${supplementProduct.name}`}
             checked={isChecked}
-            label={`${supplementProduct.name})`}
+            label={`${supplementProduct.name}`}
           />
         );
       })}
@@ -355,7 +355,7 @@ const renderAddons = (
             onChange={() => updateFineAction(fineProduct, hotelUuid)}
             key={`${fineProduct.uuid}/${fineProduct.name}`}
             checked={isChecked}
-            label={`${fineProduct.name})`}
+            label={`${fineProduct.name}`}
           />
         );
       })}
