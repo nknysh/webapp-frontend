@@ -5,6 +5,7 @@ import { Icon } from '@material-ui/core';
 
 export interface StepperProps extends HTMLProps<HTMLDivElement> {
   value: number;
+  min?: number;
   max?: number;
   onIncrement: (step: number) => void;
 }
@@ -18,7 +19,7 @@ const Stepper = (props: StepperProps) => {
   );
   return (
     <div className={props.className}>
-      <RoundedIconButton title="decrease" disabled={props.value === 0} onClick={handleClick(-1)}>
+      <RoundedIconButton title="decrease" disabled={props.value === props.min} onClick={handleClick(-1)}>
         <Icon>remove</Icon>
       </RoundedIconButton>
       {props.value}
@@ -27,6 +28,12 @@ const Stepper = (props: StepperProps) => {
       </RoundedIconButton>
     </div>
   );
+};
+
+Stepper.defaultProps = {
+  value: 1,
+  min: 1,
+  max: 99,
 };
 
 export default styled(Stepper)`

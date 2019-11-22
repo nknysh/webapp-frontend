@@ -81,6 +81,24 @@ export default function fastSearchReducer(
         },
       };
 
+    case Actions.NAME_SEARCH_SUCCESS:
+      return {
+        ...state,
+        nameSearchResults: action.successResponse,
+      };
+
+    case Actions.NAME_SEARCH_FAILURE:
+      return {
+        ...state,
+        nameSearchRequestError: action.errorResponse,
+      };
+
+    case Actions.SET_NAME_SEARCH_RESUTS_VISIBILITY:
+      return {
+        ...state,
+        showNameSearchResults: action.visible,
+      };
+
     // ------------------------------------------------------
     // Start Ratings
     // ------------------------------------------------------
@@ -188,6 +206,7 @@ export default function fastSearchReducer(
         query: {
           ...state.query,
           filters: action.value === true ? Object.keys(Filters).map(k => Filters[k]) : [],
+          priceRange: !action.value ? { min: undefined, max: undefined } : state.query.priceRange,
         },
       };
 
@@ -214,11 +233,18 @@ export default function fastSearchReducer(
 
     // ------------------------------------------------------
     // Lodgings
-    // TODO: Break out into subReducer
+    // TODO: Break out into subReducer?
     // ------------------------------------------------------
     case Actions.INCREMENT_ROOM:
+      const newActiveLodgingIndex =
+        state.activeLodgingIndex === state.query.lodgings.length - 1 && action.step < 1
+          ? (state.activeLodgingIndex = state.activeLodgingIndex - 1)
+          : state.activeLodgingIndex;
+
+      console.log('-->', state.activeLodgingIndex, state.query.lodgings.length, newActiveLodgingIndex);
       return {
         ...state,
+        activeLodgingIndex: newActiveLodgingIndex,
         query: {
           ...state.query,
           lodgings:

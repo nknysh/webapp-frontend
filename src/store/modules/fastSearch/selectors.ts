@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { FastSearchDomain } from './model';
 import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/BackendApi/types';
 import { getHotelId } from 'store/modules/hotel';
+import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 import { ProductTypes, Occassions } from 'config/enums';
 import { flatten } from 'ramda'
 import { filterByObjectProperties } from 'utils'
@@ -94,6 +95,11 @@ export const showLodgingControlsSelector = createSelector(
   (domain): FastSearchDomain['showLodgingControls'] => domain.showLodgingControls
 );
 
+export const showNameSearchResultsSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['showNameSearchResults'] => domain.showNameSearchResults
+)
+
 export const activeHotelIdSelector = createSelector(
   fastSearchDomain,
   (domain): FastSearchDomain['activeHotelId'] => domain.activeHotelId
@@ -114,6 +120,18 @@ export const bookingBuilderSelector = createSelector(
     return found?.bookingBuilder;
   }
 );
+
+export const nameSearchResultsSelector = createSelector(
+  fastSearchDomain,
+  (domain): string[][] => {
+    if(!domain.nameSearchResults) {
+      return [];
+    }
+    const countries = domain.nameSearchResults.countries.map(v => v.name);
+    const hotels = domain.nameSearchResults.hotels.map(v => v.name);
+    return [[ALL_COUNTRIES_AND_RESORTS],countries, hotels];
+  }
+)
 
 export const bookingRequestSelector = createSelector(bookingBuilderSelector, (booking) : BookingBuilderRequest | undefined => {
   console.log('bookingRequestSelector firing')

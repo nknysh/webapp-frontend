@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 
-interface TextInputProps extends React.HTMLProps<HTMLInputElement> {
-  children?: JSX.Element | JSX.Element[];
+export interface TextInputProps extends React.HTMLProps<HTMLInputElement> {
+  children?: JSX.Element | JSX.Element[] | null | undefined;
 }
 const TextInput = (props: TextInputProps) => {
   const { className, children, type, ...inputProps } = props;
@@ -26,8 +26,9 @@ export default styled(TextInput)`
     flex-shrink: 1;
     padding: 10px;
     font-family: 'HurmeGeometricSans2';
-    font-size: 12px;
+    font-size: 14px;
     width: 100%;
+    color: ${pureUiTheme.colors.black};
   }
 
   input:focus,

@@ -2,6 +2,7 @@ import { call, takeLatest, select, put } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import { without } from 'ramda';
 import backendApi, { OffersSearchSuccessResponse, MealPlanNames } from 'services/BackendApi';
+import { ALL_COUNTRIES_AND_RESORTS } from '../constants';
 import {
   OFFERS_SEARCH_REQUEST,
   offersSearchFailureAction,
@@ -14,7 +15,7 @@ export function* offersSearchRequestSaga(action: SearchRequestAction) {
   const query = action.query;
   const sanitizedQuery = {
     ...query,
-    name: query.name === '' ? null : query.name,
+    name: action.query.name === ALL_COUNTRIES_AND_RESORTS ? '' : action.query.name,
     mealPlanCategories: without([MealPlanNames.ANY], query.mealPlanCategories),
   };
 

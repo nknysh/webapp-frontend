@@ -29,7 +29,9 @@ export const RangeInput = (props: RangeInputProps) => {
           <TextInput className="input" name="max value" type="text" value={props.max} onChange={handleChange('max')} />
         </label>
       </div>
-      <p className="error">{props.min > props.max ? 'Max must be greater than min' : '\u00A0'}</p>
+      <p className="error">
+        {parseFloat(props.min) > parseFloat(props.max) ? 'Max must be greater than min' : '\u00A0'}
+      </p>
     </div>
   );
 };
