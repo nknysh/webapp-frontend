@@ -3,7 +3,7 @@ import { FastSearchDomain } from './model';
 import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/BackendApi/types';
 import { getHotelId } from 'store/modules/hotel';
 import { ProductTypes, Occassions } from 'config/enums';
-import { flatten } from 'ramda'
+import { flatten, clone } from 'ramda'
 import { filterByObjectProperties } from 'utils'
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
@@ -103,7 +103,7 @@ export const bookingBuilderSelector = createSelector(
   getHotelId,
   offersSearchResultsSelector,
   (hotelId, results): BookingBuilder | undefined => {
-    console.log('bookingBuilderSelector firing')
+    console.log('hotelId', hotelId);
     if (!results || !results.length) {
       return undefined;
     }
@@ -116,11 +116,6 @@ export const bookingBuilderSelector = createSelector(
 );
 
 export const bookingRequestSelector = createSelector(bookingBuilderSelector, (booking) : BookingBuilderRequest | undefined => {
-  console.log('bookingRequestSelector firing')
-
-  console.log('booking', booking);
-  console.log('booking.request', booking?.request)
-
   return booking?.request
 });
 
@@ -130,25 +125,25 @@ export const bookingAvailableProductsSelector = createSelector(
   bookingResponseSelector, (response) => response?.availableProductSets
 );
 
-export const bookingAvailableAccommodations = createSelector(
+export const bookingAvailableAccommodationsSelector = createSelector(
   bookingAvailableProductsSelector, availableProductSets => {
     return availableProductSets ? availableProductSets[ProductTypes.ACCOMMODATION] : [];
   }
 );
 
-export const bookingAvailableTransfers = createSelector(
+export const bookingAvailableTransfersSelector = createSelector(
   bookingAvailableProductsSelector, availableProductSets => {
     return availableProductSets ? availableProductSets[ProductTypes.TRANSFER] : [];
   }
 );
 
-export const bookingAvailableGroundServices = createSelector(
+export const bookingAvailableGroundServicesSelector = createSelector(
   bookingAvailableProductsSelector, availableProducts => {
     return availableProducts ? availableProducts[ProductTypes.GROUND_SERVICE] : [];
   }
 )
 
-export const bookingAvailableAddons = createSelector(
+export const bookingAvailableAddonsSelector = createSelector(
   bookingAvailableProductsSelector, availableProducts => {
     if (!availableProducts) {
       return [];
@@ -157,39 +152,58 @@ export const bookingAvailableAddons = createSelector(
   }
 )
 
-export const bookingRequestedAccommodations = createSelector(
+export const bookingRequestedAccommodationsSelector = createSelector(
   bookingRequestSelector, request => {
     return request && request[ProductTypes.ACCOMMODATION] ? request[ProductTypes.ACCOMMODATION] : [];
   }
 )
 
-export const bookingRequestedTransfers = createSelector(
+export const bookingRequestedTransfersSelector = createSelector(
   bookingRequestSelector, request => {
     return request && request[ProductTypes.TRANSFER] ? request[ProductTypes.TRANSFER] : [];
   }
 )
 
-export const bookingRequestedGroundServices = createSelector(
+export const bookingRequestedGroundServicesSelector = createSelector(
   bookingRequestSelector, request => {
     return request && request[ProductTypes.GROUND_SERVICE] ? request[ProductTypes.GROUND_SERVICE] : [];
   }
 )
 
-export const bookingRequestedSupplements = createSelector(
+export const bookingRequestedSupplementsSelector = createSelector(
   bookingRequestSelector, request => {
     return request && request[ProductTypes.SUPPLEMENT]? request[ProductTypes.SUPPLEMENT] : [];
   }
 )
 
-export const bookingRequestedFines = createSelector(
+export const bookingRequestedFinesSelector = createSelector(
   bookingRequestSelector, request => {
     return request && request[ProductTypes.FINE] ? request[ProductTypes.FINE] : [];
   }
 )
 
-export const bookingRequestedTransfersBreakdown = createSelector(
-  bookingAvailableTransfers, bookingRequestedTransfers, (availableTransfers, selectedTransfers) => {
-    const transfersFormatted = flatten(
+/**
+ * HACKS AHEAD
+ * this selector SHOULD be able to rely on 
+ * bookingAvailableTransfersSelector
+ * bookingRequestedTransfersSelector
+ * 
+ * instead of the main booking selector
+ * 
+ * however, when we did that, bookingRequestedTransfersSelector was returning STALE data
+ * we don't know why
+ * that should be investigated
+ */
+export const bookingRequestedTransfersBreakdownSelector = createSelector(
+  bookingBuilderSelector, (booking) => {
+    if (!booking) {
+      return [];
+    }
+
+    const selectedTransfers = booking && booking.request && booking.request[ProductTypes.TRANSFER] ? clone(booking.request[ProductTypes.TRANSFER]) : [];
+    const availableTransfers = clone(booking.response.availableProductSets.Transfer);
+
+    const tempAvailableProducts = flatten(
       availableTransfers.map(transfer => {
         return (transfer.products = transfer.products.map(product => {
           return {
@@ -203,7 +217,7 @@ export const bookingRequestedTransfersBreakdown = createSelector(
       })
     );
 
-    const selectedTransferProducts = filterByObjectProperties(transfersFormatted, selectedTransfers, [
+    const selectedTransferProducts = filterByObjectProperties(tempAvailableProducts, selectedTransfers, [
       'uuid',
       'direction',
     ]);

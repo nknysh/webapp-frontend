@@ -408,6 +408,7 @@ export interface Transfer {
   breakdown: Breakdown[];
   mandatory: boolean;
   selected: boolean;
+  meta: any;
 }
 
 export interface GroundService {

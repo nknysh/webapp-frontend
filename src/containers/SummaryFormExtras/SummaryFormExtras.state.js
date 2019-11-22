@@ -26,15 +26,15 @@ import {
 } from 'store/modules/ui';
 
 import {
-  bookingAvailableTransfers,
-  bookingAvailableGroundServices,
-  bookingAvailableAddons,
-  bookingRequestedTransfers,
-  bookingRequestedGroundServices,
-  bookingRequestedSupplements,
-  bookingRequestedFines,
+  bookingAvailableTransfersSelector,
+  bookingAvailableGroundServicesSelector,
+  bookingAvailableAddonsSelector,
+  bookingRequestedTransfersSelector,
+  bookingRequestedGroundServicesSelector,
+  bookingRequestedSupplementsSelector,
+  bookingRequestedFinesSelector,
   updateTransferAction,
-  bookingRequestedTransfersBreakdown,
+  bookingRequestedTransfersBreakdownSelector,
 } from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { id }) => {
@@ -42,13 +42,13 @@ export const mapStateToProps = (state, { id }) => {
   const travelAgent = getUser(state, travelAgentUserUuid);
 
   return {
-    addons: bookingAvailableAddons(state),
-    groundServices: bookingAvailableGroundServices(state),
-    transfers: bookingAvailableTransfers(state, id),
-    selectedFines: bookingRequestedFines(state),
-    selectedGroundServices: bookingRequestedGroundServices(state),
-    selectedSupplements: bookingRequestedSupplements(state),
-    selectedTransfers: bookingRequestedTransfers(state, id),
+    addons: bookingAvailableAddonsSelector(state),
+    groundServices: bookingAvailableGroundServicesSelector(state),
+    transfers: bookingAvailableTransfersSelector(state, id),
+    selectedFines: bookingRequestedFinesSelector(state),
+    selectedGroundServices: bookingRequestedGroundServicesSelector(state),
+    selectedSupplements: bookingRequestedSupplementsSelector(state),
+    selectedTransfers: bookingRequestedTransfersSelector(state, id),
     canBook: getBookingReady(state, id),
     currencyCode: getBookingCurrencySymbol(state, id),
     getUser: id => getUser(state, id),
@@ -60,7 +60,7 @@ export const mapStateToProps = (state, { id }) => {
     isTransferSectionCollapsed: getIsTransferSectionCollapsed(state),
     isGroundServicesSectionCollapsed: getIsGroundServicesSectionCollapsed(state),
     isAddonsSectionCollapsed: getIsAddonsSectionCollapsed(state),
-    selectedTransfersBreakdown: bookingRequestedTransfersBreakdown(state),
+    selectedTransfersBreakdown: bookingRequestedTransfersBreakdownSelector(state),
   };
 };
 

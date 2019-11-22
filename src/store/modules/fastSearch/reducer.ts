@@ -303,7 +303,7 @@ export default function fastSearchReducer(
 
     case Actions.UPDATE_TRANSFER:
       const updateTransferHotelRequestIndex = state.results!.findIndex(r => r.uuid === action.hotelUuid);
-      const updatedBookingRequest = state.results![updateTransferHotelRequestIndex].bookingBuilder.request;
+      const updatedBookingRequest = { ...state.results![updateTransferHotelRequestIndex].bookingBuilder.request };
 
       // if no direction, remove all others and keep just this
       if (!action.transfer.direction) {
@@ -319,9 +319,7 @@ export default function fastSearchReducer(
 
       const path = lensPath(['results', updateTransferHotelRequestIndex, 'bookingBuilder', 'request']);
 
-      const setValue = set(path, updatedBookingRequest, state);
-
-      return setValue;
+      return set(path, updatedBookingRequest, state);
 
     case Actions.UPDATE_BOOKING_SUCCESS:
       const updateBookingSuccessHotelResponseIndex = state.results!.findIndex(r => r.uuid === action.hotelUuid);

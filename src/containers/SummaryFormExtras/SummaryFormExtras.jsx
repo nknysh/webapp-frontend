@@ -228,29 +228,95 @@ const getOption = (t, props, { products, breakdown }) => {
 };
 
 const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, updateTransferAction, hotelUuid) => {
-  return (
-    <ul>
-      {transferOptions.map(to => {
-        const transferReference = {
-          uuid: to.products[0].uuid,
-          direction: to.meta && to.meta.direction && to.meta.direction ? to.meta.direction : undefined,
-        };
+  console.log('selectedTransferOptions', selectedTransferOptions);
 
+  const simpleTransfers = transferOptions.map(t => ({
+    name: t.products[0].name,
+    uuid: t.products[0].uuid,
+    direction: t.meta && t.meta.direction && t.meta.direction ? t.meta.direction : undefined,
+  }));
+
+  const handleRadioClick = e => {
+    updateTransferAction(
+      {
+        uuid: e.target.value,
+        direction: undefined,
+      },
+      hotelUuid
+    );
+  };
+
+  const handleCheckboxClick = to => {
+    updateTransferAction(to, hotelUuid);
+  };
+
+  const bothWayTransfersOptions = simpleTransfers
+    .filter(t => t.direction === undefined)
+    .map(t => ({
+      value: t.uuid,
+      label: t.name,
+    }));
+  const oneWayTransfersOptions = simpleTransfers.filter(t => t.direction !== undefined);
+
+  const bothWayTransferMarkup = (
+    <React.Fragment>
+      <RadioButton
+        onChange={e => handleRadioClick(e)}
+        options={bothWayTransfersOptions}
+        value={selectedTransferOptions[0].uuid}
+      />
+    </React.Fragment>
+  );
+
+  const oneWayTransfersMarkup = (
+    <React.Fragment>
+      {oneWayTransfersOptions.map(to => {
+        const isChecked = selectedTransferOptions.some(sto => sto.uuid === to.uuid && sto.direction === to.direction);
         return (
-          <li key={to.products[0].uuid}>
-            <button
-              type="button"
-              onClick={() => {
-                updateTransferAction(transferReference, hotelUuid);
-              }}
-            >
-              {to.products[0].name}
-            </button>
-          </li>
+          <AddonCheckbox
+            onChange={() => handleCheckboxClick(to)}
+            key={`${to.name}/${to.direction}`}
+            checked={isChecked}
+            label={`${to.name} (${to.direction})`}
+          />
         );
       })}
-    </ul>
+    </React.Fragment>
   );
+
+  return (
+    <div>
+      <label>Return Transfers</label>
+      {bothWayTransferMarkup}
+      <hr />
+      <label>One Way Transfers</label>
+      {oneWayTransfersMarkup}
+    </div>
+  );
+
+  // return (
+  //   <ul>
+  //     {transferOptions.map(to => {
+  //       const transferReference = {
+  //         uuid: to.products[0].uuid,
+  //         direction: to.meta && to.meta.direction && to.meta.direction ? to.meta.direction : undefined,
+  //       };
+
+  //       return (
+  //         <li key={to.products[0].uuid}>
+  //           <button
+  //             type="button"
+  //             onClick={() => {
+  //               updateTransferAction(transferReference, hotelUuid);
+  //             }}
+  //           >
+  //             {to.products[0].name}
+  //           </button>
+  //         </li>
+  //       );
+  //     })}
+  //   </ul>
+  // );
 };
 
 const renderTransferOptions = (
@@ -679,7 +745,6 @@ export const SummaryFormExtras = ({
   }, [selectedFines, selectedSupplements, addons]);
 
   const TransfersWrapper = () => {
-    console.log('transfers wrapper rendering', selectedTransfersBreakdown);
     return (
       <React.Fragment>
         <CollapseTitle>
