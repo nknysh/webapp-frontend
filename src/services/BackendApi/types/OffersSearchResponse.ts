@@ -36,6 +36,18 @@ export interface TransferReference {
   direction?: 'in' | 'out';
 }
 
+export interface GroundServiceReference {
+  uuid: string;
+}
+
+export interface FineReference {
+  uuid: string;
+}
+
+export interface SupplementReference {
+  uuid: string;
+}
+
 export interface UuidReference {
   uuid: string;
 }
@@ -61,6 +73,9 @@ export interface BookingBuilderRequest {
   hotelUuid: string;
   Accommodation: SelectedAccommodation[];
   Transfer: TransferReference[];
+  'Ground Service': GroundServiceReference[];
+  Fine: FineReference[];
+  Supplement: SupplementReference[];
 }
 
 export interface AgeRange {

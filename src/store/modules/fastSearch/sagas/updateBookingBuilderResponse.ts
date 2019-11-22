@@ -10,6 +10,9 @@ import {
   UPDATE_LODGING_OCCASIONS_ACTION,
   ADD_LODGING_ACTION,
   REMOVE_LODGING_ACTION,
+  UPDATE_GROUND_SERVICE_ACTION,
+  UPDATE_SUPPLEMENT_ACTION,
+  UPDATE_FINE_ACTION,
   updateBookingSuccessAction,
 } from '../actions';
 
@@ -39,6 +42,9 @@ export function* watchTransferUpdate() {
       ADD_LODGING_ACTION,
       UPDATE_LODGING_OCCASIONS_ACTION,
       REMOVE_LODGING_ACTION,
+      UPDATE_GROUND_SERVICE_ACTION,
+      UPDATE_SUPPLEMENT_ACTION,
+      UPDATE_FINE_ACTION,
     ],
     bookingBuilderResponseSaga
   );

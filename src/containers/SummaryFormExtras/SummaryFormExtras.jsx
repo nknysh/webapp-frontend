@@ -69,6 +69,7 @@ import {
   toSelectedAddon,
   groupByProductsUuid,
 } from './SummaryFormExtras.utils';
+import { updateFineAction } from 'store/modules/fastSearch';
 
 const renderAddonCheckbox = props => <AddonCheckbox {...props} />;
 
@@ -296,6 +297,76 @@ const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, u
       <label>One Way Transfers</label>
       {oneWayTransfersMarkup}
     </div>
+  );
+};
+
+const renderGroundServices = (selectedGroundServices, groundServices, updateGroundServiceAction, hotelUuid) => {
+  return (
+    <React.Fragment>
+      {groundServices.map(gs => {
+        const gsProduct = gs.products[0];
+        const isChecked = selectedGroundServices.some(sgs => sgs.uuid === gsProduct.uuid);
+        return (
+          <AddonCheckbox
+            onChange={() => updateGroundServiceAction(gsProduct, hotelUuid)}
+            key={`${gsProduct.uuid}/${gsProduct.name}`}
+            checked={isChecked}
+            label={`${gsProduct.name})`}
+          />
+        );
+      })}
+    </React.Fragment>
+  );
+};
+
+const renderAddons = (
+  selectedSupplements,
+  selectedFines,
+  availableSupplements,
+  availableFines,
+  updateSupplementAction,
+  updateFineAction,
+  hotelUuid
+) => {
+  const supplementMarkup = (
+    <React.Fragment>
+      {availableSupplements.map(sp => {
+        const supplementProduct = sp.products[0];
+        const isChecked = selectedSupplements.some(sgs => sgs.uuid === supplementProduct.uuid);
+        return (
+          <AddonCheckbox
+            onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
+            key={`${supplementProduct.uuid}/${supplementProduct.name}`}
+            checked={isChecked}
+            label={`${supplementProduct.name})`}
+          />
+        );
+      })}
+    </React.Fragment>
+  );
+
+  const fineMarkup = (
+    <React.Fragment>
+      {availableFines.map(fp => {
+        const fineProduct = fp.products[0];
+        const isChecked = selectedFines.some(sgs => sgs.uuid === fineProduct.uuid);
+        return (
+          <AddonCheckbox
+            onChange={() => updateFineAction(fineProduct, hotelUuid)}
+            key={`${fineProduct.uuid}/${fineProduct.name}`}
+            checked={isChecked}
+            label={`${fineProduct.name})`}
+          />
+        );
+      })}
+    </React.Fragment>
+  );
+
+  return (
+    <React.Fragment>
+      {supplementMarkup}
+      {fineMarkup}
+    </React.Fragment>
   );
 };
 
@@ -583,6 +654,11 @@ export const SummaryFormExtras = ({
   setIsBookingSummarySectionCollapsed,
   updateTransferAction,
   selectedTransfersBreakdown,
+  updateGroundServiceAction,
+  updateSupplementAction,
+  updateFineAction,
+  availableSupplements,
+  availableFines,
 }) => {
   const { t } = useTranslation();
   const hasTASelect = isSr && !isRl;
@@ -683,19 +759,6 @@ export const SummaryFormExtras = ({
     updateBooking(id, { travelAgentUserUuid: null });
   }, [id, updateBooking]);
 
-  const optionsProps = {
-    compact,
-    currencyCode,
-    onOneWayChange,
-    onSingleChange,
-    summaryOnly,
-    values,
-    compactEdit,
-    onEditClick,
-    editGuard,
-    onEditGuard,
-  };
-
   const selectedGroundServicesBreakdown = useCallback(() => {
     const selectedGroundServiceProducts = filterByObjectProperties(
       flatten(groundServices.map(g => g.products)),
@@ -782,20 +845,7 @@ export const SummaryFormExtras = ({
         </CollapseTitle>
 
         {isGroundServicesSectionCollapsed === false &&
-          renderExtraSelects(
-            t,
-            'groundService',
-            groundServices,
-            {
-              currencyCode,
-              summaryOnly,
-              onMultipleChange,
-              values,
-              compactEdit,
-              onEditClick,
-            },
-            false
-          )}
+          renderGroundServices(selectedGroundServices, groundServices, updateGroundServiceAction, id)}
       </React.Fragment>
     );
   };
@@ -826,19 +876,14 @@ export const SummaryFormExtras = ({
         </CollapseTitle>
 
         {isAddonsSectionCollapsed === false &&
-          renderExtraSelects(
-            t,
-            'addon',
-            addons,
-            {
-              currencyCode,
-              summaryOnly,
-              onMultipleChange,
-              values,
-              compactEdit,
-              onEditClick,
-            },
-            false
+          renderAddons(
+            selectedSupplements,
+            selectedFines,
+            availableSupplements,
+            availableFines,
+            updateSupplementAction,
+            updateFineAction,
+            id
           )}
       </React.Fragment>
     );

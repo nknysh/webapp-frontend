@@ -35,6 +35,11 @@ import {
   bookingRequestedFinesSelector,
   updateTransferAction,
   bookingRequestedTransfersBreakdownSelector,
+  updateGroundServiceAction,
+  bookingAvailableFinesSelector,
+  bookingAvailableSupplementsSelector,
+  updateSupplementAction,
+  updateFineAction,
 } from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { id }) => {
@@ -45,6 +50,8 @@ export const mapStateToProps = (state, { id }) => {
     addons: bookingAvailableAddonsSelector(state),
     groundServices: bookingAvailableGroundServicesSelector(state),
     transfers: bookingAvailableTransfersSelector(state, id),
+    availableFines: bookingAvailableFinesSelector(state),
+    availableSupplements: bookingAvailableSupplementsSelector(state),
     selectedFines: bookingRequestedFinesSelector(state),
     selectedGroundServices: bookingRequestedGroundServicesSelector(state),
     selectedSupplements: bookingRequestedSupplementsSelector(state),
@@ -83,6 +90,18 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateTransferAction: pipe(
     updateTransferAction,
+    dispatch
+  ),
+  updateGroundServiceAction: pipe(
+    updateGroundServiceAction,
+    dispatch
+  ),
+  updateSupplementAction: pipe(
+    updateSupplementAction,
+    dispatch
+  ),
+  updateFineAction: pipe(
+    updateFineAction,
     dispatch
   ),
 });

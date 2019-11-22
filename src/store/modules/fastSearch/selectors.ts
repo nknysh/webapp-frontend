@@ -170,6 +170,24 @@ export const bookingAvailableAddonsSelector = createSelector(
   }
 )
 
+export const bookingAvailableSupplementsSelector = createSelector(
+  bookingAvailableProductsSelector, availableProducts => {
+    if (!availableProducts) {
+      return [];
+    }
+    return availableProducts[ProductTypes.SUPPLEMENT];
+  }
+)
+
+export const bookingAvailableFinesSelector = createSelector(
+  bookingAvailableProductsSelector, availableProducts => {
+    if (!availableProducts) {
+      return [];
+    }
+    return availableProducts[ProductTypes.FINE];
+  }
+)
+
 export const bookingRequestedAccommodationsSelector = createSelector(
   bookingRequestSelector, request => {
     return request && request[ProductTypes.ACCOMMODATION] ? request[ProductTypes.ACCOMMODATION] : [];
@@ -183,20 +201,30 @@ export const bookingRequestedTransfersSelector = createSelector(
 )
 
 export const bookingRequestedGroundServicesSelector = createSelector(
-  bookingRequestSelector, request => {
-    return request && request[ProductTypes.GROUND_SERVICE] ? request[ProductTypes.GROUND_SERVICE] : [];
+  bookingBuilderSelector, booking => {
+    if (!booking || !booking.request) {
+      return [];
+    }
+
+    return booking.request && booking.request[ProductTypes.GROUND_SERVICE] ? booking.request[ProductTypes.GROUND_SERVICE] : [];
   }
 )
 
 export const bookingRequestedSupplementsSelector = createSelector(
-  bookingRequestSelector, request => {
-    return request && request[ProductTypes.SUPPLEMENT]? request[ProductTypes.SUPPLEMENT] : [];
+  bookingBuilderSelector, booking => {
+    if (!booking || !booking.request) {
+      return [];
+    }
+    return booking.request && booking.request[ProductTypes.SUPPLEMENT]? booking.request[ProductTypes.SUPPLEMENT] : [];
   }
 )
 
 export const bookingRequestedFinesSelector = createSelector(
-  bookingRequestSelector, request => {
-    return request && request[ProductTypes.FINE] ? request[ProductTypes.FINE] : [];
+  bookingBuilderSelector, booking => {
+    if (!booking || !booking.request) {
+      return [];
+    }
+    return booking.request && booking.request[ProductTypes.FINE] ? booking.request[ProductTypes.FINE] : [];
   }
 )
 

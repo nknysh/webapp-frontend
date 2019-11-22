@@ -366,6 +366,12 @@ export default function fastSearchReducer(
     case Actions.REMOVE_LODGING_ACTION:
       return removeLodgingReducer(state, action);
 
+    case Actions.UPDATE_GROUND_SERVICE_ACTION:
+      return updateGroundServiceReducer(state, action);
+    case Actions.UPDATE_SUPPLEMENT_ACTION:
+      return updateSupplementReducer(state, action);
+    case Actions.UPDATE_FINE_ACTION:
+      return updateFineReducer(state, action);
     default:
       return state;
   }
@@ -543,3 +549,95 @@ export const removeLodgingReducer = (state: FastSearchDomain, action) => {
 };
 
 export const updateLodgingDatesReducer = (state: FastSearchDomain, action) => {};
+
+export const updateGroundServiceReducer = (state: FastSearchDomain, action) => {
+  const { groundService, hotelUuid } = action;
+  const hotelIndex = state.results!.findIndex(r => r.uuid === hotelUuid);
+
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+
+    const result = draftState.results[hotelIndex];
+
+    if (!result.bookingBuilder.request['Ground Service']) {
+      result.bookingBuilder.request['Ground Service'] = [];
+    }
+
+    const existingIndex = result.bookingBuilder.request['Ground Service'].findIndex(
+      gs => gs.uuid === groundService.uuid
+    );
+
+    if (existingIndex !== -1) {
+      // we have it, so remove it
+      result.bookingBuilder.request['Ground Service'].splice(existingIndex, 1);
+    } else {
+      result.bookingBuilder.request['Ground Service'].push({
+        uuid: groundService.uuid,
+      });
+    }
+
+    return draftState;
+  });
+};
+
+export const updateSupplementReducer = (state: FastSearchDomain, action) => {
+  const { supplement, hotelUuid } = action;
+  const hotelIndex = state.results!.findIndex(r => r.uuid === hotelUuid);
+
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+
+    const result = draftState.results[hotelIndex];
+
+    if (!result.bookingBuilder.request.Supplement) {
+      result.bookingBuilder.request.Supplement = [];
+    }
+
+    const existingIndex = result.bookingBuilder.request.Supplement.findIndex(gs => gs.uuid === supplement.uuid);
+
+    if (existingIndex !== -1) {
+      // we have it, so remove it
+      result.bookingBuilder.request.Supplement.splice(existingIndex, 1);
+    } else {
+      result.bookingBuilder.request.Supplement.push({
+        uuid: supplement.uuid,
+      });
+    }
+
+    return draftState;
+  });
+};
+
+export const updateFineReducer = (state: FastSearchDomain, action) => {
+  const { fine, hotelUuid } = action;
+  const hotelIndex = state.results!.findIndex(r => r.uuid === hotelUuid);
+
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+
+    const result = draftState.results[hotelIndex];
+
+    if (!result.bookingBuilder.request.Fine) {
+      result.bookingBuilder.request.Fine = [];
+    }
+
+    const existingIndex = result.bookingBuilder.request.Fine.findIndex(gs => gs.uuid === fine.uuid);
+
+    if (existingIndex !== -1) {
+      // we have it, so remove it
+      result.bookingBuilder.request.Fine.splice(existingIndex, 1);
+    } else {
+      result.bookingBuilder.request.Fine.push({
+        uuid: fine.uuid,
+      });
+    }
+
+    return draftState;
+  });
+};

@@ -46,6 +46,9 @@ export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RES
 export const UPDATE_TRANSFER = 'bookingBuilder/UPDATE_TRANSFER';
 export const UPDATE_BOOKING_SUCCESS = 'bookingBuilder/UPDATE_BOOKING_SUCCESS';
 
+export const UPDATE_GROUND_SERVICE_ACTION = 'bookingBuilder/UPDATE_GROUND_SERVICE_ACTION';
+export const UPDATE_SUPPLEMENT_ACTION = 'bookingBuilder/UPDATE_SUPPLEMENT_ACTION';
+export const UPDATE_FINE_ACTION = 'bookingBuilder/UPDATE_FINE_ACTION';
 // LODGINGS
 export const UPDATE_LODGING_GUEST_AGES_ACTION = 'bookingBuilder/UPDATE_LODGING_GUEST_AGES_ACTION';
 export const UPDATE_LODGING_DATES_ACTION = 'bookingBuilder/UPDATE_LODGING_DATES_ACTION';
@@ -271,6 +274,27 @@ export const updateTransferAction = (transfer: TransferReference, hotelUuid: str
   hotelUuid,
 });
 
+export type UpdateGroundServiceAction = ReturnType<typeof updateGroundServiceAction>;
+export const updateGroundServiceAction = (groundService: any, hotelUuid: string) => ({
+  type: UPDATE_GROUND_SERVICE_ACTION as typeof UPDATE_GROUND_SERVICE_ACTION,
+  groundService,
+  hotelUuid,
+});
+
+export type UpdateSupplementAction = ReturnType<typeof updateSupplementAction>;
+export const updateSupplementAction = (supplement: any, hotelUuid: string) => ({
+  type: UPDATE_SUPPLEMENT_ACTION as typeof UPDATE_SUPPLEMENT_ACTION,
+  supplement,
+  hotelUuid,
+});
+
+export type UpdateFineAction = ReturnType<typeof updateFineAction>;
+export const updateFineAction = (fine: any, hotelUuid: string) => ({
+  type: UPDATE_FINE_ACTION as typeof UPDATE_FINE_ACTION,
+  fine,
+  hotelUuid,
+});
+
 export type UpdateBookingSuccessAction = ReturnType<typeof updateBookingSuccessAction>;
 export const updateBookingSuccessAction = (response: BookingBuilderResponse, hotelUuid: string) => ({
   type: UPDATE_BOOKING_SUCCESS as typeof UPDATE_BOOKING_SUCCESS,
@@ -365,4 +389,7 @@ export type FastSearchAction =
   | UpdateLodgingMealPlanAction
   | RemoveLodgingAction
   | UpdateLodgingOccasionsAction
-  | AddLodgingAction;
+  | AddLodgingAction
+  | UpdateGroundServiceAction
+  | UpdateSupplementAction
+  | UpdateFineAction;

@@ -40,3 +40,5 @@ export const TotalSectionColumn = styled.div`
   margin-left: ${props.nestingLevel * 10}px;
 `}
 `;
+
+export const GrandTotalLabel = styled.label``;

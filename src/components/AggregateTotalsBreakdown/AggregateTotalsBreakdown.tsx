@@ -14,6 +14,7 @@ import {
   Price,
   TotalSection,
   TotalSectionColumn,
+  GrandTotalLabel,
 } from './AggregateTotalsBreakdown.styles';
 
 // @ts-ignore
@@ -34,7 +35,7 @@ interface IAggregateTotal {
 }
 
 interface BaseAggregateTotals {
-  Booking: IAggregateTotal;
+  Total: IAggregateTotal;
   Accommodation: IAggregateTotal;
   'Meal Plan': IAggregateTotal;
   Supplement: IAggregateTotal;
@@ -137,23 +138,28 @@ export const AggregateTotalsBreakdown = props => {
     return null;
   }
 
-  const totalSum = Object.keys(aggregateTotals).reduce((sum: number, total: string) => {
-    const aggregateTotal: IAggregateTotal = aggregateTotals[total];
-    sum += aggregateTotal.total ? parseFloat(aggregateTotal.total) : 0;
-    return sum;
-  }, 0);
-
-  const totalBeforeDiscountSum = Object.keys(aggregateTotals).reduce((sum: number, total: string) => {
-    const aggregateTotal: IAggregateTotal = aggregateTotals[total];
-    sum += aggregateTotal.totalBeforeDiscount ? parseFloat(aggregateTotal.totalBeforeDiscount) : 0;
-    return sum;
-  }, 0);
+  const aggregateTotalsTotal = aggregateTotals.Total;
+  const aggregateTotalsWithoutTotal = { ...aggregateTotals };
+  delete aggregateTotalsWithoutTotal.Total;
 
   return (
     <React.Fragment>
-      {Object.keys(aggregateTotals).map(atk => {
+      {Object.keys(aggregateTotalsWithoutTotal).map(atk => {
         return <AggregateTotalSection nestingLevel={0} aggregateTotal={aggregateTotals[atk]} />;
       })}
+
+      <hr />
+
+      <GrandTotalLabel>Total</GrandTotalLabel>
+      <PriceBreakdown
+        currencyCode={currencyCode}
+        total={aggregateTotalsTotal.total}
+        totalBeforeDiscount={
+          aggregateTotalsTotal.total != aggregateTotalsTotal.totalBeforeDiscount
+            ? aggregateTotalsTotal.totalBeforeDiscount
+            : null
+        }
+      />
     </React.Fragment>
   );
 };
