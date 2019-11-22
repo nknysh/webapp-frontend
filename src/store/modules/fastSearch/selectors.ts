@@ -4,7 +4,7 @@ import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/Bac
 import { getHotelId } from 'store/modules/hotel';
 import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 import { ProductTypes, Occassions } from 'config/enums';
-import { flatten, clone } from 'ramda'
+import { flatten, clone, path } from 'ramda'
 import { filterByObjectProperties } from 'utils'
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
@@ -227,6 +227,20 @@ export const bookingRequestedFinesSelector = createSelector(
     return booking.request && booking.request[ProductTypes.FINE] ? booking.request[ProductTypes.FINE] : [];
   }
 )
+
+
+// TODO
+// look at getBookingReady in `src/store/modules/bookings/selectors.js`
+// this selector should care about SR state and travel agent
+export const bookingCanBookSelector = createSelector(
+  bookingBuilderSelector, (booking) => {
+    if (!booking) {
+      return false;
+    }
+
+    return !booking.response.mustStop && booking.response.canBeBooked;
+  }
+);
 
 /**
  * HACKS AHEAD

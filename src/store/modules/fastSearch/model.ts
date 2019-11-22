@@ -67,7 +67,7 @@ export const initialState: FastSearchDomain = {
     filters: [],
     starRatings: [StarRating.FiveStar, StarRating.FiveStarPlus],
     startDate: '2019-12-13',
-    endDate: '2020-12-20',
+    endDate: '2019-12-20',
     priceRange: { min: 1, max: 100000 },
   },
 };
