@@ -228,8 +228,6 @@ const getOption = (t, props, { products, breakdown }) => {
 };
 
 const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, updateTransferAction, hotelUuid) => {
-  console.log('selectedTransferOptions', selectedTransferOptions);
-
   const simpleTransfers = transferOptions.map(t => ({
     name: t.products[0].name,
     uuid: t.products[0].uuid,
@@ -247,7 +245,13 @@ const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, u
   };
 
   const handleCheckboxClick = to => {
-    updateTransferAction(to, hotelUuid);
+    updateTransferAction(
+      {
+        uuid: to.uuid,
+        direction: to.direction,
+      },
+      hotelUuid
+    );
   };
 
   const bothWayTransfersOptions = simpleTransfers
@@ -293,30 +297,6 @@ const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, u
       {oneWayTransfersMarkup}
     </div>
   );
-
-  // return (
-  //   <ul>
-  //     {transferOptions.map(to => {
-  //       const transferReference = {
-  //         uuid: to.products[0].uuid,
-  //         direction: to.meta && to.meta.direction && to.meta.direction ? to.meta.direction : undefined,
-  //       };
-
-  //       return (
-  //         <li key={to.products[0].uuid}>
-  //           <button
-  //             type="button"
-  //             onClick={() => {
-  //               updateTransferAction(transferReference, hotelUuid);
-  //             }}
-  //           >
-  //             {to.products[0].name}
-  //           </button>
-  //         </li>
-  //       );
-  //     })}
-  //   </ul>
-  // );
 };
 
 const renderTransferOptions = (

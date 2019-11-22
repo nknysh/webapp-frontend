@@ -5,13 +5,18 @@ import {
   optionsFailureAction,
   optionsSuccessAction,
   UPDATE_TRANSFER,
-  UpdateTransferAction,
+  UPDATE_LODGING_GUEST_AGES_ACTION,
+  UPDATE_LODGING_MEAL_PLAN_ACTION,
+  UPDATE_LODGING_OCCASIONS_ACTION,
+  ADD_LODGING_ACTION,
+  REMOVE_LODGING_ACTION,
   updateBookingSuccessAction,
 } from '../actions';
+
 import backendApi, { BookingBuilderEndpointSuccess } from 'services/BackendApi';
 import { bookingRequestSelector } from '../selectors';
 
-export function* bookingBuilderResponseSaga(action: UpdateTransferAction) {
+export function* bookingBuilderResponseSaga(action: any) {
   try {
     const request = yield select(bookingRequestSelector);
     const bookingBuilderEndpointResponse: AxiosResponse<BookingBuilderEndpointSuccess> = yield call(
@@ -26,5 +31,15 @@ export function* bookingBuilderResponseSaga(action: UpdateTransferAction) {
 }
 
 export function* watchTransferUpdate() {
-  yield takeLatest(UPDATE_TRANSFER, bookingBuilderResponseSaga);
+  yield takeLatest(
+    [
+      UPDATE_TRANSFER,
+      UPDATE_LODGING_GUEST_AGES_ACTION,
+      UPDATE_LODGING_MEAL_PLAN_ACTION,
+      ADD_LODGING_ACTION,
+      UPDATE_LODGING_OCCASIONS_ACTION,
+      REMOVE_LODGING_ACTION,
+    ],
+    bookingBuilderResponseSaga
+  );
 }

@@ -17,6 +17,8 @@ import {
   addRoom,
 } from 'store/modules/bookings';
 
+import { addLodgingAction } from 'store/modules/fastSearch';
+
 export const mapStateToProps = (state, { hotelUuid }) => ({
   bookingStatus: getBookingStatus(state),
   booking: getBooking(state, hotelUuid),
@@ -28,10 +30,15 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
 
 export const mapDispatchToProps = dispatch => ({
   addRoom: pipe(
-    addRoom,
+    addLodgingAction,
+    dispatch
+  ),
+  addLodging: pipe(
+    addLodgingAction,
     dispatch
   ),
   removeRoom: pipe(
+    //TODO think this can be deleted?
     removeRoom,
     dispatch
   ),

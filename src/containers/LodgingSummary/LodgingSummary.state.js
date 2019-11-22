@@ -2,14 +2,14 @@ import { pipe } from 'ramda';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
+import { updateRequestedBuildLodgingDates, getBookingCurrencySymbol } from 'store/modules/bookings';
+
 import {
-  updateRequestedBuildLodgingGuestAges,
-  updateRequestedBuildLodgingDates,
-  updateRequestedBuildLodgingMealPlan,
-  getBookingCurrencySymbol,
+  updateLodgingGuestAges,
+  updateLodgingMealPlan,
+  updateLodgingOccasions,
   removeLodging,
-  updateBookingOccasions,
-} from 'store/modules/bookings';
+} from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { hotelUuid }) => {
   return {
@@ -20,11 +20,11 @@ export const mapStateToProps = (state, { hotelUuid }) => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      updateRequestedBuildLodgingGuestAges,
+      updateLodgingGuestAges,
+      updateLodgingMealPlan,
       updateRequestedBuildLodgingDates,
-      updateRequestedBuildLodgingMealPlan,
       removeLodging,
-      updateBookingOccasions,
+      updateLodgingOccasions,
     },
     dispatch
   );

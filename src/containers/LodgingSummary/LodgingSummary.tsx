@@ -69,11 +69,11 @@ export const LodgingSummaryRender = props => {
   const availableProductSets: BookingBuilderAvailableProductSets = props.availableProductSets;
   const potentialBooking: any = props.potentialBooking;
 
-  const updateRequestedBuildLodgingGuestAges: Function = props.updateRequestedBuildLodgingGuestAges;
+  const updateLodgingGuestAges: Function = props.updateLodgingGuestAges;
+  const updateLodgingMealPlan: Function = props.updateLodgingMealPlan;
   const updateRequestedBuildLodgingDates: Function = props.updateRequestedBuildLodgingDates;
-  const updateRequestedBuildLodgingMealPlan: Function = props.updateRequestedBuildLodgingMealPlan;
   const removeLodging: Function = props.removeLodging;
-  const updateBookingOccasions: Function = props.updateBookingOccasions;
+  const updateLodgingOccasions: Function = props.updateLodgingOccasions;
   const currencyCode: string = props.currencyCode;
   const editGuard: boolean = props.editGuard;
   const onEditGuard: Function = props.onEditGuard;
@@ -116,7 +116,7 @@ export const LodgingSummaryRender = props => {
         numberOfAdults,
         agesOfAllChildren,
       };
-      updateRequestedBuildLodgingGuestAges(lodging.hotelUuid, lodging.index, newGuestAges);
+      updateLodgingGuestAges(lodging.hotelUuid, lodging.index, newGuestAges);
       onUpdate(true);
     };
 
@@ -183,7 +183,7 @@ export const LodgingSummaryRender = props => {
 
     const handleMealPlanSetSelection = (event, mealPlanSetUuid) => {
       const mealPlanUuids = mealPlanSetUuid.split('/');
-      updateRequestedBuildLodgingMealPlan(lodging.hotelUuid, lodging.index, mealPlanUuids);
+      updateLodgingMealPlan(lodging.hotelUuid, lodging.index, mealPlanUuids);
       onUpdate(true);
     };
 
@@ -286,7 +286,7 @@ export const LodgingSummaryRender = props => {
         {!isCollapsed && (
           <OccasionsSelect
             onChange={e => {
-              updateBookingOccasions(lodging.hotelUuid, lodging.index, e.occasions);
+              updateLodgingOccasions(lodging.hotelUuid, lodging.index, e.occasions);
             }}
             occasions={undefined} // need to specify undefined because OccassionsSelect is setup badly
             selected={lodging}

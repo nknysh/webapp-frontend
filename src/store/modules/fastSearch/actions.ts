@@ -6,8 +6,8 @@ import {
   Occasion,
   MealPlanNames,
   NameSearchResponseData,
- TransferReference,
- BookingBuilderResponse,
+  TransferReference,
+  BookingBuilderResponse,
 } from 'services/BackendApi/types';
 
 export const DESTINATION_CHANGE = 'fastSearch/DESTINATION_CHANGE';
@@ -45,6 +45,15 @@ export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RES
 
 export const UPDATE_TRANSFER = 'bookingBuilder/UPDATE_TRANSFER';
 export const UPDATE_BOOKING_SUCCESS = 'bookingBuilder/UPDATE_BOOKING_SUCCESS';
+
+// LODGINGS
+export const UPDATE_LODGING_GUEST_AGES_ACTION = 'bookingBuilder/UPDATE_LODGING_GUEST_AGES_ACTION';
+export const UPDATE_LODGING_DATES_ACTION = 'bookingBuilder/UPDATE_LODGING_DATES_ACTION';
+export const UPDATE_LODGING_MEAL_PLAN_ACTION = 'bookingBuilder/UPDATE_LODGING_MEAL_PLAN_ACTION';
+export const REMOVE_LODGING_ACTION = 'bookingBuilder/REMOVE_LODGING_ACTION';
+export const UPDATE_LODGING_OCCASIONS_ACTION = 'bookingBuilder/UPDATE_LODGING_OCCASIONS_ACTION';
+
+export const ADD_LODGING_ACTION = 'bookingBuilder/ADD_LODGING_ACTION';
 
 // ---------------------------------------------------------------------------------------
 // How to type Redux Actions with as little boilerplate as possible.
@@ -269,6 +278,51 @@ export const updateBookingSuccessAction = (response: BookingBuilderResponse, hot
   hotelUuid,
 });
 
+export type UpdateLodgingGuestAgesAction = ReturnType<typeof updateLodgingGuestAges>;
+export const updateLodgingGuestAges = (hotelUuid, lodgingIndex, guestAges) => ({
+  type: UPDATE_LODGING_GUEST_AGES_ACTION as typeof UPDATE_LODGING_GUEST_AGES_ACTION,
+  hotelUuid,
+  lodgingIndex,
+  guestAges,
+});
+
+export type UpdateLodgingDatesAction = ReturnType<typeof updateLodgingDates>;
+export const updateLodgingDates = () => ({
+  type: UPDATE_LODGING_DATES_ACTION as typeof UPDATE_LODGING_DATES_ACTION,
+});
+
+export type UpdateLodgingMealPlanAction = ReturnType<typeof updateLodgingMealPlan>;
+export const updateLodgingMealPlan = (hotelUuid, lodgingIndex, mealPlanUuids) => ({
+  type: UPDATE_LODGING_MEAL_PLAN_ACTION as typeof UPDATE_LODGING_MEAL_PLAN_ACTION,
+  hotelUuid,
+  lodgingIndex,
+  mealPlanUuids,
+});
+
+export type RemoveLodgingAction = ReturnType<typeof removeLodging>;
+export const removeLodging = (hotelUuid, lodgingIndex) => ({
+  type: REMOVE_LODGING_ACTION as typeof REMOVE_LODGING_ACTION,
+  hotelUuid,
+  lodgingIndex,
+});
+
+export type UpdateLodgingOccasionsAction = ReturnType<typeof updateLodgingOccasions>;
+export const updateLodgingOccasions = (hotelUuid, lodgingIndex, occasions) => ({
+  type: UPDATE_LODGING_OCCASIONS_ACTION as typeof UPDATE_LODGING_OCCASIONS_ACTION,
+  hotelUuid,
+  lodgingIndex,
+  occasions,
+});
+
+// add lodgings
+export type AddLodgingAction = ReturnType<typeof addLodgingAction>;
+export const addLodgingAction = (hotelUuid, accommodationProductUuid, hotelAccommodationProducts) => ({
+  type: ADD_LODGING_ACTION as typeof ADD_LODGING_ACTION,
+  hotelUuid,
+  accommodationProductUuid,
+  hotelAccommodationProducts,
+});
+
 // 3. Create a union type which we can pass as the reducers action type.
 // goto DestinationChangeAction to see start of these comments.
 export type FastSearchAction =
@@ -304,5 +358,11 @@ export type FastSearchAction =
   | NamesSearchSuccessAction
   | NamesSearchFailureAction
   | SetNamesSearchResultsVisibilityAction
- | UpdateTransferAction
- | UpdateBookingSuccessAction;
+  | UpdateTransferAction
+  | UpdateBookingSuccessAction
+  | UpdateLodgingGuestAgesAction
+  | UpdateLodgingDatesAction
+  | UpdateLodgingMealPlanAction
+  | RemoveLodgingAction
+  | UpdateLodgingOccasionsAction
+  | AddLodgingAction;

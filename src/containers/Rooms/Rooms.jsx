@@ -112,7 +112,7 @@ export const Rooms = props => {
 
   const filteredRooms = filterRoomsByCategoryType(rooms, selectedCategoryTypes);
 
-  const handleRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid), [addRoom, hotelUuid]);
+  const handleRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid, rooms), [addRoom, hotelUuid, rooms]);
   const handleRoomRemove = useCallback(uuid => removeRoom(hotelUuid, uuid), [removeRoom, hotelUuid]);
 
   return (

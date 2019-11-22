@@ -1,10 +1,10 @@
-import { without, difference, omit, dropLast, update, set } from 'ramda';
+import { without, difference, omit, dropLast, update, set, lensPath, flatten } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
 import { Filters, Lodging, BookingBuilderRequest } from 'services/BackendApi';
-import { bookingRequestSelector } from './selectors';
+// import { bookingRequestSelector } from './selectors';
 import { getHotelId } from 'store/modules/hotel';
-import lensPath from 'ramda/es/lensPath';
+import produce from 'immer';
 
 const defaultAge = 7;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
@@ -353,7 +353,193 @@ export default function fastSearchReducer(
 
       return set(responsePath, action.response, state);
 
+    case Actions.UPDATE_LODGING_GUEST_AGES_ACTION:
+      return updateLodgingGuestAgesReducer(state, action);
+    case Actions.UPDATE_LODGING_MEAL_PLAN_ACTION:
+      return updateLodgingMealPlanReducer(state, action);
+    case Actions.ADD_LODGING_ACTION:
+      return addLodgingReducer(state, action);
+
+    case Actions.UPDATE_LODGING_OCCASIONS_ACTION:
+      return updateLodgingOccasionsReducer(state, action);
+
+    case Actions.REMOVE_LODGING_ACTION:
+      return removeLodgingReducer(state, action);
+
     default:
       return state;
   }
 }
+
+export const updateLodgingGuestAgesReducer = (state: FastSearchDomain, action): FastSearchDomain => {
+  const hotelIndex = state.results!.findIndex(r => r.uuid === action.hotelUuid);
+
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+
+    const result = draftState.results[hotelIndex];
+
+    // update the request accommodation to be correct
+    result.bookingBuilder.request.Accommodation[action.lodgingIndex].guestAges = action.guestAges;
+
+    // rebuild the request level `guestAges` to match all the new figures
+    let numberOfAdults: number = 0;
+    let agesOfAllChildren: number[] = [];
+    result.bookingBuilder.request.Accommodation.forEach(accom => {
+      numberOfAdults += accom.guestAges.numberOfAdults;
+      agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
+    });
+
+    result.bookingBuilder.request.guestAges = {
+      numberOfAdults,
+      agesOfAllChildren,
+    };
+
+    return draftState;
+  });
+};
+
+export const updateLodgingMealPlanReducer = (state: FastSearchDomain, action) => {
+  const hotelIndex = state.results!.findIndex(r => r.uuid === action.hotelUuid);
+
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+
+    const result = draftState.results[hotelIndex];
+
+    // update the meal plans on the correct lodging
+    result.bookingBuilder.request.Accommodation[action.lodgingIndex].subProducts[
+      'Meal Plan'
+    ] = action.mealPlanUuids.map(mealPlanUuid => {
+      return {
+        uuid: mealPlanUuid,
+      };
+    });
+
+    return draftState;
+  });
+};
+
+export const addLodgingReducer = (state: FastSearchDomain, action) => {
+  const { hotelUuid, accommodationProductUuid, hotelAccommodationProducts } = action;
+
+  const hotelIndex = state.results!.findIndex(r => r.uuid === hotelUuid);
+  const selectedAccommodationProduct = hotelAccommodationProducts.find(r => r.uuid === accommodationProductUuid);
+
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+    const result = draftState.results[hotelIndex];
+    const existingLodgingOfAccommodationProduct = result.bookingBuilder.request.Accommodation.find(
+      a => a.uuid === accommodationProductUuid
+    );
+
+    let newLodging;
+    if (existingLodgingOfAccommodationProduct) {
+      // we already have a lodging of this accommodation product, which means the new lodging
+      // should be added with the exact same data + standard occupancy
+      newLodging = {
+        ...existingLodgingOfAccommodationProduct,
+        guestAges: {
+          numberOfAdults: selectedAccommodationProduct.occupancy.standardOccupancy,
+          agesOfAllChildren: [],
+        },
+      };
+    } else {
+      // this is the first lodging of this accommodation product, so add it with standard occupancy,
+      // the search query dates, and the accommodation product default meal plan
+      newLodging = {
+        uuid: accommodationProductUuid,
+        startDate: draftState.query.startDate,
+        endDate: draftState.query.endDate,
+        guestAges: {
+          numberOfAdults: selectedAccommodationProduct.occupancy.standardOccupancy,
+          agesOfAllChildren: [],
+        },
+        subProducts: {
+          'Meal Plan': [
+            {
+              uuid: selectedAccommodationProduct.defaultMealPlanUuid,
+            },
+          ],
+        },
+      };
+    }
+
+    // now that newLodging is built, add it into the request Accommodation array
+    result.bookingBuilder.request.Accommodation.push(newLodging);
+
+    // rebuild the request level `guestAges` to match all the new figures
+    let numberOfAdults: number = 0;
+    let agesOfAllChildren: number[] = [];
+    result.bookingBuilder.request.Accommodation.forEach(accom => {
+      numberOfAdults += accom.guestAges.numberOfAdults;
+      agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
+    });
+
+    result.bookingBuilder.request.guestAges = {
+      numberOfAdults,
+      agesOfAllChildren,
+    };
+
+    return draftState;
+  });
+};
+
+export const updateLodgingOccasionsReducer = (state: FastSearchDomain, action) => {
+  const { hotelUuid, lodgingIndex, occasions } = action;
+  const hotelIndex = state.results!.findIndex(r => r.uuid === hotelUuid);
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+
+    const result = draftState.results[hotelIndex];
+
+    // update the occasions on the correct lodging
+    result.bookingBuilder.request.Accommodation[lodgingIndex] = {
+      ...result.bookingBuilder.request.Accommodation[lodgingIndex],
+      ...occasions,
+    };
+
+    return draftState;
+  });
+};
+
+export const removeLodgingReducer = (state: FastSearchDomain, action) => {
+  const { hotelUuid, lodgingIndex } = action;
+  const hotelIndex = state.results!.findIndex(r => r.uuid === hotelUuid);
+
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+
+    const result = draftState.results[hotelIndex];
+
+    // remove the lodging at the index
+    result.bookingBuilder.request.Accommodation.splice(lodgingIndex, 1);
+
+    // rebuild the request level `guestAges` to match all the new figures
+    let numberOfAdults: number = 0;
+    let agesOfAllChildren: number[] = [];
+    result.bookingBuilder.request.Accommodation.forEach(accom => {
+      numberOfAdults += accom.guestAges.numberOfAdults;
+      agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
+    });
+
+    result.bookingBuilder.request.guestAges = {
+      numberOfAdults,
+      agesOfAllChildren,
+    };
+
+    return draftState;
+  });
+};
+
+export const updateLodgingDatesReducer = (state: FastSearchDomain, action) => {};

@@ -34,7 +34,7 @@ export class BackendApiService<T extends AxiosInstance> {
     const endpoint = `${BackendEndpoints.NAMES}/?name=${encodeURI(name)}`;
     return this.client.get(endpoint);
   };
-  
+
   postBookingBuilderRequest = async (
     bookingBuilderRequest: BookingBuilderRequest
   ): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {

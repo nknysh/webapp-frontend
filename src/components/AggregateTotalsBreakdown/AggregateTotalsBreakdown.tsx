@@ -58,11 +58,11 @@ export const AggregateTotalsBreakdown = props => {
         <React.Fragment>
           <Price {...props} discount={true}>
             {currencyCode}
-            {total}
+            {formatPrice(total)}
           </Price>
           <Price {...props} preDiscount={true}>
             {currencyCode}
-            {totalBeforeDiscount}
+            {formatPrice(totalBeforeDiscount)}
           </Price>
         </React.Fragment>
       );
@@ -70,7 +70,7 @@ export const AggregateTotalsBreakdown = props => {
       return (
         <Price>
           {currencyCode}
-          {total}
+          {formatPrice(total)}
         </Price>
       );
     }
