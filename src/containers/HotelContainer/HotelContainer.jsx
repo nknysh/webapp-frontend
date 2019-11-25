@@ -28,7 +28,7 @@ import {
   Title,
 } from './HotelContainer.styles';
 
-const renderBackButton = t => <Back to="/search">{t('labels.backToSearch')}</Back>;
+const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}</Back>;
 
 /**
  *

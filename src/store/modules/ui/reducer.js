@@ -8,7 +8,7 @@ import { parseJson } from 'utils';
 
 import { AUTH_TOKEN, AUTH_SET_TOKEN, AUTH_USER } from 'store/modules/auth/actions';
 
-import { UI_ENQUEUE_NOTIFICATION, UI_REMOVE_NOTIFICATION } from './actions';
+import { UI_ENQUEUE_NOTIFICATION, UI_REMOVE_NOTIFICATION, SET_IS_BOOKING_SUMMARY_SECTION_COLLAPSED } from './actions';
 
 const headerLens = lensPath(['menus', 'header']);
 
@@ -94,6 +94,18 @@ export const clearNotification = (state, { payload }) => {
   return mergeDeepRight(state, filterNotificationKey(notifications));
 };
 
+export const setIsBookingSummarySectionCollapsed = (state, { payload }) => {
+  if (!state.bookingSummarySections) {
+    state.bookingSummarySections = {};
+  }
+
+  state.bookingSummarySections = {
+    ...state.bookingSummarySections,
+    [payload.type]: payload.value,
+  };
+  return state;
+};
+
 /**
  * UI reducer
  *
@@ -112,6 +124,7 @@ const uiReducer = (state = initialState, payload) => {
       [AUTH_SET_TOKEN]: setAuthenticatedState,
       [UI_ENQUEUE_NOTIFICATION]: addNotification,
       [UI_REMOVE_NOTIFICATION]: clearNotification,
+      [SET_IS_BOOKING_SUMMARY_SECTION_COLLAPSED]: setIsBookingSummarySectionCollapsed,
     },
     initialState
   )(state, payload);

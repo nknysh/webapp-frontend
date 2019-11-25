@@ -42,7 +42,7 @@ import { formatPrice } from 'utils';
 export const simpleForm = pick(['guestTitle', 'guestFirstName', 'guestLastName']);
 export const withoutSections = over(lensProp('sections'), take(1));
 
-const renderBackButton = t => <Back to="/search">{t('labels.backToSearch')}</Back>;
+const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}</Back>;
 
 const renderBreadcrumbs = (t, { isComplete, isMobile, isDetailsView, isReviewView, onMobileNavClick, hotel, id }) => (
   <Fragment>

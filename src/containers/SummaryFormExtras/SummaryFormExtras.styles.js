@@ -79,3 +79,21 @@ export const Description = styled.p`
   color: ${theme.palette.secondary};
   line-height: 1.5;
 `;
+
+export const CollapseToggle = styled.button`
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+`;
+
+export const CollapseTitle = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+
+  span {
+    flex: 1;
+  }
+`;

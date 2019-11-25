@@ -1,4 +1,4 @@
-import { prop, pipe } from 'ramda';
+import { prop, path, pipe } from 'ramda';
 
 /**
  * Get hotel selector
@@ -27,5 +27,5 @@ export const getHotelStatus = pipe(
  */
 export const getHotelId = pipe(
   getHotel,
-  prop('id')
+  path(['data', 'result'])
 );

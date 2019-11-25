@@ -25,6 +25,7 @@ jobs:
       APP_ENV: develop
       API_BASE_URL: https://client-api.qa.pure-escapes.com
       ADMIN_BASE_URL: https://qa.pure-escapes.com/admin
+      BACKEND_BASE_URL: https://api.qa.pure-escapes.com/api
     executor: aws-cli/default
     steps:
       - checkout
@@ -57,6 +58,7 @@ jobs:
       APP_ENV: develop
       API_BASE_URL: https://client-api.sandbox.pure-escapes.com
       ADMIN_BASE_URL: https://sandbox.pure-escapes.com/admin
+      BACKEND_BASE_URL: https://api.sandbox.pure-escapes.com/api
     executor: aws-cli/default
     steps:
       - checkout

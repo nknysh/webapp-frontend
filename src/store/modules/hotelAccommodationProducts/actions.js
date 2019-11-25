@@ -5,6 +5,8 @@ import { formatDate } from 'utils';
 import { subDays } from 'date-fns';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
 
+import { offersQuerySelector } from 'store/modules/fastSearch';
+
 export const actionTypes = {
   FETCH_CURRENT_HOTEL_ACCOMMODATION_PRODUCTS: 'FETCH_CURRENT_HOTEL_ACCOMMODATION_PRODUCTS',
   FETCH_CURRENT_HOTEL_ACCOMMODATION_PRODUCTS_FAIL: 'FETCH_CURRENT_HOTEL_ACCOMMODATION_PRODUCTS_FAIL',
@@ -13,12 +15,14 @@ export const actionTypes = {
 export const fetchCurrentHotelAccommodationProductDisplays = hotelUuid => async (dispatch, getState) => {
   const state = getState();
 
-  const searchQuery = getSearchQuery(state);
+  const searchQuery = offersQuerySelector(state);
+
   const actingCountryCode = getUserCountryContext(state);
   // Default to todays date if there are no dates in the search query in redux
-  const startDate = formatDate(pathOr(Date.now(), ['dates', 'startDate'], searchQuery));
+  const startDate = formatDate(pathOr(Date.now(), ['startDate'], searchQuery));
 
-  let endDate = path(['dates', 'endDate'], searchQuery);
+  // TODO we might not need to remove a date anymore thanks to new selectors
+  let endDate = path(['endDate'], searchQuery);
   if (!endDate) {
     endDate = Date.now();
   }

@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useCallback } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import {
   compose,
@@ -72,7 +73,7 @@ const isCancelled = equals(BookingStatusTypes.CANCELLED);
 const isCancelledOrConfirmed = anyPass([isConfirmed, isCancelled]);
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
-const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search' });
+const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search/beta' });
 const renderBackToBookings = t => renderBackButton(t('enquiryBooking_plural'), { href: `${ADMIN_BASE_URL}/bookings` });
 
 const renderTitle = (t, { id }) => <BookingTitle>{t('labels.bookingWithId', { id })}</BookingTitle>;
@@ -404,6 +405,7 @@ BookingContainer.propTypes = propTypes;
 BookingContainer.defaultProps = defaultProps;
 
 export default compose(
+  withRouter,
   withUser,
   connect
 )(BookingContainer);

@@ -38,10 +38,10 @@ export const filterRoomsByCategoryType = (rooms, categoryTypes) => {
 
 const renderValue = t => ifElse(isNilOrEmpty, always(<span>{t('labels.filterByCategoryTypes')}</span>), join(', '));
 
-const renderRoom = ({ requestedRooms, currencyCode, handleRoomAdd, handleRoomRemove, bookingStatus }, room) => {
-  const { uuid } = room;
-  const selectedCount = length(filter(propEq('uuid', uuid), requestedRooms || []));
-
+const renderRoom = (
+  { currencyCode, handleRoomAdd, handleRoomRemove, bookingStatus, lodgingCountsPerAccommodation },
+  room
+) => {
   return (
     <AccommodationCard
       key={hash(room)}
@@ -56,7 +56,7 @@ const renderRoom = ({ requestedRooms, currencyCode, handleRoomAdd, handleRoomRem
       brochures={room.floorPlans}
       totals={room.totals}
       occupancy={room.occupancy}
-      count={selectedCount}
+      count={lodgingCountsPerAccommodation[room.uuid]}
       appliedOffers={room.appliedOfferNames}
       imageUri={pathOr(null, ['photos', 0, 'url'], room)}
       updateInProgress={bookingStatus === 'LOADING'}
@@ -87,6 +87,7 @@ export const Rooms = props => {
     addRoom,
     removeRoom,
     fetchCurrentHotelAccommodationProductDisplays,
+    lodgingCountsPerAccommodation,
   } = props;
   const [isLoading, setIsLoaded] = useState(true);
 
@@ -112,7 +113,7 @@ export const Rooms = props => {
 
   const filteredRooms = filterRoomsByCategoryType(rooms, selectedCategoryTypes);
 
-  const handleRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid), [addRoom, hotelUuid]);
+  const handleRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid, rooms), [addRoom, hotelUuid, rooms]);
   const handleRoomRemove = useCallback(uuid => removeRoom(hotelUuid, uuid), [removeRoom, hotelUuid]);
 
   return (
@@ -146,6 +147,7 @@ export const Rooms = props => {
                 handleRoomRemove,
                 isMobile,
                 bookingStatus,
+                lodgingCountsPerAccommodation,
                 ...props,
               })}
           </RoomsWrapper>

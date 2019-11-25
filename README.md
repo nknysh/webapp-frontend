@@ -11,7 +11,7 @@ It is a custom built React/Redux single page application, built on functional pr
 Standard installation using NPM
 
 ```
-yarn i
+yarn install
 ```
 
 ## Running WAFE
