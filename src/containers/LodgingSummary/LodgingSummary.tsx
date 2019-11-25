@@ -308,7 +308,6 @@ export const LodgingSummaryRender = props => {
             {currencyCode}
             {formatPrice(total)}
           </LodgingTotal>
-          ;
           <LodgingTotal data-secondary={true}>
             {currencyCode}
             {formatPrice(totalBeforeDiscount)}
