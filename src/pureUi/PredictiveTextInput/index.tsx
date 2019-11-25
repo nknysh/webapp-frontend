@@ -15,20 +15,12 @@ const PredictiveTextInput = (props: PredictiveTextInputProps) => {
   const { options, onOptionSelect, showDropDown, ...textInputProps } = props;
   const handleOptionSelect = useCallback((value: string) => () => props.onOptionSelect(value), [props.onOptionSelect]);
 
-  const handleBlur = useCallback(
-    (e: FocusEvent<HTMLInputElement>) => {
-      console.log(e);
-      console.log('handleBlur', e.relatedTarget);
-    },
-    [onOptionSelect]
-  );
-
   return (
     // A bug I raised in styled-compoenents years ago still appears to be an
     // issue today with no apparent fix.
     // https://github.com/styled-components/styled-components/issues/824
     // @ts-ignore
-    <TextInput onBlur={handleBlur} className={props.className} {...textInputProps}>
+    <TextInput className={props.className} {...textInputProps}>
       {!props.showDropDown || !props.options.length ? null : (
         <Frame className="dropDown">
           {props.options.map(group => (

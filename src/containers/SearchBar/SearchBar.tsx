@@ -68,7 +68,7 @@ const SearchBar = (props: ISearchBarProps) => {
 
         <label className="repeatGuest">
           <span>Repeat Guest</span>
-          <Checkbox value={props.isRepeatGuest} onChange={props.basicSearchHandlers.toggleRepeatGuest} />
+          <Checkbox checked={props.isRepeatGuest} onChange={props.basicSearchHandlers.toggleRepeatGuest} />
         </label>
 
         <PrimaryButton

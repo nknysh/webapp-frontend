@@ -75,7 +75,7 @@ export class BackendApiService<T extends AxiosInstance> {
       endDate: query.endDate.split('T')[0],
       name: query.name === ALL_COUNTRIES_AND_RESORTS ? '' : query.name,
       priceRange: query.priceRange ? sanitizePricePrange(query.priceRange) : { min: 0, max: 100000 },
-      mealPlanCategories: without([MealPlanNames.ANY], query.mealPlanCategories || []),
+      mealPlanCategories: without(['Any' as MealPlanNames], query.mealPlanCategories || []),
       starRatings: query.starRatings ? sanitizeStarRatings(query.starRatings) : [],
       lodgings: query.lodgings.map(lodging => ({
         ...lodging,

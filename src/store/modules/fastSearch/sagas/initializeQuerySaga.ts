@@ -7,7 +7,6 @@ import { offersSearchFailureAction, offersSearchSuccessAction, populateQueryActi
 
 export function* initializeQuerySaga(action: InitializeQueryAction) {
   try {
-    console.log('initializeQuerySaga', action);
     const queryObj = yield qs.parse(action.queryString);
     const sanitizedQuery = yield call(backendApi.sanitizQueryObject, queryObj);
     const result: AxiosResponse<OffersSearchSuccessResponse> = yield call(backendApi.getOffersSearch, sanitizedQuery);

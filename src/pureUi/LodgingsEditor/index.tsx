@@ -63,7 +63,6 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
   const handleClickOutside = useCallback(
     (e: MouseEvent) => {
       const isInside = wrapper.current!.contains(e.target as Node);
-      console.log('isInside', isInside);
       if (!isInside) {
         props.onClickOutside(e);
       }

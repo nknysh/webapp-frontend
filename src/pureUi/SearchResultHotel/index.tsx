@@ -28,7 +28,7 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
     e.stopPropagation();
     onNavigateToHotel(result.uuid);
   };
-  console.log('render search result');
+
   return (
     <div className={props.className} key={result.name} onClick={handleClick} {...otherProps}>
       <ImageLoader

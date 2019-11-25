@@ -1,5 +1,4 @@
 import { shallow } from 'enzyme';
-import * as expect from 'expect';
 import * as React from 'react';
 import DatePicker from '../index';
 

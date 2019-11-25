@@ -438,7 +438,7 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
         Array [
           Object {
             "label": <ForwardRef(Styled(withThemeProvider(Nt)))
-              to="/search"
+              to="/search/beta"
             >
               back to search results
             </ForwardRef(Styled(withThemeProvider(Nt)))>,

@@ -68,10 +68,13 @@ export const initialState: FastSearchDomain = {
         repeatCustomer: false,
       },
     ],
-    mealPlanCategories: [MealPlanNames.ANY],
+    // Why typescast? It's because ts-jest can't process enums correctly,
+    // and we use this initialState in the tests.
+    // https://github.com/kulshekhar/ts-jest/pull/308/files
+    mealPlanCategories: ['Any' as MealPlanNames],
     regions: [],
     filters: [],
-    starRatings: [StarRating.FiveStar, StarRating.FiveStarPlus],
+    starRatings: ['5' as StarRating, '5+' as StarRating],
     startDate: addDays(new Date(), 1)
       .toISOString()
       .split('T')[0],

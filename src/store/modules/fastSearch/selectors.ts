@@ -200,7 +200,6 @@ export const bookingBuilderSelector = createSelector(
   getHotelId,
   offersSearchResultsSelector,
   (hotelId, results): BookingBuilder | undefined => {
-    console.log('hotelId', hotelId);
     if (!results || !results.length) {
       return undefined;
     }

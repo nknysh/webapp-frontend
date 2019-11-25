@@ -32,7 +32,6 @@ export default function fastSearchReducer(
       };
 
     case Actions.OPTIONS_SUCCESS:
-      console.log('OPTIONS_SUCCESS', action);
       return {
         ...state,
         options: action.successResponse,
@@ -287,7 +286,6 @@ export default function fastSearchReducer(
           ? (state.activeLodgingIndex = state.activeLodgingIndex - 1)
           : state.activeLodgingIndex;
 
-      console.log('-->', state.activeLodgingIndex, state.query.lodgings.length, newActiveLodgingIndex);
       return {
         ...state,
         queryHasChanged: true,

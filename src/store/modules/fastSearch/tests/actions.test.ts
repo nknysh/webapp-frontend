@@ -11,8 +11,6 @@ describe('fastSearchActions Snapshot tests', () => {
     expect(Actions.setFiltersAction([Filters.BEST_FOR_FAMILIES], true)).toMatchSnapshot();
     expect(Actions.setAllFiltersAction(true)).toMatchSnapshot();
     expect(Actions.toggleRepeatGuestAction()).toMatchSnapshot();
-    expect(Actions.dateRangeStartChangeAction('2020-01-01')).toMatchSnapshot();
-    expect(Actions.dateRangeEndChangeAction('2020-01-07')).toMatchSnapshot();
     expect(Actions.minPriceChangeAction(10)).toMatchSnapshot();
     expect(Actions.maxPriceChangeAction(100)).toMatchSnapshot();
     expect(Actions.incrementRoomAction(1)).toMatchSnapshot();

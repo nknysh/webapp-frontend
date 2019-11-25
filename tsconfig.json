@@ -13,8 +13,7 @@
     "target": "es5", // specify ECMAScript target version
     "allowJs": true, // allow a partial TypeScript and JavaScript codebase
     "checkJs": false, // don't typecheck Javscript files
-    "esModuleInterop": true,
-    "moduleResolution": "node" // allow typescript to load modules in via node module resolution https://github.com/pure-escapes/webapp-frontend/pull/262#discussion_r347336171
+    "esModuleInterop": true
   },
   "include": ["./src/"]
 }
