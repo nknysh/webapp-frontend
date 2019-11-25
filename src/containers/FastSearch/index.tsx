@@ -285,7 +285,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     return (
       <StyledFastSearchContainer>
         <Link to="/" className="backButton"><Icon className="backIcon">chevron_left</Icon>Back to Homepage</Link>
-        {this.props.searchPending && <h1 className="heading">Loading...</h1>}
+        {this.props.searchPending && <Heading2 className="heading">Loading...</Heading2>}
         {!this.props.searchPending && <Heading2 className="heading">Search Results {this.props.searchResults?.length}</Heading2>}
         <div className="sideBar">{this.renderSideBar()}</div>
 
