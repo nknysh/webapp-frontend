@@ -227,11 +227,52 @@ const getOption = (t, props, { products, breakdown }) => {
   return { label, value };
 };
 
-const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, updateTransferAction, hotelUuid) => {
+const renderInlinePrice = (translate, currencyCode, total, totalBeforeDiscount, isOnRequestOrPartiallyOnRequest) => {
+  if (isOnRequestOrPartiallyOnRequest === true) {
+    return <label>{translate('labels.priceAvailableOnRequest')}</label>;
+  }
+  if (total !== totalBeforeDiscount) {
+    return (
+      <React.Fragment>
+        <label data-discounted={true}>
+          {currencyCode}
+          {formatPrice(total)}
+        </label>
+        <label data-secondary={true}>
+          {currencyCode}
+          {formatPrice(totalBeforeDiscount)}
+        </label>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <label>
+        {currencyCode}
+        {formatPrice(total)}
+      </label>
+    );
+  }
+};
+
+const renderTransferOptionsSimple = (
+  translate,
+  selectedTransferOptions,
+  transferOptions,
+  updateTransferAction,
+  hotelUuid,
+  currencyCode
+) => {
   const simpleTransfers = transferOptions.map(t => ({
     name: t.products[0].name,
     uuid: t.products[0].uuid,
     direction: t.meta && t.meta.direction && t.meta.direction ? t.meta.direction : undefined,
+    priceFormatted: renderInlinePrice(
+      translate,
+      currencyCode,
+      t.total,
+      t.totalBeforeDiscount,
+      t.isOnRequestOrPartiallyOnRequest
+    ),
   }));
 
   const handleRadioClick = e => {
@@ -258,7 +299,11 @@ const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, u
     .filter(t => t.direction === undefined)
     .map(t => ({
       value: t.uuid,
-      label: t.name,
+      label: (
+        <label>
+          {t.name} {t.priceFormatted}
+        </label>
+      ),
     }));
   const oneWayTransfersOptions = simpleTransfers.filter(t => t.direction !== undefined);
 
@@ -281,7 +326,11 @@ const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, u
             onChange={() => handleCheckboxClick(to)}
             key={`${to.name}/${to.direction}`}
             checked={isChecked}
-            label={`${to.name} (${to.direction})`}
+            label={
+              <label>
+                {to.name} ({to.direction}) {to.priceFormatted}
+              </label>
+            }
           />
         );
       })}
@@ -299,7 +348,14 @@ const renderTransferOptionsSimple = (selectedTransferOptions, transferOptions, u
   );
 };
 
-const renderGroundServices = (selectedGroundServices, groundServices, updateGroundServiceAction, hotelUuid) => {
+const renderGroundServices = (
+  translate,
+  currencyCode,
+  selectedGroundServices,
+  groundServices,
+  updateGroundServiceAction,
+  hotelUuid
+) => {
   return (
     <React.Fragment>
       {groundServices.map(gs => {
@@ -310,7 +366,18 @@ const renderGroundServices = (selectedGroundServices, groundServices, updateGrou
             onChange={() => updateGroundServiceAction(gsProduct, hotelUuid)}
             key={`${gsProduct.uuid}/${gsProduct.name}`}
             checked={isChecked}
-            label={`${gsProduct.name}`}
+            label={
+              <label>
+                {gsProduct.name}{' '}
+                {renderInlinePrice(
+                  translate,
+                  currencyCode,
+                  gs.total,
+                  gs.totalBeforeDiscount,
+                  gs.isOnRequestOrPartiallyOnRequest
+                )}
+              </label>
+            }
           />
         );
       })}
@@ -319,6 +386,8 @@ const renderGroundServices = (selectedGroundServices, groundServices, updateGrou
 };
 
 const renderAddons = (
+  translate,
+  currencyCode,
   selectedSupplements,
   selectedFines,
   availableSupplements,
@@ -337,7 +406,18 @@ const renderAddons = (
             onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
             key={`${supplementProduct.uuid}/${supplementProduct.name}`}
             checked={isChecked}
-            label={`${supplementProduct.name}`}
+            label={
+              <label>
+                {supplementProduct.name}{' '}
+                {renderInlinePrice(
+                  translate,
+                  currencyCode,
+                  sp.total,
+                  sp.totalBeforeDiscount,
+                  sp.isOnRequestOrPartiallyOnRequest
+                )}
+              </label>
+            }
           />
         );
       })}
@@ -354,7 +434,18 @@ const renderAddons = (
             onChange={() => updateFineAction(fineProduct, hotelUuid)}
             key={`${fineProduct.uuid}/${fineProduct.name}`}
             checked={isChecked}
-            label={`${fineProduct.name}`}
+            label={
+              <label>
+                {fineProduct.name}{' '}
+                {renderInlinePrice(
+                  translate,
+                  currencyCode,
+                  fp.total,
+                  fp.totalBeforeDiscount,
+                  fp.isOnRequestOrPartiallyOnRequest
+                )}
+              </label>
+            }
           />
         );
       })}
@@ -811,7 +902,7 @@ export const SummaryFormExtras = ({
         </CollapseTitle>
 
         {isTransferSectionCollapsed === false &&
-          renderTransferOptionsSimple(selectedTransfers, transfers, updateTransferAction, id)}
+          renderTransferOptionsSimple(t, selectedTransfers, transfers, updateTransferAction, id, currencyCode)}
         {/* renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false, false)} */}
       </React.Fragment>
     );
@@ -843,7 +934,7 @@ export const SummaryFormExtras = ({
         </CollapseTitle>
 
         {isGroundServicesSectionCollapsed === false &&
-          renderGroundServices(selectedGroundServices, groundServices, updateGroundServiceAction, id)}
+          renderGroundServices(t, currencyCode, selectedGroundServices, groundServices, updateGroundServiceAction, id)}
       </React.Fragment>
     );
   };
@@ -875,6 +966,8 @@ export const SummaryFormExtras = ({
 
         {isAddonsSectionCollapsed === false &&
           renderAddons(
+            t,
+            currencyCode,
             selectedSupplements,
             selectedFines,
             availableSupplements,
