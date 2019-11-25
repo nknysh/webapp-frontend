@@ -34,6 +34,12 @@ export const FullTotal = styled.div`
 
 export const HotelTotals = styled.div``;
 
+export const HotelTotalsInfo = styled.div`
+  font-size: ${theme.fonts.sizes.default}px;
+  line-height: 14px;
+  color: ${theme.palette.secondary};
+`;
+
 export const Total = styled.p`
   display: block;
 

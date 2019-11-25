@@ -34,6 +34,7 @@ export default {
   hotelDetails: 'Hotel Details',
   yourSelection: 'Your Selection',
   totalNet: 'Total net cost',
+  totalExcludingCommission: 'Total cost to you excluding your commission',
   returnTransfers: 'Return transfers',
   groundService: 'Ground service',
   addOns: 'Addons',
