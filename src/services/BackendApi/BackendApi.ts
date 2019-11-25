@@ -16,10 +16,10 @@ import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch';
 import { PriceRange, StarRating } from './types/SearchQuery';
 
 export enum BackendEndpoints {
-  SEARCH_OPTIONS = 'api/search/options',
-  SEARCH = 'api/search',
-  NAMES = 'api/search/names',
-  BOOKING_BUILDER = 'api/booking-builder',
+  SEARCH_OPTIONS = 'search/options',
+  SEARCH = 'search',
+  NAMES = 'search/names',
+  BOOKING_BUILDER = 'booking-builder',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
