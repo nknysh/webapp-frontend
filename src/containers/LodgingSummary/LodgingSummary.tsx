@@ -298,7 +298,7 @@ export const LodgingSummaryRender = props => {
 
   const PriceBreakdown = ({ total, totalBeforeDiscount, isOnRequest }) => {
     if (isOnRequest) {
-      return <label>Is On Request</label>;
+      return <label>{t('labels.priceAvailableOnRequest')}</label>;
     }
 
     if (total !== totalBeforeDiscount) {
