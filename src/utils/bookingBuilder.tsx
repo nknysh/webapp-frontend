@@ -194,7 +194,7 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
     };
   }
 
-  if (selectedLodging.isOnRequest != null) {
+  if (selectedLodging.isOnRequest) {
     return {
       isOnRequest: true,
       total: '0',
