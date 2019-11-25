@@ -97,6 +97,13 @@ export default styled(DateRangeInput)`
     text-align: left;
     width: 100%;
     color: ${pureUiTheme.colors.black};
+
+    transition: all 0.15s ease-out;
+    box-shadow: 0 0 0 2px transparent;
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px ${pureUiTheme.colors.marine};
+    }
   }
 
   .datePickerWrapper {

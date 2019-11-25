@@ -35,7 +35,6 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
     props.result.bookingBuilder.response.uploads.find(upload => upload.url.match(/\.(gif|jpg|jpeg|tiff|png)$/i));
 
   const safeUpload = featuredUpload ? featuredUpload : { url: 'no-img', displayName: 'No Image' };
-  console.log(safeUpload);
 
   return (
     <div className={props.className} key={result.name} onClick={handleClick} {...otherProps}>
