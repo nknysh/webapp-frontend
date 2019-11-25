@@ -59,6 +59,11 @@ export const offersQuerySelector = createSelector(
   (domain): FastSearchDomain['query'] => domain.query
 );
 
+export const queryHasChangedSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['queryHasChanged'] => domain.queryHasChanged
+);
+
 export const activeFiltersSelector = createSelector(
   offersQuerySelector,
   (query): FastSearchDomain['query']['filters'] => query.filters

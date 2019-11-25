@@ -98,7 +98,6 @@ export const Search = ({
 
   return (
     <Fragment>
-      <h1>Hello</h1>
       <SearchBarSection data-vertical={vertical}>
         <SearchBarIndexSearch
           isLoading={isLoading(searchStatus)}

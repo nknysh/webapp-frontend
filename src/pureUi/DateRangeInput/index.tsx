@@ -112,5 +112,6 @@ export default styled(DateRangeInput)`
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 12px;
+    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.1);
   }
 `;

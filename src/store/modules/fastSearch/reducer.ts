@@ -1,15 +1,9 @@
-import { without, difference, omit, dropLast, update, set, lensPath, flatten, mergeDeepLeft } from 'ramda';
+import { lensPath, without, difference, omit, dropLast, update, set, flatten, mergeDeepLeft } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
-import { Filters, Lodging, BookingBuilderRequest } from 'services/BackendApi';
-import lensPath from 'ramda/es/lensPath';
+import { Filters, Lodging, SearchQuery } from 'services/BackendApi';
 import { addMonths } from 'date-fns';
 import qs from 'qs';
-import { SearchQuery } from '../../../services/BackendApi/types/SearchQuery';
-import { TOGGLE_REPEAT_GUEST } from './actions';
-import mergeDeepRight from 'ramda/es/mergeDeepRight';
-// import { bookingRequestSelector } from './selectors';
-import { getHotelId } from 'store/modules/hotel';
 import produce from 'immer';
 
 const defaultAge = 7;
@@ -43,6 +37,7 @@ export default function fastSearchReducer(
         ...state,
         options: action.successResponse,
         optionsRequestPending: false,
+        queryHasChanged: false,
       };
 
     case Actions.OPTIONS_FAILURE:
@@ -50,6 +45,7 @@ export default function fastSearchReducer(
         ...state,
         optionsRequestError: action.errorResponse,
         offersRequestPending: false,
+        queryHasChanged: false,
       };
 
     // ------------------------------------------------------
@@ -66,9 +62,6 @@ export default function fastSearchReducer(
       };
 
     case Actions.POPULATE_QUERY: {
-      console.log('action.query', action.query);
-      console.log('original', state.query);
-      console.log('merged', mergeDeepLeft<SearchQuery, SearchQuery>(state.query, action.query));
       return {
         ...state,
         query: {
@@ -104,6 +97,7 @@ export default function fastSearchReducer(
     case Actions.DESTINATION_CHANGE:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           name: action.value,
@@ -134,6 +128,7 @@ export default function fastSearchReducer(
     case Actions.TOGGLE_STAR_RATING:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           starRatings: state.query.starRatings.includes(action.starRating)
@@ -154,6 +149,7 @@ export default function fastSearchReducer(
 
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           lodgings: lodgingsWithOccasion,
@@ -166,6 +162,7 @@ export default function fastSearchReducer(
     case Actions.TOGGLE_REPEAT_GUEST:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           lodgings: state.query.lodgings.map(l => ({ ...l, repeatCustomer: !l.repeatCustomer })),
@@ -178,6 +175,7 @@ export default function fastSearchReducer(
     case Actions.SELECT_MEAN_PLAN:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           mealPlanCategories: [action.mealPlan],
@@ -196,6 +194,7 @@ export default function fastSearchReducer(
     case Actions.TOGGLE_REGION:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           regions: state.query.regions.includes(action.region)
@@ -210,6 +209,7 @@ export default function fastSearchReducer(
     case Actions.TOGGLE_HIGHLIGHTS:
       return {
         ...state,
+        queryHasChanged: true,
         expandedHighlights: state.expandedHighlights.includes(action.hotelUuid)
           ? without([action.hotelUuid], state.expandedHighlights)
           : [...state.expandedHighlights, action.hotelUuid],
@@ -221,6 +221,7 @@ export default function fastSearchReducer(
     case Actions.TOGGLE_FILTER:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           filters: state.query.filters.includes(action.filter)
@@ -232,6 +233,7 @@ export default function fastSearchReducer(
     case Actions.SET_FILTERS:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           filters:
@@ -244,6 +246,7 @@ export default function fastSearchReducer(
     case Actions.SET_ALL_FILTERS:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           filters: action.value === true ? Object.keys(Filters).map(k => Filters[k]) : [],
@@ -257,6 +260,7 @@ export default function fastSearchReducer(
     case Actions.MIN_PRICE_CHANGE:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           priceRange: { ...state.query.priceRange, min: action.value },
@@ -266,6 +270,7 @@ export default function fastSearchReducer(
     case Actions.MAX_PRICE_CHANGE:
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           priceRange: { ...state.query.priceRange, max: action.value },
@@ -285,6 +290,7 @@ export default function fastSearchReducer(
       console.log('-->', state.activeLodgingIndex, state.query.lodgings.length, newActiveLodgingIndex);
       return {
         ...state,
+        queryHasChanged: true,
         activeLodgingIndex: newActiveLodgingIndex,
         query: {
           ...state.query,
@@ -327,6 +333,7 @@ export default function fastSearchReducer(
       };
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           lodgings: update(action.lodgingIndex, newLodging, state.query.lodgings),
@@ -343,6 +350,7 @@ export default function fastSearchReducer(
       };
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           lodgings: update(action.lodgingIndex, newLodgingWithAhes, state.query.lodgings),
@@ -362,6 +370,7 @@ export default function fastSearchReducer(
       };
       return {
         ...state,
+        queryHasChanged: true,
         query: {
           ...state.query,
           lodgings: update(action.lodgingIndex, updatedLodging, state.query.lodgings),
@@ -412,6 +421,7 @@ export default function fastSearchReducer(
 
       return {
         ...state,
+        queryHasChanged: true,
         dateSelectionInProgress: action.type === Actions.DATE_RANGE_CHANGE ? true : false,
         showDatePicker: action.type === Actions.DATE_RANGE_CHANGE ? true : false,
         query: {
@@ -440,8 +450,8 @@ export default function fastSearchReducer(
         ...state,
         showDatePicker: action.visible,
       };
-  
-  case Actions.UPDATE_LODGING_GUEST_AGES_ACTION:
+
+    case Actions.UPDATE_LODGING_GUEST_AGES_ACTION:
       return updateLodgingGuestAgesReducer(state, action);
     case Actions.UPDATE_LODGING_MEAL_PLAN_ACTION:
       return updateLodgingMealPlanReducer(state, action);

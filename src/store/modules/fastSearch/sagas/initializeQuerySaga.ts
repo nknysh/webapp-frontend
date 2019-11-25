@@ -9,15 +9,11 @@ export function* initializeQuerySaga(action: InitializeQueryAction) {
   try {
     console.log('initializeQuerySaga', action);
     const queryObj = yield qs.parse(action.queryString);
-    const sanitizedQuery = yield call(backendApi.sanitizQuery, queryObj);
+    const sanitizedQuery = yield call(backendApi.sanitizQueryObject, queryObj);
     const result: AxiosResponse<OffersSearchSuccessResponse> = yield call(backendApi.getOffersSearch, sanitizedQuery);
     yield put(offersSearchSuccessAction(result.data));
     yield put(populateQueryAction(sanitizedQuery));
-    console.log('------------>', 'success');
   } catch (e) {
-    console.log('------------>', 'failure');
-    console.log(e);
-    console.log('------------>', 'failure');
     yield put(offersSearchFailureAction(e));
   }
 }
