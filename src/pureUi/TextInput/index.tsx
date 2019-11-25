@@ -31,6 +31,11 @@ export default styled(TextInput)`
     color: ${pureUiTheme.colors.black};
   }
 
+  input::placeholder {
+    color: ${pureUiTheme.colors.gray};
+    text-transform: uppercase;
+  }
+
   input:focus,
   input:active {
     outline: none;

@@ -17,6 +17,9 @@ export interface FastSearchDomain {
   showNameSearchResults: boolean;
   activeLodgingIndex: number;
   expandedHighlights: string[];
+  datePickerCurrentDate: string;
+  dateSelectionInProgress: boolean;
+  anchorDate?: string;
 
   offersRequestPending: boolean;
   offersRequestError: ErrorResponse | null;
@@ -48,21 +51,20 @@ export const initialState: FastSearchDomain = {
   nameSearchRequestError: null,
   activeLodgingIndex: 0,
   expandedHighlights: [],
+
+  datePickerCurrentDate: new Date().toISOString(),
+  dateSelectionInProgress: false,
+
   query: {
     name: '',
     lodgings: [
       {
         numberOfAdults: 2,
-        agesOfAllChildren: [1, 2, 4],
-        repeatCustomer: false,
-      },
-      {
-        numberOfAdults: 2,
-        agesOfAllChildren: [5],
+        agesOfAllChildren: [],
         repeatCustomer: false,
       },
     ],
-    mealPlanCategories: [MealPlanNames.HALF_BOARD],
+    mealPlanCategories: [MealPlanNames.ANY],
     regions: [],
     filters: [],
     starRatings: [StarRating.FiveStar, StarRating.FiveStarPlus],

@@ -28,8 +28,8 @@ export const SearchBar = ({
   // would cause a full re-render of the search results)
   const onSubmit = useCallback(() => {
     resetSearchQuery(searchQuery);
-    history.push(`/search?${buildQueryString(searchQuery)}`);
-  }, [history, searchQuery]);
+    history.push(`/search/beta?${buildQueryString(searchQuery)}`);
+  }, [history, searchQuery, resetSearchQuery]);
 
   return (
     <StyledSearchBar className={className}>
