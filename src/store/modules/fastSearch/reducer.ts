@@ -58,6 +58,7 @@ export default function fastSearchReducer(
     case Actions.INITIALIZE_QUERY:
       return {
         ...state,
+        offersRequestPending: true,
         // The only time we should merge two object.
         // The query string isn't guaranteed to have all the required properties
         // but our initial state is. So merging is a form of autocorrect.
@@ -71,7 +72,7 @@ export default function fastSearchReducer(
       return {
         ...state,
         query: {
-          ...state.query
+          ...state.query,
           name: action.query.name ? action.query.name : state.query.name,
         },
       };
