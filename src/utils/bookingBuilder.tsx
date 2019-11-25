@@ -188,8 +188,17 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
 
   if (!selectedLodging) {
     return {
-      total: 0,
-      totalBeforeDiscount: 0,
+      isOnRequest: false,
+      total: '0',
+      totalBeforeDiscount: '0',
+    };
+  }
+
+  if (selectedLodging.isOnRequest != null) {
+    return {
+      isOnRequest: true,
+      total: '0',
+      totalBeforeDiscount: '0',
     };
   }
 
@@ -213,6 +222,7 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
   });
 
   return {
+    isOnRequest: false,
     total: formatPrice(total),
     totalBeforeDiscount: formatPrice(totalBeforeDiscount),
   };

@@ -296,21 +296,45 @@ export const LodgingSummaryRender = props => {
     );
   };
 
+  const PriceBreakdown = ({ total, totalBeforeDiscount, isOnRequest }) => {
+    if (isOnRequest) {
+      return <label>Is On Request</label>;
+    }
+
+    if (total !== totalBeforeDiscount) {
+      return (
+        <React.Fragment>
+          <LodgingTotal data-discounted={true}>
+            {currencyCode}
+            {formatPrice(total)}
+          </LodgingTotal>
+          ;
+          <LodgingTotal data-secondary={true}>
+            {currencyCode}
+            {formatPrice(totalBeforeDiscount)}
+          </LodgingTotal>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <LodgingTotal>
+          {currencyCode}
+          {formatPrice(total)}
+        </LodgingTotal>
+      );
+    }
+  };
+
   return (
     <LodgingSummaryCard className="lodging-summary">
       <LodgingSummaryTitle>
         <strong>{lodging.title}</strong>
         <LodgingTotalWrapper>
-          <LodgingTotal data-discounted={true}>
-            {currencyCode}
-            {formatPrice(lodgingTotals.total)}
-          </LodgingTotal>
-          {lodgingTotals.totalBeforeDiscount && (
-            <LodgingTotal data-secondary={true}>
-              {currencyCode}
-              {formatPrice(lodgingTotals.totalBeforeDiscount)}
-            </LodgingTotal>
-          )}
+          <PriceBreakdown
+            total={lodgingTotals.total}
+            totalBeforeDiscount={lodgingTotals.totalBeforeDiscount}
+            isOnRequest={lodgingTotals.isOnRequest}
+          />
         </LodgingTotalWrapper>
       </LodgingSummaryTitle>
       <DateCollapsible />

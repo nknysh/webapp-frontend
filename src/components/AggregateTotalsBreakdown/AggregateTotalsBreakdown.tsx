@@ -52,7 +52,7 @@ export const AggregateTotalsBreakdown = props => {
   const PriceBreakdown = props => {
     const { currencyCode, total, totalBeforeDiscount } = props;
     if (!total && !totalBeforeDiscount) {
-      return <label>{translate('labels.itemNoTotal')}</label>;
+      return <label>{translate ? translate('labels.itemNoTotal') : 'Item No Total'}</label>;
     }
     if (props.totalBeforeDiscount) {
       return (
@@ -151,6 +151,7 @@ export const AggregateTotalsBreakdown = props => {
       <hr />
 
       <GrandTotalLabel>Total</GrandTotalLabel>
+      <br />
       <PriceBreakdown
         currencyCode={currencyCode}
         total={aggregateTotalsTotal.total}
