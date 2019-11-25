@@ -8,6 +8,7 @@ import {
   updateLodgingGuestAges,
   updateLodgingMealPlan,
   updateLodgingOccasions,
+  updateLodgingDates,
   removeLodging,
 } from 'store/modules/fastSearch';
 
@@ -23,6 +24,7 @@ const mapDispatchToProps = dispatch =>
       updateLodgingGuestAges,
       updateLodgingMealPlan,
       updateRequestedBuildLodgingDates,
+      updateLodgingDates,
       removeLodging,
       updateLodgingOccasions,
     },

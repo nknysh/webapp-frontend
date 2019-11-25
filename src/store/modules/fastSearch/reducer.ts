@@ -11,6 +11,7 @@ import mergeDeepRight from 'ramda/es/mergeDeepRight';
 // import { bookingRequestSelector } from './selectors';
 import { getHotelId } from 'store/modules/hotel';
 import produce from 'immer';
+import { formatDate } from 'utils';
 
 const defaultAge = 7;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
@@ -440,13 +441,15 @@ export default function fastSearchReducer(
         ...state,
         showDatePicker: action.visible,
       };
-  
-  case Actions.UPDATE_LODGING_GUEST_AGES_ACTION:
+
+    case Actions.UPDATE_LODGING_GUEST_AGES_ACTION:
       return updateLodgingGuestAgesReducer(state, action);
     case Actions.UPDATE_LODGING_MEAL_PLAN_ACTION:
       return updateLodgingMealPlanReducer(state, action);
     case Actions.ADD_LODGING_ACTION:
       return addLodgingReducer(state, action);
+    case Actions.UPDATE_LODGING_DATES_ACTION:
+      return updateLodgingDatesReducer(state, action);
 
     case Actions.UPDATE_LODGING_OCCASIONS_ACTION:
       return updateLodgingOccasionsReducer(state, action);
@@ -636,7 +639,23 @@ export const removeLodgingReducer = (state: FastSearchDomain, action) => {
   });
 };
 
-export const updateLodgingDatesReducer = (state: FastSearchDomain, action) => {};
+export const updateLodgingDatesReducer = (state: FastSearchDomain, action) => {
+  const { hotelUuid, lodgingIndex, startDate, endDate } = action;
+  const hotelIndex = state.results!.findIndex(r => r.uuid === hotelUuid);
+
+  return produce(state, draftState => {
+    if (!draftState || !draftState.results || !draftState.results[hotelIndex]) {
+      return state;
+    }
+
+    const result = draftState.results[hotelIndex];
+
+    result.bookingBuilder.request.Accommodation[lodgingIndex].startDate = formatDate(startDate);
+    result.bookingBuilder.request.Accommodation[lodgingIndex].endDate = formatDate(endDate);
+
+    return draftState;
+  });
+};
 
 export const updateGroundServiceReducer = (state: FastSearchDomain, action) => {
   const { groundService, hotelUuid } = action;

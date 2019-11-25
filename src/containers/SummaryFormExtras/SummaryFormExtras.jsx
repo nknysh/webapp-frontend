@@ -69,7 +69,6 @@ import {
   toSelectedAddon,
   groupByProductsUuid,
 } from './SummaryFormExtras.utils';
-import { updateFineAction } from 'store/modules/fastSearch';
 
 const renderAddonCheckbox = props => <AddonCheckbox {...props} />;
 

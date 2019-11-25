@@ -14,7 +14,7 @@ import {
   UPDATE_SUPPLEMENT_ACTION,
   UPDATE_FINE_ACTION,
   updateBookingSuccessAction,
- UpdateTransferAction
+  UPDATE_LODGING_DATES_ACTION,
 } from '../actions';
 
 import backendApi, { BookingBuilderEndpointSuccess } from 'services/BackendApi';
@@ -46,6 +46,7 @@ export function* watchTransferUpdate() {
       UPDATE_GROUND_SERVICE_ACTION,
       UPDATE_SUPPLEMENT_ACTION,
       UPDATE_FINE_ACTION,
+      UPDATE_LODGING_DATES_ACTION,
     ],
     bookingBuilderResponseSaga
   );

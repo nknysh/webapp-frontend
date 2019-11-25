@@ -328,11 +328,6 @@ export const updateLodgingGuestAges = (hotelUuid, lodgingIndex, guestAges) => ({
   guestAges,
 });
 
-export type UpdateLodgingDatesAction = ReturnType<typeof updateLodgingDates>;
-export const updateLodgingDates = () => ({
-  type: UPDATE_LODGING_DATES_ACTION as typeof UPDATE_LODGING_DATES_ACTION,
-});
-
 export type UpdateLodgingMealPlanAction = ReturnType<typeof updateLodgingMealPlan>;
 export const updateLodgingMealPlan = (hotelUuid, lodgingIndex, mealPlanUuids) => ({
   type: UPDATE_LODGING_MEAL_PLAN_ACTION as typeof UPDATE_LODGING_MEAL_PLAN_ACTION,
@@ -354,6 +349,15 @@ export const updateLodgingOccasions = (hotelUuid, lodgingIndex, occasions) => ({
   hotelUuid,
   lodgingIndex,
   occasions,
+});
+
+export type UpdateLodgingDatesAction = ReturnType<typeof updateLodgingDates>;
+export const updateLodgingDates = (hotelUuid, lodgingIndex, startDate, endDate) => ({
+  type: UPDATE_LODGING_DATES_ACTION as typeof UPDATE_LODGING_DATES_ACTION,
+  hotelUuid,
+  lodgingIndex,
+  startDate,
+  endDate,
 });
 
 // add lodgings
@@ -444,4 +448,5 @@ export type FastSearchAction =
   | IncrementCurrentDateAction
   | ToggleDatePickerAction
   | SetDatePickerVisibilityAction
-  | PopulateQueryAction;
+  | PopulateQueryAction
+  | UpdateLodgingDatesAction;

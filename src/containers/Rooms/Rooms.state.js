@@ -17,7 +17,7 @@ import {
   addRoom,
 } from 'store/modules/bookings';
 
-import { addLodgingAction } from 'store/modules/fastSearch';
+import { addLodgingAction, bookingResponseLodgingCountsPerAccommodation } from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { hotelUuid }) => ({
   bookingStatus: getBookingStatus(state),
@@ -26,6 +26,7 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   requestedRooms: getBookingRooms(state, hotelUuid),
   rooms: getCurrentHotelAccommodationProducts(state),
   roomsError: getCurrentHotelAccommodationProductsError(state),
+  lodgingCountsPerAccommodation: bookingResponseLodgingCountsPerAccommodation(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
