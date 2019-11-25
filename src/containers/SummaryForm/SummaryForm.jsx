@@ -52,6 +52,7 @@ import {
   ModalBody,
   ModalTitle,
   HotelTotals,
+  HotelTotalsInfo,
 } from './SummaryForm.styles';
 import { formatPrice } from '../../utils';
 const modalProps = { className: 'room-summary-form' };
@@ -101,6 +102,7 @@ const renderHotel = (
         {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
           !isOnRequest &&
           renderTotalPrice(t, { currencyCode, isOnRequest, total: preDiscountTotal, secondary: true })}
+        <HotelTotalsInfo>{t('labels.totalExcludingCommission')}</HotelTotalsInfo>
       </HotelTotals>
     )}
   </Hotel>
