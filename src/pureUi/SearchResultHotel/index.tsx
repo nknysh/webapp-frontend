@@ -23,35 +23,40 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
   const priceAfterDiscounts = result.bookingBuilder.response.totals.totalForPricedItems;
   const priceBeforeDiscounts = result.bookingBuilder.response.totals.totalBeforeDiscount;
   const isPreferred = result.preferred;
+  const onRequest = result.bookingBuilder.response.totals.oneOrMoreItemsOnRequest;
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     onNavigateToHotel(result.uuid);
   };
 
+  const featuredUpload =
+    props.result.uploads.find(upload => upload.tag === 'featuredPhoto') ||
+    props.result.bookingBuilder.response.uploads.find(upload => upload.url.match(/\.(gif|jpg|jpeg|tiff|png)$/i));
+
+  const safeUpload = featuredUpload ? featuredUpload : { url: 'no-img', displayName: 'No Image' };
+  console.log(safeUpload);
+
   return (
     <div className={props.className} key={result.name} onClick={handleClick} {...otherProps}>
-      <ImageLoader
-        aspectRatio="11:7"
-        title={result.bookingBuilder.response.uploads[1] && result.bookingBuilder.response.uploads[1].displayName}
-        src={result.bookingBuilder.response.uploads[1] && result.bookingBuilder.response.uploads[1].url}
-      >
+      <ImageLoader aspectRatio="11:7" title={safeUpload!.displayName} src={safeUpload!.url}>
         <>
           {isPreferred && <span className="badge pref">Preferred</span>}
           <div className="stack">
             <div className="stackColumn">
-              {offerCount === 0 && (
+              {onRequest && <span className="badge onRequest">On Request</span>}
+              {!onRequest && offerCount === 0 && (
                 <span className="badge price">{`${currencySymbol}${formatPrice(priceAfterDiscounts)}`}</span>
               )}
-              {offerCount > 0 && (
+              {!onRequest && offerCount > 0 && (
                 <span className="badge price">{`${currencySymbol}${formatPrice(priceAfterDiscounts)}`}</span>
               )}
-              {offerCount > 0 && (
+              {!onRequest && offerCount > 0 && (
                 <span className="badge price strike">{`${currencySymbol}${formatPrice(priceBeforeDiscounts)}`}</span>
               )}
             </div>
             <div className="stackColumn">
-              {offerCount > 0 && <span className="badge offer">{`${offerCount} Offers`}</span>}
+              {!onRequest && offerCount > 0 && <span className="badge offer">{`${offerCount} Offers`}</span>}
             </div>
           </div>
         </>
@@ -167,13 +172,18 @@ export default styled(memo(SearchResultHotel))`
   }
 
   .badge.price,
-  .badge.offer {
+  .badge.offer,
+  .badge.onRequest {
     color: ${pureUiTheme.colors.black};
     background-color: ${pureUiTheme.colors.white};
   }
 
   .badge.price {
     font-size: 18px;
+  }
+
+  .badge.onRequest {
+    font-size: 12px;
   }
 
   .badge.strike {
