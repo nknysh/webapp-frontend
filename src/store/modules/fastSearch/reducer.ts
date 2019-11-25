@@ -1,7 +1,13 @@
-import { without, difference, omit, dropLast, update, set, lensPath, flatten } from 'ramda';
+import { without, difference, omit, dropLast, update, set, lensPath, flatten, mergeDeepLeft } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
 import { Filters, Lodging, BookingBuilderRequest } from 'services/BackendApi';
+import lensPath from 'ramda/es/lensPath';
+import { addMonths } from 'date-fns';
+import qs from 'qs';
+import { SearchQuery } from '../../../services/BackendApi/types/SearchQuery';
+import { TOGGLE_REPEAT_GUEST } from './actions';
+import mergeDeepRight from 'ramda/es/mergeDeepRight';
 // import { bookingRequestSelector } from './selectors';
 import { getHotelId } from 'store/modules/hotel';
 import produce from 'immer';
@@ -49,6 +55,29 @@ export default function fastSearchReducer(
     // ------------------------------------------------------
     // Offers Search
     // ------------------------------------------------------
+    case Actions.INITIALIZE_QUERY:
+      return {
+        ...state,
+        offersRequestPending: true,
+        // The only time we should merge two object.
+        // The query string isn't guaranteed to have all the required properties
+        // but our initial state is. So merging is a form of autocorrect.
+        query: mergeDeepLeft<SearchQuery, SearchQuery>(state.query, qs.parse(action.queryString)),
+      };
+
+    case Actions.POPULATE_QUERY: {
+      console.log('action.query', action.query);
+      console.log('original', state.query);
+      console.log('merged', mergeDeepLeft<SearchQuery, SearchQuery>(state.query, action.query));
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          name: action.query.name ? action.query.name : state.query.name,
+        },
+      };
+    }
+
     case Actions.OFFERS_SEARCH_REQUEST:
       return {
         ...state,
@@ -128,6 +157,18 @@ export default function fastSearchReducer(
         query: {
           ...state.query,
           lodgings: lodgingsWithOccasion,
+        },
+      };
+
+    // ------------------------------------------------------
+    // Repeat Guest
+    // ------------------------------------------------------
+    case Actions.TOGGLE_REPEAT_GUEST:
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          lodgings: state.query.lodgings.map(l => ({ ...l, repeatCustomer: !l.repeatCustomer })),
         },
       };
 
@@ -353,7 +394,54 @@ export default function fastSearchReducer(
 
       return set(responsePath, action.response, state);
 
-    case Actions.UPDATE_LODGING_GUEST_AGES_ACTION:
+    case Actions.DATE_RANGE_SELECT_START:
+      return {
+        ...state,
+        dateSelectionInProgress: true,
+        anchorDate: action.date,
+        query: {
+          ...state.query,
+          startDate: action.date,
+          endDate: action.date,
+        },
+      };
+
+    case Actions.DATE_RANGE_CHANGE:
+    case Actions.DATE_RANGE_SELECT_END:
+      const isFutureDate = !state.anchorDate || action.date <= state.anchorDate! ? false : true;
+
+      return {
+        ...state,
+        dateSelectionInProgress: action.type === Actions.DATE_RANGE_CHANGE ? true : false,
+        showDatePicker: action.type === Actions.DATE_RANGE_CHANGE ? true : false,
+        query: {
+          ...state.query,
+          startDate: isFutureDate ? state.anchorDate! : action.date,
+          endDate: isFutureDate ? action.date : state.anchorDate!,
+        },
+      };
+
+    case Actions.INCREMENT_CURRENT_DATE:
+      const currentDateObj = new Date(state.datePickerCurrentDate);
+      return {
+        ...state,
+        datePickerCurrentDate:
+          action.step > 0 ? addMonths(currentDateObj, 1).toISOString() : addMonths(currentDateObj, -1).toISOString(),
+      };
+
+    case Actions.TOGGLE_DATE_PICKER:
+      return {
+        ...state,
+        showDatePicker: !state.showDatePicker,
+      };
+
+    case Actions.SET_DATE_PICKER_VISIBILITY:
+      return {
+        ...state,
+        showDatePicker: action.visible,
+      };
+  
+  case Actions.UPDATE_LODGING_GUEST_AGES_ACTION:
       return updateLodgingGuestAgesReducer(state, action);
     case Actions.UPDATE_LODGING_MEAL_PLAN_ACTION:
       return updateLodgingMealPlanReducer(state, action);

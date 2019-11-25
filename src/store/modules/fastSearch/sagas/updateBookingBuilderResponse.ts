@@ -14,6 +14,7 @@ import {
   UPDATE_SUPPLEMENT_ACTION,
   UPDATE_FINE_ACTION,
   updateBookingSuccessAction,
+ UpdateTransferAction
 } from '../actions';
 
 import backendApi, { BookingBuilderEndpointSuccess } from 'services/BackendApi';

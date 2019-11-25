@@ -3,9 +3,13 @@ import { FastSearchDomain } from './model';
 import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/BackendApi/types';
 import { getHotelId } from 'store/modules/hotel';
 import { ALL_COUNTRIES_AND_RESORTS } from './constants';
+import { getNumberOfDays } from 'utils';
 import { ProductTypes, Occassions } from 'config/enums';
 import { flatten, clone, path } from 'ramda'
 import { filterByObjectProperties } from 'utils'
+import { IDateRange } from './types';
+import { format, isSameMonth, isSameYear, differenceInCalendarDays } from 'date-fns';
+import {DateHelper} from 'pureUi/DatePicker';
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
 
@@ -103,6 +107,88 @@ export const showNameSearchResultsSelector = createSelector(
 export const activeHotelIdSelector = createSelector(
   fastSearchDomain,
   (domain): FastSearchDomain['activeHotelId'] => domain.activeHotelId
+);
+
+export const dateRangeSelector = createSelector(
+  offersQuerySelector,
+  (query): IDateRange => ({ start: query.startDate, end: query.endDate})
+);
+
+export const totalStayNightsSelector = createSelector(
+  dateRangeSelector,
+  (dateRange): number => {
+    if(!dateRange.end) { return 0; }
+    return differenceInCalendarDays(new Date(dateRange.end), new Date(dateRange.start)) ;
+  }
+);
+
+export const totalStayDaysSelector = createSelector(
+  totalStayNightsSelector,
+  (days): number => {
+    return days + 1;
+  }
+);
+
+export const datePickerCurrentDateSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['datePickerCurrentDate'] => domain.datePickerCurrentDate,
+)
+
+export const dateSelectionInProgressSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['dateSelectionInProgress'] => domain.dateSelectionInProgress,
+);
+
+export const showDatePickerSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['showDatePicker'] => domain.showDatePicker,
+);
+
+export const isRepeatGuestSelector = createSelector(
+  lodgingSelector,
+  (lodging): boolean => lodging[0].repeatCustomer,
+);
+
+
+export const selectedDatesSelector = createSelector(
+  dateRangeSelector,
+  totalStayDaysSelector,
+  (dateRange, totalStayDays): string[] => {
+    const firstTimestamp = new Date(dateRange.start).getTime();
+    return DateHelper.generateDatesFrom(firstTimestamp, totalStayDays, 'en-US')
+      .map(d => d.dateString);
+  }
+)
+
+export const dateRangeDisplayStringSelector = createSelector(
+  dateRangeSelector,
+  (dateRange): string => {
+    if (!dateRange.start || !dateRange.end) {
+      return 'Select date range';
+    }
+  
+    const startDate = new Date(dateRange.start);
+    const endDate = new Date(dateRange.end);
+  
+    const startDay = format(startDate, 'd');
+    const endDay = format(endDate, 'd');
+    const startMonth = format(startDate, 'LLL');
+    const endMonth = format(endDate, 'LLL');
+    const startYear = format(startDate, 'yyyy');
+    const endYear = format(endDate, 'yyyy');
+    const inSameMonth = isSameMonth(startDate, endDate);
+    const inSameYear = isSameYear(startDate, endDate);
+  
+    if (!inSameMonth && inSameYear) {
+      return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${endYear}`;
+    }
+  
+    if (!inSameMonth && !inSameYear) {
+      return `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`;
+    }
+  
+    return `${startDay} - ${endDay} ${startMonth} ${endYear}`;
+  }
 );
 
 export const bookingBuilderSelector = createSelector(

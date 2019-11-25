@@ -20,8 +20,8 @@ export const Landing = ({ fetchLatestOffers, offersStatus, offers }) => {
     <Loader isLoading={!loaded}>
       <StyledLanding>
         <LandingHero mask media={{ image: heroImage }}>
-          <LandingMarkdown>{heroData}</LandingMarkdown>
           <Container>
+            <LandingMarkdown>{heroData}</LandingMarkdown>
             <SearchBar />
           </Container>
         </LandingHero>

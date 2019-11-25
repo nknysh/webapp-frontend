@@ -1,12 +1,18 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { without } from 'ramda';
 import qs from 'qs';
 import {
   SearchQuery,
+  OffersSearchSuccessResponse,
+  MealPlanNames,
   ErrorResponse,
   SearchOptionsResponse,
   BookingBuilderRequest,
   BookingBuilderResponse,
 } from './types';
+
+// Move to backkendApiService
+import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'api/search/options',
@@ -25,7 +31,7 @@ export class BackendApiService<T extends AxiosInstance> {
   getSearchOptions = async (): Promise<AxiosResponse<SearchOptionsResponse>> =>
     this.client.get(BackendEndpoints.SEARCH_OPTIONS);
 
-  getOffersSearch = async (query: SearchQuery): Promise<AxiosResponse<ErrorResponse | ErrorResponse>> => {
+  getOffersSearch = async (query: SearchQuery): Promise<AxiosResponse<OffersSearchSuccessResponse | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.SEARCH}?${qs.stringify(query)}`;
     return this.client.get(endpoint);
   };
@@ -48,6 +54,18 @@ export class BackendApiService<T extends AxiosInstance> {
       },
     };
     return this.client.post(endpoint, tempPayloadShape);
+  };
+
+  sanitizQuery = (query: SearchQuery): SearchQuery => {
+    const s = {
+      ...query,
+      startDate: query.startDate.split('T')[0],
+      endDate: query.endDate.split('T')[0],
+      name: query.name === ALL_COUNTRIES_AND_RESORTS ? '' : query.name,
+      mealPlanCategories: without([MealPlanNames.ANY], query.mealPlanCategories || []),
+    };
+    console.log('sanitized', query, s);
+    return s;
   };
 }
 

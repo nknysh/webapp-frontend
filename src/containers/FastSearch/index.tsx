@@ -9,12 +9,15 @@ import { RangeValueType} from 'pureUi/RangeInput';
 import { LodgingsEditor } from '../../pureUi/LodgingsEditor/index';
 import SidebarGroup from 'pureUi/SidebarGroup';
 import {Link, withRouter, RouteComponentProps} from 'react-router-dom';
-import { List } from 'pureUi/List';
 import { Heading2 } from 'styles';
 import { PrimaryButton } from 'pureUi/Buttons';
 import SearchResultList from 'pureUi/SearchResultsList';
+import DateRangeInput from 'pureUi/DateRangeInput';
+import { Icon } from '@material-ui/core';
+import Checkbox from 'pureUi/Checkbox';
 
 import {
+  initializeQueryAction,
   searchOptionsSelector,
   optionsRequestAction,
   offersSearchRequestAction,
@@ -52,6 +55,21 @@ import {
   nameSearchResultsSelector,
   setNamesSearchResultsVisibilityAction,
   showNameSearchResultsSelector,
+  totalStayNightsSelector,
+  dateRangeSelector,
+  dateRangeDisplayStringSelector,
+  selectedDatesSelector,
+  datePickerCurrentDateSelector,
+  dateRangeSelectStartAction,
+  dateRangeSelectEndAction,
+  dateRangeChangeAction,
+  dateSelectionInProgressSelector,
+  incrementCurrentDateAction,
+  showDatePickerSelector,
+  toggleDatePickerAction,
+  setDatePickerVisibilityAction,
+  isRepeatGuestSelector,
+  toggleRepeatGuestAction,
 } from 'store/modules/fastSearch';
 
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
@@ -60,8 +78,8 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       this.props.getOptions();
     }
 
-    if (!this.props.searchResults) {
-      this.props.getOffers(this.props.searchQuery);
+    if (window.location.search) {
+      this.props.initializeQuery(window.location.search.replace('?', ''))
     }
 
     if(this.props.searchQuery.name === '') {
@@ -73,13 +91,57 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     this.props.destinationChange(e.currentTarget.value);
   }
   
+  handleSubmit = () => {
+    this.props.getOffers(this.props.searchQuery);
+  }
+  
+  handleToggleLodgingControls = () => {
+    this.props.toggleLodgingControls();
+  }
+
+  handleSetLogdingControlsVisibility = (visible: boolean) => () => {
+    this.props.setLodgingControlsVisibility(visible);
+  }
+  
+  handleToggleDatePicker = () => {
+    if(!this.props.showDatePicker) { 
+      this.props.toggleDatePicker();
+    }
+  }
+
+  handleSetDatePickerVisibility = (visible: boolean) => () => {
+    if(visible === false && this.props.dateSelectionInProgress) { return; }
+    this.props.setDatePickerVisibility(visible);
+  }
+
+  handleShowNameSearchDropDown = (visible: boolean) => () => {
+    this.props.setNamesSearchResultsVisibility(visible);
+  }
+
+  handleDayClick = (date: string) => {
+    if(this.props.dateSelectionInProgress) {
+      this.props.dateRangeSelectEnd(date, this.props.dateRange.start);
+    } else {
+      this.props.dateRangeSelectStart(date);
+    }
+  }
+
+  handleDateMouseOver = (date: string) => {
+    if(this.props.dateSelectionInProgress) {
+      this.props.dateRangeChange(date, this.props.dateRange.start);
+    }
+  }
+
+  handleIncrementCurrentDate = (step: number) => () => {
+    this.props.incrementCurrentDate(step);
+  }
+
+  // ---------------------------------------------------
+
   handleRemoveAllFilters = () => {
     this.props.setAllFilters(false);
   }
   
-  handleSubmit = () => {
-    this.props.getOffers(this.props.searchQuery);
-  }
   
   handlePriceRangeChange = (type: RangeValueType, value: string) => {
     if(!isNaN(parseInt(value))) {
@@ -94,58 +156,71 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     this.props.history.push(`/hotels/${hotelUuid}`);
   }
 
-  handleToggleLodgingControls = () => {
-    this.props.toggleLodgingControls();
-  }
-
-  handleSetLogdingControlsVisibility = (visible: boolean) => () => {
-    console.log('handleSetLogdingControlsVisibility', visible);
-    this.props.setLodgingControlsVisibility(visible);
-  }
-
-  handleShowNameSearchDown = (visible: boolean) => () => {
-    this.props.setNamesSearchResultsVisibility(visible);
-  }
+  
 
   renderSideBar = () => (
     <div className="sidebar">
       <SidebarGroup>
-      {this.props.optionsRequestPending && <h2>Options Loading</h2>}
-      {!this.props.optionsRequestPending && this.props.optionsRequestError && (
-        <h2>{this.props.optionsRequestError!.errors.map(e => e.title)}</h2>
-      )}
+        {this.props.optionsRequestPending && <h2>Options Loading</h2>}
+        {!this.props.optionsRequestPending && this.props.optionsRequestError && (
+          <h2>{this.props.optionsRequestError!.errors.map(e => e.title)}</h2>
+        )}
 
-      <label>
-        Destination or Resort <br />
-        <PredictiveTextInput 
-          placeholder="Where to" 
-          value={this.props.searchQuery.name!} 
-          onChange={this.handleDestinationChange}
-          options={this.props.nameSearchResults}
-          onOptionSelect={this.props.destinationChange}
-          showDropDown={this.props.showNameSearchResults}
-          onFocus={this.handleShowNameSearchDown(true)}
-          onBlur={this.handleShowNameSearchDown(false)}
-        />
+        <label className="basicSearchLabel">
+          <span>Destination or Resort</span>
+          <PredictiveTextInput 
+            placeholder="Where to" 
+            value={this.props.searchQuery.name!} 
+            onChange={this.handleDestinationChange}
+            options={this.props.nameSearchResults}
+            onOptionSelect={this.props.destinationChange}
+            showDropDown={this.props.showNameSearchResults}
+            onFocus={this.handleShowNameSearchDropDown(true)}
+            onBlur={this.handleShowNameSearchDropDown(false)}
+          />
+        </label>
 
-      </label>
+        <label className="basicSearchLabel">
+          <span>Lodgings *</span>
+          <LodgingsEditor 
+            showControls={this.props.showLodgingControls}
+            lodgings={this.props.searchQuery.lodgings}
+            activeLodgingIndex={this.props.activeLodingIndex}
+            onIncrementIndex={this.props.incrementActiveLodgingIndex}
+            onTabSelect={this.props.setActiveLodgingIndex}
+            onIncrementRoomCount={this.props.incrementRoom}
+            onIncrementAdultCount={this.props.incrementAdult}
+            onIncrementChildCount={this.props.incrementChild}
+            onChildAgeChange={this.props.setAge}
+            totalGuestCount={this.props.totalGuestCount}
+            onClick={this.handleToggleLodgingControls}
+            onClickOutside={this.handleSetLogdingControlsVisibility(false)}
+          />
+        </label>
+        
+        <label className="basicSearchLabel">
+          <span>Dates *</span>
+          <DateRangeInput 
+            displayString={this.props.dateRangeDisplayString}
+            currentDate={this.props.currentDate}
+            totalNights={this.props.totalStayNights}
+            selectedDates={this.props.selectedDates}
+            onDayClick={this.handleDayClick}
+            onDayMouseOver={this.handleDateMouseOver}
+            showDatePicker={this.props.showDatePicker}
+            onNextClick={this.handleIncrementCurrentDate(1)}
+            onPrevClick={this.handleIncrementCurrentDate(-1)}
+            onClick={this.handleToggleDatePicker}
+            onClickOutside={this.handleSetDatePickerVisibility(false)}
+          />
+        </label>
 
-      <LodgingsEditor 
-        showControls={this.props.showLodgingControls}
-        lodgings={this.props.searchQuery.lodgings}
-        activeLodgingIndex={this.props.activeLodingIndex}
-        onIncrementIndex={this.props.incrementActiveLodgingIndex}
-        onTabSelect={this.props.setActiveLodgingIndex}
-        onIncrementRoomCount={this.props.incrementRoom}
-        onIncrementAdultCount={this.props.incrementAdult}
-        onIncrementChildCount={this.props.incrementChild}
-        onChildAgeChange={this.props.setAge}
-        totalGuestCount={this.props.totalGuestCount}
-        onClick={this.handleToggleLodgingControls}
-        onClickOutside={this.handleSetLogdingControlsVisibility(false)}
-      />
+        <label className="basicSearchLabel repeatGuest">
+          <span className="label">Repeat Guest</span>
+          <Checkbox value={this.props.isRepeatGuest} onChange={this.props.toggleRepeatGuest} />
+        </label>
 
-      <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
+        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
 
       </SidebarGroup>
 
@@ -193,14 +268,14 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   };
 
   render() {
-    console.log('this.props.nameSearchResults', this.props.nameSearchResults);
+
     if (!this.props.searchOptions) {
       return null;
     }
 
     return (
       <StyledFastSearchContainer>
-        <Link to="/" className="backButton">Back to Homepage</Link>
+        <Link to="/" className="backButton"><Icon className="backIcon">chevron_left</Icon>Back to Homepage</Link>
         {this.props.searchPending && <h1 className="heading">Loading...</h1>}
         {!this.props.searchPending && <Heading2 className="heading">Search Results {this.props.searchResults?.length}</Heading2>}
         <div className="sideBar">{this.renderSideBar()}</div>
@@ -238,6 +313,14 @@ const mapStateToProps = createStructuredSelector({
   showLodgingControls: showLodgingControlsSelector,
   nameSearchResults: nameSearchResultsSelector,
   showNameSearchResults: showNameSearchResultsSelector,
+  totalStayNights: totalStayNightsSelector,
+  dateRange: dateRangeSelector,
+  dateRangeDisplayString: dateRangeDisplayStringSelector,
+  selectedDates: selectedDatesSelector,
+  currentDate: datePickerCurrentDateSelector,
+  dateSelectionInProgress: dateSelectionInProgressSelector,
+  showDatePicker: showDatePickerSelector,
+  isRepeatGuest: isRepeatGuestSelector,
 });
 
 const actionCreators = {
@@ -263,7 +346,16 @@ const actionCreators = {
   toggleLodgingControls: toggleLodgingControlsAction,
   setLodgingControlsVisibility: setLodgingControlsVisibilityAction,
   setNamesSearchResultsVisibility: setNamesSearchResultsVisibilityAction,
+  dateRangeSelectStart: dateRangeSelectStartAction,
+  dateRangeSelectEnd: dateRangeSelectEndAction,
+  dateRangeChange: dateRangeChangeAction,
+  incrementCurrentDate: incrementCurrentDateAction,
+  toggleDatePicker: toggleDatePickerAction,
+  setDatePickerVisibility: setDatePickerVisibilityAction,
+  initializeQuery: initializeQueryAction,
+  toggleRepeatGuest: toggleRepeatGuestAction,
 };
+
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
 

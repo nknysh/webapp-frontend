@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
 
 const StyledFastSearchContainer = styled.div`
   display: grid;
   grid-template:
     'backButton heading'
     'sideBar searchResults';
-  grid-template-columns: 345px auto;
+  grid-template-columns: 0.25fr auto;
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
 
@@ -16,6 +17,8 @@ const StyledFastSearchContainer = styled.div`
 
   .sideBar {
     grid-area: sideBar;
+    min-width: 300px;
+    min-width: 315px;
   }
 
   .searchResults {
@@ -32,6 +35,16 @@ const StyledFastSearchContainer = styled.div`
     grid-area: backButton;
     display: flex;
     align-items: center;
+    color: ${pureUiTheme.colors.gold};
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+
+    .backIcon {
+      background-color: ${pureUiTheme.colors.grayDark};
+      font-size: 16px;
+      margin-right: 10px;
+    }
   }
 
   input {
@@ -41,6 +54,31 @@ const StyledFastSearchContainer = styled.div`
 
   .searchButton {
     margin: 10px 0;
+  }
+
+  .basicSearchLabel {
+    text-transform: uppercase;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 1.5rem;
+    color: ${pureUiTheme.colorRoles.grayLabel};
+
+    & > span {
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+
+  .repeatGuest {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0;
+
+    .label {
+      margin-left: 10px;
+    }
   }
 `;
 

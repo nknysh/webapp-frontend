@@ -10,6 +10,8 @@ import {
   BookingBuilderResponse,
 } from 'services/BackendApi/types';
 
+export const INITIALIZE_QUERY = 'fastSearch/INITIALIZE_QUERY';
+export const POPULATE_QUERY = 'fastSearch/POPULATE_QUERY';
 export const DESTINATION_CHANGE = 'fastSearch/DESTINATION_CHANGE';
 export const TOGGLE_FILTER = 'fastSearch/TOGGLE_FILTER';
 export const SET_FILTERS = 'fastSearch/SET_FILTER';
@@ -23,8 +25,6 @@ export const TOGGLE_HIGHLIGHTS = 'fastSearch/TOGGLE_HIGHLIGHTS';
 export const TOGGLE_LODGING_CONTROLS = 'fastSearch/TOGGLE_LODGING_CONTROLS';
 export const SET_LODGING_CONTOLS_VISBILITY = 'fastSearch/SET_LODGING_CONTOLS_VISBILITY';
 export const SELECT_MEAN_PLAN = 'fastSearch/SELECT_MEAL_PLAN';
-export const DATE_RANGE_START_CHANGE = 'fastSearch/DATE_RANGE_START_CHANGE';
-export const DATE_RANGE_END_CHANGE = 'fastSearch/DATE_RANGE_END_CHANGE';
 export const MIN_PRICE_CHANGE = 'fastSearch/MIN_PRICE_CHANGE';
 export const MAX_PRICE_CHANGE = 'fastSearch/MAX_PRICE_CHANGE';
 export const INCREMENT_ROOM = 'fastSearch/INCREMENT_ROOM';
@@ -42,6 +42,13 @@ export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
 export const NAME_SEARCH_SUCCESS = 'fastSearch/NAME_SEARCH_SUCCESS';
 export const NAME_SEARCH_FAILURE = 'fastSearch/NAME_SEARCH_FAILURE';
 export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RESUTS_VISIBILITY';
+
+export const DATE_RANGE_SELECT_START = 'fastSearch/DATE_SELECT_START';
+export const DATE_RANGE_SELECT_END = 'fastSearch/DATE_RANGE_SELECT_END';
+export const DATE_RANGE_CHANGE = 'fastSearch/DATE_RANGE_CHANGE';
+export const INCREMENT_CURRENT_DATE = 'fastSearch/INCREMENT_CURRENT_DATE';
+export const TOGGLE_DATE_PICKER = 'fastSearch/TOGGLE_DATE_PICKER';
+export const SET_DATE_PICKER_VISIBILITY = 'fastSearch/SET_DATE_PICKER_VISIBILITY';
 
 export const UPDATE_TRANSFER = 'bookingBuilder/UPDATE_TRANSFER';
 export const UPDATE_BOOKING_SUCCESS = 'bookingBuilder/UPDATE_BOOKING_SUCCESS';
@@ -79,6 +86,18 @@ export const destinationChangeAction = (value: string) => ({
   value,
 });
 // ---------------------------------------------------------------------------------------
+
+export type InitializeQueryAction = ReturnType<typeof initializeQueryAction>;
+export const initializeQueryAction = (queryString: string) => ({
+  type: INITIALIZE_QUERY as typeof INITIALIZE_QUERY,
+  queryString,
+});
+
+export type PopulateQueryAction = ReturnType<typeof populateQueryAction>;
+export const populateQueryAction = (query: SearchQuery) => ({
+  type: POPULATE_QUERY as typeof POPULATE_QUERY,
+  query,
+});
 
 export type ToggleFilterAction = ReturnType<typeof toggleFilterAction>;
 export const toggleFilterAction = (filter: Filters) => ({
@@ -144,22 +163,21 @@ export const setLodgingControlsVisibilityAction = (visible: boolean) => ({
   visible,
 });
 
+export type ToggleDatePickerAction = ReturnType<typeof toggleDatePickerAction>;
+export const toggleDatePickerAction = () => ({
+  type: TOGGLE_DATE_PICKER as typeof TOGGLE_DATE_PICKER,
+});
+
+export type SetDatePickerVisibilityAction = ReturnType<typeof setDatePickerVisibilityAction>;
+export const setDatePickerVisibilityAction = (visible: boolean) => ({
+  type: SET_DATE_PICKER_VISIBILITY as typeof SET_DATE_PICKER_VISIBILITY,
+  visible,
+});
+
 export type SelectMealPlanAction = ReturnType<typeof selectMealPlanAction>;
 export const selectMealPlanAction = (mealPlan: MealPlanNames) => ({
   type: SELECT_MEAN_PLAN as typeof SELECT_MEAN_PLAN,
   mealPlan,
-});
-
-export type DateRangeStartChangeAction = ReturnType<typeof dateRangeStartChangeAction>;
-export const dateRangeStartChangeAction = (date: string) => ({
-  type: DATE_RANGE_START_CHANGE as typeof DATE_RANGE_START_CHANGE,
-  date,
-});
-
-export type DateRangeEndChangeAction = ReturnType<typeof dateRangeEndChangeAction>;
-export const dateRangeEndChangeAction = (date: string) => ({
-  type: DATE_RANGE_START_CHANGE as typeof DATE_RANGE_START_CHANGE,
-  date,
 });
 
 export type MinPriceChangeAction = ReturnType<typeof minPriceChangeAction>;
@@ -347,9 +365,36 @@ export const addLodgingAction = (hotelUuid, accommodationProductUuid, hotelAccom
   hotelAccommodationProducts,
 });
 
+export type DateRangeSelectStartAction = ReturnType<typeof dateRangeSelectStartAction>;
+export const dateRangeSelectStartAction = (date: string) => ({
+  type: DATE_RANGE_SELECT_START as typeof DATE_RANGE_SELECT_START,
+  date,
+});
+
+export type DateRangeSelectEndAction = ReturnType<typeof dateRangeSelectEndAction>;
+export const dateRangeSelectEndAction = (date: string, currentStartDate: string) => ({
+  type: DATE_RANGE_SELECT_END as typeof DATE_RANGE_SELECT_END,
+  date,
+  currentStartDate,
+});
+
+export type DateRangeChangeAction = ReturnType<typeof dateRangeChangeAction>;
+export const dateRangeChangeAction = (date: string, currentStartDate: string) => ({
+  type: DATE_RANGE_CHANGE as typeof DATE_RANGE_CHANGE,
+  date,
+  currentStartDate,
+});
+
+export type IncrementCurrentDateAction = ReturnType<typeof incrementCurrentDateAction>;
+export const incrementCurrentDateAction = (step: number) => ({
+  type: INCREMENT_CURRENT_DATE as typeof INCREMENT_CURRENT_DATE,
+  step,
+});
+
 // 3. Create a union type which we can pass as the reducers action type.
 // goto DestinationChangeAction to see start of these comments.
 export type FastSearchAction =
+  | InitializeQueryAction
   | DestinationChangeAction
   | ToggleFilterAction
   | ToggleRepeatGuestAction
@@ -363,8 +408,6 @@ export type FastSearchAction =
   | SelectMealPlanAction
   | SetFiltersAction
   | SetAllFiltersAction
-  | DateRangeStartChangeAction
-  | DateRangeEndChangeAction
   | MinPriceChangeAction
   | MaxPriceChangeAction
   | IncrementRoomAction
@@ -392,4 +435,13 @@ export type FastSearchAction =
   | AddLodgingAction
   | UpdateGroundServiceAction
   | UpdateSupplementAction
-  | UpdateFineAction;
+  | UpdateFineAction
+  | UpdateTransferAction
+  | UpdateBookingSuccessAction
+  | DateRangeSelectStartAction
+  | DateRangeSelectEndAction
+  | DateRangeChangeAction
+  | IncrementCurrentDateAction
+  | ToggleDatePickerAction
+  | SetDatePickerVisibilityAction
+  | PopulateQueryAction;

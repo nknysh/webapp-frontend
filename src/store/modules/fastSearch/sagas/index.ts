@@ -3,9 +3,17 @@ import { watchOffersSearchRequest } from './offersSearchSaga';
 import { watchOptionsRequest } from './searchOptionsSaga';
 import { watchTransferUpdate } from './updateBookingBuilderResponse';
 import { watchDestinationChange } from './nameSearchSaga';
+import { watchInitializeQuery } from './initializeQuerySaga';
 
 export default function* searchSagas() {
-  const sagas = [watchOffersSearchRequest, watchOptionsRequest, watchDestinationChange, watchTransferUpdate];
+  const sagas = [
+    watchOffersSearchRequest,
+    watchOptionsRequest,
+    watchDestinationChange,
+    watchTransferUpdate,
+    watchInitializeQuery,
+  ];
+
   yield all(
     sagas.map(saga =>
       spawn(function*() {

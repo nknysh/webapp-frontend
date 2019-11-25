@@ -34,6 +34,7 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
     onIncrementAdultCount,
     onIncrementChildCount,
     onChildAgeChange,
+    onClickOutside,
     ...buttonProps
   } = props;
 
@@ -59,19 +60,23 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
     props.onChildAgeChange(props.activeLodgingIndex, ageIndex, e.currentTarget.value);
   };
 
-  const handleClickOutside = useCallback((e: MouseEvent) => {
-    if(!wrapper.current!.contains(e.target as Node)){
-      props.onClickOutside(e);
-      return;
-    }
-  },[props.onClickOutside]);
+  const handleClickOutside = useCallback(
+    (e: MouseEvent) => {
+      const isInside = wrapper.current!.contains(e.target as Node);
+      console.log('isInside', isInside);
+      if (!isInside) {
+        props.onClickOutside(e);
+      }
+    },
+    [props.onClickOutside]
+  );
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-    }
-  })
+    };
+  });
 
   const activeLodging = props.lodgings[props.activeLodgingIndex];
 
@@ -141,6 +146,7 @@ export const LodgingsEditor = styled(LodgingsEditorComponent)`
   }
   
   .controls {
+    min-width: 340px;
     position: absolute;
     top: 100%;
     left: 0;

@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { without } from 'ramda';
 import backendApi, { OffersSearchSuccessResponse, MealPlanNames } from 'services/BackendApi';
 import { ALL_COUNTRIES_AND_RESORTS } from '../constants';
+import qs from 'qs';
 import {
   OFFERS_SEARCH_REQUEST,
   offersSearchFailureAction,
@@ -15,6 +16,8 @@ export function* offersSearchRequestSaga(action: SearchRequestAction) {
   const query = action.query;
   const sanitizedQuery = {
     ...query,
+    startDate: query.startDate.split('T')[0],
+    endDate: query.endDate.split('T')[0],
     name: action.query.name === ALL_COUNTRIES_AND_RESORTS ? '' : action.query.name,
     mealPlanCategories: without([MealPlanNames.ANY], query.mealPlanCategories),
   };
@@ -24,6 +27,9 @@ export function* offersSearchRequestSaga(action: SearchRequestAction) {
     yield put(offersSearchSuccessAction(result.data));
   } catch (e) {
     yield put(offersSearchFailureAction(e));
+  } finally {
+    const params = qs.stringify(sanitizedQuery);
+    window.history.replaceState({}, '', decodeURIComponent(`${location.pathname}?${params}`));
   }
 }
 
