@@ -39,40 +39,26 @@ Object {
 
 exports[`fastSearchActions Snapshot tests Matches snapshots 6`] = `
 Object {
-  "date": "2020-01-01",
-  "type": "fastSearch/DATE_RANGE_START_CHANGE",
-}
-`;
-
-exports[`fastSearchActions Snapshot tests Matches snapshots 7`] = `
-Object {
-  "date": "2020-01-07",
-  "type": "fastSearch/DATE_RANGE_START_CHANGE",
-}
-`;
-
-exports[`fastSearchActions Snapshot tests Matches snapshots 8`] = `
-Object {
   "type": "fastSearch/MIN_PRICE_CHANGE",
   "value": 10,
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 9`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 7`] = `
 Object {
   "type": "fastSearch/MAX_PRICE_CHANGE",
   "value": 100,
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 10`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 8`] = `
 Object {
   "step": 1,
   "type": "fastSearch/INCREMENT_ROOM",
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 11`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 9`] = `
 Object {
   "lodgingIndex": 1,
   "step": 1,
@@ -80,7 +66,7 @@ Object {
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 12`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 10`] = `
 Object {
   "lodgingIndex": 1,
   "step": 1,
@@ -88,7 +74,7 @@ Object {
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 13`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 11`] = `
 Object {
   "childIndex": 0,
   "lodgingIndex": 0,
@@ -97,7 +83,7 @@ Object {
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 14`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 12`] = `
 Object {
   "query": Object {
     "endDate": "2020-01-07",
@@ -113,7 +99,7 @@ Object {
       },
     ],
     "mealPlanCategories": Array [
-      "BB",
+      "Any",
     ],
     "name": "Amilla Fushi",
     "priceRange": Object {
@@ -130,14 +116,14 @@ Object {
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 15`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 13`] = `
 Object {
   "successResponse": "test",
   "type": "fastSearch/OFFERS_SEARCH_SUCCESS",
 }
 `;
 
-exports[`fastSearchActions Snapshot tests Matches snapshots 16`] = `
+exports[`fastSearchActions Snapshot tests Matches snapshots 14`] = `
 Object {
   "errorResponse": "test",
   "type": "fastSearch/OFFERS_SEARCH_FAILURE",

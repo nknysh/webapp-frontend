@@ -8,6 +8,8 @@ import {
   SearchOptions,
   NameSearchResponseData,
 } from 'services/BackendApi';
+import { addDays } from 'date-fns';
+import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 
 export interface FastSearchDomain {
   options: SearchOptions | null; // We should look at using fp-ts to make use of `Option` types
@@ -32,6 +34,7 @@ export interface FastSearchDomain {
   optionsRequestError: ErrorResponse | null;
 
   query: SearchQuery;
+  queryHasChanged: boolean;
   activeHotelId: string | undefined;
 }
 
@@ -55,8 +58,9 @@ export const initialState: FastSearchDomain = {
   datePickerCurrentDate: new Date().toISOString(),
   dateSelectionInProgress: false,
 
+  queryHasChanged: false,
   query: {
-    name: '',
+    name: ALL_COUNTRIES_AND_RESORTS,
     lodgings: [
       {
         numberOfAdults: 2,
@@ -64,12 +68,19 @@ export const initialState: FastSearchDomain = {
         repeatCustomer: false,
       },
     ],
-    mealPlanCategories: [MealPlanNames.ANY],
+    // Why typescast? It's because ts-jest can't process enums correctly,
+    // and we use this initialState in the tests.
+    // https://github.com/kulshekhar/ts-jest/pull/308/files
+    mealPlanCategories: ['Any' as MealPlanNames],
     regions: [],
     filters: [],
-    starRatings: [StarRating.FiveStar, StarRating.FiveStarPlus],
-    startDate: '2019-12-13',
-    endDate: '2019-12-20',
+    starRatings: ['5' as StarRating, '5+' as StarRating],
+    startDate: addDays(new Date(), 1)
+      .toISOString()
+      .split('T')[0],
+    endDate: addDays(new Date(), 15)
+      .toISOString()
+      .split('T')[0],
     priceRange: { min: 1, max: 100000 },
   },
 };

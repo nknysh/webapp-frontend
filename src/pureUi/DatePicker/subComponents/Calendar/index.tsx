@@ -31,6 +31,7 @@ export interface ICalendarProps extends React.HTMLProps<HTMLDivElement> {
 
 class Calendar extends React.Component<ICalendarProps, {}> {
   private currentMonth: number;
+  private today = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
   private localeOptions = { year: 'numeric', month: 'long', timeZone: 'GMT' };
 
   public shouldComponentUpdate(nextProps, nextState) {
@@ -65,6 +66,7 @@ class Calendar extends React.Component<ICalendarProps, {}> {
         isSelected={isSelected}
         isFirstDate={isFirstDate}
         isExtra={date.month !== this.currentMonth}
+        isToday={this.today === date.dateString}
       />
     );
   };

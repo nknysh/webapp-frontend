@@ -17,6 +17,7 @@ interface IDateButtonProps {
   isDisabled?: boolean;
   isExtra?: boolean;
   isFirstDate?: boolean;
+  isToday?: boolean;
 }
 
 class DateButton extends React.Component<IDateButtonProps, {}> {
@@ -36,6 +37,7 @@ class DateButton extends React.Component<IDateButtonProps, {}> {
       isDisabled: this.props.isDisabled,
       isFirstDate: this.props.isFirstDate,
       isExtra: this.props.isExtra,
+      isToday: this.props.isToday,
     });
 
     return (
@@ -58,7 +60,7 @@ const StyledDateButton = styled(DateButton)`
   padding: 5px;
   border: none;
   background-color: transparent;
-  color: ${pureUiTheme.colors.blackLight};
+  color: ${props => (props.isToday ? pureUiTheme.colors.black : pureUiTheme.colors.blackLight)};
   font-size: 12px;
   font-weight: bold;
   line-height: 32px;

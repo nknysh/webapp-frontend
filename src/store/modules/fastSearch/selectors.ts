@@ -59,6 +59,11 @@ export const offersQuerySelector = createSelector(
   (domain): FastSearchDomain['query'] => domain.query
 );
 
+export const queryHasChangedSelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['queryHasChanged'] => domain.queryHasChanged
+);
+
 export const activeFiltersSelector = createSelector(
   offersQuerySelector,
   (query): FastSearchDomain['query']['filters'] => query.filters
@@ -195,7 +200,6 @@ export const bookingBuilderSelector = createSelector(
   getHotelId,
   offersSearchResultsSelector,
   (hotelId, results): BookingBuilder | undefined => {
-    console.log('hotelId', hotelId);
     if (!results || !results.length) {
       return undefined;
     }

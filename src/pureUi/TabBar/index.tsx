@@ -16,7 +16,7 @@ const TabBarCompactComponent = (props: TabBarCompactProps) => {
     },
     [props.onIncrementTabIndex]
   );
-  console.log('props.children.length', props.children.length - 1);
+
   return (
     <div className={props.className}>
       {props.tabIndex > 0 && (

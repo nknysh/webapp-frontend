@@ -13,6 +13,7 @@ import {
 
 // Move to backkendApiService
 import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch';
+import { PriceRange, StarRating } from './types/SearchQuery';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'api/search/options',
@@ -56,16 +57,34 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.post(endpoint, tempPayloadShape);
   };
 
-  sanitizQuery = (query: SearchQuery): SearchQuery => {
-    const s = {
+  sanitizQueryObject = (query: SearchQuery): SearchQuery => {
+    // Convery any strings that should be integers to integers
+    // qs seem to not handle stings containing '+' correctly
+    const sanitizeStarRatings = (sr: string[]) =>
+      sr.map((rating: string) => (rating === '5 ' ? StarRating.FiveStarPlus : (rating as StarRating)));
+    const sanitizeAges = (ages: string[]) => ages.map(age => parseInt(age, 10));
+    const sanitizeNumberOfAdults = (s: string) => parseInt(s, 10);
+    const sanitizePricePrange = (pr: PriceRange) => ({
+      min: pr.min ? parseInt((<unknown>pr.min) as string, 10) : undefined,
+      max: pr.max ? parseInt((<unknown>pr.max) as string, 10) : undefined,
+    });
+
+    const sanitized = {
       ...query,
       startDate: query.startDate.split('T')[0],
       endDate: query.endDate.split('T')[0],
       name: query.name === ALL_COUNTRIES_AND_RESORTS ? '' : query.name,
-      mealPlanCategories: without([MealPlanNames.ANY], query.mealPlanCategories || []),
+      priceRange: query.priceRange ? sanitizePricePrange(query.priceRange) : { min: 0, max: 100000 },
+      mealPlanCategories: without(['Any' as MealPlanNames], query.mealPlanCategories || []),
+      starRatings: query.starRatings ? sanitizeStarRatings(query.starRatings) : [],
+      lodgings: query.lodgings.map(lodging => ({
+        ...lodging,
+        agesOfAllChildren: sanitizeAges(((<unknown>lodging.agesOfAllChildren) as string[] | undefined) || []),
+        numberOfAdults: sanitizeNumberOfAdults((<unknown>lodging.numberOfAdults) as string),
+      })),
     };
-    console.log('sanitized', query, s);
-    return s;
+
+    return sanitized;
   };
 }
 

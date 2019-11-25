@@ -10,7 +10,7 @@ export const sampleQuery: SearchQuery = {
       honeymoon: true,
     },
   ],
-  mealPlanCategories: [MealPlanNames.BREAKFAST_BOARD],
+  mealPlanCategories: ['Any' as MealPlanNames],
   regions: [],
   filters: [Filters.SEAPLANE_TRANSFER],
   starRatings: [StarRating.FiveStarPlus],

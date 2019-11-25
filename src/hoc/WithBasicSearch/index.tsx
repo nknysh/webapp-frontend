@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import qs from 'qs';
+import { FastSearchDomain } from '../../store/modules/fastSearch/model';
 
 import {
   // Selectors
@@ -50,7 +51,7 @@ import {
 
 // Connect to the store
 // ---------------------------------------------------------------------------------------------------------------
-const mapStateToProps = createStructuredSelector({
+const mapStateToProps = createStructuredSelector<any, any>({
   searchPending: offersSearchPendingSelector,
   searchResults: orderedSearchResults,
   searchQuery: offersQuerySelector,
@@ -131,7 +132,6 @@ export const makeWithBasicSearch = (WrappedComponent: any) =>
     };
 
     handleNavigateToSearch = () => {
-      console.log(qs.stringify(this.props.searchQuery));
       this.props.history.push(`/search/beta/?${qs.stringify(this.props.searchQuery)}`);
     };
 
@@ -203,7 +203,7 @@ export const makeWithBasicSearch = (WrappedComponent: any) =>
 export const WithBasicSearch = () => WrappedComponent => {
   const instance = makeWithBasicSearch(WrappedComponent);
   const withConnect = connect<IWithBasicSearchProps, IStateToProps, IDispatchToProps>(
-    mapStateToProps, // Can't figure this type error out.
+    mapStateToProps,
     mapDispatchToProps
   );
 

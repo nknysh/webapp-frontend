@@ -70,6 +70,7 @@ import {
   setDatePickerVisibilityAction,
   isRepeatGuestSelector,
   toggleRepeatGuestAction,
+  queryHasChangedSelector,
 } from 'store/modules/fastSearch';
 
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
@@ -78,8 +79,16 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       this.props.getOptions();
     }
 
-    if (window.location.search) {
+    if (window.location.search && !this.props.searchResults) {
       this.props.initializeQuery(window.location.search.replace('?', ''))
+    }
+
+    if (!window.location.search && !this.props.searchResults) {
+      this.props.getOffers(this.props.searchQuery);
+    }
+
+    if(this.props.searchResults && this.props.queryHasChanged) {
+      this.props.getOffers(this.props.searchQuery);
     }
 
     if(this.props.searchQuery.name === '') {
@@ -217,7 +226,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
         <label className="basicSearchLabel repeatGuest">
           <span className="label">Repeat Guest</span>
-          <Checkbox value={this.props.isRepeatGuest} onChange={this.props.toggleRepeatGuest} />
+          <Checkbox checked={this.props.isRepeatGuest} onChange={this.props.toggleRepeatGuest} />
         </label>
 
         <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
@@ -321,6 +330,7 @@ const mapStateToProps = createStructuredSelector({
   dateSelectionInProgress: dateSelectionInProgressSelector,
   showDatePicker: showDatePickerSelector,
   isRepeatGuest: isRepeatGuestSelector,
+  queryHasChanged: queryHasChangedSelector,
 });
 
 const actionCreators = {

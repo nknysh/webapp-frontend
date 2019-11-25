@@ -1,4 +1,5 @@
 import { OffersSearchSuccessResponse, Filters } from '../../types';
+import { GroundService } from '../../types/OffersSearchResponse';
 
 export const sampleResponse: OffersSearchSuccessResponse = {
   meta: {
@@ -113,6 +114,9 @@ export const sampleResponse: OffersSearchSuccessResponse = {
                 uuid: '42fe1fda-49bf-441b-a186-5c1cfcfba156',
               },
             ],
+            Fine: [],
+            Supplement: [],
+            'Ground Service': [],
           },
           response: {
             canBeBooked: true,
@@ -1841,6 +1845,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
                 },
               ],
               Transfer: [
+                // @ts-ignore
                 {
                   products: [
                     {
@@ -1923,6 +1928,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
                   mandatory: false,
                   selected: true,
                 },
+                // @ts-ignore
                 {
                   products: [
                     {
