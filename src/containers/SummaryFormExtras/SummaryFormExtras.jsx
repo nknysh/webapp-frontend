@@ -704,7 +704,6 @@ export const SummaryFormExtras = ({
   const onMarginChange = useCallback(
     (e, marginType, marginValue) => {
       const name = path(['target', 'name'], e);
-      const value = path(['target', 'value'], e);
       const type = path(['target', 'type'], e);
       const checked = path(['target', 'checked'], e);
 

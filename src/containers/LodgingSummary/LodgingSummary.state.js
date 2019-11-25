@@ -1,5 +1,4 @@
-import { pipe } from 'ramda';
-import { bindActionCreators, Dispatch } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { updateRequestedBuildLodgingDates, getBookingCurrencySymbol } from 'store/modules/bookings';
