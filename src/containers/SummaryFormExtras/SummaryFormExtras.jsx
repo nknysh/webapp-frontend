@@ -311,7 +311,7 @@ const renderMargin = (
 ) => {
   if (!canBook) return;
   return summaryOnly || compactEdit ? (
-    <Summary title={t('labels.commission')}>
+    <Summary title={t('labels.yourCommission')}>
       <SummaryFormMargin
         checked={propOr(true, 'marginApplied', values)}
         compact={compact}
