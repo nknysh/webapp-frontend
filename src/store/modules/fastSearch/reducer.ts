@@ -2,16 +2,15 @@ import { without, difference, omit, dropLast, update, set, lensPath, flatten, me
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
 import { Filters, Lodging, BookingBuilderRequest } from 'services/BackendApi';
-import lensPath from 'ramda/es/lensPath';
 import { addMonths } from 'date-fns';
 import qs from 'qs';
 import { SearchQuery } from '../../../services/BackendApi/types/SearchQuery';
 import { TOGGLE_REPEAT_GUEST } from './actions';
 import mergeDeepRight from 'ramda/es/mergeDeepRight';
-// import { bookingRequestSelector } from './selectors';
 import { getHotelId } from 'store/modules/hotel';
 import produce from 'immer';
 import { formatDate } from 'utils';
+import { min, max } from 'date-fns';
 
 const defaultAge = 7;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
@@ -652,6 +651,19 @@ export const updateLodgingDatesReducer = (state: FastSearchDomain, action) => {
 
     result.bookingBuilder.request.Accommodation[lodgingIndex].startDate = formatDate(startDate);
     result.bookingBuilder.request.Accommodation[lodgingIndex].endDate = formatDate(endDate);
+
+    // rebuild the request level `startDate` and `endDate` so they are the earliest state
+    // and latest end, respectively
+    let earliestStartDate = new Date(startDate);
+    let latestEndDate = new Date(endDate);
+
+    result.bookingBuilder.request.Accommodation.forEach(reqAccom => {
+      earliestStartDate = min([new Date(reqAccom.startDate), earliestStartDate]);
+      latestEndDate = max([new Date(reqAccom.endDate), latestEndDate]);
+    });
+
+    result.bookingBuilder.request.startDate = formatDate(earliestStartDate);
+    result.bookingBuilder.request.endDate = formatDate(latestEndDate);
 
     return draftState;
   });

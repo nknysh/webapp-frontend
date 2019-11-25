@@ -71,7 +71,7 @@ export const LodgingSummaryRender = props => {
 
   const updateLodgingGuestAges: Function = props.updateLodgingGuestAges;
   const updateLodgingMealPlan: Function = props.updateLodgingMealPlan;
-  const updateRequestedBuildLodgingDates: Function = props.updateRequestedBuildLodgingDates;
+  const updateLodgingDates: Function = props.updateLodgingDates;
   const removeLodging: Function = props.removeLodging;
   const updateLodgingOccasions: Function = props.updateLodgingOccasions;
   const currencyCode: string = props.currencyCode;
@@ -228,7 +228,7 @@ export const LodgingSummaryRender = props => {
                 // if we have a `startDate`, or `from` or `to` are empty, return out
                 return;
               }
-              updateRequestedBuildLodgingDates(lodging.hotelUuid, lodging.index, dateValues.from, dateValues.to);
+              updateLodgingDates(lodging.hotelUuid, lodging.index, dateValues.from, dateValues.to);
               setIsCollapsed(true);
             }}
             selectedValues={{
