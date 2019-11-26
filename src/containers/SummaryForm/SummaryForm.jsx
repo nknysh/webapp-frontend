@@ -40,6 +40,7 @@ import {
   ModalBody,
   ModalTitle,
   HotelTotals,
+  HotelTotalsInfo,
 } from './SummaryForm.styles';
 import { formatPrice } from '../../utils';
 const modalProps = { className: 'room-summary-form' };
