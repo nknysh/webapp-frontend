@@ -50,7 +50,10 @@ export const AggregateTotalsBreakdown = props => {
   const translate: Function = props.t;
 
   const PriceBreakdown = props => {
-    const { currencyCode, total, totalBeforeDiscount } = props;
+    const { currencyCode, total, totalBeforeDiscount, oneOrMoreItemsOnRequest } = props;
+    if (oneOrMoreItemsOnRequest === true) {
+      return <label>{translate ? translate('labels.priceAvailableOnRequest') : 'Price available on request'}</label>;
+    }
     if (!total && !totalBeforeDiscount) {
       return <label>{translate ? translate('labels.itemNoTotal') : 'Item No Total'}</label>;
     }
@@ -113,6 +116,7 @@ export const AggregateTotalsBreakdown = props => {
               totalBeforeDiscount={
                 aggregateTotal.total != aggregateTotal.totalBeforeDiscount ? aggregateTotal.totalBeforeDiscount : null
               }
+              oneOrMoreItemsOnRequest={aggregateTotal.oneOrMoreItemsOnRequest}
             />
           </TotalSectionColumn>
 
@@ -160,6 +164,7 @@ export const AggregateTotalsBreakdown = props => {
             ? aggregateTotalsTotal.totalBeforeDiscount
             : null
         }
+        oneOrMoreItemsOnRequest={aggregateTotalsTotal.oneOrMoreItemsOnRequest}
       />
     </React.Fragment>
   );
