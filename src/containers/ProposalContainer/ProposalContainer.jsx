@@ -79,7 +79,7 @@ const reloadIfMissing = pipe(
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 
 const renderBackToProposals = t => renderBackButton(t('labels.proposals'), { href: `${ADMIN_BASE_URL}/proposals` });
-const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search' });
+const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search/beta' });
 
 const renderBreadcrumbs = (t, { proposal, id, isMobile, onMobileNavClick, isGenerateView, isResortsView, isEdit }) => {
   const links = isEdit

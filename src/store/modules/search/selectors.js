@@ -279,7 +279,6 @@ export const getCanSearch = createSelector(
   ({ dates, lodging }) => {
     const datesExist = hasDates(dates);
     const lodgingsExist = hasLodgings(lodging);
-
     return and(datesExist, lodgingsExist);
   }
 );

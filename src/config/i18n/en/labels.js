@@ -7,6 +7,7 @@ export default {
   search: 'Destination or resort',
   dates: 'Dates',
   lodging: 'Lodging',
+  lodgings: 'Lodgings',
   room: 'Room',
   roomWithNumber: 'Room {{number}}',
   guest: 'Guest',

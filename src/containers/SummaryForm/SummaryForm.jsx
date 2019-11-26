@@ -1,31 +1,24 @@
 import React, { useState, Fragment, useCallback } from 'react';
-import {
-  compose,
-  groupBy,
-  head,
-  mapObjIndexed,
-  partial,
-  path,
-  pathOr,
-  pipe,
-  propOr,
-  values,
-  prop,
-  gt,
-  length,
-} from 'ramda';
+import { compose, head, partial, path, pathOr, pipe, propOr, prop, gt, length } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { Form, Input, Loader, Modal, Markdown, List } from '@pure-escapes/webapp-ui-components';
 
 import AgreeToForm from 'components/AgreeToForm';
 import SummaryRoomEdit from 'containers/SummaryRoomEdit';
-import SummaryRoom from 'containers/SummaryRoom';
+import LodgingSummary from 'containers/LodgingSummary';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
 
 import { PAYMENT_ENABLED } from 'config';
 import { useModalState, useEffectBoundary } from 'effects';
-import { mapWithIndex } from 'utils';
+import {
+  mapWithIndex,
+  getTitleForAccommodationUuid,
+  getNightsBreakdownForDates,
+  getOccupancyBreakdownForAccommodation,
+  getMealPlanBreakdownForLodging,
+  getOccassionsBreakdownForLodging,
+} from 'utils';
 
 import { isActive } from 'store/common';
 
@@ -37,15 +30,10 @@ import {
   Error,
   Hotel,
   HotelName,
-  Rooms,
-  Saving,
-  FullTotal,
   StyledModal,
   StyledSummary,
   SummaryFormActions,
   SummaryFormButton,
-  Text,
-  Title,
   Total,
   EditGuard,
   ModalContent,
@@ -59,16 +47,22 @@ const modalProps = { className: 'room-summary-form' };
 
 const getSingleValue = (type, data) =>
   pipe(
-    pathOr([''], ['breakdown', 'requestedBuild', type]),
+    pathOr([''], ['request', type]),
     head,
     propOr('', 'uuid')
   )(data);
 
-const renderTotalPrice = (t, { currencyCode, isOnRequest, total, secondary, discounted }) => (
-  <Total data-request={isOnRequest} data-secondary={secondary} data-discounted={discounted}>
-    {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(total)}`}
-  </Total>
-);
+const renderTotalPrice = (t, currencyCode, isOnRequest, value, isSecondary, isDiscounted) => {
+  <Total data-request={isOnRequest} data-secondary={isSecondary} data-discounted={isDiscounted}>
+    {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(value)}`}
+  </Total>;
+};
+
+// const renderTotalPrice = (t, { currencyCode, isOnRequest, total, secondary, discounted }) => (
+//   <Total data-request={isOnRequest} data-secondary={secondary} data-discounted={discounted}>
+//     {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(total)}`}
+//   </Total>
+// );
 
 const renderHotel = (
   t,
@@ -98,11 +92,21 @@ const renderHotel = (
         })}
         {overrideTotal &&
           gt(offersCount, 0) &&
-          renderTotalPrice(t, { currencyCode, isOnRequest, total, secondary: true, discounted: true })}
+          renderTotalPrice(t, {
+            currencyCode,
+            isOnRequest,
+            total,
+            secondary: true,
+            discounted: true,
+          })}
         {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
           !isOnRequest &&
-          renderTotalPrice(t, { currencyCode, isOnRequest, total: preDiscountTotal, secondary: true })}
-        <HotelTotalsInfo>{t('labels.totalExcludingCommission')}</HotelTotalsInfo>
+          renderTotalPrice(t, {
+            currencyCode,
+            isOnRequest,
+            total: preDiscountTotal,
+            secondary: true,
+          })}
       </HotelTotals>
     )}
   </Hotel>
@@ -111,37 +115,76 @@ const renderHotel = (
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
 const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <List>{mapWithIndex(renderError, errors)}</List>;
 
-const renderRoom = (
-  t,
-  booking,
-  { id, summaryOnly, setModalId, removeRoom, hotelUuid, editGuard, onEditGuard, showRoomImage, showHolds },
-  rooms,
-  uuid
-) => {
+const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, availableProductSets, potentialBooking) => {
+  const handleRoomEdit = () => {
+    if (editGuard) {
+      return onEditGuard();
+    }
+    return setModalId(lodging.uuid);
+  };
+
   return (
-    <SummaryRoom
-      canEdit={!summaryOnly}
-      hotelUuid={hotelUuid}
-      id={id}
-      key={uuid}
-      onEdit={setModalId}
-      onRemove={removeRoom}
-      roomId={uuid}
+    <LodgingSummary
+      hotelUuid={lodging.hotelUuid}
+      key={lodging.index}
+      lodging={lodging}
+      handleRoomEditFunction={handleRoomEdit}
+      availableProductSets={availableProductSets}
+      potentialBooking={potentialBooking}
       editGuard={editGuard}
       onEditGuard={onEditGuard}
-      showImage={showRoomImage}
-      showHolds={showHolds}
     />
   );
 };
 
-const renderRooms = (t, { breakdown, ...data }, props) => {
-  return pipe(
-    pathOr([], ['potentialBooking', 'Accommodation']),
-    groupBy(path(['product', 'uuid'])),
-    mapObjIndexed(partial(renderRoom, [t, { breakdown, ...data }, props])),
-    values
-  )(breakdown);
+const renderLodgingSummaries = (t, booking, props) => {
+  const { request: bookingRequest, response: bookingResponse } = booking;
+  const { editGuard, onEditGuard, setModalId } = props;
+
+  if (!bookingRequest || !bookingResponse) {
+    return [];
+  }
+
+  const lodgingErrors = bookingResponse.errors.filter(e => e.meta === 'Accommodation').map(e => e.message) || [];
+
+  const lodgingSummaries = bookingRequest.Accommodation.map((requestedAccommodation, index) => {
+    return {
+      ...requestedAccommodation,
+      index,
+      hotelUuid: bookingRequest.hotelUuid,
+      title: getTitleForAccommodationUuid(requestedAccommodation.uuid, bookingResponse.availableProductSets),
+      nightsBreakdown: getNightsBreakdownForDates(requestedAccommodation.startDate, requestedAccommodation.endDate, t),
+      mealPlanBreakdown: getMealPlanBreakdownForLodging(
+        requestedAccommodation,
+        index,
+        bookingResponse.availableProductSets
+      ),
+      occupancyBreakdown: getOccupancyBreakdownForAccommodation(requestedAccommodation),
+      occasionsBreakdown: getOccassionsBreakdownForLodging(requestedAccommodation),
+    };
+  });
+
+  return (
+    <React.Fragment>
+      <label>
+        <strong>{t('labels.lodgings')}</strong>
+      </label>
+      {lodgingErrors.map(error => (
+        <p key={error}>{error}</p>
+      ))}
+      {lodgingSummaries.map(lodging =>
+        renderLodgingSummary(
+          lodging,
+          setModalId,
+          editGuard,
+          onEditGuard,
+          bookingResponse.availableProductSets,
+          bookingResponse.potentialBooking
+        )
+      )}
+      {lodgingSummaries.length >= 1 && <hr />}
+    </React.Fragment>
+  );
 };
 
 const renderRoomEditModal = (
@@ -165,51 +208,6 @@ const renderRoomEditModal = (
     </StyledModal>
   );
 };
-
-const renderTotal = (
-  t,
-  {
-    compact,
-    isOnRequest,
-    total,
-    saving,
-    overrideTotal,
-    showOriginalTotal,
-    showFullTotal,
-    preDiscountTotal,
-    offersCount,
-    showDiscountedPrice,
-    currencyCode,
-  }
-) =>
-  (!compact || showFullTotal) && (
-    <Fragment>
-      <Title>{t('labels.totalNet')}</Title>
-      <FullTotal>
-        {renderTotalPrice(t, {
-          currencyCode,
-          isOnRequest,
-          total: overrideTotal || total,
-          discounted: !overrideTotal && showDiscountedPrice && gt(offersCount, 0),
-        })}
-        {overrideTotal &&
-          gt(offersCount, 0) &&
-          renderTotalPrice(t, { currencyCode, isOnRequest, total, secondary: true, discounted: true })}
-        {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
-          !isOnRequest &&
-          renderTotalPrice(t, { currencyCode, isOnRequest, total: preDiscountTotal, secondary: true })}
-        {gt(offersCount, 0) && <Text data-discounted={true}>{t('labels.includesOffer', { count: offersCount })}</Text>}
-        {saving && !isOnRequest && (
-          <Text>
-            {t('labels.savingOfPrefix')}
-            <Saving>{`${currencyCode}${formatPrice(saving)}`}</Saving>
-            {t('labels.savingOfSuffix')}
-          </Text>
-        )}
-        {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
-      </FullTotal>
-    </Fragment>
-  );
 
 const renderForm = (
   t,
@@ -250,6 +248,7 @@ const renderForm = (
           onEditGuard={onEditGuard}
           summaryOnly={summaryOnly}
           values={values}
+          booking={booking}
         />
         {renderSummaryErrors(errors)}
         {children({ booking })}
@@ -377,7 +376,11 @@ const renderConfirmModalContent = (t, { isOnRequest, paymentType, onConfirmSubmi
     <ModalBody>
       <ModalTitle>{title}</ModalTitle>
       <ModalContent>{content}</ModalContent>
-      {renderConfirmModalForm({ onConfirmSubmit, buttonLabel, initialValues: { agreeToTerms: false } })}
+      {renderConfirmModalForm({
+        onConfirmSubmit,
+        buttonLabel,
+        initialValues: { agreeToTerms: false },
+      })}
     </ModalBody>
   );
 };
@@ -408,12 +411,21 @@ export const SummaryForm = props => {
     summaryOnly,
     accommodationEditModalErrors,
   } = props;
-  const { marginApplied, taMarginAmount, taMarginType, hotelUuid, status: bookingStatus, overrideTotal } = booking;
+
+  // const {
+  //   marginApplied,
+  //   taMarginAmount,
+  //   taMarginType,
+  //   uuid:hotelUuid,
+  //   status: bookingStatus,
+  //   overrideTotal,
+  // } = booking.response;
+  // console.log('booking', booking);
 
   const initialValues = {
-    marginApplied,
-    taMarginAmount,
-    taMarginType,
+    // marginApplied,
+    // taMarginAmount,
+    // taMarginType,
     [ProductTypes.TRANSFER]: getSingleValue(ProductTypes.TRANSFER, booking),
     [ProductTypes.GROUND_SERVICE]: getSingleValue(ProductTypes.GROUND_SERVICE, booking),
     ...pathOr({}, ['products', ProductTypes.FINE], booking),
@@ -423,7 +435,7 @@ export const SummaryForm = props => {
   const [complete, setCompleted] = useState(!confirm);
   const [formValues, setFormValues] = useState(initialValues);
   const [modalId, setModalId] = useState();
-  const [editGuard, setEditGuard] = useState(guardEdit || !isNilOrEmpty(bookingStatus));
+  const [editGuard, setEditGuard] = useState(guardEdit);
   const [showEditGuard, setShowEditGuard] = useState(false);
   const {
     modalOpen: holdModalOpen,
@@ -503,29 +515,30 @@ export const SummaryForm = props => {
     onConfirmModalClose();
   }, [formValues, onConfirmModalClose, onFormSubmit]);
 
+  const hotelUuid = id;
+
   return (
     <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
-        {renderTotal(t, {
+        {/* {renderTotal(t, {
           editGuard,
           onEditGuard: handleEditGuard,
-          overrideTotal,
+          totals: booking.response.totals,
           ...props,
-        })}
+        })} */}
         {renderHotel(t, {
-          name: hotelName || prop('hotelName', booking) || 'Hotel',
-          overrideTotal,
+          name: hotelName || booking.response.hotel.name || 'Hotel',
+          overrideTotal: booking?.response?.totals?.total || '0.00',
           ...props,
         })}
-        <Rooms data-summary={summaryOnly} data-compact={compact}>
-          {renderRooms(t, booking, {
-            editGuard,
-            hotelUuid,
-            onEditGuard: handleEditGuard,
-            setModalId,
-            ...props,
-          })}
-        </Rooms>
+
+        {renderLodgingSummaries(t, booking, {
+          editGuard,
+          hotelUuid,
+          onEditGuard: handleEditGuard,
+          setModalId,
+          ...props,
+        })}
         {renderForm(t, {
           editGuard,
           initialValues: formValues,

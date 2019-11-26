@@ -9,9 +9,15 @@ import { theme } from 'styles';
 // buttons look like links, we need "LinkButton"!
 
 export const LinkButton = props => {
-  const { children, ...buttonProps } = props;
+  const { children, onClick, ...buttonProps } = props;
+
+  const handleClick = e => {
+    e.stopPropagation();
+    onClick(e);
+  };
+
   return (
-    <button {...buttonProps}>
+    <button {...buttonProps} onClick={handleClick}>
       <div>{children}</div>
     </button>
   );
@@ -19,6 +25,7 @@ export const LinkButton = props => {
 
 LinkButton.propTypes = {
   title: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default styled(LinkButton)`

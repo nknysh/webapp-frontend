@@ -14,8 +14,9 @@ import {
   getBookingCurrencySymbol,
   updateBooking,
   removeRoom,
-  addRoom,
 } from 'store/modules/bookings';
+
+import { addLodgingAction, bookingResponseLodgingCountsPerAccommodation } from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { hotelUuid }) => ({
   bookingStatus: getBookingStatus(state),
@@ -24,15 +25,12 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   requestedRooms: getBookingRooms(state, hotelUuid),
   rooms: getCurrentHotelAccommodationProducts(state),
   roomsError: getCurrentHotelAccommodationProductsError(state),
+  lodgingCountsPerAccommodation: bookingResponseLodgingCountsPerAccommodation(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
   addRoom: pipe(
-    addRoom,
-    dispatch
-  ),
-  removeRoom: pipe(
-    removeRoom,
+    addLodgingAction,
     dispatch
   ),
   updateBooking: pipe(

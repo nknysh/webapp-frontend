@@ -12,7 +12,9 @@ import client from './index';
  * @param {Partial<AxiosRequestConfig>} opts
  * @returns {Promise}
  */
-export const getSearch = (query, params, opts) => client.get(`/search?${buildQueryString(query)}`, { params, ...opts });
+export const getSearch = (query, params, opts) => {
+  return client.get(`/search?${buildQueryString(query)}`, { params, ...opts });
+};
 
 /**
  * Get search by name

@@ -3,24 +3,26 @@ import { pipe } from 'ramda';
 
 import { getHotel, getHotelsBrochures, getHotelsPhotos } from 'store/modules/hotels';
 import { fetchHotel } from 'store/modules/hotel';
+import { addRoom, getBooking, removeRoom, updateBooking } from 'store/modules/bookings';
+
 import {
-  addRoom,
-  getBooking,
-  getBookingCanHold,
-  getBookingPoliciesAndTerms,
-  getBookingReady,
-  removeRoom,
-  updateBooking,
-} from 'store/modules/bookings';
+  bookingCanBookSelector,
+  bookingCanHoldSelector,
+  bookingPaymentTermsSelector,
+  bookingCancellationPoliciesSelector,
+  bookingOffersTermsSelector,
+} from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: getBooking(state, id),
   brochures: getHotelsBrochures(state, id),
-  canBook: getBookingReady(state, id),
-  canHold: getBookingCanHold(state, id),
+  canBook: bookingCanBookSelector(state),
+  canHold: bookingCanHoldSelector(state),
   hotel: getHotel(state, id),
   photos: getHotelsPhotos(state, id),
-  policiesAndTerms: getBookingPoliciesAndTerms(state, id),
+  paymentTerms: bookingPaymentTermsSelector(state),
+  cancellationPolicy: bookingCancellationPoliciesSelector(state),
+  offersTerms: bookingOffersTermsSelector(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

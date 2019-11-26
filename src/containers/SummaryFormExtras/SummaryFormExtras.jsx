@@ -26,6 +26,7 @@ import {
   reduce,
   split,
   values as Rvalues,
+  flatten,
   when,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
@@ -34,10 +35,11 @@ import { RadioButton, Modal, Loader, Button, ToolTip } from '@pure-escapes/webap
 
 import { ProductTypes } from 'config/enums';
 
-import { SummaryFormMargin, IndexSearch, Summary } from 'components';
+import { SummaryFormMargin, IndexSearch, Summary, AggregateTotalsBreakdown } from 'components';
 import { useModalState, useFetchData } from 'effects';
 import { withUser } from 'hoc';
-import { isString, mapWithIndex, formatPrice } from 'utils';
+import { isString, mapWithIndex, formatPrice, filterByObjectProperties } from 'utils';
+import { Icon } from '@material-ui/core';
 
 import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
@@ -55,6 +57,8 @@ import {
   Title,
   TravelAgent,
   TravelAgentName,
+  CollapseToggle,
+  CollapseTitle,
 } from './SummaryFormExtras.styles';
 import {
   productsBothWays,
@@ -223,13 +227,247 @@ const getOption = (t, props, { products, breakdown }) => {
   return { label, value };
 };
 
+const renderInlinePrice = (translate, currencyCode, total, totalBeforeDiscount, isOnRequestOrPartiallyOnRequest) => {
+  if (isOnRequestOrPartiallyOnRequest === true) {
+    return <label>{translate('labels.priceAvailableOnRequest')}</label>;
+  }
+  if (total !== totalBeforeDiscount) {
+    return (
+      <React.Fragment>
+        <label data-discounted={true}>
+          {currencyCode}
+          {formatPrice(total)}
+        </label>
+        <label data-secondary={true}>
+          {currencyCode}
+          {formatPrice(totalBeforeDiscount)}
+        </label>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <label>
+        {currencyCode}
+        {formatPrice(total)}
+      </label>
+    );
+  }
+};
+
+const renderTransferOptionsSimple = (
+  translate,
+  selectedTransferOptions,
+  transferOptions,
+  updateTransferAction,
+  hotelUuid,
+  currencyCode
+) => {
+  const simpleTransfers = transferOptions.map(t => ({
+    name: t.products[0].name,
+    uuid: t.products[0].uuid,
+    direction: t.meta && t.meta.direction && t.meta.direction ? t.meta.direction : undefined,
+    priceFormatted: renderInlinePrice(
+      translate,
+      currencyCode,
+      t.total,
+      t.totalBeforeDiscount,
+      t.isOnRequestOrPartiallyOnRequest
+    ),
+  }));
+
+  const handleRadioClick = e => {
+    updateTransferAction(
+      {
+        uuid: e.target.value,
+        direction: undefined,
+      },
+      hotelUuid
+    );
+  };
+
+  const handleCheckboxClick = to => {
+    updateTransferAction(
+      {
+        uuid: to.uuid,
+        direction: to.direction,
+      },
+      hotelUuid
+    );
+  };
+
+  const bothWayTransfersOptions = simpleTransfers
+    .filter(t => t.direction === undefined)
+    .map(t => ({
+      value: t.uuid,
+      label: (
+        <label>
+          {t.name} {t.priceFormatted}
+        </label>
+      ),
+    }));
+  const oneWayTransfersOptions = simpleTransfers.filter(t => t.direction !== undefined);
+
+  const bothWayTransferMarkup = (
+    <React.Fragment>
+      <RadioButton
+        onChange={e => handleRadioClick(e)}
+        options={bothWayTransfersOptions}
+        value={selectedTransferOptions[0].uuid}
+      />
+    </React.Fragment>
+  );
+
+  const oneWayTransfersMarkup = (
+    <React.Fragment>
+      {oneWayTransfersOptions.map(to => {
+        const isChecked = selectedTransferOptions.some(sto => sto.uuid === to.uuid && sto.direction === to.direction);
+        return (
+          <AddonCheckbox
+            onChange={() => handleCheckboxClick(to)}
+            key={`${to.name}/${to.direction}`}
+            checked={isChecked}
+            label={
+              <label>
+                {to.name} ({to.direction}) {to.priceFormatted}
+              </label>
+            }
+          />
+        );
+      })}
+    </React.Fragment>
+  );
+
+  return (
+    <div>
+      <label>Return Transfers</label>
+      {bothWayTransferMarkup}
+      <hr />
+      <label>One Way Transfers</label>
+      {oneWayTransfersMarkup}
+    </div>
+  );
+};
+
+const renderGroundServices = (
+  translate,
+  currencyCode,
+  selectedGroundServices,
+  groundServices,
+  updateGroundServiceAction,
+  hotelUuid
+) => {
+  return (
+    <React.Fragment>
+      {groundServices.map(gs => {
+        const gsProduct = gs.products[0];
+        const isChecked = selectedGroundServices.some(sgs => sgs.uuid === gsProduct.uuid);
+        return (
+          <AddonCheckbox
+            onChange={() => updateGroundServiceAction(gsProduct, hotelUuid)}
+            key={`${gsProduct.uuid}/${gsProduct.name}`}
+            checked={isChecked}
+            label={
+              <label>
+                {gsProduct.name}{' '}
+                {renderInlinePrice(
+                  translate,
+                  currencyCode,
+                  gs.total,
+                  gs.totalBeforeDiscount,
+                  gs.isOnRequestOrPartiallyOnRequest
+                )}
+              </label>
+            }
+          />
+        );
+      })}
+    </React.Fragment>
+  );
+};
+
+const renderAddons = (
+  translate,
+  currencyCode,
+  selectedSupplements,
+  selectedFines,
+  availableSupplements,
+  availableFines,
+  updateSupplementAction,
+  updateFineAction,
+  hotelUuid
+) => {
+  const supplementMarkup = (
+    <React.Fragment>
+      {availableSupplements.map(sp => {
+        const supplementProduct = sp.products[0];
+        const isChecked = selectedSupplements.some(sgs => sgs.uuid === supplementProduct.uuid);
+        return (
+          <AddonCheckbox
+            onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
+            key={`${supplementProduct.uuid}/${supplementProduct.name}`}
+            checked={isChecked}
+            label={
+              <label>
+                {supplementProduct.name}{' '}
+                {renderInlinePrice(
+                  translate,
+                  currencyCode,
+                  sp.total,
+                  sp.totalBeforeDiscount,
+                  sp.isOnRequestOrPartiallyOnRequest
+                )}
+              </label>
+            }
+          />
+        );
+      })}
+    </React.Fragment>
+  );
+
+  const fineMarkup = (
+    <React.Fragment>
+      {availableFines.map(fp => {
+        const fineProduct = fp.products[0];
+        const isChecked = selectedFines.some(sgs => sgs.uuid === fineProduct.uuid);
+        return (
+          <AddonCheckbox
+            onChange={() => updateFineAction(fineProduct, hotelUuid)}
+            key={`${fineProduct.uuid}/${fineProduct.name}`}
+            checked={isChecked}
+            label={
+              <label>
+                {fineProduct.name}{' '}
+                {renderInlinePrice(
+                  translate,
+                  currencyCode,
+                  fp.total,
+                  fp.totalBeforeDiscount,
+                  fp.isOnRequestOrPartiallyOnRequest
+                )}
+              </label>
+            }
+          />
+        );
+      })}
+    </React.Fragment>
+  );
+
+  return (
+    <React.Fragment>
+      {supplementMarkup}
+      {fineMarkup}
+    </React.Fragment>
+  );
+};
+
 const renderTransferOptions = (
   t,
   type,
   productType,
   products,
   { onSingleChange, onOneWayChange, summaryOnly, values, compactEdit, onEditClick, currencyCode },
-  optional = true
+  optional = true,
+  renderTitle = true
 ) => {
   if (isNilOrEmpty(products)) return;
 
@@ -276,7 +514,7 @@ const renderTransferOptions = (
     // `renderExtra` if we have some return transfers OR some one way transfers
     (!isNilOrEmpty(bothWayOptions) || !isNilOrEmpty(oneWayOptions)) &&
     renderExtra({
-      title: t(`${type}_plural`),
+      title: renderTitle ? t(`${type}_plural`) : null,
       children: (
         <Fragment>
           <RadioButton
@@ -395,7 +633,13 @@ const renderSelect = (
       });
 };
 
-const renderExtraSelects = (t, type, products, { summaryOnly, onEditClick, compactEdit, ...props }) => {
+const renderExtraSelects = (
+  t,
+  type,
+  products,
+  { summaryOnly, onEditClick, compactEdit, ...props },
+  renderTitle = true
+) => {
   if (isNilOrEmpty(products)) return;
 
   const selectElements = map(partial(renderSelect, [t, { summaryOnly, compactEdit, ...props }]), products);
@@ -403,7 +647,7 @@ const renderExtraSelects = (t, type, products, { summaryOnly, onEditClick, compa
   return (summaryOnly && !isEmpty(selectElements)) || compactEdit
     ? ((summaryOnly && !isNilOrEmpty(filter(propEq('selected', true), products))) || compactEdit) && (
         <Summary
-          title={t(`${type}_plural`)}
+          title={renderTitle === true ? t(`${type}_plural`) : null}
           actions={
             compactEdit && (
               <ContextMenu>
@@ -470,6 +714,7 @@ const renderTASelect = (
 
 export const SummaryFormExtras = ({
   addons,
+  booking,
   canBook,
   compact,
   currencyCode,
@@ -493,6 +738,17 @@ export const SummaryFormExtras = ({
   updateBooking,
   usersStatus,
   values,
+  isTransferSectionCollapsed,
+  isGroundServicesSectionCollapsed,
+  isAddonsSectionCollapsed,
+  setIsBookingSummarySectionCollapsed,
+  updateTransferAction,
+  selectedTransfersBreakdown,
+  updateGroundServiceAction,
+  updateSupplementAction,
+  updateFineAction,
+  availableSupplements,
+  availableFines,
 }) => {
   const { t } = useTranslation();
   const hasTASelect = isSr && !isRl;
@@ -539,7 +795,6 @@ export const SummaryFormExtras = ({
   const onMarginChange = useCallback(
     (e, marginType, marginValue) => {
       const name = path(['target', 'name'], e);
-      const value = path(['target', 'value'], e);
       const type = path(['target', 'type'], e);
       const checked = path(['target', 'checked'], e);
 
@@ -593,17 +848,136 @@ export const SummaryFormExtras = ({
     updateBooking(id, { travelAgentUserUuid: null });
   }, [id, updateBooking]);
 
-  const optionsProps = {
-    compact,
-    currencyCode,
-    onOneWayChange,
-    onSingleChange,
-    summaryOnly,
-    values,
-    compactEdit,
-    onEditClick,
-    editGuard,
-    onEditGuard,
+  const selectedGroundServicesBreakdown = useCallback(() => {
+    const selectedGroundServiceProducts = filterByObjectProperties(
+      flatten(groundServices.map(g => g.products)),
+      selectedGroundServices,
+      ['uuid']
+    );
+
+    if (selectedGroundServiceProducts.length >= 1) {
+      return selectedGroundServiceProducts.map(stp => stp.name).join(' & ');
+    }
+
+    return 'None selected';
+  }, [selectedGroundServices, groundServices]);
+
+  const selectedAddonsBreakdown = useCallback(() => {
+    const selectedAddons = flatten([selectedFines, selectedSupplements]);
+
+    const selectedAddonProducts = filterByObjectProperties(flatten(addons.map(a => a.products)), selectedAddons, [
+      'uuid',
+    ]);
+
+    if (selectedAddonProducts.length >= 1) {
+      return selectedAddonProducts.map(stp => stp.name).join(' & ');
+    }
+
+    return 'None selected';
+  }, [selectedFines, selectedSupplements, addons]);
+
+  const TransfersWrapper = () => {
+    return (
+      <React.Fragment>
+        <CollapseTitle>
+          <span>
+            <label>
+              <strong>{t('labels.transfers')}</strong>
+            </label>
+            <br />
+            <label>{selectedTransfersBreakdown}</label>
+          </span>
+
+          <CollapseToggle
+            type="button"
+            onClick={() =>
+              setIsBookingSummarySectionCollapsed({
+                type: 'transfers',
+                value: !isTransferSectionCollapsed,
+              })
+            }
+          >
+            <Icon>{isTransferSectionCollapsed === false ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</Icon>
+          </CollapseToggle>
+        </CollapseTitle>
+
+        {isTransferSectionCollapsed === false &&
+          renderTransferOptionsSimple(t, selectedTransfers, transfers, updateTransferAction, id, currencyCode)}
+        {/* renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false, false)} */}
+      </React.Fragment>
+    );
+  };
+
+  const GroundServicesWrapper = () => {
+    const breakdown = selectedGroundServicesBreakdown();
+    return (
+      <React.Fragment>
+        <CollapseTitle>
+          <span>
+            <label>
+              <strong>{t('labels.groundServices')}</strong>
+            </label>
+            <br />
+            <label>{breakdown}</label>
+          </span>
+          <CollapseToggle
+            type="button"
+            onClick={() =>
+              setIsBookingSummarySectionCollapsed({
+                type: 'ground_services',
+                value: !isGroundServicesSectionCollapsed,
+              })
+            }
+          >
+            <Icon>{isGroundServicesSectionCollapsed === false ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</Icon>
+          </CollapseToggle>
+        </CollapseTitle>
+
+        {isGroundServicesSectionCollapsed === false &&
+          renderGroundServices(t, currencyCode, selectedGroundServices, groundServices, updateGroundServiceAction, id)}
+      </React.Fragment>
+    );
+  };
+
+  const AddonsWrapper = () => {
+    const breakdown = selectedAddonsBreakdown();
+    return (
+      <React.Fragment>
+        <CollapseTitle>
+          <span>
+            <label>
+              <strong>{t('labels.addons')}</strong>
+            </label>
+            <br />
+            <label>{breakdown}</label>
+          </span>
+          <CollapseToggle
+            type="button"
+            onClick={() =>
+              setIsBookingSummarySectionCollapsed({
+                type: 'addons',
+                value: !isAddonsSectionCollapsed,
+              })
+            }
+          >
+            <Icon>{isAddonsSectionCollapsed === false ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</Icon>
+          </CollapseToggle>
+        </CollapseTitle>
+
+        {isAddonsSectionCollapsed === false &&
+          renderAddons(
+            t,
+            currencyCode,
+            selectedSupplements,
+            selectedFines,
+            availableSupplements,
+            availableFines,
+            updateSupplementAction,
+            updateFineAction,
+            id
+          )}
+      </React.Fragment>
+    );
   };
 
   let modalContent = null;
@@ -643,23 +1017,23 @@ export const SummaryFormExtras = ({
 
   return (
     <Fragment>
-      {renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false)}
-      {renderExtraSelects(t, 'groundService', groundServices, {
-        currencyCode,
-        summaryOnly,
-        onMultipleChange,
-        values,
-        compactEdit,
-        onEditClick,
-      })}
-      {renderExtraSelects(t, 'addon', addons, {
-        currencyCode,
-        summaryOnly,
-        onMultipleChange,
-        values,
-        compactEdit,
-        onEditClick,
-      })}
+      {transfers.length >= 1 && <TransfersWrapper />}
+      {groundServices.length >= 1 && <GroundServicesWrapper />}
+      {addons.length >= 1 && <AddonsWrapper />}
+      {booking && booking.response && booking.response.aggregateTotals && (
+        <React.Fragment>
+          <hr />
+          <label>
+            <strong>{t('labels.totalCostBreakdown')}</strong>
+          </label>
+          <AggregateTotalsBreakdown
+            translate={t}
+            currencyCode={currencyCode}
+            aggregateTotals={booking.response.aggregateTotals}
+          />
+          <hr />
+        </React.Fragment>
+      )}
       {renderTASelect(t, {
         currencyCode,
         summaryOnly,
