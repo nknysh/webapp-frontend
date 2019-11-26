@@ -470,6 +470,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
               ],
               Supplement: [],
               Transfer: [
+                //@ts-ignore
                 {
                   title: 'Shared Return Seaplane Transfer (Adult)',
                   product: {

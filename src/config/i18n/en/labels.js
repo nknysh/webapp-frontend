@@ -233,6 +233,23 @@ export default {
   mealPlanOffersAvailable: 'Meal plan offers available',
   invalidPriceRange: 'Min must be greater than Max',
 
+  totalCostBreakdown: 'Total Cost Breakdown',
+  transfers: 'Transfers',
+  groundServices: 'Ground Services',
+  updateOccupancy: 'Update Occupancy',
+  pleaseSpecifyAgesOfAllChildren: 'Please specify ages of all children',
+  noMealPlansForDatesOccupancy: 'There are no available meal plans for the selected dates/occupancy',
+  numberOfChildren: 'Number of Children',
+  numberOfAdults: 'Number of Adults',
+  removeLodging: 'Remove Lodging',
+  appliedOffers: 'Applied Offers',
+  appliedSupplements: 'Applied Supplements',
+  nightSigular: 'night',
+  nightPlural: 'nights',
+  datePicker: 'Date Picker',
+  itemNoTotal: 'This item has no total',
+  priceAvailableOnRequest: 'Price available on request',
+
   proposalFormNotes: {
     pleaseNote: 'Please note:',
     point1: 'You can add another property to your proposal by navigating back to Search results',
