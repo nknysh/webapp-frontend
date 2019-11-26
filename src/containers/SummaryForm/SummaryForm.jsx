@@ -30,21 +30,16 @@ import {
   Error,
   Hotel,
   HotelName,
-  Saving,
-  FullTotal,
   StyledModal,
   StyledSummary,
   SummaryFormActions,
   SummaryFormButton,
-  Text,
-  Title,
   Total,
   EditGuard,
   ModalContent,
   ModalBody,
   ModalTitle,
   HotelTotals,
-  HotelTotalsInfo,
 } from './SummaryForm.styles';
 import { formatPrice } from '../../utils';
 const modalProps = { className: 'room-summary-form' };
@@ -142,7 +137,6 @@ const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, avail
 };
 
 const renderLodgingSummaries = (t, booking, props) => {
-  // const { breakdown, ...bookingData } = booking;
   const { request: bookingRequest, response: bookingResponse } = booking;
   const { editGuard, onEditGuard, setModalId } = props;
 
@@ -177,9 +171,9 @@ const renderLodgingSummaries = (t, booking, props) => {
       {lodgingErrors.map(error => (
         <p key={error}>{error}</p>
       ))}
-      {lodgingSummaries.map(l =>
+      {lodgingSummaries.map(lodging =>
         renderLodgingSummary(
-          l,
+          lodging,
           setModalId,
           editGuard,
           onEditGuard,
@@ -212,92 +206,6 @@ const renderRoomEditModal = (
       />
     </StyledModal>
   );
-};
-
-const renderTotal = (
-  t,
-  {
-    totals,
-    compact,
-    isOnRequest,
-    total,
-    saving,
-    overrideTotal,
-    showOriginalTotal,
-    showFullTotal,
-    preDiscountTotal,
-    offersCount,
-    showDiscountedPrice,
-    currencyCode,
-  }
-) => {
-  if (compact || !showFullTotal) {
-    return;
-  }
-
-  let totalsBlock;
-
-  if (totals.total && totals.totalBeforeDiscount && totals.total !== totals.totalBeforeDiscount) {
-    // show the total and a discount
-    // (t, currencyCode, isOnRequest, value, isSecondary, isDiscounted)
-    totalsBlock = (
-      <React.Fragment>
-        {renderTotalPrice(t, currencyCode, isOnRequest, totals.total, false, true)}
-        {renderTotalPrice(t, currencyCode, isOnRequest, totals.totalBeforeDiscount, true, false)}
-      </React.Fragment>
-    );
-  }
-
-  return (
-    <Fragment>
-      <Title>{t('labels.totalNet')}</Title>
-      {totalsBlock}
-    </Fragment>
-  );
-
-  // return (
-  //   (!compact || showFullTotal) && (
-  //     <Fragment>
-  //       <Title>{t('labels.totalNet')}</Title>
-  //       <FullTotal>
-  //         {renderTotalPrice(t, {
-  //           currencyCode,
-  //           isOnRequest,
-  //           total: totals.total,
-  //           discounted: !overrideTotal && showDiscountedPrice && gt(offersCount, 0),
-  //         })}
-  //         {overrideTotal &&
-  //           gt(offersCount, 0) &&
-  //           renderTotalPrice(t, {
-  //             currencyCode,
-  //             isOnRequest,
-  //             total: totals.totalBeforeDiscount,
-  //             secondary: true,
-  //             discounted: true,
-  //           })}
-  //         {((showOriginalTotal && overrideTotal) || (showDiscountedPrice && gt(offersCount, 0))) &&
-  //           !isOnRequest &&
-  //           renderTotalPrice(t, {
-  //             currencyCode,
-  //             isOnRequest,
-  //             total: totals.total,
-  //             secondary: true,
-  //           })}
-  //         {gt(offersCount, 0) && (
-  //           <Text data-discounted={true}>{t('labels.includesOffer', { count: offersCount })}</Text>
-  //         )}
-  //         {saving && !isOnRequest && (
-  //           <Text>
-  //             {t('labels.savingOfPrefix')}
-  //             <Saving>{`${currencyCode}${formatPrice(saving)}`}</Saving>
-  //             {t('labels.savingOfSuffix')}
-  //           </Text>
-  //         )}
-  //         {!isOnRequest && <Text>{t('labels.includesTaxes')}</Text>}
-  //       </FullTotal>
-  //     </Fragment>
-  //   )
-  // );
 };
 
 const renderForm = (

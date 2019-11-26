@@ -339,6 +339,8 @@ export interface Transfer2 {
   total: string;
   totalBeforeDiscountCents: number;
   totalBeforeDiscount: string;
+  cancellationPolicy: string;
+  paymentTerms: string;
 }
 
 export interface PotentialBooking {

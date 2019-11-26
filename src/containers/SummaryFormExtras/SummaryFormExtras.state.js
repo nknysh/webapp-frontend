@@ -40,6 +40,7 @@ import {
   bookingAvailableSupplementsSelector,
   updateSupplementAction,
   updateFineAction,
+  bookingCanBookSelector,
 } from 'store/modules/fastSearch';
 
 export const mapStateToProps = (state, { id }) => {
@@ -56,7 +57,7 @@ export const mapStateToProps = (state, { id }) => {
     selectedGroundServices: bookingRequestedGroundServicesSelector(state),
     selectedSupplements: bookingRequestedSupplementsSelector(state),
     selectedTransfers: bookingRequestedTransfersSelector(state, id),
-    canBook: getBookingReady(state, id),
+    canBook: bookingCanBookSelector(state),
     currencyCode: getBookingCurrencySymbol(state, id),
     getUser: id => getUser(state, id),
     getUserName: id => getUserFullName(state, id),

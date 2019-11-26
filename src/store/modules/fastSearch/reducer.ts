@@ -1,7 +1,7 @@
 import { lensPath, without, difference, omit, dropLast, update, set, flatten, mergeDeepLeft } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
-import { Filters, Lodging } from 'services/BackendApi';
+import { Filters, Lodging, SelectedAccommodation } from 'services/BackendApi';
 import { addMonths } from 'date-fns';
 import qs from 'qs';
 import { SearchQuery } from '../../../services/BackendApi/types/SearchQuery';
@@ -492,17 +492,9 @@ export const updateLodgingGuestAgesReducer = (state: FastSearchDomain, action): 
     result.bookingBuilder.request.Accommodation[action.lodgingIndex].guestAges = action.guestAges;
 
     // rebuild the request level `guestAges` to match all the new figures
-    let numberOfAdults: number = 0;
-    let agesOfAllChildren: number[] = [];
-    result.bookingBuilder.request.Accommodation.forEach(accom => {
-      numberOfAdults += accom.guestAges.numberOfAdults;
-      agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
-    });
-
-    result.bookingBuilder.request.guestAges = {
-      numberOfAdults,
-      agesOfAllChildren,
-    };
+    result.bookingBuilder.request.guestAges = calculateBookingTotalGuestAges(
+      result.bookingBuilder.request.Accommodation
+    );
 
     return draftState;
   });
@@ -582,17 +574,9 @@ export const addLodgingReducer = (state: FastSearchDomain, action) => {
     result.bookingBuilder.request.Accommodation.push(newLodging);
 
     // rebuild the request level `guestAges` to match all the new figures
-    let numberOfAdults: number = 0;
-    let agesOfAllChildren: number[] = [];
-    result.bookingBuilder.request.Accommodation.forEach(accom => {
-      numberOfAdults += accom.guestAges.numberOfAdults;
-      agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
-    });
-
-    result.bookingBuilder.request.guestAges = {
-      numberOfAdults,
-      agesOfAllChildren,
-    };
+    result.bookingBuilder.request.guestAges = calculateBookingTotalGuestAges(
+      result.bookingBuilder.request.Accommodation
+    );
 
     return draftState;
   });
@@ -633,17 +617,9 @@ export const removeLodgingReducer = (state: FastSearchDomain, action) => {
     result.bookingBuilder.request.Accommodation.splice(lodgingIndex, 1);
 
     // rebuild the request level `guestAges` to match all the new figures
-    let numberOfAdults: number = 0;
-    let agesOfAllChildren: number[] = [];
-    result.bookingBuilder.request.Accommodation.forEach(accom => {
-      numberOfAdults += accom.guestAges.numberOfAdults;
-      agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
-    });
-
-    result.bookingBuilder.request.guestAges = {
-      numberOfAdults,
-      agesOfAllChildren,
-    };
+    result.bookingBuilder.request.guestAges = calculateBookingTotalGuestAges(
+      result.bookingBuilder.request.Accommodation
+    );
 
     return draftState;
   });
@@ -770,4 +746,20 @@ export const updateFineReducer = (state: FastSearchDomain, action) => {
 
     return draftState;
   });
+};
+
+export const calculateBookingTotalGuestAges = (accommodations: SelectedAccommodation[]) => {
+  let numberOfAdults: number = 0;
+  let agesOfAllChildren: number[] = [];
+  accommodations.forEach(accom => {
+    numberOfAdults += accom.guestAges.numberOfAdults;
+    if (accom.guestAges.agesOfAllChildren && accom.guestAges.agesOfAllChildren.length >= 1) {
+      agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
+    }
+  });
+
+  return {
+    numberOfAdults,
+    agesOfAllChildren,
+  };
 };

@@ -14,7 +14,6 @@ import {
   getBookingCurrencySymbol,
   updateBooking,
   removeRoom,
-  addRoom,
 } from 'store/modules/bookings';
 
 import { addLodgingAction, bookingResponseLodgingCountsPerAccommodation } from 'store/modules/fastSearch';
@@ -32,15 +31,6 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
 export const mapDispatchToProps = dispatch => ({
   addRoom: pipe(
     addLodgingAction,
-    dispatch
-  ),
-  addLodging: pipe(
-    addLodgingAction,
-    dispatch
-  ),
-  removeRoom: pipe(
-    //TODO think this can be deleted?
-    removeRoom,
     dispatch
   ),
   updateBooking: pipe(

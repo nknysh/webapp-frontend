@@ -5,7 +5,7 @@ import { getHotelId } from 'store/modules/hotel';
 import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 import { getNumberOfDays } from 'utils';
 import { ProductTypes, Occassions } from 'config/enums';
-import { flatten, clone, path } from 'ramda';
+import { flatten, clone } from 'ramda';
 import { filterByObjectProperties } from 'utils';
 import { IDateRange } from './types';
 import { format, isSameMonth, isSameYear, differenceInCalendarDays } from 'date-fns';
@@ -449,5 +449,88 @@ export const bookingResponseLodgingCountsPerAccommodation = createSelector(
     });
 
     return lodgingCountsPerAccommodation;
+  }
+);
+
+export const bookingPotentialBookingSelector = createSelector(
+  bookingResponseSelector,
+  response => (response ? response.potentialBooking : undefined)
+);
+
+export const bookingTextOffersSelector = createSelector(
+  bookingResponseSelector,
+  response => (response ? response.textOnlyOffersPerLodging : undefined)
+);
+
+export const bookingCancellationPoliciesSelector = createSelector(
+  bookingPotentialBookingSelector,
+  potentialBooking => {
+    if (!potentialBooking) {
+      return [];
+    }
+
+    // long hand, but gives us TS help
+    let allCancellationPolicies: string[] = [];
+    allCancellationPolicies = allCancellationPolicies.concat(
+      potentialBooking.Accommodation.map(product => product.cancellationPolicy)
+    );
+    allCancellationPolicies = allCancellationPolicies.concat(
+      potentialBooking.Fine.map(product => product.cancellationPolicy)
+    );
+    allCancellationPolicies = allCancellationPolicies.concat(
+      potentialBooking['Ground Service'].map(product => product.cancellationPolicy)
+    );
+    allCancellationPolicies = allCancellationPolicies.concat(
+      potentialBooking.Supplement.map(product => product.cancellationPolicy)
+    );
+    allCancellationPolicies = allCancellationPolicies.concat(
+      potentialBooking.Transfer.map(product => product.cancellationPolicy)
+    );
+
+    return flatten(allCancellationPolicies).filter(Boolean);
+  }
+);
+
+export const bookingPaymentTermsSelector = createSelector(
+  bookingPotentialBookingSelector,
+  potentialBooking => {
+    if (!potentialBooking) {
+      return [];
+    }
+
+    // long hand, but gives us TS help
+    let allPaymentTerms: string[] = [];
+    allPaymentTerms = allPaymentTerms.concat(potentialBooking.Accommodation.map(product => product.paymentTerms));
+    allPaymentTerms = allPaymentTerms.concat(potentialBooking.Fine.map(product => product.paymentTerms));
+    allPaymentTerms = allPaymentTerms.concat(potentialBooking['Ground Service'].map(product => product.paymentTerms));
+    allPaymentTerms = allPaymentTerms.concat(potentialBooking.Supplement.map(product => product.paymentTerms));
+    allPaymentTerms = allPaymentTerms.concat(potentialBooking.Transfer.map(product => product.paymentTerms));
+
+    return flatten(allPaymentTerms).filter(Boolean);
+  }
+);
+
+export const bookingOffersTermsSelector = createSelector(
+  bookingPotentialBookingSelector,
+  potentialBooking => {
+    if (!potentialBooking) {
+      return [];
+    }
+
+    let allOfferTerms: object[] = [];
+
+    // we lose typehinting, but things were getting ridiculous
+    Object.keys(potentialBooking).forEach(productSetKey => {
+      potentialBooking[productSetKey].forEach(productSet => {
+        productSet.offers.forEach(productSetOffer => {
+          allOfferTerms.push({
+            name: productSetOffer.offer.name,
+            termsAndConditions: productSetOffer.offer.termsAndConditions,
+          });
+        });
+      });
+    });
+
+    return allOfferTerms;
   }
 );

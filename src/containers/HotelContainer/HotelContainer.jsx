@@ -70,7 +70,9 @@ const renderActions = (t, { canBook, canHold, onActionClick, onTakeHold }) => (
 const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
   const {
     hotel: { additionalInfo, policiesAndRestrictions },
-    policiesAndTerms: { paymentTerms, cancellationPolicy, offersTerms },
+    paymentTerms,
+    cancellationPolicy,
+    offersTerms,
   } = props;
 
   return (
@@ -93,13 +95,13 @@ const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
       {!isNilOrEmpty(cancellationPolicy) && (
         <AsideDetails>
           <Title>{t('labels.cancellationPolicy')}</Title>
-          <List>{map(prop('cancellationPolicy'), values(cancellationPolicy))}</List>
+          <List>{cancellationPolicy}</List>
         </AsideDetails>
       )}
       {!isNilOrEmpty(paymentTerms) && (
         <AsideDetails>
           <Title>{t('labels.paymentTerms')}</Title>
-          <List>{map(prop('paymentTerms'), values(paymentTerms))}</List>
+          <List>{paymentTerms}</List>
         </AsideDetails>
       )}
       {!isNilOrEmpty(offersTerms) && (

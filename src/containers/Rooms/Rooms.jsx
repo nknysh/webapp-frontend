@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { always, compose, filter, ifElse, join, pathOr, length, map, partial, propEq, values } from 'ramda';
+import { always, compose, ifElse, join, pathOr, map, partial, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import hash from 'object-hash';
 import { useTranslation } from 'react-i18next';
@@ -85,7 +85,6 @@ export const Rooms = props => {
     rooms,
     roomsError,
     addRoom,
-    removeRoom,
     fetchCurrentHotelAccommodationProductDisplays,
     lodgingCountsPerAccommodation,
   } = props;
@@ -114,7 +113,6 @@ export const Rooms = props => {
   const filteredRooms = filterRoomsByCategoryType(rooms, selectedCategoryTypes);
 
   const handleRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid, rooms), [addRoom, hotelUuid, rooms]);
-  const handleRoomRemove = useCallback(uuid => removeRoom(hotelUuid, uuid), [removeRoom, hotelUuid]);
 
   return (
     <StyledRooms className={className}>
@@ -144,7 +142,6 @@ export const Rooms = props => {
               renderRooms(t, {
                 filteredRooms,
                 handleRoomAdd,
-                handleRoomRemove,
                 isMobile,
                 bookingStatus,
                 lodgingCountsPerAccommodation,
