@@ -91,7 +91,7 @@ jobs:
       APP_ENV: develop
       API_BASE_URL: https://client-api.demo.pure-escapes.com
       ADMIN_BASE_URL: https://demo.pure-escapes.com/admin
-      BACKEND_BASE_URL: https://api.qa.pure-escapes.com/api
+      BACKEND_BASE_URL: https://api.demo.pure-escapes.com/api
     executor: aws-cli/default
     steps:
       - checkout
@@ -124,7 +124,7 @@ jobs:
       APP_ENV: production
       API_BASE_URL: https://client-api.production.pure-escapes.com
       ADMIN_BASE_URL: https://production.pure-escapes.com/admin
-      BACKEND_BASE_URL: https://api.qa.pure-escapes.com/api
+      BACKEND_BASE_URL: https://api.production.pure-escapes.com/api
     executor: aws-cli/default
     steps:
       - checkout
