@@ -62,6 +62,7 @@ import {
   StyledBreadcrumbs,
   StyledProposalContainer,
   Title,
+  ProposalGuestFormNotes,
 } from './ProposalContainer.styles';
 import { simpleForm, withoutSections } from './ProposalContainer.utils';
 
@@ -262,6 +263,14 @@ const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal
           );
         }}
       </BookingForm>
+      <ProposalGuestFormNotes>
+        {t('labels.proposalFormNotes.pleaseNote')}
+        <ol>
+          <li>{t('labels.proposalFormNotes.point1')}</li>
+          <li>{t('labels.proposalFormNotes.point2')}</li>
+          <li>{t('labels.proposalFormNotes.point3')}</li>
+        </ol>
+      </ProposalGuestFormNotes>
     </ProposalGuestForm>
   ));
 

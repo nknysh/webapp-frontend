@@ -55,6 +55,19 @@ export const ProposalGuestForm = styled.div`
   `}
 `;
 
+export const ProposalGuestFormNotes = styled.div`
+  font-size: ${theme.fonts.sizes.normal}px;
+  margin-top: ${theme.spacing.gutter * 3}px;
+
+  ol {
+    padding-left: 1em;
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+`;
+
 export const Title = styled.h3`
   font-size: ${theme.fonts.sizes.default}px;
   padding: 0 0 ${theme.spacing.gutter * 1.5}px;
