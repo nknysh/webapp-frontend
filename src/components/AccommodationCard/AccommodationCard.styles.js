@@ -1,14 +1,6 @@
 import styled from 'styled-components';
 import AccommodationCard from './AccommodationCard.jsx';
 import { theme } from 'styles';
-import { Button } from '@pure-escapes/webapp-ui-components';
-
-export const AddLodgingButton = styled(Button)`
-  font-size: 14px;
-  padding: 10px;
-  width: 132px;
-  margin-bottom: 20px;
-`;
 
 export default styled(AccommodationCard)`
   position: relative;
@@ -19,6 +11,12 @@ export default styled(AccommodationCard)`
   color: ${theme.palette.light};
   line-height: 20px;
   margin-bottom: 1rem;
+
+  .addLodgingButton {
+    float: right;
+    width: 129px;
+    margin-bottom: 20px;
+  }
 
   .canHold {
     background: white;
