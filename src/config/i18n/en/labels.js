@@ -250,10 +250,13 @@ export default {
   itemNoTotal: 'This item has no total',
   priceAvailableOnRequest: 'Price available on request',
 
+  lodgingCountPrefix: 'Lodging Count:',
   proposalFormNotes: {
     pleaseNote: 'Please note:',
     point1: 'You can add another property to your proposal by navigating back to Search results',
     point2: "Once you have generated a pdf proposal you can't add or amend it but can send a new pdf proposal",
     point3: 'You can add up to 3 options in any one proposal',
   },
+
+  addLodging: 'Add Lodging',
 };

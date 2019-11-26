@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { isAdult, formatPrice } from 'utils';
 import LinkButton from 'components/LinkButton';
+import { AddLodgingButton } from './AccommodationCard.styles';
 
 const renderDescription = info =>
   info.map((d, i) => (
@@ -89,15 +90,11 @@ export const AccommodationCard = props => {
 
         <ul className="pricing">
           <li>
-            <NumberSelect
-              disabled={props.updateInProgress}
-              className="numberSelect"
-              min={0}
-              max={99}
-              value={props.count}
-              onAdd={handleAdd}
-              onRemove={handleRemove}
-            />
+            <label>
+              {t('labels.lodgingCountPrefix')} {props.count ? props.count : 0}
+            </label>
+            <br />
+            <AddLodgingButton onClick={handleAdd}>{t('labels.addLodging')}</AddLodgingButton>
           </li>
           <li>{t('labels.totalNet')}</li>
           {onRequest && <li className="price">{t('labels.onRequest')}</li>}
