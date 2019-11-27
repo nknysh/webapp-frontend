@@ -159,11 +159,18 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   };
 
   handlePriceRangeChange = (type: RangeValueType, value: string) => {
-    if (!isNaN(parseInt(value))) {
-      const action = type === 'min' ? this.props.minPriceChange : this.props.maxPriceChange;
-      action(parseInt(value, 10));
+    const action = type === 'min'
+        ? this.props.minPriceChange
+        : this.props.maxPriceChange;
+
+    if(!isNaN(parseInt(value))) {
+      action(parseInt(value, 10))
     }
-  };
+
+    if(isNaN(parseInt(value))) {
+      action(undefined);
+    }
+  }
 
   handleSearchResultClick = (hotelUuid: string) => {
     this.props.history.push(`/hotels/${hotelUuid}`);

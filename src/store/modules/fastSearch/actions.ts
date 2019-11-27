@@ -164,13 +164,13 @@ export const selectMealPlanAction = (mealPlan: MealPlanNames) => ({
 });
 
 export type MinPriceChangeAction = ReturnType<typeof minPriceChangeAction>;
-export const minPriceChangeAction = (value: number) => ({
+export const minPriceChangeAction = (value: number | undefined) => ({
   type: MIN_PRICE_CHANGE as typeof MIN_PRICE_CHANGE,
   value,
 });
 
 export type MaxPriceChangeAction = ReturnType<typeof maxPriceChangeAction>;
-export const maxPriceChangeAction = (value: number) => ({
+export const maxPriceChangeAction = (value: number | undefined) => ({
   type: MAX_PRICE_CHANGE as typeof MAX_PRICE_CHANGE,
   value,
 });

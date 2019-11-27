@@ -77,6 +77,6 @@ export const initialState: FastSearchDomain = {
     starRatings: ['5' as StarRating, '5+' as StarRating],
     startDate: getDefaultSearchAndBookingStartDate(),
     endDate: getDefaultSearchAndBookingEndDate(),
-    priceRange: { min: 1, max: 100000 },
+    priceRange: { min: undefined, max: undefined },
   },
 };
