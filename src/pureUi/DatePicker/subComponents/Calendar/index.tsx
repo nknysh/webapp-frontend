@@ -25,6 +25,7 @@ export interface ICalendarProps extends React.HTMLProps<HTMLDivElement> {
   selectedDates?: string[]; // An array of ISO8601 Date strings
   onDayClick?: React.EventHandler<any>;
   onDayMouseOver?: React.EventHandler<any>;
+  disablePastDates: boolean;
 }
 
 // -----------------------------------------------------------------------------
@@ -41,6 +42,7 @@ class Calendar extends React.Component<ICalendarProps, {}> {
   public static defaultProps: ICalendarProps = {
     currentDate: new Date().toISOString(),
     firstDayOfWeek: 0,
+    disablePastDates: true,
   };
 
   private renderWeek = (week: IDateObject[]): JSX.Element => {
@@ -55,7 +57,7 @@ class Calendar extends React.Component<ICalendarProps, {}> {
   private renderDate = (date: IDateObject): JSX.Element => {
     const key = `${this.currentMonth}-date-${date.month}-${date.date}`;
     const isFirstDate = this.props.selectedDates && this.props.selectedDates[0] === date.dateString;
-    const isSelected = this.props.selectedDates?.includes(date.dateString);
+    const isSelected = this.props.selectedDates && this.props.selectedDates.includes(date.dateString);
     return (
       <DateButton
         key={key}
@@ -67,6 +69,7 @@ class Calendar extends React.Component<ICalendarProps, {}> {
         isFirstDate={isFirstDate}
         isExtra={date.month !== this.currentMonth}
         isToday={this.today === date.dateString}
+        isDisabled={this.props.disablePastDates && date.dateString < this.today}
       />
     );
   };

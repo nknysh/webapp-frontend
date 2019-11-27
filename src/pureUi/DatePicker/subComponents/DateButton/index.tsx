@@ -82,6 +82,11 @@ const StyledDateButton = styled(DateButton)`
   &:focus {
     outline: none;
   }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.25;
+  }
 `;
 
 export default StyledDateButton;

@@ -1,14 +1,14 @@
-import React, {FormEvent} from 'react';
+import React, { FormEvent } from 'react';
 import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import StyledFastSearchContainer from './styles';
 import SearchSettings from 'pureUi/SearchSettings';
 import PredictiveTextInput from 'pureUi/PredictiveTextInput';
-import { RangeValueType} from 'pureUi/RangeInput';
+import { RangeValueType } from 'pureUi/RangeInput';
 import { LodgingsEditor } from '../../pureUi/LodgingsEditor/index';
 import SidebarGroup from 'pureUi/SidebarGroup';
-import {Link, withRouter, RouteComponentProps} from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Heading2 } from 'styles';
 import { PrimaryButton } from 'pureUi/Buttons';
 import SearchResultList from 'pureUi/SearchResultsList';
@@ -29,9 +29,9 @@ import {
   offersSearchPendingSelector,
   priceRangeSelector,
   showRegionsSelector,
-  toggleFilterAction, 
-  setAllFiltersAction, 
-  minPriceChangeAction, 
+  toggleFilterAction,
+  setAllFiltersAction,
+  minPriceChangeAction,
   maxPriceChangeAction,
   toggleStarRatingAction,
   selectMealPlanAction,
@@ -80,92 +80,89 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     }
 
     if (window.location.search && !this.props.searchResults) {
-      this.props.initializeQuery(window.location.search.replace('?', ''))
+      this.props.initializeQuery(window.location.search.replace('?', ''));
     }
 
     if (!window.location.search && !this.props.searchResults) {
       this.props.getOffers(this.props.searchQuery);
     }
 
-    if(this.props.searchResults && this.props.queryHasChanged) {
+    if (this.props.searchResults && this.props.queryHasChanged) {
       this.props.getOffers(this.props.searchQuery);
     }
 
-    if(this.props.searchQuery.name === '') {
+    if (this.props.searchQuery.name === '') {
       this.props.destinationChange('');
     }
   }
 
   handleDestinationChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.destinationChange(e.currentTarget.value);
-  }
-  
+  };
+
   handleSubmit = () => {
     this.props.getOffers(this.props.searchQuery);
-  }
-  
+  };
+
   handleToggleLodgingControls = () => {
     this.props.toggleLodgingControls();
-  }
+  };
 
   handleSetLogdingControlsVisibility = (visible: boolean) => () => {
     this.props.setLodgingControlsVisibility(visible);
-  }
-  
+  };
+
   handleToggleDatePicker = () => {
-    if(!this.props.showDatePicker) { 
+    if (!this.props.showDatePicker) {
       this.props.toggleDatePicker();
     }
-  }
+  };
 
   handleSetDatePickerVisibility = (visible: boolean) => () => {
-    if(visible === false && this.props.dateSelectionInProgress) { return; }
+    if (visible === false && this.props.dateSelectionInProgress) {
+      return;
+    }
     this.props.setDatePickerVisibility(visible);
-  }
+  };
 
   handleShowNameSearchDropDown = (visible: boolean) => () => {
     this.props.setNamesSearchResultsVisibility(visible);
-  }
+  };
 
   handleDayClick = (date: string) => {
-    if(this.props.dateSelectionInProgress) {
+    if (this.props.dateSelectionInProgress) {
       this.props.dateRangeSelectEnd(date, this.props.dateRange.start);
     } else {
       this.props.dateRangeSelectStart(date);
     }
-  }
+  };
 
   handleDateMouseOver = (date: string) => {
-    if(this.props.dateSelectionInProgress) {
+    if (this.props.dateSelectionInProgress) {
       this.props.dateRangeChange(date, this.props.dateRange.start);
     }
-  }
+  };
 
   handleIncrementCurrentDate = (step: number) => () => {
     this.props.incrementCurrentDate(step);
-  }
+  };
 
   // ---------------------------------------------------
 
   handleRemoveAllFilters = () => {
     this.props.setAllFilters(false);
-  }
-  
-  
+  };
+
   handlePriceRangeChange = (type: RangeValueType, value: string) => {
-    if(!isNaN(parseInt(value))) {
-      const action = type === 'min'
-        ? this.props.minPriceChange
-        : this.props.maxPriceChange;
-      action(parseInt(value, 10))
+    if (!isNaN(parseInt(value))) {
+      const action = type === 'min' ? this.props.minPriceChange : this.props.maxPriceChange;
+      action(parseInt(value, 10));
     }
-  }
+  };
 
   handleSearchResultClick = (hotelUuid: string) => {
     this.props.history.push(`/hotels/${hotelUuid}`);
-  }
-
-  
+  };
 
   renderSideBar = () => (
     <div className="sidebar">
@@ -177,9 +174,9 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
         <label className="basicSearchLabel">
           <span>Destination or Resort</span>
-          <PredictiveTextInput 
-            placeholder="Where to" 
-            value={this.props.searchQuery.name!} 
+          <PredictiveTextInput
+            placeholder="Where to"
+            value={this.props.searchQuery.name!}
             onChange={this.handleDestinationChange}
             options={this.props.nameSearchResults}
             onOptionSelect={this.props.destinationChange}
@@ -191,7 +188,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
         <label className="basicSearchLabel">
           <span>Lodgings *</span>
-          <LodgingsEditor 
+          <LodgingsEditor
             showControls={this.props.showLodgingControls}
             lodgings={this.props.searchQuery.lodgings}
             activeLodgingIndex={this.props.activeLodingIndex}
@@ -206,10 +203,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
             onClickOutside={this.handleSetLogdingControlsVisibility(false)}
           />
         </label>
-        
+
         <label className="basicSearchLabel">
           <span>Dates *</span>
-          <DateRangeInput 
+          <DateRangeInput
             displayString={this.props.dateRangeDisplayString}
             currentDate={this.props.currentDate}
             totalNights={this.props.totalStayNights}
@@ -229,8 +226,9 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
           <Checkbox checked={this.props.isRepeatGuest} onChange={this.props.toggleRepeatGuest} />
         </label>
 
-        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
-
+        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>
+          Search
+        </PrimaryButton>
       </SidebarGroup>
 
       {this.props.searchOptions && (
@@ -249,11 +247,12 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
           onPriceRangeChange={this.handlePriceRangeChange}
           onSubmit={this.handleSubmit}
         />
-
-        )}
-        <SidebarGroup>
-          <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>Search</PrimaryButton>
-        </SidebarGroup>
+      )}
+      <SidebarGroup>
+        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>
+          Search
+        </PrimaryButton>
+      </SidebarGroup>
     </div>
   );
 
@@ -262,12 +261,12 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       return null;
     }
 
-    if(!this.props.searchResults.length) {
-      return <h3>No results</h3>
+    if (!this.props.searchResults.length) {
+      return <h3>No results</h3>;
     }
 
     return (
-      <SearchResultList 
+      <SearchResultList
         searchResults={this.props.searchResults}
         expandedHighlights={this.props.expandedHighlights}
         onToggleHighlights={this.props.toggleHighlights}
@@ -277,16 +276,19 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   };
 
   render() {
-
     if (!this.props.searchOptions) {
       return null;
     }
 
     return (
       <StyledFastSearchContainer>
-        <Link to="/" className="backButton"><Icon className="backIcon">chevron_left</Icon>Back to Homepage</Link>
+        <Link to="/" className="backButton">
+          <Icon className="backIcon">chevron_left</Icon>Back to Homepage
+        </Link>
         {this.props.searchPending && <Heading2 className="heading">Loading...</Heading2>}
-        {!this.props.searchPending && <Heading2 className="heading">Search Results {this.props.searchResults?.length}</Heading2>}
+        {!this.props.searchPending && (
+          <Heading2 className="heading">Search Results {this.props.searchResults!.length}</Heading2>
+        )}
         <div className="sideBar">{this.renderSideBar()}</div>
 
         <div className="searchResults">
@@ -366,15 +368,11 @@ const actionCreators = {
   toggleRepeatGuest: toggleRepeatGuestAction,
 };
 
-
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
 
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, FastSearchProps>(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect<StateToProps, DispatchToProps, FastSearchProps>(mapStateToProps, mapDispatchToProps);
 
 export const FastSearchContainerConnected = compose(withConnect, withRouter)(FastSearchContainer);
