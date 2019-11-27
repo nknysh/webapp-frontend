@@ -544,6 +544,8 @@ export const addLodgingReducer = (state: FastSearchDomain, action) => {
       // should be added with the exact same data + standard occupancy
       newLodging = {
         ...existingLodgingOfAccommodationProduct,
+        startDate: formatDate(existingLodgingOfAccommodationProduct.startDate),
+        endDate: formatDate(existingLodgingOfAccommodationProduct.endDate),
         guestAges: {
           numberOfAdults: selectedAccommodationProduct.occupancy.standardOccupancy,
           agesOfAllChildren: [],
@@ -554,8 +556,8 @@ export const addLodgingReducer = (state: FastSearchDomain, action) => {
       // the search query dates, and the accommodation product default meal plan
       newLodging = {
         uuid: accommodationProductUuid,
-        startDate: draftState.query.startDate,
-        endDate: draftState.query.endDate,
+        startDate: formatDate(draftState.query.startDate),
+        endDate: formatDate(draftState.query.endDate),
         guestAges: {
           numberOfAdults: selectedAccommodationProduct.occupancy.standardOccupancy,
           agesOfAllChildren: [],
