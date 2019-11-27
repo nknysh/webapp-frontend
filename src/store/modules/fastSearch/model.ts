@@ -75,10 +75,10 @@ export const initialState: FastSearchDomain = {
     regions: [],
     filters: [],
     starRatings: ['5' as StarRating, '5+' as StarRating],
-    startDate: addDays(new Date(), 1)
+    startDate: addDays(new Date(), 7)
       .toISOString()
       .split('T')[0],
-    endDate: addDays(new Date(), 15)
+    endDate: addDays(new Date(), 21)
       .toISOString()
       .split('T')[0],
     priceRange: { min: 1, max: 100000 },
