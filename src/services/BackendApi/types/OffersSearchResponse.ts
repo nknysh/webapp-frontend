@@ -495,7 +495,7 @@ export interface BookingBuilderResponse {
   mustStop: boolean;
   errors: any[];
   currency: string;
-  bookingHash: string;
+  bookingHash: string | undefined;
   availableToHold: boolean;
   potentialBooking: PotentialBooking;
   availableProductSets: AvailableProductSets;

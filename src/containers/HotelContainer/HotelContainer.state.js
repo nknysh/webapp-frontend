@@ -12,6 +12,7 @@ import {
   bookingCancellationPoliciesSelector,
   bookingOffersTermsSelector,
 } from 'store/modules/fastSearch';
+import { initializeBookingBuilderAction } from 'store/modules/bookingBuilder/actions';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: getBooking(state, id),
@@ -40,6 +41,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateBooking: pipe(
     updateBooking,
+    dispatch
+  ),
+  initializeBooking: pipe(
+    initializeBookingBuilderAction,
     dispatch
   ),
 });

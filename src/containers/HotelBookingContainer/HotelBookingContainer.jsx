@@ -112,7 +112,7 @@ const renderGuestForm = (
 
 const renderPaymentTypes = (t, { isOnRequest, onPaymentChange, paymentType }) =>
   PAYMENT_ENABLED &&
-  (!isOnRequest && (
+  !isOnRequest && (
     <PaymentMethod>
       <RadioButton
         value={paymentType}
@@ -123,7 +123,7 @@ const renderPaymentTypes = (t, { isOnRequest, onPaymentChange, paymentType }) =>
         ]}
       />
     </PaymentMethod>
-  ));
+  );
 
 const renderSummary = (
   t,

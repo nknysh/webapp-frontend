@@ -14,12 +14,14 @@ import {
 // Move to backkendApiService
 import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch';
 import { PriceRange, StarRating } from './types/SearchQuery';
+import { Hotel } from './types/OffersSearchResponse';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
   SEARCH = 'search',
   NAMES = 'search/names',
   BOOKING_BUILDER = 'booking-builder',
+  HOTEL = 'hotels',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -39,6 +41,11 @@ export class BackendApiService<T extends AxiosInstance> {
 
   getNamesSearch = async (name: string): Promise<AxiosResponse<ErrorResponse | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.NAMES}/?name=${encodeURI(name)}`;
+    return this.client.get(endpoint);
+  };
+
+  getHotel = async (hotelUuid: string): Promise<AxiosResponse<Hotel | ErrorResponse>> => {
+    const endpoint = `${BackendEndpoints.HOTEL}/${hotelUuid}`;
     return this.client.get(endpoint);
   };
 

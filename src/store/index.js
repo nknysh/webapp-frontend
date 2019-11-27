@@ -1,7 +1,7 @@
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootSearchSagas from './modules/fastSearch/sagas';
+import rootSaga from './rootSaga';
 
 import { APP_ENV } from 'config';
 
@@ -31,4 +31,4 @@ const composedEnhancers = compose(...composedMiddleware);
 
 export default createStore(rootReducer, composedEnhancers);
 
-sagaMiddleware.run(rootSearchSagas);
+sagaMiddleware.run(rootSaga);

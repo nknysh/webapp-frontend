@@ -172,6 +172,11 @@ export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, ...prop
   const [isLoading, setIsLoading] = useState(true);
 
   const { onModalClose, setModalContext, onModalOpen } = modal;
+  const { initializeBooking, match } = props;
+
+  useEffect(() => {
+    initializeBooking(match.params.id);
+  }, [initializeBooking, match]);
 
   useEffect(() => {
     async function load() {
