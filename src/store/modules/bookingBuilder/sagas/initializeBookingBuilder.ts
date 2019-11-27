@@ -10,7 +10,6 @@ import { bookingBuilderSelector } from 'store/modules/fastSearch/selectors';
 import backendApi from 'services/BackendApi';
 
 export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAction) {
-  console.log('initializeBookingBuilderSaga');
   try {
     const existingBookingBuilder = yield select(bookingBuilderSelector);
     if (existingBookingBuilder) {
