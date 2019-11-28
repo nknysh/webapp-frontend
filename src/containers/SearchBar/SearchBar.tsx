@@ -73,7 +73,7 @@ const SearchBar = (props: ISearchBarProps) => {
 
         <PrimaryButton
           className="searchButton"
-          disabled={false}
+          disabled={!props.canSearch}
           onClick={props.basicSearchHandlers.handleNavigateToSearch}
         >
           Search

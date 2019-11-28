@@ -71,6 +71,7 @@ import {
   isRepeatGuestSelector,
   toggleRepeatGuestAction,
   queryHasChangedSelector,
+  canSearchSelector
 } from 'store/modules/fastSearch';
 
 import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
@@ -238,7 +239,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
           <Checkbox checked={this.props.isRepeatGuest} onChange={this.props.toggleRepeatGuest} />
         </label>
 
-        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>
+        <PrimaryButton className="searchButton" disabled={!this.props.canSearch} onClick={this.handleSubmit}>
           Search
         </PrimaryButton>
       </SidebarGroup>
@@ -261,7 +262,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
         />
       )}
       <SidebarGroup>
-        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>
+        <PrimaryButton className="searchButton" disabled={!this.props.canSearch} onClick={this.handleSubmit}>
           Search
         </PrimaryButton>
       </SidebarGroup>
@@ -345,6 +346,7 @@ const mapStateToProps = createStructuredSelector({
   showDatePicker: showDatePickerSelector,
   isRepeatGuest: isRepeatGuestSelector,
   queryHasChanged: queryHasChangedSelector,
+  canSearch: canSearchSelector
 });
 
 const actionCreators = {

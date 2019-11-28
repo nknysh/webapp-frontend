@@ -25,6 +25,7 @@ import {
   dateSelectionInProgressSelector,
   showDatePickerSelector,
   isRepeatGuestSelector,
+  canSearchSelector,
 
   // Actions
   initializeQueryAction,
@@ -70,6 +71,7 @@ const mapStateToProps = createStructuredSelector<any, any>({
   dateSelectionInProgress: dateSelectionInProgressSelector,
   showDatePicker: showDatePickerSelector,
   isRepeatGuest: isRepeatGuestSelector,
+  canSearch: canSearchSelector
 });
 
 const actionCreators = {
