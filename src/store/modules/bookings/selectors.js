@@ -1097,6 +1097,97 @@ export const getBookingForBuilder = createSelector(
   }
 );
 
+// Not technically a selector, but this is a pure version of `getBookingForBuilder` as that
+// is currently behaving unexpectedly
+export const getBookingForBuilderPure = (state, hotelUuid) => {
+  const booking = state.bookings.data[hotelUuid];
+
+  let dates = [];
+  let guestAges = {};
+
+  // Run through the accommodation products and sanitize
+  const sanitizeAccommodationProducts = pipe(
+    evolve({
+      // Formats the date to be accepted by backend
+      startDate: when(complement(isNilOrEmpty), formatDate),
+
+      // Removes the final day so backend accepts the days
+      endDate: when(
+        complement(isNilOrEmpty),
+        pipe(
+          input => new Date(input),
+          partialRight(subDays, [1]),
+          formatDate
+        )
+      ),
+    }),
+
+    // Push dates to the total dates array
+    tap(
+      pipe(
+        props(['startDate', 'endDate']),
+        accomDates => (dates = concat(dates, accomDates))
+      )
+    ),
+
+    // Push ages to guestAges total object
+    tap(
+      pipe(
+        prop('guestAges'),
+        ages => {
+          if (prop('numberOfAdults', ages)) {
+            guestAges = over(
+              lensProp('numberOfAdults'),
+              pipe(
+                defaultTo(0),
+                add(prop('numberOfAdults', ages))
+              ),
+              guestAges
+            );
+          }
+          if (prop('agesOfAllChildren', ages)) {
+            guestAges = over(
+              lensProp('agesOfAllChildren'),
+              pipe(
+                defaultTo([]),
+                concat(prop('agesOfAllChildren', ages))
+              ),
+              guestAges
+            );
+          }
+        }
+      )
+    ),
+
+    // Temp remove occasions from guestAges
+    over(lensProp('guestAges'), omit([...values(Occassions), 'repeatCustomer']))
+  );
+
+  // Finally, rebuild all the products into a new array
+  const products = {
+    [ProductTypes.ACCOMMODATION]: map(
+      sanitizeAccommodationProducts,
+      pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking)
+    ),
+    [ProductTypes.TRANSFER]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.TRANSFER], booking),
+    [ProductTypes.GROUND_SERVICE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.GROUND_SERVICE], booking),
+    [ProductTypes.SUPPLEMENT]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.SUPPLEMENT], booking),
+    [ProductTypes.FINE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.FINE], booking),
+  };
+
+  // Sort the final dates
+  dates.sort();
+
+  // Final booking builder payload
+  return {
+    hotelUuid,
+    startDate: head(dates),
+    endDate: last(dates),
+    ...products,
+    ...(!isNilOrEmpty(guestAges) && { guestAges }),
+  };
+};
+
 /**
  * Get booking holds selector
  *

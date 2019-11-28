@@ -12,6 +12,12 @@ export default styled(AccommodationCard)`
   line-height: 20px;
   margin-bottom: 1rem;
 
+  .addLodgingButton {
+    float: right;
+    width: 129px;
+    margin-bottom: 20px;
+  }
+
   .canHold {
     background: white;
     position: absolute;

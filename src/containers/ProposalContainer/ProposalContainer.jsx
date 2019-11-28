@@ -62,6 +62,7 @@ import {
   StyledBreadcrumbs,
   StyledProposalContainer,
   Title,
+  ProposalGuestFormNotes,
 } from './ProposalContainer.styles';
 import { simpleForm, withoutSections } from './ProposalContainer.utils';
 
@@ -78,7 +79,7 @@ const reloadIfMissing = pipe(
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 
 const renderBackToProposals = t => renderBackButton(t('labels.proposals'), { href: `${ADMIN_BASE_URL}/proposals` });
-const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search' });
+const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search/beta' });
 
 const renderBreadcrumbs = (t, { proposal, id, isMobile, onMobileNavClick, isGenerateView, isResortsView, isEdit }) => {
   const links = isEdit
@@ -262,6 +263,14 @@ const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal
           );
         }}
       </BookingForm>
+      <ProposalGuestFormNotes>
+        {t('labels.proposalFormNotes.pleaseNote')}
+        <ol>
+          <li>{t('labels.proposalFormNotes.point1')}</li>
+          <li>{t('labels.proposalFormNotes.point2')}</li>
+          <li>{t('labels.proposalFormNotes.point3')}</li>
+        </ol>
+      </ProposalGuestFormNotes>
     </ProposalGuestForm>
   ));
 

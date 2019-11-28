@@ -72,7 +72,6 @@ const renderDay = (t, rates, currencyCode, day) => {
   }
   const dayRate = prop(formatDate(day), rates);
   const safeDay = isString(day) ? new Date(day) : day;
-  console.log('safeDay', safeDay);
   return (
     <span>
       <div>{formatDate(safeDay, 'd')}</div>

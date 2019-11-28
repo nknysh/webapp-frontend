@@ -437,6 +437,19 @@ exports[`<App /> render matches snapshot 1`] = `
   >
     <Switch>
       <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(withRouter(FastSearchContainer))",
+            "type": [Function],
+          }
+        }
+        exact={true}
+        path="/search/beta"
+      />
+      <Route
         auth={true}
         authCheckIgnore={true}
         authComponent={

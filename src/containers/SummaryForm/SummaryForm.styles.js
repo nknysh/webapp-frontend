@@ -34,6 +34,12 @@ export const FullTotal = styled.div`
 
 export const HotelTotals = styled.div``;
 
+export const HotelTotalsInfo = styled.div`
+  font-size: ${theme.fonts.sizes.default}px;
+  line-height: 14px;
+  color: ${theme.palette.secondary};
+`;
+
 export const Total = styled.p`
   display: block;
 
@@ -87,7 +93,6 @@ export const Rooms = styled.div`
 
   :not(:empty) {
     padding: ${theme.spacing.gutter * 2}px 0;
-    border-bottom: 1px solid ${theme.borders.default};
   }
 `;
 

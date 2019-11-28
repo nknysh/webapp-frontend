@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { NumberSelect } from '@pure-escapes/webapp-ui-components';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { isAdult, formatPrice } from 'utils';
 import LinkButton from 'components/LinkButton';
+import { PrimaryButton } from 'pureUi/Buttons';
 
 const renderDescription = info =>
   info.map((d, i) => (
@@ -31,7 +31,6 @@ export const AccommodationCard = props => {
   const onRequest = props.totals.oneOrMoreItemsOnRequest;
 
   const handleAdd = () => props.onRoomAdd(props.id);
-  const handleRemove = () => props.onRoomRemove(props.id);
 
   return (
     <div className={props.className} data-role="accomodation-cards">
@@ -89,15 +88,13 @@ export const AccommodationCard = props => {
 
         <ul className="pricing">
           <li>
-            <NumberSelect
-              disabled={props.updateInProgress}
-              className="numberSelect"
-              min={0}
-              max={99}
-              value={props.count}
-              onAdd={handleAdd}
-              onRemove={handleRemove}
-            />
+            <label>
+              {t('labels.lodgingCountPrefix')} {props.count ? props.count : 0}
+            </label>
+            <br />
+            <PrimaryButton className={'addLodgingButton'} onClick={handleAdd}>
+              {t('labels.addLodging')}
+            </PrimaryButton>
           </li>
           <li>{t('labels.totalNet')}</li>
           {onRequest && <li className="price">{t('labels.onRequest')}</li>}

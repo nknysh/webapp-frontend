@@ -3,7 +3,8 @@ import { Container } from '@pure-escapes/webapp-ui-components';
 
 import { DashboardContainer } from 'containers';
 
-import { SearchArea, SearchBar } from './Dashboard.styles';
+import { SearchArea } from './Dashboard.styles';
+import SearchBar from 'containers/SearchBar';
 
 export const Dashboard = () => (
   <Fragment>

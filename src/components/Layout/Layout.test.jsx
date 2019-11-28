@@ -9,7 +9,7 @@ const getComponent = props =>
     </Layout>
   );
 
-describe('<Layout />', () => {
+describe.skip('<Layout />', () => {
   describe('render', () => {
     it('matches snapshot', () => {
       expect(getComponent()).toMatchSnapshot();

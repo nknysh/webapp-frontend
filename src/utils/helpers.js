@@ -140,3 +140,23 @@ export const isAdult = either(testAdult, equals('default'));
  * @returns {string | object}
  */
 export const parseJson = data => tryCatch(JSON.parse, always(identity(data)))(data);
+
+export const compareObjectsByProperties = (A, B, properties) => {
+  let match = true;
+
+  properties.forEach(property => {
+    if (A[property] !== B[property]) {
+      match = false;
+    }
+  });
+
+  return match;
+};
+
+export const filterByObjectProperties = (A, B, propertiesToMatch) => {
+  return A.filter(elementA => {
+    return B.some(elementB => {
+      return compareObjectsByProperties(elementA, elementB, propertiesToMatch);
+    });
+  });
+};

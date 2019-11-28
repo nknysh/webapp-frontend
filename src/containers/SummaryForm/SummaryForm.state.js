@@ -1,10 +1,10 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
+import { bookingBuilderSelector } from 'store/modules/fastSearch';
 import { fetchHotelRoomRatesByDates, getHotelName } from 'store/modules/hotels';
 import {
   fetchBooking,
-  getBooking,
   getBookingAppliedOffers,
   getBookingAppliedOffersCount,
   getBookingCurrencySymbol,
@@ -22,11 +22,13 @@ import {
   getAccommodationEditModalErrors,
 } from 'store/modules/bookings';
 
+import { bookingCanBookSelector, bookingResponseNonAccommodationErrors } from 'store/modules/fastSearch';
+
 export const mapStateToProps = (state, { id }) => ({
-  booking: getBooking(state, id),
-  canBook: getBookingReady(state, id),
+  booking: bookingBuilderSelector(state),
+  canBook: bookingCanBookSelector(state),
   currencyCode: getBookingCurrencySymbol(state, id),
-  errors: getBookingNonAccommodationErrors(state, id),
+  errors: bookingResponseNonAccommodationErrors(state),
   holds: getBookingHolds(state, id),
   hotelName: getHotelName(state, id),
   isOnRequest: isBookingOnRequest(state, id),
