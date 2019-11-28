@@ -1333,27 +1333,4 @@ export const backwardCompatBookingBuilderAction = (hotelUuid, request, response)
       response,
     },
   };
-  // const state = getState();
-
-  // const requestedBuildAccommodation = pathOr(
-  //   [],
-  //   ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
-  //   state
-  // );
-
-  // let lodgingToAmend = requestedBuildAccommodation[lodgingIndex];
-
-  // lodgingToAmend = { ...lodgingToAmend, ...occasions };
-
-  // requestedBuildAccommodation[lodgingIndex] = lodgingToAmend;
-
-  // const payload = {
-  //   breakdown: {
-  //     requestedBuild: {
-  //       Accommodation: requestedBuildAccommodation,
-  //     },
-  //   },
-  // };
-
-  // return updateBooking(hotelUuid, payload)(dispatch, getState);
 };
