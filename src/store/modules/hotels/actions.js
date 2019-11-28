@@ -59,7 +59,7 @@ export const setHotels = data => (dispatch, getState) => {
     bookingData[uuid] = { hotelUuid: uuid, hotelName: name, breakdown: { requestedBuild, ...response } };
   }, values(hotels));
 
-  dispatch(populateBookingBulk(bookingData));
+  // dispatch(populateBookingBulk(bookingData));
   dispatch(successAction(HOTELS, data));
 };
 

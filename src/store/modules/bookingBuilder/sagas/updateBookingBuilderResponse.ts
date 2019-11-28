@@ -36,6 +36,9 @@ export function* bookingBuilderResponseSaga(action: any) {
     // this action ensures that every single time we update our new booking builder response, we keep the old `bookings` domain in sync
     // this is done because there is a lot of code that relies on the old `bookings` domain data
     //
+
+    console.log('action.hotelUuid', action.hotelUuid);
+    console.log('request', request);
     yield put(backwardCompatBookingBuilderAction(action.hotelUuid, request, bookingBuilderEndpointResponse.data.data));
   } catch (e) {
     // yield put(bookingRequestFailureAction(e));

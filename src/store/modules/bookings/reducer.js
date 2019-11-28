@@ -121,9 +121,25 @@ const setBookingOccupancyCheckErrors = (state, payload) => {
   return state;
 };
 
-const handleBackwardsCompat = (state, payload) => {
-  console.log('state', state);
-  console.log('payload', payload);
+const backwardCompatBookingBuilderReducer = (state, action) => {
+  const { hotelUuid, request, response } = action.payload;
+
+  const data = {
+    hotelUuid,
+    hotelName: response.hotel.name,
+    breakdown: {
+      requestedBuild: {
+        ...request,
+      },
+      ...response,
+    },
+  };
+
+  state.data = {
+    [hotelUuid]: data,
+  };
+
+  return state;
 };
 
 export default createReducer(
@@ -140,7 +156,7 @@ export default createReducer(
     [BOOKINGS_SET]: loadingReducer,
     [BOOKINGS_FETCH]: loadingReducer,
     [BOOKING_POPULATE_BULK]: populateBookingBulkReducer,
-    [BACKWARDS_COMPAT]: handleBackwardsCompat,
+    [BACKWARDS_COMPAT]: backwardCompatBookingBuilderReducer,
 
     [getErrorActionName(BOOKING_CHECKS)]: errorReducer,
     [getErrorActionName(BOOKING_FETCH)]: errorReducer,

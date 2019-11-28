@@ -1325,15 +1325,14 @@ export const updateBookingOccasions = (hotelUuid, lodgingIndex, occasions) => as
 };
 
 export const backwardCompatBookingBuilderAction = (hotelUuid, request, response) => {
-
   return {
     type: BACKWARDS_COMPAT,
     payload: {
       hotelUuid,
       request,
-      response
-    }
-  }
+      response,
+    },
+  };
   // const state = getState();
 
   // const requestedBuildAccommodation = pathOr(

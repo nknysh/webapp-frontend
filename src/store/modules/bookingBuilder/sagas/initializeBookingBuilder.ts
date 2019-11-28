@@ -10,13 +10,27 @@ import { fastSearchBookingBuilderSelector } from 'store/modules/fastSearch/selec
 import { makeBackendApi } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 
+import { bookingBuilderSelector } from 'store/modules/bookingBuilder';
+import { backwardCompatBookingBuilderAction } from 'store/modules/bookings';
+
 export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAction) {
   try {
-  const actingCountryCode = yield select(getUserCountryContext);
-  const backendApi = makeBackendApi(actingCountryCode);
+    const actingCountryCode = yield select(getUserCountryContext);
+    const backendApi = makeBackendApi(actingCountryCode);
     const existingBookingBuilder = yield select(fastSearchBookingBuilderSelector);
     if (existingBookingBuilder) {
       yield put(copyBookingBuilderAction(existingBookingBuilder));
+
+      const currentBookingBuilder = yield select(bookingBuilderSelector);
+
+      // do backwards compat
+      yield put(
+        backwardCompatBookingBuilderAction(
+          action.hotelUuid,
+          currentBookingBuilder.request,
+          currentBookingBuilder.response
+        )
+      );
     } else {
       const hotel = yield call(backendApi.getHotel, action.hotelUuid);
       yield put(createStubBookingBuilderAction(hotel));
