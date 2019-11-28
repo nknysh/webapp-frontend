@@ -241,5 +241,5 @@ export const canSearchSelector = createSelector(
       lodgings.every(
         lg => lg.numberOfAdults > 0 || lg.agesOfAllChildren && lg.agesOfAllChildren.length > 0
       )
-    ].every(item => !!item)
+    ].every(item => Boolean(item))
 );

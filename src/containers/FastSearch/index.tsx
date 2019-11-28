@@ -255,7 +255,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
         />
       )}
       <SidebarGroup>
-        <PrimaryButton className="searchButton" disabled={false} onClick={this.handleSubmit}>
+        <PrimaryButton className="searchButton" disabled={!this.props.canSearch} onClick={this.handleSubmit}>
           Search
         </PrimaryButton>
       </SidebarGroup>
