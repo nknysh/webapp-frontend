@@ -23,7 +23,9 @@ export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAc
 
       const currentBookingBuilder = yield select(bookingBuilderSelector);
 
-      // do backwards compat
+      // this action ensures that every single time we update our new booking builder response, we keep the old `bookings` domain in sync
+      // this is done because there is a lot of code that relies on the old `bookings` domain data
+      // @see https://pureescapes.atlassian.net/browse/OWA-1030
       yield put(
         backwardCompatBookingBuilderAction(
           action.hotelUuid,
