@@ -1,6 +1,6 @@
 {
     "hooks": {
-        "pre-commit": "yarn typecheck && yarn prettier",
-        "pre-push": "yarn test"
+        "pre-commit": "yarn prettier",
+        "pre-push": "yarn typecheck && yarn test"
     }
 }
