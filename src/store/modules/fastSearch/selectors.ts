@@ -230,3 +230,16 @@ export const nameSearchResultsSelector = createSelector(
     return [[ALL_COUNTRIES_AND_RESORTS], countries, hotels];
   }
 );
+
+export const canSearchSelector = createSelector(
+  lodgingSelector,
+  dateRangeSelector,
+  (lodgings, dateRange): boolean =>
+    [
+      dateRange.start,
+      dateRange.end,
+      lodgings.every(
+        lg => lg.numberOfAdults > 0 || lg.agesOfAllChildren && lg.agesOfAllChildren.length > 0
+      )
+    ].every(item => !!item)
+);
