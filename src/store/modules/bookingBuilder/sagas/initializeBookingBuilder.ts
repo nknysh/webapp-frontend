@@ -6,12 +6,12 @@ import {
   createStubBookingBuilderAction,
   initializeBookingBuilderFailureAction,
 } from '../actions';
-import { bookingBuilderSelector } from 'store/modules/fastSearch/selectors';
+import { fastSearchBookingBuilderSelector } from 'store/modules/fastSearch/selectors';
 import backendApi from 'services/BackendApi';
 
 export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAction) {
   try {
-    const existingBookingBuilder = yield select(bookingBuilderSelector);
+    const existingBookingBuilder = yield select(fastSearchBookingBuilderSelector);
     if (existingBookingBuilder) {
       yield put(copyBookingBuilderAction(existingBookingBuilder));
     } else {

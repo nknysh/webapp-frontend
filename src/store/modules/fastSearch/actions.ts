@@ -6,8 +6,6 @@ import {
   Occasion,
   MealPlanNames,
   NameSearchResponseData,
-  TransferReference,
-  BookingBuilderResponse,
 } from 'services/BackendApi/types';
 
 export const INITIALIZE_QUERY = 'fastSearch/INITIALIZE_QUERY';
@@ -49,21 +47,6 @@ export const DATE_RANGE_CHANGE = 'fastSearch/DATE_RANGE_CHANGE';
 export const INCREMENT_CURRENT_DATE = 'fastSearch/INCREMENT_CURRENT_DATE';
 export const TOGGLE_DATE_PICKER = 'fastSearch/TOGGLE_DATE_PICKER';
 export const SET_DATE_PICKER_VISIBILITY = 'fastSearch/SET_DATE_PICKER_VISIBILITY';
-
-export const UPDATE_TRANSFER = 'bookingBuilder/UPDATE_TRANSFER';
-export const UPDATE_BOOKING_SUCCESS = 'bookingBuilder/UPDATE_BOOKING_SUCCESS';
-
-export const UPDATE_GROUND_SERVICE_ACTION = 'bookingBuilder/UPDATE_GROUND_SERVICE_ACTION';
-export const UPDATE_SUPPLEMENT_ACTION = 'bookingBuilder/UPDATE_SUPPLEMENT_ACTION';
-export const UPDATE_FINE_ACTION = 'bookingBuilder/UPDATE_FINE_ACTION';
-// LODGINGS
-export const UPDATE_LODGING_GUEST_AGES_ACTION = 'bookingBuilder/UPDATE_LODGING_GUEST_AGES_ACTION';
-export const UPDATE_LODGING_DATES_ACTION = 'bookingBuilder/UPDATE_LODGING_DATES_ACTION';
-export const UPDATE_LODGING_MEAL_PLAN_ACTION = 'bookingBuilder/UPDATE_LODGING_MEAL_PLAN_ACTION';
-export const REMOVE_LODGING_ACTION = 'bookingBuilder/REMOVE_LODGING_ACTION';
-export const UPDATE_LODGING_OCCASIONS_ACTION = 'bookingBuilder/UPDATE_LODGING_OCCASIONS_ACTION';
-
-export const ADD_LODGING_ACTION = 'bookingBuilder/ADD_LODGING_ACTION';
 
 // ---------------------------------------------------------------------------------------
 // How to type Redux Actions with as little boilerplate as possible.
@@ -279,96 +262,6 @@ export const namesSearchFailureAction = (errorResponse: ErrorResponse) => ({
   errorResponse,
 });
 
-export type SetNamesSearchResultsVisibilityAction = ReturnType<typeof setNamesSearchResultsVisibilityAction>;
-export const setNamesSearchResultsVisibilityAction = (visible: boolean) => ({
-  type: SET_NAME_SEARCH_RESUTS_VISIBILITY as typeof SET_NAME_SEARCH_RESUTS_VISIBILITY,
-  visible,
-});
-
-export type UpdateTransferAction = ReturnType<typeof updateTransferAction>;
-export const updateTransferAction = (transfer: TransferReference, hotelUuid: string) => ({
-  type: UPDATE_TRANSFER as typeof UPDATE_TRANSFER,
-  transfer,
-  hotelUuid,
-});
-
-export type UpdateGroundServiceAction = ReturnType<typeof updateGroundServiceAction>;
-export const updateGroundServiceAction = (groundService: any, hotelUuid: string) => ({
-  type: UPDATE_GROUND_SERVICE_ACTION as typeof UPDATE_GROUND_SERVICE_ACTION,
-  groundService,
-  hotelUuid,
-});
-
-export type UpdateSupplementAction = ReturnType<typeof updateSupplementAction>;
-export const updateSupplementAction = (supplement: any, hotelUuid: string) => ({
-  type: UPDATE_SUPPLEMENT_ACTION as typeof UPDATE_SUPPLEMENT_ACTION,
-  supplement,
-  hotelUuid,
-});
-
-export type UpdateFineAction = ReturnType<typeof updateFineAction>;
-export const updateFineAction = (fine: any, hotelUuid: string) => ({
-  type: UPDATE_FINE_ACTION as typeof UPDATE_FINE_ACTION,
-  fine,
-  hotelUuid,
-});
-
-export type UpdateBookingSuccessAction = ReturnType<typeof updateBookingSuccessAction>;
-export const updateBookingSuccessAction = (response: BookingBuilderResponse, hotelUuid: string) => ({
-  type: UPDATE_BOOKING_SUCCESS as typeof UPDATE_BOOKING_SUCCESS,
-  response,
-  hotelUuid,
-});
-
-export type UpdateLodgingGuestAgesAction = ReturnType<typeof updateLodgingGuestAges>;
-export const updateLodgingGuestAges = (hotelUuid, lodgingIndex, guestAges) => ({
-  type: UPDATE_LODGING_GUEST_AGES_ACTION as typeof UPDATE_LODGING_GUEST_AGES_ACTION,
-  hotelUuid,
-  lodgingIndex,
-  guestAges,
-});
-
-export type UpdateLodgingMealPlanAction = ReturnType<typeof updateLodgingMealPlan>;
-export const updateLodgingMealPlan = (hotelUuid, lodgingIndex, mealPlanUuids) => ({
-  type: UPDATE_LODGING_MEAL_PLAN_ACTION as typeof UPDATE_LODGING_MEAL_PLAN_ACTION,
-  hotelUuid,
-  lodgingIndex,
-  mealPlanUuids,
-});
-
-export type RemoveLodgingAction = ReturnType<typeof removeLodging>;
-export const removeLodging = (hotelUuid, lodgingIndex) => ({
-  type: REMOVE_LODGING_ACTION as typeof REMOVE_LODGING_ACTION,
-  hotelUuid,
-  lodgingIndex,
-});
-
-export type UpdateLodgingOccasionsAction = ReturnType<typeof updateLodgingOccasions>;
-export const updateLodgingOccasions = (hotelUuid, lodgingIndex, occasions) => ({
-  type: UPDATE_LODGING_OCCASIONS_ACTION as typeof UPDATE_LODGING_OCCASIONS_ACTION,
-  hotelUuid,
-  lodgingIndex,
-  occasions,
-});
-
-export type UpdateLodgingDatesAction = ReturnType<typeof updateLodgingDates>;
-export const updateLodgingDates = (hotelUuid, lodgingIndex, startDate, endDate) => ({
-  type: UPDATE_LODGING_DATES_ACTION as typeof UPDATE_LODGING_DATES_ACTION,
-  hotelUuid,
-  lodgingIndex,
-  startDate,
-  endDate,
-});
-
-// add lodgings
-export type AddLodgingAction = ReturnType<typeof addLodgingAction>;
-export const addLodgingAction = (hotelUuid, accommodationProductUuid, hotelAccommodationProducts) => ({
-  type: ADD_LODGING_ACTION as typeof ADD_LODGING_ACTION,
-  hotelUuid,
-  accommodationProductUuid,
-  hotelAccommodationProducts,
-});
-
 export type DateRangeSelectStartAction = ReturnType<typeof dateRangeSelectStartAction>;
 export const dateRangeSelectStartAction = (date: string) => ({
   type: DATE_RANGE_SELECT_START as typeof DATE_RANGE_SELECT_START,
@@ -393,6 +286,12 @@ export type IncrementCurrentDateAction = ReturnType<typeof incrementCurrentDateA
 export const incrementCurrentDateAction = (step: number) => ({
   type: INCREMENT_CURRENT_DATE as typeof INCREMENT_CURRENT_DATE,
   step,
+});
+
+export type SetNamesSearchResultsVisibilityAction = ReturnType<typeof setNamesSearchResultsVisibilityAction>;
+export const setNamesSearchResultsVisibilityAction = (visible: boolean) => ({
+  type: SET_NAME_SEARCH_RESUTS_VISIBILITY as typeof SET_NAME_SEARCH_RESUTS_VISIBILITY,
+  visible,
 });
 
 // 3. Create a union type which we can pass as the reducers action type.
@@ -429,24 +328,10 @@ export type FastSearchAction =
   | NamesSearchSuccessAction
   | NamesSearchFailureAction
   | SetNamesSearchResultsVisibilityAction
-  | UpdateTransferAction
-  | UpdateBookingSuccessAction
-  | UpdateLodgingGuestAgesAction
-  | UpdateLodgingDatesAction
-  | UpdateLodgingMealPlanAction
-  | RemoveLodgingAction
-  | UpdateLodgingOccasionsAction
-  | AddLodgingAction
-  | UpdateGroundServiceAction
-  | UpdateSupplementAction
-  | UpdateFineAction
-  | UpdateTransferAction
-  | UpdateBookingSuccessAction
   | DateRangeSelectStartAction
   | DateRangeSelectEndAction
   | DateRangeChangeAction
   | IncrementCurrentDateAction
   | ToggleDatePickerAction
   | SetDatePickerVisibilityAction
-  | PopulateQueryAction
-  | UpdateLodgingDatesAction;
+  | PopulateQueryAction;

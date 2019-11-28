@@ -1,7 +1,7 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { bookingBuilderSelector } from 'store/modules/fastSearch';
+import { bookingBuilderSelector } from 'store/modules/bookingBuilder';
 import { fetchHotelRoomRatesByDates, getHotelName } from 'store/modules/hotels';
 import {
   fetchBooking,
@@ -22,7 +22,7 @@ import {
   getAccommodationEditModalErrors,
 } from 'store/modules/bookings';
 
-import { bookingCanBookSelector, bookingResponseNonAccommodationErrors } from 'store/modules/fastSearch';
+import { bookingCanBookSelector, bookingResponseNonAccommodationErrors } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: bookingBuilderSelector(state),

@@ -17,8 +17,10 @@ import {
   getBookingHolds,
 } from 'store/modules/bookings';
 
+import { bookingBuilderSelector } from 'store/modules/bookingBuilder';
+
 export const mapStateToProps = (state, { id }) => ({
-  booking: getBooking(state, id),
+  booking: bookingBuilderSelector(state),
   holds: getBookingHolds(state, id),
   bookingStatus: getBookingStatus(state),
   created: getBookingCreatedByValue(state, id),

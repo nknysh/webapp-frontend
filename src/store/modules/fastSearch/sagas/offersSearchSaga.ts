@@ -10,6 +10,7 @@ import {
   offersSearchSuccessAction,
   SearchRequestAction,
 } from '../actions';
+import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
 
 export function* offersSearchRequestSaga(action: SearchRequestAction) {
   // We need to sanitize the query a little
@@ -25,8 +26,10 @@ export function* offersSearchRequestSaga(action: SearchRequestAction) {
   try {
     const result: AxiosResponse<OffersSearchSuccessResponse> = yield call(backendApi.getOffersSearch, sanitizedQuery);
     yield put(offersSearchSuccessAction(result.data));
+    yield put(clearBookingBuilderAction());
   } catch (e) {
     yield put(offersSearchFailureAction(e));
+    yield put(clearBookingBuilderAction());
   } finally {
     const params = qs.stringify(sanitizedQuery);
     window.history.replaceState({}, '', decodeURIComponent(`${location.pathname}?${params}`));

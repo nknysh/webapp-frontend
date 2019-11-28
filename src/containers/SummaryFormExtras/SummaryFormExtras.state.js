@@ -41,7 +41,7 @@ import {
   updateSupplementAction,
   updateFineAction,
   bookingCanBookSelector,
-} from 'store/modules/fastSearch';
+} from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => {
   const travelAgentUserUuid = getBookingTravelAgent(state, id);

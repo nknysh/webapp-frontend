@@ -73,6 +73,8 @@ import {
   queryHasChangedSelector,
 } from 'store/modules/fastSearch';
 
+import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
+
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
   componentDidMount() {
     if (!this.props.searchOptions) {
@@ -85,10 +87,12 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
     if (!window.location.search && !this.props.searchResults) {
       this.props.getOffers(this.props.searchQuery);
+      clearBookingBuilderAction();
     }
 
     if (this.props.searchResults && this.props.queryHasChanged) {
       this.props.getOffers(this.props.searchQuery);
+      clearBookingBuilderAction();
     }
 
     if (this.props.searchQuery.name === '') {
@@ -102,6 +106,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
   handleSubmit = () => {
     this.props.getOffers(this.props.searchQuery);
+    clearBookingBuilderAction();
   };
 
   handleToggleLodgingControls = () => {
@@ -366,6 +371,7 @@ const actionCreators = {
   setDatePickerVisibility: setDatePickerVisibilityAction,
   initializeQuery: initializeQueryAction,
   toggleRepeatGuest: toggleRepeatGuestAction,
+  clearBookingBuilderAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -373,6 +379,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, FastSearchProps>(mapStateToProps, mapDispatchToProps);
+const withConnect = connect<StateToProps, DispatchToProps, FastSearchProps>(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
-export const FastSearchContainerConnected = compose(withConnect, withRouter)(FastSearchContainer);
+export const FastSearchContainerConnected = compose(
+  withConnect,
+  withRouter
+)(FastSearchContainer);

@@ -1,4 +1,5 @@
 import { curry, lensProp, pipe, identity, defaultTo } from 'ramda';
+import { addDays } from 'date-fns';
 
 import { Status } from 'store/common/status';
 
@@ -83,3 +84,15 @@ export const reducerShim = pipe(
   identity,
   defaultTo({})
 );
+
+export const getDefaultSearchAndBookingStartDate = () => {
+  return addDays(new Date(), 7)
+    .toISOString()
+    .split('T')[0];
+};
+
+export const getDefaultSearchAndBookingEndDate = () => {
+  return addDays(new Date(), 21)
+    .toISOString()
+    .split('T')[0];
+};

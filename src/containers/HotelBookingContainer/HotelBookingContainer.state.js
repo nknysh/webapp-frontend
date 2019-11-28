@@ -11,11 +11,8 @@ import { fetchHotel, getHotelStatus } from 'store/modules/hotel';
 import {
   completeAndHold,
   completeBooking,
-  getBooking,
-  getBookingCanHold,
   getBookingCreated,
   getBookingCurrencySymbol,
-  getBookingReady,
   getBookingStatus,
   getBookingTotal,
   isBookingOnRequest,
@@ -26,6 +23,8 @@ import {
 import { fields as guestFields } from 'config/forms/bookingForm';
 
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
+
+import { bookingSelector, bookingCanBookSelector, bookingCanHoldSelector } from 'store/modules/bookingBuilder';
 
 export const useHotelBookingContainerState = () => {
   const [complete, setComplete] = useState(false);
@@ -42,10 +41,10 @@ export const useHotelBookingContainerState = () => {
 };
 
 export const mapStateToProps = (state, { id }) => ({
-  booking: getBooking(state, id),
+  booking: bookingSelector(state),
   bookingStatus: getBookingStatus(state),
-  canBook: getBookingReady(state, id),
-  canHold: getBookingCanHold(state, id),
+  canBook: bookingCanBookSelector(state),
+  canHold: bookingCanHoldSelector(state),
   created: getBookingCreated(state, id),
   currencyCode: getBookingCurrencySymbol(state, id),
   dates: getSearchDates(state),

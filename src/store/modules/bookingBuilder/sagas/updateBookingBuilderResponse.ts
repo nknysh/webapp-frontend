@@ -1,9 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { call, takeLatest, select, put } from 'redux-saga/effects';
 import {
-  OPTIONS_REQUEST,
-  optionsFailureAction,
-  optionsSuccessAction,
+  updateBookingSuccessAction,
   UPDATE_TRANSFER,
   UPDATE_LODGING_GUEST_AGES_ACTION,
   UPDATE_LODGING_MEAL_PLAN_ACTION,
@@ -13,7 +11,6 @@ import {
   UPDATE_GROUND_SERVICE_ACTION,
   UPDATE_SUPPLEMENT_ACTION,
   UPDATE_FINE_ACTION,
-  updateBookingSuccessAction,
   UPDATE_LODGING_DATES_ACTION,
 } from '../actions';
 
@@ -34,7 +31,7 @@ export function* bookingBuilderResponseSaga(action: any) {
   }
 }
 
-export function* watchTransferUpdate() {
+export function* watchBookingActions() {
   yield takeLatest(
     [
       UPDATE_TRANSFER,

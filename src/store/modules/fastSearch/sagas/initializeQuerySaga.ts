@@ -4,6 +4,7 @@ import backendApi, { OffersSearchSuccessResponse } from 'services/BackendApi';
 import qs from 'qs';
 import { InitializeQueryAction, INITIALIZE_QUERY } from '../actions';
 import { offersSearchFailureAction, offersSearchSuccessAction, populateQueryAction } from '../actions';
+import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
 
 export function* initializeQuerySaga(action: InitializeQueryAction) {
   try {
@@ -12,8 +13,10 @@ export function* initializeQuerySaga(action: InitializeQueryAction) {
     const result: AxiosResponse<OffersSearchSuccessResponse> = yield call(backendApi.getOffersSearch, sanitizedQuery);
     yield put(offersSearchSuccessAction(result.data));
     yield put(populateQueryAction(sanitizedQuery));
+    yield put(clearBookingBuilderAction());
   } catch (e) {
     yield put(offersSearchFailureAction(e));
+    yield put(clearBookingBuilderAction());
   }
 }
 

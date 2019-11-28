@@ -312,7 +312,7 @@ const renderTransferOptionsSimple = (
       <RadioButton
         onChange={e => handleRadioClick(e)}
         options={bothWayTransfersOptions}
-        value={selectedTransferOptions[0].uuid}
+        value={selectedTransferOptions[0] ? selectedTransferOptions[0].uuid : undefined}
       />
     </React.Fragment>
   );
@@ -903,7 +903,6 @@ export const SummaryFormExtras = ({
 
         {isTransferSectionCollapsed === false &&
           renderTransferOptionsSimple(t, selectedTransfers, transfers, updateTransferAction, id, currencyCode)}
-        {/* renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, optionsProps, false, false)} */}
       </React.Fragment>
     );
   };
@@ -1015,12 +1014,14 @@ export const SummaryFormExtras = ({
       modalContent = '';
   }
 
+  const totalCents = booking?.response?.aggregateTotals?.Totals?.totalForPricedItemsCents;
+
   return (
     <Fragment>
       {transfers.length >= 1 && <TransfersWrapper />}
       {groundServices.length >= 1 && <GroundServicesWrapper />}
       {addons.length >= 1 && <AddonsWrapper />}
-      {booking && booking.response && booking.response.aggregateTotals && (
+      {totalCents && totalCents > 0 && (
         <React.Fragment>
           <hr />
           <label>

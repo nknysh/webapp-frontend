@@ -49,6 +49,8 @@ import {
   toggleRepeatGuestAction,
 } from 'store/modules/fastSearch';
 
+import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
+
 // Connect to the store
 // ---------------------------------------------------------------------------------------------------------------
 const mapStateToProps = createStructuredSelector<any, any>({
@@ -91,6 +93,7 @@ const actionCreators = {
   setDatePickerVisibility: setDatePickerVisibilityAction,
   initializeQuery: initializeQueryAction,
   toggleRepeatGuest: toggleRepeatGuestAction,
+  clearBookingBuilderAction,
 };
 
 export interface IWithBasicSearchHandlers {
@@ -129,6 +132,7 @@ export const makeWithBasicSearch = (WrappedComponent: any) =>
 
     handleSubmit = () => {
       this.props.getOffers(this.props.searchQuery);
+      clearBookingBuilderAction();
     };
 
     handleNavigateToSearch = () => {

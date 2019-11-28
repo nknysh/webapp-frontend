@@ -138,6 +138,9 @@ const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, avail
 };
 
 const renderLodgingSummaries = (t, booking, props) => {
+  if (!booking) {
+    return null;
+  }
   const { request: bookingRequest, response: bookingResponse } = booking;
   const { editGuard, onEditGuard, setModalId } = props;
 
@@ -163,6 +166,10 @@ const renderLodgingSummaries = (t, booking, props) => {
       occasionsBreakdown: getOccassionsBreakdownForLodging(requestedAccommodation),
     };
   });
+
+  if (lodgingSummaries.length <= 0) {
+    return null;
+  }
 
   return (
     <React.Fragment>
@@ -420,7 +427,6 @@ export const SummaryForm = props => {
   //   status: bookingStatus,
   //   overrideTotal,
   // } = booking.response;
-  // console.log('booking', booking);
 
   const initialValues = {
     // marginApplied,

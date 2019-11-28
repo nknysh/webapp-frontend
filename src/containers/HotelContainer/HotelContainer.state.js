@@ -6,13 +6,13 @@ import { fetchHotel } from 'store/modules/hotel';
 import { addRoom, getBooking, removeRoom, updateBooking } from 'store/modules/bookings';
 
 import {
+  initializeBookingBuilderAction,
   bookingCanBookSelector,
   bookingCanHoldSelector,
   bookingPaymentTermsSelector,
   bookingCancellationPoliciesSelector,
   bookingOffersTermsSelector,
-} from 'store/modules/fastSearch';
-import { initializeBookingBuilderAction } from 'store/modules/bookingBuilder/actions';
+} from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: getBooking(state, id),

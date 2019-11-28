@@ -8,8 +8,8 @@ import {
   SearchOptions,
   NameSearchResponseData,
 } from 'services/BackendApi';
-import { addDays } from 'date-fns';
 import { ALL_COUNTRIES_AND_RESORTS } from './constants';
+import { getDefaultSearchAndBookingStartDate, getDefaultSearchAndBookingEndDate } from '../../utils';
 
 export interface FastSearchDomain {
   options: SearchOptions | null; // We should look at using fp-ts to make use of `Option` types
@@ -75,12 +75,8 @@ export const initialState: FastSearchDomain = {
     regions: [],
     filters: [],
     starRatings: ['5' as StarRating, '5+' as StarRating],
-    startDate: addDays(new Date(), 7)
-      .toISOString()
-      .split('T')[0],
-    endDate: addDays(new Date(), 21)
-      .toISOString()
-      .split('T')[0],
+    startDate: getDefaultSearchAndBookingStartDate(),
+    endDate: getDefaultSearchAndBookingEndDate(),
     priceRange: { min: 1, max: 100000 },
   },
 };

@@ -571,3 +571,24 @@ export interface OffersSearchSuccessResponse {
   meta: Meta;
   data: OffersSearchData;
 }
+
+export interface HotelAccommodationProduct {
+  uuid: string;
+  title: string;
+  description: string;
+  size: number;
+  categoryType: string;
+  category: string;
+  datesCount: number;
+  availableToHold: boolean;
+  defaultMealPlanUuid: string;
+  amenities: string[];
+  occupancy: any;
+  errors: any[];
+  photos: any[];
+  floorPlans: any[];
+  dates: string[];
+  totals: any[];
+  appliedOfferNames: string[];
+  potentialBooking: any;
+}
