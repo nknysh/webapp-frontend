@@ -158,8 +158,6 @@ export const addLodgingAction = (
   endDate,
 });
 
-// backwardCompatBookingBuilderAction
-
 export type ForwardsCompatBookingBuilderAction = ReturnType<typeof forwardsCompatBookingBuilderAction>;
 export const forwardsCompatBookingBuilderAction = (booking: any, holds: any) => ({
   type: FORWARDS_COMPAT_BOOKING_BUILDER_ACTION as typeof FORWARDS_COMPAT_BOOKING_BUILDER_ACTION,
