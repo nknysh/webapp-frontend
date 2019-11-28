@@ -99,6 +99,7 @@ export const BOOKING_SUBMIT = 'BOOKING_SUBMIT';
 export const BOOKING_UPDATE = 'BOOKING_UPDATE';
 export const BOOKINGS_SET = 'BOOKINGS_SET';
 export const BOOKINGS_FETCH = 'BOOKINGS_FETCH';
+export const BACKWARDS_COMPAT = 'BACKWARDS_COMPAT';
 
 const omitProps = [
   'agesOfAllChildren',
@@ -1321,4 +1322,39 @@ export const updateBookingOccasions = (hotelUuid, lodgingIndex, occasions) => as
   };
 
   return updateBooking(hotelUuid, payload)(dispatch, getState);
+};
+
+export const backwardCompatBookingBuilderAction = (hotelUuid, request, response) => {
+
+  return {
+    type: BACKWARDS_COMPAT,
+    payload: {
+      hotelUuid,
+      request,
+      response
+    }
+  }
+  // const state = getState();
+
+  // const requestedBuildAccommodation = pathOr(
+  //   [],
+  //   ['bookings', 'data', hotelUuid, 'breakdown', 'requestedBuild', 'Accommodation'],
+  //   state
+  // );
+
+  // let lodgingToAmend = requestedBuildAccommodation[lodgingIndex];
+
+  // lodgingToAmend = { ...lodgingToAmend, ...occasions };
+
+  // requestedBuildAccommodation[lodgingIndex] = lodgingToAmend;
+
+  // const payload = {
+  //   breakdown: {
+  //     requestedBuild: {
+  //       Accommodation: requestedBuildAccommodation,
+  //     },
+  //   },
+  // };
+
+  // return updateBooking(hotelUuid, payload)(dispatch, getState);
 };

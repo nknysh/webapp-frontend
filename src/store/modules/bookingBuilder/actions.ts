@@ -94,39 +94,44 @@ export const updateBookingSuccessAction = (response: BookingBuilderResponse, hot
   hotelUuid,
 });
 
-export type UpdateLodgingGuestAgesAction = ReturnType<typeof updateLodgingGuestAges>;
-export const updateLodgingGuestAges = (hotelUuid: string, lodgingIndex: number, guestAges: GuestAges) => ({
+export type UpdateLodgingGuestAgesAction = ReturnType<typeof updateLodgingGuestAgesAction>;
+export const updateLodgingGuestAgesAction = (hotelUuid: string, lodgingIndex: number, guestAges: GuestAges) => ({
   type: UPDATE_LODGING_GUEST_AGES_ACTION as typeof UPDATE_LODGING_GUEST_AGES_ACTION,
   hotelUuid,
   lodgingIndex,
   guestAges,
 });
 
-export type UpdateLodgingMealPlanAction = ReturnType<typeof updateLodgingMealPlan>;
-export const updateLodgingMealPlan = (hotelUuid: string, lodgingIndex: number, mealPlanUuids: string[]) => ({
+export type UpdateLodgingMealPlanAction = ReturnType<typeof updateLodgingMealPlanAction>;
+export const updateLodgingMealPlanAction = (hotelUuid: string, lodgingIndex: number, mealPlanUuids: string[]) => ({
   type: UPDATE_LODGING_MEAL_PLAN_ACTION as typeof UPDATE_LODGING_MEAL_PLAN_ACTION,
   hotelUuid,
   lodgingIndex,
   mealPlanUuids,
 });
 
-export type RemoveLodgingAction = ReturnType<typeof removeLodging>;
-export const removeLodging = (hotelUuid: string, lodgingIndex: number) => ({
+export type RemoveLodgingAction = ReturnType<typeof removeLodgingAction>;
+export const removeLodgingAction = (hotelUuid: string, lodgingIndex: number) => ({
   type: REMOVE_LODGING_ACTION as typeof REMOVE_LODGING_ACTION,
   hotelUuid,
   lodgingIndex,
 });
 
-export type UpdateLodgingOccasionsAction = ReturnType<typeof updateLodgingOccasions>;
-export const updateLodgingOccasions = (hotelUuid: string, lodgingIndex: number, occasions: object) => ({
+export type UpdateLodgingOccasionsAction = ReturnType<typeof updateLodgingOccasionsAction>;
+export const updateLodgingOccasionsAction = (hotelUuid: string, lodgingIndex: number, occasions: object) => ({
   type: UPDATE_LODGING_OCCASIONS_ACTION as typeof UPDATE_LODGING_OCCASIONS_ACTION,
   hotelUuid,
   lodgingIndex,
   occasions,
 });
 
-export type UpdateLodgingDatesAction = ReturnType<typeof updateLodgingDates>;
-export const updateLodgingDates = (hotelUuid: string, lodgingIndex: number, startDate: string, endDate: string) => ({
+export type UpdateLodgingDatesAction = ReturnType<typeof updateLodgingDatesAction>;
+export const updateLodgingDatesAction = (
+  hotelUuid: string,
+  lodgingIndex: number,
+  startDate: string,
+  endDate: string
+) => ({
   type: UPDATE_LODGING_DATES_ACTION as typeof UPDATE_LODGING_DATES_ACTION,
   hotelUuid,
   lodgingIndex,

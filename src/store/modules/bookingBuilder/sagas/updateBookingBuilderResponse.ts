@@ -18,6 +18,8 @@ import { makeBackendApi, BookingBuilderEndpointSuccess } from 'services/BackendA
 import { bookingRequestSelector } from '../selectors';
 import { getUserCountryContext } from 'store/modules/auth';
 
+import { backwardCompatBookingBuilderAction } from 'store/modules/bookings';
+
 export function* bookingBuilderResponseSaga(action: any) {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
@@ -29,6 +31,12 @@ export function* bookingBuilderResponseSaga(action: any) {
     );
 
     yield put(updateBookingSuccessAction(bookingBuilderEndpointResponse.data.data, action.hotelUuid));
+
+    //
+    // this action ensures that every single time we update our new booking builder response, we keep the old `bookings` domain in sync
+    // this is done because there is a lot of code that relies on the old `bookings` domain data
+    //
+    yield put(backwardCompatBookingBuilderAction(action.hotelUuid, request, bookingBuilderEndpointResponse.data.data));
   } catch (e) {
     // yield put(bookingRequestFailureAction(e));
   }

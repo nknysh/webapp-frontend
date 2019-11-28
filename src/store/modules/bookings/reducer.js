@@ -19,6 +19,7 @@ import {
   BOOKING_CREATED_REMOVE,
   BOOKING_REQUEST,
   BOOKINGS_FETCH,
+  BACKWARDS_COMPAT,
 } from './actions';
 
 /**
@@ -120,6 +121,11 @@ const setBookingOccupancyCheckErrors = (state, payload) => {
   return state;
 };
 
+const handleBackwardsCompat = (state, payload) => {
+  console.log('state', state);
+  console.log('payload', payload);
+};
+
 export default createReducer(
   {
     [BOOKING_CHECKS]: loadingReducer,
@@ -134,6 +140,7 @@ export default createReducer(
     [BOOKINGS_SET]: loadingReducer,
     [BOOKINGS_FETCH]: loadingReducer,
     [BOOKING_POPULATE_BULK]: populateBookingBulkReducer,
+    [BACKWARDS_COMPAT]: handleBackwardsCompat,
 
     [getErrorActionName(BOOKING_CHECKS)]: errorReducer,
     [getErrorActionName(BOOKING_FETCH)]: errorReducer,

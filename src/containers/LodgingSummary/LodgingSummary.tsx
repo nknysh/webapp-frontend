@@ -69,11 +69,11 @@ export const LodgingSummaryRender = props => {
   const availableProductSets: BookingBuilderAvailableProductSets = props.availableProductSets;
   const potentialBooking: any = props.potentialBooking;
 
-  const updateLodgingGuestAges: Function = props.updateLodgingGuestAges;
-  const updateLodgingMealPlan: Function = props.updateLodgingMealPlan;
-  const updateLodgingDates: Function = props.updateLodgingDates;
-  const removeLodging: Function = props.removeLodging;
-  const updateLodgingOccasions: Function = props.updateLodgingOccasions;
+  const updateLodgingGuestAgesAction: Function = props.updateLodgingGuestAgesAction;
+  const updateLodgingMealPlanAction: Function = props.updateLodgingMealPlanAction;
+  const updateLodgingDatesAction: Function = props.updateLodgingDatesAction;
+  const removeLodgingAction: Function = props.removeLodgingAction;
+  const updateLodgingOccasionsAction: Function = props.updateLodgingOccasionsAction;
   const currencyCode: string = props.currencyCode;
   const editGuard: boolean = props.editGuard;
   const onEditGuard: Function = props.onEditGuard;
@@ -116,7 +116,7 @@ export const LodgingSummaryRender = props => {
         numberOfAdults,
         agesOfAllChildren,
       };
-      updateLodgingGuestAges(lodging.hotelUuid, lodging.index, newGuestAges);
+      updateLodgingGuestAgesAction(lodging.hotelUuid, lodging.index, newGuestAges);
       onUpdate(true);
     };
 
@@ -183,7 +183,7 @@ export const LodgingSummaryRender = props => {
 
     const handleMealPlanSetSelection = (event, mealPlanSetUuid) => {
       const mealPlanUuids = mealPlanSetUuid.split('/');
-      updateLodgingMealPlan(lodging.hotelUuid, lodging.index, mealPlanUuids);
+      updateLodgingMealPlanAction(lodging.hotelUuid, lodging.index, mealPlanUuids);
       onUpdate(true);
     };
 
@@ -228,7 +228,7 @@ export const LodgingSummaryRender = props => {
                 // if we have a `startDate`, or `from` or `to` are empty, return out
                 return;
               }
-              updateLodgingDates(lodging.hotelUuid, lodging.index, dateValues.from, dateValues.to);
+              updateLodgingDatesAction(lodging.hotelUuid, lodging.index, dateValues.from, dateValues.to);
               setIsCollapsed(true);
             }}
             selectedValues={{
@@ -286,7 +286,7 @@ export const LodgingSummaryRender = props => {
         {!isCollapsed && (
           <OccasionsSelect
             onChange={e => {
-              updateLodgingOccasions(lodging.hotelUuid, lodging.index, e.occasions);
+              updateLodgingOccasionsAction(lodging.hotelUuid, lodging.index, e.occasions);
             }}
             occasions={undefined} // need to specify undefined because OccassionsSelect is setup badly
             selected={lodging}
@@ -364,7 +364,7 @@ export const LodgingSummaryRender = props => {
       </CollapsibleSection>
       <ButtonSmall
         onClick={() => {
-          removeLodging(lodging.hotelUuid, lodging.index);
+          removeLodgingAction(lodging.hotelUuid, lodging.index);
         }}
       >
         {t('labels.removeLodging')}

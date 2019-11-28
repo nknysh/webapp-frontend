@@ -1,15 +1,15 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { updateRequestedBuildLodgingDates, getBookingCurrencySymbol } from 'store/modules/bookings';
+import { getBookingCurrencySymbol } from 'store/modules/bookings';
 
 import {
-  updateLodgingGuestAges,
-  updateLodgingMealPlan,
-  updateLodgingOccasions,
-  updateLodgingDates,
-  removeLodging,
-} from 'store/modules/fastSearch';
+  updateLodgingGuestAgesAction,
+  updateLodgingMealPlanAction,
+  updateLodgingOccasionsAction,
+  updateLodgingDatesAction,
+  removeLodgingAction,
+} from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { hotelUuid }) => {
   return {
@@ -20,12 +20,11 @@ export const mapStateToProps = (state, { hotelUuid }) => {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      updateLodgingGuestAges,
-      updateLodgingMealPlan,
-      updateRequestedBuildLodgingDates,
-      updateLodgingDates,
-      removeLodging,
-      updateLodgingOccasions,
+      updateLodgingGuestAgesAction,
+      updateLodgingMealPlanAction,
+      updateLodgingDatesAction,
+      removeLodgingAction,
+      updateLodgingOccasionsAction,
     },
     dispatch
   );
