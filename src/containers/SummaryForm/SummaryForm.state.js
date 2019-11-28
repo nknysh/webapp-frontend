@@ -9,8 +9,6 @@ import {
   getBookingAppliedOffersCount,
   getBookingCurrencySymbol,
   getBookingHolds,
-  getBookingNonAccommodationErrors,
-  getBookingReady,
   getBookingStatus,
   getBookingTotal,
   getBookingTotalBeforeDiscount,

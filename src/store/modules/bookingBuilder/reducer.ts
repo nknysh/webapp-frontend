@@ -415,8 +415,6 @@ export const forwardsCompatBookingBuilderReducer = (
   action: Actions.ForwardsCompatBookingBuilderAction
 ): BookingBuilderDomain => {
   return produce(state, draftState => {
-    // draftState.currentBookingBuilder = makeBookingBuilderStub(action.hotel);
-
     if (!action.booking.breakdown || !action.booking.breakdown.requestedBuild) {
       return draftState;
     }
@@ -434,9 +432,6 @@ export const forwardsCompatBookingBuilderReducer = (
       },
       breakdown: undefined,
     };
-
-    console.log('action.booking', action.booking);
-    console.log('action.holds', action.holds);
 
     return draftState;
   });

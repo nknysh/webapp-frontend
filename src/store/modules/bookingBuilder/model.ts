@@ -3,6 +3,9 @@ import { BookingBuilder } from 'services/BackendApi';
 export interface BookingBuilderDomain {
   currentBookingBuilder: BookingBuilder | null;
   hotelUuid: string | null;
+
+  // these are here for forward compat reasons
+  // they were found by loading up a booking and seeing what was inside the base booking data object
   uuid: string | null;
   checkInDate: string | null;
   checkOutDate: string | null;
