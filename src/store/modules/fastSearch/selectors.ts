@@ -44,8 +44,17 @@ export const orderedSearchResults = createSelector(
     }
 
     return results.sort((a: HotelResult, b: HotelResult) => {
-      const totalA = a.bookingBuilder.response.totals.totalForPricedItemsCents;
-      const totalB = b.bookingBuilder.response.totals.totalForPricedItemsCents;
+      const totalsA = a.bookingBuilder.response.totals;
+      const totalsB = b.bookingBuilder.response.totals; 
+
+      if(totalsA.oneOrMoreItemsOnRequest || totalsB.oneOrMoreItemsOnRequest){
+        return totalsA.oneOrMoreItemsOnRequest === totalsB.oneOrMoreItemsOnRequest
+          ? 0
+          : totalsA.oneOrMoreItemsOnRequest ? 1 : -1;
+      }
+
+      const totalA = totalsA.totalForPricedItemsCents;
+      const totalB = totalsB.totalForPricedItemsCents;
       return totalA - totalB;
     });
   }
