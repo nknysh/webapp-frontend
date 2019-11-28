@@ -35,8 +35,8 @@ export class BackendApiService<T extends AxiosInstance> {
     this.client.get(BackendEndpoints.SEARCH_OPTIONS);
 
   getOffersSearch = async (query: SearchQuery): Promise<AxiosResponse<OffersSearchSuccessResponse | ErrorResponse>> => {
-    const endpoint = `${BackendEndpoints.SEARCH}?${qs.stringify(query)}`;
-    return this.client.get(endpoint);
+    const endpoint = `${BackendEndpoints.SEARCH}`;
+    return this.client.get(endpoint, { params: query });
   };
 
   getNamesSearch = async (name: string): Promise<AxiosResponse<ErrorResponse | ErrorResponse>> => {
@@ -95,9 +95,18 @@ export class BackendApiService<T extends AxiosInstance> {
   };
 }
 
-const client = axios.create({
-  baseURL: process.env.BACKEND_BASE_URL,
-  withCredentials: true,
-});
+export const makeBackendApi = (actingCountryCode: string): BackendApiService<AxiosInstance> => {
+  const client = axios.create({
+    baseURL: process.env.BACKEND_BASE_URL,
+    withCredentials: true,
+    paramsSerializer: params => {
+      return qs.stringify(params);
+    },
+  });
 
-export default new BackendApiService<AxiosInstance>(client);
+  client.defaults.params = {
+    actingCountryCode: actingCountryCode,
+  };
+
+  return new BackendApiService<AxiosInstance>(client);
+};

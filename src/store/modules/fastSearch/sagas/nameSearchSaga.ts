@@ -6,11 +6,14 @@ import {
   namesSearchFailureAction,
   DestinationChangeAction,
 } from '../actions';
-import backendApi, { NameSearchResponse } from 'services/BackendApi';
+import { makeBackendApi, NameSearchResponse } from 'services/BackendApi';
 import { ALL_COUNTRIES_AND_RESORTS } from '../constants';
+import { getUserCountryContext } from 'store/modules/auth';
 
 export function* nameSearchSaga(action: DestinationChangeAction) {
   try {
+    const actingCountryCode = yield select(getUserCountryContext);
+    const backendApi = makeBackendApi(actingCountryCode);
     const query = action.value === ALL_COUNTRIES_AND_RESORTS ? '' : action.value;
 
     const result: AxiosResponse<NameSearchResponse> = yield call(backendApi.getNamesSearch, query);

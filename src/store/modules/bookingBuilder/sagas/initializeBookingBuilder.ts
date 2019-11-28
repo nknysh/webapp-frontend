@@ -7,10 +7,13 @@ import {
   initializeBookingBuilderFailureAction,
 } from '../actions';
 import { fastSearchBookingBuilderSelector } from 'store/modules/fastSearch/selectors';
-import backendApi from 'services/BackendApi';
+import { makeBackendApi } from 'services/BackendApi';
+import { getUserCountryContext } from 'store/modules/auth';
 
 export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAction) {
   try {
+  const actingCountryCode = yield select(getUserCountryContext);
+  const backendApi = makeBackendApi(actingCountryCode);
     const existingBookingBuilder = yield select(fastSearchBookingBuilderSelector);
     if (existingBookingBuilder) {
       yield put(copyBookingBuilderAction(existingBookingBuilder));

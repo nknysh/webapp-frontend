@@ -1,5 +1,4 @@
 import client from 'api';
-import { getSearchQuery } from 'store/modules/search';
 import { pathOr, path } from 'ramda';
 import { formatDate } from 'utils';
 import { subDays } from 'date-fns';
