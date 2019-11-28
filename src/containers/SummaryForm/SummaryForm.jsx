@@ -533,7 +533,7 @@ export const SummaryForm = props => {
           ...props,
         })} */}
         {renderHotel(t, {
-          name: hotelName || booking.response.hotel.name || 'Hotel',
+          name: hotelName || booking?.response?.hotel?.name || 'Hotel',
           overrideTotal: booking?.response?.totals?.total || '0.00',
           ...props,
         })}

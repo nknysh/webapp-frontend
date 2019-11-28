@@ -45,6 +45,9 @@ const bookingBuilderReducer = (state: BookingBuilderDomain = initialState, actio
 
     case Actions.INITIALIZE_BOOKING_BUILDER:
       return initializeBookingBuilderReducer(state, action);
+
+    case Actions.FORWARDS_COMPAT_BOOKING_BUILDER_ACTION:
+      return forwardsCompatBookingBuilderReducer(state, action);
     default:
       return state;
   }
@@ -402,6 +405,38 @@ export const copyBookingBuilderReducer = (
 export const createStubBookingBuilderReducer = (state: BookingBuilderDomain, action): BookingBuilderDomain => {
   return produce(state, draftState => {
     draftState.currentBookingBuilder = makeBookingBuilderStub(action.hotel);
+
+    return draftState;
+  });
+};
+
+export const forwardsCompatBookingBuilderReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.ForwardsCompatBookingBuilderAction
+): BookingBuilderDomain => {
+  return produce(state, draftState => {
+    // draftState.currentBookingBuilder = makeBookingBuilderStub(action.hotel);
+
+    if (!action.booking.breakdown || !action.booking.breakdown.requestedBuild) {
+      return draftState;
+    }
+
+    draftState = {
+      ...action.booking,
+      currentBookingBuilder: {
+        request: {
+          ...action.booking.breakdown.requestedBuild,
+        },
+        response: {
+          ...action.booking.breakdown,
+          requestedBuild: undefined,
+        },
+      },
+      breakdown: undefined,
+    };
+
+    console.log('action.booking', action.booking);
+    console.log('action.holds', action.holds);
 
     return draftState;
   });

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { Fragment, useState, useCallback, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import {
@@ -93,6 +93,9 @@ const renderBookingStatus = (t, { booking }) =>
   renderStatus(undefined, t(prop('status', booking)), prop('status', booking));
 
 const renderStatusStrip = (t, { isSr, booking, onStatusChange }) => {
+  if (isNilOrEmpty(booking)) {
+    return null;
+  }
   const bookingStatus = prop('status', booking);
 
   const statuses = {
@@ -135,6 +138,9 @@ const fieldIsEmpty = (key, record) =>
   )(record);
 
 const renderFlightInfo = (t, { booking }) => {
+  if (isNilOrEmpty(booking)) {
+    return null;
+  }
   const flightInfo = [
     {
       direction: 'Arriving',
@@ -317,9 +323,25 @@ export const BookingContainer = ({
   cancelBooking,
   amended,
   holds,
+  forwardsCompatBookingBuilderAction,
 }) => {
   const { t } = useTranslation();
-  const loaded = useFetchData(bookingStatus, fetchBooking, [id], [created]);
+
+  const [isLoading, setIsLoaded] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      await fetchBooking(id);
+      setIsLoaded(false);
+    }
+    if (isNilOrEmpty(booking)) {
+      load();
+    }
+  }, [fetchBooking, forwardsCompatBookingBuilderAction, booking, holds, id]);
+
+  // forwards compat the booking builder
+  forwardsCompatBookingBuilderAction(booking, holds);
+
   const { isMobile } = useCurrentWidth();
 
   // Whether there is a created ID for this booking
@@ -392,7 +414,7 @@ export const BookingContainer = ({
   };
 
   return (
-    <Loader isLoading={!loaded} text={t('messages.gettingBooking')}>
+    <Loader isLoading={isLoading} text={t('messages.gettingBooking')}>
       <Container>
         <Booking>{isMobile ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}</Booking>
         {renderModal(t, { isSr, onModalSubmit, booking, ...modal })}

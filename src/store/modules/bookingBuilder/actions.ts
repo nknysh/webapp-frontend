@@ -31,6 +31,8 @@ export const UPDATE_LODGING_OCCASIONS_ACTION = 'bookingBuilder/UPDATE_LODGING_OC
 
 export const ADD_LODGING_ACTION = 'bookingBuilder/ADD_LODGING_ACTION';
 
+export const FORWARDS_COMPAT_BOOKING_BUILDER_ACTION = 'bookingBuilder/FORWARDS_COMPAT_BOOKING_BUILDER_ACTION';
+
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
   type: INITIALIZE_BOOKING_BUILDER as typeof INITIALIZE_BOOKING_BUILDER,
@@ -156,6 +158,15 @@ export const addLodgingAction = (
   endDate,
 });
 
+// backwardCompatBookingBuilderAction
+
+export type ForwardsCompatBookingBuilderAction = ReturnType<typeof forwardsCompatBookingBuilderAction>;
+export const forwardsCompatBookingBuilderAction = (booking: any, holds: any) => ({
+  type: FORWARDS_COMPAT_BOOKING_BUILDER_ACTION as typeof FORWARDS_COMPAT_BOOKING_BUILDER_ACTION,
+  booking,
+  holds,
+});
+
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -171,4 +182,5 @@ export type BookingBuilderAction =
   | AddLodgingAction
   | UpdateGroundServiceAction
   | UpdateSupplementAction
-  | UpdateFineAction;
+  | UpdateFineAction
+  | ForwardsCompatBookingBuilderAction;
