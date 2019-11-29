@@ -41,6 +41,8 @@ import {
   updateSupplementAction,
   updateFineAction,
   bookingCanBookSelector,
+  updateTAMarginTypeAction,
+  updateTAMarginAmountAction,
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => {
@@ -103,6 +105,14 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateFineAction: pipe(
     updateFineAction,
+    dispatch
+  ),
+  updateTAMarginTypeAction: pipe(
+    updateTAMarginTypeAction,
+    dispatch
+  ),
+  updateTAMarginAmountAction: pipe(
+    updateTAMarginAmountAction,
     dispatch
   ),
 });

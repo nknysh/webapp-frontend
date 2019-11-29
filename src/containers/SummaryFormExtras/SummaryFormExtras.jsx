@@ -757,6 +757,8 @@ export const SummaryFormExtras = ({
   updateFineAction,
   availableSupplements,
   availableFines,
+  updateTAMarginTypeAction,
+  updateTAMarginAmountAction,
 }) => {
   const { t } = useTranslation();
   const hasTASelect = isSr && !isRl;
@@ -809,6 +811,13 @@ export const SummaryFormExtras = ({
       const payload = equals('checkbox', type)
         ? { [name]: checked }
         : { taMarginType: marginType, taMarginAmount: marginValue };
+
+      // @see 1017
+      // need to fire to a new action and have a reducer pick it up and put it in the booking
+      // builder domain
+      // but need to clear out if the text box is not checked or something?
+      updateTAMarginTypeAction(marginType);
+      updateTAMarginAmountAction(marginValue);
 
       updateBooking(id, payload);
     },

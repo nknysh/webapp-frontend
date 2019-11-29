@@ -33,6 +33,9 @@ export const ADD_LODGING_ACTION = 'bookingBuilder/ADD_LODGING_ACTION';
 
 export const FORWARDS_COMPAT_BOOKING_BUILDER_ACTION = 'bookingBuilder/FORWARDS_COMPAT_BOOKING_BUILDER_ACTION';
 
+export const UPDATE_TA_MARGIN_TYPE = 'bookingBuilder/UPDATE_TA_MARGIN_TYPE';
+export const UPDATE_TA_MARGIN_AMOUNT = 'bookingBuilder/UPDATE_TA_MARGIN_AMOUNT';
+
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
   type: INITIALIZE_BOOKING_BUILDER as typeof INITIALIZE_BOOKING_BUILDER,
@@ -165,6 +168,18 @@ export const forwardsCompatBookingBuilderAction = (booking: any, holds: any) => 
   holds,
 });
 
+export type UpdateTAMarginType = ReturnType<typeof updateTAMarginTypeAction>;
+export const updateTAMarginTypeAction = (taMarginType: string) => ({
+  type: UPDATE_TA_MARGIN_TYPE as typeof UPDATE_TA_MARGIN_TYPE,
+  taMarginType,
+});
+
+export type UpdateTAMarginAmount = ReturnType<typeof updateTAMarginAmountAction>;
+export const updateTAMarginAmountAction = (taMarginAmount: string) => ({
+  type: UPDATE_TA_MARGIN_AMOUNT as typeof UPDATE_TA_MARGIN_AMOUNT,
+  taMarginAmount,
+});
+
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -181,4 +196,6 @@ export type BookingBuilderAction =
   | UpdateGroundServiceAction
   | UpdateSupplementAction
   | UpdateFineAction
-  | ForwardsCompatBookingBuilderAction;
+  | ForwardsCompatBookingBuilderAction
+  | UpdateTAMarginType
+  | UpdateTAMarginAmount;
