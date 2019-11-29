@@ -18,8 +18,6 @@ export interface BookingBuilderDomain {
   isRepeatGuest: boolean;
   specialRequests: string[];
   comments: string | null;
-  taMarginType: string | null;
-  taMarginAmount: string | null;
   status: string | null;
   flightArrivalDate: string | null;
   flightArrivalNumber: string | null;
@@ -36,6 +34,9 @@ export interface BookingBuilderDomain {
   updatedAt: any | null;
   deletedAt: any | null;
   clientUuid: any | null;
+  isTAMarginApplied: boolean;
+  taMarginType: string | undefined;
+  taMarginAmount: string | undefined;
 }
 
 export const initialState: BookingBuilderDomain = {
@@ -56,8 +57,8 @@ export const initialState: BookingBuilderDomain = {
   isRepeatGuest: false,
   specialRequests: [],
   comments: null,
-  taMarginType: null,
-  taMarginAmount: null,
+  taMarginType: 'percentage',
+  taMarginAmount: '0',
   status: null,
   flightArrivalDate: null,
   flightArrivalNumber: null,
@@ -74,4 +75,5 @@ export const initialState: BookingBuilderDomain = {
   updatedAt: null,
   deletedAt: null,
   clientUuid: null,
+  isTAMarginApplied: true,
 };

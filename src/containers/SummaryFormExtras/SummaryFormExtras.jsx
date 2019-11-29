@@ -553,13 +553,16 @@ const renderMargin = (
     onEditGuard,
     canBook,
     currencyCode,
+    isTAMarginApplied,
+    taMarginType,
+    taMarginAmount,
   }
 ) => {
   if (!canBook) return;
   return summaryOnly || compactEdit ? (
     <Summary title={t('labels.yourCommission')}>
       <SummaryFormMargin
-        checked={propOr(true, 'marginApplied', values)}
+        checked={isTAMarginApplied}
         compact={compact}
         compactEdit={compactEdit}
         currencyCode={currencyCode}
@@ -570,8 +573,8 @@ const renderMargin = (
         onEditGuard={onEditGuard}
         summaryOnly={summaryOnly}
         total={grandTotal}
-        type={propOr('percentage', 'taMarginType', values)}
-        value={propOr(0, 'taMarginAmount', values)}
+        type={taMarginType}
+        value={taMarginAmount}
       />
     </Summary>
   ) : (
@@ -580,15 +583,15 @@ const renderMargin = (
       children: (
         <Fragment>
           <SummaryFormMargin
-            checked={propOr(true, 'marginApplied', values)}
+            checked={isTAMarginApplied}
             currencyCode={currencyCode}
             editGuard={editGuard}
             onChange={onMarginChange}
             onEditGuard={onEditGuard}
             summaryOnly={summaryOnly}
             total={grandTotal}
-            type={propOr('percentage', 'taMarginType', values)}
-            value={propOr(0, 'taMarginAmount', values)}
+            type={taMarginType}
+            value={taMarginAmount}
           />
           <Description>{t('labels.addCommission')}</Description>
         </Fragment>
@@ -757,6 +760,12 @@ export const SummaryFormExtras = ({
   updateFineAction,
   availableSupplements,
   availableFines,
+  updateTAMarginTypeAction,
+  updateTAMarginAmountAction,
+  isTAMarginApplied,
+  updateIsTAMarginAppliedAction,
+  taMarginType,
+  taMarginAmount,
 }) => {
   const { t } = useTranslation();
   const hasTASelect = isSr && !isRl;
@@ -801,18 +810,22 @@ export const SummaryFormExtras = ({
   );
 
   const onMarginChange = useCallback(
-    (e, marginType, marginValue) => {
-      const name = path(['target', 'name'], e);
-      const type = path(['target', 'type'], e);
-      const checked = path(['target', 'checked'], e);
+    (e, marginType, marginValue, shouldUpdateCheckbox = undefined) => {
+      if (shouldUpdateCheckbox === true || shouldUpdateCheckbox === false) {
+        updateIsTAMarginAppliedAction(shouldUpdateCheckbox);
 
-      const payload = equals('checkbox', type)
-        ? { [name]: checked }
-        : { taMarginType: marginType, taMarginAmount: marginValue };
+        if (shouldUpdateCheckbox === false) {
+          updateTAMarginTypeAction(undefined);
+          updateTAMarginAmountAction(undefined);
+        }
+      }
 
-      updateBooking(id, payload);
+      updateTAMarginTypeAction(marginType);
+      updateTAMarginAmountAction(marginValue);
+
+      return;
     },
-    [id, updateBooking]
+    [updateTAMarginTypeAction, updateTAMarginAmountAction, updateIsTAMarginAppliedAction]
   );
 
   const onMultipleChange = useCallback(
@@ -994,7 +1007,15 @@ export const SummaryFormExtras = ({
       modalContent = renderExtraSelects(t, 'addon', addons, { currencyCode, onMultipleChange, values });
       break;
     case 'margin':
-      modalContent = renderMargin(t, { currencyCode, onMarginChange, grandTotal, values });
+      modalContent = renderMargin(t, {
+        currencyCode,
+        onMarginChange,
+        grandTotal,
+        values,
+        isTAMarginApplied,
+        taMarginType,
+        taMarginAmount,
+      });
       break;
     case 'transfer':
       modalContent = renderTransferOptions(t, 'transfer', ProductTypes.TRANSFER, transfers, {
@@ -1067,6 +1088,9 @@ export const SummaryFormExtras = ({
         editGuard,
         onEditGuard,
         canBook,
+        isTAMarginApplied,
+        taMarginType,
+        taMarginAmount,
       })}
       {renderModal(t, { currencyCode, modalOpen, modalContent, onClose, modalContext })}
     </Fragment>
