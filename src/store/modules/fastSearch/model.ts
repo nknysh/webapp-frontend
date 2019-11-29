@@ -60,7 +60,7 @@ export const initialState: FastSearchDomain = {
 
   queryHasChanged: false,
   query: {
-    name: ALL_COUNTRIES_AND_RESORTS,
+    name: '',
     lodgings: [
       {
         numberOfAdults: 2,

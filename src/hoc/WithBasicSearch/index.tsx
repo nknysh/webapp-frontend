@@ -127,7 +127,11 @@ export interface IWithBasicSearchProps extends IStateToProps, IDispatchToProps, 
 export const makeWithBasicSearch = (WrappedComponent: any) =>
   class WithBasicSearch extends React.Component<IWithBasicSearchProps> {
     static displayName = `WithBasicSearch(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
-
+    componentDidMount() {
+      if (this.props.searchQuery.name === '') {
+        this.props.destinationChange('');
+      }
+    }
     handleDestinationChange = (e: FormEvent<HTMLInputElement>) => {
       this.props.destinationChange(e.currentTarget.value);
     };
