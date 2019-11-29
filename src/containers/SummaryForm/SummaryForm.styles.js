@@ -134,6 +134,10 @@ export const Error = styled.p`
   font-weight: ${theme.fonts.bold};
 `;
 
+export const ErrorSmall = styled(Error)`
+  font-size: 12px;
+`;
+
 export const Hotel = styled.div`
   padding: ${theme.spacing.gutter * 1.5}px 0;
   border-bottom: 1px solid ${theme.borders.default};

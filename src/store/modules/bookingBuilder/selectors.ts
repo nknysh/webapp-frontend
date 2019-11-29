@@ -213,6 +213,16 @@ export const bookingRequestedTransfersBreakdownSelector = createSelector(
   }
 );
 
+export const bookingResponseAllErrors = createSelector(
+  bookingBuilderSelector,
+  booking => {
+    if (!booking || !booking.response.errors) {
+      return [];
+    }
+    return booking.response.errors;
+  }
+);
+
 export const bookingResponseNonAccommodationErrors = createSelector(
   bookingBuilderSelector,
   booking => {
