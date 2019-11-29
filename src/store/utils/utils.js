@@ -92,7 +92,7 @@ export const getDefaultSearchAndBookingStartDate = () => {
 };
 
 export const getDefaultSearchAndBookingEndDate = () => {
-  return addDays(new Date(), 21)
+  return addDays(new Date(), 20)
     .toISOString()
     .split('T')[0];
 };
