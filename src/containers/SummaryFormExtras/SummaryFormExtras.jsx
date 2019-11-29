@@ -1014,14 +1014,14 @@ export const SummaryFormExtras = ({
       modalContent = '';
   }
 
-  const totalCents = booking?.response?.aggregateTotals?.Totals?.totalForPricedItemsCents;
+  const totalCents = booking?.response?.aggregateTotals?.Total?.totalForPricedItemsCents | 0;
 
   return (
     <Fragment>
       {transfers.length >= 1 && <TransfersWrapper />}
       {groundServices.length >= 1 && <GroundServicesWrapper />}
       {addons.length >= 1 && <AddonsWrapper />}
-      {totalCents && totalCents > 0 && (
+      {totalCents > 0 && (
         <React.Fragment>
           <hr />
           <label>
