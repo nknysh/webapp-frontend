@@ -737,7 +737,6 @@ export const setBookings = data => dispatch => {
  */
 export const fetchBooking = id => async dispatch => {
   dispatch(genericAction(BOOKING_FETCH, id));
-
   try {
     const {
       data: { data },

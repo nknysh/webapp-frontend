@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { addDays } from 'date-fns';
 
 const possibleChildAges = {
   0: '0',
@@ -233,7 +234,8 @@ export const LodgingSummaryRender = props => {
             }}
             selectedValues={{
               startDate: new Date(lodging.startDate),
-              endDate: new Date(lodging.endDate),
+              // @see https://pureescapes.atlassian.net/browse/OWA-1031
+              endDate: addDays(new Date(lodging.endDate), 1),
             }}
             placeholder=""
           />

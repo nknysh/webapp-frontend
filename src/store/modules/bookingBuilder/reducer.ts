@@ -6,7 +6,7 @@ import { flatten } from 'ramda';
 
 import produce from 'immer';
 import { formatDate } from 'utils';
-import { min, max } from 'date-fns';
+import { min, max, subDays } from 'date-fns';
 
 const bookingBuilderReducer = (state: BookingBuilderDomain = initialState, action: Actions.BookingBuilderAction) => {
   switch (action.type) {
@@ -45,6 +45,9 @@ const bookingBuilderReducer = (state: BookingBuilderDomain = initialState, actio
 
     case Actions.INITIALIZE_BOOKING_BUILDER:
       return initializeBookingBuilderReducer(state, action);
+
+    case Actions.FORWARDS_COMPAT_BOOKING_BUILDER_ACTION:
+      return forwardsCompatBookingBuilderReducer(state, action);
     default:
       return state;
   }
@@ -258,8 +261,10 @@ export const updateLodgingDatesReducer = (
       return state;
     }
 
+    // @see https://pureescapes.atlassian.net/browse/OWA-1031
+    const newEndDate = subDays(new Date(endDate), 1);
     draftState.currentBookingBuilder.request.Accommodation[lodgingIndex].startDate = formatDate(startDate);
-    draftState.currentBookingBuilder.request.Accommodation[lodgingIndex].endDate = formatDate(endDate);
+    draftState.currentBookingBuilder.request.Accommodation[lodgingIndex].endDate = formatDate(newEndDate);
 
     const { earliestStartDate, latestEndDate } = calculateBookingDates(
       draftState.currentBookingBuilder.request.Accommodation
@@ -407,6 +412,33 @@ export const copyBookingBuilderReducer = (
 export const createStubBookingBuilderReducer = (state: BookingBuilderDomain, action): BookingBuilderDomain => {
   return produce(state, draftState => {
     draftState.currentBookingBuilder = makeBookingBuilderStub(action.hotel);
+
+    return draftState;
+  });
+};
+
+export const forwardsCompatBookingBuilderReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.ForwardsCompatBookingBuilderAction
+): BookingBuilderDomain => {
+  return produce(state, draftState => {
+    if (!action.booking.breakdown || !action.booking.breakdown.requestedBuild) {
+      return draftState;
+    }
+
+    draftState = {
+      ...action.booking,
+      currentBookingBuilder: {
+        request: {
+          ...action.booking.breakdown.requestedBuild,
+        },
+        response: {
+          ...action.booking.breakdown,
+          requestedBuild: undefined,
+        },
+      },
+      breakdown: undefined,
+    };
 
     return draftState;
   });

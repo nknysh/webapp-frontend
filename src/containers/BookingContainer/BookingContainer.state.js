@@ -17,10 +17,10 @@ import {
   getBookingHolds,
 } from 'store/modules/bookings';
 
-import { bookingBuilderSelector } from 'store/modules/bookingBuilder';
+import { forwardsCompatBookingBuilderAction } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
-  booking: bookingBuilderSelector(state),
+  booking: getBooking(state, id),
   holds: getBookingHolds(state, id),
   bookingStatus: getBookingStatus(state),
   created: getBookingCreatedByValue(state, id),
@@ -58,6 +58,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   cancelBooking: pipe(
     cancelBooking,
+    dispatch
+  ),
+  forwardsCompatBookingBuilderAction: pipe(
+    forwardsCompatBookingBuilderAction,
     dispatch
   ),
 });

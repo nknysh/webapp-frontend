@@ -1,13 +1,13 @@
 import { createSelector } from 'reselect';
 import { FastSearchDomain } from './model';
 import { HotelResult, BookingBuilder } from 'services/BackendApi/types';
-import { getHotelId } from 'store/modules/hotel';
 import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 import { IDateRange } from './types';
-import { format, isSameMonth, isSameYear, differenceInCalendarDays } from 'date-fns';
+import { format, isSameMonth, isSameYear, differenceInCalendarDays, addDays } from 'date-fns';
 import { DateHelper } from 'pureUi/DatePicker';
 
 import { bookingBuilderHotelUuidSelector } from 'store/modules/bookingBuilder';
+import { formatDate } from 'utils';
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
 
@@ -45,12 +45,14 @@ export const orderedSearchResults = createSelector(
 
     return results.sort((a: HotelResult, b: HotelResult) => {
       const totalsA = a.bookingBuilder.response.totals;
-      const totalsB = b.bookingBuilder.response.totals; 
+      const totalsB = b.bookingBuilder.response.totals;
 
-      if(totalsA.oneOrMoreItemsOnRequest || totalsB.oneOrMoreItemsOnRequest){
+      if (totalsA.oneOrMoreItemsOnRequest || totalsB.oneOrMoreItemsOnRequest) {
         return totalsA.oneOrMoreItemsOnRequest === totalsB.oneOrMoreItemsOnRequest
           ? 0
-          : totalsA.oneOrMoreItemsOnRequest ? 1 : -1;
+          : totalsA.oneOrMoreItemsOnRequest
+          ? 1
+          : -1;
       }
 
       const totalA = totalsA.totalForPricedItemsCents;
@@ -123,7 +125,11 @@ export const activeHotelIdSelector = createSelector(
 
 export const dateRangeSelector = createSelector(
   offersQuerySelector,
-  (query): IDateRange => ({ start: query.startDate, end: query.endDate })
+  (query): IDateRange => {
+    // @see https://pureescapes.atlassian.net/browse/OWA-1031
+    const end = addDays(new Date(query.endDate), 1);
+    return { start: query.startDate, end: formatDate(end) };
+  }
 );
 
 export const totalStayNightsSelector = createSelector(
@@ -238,8 +244,6 @@ export const canSearchSelector = createSelector(
     [
       dateRange.start,
       dateRange.end,
-      lodgings.every(
-        lg => lg.numberOfAdults > 0 || lg.agesOfAllChildren && lg.agesOfAllChildren.length > 0
-      )
+      lodgings.every(lg => lg.numberOfAdults > 0 || (lg.agesOfAllChildren && lg.agesOfAllChildren.length > 0)),
     ].every(item => Boolean(item))
 );

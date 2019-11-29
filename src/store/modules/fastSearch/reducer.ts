@@ -5,6 +5,8 @@ import { Filters, Lodging, SelectedAccommodation } from 'services/BackendApi';
 import { addMonths } from 'date-fns';
 import qs from 'qs';
 import { SearchQuery } from '../../../services/BackendApi/types/SearchQuery';
+import produce from 'immer';
+import { subDaysString } from 'utils';
 
 const defaultAge = 7;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
@@ -391,17 +393,20 @@ export default function fastSearchReducer(
     case Actions.DATE_RANGE_SELECT_END:
       const isFutureDate = !state.anchorDate || action.date <= state.anchorDate! ? false : true;
 
-      return {
-        ...state,
-        queryHasChanged: true,
-        dateSelectionInProgress: action.type === Actions.DATE_RANGE_CHANGE ? true : false,
-        showDatePicker: action.type === Actions.DATE_RANGE_CHANGE ? true : false,
-        query: {
-          ...state.query,
-          startDate: isFutureDate ? state.anchorDate! : action.date,
-          endDate: isFutureDate ? action.date : state.anchorDate!,
-        },
-      };
+      return produce(state, draftState => {
+        draftState.queryHasChanged = true;
+        draftState.dateSelectionInProgress = action.type === Actions.DATE_RANGE_CHANGE ? true : false;
+        draftState.showDatePicker = action.type === Actions.DATE_RANGE_CHANGE ? true : false;
+
+        draftState.query.startDate = isFutureDate ? state.anchorDate! : action.date;
+        draftState.query.endDate = isFutureDate ? action.date : state.anchorDate!;
+
+        // now minus 1 from the end date
+        // @see https://pureescapes.atlassian.net/browse/OWA-1031
+        draftState.query.endDate = subDaysString(draftState.query.endDate, 1);
+
+        return draftState;
+      });
 
     case Actions.INCREMENT_CURRENT_DATE:
       const currentDateObj = new Date(state.datePickerCurrentDate);
