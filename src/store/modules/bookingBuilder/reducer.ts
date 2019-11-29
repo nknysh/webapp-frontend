@@ -278,6 +278,11 @@ export const updateLodgingDatesReducer = (
     draftState.currentBookingBuilder.request.startDate = formatDate(earliestStartDate);
     draftState.currentBookingBuilder.request.endDate = formatDate(latestEndDate);
 
+    // rebuild the request level `guestAges` to take into account the new dates
+    draftState.currentBookingBuilder.request.guestAges = calculateBookingTotalGuestAges(
+      draftState.currentBookingBuilder.request.Accommodation
+    );
+
     return draftState;
   });
 };
@@ -463,15 +468,21 @@ export const updateTAMarginAmountReducer = (
   });
 };
 
-export const calculateBookingTotalGuestAges = (accommodations: SelectedAccommodation[]) => {
+export const calculateBookingTotalGuestAges = (lodgings: SelectedAccommodation[]) => {
   let numberOfAdults: number = 0;
   let agesOfAllChildren: number[] = [];
-  accommodations.forEach(accom => {
-    numberOfAdults += accom.guestAges.numberOfAdults;
-    if (accom.guestAges.agesOfAllChildren && accom.guestAges.agesOfAllChildren.length >= 1) {
-      agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
-    }
-  });
+
+  const { earliestStartDate: esd } = calculateBookingDates(lodgings);
+  const earliestStartDate = formatDate(esd);
+
+  lodgings
+    .filter(accom => accom.startDate === earliestStartDate)
+    .forEach(accom => {
+      numberOfAdults += accom.guestAges.numberOfAdults;
+      if (accom.guestAges.agesOfAllChildren && accom.guestAges.agesOfAllChildren.length >= 1) {
+        agesOfAllChildren = flatten(agesOfAllChildren.concat(accom.guestAges.agesOfAllChildren));
+      }
+    });
 
   return {
     numberOfAdults,
