@@ -12,6 +12,9 @@ import {
   UPDATE_SUPPLEMENT_ACTION,
   UPDATE_FINE_ACTION,
   UPDATE_LODGING_DATES_ACTION,
+  UPDATE_TA_MARGIN_AMOUNT_ACTION,
+  UPDATE_TA_MARGIN_TYPE_ACTION,
+  UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
 } from '../actions';
 
 import { makeBackendApi, BookingBuilderEndpointSuccess } from 'services/BackendApi';
@@ -54,6 +57,9 @@ export function* watchBookingActions() {
       UPDATE_SUPPLEMENT_ACTION,
       UPDATE_FINE_ACTION,
       UPDATE_LODGING_DATES_ACTION,
+      UPDATE_TA_MARGIN_AMOUNT_ACTION,
+      UPDATE_TA_MARGIN_TYPE_ACTION,
+      UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
     ],
     bookingBuilderResponseSaga
   );

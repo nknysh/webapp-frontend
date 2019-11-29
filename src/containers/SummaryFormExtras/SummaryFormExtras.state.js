@@ -43,6 +43,10 @@ import {
   bookingCanBookSelector,
   updateTAMarginTypeAction,
   updateTAMarginAmountAction,
+  isTAMarginAppliedSelector,
+  updateIsTAMarginAppliedAction,
+  taMarginTypeSelector,
+  taMarginAmountSelector,
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => {
@@ -71,6 +75,9 @@ export const mapStateToProps = (state, { id }) => {
     isGroundServicesSectionCollapsed: getIsGroundServicesSectionCollapsed(state),
     isAddonsSectionCollapsed: getIsAddonsSectionCollapsed(state),
     selectedTransfersBreakdown: bookingRequestedTransfersBreakdownSelector(state),
+    isTAMarginApplied: isTAMarginAppliedSelector(state),
+    taMarginType: taMarginTypeSelector(state),
+    taMarginAmount: taMarginAmountSelector(state),
   };
 };
 
@@ -113,6 +120,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   updateTAMarginAmountAction: pipe(
     updateTAMarginAmountAction,
+    dispatch
+  ),
+  updateIsTAMarginAppliedAction: pipe(
+    updateIsTAMarginAppliedAction,
     dispatch
   ),
 });

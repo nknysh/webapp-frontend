@@ -49,10 +49,12 @@ const bookingBuilderReducer = (state: BookingBuilderDomain = initialState, actio
     case Actions.FORWARDS_COMPAT_BOOKING_BUILDER_ACTION:
       return forwardsCompatBookingBuilderReducer(state, action);
 
-    case Actions.UPDATE_TA_MARGIN_TYPE:
+    case Actions.UPDATE_TA_MARGIN_TYPE_ACTION:
       return updateTAMarginTypeReducer(state, action);
-    case Actions.UPDATE_TA_MARGIN_AMOUNT:
+    case Actions.UPDATE_TA_MARGIN_AMOUNT_ACTION:
       return updateTAMarginAmountReducer(state, action);
+    case Actions.UPDATE_IS_TA_MARGIN_APPLIED_ACTION:
+      return updateIsTAMarginAppliedReducer(state, action);
     default:
       return state;
   }
@@ -458,12 +460,23 @@ export const updateTAMarginTypeReducer = (
     return draftState;
   });
 };
+
 export const updateTAMarginAmountReducer = (
   state: BookingBuilderDomain,
   action: Actions.UpdateTAMarginAmount
 ): BookingBuilderDomain => {
   return produce(state, draftState => {
     draftState.taMarginAmount = action.taMarginAmount;
+    return draftState;
+  });
+};
+
+export const updateIsTAMarginAppliedReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.UpdateIsTAMarginAppliedAction
+): BookingBuilderDomain => {
+  return produce(state, draftState => {
+    draftState.isTAMarginApplied = action.value;
     return draftState;
   });
 };

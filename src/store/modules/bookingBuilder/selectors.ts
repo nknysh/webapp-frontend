@@ -344,3 +344,18 @@ export const bookingBuilderHotelUuidSelector = createSelector(
   bookingBuilderDomain,
   bookingBuilderDomain => bookingBuilderDomain.hotelUuid
 );
+
+export const isTAMarginAppliedSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => bookingBuilderDomain.isTAMarginApplied
+);
+
+export const taMarginTypeSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => bookingBuilderDomain.taMarginType
+);
+
+export const taMarginAmountSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => bookingBuilderDomain.taMarginAmount
+);

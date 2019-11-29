@@ -40,13 +40,25 @@ export const SummaryFormMargin = ({
 
   const handleChange = e => {
     const updateValue = e.target.name === 'taMarginAmount' ? e.target.value : value;
+
+    console.log('type', type);
+    console.log('updateValue', updateValue);
     onChange(e, type, updateValue);
+  };
+
+  const handleCheckboxChange = isCurrentlyChecked => {
+    onChange(null, null, null, !isCurrentlyChecked);
   };
 
   return (
     <Margin className={className}>
       {notSummaryAndNotCompact && (
-        <MarginCheckbox onChange={onChange} checked={checked} label={t('labels.applyMargin')} name="marginApplied" />
+        <MarginCheckbox
+          onChange={() => handleCheckboxChange(checked)}
+          checked={checked}
+          label={t('labels.applyMargin')}
+          name="marginApplied"
+        />
       )}
       {checkedAndNotSummaryAndNotCompact && (
         <Fragment>
