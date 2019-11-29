@@ -41,6 +41,7 @@ import {
   ModalTitle,
   HotelTotals,
   HotelTotalsInfo,
+  ErrorSmall,
 } from './SummaryForm.styles';
 import { formatPrice } from '../../utils';
 const modalProps = { className: 'room-summary-form' };
@@ -148,8 +149,6 @@ const renderLodgingSummaries = (t, booking, props) => {
     return [];
   }
 
-  const lodgingErrors = bookingResponse.errors.filter(e => e.meta === 'Accommodation').map(e => e.message) || [];
-
   const lodgingSummaries = bookingRequest.Accommodation.map((requestedAccommodation, index) => {
     return {
       ...requestedAccommodation,
@@ -176,9 +175,6 @@ const renderLodgingSummaries = (t, booking, props) => {
       <label>
         <strong>{t('labels.lodgings')}</strong>
       </label>
-      {lodgingErrors.map(error => (
-        <p key={error}>{error}</p>
-      ))}
       {lodgingSummaries.map(lodging =>
         renderLodgingSummary(
           lodging,
@@ -243,50 +239,54 @@ const renderForm = (
     showReleaseHolds,
     summaryOnly,
   }
-) => (
-  <Form initialValues={initialValues} onSubmit={onSubmit && partial(onSubmit, [id])} enableReinitialize={true}>
-    {({ values }) => (
-      <Fragment>
-        <Input type="hidden" value={canBook} name="valid" />
-        <SummaryFormExtras
-          compact={compact}
-          editGuard={editGuard}
-          id={id}
-          onEditGuard={onEditGuard}
-          summaryOnly={summaryOnly}
-          values={values}
-          booking={booking}
-        />
-        {renderSummaryErrors(errors)}
-        {children({ booking })}
-        <SummaryFormActions>
-          {showHolds &&
-            (holdOnly || holds) &&
-            ((prop('hasFullHolds', holds) || showReleaseHolds) && (
-              <SummaryFormButton type="button" onClick={() => onHoldModalInit('release')} data-secondary>
-                {releaseHoldLabel || t('buttons.releaseHold', { count: length(prop('breakdown', holds)) })}
+) => {
+  return (
+    <Form initialValues={initialValues} onSubmit={onSubmit && partial(onSubmit, [id])} enableReinitialize={true}>
+      {({ values }) => (
+        <Fragment>
+          <Input type="hidden" value={canBook} name="valid" />
+          <SummaryFormExtras
+            compact={compact}
+            editGuard={editGuard}
+            id={id}
+            onEditGuard={onEditGuard}
+            summaryOnly={summaryOnly}
+            values={values}
+            booking={booking}
+          />
+          {renderSummaryErrors(errors)}
+          {children({ booking })}
+          <SummaryFormActions>
+            {showHolds &&
+              (holdOnly || holds) &&
+              ((prop('hasFullHolds', holds) || showReleaseHolds) && (
+                <SummaryFormButton type="button" onClick={() => onHoldModalInit('release')} data-secondary>
+                  {releaseHoldLabel || t('buttons.releaseHold', { count: length(prop('breakdown', holds)) })}
+                </SummaryFormButton>
+              ))}
+            {((showHolds && !prop('hasFullHolds', holds)) || showAddHolds) && (
+              <SummaryFormButton
+                disabled={!(holdOnly || prop('canHold', holds) || showAddHolds)}
+                onClick={() => onHoldModalInit('add')}
+                type="button"
+              >
+                {addHoldLabel ||
+                  (holdOnly
+                    ? t('buttons.takeHold')
+                    : t('buttons.addHold', { count: length(prop('breakdown', holds)) }))}
               </SummaryFormButton>
-            ))}
-          {((showHolds && !prop('hasFullHolds', holds)) || showAddHolds) && (
-            <SummaryFormButton
-              disabled={!(holdOnly || prop('canHold', holds) || showAddHolds)}
-              onClick={() => onHoldModalInit('add')}
-              type="button"
-            >
-              {addHoldLabel ||
-                (holdOnly ? t('buttons.takeHold') : t('buttons.addHold', { count: length(prop('breakdown', holds)) }))}
-            </SummaryFormButton>
-          )}
-          {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && showBookNow && (
-            <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
-              {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
-            </SummaryFormButton>
-          )}
-        </SummaryFormActions>
-      </Fragment>
-    )}
-  </Form>
-);
+            )}
+            {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && showBookNow && (
+              <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
+                {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
+              </SummaryFormButton>
+            )}
+          </SummaryFormActions>
+        </Fragment>
+      )}
+    </Form>
+  );
+};
 
 const renderEditGuard = (t, { setShowEditGuard, editGuardContent, showEditGuard, onEditGuardAccepted }) =>
   showEditGuard && (

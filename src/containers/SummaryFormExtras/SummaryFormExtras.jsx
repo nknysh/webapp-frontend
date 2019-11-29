@@ -339,11 +339,19 @@ const renderTransferOptionsSimple = (
 
   return (
     <div>
-      <label>Return Transfers</label>
-      {bothWayTransferMarkup}
-      <hr />
-      <label>One Way Transfers</label>
-      {oneWayTransfersMarkup}
+      {bothWayTransfersOptions && (
+        <React.Fragment>
+          <label>Return Transfers</label>
+          {bothWayTransferMarkup}
+        </React.Fragment>
+      )}
+      {bothWayTransfersOptions && oneWayTransfersOptions && <hr />}
+      {oneWayTransfersOptions && (
+        <React.Fragment>
+          <label>One Way Transfers</label>
+          {oneWayTransfersMarkup}
+        </React.Fragment>
+      )}
     </div>
   );
 };

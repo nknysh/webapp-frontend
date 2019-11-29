@@ -20,13 +20,13 @@ import {
   getAccommodationEditModalErrors,
 } from 'store/modules/bookings';
 
-import { bookingCanBookSelector, bookingResponseNonAccommodationErrors } from 'store/modules/bookingBuilder';
+import { bookingCanBookSelector, bookingResponseAllErrors } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: bookingBuilderSelector(state),
   canBook: bookingCanBookSelector(state),
   currencyCode: getBookingCurrencySymbol(state, id),
-  errors: bookingResponseNonAccommodationErrors(state),
+  errors: bookingResponseAllErrors(state),
   holds: getBookingHolds(state, id),
   hotelName: getHotelName(state, id),
   isOnRequest: isBookingOnRequest(state, id),
