@@ -5,7 +5,7 @@ import { MealPlanRatePrice } from '../containers/SummaryRoomEdit/SummaryRoomEdit
 // @ts-ignore
 import { differenceInCalendarDays, format, addDays } from 'date-fns';
 
-import { uniq, flatten, pipe } from 'ramda';
+import { uniq, flatten, pipe, uniqBy } from 'ramda';
 
 // @ts-ignore
 import { formatPrice } from 'utils';
@@ -275,7 +275,10 @@ export const getAppliedOffersForLodging = (lodging: LodgingSummary, potentialBoo
       });
     });
 
-    return flatten([lodgingOffers, lodgingSubProductOffers]);
+    const flat = flatten([lodgingOffers, lodgingSubProductOffers]);
+
+    // needs to be unique, @see owa 1022
+    return uniqBy(a => a, flat);
   } catch (e) {
     return [];
   }
