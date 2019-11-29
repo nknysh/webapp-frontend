@@ -820,9 +820,6 @@ export const SummaryFormExtras = ({
         }
       }
 
-      console.log('marginType', marginType);
-      console.log('marginValue', marginValue);
-
       updateTAMarginTypeAction(marginType);
       updateTAMarginAmountAction(marginValue);
 
