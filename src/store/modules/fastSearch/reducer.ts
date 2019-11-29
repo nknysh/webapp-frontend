@@ -378,7 +378,6 @@ export default function fastSearchReducer(
       };
 
     case Actions.DATE_RANGE_SELECT_START:
-      console.log('reducing DATE_RANGE_SELECT_START');
       return {
         ...state,
         dateSelectionInProgress: true,
