@@ -6,7 +6,7 @@ import { flatten } from 'ramda';
 
 import produce from 'immer';
 import { formatDate } from 'utils';
-import { min, max } from 'date-fns';
+import { min, max, subDays } from 'date-fns';
 
 const bookingBuilderReducer = (state: BookingBuilderDomain = initialState, action: Actions.BookingBuilderAction) => {
   switch (action.type) {
@@ -266,8 +266,10 @@ export const updateLodgingDatesReducer = (
       return state;
     }
 
+    // @see https://pureescapes.atlassian.net/browse/OWA-1031
+    const newEndDate = subDays(new Date(endDate), 1);
     draftState.currentBookingBuilder.request.Accommodation[lodgingIndex].startDate = formatDate(startDate);
-    draftState.currentBookingBuilder.request.Accommodation[lodgingIndex].endDate = formatDate(endDate);
+    draftState.currentBookingBuilder.request.Accommodation[lodgingIndex].endDate = formatDate(newEndDate);
 
     const { earliestStartDate, latestEndDate } = calculateBookingDates(
       draftState.currentBookingBuilder.request.Accommodation

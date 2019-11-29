@@ -56,6 +56,7 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
           Max
            
           3
+           
           Min
            
           1
@@ -69,6 +70,7 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
           Max
            
           3
+           
           Min
            
           1
@@ -82,6 +84,7 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
           Max
            
           3
+           
           Min
            
           1
@@ -224,6 +227,7 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
           Max
            
           3
+           
           Min
            
           1
@@ -237,6 +241,7 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
           Max
            
           3
+           
           Min
            
           1
@@ -250,6 +255,7 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
           Max
            
           3
+           
           Min
            
           1
@@ -392,6 +398,7 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
           Max
            
           3
+           
           Min
            
           1
@@ -405,6 +412,7 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
           Max
            
           3
+           
           Min
            
           1
@@ -418,6 +426,7 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
           Max
            
           3
+           
           Min
            
           1

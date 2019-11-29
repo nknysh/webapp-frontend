@@ -3,7 +3,7 @@ import React from 'react';
 import { MealPlanRatePrice } from '../containers/SummaryRoomEdit/SummaryRoomEdit.styles';
 
 // @ts-ignore
-import { differenceInCalendarDays, format } from 'date-fns';
+import { differenceInCalendarDays, format, addDays } from 'date-fns';
 
 import { uniq, flatten, pipe, uniqBy } from 'ramda';
 
@@ -33,8 +33,11 @@ export const getAvailableProductSetAccommodationForUuid = (
 };
 
 export const getNightsBreakdownForDates = (startDate: any, endDate: any, translate: Function) => {
-  const nights = differenceInCalendarDays(new Date(endDate), new Date(startDate));
-  const dateRangeText = format(new Date(startDate), 'do LLL yyyy') + ' - ' + format(new Date(endDate), 'do LLL yyyy');
+  // see @https://pureescapes.atlassian.net/browse/OWA-1031
+  const amendedEndDate = addDays(new Date(endDate), 1);
+
+  const nights = differenceInCalendarDays(amendedEndDate, new Date(startDate));
+  const dateRangeText = format(new Date(startDate), 'do LLL yyyy') + ' - ' + format(amendedEndDate, 'do LLL yyyy');
 
   const nightSigular = translate ? translate('labels.nightSigular') : 'night';
   const nightPlural = translate ? translate('labels.nightPlural') : 'nights';
