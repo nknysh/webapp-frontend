@@ -54,7 +54,7 @@ export const AccommodationCard = props => {
               const { name, minimum, maximum } = limit;
               return (
                 <li data-role="ac-min-max-item" key={limit.name}>
-                  {`${isAdult(name) ? t('adult_plural') : t(`${name}_plural`) || name}`} - {t('labels.max')} {maximum}
+                  {`${isAdult(name) ? t('adult_plural') : t(`${name}_plural`) || name}`} - {t('labels.max')} {maximum}{' '}
                   {t('labels.min')} {minimum}
                 </li>
               );
