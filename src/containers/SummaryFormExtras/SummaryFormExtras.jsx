@@ -35,7 +35,7 @@ import { RadioButton, Modal, Loader, Button, ToolTip } from '@pure-escapes/webap
 
 import { ProductTypes } from 'config/enums';
 
-import { SummaryFormMargin, IndexSearch, Summary, AggregateTotalsBreakdown } from 'components';
+import { SummaryFormMargin, IndexSearch, Summary, AggregateTotalsBreakdown, DisplayTotalsBreakdown } from 'components';
 import { useModalState, useFetchData } from 'effects';
 import { withUser } from 'hoc';
 import { isString, mapWithIndex, formatPrice, filterByObjectProperties } from 'utils';
@@ -1056,10 +1056,10 @@ export const SummaryFormExtras = ({
           <label>
             <strong>{t('labels.totalCostBreakdown')}</strong>
           </label>
-          <AggregateTotalsBreakdown
+          <DisplayTotalsBreakdown
             translate={t}
             currencyCode={currencyCode}
-            aggregateTotals={booking.response.aggregateTotals}
+            displayTotals={booking.response.displayTotals}
           />
           <hr />
         </React.Fragment>

@@ -21,3 +21,4 @@ export { default as NameSearch } from './NameSearch';
 export { default as Summary } from './Summary';
 export { default as SummaryFormMargin } from './SummaryFormMargin';
 export { default as AggregateTotalsBreakdown } from './AggregateTotalsBreakdown';
+export { default as DisplayTotalsBreakdown } from './DisplayTotalsBreakdown';

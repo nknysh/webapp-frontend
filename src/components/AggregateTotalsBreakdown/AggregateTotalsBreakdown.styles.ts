@@ -13,7 +13,12 @@ export const TotalBreakdownSpan = styled.span`
   font-size: 13px;
 `;
 
-export const Price = styled.span`
+interface IPrice {
+  discount?: any;
+  preDiscount?: any;
+}
+
+export const Price = styled.span<IPrice>`
   font-size: 16px;
   letter-spacing: 1.62px;
   display: block;
@@ -28,7 +33,16 @@ export const TotalSection = styled.div`
   margin-bottom: 10px;
 `;
 
-export const TotalSectionColumn = styled.div`
+export const LabelRed = styled.label`
+  color: ${theme.colors['red-fade']} !important;
+`;
+
+interface ITotalSectionColumn {
+  isLeft?: boolean;
+  nestingLevel?: number;
+}
+
+export const TotalSectionColumn = styled.div<ITotalSectionColumn>`
   ${props =>
     props.isLeft &&
     `
@@ -37,7 +51,7 @@ export const TotalSectionColumn = styled.div`
 }`}
 
   ${props => `
-  margin-left: ${props.nestingLevel * 10}px;
+  margin-left: ${props.nestingLevel ? props.nestingLevel * 10 : 0}px;
 `}
 `;
 

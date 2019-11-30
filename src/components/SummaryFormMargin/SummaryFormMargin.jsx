@@ -41,8 +41,6 @@ export const SummaryFormMargin = ({
   const handleChange = e => {
     const updateValue = e.target.name === 'taMarginAmount' ? e.target.value : value;
 
-    console.log('type', type);
-    console.log('updateValue', updateValue);
     onChange(e, type, updateValue);
   };
 
