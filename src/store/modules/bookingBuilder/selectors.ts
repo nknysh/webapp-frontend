@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { BookingBuilderDomain } from './model';
 import { ProductTypes, Occassions } from 'config/enums';
 import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/BackendApi/types';
-import { flatten, clone } from 'ramda';
+import { flatten, clone, uniqBy } from 'ramda';
 import { filterByObjectProperties } from 'utils';
 
 const bookingBuilderDomain = (state: any): BookingBuilderDomain => state.bookingBuilder;
@@ -292,7 +292,7 @@ export const bookingCancellationPoliciesSelector = createSelector(
       potentialBooking.Transfer.map(product => product.cancellationPolicy)
     );
 
-    return flatten(allCancellationPolicies).filter(Boolean);
+    return uniqBy(a => a, flatten(allCancellationPolicies).filter(Boolean));
   }
 );
 
@@ -311,7 +311,7 @@ export const bookingPaymentTermsSelector = createSelector(
     allPaymentTerms = allPaymentTerms.concat(potentialBooking.Supplement.map(product => product.paymentTerms));
     allPaymentTerms = allPaymentTerms.concat(potentialBooking.Transfer.map(product => product.paymentTerms));
 
-    return flatten(allPaymentTerms).filter(Boolean);
+    return uniqBy(a => a, flatten(allPaymentTerms).filter(Boolean));
   }
 );
 
@@ -336,7 +336,7 @@ export const bookingOffersTermsSelector = createSelector(
       });
     });
 
-    return allOfferTerms;
+    return uniqBy(a => a, allOfferTerms);
   }
 );
 
