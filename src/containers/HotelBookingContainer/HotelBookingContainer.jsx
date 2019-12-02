@@ -187,8 +187,7 @@ const renderModalContent = (t, { isOnRequest, paymentType, onModalSubmit, total,
     t('labels.bookingConfirm');
   const content =
     (isOnRequest && t('content.booking.onRequest')) ||
-    (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'content'], paymentTypes)) ||
-    t('content.booking.default');
+    (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'content'], paymentTypes)) || '';
   const buttonLabel =
     (isOnRequest && t('buttons.submitBookingRequest')) ||
     (PAYMENT_ENABLED && !isOnRequest && path([paymentType, 'buttonLabel'], paymentTypes)) ||
