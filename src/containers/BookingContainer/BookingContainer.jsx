@@ -33,7 +33,7 @@ import {
 } from '@pure-escapes/webapp-ui-components';
 
 import { BookingConfirmationForm, Breadcrumbs } from 'components';
-import { useFetchData, useCurrentWidth, useModalState } from 'effects';
+import { useCurrentWidth, useModalState } from 'effects';
 import { withUser } from 'hoc';
 import { formatDate } from 'utils';
 
@@ -337,6 +337,7 @@ export const BookingContainer = ({
     if (isNilOrEmpty(booking)) {
       load();
     }
+    setIsLoaded(false);
   }, [fetchBooking, forwardsCompatBookingBuilderAction, booking, holds, id]);
 
   // forwards compat the booking builder
