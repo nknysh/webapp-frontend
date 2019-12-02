@@ -47,6 +47,7 @@ import {
   updateIsTAMarginAppliedAction,
   taMarginTypeSelector,
   taMarginAmountSelector,
+  bookingBuilderTotalSelector,
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => {
@@ -67,7 +68,7 @@ export const mapStateToProps = (state, { id }) => {
     currencyCode: getBookingCurrencySymbol(state, id),
     getUser: id => getUser(state, id),
     getUserName: id => getUserFullName(state, id),
-    grandTotal: getBookingTotal(state, id),
+    grandTotal: bookingBuilderTotalSelector(state),
     travelAgent,
     users: getUsersEntities(state),
     usersStatus: getUsersStatus(state),

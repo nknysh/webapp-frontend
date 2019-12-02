@@ -39,9 +39,11 @@ export const SummaryFormMargin = ({
   const checkedOrSummaryOrCompactEdit = checked || summaryOnly || compactEdit;
 
   const handleChange = e => {
-    const updateValue = e.target.name === 'taMarginAmount' ? e.target.value : value;
-
-    onChange(e, type, updateValue);
+    if (e.target.name === 'taMarginAmount') {
+      onChange(e, type, e.target.value);
+    } else if (e.target.name === 'taMarginType') {
+      onChange(e, e.target.value, value);
+    }
   };
 
   const handleCheckboxChange = isCurrentlyChecked => {
