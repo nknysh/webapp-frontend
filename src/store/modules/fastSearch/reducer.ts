@@ -8,7 +8,7 @@ import { SearchQuery } from '../../../services/BackendApi/types/SearchQuery';
 import produce from 'immer';
 import { subDaysString } from 'utils';
 
-const defaultAge = 7;
+const defaultAge = 0;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
   const lodgingStub: Lodging = {
     numberOfAdults: 0,

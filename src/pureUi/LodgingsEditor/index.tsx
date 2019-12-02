@@ -6,6 +6,14 @@ import { TabBarCompact } from '../TabBar/index';
 import { Tab } from 'pureUi/Buttons';
 import Stepper from 'pureUi/Stepper';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
+import { Select } from '@pure-escapes/webapp-ui-components';
+
+const childAges: { [key: number]: string } = Array(17)
+  .fill(true)
+  .reduce((acc, _, idx) => {
+    acc[idx] = idx.toString();
+    return acc;
+  }, {});
 
 export interface LodgingsEditorProps extends HTMLAttributes<HTMLButtonElement> {
   lodgings: Lodging[];
@@ -56,14 +64,18 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
     props.onIncrementChildCount(props.activeLodgingIndex, step);
   };
   
-  const handleAgeChange = (ageIndex: number) => (e: FormEvent<HTMLSelectElement>) => {
-    props.onChildAgeChange(props.activeLodgingIndex, ageIndex, e.currentTarget.value);
+  const handleAgeChange = (ageIndex: number) => (e: FormEvent<HTMLLIElement>) => {
+    console.log(ageIndex, e);
+    props.onChildAgeChange(props.activeLodgingIndex, ageIndex, (e.target as HTMLLIElement).value.toString());
   };
 
   const handleClickOutside = useCallback(
     (e: MouseEvent) => {
       const isInside = wrapper.current!.contains(e.target as Node);
-      if (!isInside) {
+      // This is a poor way to identify a click on the select elements. Thanks, MaterialUi.
+      const isChildAgeSelection = (e.target as HTMLLIElement).className.includes('MuiListItem');
+      e.preventDefault();
+      if (!isInside && !isChildAgeSelection) {
         props.onClickOutside(e);
       }
     },
@@ -104,18 +116,26 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
             <li className="stepItem">
               Children <Stepper onIncrement={handleIncrementChild} value={activeLodging.agesOfAllChildren!.length} min={0} max={99} />
             </li>
-
-            <li className="childAges">
-            { activeLodging.agesOfAllChildren?.map((childAge, childIndex) => {
-              return (
-                <select key={childIndex} value={childAge} onChange={handleAgeChange(childIndex)}>
-                  {Array.from({length: 16}).map((_, ageIndex) => (
-                    <option key={`age-option-${childIndex}-${ageIndex}`} value={ageIndex + 1}>{ageIndex + 1}</option>
-                  ))}
-                </select>
-              );
-            })}
-            </li>
+            
+            {activeLodging.agesOfAllChildren!.length > 0 && (
+              <li className="childAges">
+                <p className="childAgesLabel">Please Specify Ages</p>
+                <div className="childAgesSelects">
+                  { activeLodging.agesOfAllChildren?.map((childAge, childIndex) => {
+                    return (
+                      <Select
+                        style={{width: '95px'}}
+                        key={childIndex}
+                        className="childAgesSelect"
+                        value={childAge} 
+                        onChange={handleAgeChange(childIndex)}
+                        options={childAges}
+                      />
+                    );
+                  })}
+                </div>
+              </li>
+            )}
           </ul>
         </Frame>
       )}
@@ -138,6 +158,10 @@ export const LodgingsEditor = styled(LodgingsEditorComponent)`
     text-align: left;
     width: 100%;
     color: ${pureUiTheme.colors.black};
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     transition: all 0.15s ease-out;
     box-shadow: 0 0 0 2px transparent;
@@ -177,5 +201,27 @@ export const LodgingsEditor = styled(LodgingsEditorComponent)`
 
   .stepItem.rooms {
     border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
+  }
+
+  .childAges {
+    padding: 1rem;
+  }
+
+  .childAgesLabel {
+    margin-bottom: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .childAgesSelects {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+  }
+
+  .childAgesSelect {
+    .material-select {
+      min-width: 0px; /* Frustratingly, this is set to 195px in webapp-components. */
+    }
   }
 `
