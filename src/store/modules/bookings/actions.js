@@ -1326,13 +1326,15 @@ export const updateBookingOccasions = (hotelUuid, lodgingIndex, occasions) => as
   return updateBooking(hotelUuid, payload)(dispatch, getState);
 };
 
-export const backwardCompatBookingBuilderAction = (hotelUuid, request, response) => {
+export const backwardCompatBookingBuilderAction = (hotelUuid, request, response, marginType, marginAmount) => {
   return {
     type: BACKWARDS_COMPAT,
     payload: {
       hotelUuid,
       request,
       response,
+      marginType,
+      marginAmount,
     },
   };
 };

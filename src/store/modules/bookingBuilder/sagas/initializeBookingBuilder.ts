@@ -12,6 +12,7 @@ import { getUserCountryContext } from 'store/modules/auth';
 
 import { bookingBuilderSelector } from 'store/modules/bookingBuilder';
 import { backwardCompatBookingBuilderAction } from 'store/modules/bookings';
+import { taMarginTypeSelector, taMarginAmountSelector } from '../selectors';
 
 export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAction) {
   try {
@@ -22,6 +23,8 @@ export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAc
       yield put(copyBookingBuilderAction(existingBookingBuilder));
 
       const currentBookingBuilder = yield select(bookingBuilderSelector);
+      const marginType = yield select(taMarginTypeSelector);
+      const marginAmount = yield select(taMarginAmountSelector);
 
       // this action ensures that every single time we update our new booking builder response, we keep the old `bookings` domain in sync
       // this is done because there is a lot of code that relies on the old `bookings` domain data
@@ -30,7 +33,9 @@ export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAc
         backwardCompatBookingBuilderAction(
           action.hotelUuid,
           currentBookingBuilder.request,
-          currentBookingBuilder.response
+          currentBookingBuilder.response,
+          marginType,
+          marginAmount
         )
       );
     } else {

@@ -5,7 +5,7 @@ import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/Bac
 import { flatten, clone, uniqBy } from 'ramda';
 import { filterByObjectProperties, formatPrice } from 'utils';
 
-const bookingBuilderDomain = (state: any): BookingBuilderDomain => state.bookingBuilder;
+export const bookingBuilderDomain = (state: any): BookingBuilderDomain => state.bookingBuilder;
 
 export const bookingSelector = createSelector(
   bookingBuilderDomain,
