@@ -1013,7 +1013,6 @@ export const getBookingForBuilder = createSelector(
     const hotelUuid = prop('hotelUuid', booking);
 
     let dates = [];
-    // let guestAges = {};
 
     // Run through the accommodation products and sanitize
     const sanitizeAccommodationProducts = pipe(
