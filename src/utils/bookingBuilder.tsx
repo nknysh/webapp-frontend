@@ -301,7 +301,6 @@ export const getAppliedOffersForLodging = (
 
     const flat = flatten([lodgingOffers, lodgingSubProductOffers, textOffers]);
 
-    console.log('flat', flat);
     // needs to be unique, @see owa 1022
     return uniqBy(a => a, flat);
   } catch (e) {
