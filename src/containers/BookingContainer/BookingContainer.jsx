@@ -370,6 +370,8 @@ export const BookingContainer = ({
   const onEditGuard = useCallback(() => setCanEdit(true), []);
   const onStatusChange = useCallback(
     status => {
+      console.log('onStatusChange booking container');
+
       setModalContext(status);
       onModalOpen();
     },
@@ -377,6 +379,7 @@ export const BookingContainer = ({
   );
   const onModalSubmit = useCallback(
     values => {
+      console.log('on modal submit booking container');
       onModalClose();
       reviewBooking(id, values);
     },

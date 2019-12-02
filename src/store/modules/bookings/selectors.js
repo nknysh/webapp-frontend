@@ -61,6 +61,8 @@ import { getArg, getStatus, getData } from 'store/common';
 
 import { toTotal } from './utils';
 
+import { calculateBookingTotalGuestAges } from 'store/modules/bookingBuilder';
+
 /**
  * Reduce offers from products
  *
@@ -1011,7 +1013,7 @@ export const getBookingForBuilder = createSelector(
     const hotelUuid = prop('hotelUuid', booking);
 
     let dates = [];
-    let guestAges = {};
+    // let guestAges = {};
 
     // Run through the accommodation products and sanitize
     const sanitizeAccommodationProducts = pipe(
@@ -1024,7 +1026,8 @@ export const getBookingForBuilder = createSelector(
           complement(isNilOrEmpty),
           pipe(
             input => new Date(input),
-            partialRight(subDays, [1]),
+            // @see 1043
+            // partialRight(subDays, [1]),
             formatDate
           )
         ),
@@ -1035,35 +1038,6 @@ export const getBookingForBuilder = createSelector(
         pipe(
           props(['startDate', 'endDate']),
           accomDates => (dates = concat(dates, accomDates))
-        )
-      ),
-
-      // Push ages to guestAges total object
-      tap(
-        pipe(
-          prop('guestAges'),
-          ages => {
-            if (prop('numberOfAdults', ages)) {
-              guestAges = over(
-                lensProp('numberOfAdults'),
-                pipe(
-                  defaultTo(0),
-                  add(prop('numberOfAdults', ages))
-                ),
-                guestAges
-              );
-            }
-            if (prop('agesOfAllChildren', ages)) {
-              guestAges = over(
-                lensProp('agesOfAllChildren'),
-                pipe(
-                  defaultTo([]),
-                  concat(prop('agesOfAllChildren', ages))
-                ),
-                guestAges
-              );
-            }
-          }
         )
       ),
 
@@ -1082,6 +1056,9 @@ export const getBookingForBuilder = createSelector(
       [ProductTypes.SUPPLEMENT]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.SUPPLEMENT], booking),
       [ProductTypes.FINE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.FINE], booking),
     };
+
+    const lodgings = pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking);
+    const guestAges = calculateBookingTotalGuestAges(lodgings);
 
     // Sort the final dates
     dates.sort();
@@ -1103,7 +1080,6 @@ export const getBookingForBuilderPure = (state, hotelUuid) => {
   const booking = state.bookings.data[hotelUuid];
 
   let dates = [];
-  let guestAges = {};
 
   // Run through the accommodation products and sanitize
   const sanitizeAccommodationProducts = pipe(
@@ -1116,7 +1092,8 @@ export const getBookingForBuilderPure = (state, hotelUuid) => {
         complement(isNilOrEmpty),
         pipe(
           input => new Date(input),
-          partialRight(subDays, [1]),
+          // @see 1043
+          // partialRight(subDays, [1]),
           formatDate
         )
       ),
@@ -1127,35 +1104,6 @@ export const getBookingForBuilderPure = (state, hotelUuid) => {
       pipe(
         props(['startDate', 'endDate']),
         accomDates => (dates = concat(dates, accomDates))
-      )
-    ),
-
-    // Push ages to guestAges total object
-    tap(
-      pipe(
-        prop('guestAges'),
-        ages => {
-          if (prop('numberOfAdults', ages)) {
-            guestAges = over(
-              lensProp('numberOfAdults'),
-              pipe(
-                defaultTo(0),
-                add(prop('numberOfAdults', ages))
-              ),
-              guestAges
-            );
-          }
-          if (prop('agesOfAllChildren', ages)) {
-            guestAges = over(
-              lensProp('agesOfAllChildren'),
-              pipe(
-                defaultTo([]),
-                concat(prop('agesOfAllChildren', ages))
-              ),
-              guestAges
-            );
-          }
-        }
       )
     ),
 
@@ -1174,6 +1122,9 @@ export const getBookingForBuilderPure = (state, hotelUuid) => {
     [ProductTypes.SUPPLEMENT]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.SUPPLEMENT], booking),
     [ProductTypes.FINE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.FINE], booking),
   };
+
+  const lodgings = pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking);
+  const guestAges = calculateBookingTotalGuestAges(lodgings);
 
   // Sort the final dates
   dates.sort();

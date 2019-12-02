@@ -654,13 +654,16 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
 ) => {
   await dispatch(updateBooking(id, payload));
 
-  const booking = getBooking(getState(), id);
+  const state = getState();
+
+  const booking = getBooking(state, id);
   const { breakdown } = booking;
 
-  const bookingBuild = getBookingForBuilder(getState(), id);
+  const bookingBuild = getBookingForBuilder(state, id);
   const bookingHash = prop('bookingHash', breakdown);
 
   // attempt to get a bookingHash if none exists
+  // TODO 1043 why would this scenario ever happen
   if (!bookingHash) await dispatch(updateBooking(id), {});
 
   // Get the booking information from the booking object.  This is the final screen
