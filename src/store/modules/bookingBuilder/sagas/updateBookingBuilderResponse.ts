@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { call, takeLatest, select, put } from 'redux-saga/effects';
+import { taMarginTypeSelector, taMarginAmountSelector } from '../selectors';
 import {
   updateBookingSuccessAction,
   UPDATE_TRANSFER,
@@ -33,12 +34,23 @@ export function* bookingBuilderResponseSaga(action: any) {
       request
     );
 
+    const marginType = yield select(taMarginTypeSelector);
+    const marginAmount = yield select(taMarginAmountSelector);
+
     yield put(updateBookingSuccessAction(bookingBuilderEndpointResponse.data.data, action.hotelUuid));
 
     // this action ensures that every single time we update our new booking builder response, we keep the old `bookings` domain in sync
     // this is done because there is a lot of code that relies on the old `bookings` domain data
     // @see https://pureescapes.atlassian.net/browse/OWA-1030
-    yield put(backwardCompatBookingBuilderAction(action.hotelUuid, request, bookingBuilderEndpointResponse.data.data));
+    yield put(
+      backwardCompatBookingBuilderAction(
+        action.hotelUuid,
+        request,
+        bookingBuilderEndpointResponse.data.data,
+        marginType,
+        marginAmount
+      )
+    );
   } catch (e) {
     // yield put(bookingRequestFailureAction(e));
   }
