@@ -270,6 +270,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   );
 
   renderResults = () => {
+    if (this.props.searchPending) {
+      return null;
+    }
+
     if (!this.props.searchResults) {
       return null;
     }
