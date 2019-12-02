@@ -74,7 +74,6 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
       const isInside = wrapper.current!.contains(e.target as Node);
       // This is a poor way to identify a click on the select elements. Thanks, MaterialUi.
       const isChildAgeSelection = (e.target as HTMLLIElement).className.includes('MuiListItem');
-      e.preventDefault();
       if (!isInside && !isChildAgeSelection) {
         props.onClickOutside(e);
       }
