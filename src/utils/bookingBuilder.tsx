@@ -18,6 +18,8 @@ import {
   // @ts-ignore
 } from 'interfaces';
 
+import { AvailableProductSets } from 'services/BackendApi/types';
+
 export const getAvailableProductSetAccommodationForUuid = (
   uuid: string,
   availableProductSets: BookingBuilderAvailableProductSets
@@ -186,8 +188,8 @@ export const getAvailableMealPlansForAccommodation = (
   return availableMealPlans;
 };
 
-export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any) => {
-  const selectedLodging = potentialBooking.Accommodation[lodging.index];
+export const getLodgingTotals = (lodging: LodgingSummary, availableProductSets: AvailableProductSets) => {
+  const selectedLodging = availableProductSets.Accommodation[lodging.index];
 
   if (!selectedLodging) {
     return {
@@ -197,7 +199,7 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
     };
   }
 
-  if (selectedLodging.isOnRequest) {
+  if (selectedLodging.isOnRequestOrPartiallyOnRequest) {
     return {
       isOnRequest: true,
       total: '0',
@@ -209,20 +211,24 @@ export const getLodgingTotals = (lodging: LodgingSummary, potentialBooking: any)
   let totalBeforeDiscount = 0;
 
   // get base lodging prices
-  total += parseFloat(selectedLodging.total);
-  totalBeforeDiscount += parseFloat(selectedLodging.totalBeforeDiscount);
+  total += selectedLodging.total ? parseFloat(selectedLodging.total) : 0;
+  totalBeforeDiscount += selectedLodging.totalBeforeDiscount ? parseFloat(selectedLodging.totalBeforeDiscount) : 0;
 
   // add meal plan prices
-  selectedLodging.subProducts['Meal Plan'].forEach(mealPlan => {
-    total += parseFloat(mealPlan.total);
-    totalBeforeDiscount += parseFloat(mealPlan.totalBeforeDiscount);
-  });
+  selectedLodging.availableSubProductSets['Meal Plan']
+    .filter(asp => asp.selected)
+    .forEach(asp => {
+      total += asp.total ? parseFloat(asp.total) : 0;
+      totalBeforeDiscount += asp.totalBeforeDiscount ? parseFloat(asp.totalBeforeDiscount) : 0;
+    });
 
   // add supplement prices
-  selectedLodging.subProducts['Supplement'].forEach(supplement => {
-    total += parseFloat(supplement.total);
-    totalBeforeDiscount += parseFloat(supplement.totalBeforeDiscount);
-  });
+  selectedLodging.availableSubProductSets['Supplement']
+    .filter(asp => asp.selected)
+    .forEach(asp => {
+      total += asp.total ? parseFloat(asp.total) : 0;
+      totalBeforeDiscount += asp.totalBeforeDiscount ? parseFloat(asp.totalBeforeDiscount) : 0;
+    });
 
   return {
     isOnRequest: false,
@@ -237,7 +243,9 @@ export const getAppliedSupplementsForLodging = (
   currencyCode: string
 ) => {
   try {
-    const supplements = availableProductSets.Accommodation[lodging.index].availableSubProductSets.Supplement;
+    const supplements = availableProductSets.Accommodation[lodging.index].availableSubProductSets.Supplement.filter(
+      s => s.selected
+    );
 
     if (!supplements) {
       return [];
@@ -261,22 +269,39 @@ export const getAppliedSupplementsForLodging = (
   }
 };
 
-export const getAppliedOffersForLodging = (lodging: LodgingSummary, potentialBooking: any) => {
+export const getAppliedOffersForLodging = (
+  lodging: LodgingSummary,
+  availableProductSets: AvailableProductSets,
+  textOnlyOffersPerLodging: any
+) => {
   try {
-    // get all the offers for the lodging itself
-    const lodgingOffers = potentialBooking.Accommodation[lodging.index].offers.map(o => {
-      return o.offer.name;
-    });
+    const lodgingOffers = flatten(
+      availableProductSets.Accommodation[lodging.index].breakdown.map(breakdown => {
+        return breakdown.offers.map(offer => {
+          return offer.offer.name;
+        });
+      })
+    );
 
-    // get the meal plan offers
-    const lodgingSubProductOffers = potentialBooking.Accommodation[lodging.index].subProducts['Meal Plan'].map(m => {
-      return m.offers.map(o => {
-        return o.offer.name;
+    const lodgingSubProductOffers = availableProductSets.Accommodation[lodging.index].availableSubProductSets[
+      'Meal Plan'
+    ]
+      .filter(asp => asp.selected)
+      .map(asp => {
+        return asp.breakdown.map(breakdown => {
+          return breakdown.offers.map(offer => {
+            return offer.offer.name;
+          });
+        });
       });
+
+    const textOffers = textOnlyOffersPerLodging[lodging.index].map(offer => {
+      return offer.offer.name;
     });
 
-    const flat = flatten([lodgingOffers, lodgingSubProductOffers]);
+    const flat = flatten([lodgingOffers, lodgingSubProductOffers, textOffers]);
 
+    console.log('flat', flat);
     // needs to be unique, @see owa 1022
     return uniqBy(a => a, flat);
   } catch (e) {

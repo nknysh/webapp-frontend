@@ -116,7 +116,15 @@ const renderHotel = (
 const renderError = ({ message }, i) => <Error key={i}>{message}</Error>;
 const renderSummaryErrors = errors => !isNilOrEmpty(errors) && <List>{mapWithIndex(renderError, errors)}</List>;
 
-const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, availableProductSets, potentialBooking) => {
+const renderLodgingSummary = (
+  lodging,
+  setModalId,
+  editGuard,
+  onEditGuard,
+  availableProductSets,
+  potentialBooking,
+  textOnlyOffersPerLodging
+) => {
   const handleRoomEdit = () => {
     if (editGuard) {
       return onEditGuard();
@@ -134,6 +142,7 @@ const renderLodgingSummary = (lodging, setModalId, editGuard, onEditGuard, avail
       potentialBooking={potentialBooking}
       editGuard={editGuard}
       onEditGuard={onEditGuard}
+      textOnlyOffersPerLodging={textOnlyOffersPerLodging}
     />
   );
 };
@@ -182,7 +191,8 @@ const renderLodgingSummaries = (t, booking, props) => {
           editGuard,
           onEditGuard,
           bookingResponse.availableProductSets,
-          bookingResponse.potentialBooking
+          bookingResponse.potentialBooking,
+          bookingResponse.textOnlyOffersPerLodging
         )
       )}
       {lodgingSummaries.length >= 1 && <hr />}
