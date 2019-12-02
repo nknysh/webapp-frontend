@@ -17,18 +17,23 @@ const TabBarCompactComponent = (props: TabBarCompactProps) => {
     [props.onIncrementTabIndex]
   );
 
+  const disablePrevButton = props.tabIndex <= 0;
+  const disableNextButton = props.tabIndex >= props.children.length - 1;
+
   return (
     <div className={props.className}>
-      {props.tabIndex > 0 && (
-        <IconButton className="prevButton" title="previous tab" onClick={handleIncrement(-1)}>
-          <Icon>chevron_left</Icon>
-        </IconButton>
-      )}
-      {props.tabIndex < props.children.length - 1 && (
-        <IconButton className="nextButton" title="next tab" onClick={handleIncrement(1)}>
-          <Icon>chevron_right</Icon>
-        </IconButton>
-      )}
+      <IconButton
+        disabled={disablePrevButton}
+        className="prevButton"
+        title="previous tab"
+        onClick={handleIncrement(-1)}
+      >
+        <Icon>chevron_left</Icon>
+      </IconButton>
+
+      <IconButton disabled={disableNextButton} className="nextButton" title="next tab" onClick={handleIncrement(1)}>
+        <Icon>chevron_right</Icon>
+      </IconButton>
 
       <div className="children">{props.children[props.tabIndex]}</div>
     </div>
@@ -50,6 +55,11 @@ export const TabBarCompact = styled(TabBarCompactComponent)`
   .nextButton {
     grid-area: next;
     text-align: left;
+  }
+
+  .prevButton:disabled,
+  .nextButton:disabled {
+    opacity: 0;
   }
 
   .children {
