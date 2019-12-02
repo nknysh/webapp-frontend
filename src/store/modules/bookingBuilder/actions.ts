@@ -171,20 +171,23 @@ export const forwardsCompatBookingBuilderAction = (booking: any, holds: any) => 
 });
 
 export type UpdateTAMarginType = ReturnType<typeof updateTAMarginTypeAction>;
-export const updateTAMarginTypeAction = (taMarginType: string) => ({
+export const updateTAMarginTypeAction = (hotelUuid: string, taMarginType: string) => ({
   type: UPDATE_TA_MARGIN_TYPE_ACTION as typeof UPDATE_TA_MARGIN_TYPE_ACTION,
+  hotelUuid,
   taMarginType,
 });
 
 export type UpdateTAMarginAmount = ReturnType<typeof updateTAMarginAmountAction>;
-export const updateTAMarginAmountAction = (taMarginAmount: string) => ({
+export const updateTAMarginAmountAction = (hotelUuid: string, taMarginAmount: string) => ({
   type: UPDATE_TA_MARGIN_AMOUNT_ACTION as typeof UPDATE_TA_MARGIN_AMOUNT_ACTION,
+  hotelUuid,
   taMarginAmount,
 });
 
 export type UpdateIsTAMarginAppliedAction = ReturnType<typeof updateIsTAMarginAppliedAction>;
-export const updateIsTAMarginAppliedAction = (value: boolean) => ({
+export const updateIsTAMarginAppliedAction = (hotelUuid: string, value: boolean) => ({
   type: UPDATE_IS_TA_MARGIN_APPLIED_ACTION as typeof UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
+  hotelUuid,
   value,
 });
 
