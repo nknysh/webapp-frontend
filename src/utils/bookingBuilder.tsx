@@ -211,23 +211,23 @@ export const getLodgingTotals = (lodging: LodgingSummary, availableProductSets: 
   let totalBeforeDiscount = 0;
 
   // get base lodging prices
-  total += parseFloat(selectedLodging.total);
-  totalBeforeDiscount += parseFloat(selectedLodging.totalBeforeDiscount);
+  total += selectedLodging.total ? parseFloat(selectedLodging.total) : 0;
+  totalBeforeDiscount += selectedLodging.totalBeforeDiscount ? parseFloat(selectedLodging.totalBeforeDiscount) : 0;
 
   // add meal plan prices
   selectedLodging.availableSubProductSets['Meal Plan']
     .filter(asp => asp.selected)
     .forEach(asp => {
-      total += parseFloat(asp.total);
-      totalBeforeDiscount += parseFloat(asp.totalBeforeDiscount);
+      total += asp.total ? parseFloat(asp.total) : 0;
+      totalBeforeDiscount += asp.totalBeforeDiscount ? parseFloat(asp.totalBeforeDiscount) : 0;
     });
 
   // add supplement prices
   selectedLodging.availableSubProductSets['Supplement']
     .filter(asp => asp.selected)
     .forEach(asp => {
-      total += parseFloat(asp.total);
-      totalBeforeDiscount += parseFloat(asp.totalBeforeDiscount);
+      total += asp.total ? parseFloat(asp.total) : 0;
+      totalBeforeDiscount += asp.totalBeforeDiscount ? parseFloat(asp.totalBeforeDiscount) : 0;
     });
 
   return {
