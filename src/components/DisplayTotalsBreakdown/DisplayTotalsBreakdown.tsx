@@ -72,27 +72,12 @@ export const DisplayTotalsBreakdown = props => {
     }
   };
 
-  const sanitizeItem = item => {
-    return {
-      ...item,
-      offers: item.offers.map(o => {
-        if (typeof o === 'string') {
-          return o;
-        } else {
-          return o.offer.name;
-        }
-      }),
-    };
-  };
-
   const blocksMarkup = displayTotals.blocks.map((block: IBlock) => {
     if (block.items.length <= 0) {
       return null;
     }
 
     const itemsBlocks = block.items.map((item: IItem) => {
-      item = sanitizeItem(item);
-
       return (
         <React.Fragment key={item.title}>
           <TotalSection>
@@ -109,7 +94,7 @@ export const DisplayTotalsBreakdown = props => {
                   );
                 })}
               </ul>
-              <label>{item.offers.join(', ')}</label>
+              <LabelRed>{item.offers.join(', ')}</LabelRed>
             </TotalSectionColumn>
             <TotalSectionColumn>
               <PriceBreakdown total={item.total} totalBeforeDiscount={item.totalBeforeDiscount} />

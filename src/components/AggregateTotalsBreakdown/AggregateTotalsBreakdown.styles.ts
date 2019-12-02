@@ -22,6 +22,7 @@ export const Price = styled.span<IPrice>`
   font-size: 16px;
   letter-spacing: 1.62px;
   display: block;
+  text-align: right;
   color: ${theme.palette.secondary};
   ${props => props.discount && `color: ${theme.colors['red-fade']} !important;`}
   ${props => props.preDiscount && `text-decoration: line-through;`}
@@ -33,8 +34,10 @@ export const TotalSection = styled.div`
   margin-bottom: 10px;
 `;
 
-export const LabelRed = styled.label`
+export const LabelRed = styled.span`
+  text-transform: uppercase;
   color: ${theme.colors['red-fade']} !important;
+  font-size: 13px;
 `;
 
 interface ITotalSectionColumn {
