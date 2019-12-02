@@ -2,7 +2,7 @@ import { initialState, BookingBuilderDomain } from './model';
 import * as Actions from './actions';
 import { makeBookingBuilderStub } from './utils';
 import { SelectedAccommodation } from 'services/BackendApi';
-import { flatten, min as Rmin, pathOr } from 'ramda';
+import { flatten, min as Rmin } from 'ramda';
 
 import produce from 'immer';
 import { formatDate } from 'utils';
