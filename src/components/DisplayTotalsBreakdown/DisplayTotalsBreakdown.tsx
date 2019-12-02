@@ -44,7 +44,11 @@ export const DisplayTotalsBreakdown = props => {
   const displayTotals: IDisplayTotals = props.displayTotals;
 
   const PriceBreakdown = props => {
-    const { total, totalBeforeDiscount } = props;
+    const { total, totalBeforeDiscount, oneOrMoreItemsOnRequest } = props;
+
+    if (oneOrMoreItemsOnRequest === true) {
+      return <label>{t ? t('labels.priceAvailableOnRequest') : 'Price available on request'}</label>;
+    }
 
     if (!total && !totalBeforeDiscount) {
       return <label>{t ? t('labels.itemNoTotal') : 'Item No Total'}</label>;
@@ -129,14 +133,11 @@ export const DisplayTotalsBreakdown = props => {
         </TotalSectionColumn>
 
         <TotalSectionColumn>
-          <Price preDiscount={true}>
-            {currencyCode}
-            {formatPrice(displayTotals.totals.totalBeforeDiscount)}
-          </Price>
-          <Price discount={true}>
-            {currencyCode}
-            {formatPrice(displayTotals.totals.total)}
-          </Price>
+          <PriceBreakdown
+            total={displayTotals.totals.total}
+            totalBeforeDiscount={displayTotals.totals.totalBeforeDiscount}
+            oneOrMoreItemsOnRequest={displayTotals.totals.oneOrMoreItemsOnRequest}
+          />
         </TotalSectionColumn>
       </TotalSection>
     </React.Fragment>
