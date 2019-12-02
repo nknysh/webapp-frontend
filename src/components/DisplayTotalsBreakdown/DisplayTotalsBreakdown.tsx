@@ -1,5 +1,16 @@
 import React from 'react';
 import { formatPrice } from 'utils';
+import styled from 'styled-components';
+
+import {
+  OfferSpan,
+  //   TotalBreakdownSpan,
+  Price,
+  TotalSection,
+  TotalSectionColumn,
+  GrandTotalLabel,
+  LabelRed,
+} from '../AggregateTotalsBreakdown/AggregateTotalsBreakdown.styles';
 
 interface IItem {
   title: string;
@@ -29,17 +40,14 @@ interface IDisplayTotals {
   };
 }
 
-import {
-  OfferSpan,
-  //   TotalBreakdownSpan,
-  Price,
-  TotalSection,
-  TotalSectionColumn,
-  GrandTotalLabel,
-  LabelRed,
-} from '../AggregateTotalsBreakdown/AggregateTotalsBreakdown.styles';
+export interface IDisplayTotalsBreakdownProps {
+  t: (key: string) => string;
+  className?: string;
+  currencyCode: string;
+  displayTotals: IDisplayTotals;
+}
 
-export const DisplayTotalsBreakdown = props => {
+export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
   const { t, currencyCode } = props;
   const displayTotals: IDisplayTotals = props.displayTotals;
 
@@ -123,7 +131,7 @@ export const DisplayTotalsBreakdown = props => {
   });
 
   return (
-    <React.Fragment>
+    <div className={props.className}>
       {blocksMarkup}
 
       <TotalSection>
@@ -141,8 +149,15 @@ export const DisplayTotalsBreakdown = props => {
           />
         </TotalSectionColumn>
       </TotalSection>
-    </React.Fragment>
+    </div>
   );
 };
 
-export default DisplayTotalsBreakdown;
+export default styled(DisplayTotalsBreakdown)`
+  text-transform: uppercase;
+  color: #736a65;
+  font-size: 13px;
+  span {
+    font-size: 13px;
+  }
+`;

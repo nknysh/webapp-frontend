@@ -1,15 +1,15 @@
 import React, { useState, Fragment, useCallback } from 'react';
+import WithBookings from 'hoc/WithBookings';
+
 import {
   __,
   append,
   compose,
   equals,
   filter,
-  gt,
   includes,
   isEmpty,
   join,
-  length,
   map,
   partial,
   path,
@@ -26,17 +26,17 @@ import {
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Loader, Tabs, Section, Modal, Checkbox, Button } from '@pure-escapes/webapp-ui-components';
+import { Loader, Tabs, Section, Modal, Checkbox } from '@pure-escapes/webapp-ui-components';
 
 import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
-import { BookingForm, ContextMenu, Summary } from 'components';
+import { BookingForm, Summary } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { formatDate } from 'utils';
 import { fields, data } from 'config/forms/bookingForm';
 
 import { isLoading, isSuccess, isSending } from 'store/common';
 
-import SummaryForm from 'containers/SummaryForm';
+import BookingSummaryLite from 'pureUi/BookingSummaryLite';
 
 import connect from './ProposalContainer.state';
 import { propTypes, defaultProps } from './ProposalContainer.props';
@@ -51,18 +51,15 @@ import {
   GuestName,
   PDFFrame,
   Proposal,
-  ProposalActions,
-  ProposalActionsWrapper,
   ProposalGuestForm,
   ProposalGuestInfo,
   ProposalId,
-  ProposalSummary,
   StatusStrip,
   StatusStripDate,
   StyledBreadcrumbs,
   StyledProposalContainer,
-  Title,
   ProposalGuestFormNotes,
+  ProposalsWrapper,
 } from './ProposalContainer.styles';
 import { simpleForm, withoutSections } from './ProposalContainer.utils';
 
@@ -125,122 +122,14 @@ const renderAdditionalResource = (
   );
 };
 
-const renderAdditionalResources = (t, { booking, isEdit, onAdditionalResourceClick, attachedUploads }) => {
-  const additionalResources = filter(
-    propSatisfies(includes(__, ['floorPlan', 'brochure']), 'tag'),
-    pathOr([], ['breakdown', 'uploads'], booking)
-  );
-
-  return (
-    (isEdit || !isEmpty(attachedUploads)) && (
-      <Summary title={t(`labels.additionalResources`)}>
-        {map(
-          partial(renderAdditionalResource, [t, { onAdditionalResourceClick, attachedUploads, isEdit }]),
-          additionalResources
-        )}
-      </Summary>
-    )
-  );
+const renderBooking = booking => {
+  console.log('renderBooking', booking);
+  return <BookingSummaryLite key={booking.bookingHash} booking={booking} />;
 };
 
-const renderBooking = (
-  t,
-  {
-    attachedUploads,
-    bookings,
-    canEdit,
-    isEdit,
-    onAdditionalResourceClick,
-    onAmend,
-    onBook,
-    onBookingRemove,
-    onGuardEditComplete,
-    onAddHolds,
-    onReleaseHolds,
-  },
-  uuid
-) =>
-  uuid && (
-    <Fragment key={uuid}>
-      <SummaryForm
-        bookLabel={propOr(false, uuid, canEdit) && t('buttons.amendBooking')}
-        compact
-        id={uuid}
-        onGuardEditComplete={onGuardEditComplete}
-        summaryOnly={!isEdit}
-        canEdit={propOr(false, uuid, canEdit)}
-        canBook={true}
-        onSubmit={propOr(false, uuid, canEdit) ? onAmend : onBook}
-        canChangeDates={false}
-        fetch={true}
-        showHolds={true}
-        onAddHolds={onAddHolds}
-        onReleaseHolds={onReleaseHolds}
-        confirm={!propOr(false, uuid, canEdit)}
-      >
-        {({ booking }) => (
-          <Fragment>
-            {!propOr(false, uuid, canEdit) &&
-              renderAdditionalResources(t, { booking, isEdit, onAdditionalResourceClick, attachedUploads })}
-            {isEdit && gt(1, length(bookings)) && (
-              <ProposalActionsWrapper>
-                <ProposalActions>
-                  <ContextMenu>
-                    <span onClick={() => onBookingRemove(booking)}>{t('buttons.remove')}</span>
-                  </ContextMenu>
-                </ProposalActions>
-              </ProposalActionsWrapper>
-            )}
-          </Fragment>
-        )}
-      </SummaryForm>
-    </Fragment>
-  );
-
-const renderProposalSummary = (
-  t,
-  {
-    attachedUploads,
-    bookings,
-    canEdit,
-    isEdit,
-    isResortsView,
-    isMobile,
-    onAdditionalResourceClick,
-    onAmend,
-    onBookingRemove,
-    onGuardEditComplete,
-    onViewChange,
-    onBook,
-    onAddHolds,
-    onReleaseHolds,
-  }
-) =>
-  (!isMobile || isResortsView) && (
-    <ProposalSummary>
-      {!isMobile && <Title>{t('labels.propertiesAndRooms')}</Title>}
-      {map(
-        partial(renderBooking, [
-          t,
-          {
-            onBookingRemove,
-            onGuardEditComplete,
-            isEdit,
-            onAmend,
-            canEdit,
-            onAdditionalResourceClick,
-            attachedUploads,
-            bookings,
-            onBook,
-            onAddHolds,
-            onReleaseHolds,
-          },
-        ]),
-        bookings
-      )}
-      {isMobile && isEdit && <Button onClick={onViewChange}>{t('labels.reviewAndGenerate')}</Button>}
-    </ProposalSummary>
-  );
+const renderBookings = bookings => {
+  return <ProposalsWrapper>{Object.keys(bookings).map(key => renderBooking(bookings[key]))}</ProposalsWrapper>;
+};
 
 const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF }) =>
   isEdit &&
@@ -298,7 +187,6 @@ const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal }) =>
   );
 
 const renderPDFModal = (t, { id, showPDF, setShowPDF, guestsDetails }) => {
-  const { guestTitle, guestFirstName, guestLastName } = guestsDetails;
   const queryString = toPairs(guestsDetails)
     .map(([k, v]) => `${k}=${v ? encodeURIComponent(v) : v}`)
     .join('&');
@@ -324,9 +212,9 @@ const renderFull = (
     isMobile,
     onMobileNavClick,
     proposal,
-    summaryProps,
     guestFormProps,
     guestInfoProps,
+    storeBookings,
   }
 ) => (
   <Fragment>
@@ -341,17 +229,17 @@ const renderFull = (
     })}
     {renderStatusStrip(t, { isEdit, ...proposal })}
     <Proposal>
-      {renderProposalSummary(t, summaryProps)}
+      {storeBookings && renderBookings(storeBookings)}
       {isEdit ? renderProposalGuestForm(t, guestFormProps) : renderProposalGuestInfo(t, guestInfoProps)}
     </Proposal>
   </Fragment>
 );
 
-const renderTabs = (t, { id, summaryProps, guestInfoProps }) => (
+const renderTabs = (t, { id, guestInfoProps }) => (
   <Fragment>
     <ProposalId>{t('labels.proposalWithId', { id })}</ProposalId>
     <Tabs labels={[t('labels.resortsIncluded'), t('labels.guestsDetails')]}>
-      {renderProposalSummary(t, summaryProps)}
+      {/* {renderProposalSummary(t, summaryProps)} */}
       {renderProposalGuestInfo(t, guestInfoProps)}
     </Tabs>
   </Fragment>
@@ -360,6 +248,7 @@ const renderTabs = (t, { id, summaryProps, guestInfoProps }) => (
 export const ProposalContainer = ({
   amendBooking,
   bookings,
+  storeBookings,
   completeProposalBooking,
   fetchProposal,
   id,
@@ -509,6 +398,7 @@ export const ProposalContainer = ({
               summaryProps,
               guestFormProps,
               guestInfoProps,
+              storeBookings,
             })
           : renderTabs(t, { id, summaryProps, guestInfoProps })}
       </StyledProposalContainer>
@@ -520,4 +410,7 @@ export const ProposalContainer = ({
 ProposalContainer.propTypes = propTypes;
 ProposalContainer.defaultProps = defaultProps;
 
-export default compose(connect)(ProposalContainer);
+export default compose(
+  connect,
+  WithBookings
+)(ProposalContainer);

@@ -26,6 +26,11 @@ export const StyledBreadcrumbs = styled(BaseStyledBreadcrumbs)``;
 
 export const Back = styled(BaseBack)``;
 
+export const ProposalsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const Proposal = styled.div`
   ${props => props.theme.breakpoints.tablet`
     margin: ${theme.spacing.gutter * 6.1}px ${theme.spacing.gutter * 2}px ${theme.spacing.gutter * 2}px;

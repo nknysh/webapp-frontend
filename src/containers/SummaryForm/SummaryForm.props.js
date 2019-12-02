@@ -5,6 +5,7 @@ import { noop } from 'utils';
 export const propTypes = {
   addHoldLabel: PropTypes.bool,
   booking: PropTypes.object,
+  booking: PropTypes.object,
   bookLabel: PropTypes.string,
   canBook: PropTypes.bool,
   canChangeDates: PropTypes.bool,
