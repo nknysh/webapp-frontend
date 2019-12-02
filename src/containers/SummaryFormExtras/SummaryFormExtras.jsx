@@ -812,20 +812,20 @@ export const SummaryFormExtras = ({
   const onMarginChange = useCallback(
     (e, marginType, marginValue, shouldUpdateCheckbox = undefined) => {
       if (shouldUpdateCheckbox === true || shouldUpdateCheckbox === false) {
-        updateIsTAMarginAppliedAction(shouldUpdateCheckbox);
+        updateIsTAMarginAppliedAction(id, shouldUpdateCheckbox);
 
         if (shouldUpdateCheckbox === false) {
-          updateTAMarginTypeAction(undefined);
-          updateTAMarginAmountAction(undefined);
+          updateTAMarginTypeAction(id, undefined);
+          updateTAMarginAmountAction(id, undefined);
         }
       }
 
-      updateTAMarginTypeAction(marginType);
-      updateTAMarginAmountAction(marginValue);
+      updateTAMarginTypeAction(id, marginType);
+      updateTAMarginAmountAction(id, marginValue);
 
       return;
     },
-    [updateTAMarginTypeAction, updateTAMarginAmountAction, updateIsTAMarginAppliedAction]
+    [updateTAMarginTypeAction, updateTAMarginAmountAction, updateIsTAMarginAppliedAction, id]
   );
 
   const onMultipleChange = useCallback(
