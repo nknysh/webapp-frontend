@@ -269,7 +269,11 @@ export const getAppliedSupplementsForLodging = (
   }
 };
 
-export const getAppliedOffersForLodging = (lodging: LodgingSummary, availableProductSets: AvailableProductSets) => {
+export const getAppliedOffersForLodging = (
+  lodging: LodgingSummary,
+  availableProductSets: AvailableProductSets,
+  textOnlyOffersPerLodging: any
+) => {
   try {
     const lodgingOffers = flatten(
       availableProductSets.Accommodation[lodging.index].breakdown.map(breakdown => {
@@ -291,8 +295,13 @@ export const getAppliedOffersForLodging = (lodging: LodgingSummary, availablePro
         });
       });
 
-    const flat = flatten([lodgingOffers, lodgingSubProductOffers]);
+    const textOffers = textOnlyOffersPerLodging[lodging.index].map(offer => {
+      return offer.offer.name;
+    });
 
+    const flat = flatten([lodgingOffers, lodgingSubProductOffers, textOffers]);
+
+    console.log('flat', flat);
     // needs to be unique, @see owa 1022
     return uniqBy(a => a, flat);
   } catch (e) {

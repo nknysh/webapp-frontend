@@ -23,8 +23,10 @@ const possibleChildAges = {
   17: '17',
 };
 
+import { AvailableProductSets } from 'services/BackendApi/types';
+
 // @ts-ignore
-import { LodgingSummary, BookingBuilderAvailableProductSets } from 'interfaces';
+import { LodgingSummary } from 'interfaces';
 
 // @ts-ignore
 import { isNilOrEmpty } from 'ramda-adjunct';
@@ -67,9 +69,10 @@ import connect from './LodgingSummary.state';
 
 export const LodgingSummaryRender = props => {
   const lodging: LodgingSummary = props.lodging;
-  const availableProductSets: BookingBuilderAvailableProductSets = props.availableProductSets;
+  const availableProductSets: AvailableProductSets = props.availableProductSets;
   const potentialBooking: any = props.potentialBooking;
 
+  const textOnlyOffersPerLodging: any = props.textOnlyOffersPerLodging;
   const updateLodgingGuestAgesAction: Function = props.updateLodgingGuestAgesAction;
   const updateLodgingMealPlanAction: Function = props.updateLodgingMealPlanAction;
   const updateLodgingDatesAction: Function = props.updateLodgingDatesAction;
@@ -81,7 +84,7 @@ export const LodgingSummaryRender = props => {
 
   const appliedSupplements = getAppliedSupplementsForLodging(lodging, availableProductSets, currencyCode);
   const lodgingTotals = getLodgingTotals(lodging, availableProductSets);
-  const appliedOffers = getAppliedOffersForLodging(lodging, availableProductSets);
+  const appliedOffers = getAppliedOffersForLodging(lodging, availableProductSets, textOnlyOffersPerLodging);
 
   const { t } = useTranslation();
   /**
