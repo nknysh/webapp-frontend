@@ -53,7 +53,8 @@ export const DisplayTotalsBreakdown = props => {
     if (!total && !totalBeforeDiscount) {
       return <label>{t ? t('labels.itemNoTotal') : 'Item No Total'}</label>;
     }
-    if (props.totalBeforeDiscount) {
+
+    if (totalBeforeDiscount && total !== totalBeforeDiscount) {
       return (
         <React.Fragment>
           <Price {...props} discount={true}>
@@ -127,9 +128,9 @@ export const DisplayTotalsBreakdown = props => {
 
       <TotalSection>
         <TotalSectionColumn isLeft={true}>
-          <label>Total Cost Before Offers</label>
-          <br />
           <label>Total Cost To You</label>
+          <br />
+          <label>Total Cost Before Offers</label>
         </TotalSectionColumn>
 
         <TotalSectionColumn>
