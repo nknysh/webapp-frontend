@@ -175,7 +175,7 @@ export const addLodgingReducer = (
         startDate: formatDate(existingLodgingOfAccommodationProduct.startDate),
         endDate: formatDate(existingLodgingOfAccommodationProduct.endDate),
         guestAges: {
-          numberOfAdults: numberOfAdults,
+          numberOfAdults,
           agesOfAllChildren: [],
         },
       };
@@ -187,7 +187,7 @@ export const addLodgingReducer = (
         startDate: formatDate(startDate),
         endDate: formatDate(endDate),
         guestAges: {
-          numberOfAdults: numberOfAdults,
+          numberOfAdults,
           agesOfAllChildren: [],
         },
         subProducts: {
