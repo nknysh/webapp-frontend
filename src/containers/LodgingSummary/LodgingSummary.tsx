@@ -80,8 +80,8 @@ export const LodgingSummaryRender = props => {
   const onEditGuard: Function = props.onEditGuard;
 
   const appliedSupplements = getAppliedSupplementsForLodging(lodging, availableProductSets, currencyCode);
-  const lodgingTotals = getLodgingTotals(lodging, potentialBooking);
-  const appliedOffers = getAppliedOffersForLodging(lodging, potentialBooking);
+  const lodgingTotals = getLodgingTotals(lodging, availableProductSets);
+  const appliedOffers = getAppliedOffersForLodging(lodging, availableProductSets);
 
   const { t } = useTranslation();
   /**
