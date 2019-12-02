@@ -2,7 +2,7 @@ import { initialState, BookingBuilderDomain } from './model';
 import * as Actions from './actions';
 import { makeBookingBuilderStub } from './utils';
 import { SelectedAccommodation } from 'services/BackendApi';
-import { flatten } from 'ramda';
+import { flatten, min as Rmin, pathOr } from 'ramda';
 
 import produce from 'immer';
 import { formatDate } from 'utils';
@@ -151,11 +151,17 @@ export const addLodgingReducer = (
 
   const selectedAccommodationProduct = hotelAccommodationProducts.find(r => r.uuid === accommodationProductUuid);
 
+  if (!selectedAccommodationProduct) {
+    return state;
+  }
+
+  const adultLimit = selectedAccommodationProduct.occupancy.limits.filter(l => l.name === 'default')[0];
+  const numberOfAdults = Rmin(selectedAccommodationProduct.occupancy.standardOccupancy, adultLimit.maximum);
+
   return produce(state, draftState => {
     if (!draftState.currentBookingBuilder) {
       return state;
     }
-
     const existingLodgingOfAccommodationProduct = draftState.currentBookingBuilder.request.Accommodation.find(
       a => a.uuid === accommodationProductUuid
     );
@@ -169,7 +175,7 @@ export const addLodgingReducer = (
         startDate: formatDate(existingLodgingOfAccommodationProduct.startDate),
         endDate: formatDate(existingLodgingOfAccommodationProduct.endDate),
         guestAges: {
-          numberOfAdults: selectedAccommodationProduct ? selectedAccommodationProduct.occupancy.standardOccupancy : 0,
+          numberOfAdults: numberOfAdults,
           agesOfAllChildren: [],
         },
       };
@@ -181,7 +187,7 @@ export const addLodgingReducer = (
         startDate: formatDate(startDate),
         endDate: formatDate(endDate),
         guestAges: {
-          numberOfAdults: selectedAccommodationProduct ? selectedAccommodationProduct.occupancy.standardOccupancy : 0,
+          numberOfAdults: numberOfAdults,
           agesOfAllChildren: [],
         },
         subProducts: {
