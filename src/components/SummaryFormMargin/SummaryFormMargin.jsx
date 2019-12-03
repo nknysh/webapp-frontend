@@ -72,6 +72,7 @@ export const SummaryFormMargin = ({
                 flat: t('flatRate'),
               }}
               name="taMarginType"
+              MenuProps={{ container: () => document.body }}
             />
             <Input
               type="number"
