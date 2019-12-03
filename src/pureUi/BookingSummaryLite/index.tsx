@@ -15,13 +15,12 @@ export interface IBookingSummaryLiteProps {
 export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
   const { t } = useTranslation();
   const breakdown = props.booking.breakdown;
-  const priceIsOnRequest = props.booking.breakdown.displayTotals.oneOrMoreItemsOnRequest;
+  const priceIsOnRequest = props.booking.breakdown.displayTotals.totals.oneOrMoreItemsOnRequest;
   const totalCents = props.booking.breakdown.displayTotals.totals.totalForPricedItemsCents;
   const margin = parseFloat(props.booking.taMarginAmount);
   const marginTypeIsPercent = props.booking.taMarginType === 'percentage';
   const marginValue = marginTypeIsPercent ? (totalCents / 100) * (margin / 100) : margin;
   const currencySymbol = getCurrencySymbol(breakdown.currency);
-
   return (
     <div className={props.className}>
       <Heading2>{props.booking.hotelName}</Heading2>
@@ -36,8 +35,8 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
           !marginTypeIsPercent &&
           `Your current margin will be ${currencySymbol}${formatPrice(marginValue)}`}
 
-        {margin > 0 &&
-          !priceIsOnRequest &&
+        {!priceIsOnRequest &&
+          margin > 0 &&
           marginTypeIsPercent &&
           `Your current margin will be ${currencySymbol}${formatPrice(
             marginValue
