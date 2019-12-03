@@ -41,6 +41,7 @@ export default styled(TextInput)`
     width: 100%;
     color: ${pureUiTheme.colors.black};
     text-transform: uppercase;
+    border: none;
   }
 
   input::placeholder {
@@ -66,6 +67,7 @@ export default styled(TextInput)`
     transition: all 0.15s ease-out;
     box-shadow: 0 0 0 5px transparent;
     pointer-events: none;
+    border: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
   }
 
   input:focus ~ .surrogate,

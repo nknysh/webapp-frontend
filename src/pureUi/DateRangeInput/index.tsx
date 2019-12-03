@@ -54,8 +54,8 @@ const DateRangeInput = (props: DateRangeInputPops) => {
   return (
     <div className={props.className} ref={wrapper}>
       <button tabIndex={0} className="pseudoSelect" {...buttonProps}>
-        {displayString}
-        <span className="badge">
+        <span className="displayString">{displayString}</span>
+        <span className="countBadge">
           {totalNights} {totalNights > 1 || totalNights === 0 ? 'Nights' : 'Night'}
         </span>
       </button>
@@ -87,15 +87,18 @@ export default styled(DateRangeInput)`
 
   /* TODO: Create a component for this... */
   .pseudoSelect {
+    display: flex;
+    align-items: center;
     border: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
     position: relative;
     text-transform: uppercase;
-    padding: 10px;
+    padding: 0 10px;
     font-family: 'HurmeGeometricSans2';
     font-size: 14px;
     color: ${pureUiTheme.colors.black};
     text-align: left;
     width: 100%;
+    height: 39px;
     color: ${pureUiTheme.colors.black};
 
     transition: all 0.15s ease-out;
@@ -111,14 +114,22 @@ export default styled(DateRangeInput)`
     top: 100%;
   }
 
-  .badge {
-    position: absolute;
-    top: -16px;
-    right: 10px;
+  .displayString {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .countBadge {
+    position: relative;
     background-color: ${pureUiTheme.colors.aqua};
     padding: 5px 10px;
+
     border-radius: 4px;
     font-size: 12px;
     box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    margin-left: 10px;
   }
 `;

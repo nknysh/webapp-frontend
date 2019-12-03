@@ -65,7 +65,7 @@ const StyledFastSearchContainer = styled.div`
 
     & > span {
       display: block;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
   }
 
