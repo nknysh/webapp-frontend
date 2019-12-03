@@ -21,7 +21,6 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
   const marginTypeIsPercent = props.booking.taMarginType === 'percentage';
   const marginValue = marginTypeIsPercent ? (totalCents / 100) * (margin / 100) : margin;
   const currencySymbol = getCurrencySymbol(breakdown.currency);
-  console.log(props.booking);
   return (
     <div className={props.className}>
       <Heading2>{props.booking.hotelName}</Heading2>
