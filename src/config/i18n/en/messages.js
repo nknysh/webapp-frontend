@@ -17,4 +17,5 @@ export default {
   requesting: 'Requesting...',
   loadingUsers: 'Loading users...',
   gettingAccommodationProducts: 'Loading available accommodations...',
+  addingLodging: 'Loading new lodging data...',
 };
