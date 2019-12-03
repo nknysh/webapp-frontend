@@ -64,6 +64,11 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.post(endpoint, tempPayloadShape);
   };
 
+  getAvailableProposals = async () => {
+    const endpoint = `proposals/available`;
+    return this.client.get(endpoint);
+  };
+
   sanitizQueryObject = (query: SearchQuery): SearchQuery => {
     // Convery any strings that should be integers to integers
     // qs seem to not handle stings containing '+' correctly
