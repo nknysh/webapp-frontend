@@ -36,6 +36,10 @@ import { getBooking, getBookingStatus } from 'store/modules/bookings/selectors';
 import { getCurrentUserUuid, isSR } from 'store/modules/auth/selectors';
 import { getProposal } from 'store/modules/proposals/selectors';
 
+// import { getUserCountryContext } from 'store/modules/auth';
+
+import { makeBackendApi } from 'services/BackendApi';
+
 export const PROPOSAL_AMEND_BOOKING = 'PROPOSAL_AMEND_BOOKING';
 export const PROPOSAL_BOOKING_HOLD = 'PROPOSAL_BOOKING_HOLD';
 export const PROPOSAL_BOOKING_RELEASE = 'PROPOSAL_BOOKING_RELEASE';
@@ -71,10 +75,24 @@ const cleanPayload = pipe(
 export const fetchProposals = params => async dispatch => {
   dispatch(genericAction(PROPOSALS_FETCH, params));
 
+  const backendApi = makeBackendApi(null);
+
   try {
-    const {
-      data: { data },
-    } = await client.getProposals(params);
+    const proposalResponse = await backendApi.getAvailableProposals();
+
+    const proposals = {};
+    proposalResponse.data.forEach(p => {
+      proposals[p.uuid] = p;
+    });
+
+    const data = {
+      result: proposalResponse.data.map(p => p.uuid),
+      entities: {
+        proposals,
+      },
+    };
+
+    // console.log('proposalResponse', proposalResponse);
 
     dispatch(successAction(PROPOSALS_FETCH, data));
   } catch (e) {

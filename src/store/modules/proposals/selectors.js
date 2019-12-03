@@ -95,10 +95,6 @@ export const getProposalsKeyValue = createSelector(
   pipe(
     defaultTo({}),
     values,
-    reduce(
-      (accum, { bookings = [], uuid, name }) =>
-        gte(length(bookings), 3) ? accum : mergeDeepRight(accum, { [uuid]: name }),
-      {}
-    )
+    reduce((accum, { uuid, name }) => mergeDeepRight(accum, { [uuid]: name }), {})
   )
 );
