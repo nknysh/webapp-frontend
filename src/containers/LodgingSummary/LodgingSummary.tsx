@@ -70,7 +70,6 @@ import connect from './LodgingSummary.state';
 export const LodgingSummaryRender = props => {
   const lodging: LodgingSummary = props.lodging;
   const availableProductSets: AvailableProductSets = props.availableProductSets;
-  const potentialBooking: any = props.potentialBooking;
 
   const textOnlyOffersPerLodging: any = props.textOnlyOffersPerLodging;
   const updateLodgingGuestAgesAction: Function = props.updateLodgingGuestAgesAction;
@@ -328,6 +327,18 @@ export const LodgingSummaryRender = props => {
       );
     }
   };
+
+  // if lodgingTotals.total is 0, the lodging is still being added, so we need to render
+  // a loading component
+  if (lodgingTotals.total === '0') {
+    return (
+      <LodgingSummaryCard className="lodging-summary">
+        <label>
+          <strong>{t('messages.addingLodging')}</strong>
+        </label>
+      </LodgingSummaryCard>
+    );
+  }
 
   return (
     <LodgingSummaryCard className="lodging-summary">
