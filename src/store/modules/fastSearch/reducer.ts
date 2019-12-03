@@ -11,7 +11,7 @@ import { subDaysString } from 'utils';
 const defaultAge = 0;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {
   const lodgingStub: Lodging = {
-    numberOfAdults: 0,
+    numberOfAdults: 2,
     agesOfAllChildren: [],
     repeatCustomer: false,
   };
