@@ -130,7 +130,6 @@ const renderSummary = (
   {
     isMobile,
     isReviewView,
-    id,
     isComplete,
     onSubmit,
     canBook,
