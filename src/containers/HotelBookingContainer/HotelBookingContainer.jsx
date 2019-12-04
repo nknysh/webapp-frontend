@@ -37,11 +37,7 @@ import {
 } from './HotelBookingContainer.styles';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
 import { formatPrice } from 'utils';
-import { DisplayTotalsBreakdown } from 'components';
-import CommissionSummary from 'pureUi/CommissonSummary';
 import BookingSummaryLite from 'pureUi/BookingSummaryLite';
-
-import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
 export const simpleForm = pick(['guestTitle', 'guestFirstName', 'guestLastName']);
 export const withoutSections = over(lensProp('sections'), take(1));
