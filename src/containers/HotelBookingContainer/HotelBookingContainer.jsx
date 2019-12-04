@@ -33,13 +33,14 @@ import {
   StyledBreadcrumbs,
   StyledHotelContainer,
   StyledModal,
-  StyledSummary,
   Total,
 } from './HotelBookingContainer.styles';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
 import { formatPrice } from 'utils';
 import { DisplayTotalsBreakdown } from 'components';
 import CommissionSummary from 'pureUi/CommissonSummary';
+
+import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
 export const simpleForm = pick(['guestTitle', 'guestFirstName', 'guestLastName']);
 export const withoutSections = over(lensProp('sections'), take(1));
@@ -145,14 +146,35 @@ const renderSummary = (
   }
 ) => {
   return (
-    <React.Fragment>
+    <div
+      style={{
+        backgroundColor: '#F8F8F8',
+        padding: '20px',
+      }}
+    >
+      <HotelName>{booking.currentBookingBuilder.response.hotel.name}</HotelName>
+      <hr
+        style={{
+          marginTop: '16px',
+          marginBottom: '16px',
+          border: '0',
+          borderTop: '1px solid #E0E0E0',
+        }}
+      />
       <DisplayTotalsBreakdown
         t={t}
         currencyCode={currencyCode}
         displayTotals={booking.currentBookingBuilder.response.displayTotals}
       />
 
-      <br />
+      <hr
+        style={{
+          marginTop: '16px',
+          marginBottom: '16px',
+          border: '0',
+          borderTop: '1px solid #E0E0E0',
+        }}
+      />
 
       <CommissionSummary
         total={booking.currentBookingBuilder.response.displayTotals.totals.total}
@@ -161,7 +183,14 @@ const renderSummary = (
         marginAmount={booking.taMarginAmount}
       />
 
-      <br />
+      <hr
+        style={{
+          marginTop: '16px',
+          marginBottom: '16px',
+          border: '0',
+          borderTop: '1px solid #E0E0E0',
+        }}
+      />
 
       {!isComplete && !holdOnly && (
         <React.Fragment>
@@ -169,7 +198,7 @@ const renderSummary = (
           {renderSubmitButton(t, { isReviewView, canBook, onSubmit, isMobile, isOnRequest })}
         </React.Fragment>
       )}
-    </React.Fragment>
+    </div>
   );
 };
 

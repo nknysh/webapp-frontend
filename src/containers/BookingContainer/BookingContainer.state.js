@@ -15,6 +15,7 @@ import {
   getBookingCreatedByValue,
   getBookingCreated,
   getBookingHolds,
+  getBookingCurrencySymbol,
 } from 'store/modules/bookings';
 
 import { forwardsCompatBookingBuilderAction } from 'store/modules/bookingBuilder';
@@ -24,6 +25,8 @@ export const mapStateToProps = (state, { id }) => ({
   holds: getBookingHolds(state, id),
   bookingStatus: getBookingStatus(state),
   created: getBookingCreatedByValue(state, id),
+  currencyCode: getBookingCurrencySymbol(state, id),
+
   amended: getBookingCreated(state, id),
 });
 
