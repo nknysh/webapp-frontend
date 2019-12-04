@@ -370,3 +370,14 @@ export const bookingBuilderTotalSelector = createSelector(
     return formatPrice(response.totals.total);
   }
 );
+
+export const bookingBuilderResponseHotelUuidSelector = createSelector(
+  bookingResponseSelector,
+  response => {
+    if (!response) {
+      return undefined;
+    }
+
+    return response.hotel.uuid;
+  }
+);

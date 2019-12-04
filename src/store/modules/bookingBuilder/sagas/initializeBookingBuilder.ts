@@ -11,7 +11,7 @@ import { makeBackendApi } from 'services/BackendApi';
 import { BookingBuilderResponse } from 'services/BackendApi/types';
 import { getUserCountryContext } from 'store/modules/auth';
 
-import { bookingBuilderSelector, bookingResponseSelector } from 'store/modules/bookingBuilder';
+import { bookingBuilderSelector, bookingBuilderResponseHotelUuidSelector } from 'store/modules/bookingBuilder';
 import { backwardCompatBookingBuilderAction } from 'store/modules/bookings';
 import { taMarginTypeSelector, taMarginAmountSelector } from '../selectors';
 
@@ -20,12 +20,11 @@ export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAc
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
 
-    const currentBookingBuilderResponse: BookingBuilderResponse = yield select(bookingResponseSelector);
+    const currentHotelUuid: string = yield select(bookingBuilderResponseHotelUuidSelector);
 
-    if (currentBookingBuilderResponse && currentBookingBuilderResponse.hotel.uuid === action.hotelUuid) {
-      // we're initializing for the hotel thats already in state.
-      // just return null
-      return null;
+    // No need to initialize if the hotel is already in memory
+    if (currentHotelUuid === action.hotelUuid) {
+      return;
     }
 
     // we're initializing for a different hotel - proceed as normal
