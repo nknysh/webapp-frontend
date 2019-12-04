@@ -35,7 +35,7 @@ import { RadioButton, Modal, Loader, Button, ToolTip } from '@pure-escapes/webap
 
 import { ProductTypes } from 'config/enums';
 
-import { SummaryFormMargin, IndexSearch, Summary, AggregateTotalsBreakdown, DisplayTotalsBreakdown } from 'components';
+import { SummaryFormMargin, IndexSearch, Summary, DisplayTotalsBreakdown } from 'components';
 import { useModalState, useFetchData } from 'effects';
 import { withUser } from 'hoc';
 import { isString, mapWithIndex, formatPrice, filterByObjectProperties } from 'utils';

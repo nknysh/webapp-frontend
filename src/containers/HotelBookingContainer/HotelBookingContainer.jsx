@@ -38,6 +38,8 @@ import {
 } from './HotelBookingContainer.styles';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
 import { formatPrice } from 'utils';
+import { DisplayTotalsBreakdown } from 'components';
+import CommissionSummary from 'pureUi/CommissonSummary';
 
 export const simpleForm = pick(['guestTitle', 'guestFirstName', 'guestLastName']);
 export const withoutSections = over(lensProp('sections'), take(1));
@@ -127,28 +129,49 @@ const renderPaymentTypes = (t, { isOnRequest, onPaymentChange, paymentType }) =>
 
 const renderSummary = (
   t,
-  { isMobile, isReviewView, id, isComplete, onSubmit, canBook, isOnRequest, paymentType, onPaymentChange, holdOnly }
-) =>
-  (!isMobile || isReviewView) && (
-    <StyledSummary
-      id={id}
-      summaryOnly={true}
-      showRoomImage={false}
-      holdOnly={holdOnly}
-      onAddHolds={holdOnly && onSubmit}
-      showHolds={holdOnly}
-    >
-      {() =>
-        !isComplete &&
-        !holdOnly && (
-          <Fragment>
-            {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
-            {renderSubmitButton(t, { isReviewView, canBook, onSubmit, isMobile, isOnRequest })}
-          </Fragment>
-        )
-      }
-    </StyledSummary>
+  {
+    isMobile,
+    isReviewView,
+    id,
+    isComplete,
+    onSubmit,
+    canBook,
+    isOnRequest,
+    paymentType,
+    onPaymentChange,
+    holdOnly,
+    booking,
+    currencyCode,
+  }
+) => {
+  return (
+    <React.Fragment>
+      <DisplayTotalsBreakdown
+        t={t}
+        currencyCode={currencyCode}
+        displayTotals={booking.currentBookingBuilder.response.displayTotals}
+      />
+
+      <br />
+
+      <CommissionSummary
+        total={booking.currentBookingBuilder.response.displayTotals.totals.total}
+        currencyCode={currencyCode}
+        marginType={booking.taMarginType}
+        marginAmount={booking.taMarginAmount}
+      />
+
+      <br />
+
+      {!isComplete && !holdOnly && (
+        <React.Fragment>
+          {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
+          {renderSubmitButton(t, { isReviewView, canBook, onSubmit, isMobile, isOnRequest })}
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
+};
 
 // eslint-disable-next-line
 const renderModalSubmitButton = label => () => <Button type="submit">{label}</Button>;
@@ -367,6 +390,7 @@ export const HotelBookingContainer = ({
               paymentType,
               isOnRequest,
               holdOnly,
+              booking,
               ...props,
             })}
           </Aside>

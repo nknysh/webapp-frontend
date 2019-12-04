@@ -8,9 +8,10 @@ import {
 } from '../actions';
 import { fastSearchBookingBuilderSelector } from 'store/modules/fastSearch/selectors';
 import { makeBackendApi } from 'services/BackendApi';
+import { BookingBuilderResponse } from 'services/BackendApi/types';
 import { getUserCountryContext } from 'store/modules/auth';
 
-import { bookingBuilderSelector } from 'store/modules/bookingBuilder';
+import { bookingBuilderSelector, bookingResponseSelector } from 'store/modules/bookingBuilder';
 import { backwardCompatBookingBuilderAction } from 'store/modules/bookings';
 import { taMarginTypeSelector, taMarginAmountSelector } from '../selectors';
 
@@ -18,6 +19,16 @@ export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAc
   try {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
+
+    const currentBookingBuilderResponse: BookingBuilderResponse = yield select(bookingResponseSelector);
+
+    if (currentBookingBuilderResponse && currentBookingBuilderResponse.hotel.uuid === action.hotelUuid) {
+      // we're initializing for the hotel thats already in state.
+      // just return null
+      return null;
+    }
+
+    // we're initializing for a different hotel - proceed as normal
     const existingBookingBuilder = yield select(fastSearchBookingBuilderSelector);
     if (existingBookingBuilder) {
       yield put(copyBookingBuilderAction(existingBookingBuilder));
