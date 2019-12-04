@@ -39,7 +39,7 @@ import { formatDate } from 'utils';
 
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
-// import SummaryForm from 'containers/SummaryForm';
+import SummaryForm from 'containers/SummaryForm';
 
 import connect from './BookingContainer.state';
 import { propTypes, defaultProps } from './BookingContainer.props';
@@ -64,8 +64,6 @@ import {
   ModalContent,
   ModalTitle,
 } from './BookingContainer.styles';
-import { DisplayTotalsBreakdown } from 'components';
-import CommissionSummary from 'pureUi/CommissonSummary';
 
 const isPotential = equals(BookingStatusTypes.POTENTIAL);
 const isRequested = equals(BookingStatusTypes.REQUESTED);
@@ -206,49 +204,28 @@ const renderDetails = (t, { booking, onStatusChange, isSr, isMobile }) => (
 
 const renderSummary = (
   t,
-  {
-    id,
-    booking,
-    canEdit,
-    isSr,
-    isDetails,
-    isPotential,
-    onSubmit,
-    onAddHolds,
-    onReleaseHolds,
-    onEditGuard,
-    holds,
-    currencyCode,
-  }
-) => {
-  return (
-    <React.Fragment>
-      <DisplayTotalsBreakdown
-        t={t}
-        currencyCode={currencyCode}
-        displayTotals={booking.currentBookingBuilder.response.displayTotals}
-      />
-
-      <hr />
-
-      <CommissionSummary
-        total={booking.currentBookingBuilder.response.displayTotals.totals.total}
-        currencyCode={currencyCode}
-        marginType={booking.taMarginType}
-        marginAmount={booking.taMarginAmount}
-      />
-
-      <hr />
-
-      {!isComplete && !holdOnly && (
-        <React.Fragment>
-          {renderPaymentTypes(t, { isOnRequest, onPaymentChange, paymentType })}
-          {renderSubmitButton(t, { isReviewView, canBook, onSubmit, isMobile, isOnRequest })}
-        </React.Fragment>
-      )}
-    </React.Fragment>
-  );
-};
+  { id, booking, canEdit, isSr, isDetails, isPotential, onSubmit, onAddHolds, onReleaseHolds, onEditGuard, holds }
+) => (
+  <SummaryForm
+    addHoldLabel={isSr && prop('hasFullHolds', holds) && t('buttons.refreshHold')}
+    bookLabel={canEdit && t('buttons.amendBooking')}
+    canEdit={isSr}
+    compact={isSr}
+    confirm={isPotential}
+    editGuardContent={t('content.amendBooking')}
+    id={id}
+    onAddHolds={onAddHolds}
+    onGuardEditComplete={isSr && onEditGuard}
+    onReleaseHolds={onReleaseHolds}
+    onSubmit={onSubmit}
+    showAddHolds={isSr && !isCancelledOrConfirmed(prop('status', booking))}
+    showBookNow={canEdit || (isDetails && !isSr && isPotential)}
+    showFullTotal={true}
+    showHolds={isDetails && !canEdit && !isCancelledOrConfirmed(prop('status', booking))}
+    showOriginalTotal={isSr}
+    summaryOnly={!isSr}
+  />
+);
 
 export const renderTabs = (t, { isDetails, children, ...props }) => (
   <Fragment>
@@ -346,7 +323,6 @@ export const BookingContainer = ({
   cancelBooking,
   amended,
   holds,
-  currencyCode,
   forwardsCompatBookingBuilderAction,
 }) => {
   const { t } = useTranslation();
