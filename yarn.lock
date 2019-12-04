@@ -1690,9 +1690,10 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pure-escapes/webapp-ui-components@1.0.28":
-  version "1.0.28"
-  resolved "https://registry.yarnpkg.com/@pure-escapes/webapp-ui-components/-/webapp-ui-components-1.0.28.tgz#efa01bdde8ba36bc9edcf61ecb1b31067de3fdd3"
+"@pure-escapes/webapp-ui-components@1.0.30":
+  version "1.0.30"
+  resolved "https://registry.yarnpkg.com/@pure-escapes/webapp-ui-components/-/webapp-ui-components-1.0.30.tgz#e2a831c9b5b361bd4808deb7fabf2300444b1f7e"
+  integrity sha512-ZIRjQyn+d5IZveqrTyaT/iP2ZPzWTzHFe3hAS9u5GBCrQDPRmOCoJz9awwfQnRN1qnfQxSRWykawiDF8P/R0yw==
   dependencies:
     "@babel/polyfill" "^7.4.4"
     "@material-ui/core" "^4.3.2"

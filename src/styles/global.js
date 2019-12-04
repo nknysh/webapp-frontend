@@ -57,6 +57,10 @@ export const GlobalStyle = createGlobalStyle`
     html {
         height: 100%;
         overflow: auto;
+
+        &.hide-overflow {
+            overflow: hidden;
+        }
     }
 
     body {
