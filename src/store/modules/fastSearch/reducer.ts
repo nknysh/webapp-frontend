@@ -72,6 +72,16 @@ export default function fastSearchReducer(
       };
     }
 
+    case Actions.CLEAR_EXTENDED_QUERY: {
+      return {
+        ...state,
+        query: {
+          ...state.query,
+          ...omit(['name', 'lodgings', 'startDate', 'endDate'], initialState.query)
+        }
+      };
+    }
+
     case Actions.OFFERS_SEARCH_REQUEST:
       return {
         ...state,
