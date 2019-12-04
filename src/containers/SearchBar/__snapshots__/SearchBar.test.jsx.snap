@@ -2,7 +2,7 @@
 
 exports[`<SearchBar /> render matches snapshot 1`] = `
 <styled.div>
-  <withThemeProvider(ka)
+  <withThemeProvider(Oa)
     isLoading={false}
     showSpinner={false}
     theme={
@@ -447,6 +447,6 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
       searchQuery={Object {}}
       vertical={false}
     />
-  </withThemeProvider(ka)>
+  </withThemeProvider(Oa)>
 </styled.div>
 `;

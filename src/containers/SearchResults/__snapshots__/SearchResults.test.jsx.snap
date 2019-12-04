@@ -3,7 +3,7 @@
 exports[`<SearchResults /> render matches snapshot 1`] = `
 <Fragment>
   <styled.div>
-    <withThemeProvider(ka)
+    <withThemeProvider(Oa)
       isLoading={false}
       showPrev={true}
       text="Getting Results..."
@@ -435,8 +435,8 @@ exports[`<SearchResults /> render matches snapshot 1`] = `
         }
       }
     >
-      <Styled(withThemeProvider(Ta)) />
-    </withThemeProvider(ka)>
+      <Styled(withThemeProvider(Da)) />
+    </withThemeProvider(Oa)>
   </styled.div>
 </Fragment>
 `;

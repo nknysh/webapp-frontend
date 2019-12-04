@@ -2,7 +2,7 @@
 
 exports[`<IndexSearch /> children is called as function when open 1`] = `
 <styled.div>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     inputContent=""
     inputProps={
       Object {
@@ -450,13 +450,13 @@ exports[`<IndexSearch /> children is called as function when open 1`] = `
     }
   >
     <styled.div />
-  </withThemeProvider(Tr)>
+  </withThemeProvider(Dr)>
 </styled.div>
 `;
 
 exports[`<IndexSearch /> render matches snapshot 1`] = `
 <styled.div>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     inputContent=""
     inputProps={
       Object {
@@ -907,7 +907,7 @@ exports[`<IndexSearch /> render matches snapshot 1`] = `
 
 exports[`<IndexSearch /> render matches snapshot 2`] = `
 <styled.div>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     inputContent=""
     inputProps={
       Object {
@@ -1355,7 +1355,7 @@ exports[`<IndexSearch /> render matches snapshot 2`] = `
     }
   >
     <styled.div />
-  </withThemeProvider(Tr)>
+  </withThemeProvider(Dr)>
 </styled.div>
 `;
 
@@ -1364,7 +1364,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
   <Styled(withThemeProvider(Gn))>
     with label
   </Styled(withThemeProvider(Gn))>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     inputContent=""
     inputProps={
       Object {
@@ -1815,7 +1815,7 @@ exports[`<IndexSearch /> render matches snapshot 3`] = `
 
 exports[`<IndexSearch /> render matches snapshot 4`] = `
 <styled.div>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     inputContent=""
     inputProps={
       Object {
@@ -2266,7 +2266,7 @@ exports[`<IndexSearch /> render matches snapshot 4`] = `
 
 exports[`<IndexSearch /> render matches snapshot 5`] = `
 <styled.div>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     inputContent=""
     inputProps={
       Object {
@@ -2717,7 +2717,7 @@ exports[`<IndexSearch /> render matches snapshot 5`] = `
 
 exports[`<IndexSearch /> render matches snapshot 6`] = `
 <styled.div>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     inputContent="default value"
     inputProps={
       Object {
@@ -3168,7 +3168,7 @@ exports[`<IndexSearch /> render matches snapshot 6`] = `
 
 exports[`<IndexSearch /> render matches snapshot 7`] = `
 <styled.div>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     inputContent=""
     inputProps={
       Object {
@@ -3616,7 +3616,7 @@ exports[`<IndexSearch /> render matches snapshot 7`] = `
     }
   >
     <styled.div />
-  </withThemeProvider(Tr)>
+  </withThemeProvider(Dr)>
 </styled.div>
 `;
 

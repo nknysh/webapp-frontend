@@ -3,7 +3,7 @@
 exports[`<Header /> render matches logged in snapshot 1`] = `
 <styled.div>
   <Styled(withThemeProvider(styled.div))>
-    <Styled(withThemeProvider(Pt))
+    <Styled(withThemeProvider(At))
       to="/"
     />
     <styled.div>
@@ -12,7 +12,7 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
       >
         menu
       </Styled(WithStyles(ForwardRef(Icon)))>
-      <Styled(withThemeProvider(wc))
+      <Styled(withThemeProvider(Tc))
         align="end"
         isOpen={false}
         links={
@@ -32,7 +32,7 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
         onLinkClick={[Function]}
       >
         <withAuthentication(withUser(Connect(Component))) />
-      </Styled(withThemeProvider(wc))>
+      </Styled(withThemeProvider(Tc))>
     </styled.div>
   </Styled(withThemeProvider(styled.div))>
 </styled.div>
@@ -41,7 +41,7 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
 exports[`<Header /> render matches logged out snapshot 1`] = `
 <styled.div>
   <Styled(withThemeProvider(styled.div))>
-    <Styled(withThemeProvider(Pt))
+    <Styled(withThemeProvider(At))
       to="/"
     />
     <styled.div>
@@ -50,7 +50,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
       >
         menu
       </Styled(WithStyles(ForwardRef(Icon)))>
-      <Styled(withThemeProvider(wc))
+      <Styled(withThemeProvider(Tc))
         align="end"
         isOpen={false}
         links={
@@ -74,10 +74,10 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
         onLinkClick={[Function]}
       >
         <withAuthentication(withUser(Connect(Component))) />
-      </Styled(withThemeProvider(wc))>
+      </Styled(withThemeProvider(Tc))>
     </styled.div>
   </Styled(withThemeProvider(styled.div))>
-  <withThemeProvider(Ma)
+  <withThemeProvider(Ya)
     onClose={[Function]}
     open={false}
     theme={

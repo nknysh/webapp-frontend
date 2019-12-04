@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<HotelContainer /> render matches snapshot 1`] = `
-<withThemeProvider(ka)
+<withThemeProvider(Oa)
   isLoading={true}
   text="Getting hotel details..."
   theme={
@@ -437,11 +437,11 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
       links={
         Array [
           Object {
-            "label": <ForwardRef(Styled(withThemeProvider(Nt)))
+            "label": <ForwardRef(Styled(withThemeProvider(Lt)))
               to="/search/beta"
             >
               back to search results
-            </ForwardRef(Styled(withThemeProvider(Nt)))>,
+            </ForwardRef(Styled(withThemeProvider(Lt)))>,
           },
           Object {
             "label": undefined,
@@ -462,5 +462,5 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
       </styled.aside>
     </styled.div>
   </Styled(withThemeProvider(styled.div))>
-</withThemeProvider(ka)>
+</withThemeProvider(Oa)>
 `;
