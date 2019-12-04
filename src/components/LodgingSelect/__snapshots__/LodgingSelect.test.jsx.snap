@@ -2,7 +2,7 @@
 
 exports[`<LodgingSelect /> render matches snapshot 1`] = `
 <styled.div>
-  <withThemeProvider(Tr)
+  <withThemeProvider(Dr)
     closeOnClickAway={true}
     inputContent="0 Rooms, 0 Guests"
     keepOpen={false}
@@ -439,7 +439,7 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         <Styled(withThemeProvider(Gn))>
           Rooms
         </Styled(withThemeProvider(Gn))>
-        <Styled(withThemeProvider(ei))
+        <Styled(withThemeProvider(ai))
           max={99}
           onAdd={[Function]}
           onRemove={[Function]}
@@ -447,7 +447,7 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
         />
       </styled.div>
     </styled.div>
-    <Styled(withThemeProvider(Tu))
+    <Styled(withThemeProvider(Du))
       labels={Array []}
       onChange={[Function]}
       scrollButtons="auto"
@@ -455,6 +455,6 @@ exports[`<LodgingSelect /> render matches snapshot 1`] = `
       value={0}
       variant="scrollable"
     />
-  </withThemeProvider(Tr)>
+  </withThemeProvider(Dr)>
 </styled.div>
 `;

@@ -2,7 +2,7 @@
 
 exports[`<Home /> render matches snapshot 1`] = `
 <styled.div>
-  <withThemeProvider(Wo)
+  <withThemeProvider(ea)
     full={true}
     media={
       Object {
@@ -441,7 +441,7 @@ exports[`<Home /> render matches snapshot 1`] = `
       }
     }
   >
-    <withThemeProvider(Ta)
+    <withThemeProvider(Da)
       theme={
         Object {
           "animations": Object {
@@ -870,7 +870,7 @@ exports[`<Home /> render matches snapshot 1`] = `
         }
       }
     />
-  </withThemeProvider(Wo)>
+  </withThemeProvider(ea)>
   <styled.div>
     <Styled(WithStyles(ForwardRef(Icon)))
       onClick={[Function]}
@@ -879,7 +879,7 @@ exports[`<Home /> render matches snapshot 1`] = `
       keyboard_arrow_down
     </Styled(WithStyles(ForwardRef(Icon)))>
     <styled.div>
-      <withThemeProvider(Ta)
+      <withThemeProvider(Da)
         theme={
           Object {
             "animations": Object {
@@ -1314,7 +1314,7 @@ exports[`<Home /> render matches snapshot 1`] = `
     data-striped={true}
   >
     <styled.div>
-      <withThemeProvider(Ta)
+      <withThemeProvider(Da)
         theme={
           Object {
             "animations": Object {
@@ -1747,7 +1747,7 @@ exports[`<Home /> render matches snapshot 1`] = `
   </styled.div>
   <styled.div>
     <styled.div>
-      <withThemeProvider(Ta)
+      <withThemeProvider(Da)
         theme={
           Object {
             "animations": Object {
@@ -2180,7 +2180,7 @@ exports[`<Home /> render matches snapshot 1`] = `
   </styled.div>
   <styled.div>
     <styled.div>
-      <withThemeProvider(Ta)
+      <withThemeProvider(Da)
         theme={
           Object {
             "animations": Object {
@@ -2613,7 +2613,7 @@ exports[`<Home /> render matches snapshot 1`] = `
   </styled.div>
   <styled.div>
     <styled.div>
-      <withThemeProvider(Ta)
+      <withThemeProvider(Da)
         theme={
           Object {
             "animations": Object {

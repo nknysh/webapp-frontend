@@ -4,11 +4,11 @@ exports[`<Search /> render matches snapshot 1`] = `
 <Styled(withThemeProvider(styled.div))>
   <styled.div>
     <Styled(styled.div)>
-      <Styled(withThemeProvider(Nt))
+      <Styled(withThemeProvider(Lt))
         to="/"
       >
         back to homepage
-      </Styled(withThemeProvider(Nt))>
+      </Styled(withThemeProvider(Lt))>
       <withRouter(Connect(Component)) />
     </Styled(styled.div)>
     <Styled(styled.div)>

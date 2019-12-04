@@ -434,7 +434,7 @@ exports[`<Footer /> render matches snapshot 1`] = `
     <styled.div>
       <styled.div>
         <styled.div>
-          <withThemeProvider(Ta)
+          <withThemeProvider(Da)
             theme={
               Object {
                 "animations": Object {
@@ -865,7 +865,7 @@ exports[`<Footer /> render matches snapshot 1`] = `
           />
         </styled.div>
       </styled.div>
-      <Styled(withThemeProvider(wc))
+      <Styled(withThemeProvider(Tc))
         links={
           Array [
             Object {

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<PageContent /> render matches snapshot while loading 1`] = `
-<withThemeProvider(ka)
+<withThemeProvider(Oa)
   isLoading={true}
   theme={
     Object {
@@ -444,7 +444,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
     <Styled(withThemeProvider(styled.div))>
       <styled.div>
         <styled.div>
-          <withThemeProvider(Ni)
+          <withThemeProvider(Li)
             theme={
               Object {
                 "animations": Object {
@@ -873,7 +873,7 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
               }
             }
           >
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -1302,11 +1302,11 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
                 }
               }
             />
-          </withThemeProvider(Ni)>
+          </withThemeProvider(Li)>
         </styled.div>
         <styled.div>
           <styled.div>
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -1740,11 +1740,11 @@ exports[`<PageContent /> render matches snapshot while loading 1`] = `
       </styled.div>
     </Styled(withThemeProvider(styled.div))>
   </styled.div>
-</withThemeProvider(ka)>
+</withThemeProvider(Oa)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 1`] = `
-<withThemeProvider(ka)
+<withThemeProvider(Oa)
   isLoading={false}
   theme={
     Object {
@@ -2187,7 +2187,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
     <Styled(withThemeProvider(styled.div))>
       <styled.div>
         <styled.div>
-          <withThemeProvider(Ni)
+          <withThemeProvider(Li)
             theme={
               Object {
                 "animations": Object {
@@ -2616,7 +2616,7 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
               }
             }
           >
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -3045,11 +3045,11 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
                 }
               }
             />
-          </withThemeProvider(Ni)>
+          </withThemeProvider(Li)>
         </styled.div>
         <styled.div>
           <styled.div>
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -3479,17 +3479,17 @@ exports[`<PageContent /> render matches snapshot with markdown 1`] = `
               }
             >
               ### some data
-            </withThemeProvider(Ta)>
+            </withThemeProvider(Da)>
           </styled.div>
         </styled.div>
       </styled.div>
     </Styled(withThemeProvider(styled.div))>
   </styled.div>
-</withThemeProvider(ka)>
+</withThemeProvider(Oa)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 2`] = `
-<withThemeProvider(ka)
+<withThemeProvider(Oa)
   isLoading={false}
   theme={
     Object {
@@ -3934,7 +3934,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
     <Styled(withThemeProvider(styled.div))>
       <styled.div>
         <styled.div>
-          <withThemeProvider(Ni)
+          <withThemeProvider(Li)
             theme={
               Object {
                 "animations": Object {
@@ -4364,7 +4364,7 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
             }
             title="foo"
           >
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -4793,11 +4793,11 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
                 }
               }
             />
-          </withThemeProvider(Ni)>
+          </withThemeProvider(Li)>
         </styled.div>
         <styled.div>
           <styled.div>
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -5227,17 +5227,17 @@ exports[`<PageContent /> render matches snapshot with markdown 2`] = `
               }
             >
               ### some data
-            </withThemeProvider(Ta)>
+            </withThemeProvider(Da)>
           </styled.div>
         </styled.div>
       </styled.div>
     </Styled(withThemeProvider(styled.div))>
   </styled.div>
-</withThemeProvider(ka)>
+</withThemeProvider(Oa)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 3`] = `
-<withThemeProvider(ka)
+<withThemeProvider(Oa)
   isLoading={false}
   theme={
     Object {
@@ -5682,7 +5682,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
     <Styled(withThemeProvider(styled.div))>
       <styled.div>
         <styled.div>
-          <withThemeProvider(Ni)
+          <withThemeProvider(Li)
             theme={
               Object {
                 "animations": Object {
@@ -6112,7 +6112,7 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
             }
             title="foo"
           >
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -6542,12 +6542,12 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               }
             >
               - a link
-            </withThemeProvider(Ta)>
-          </withThemeProvider(Ni)>
+            </withThemeProvider(Da)>
+          </withThemeProvider(Li)>
         </styled.div>
         <styled.div>
           <styled.div>
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -6977,17 +6977,17 @@ exports[`<PageContent /> render matches snapshot with markdown 3`] = `
               }
             >
               ### some data
-            </withThemeProvider(Ta)>
+            </withThemeProvider(Da)>
           </styled.div>
         </styled.div>
       </styled.div>
     </Styled(withThemeProvider(styled.div))>
   </styled.div>
-</withThemeProvider(ka)>
+</withThemeProvider(Oa)>
 `;
 
 exports[`<PageContent /> render matches snapshot with markdown 4`] = `
-<withThemeProvider(ka)
+<withThemeProvider(Oa)
   isLoading={false}
   theme={
     Object {
@@ -7429,13 +7429,13 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
         Pure Escapes
       </title>
     </HelmetWrapper>
-    <Styled(withThemeProvider(Wo))
+    <Styled(withThemeProvider(ea))
       image="http://foo"
     />
     <Styled(withThemeProvider(styled.div))>
       <styled.div>
         <styled.div>
-          <withThemeProvider(Ni)
+          <withThemeProvider(Li)
             theme={
               Object {
                 "animations": Object {
@@ -7865,7 +7865,7 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
             }
             title="foo"
           >
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -8295,12 +8295,12 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               }
             >
               - a link
-            </withThemeProvider(Ta)>
-          </withThemeProvider(Ni)>
+            </withThemeProvider(Da)>
+          </withThemeProvider(Li)>
         </styled.div>
         <styled.div>
           <styled.div>
-            <withThemeProvider(Ta)
+            <withThemeProvider(Da)
               theme={
                 Object {
                   "animations": Object {
@@ -8730,11 +8730,11 @@ exports[`<PageContent /> render matches snapshot with markdown 4`] = `
               }
             >
               ### some data
-            </withThemeProvider(Ta)>
+            </withThemeProvider(Da)>
           </styled.div>
         </styled.div>
       </styled.div>
     </Styled(withThemeProvider(styled.div))>
   </styled.div>
-</withThemeProvider(ka)>
+</withThemeProvider(Oa)>
 `;

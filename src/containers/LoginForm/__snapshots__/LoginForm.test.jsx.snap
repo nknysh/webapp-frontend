@@ -2,7 +2,7 @@
 
 exports[`<LoginForm /> render matches snapshot 1`] = `
 <styled.div>
-  <withThemeProvider(ka)
+  <withThemeProvider(Oa)
     isLoading={false}
     text="Logging in..."
     theme={
@@ -433,7 +433,7 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
       }
     }
   >
-    <withThemeProvider(_u)
+    <withThemeProvider(Fu)
       theme={
         Object {
           "animations": Object {
@@ -863,8 +863,8 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
       }
     >
       Sign In
-    </withThemeProvider(_u)>
-    <Styled(withThemeProvider(Styled(withThemeProvider(Ta)))) />
+    </withThemeProvider(Fu)>
+    <Styled(withThemeProvider(Styled(withThemeProvider(Da)))) />
     <withThemeProvider(Form)
       initialValues={
         Object {
@@ -1402,6 +1402,6 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
     >
       <Component />
     </withThemeProvider(Form)>
-  </withThemeProvider(ka)>
+  </withThemeProvider(Oa)>
 </styled.div>
 `;

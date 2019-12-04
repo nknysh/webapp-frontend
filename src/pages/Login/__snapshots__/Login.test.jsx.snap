@@ -3,7 +3,7 @@
 exports[`<Login /> render matches snapshot 1`] = `
 <Fragment>
   <t />
-  <withThemeProvider(Ma)
+  <withThemeProvider(Ya)
     onClose={[Function]}
     open={true}
     theme={
@@ -435,6 +435,6 @@ exports[`<Login /> render matches snapshot 1`] = `
     }
   >
     <withAuthentication(withRouter(Connect(Component))) />
-  </withThemeProvider(Ma)>
+  </withThemeProvider(Ya)>
 </Fragment>
 `;

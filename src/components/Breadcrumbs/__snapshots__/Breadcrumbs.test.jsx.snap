@@ -17,12 +17,12 @@ exports[`<Breadcrumbs /> render matches snapshot 3`] = `
   <styled.div
     key="a82e8c5ff9d56218f85ee5fafe0d30fa7bcbcf3b"
   >
-    <Styled(withThemeProvider(Pt))
+    <Styled(withThemeProvider(At))
       data-active={false}
       to="bar"
     >
       foo
-    </Styled(withThemeProvider(Pt))>
+    </Styled(withThemeProvider(At))>
   </styled.div>
 </styled.div>
 `;
@@ -32,12 +32,12 @@ exports[`<Breadcrumbs /> render matches snapshot 4`] = `
   <styled.div
     key="a82e8c5ff9d56218f85ee5fafe0d30fa7bcbcf3b"
   >
-    <Styled(withThemeProvider(Pt))
+    <Styled(withThemeProvider(At))
       data-active={false}
       to="bar"
     >
       foo
-    </Styled(withThemeProvider(Pt))>
+    </Styled(withThemeProvider(At))>
   </styled.div>
   <styled.div
     key="fcea48774eac6847e055e5309259828d20316a02"

@@ -7,13 +7,13 @@ exports[`<GuestSelect /> render matches snapshot 1`] = `
       <Styled(withThemeProvider(Gn))>
         Rooms
       </Styled(withThemeProvider(Gn))>
-      <Styled(withThemeProvider(ei))
+      <Styled(withThemeProvider(ai))
         min={1}
         value={2}
       />
     </styled.div>
   </styled.div>
-  <Styled(withThemeProvider(Tu))
+  <Styled(withThemeProvider(Du))
     labels={
       Array [
         <ForwardRef(styled.span)
@@ -67,6 +67,6 @@ exports[`<GuestSelect /> render matches snapshot 1`] = `
         }
       }
     />
-  </Styled(withThemeProvider(Tu))>
+  </Styled(withThemeProvider(Du))>
 </styled.div>
 `;
