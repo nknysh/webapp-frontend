@@ -18,6 +18,7 @@ import {
   isBookingOnRequest,
   removeBooking,
   updateBooking,
+  getBooking,
 } from 'store/modules/bookings';
 
 import { fields as guestFields } from 'config/forms/bookingForm';
@@ -42,6 +43,7 @@ export const useHotelBookingContainerState = () => {
 
 export const mapStateToProps = (state, { id }) => ({
   booking: bookingSelector(state),
+  oldBooking: getBooking(state, id),
   bookingStatus: getBookingStatus(state),
   canBook: bookingCanBookSelector(state),
   canHold: bookingCanHoldSelector(state),

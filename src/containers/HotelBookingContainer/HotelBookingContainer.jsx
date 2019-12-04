@@ -39,6 +39,7 @@ import { PaymentType, ViewType } from './HotelBookingContainer.types';
 import { formatPrice } from 'utils';
 import { DisplayTotalsBreakdown } from 'components';
 import CommissionSummary from 'pureUi/CommissonSummary';
+import BookingSummaryLite from 'pureUi/BookingSummaryLite';
 
 import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
@@ -141,8 +142,7 @@ const renderSummary = (
     paymentType,
     onPaymentChange,
     holdOnly,
-    booking,
-    currencyCode,
+    oldBooking,
   }
 ) => {
   return (
@@ -152,45 +152,7 @@ const renderSummary = (
         padding: '20px',
       }}
     >
-      <HotelName>{booking.currentBookingBuilder.response.hotel.name}</HotelName>
-      <hr
-        style={{
-          marginTop: '16px',
-          marginBottom: '16px',
-          border: '0',
-          borderTop: '1px solid #E0E0E0',
-        }}
-      />
-      <DisplayTotalsBreakdown
-        t={t}
-        currencyCode={currencyCode}
-        displayTotals={booking.currentBookingBuilder.response.displayTotals}
-      />
-
-      <hr
-        style={{
-          marginTop: '16px',
-          marginBottom: '16px',
-          border: '0',
-          borderTop: '1px solid #E0E0E0',
-        }}
-      />
-
-      <CommissionSummary
-        total={booking.currentBookingBuilder.response.displayTotals.totals.total}
-        currencyCode={currencyCode}
-        marginType={booking.taMarginType}
-        marginAmount={booking.taMarginAmount}
-      />
-
-      <hr
-        style={{
-          marginTop: '16px',
-          marginBottom: '16px',
-          border: '0',
-          borderTop: '1px solid #E0E0E0',
-        }}
-      />
+      <BookingSummaryLite key={oldBooking.bookingHash} booking={oldBooking} />
 
       {!isComplete && !holdOnly && (
         <React.Fragment>
@@ -308,6 +270,7 @@ export const HotelBookingContainer = ({
   isComplete,
   isOnRequest,
   updateBooking,
+  oldBooking,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -419,7 +382,7 @@ export const HotelBookingContainer = ({
               paymentType,
               isOnRequest,
               holdOnly,
-              booking,
+              oldBooking,
               ...props,
             })}
           </Aside>

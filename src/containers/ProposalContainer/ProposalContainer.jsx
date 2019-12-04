@@ -123,7 +123,6 @@ const renderAdditionalResource = (
 };
 
 const renderBooking = booking => {
-  console.log('renderBooking', booking);
   return <BookingSummaryLite key={booking.bookingHash} booking={booking} />;
 };
 
