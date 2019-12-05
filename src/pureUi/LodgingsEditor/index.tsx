@@ -65,7 +65,6 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
   };
   
   const handleAgeChange = (ageIndex: number) => (e: FormEvent<HTMLLIElement>) => {
-    console.log(ageIndex, e);
     props.onChildAgeChange(props.activeLodgingIndex, ageIndex, (e.target as HTMLLIElement).value.toString());
   };
 

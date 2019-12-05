@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { HotelResult } from 'services/BackendApi';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
@@ -8,6 +8,9 @@ import { Heading2 } from 'styles';
 import { Icon } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import LinkButton from 'components/LinkButton';
+import ResultBadge from 'pureUi/ResultBadge';
+import { IDisplayTotalsBreakdown } from 'services/BackendApi';
+import { flatten } from 'ramda';
 
 export interface SearchResultHotelProps extends React.HTMLProps<HTMLDivElement> {
   result: HotelResult;
@@ -15,7 +18,7 @@ export interface SearchResultHotelProps extends React.HTMLProps<HTMLDivElement> 
   onToggleHighlights: (id: string) => void;
   onNavigateToHotel: (hotelUuid: string) => void;
 }
-export const SearchResultHotel = (props: SearchResultHotelProps) => {
+export const SearchResultHotel = memo((props: SearchResultHotelProps) => {
   const { result, showHighlights, onToggleHighlights, onNavigateToHotel, onClick, ...otherProps } = props;
   const { t } = useTranslation();
   const currencySymbol = getCurrencySymbol(result.bookingBuilder.response.currency);
@@ -24,6 +27,10 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
   const priceBeforeDiscounts = result.bookingBuilder.response.totals.totalBeforeDiscount;
   const isPreferred = result.preferred;
   const onRequest = result.bookingBuilder.response.totals.oneOrMoreItemsOnRequest;
+  const potentialBooking = result.bookingBuilder.response.potentialBooking;
+  const appliedOffers = result.bookingBuilder.response.appliedOfferNames;
+  const availableToHold = result.bookingBuilder.response.availableToHold;
+  const displayTotals = result.bookingBuilder.response.displayTotals;
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -36,26 +43,89 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
 
   const safeUpload = featuredUpload ? featuredUpload : { url: 'no-img', displayName: 'No Image' };
 
+  const getPriceBasedOnInfo = useCallback(
+    (breakdown: IDisplayTotalsBreakdown): JSX.Element => {
+      const accom = breakdown.blocks
+        .filter(b => b.blockType === 'Accommodations')
+        .map(a => {
+          const title = a.header;
+          const extras = a.items.map(e => {
+            return `${e.title}: ${e.labels.join(', ')}`;
+          });
+          return [title, extras];
+        });
+
+      const trans = breakdown.blocks
+        .filter(b => b.blockType === 'Transfers')
+        .map(t => {
+          return t.items.map(i => i.labels.map(l => `${l} (${i.title})`));
+        });
+
+      const listItems = [...flatten(accom), ...flatten(trans)];
+
+      return (
+        <div className="tooltip-content">
+          <p>Price Based On</p>
+          <ul>
+            {listItems.map(i => (
+              <li key={i}>{i}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    },
+    [props.result]
+  );
+
+  const getAppliedOffersInfo = useCallback(
+    (appliedOffers: string[]): JSX.Element => {
+      return (
+        <div className="tooltip-content">
+          <p>Applied Offers</p>
+          <ul>
+            {appliedOffers.map(offer => (
+              <li key={offer}>{offer}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    },
+    [props.result]
+  );
+
   return (
     <div className={props.className} key={result.name} onClick={handleClick} {...otherProps}>
-      <ImageLoader aspectRatio="11:7" title={safeUpload!.displayName} src={safeUpload!.url}>
+      <ImageLoader aspectRatio="11:7" alt={safeUpload!.displayName} src={safeUpload!.url}>
         <>
           {isPreferred && <span className="badge pref">Preferred</span>}
           <div className="stack">
             <div className="stackColumn">
-              {onRequest && <span className="badge onRequest">On Request</span>}
+              {onRequest && <ResultBadge type="text" label={`On Request`} />}
               {!onRequest && offerCount === 0 && (
-                <span className="badge price">{`${currencySymbol}${formatPrice(priceAfterDiscounts)}`}</span>
+                <ResultBadge type="price" label={`${currencySymbol}${formatPrice(priceAfterDiscounts)}`}>
+                  {displayTotals && getPriceBasedOnInfo(displayTotals)}
+                </ResultBadge>
               )}
               {!onRequest && offerCount > 0 && (
-                <span className="badge price">{`${currencySymbol}${formatPrice(priceAfterDiscounts)}`}</span>
+                <ResultBadge type="price" label={`${currencySymbol}${formatPrice(priceAfterDiscounts)}`}>
+                  {displayTotals && getPriceBasedOnInfo(displayTotals)}
+                </ResultBadge>
               )}
               {!onRequest && offerCount > 0 && (
-                <span className="badge price strike">{`${currencySymbol}${formatPrice(priceBeforeDiscounts)}`}</span>
+                <ResultBadge type="strikethrough" label={`${currencySymbol}${formatPrice(priceBeforeDiscounts)}`} />
               )}
             </div>
             <div className="stackColumn">
-              {!onRequest && offerCount > 0 && <span className="badge offer">{`${offerCount} Offers`}</span>}
+              {!onRequest && offerCount > 0 && (
+                <ResultBadge type="offer" label={`${offerCount} ${offerCount > 1 ? 'Offers' : 'Offer'}`}>
+                  {getAppliedOffersInfo(appliedOffers)}
+                </ResultBadge>
+              )}
+              {availableToHold && (
+                <ResultBadge type="text" label={`Availability`}>
+                  <p className="tooltip-content">Available to hold</p>
+                </ResultBadge>
+              )}
             </div>
           </div>
         </>
@@ -104,9 +174,9 @@ export const SearchResultHotel = (props: SearchResultHotelProps) => {
       </div>
     </div>
   );
-};
+});
 
-export default styled(memo(SearchResultHotel))`
+export default styled(SearchResultHotel)`
   position: relative;
   background-color: ${pureUiTheme.colorRoles.areaBackground};
   cursor: pointer;
@@ -151,8 +221,7 @@ export default styled(memo(SearchResultHotel))`
     }
   }
 
-  /* TODO: Create compoennts for the following elememnts */
-  .badge {
+  .badge.pref {
     padding: 0 10px;
     line-height: 35px;
     font-family: 'HurmeGeometricSans2';
@@ -160,39 +229,12 @@ export default styled(memo(SearchResultHotel))`
     text-transform: uppercase;
     color: ${pureUiTheme.colors.white};
     text-align: center;
-  }
 
-  .badge.pref {
     position: absolute;
     top: 0;
     left: 22px;
     font-weight: 600;
     background-color: ${pureUiTheme.colors.gold};
-  }
-
-  .badge.price,
-  .badge.offer,
-  .badge.onRequest {
-    color: ${pureUiTheme.colors.black};
-    background-color: ${pureUiTheme.colors.white};
-  }
-
-  .badge.price {
-    font-size: 18px;
-  }
-
-  .badge.onRequest {
-    font-size: 12px;
-  }
-
-  .badge.strike {
-    text-decoration: line-through;
-    color: ${pureUiTheme.colors.goldLight};
-  }
-
-  .badge.offer {
-    color: ${pureUiTheme.colors.redFade};
-    font-weight: 600;
   }
 
   .stack {
@@ -218,9 +260,25 @@ export default styled(memo(SearchResultHotel))`
     }
   }
 
-  .prices {
+  .tooltip-content {
+    text-align: left;
+    padding: 10px;
+    font-size: 12px;
   }
 
-  .offers {
+  .tooltip-content p {
+    font-weight: bold;
+    margin: 5px 10px 5px 25px;
+    line-height: 14px;
+  }
+
+  .tooltip-content ul {
+    margin: 5px 10px 5px 25px;
+    padding: 0;
+    line-height: 20px;
+  }
+
+  .tooltip-content ul li {
+    margin-bottom: 5px;
   }
 `;

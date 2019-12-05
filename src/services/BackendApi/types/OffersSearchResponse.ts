@@ -506,6 +506,7 @@ export interface BookingBuilderResponse {
   totals: Totals;
   minimumNightsReview: boolean;
   aggregateTotals: AggregateTotals;
+  displayTotals: IDisplayTotalsBreakdown;
 }
 
 export interface AggregateTotals {
@@ -529,6 +530,37 @@ export interface AggregateRecord {
   offers: string[];
   drilldown: AggregateRecord[];
   dateLevel?: boolean;
+}
+
+export interface IDisplayTotalItem {
+  title: string;
+  labels: string[];
+  isOnRequestOrPartiallyOnRequest: boolean;
+  total: string | null;
+  totalBeforeDiscount: string | null;
+  offers: string[];
+}
+
+export interface IDsiplayTotalBlock {
+  header: string;
+  items: IDisplayTotalItem[];
+  blockType: string;
+}
+
+export interface IDisplayTotals {
+  oneOrMoreItemsOnRequest: boolean;
+  totalForPricedItemsCents: number;
+  totalBeforeDiscountForPricedItemsCents: number;
+  totalForPricedItems: string;
+  totalBeforeDiscountForPricedItems: string;
+  total: string | null;
+  totalBeforeDiscount: string | null;
+}
+
+export interface IDisplayTotalsBreakdown {
+  blocks: IDsiplayTotalBlock[];
+  appliedOfferNames: string[];
+  totals: IDisplayTotals;
 }
 
 export interface BookingBuilder {

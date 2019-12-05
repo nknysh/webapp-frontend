@@ -9,6 +9,8 @@ import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { PrimaryButton } from '../Buttons/index';
 import { isNilOrEmpty } from 'ramda-adjunct';
+import Info from 'pureUi/Info';
+import { MealPlan } from 'services/BackendApi';
 export interface SearchSettingsProps extends React.HTMLProps<HTMLDivElement> {
   options: SearchOptions;
   query: SearchQuery;
@@ -119,7 +121,17 @@ export const SearchSettings = (props: SearchSettingsProps) => {
       </section>
 
       <section>
-        <h4>Meal Plan</h4>
+        <h4>
+          Meal Plan 
+          <Info className="mealplanInfo">
+            <ul className="mealplanTooltip">
+              <li><span>BB</span> Breakfast Included</li>
+              <li><span>HB</span> Breakfast &amp; Dinner (Drinks excluded)</li>
+              <li><span>FB</span> 3 Meals a day (Drinks Excluded)</li>
+              <li><span>AI</span> All Inclusive</li>
+            </ul>
+          </Info>
+        </h4>
         <List
           className="fiveColumn"
           items={Object.keys(MealPlanNames).map(k => MealPlanNames[k])}
@@ -228,6 +240,29 @@ export default styled(SearchSettings)`
     grid-template-columns: repeat(5, 1fr);
     li {
       display: inline;
+    }
+  }
+
+  .mealplanInfo {
+    position: relative;
+    top: 3px;
+    margin-left: 5px;
+    font-size: 15px;
+    color: ${pureUiTheme.colors.gold};
+  }
+
+  .mealplanTooltip {
+    margin: 20px;
+
+    li {
+      display: flex;
+      flex-direction: row;
+    }
+
+    li > span {
+      font-weight: bold;
+      color: ${pureUiTheme.colors.gold};
+      min-width: 30px;
     }
   }
 `;

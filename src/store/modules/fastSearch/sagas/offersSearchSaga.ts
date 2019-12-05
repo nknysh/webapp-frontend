@@ -31,7 +31,6 @@ export function* offersSearchRequestSaga(action: SearchRequestAction) {
     yield put(offersSearchSuccessAction(result.data));
     yield put(clearBookingBuilderAction());
   } catch (e) {
-    console.log('error', e);
     yield put(offersSearchFailureAction(e));
     yield put(clearBookingBuilderAction());
   } finally {
