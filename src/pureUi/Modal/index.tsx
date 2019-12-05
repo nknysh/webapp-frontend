@@ -51,15 +51,33 @@ const Modal = ({
   if (!isOpen) {
     return null;
   }
+
+  const handleKeyPress = e => {
+    if (e.key === 'Escape') {
+      // if the user has pressed Esc, we close the modal and remove the event listener
+      onClose();
+      document.removeEventListener('keyup', handleKeyPress, true);
+    }
+  };
+
+  // when the modal is open and rendered, attach and event listener for esc key functionality
+  document.addEventListener('keyup', handleKeyPress, true);
+
+  const handleCloseButtonPress = () => {
+    // if the user presses the close button, we close the modal and remove the event listener
+    onClose();
+    document.removeEventListener('keyup', handleKeyPress, true);
+  };
+
   return (
     <FocusTrap>
       <ModalContainer onClick={e => e.preventDefault()} className={`modal ${isOpen ? 'modal-open' : 'modal-closed'}`}>
         <ModalContent>
-          <ModalCloseButton type="button" className="modal-close-button" onClick={() => onClose()}>
+          <ModalCloseButton type="button" className="modal-close-button" onClick={handleCloseButtonPress}>
             <CloseIcon />
           </ModalCloseButton>
-          {modalHeader && <h2>{modalHeader}</h2>}
-          {modalContent && <p>{modalContent}</p>}
+          {modalHeader && modalHeader}
+          {modalContent && modalContent}
         </ModalContent>
       </ModalContainer>
     </FocusTrap>

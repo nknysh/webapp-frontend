@@ -325,7 +325,15 @@ const renderTransferOptionsSimple = (
       value: t.uuid,
       label: (
         <label>
-          {t.name} {t.priceFormatted} <InfoIcon modalHeader={t.name} modalText={t.description} />
+          {t.name} {t.priceFormatted}{' '}
+          <InfoIcon
+            modalHeader={
+              <h2>
+                {t.name} <small>{t.priceFormatted}</small>
+              </h2>
+            }
+            modalText={<p>{t.description}</p>}
+          />
         </label>
       ),
     }));
@@ -353,7 +361,14 @@ const renderTransferOptionsSimple = (
             label={
               <label>
                 {to.name} ({to.direction}) {to.priceFormatted}{' '}
-                <InfoIcon modalHeader={`${to.name} (${to.direction})`} modalText={to.description} />
+                <InfoIcon
+                  modalHeader={
+                    <h2>
+                      {to.name} <small>{to.priceFormatted}</small>
+                    </h2>
+                  }
+                  modalText={<p>{to.description}</p>}
+                />
               </label>
             }
           />
@@ -412,7 +427,23 @@ const renderGroundServices = (
                     gs.isOnRequestOrPartiallyOnRequest
                   )}
                 </label>
-                <InfoIcon modalHeader={gsProduct.name} modalText={gsProduct.meta.description} />
+                <InfoIcon
+                  modalHeader={
+                    <h2>
+                      {gsProduct.name}{' '}
+                      <small>
+                        {renderInlinePrice(
+                          translate,
+                          currencyCode,
+                          gs.total,
+                          gs.totalBeforeDiscount,
+                          gs.isOnRequestOrPartiallyOnRequest
+                        )}
+                      </small>
+                    </h2>
+                  }
+                  modalText={<p>{gsProduct.meta.description}</p>}
+                />
               </React.Fragment>
             }
           />
@@ -453,7 +484,23 @@ const renderAddons = (
                   sp.totalBeforeDiscount,
                   sp.isOnRequestOrPartiallyOnRequest
                 )}
-                <InfoIcon modalHeader={supplementProduct.name} modalText={supplementProduct.meta.description} />
+                <InfoIcon
+                  modalHeader={
+                    <h2>
+                      {supplementProduct.name}{' '}
+                      <small>
+                        {renderInlinePrice(
+                          translate,
+                          currencyCode,
+                          sp.total,
+                          sp.totalBeforeDiscount,
+                          sp.isOnRequestOrPartiallyOnRequest
+                        )}
+                      </small>
+                    </h2>
+                  }
+                  modalText={<p>{supplementProduct.meta.description}</p>}
+                />
               </label>
             }
           />
@@ -482,7 +529,23 @@ const renderAddons = (
                   fp.totalBeforeDiscount,
                   fp.isOnRequestOrPartiallyOnRequest
                 )}
-                <InfoIcon modalHeader={fineProduct.name} modalText={fineProduct.meta.description} />
+                <InfoIcon
+                  modalHeader={
+                    <h2>
+                      {fineProduct.name}{' '}
+                      <small>
+                        {renderInlinePrice(
+                          translate,
+                          currencyCode,
+                          fp.total,
+                          fp.totalBeforeDiscount,
+                          fp.isOnRequestOrPartiallyOnRequest
+                        )}
+                      </small>
+                    </h2>
+                  }
+                  modalText={<p>{fineProduct.meta.description}</p>}
+                />
               </label>
             }
           />
