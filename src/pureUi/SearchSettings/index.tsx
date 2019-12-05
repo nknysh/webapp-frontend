@@ -8,6 +8,7 @@ import SidebarGroup from 'pureUi/SidebarGroup';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { PrimaryButton } from '../Buttons/index';
+import { isNilOrEmpty } from 'ramda-adjunct';
 export interface SearchSettingsProps extends React.HTMLProps<HTMLDivElement> {
   options: SearchOptions;
   query: SearchQuery;
@@ -40,6 +41,10 @@ export const SearchSettings = (props: SearchSettingsProps) => {
   const handleRegionChange = (region: string) => (e: React.FormEvent<HTMLInputElement>) =>
     props.onRegionChange(region, e.currentTarget.checked);
 
+  const removeAllFiltersDisabled = 
+    isNilOrEmpty(props.query.priceRange.min) &&
+    isNilOrEmpty(props.query.priceRange.max) &&
+    !props.query.filters.length;
 
   return (
     <div className={props.className}>
@@ -171,7 +176,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
             );
           }}
         />
-        <PrimaryButton onClick={props.onRemoveAllFilters} disabled={!props.query.filters.length}>
+        <PrimaryButton onClick={props.onRemoveAllFilters} disabled={removeAllFiltersDisabled}>
           Remove all filters
         </PrimaryButton>
       </section>
