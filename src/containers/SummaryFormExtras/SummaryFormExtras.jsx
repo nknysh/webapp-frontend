@@ -31,7 +31,8 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
-import { RadioButton, Modal, Loader, Button, ToolTip } from '@pure-escapes/webapp-ui-components';
+import { RadioButton, Loader, Button, ToolTip } from '@pure-escapes/webapp-ui-components';
+import Modal from 'pureUi/Modal';
 
 import { ProductTypes } from 'config/enums';
 
@@ -59,6 +60,7 @@ import {
   TravelAgentName,
   CollapseToggle,
   CollapseTitle,
+  InformationIcon,
 } from './SummaryFormExtras.styles';
 import {
   productsBothWays,
@@ -70,6 +72,27 @@ import {
   groupByProductsUuid,
 } from './SummaryFormExtras.utils';
 
+const InfoIcon = ({ modalHeader, modalText }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <React.Fragment>
+      <InformationIcon
+        onClick={e => {
+          e.preventDefault();
+          setIsModalOpen(true);
+        }}
+      />
+
+      <Modal
+        isOpen={isModalOpen}
+        modalHeader={modalHeader}
+        modalContent={modalText}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </React.Fragment>
+  );
+};
 const renderAddonCheckbox = props => <AddonCheckbox {...props} />;
 
 const renderSummaryArea = (t, { currencyCode, key, children, total, totalBeforeDiscount, isOnRequest }) => (
@@ -266,6 +289,7 @@ const renderTransferOptionsSimple = (
     name: t.products[0].name,
     uuid: t.products[0].uuid,
     direction: t.meta && t.meta.direction && t.meta.direction ? t.meta.direction : undefined,
+    description: t.products[0].meta.description,
     priceFormatted: renderInlinePrice(
       translate,
       currencyCode,
@@ -301,11 +325,10 @@ const renderTransferOptionsSimple = (
       value: t.uuid,
       label: (
         <label>
-          {t.name} {t.priceFormatted}
+          {t.name} {t.priceFormatted} <InfoIcon modalHeader={t.name} modalText={t.description} />
         </label>
       ),
     }));
-  const oneWayTransfersOptions = simpleTransfers.filter(t => t.direction !== undefined);
 
   const bothWayTransferMarkup = (
     <React.Fragment>
@@ -317,6 +340,7 @@ const renderTransferOptionsSimple = (
     </React.Fragment>
   );
 
+  const oneWayTransfersOptions = simpleTransfers.filter(t => t.direction !== undefined);
   const oneWayTransfersMarkup = (
     <React.Fragment>
       {oneWayTransfersOptions.map(to => {
@@ -328,7 +352,8 @@ const renderTransferOptionsSimple = (
             checked={isChecked}
             label={
               <label>
-                {to.name} ({to.direction}) {to.priceFormatted}
+                {to.name} ({to.direction}) {to.priceFormatted}{' '}
+                <InfoIcon modalHeader={`${to.name} (${to.direction})`} modalText={to.description} />
               </label>
             }
           />
@@ -369,22 +394,26 @@ const renderGroundServices = (
       {groundServices.map(gs => {
         const gsProduct = gs.products[0];
         const isChecked = selectedGroundServices.some(sgs => sgs.uuid === gsProduct.uuid);
+
         return (
           <AddonCheckbox
             onChange={() => updateGroundServiceAction(gsProduct, hotelUuid)}
             key={`${gsProduct.uuid}/${gsProduct.name}`}
             checked={isChecked}
             label={
-              <label>
-                {gsProduct.name}{' '}
-                {renderInlinePrice(
-                  translate,
-                  currencyCode,
-                  gs.total,
-                  gs.totalBeforeDiscount,
-                  gs.isOnRequestOrPartiallyOnRequest
-                )}
-              </label>
+              <React.Fragment>
+                <label>
+                  {gsProduct.name}{' '}
+                  {renderInlinePrice(
+                    translate,
+                    currencyCode,
+                    gs.total,
+                    gs.totalBeforeDiscount,
+                    gs.isOnRequestOrPartiallyOnRequest
+                  )}
+                </label>
+                <InfoIcon modalHeader={gsProduct.name} modalText={gsProduct.meta.description} />
+              </React.Fragment>
             }
           />
         );
@@ -424,6 +453,7 @@ const renderAddons = (
                   sp.totalBeforeDiscount,
                   sp.isOnRequestOrPartiallyOnRequest
                 )}
+                <InfoIcon modalHeader={supplementProduct.name} modalText={supplementProduct.meta.description} />
               </label>
             }
           />
@@ -544,7 +574,6 @@ const renderMargin = (
   {
     onMarginChange,
     grandTotal,
-    values,
     summaryOnly,
     compact,
     compactEdit,

@@ -8,7 +8,6 @@ import {
 } from '../actions';
 import { fastSearchBookingBuilderSelector } from 'store/modules/fastSearch/selectors';
 import { makeBackendApi } from 'services/BackendApi';
-import { BookingBuilderResponse } from 'services/BackendApi/types';
 import { getUserCountryContext } from 'store/modules/auth';
 
 import { bookingBuilderSelector, bookingBuilderResponseHotelUuidSelector } from 'store/modules/bookingBuilder';

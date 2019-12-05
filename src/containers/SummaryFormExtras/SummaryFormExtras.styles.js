@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
+import HelpIcon from '@material-ui/icons/Help';
+
 import { Checkbox } from '@pure-escapes/webapp-ui-components';
 
 import { ContextMenu as BaseContextMenu } from 'components';
@@ -96,4 +98,12 @@ export const CollapseTitle = styled.div`
   span {
     flex: 1;
   }
+`;
+
+export const InformationIcon = styled(HelpIcon)`
+  position: absolute;
+  margin-top: -3px;
+  margin-left: 10px;
+  fill: ${theme.palette.primary} !important;
+  cursor: pointer;
 `;
