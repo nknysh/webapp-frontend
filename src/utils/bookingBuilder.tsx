@@ -117,20 +117,8 @@ export const getMealPlanBreakdownForLodging = (
   }
 
   const labelNames: any[] = selectedMealPlanSet.products.map(p => p.name);
-  const labelOffers: any[] = flatten(
-    uniq(
-      selectedMealPlanSet.breakdown.map(b => {
-        return b.offers.map(o => o.offer.name);
-      })
-    )
-  );
 
-  return (
-    <span>
-      {labelNames}{' '}
-      {labelOffers && <MealPlanRatePrice data-discount="true">{labelOffers.join(' & ')}</MealPlanRatePrice>}
-    </span>
-  );
+  return <span>{labelNames}</span>;
 };
 
 export const getAvailableMealPlansForAccommodation = (
