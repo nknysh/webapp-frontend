@@ -146,9 +146,20 @@ export const getAvailableMealPlansForAccommodation = (
       return totalPrice;
     }, 0);
 
+    const labelOffers = flatten(
+      uniq(
+        mealPlan.breakdown.map(b => {
+          return b.offers.map(o => o.offer.name);
+        })
+      )
+    );
+
     const label = (
       <div>
-        <div>{labelNames}</div>
+        <div>
+          {labelNames}{' '}
+          {labelOffers && <MealPlanRatePrice data-discount="true">{labelOffers.join(' & ')}</MealPlanRatePrice>}
+        </div>
         <div>
           {currencyCode}
           {formatPrice(labelPrice)}
