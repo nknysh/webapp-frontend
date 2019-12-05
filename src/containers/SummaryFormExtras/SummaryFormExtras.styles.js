@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
-import HelpIcon from '@material-ui/icons/Help';
+import InfoIcon from '@material-ui/icons/Info';
 
 import { Checkbox } from '@pure-escapes/webapp-ui-components';
 
@@ -100,7 +100,7 @@ export const CollapseTitle = styled.div`
   }
 `;
 
-export const InformationIcon = styled(HelpIcon)`
+export const InformationIcon = styled(InfoIcon)`
   position: absolute;
   margin-top: -3px;
   margin-left: 10px;

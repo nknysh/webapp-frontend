@@ -482,6 +482,7 @@ const renderAddons = (
                   fp.totalBeforeDiscount,
                   fp.isOnRequestOrPartiallyOnRequest
                 )}
+                <InfoIcon modalHeader={fineProduct.name} modalText={fineProduct.meta.description} />
               </label>
             }
           />

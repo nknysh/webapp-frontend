@@ -5,7 +5,7 @@ import FocusTrap from 'focus-trap-react';
 
 const ModalContainer = styled.div`
   position: fixed;
-  z-index: 9999; /* needs to be this high to cover the gallery buttons */
+  z-index: 9999; /* needs to be this so high to cover the gallery buttons */
   left: 0;
   top: 0;
   width: 100%;
