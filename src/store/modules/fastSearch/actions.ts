@@ -10,6 +10,7 @@ import {
 
 export const INITIALIZE_QUERY = 'fastSearch/INITIALIZE_QUERY';
 export const POPULATE_QUERY = 'fastSearch/POPULATE_QUERY';
+export const CLEAR_EXTENDED_QUERY = 'fastSearch/CLEAR_EXTENDED_QUERY';
 export const DESTINATION_CHANGE = 'fastSearch/DESTINATION_CHANGE';
 export const TOGGLE_FILTER = 'fastSearch/TOGGLE_FILTER';
 export const SET_FILTERS = 'fastSearch/SET_FILTER';
@@ -80,6 +81,11 @@ export type PopulateQueryAction = ReturnType<typeof populateQueryAction>;
 export const populateQueryAction = (query: SearchQuery) => ({
   type: POPULATE_QUERY as typeof POPULATE_QUERY,
   query,
+});
+
+export type ClearExtendedQueryAction = ReturnType<typeof clearExtendedQueryAction>;
+export const clearExtendedQueryAction = () => ({
+  type: CLEAR_EXTENDED_QUERY as typeof CLEAR_EXTENDED_QUERY
 });
 
 export type ToggleFilterAction = ReturnType<typeof toggleFilterAction>;
@@ -334,4 +340,5 @@ export type FastSearchAction =
   | IncrementCurrentDateAction
   | ToggleDatePickerAction
   | SetDatePickerVisibilityAction
-  | PopulateQueryAction;
+  | PopulateQueryAction
+  | ClearExtendedQueryAction;

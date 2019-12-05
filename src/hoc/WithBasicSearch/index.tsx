@@ -29,6 +29,7 @@ import {
 
   // Actions
   initializeQueryAction,
+  clearExtendedQueryAction,
   offersSearchRequestAction,
   toggleHighlightsAction,
   destinationChangeAction,
@@ -96,6 +97,7 @@ const actionCreators = {
   initializeQuery: initializeQueryAction,
   toggleRepeatGuest: toggleRepeatGuestAction,
   clearBookingBuilderAction,
+  clearExtendedQuery: clearExtendedQueryAction
 };
 
 export interface IWithBasicSearchHandlers {
@@ -142,6 +144,7 @@ export const makeWithBasicSearch = (WrappedComponent: any) =>
     };
 
     handleNavigateToSearch = () => {
+      this.props.clearExtendedQuery();
       this.props.history.push(`/search/beta/?${qs.stringify(this.props.searchQuery)}`);
     };
 
