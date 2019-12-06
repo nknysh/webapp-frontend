@@ -1138,6 +1138,7 @@ export const SummaryFormExtras = ({
 
   const totalCents = booking?.response?.aggregateTotals?.Total?.totalForPricedItemsCents | 0;
 
+  console.log('booking', booking);
   return (
     <Fragment>
       {transfers.length >= 1 && <TransfersWrapper />}
@@ -1147,8 +1148,10 @@ export const SummaryFormExtras = ({
         <React.Fragment>
           <hr />
           <label>
-            <strong>{t('labels.totalCostBreakdown')}</strong>
+            <strong>Summary for your chosen options in {booking?.response?.hotel?.name}</strong>
           </label>
+          <br />
+          <br />
           <DisplayTotalsBreakdown
             translate={t}
             currencyCode={currencyCode}
