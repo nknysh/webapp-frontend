@@ -44,8 +44,7 @@ export const AddToProposalForm = ({
       setIsLoaded(false);
     }
     load();
-    setIsLoaded(false);
-  }, [fetchProposals, proposals]);
+  }, [fetchProposals]);
 
   useEffectBoundary(() => {
     // When complete this is the final trigger
