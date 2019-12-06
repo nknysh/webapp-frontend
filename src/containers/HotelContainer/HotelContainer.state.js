@@ -14,6 +14,15 @@ import {
   bookingOffersTermsSelector,
 } from 'store/modules/bookingBuilder';
 
+import {
+  addToProposal,
+  createNewProposal,
+  fetchProposals,
+  getProposalsKeyValue,
+  getProposalsStatus,
+  getProposalsResults,
+} from 'store/modules/proposals';
+
 export const mapStateToProps = (state, { id }) => ({
   booking: getBooking(state, id),
   brochures: getHotelsBrochures(state, id),
@@ -24,6 +33,8 @@ export const mapStateToProps = (state, { id }) => ({
   paymentTerms: bookingPaymentTermsSelector(state),
   cancellationPolicy: bookingCancellationPoliciesSelector(state),
   offersTerms: bookingOffersTermsSelector(state),
+  proposals: getProposalsKeyValue(state),
+  proposalResults: getProposalsResults(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -45,6 +56,18 @@ export const mapDispatchToProps = dispatch => ({
   ),
   initializeBooking: pipe(
     initializeBookingBuilderAction,
+    dispatch
+  ),
+  addToProposal: pipe(
+    addToProposal,
+    dispatch
+  ),
+  createNewProposal: pipe(
+    createNewProposal,
+    dispatch
+  ),
+  fetchProposals: pipe(
+    fetchProposals,
     dispatch
   ),
 });

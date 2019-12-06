@@ -5,7 +5,7 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { Loader, Tabs, List } from '@pure-escapes/webapp-ui-components';
 import { withUser } from 'hoc';
-import { useCurrentWidth, useModalState } from 'effects';
+import { useCurrentWidth } from 'effects';
 import { mapWithIndex } from 'utils';
 import Modal from 'pureUi/Modal';
 
@@ -17,11 +17,9 @@ import {
   Back,
   Brochure,
   Full,
-  StyledAddToProposalForm,
   StyledBreadcrumbs,
   StyledHotel,
   StyledHotelContainer,
-  StyledModal,
   StyledSummary,
   SummaryAction,
   SummaryActions,
@@ -29,18 +27,80 @@ import {
   Title,
 } from './HotelContainer.styles';
 
+interface ValueLabelPair {
+  value: string;
+  label: string;
+}
+
 const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}</Back>;
 
-/**
- *
- * @param {object} t translation
- * @param {object} props
- * @param {string} props.id the id
- * @param {object} props.hotel the hotel object
- */
-// export const renderBreadcrumbs = (t, { id, hotel }) => (
+const AddToProposalModalContent = props => {
+  const { proposals, hotelUuid } = props;
+  const { createNewProposal, addToProposal }: { createNewProposal: Function; addToProposal: Function } = props;
 
-// );
+  const [selectedProposalUuid, setSelectedProposalUuid] = useState('new');
+  const [newProposalName, setNewProposalName] = useState('');
+  const [isNewProposal, setIsNewProposal] = useState(selectedProposalUuid === 'new');
+
+  // const onModalComplete = useCallback(
+  //   data => {
+  //     if (equals('proposal', prop('modalContext', modal))) {
+  //       onModalClose();
+  //       history.push(`/proposals/${data.toString()}/edit`);
+  //     }
+  //   },
+  //   [history, modal, onModalClose]
+  // );
+
+  const handleProposalNameChange = e => {
+    if (e.target.value === 'new') {
+      setIsNewProposal(true);
+    } else {
+      setIsNewProposal(false);
+    }
+    setSelectedProposalUuid(e.target.value);
+  };
+
+  const handleAddToProposalSubmit = () => {
+    // we should NEVER place holds as we are making proposals which is why a hard `false` is passed here
+    if (isNewProposal) {
+      createNewProposal(newProposalName, hotelUuid, false);
+    } else {
+      addToProposal(selectedProposalUuid, hotelUuid, false);
+    }
+  };
+
+  const selectOptions: ValueLabelPair[] = [];
+
+  selectOptions.push({
+    value: 'new',
+    label: 'New Proposal',
+  });
+
+  Object.keys(proposals).map(pKey =>
+    selectOptions.push({
+      value: pKey,
+      label: proposals[pKey],
+    })
+  );
+
+  return (
+    <div className="add-to-proposal">
+      <select value={selectedProposalUuid} onChange={handleProposalNameChange}>
+        {selectOptions.map(o => (
+          <option value={o.value}>{o.label}</option>
+        ))}
+      </select>
+
+      {isNewProposal && <input value={newProposalName} onChange={e => setNewProposalName(e.target.value)} />}
+
+      <hr />
+      <button type="button" onClick={handleAddToProposalSubmit}>
+        Add to Proposal
+      </button>
+    </div>
+  );
+};
 
 const renderBrochure = ({ uuid, displayName, url }) => (
   <Brochure key={uuid} href={url} target="_blank">
@@ -48,20 +108,22 @@ const renderBrochure = ({ uuid, displayName, url }) => (
   </Brochure>
 );
 
-/**
- *
- * @param {object} props
- * @param {string} props.id the id
- * @param {object} props.hotel the hotel object
- * @param {object} props.photos hotel photos
- */
-
 const HotelSummary = props => {
+  const { fetchProposals, proposals } = props;
+  const { createNewProposal, addToProposal }: { createNewProposal: Function; addToProposal: Function } = props;
+
   const { hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures, onSubmit } = props;
-  const { canBook, canHold, onActionClick, onTakeHold, onModalComplete, booking } = props;
+  const { canBook, canHold, onTakeHold, booking } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [count, setCount] = useState(1);
+
+  // we ALWAYS need to fetch the new proposals
+  useEffect(() => {
+    async function load() {
+      await fetchProposals();
+    }
+    load();
+  }, [fetchProposals]);
 
   const handleAddToProposalClick = e => {
     e.preventDefault();
@@ -74,10 +136,12 @@ const HotelSummary = props => {
         isOpen={isModalOpen}
         modalHeader={<h2>Add Current Booking to Proposal</h2>}
         modalContent={
-          <div>
-            <p>current count: {count}</p>
-            <button onClick={() => setCount(count + 1)}>increase</button>
-          </div>
+          <AddToProposalModalContent
+            proposals={proposals}
+            hotelUuid={booking.hotelUuid}
+            createNewProposal={createNewProposal}
+            addToProposal={addToProposal}
+          />
         }
         onClose={() => setIsModalOpen(false)}
       />
@@ -176,22 +240,12 @@ export const HotelFullLayout = props => {
   );
 };
 
-// const renderModal = (t, { id, modalOpen, modalContext, canBook, onModalClose, onModalComplete, booking }) =>
-//   modalOpen && (
-//     <StyledModal open={modalOpen} onClose={onModalClose}>
-//       {equals('proposal', modalContext) && (
-
-//       )}
-//     </StyledModal>
-//   );
-
 export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, ...props }) => {
   const { t } = useTranslation();
 
   const [redirectToBooking, setRedirectToBooking] = useState(false);
   const [redirectToHold, setRedirectToHold] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { onModalClose, setModalContext, onModalOpen } = modal;
   const { initializeBooking, match } = props;
 
   useEffect(() => {
@@ -207,29 +261,14 @@ export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, ...prop
   }, [fetchHotel, id]);
 
   const { isMobile } = useCurrentWidth();
-  const onModalComplete = useCallback(
-    data => {
-      if (equals('proposal', prop('modalContext', modal))) {
-        onModalClose();
-        history.push(`/proposals/${data.toString()}/edit`);
-      }
-    },
-    [history, modal, onModalClose]
-  );
+
   const onTakeHold = useCallback(() => setRedirectToHold(true), []);
   const onSubmit = useCallback(() => setRedirectToBooking(true), []);
-  const onActionClick = useCallback(
-    type => {
-      setModalContext(type);
-      onModalOpen();
-    },
-    [onModalOpen, setModalContext]
-  );
 
   if (redirectToBooking) return <Redirect to={`/hotels/${id}/booking`} />;
   if (redirectToHold) return <Redirect to={`/hotels/${id}/hold`} />;
 
-  const defaultProps = { hotel, photos, id, onTakeHold, onSubmit, onActionClick, ...modal, ...props };
+  const defaultProps = { hotel, photos, id, onTakeHold, onSubmit, ...props };
 
   const renderWithLoader = () => (
     <Loader isLoading={isLoading} text={t('messages.gettingHotel')}>
