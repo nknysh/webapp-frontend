@@ -1138,7 +1138,6 @@ export const SummaryFormExtras = ({
 
   const totalCents = booking?.response?.aggregateTotals?.Total?.totalForPricedItemsCents | 0;
 
-  console.log('booking', booking);
   return (
     <Fragment>
       {transfers.length >= 1 && <TransfersWrapper />}
