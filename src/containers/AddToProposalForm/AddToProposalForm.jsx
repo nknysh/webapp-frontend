@@ -35,13 +35,13 @@ export const AddToProposalForm = ({
   const [submitted, setSubmitted] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // always load the available proposals
   useEffect(() => {
     async function load() {
       await fetchProposals();
-      setIsLoaded(false);
+      setIsLoading(false);
     }
     load();
   }, [fetchProposals]);
@@ -85,7 +85,7 @@ export const AddToProposalForm = ({
       >
         {({ values, ...formProps }) => (
           <React.Fragment>
-            <Loader isLoading={isLoaded}>
+            <Loader isLoading={isLoading}>
               {Form.renderField('proposalId', prop('proposalId', values), prop('proposalId', proposalId), formProps)}
             </Loader>
             {isNewProposal(values) &&
