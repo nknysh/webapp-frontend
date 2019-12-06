@@ -1147,7 +1147,9 @@ export const SummaryFormExtras = ({
         <React.Fragment>
           <hr />
           <label>
-            <strong>Summary for your chosen options in {booking?.response?.hotel?.name}</strong>
+            <strong>
+              {t('labels.summaryForYourChosenOptionsIn')} {booking?.response?.hotel?.name}
+            </strong>
           </label>
           <br />
           <br />

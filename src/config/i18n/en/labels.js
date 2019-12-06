@@ -259,4 +259,6 @@ export default {
   },
 
   addLodging: 'Add Lodging',
+
+  summaryForYourChosenOptionsIn: 'Summary for your chosen options in',
 };
