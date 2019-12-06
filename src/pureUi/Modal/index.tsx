@@ -44,8 +44,8 @@ const Modal = ({
   onClose,
 }: {
   isOpen: boolean;
-  modalContent: string;
-  modalHeader: string;
+  modalContent: string | React.ReactElement;
+  modalHeader: string | React.ReactElement;
   onClose: Function;
 }) => {
   if (!isOpen) {

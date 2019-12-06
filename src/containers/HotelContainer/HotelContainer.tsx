@@ -7,6 +7,7 @@ import { Loader, Tabs, List } from '@pure-escapes/webapp-ui-components';
 import { withUser } from 'hoc';
 import { useCurrentWidth, useModalState } from 'effects';
 import { mapWithIndex } from 'utils';
+import Modal from 'pureUi/Modal';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
@@ -37,9 +38,9 @@ const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}
  * @param {string} props.id the id
  * @param {object} props.hotel the hotel object
  */
-export const renderBreadcrumbs = (t, { id, hotel }) => (
-  <StyledBreadcrumbs links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]} />
-);
+// export const renderBreadcrumbs = (t, { id, hotel }) => (
+
+// );
 
 const renderBrochure = ({ uuid, displayName, url }) => (
   <Brochure key={uuid} href={url} target="_blank">
@@ -54,42 +55,57 @@ const renderBrochure = ({ uuid, displayName, url }) => (
  * @param {object} props.hotel the hotel object
  * @param {object} props.photos hotel photos
  */
-export const renderHotel = ({ id, hotel, photos }) => <StyledHotel {...hotel} id={id} photos={photos} />;
 
-const renderActions = (t, { canBook, canHold, onActionClick, onTakeHold }) => (
-  <SummaryActions>
-    <SummaryAction type="button" onClick={onTakeHold} disabled={!canBook || !canHold}>
-      {t('buttons.takeAHold')}
-    </SummaryAction>
-    <SummaryAction type="button" disabled={!canBook} onClick={partial(onActionClick, ['proposal'])}>
-      {t('buttons.addToProposal')}
-    </SummaryAction>
-  </SummaryActions>
-);
+const HotelSummary = props => {
+  const { hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures, onSubmit } = props;
+  const { canBook, canHold, onActionClick, onTakeHold, onModalComplete, booking } = props;
 
-const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
-  const {
-    hotel: { additionalInfo, policiesAndRestrictions },
-    paymentTerms,
-    cancellationPolicy,
-    offersTerms,
-  } = props;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [count, setCount] = useState(1);
+
+  const handleAddToProposalClick = e => {
+    e.preventDefault();
+    setIsModalOpen(true);
+  };
 
   return (
     <Aside>
+      <Modal
+        isOpen={isModalOpen}
+        modalHeader={<h2>Add Current Booking to Proposal</h2>}
+        modalContent={
+          <div>
+            <p>current count: {count}</p>
+            <button onClick={() => setCount(count + 1)}>increase</button>
+          </div>
+        }
+        onClose={() => setIsModalOpen(false)}
+      />
       <StyledSummary id={id} onSubmit={onSubmit} showRoomImage={false}>
-        {() => renderActions(t, props)}
+        {() => {
+          // for some INSANE reason, SummaryForm treats its children as a function, always, which receives the booking
+          return (
+            <SummaryActions>
+              <SummaryAction type="button" onClick={onTakeHold} disabled={!canBook || !canHold}>
+                {t('buttons.takeAHold')}
+              </SummaryAction>
+              <SummaryAction type="button" disabled={!canBook} onClick={handleAddToProposalClick}>
+                {t('buttons.addToProposal')}
+              </SummaryAction>
+            </SummaryActions>
+          );
+        }}
       </StyledSummary>
-      {additionalInfo && (
+      {hotel.additionalInfo && (
         <AsideDetails>
           <Title>{t('labels.thingsToBeAwareOf')}</Title>
-          <Text>{additionalInfo}</Text>
+          <Text>{hotel.additionalInfo}</Text>
         </AsideDetails>
       )}
-      {!isNilOrEmpty(policiesAndRestrictions) && (
+      {!isNilOrEmpty(hotel.policiesAndRestrictions) && (
         <AsideDetails>
           <Title>{t('labels.policiesAndRestrictions')}</Title>
-          <List>{Children.toArray(policiesAndRestrictions)}</List>
+          <List>{Children.toArray(hotel.policiesAndRestrictions)}</List>
         </AsideDetails>
       )}
       {!isNilOrEmpty(cancellationPolicy) && (
@@ -130,47 +146,51 @@ const renderSummary = (t, { id, brochures, onSubmit, ...props }) => {
   );
 };
 
-const renderTabs = (t, props) => (
-  <Fragment>
-    {renderBackButton(t)}
-    <Tabs centered labels={[t('labels.hotelDetails'), t('labels.yourSelection')]}>
-      {renderHotel(props)}
-      {renderSummary(t, props)}
-    </Tabs>
-  </Fragment>
-);
+export const HotelTabLayout = props => {
+  const { t, id, hotel, photos } = props;
 
-export const renderFull = (t, props) => (
-  <Fragment>
-    {renderBreadcrumbs(t, props)}
-    <Full>
-      {renderHotel(props)}
-      {renderSummary(t, props)}
-    </Full>
-  </Fragment>
-);
-
-const renderModal = (t, { id, modalOpen, modalContext, canBook, onModalClose, onModalComplete, booking }) =>
-  modalOpen && (
-    <StyledModal open={modalOpen} onClose={onModalClose}>
-      {equals('proposal', modalContext) && (
-        <StyledAddToProposalForm
-          bookingId={id}
-          onSubmit={onModalComplete}
-          disabled={!canBook}
-          availableToHold={prop('availableToHold', booking)}
-        />
-      )}
-    </StyledModal>
+  return (
+    <Fragment>
+      {renderBackButton(t)}
+      <Tabs centered labels={[t('labels.hotelDetails'), t('labels.yourSelection')]}>
+        <StyledHotel {...hotel} id={id} photos={photos} />
+        <HotelSummary t={t} {...props} />
+      </Tabs>
+    </Fragment>
   );
+};
+
+export const HotelFullLayout = props => {
+  const { t, id, hotel, photos } = props;
+
+  return (
+    <Fragment>
+      <StyledBreadcrumbs
+        links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]}
+      />
+      <Full>
+        <StyledHotel {...hotel} id={id} photos={photos} />
+        <HotelSummary t={t} {...props} />
+      </Full>
+    </Fragment>
+  );
+};
+
+// const renderModal = (t, { id, modalOpen, modalContext, canBook, onModalClose, onModalComplete, booking }) =>
+//   modalOpen && (
+//     <StyledModal open={modalOpen} onClose={onModalClose}>
+//       {equals('proposal', modalContext) && (
+
+//       )}
+//     </StyledModal>
+//   );
 
 export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, ...props }) => {
   const { t } = useTranslation();
-  const modal = useModalState(false);
+
   const [redirectToBooking, setRedirectToBooking] = useState(false);
   const [redirectToHold, setRedirectToHold] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
   const { onModalClose, setModalContext, onModalOpen } = modal;
   const { initializeBooking, match } = props;
 
@@ -220,9 +240,8 @@ export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, ...prop
   const renderWithoutLoader = () => (
     <React.Fragment>
       <StyledHotelContainer>
-        {isMobile ? renderTabs(t, defaultProps) : renderFull(t, defaultProps)}
+        {isMobile ? <HotelTabLayout t={t} {...defaultProps} /> : <HotelFullLayout t={t} {...defaultProps} />}
       </StyledHotelContainer>
-      {renderModal(t, { id, ...modal, ...props, onModalComplete })}
     </React.Fragment>
   );
 
