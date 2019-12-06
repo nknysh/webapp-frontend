@@ -1,5 +1,7 @@
-import React, { useState, Fragment, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { prop, propEq, compose, over, lensPath, append } from 'ramda';
+import { isNilOrEmpty } from 'ramda-adjunct';
+
 import { useTranslation } from 'react-i18next';
 import { Loader, Form, Title } from '@pure-escapes/webapp-ui-components';
 
@@ -33,7 +35,17 @@ export const AddToProposalForm = ({
   const [submitted, setSubmitted] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  const loaded = useFetchData(status, fetchProposals, []);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // always load the available proposals
+  useEffect(() => {
+    async function load() {
+      await fetchProposals();
+      setIsLoaded(false);
+    }
+    load();
+    setIsLoaded(false);
+  }, [fetchProposals, proposals]);
 
   useEffectBoundary(() => {
     // When complete this is the final trigger
@@ -73,8 +85,8 @@ export const AddToProposalForm = ({
         validateOnChange={false}
       >
         {({ values, ...formProps }) => (
-          <Fragment>
-            <Loader isLoading={!loaded}>
+          <React.Fragment>
+            <Loader isLoading={isLoaded}>
               {Form.renderField('proposalId', prop('proposalId', values), prop('proposalId', proposalId), formProps)}
             </Loader>
             {isNewProposal(values) &&
@@ -86,7 +98,7 @@ export const AddToProposalForm = ({
                 <SubmitText>{t('buttons.addToProposal')}</SubmitText>
               </SubmitButton>
             </Actions>
-          </Fragment>
+          </React.Fragment>
         )}
       </Form>
     </StyledAddToProposalForm>
