@@ -99,6 +99,11 @@ export const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;
     }
+
+    .mt-4 { margin-top: 16px; }
+    .mb-4 { margin-bottom: 16px; }
+    .my-4 { margin-top: 16px; margin-bottom: 16px; }
+    .font-material-ui { font-family: HurmeGeometricSans2, 'Open Sans', sans-serif !important; }
 `;
 
 export default { GlobalFonts, GlobalStyle };

@@ -27,83 +27,9 @@ import {
   Title,
 } from './HotelContainer.styles';
 
-interface ValueLabelPair {
-  value: string;
-  label: string;
-}
+import { AddToProposalModalContent } from './AddToProposalModal';
 
 const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}</Back>;
-
-const AddToProposalModalContent = props => {
-  const { proposals, hotelUuid } = props;
-  const { createNewProposal, addToProposal }: { createNewProposal: Function; addToProposal: Function } = props;
-
-  const { proposalStatus, proposalResult, history } = props;
-
-  const [selectedProposalUuid, setSelectedProposalUuid] = useState('new');
-  const [newProposalName, setNewProposalName] = useState('');
-  const [isNewProposal, setIsNewProposal] = useState(selectedProposalUuid === 'new');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // when the modal is submitted and the proposal status is SUCCESS, we're complete
-  useEffect(() => {
-    if (isSubmitted && proposalStatus === 'SUCCESS') {
-      history.push(`/proposals/${proposalResult}/edit`);
-    }
-  }, [isSubmitted, proposalStatus]);
-
-  const handleProposalNameChange = e => {
-    if (e.target.value === 'new') {
-      setIsNewProposal(true);
-    } else {
-      setIsNewProposal(false);
-    }
-    setSelectedProposalUuid(e.target.value);
-  };
-
-  const handleAddToProposalSubmit = () => {
-    // we should NEVER place holds as we are making proposals which is why a hard `false` is passed here
-    if (isNewProposal) {
-      createNewProposal(newProposalName, hotelUuid, false);
-    } else {
-      addToProposal(selectedProposalUuid, hotelUuid, false);
-    }
-    setIsSubmitted(true);
-  };
-
-  const selectOptions: ValueLabelPair[] = [];
-
-  selectOptions.push({
-    value: 'new',
-    label: 'New Proposal',
-  });
-
-  Object.keys(proposals).map(pKey =>
-    selectOptions.push({
-      value: pKey,
-      label: proposals[pKey],
-    })
-  );
-
-  return (
-    <div className="add-to-proposal">
-      <select value={selectedProposalUuid} onChange={handleProposalNameChange}>
-        {selectOptions.map(o => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-
-      {isNewProposal && <input value={newProposalName} onChange={e => setNewProposalName(e.target.value)} />}
-
-      <hr />
-      <button type="button" onClick={handleAddToProposalSubmit}>
-        Add to Proposal
-      </button>
-    </div>
-  );
-};
 
 const renderBrochure = ({ uuid, displayName, url }) => (
   <Brochure key={uuid} href={url} target="_blank">
@@ -137,7 +63,7 @@ const HotelSummary = props => {
     <Aside>
       <Modal
         isOpen={isModalOpen}
-        modalHeader={<h2>Add Current Booking to Proposal</h2>}
+        modalHeader={<h2>Add Current Booking to A Proposal</h2>}
         modalContent={
           <AddToProposalModalContent
             proposals={proposals}
@@ -298,6 +224,7 @@ HotelContainer.defaultProps = defaultProps;
 
 export default compose(
   connect,
+  // @ts-ignore
   withRouter,
   withUser
 )(HotelContainer);

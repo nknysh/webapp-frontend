@@ -1,3 +1,7 @@
+import { ReactElement } from 'react';
+
+// TODO many of these can be decommissioned and use cases instead
+// use the interfaces from src/services/BackendApi/types/OffersSearchResponse.ts
 export interface BookingBuilderProduct {
   uuid: string;
   name: string;
@@ -63,3 +67,10 @@ export interface LodgingSummary extends RequestedBuildAccommodation {
   occupancyBreakdown: string;
   occasionsBreakdown: string;
 }
+
+export interface ValueLabelPair {
+  value: string;
+  label: string;
+}
+
+export type ReduxDomainStatus = 'SUCCESS' | 'LOADING' | 'IDLE';
