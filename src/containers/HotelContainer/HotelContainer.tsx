@@ -27,6 +27,8 @@ import {
   Title,
 } from './HotelContainer.styles';
 
+import { ReduxDomainStatus } from '../../interfaces';
+
 import { AddToProposalModalContent } from './AddToProposalModal';
 
 const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}</Back>;
@@ -38,11 +40,15 @@ const renderBrochure = ({ uuid, displayName, url }) => (
 );
 
 const HotelSummary = props => {
-  const { fetchProposals, proposals, proposalStatus, proposalResult, history } = props;
-  const { createNewProposal, addToProposal }: { createNewProposal: Function; addToProposal: Function } = props;
-
-  const { hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures, onSubmit } = props;
-  const { canBook, canHold, onTakeHold, booking } = props;
+  const { proposals, history, booking, hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures } = props;
+  const { proposalResult, proposalStatus }: { proposalResult: string; proposalStatus: ReduxDomainStatus } = props;
+  const { canBook, canHold, onTakeHold }: { canBook: boolean; canHold: boolean; onTakeHold: boolean } = props;
+  const {
+    fetchProposals,
+    createNewProposal,
+    addToProposal,
+    onSubmit,
+  }: { fetchProposals: Function; createNewProposal: Function; addToProposal: Function; onSubmit: Function } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -63,7 +69,7 @@ const HotelSummary = props => {
     <Aside>
       <Modal
         isOpen={isModalOpen}
-        modalHeader={<h2>Add Current Booking to A Proposal</h2>}
+        modalHeader={<h2>{t('buttons.addToProposal')}</h2>}
         modalContent={
           <AddToProposalModalContent
             proposals={proposals}

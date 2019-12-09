@@ -6,17 +6,15 @@ import Select from 'pureUi/Select';
 import Input from 'pureUi/Input';
 
 import { useTranslation } from 'react-i18next';
-
 import { ValueLabelPair, ReduxDomainStatus } from '../../interfaces';
 
 export const AddToProposalModalContent = props => {
   const { t } = useTranslation();
 
-  const { proposals, hotelUuid } = props;
   const { createNewProposal, addToProposal }: { createNewProposal: Function; addToProposal: Function } = props;
-
   const { proposalStatus }: { proposalStatus: ReduxDomainStatus } = props;
-  const { proposalResult, history } = props;
+  const { proposalResult, hotelUuid, history }: { proposalResult: string; hotelUuid: string; history: any } = props;
+  const { proposals }: { proposals: any } = props;
 
   const [selectedProposalUuid, setSelectedProposalUuid] = useState('new');
   const [newProposalName, setNewProposalName] = useState('');
