@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import FocusTrap from 'focus-trap-react';
-
 import { IPureUiModalView } from '../../interfaces';
 
 const ModalContainer = styled.div`
@@ -58,7 +57,7 @@ const Modal = (props: IPureUiModalView) => {
 
   return (
     <FocusTrap>
-      <ModalContainer onClick={e => e.preventDefault()} className={`modal`}>
+      <ModalContainer className={props.className || ''} onClick={e => e.preventDefault()}>
         <ModalContentWrapper>
           <ModalCloseButton type="button" className="modal-close-button" onClick={handleCloseButtonPress}>
             <CloseIcon />

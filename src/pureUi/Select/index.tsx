@@ -1,5 +1,5 @@
 import React from 'react';
-import { ValueLabelPair } from '../../interfaces';
+import { IValueLabelPair } from '../../interfaces';
 import styled from 'styled-components';
 
 const StyledSelect = styled.select`
@@ -22,7 +22,7 @@ const Select = ({
   className,
 }: {
   value: string;
-  options: ValueLabelPair[];
+  options: IValueLabelPair[];
   onChange: Function;
   className?: string;
 }) => {

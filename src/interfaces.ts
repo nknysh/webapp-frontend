@@ -68,14 +68,15 @@ export interface LodgingSummary extends RequestedBuildAccommodation {
   occasionsBreakdown: string;
 }
 
-export interface ValueLabelPair {
+export interface IValueLabelPair {
   value: string;
   label: string;
 }
 
-export type ReduxDomainStatus = 'SUCCESS' | 'LOADING' | 'IDLE';
+export type IReduxDomainStatus = 'SUCCESS' | 'LOADING' | 'IDLE';
 
 export interface IPureUiModalView {
   onClose: Function;
+  className?: string;
   children: string | JSX.Element | JSX.Element[];
 }

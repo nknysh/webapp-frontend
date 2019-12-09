@@ -27,8 +27,7 @@ import {
   Title,
 } from './HotelContainer.styles';
 
-import { ReduxDomainStatus } from '../../interfaces';
-
+import { IReduxDomainStatus } from '../../interfaces';
 import { AddToProposalModalContent } from './AddToProposalModal';
 
 const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}</Back>;
@@ -41,7 +40,7 @@ const renderBrochure = ({ uuid, displayName, url }) => (
 
 const HotelSummary = props => {
   const { proposals, history, booking, hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures } = props;
-  const { proposalResult, proposalStatus }: { proposalResult: string; proposalStatus: ReduxDomainStatus } = props;
+  const { proposalResult, proposalStatus }: { proposalResult: string; proposalStatus: IReduxDomainStatus } = props;
   const { canBook, canHold, onTakeHold }: { canBook: boolean; canHold: boolean; onTakeHold: boolean } = props;
   const {
     fetchProposals,
