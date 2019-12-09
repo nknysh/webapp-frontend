@@ -39,6 +39,7 @@ export const AddToProposalModalContent = props => {
 
   const handleAddToProposalSubmit = () => {
     // if the proposal status is loading, return out - we dont want to send multiple requests
+    // @see https://pureescapes.atlassian.net/browse/OWA-1067
     if (proposalStatus === 'LOADING') {
       return;
     }
