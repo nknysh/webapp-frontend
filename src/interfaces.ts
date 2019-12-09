@@ -74,3 +74,8 @@ export interface ValueLabelPair {
 }
 
 export type ReduxDomainStatus = 'SUCCESS' | 'LOADING' | 'IDLE';
+
+export interface IPureUiModalView {
+  onClose: Function;
+  children: string | JSX.Element | JSX.Element[];
+}

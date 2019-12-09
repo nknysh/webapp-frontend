@@ -67,10 +67,9 @@ const HotelSummary = props => {
 
   return (
     <Aside>
-      <Modal
-        isOpen={isModalOpen}
-        modalHeader={<h2>{t('buttons.addToProposal')}</h2>}
-        modalContent={
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <h2>{t('buttons.addToProposal')}</h2>
           <AddToProposalModalContent
             proposals={proposals}
             hotelUuid={booking && booking.hotelUuid ? booking.hotelUuid : null}
@@ -80,9 +79,9 @@ const HotelSummary = props => {
             proposalResult={proposalResult}
             history={history}
           />
-        }
-        onClose={() => setIsModalOpen(false)}
-      />
+        </Modal>
+      )}
+
       <StyledSummary id={id} onSubmit={onSubmit} showRoomImage={false}>
         {() => {
           // for some INSANE reason, SummaryForm treats its children as a function, always, which receives the booking

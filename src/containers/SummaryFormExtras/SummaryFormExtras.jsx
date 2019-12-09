@@ -84,12 +84,12 @@ const InfoIcon = ({ modalHeader, modalText }) => {
         }}
       />
 
-      <Modal
-        isOpen={isModalOpen}
-        modalHeader={modalHeader}
-        modalContent={modalText}
-        onClose={() => setIsModalOpen(false)}
-      />
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          {modalHeader}
+          {modalText}
+        </Modal>
+      )}
     </React.Fragment>
   );
 };

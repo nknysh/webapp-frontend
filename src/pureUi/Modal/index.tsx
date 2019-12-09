@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import FocusTrap from 'focus-trap-react';
+
+import { IPureUiModalView } from '../../interfaces';
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -21,7 +23,7 @@ const ModalContainer = styled.div`
   }
 `;
 
-const ModalContent = styled.div`
+const ModalContentWrapper = styled.div`
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
@@ -37,48 +39,33 @@ const ModalCloseButton = styled.button`
   cursor: pointer;
 `;
 
-const Modal = ({
-  isOpen = false,
-  modalContent,
-  modalHeader,
-  onClose,
-}: {
-  isOpen: boolean;
-  modalContent: string | React.ReactElement;
-  modalHeader: string | React.ReactElement;
-  onClose: Function;
-}) => {
-  if (!isOpen) {
-    return null;
-  }
+const Modal = (props: IPureUiModalView) => {
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyPress, true);
+
+    return () => {
+      document.removeEventListener('keyup', handleKeyPress, true);
+    };
+  }, []);
 
   const handleKeyPress = e => {
     if (e.key === 'Escape') {
-      // if the user has pressed Esc, we close the modal and remove the event listener
-      onClose();
-      document.removeEventListener('keyup', handleKeyPress, true);
+      props.onClose();
     }
   };
 
-  // when the modal is open and rendered, attach and event listener for esc key functionality
-  document.addEventListener('keyup', handleKeyPress, true);
-
-  const handleCloseButtonPress = () => {
-    // if the user presses the close button, we close the modal and remove the event listener
-    onClose();
-    document.removeEventListener('keyup', handleKeyPress, true);
-  };
+  const handleCloseButtonPress = () => props.onClose();
 
   return (
     <FocusTrap>
-      <ModalContainer onClick={e => e.preventDefault()} className={`modal ${isOpen ? 'modal-open' : 'modal-closed'}`}>
-        <ModalContent>
+      <ModalContainer onClick={e => e.preventDefault()} className={`modal`}>
+        <ModalContentWrapper>
           <ModalCloseButton type="button" className="modal-close-button" onClick={handleCloseButtonPress}>
             <CloseIcon />
           </ModalCloseButton>
-          {modalHeader && modalHeader}
-          {modalContent && modalContent}
-        </ModalContent>
+
+          {props.children}
+        </ModalContentWrapper>
       </ModalContainer>
     </FocusTrap>
   );
