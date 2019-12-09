@@ -38,19 +38,19 @@ const AddToProposalModalContent = props => {
   const { proposals, hotelUuid } = props;
   const { createNewProposal, addToProposal }: { createNewProposal: Function; addToProposal: Function } = props;
 
+  const { proposalStatus, proposalResult, history } = props;
+
   const [selectedProposalUuid, setSelectedProposalUuid] = useState('new');
   const [newProposalName, setNewProposalName] = useState('');
   const [isNewProposal, setIsNewProposal] = useState(selectedProposalUuid === 'new');
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // const onModalComplete = useCallback(
-  //   data => {
-  //     if (equals('proposal', prop('modalContext', modal))) {
-  //       onModalClose();
-  //       history.push(`/proposals/${data.toString()}/edit`);
-  //     }
-  //   },
-  //   [history, modal, onModalClose]
-  // );
+  // when the modal is submitted and the proposal status is SUCCESS, we're complete
+  useEffect(() => {
+    if (isSubmitted && proposalStatus === 'SUCCESS') {
+      history.push(`/proposals/${proposalResult}/edit`);
+    }
+  }, [isSubmitted, proposalStatus]);
 
   const handleProposalNameChange = e => {
     if (e.target.value === 'new') {
@@ -68,6 +68,7 @@ const AddToProposalModalContent = props => {
     } else {
       addToProposal(selectedProposalUuid, hotelUuid, false);
     }
+    setIsSubmitted(true);
   };
 
   const selectOptions: ValueLabelPair[] = [];
@@ -88,7 +89,9 @@ const AddToProposalModalContent = props => {
     <div className="add-to-proposal">
       <select value={selectedProposalUuid} onChange={handleProposalNameChange}>
         {selectOptions.map(o => (
-          <option value={o.value}>{o.label}</option>
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
         ))}
       </select>
 
@@ -109,7 +112,7 @@ const renderBrochure = ({ uuid, displayName, url }) => (
 );
 
 const HotelSummary = props => {
-  const { fetchProposals, proposals } = props;
+  const { fetchProposals, proposals, proposalStatus, proposalResult, history } = props;
   const { createNewProposal, addToProposal }: { createNewProposal: Function; addToProposal: Function } = props;
 
   const { hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures, onSubmit } = props;
@@ -138,9 +141,12 @@ const HotelSummary = props => {
         modalContent={
           <AddToProposalModalContent
             proposals={proposals}
-            hotelUuid={booking.hotelUuid}
+            hotelUuid={booking && booking.hotelUuid ? booking.hotelUuid : null}
             createNewProposal={createNewProposal}
             addToProposal={addToProposal}
+            proposalStatus={proposalStatus}
+            proposalResult={proposalResult}
+            history={history}
           />
         }
         onClose={() => setIsModalOpen(false)}
@@ -268,7 +274,7 @@ export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, ...prop
   if (redirectToBooking) return <Redirect to={`/hotels/${id}/booking`} />;
   if (redirectToHold) return <Redirect to={`/hotels/${id}/hold`} />;
 
-  const defaultProps = { hotel, photos, id, onTakeHold, onSubmit, ...props };
+  const defaultProps = { history, hotel, photos, id, onTakeHold, onSubmit, ...props };
 
   const renderWithLoader = () => (
     <Loader isLoading={isLoading} text={t('messages.gettingHotel')}>

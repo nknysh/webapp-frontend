@@ -34,7 +34,8 @@ export const mapStateToProps = (state, { id }) => ({
   cancellationPolicy: bookingCancellationPoliciesSelector(state),
   offersTerms: bookingOffersTermsSelector(state),
   proposals: getProposalsKeyValue(state),
-  proposalResults: getProposalsResults(state),
+  proposalResult: getProposalsResults(state),
+  proposalStatus: getProposalsStatus(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
