@@ -3,7 +3,6 @@ import { Container, BackButton, Modal, Button } from '@pure-escapes/webapp-ui-co
 
 import { Breadcrumbs, Hotel } from 'components';
 import SummaryForm from 'containers/SummaryForm';
-import AddToProposalForm from 'containers/AddToProposalForm';
 
 import { theme } from 'styles';
 
@@ -105,14 +104,6 @@ export const SummaryAction = styled(Button)`
   :last-child {
     margin-right: 0;
   }
-`;
-
-export const StyledAddToProposalForm = styled(AddToProposalForm)`
-  padding: ${theme.spacing.gutter * 4}px ${theme.spacing.gutter * 2}px;
-
-  ${props => props.theme.breakpoints.tablet`
-    padding: ${theme.spacing.gutter * 8}px ${theme.spacing.gutter * 10}px;
-  `}
 `;
 
 export const Text = styled.p`

@@ -1,4 +1,3 @@
-export { default as AddToProposalForm } from './AddToProposalForm';
 export { default as AuthenticatedRoute } from './AuthenticatedRoute';
 export { default as BookingContainer } from './BookingContainer';
 export { default as CreateAccountForm } from './CreateAccountForm';
