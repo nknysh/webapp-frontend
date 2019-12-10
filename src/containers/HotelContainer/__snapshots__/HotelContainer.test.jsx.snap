@@ -433,34 +433,22 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
   }
 >
   <Styled(withThemeProvider(styled.div))>
-    <Styled(withRouter())
-      links={
-        Array [
-          Object {
-            "label": <ForwardRef(Styled(withThemeProvider(Lt)))
-              to="/search/beta"
-            >
-              back to search results
-            </ForwardRef(Styled(withThemeProvider(Lt)))>,
-          },
-          Object {
-            "label": undefined,
-            "to": "/hotels/undefined",
-          },
-        ]
+    <Component
+      brochures={Object {}}
+      getBooking={[Function]}
+      getHotelUploads={[Function]}
+      hotel={Object {}}
+      onSubmit={[Function]}
+      onTakeHold={[Function]}
+      policiesAndTerms={
+        Object {
+          "cancellationPolicy": Object {},
+          "paymentTerms": Object {},
+        }
       }
+      t={[Function]}
+      updateBooking={[Function]}
     />
-    <styled.div>
-      <Styled(Component) />
-      <styled.aside>
-        <Styled(Connect(Component))
-          onSubmit={[Function]}
-          showRoomImage={false}
-        >
-          <Component />
-        </Styled(Connect(Component))>
-      </styled.aside>
-    </styled.div>
   </Styled(withThemeProvider(styled.div))>
 </withThemeProvider(Oa)>
 `;
