@@ -22,6 +22,7 @@ export enum BackendEndpoints {
   NAMES = 'search/names',
   BOOKING_BUILDER = 'booking-builder',
   HOTEL = 'hotels',
+  BOOKINGS = 'bookings',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -97,6 +98,19 @@ export class BackendApiService<T extends AxiosInstance> {
     };
 
     return sanitized;
+  };
+
+  postBookingSave = async (bookingSaveRequest: any): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}`;
+
+    const tempPayloadShape = {
+      data: {
+        attributes: {
+          ...bookingSaveRequest,
+        },
+      },
+    };
+    return this.client.post(endpoint, tempPayloadShape);
   };
 }
 

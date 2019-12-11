@@ -40,30 +40,20 @@ import {
   ModalBody,
   ModalTitle,
   HotelTotals,
-  HotelTotalsInfo,
-  ErrorSmall,
 } from './SummaryForm.styles';
 import { formatPrice } from '../../utils';
+import { PrimaryButton } from 'pureUi/Buttons';
+import { makeBackendApi } from 'services/BackendApi';
 const modalProps = { className: 'room-summary-form' };
+import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
-const getSingleValue = (type, data) =>
-  pipe(
-    pathOr([''], ['request', type]),
-    head,
-    propOr('', 'uuid')
-  )(data);
+const getSingleValue = (type, data) => pipe(pathOr([''], ['request', type]), head, propOr('', 'uuid'))(data);
 
 const renderTotalPrice = (t, currencyCode, isOnRequest, value, isSecondary, isDiscounted) => {
   <Total data-request={isOnRequest} data-secondary={isSecondary} data-discounted={isDiscounted}>
     {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(value)}`}
   </Total>;
 };
-
-// const renderTotalPrice = (t, { currencyCode, isOnRequest, total, secondary, discounted }) => (
-//   <Total data-request={isOnRequest} data-secondary={secondary} data-discounted={discounted}>
-//     {isOnRequest ? t('labels.onRequest') : `${currencyCode}${formatPrice(total)}`}
-//   </Total>
-// );
 
 const renderHotel = (
   t,
@@ -222,6 +212,21 @@ const renderRoomEditModal = (
   );
 };
 
+const handleSaveBookingButton = async props => {
+  const { bookingDomain, backendApi } = props;
+
+  const attr = getBookingsEndpointAttributesForBookingDomain({ bookingDomain });
+
+  try {
+    const res = await backendApi.postBookingSave(attr);
+    const newBookingUuid = res.data.data.uuid;
+
+    window.location.href = `/bookings/${newBookingUuid}`;
+  } catch (e) {
+    // TODO handle error
+  }
+};
+
 const renderForm = (
   t,
   {
@@ -248,6 +253,8 @@ const renderForm = (
     showHolds,
     showReleaseHolds,
     summaryOnly,
+    backendApi,
+    bookingDomain,
   }
 ) => {
   return (
@@ -267,13 +274,11 @@ const renderForm = (
           {renderSummaryErrors(errors)}
           {children({ booking })}
           <SummaryFormActions>
-            {showHolds &&
-              (holdOnly || holds) &&
-              ((prop('hasFullHolds', holds) || showReleaseHolds) && (
-                <SummaryFormButton type="button" onClick={() => onHoldModalInit('release')} data-secondary>
-                  {releaseHoldLabel || t('buttons.releaseHold', { count: length(prop('breakdown', holds)) })}
-                </SummaryFormButton>
-              ))}
+            {showHolds && (holdOnly || holds) && (prop('hasFullHolds', holds) || showReleaseHolds) && (
+              <SummaryFormButton type="button" onClick={() => onHoldModalInit('release')} data-secondary>
+                {releaseHoldLabel || t('buttons.releaseHold', { count: length(prop('breakdown', holds)) })}
+              </SummaryFormButton>
+            )}
             {((showHolds && !prop('hasFullHolds', holds)) || showAddHolds) && (
               <SummaryFormButton
                 disabled={!(holdOnly || prop('canHold', holds) || showAddHolds)}
@@ -286,12 +291,21 @@ const renderForm = (
                     : t('buttons.addHold', { count: length(prop('breakdown', holds)) }))}
               </SummaryFormButton>
             )}
+
             {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && showBookNow && (
               <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
                 {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
               </SummaryFormButton>
             )}
           </SummaryFormActions>
+          <PrimaryButton
+            className="mt-4"
+            type="button"
+            disabled={!canBook}
+            onClick={() => handleSaveBookingButton({ backendApi, bookingDomain })}
+          >
+            {t('buttons.saveBooking')}
+          </PrimaryButton>
         </Fragment>
       )}
     </Form>
@@ -427,21 +441,13 @@ export const SummaryForm = props => {
     onSubmit: onFormSubmit,
     summaryOnly,
     accommodationEditModalErrors,
+    actingCountryCode,
+    bookingDomain,
   } = props;
 
-  // const {
-  //   marginApplied,
-  //   taMarginAmount,
-  //   taMarginType,
-  //   uuid:hotelUuid,
-  //   status: bookingStatus,
-  //   overrideTotal,
-  // } = booking.response;
+  const backendApi = makeBackendApi(actingCountryCode);
 
   const initialValues = {
-    // marginApplied,
-    // taMarginAmount,
-    // taMarginType,
     [ProductTypes.TRANSFER]: getSingleValue(ProductTypes.TRANSFER, booking),
     [ProductTypes.GROUND_SERVICE]: getSingleValue(ProductTypes.GROUND_SERVICE, booking),
     ...pathOr({}, ['products', ProductTypes.FINE], booking),
@@ -536,12 +542,6 @@ export const SummaryForm = props => {
   return (
     <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
-        {/* {renderTotal(t, {
-          editGuard,
-          onEditGuard: handleEditGuard,
-          totals: booking.response.totals,
-          ...props,
-        })} */}
         {renderHotel(t, {
           name: hotelName || booking?.response?.hotel?.name || 'Hotel',
           overrideTotal: booking?.response?.totals?.total || '0.00',
@@ -561,6 +561,7 @@ export const SummaryForm = props => {
           onEditGuard: handleEditGuard,
           onHoldModalInit,
           onSubmit,
+          backendApi,
           ...props,
         })}
       </Loader>

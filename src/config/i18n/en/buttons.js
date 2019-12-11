@@ -35,4 +35,5 @@ export default {
   requestBooking: 'Request Booking',
   updateDetails: 'Update Details',
   updatePassword: 'Update Password',
+  saveBooking: 'Save Booking',
 };

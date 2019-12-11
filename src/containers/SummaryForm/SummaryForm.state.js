@@ -1,10 +1,8 @@
 import { pipe } from 'ramda';
 import { connect } from 'react-redux';
 
-import { bookingBuilderSelector } from 'store/modules/bookingBuilder';
 import { fetchHotelRoomRatesByDates, getHotelName } from 'store/modules/hotels';
 import {
-  fetchBooking,
   getBookingAppliedOffers,
   getBookingAppliedOffersCount,
   getBookingCurrencySymbol,
@@ -14,16 +12,23 @@ import {
   getBookingTotalBeforeDiscount,
   getBookingTotals,
   isBookingOnRequest,
-  removeRoom,
   replaceProducts,
   updateBooking,
   getAccommodationEditModalErrors,
 } from 'store/modules/bookings';
 
-import { bookingCanBookSelector, bookingResponseAllErrors } from 'store/modules/bookingBuilder';
+import { getUserCountryContext } from 'store/modules/auth';
+
+import {
+  bookingBuilderSelector,
+  bookingCanBookSelector,
+  bookingSelector,
+  bookingResponseAllErrors,
+} from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
   booking: bookingBuilderSelector(state),
+  bookingDomain: bookingSelector(state),
   canBook: bookingCanBookSelector(state),
   currencyCode: getBookingCurrencySymbol(state, id),
   errors: bookingResponseAllErrors(state),
@@ -37,32 +42,13 @@ export const mapStateToProps = (state, { id }) => ({
   total: getBookingTotal(state, id),
   totals: getBookingTotals(state, id),
   accommodationEditModalErrors: getAccommodationEditModalErrors(state, id),
+  actingCountryCode: getUserCountryContext(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchBooking: pipe(
-    fetchBooking,
-    dispatch
-  ),
-  updateBooking: pipe(
-    updateBooking,
-    dispatch
-  ),
-  removeRoom: pipe(
-    removeRoom,
-    dispatch
-  ),
-  getRatesForDates: pipe(
-    fetchHotelRoomRatesByDates,
-    dispatch
-  ),
-  replaceProducts: pipe(
-    replaceProducts,
-    dispatch
-  ),
+  updateBooking: pipe(updateBooking, dispatch),
+  getRatesForDates: pipe(fetchHotelRoomRatesByDates, dispatch),
+  replaceProducts: pipe(replaceProducts, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

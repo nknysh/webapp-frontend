@@ -19,6 +19,7 @@ import {
 } from 'interfaces';
 
 import { AvailableProductSets } from 'services/BackendApi/types';
+import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
 
 export const getAvailableProductSetAccommodationForUuid = (
   uuid: string,
@@ -313,4 +314,41 @@ export const getOccassionsBreakdownForLodging = (accommodation: RequestedBuildAc
   }
 
   return appliedOccasions.slice(0, -1).join(', ') + ' & ' + appliedOccasions.slice(-1);
+};
+
+export const getBookingsEndpointAttributesForBookingDomain = props => {
+  const {
+    bookingDomain,
+    bookingStatus = 'potential',
+    placeHolds = false,
+    proposalUuid = undefined,
+  }: {
+    bookingDomain: BookingBuilderDomain;
+    bookingStatus: string;
+    placeHolds: boolean;
+    proposalUuid: string | undefined;
+  } = props;
+
+  const bookingHash = bookingDomain.bookingHash || bookingDomain.currentBookingBuilder?.response.bookingHash;
+  const bookingBuild = bookingDomain.currentBookingBuilder?.request;
+
+  const bookingInformation = {
+    guestTitle: '',
+    guestFirstName: '',
+    guestLastName: '',
+    isRepeatGuest: false,
+    flightArrivalNumber: '',
+    flightDepartureNumber: '',
+    taMarginType: bookingDomain.taMarginType,
+    taMarginAmount: bookingDomain.taMarginAmount,
+  };
+
+  return {
+    bookingHash,
+    bookingBuild,
+    bookingInformation,
+    status: bookingStatus,
+    placeHolds,
+    proposalUuid,
+  };
 };
