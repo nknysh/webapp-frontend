@@ -1,7 +1,7 @@
 import React, { HTMLProps, useState, useCallback, Component } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
-import MousePositionProvider from 'pureUi/MousePositionProvider';
+import MousePositionProvider from 'pureUi/providers/MousePositionProvider';
 import Tooltip from 'pureUi/Tooltip';
 
 export interface IResultBadgeProps extends HTMLProps<HTMLSpanElement> {

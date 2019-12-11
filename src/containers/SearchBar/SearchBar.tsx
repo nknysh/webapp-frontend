@@ -8,7 +8,6 @@ import DateRangeInput from 'pureUi/DateRangeInput';
 import { PrimaryButton } from 'pureUi/Buttons';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import Checkbox from 'pureUi/Checkbox';
-
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 
 export interface ISearchBarProps extends IWithBasicSearchProps {

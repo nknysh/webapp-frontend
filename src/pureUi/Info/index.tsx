@@ -1,7 +1,7 @@
 import React, { HTMLProps } from 'react';
 import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
-import MousePositionProvider from 'pureUi/MousePositionProvider';
+import MousePositionProvider from 'pureUi/providers/MousePositionProvider';
 import Tooltip from 'pureUi/Tooltip';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 
