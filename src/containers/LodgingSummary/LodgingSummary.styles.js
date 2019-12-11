@@ -14,6 +14,10 @@ export const LodgingSummaryCard = styled.div`
     margin-bottom: 0px;
     border-bottom: none;
   }
+
+  .lodgingDateRangeInput {
+    margin: 10px 0 20px;
+  }
 `;
 
 export const CollapseButton = styled.button`

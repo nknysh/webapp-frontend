@@ -21,4 +21,10 @@ describe('getDateRangeDisplayString', () => {
     const expected = '1 Jan 2019 - 11 Feb 2020';
     expect(getDateRangeDisplayString(start, end)).toEqual(expected);
   });
+
+  it('generates the correct string when the start and end dates are the same', () => {
+    const start = '2019-01-01';
+    const expected = '1 Jan 2019';
+    expect(getDateRangeDisplayString(start, start)).toEqual(expected);
+  });
 });

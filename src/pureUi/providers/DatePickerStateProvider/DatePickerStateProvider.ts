@@ -20,21 +20,20 @@ export interface IDatePickerSateProviderProps {
 
 export const DatePickerStateProvider = (props: IDatePickerSateProviderProps) => {
   const initialState: IDatePickerState = {
+    isPristine: true,
     showDatePicker: false,
-    datePickerCurrentDate: new Date().toISOString(),
+    datePickerCurrentDate: props.defaultSelectedDates[0] || new Date().toISOString(),
     dateSelectionInProgress: false,
     anchorDate: undefined,
     startDate: props.defaultSelectedDates[0],
     endDate: props.defaultSelectedDates[props.defaultSelectedDates.length - 1],
     selectedDates: props.defaultSelectedDates,
-    totalNights: props.defaultSelectedDates.length,
+    totalNights: Math.max(0, props.defaultSelectedDates.length - 1),
     displayString: getDateRangeDisplayString(
       props.defaultSelectedDates[0],
       props.defaultSelectedDates[props.defaultSelectedDates.length - 1]
     ),
   };
-
-  console.log('props.defaultSelectedDates', props.defaultSelectedDates.length);
 
   const [state, dispatch] = useReducer(datePickerStateReducer, initialState);
 
@@ -65,13 +64,13 @@ export const DatePickerStateProvider = (props: IDatePickerSateProviderProps) => 
   );
 
   // useReducers dispatch method is async, so in order to call
-  // the onDateChange prop with the correct dates, we need to
+  // the onDateChange callback with the correct dates, we need to
   // treat it as a sideEffect, hence this useEffect.
   useEffect(() => {
-    if (!state.dateSelectionInProgress) {
+    if (!state.isPristine && !state.showDatePicker && !state.dateSelectionInProgress) {
       props.onDateChange(state.selectedDates);
     }
-  }, [state.selectedDates, state.dateSelectionInProgress]);
+  }, [state.dateSelectionInProgress, state.showDatePicker, state.selectedDates, state.isPristine]);
 
   const handleDateMouseOver = useCallback(
     (date: string) => {

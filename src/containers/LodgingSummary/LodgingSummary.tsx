@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { addDays } from 'date-fns';
+import { differenceInCalendarDays } from 'date-fns';
+import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
+import DateRangeInput from 'pureUi/DateRangeInput';
+import { IDateObject } from 'pureUi/DatePicker/types';
+import { Heading4 } from 'styles';
 
 const possibleChildAges = {
   0: '0',
@@ -66,6 +70,7 @@ import {
   ButtonSmall,
 } from './LodgingSummary.styles';
 import connect from './LodgingSummary.state';
+import { DateHelper } from 'pureUi/DatePicker';
 
 export const LodgingSummaryRender = props => {
   const lodging: LodgingSummary = props.lodging;
@@ -212,6 +217,18 @@ export const LodgingSummaryRender = props => {
   const DateCollapsible = () => {
     const [isCollapsed, setIsCollapsed] = useState(true);
 
+    const handleDateChange = (dates: [string]) => {
+      const from = new Date(dates[0]);
+      const to = new Date(dates[dates.length - 1]);
+      updateLodgingDatesAction(lodging.hotelUuid, lodging.index, from, to);
+    };
+
+    const length = differenceInCalendarDays(new Date(lodging.endDate), new Date(lodging.startDate)) + 2;
+    const firstTimeStamp = new Date(lodging.startDate).getTime();
+    const selectedDates = DateHelper.generateDatesFrom(firstTimeStamp, length, 'en-US').map(
+      dateObject => dateObject.dateString
+    );
+
     return (
       <React.Fragment>
         <CollapseHeader>
@@ -220,27 +237,30 @@ export const LodgingSummaryRender = props => {
         </CollapseHeader>
 
         {!isCollapsed && (
-          <DatePicker
-            label={t('labels.datePicker')}
-            multiple={true}
-            dayPickerProps={{
-              month: new Date(lodging.startDate),
-            }}
-            onSelected={(dateValues: { startDate: Date; from: Date; to: Date }) => {
-              if (dateValues.startDate || !dateValues.from || !dateValues.to) {
-                // if we have a `startDate`, or `from` or `to` are empty, return out
-                return;
-              }
-              updateLodgingDatesAction(lodging.hotelUuid, lodging.index, dateValues.from, dateValues.to);
-              setIsCollapsed(true);
-            }}
-            selectedValues={{
-              startDate: new Date(lodging.startDate),
-              // @see https://pureescapes.atlassian.net/browse/OWA-1031
-              endDate: addDays(new Date(lodging.endDate), 1),
-            }}
-            placeholder=""
-          />
+          <>
+            <label>{t('labels.datePicker')}</label>
+            <DatePickerStateProvider
+              defaultSelectedDates={selectedDates}
+              onDateChange={handleDateChange}
+              render={(params: IDatePickerSateParams) => (
+                <DateRangeInput
+                  datePickerLeft
+                  className="lodgingDateRangeInput"
+                  displayString={params.displayString}
+                  currentDate={params.datePickerCurrentDate}
+                  totalNights={params.totalNights}
+                  selectedDates={params.selectedDates}
+                  onDayClick={params.handleDayClick}
+                  onDayMouseOver={params.handleDateMouseOver}
+                  showDatePicker={params.showDatePicker}
+                  onNextClick={params.incrementDate}
+                  onPrevClick={params.decrementDate}
+                  onMouseDown={params.toggleDatePicker}
+                  onClickOutside={params.hideDatePicker}
+                />
+              )}
+            />
+          </>
         )}
       </React.Fragment>
     );

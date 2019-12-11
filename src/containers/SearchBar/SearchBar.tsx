@@ -14,7 +14,7 @@ export interface ISearchBarProps extends IWithBasicSearchProps {
   className: string;
 }
 
-const SearchBar = (props: ISearchBarProps) => {
+export const SearchBar = (props: ISearchBarProps) => {
   return (
     <div className={props.className}>
       <div className="grid">
@@ -39,6 +39,7 @@ const SearchBar = (props: ISearchBarProps) => {
             onDateChange={props.basicSearchHandlers.handleDateChange}
             render={(params: IDatePickerSateParams) => (
               <DateRangeInput
+                className="serachBarDateRangeInput"
                 displayString={params.displayString}
                 currentDate={params.datePickerCurrentDate}
                 totalNights={params.totalNights}
@@ -48,7 +49,7 @@ const SearchBar = (props: ISearchBarProps) => {
                 showDatePicker={params.showDatePicker}
                 onNextClick={params.incrementDate}
                 onPrevClick={params.decrementDate}
-                onClick={params.toggleDatePicker}
+                onMouseDown={params.toggleDatePicker}
                 onClickOutside={params.hideDatePicker}
               />
             )}
@@ -126,6 +127,10 @@ const StyledSearchBar = styled(SearchBar)`
     & > span {
       margin-left: 10px;
     }
+  }
+
+  .serachBarDateRangeInput {
+    width: 250px; /* Prevents jumpy UI*/
   }
 `;
 

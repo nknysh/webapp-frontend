@@ -13,6 +13,7 @@ export interface IDatePickerState {
   selectedDates: string[];
   totalNights: number;
   displayString: string;
+  isPristine: boolean;
 }
 
 export const datePickerStateReducer = (
@@ -27,7 +28,10 @@ export const datePickerStateReducer = (
         anchorDate: action.date,
         startDate: action.date,
         endDate: action.date,
-        displayString: getDateRangeDisplayString(state.startDate, state.endDate),
+        displayString: getDateRangeDisplayString(action.date, action.date),
+        selectedDates: [action.date],
+        totalNights: 0,
+        isPristine: false,
       };
 
     case Actions.DATE_RANGE_CHANGE:
@@ -35,7 +39,12 @@ export const datePickerStateReducer = (
       const isFutureDate = !state.anchorDate || action.date <= state.anchorDate! ? false : true;
       const newStartDate = isFutureDate ? state.anchorDate! : action.date;
       const newEndDate = isFutureDate ? action.date : state.anchorDate!;
-      const totalNights = differenceInCalendarDays(new Date(newEndDate), new Date(newStartDate!));
+      const adjustedEndDate =
+        action.type === Actions.DATE_RANGE_SELECT_END && newStartDate === newEndDate
+          ? addDays(new Date(newEndDate), 1).toISOString()
+          : newEndDate;
+
+      const totalNights = differenceInCalendarDays(new Date(adjustedEndDate), new Date(newStartDate!));
       const firstTimestamp = new Date(newStartDate!).getTime();
       const selectedDates = DateHelper.generateDatesFrom(firstTimestamp, totalNights + 1, 'en-US').map(
         d => d.dateString
@@ -44,13 +53,12 @@ export const datePickerStateReducer = (
       return {
         ...state,
         dateSelectionInProgress: action.type === Actions.DATE_RANGE_CHANGE ? true : false,
-        // TODO: Figure out how to block the toggleDatePicker action that prevents us closing the datepicker
-        showDatePicker: action.type === Actions.DATE_RANGE_CHANGE ? true : false,
+        showDatePicker: action.type === Actions.DATE_RANGE_SELECT_END ? false : true,
         startDate: newStartDate,
-        endDate: newEndDate,
+        endDate: adjustedEndDate,
         selectedDates,
         totalNights,
-        displayString: getDateRangeDisplayString(newStartDate, newEndDate),
+        displayString: getDateRangeDisplayString(newStartDate, adjustedEndDate),
       };
 
     case Actions.INCREMENT_CURRENT_DATE:

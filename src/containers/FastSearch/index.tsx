@@ -189,7 +189,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
                 showDatePicker={params.showDatePicker}
                 onNextClick={params.incrementDate}
                 onPrevClick={params.decrementDate}
-                onClick={params.toggleDatePicker}
+                onMouseDown={params.toggleDatePicker}
                 onClickOutside={params.hideDatePicker}
               />
             )}

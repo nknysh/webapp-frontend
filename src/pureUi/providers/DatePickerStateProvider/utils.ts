@@ -16,6 +16,10 @@ export const getDateRangeDisplayString = (startDate: string, endDate: string): s
   const inSameMonth = isSameMonth(startDateObj, endDateObj);
   const inSameYear = isSameYear(startDateObj, endDateObj);
 
+  if (startDate === endDate) {
+    return `${startDay} ${startMonth} ${startYear}`;
+  }
+
   if (!inSameMonth && inSameYear) {
     return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${endYear}`;
   }

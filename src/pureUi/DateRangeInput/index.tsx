@@ -10,6 +10,8 @@ export interface DateRangeInputPops extends HTMLAttributes<HTMLButtonElement> {
   totalNights: number;
   showDatePicker: boolean;
   selectedDates: string[];
+  datePickerLeft?: boolean;
+  datePickerTop?: boolean;
   onDayClick?: React.EventHandler<any>;
   onDayMouseOver?: React.EventHandler<any>;
   onNextClick?: React.EventHandler<any>;
@@ -97,7 +99,7 @@ export default styled(DateRangeInput)`
     font-size: 14px;
     color: ${pureUiTheme.colors.black};
     text-align: left;
-    width: 250px; /* Prevent jumpy UI when values change */
+    width: 100%;
     height: 39px;
     color: ${pureUiTheme.colors.black};
 
@@ -111,7 +113,9 @@ export default styled(DateRangeInput)`
 
   .datePickerWrapper {
     position: absolute;
-    top: 100%;
+
+    ${props => (props.datePickerTop ? 'bottom: 100%' : 'top: 100%;')}
+    ${props => (props.datePickerLeft ? 'right: 0%' : '')}
   }
 
   .displayString {
