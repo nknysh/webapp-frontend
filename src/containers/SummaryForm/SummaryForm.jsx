@@ -227,6 +227,25 @@ const handleSaveBookingButton = async props => {
   }
 };
 
+const SaveBookingButton = props => {
+  const { backendApi, bookingDomain, canBook, t } = props;
+
+  const [hasClicked, setHasClicked] = useState(false);
+  return (
+    <PrimaryButton
+      className="mt-4"
+      type="button"
+      disabled={!canBook || hasClicked}
+      onClick={() => {
+        setHasClicked(true);
+        handleSaveBookingButton({ backendApi, bookingDomain });
+      }}
+    >
+      {t('buttons.saveBooking')}
+    </PrimaryButton>
+  );
+};
+
 const renderForm = (
   t,
   {
@@ -298,14 +317,7 @@ const renderForm = (
               </SummaryFormButton>
             )}
           </SummaryFormActions>
-          <PrimaryButton
-            className="mt-4"
-            type="button"
-            disabled={!canBook}
-            onClick={() => handleSaveBookingButton({ backendApi, bookingDomain })}
-          >
-            {t('buttons.saveBooking')}
-          </PrimaryButton>
+          <SaveBookingButton t={t} canBook={canBook} backendApi={backendApi} bookingDomain={bookingDomain} />
         </Fragment>
       )}
     </Form>
