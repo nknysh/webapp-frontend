@@ -15,6 +15,8 @@ import SearchResultList from 'pureUi/SearchResultsList';
 import DateRangeInput from 'pureUi/DateRangeInput';
 import { Icon } from '@material-ui/core';
 import Checkbox from 'pureUi/Checkbox';
+import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
+import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 
 import {
   initializeQueryAction,
@@ -55,26 +57,13 @@ import {
   nameSearchResultsSelector,
   setNamesSearchResultsVisibilityAction,
   showNameSearchResultsSelector,
-  totalStayNightsSelector,
-  dateRangeSelector,
-  dateRangeDisplayStringSelector,
   selectedDatesSelector,
-  datePickerCurrentDateSelector,
-  dateRangeSelectStartAction,
-  dateRangeSelectEndAction,
-  dateRangeChangeAction,
-  dateSelectionInProgressSelector,
-  incrementCurrentDateAction,
-  showDatePickerSelector,
-  toggleDatePickerAction,
-  setDatePickerVisibilityAction,
   isRepeatGuestSelector,
   toggleRepeatGuestAction,
   queryHasChangedSelector,
-  canSearchSelector
+  canSearchSelector,
+  dateRangeChangeAction,
 } from 'store/modules/fastSearch';
-
-import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
 
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
   componentDidMount() {
@@ -118,39 +107,8 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     this.props.setLodgingControlsVisibility(visible);
   };
 
-  handleToggleDatePicker = () => {
-    if (!this.props.showDatePicker) {
-      this.props.toggleDatePicker();
-    }
-  };
-
-  handleSetDatePickerVisibility = (visible: boolean) => () => {
-    if (visible === false && this.props.dateSelectionInProgress) {
-      return;
-    }
-    this.props.setDatePickerVisibility(visible);
-  };
-
   handleShowNameSearchDropDown = (visible: boolean) => () => {
     this.props.setNamesSearchResultsVisibility(visible);
-  };
-
-  handleDayClick = (date: string) => {
-    if (this.props.dateSelectionInProgress) {
-      this.props.dateRangeSelectEnd(date, this.props.dateRange.start);
-    } else {
-      this.props.dateRangeSelectStart(date);
-    }
-  };
-
-  handleDateMouseOver = (date: string) => {
-    if (this.props.dateSelectionInProgress) {
-      this.props.dateRangeChange(date, this.props.dateRange.start);
-    }
-  };
-
-  handleIncrementCurrentDate = (step: number) => () => {
-    this.props.incrementCurrentDate(step);
   };
 
   // ---------------------------------------------------
@@ -160,18 +118,16 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   };
 
   handlePriceRangeChange = (type: RangeValueType, value: string) => {
-    const action = type === 'min'
-        ? this.props.minPriceChange
-        : this.props.maxPriceChange;
+    const action = type === 'min' ? this.props.minPriceChange : this.props.maxPriceChange;
 
-    if(!isNaN(parseInt(value))) {
-      action(parseInt(value, 10))
+    if (!isNaN(parseInt(value))) {
+      action(parseInt(value, 10));
     }
 
-    if(isNaN(parseInt(value))) {
+    if (isNaN(parseInt(value))) {
       action(undefined);
     }
-  }
+  };
 
   handleSearchResultClick = (hotelUuid: string) => {
     this.props.history.push(`/hotels/${hotelUuid}`);
@@ -219,18 +175,24 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
         <label className="basicSearchLabel">
           <span>Dates *</span>
-          <DateRangeInput
-            displayString={this.props.dateRangeDisplayString}
-            currentDate={this.props.currentDate}
-            totalNights={this.props.totalStayNights}
-            selectedDates={this.props.selectedDates}
-            onDayClick={this.handleDayClick}
-            onDayMouseOver={this.handleDateMouseOver}
-            showDatePicker={this.props.showDatePicker}
-            onNextClick={this.handleIncrementCurrentDate(1)}
-            onPrevClick={this.handleIncrementCurrentDate(-1)}
-            onClick={this.handleToggleDatePicker}
-            onClickOutside={this.handleSetDatePickerVisibility(false)}
+          <DatePickerStateProvider
+            defaultSelectedDates={this.props.selectedDates}
+            onDateChange={this.props.dateRangeChangeAction}
+            render={(params: IDatePickerSateParams) => (
+              <DateRangeInput
+                displayString={params.displayString}
+                currentDate={params.datePickerCurrentDate}
+                totalNights={params.totalNights}
+                selectedDates={params.selectedDates}
+                onDayClick={params.handleDayClick}
+                onDayMouseOver={params.handleDateMouseOver}
+                showDatePicker={params.showDatePicker}
+                onNextClick={params.incrementDate}
+                onPrevClick={params.decrementDate}
+                onClick={params.toggleDatePicker}
+                onClickOutside={params.hideDatePicker}
+              />
+            )}
           />
         </label>
 
@@ -341,16 +303,10 @@ const mapStateToProps = createStructuredSelector({
   showLodgingControls: showLodgingControlsSelector,
   nameSearchResults: nameSearchResultsSelector,
   showNameSearchResults: showNameSearchResultsSelector,
-  totalStayNights: totalStayNightsSelector,
-  dateRange: dateRangeSelector,
-  dateRangeDisplayString: dateRangeDisplayStringSelector,
   selectedDates: selectedDatesSelector,
-  currentDate: datePickerCurrentDateSelector,
-  dateSelectionInProgress: dateSelectionInProgressSelector,
-  showDatePicker: showDatePickerSelector,
   isRepeatGuest: isRepeatGuestSelector,
   queryHasChanged: queryHasChangedSelector,
-  canSearch: canSearchSelector
+  canSearch: canSearchSelector,
 });
 
 const actionCreators = {
@@ -376,15 +332,10 @@ const actionCreators = {
   toggleLodgingControls: toggleLodgingControlsAction,
   setLodgingControlsVisibility: setLodgingControlsVisibilityAction,
   setNamesSearchResultsVisibility: setNamesSearchResultsVisibilityAction,
-  dateRangeSelectStart: dateRangeSelectStartAction,
-  dateRangeSelectEnd: dateRangeSelectEndAction,
-  dateRangeChange: dateRangeChangeAction,
-  incrementCurrentDate: incrementCurrentDateAction,
-  toggleDatePicker: toggleDatePickerAction,
-  setDatePickerVisibility: setDatePickerVisibilityAction,
   initializeQuery: initializeQueryAction,
   toggleRepeatGuest: toggleRepeatGuestAction,
   clearBookingBuilderAction,
+  dateRangeChangeAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

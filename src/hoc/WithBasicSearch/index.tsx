@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import qs from 'qs';
-import { FastSearchDomain } from '../../store/modules/fastSearch/model';
 
 import {
   // Selectors
@@ -42,13 +41,8 @@ import {
   toggleLodgingControlsAction,
   setLodgingControlsVisibilityAction,
   setNamesSearchResultsVisibilityAction,
-  dateRangeSelectStartAction,
-  dateRangeSelectEndAction,
-  dateRangeChangeAction,
-  incrementCurrentDateAction,
-  toggleDatePickerAction,
-  setDatePickerVisibilityAction,
   toggleRepeatGuestAction,
+  dateRangeChangeAction,
 } from 'store/modules/fastSearch';
 
 import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
@@ -72,7 +66,7 @@ const mapStateToProps = createStructuredSelector<any, any>({
   dateSelectionInProgress: dateSelectionInProgressSelector,
   showDatePicker: showDatePickerSelector,
   isRepeatGuest: isRepeatGuestSelector,
-  canSearch: canSearchSelector
+  canSearch: canSearchSelector,
 });
 
 const actionCreators = {
@@ -88,16 +82,11 @@ const actionCreators = {
   toggleLodgingControls: toggleLodgingControlsAction,
   setLodgingControlsVisibility: setLodgingControlsVisibilityAction,
   setNamesSearchResultsVisibility: setNamesSearchResultsVisibilityAction,
-  dateRangeSelectStart: dateRangeSelectStartAction,
-  dateRangeSelectEnd: dateRangeSelectEndAction,
-  dateRangeChange: dateRangeChangeAction,
-  incrementCurrentDate: incrementCurrentDateAction,
-  toggleDatePicker: toggleDatePickerAction,
-  setDatePickerVisibility: setDatePickerVisibilityAction,
   initializeQuery: initializeQueryAction,
   toggleRepeatGuest: toggleRepeatGuestAction,
   clearBookingBuilderAction,
-  clearExtendedQuery: clearExtendedQueryAction
+  clearExtendedQuery: clearExtendedQueryAction,
+  dateRangeChangeAction,
 };
 
 export interface IWithBasicSearchHandlers {
@@ -106,13 +95,9 @@ export interface IWithBasicSearchHandlers {
   handleNavigateToSearch: () => void;
   handleToggleLodgingControls: () => void;
   handleSetLogdingControlsVisibility: (visible: boolean) => (e: any) => void;
-  handleToggleDatePicker: () => void;
-  handleSetDatePickerVisibility: (visible: boolean) => (e: any) => void;
   handleShowNameSearchDropDown: (visible: boolean) => (e: any) => void;
-  handleDayClick: (date: string) => void;
-  handleDateMouseOver: (date: string) => void;
-  handleIncrementCurrentDate: (step: number) => (e: any) => void;
   toggleRepeatGuest: () => void;
+  handleDateChange: (dates: string[]) => void;
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -156,39 +141,8 @@ export const makeWithBasicSearch = (WrappedComponent: any) =>
       this.props.setLodgingControlsVisibility(visible);
     };
 
-    handleToggleDatePicker = () => {
-      if (!this.props.showDatePicker) {
-        this.props.toggleDatePicker();
-      }
-    };
-
-    handleSetDatePickerVisibility = (visible: boolean) => () => {
-      if (visible === false && this.props.dateSelectionInProgress) {
-        return;
-      }
-      this.props.setDatePickerVisibility(visible);
-    };
-
     handleShowNameSearchDropDown = (visible: boolean) => () => {
       this.props.setNamesSearchResultsVisibility(visible);
-    };
-
-    handleDayClick = (date: string) => {
-      if (this.props.dateSelectionInProgress) {
-        this.props.dateRangeSelectEnd(date, this.props.dateRange.start);
-      } else {
-        this.props.dateRangeSelectStart(date);
-      }
-    };
-
-    handleDateMouseOver = (date: string) => {
-      if (this.props.dateSelectionInProgress) {
-        this.props.dateRangeChange(date, this.props.dateRange.start);
-      }
-    };
-
-    handleIncrementCurrentDate = (step: number) => () => {
-      this.props.incrementCurrentDate(step);
     };
 
     render() {
@@ -201,12 +155,8 @@ export const makeWithBasicSearch = (WrappedComponent: any) =>
             handleNavigateToSearch: this.handleNavigateToSearch,
             handleToggleLodgingControls: this.handleToggleLodgingControls,
             handleSetLogdingControlsVisibility: this.handleSetLogdingControlsVisibility,
-            handleToggleDatePicker: this.handleToggleDatePicker,
-            handleSetDatePickerVisibility: this.handleSetDatePickerVisibility,
             handleShowNameSearchDropDown: this.handleShowNameSearchDropDown,
-            handleDayClick: this.handleDayClick,
-            handleDateMouseOver: this.handleDateMouseOver,
-            handleIncrementCurrentDate: this.handleIncrementCurrentDate,
+            handleDateChange: this.props.dateRangeChangeAction,
           }}
         />
       );

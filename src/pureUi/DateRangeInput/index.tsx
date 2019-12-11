@@ -97,7 +97,7 @@ export default styled(DateRangeInput)`
     font-size: 14px;
     color: ${pureUiTheme.colors.black};
     text-align: left;
-    width: 100%;
+    width: 250px; /* Prevent jumpy UI when values change */
     height: 39px;
     color: ${pureUiTheme.colors.black};
 

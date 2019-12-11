@@ -42,12 +42,7 @@ export const NAME_SEARCH_SUCCESS = 'fastSearch/NAME_SEARCH_SUCCESS';
 export const NAME_SEARCH_FAILURE = 'fastSearch/NAME_SEARCH_FAILURE';
 export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RESUTS_VISIBILITY';
 
-export const DATE_RANGE_SELECT_START = 'fastSearch/DATE_SELECT_START';
-export const DATE_RANGE_SELECT_END = 'fastSearch/DATE_RANGE_SELECT_END';
 export const DATE_RANGE_CHANGE = 'fastSearch/DATE_RANGE_CHANGE';
-export const INCREMENT_CURRENT_DATE = 'fastSearch/INCREMENT_CURRENT_DATE';
-export const TOGGLE_DATE_PICKER = 'fastSearch/TOGGLE_DATE_PICKER';
-export const SET_DATE_PICKER_VISIBILITY = 'fastSearch/SET_DATE_PICKER_VISIBILITY';
 
 // ---------------------------------------------------------------------------------------
 // How to type Redux Actions with as little boilerplate as possible.
@@ -85,7 +80,7 @@ export const populateQueryAction = (query: SearchQuery) => ({
 
 export type ClearExtendedQueryAction = ReturnType<typeof clearExtendedQueryAction>;
 export const clearExtendedQueryAction = () => ({
-  type: CLEAR_EXTENDED_QUERY as typeof CLEAR_EXTENDED_QUERY
+  type: CLEAR_EXTENDED_QUERY as typeof CLEAR_EXTENDED_QUERY,
 });
 
 export type ToggleFilterAction = ReturnType<typeof toggleFilterAction>;
@@ -149,17 +144,6 @@ export const toggleLodgingControlsAction = () => ({
 export type SetLodgingControlsVisibilityAction = ReturnType<typeof setLodgingControlsVisibilityAction>;
 export const setLodgingControlsVisibilityAction = (visible: boolean) => ({
   type: SET_LODGING_CONTOLS_VISBILITY as typeof SET_LODGING_CONTOLS_VISBILITY,
-  visible,
-});
-
-export type ToggleDatePickerAction = ReturnType<typeof toggleDatePickerAction>;
-export const toggleDatePickerAction = () => ({
-  type: TOGGLE_DATE_PICKER as typeof TOGGLE_DATE_PICKER,
-});
-
-export type SetDatePickerVisibilityAction = ReturnType<typeof setDatePickerVisibilityAction>;
-export const setDatePickerVisibilityAction = (visible: boolean) => ({
-  type: SET_DATE_PICKER_VISIBILITY as typeof SET_DATE_PICKER_VISIBILITY,
   visible,
 });
 
@@ -268,36 +252,16 @@ export const namesSearchFailureAction = (errorResponse: ErrorResponse) => ({
   errorResponse,
 });
 
-export type DateRangeSelectStartAction = ReturnType<typeof dateRangeSelectStartAction>;
-export const dateRangeSelectStartAction = (date: string) => ({
-  type: DATE_RANGE_SELECT_START as typeof DATE_RANGE_SELECT_START,
-  date,
-});
-
-export type DateRangeSelectEndAction = ReturnType<typeof dateRangeSelectEndAction>;
-export const dateRangeSelectEndAction = (date: string, currentStartDate: string) => ({
-  type: DATE_RANGE_SELECT_END as typeof DATE_RANGE_SELECT_END,
-  date,
-  currentStartDate,
-});
-
-export type DateRangeChangeAction = ReturnType<typeof dateRangeChangeAction>;
-export const dateRangeChangeAction = (date: string, currentStartDate: string) => ({
-  type: DATE_RANGE_CHANGE as typeof DATE_RANGE_CHANGE,
-  date,
-  currentStartDate,
-});
-
-export type IncrementCurrentDateAction = ReturnType<typeof incrementCurrentDateAction>;
-export const incrementCurrentDateAction = (step: number) => ({
-  type: INCREMENT_CURRENT_DATE as typeof INCREMENT_CURRENT_DATE,
-  step,
-});
-
 export type SetNamesSearchResultsVisibilityAction = ReturnType<typeof setNamesSearchResultsVisibilityAction>;
 export const setNamesSearchResultsVisibilityAction = (visible: boolean) => ({
   type: SET_NAME_SEARCH_RESUTS_VISIBILITY as typeof SET_NAME_SEARCH_RESUTS_VISIBILITY,
   visible,
+});
+
+export type DateRangeChangeAction = ReturnType<typeof dateRangeChangeAction>;
+export const dateRangeChangeAction = (dates: string[]) => ({
+  type: DATE_RANGE_CHANGE as typeof DATE_RANGE_CHANGE,
+  dates,
 });
 
 // 3. Create a union type which we can pass as the reducers action type.
@@ -334,11 +298,6 @@ export type FastSearchAction =
   | NamesSearchSuccessAction
   | NamesSearchFailureAction
   | SetNamesSearchResultsVisibilityAction
-  | DateRangeSelectStartAction
-  | DateRangeSelectEndAction
-  | DateRangeChangeAction
-  | IncrementCurrentDateAction
-  | ToggleDatePickerAction
-  | SetDatePickerVisibilityAction
   | PopulateQueryAction
-  | ClearExtendedQueryAction;
+  | ClearExtendedQueryAction
+  | DateRangeChangeAction;

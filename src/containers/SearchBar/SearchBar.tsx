@@ -9,6 +9,8 @@ import { PrimaryButton } from 'pureUi/Buttons';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import Checkbox from 'pureUi/Checkbox';
 
+import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
+
 export interface ISearchBarProps extends IWithBasicSearchProps {
   className: string;
 }
@@ -33,18 +35,24 @@ const SearchBar = (props: ISearchBarProps) => {
 
         <label>
           <span>Dates * </span>
-          <DateRangeInput
-            displayString={props.dateRangeDisplayString}
-            currentDate={props.currentDate}
-            totalNights={props.totalStayNights}
-            selectedDates={props.selectedDates}
-            onDayClick={props.basicSearchHandlers.handleDayClick}
-            onDayMouseOver={props.basicSearchHandlers.handleDateMouseOver}
-            showDatePicker={props.showDatePicker}
-            onNextClick={props.basicSearchHandlers.handleIncrementCurrentDate(1)}
-            onPrevClick={props.basicSearchHandlers.handleIncrementCurrentDate(-1)}
-            onClick={props.basicSearchHandlers.handleToggleDatePicker}
-            onClickOutside={props.basicSearchHandlers.handleSetDatePickerVisibility(false)}
+          <DatePickerStateProvider
+            defaultSelectedDates={props.selectedDates}
+            onDateChange={props.basicSearchHandlers.handleDateChange}
+            render={(params: IDatePickerSateParams) => (
+              <DateRangeInput
+                displayString={params.displayString}
+                currentDate={params.datePickerCurrentDate}
+                totalNights={params.totalNights}
+                selectedDates={params.selectedDates}
+                onDayClick={params.handleDayClick}
+                onDayMouseOver={params.handleDateMouseOver}
+                showDatePicker={params.showDatePicker}
+                onNextClick={params.incrementDate}
+                onPrevClick={params.decrementDate}
+                onClick={params.toggleDatePicker}
+                onClickOutside={params.hideDatePicker}
+              />
+            )}
           />
         </label>
 

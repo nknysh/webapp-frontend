@@ -77,8 +77,8 @@ export default function fastSearchReducer(
         ...state,
         query: {
           ...state.query,
-          ...omit(['name', 'lodgings', 'startDate', 'endDate'], initialState.query)
-        }
+          ...omit(['name', 'lodgings', 'startDate', 'endDate'], initialState.query),
+        },
       };
     }
 
@@ -387,55 +387,14 @@ export default function fastSearchReducer(
         },
       };
 
-    case Actions.DATE_RANGE_SELECT_START:
+    case Actions.DATE_RANGE_CHANGE:
       return {
         ...state,
-        dateSelectionInProgress: true,
-        anchorDate: action.date,
         query: {
           ...state.query,
-          startDate: action.date,
-          endDate: action.date,
+          startDate: action.dates[0],
+          endDate: action.dates[action.dates.length - 2],
         },
-      };
-
-    case Actions.DATE_RANGE_CHANGE:
-    case Actions.DATE_RANGE_SELECT_END:
-      const isFutureDate = !state.anchorDate || action.date <= state.anchorDate! ? false : true;
-
-      return produce(state, draftState => {
-        draftState.queryHasChanged = true;
-        draftState.dateSelectionInProgress = action.type === Actions.DATE_RANGE_CHANGE ? true : false;
-        draftState.showDatePicker = action.type === Actions.DATE_RANGE_CHANGE ? true : false;
-
-        draftState.query.startDate = isFutureDate ? state.anchorDate! : action.date;
-        draftState.query.endDate = isFutureDate ? action.date : state.anchorDate!;
-
-        // now minus 1 from the end date
-        // @see https://pureescapes.atlassian.net/browse/OWA-1031
-        draftState.query.endDate = subDaysString(draftState.query.endDate, 1);
-
-        return draftState;
-      });
-
-    case Actions.INCREMENT_CURRENT_DATE:
-      const currentDateObj = new Date(state.datePickerCurrentDate);
-      return {
-        ...state,
-        datePickerCurrentDate:
-          action.step > 0 ? addMonths(currentDateObj, 1).toISOString() : addMonths(currentDateObj, -1).toISOString(),
-      };
-
-    case Actions.TOGGLE_DATE_PICKER:
-      return {
-        ...state,
-        showDatePicker: !state.showDatePicker,
-      };
-
-    case Actions.SET_DATE_PICKER_VISIBILITY:
-      return {
-        ...state,
-        showDatePicker: action.visible,
       };
 
     default:

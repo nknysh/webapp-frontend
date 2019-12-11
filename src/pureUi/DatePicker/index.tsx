@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Icon } from '@material-ui/core';
 import { IconButton } from 'pureUi/Buttons';
 
-export interface IDatePickerProps extends React.HTMLProps<HTMLDivElement> {
+export interface IDatePickerOwnProps {
   calendarCount: number;
   currentDate: string; // An ISO8601 Date string
   selectedDates?: string[]; // An array of ISO8601 Date strings
@@ -17,6 +17,7 @@ export interface IDatePickerProps extends React.HTMLProps<HTMLDivElement> {
   localeDates?: string;
   firstDayOfWeek?: number; // 0 = sunday
 }
+export interface IDatePickerProps extends IDatePickerOwnProps, React.HTMLProps<HTMLDivElement> {}
 
 const DatePicker = (props: IDatePickerProps) => (
   <div className={props.className}>
