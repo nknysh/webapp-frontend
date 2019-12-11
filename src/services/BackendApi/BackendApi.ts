@@ -15,6 +15,7 @@ import {
 import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch';
 import { PriceRange, StarRating } from './types/SearchQuery';
 import { Hotel } from './types/OffersSearchResponse';
+import { IBookingAttributes } from 'interfaces';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -100,13 +101,15 @@ export class BackendApiService<T extends AxiosInstance> {
     return sanitized;
   };
 
-  postBookingSave = async (bookingSaveRequest: any): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {
+  postBookingSave = async (
+    bookingAttributes: IBookingAttributes
+  ): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.BOOKINGS}`;
 
     const tempPayloadShape = {
       data: {
         attributes: {
-          ...bookingSaveRequest,
+          ...bookingAttributes,
         },
       },
     };

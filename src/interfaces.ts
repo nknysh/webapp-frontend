@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { BookingBuilderRequest } from 'services/BackendApi';
 
 // TODO many of these can be decommissioned and use cases instead
 // use the interfaces from src/services/BackendApi/types/OffersSearchResponse.ts
@@ -79,4 +79,24 @@ export interface IPureUiModalView {
   onClose: Function;
   className?: string;
   children: string | JSX.Element | JSX.Element[];
+}
+
+export interface IBookingInformation {
+  guestTitle: string;
+  guestFirstName: string;
+  guestLastName: string;
+  isRepeatGuest: boolean;
+  flightArrivalNumber: string;
+  flightDepartureNumber: string;
+  taMarginType: string;
+  taMarginAmount: string;
+}
+
+export interface IBookingAttributes {
+  bookingHash: string;
+  bookingBuild: BookingBuilderRequest;
+  bookingInformation: IBookingInformation;
+  status: string;
+  placeHolds: boolean;
+  proposalUuid: string;
 }
