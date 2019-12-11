@@ -39,6 +39,7 @@ export const SearchResultHotel = memo((props: SearchResultHotelProps) => {
 
   const featuredUpload =
     props.result.uploads.find(upload => upload.tag === 'featuredPhoto') ||
+    props.result.uploads.find(upload => upload.tag === 'photo') ||
     props.result.bookingBuilder.response.uploads.find(upload => upload.url.match(/\.(gif|jpg|jpeg|tiff|png)$/i));
 
   const safeUpload = featuredUpload ? featuredUpload : { url: 'no-img', displayName: 'No Image' };
