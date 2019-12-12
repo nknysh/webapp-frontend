@@ -176,13 +176,19 @@ export const HotelFullLayout = props => {
   );
 };
 
-export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, ...props }) => {
+export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, resetBookingBuilderUiState, ...props }) => {
   const { t } = useTranslation();
 
   const [redirectToBooking, setRedirectToBooking] = useState(false);
   const [redirectToHold, setRedirectToHold] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { initializeBooking, match } = props;
+
+  useEffect(() => {
+    return () => {
+      resetBookingBuilderUiState();
+    };
+  }, []);
 
   useEffect(() => {
     initializeBooking(match.params.id);

@@ -9,6 +9,7 @@ export const propTypes = {
     cancellationPolicy: PropTypes.object,
   }),
   updateBooking: PropTypes.func,
+  resetBookingBuilderUiStateAction: PropTypes.func,
 };
 
 export const defaultProps = {

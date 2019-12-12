@@ -9,6 +9,7 @@ import { parseJson } from 'utils';
 import { AUTH_TOKEN, AUTH_SET_TOKEN, AUTH_USER } from 'store/modules/auth/actions';
 
 import { UI_ENQUEUE_NOTIFICATION, UI_REMOVE_NOTIFICATION, SET_IS_BOOKING_SUMMARY_SECTION_COLLAPSED } from './actions';
+import { CLEAR_BOOKING_BUILDER_UI_STATE } from '../bookingBuilder';
 
 const headerLens = lensPath(['menus', 'header']);
 
@@ -106,6 +107,12 @@ export const setIsBookingSummarySectionCollapsed = (state, { payload }) => {
   return state;
 };
 
+export const clearBookingBuilderUiStateReducer = state => {
+  return {
+    state,
+    bookingSummarySections: {},
+  };
+};
 /**
  * UI reducer
  *
@@ -125,6 +132,7 @@ const uiReducer = (state = initialState, payload) => {
       [UI_ENQUEUE_NOTIFICATION]: addNotification,
       [UI_REMOVE_NOTIFICATION]: clearNotification,
       [SET_IS_BOOKING_SUMMARY_SECTION_COLLAPSED]: setIsBookingSummarySectionCollapsed,
+      [CLEAR_BOOKING_BUILDER_UI_STATE]: clearBookingBuilderUiStateReducer,
     },
     initialState
   )(state, payload);

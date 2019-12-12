@@ -3,12 +3,14 @@ import * as Actions from './actions';
 import { makeBookingBuilderStub } from './utils';
 import { SelectedAccommodation } from 'services/BackendApi';
 import { flatten, min as Rmin } from 'ramda';
-
 import produce from 'immer';
 import { formatDate } from 'utils';
 import { min, max, subDays } from 'date-fns';
 
-const bookingBuilderReducer = (state: BookingBuilderDomain = initialState, action: Actions.BookingBuilderAction) => {
+export const bookingBuilderReducer = (
+  state: BookingBuilderDomain = initialState,
+  action: Actions.BookingBuilderAction
+) => {
   switch (action.type) {
     case Actions.CLEAR_BOOKING_BUILDER:
       return clearBookingBuilderReducer(state, action);
@@ -55,6 +57,8 @@ const bookingBuilderReducer = (state: BookingBuilderDomain = initialState, actio
       return updateTAMarginAmountReducer(state, action);
     case Actions.UPDATE_IS_TA_MARGIN_APPLIED_ACTION:
       return updateIsTAMarginAppliedReducer(state, action);
+    case Actions.CLEAR_BOOKING_BUILDER_UI_STATE:
+      return resetBookingBuilderUiStateReducer(state);
     default:
       return state;
   }
@@ -486,6 +490,13 @@ export const updateIsTAMarginAppliedReducer = (
     return draftState;
   });
 };
+
+export const resetBookingBuilderUiStateReducer = (state: BookingBuilderDomain): BookingBuilderDomain => ({
+  ...state,
+  isTAMarginApplied: true,
+  taMarginType: 'percentage',
+  taMarginAmount: '0',
+});
 
 export const calculateBookingTotalGuestAges = (lodgings: SelectedAccommodation[]) => {
   let numberOfAdults: number = 0;

@@ -7,6 +7,7 @@ import { addRoom, getBooking, removeRoom, updateBooking } from 'store/modules/bo
 
 import {
   initializeBookingBuilderAction,
+  resetBookingBuilderUiStateAction,
   bookingCanBookSelector,
   bookingCanHoldSelector,
   bookingPaymentTermsSelector,
@@ -69,6 +70,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   fetchProposals: pipe(
     fetchProposals,
+    dispatch
+  ),
+  resetBookingBuilderUiState: pipe(
+    resetBookingBuilderUiStateAction,
     dispatch
   ),
 });

@@ -38,6 +38,8 @@ export const UPDATE_TA_MARGIN_AMOUNT_ACTION = 'bookingBuilder/UPDATE_TA_MARGIN_A
 
 export const UPDATE_IS_TA_MARGIN_APPLIED_ACTION = 'bookingBuilder/UPDATE_IS_TA_MARGIN_APPLIED_ACTION';
 
+export const CLEAR_BOOKING_BUILDER_UI_STATE = 'bookingBuilder/CLEAR_BOOKING_BUILDER_UI_STATE';
+
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
   type: INITIALIZE_BOOKING_BUILDER as typeof INITIALIZE_BOOKING_BUILDER,
@@ -191,6 +193,11 @@ export const updateIsTAMarginAppliedAction = (hotelUuid: string, value: boolean)
   value,
 });
 
+export type ResetBookingBuilderUiStateAction = ReturnType<typeof resetBookingBuilderUiStateAction>;
+export const resetBookingBuilderUiStateAction = () => ({
+  type: CLEAR_BOOKING_BUILDER_UI_STATE as typeof CLEAR_BOOKING_BUILDER_UI_STATE,
+});
+
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -210,4 +217,5 @@ export type BookingBuilderAction =
   | ForwardsCompatBookingBuilderAction
   | UpdateTAMarginType
   | UpdateTAMarginAmount
-  | UpdateIsTAMarginAppliedAction;
+  | UpdateIsTAMarginAppliedAction
+  | ResetBookingBuilderUiStateAction;

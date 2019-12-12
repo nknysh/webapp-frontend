@@ -307,7 +307,6 @@ const renderModal = (t, { booking, modalOpen, modalContext, isSr, onModalClose, 
 };
 export const BookingContainer = ({
   booking,
-  bookingStatus,
   reviewBooking,
   children,
   clearCreatedBooking,
