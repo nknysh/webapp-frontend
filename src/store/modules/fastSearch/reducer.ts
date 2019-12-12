@@ -1,4 +1,4 @@
-import { lensPath, without, difference, omit, dropLast, update, set, flatten, mergeDeepLeft } from 'ramda';
+import { lensPath, without, difference, omit, dropLast, update, set, flatten, mergeDeepLeft, pick } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
 import { Filters, Lodging, SelectedAccommodation } from 'services/BackendApi';
@@ -77,6 +77,7 @@ export default function fastSearchReducer(
         ...state,
         query: {
           ...state.query,
+          lodgings: state.query.lodgings.map(pick(['numberOfAdults', 'agesOfAllChildren', 'repeatCustomer'])),
           ...omit(['name', 'lodgings', 'startDate', 'endDate'], initialState.query),
         },
       };
