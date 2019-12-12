@@ -223,7 +223,6 @@ const handleSaveBookingButton = async props => {
 
     window.location.href = `/bookings/${newBookingUuid}`;
   } catch (e) {
-    console.log(`Error in saving booking - ${e}`);
     throw Error(`Error in saving booking - ${e}`);
   }
 };
