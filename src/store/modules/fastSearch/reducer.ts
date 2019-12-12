@@ -77,6 +77,13 @@ export default function fastSearchReducer(
         ...state,
         query: {
           ...state.query,
+          lodgings: state.query.lodgings.map(item => ({
+            ...item,
+            honeymoon:false,
+            birthday: false,
+            anniversary: false,
+            wedding: false,
+          })),
           ...omit(['name', 'lodgings', 'startDate', 'endDate'], initialState.query),
         },
       };
