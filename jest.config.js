@@ -37,6 +37,11 @@ module.exports = {
   globals: {
     'ts-jest': {
       tsConfig: '<rootDir>/tsconfig.json',
+
+      // This prevents Jest throwing errors when types are incorrect.
+      // This makes life easier when testing thing like container componsnets
+      // where setting up correctly typed state could be cumbersome and brittle.
+      diagnostics: false,
     },
   },
 };

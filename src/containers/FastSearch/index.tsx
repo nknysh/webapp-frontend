@@ -84,10 +84,6 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       this.props.getOffers(this.props.searchQuery);
       clearBookingBuilderAction();
     }
-
-    if (this.props.searchQuery.name === '') {
-      this.props.destinationChange('');
-    }
   }
 
   handleDestinationChange = (e: FormEvent<HTMLInputElement>) => {
