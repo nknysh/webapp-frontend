@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { BookingBuilderDomain } from './model';
 import { ProductTypes, Occassions } from 'config/enums';
 import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/BackendApi/types';
-import { flatten, clone, uniqBy } from 'ramda';
+import { flatten, clone, uniqBy, pick } from 'ramda';
 import { filterByObjectProperties, formatPrice } from 'utils';
 
 export const bookingBuilderDomain = (state: any): BookingBuilderDomain => state.bookingBuilder;
@@ -317,24 +317,30 @@ export const bookingPaymentTermsSelector = createSelector(
 
 export const bookingOffersTermsSelector = createSelector(
   bookingPotentialBookingSelector,
-  potentialBooking => {
-    if (!potentialBooking) {
-      return [];
-    }
-
+  bookingTextOffersSelector,
+  (potentialBooking, textOffers) => {
     let allOfferTerms: object[] = [];
 
-    // we lose typehinting, but things were getting ridiculous
-    Object.keys(potentialBooking).forEach(productSetKey => {
-      potentialBooking[productSetKey].forEach(productSet => {
-        productSet.offers.forEach(productSetOffer => {
-          allOfferTerms.push({
-            name: productSetOffer.offer.name,
-            termsAndConditions: productSetOffer.offer.termsAndConditions,
+    if(potentialBooking){
+      // we lose typehinting, but things were getting ridiculous
+      Object.keys(potentialBooking).forEach(productSetKey => {
+        potentialBooking[productSetKey].forEach(productSet => {
+          productSet.offers.forEach(productSetOffer => {
+            allOfferTerms.push({
+              name: productSetOffer.offer.name,
+              termsAndConditions: productSetOffer.offer.termsAndConditions,
+            });
           });
         });
       });
-    });
+    }
+    
+    if(textOffers){
+      allOfferTerms = [
+        ...allOfferTerms,
+        ...flatten(textOffers).map(({ offer }) => pick(['name', 'termsAndConditions'], offer))
+      ]
+    }
 
     return uniqBy(a => a, allOfferTerms);
   }
