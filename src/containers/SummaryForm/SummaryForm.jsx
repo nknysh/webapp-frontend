@@ -126,7 +126,6 @@ const renderLodgingSummary = (
     }
     return setModalId(lodging.uuid);
   };
-
   return (
     <LodgingSummary
       hotelUuid={lodging.hotelUuid}

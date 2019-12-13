@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { differenceInCalendarDays } from 'date-fns';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 import DateRangeInput from 'pureUi/DateRangeInput';
-import { IDateObject } from 'pureUi/DatePicker/types';
-import { Heading4 } from 'styles';
 
 const possibleChildAges = {
   0: '0',
@@ -223,6 +221,7 @@ export const LodgingSummaryRender = props => {
       updateLodgingDatesAction(lodging.hotelUuid, lodging.index, from, to);
     };
 
+    // Why +2? Because the difference in non inclusive of the last date, and the end date is a day short
     const length = differenceInCalendarDays(new Date(lodging.endDate), new Date(lodging.startDate)) + 2;
     const firstTimeStamp = new Date(lodging.startDate).getTime();
     const selectedDates = DateHelper.generateDatesFrom(firstTimeStamp, length, 'en-US').map(

@@ -745,11 +745,8 @@ export const fetchBooking = id => async dispatch => {
       data: { data },
     } = await client.getBooking(id);
 
-    // Backend sees days as day+night so we need to add the last day to each accommodation product
-    const booking = addFinalDayToBooking(data);
-
     dispatch(fetchBookingHolds(id));
-    dispatch(successAction(BOOKING_FETCH, { [id]: booking }));
+    dispatch(successAction(BOOKING_FETCH, { [id]: data }));
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_SUBMIT, e, 'There was a problem fetching the booking.'));
   }
