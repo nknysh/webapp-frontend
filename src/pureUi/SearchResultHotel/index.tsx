@@ -22,7 +22,7 @@ export const SearchResultHotel = memo((props: SearchResultHotelProps) => {
   const { result, showHighlights, onToggleHighlights, onNavigateToHotel, onClick, ...otherProps } = props;
   const { t } = useTranslation();
   const currencySymbol = getCurrencySymbol(result.bookingBuilder.response.currency);
-  const offerCount = result.bookingBuilder.response.aggregateTotals.Total.offers.length;
+  const offerCount = result.bookingBuilder.response.appliedOfferNames.length;
   const priceAfterDiscounts = result.bookingBuilder.response.totals.totalForPricedItems;
   const priceBeforeDiscounts = result.bookingBuilder.response.totals.totalBeforeDiscount;
   const isPreferred = result.preferred;
