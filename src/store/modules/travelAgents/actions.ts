@@ -6,8 +6,9 @@ import { index } from 'store/modules/indexes';
 import schema from './schema';
 
 export const TRAVEL_AGENTS_FETCH = 'TRAVEL_AGENTS_FETCH';
+export const TRAVEL_AGENTS_FETCH_SUCCESS = 'TRAVEL_AGENTS_FETCH_SUCCESS';
+export const TRAVEL_AGENTS_FETCH_ERROR = 'TRAVEL_AGENTS_FETCH_ERROR';
 
-export type FetchTravelAgentsAction = ReturnType<typeof fetchTravelAgents>;
 export const fetchTravelAgents = (params?: object | null) => async dispatch => {
   dispatch(genericAction(TRAVEL_AGENTS_FETCH, {}));
 
@@ -30,8 +31,4 @@ export const fetchTravelAgents = (params?: object | null) => async dispatch => {
     dispatch(errorFromResponse(TRAVEL_AGENTS_FETCH, e, 'There was a problem fetching travel agents.'));
   }
 };
-
-
-export type TravelAgentsAction =
-  | FetchTravelAgentsAction;
   

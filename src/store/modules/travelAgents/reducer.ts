@@ -1,14 +1,15 @@
 import { initialState, loadingReducer, successReducer, errorReducer, sendingReducer } from 'store/common';
-import { createReducer, getErrorActionName, getSuccessActionName } from 'store/utils';
-import { TRAVEL_AGENTS_FETCH } from './actions';
+import * as Actions from './actions';
 
-export default createReducer(
-  {
-    [TRAVEL_AGENTS_FETCH]: loadingReducer,
-    // @ts-ignore
-    [getSuccessActionName(TRAVEL_AGENTS_FETCH)]: successReducer,
-    // @ts-ignore
-    [getErrorActionName(TRAVEL_AGENTS_FETCH)]: errorReducer,
-  },
-  initialState
-);
+export default function taReducer(state = initialState, action){
+  switch(action.type) {
+    case Actions.TRAVEL_AGENTS_FETCH: 
+      return loadingReducer(state);
+    case Actions.TRAVEL_AGENTS_FETCH_SUCCESS:
+      return successReducer(state, action)
+      case Actions.TRAVEL_AGENTS_FETCH_ERROR:
+      return errorReducer(state, action);
+    default:
+      return state;
+  }
+}
