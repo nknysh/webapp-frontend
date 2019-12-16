@@ -7,13 +7,14 @@ import schema from './schema';
 
 export const TRAVEL_AGENTS_FETCH = 'TRAVEL_AGENTS_FETCH';
 
-export const fetchTravelAgents = params => async dispatch => {
+export type FetchTravelAgentsAction = ReturnType<typeof fetchTravelAgents>;
+export const fetchTravelAgents = (params?: object | null) => async dispatch => {
   dispatch(genericAction(TRAVEL_AGENTS_FETCH, {}));
 
   try {
     const {
       data: { data },
-    } = await client.getTravelAgents(params);
+    } = await client.getTravelAgents(params, {});
 
     dispatch(
       index({
@@ -29,3 +30,8 @@ export const fetchTravelAgents = params => async dispatch => {
     dispatch(errorFromResponse(TRAVEL_AGENTS_FETCH, e, 'There was a problem fetching travel agents.'));
   }
 };
+
+
+export type TravelAgentsAction =
+  | FetchTravelAgentsAction;
+  

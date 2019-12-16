@@ -5,7 +5,9 @@ import { TRAVEL_AGENTS_FETCH } from './actions';
 export default createReducer(
   {
     [TRAVEL_AGENTS_FETCH]: loadingReducer,
+    // @ts-ignore
     [getSuccessActionName(TRAVEL_AGENTS_FETCH)]: successReducer,
+    // @ts-ignore
     [getErrorActionName(TRAVEL_AGENTS_FETCH)]: errorReducer,
   },
   initialState
