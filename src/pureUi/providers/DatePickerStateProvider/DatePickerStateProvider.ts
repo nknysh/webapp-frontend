@@ -5,7 +5,7 @@ import { getDateRangeDisplayString } from './utils';
 
 export interface IDatePickerSateParams extends IDatePickerState {
   handleDayClick: (date: string) => void;
-  handleDateMouseOver: (date: string) => void;
+  handleDateMouseOver?: (date: string) => void;
   toggleDatePicker: () => void;
   hideDatePicker: () => void;
   incrementDate: (step: number) => void;
@@ -13,6 +13,7 @@ export interface IDatePickerSateParams extends IDatePickerState {
 }
 
 export interface IDatePickerSateProviderProps {
+  isSingleDateSelection?: boolean;
   defaultSelectedDates: string[];
   onDateChange: (dateStrings: string[]) => any;
   render: (state: IDatePickerSateParams) => any;
@@ -55,7 +56,7 @@ export const DatePickerStateProvider = (props: IDatePickerSateProviderProps) => 
   const handleDayClick = useCallback(
     async (date: string) => {
       if (!state.dateSelectionInProgress) {
-        dispatch(Actions.dateRangeSelectStartAction(date));
+        dispatch(Actions.dateRangeSelectStartAction(date, Boolean(props.isSingleDateSelection)));
       } else {
         dispatch(Actions.dateRangeSelectEndAction(date));
       }
@@ -67,7 +68,10 @@ export const DatePickerStateProvider = (props: IDatePickerSateProviderProps) => 
   // the onDateChange callback with the correct dates, we need to
   // treat it as a sideEffect, hence this useEffect.
   useEffect(() => {
-    if (!state.isPristine && !state.showDatePicker && !state.dateSelectionInProgress) {
+    if (
+      (!state.isPristine && props.isSingleDateSelection) ||
+      (!state.isPristine && !state.showDatePicker && !state.dateSelectionInProgress)
+    ) {
       props.onDateChange(state.selectedDates);
     }
   }, [state.dateSelectionInProgress, state.showDatePicker, state.selectedDates, state.isPristine]);

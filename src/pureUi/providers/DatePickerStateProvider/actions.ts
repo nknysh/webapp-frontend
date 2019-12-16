@@ -17,9 +17,10 @@ export const setDatePickerVisibilityAction = (visible: boolean) => ({
 });
 
 export type DateRangeSelectStartAction = ReturnType<typeof dateRangeSelectStartAction>;
-export const dateRangeSelectStartAction = (date: string) => ({
+export const dateRangeSelectStartAction = (date: string, isSingleDateSelection: boolean) => ({
   type: DATE_RANGE_SELECT_START as typeof DATE_RANGE_SELECT_START,
   date,
+  isSingleDateSelection,
 });
 
 export type DateRangeSelectEndAction = ReturnType<typeof dateRangeSelectEndAction>;

@@ -24,7 +24,8 @@ export const datePickerStateReducer = (
     case Actions.DATE_RANGE_SELECT_START:
       return {
         ...state,
-        dateSelectionInProgress: true,
+        dateSelectionInProgress: action.isSingleDateSelection ? false : true,
+        showDatePicker: action.isSingleDateSelection ? false : true,
         anchorDate: action.date,
         startDate: action.date,
         endDate: action.date,

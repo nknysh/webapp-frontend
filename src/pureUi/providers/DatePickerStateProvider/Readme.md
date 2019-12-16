@@ -22,6 +22,7 @@ the render prop function. The most common use case is in conjunction with the Da
 
 ```
 <DatePickerStateProvider
+  isSingleDateSelection={false}
   defaultSelectedDates={selectedDates}
   onDateChange={handleDateChange}
   render={(params: IDatePickerSateParams) => (
@@ -43,6 +44,10 @@ the render prop function. The most common use case is in conjunction with the Da
 ```
 
 ### Props
+
+`isSingleDateSelection: boolean`
+When set, the datepikcer with fire the onDateChange callback whenever a date is clicked, and set `showDatePicker` to false.
+`onDayMouseOver` will not be called when this this flag is set.
 
 `defaultSelectedDates: string[]`  
 An array of contiguous dateTime strings

@@ -42,6 +42,7 @@ beforeEach(() => {
   });
 
   defaultProps = {
+    isSingleDateSelection: false,
     render: renderSpy,
     onDateChange: onDateChangeSpy,
     defaultSelectedDates,
@@ -94,7 +95,7 @@ describe('DatePickerStateProvider', () => {
       testState.handleDayClick(testDate);
     });
     act(() => {
-      testState.handleDateMouseOver(hoverDate);
+      testState.handleDateMouseOver!(hoverDate);
     });
 
     expect(testState.displayString).toEqual('1 - 4 Dec 2019');
@@ -188,5 +189,53 @@ describe('DatePickerStateProvider', () => {
       testState.handleDayClick(testDate);
     });
     expect(testState.showDatePicker).toEqual(false);
+  });
+
+  describe('Single Date Selection', () => {
+    it('sets the correct state when handleClick is called and isSingleSelection is true', () => {
+      const testDate = '2019-12-01T00:00:00.000Z';
+      const props = {
+        ...defaultProps,
+        isSingleDateSelection: true,
+      };
+
+      act(() => {
+        ReactDOM.render(<DatePickerStateProvider {...props} />, container);
+      });
+
+      act(() => {
+        testState.toggleDatePicker();
+      });
+
+      act(() => {
+        testState.handleDayClick(testDate);
+      });
+
+      expect(testState.displayString).toEqual('1 Dec 2019');
+      expect(testState.totalNights).toEqual(0);
+      expect(testState.startDate).toEqual(testDate);
+      expect(testState.endDate).toEqual(testDate);
+      expect(testState.selectedDates).toEqual([testDate]);
+      expect(testState.dateSelectionInProgress).toEqual(false);
+      expect(testState.showDatePicker).toEqual(false);
+    });
+
+    it('it calls the onDateChange callback correctly on first click if isSingleDateSelection is true', () => {
+      const testDate = '2019-12-01T00:00:00.000Z';
+      const props = {
+        ...defaultProps,
+        isSingleDateSelection: true,
+      };
+      act(() => {
+        ReactDOM.render(<DatePickerStateProvider {...props} />, container);
+      });
+
+      act(() => {
+        testState.handleDayClick(testDate);
+      });
+
+      expect(onDateChangeSpy).toBeCalledTimes(1);
+      expect(onDateChangeSpy).toHaveBeenCalledWith([testDate]);
+    });
   });
 });
