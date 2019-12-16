@@ -778,7 +778,7 @@ const renderModal = (t, { modalOpen, modalContent, onClose }) =>
 
 const renderTASelect = (
   t,
-  { summaryOnly, compactEdit, hasTASelect, usersLoaded, getUserName, onTASelect, onTARemove, travelAgent, onEditClick }
+  { summaryOnly, compactEdit, hasTASelect, travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent, onEditClick }
 ) =>
   hasTASelect &&
   (summaryOnly || compactEdit ? (
@@ -792,26 +792,26 @@ const renderTASelect = (
         )
       }
     >
-      {getUserName(prop('uuid', travelAgent))}
+      {getTravelAgentName(prop('uuid', travelAgent))}
     </Summary>
   ) : (
     renderExtra({
       title: t('travelAgent'),
       children: (
-        <Loader isLoading={!usersLoaded} text={t('messages.loadingUsers')}>
-          <IndexSearch
-            placeholder={t('labels.searchForTA')}
-            indexes={['users']}
-            selectors={[getUserName]}
-            onClick={onTASelect}
-          />
-          {!isNilOrEmpty(travelAgent) && (
-            <TravelAgent onClick={onTARemove}>
-              <TravelAgentName>{travelAgent && getUserName(prop('uuid', travelAgent))}</TravelAgentName>{' '}
-              <Clear>clear</Clear>
-            </TravelAgent>
-          )}
-        </Loader>
+        <Loader isLoading={!travelAgentsLoaded} text={t('messages.loadingUsers')}>
+        <IndexSearch
+          placeholder={t('labels.searchForTA')}
+          indexes={['travelAgents']}
+          selectors={[getTravelAgentName]}
+          onClick={onTASelect}
+        />
+        {!isNilOrEmpty(travelAgent) && (
+          <TravelAgent onClick={onTARemove}>
+            <TravelAgentName>{travelAgent && getTravelAgentName(prop('uuid', travelAgent))}</TravelAgentName>{' '}
+            <Clear>clear</Clear>
+          </TravelAgent>
+        )}
+      </Loader>
       ),
     })
   ));
@@ -823,8 +823,8 @@ export const SummaryFormExtras = ({
   compact,
   currencyCode,
   editGuard,
-  fetchUsers,
-  getUserName,
+  fetchTravelAgents,
+  getTravelAgentName,
   grandTotal,
   groundServices,
   id,
@@ -840,7 +840,7 @@ export const SummaryFormExtras = ({
   transfers,
   travelAgent,
   updateBooking,
-  usersStatus,
+  travelAgentsStatus,
   values,
   isTransferSectionCollapsed,
   isGroundServicesSectionCollapsed,
@@ -859,11 +859,17 @@ export const SummaryFormExtras = ({
   updateIsTAMarginAppliedAction,
   taMarginType,
   taMarginAmount,
+  currentCountry
 }) => {
   const { t } = useTranslation();
+  
   const hasTASelect = isSr && !isRl;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const usersLoaded = hasTASelect && useFetchData(usersStatus, fetchUsers, []);
+  const travelAgentsLoaded = hasTASelect &&
+    useFetchData(
+      travelAgentsStatus,
+      () => fetchTravelAgents(currentCountry ? { actingCountryCode: currentCountry } : {}),
+      []);
 
   const compactEdit = !summaryOnly && compact;
 
@@ -1125,8 +1131,8 @@ export const SummaryFormExtras = ({
       modalContent = renderTASelect(t, {
         currencyCode,
         hasTASelect,
-        usersLoaded,
-        getUserName,
+        travelAgentsLoaded,
+        getTravelAgentName,
         onTASelect,
         onTARemove,
         travelAgent,
@@ -1166,8 +1172,8 @@ export const SummaryFormExtras = ({
         summaryOnly,
         compactEdit,
         hasTASelect,
-        usersLoaded,
-        getUserName,
+        travelAgentsLoaded,
+        getTravelAgentName,
         onTASelect,
         onTARemove,
         travelAgent,
