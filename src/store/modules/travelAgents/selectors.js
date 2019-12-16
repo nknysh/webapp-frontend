@@ -1,4 +1,4 @@
-import { prop, propOr, pipe, props, join } from 'ramda';
+import { prop, propOr, pipe, props, join, reduce } from 'ramda';
 
 import { getStatus, getArg } from 'store/common';
 import { createSelector } from 'store/utils';
@@ -12,7 +12,13 @@ export const getTravelAgentsStatus = createSelector(
 
 export const getTravelAgentsEntities = createSelector(
   getTravelAgents,
-  prop('data')
+  pipe(
+    propOr([], 'data'),
+    reduce((acc, cur) => ({
+      ...acc,
+      [cur.uuid]: cur
+    }), {})
+  )
 );
 
 export const getTravelAgent = createSelector(

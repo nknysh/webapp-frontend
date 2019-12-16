@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
+import { fetchTravelAgents, getTravelAgentsStatus, getTravelAgentFullName, getTravelAgent } from 'store/modules/travelAgents';
+import { getCurrentCountry } from 'store/modules/auth';
 
-import { fetchUsers, getUsersStatus, getUsersEntities, getUserFullName, getUser } from 'store/modules/users';
 import {
   getBookingAddons,
   getBookingCurrencySymbol,
@@ -52,7 +53,7 @@ import {
 
 export const mapStateToProps = (state, { id }) => {
   const travelAgentUserUuid = getBookingTravelAgent(state, id);
-  const travelAgent = getUser(state, travelAgentUserUuid);
+  const travelAgent = getTravelAgent(state, travelAgentUserUuid);
 
   return {
     addons: bookingAvailableAddonsSelector(state),
@@ -66,12 +67,10 @@ export const mapStateToProps = (state, { id }) => {
     selectedTransfers: bookingRequestedTransfersSelector(state, id),
     canBook: bookingCanBookSelector(state),
     currencyCode: getBookingCurrencySymbol(state, id),
-    getUser: id => getUser(state, id),
-    getUserName: id => getUserFullName(state, id),
+    getTravelAgentName: id => getTravelAgentFullName(state, id),
     grandTotal: bookingBuilderTotalSelector(state),
     travelAgent,
-    users: getUsersEntities(state),
-    usersStatus: getUsersStatus(state),
+    travelAgentsStatus: getTravelAgentsStatus(state),
     isTransferSectionCollapsed: getIsTransferSectionCollapsed(state),
     isGroundServicesSectionCollapsed: getIsGroundServicesSectionCollapsed(state),
     isAddonsSectionCollapsed: getIsAddonsSectionCollapsed(state),
@@ -79,6 +78,7 @@ export const mapStateToProps = (state, { id }) => {
     isTAMarginApplied: isTAMarginAppliedSelector(state),
     taMarginType: taMarginTypeSelector(state),
     taMarginAmount: taMarginAmountSelector(state),
+    currentCountry: getCurrentCountry(state)
   };
 };
 
@@ -91,8 +91,8 @@ export const mapDispatchToProps = dispatch => ({
     replaceProducts,
     dispatch
   ),
-  fetchUsers: pipe(
-    fetchUsers,
+  fetchTravelAgents: pipe(
+    fetchTravelAgents,
     dispatch
   ),
   setIsBookingSummarySectionCollapsed: pipe(
