@@ -20,7 +20,7 @@ export default {
   search: 'Search',
   submit: 'Submit',
   submitBookingRequest: 'Submit Booking Request',
-  takeAHold: 'Take a hold',
+  takeAHold: 'Save Booking With Holds',
   update: 'Update',
   previewPDF: 'Preview PDF',
   releaseHold: 'Release hold',

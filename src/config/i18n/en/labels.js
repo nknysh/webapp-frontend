@@ -226,8 +226,10 @@ export default {
   availableToHoldRoom: 'This accommodation is available to hold',
   availableToHoldGeneric: 'Available to hold',
 
-  availableToHoldInfo: 'The lodgings you have selected are known to be available. Requesting this booking or saving this booking with holds will hold these lodgings for you for 24 hours.',
-  unavailableToHoldInfo: 'We cannot automatically confirm the availability of these lodgings, you may still proceed and a Sales Representative will be able to confirm availability for you.',
+  availableToHoldInfo:
+    'The lodgings you have selected are known to be available. Requesting this booking or saving this booking with holds will hold these lodgings for you for 24 hours.',
+  unavailableToHoldInfo:
+    'We cannot automatically confirm the availability of these lodgings, you may still proceed and a Sales Representative will be able to confirm availability for you.',
 
   specifyAges: 'Please specifiy ages:',
 

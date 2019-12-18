@@ -778,7 +778,17 @@ const renderModal = (t, { modalOpen, modalContent, onClose }) =>
 
 const renderTASelect = (
   t,
-  { summaryOnly, compactEdit, hasTASelect, travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent, onEditClick }
+  {
+    summaryOnly,
+    compactEdit,
+    hasTASelect,
+    travelAgentsLoaded,
+    getTravelAgentName,
+    onTASelect,
+    onTARemove,
+    travelAgent,
+    onEditClick,
+  }
 ) =>
   hasTASelect &&
   (summaryOnly || compactEdit ? (
@@ -799,19 +809,19 @@ const renderTASelect = (
       title: t('travelAgent'),
       children: (
         <Loader isLoading={!travelAgentsLoaded} text={t('messages.loadingUsers')}>
-        <IndexSearch
-          placeholder={t('labels.searchForTA')}
-          indexes={['travelAgents']}
-          selectors={[getTravelAgentName]}
-          onClick={onTASelect}
-        />
-        {!isNilOrEmpty(travelAgent) && (
-          <TravelAgent onClick={onTARemove}>
-            <TravelAgentName>{travelAgent && getTravelAgentName(prop('uuid', travelAgent))}</TravelAgentName>{' '}
-            <Clear>clear</Clear>
-          </TravelAgent>
-        )}
-      </Loader>
+          <IndexSearch
+            placeholder={t('labels.searchForTA')}
+            indexes={['travelAgents']}
+            selectors={[getTravelAgentName]}
+            onClick={onTASelect}
+          />
+          {!isNilOrEmpty(travelAgent) && (
+            <TravelAgent onClick={onTARemove}>
+              <TravelAgentName>{travelAgent && getTravelAgentName(prop('uuid', travelAgent))}</TravelAgentName>{' '}
+              <Clear>clear</Clear>
+            </TravelAgent>
+          )}
+        </Loader>
       ),
     })
   ));
@@ -859,17 +869,19 @@ export const SummaryFormExtras = ({
   updateIsTAMarginAppliedAction,
   taMarginType,
   taMarginAmount,
-  currentCountry
+  currentCountry,
 }) => {
   const { t } = useTranslation();
-  
+
   const hasTASelect = isSr && !isRl;
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const travelAgentsLoaded = hasTASelect &&
+  const travelAgentsLoaded =
+    hasTASelect &&
     useFetchData(
       travelAgentsStatus,
       () => fetchTravelAgents(currentCountry ? { actingCountryCode: currentCountry } : {}),
-      []);
+      []
+    );
 
   const compactEdit = !summaryOnly && compact;
 

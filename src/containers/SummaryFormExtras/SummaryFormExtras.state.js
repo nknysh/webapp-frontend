@@ -1,6 +1,11 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
-import { fetchTravelAgents, getTravelAgentsStatus, getTravelAgentFullName, getTravelAgent } from 'store/modules/travelAgents';
+import {
+  fetchTravelAgents,
+  getTravelAgentsStatus,
+  getTravelAgentFullName,
+  getTravelAgent,
+} from 'store/modules/travelAgents';
 import { getCurrentCountry } from 'store/modules/auth';
 
 import {
@@ -78,7 +83,7 @@ export const mapStateToProps = (state, { id }) => {
     isTAMarginApplied: isTAMarginAppliedSelector(state),
     taMarginType: taMarginTypeSelector(state),
     taMarginAmount: taMarginAmountSelector(state),
-    currentCountry: getCurrentCountry(state)
+    currentCountry: getCurrentCountry(state),
   };
 };
 

@@ -48,4 +48,3 @@ export const updateUser = (id, body, params, opts) => client.patch(`/users/${id}
 export const getTravelAgents = (params, opts) => client.get('/users/agents-for-country', { params, ...opts });
 
 export default { getUsers, me, updateUser, getTravelAgents };
-
