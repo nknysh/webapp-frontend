@@ -85,7 +85,7 @@ const HotelSummary = props => {
           // for some INSANE reason, SummaryForm treats its children as a function, always, which receives the booking
           return (
             <Fragment>
-              {booking && (
+              {!isNilOrEmpty(booking) && (
                 <AsideDetails>
                   <Title>{t('labels.availability')}</Title>
                   <Text>{t(canHold ? 'labels.availableToHoldInfo': 'labels.unavailableToHoldInfo')}</Text>
