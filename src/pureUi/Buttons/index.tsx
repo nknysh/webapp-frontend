@@ -1,9 +1,11 @@
+import React from 'react';
 import styled from 'styled-components';
 import { pureUiTheme } from '../pureUiTheme';
+import { Link, LinkProps } from 'react-router-dom';
 
 /* TODO: Try to remove the duplication in this file */
 
-export const PrimaryButton = styled.button`
+const baseButtonStyles = `
   position: relative;
   transition: all 0.15s ease-out;
   display: block;
@@ -39,6 +41,10 @@ export const PrimaryButton = styled.button`
     background-color: ${pureUiTheme.colors.black};
     box-shadow: 0 0 0 8px ${pureUiTheme.colors.lightBlue};
   }
+`;
+
+export const PrimaryButton = styled.button`
+  ${baseButtonStyles}
 `;
 
 export const RoundedIconButton = styled(PrimaryButton)`
@@ -88,4 +94,10 @@ export const Tab = styled.button`
   display: block;
   flex-grow: 1;
   text-transform: uppercase;
+`;
+
+export const LinkButton = styled<LinkProps>(Link)`
+  ${baseButtonStyles};
+  text-align: center;
+  color: ${pureUiTheme.colors.white} !important; /* Something somewhere is leaking styles for link colors */
 `;

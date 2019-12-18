@@ -5,6 +5,7 @@ import DisplayTotalsBreakdown from '../../components/DisplayTotalsBreakdown/Disp
 import { useTranslation } from 'react-i18next';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { formatPrice, calculatePercentage, getCurrencySymbol } from 'utils';
+import { LinkButton } from 'pureUi/Buttons/index';
 
 export interface IBookingSummaryLiteProps {
   className: string;
@@ -74,6 +75,12 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
           </div>
         </React.Fragment>
       )}
+
+      {props.booking.uuid && (
+        <div className="actions">
+          <LinkButton to={`/bookings/${props.booking.uuid}`}>View booking</LinkButton>
+        </div>
+      )}
     </div>
   );
 };
@@ -98,5 +105,11 @@ export default styled(BookingSummaryLite)`
     font-size: 12px;
     color: ${pureUiTheme.colors.black};
     padding: 20px 0 0;
+  }
+
+  .actions {
+    border-top: 1px solid ${pureUiTheme.colorRoles.lightGreyBorder};
+    margin-top: 20px;
+    padding-top: 20px;
   }
 `;
