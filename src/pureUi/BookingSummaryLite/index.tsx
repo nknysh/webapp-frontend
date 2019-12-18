@@ -51,26 +51,26 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
         </React.Fragment>
       )}
 
-      {true && (
+      {props.booking.bookingComments && (
         <React.Fragment>
           <div className="mt-4 comments">
             <hr className="mb-4" />
             <strong>
-              <label>Booking Comments</label>
+              <label>{t('labels.bookingComments')}</label>
             </strong>
-            <p>These are some booking comments</p>
+            <p>{props.booking.bookingComments}</p>
           </div>
         </React.Fragment>
       )}
 
-      {true && (
+      {props.booking.internalComments && (
         <React.Fragment>
           <div className="mt-4 comments">
             <hr className="mb-4" />
             <strong>
-              <label>Internal Comments</label>
+              <label>{t('labels.internalComments')}</label>
             </strong>
-            <p>These are some internal comments</p>
+            <p>{props.booking.internalComments}</p>
           </div>
         </React.Fragment>
       )}
