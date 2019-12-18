@@ -51,6 +51,9 @@ export const ProposalSummary = styled.div`
 
 export const ProposalGuestForm = styled.div`
   margin: ${theme.spacing.gutter * 2}px;
+  textarea {
+    width: 100%;
+  }
 
   ${props => props.theme.breakpoints.tablet`
     margin-top: ${theme.spacing.gutter}px;
@@ -169,29 +172,21 @@ export const ProposalActions = styled.div`
 `;
 
 export const Menu = styled(Icon)`
-    font-size: ${theme.fonts.sizes.mid}px !important;
-    font-weight: ${theme.fonts.bold};
-    line-height: 24px
-    overflow: visible !important;
-    padding-top: 4px;
+  font-size: ${theme.fonts.sizes.mid}px !important;
+  font-weight: ${theme.fonts.bold};
+  line-height: 24px;
+  overflow: visible !important;
+  padding-top: 4px;
   cursor: pointer;
 `;
 
 export const BookingFormActions = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 export const BookingFormAction = styled(Button)`
-  flex: 1 1 50%;
-  margin: 0 ${theme.spacing.gutter}px;
-
-  :first-child {
-    margin-left: 0;
-  }
-
-  :last-child {
-    margin-right: 0;
-  }
+  margin: 0 0 10px;
 `;
 
 export const PDFFrame = styled.div`

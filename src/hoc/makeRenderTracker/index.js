@@ -8,6 +8,7 @@ const makeRenderTracker = (label = 'Component', logPropDiff = false) => {
 
   return WrappedComponent => props => {
     count += 1;
+
     console.log(`Render ${label}: ${count}`); // eslint-disable-line
 
     if (logPropDiff) {

@@ -1,37 +1,33 @@
 {
-    "parser": "babel-eslint",
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "prettier",
-        "prettier/react"
-    ],
-    "rules": {
-      "react/prop-types": "warn",
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
-    },
-    "plugins": ["react", "react-hooks", "jest"],
-    "parserOptions": {
-        "ecmaFeatures": {
-          "ecmaVersion": 6,
-          "sourceType": "module",
-          "jsx": true
-        }
-      },
-    "env": {
-        "browser": true,
-        "node": true,
-        "jest": true,
-        "es6": true
-    },
-    "settings": {
-        "react": {
-          "version": "detect"
-        }
-    },
-    "globals": {
-      "shallow": "readonly",
-      "mount": "readonly"
+  "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier", "prettier/react"],
+  "rules": {
+    "react/prop-types": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "no-console": "error"
+  },
+  "plugins": ["react", "react-hooks", "jest"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+    "es6": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "shallow": "readonly",
+    "mount": "readonly"
   }
 }

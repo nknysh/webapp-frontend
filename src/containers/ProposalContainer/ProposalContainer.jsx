@@ -2,34 +2,28 @@ import React, { useState, Fragment, useCallback } from 'react';
 import WithBookings from 'hoc/WithBookings';
 
 import {
-  __,
   append,
   compose,
   equals,
-  filter,
   includes,
   isEmpty,
   join,
-  map,
-  partial,
   path,
-  pathOr,
   pickAll,
   pipe,
   prop,
   propOr,
   props,
-  propSatisfies,
   without,
   toPairs,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Loader, Tabs, Section, Modal, Checkbox } from '@pure-escapes/webapp-ui-components';
+import { Loader, Tabs, Section, Modal } from '@pure-escapes/webapp-ui-components';
 
 import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
-import { BookingForm, Summary } from 'components';
+import { BookingForm } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { formatDate } from 'utils';
 import { fields, data } from 'config/forms/bookingForm';
@@ -46,7 +40,6 @@ import {
   BookingFormActions,
   BookingPath,
   BookingPathSegment,
-  Brochure,
   Chevron,
   GuestName,
   PDFFrame,
@@ -104,24 +97,6 @@ const renderBreadcrumbs = (t, { proposal, id, isMobile, onMobileNavClick, isGene
   );
 };
 
-const renderAdditionalResource = (
-  t,
-  { onAdditionalResourceClick, attachedUploads, isEdit },
-  { displayName, uuid, url }
-) => {
-  const selected = includes(uuid, attachedUploads);
-
-  return (
-    <Fragment key={uuid}>
-      {isEdit ? (
-        <Checkbox label={displayName} value={uuid} onChange={onAdditionalResourceClick} checked={selected} />
-      ) : (
-        selected && <Brochure href={url}>{displayName}</Brochure>
-      )}
-    </Fragment>
-  );
-};
-
 const renderBooking = booking => {
   return <BookingSummaryLite key={booking.bookingHash} booking={booking} />;
 };
@@ -130,9 +105,11 @@ const renderBookings = bookings => {
   return <ProposalsWrapper>{Object.keys(bookings).map(key => renderBooking(bookings[key]))}</ProposalsWrapper>;
 };
 
-const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF }) =>
-  isEdit &&
-  ((!isMobile || isGenerateView) && (
+const renderProposalGuestForm = (
+  t,
+  { isMobile, isGenerateView, proposal, onGenerateAndSend, onPreviewPDF, onPreviewLatestPdf, pdfCount }
+) =>
+  (!isMobile || isGenerateView) && (
     <ProposalGuestForm>
       <BookingForm
         onSubmit={onGenerateAndSend}
@@ -142,12 +119,19 @@ const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal
       >
         {({ values }) => {
           return (
-            <BookingFormActions>
-              <BookingFormAction type="submit">{t('buttons.generateAndSend')}</BookingFormAction>
-              <BookingFormAction type="button" onClick={() => onPreviewPDF(values)} data-secondary>
-                {t('buttons.previewPDF')}
-              </BookingFormAction>
-            </BookingFormActions>
+            <>
+              <BookingFormActions>
+                <BookingFormAction type="submit">{t('buttons.generateAndSend')}</BookingFormAction>
+                <BookingFormAction type="button" onClick={() => onPreviewPDF(values)} data-secondary>
+                  {t('buttons.previewPDF')}
+                </BookingFormAction>
+                {pdfCount > 0 && (
+                  <BookingFormAction type="button" onClick={onPreviewLatestPdf} data-secondary>
+                    See last sent PDF
+                  </BookingFormAction>
+                )}
+              </BookingFormActions>
+            </>
           );
         }}
       </BookingForm>
@@ -160,7 +144,7 @@ const renderProposalGuestForm = (t, { isMobile, isGenerateView, isEdit, proposal
         </ol>
       </ProposalGuestFormNotes>
     </ProposalGuestForm>
-  ));
+  );
 
 const renderStatusStrip = (t, { createdAt, isEdit }) =>
   !isEdit && (
@@ -189,7 +173,6 @@ const renderPDFModal = (t, { id, showPDF, setShowPDF, guestsDetails }) => {
   const queryString = toPairs(guestsDetails)
     .map(([k, v]) => `${k}=${v ? encodeURIComponent(v) : v}`)
     .join('&');
-
   return (
     showPDF && (
       <Modal open={showPDF} onClose={() => setShowPDF(false)}>
@@ -198,6 +181,16 @@ const renderPDFModal = (t, { id, showPDF, setShowPDF, guestsDetails }) => {
         </PDFFrame>
       </Modal>
     )
+  );
+};
+
+const renderLatestPDFModal = (proposalId, pdfUrl, setState) => {
+  return (
+    <Modal open={true} onClose={() => setState(false)}>
+      <PDFFrame>
+        <iframe src={pdfUrl} />
+      </PDFFrame>
+    </Modal>
   );
 };
 
@@ -215,24 +208,28 @@ const renderFull = (
     guestInfoProps,
     storeBookings,
   }
-) => (
-  <Fragment>
-    {renderBreadcrumbs(t, {
-      id,
-      isEdit,
-      isGenerateView,
-      isResortsView,
-      isMobile,
-      onMobileNavClick,
-      proposal,
-    })}
-    {renderStatusStrip(t, { isEdit, ...proposal })}
-    <Proposal>
-      {storeBookings && renderBookings(storeBookings)}
-      {isEdit ? renderProposalGuestForm(t, guestFormProps) : renderProposalGuestInfo(t, guestInfoProps)}
-    </Proposal>
-  </Fragment>
-);
+) => {
+  return (
+    <Fragment>
+      {renderBreadcrumbs(t, {
+        id,
+        isEdit,
+        isGenerateView,
+        isResortsView,
+        isMobile,
+        onMobileNavClick,
+        proposal,
+      })}
+      {renderStatusStrip(t, { isEdit, ...proposal })}
+      <Proposal>
+        {storeBookings && renderBookings(storeBookings)}
+        {isEdit || proposal.containsPotentialBookings
+          ? renderProposalGuestForm(t, guestFormProps)
+          : renderProposalGuestInfo(t, guestInfoProps)}
+      </Proposal>
+    </Fragment>
+  );
+};
 
 const renderTabs = (t, { id, guestInfoProps }) => (
   <Fragment>
@@ -271,6 +268,7 @@ export const ProposalContainer = ({
   const [view, setView] = useState(ViewTypes.RESORTS);
   const [canEdit, setCanEdit] = useState({});
   const [showPDF, setShowPDF] = useState(false);
+  const [showLatestPDF, setShowLatestPDF] = useState(false);
   const [guestsDetails, setGuestDetails] = useState({});
   const [attachedUploads, setAttachedUploads] = useState(propOr([], 'attachedUploads', proposal));
 
@@ -343,6 +341,10 @@ export const ProposalContainer = ({
     setShowPDF(true);
   }, []);
 
+  const onPreviewLatestPdf = useCallback(() => {
+    setShowLatestPDF(true);
+  }, []);
+
   const onGenerateAndSend = useCallback(
     values => {
       completeProposal(id, { attachedUploads, ...values });
@@ -350,6 +352,8 @@ export const ProposalContainer = ({
     },
     [attachedUploads, id, completeProposal]
   );
+
+  const sortByCreatedDate = useCallback((a, b) => a.createdAt > b.createdAt, []);
 
   const isLocked = propOr(false, 'isLocked', proposal);
   const proposalLocked = isEdit && isLocked;
@@ -362,6 +366,9 @@ export const ProposalContainer = ({
   const isGenerateView = equals(ViewTypes.GENERATE, view);
   const loading = !loaded || isLoading(status);
   const sending = isSending(status);
+
+  const pdfs = proposal.uploads ? proposal.uploads.filter(upload => upload.filename.includes('.pdf')) : [];
+  const latestPdfUrl = pdfs.length ? pdfs.sort(sortByCreatedDate)[0].url : null;
 
   const summaryProps = {
     attachedUploads,
@@ -379,7 +386,16 @@ export const ProposalContainer = ({
     onAddHolds,
     onReleaseHolds,
   };
-  const guestFormProps = { isMobile, isGenerateView, isEdit, proposal, onGenerateAndSend, onPreviewPDF };
+  const guestFormProps = {
+    isMobile,
+    isGenerateView,
+    isEdit,
+    proposal,
+    onGenerateAndSend,
+    onPreviewPDF,
+    onPreviewLatestPdf,
+    pdfCount: pdfs.length,
+  };
   const guestInfoProps = { isMobile, isGenerateView, isEdit, proposal };
 
   return (
@@ -402,6 +418,7 @@ export const ProposalContainer = ({
           : renderTabs(t, { id, summaryProps, guestInfoProps })}
       </StyledProposalContainer>
       {renderPDFModal(t, { id, showPDF, setShowPDF, guestsDetails })}
+      {showLatestPDF && renderLatestPDFModal(proposal.id, latestPdfUrl, setShowLatestPDF)}
     </Loader>
   );
 };

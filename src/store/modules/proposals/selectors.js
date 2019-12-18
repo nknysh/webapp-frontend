@@ -1,4 +1,4 @@
-import { defaultTo, prop, pipe, propOr, values, reduce, length, gte, mergeDeepRight } from 'ramda';
+import { defaultTo, prop, pipe, propOr, values, reduce, mergeDeepRight } from 'ramda';
 
 import { getArg, getEntities, getData, getStatus, getResults, getErrors } from 'store/common';
 import { createSelector } from 'store/utils';

@@ -117,11 +117,30 @@ export const fetchProposal = (id, params) => async dispatch => {
     // Extract the bookings and trigger the `setBookings` action
     const bookings = pathOr({}, ['entities', 'bookings'], data);
 
+    const proposalsWithPotentialFlag = Object.keys(proposal.entities.proposals).reduce((acc, proposalKey) => {
+      acc[proposalKey] = {
+        ...proposal.entities.proposals[proposalKey],
+        containsPotentialBookings: someBookingsArePotential(
+          proposal.entities.proposals[proposalKey].bookings,
+          bookings
+        ),
+      };
+      return acc;
+    }, {});
+
+    proposal.entities.proposals = proposalsWithPotentialFlag;
+
     dispatch(setBookings(bookings));
     dispatch(successAction(PROPOSAL_FETCH, proposal));
   } catch (e) {
     dispatch(errorFromResponse(PROPOSAL_FETCH, e, 'There was a problem fetching proposal.'));
   }
+};
+
+const someBookingsArePotential = (bookingKeys, bookings) => {
+  return bookingKeys.reduce((res, key) => {
+    return bookings[key].status === 'potential' ? true : res;
+  }, false);
 };
 
 /**
