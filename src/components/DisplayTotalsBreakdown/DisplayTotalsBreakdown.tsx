@@ -42,10 +42,11 @@ export interface IDisplayTotalsBreakdownProps {
   className?: string;
   currencyCode: string;
   displayTotals: IDisplayTotals;
+  overrideTotal?: string;
 }
 
 export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
-  const { t, currencyCode } = props;
+  const { t, currencyCode, overrideTotal } = props;
   const displayTotals: IDisplayTotals = props.displayTotals;
 
   const PriceBreakdown = props => {
@@ -140,7 +141,7 @@ export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
 
         <TotalSectionColumn>
           <PriceBreakdown
-            total={displayTotals.totals.total}
+            total={overrideTotal || displayTotals.totals.total}
             totalBeforeDiscount={displayTotals.totals.totalBeforeDiscount}
             oneOrMoreItemsOnRequest={displayTotals.totals.oneOrMoreItemsOnRequest}
           />

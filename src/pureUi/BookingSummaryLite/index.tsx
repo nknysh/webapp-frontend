@@ -28,11 +28,12 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
         t={t}
         currencyCode={currencySymbol as string}
         displayTotals={props.booking.breakdown.displayTotals}
+        overrideTotal={props.booking.overrideTotal || undefined}
       />
 
       {margin > 0 && !marginTypeIsPercent && (
         <React.Fragment>
-          <hr />
+          <hr className="mt-4 mb-2" />
           <p className="margin">
             Your current margin will be {currencySymbol}
             {formatPrice(marginValue)}
@@ -42,7 +43,7 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
 
       {!priceIsOnRequest && margin > 0 && marginTypeIsPercent && (
         <React.Fragment>
-          <hr />
+          <hr className="mt-4 mb-2" />
           <p className="margin">
             Your current margin will be {currencySymbol}
             {formatPrice(marginValue)}, {margin}% of the total cost shown above
@@ -53,11 +54,23 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
       {true && (
         <React.Fragment>
           <div className="mt-4 comments">
-            <hr />
+            <hr className="mb-4" />
             <strong>
               <label>Booking Comments</label>
             </strong>
             <p>These are some booking comments</p>
+          </div>
+        </React.Fragment>
+      )}
+
+      {true && (
+        <React.Fragment>
+          <div className="mt-4 comments">
+            <hr className="mb-4" />
+            <strong>
+              <label>Internal Comments</label>
+            </strong>
+            <p>These are some internal comments</p>
           </div>
         </React.Fragment>
       )}
