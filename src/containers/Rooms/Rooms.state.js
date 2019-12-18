@@ -13,7 +13,6 @@ import {
   getBooking,
   getBookingCurrencySymbol,
   updateBooking,
-  removeRoom,
 } from 'store/modules/bookings';
 
 import { offersQuerySelector } from 'store/modules/fastSearch';

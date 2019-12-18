@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, Fragment, useCallback } from 'react';
+import React, { useRef, Fragment, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { equals, compose, prop, path, pick, over, lensProp, take } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';

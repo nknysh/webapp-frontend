@@ -24,7 +24,9 @@ const client = axios.create({
  */
 const useInterceptor = curry((type, interceptor) => client.interceptors[type].use(interceptor));
 
-map(useInterceptor('request'), middleware.request);
-map(useInterceptor('response'), middleware.response);
+// TODO: You can't use a hook like this so something is probably broken, but we should transition off this
+// API service anyway.
+map(useInterceptor('request'), middleware.request); //eslint-disable-line
+map(useInterceptor('response'), middleware.response); //eslint-disable-line
 
 export default client;

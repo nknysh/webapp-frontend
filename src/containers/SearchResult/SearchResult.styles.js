@@ -29,7 +29,7 @@ export const CardChipAvailability = styled(Chip)`
 export const CardPrice = styled(Card.Price)``;
 
 export const CardDetails = styled.div`
-  padding ${theme.spacing.gutter * 2}px;
+  padding: ${theme.spacing.gutter * 2}px;
 `;
 
 export const CardTitle = styled(Card.Title)`
@@ -46,15 +46,15 @@ export const CardText = styled.div`
 `;
 
 export const CardPreferred = styled.div`
-    background: ${theme.palette.primary};
-    font-size: ${theme.fonts.sizes.normal}px;
-    font-weight: ${theme.fonts.bold};
-    position: absolute;
-    top:0;
-    left: ${theme.spacing.gutter * 2}px;
-    padding ${theme.spacing.gutter}px ${theme.spacing.gutter * 2}px;
-    color: ${theme.colors.white};
-    text-transform: uppercase;
+  background: ${theme.palette.primary};
+  font-size: ${theme.fonts.sizes.normal}px;
+  font-weight: ${theme.fonts.bold};
+  position: absolute;
+  top: 0;
+  left: ${theme.spacing.gutter * 2}px;
+  padding: ${theme.spacing.gutter}px ${theme.spacing.gutter * 2}px;
+  color: ${theme.colors.white};
+  text-transform: uppercase;
 `;
 
 export const CardCta = styled.div`

@@ -9,16 +9,7 @@ import {
 import { getCurrentCountry } from 'store/modules/auth';
 
 import {
-  getBookingAddons,
   getBookingCurrencySymbol,
-  getBookingGroundServices,
-  getBookingReady,
-  getBookingRequestedFines,
-  getBookingRequestedGroundServices,
-  getBookingRequestedSupplements,
-  getBookingRequestedTransfers,
-  getBookingTotal,
-  getBookingTransfers,
   getBookingTravelAgent,
   replaceProducts,
   updateBooking,

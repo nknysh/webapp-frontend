@@ -84,15 +84,6 @@ describe('bookingBuilder utils', () => {
   // TODO investigate better method of testing DOM nodes
   describe.skip('getNightsBreakdownForDates', () => {
     it('should calculate nights and dates', () => {
-      console.log(
-        JSON.stringify(
-          (
-            <span>
-              <strong>7 nights</strong> | 6th Dec 2019 - 13th Dec 2019
-            </span>
-          ).toString()
-        )
-      );
       // expect(getNightsBreakdownForDates('2019-12-06', '2019-12-13')).toEqual(
       //   // '7 nights | 6th Dec 2019 - 13th Dec 2019'
       //   console.log(JSON.stringify(<span>

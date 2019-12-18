@@ -24,7 +24,6 @@ import {
   omit,
   over,
   partial,
-  partialRight,
   path,
   pathEq,
   pathOr,
@@ -46,7 +45,7 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
-import { addDays, subDays } from 'date-fns';
+import { addDays } from 'date-fns';
 
 import { BOOKINGS_ON_REQUEST } from 'config';
 import { ProductTypes, Occassions } from 'config/enums';

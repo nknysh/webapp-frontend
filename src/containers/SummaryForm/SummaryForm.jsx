@@ -458,7 +458,6 @@ export const SummaryForm = props => {
     summaryOnly,
     accommodationEditModalErrors,
     actingCountryCode,
-    bookingDomain,
   } = props;
 
   const backendApi = makeBackendApi(actingCountryCode);

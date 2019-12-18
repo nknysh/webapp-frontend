@@ -7,7 +7,6 @@ import { createCancelToken, wasCancelled } from 'api/helpers';
 import { successAction, errorFromResponse } from 'store/common';
 import { index } from 'store/modules/indexes/actions';
 import { getUserCountryContext } from 'store/modules/auth/selectors';
-import { populateBookingBulk } from 'store/modules/bookings/actions';
 
 import { getHotelsEntities } from './selectors';
 import schema from './schema';

@@ -873,10 +873,12 @@ export const SummaryFormExtras = ({
 }) => {
   const { t } = useTranslation();
 
+  // TODO: You absolutely SHOULD NOT use hooks conditionally. So this is broken, we've just not
+  // hit the bug yet.
   const hasTASelect = isSr && !isRl;
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const travelAgentsLoaded =
     hasTASelect &&
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useFetchData(
       travelAgentsStatus,
       () => fetchTravelAgents(currentCountry ? { actingCountryCode: currentCountry } : {}),

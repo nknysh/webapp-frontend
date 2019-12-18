@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useCallback } from 'react';
+import React, { Fragment } from 'react';
 import { equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { Input, Select } from '@pure-escapes/webapp-ui-components';

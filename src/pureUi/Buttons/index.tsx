@@ -96,7 +96,7 @@ export const Tab = styled.button`
   text-transform: uppercase;
 `;
 
-export const LinkButton = styled<LinkProps>(Link)`
+export const LinkButton = styled(Link)<LinkProps>`
   ${baseButtonStyles};
   text-align: center;
   color: ${pureUiTheme.colors.white} !important; /* Something somewhere is leaking styles for link colors */
