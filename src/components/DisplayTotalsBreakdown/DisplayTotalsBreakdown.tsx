@@ -3,12 +3,9 @@ import { formatPrice } from 'utils';
 import styled from 'styled-components';
 
 import {
-  OfferSpan,
-  //   TotalBreakdownSpan,
   Price,
   TotalSection,
   TotalSectionColumn,
-  GrandTotalLabel,
   LabelRed,
 } from '../AggregateTotalsBreakdown/AggregateTotalsBreakdown.styles';
 

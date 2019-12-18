@@ -30,18 +30,37 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
         displayTotals={props.booking.breakdown.displayTotals}
       />
 
-      <p className="margin">
-        {margin > 0 &&
-          !marginTypeIsPercent &&
-          `Your current margin will be ${currencySymbol}${formatPrice(marginValue)}`}
+      {margin > 0 && !marginTypeIsPercent && (
+        <React.Fragment>
+          <hr />
+          <p className="margin">
+            Your current margin will be {currencySymbol}
+            {formatPrice(marginValue)}
+          </p>
+        </React.Fragment>
+      )}
 
-        {!priceIsOnRequest &&
-          margin > 0 &&
-          marginTypeIsPercent &&
-          `Your current margin will be ${currencySymbol}${formatPrice(
-            marginValue
-          )}, ${margin}% of the total cost shown above`}
-      </p>
+      {!priceIsOnRequest && margin > 0 && marginTypeIsPercent && (
+        <React.Fragment>
+          <hr />
+          <p className="margin">
+            Your current margin will be {currencySymbol}
+            {formatPrice(marginValue)}, {margin}% of the total cost shown above
+          </p>
+        </React.Fragment>
+      )}
+
+      {true && (
+        <React.Fragment>
+          <div className="mt-4 comments">
+            <hr />
+            <strong>
+              <label>Booking Comments</label>
+            </strong>
+            <p>These are some booking comments</p>
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 };
@@ -51,10 +70,20 @@ export default styled(BookingSummaryLite)`
   padding: 20px;
   margin-bottom: 35px;
 
+  .comments {
+    font-size: 14px;
+    color: ${pureUiTheme.colors.black};
+
+    label {
+      text-transform: uppercase;
+      color: ${pureUiTheme.colorRoles.grayLabel};
+      font-weight: bold;
+    }
+  }
+
   .margin {
     font-size: 12px;
     color: ${pureUiTheme.colors.black};
-    border-top: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
     padding: 20px 0 0;
   }
 `;
