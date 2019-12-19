@@ -1156,7 +1156,7 @@ export const SummaryFormExtras = ({
       modalContent = '';
   }
 
-  const totalCents = booking?.response?.aggregateTotals?.Total?.totalForPricedItemsCents | 0;
+  const totalCents = booking?.response?.totals?.totalForPricedItemsCents | 0;
 
   return (
     <Fragment>

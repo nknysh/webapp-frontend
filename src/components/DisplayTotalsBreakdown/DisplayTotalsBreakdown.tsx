@@ -2,12 +2,7 @@ import React from 'react';
 import { formatPrice } from 'utils';
 import styled from 'styled-components';
 
-import {
-  Price,
-  TotalSection,
-  TotalSectionColumn,
-  LabelRed,
-} from '../AggregateTotalsBreakdown/AggregateTotalsBreakdown.styles';
+import { Price, TotalSection, TotalSectionColumn, LabelRed } from './DisplayTotalsBreakdown.styles';
 
 interface IItem {
   title: string;

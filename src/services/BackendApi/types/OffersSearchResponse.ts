@@ -505,16 +505,7 @@ export interface BookingBuilderResponse {
   hotel: Hotel;
   totals: Totals;
   minimumNightsReview: boolean;
-  aggregateTotals: AggregateTotals;
   displayTotals: IDisplayTotalsBreakdown;
-}
-
-export interface AggregateTotals {
-  Total: AggregateRecord;
-  Accommodation: AggregateRecord;
-  'Meal Plan': AggregateRecord;
-  Supplement: AggregateRecord;
-  Transfer: AggregateRecord;
 }
 
 export interface AggregateRecord {

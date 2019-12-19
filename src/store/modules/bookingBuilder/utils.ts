@@ -106,13 +106,6 @@ export const makeBookingBuilderStub = (hotelResponse): BookingBuilder => {
         totalBeforeDiscount: '0.00',
       },
       minimumNightsReview: false,
-      aggregateTotals: {
-        Total: makeStubAggregateRecord('Total'),
-        Accommodation: makeStubAggregateRecord('Accommodation'),
-        'Meal Plan': makeStubAggregateRecord('Meal Plan'),
-        Supplement: makeStubAggregateRecord('Supplement'),
-        Transfer: makeStubAggregateRecord('Transfer'),
-      },
     },
     request: {
       startDate: getDefaultSearchAndBookingStartDate(),
