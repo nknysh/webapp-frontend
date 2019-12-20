@@ -65,6 +65,8 @@ import {
   dateRangeChangeAction,
 } from 'store/modules/fastSearch';
 
+import { getUserCountryContext } from 'store/modules/auth';
+
 export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
   componentDidMount() {
     if (!this.props.searchOptions) {
@@ -83,6 +85,12 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     if (this.props.searchResults && this.props.queryHasChanged) {
       this.props.getOffers(this.props.searchQuery);
       clearBookingBuilderAction();
+    }
+  }
+
+  componentDidUpdate(prevProps){
+    if(this.props.actingCountryCode !== prevProps.actingCountryCode) {
+      this.props.getOffers(this.props.searchQuery);
     }
   }
 
@@ -303,6 +311,7 @@ const mapStateToProps = createStructuredSelector({
   isRepeatGuest: isRepeatGuestSelector,
   queryHasChanged: queryHasChangedSelector,
   canSearch: canSearchSelector,
+  actingCountryCode: getUserCountryContext
 });
 
 const actionCreators = {
