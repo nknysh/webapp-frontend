@@ -61,10 +61,7 @@ const ViewTypes = {
   RESORTS: 'resorts',
 };
 
-const reloadIfMissing = pipe(
-  propOr([], 'bookings'),
-  isEmpty
-);
+const reloadIfMissing = pipe(propOr([], 'bookings'), isEmpty);
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 
@@ -108,8 +105,12 @@ const renderBookings = bookings => {
 const renderProposalGuestForm = (
   t,
   { isMobile, isGenerateView, proposal, onGenerateAndSend, onPreviewPDF, onPreviewLatestPdf, pdfCount }
-) =>
-  (!isMobile || isGenerateView) && (
+) => {
+  if (!(!isMobile || isGenerateView)) {
+    return;
+  }
+
+  return (
     <ProposalGuestForm>
       <BookingForm
         onSubmit={onGenerateAndSend}
@@ -145,6 +146,7 @@ const renderProposalGuestForm = (
       </ProposalGuestFormNotes>
     </ProposalGuestForm>
   );
+};
 
 const renderStatusStrip = (t, { createdAt, isEdit }) =>
   !isEdit && (
@@ -153,7 +155,7 @@ const renderStatusStrip = (t, { createdAt, isEdit }) =>
     </StatusStrip>
   );
 
-const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal }) =>
+const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal, pdfCount, onPreviewLatestPdf }) =>
   !isEdit && (
     <Fragment>
       {isMobile && renderStatusStrip(t, { isEdit, ...proposal })}
@@ -164,6 +166,14 @@ const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal }) =>
 
         {!isNilOrEmpty(prop('comments', proposal)) && (
           <Section label={t('comment_plural')}>{prop('comments', proposal)}</Section>
+        )}
+
+        {pdfCount > 0 && (
+          <Section label="Uploads">
+            <BookingFormAction type="button" onClick={onPreviewLatestPdf} data-secondary>
+              See last sent PDF
+            </BookingFormAction>
+          </Section>
         )}
       </ProposalGuestInfo>
     </Fragment>
@@ -277,7 +287,7 @@ export const ProposalContainer = ({
   }, [status]);
 
   useEffectBoundary(() => {
-    booked && (isSuccess(status) && setBookingComplete(true));
+    booked && isSuccess(status) && setBookingComplete(true);
   }, [status]);
 
   const onMobileNavClick = useCallback(() => setView(ViewTypes.RESORTS), []);
@@ -396,7 +406,7 @@ export const ProposalContainer = ({
     onPreviewLatestPdf,
     pdfCount: pdfs.length,
   };
-  const guestInfoProps = { isMobile, isGenerateView, isEdit, proposal };
+  const guestInfoProps = { isMobile, isGenerateView, isEdit, proposal, onPreviewLatestPdf, pdfCount: pdfs.length };
 
   return (
     <Loader isLoading={sending || loading} text={sending ? t('messages.requesting') : t('messages.gettingProposal')}>
@@ -426,7 +436,4 @@ export const ProposalContainer = ({
 ProposalContainer.propTypes = propTypes;
 ProposalContainer.defaultProps = defaultProps;
 
-export default compose(
-  connect,
-  WithBookings
-)(ProposalContainer);
+export default compose(connect, WithBookings)(ProposalContainer);
