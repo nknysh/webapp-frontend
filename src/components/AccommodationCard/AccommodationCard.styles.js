@@ -20,13 +20,12 @@ export default styled(AccommodationCard)`
 
   .canHold {
     background: white;
-    position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
+    margin-top: 1rem;
+    margin-left: 2rem;
     padding: 0.5rem;
-    margin: 0;
     text-transform: uppercase;
     color: ${theme.palette.primary};
+    width: fit-content;
   }
 
   img {
