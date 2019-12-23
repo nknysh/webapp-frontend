@@ -8,7 +8,7 @@ import { formatPrice, calculatePercentage, getCurrencySymbol } from 'utils';
 import { LinkButton } from 'pureUi/Buttons/index';
 
 export interface IBookingSummaryLiteProps {
-  className: string;
+  className?: string;
   booking: any;
   t: (key: string) => string;
 }
@@ -23,7 +23,7 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
   const marginValue = marginTypeIsPercent ? (totalCents / 100) * (margin / 100) : margin;
   const currencySymbol = getCurrencySymbol(breakdown.currency);
   return (
-    <div className={props.className}>
+    <div className={props.className ? props.className : ''}>
       <Heading2>{props.booking.hotelName}</Heading2>
       <DisplayTotalsBreakdown
         t={t}

@@ -38,7 +38,10 @@ export const UPDATE_TA_MARGIN_AMOUNT_ACTION = 'bookingBuilder/UPDATE_TA_MARGIN_A
 
 export const UPDATE_IS_TA_MARGIN_APPLIED_ACTION = 'bookingBuilder/UPDATE_IS_TA_MARGIN_APPLIED_ACTION';
 
+export const UPDATE_BOOKING_GUEST_INFORMATION_ACTION = 'bookingBuilder/UPDATE_BOOKING_GUEST_INFORMATION_ACTION';
 export const CLEAR_BOOKING_BUILDER_UI_STATE = 'bookingBuilder/CLEAR_BOOKING_BUILDER_UI_STATE';
+
+export const UPDATE_TRAVEL_AGENT_USER_ID = 'bookingBuilder/UPDATE_TRAVEL_AGENT_USER_ID';
 
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
@@ -193,9 +196,22 @@ export const updateIsTAMarginAppliedAction = (hotelUuid: string, value: boolean)
   value,
 });
 
+export type UpdateBookingGuestInformationAction = ReturnType<typeof updateBookingGuestInformationAction>;
+export const updateBookingGuestInformationAction = (bookingGuestInformation: any) => ({
+  type: UPDATE_BOOKING_GUEST_INFORMATION_ACTION as typeof UPDATE_BOOKING_GUEST_INFORMATION_ACTION,
+  bookingGuestInformation,
+});
+
 export type ResetBookingBuilderUiStateAction = ReturnType<typeof resetBookingBuilderUiStateAction>;
 export const resetBookingBuilderUiStateAction = () => ({
   type: CLEAR_BOOKING_BUILDER_UI_STATE as typeof CLEAR_BOOKING_BUILDER_UI_STATE,
+});
+
+export type UpdateBookingTravelAgentUserIdAction = ReturnType<typeof updateBookingTravelAgentUserIdAction>;
+export const updateBookingTravelAgentUserIdAction = (hotelUuid: string, travelAgentUserUuid: string) => ({
+  type: UPDATE_TRAVEL_AGENT_USER_ID as typeof UPDATE_TRAVEL_AGENT_USER_ID,
+  hotelUuid,
+  travelAgentUserUuid,
 });
 
 export type BookingBuilderAction =
@@ -218,4 +234,6 @@ export type BookingBuilderAction =
   | UpdateTAMarginType
   | UpdateTAMarginAmount
   | UpdateIsTAMarginAppliedAction
-  | ResetBookingBuilderUiStateAction;
+  | UpdateBookingGuestInformationAction
+  | ResetBookingBuilderUiStateAction
+  | UpdateBookingTravelAgentUserIdAction;

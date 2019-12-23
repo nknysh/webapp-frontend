@@ -36,7 +36,7 @@ export const useEffectBoundary = (effect, params = []) =>
  * @param {string} initialContext
  * @returns {object}
  */
-export const useModalState = (initialValue, initialContext) => {
+export const useModalState = (initialValue = false, initialContext = undefined) => {
   const [modalOpen, setModalOpen] = useState(initialValue);
   const [modalContext, setModalContext] = useState(initialContext);
 

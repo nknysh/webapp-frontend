@@ -75,6 +75,8 @@ import {
   getBookingsCreated,
   getBookingRoomsById,
 } from './selectors';
+import { makeBackendApi } from 'services/BackendApi';
+
 import { addFinalDayToBooking } from './utils';
 
 export const BOOKING_AMEND = 'BOOKING_AMEND';
@@ -167,10 +169,7 @@ const allHaveStartAndEndDate = all(hasStartAndEndDate);
 const hasAccommodation = allPass([
   // Has acommodation product key
   propIsNotEmptyOrNil(ProductTypes.ACCOMMODATION),
-  pipe(
-    propOr([], ProductTypes.ACCOMMODATION),
-    allHaveStartAndEndDate
-  ),
+  pipe(propOr([], ProductTypes.ACCOMMODATION), allHaveStartAndEndDate),
 ]);
 
 /**
@@ -364,23 +363,13 @@ export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
   }
 
   // concat the new room into the Accommodation object
-  const next = overProducts(
-    ProductTypes.ACCOMMODATION,
-    pipe(
-      defaultTo([]),
-      concat(__, newRoomToBeAdded)
-    ),
-    booking
-  );
+  const next = overProducts(ProductTypes.ACCOMMODATION, pipe(defaultTo([]), concat(__, newRoomToBeAdded)), booking);
 
   // Update booking first to trigger BB call, which will pull down meal plans
   await dispatch(updateBooking(hotelUuid, pick(['breakdown'], next)));
 
   // Format meal plan so it's all uppercase
-  const mealPlan = pipe(
-    getSearchMealPlan,
-    when(complement(isNilOrEmpty), toUpper)
-  )(state);
+  const mealPlan = pipe(getSearchMealPlan, when(complement(isNilOrEmpty), toUpper))(state);
 
   // If there is a meal plan, then we need to attach those as sub products
   if (!isNilOrEmpty(mealPlan)) {
@@ -388,14 +377,7 @@ export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
     const roomMealPlans = getBookingMealPlanForRoomByType(state, hotelUuid, roomUuid, mealPlan);
 
     // Get the selected meal plans
-    const selectedMealPlans = map(
-      pipe(
-        reduce(reduceMealPlans, []),
-        uniq,
-        map(objOf('uuid'))
-      ),
-      roomMealPlans
-    );
+    const selectedMealPlans = map(pipe(reduce(reduceMealPlans, []), uniq, map(objOf('uuid'))), roomMealPlans);
 
     // This is current booking that will be manipulated
     const nextBooking = getBooking(state, hotelUuid);
@@ -452,14 +434,7 @@ export const updateRoom = (id, uuid, payload) => (dispatch, getState) => {
   )(accommodations);
 
   // Replace the rooms with new data
-  const next = overProducts(
-    ProductTypes.ACCOMMODATION,
-    pipe(
-      reject(whereUuid),
-      concat(rooms)
-    ),
-    booking
-  );
+  const next = overProducts(ProductTypes.ACCOMMODATION, pipe(reject(whereUuid), concat(rooms)), booking);
 
   dispatch(updateBooking(id, pick(['breakdown'], next)));
 };
@@ -587,14 +562,7 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
     touched: false,
   };
 
-  const nextState = over(
-    lensPath(['bookings', 'data', id]),
-    pipe(
-      defaultTo({}),
-      mergeDeepLeft(nextBooking)
-    ),
-    state
-  );
+  const nextState = over(lensPath(['bookings', 'data', id]), pipe(defaultTo({}), mergeDeepLeft(nextBooking)), state);
 
   const bookingBuilderPayload = getBookingForBuilderPure(nextState, id);
 
@@ -632,6 +600,7 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
       nextBooking.hotelName = path(['hotel', 'name'], breakdown);
     }
   } catch (e) {
+    console.error(`Error ${e}`);
     dispatch(errorFromResponse(BOOKING_UPDATE, e, 'Could not update booking. Please try again later.'));
     return;
   }
@@ -672,21 +641,10 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
     omit(omitProps),
     // Extract the special request keys and only use
     // ones that are true
-    over(
-      lensProp('specialRequests'),
-      pipe(
-        pickBy(equals(true)),
-        keys
-      )
-    ),
+    over(lensProp('specialRequests'), pipe(pickBy(equals(true)), keys)),
     toPairs,
     // Filter out empty keys
-    reject(
-      pipe(
-        last,
-        isNil
-      )
-    ),
+    reject(pipe(last, isNil)),
     fromPairs
   )(booking);
 
@@ -707,6 +665,7 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
     } = await client.createBooking({ data: { attributes: finalPayload } });
     dispatch(successAction(BOOKING_SUBMIT, { id, data }));
   } catch (e) {
+    console.error(`Error ${e}`);
     dispatch(errorFromResponse(BOOKING_SUBMIT, e, 'There was a problem creating your booking.'));
   }
 };
@@ -837,6 +796,36 @@ export const holdBooking = id => async dispatch => {
     dispatch(successAction(BOOKING_HOLD, {}));
   } catch (e) {
     dispatch(errorFromResponse(BOOKING_HOLD, e, `There was taking holds for booking '${id}'.`));
+  }
+};
+
+export const addHoldToBooking = (id, holdHours = undefined) => async dispatch => {
+  dispatch(genericAction(BOOKING_HOLD, id));
+
+  const backendApi = makeBackendApi(null);
+
+  try {
+    await backendApi.addHoldToBooking(id, holdHours);
+
+    dispatch(fetchBooking(id));
+    dispatch(successAction(BOOKING_HOLD, {}));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_HOLD, e, `There was an error taking holds for booking '${id}'.`));
+  }
+};
+
+export const releaseHoldFromBooking = id => async dispatch => {
+  dispatch(genericAction(BOOKING_HOLD, id));
+
+  const backendApi = makeBackendApi(null);
+
+  try {
+    await backendApi.releaseHoldFromBooking(id);
+
+    dispatch(fetchBooking(id));
+    dispatch(successAction(BOOKING_HOLD, {}));
+  } catch (e) {
+    dispatch(errorFromResponse(BOOKING_HOLD, e, `There was an error releasing holds for booking '${id}'.`));
   }
 };
 
@@ -1023,10 +1012,7 @@ export const fetchBookings = params => async dispatch => {
             // Add the final day to internal dates
             over(
               lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]),
-              pipe(
-                defaultTo([]),
-                map(dateEvolve)
-              )
+              pipe(defaultTo([]), map(dateEvolve))
             )
           )
         )
@@ -1035,10 +1021,7 @@ export const fetchBookings = params => async dispatch => {
     );
 
     // Get users entities from payload by removing bookings entities and result
-    const users = pipe(
-      dissocPath(['entities', 'bookings']),
-      dissocPath(['result'])
-    )(bookings);
+    const users = pipe(dissocPath(['entities', 'bookings']), dissocPath(['result']))(bookings);
 
     await dispatch(successAction(USERS_FETCH, users));
     dispatch(successAction(BOOKINGS_FETCH, path(['entities', 'bookings'], bookings)));
@@ -1323,7 +1306,14 @@ export const updateBookingOccasions = (hotelUuid, lodgingIndex, occasions) => as
   return updateBooking(hotelUuid, payload)(dispatch, getState);
 };
 
-export const backwardCompatBookingBuilderAction = (hotelUuid, request, response, marginType, marginAmount) => {
+export const backwardCompatBookingBuilderAction = (
+  hotelUuid,
+  request,
+  response,
+  marginType,
+  marginAmount,
+  travelAgentUserUuid
+) => {
   return {
     type: BACKWARDS_COMPAT,
     payload: {
@@ -1332,6 +1322,7 @@ export const backwardCompatBookingBuilderAction = (hotelUuid, request, response,
       response,
       marginType,
       marginAmount,
+      travelAgentUserUuid,
     },
   };
 };

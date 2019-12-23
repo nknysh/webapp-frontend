@@ -7,35 +7,24 @@ import { filterByObjectProperties, formatPrice } from 'utils';
 
 export const bookingBuilderDomain = (state: any): BookingBuilderDomain => state.bookingBuilder;
 
-export const bookingSelector = createSelector(
-  bookingBuilderDomain,
-  domain => domain
-);
+export const bookingSelector = createSelector(bookingBuilderDomain, domain => domain);
 
-export const bookingBuilderSelector = createSelector(
-  bookingBuilderDomain,
-  domain => {
-    return domain.currentBookingBuilder;
-  }
-);
+export const bookingBuilderSelector = createSelector(bookingBuilderDomain, domain => {
+  return domain.currentBookingBuilder;
+});
 
-export const bookingRequestSelector = createSelector(
-  bookingBuilderSelector,
-  (booking): BookingBuilderRequest | undefined => {
-    return booking ? booking.request : undefined;
-  }
-);
+export const bookingRequestSelector = createSelector(bookingBuilderSelector, (booking):
+  | BookingBuilderRequest
+  | undefined => {
+  return booking ? booking.request : undefined;
+});
 
-export const bookingResponseSelector = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    return booking ? booking.response : undefined;
-  }
-);
+export const bookingResponseSelector = createSelector(bookingBuilderSelector, booking => {
+  return booking ? booking.response : undefined;
+});
 
-export const bookingAvailableProductsSelector = createSelector(
-  bookingResponseSelector,
-  response => (response ? response.availableProductSets : undefined)
+export const bookingAvailableProductsSelector = createSelector(bookingResponseSelector, response =>
+  response ? response.availableProductSets : undefined
 );
 
 export const bookingAvailableAccommodationsSelector = createSelector(
@@ -59,15 +48,12 @@ export const bookingAvailableGroundServicesSelector = createSelector(
   }
 );
 
-export const bookingAvailableAddonsSelector = createSelector(
-  bookingAvailableProductsSelector,
-  availableProducts => {
-    if (!availableProducts) {
-      return [];
-    }
-    return flatten([availableProducts[ProductTypes.SUPPLEMENT], availableProducts[ProductTypes.FINE]]);
+export const bookingAvailableAddonsSelector = createSelector(bookingAvailableProductsSelector, availableProducts => {
+  if (!availableProducts) {
+    return [];
   }
-);
+  return flatten([availableProducts[ProductTypes.SUPPLEMENT], availableProducts[ProductTypes.FINE]]);
+});
 
 export const bookingAvailableSupplementsSelector = createSelector(
   bookingAvailableProductsSelector,
@@ -79,87 +65,63 @@ export const bookingAvailableSupplementsSelector = createSelector(
   }
 );
 
-export const bookingAvailableFinesSelector = createSelector(
-  bookingAvailableProductsSelector,
-  availableProducts => {
-    if (!availableProducts) {
-      return [];
-    }
-    return availableProducts[ProductTypes.FINE];
+export const bookingAvailableFinesSelector = createSelector(bookingAvailableProductsSelector, availableProducts => {
+  if (!availableProducts) {
+    return [];
   }
-);
+  return availableProducts[ProductTypes.FINE];
+});
 
-export const bookingRequestedAccommodationsSelector = createSelector(
-  bookingRequestSelector,
-  request => {
-    return request && request[ProductTypes.ACCOMMODATION] ? request[ProductTypes.ACCOMMODATION] : [];
+export const bookingRequestedAccommodationsSelector = createSelector(bookingRequestSelector, request => {
+  return request && request[ProductTypes.ACCOMMODATION] ? request[ProductTypes.ACCOMMODATION] : [];
+});
+
+export const bookingRequestedTransfersSelector = createSelector(bookingRequestSelector, request => {
+  return request && request[ProductTypes.TRANSFER] ? request[ProductTypes.TRANSFER] : [];
+});
+
+export const bookingRequestedGroundServicesSelector = createSelector(bookingBuilderSelector, booking => {
+  if (!booking || !booking.request) {
+    return [];
   }
-);
 
-export const bookingRequestedTransfersSelector = createSelector(
-  bookingRequestSelector,
-  request => {
-    return request && request[ProductTypes.TRANSFER] ? request[ProductTypes.TRANSFER] : [];
+  return booking.request && booking.request[ProductTypes.GROUND_SERVICE]
+    ? booking.request[ProductTypes.GROUND_SERVICE]
+    : [];
+});
+
+export const bookingRequestedSupplementsSelector = createSelector(bookingBuilderSelector, booking => {
+  if (!booking || !booking.request) {
+    return [];
   }
-);
+  return booking.request && booking.request[ProductTypes.SUPPLEMENT] ? booking.request[ProductTypes.SUPPLEMENT] : [];
+});
 
-export const bookingRequestedGroundServicesSelector = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking || !booking.request) {
-      return [];
-    }
-
-    return booking.request && booking.request[ProductTypes.GROUND_SERVICE]
-      ? booking.request[ProductTypes.GROUND_SERVICE]
-      : [];
+export const bookingRequestedFinesSelector = createSelector(bookingBuilderSelector, booking => {
+  if (!booking || !booking.request) {
+    return [];
   }
-);
-
-export const bookingRequestedSupplementsSelector = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking || !booking.request) {
-      return [];
-    }
-    return booking.request && booking.request[ProductTypes.SUPPLEMENT] ? booking.request[ProductTypes.SUPPLEMENT] : [];
-  }
-);
-
-export const bookingRequestedFinesSelector = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking || !booking.request) {
-      return [];
-    }
-    return booking.request && booking.request[ProductTypes.FINE] ? booking.request[ProductTypes.FINE] : [];
-  }
-);
+  return booking.request && booking.request[ProductTypes.FINE] ? booking.request[ProductTypes.FINE] : [];
+});
 
 // TODO
 // look at getBookingReady in `src/store/modules/bookings/selectors.js`
 // this selector should care about SR state and travel agent
-export const bookingCanBookSelector = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking) {
-      return false;
-    }
-
-    return !booking.response.mustStop && booking.response.canBeBooked;
+export const bookingCanBookSelector = createSelector(bookingBuilderSelector, booking => {
+  if (!booking) {
+    return false;
   }
-);
 
-export const bookingCanHoldSelector = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking) {
-      return false;
-    }
+  return !booking.response.mustStop && booking.response.canBeBooked;
+});
 
-    return booking.response.availableToHold;
+export const bookingCanHoldSelector = createSelector(bookingBuilderSelector, booking => {
+  if (!booking) {
+    return false;
   }
-);
+
+  return booking.response.availableToHold;
+});
 
 /**
  * HACKS AHEAD
@@ -173,147 +135,127 @@ export const bookingCanHoldSelector = createSelector(
  * we don't know why
  * that should be investigated
  */
-export const bookingRequestedTransfersBreakdownSelector = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking) {
-      return [];
-    }
-
-    const selectedTransfers =
-      booking && booking.request && booking.request[ProductTypes.TRANSFER]
-        ? clone(booking.request[ProductTypes.TRANSFER])
-        : [];
-    const availableTransfers = clone(booking.response.availableProductSets.Transfer);
-
-    const tempAvailableProducts = flatten(
-      availableTransfers.map(transfer => {
-        return (transfer.products = transfer.products.map(product => {
-          return {
-            ...product,
-            direction: transfer.meta && transfer.meta.direction ? transfer.meta.direction : undefined,
-            nameWithDirection: `${product.name} (${
-              transfer.meta && transfer.meta.direction ? transfer.meta.direction : 'Return'
-            })`,
-          };
-        }));
-      })
-    );
-
-    const selectedTransferProducts = filterByObjectProperties(tempAvailableProducts, selectedTransfers, [
-      'uuid',
-      'direction',
-    ]);
-
-    if (selectedTransferProducts.length >= 1) {
-      return selectedTransferProducts.map(stp => stp.nameWithDirection).join(' & ');
-    }
-
-    return 'None selected';
+export const bookingRequestedTransfersBreakdownSelector = createSelector(bookingBuilderSelector, booking => {
+  if (!booking) {
+    return [];
   }
-);
 
-export const bookingResponseAllErrors = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking || !booking.response.errors) {
-      return [];
-    }
-    return booking.response.errors;
+  const selectedTransfers =
+    booking && booking.request && booking.request[ProductTypes.TRANSFER]
+      ? clone(booking.request[ProductTypes.TRANSFER])
+      : [];
+  const availableTransfers = clone(booking.response.availableProductSets.Transfer);
+
+  const tempAvailableProducts = flatten(
+    availableTransfers.map(transfer => {
+      return (transfer.products = transfer.products.map(product => {
+        return {
+          ...product,
+          direction: transfer.meta && transfer.meta.direction ? transfer.meta.direction : undefined,
+          nameWithDirection: `${product.name} (${
+            transfer.meta && transfer.meta.direction ? transfer.meta.direction : 'Return'
+          })`,
+        };
+      }));
+    })
+  );
+
+  const selectedTransferProducts = filterByObjectProperties(tempAvailableProducts, selectedTransfers, [
+    'uuid',
+    'direction',
+  ]);
+
+  if (selectedTransferProducts.length >= 1) {
+    return selectedTransferProducts.map(stp => stp.nameWithDirection).join(' & ');
   }
-);
 
-export const bookingResponseNonAccommodationErrors = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking || !booking.response.errors) {
-      return [];
-    }
-    // following the logic in `getBookingNonAccommodationErrors` in `src/store/modules/bookings/selectors.js`
-    return booking.response.errors.filter(e => e.accommodationProductUuid == null);
+  return 'None selected';
+});
+
+export const bookingResponseAllErrors = createSelector(bookingBuilderSelector, booking => {
+  if (!booking || !booking.response.errors) {
+    return [];
   }
-);
+  return booking.response.errors;
+});
 
-export const bookingResponseLodgingCountsPerAccommodation = createSelector(
-  bookingBuilderSelector,
-  booking => {
-    if (!booking || !booking.response.errors) {
-      return [];
-    }
-
-    const lodgingCountsPerAccommodation = {};
-
-    booking.request.Accommodation.forEach(reqAccom => {
-      // if the dictionary doesn't contain an entry for this UUID, add one
-      if (!lodgingCountsPerAccommodation[reqAccom.uuid]) {
-        lodgingCountsPerAccommodation[reqAccom.uuid] = 0;
-      }
-
-      // now increment its count by 1
-      lodgingCountsPerAccommodation[reqAccom.uuid] += 1;
-    });
-
-    return lodgingCountsPerAccommodation;
+export const bookingResponseNonAccommodationErrors = createSelector(bookingBuilderSelector, booking => {
+  if (!booking || !booking.response.errors) {
+    return [];
   }
-);
+  // following the logic in `getBookingNonAccommodationErrors` in `src/store/modules/bookings/selectors.js`
+  return booking.response.errors.filter(e => e.accommodationProductUuid == null);
+});
 
-export const bookingPotentialBookingSelector = createSelector(
-  bookingResponseSelector,
-  response => (response ? response.potentialBooking : undefined)
-);
+export const bookingResponseLodgingCountsPerAccommodation = createSelector(bookingBuilderSelector, booking => {
+  if (!booking || !booking.response.errors) {
+    return [];
+  }
 
-export const bookingTextOffersSelector = createSelector(
-  bookingResponseSelector,
-  response => (response ? response.textOnlyOffersPerLodging : undefined)
-);
+  const lodgingCountsPerAccommodation = {};
 
-export const bookingCancellationPoliciesSelector = createSelector(
-  bookingPotentialBookingSelector,
-  potentialBooking => {
-    if (!potentialBooking) {
-      return [];
+  booking.request.Accommodation.forEach(reqAccom => {
+    // if the dictionary doesn't contain an entry for this UUID, add one
+    if (!lodgingCountsPerAccommodation[reqAccom.uuid]) {
+      lodgingCountsPerAccommodation[reqAccom.uuid] = 0;
     }
 
-    // long hand, but gives us TS help
-    let allCancellationPolicies: string[] = [];
-    allCancellationPolicies = allCancellationPolicies.concat(
-      potentialBooking.Accommodation.map(product => product.cancellationPolicy)
-    );
-    allCancellationPolicies = allCancellationPolicies.concat(
-      potentialBooking.Fine.map(product => product.cancellationPolicy)
-    );
-    allCancellationPolicies = allCancellationPolicies.concat(
-      potentialBooking['Ground Service'].map(product => product.cancellationPolicy)
-    );
-    allCancellationPolicies = allCancellationPolicies.concat(
-      potentialBooking.Supplement.map(product => product.cancellationPolicy)
-    );
-    allCancellationPolicies = allCancellationPolicies.concat(
-      potentialBooking.Transfer.map(product => product.cancellationPolicy)
-    );
+    // now increment its count by 1
+    lodgingCountsPerAccommodation[reqAccom.uuid] += 1;
+  });
 
-    return uniqBy(a => a, flatten(allCancellationPolicies).filter(Boolean));
-  }
+  return lodgingCountsPerAccommodation;
+});
+
+export const bookingPotentialBookingSelector = createSelector(bookingResponseSelector, response =>
+  response ? response.potentialBooking : undefined
 );
 
-export const bookingPaymentTermsSelector = createSelector(
-  bookingPotentialBookingSelector,
-  potentialBooking => {
-    if (!potentialBooking) {
-      return [];
-    }
-
-    // long hand, but gives us TS help
-    let allPaymentTerms: string[] = [];
-    allPaymentTerms = allPaymentTerms.concat(potentialBooking.Accommodation.map(product => product.paymentTerms));
-    allPaymentTerms = allPaymentTerms.concat(potentialBooking.Fine.map(product => product.paymentTerms));
-    allPaymentTerms = allPaymentTerms.concat(potentialBooking['Ground Service'].map(product => product.paymentTerms));
-    allPaymentTerms = allPaymentTerms.concat(potentialBooking.Supplement.map(product => product.paymentTerms));
-    allPaymentTerms = allPaymentTerms.concat(potentialBooking.Transfer.map(product => product.paymentTerms));
-
-    return uniqBy(a => a, flatten(allPaymentTerms).filter(Boolean));
-  }
+export const bookingTextOffersSelector = createSelector(bookingResponseSelector, response =>
+  response ? response.textOnlyOffersPerLodging : undefined
 );
+
+export const bookingCancellationPoliciesSelector = createSelector(bookingPotentialBookingSelector, potentialBooking => {
+  if (!potentialBooking) {
+    return [];
+  }
+
+  // long hand, but gives us TS help
+  let allCancellationPolicies: string[] = [];
+  allCancellationPolicies = allCancellationPolicies.concat(
+    potentialBooking.Accommodation.map(product => product.cancellationPolicy)
+  );
+  allCancellationPolicies = allCancellationPolicies.concat(
+    potentialBooking.Fine.map(product => product.cancellationPolicy)
+  );
+  allCancellationPolicies = allCancellationPolicies.concat(
+    potentialBooking['Ground Service'].map(product => product.cancellationPolicy)
+  );
+  allCancellationPolicies = allCancellationPolicies.concat(
+    potentialBooking.Supplement.map(product => product.cancellationPolicy)
+  );
+  allCancellationPolicies = allCancellationPolicies.concat(
+    potentialBooking.Transfer.map(product => product.cancellationPolicy)
+  );
+
+  return uniqBy(a => a, flatten(allCancellationPolicies).filter(Boolean));
+});
+
+export const bookingPaymentTermsSelector = createSelector(bookingPotentialBookingSelector, potentialBooking => {
+  if (!potentialBooking) {
+    return [];
+  }
+
+  // long hand, but gives us TS help
+  let allPaymentTerms: string[] = [];
+  allPaymentTerms = allPaymentTerms.concat(potentialBooking.Accommodation.map(product => product.paymentTerms));
+  allPaymentTerms = allPaymentTerms.concat(potentialBooking.Fine.map(product => product.paymentTerms));
+  allPaymentTerms = allPaymentTerms.concat(potentialBooking['Ground Service'].map(product => product.paymentTerms));
+  allPaymentTerms = allPaymentTerms.concat(potentialBooking.Supplement.map(product => product.paymentTerms));
+  allPaymentTerms = allPaymentTerms.concat(potentialBooking.Transfer.map(product => product.paymentTerms));
+
+  return uniqBy(a => a, flatten(allPaymentTerms).filter(Boolean));
+});
 
 export const bookingOffersTermsSelector = createSelector(
   bookingPotentialBookingSelector,
@@ -321,7 +263,7 @@ export const bookingOffersTermsSelector = createSelector(
   (potentialBooking, textOffers) => {
     let allOfferTerms: object[] = [];
 
-    if(potentialBooking){
+    if (potentialBooking) {
       // we lose typehinting, but things were getting ridiculous
       Object.keys(potentialBooking).forEach(productSetKey => {
         potentialBooking[productSetKey].forEach(productSet => {
@@ -334,12 +276,12 @@ export const bookingOffersTermsSelector = createSelector(
         });
       });
     }
-    
-    if(textOffers){
+
+    if (textOffers) {
       allOfferTerms = [
         ...allOfferTerms,
-        ...flatten(textOffers).map(({ offer }) => pick(['name', 'termsAndConditions'], offer))
-      ]
+        ...flatten(textOffers).map(({ offer }) => pick(['name', 'termsAndConditions'], offer)),
+      ];
     }
 
     return uniqBy(a => a, allOfferTerms);
@@ -366,24 +308,23 @@ export const taMarginAmountSelector = createSelector(
   bookingBuilderDomain => bookingBuilderDomain.taMarginAmount
 );
 
-export const bookingBuilderTotalSelector = createSelector(
-  bookingResponseSelector,
-  response => {
-    if (!response) {
-      return 0;
-    }
-
-    return formatPrice(response.totals.total);
+export const bookingBuilderTotalSelector = createSelector(bookingResponseSelector, response => {
+  if (!response) {
+    return 0;
   }
-);
 
-export const bookingBuilderResponseHotelUuidSelector = createSelector(
-  bookingResponseSelector,
-  response => {
-    if (!response) {
-      return undefined;
-    }
+  return formatPrice(response.totals.total);
+});
 
-    return response.hotel.uuid;
+export const bookingBuilderResponseHotelUuidSelector = createSelector(bookingResponseSelector, response => {
+  if (!response) {
+    return undefined;
   }
+
+  return response.hotel.uuid;
+});
+
+export const travelAgentUserUuidSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => bookingBuilderDomain.travelAgentUserUuid
 );

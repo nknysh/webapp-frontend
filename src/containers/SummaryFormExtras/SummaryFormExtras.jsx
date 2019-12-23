@@ -601,16 +601,10 @@ const renderTransferOptions = (
   );
 
   // get all the options for transfers that are both ways
-  const bothWayOptions = pipe(
-    productsBothWays,
-    convertProductsToOptions
-  )(products);
+  const bothWayOptions = pipe(productsBothWays, convertProductsToOptions)(products);
 
   // get all the options for transfers that are 1 way
-  const oneWayOptions = pipe(
-    productsOneWay,
-    convertProductsToOptions
-  )(products);
+  const oneWayOptions = pipe(productsOneWay, convertProductsToOptions)(products);
 
   return (
     // `renderExtra` if we have some return transfers OR some one way transfers
@@ -701,10 +695,7 @@ const renderSelect = (
   const uuids = join(',', map(prop('uuid'), products));
   const checked = propOr(false, uuids, values);
 
-  const productType = pipe(
-    head,
-    prop('type')
-  )(products);
+  const productType = pipe(head, prop('type'))(products);
 
   return summaryOnly || compactEdit
     ? selected &&
@@ -870,6 +861,7 @@ export const SummaryFormExtras = ({
   taMarginType,
   taMarginAmount,
   currentCountry,
+  updateBookingTravelAgentUserIdAction,
 }) => {
   const { t } = useTranslation();
 
@@ -973,9 +965,9 @@ export const SummaryFormExtras = ({
 
   const onTASelect = useCallback(
     ({ id: travelAgentUserUuid }) => {
-      updateBooking(id, { travelAgentUserUuid });
+      updateBookingTravelAgentUserIdAction(id, travelAgentUserUuid);
     },
-    [id, updateBooking]
+    [id, updateBookingTravelAgentUserIdAction]
   );
 
   const onTARemove = useCallback(() => {
@@ -1217,7 +1209,4 @@ export const SummaryFormExtras = ({
 SummaryFormExtras.propTypes = propTypes;
 SummaryFormExtras.defaultProps = defaultProps;
 
-export default compose(
-  connect,
-  withUser
-)(SummaryFormExtras);
+export default compose(connect, withUser)(SummaryFormExtras);

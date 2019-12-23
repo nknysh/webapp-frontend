@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { call, takeLatest, select, put } from 'redux-saga/effects';
-import { taMarginTypeSelector, taMarginAmountSelector } from '../selectors';
+import { taMarginTypeSelector, taMarginAmountSelector, travelAgentUserUuidSelector } from '../selectors';
 import {
   updateBookingSuccessAction,
   UPDATE_TRANSFER,
@@ -16,6 +16,7 @@ import {
   UPDATE_TA_MARGIN_AMOUNT_ACTION,
   UPDATE_TA_MARGIN_TYPE_ACTION,
   UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
+  UPDATE_TRAVEL_AGENT_USER_ID,
 } from '../actions';
 
 import { makeBackendApi, BookingBuilderEndpointSuccess } from 'services/BackendApi';
@@ -36,6 +37,7 @@ export function* bookingBuilderResponseSaga(action: any) {
 
     const marginType = yield select(taMarginTypeSelector);
     const marginAmount = yield select(taMarginAmountSelector);
+    const travelAgentUserUuid = yield select(travelAgentUserUuidSelector);
 
     yield put(updateBookingSuccessAction(bookingBuilderEndpointResponse.data.data, action.hotelUuid));
 
@@ -48,11 +50,12 @@ export function* bookingBuilderResponseSaga(action: any) {
         request,
         bookingBuilderEndpointResponse.data.data,
         marginType,
-        marginAmount
+        marginAmount,
+        travelAgentUserUuid
       )
     );
   } catch (e) {
-    // yield put(bookingRequestFailureAction(e));
+    console.error(e);
   }
 }
 
@@ -72,6 +75,7 @@ export function* watchBookingActions() {
       UPDATE_TA_MARGIN_AMOUNT_ACTION,
       UPDATE_TA_MARGIN_TYPE_ACTION,
       UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
+      UPDATE_TRAVEL_AGENT_USER_ID,
     ],
     bookingBuilderResponseSaga
   );

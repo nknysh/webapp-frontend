@@ -45,6 +45,7 @@ import {
   taMarginTypeSelector,
   taMarginAmountSelector,
   bookingBuilderTotalSelector,
+  updateBookingTravelAgentUserIdAction,
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => {
@@ -79,53 +80,18 @@ export const mapStateToProps = (state, { id }) => {
 };
 
 export const mapDispatchToProps = dispatch => ({
-  updateBooking: pipe(
-    updateBooking,
-    dispatch
-  ),
-  replaceProducts: pipe(
-    replaceProducts,
-    dispatch
-  ),
-  fetchTravelAgents: pipe(
-    fetchTravelAgents,
-    dispatch
-  ),
-  setIsBookingSummarySectionCollapsed: pipe(
-    setIsBookingSummarySectionCollapsed,
-    dispatch
-  ),
-  updateTransferAction: pipe(
-    updateTransferAction,
-    dispatch
-  ),
-  updateGroundServiceAction: pipe(
-    updateGroundServiceAction,
-    dispatch
-  ),
-  updateSupplementAction: pipe(
-    updateSupplementAction,
-    dispatch
-  ),
-  updateFineAction: pipe(
-    updateFineAction,
-    dispatch
-  ),
-  updateTAMarginTypeAction: pipe(
-    updateTAMarginTypeAction,
-    dispatch
-  ),
-  updateTAMarginAmountAction: pipe(
-    updateTAMarginAmountAction,
-    dispatch
-  ),
-  updateIsTAMarginAppliedAction: pipe(
-    updateIsTAMarginAppliedAction,
-    dispatch
-  ),
+  updateBooking: pipe(updateBooking, dispatch),
+  replaceProducts: pipe(replaceProducts, dispatch),
+  fetchTravelAgents: pipe(fetchTravelAgents, dispatch),
+  setIsBookingSummarySectionCollapsed: pipe(setIsBookingSummarySectionCollapsed, dispatch),
+  updateTransferAction: pipe(updateTransferAction, dispatch),
+  updateGroundServiceAction: pipe(updateGroundServiceAction, dispatch),
+  updateSupplementAction: pipe(updateSupplementAction, dispatch),
+  updateFineAction: pipe(updateFineAction, dispatch),
+  updateTAMarginTypeAction: pipe(updateTAMarginTypeAction, dispatch),
+  updateTAMarginAmountAction: pipe(updateTAMarginAmountAction, dispatch),
+  updateIsTAMarginAppliedAction: pipe(updateIsTAMarginAppliedAction, dispatch),
+  updateBookingTravelAgentUserIdAction: pipe(updateBookingTravelAgentUserIdAction, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

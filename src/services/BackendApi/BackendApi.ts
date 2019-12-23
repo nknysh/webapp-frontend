@@ -14,8 +14,10 @@ import {
 // Move to backkendApiService
 import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch';
 import { PriceRange, StarRating } from './types/SearchQuery';
-import { Hotel } from './types/OffersSearchResponse';
-import { IBookingAttributes } from 'interfaces';
+import { Hotel, IBooking } from './types/OffersSearchResponse';
+import { IBookingAttributes, IBookingInformation, IReviewBookingSchema } from 'interfaces';
+import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
+import { getBookingInformationForBooking } from '../../utils/bookingBuilder';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -114,6 +116,103 @@ export class BackendApiService<T extends AxiosInstance> {
       },
     };
     return this.client.post(endpoint, tempPayloadShape);
+  };
+
+  addBookingToProposal = async (proposalUuid: string, bookingUuid: string): Promise<AxiosResponse> => {
+    const endpoint = `proposals/${proposalUuid}/bookings/${bookingUuid}`;
+
+    return this.client.post(endpoint);
+  };
+
+  addHoldToBooking = async (
+    bookingUuid: string,
+    holdHours: string | number | undefined = undefined
+  ): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}/${bookingUuid}/holds`;
+
+    if (holdHours) {
+      return this.client.post(endpoint, {
+        data: {
+          attributes: {
+            holdHours,
+          },
+        },
+      });
+    } else {
+      return this.client.post(endpoint, {
+        data: {
+          attributes: {},
+        },
+      });
+    }
+  };
+
+  releaseHoldFromBooking = async (bookingUuid: string): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}/${bookingUuid}/holds`;
+
+    return this.client.delete(endpoint);
+  };
+
+  requestToBook = async (booking: BookingBuilderDomain): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}/${booking.uuid}/request`;
+
+    const bookingInformation: IBookingInformation = getBookingInformationForBooking(booking);
+
+    // the endpoint doesn't want these things
+    delete bookingInformation.taMarginAmount;
+    delete bookingInformation.taMarginType;
+    delete bookingInformation.proposalUuid;
+
+    return this.client.post(endpoint, {
+      data: {
+        attributes: {
+          bookingInformation,
+        },
+      },
+    });
+  };
+
+  cancelBooking = async (booking: BookingBuilderDomain | IBooking): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}/${booking.uuid}/cancel`;
+
+    return this.client.post(endpoint, {
+      data: {
+        attributes: {
+          uuid: booking.uuid,
+        },
+      },
+    });
+  };
+
+  reviewBooking = async (bookingUuid: string, updatingBookingData: IReviewBookingSchema): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}/${bookingUuid}/review`;
+
+    if (updatingBookingData.bookingComments == '') {
+      updatingBookingData.bookingComments = undefined;
+    }
+    if (updatingBookingData.internalComments == '') {
+      updatingBookingData.internalComments = undefined;
+    }
+
+    return this.client.post(endpoint, {
+      data: {
+        attributes: {
+          ...updatingBookingData,
+        },
+      },
+    });
+  };
+
+  updateHoldHoursForBooking = async (bookingUuid: string, holdHours: string | number): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}/${bookingUuid}/holds`;
+
+    return this.client.post(endpoint, {
+      data: {
+        attributes: {
+          holdHours,
+        },
+      },
+    });
   };
 }
 

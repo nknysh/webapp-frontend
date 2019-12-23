@@ -82,14 +82,20 @@ export interface IPureUiModalView {
 }
 
 export interface IBookingInformation {
-  guestTitle: string;
-  guestFirstName: string;
-  guestLastName: string;
-  isRepeatGuest: boolean;
-  flightArrivalNumber: string;
-  flightDepartureNumber: string;
-  taMarginType: string;
-  taMarginAmount: string;
+  guestTitle?: string;
+  guestFirstName?: string;
+  guestLastName?: string;
+  isRepeatGuest?: boolean;
+  flightArrivalNumber?: string;
+  flightDepartureNumber?: string;
+  flightArrivalDate?: string;
+  flightDepartureDate?: string;
+  taMarginType?: string;
+  taMarginAmount?: string;
+  specialRequests?: string[];
+  comments?: string;
+  proposalUuid?: string;
+  travelAgentUserUuid?: string;
 }
 
 export interface IBookingAttributes {
@@ -99,4 +105,16 @@ export interface IBookingAttributes {
   status: string;
   placeHolds: boolean;
   proposalUuid: string;
+}
+
+export interface IBookingGuestInformationForm {
+  bookingGuestFormValues: IBookingInformation;
+  onValueChange: Function;
+}
+
+export interface IReviewBookingSchema {
+  overrideTotal?: string;
+  bookingComments?: string;
+  internalComments?: string;
+  status: string;
 }

@@ -266,4 +266,9 @@ export default {
   addLodging: 'Add Lodging',
 
   summaryForYourChosenOptionsIn: 'Summary for your chosen options in',
+  bookingStatus: 'Booking Status',
+  holds: 'Holds',
+  cancellation: 'Cancellation',
+  requestToBook: 'Request to Book',
+  uploads: 'Uploads',
 };

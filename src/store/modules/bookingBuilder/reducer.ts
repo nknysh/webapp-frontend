@@ -57,8 +57,13 @@ export const bookingBuilderReducer = (
       return updateTAMarginAmountReducer(state, action);
     case Actions.UPDATE_IS_TA_MARGIN_APPLIED_ACTION:
       return updateIsTAMarginAppliedReducer(state, action);
+
+    case Actions.UPDATE_BOOKING_GUEST_INFORMATION_ACTION:
+      return updateBookingGuestInformationReducer(state, action);
     case Actions.CLEAR_BOOKING_BUILDER_UI_STATE:
       return resetBookingBuilderUiStateReducer(state);
+    case Actions.UPDATE_TRAVEL_AGENT_USER_ID:
+      return updateBookingTravelAgentUserIdReducer(state, action);
     default:
       return state;
   }
@@ -409,7 +414,7 @@ export const clearBookingBuilderReducer = (
   action: Actions.ClearBookingBuilderAction
 ): BookingBuilderDomain => {
   return produce(state, draftState => {
-    draftState.currentBookingBuilder = null;
+    draftState = initialState;
 
     return draftState;
   });
@@ -491,12 +496,36 @@ export const updateIsTAMarginAppliedReducer = (
   });
 };
 
+export const updateBookingGuestInformationReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.UpdateBookingGuestInformationAction
+): BookingBuilderDomain => {
+  return produce(state, draftState => {
+    draftState = {
+      ...draftState,
+      ...action.bookingGuestInformation,
+    };
+
+    return draftState;
+  });
+};
+
 export const resetBookingBuilderUiStateReducer = (state: BookingBuilderDomain): BookingBuilderDomain => ({
   ...state,
   isTAMarginApplied: true,
   taMarginType: 'percentage',
   taMarginAmount: '0',
 });
+
+export const updateBookingTravelAgentUserIdReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.UpdateBookingTravelAgentUserIdAction
+) => {
+  return produce(state, draftState => {
+    draftState.travelAgentUserUuid = action.travelAgentUserUuid;
+    return draftState;
+  });
+};
 
 export const calculateBookingTotalGuestAges = (lodgings: SelectedAccommodation[]) => {
   let numberOfAdults: number = 0;

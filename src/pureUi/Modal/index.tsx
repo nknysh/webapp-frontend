@@ -24,11 +24,14 @@ const ModalContainer = styled.div`
 
 const ModalContentWrapper = styled.div`
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: auto;
+  margin-top: 8vh;
   padding: 20px;
   border: 1px solid #888;
   width: 60%;
   cursor: default;
+  overflow-y: auto;
+  max-height: calc(92vh - 8vh);
 `;
 
 const ModalCloseButton = styled.button`
@@ -40,24 +43,23 @@ const ModalCloseButton = styled.button`
 
 const Modal = (props: IPureUiModalView) => {
   useEffect(() => {
-    document.addEventListener('keyup', handleKeyPress, true);
+    document.addEventListener('keyup', handleKeyUp, true);
 
     return () => {
-      document.removeEventListener('keyup', handleKeyPress, true);
+      document.removeEventListener('keyup', handleKeyUp, true);
     };
   }, []);
 
-  const handleKeyPress = e => {
+  const handleKeyUp = e => {
     if (e.key === 'Escape') {
       props.onClose();
     }
   };
 
   const handleCloseButtonPress = () => props.onClose();
-
   return (
     <FocusTrap>
-      <ModalContainer className={props.className || ''} onClick={e => e.preventDefault()}>
+      <ModalContainer className={props.className || ''} onClick={e => e.stopPropagation()}>
         <ModalContentWrapper>
           <ModalCloseButton type="button" className="modal-close-button" onClick={handleCloseButtonPress}>
             <CloseIcon />

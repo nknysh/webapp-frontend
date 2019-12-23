@@ -103,7 +103,13 @@ export const GlobalStyle = createGlobalStyle`
     .mt-4 { margin-top: 16px; }
     .mb-4 { margin-bottom: 16px; }
     .my-4 { margin-top: 16px; margin-bottom: 16px; }
+    .pl-4 { padding-left: 16px; }
+    .pr-4 { padding-right: 16px; }
+    .pl-2 { padding-left: 8px; }
+    .pr-2 { padding-right: 8px; }
+    .w-50 { width: 50%; }
     .font-material-ui { font-family: HurmeGeometricSans2, 'Open Sans', sans-serif !important; }
+    .flex { display: flex; }
 `;
 
 export default { GlobalFonts, GlobalStyle };

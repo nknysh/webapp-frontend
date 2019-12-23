@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Form, Button } from '@pure-escapes/webapp-ui-components';
 
 import { defaultProps, propTypes } from './BookingConfirmationForm.props';
+import { fields, validation } from 'config/forms/bookingConfirm';
 
-export const BookingConfirmationForm = ({ fields, validation, onRequest, ...props }) => {
+export const BookingConfirmationForm = ({ onRequest, ...props }) => {
   const { t } = useTranslation();
 
   return (

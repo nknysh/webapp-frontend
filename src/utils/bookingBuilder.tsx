@@ -15,10 +15,11 @@ import {
   RequestedBuildAccommodation,
   LodgingSummary,
   BookingBuilderAvailableProductSetsAccommodation,
+  IBookingInformation,
   // @ts-ignore
 } from 'interfaces';
 
-import { AvailableProductSets } from 'services/BackendApi/types';
+import { AvailableProductSets, IBooking } from 'services/BackendApi/types';
 import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
 
 export const getAvailableProductSetAccommodationForUuid = (
@@ -332,16 +333,7 @@ export const getBookingsEndpointAttributesForBookingDomain = props => {
   const bookingHash = bookingDomain.bookingHash || bookingDomain.currentBookingBuilder?.response.bookingHash;
   const bookingBuild = bookingDomain.currentBookingBuilder?.request;
 
-  const bookingInformation = {
-    guestTitle: '',
-    guestFirstName: '',
-    guestLastName: '',
-    isRepeatGuest: false,
-    flightArrivalNumber: '',
-    flightDepartureNumber: '',
-    taMarginType: bookingDomain.taMarginType,
-    taMarginAmount: bookingDomain.taMarginAmount,
-  };
+  const bookingInformation = getBookingInformationForBooking(bookingDomain);
 
   return {
     bookingHash,
@@ -351,4 +343,25 @@ export const getBookingsEndpointAttributesForBookingDomain = props => {
     placeHolds,
     proposalUuid,
   };
+};
+
+export const getBookingInformationForBooking = (booking: IBooking | BookingBuilderDomain) => {
+  const bookingInformation: IBookingInformation = {
+    guestTitle: booking.guestTitle || undefined,
+    guestFirstName: booking.guestFirstName || '',
+    guestLastName: booking.guestLastName || '',
+    isRepeatGuest: booking.isRepeatGuest || false,
+    flightArrivalNumber: booking.flightArrivalNumber || undefined,
+    flightDepartureNumber: booking.flightDepartureNumber || undefined,
+    taMarginType: booking.taMarginType || undefined,
+    taMarginAmount: booking.taMarginAmount || undefined,
+    comments: booking.comments || undefined,
+    flightArrivalDate: booking.flightArrivalDate || undefined,
+    flightDepartureDate: booking.flightDepartureDate || undefined,
+    specialRequests: booking.specialRequests || undefined,
+    proposalUuid: booking.proposalUuid || undefined,
+    travelAgentUserUuid: booking.travelAgentUserUuid || undefined,
+  };
+
+  return bookingInformation;
 };

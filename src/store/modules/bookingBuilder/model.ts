@@ -56,7 +56,7 @@ export const initialState: BookingBuilderDomain = {
   guestEmail: null,
   isRepeatGuest: false,
   specialRequests: [],
-  comments: null,
+  comments: '',
   taMarginType: 'percentage',
   taMarginAmount: '0',
   status: null,

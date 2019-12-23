@@ -26,6 +26,9 @@ export default {
       ai: 'All Inclusive',
     },
 
+    Departing: 'Departing',
+    Arriving: 'Arriving',
+
     'Meal Plan': 'Meal Plan',
 
     buttons,

@@ -47,12 +47,7 @@ import { makeBackendApi } from 'services/BackendApi';
 const modalProps = { className: 'room-summary-form' };
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
-const getSingleValue = (type, data) =>
-  pipe(
-    pathOr([''], ['request', type]),
-    head,
-    propOr('', 'uuid')
-  )(data);
+const getSingleValue = (type, data) => pipe(pathOr([''], ['request', type]), head, propOr('', 'uuid'))(data);
 
 const renderTotalPrice = (t, currencyCode, isOnRequest, value, isSecondary, isDiscounted) => {
   <Total data-request={isOnRequest} data-secondary={isSecondary} data-discounted={isDiscounted}>
@@ -227,7 +222,7 @@ const handleSaveBookingButton = async props => {
 
     window.location.href = `/bookings/${newBookingUuid}`;
   } catch (e) {
-    throw Error(`Error in saving booking - ${e}`);
+    throw Error(e);
   }
 };
 
@@ -242,7 +237,11 @@ const SaveBookingButton = props => {
       disabled={!canBook || hasClicked}
       onClick={() => {
         setHasClicked(true);
-        handleSaveBookingButton({ backendApi, bookingDomain });
+        try {
+          handleSaveBookingButton({ backendApi, bookingDomain });
+        } catch (e) {
+          setHasClicked(false);
+        }
       }}
     >
       {t('buttons.saveBooking')}

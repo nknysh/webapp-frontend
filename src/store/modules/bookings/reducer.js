@@ -122,13 +122,14 @@ const setBookingOccupancyCheckErrors = (state, payload) => {
 };
 
 const backwardCompatBookingBuilderReducer = (state, action) => {
-  const { hotelUuid, request, response, marginType, marginAmount } = action.payload;
+  const { hotelUuid, request, response, marginType, marginAmount, travelAgentUserUuid } = action.payload;
 
   const data = {
     hotelUuid,
     hotelName: response.hotel.name,
     taMarginType: marginType,
     taMarginAmount: marginAmount,
+    travelAgentUserUuid: travelAgentUserUuid || undefined,
     breakdown: {
       requestedBuild: {
         ...request,

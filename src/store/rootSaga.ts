@@ -24,7 +24,7 @@ export default function* searchSagas() {
             yield call(saga);
             break;
           } catch (e) {
-            console.log(e);
+            console.error(`Error ${e}`);
           }
         }
       })

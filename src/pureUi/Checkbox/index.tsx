@@ -5,10 +5,10 @@ import { pureUiTheme } from 'pureUi/pureUiTheme';
 export interface CheckboxProps extends React.HTMLProps<HTMLInputElement> {}
 
 const Checkbox = (props: CheckboxProps) => {
-  const { className, ...checkboxProps } = props;
+  const { className, checked, ...checkboxProps } = props;
   return (
     <span className={className}>
-      <input type="checkbox" {...checkboxProps} />
+      <input type="checkbox" checked={checked} {...checkboxProps} />
       <span className="surrogate" />
     </span>
   );

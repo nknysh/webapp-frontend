@@ -204,6 +204,7 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
       enqueueNotification({ message: `Proposal '${name}' created succesfully .`, options: { variant: 'success' } })
     );
   } catch (e) {
+    console.error(`Error ${e}`);
     dispatch(errorFromResponse(PROPOSALS_NEW, e, 'There was a problem creating proposal.'));
   }
 };
@@ -243,6 +244,44 @@ export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dis
   !isError(bookingStatus)
     ? dispatch(successAction(PROPOSALS_ADD, { result: proposalUuid }))
     : dispatch(errorAction(PROPOSALS_ADD, { result: proposalUuid }));
+};
+
+export const createNewProposalWithExistingBooking = (name, bookingUuid) => async (dispatch, getState) => {
+  dispatch(genericAction(PROPOSALS_NEW, { name, userUuid }));
+
+  const booking = getBooking(getState(), bookingUuid);
+  const isSr = isSR(getState());
+  const userUuid = isSr ? prop('travelAgentUserUuid', booking) : getCurrentUserUuid(getState());
+
+  try {
+    // 1. make a proposal
+    const {
+      data: { data },
+    } = await client.createProposal({ data: { attributes: { name, userUuid } } });
+    const proposalUuid = prop('result', data);
+
+    // 2. then the booking to it
+    addExistingBookingToProposal(proposalUuid, bookingUuid)(dispatch, getState);
+
+    dispatch(successAction(PROPOSALS_NEW, data));
+  } catch (e) {
+    console.error(`Error ${e}`);
+    dispatch(errorFromResponse(PROPOSALS_NEW, e, 'There was a problem creating proposal.'));
+  }
+};
+
+export const addExistingBookingToProposal = (proposalUuid, bookingUuid) => async (dispatch, getState) => {
+  dispatch(genericAction(PROPOSALS_ADD, { proposalUuid, bookingUuid }));
+
+  const backendApi = makeBackendApi(null);
+
+  try {
+    await backendApi.addBookingToProposal(proposalUuid, bookingUuid);
+    dispatch(successAction(PROPOSALS_ADD, { result: proposalUuid }));
+  } catch (e) {
+    console.error(`Error ${e}`);
+    dispatch(errorAction(PROPOSALS_ADD, { result: proposalUuid }));
+  }
 };
 
 /**

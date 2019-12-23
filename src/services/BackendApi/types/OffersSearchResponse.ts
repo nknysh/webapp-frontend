@@ -615,3 +615,41 @@ export interface HotelAccommodationProduct {
   appliedOfferNames: string[];
   potentialBooking: any;
 }
+
+export interface IBooking {
+  agesOfAllChildren: number[];
+  bookingComments?: string;
+  bookingHash?: string;
+  checkInDate?: string;
+  checkOutDate?: string;
+  clientUuid?: null;
+  comments?: string;
+  createdAt?: string;
+  deletedAt?: null;
+  flightArrivalDate?: null;
+  flightArrivalNumber?: string;
+  flightDepartureDate?: null;
+  flightDepartureNumber?: string;
+  guestEmail?: string;
+  guestFirstName?: string;
+  guestLastName?: string;
+  guestTitle?: string;
+  hotelName?: string;
+  hotelUuid?: string;
+  internalComments?: string;
+  isRepeatGuest?: boolean;
+  numAdults?: number;
+  overrideTotal?: null;
+  proposalUuid?: string;
+  specialRequests?: string[];
+  status?: string;
+  taMarginAmount?: string;
+  taMarginType?: string;
+  travelAgentUserUuid?: string;
+  updatedAt?: string;
+  uuid?: string;
+}
+
+export interface IOldBooking extends IBooking {
+  breakdown: any;
+}
