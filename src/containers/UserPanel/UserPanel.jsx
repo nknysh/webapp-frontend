@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import { withRouter } from 'react-router-dom';
 import { compose, equals } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { DropDownMenu } from '@pure-escapes/webapp-ui-components';
@@ -18,6 +19,11 @@ const renderLink = ({ title, ...props }) => (
   </Link>
 );
 
+const shouldDisableCountrySelector = location => {
+  const bookingBuilderRegex = /^\/hotels\/.+/;
+  return bookingBuilderRegex.test(location.pathname);
+};
+
 export const UserPanel = ({
   isAuthenticated,
   user,
@@ -29,7 +35,9 @@ export const UserPanel = ({
   countries,
   setCountry,
   isSr,
+  location
 }) => {
+  
   const { t } = useTranslation();
   const [logout, setLogout] = useState(false);
 
@@ -63,7 +71,13 @@ export const UserPanel = ({
       >
         {isSr && (
           <Country>
-            Country <CountrySelect value={countryContext} options={countries} onChange={onSetCountry} />
+            Country
+            <CountrySelect
+              value={countryContext}
+              options={countries}
+              onChange={onSetCountry}
+              disabled={shouldDisableCountrySelector(location)}
+            />
           </Country>
         )}
         {renderLink({ title: t('labels.settings'), to: '/settings' })}
@@ -79,5 +93,6 @@ UserPanel.defaultProps = defaultProps;
 export default compose(
   withAuthentication,
   withUser,
+  withRouter,
   connect
 )(UserPanel);
