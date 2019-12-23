@@ -80,7 +80,7 @@ const HotelSummary = props => {
           />
         </Modal>
       )}
-      <StyledSummary id={id} onSubmit={onSubmit} showRoomImage={false}>
+      <StyledSummary id={id} onSubmit={onSubmit} showRoomImage={false} canHold={canHold}>
         {() => {
           // for some INSANE reason, SummaryForm treats its children as a function, always, which receives the booking
           return (
@@ -88,13 +88,10 @@ const HotelSummary = props => {
               {!isNilOrEmpty(booking) && (
                 <AsideDetails>
                   <Title>{t('labels.availability')}</Title>
-                  <Text>{t(canHold ? 'labels.availableToHoldInfo': 'labels.unavailableToHoldInfo')}</Text>
+                  <Text>{t(canHold ? 'labels.availableToHoldInfo' : 'labels.unavailableToHoldInfo')}</Text>
                 </AsideDetails>
               )}
               <SummaryActions>
-                <SummaryAction type="button" onClick={onTakeHold} disabled={!canBook || !canHold}>
-                  {t('buttons.takeAHold')}
-                </SummaryAction>
                 <SummaryAction type="button" disabled={!canBook} onClick={handleAddToProposalClick}>
                   {t('buttons.addToProposal')}
                 </SummaryAction>

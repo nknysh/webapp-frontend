@@ -7,6 +7,7 @@ import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles'
 import { Redirect } from 'react-router-dom';
 import BookingGuestInformationForm from 'pureUi/BookingGuestInformationForm';
 import { makeBackendApi } from 'services/BackendApi';
+import { formatDate } from 'utils';
 
 const BookingSummaryPotentialTA = props => {
   const canHold: boolean = props.holds?.canHold;
@@ -86,6 +87,11 @@ const BookingSummaryPotentialTA = props => {
       {isHeld && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
+          <p>This booking is being held.</p>
+          <p>
+            It will expire {formatDate(props.holds.fullHoldsExpires)} at{' '}
+            {formatDate(props.holds.fullHoldsExpires, 'h:ma')}
+          </p>
           <PrimaryButton onClick={() => releaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
         </AsideDetails>
       )}

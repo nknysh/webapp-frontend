@@ -118,6 +118,22 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.post(endpoint, tempPayloadShape);
   };
 
+  postBookingSaveAndTakeHolds = async (
+    bookingAttributes: IBookingAttributes
+  ): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}`;
+
+    const tempPayloadShape = {
+      data: {
+        attributes: {
+          ...bookingAttributes,
+          placeHolds: true,
+        },
+      },
+    };
+    return this.client.post(endpoint, tempPayloadShape);
+  };
+
   addBookingToProposal = async (proposalUuid: string, bookingUuid: string): Promise<AxiosResponse> => {
     const endpoint = `proposals/${proposalUuid}/bookings/${bookingUuid}`;
 

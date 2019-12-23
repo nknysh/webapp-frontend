@@ -226,6 +226,21 @@ const handleSaveBookingButton = async props => {
   }
 };
 
+const handleSaveBookingAndTakeHoldsButton = async props => {
+  const { bookingDomain, backendApi } = props;
+
+  const attr = getBookingsEndpointAttributesForBookingDomain({ bookingDomain });
+
+  try {
+    const res = await backendApi.postBookingSaveAndTakeHolds(attr);
+    const newBookingUuid = res.data.data.uuid;
+
+    window.location.href = `/bookings/${newBookingUuid}`;
+  } catch (e) {
+    throw Error(e);
+  }
+};
+
 const SaveBookingButton = props => {
   const { backendApi, bookingDomain, canBook, t } = props;
 
@@ -246,6 +261,29 @@ const SaveBookingButton = props => {
     >
       {t('buttons.saveBooking')}
     </PrimaryButton>
+  );
+};
+
+const SaveBookingAndTakeHoldsButton = props => {
+  const { backendApi, bookingDomain, canBook, canHold, t } = props;
+
+  const [hasClicked, setHasClicked] = useState(false);
+  return (
+    <SummaryFormButton
+      type="button"
+      data-secondary
+      disabled={!canBook || !canHold || hasClicked}
+      onClick={() => {
+        setHasClicked(true);
+        try {
+          handleSaveBookingAndTakeHoldsButton({ backendApi, bookingDomain });
+        } catch (e) {
+          setHasClicked(false);
+        }
+      }}
+    >
+      {t('buttons.takeAHold')}
+    </SummaryFormButton>
   );
 };
 
@@ -277,6 +315,7 @@ const renderForm = (
     summaryOnly,
     backendApi,
     bookingDomain,
+    canHold,
   }
 ) => {
   return (
@@ -313,6 +352,14 @@ const renderForm = (
                     : t('buttons.addHold', { count: length(prop('breakdown', holds)) }))}
               </SummaryFormButton>
             )}
+
+            <SaveBookingAndTakeHoldsButton
+              t={t}
+              canBook={canBook}
+              canHold={canHold}
+              backendApi={backendApi}
+              bookingDomain={bookingDomain}
+            />
 
             {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && showBookNow && (
               <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
