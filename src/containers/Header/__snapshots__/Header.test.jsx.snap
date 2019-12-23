@@ -31,7 +31,7 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
         }
         onLinkClick={[Function]}
       >
-        <withAuthentication(withUser(Connect(Component))) />
+        <withAuthentication(withUser(withRouter(Connect(Component)))) />
       </Styled(withThemeProvider(Tc))>
     </styled.div>
   </Styled(withThemeProvider(styled.div))>
@@ -73,7 +73,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
         }
         onLinkClick={[Function]}
       >
-        <withAuthentication(withUser(Connect(Component))) />
+        <withAuthentication(withUser(withRouter(Connect(Component)))) />
       </Styled(withThemeProvider(Tc))>
     </styled.div>
   </Styled(withThemeProvider(styled.div))>
