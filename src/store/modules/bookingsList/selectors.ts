@@ -109,7 +109,9 @@ export const bookingsListQuerySelector = createSelector(
     status,
     isSr
   ) => {
-    let filterParam = {};
+    let filterParam = {
+      booking: {},
+    };
 
     if (filter != '') {
       filterParam = {

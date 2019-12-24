@@ -98,7 +98,9 @@ export const proposalsListQuerySelector = createSelector(
     }
 
     console.log('filter', filter);
-    let filterParam = {};
+    let filterParam = {
+      proposal: {},
+    };
 
     if (filter != '') {
       filterParam = {
