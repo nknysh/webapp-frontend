@@ -119,7 +119,7 @@ export const bookingsListQuerySelector = createSelector(
       };
     }
 
-    const associations = [];
+    const associations: string[] = [];
 
     if (isSr) {
       associations.push('travelAgent');
