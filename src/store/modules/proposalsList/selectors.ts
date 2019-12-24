@@ -97,7 +97,6 @@ export const proposalsListQuerySelector = createSelector(
       fields['user'] = 'uuid,title,firstName,lastName';
     }
 
-    console.log('filter', filter);
     let filterParam = {
       proposal: {},
     };
