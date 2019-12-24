@@ -463,6 +463,19 @@ exports[`<App /> render matches snapshot 1`] = `
         path="/proposals"
       />
       <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(BookingListContainer)",
+            "type": [Function],
+          }
+        }
+        exact={true}
+        path="/bookings"
+      />
+      <Route
         auth={true}
         authCheckIgnore={true}
         authComponent={
