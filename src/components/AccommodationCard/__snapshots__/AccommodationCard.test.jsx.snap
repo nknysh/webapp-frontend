@@ -4,11 +4,11 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
 <div
   data-role="accomodation-cards"
 >
-  <p
+  <div
     className="canHold"
   >
     Available to hold
-  </p>
+  </div>
   <img
     data-role="ac-image"
     src="test-url"
