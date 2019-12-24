@@ -111,7 +111,7 @@ export const bookingsListQuerySelector = createSelector(
   ) => {
     const filterParam = {
       booking: {
-        [`${filterFields.join(',')}:ilike`]: filter,
+        [`${filterFields.join(',')}:ilike`]: filter ? filter : undefined,
       },
     };
     const associations = [];
@@ -121,10 +121,10 @@ export const bookingsListQuerySelector = createSelector(
     }
 
     if (travelAgentUuid) {
-      filterParam['booking']['travelAgentUuid'] = travelAgentUuid;
+      filterParam['booking']['travelAgentUserUuid'] = travelAgentUuid;
     }
     if (hotel) {
-      filterParam['booking']['hotel'] = hotel;
+      filterParam['booking']['hotelUuid'] = hotel;
     }
     if (status) {
       filterParam['booking']['status'] = status;

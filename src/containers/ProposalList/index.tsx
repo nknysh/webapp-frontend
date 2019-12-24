@@ -108,22 +108,28 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
         <Heading2 className="heading">{this.getHeadingText()}</Heading2>
         <div className="settings">
           {this.props.isSr && (
-            <Select
-              value={this.props.selectedTravelAgentUuid || ''}
-              options={this.state.travelAgentsForSelect}
-              onChange={e => {
-                this.props.setSelectedTravelAgent(e.target.value);
-              }}
-            />
+            <div>
+              <label>Travel Agent</label>
+              <Select
+                value={this.props.selectedTravelAgentUuid || ''}
+                options={this.state.travelAgentsForSelect}
+                onChange={e => {
+                  this.props.setSelectedTravelAgent(e.target.value);
+                }}
+              />
+            </div>
           )}
-          <TextInput
-            className="filterInput"
-            value={this.props.filter}
-            onChange={this.handleFilterChange}
-            placeholder="filter by ID, client or name"
-          >
-            <Search className="searchIcon"></Search>
-          </TextInput>
+          <div>
+            <label>Filter</label>
+            <TextInput
+              className="filterInput"
+              value={this.props.filter}
+              onChange={this.handleFilterChange}
+              placeholder="filter by ID, client or name"
+            >
+              <Search className="searchIcon"></Search>
+            </TextInput>
+          </div>
         </div>
 
         {!this.props.requestPending && this.props.totalResults > 0 && (
@@ -182,10 +188,16 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
                   <TRow key={proposal.uuid}>
                     <TD title={proposal.uuid}>{proposal.uuid}</TD>
                     <TD title={proposal.name}>{proposal.name}</TD>
-                    <TD>{travelDate}</TD>
-                    <TD>{`${proposal.guestFirstName || ''} ${proposal.guestLastName || ''}`.trimLeft()}</TD>
-                    <TD>{formatDate(proposal.createdAt, 'dd MMM yyyy')}</TD>
-                    <TD>{formatDate(proposal.updatedAt, 'dd MMM yyyy')}</TD>
+                    <TD title={travelDate}>{travelDate}</TD>
+                    <TD title={`${proposal.guestFirstName || ''} ${proposal.guestLastName || ''}`.trimLeft()}>
+                      {`${proposal.guestFirstName || ''} ${proposal.guestLastName || ''}`.trimLeft()}
+                    </TD>
+                    <TD title={formatDate(proposal.createdAt, 'dd MMM yyyy')}>
+                      {formatDate(proposal.createdAt, 'dd MMM yyyy')}
+                    </TD>
+                    <TD title={formatDate(proposal.updatedAt, 'dd MMM yyyy')}>
+                      {formatDate(proposal.updatedAt, 'dd MMM yyyy')}
+                    </TD>
                     <TD className="centered">{proposal.bookings.length}</TD>
                     <TD className="centered">{hotelCount}</TD>
                     {proposal.user && (

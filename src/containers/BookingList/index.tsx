@@ -131,38 +131,52 @@ export class BookingListContainer extends React.Component<IBookingListProps, IBo
       <BookingListStylesWrapper>
         <Heading2 className="heading">{this.getHeadingText()}</Heading2>
         <div className="settings">
-          <Select
-            value={this.props.selectedHotel || ''}
-            options={this.state.hotelsForSelect}
-            onChange={e => {
-              this.props.setSelectedHotel(e.target.value);
-            }}
-          />
-          <Select
-            value={this.props.selectedStatus || ''}
-            options={this.state.statusesForSelect}
-            onChange={e => {
-              this.props.setSelectedStatus(e.target.value);
-            }}
-          />
-          {this.props.isSr && (
+          <div>
+            <label>Hotel</label>
             <Select
-              value={this.props.selectedTravelAgentUuid || ''}
-              options={this.state.travelAgentsForSelect}
+              value={this.props.selectedHotel || ''}
+              options={this.state.hotelsForSelect}
               onChange={e => {
-                this.props.setSelectedTravelAgent(e.target.value);
+                this.props.setSelectedHotel(e.target.value);
               }}
             />
+          </div>
+
+          <div>
+            <label>Status</label>
+            <Select
+              value={this.props.selectedStatus || ''}
+              options={this.state.statusesForSelect}
+              onChange={e => {
+                this.props.setSelectedStatus(e.target.value);
+              }}
+            />
+          </div>
+
+          {this.props.isSr && (
+            <div>
+              <label>Travel Agent</label>
+              <Select
+                value={this.props.selectedTravelAgentUuid || ''}
+                options={this.state.travelAgentsForSelect}
+                onChange={e => {
+                  this.props.setSelectedTravelAgent(e.target.value);
+                }}
+              />
+            </div>
           )}
 
-          <TextInput
-            className="filterInput"
-            value={this.props.filter}
-            onChange={this.handleFilterChange}
-            placeholder="filter by ID or client"
-          >
-            <Search className="searchIcon"></Search>
-          </TextInput>
+          <div>
+            <label>Filter</label>
+            <TextInput
+              className="filterInput"
+              value={this.props.filter}
+              onChange={this.handleFilterChange}
+              placeholder="filter by ID or client"
+            >
+              <Search className="searchIcon"></Search>
+            </TextInput>
+          </div>
         </div>
 
         {!this.props.requestPending && this.props.totalResults > 0 && (

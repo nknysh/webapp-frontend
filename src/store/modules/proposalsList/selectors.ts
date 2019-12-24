@@ -99,7 +99,7 @@ export const proposalsListQuerySelector = createSelector(
 
     const filterParam = {
       proposal: {
-        [`${filterFields.join(',')}:ilike`]: filter,
+        [`${filterFields.join(',')}:ilike`]: filter ? filter : undefined,
       },
     };
 
