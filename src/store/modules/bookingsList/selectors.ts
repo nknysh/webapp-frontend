@@ -109,11 +109,16 @@ export const bookingsListQuerySelector = createSelector(
     status,
     isSr
   ) => {
-    const filterParam = {
-      booking: {
-        [`${filterFields.join(',')}:ilike`]: filter ? filter : undefined,
-      },
-    };
+    let filterParam = {};
+
+    if (filter != '') {
+      filterParam = {
+        booking: {
+          [`${filterFields.join(',')}:ilike`]: filter,
+        },
+      };
+    }
+
     const associations = [];
 
     if (isSr) {

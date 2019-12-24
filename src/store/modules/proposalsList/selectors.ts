@@ -97,11 +97,16 @@ export const proposalsListQuerySelector = createSelector(
       fields['user'] = 'uuid,title,firstName,lastName';
     }
 
-    const filterParam = {
-      proposal: {
-        [`${filterFields.join(',')}:ilike`]: filter ? filter : undefined,
-      },
-    };
+    console.log('filter', filter);
+    let filterParam = {};
+
+    if (filter != '') {
+      filterParam = {
+        proposal: {
+          [`${filterFields.join(',')}:ilike`]: filter,
+        },
+      };
+    }
 
     if (travelAgentUuid) {
       filterParam['proposal']['travelAgentUuid'] = travelAgentUuid;
