@@ -13,6 +13,10 @@ const StyledSelect = styled.select`
   width: 100%;
   box-sizing: border-box;
   background-color: white;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
 `;
 
 const Select = ({
