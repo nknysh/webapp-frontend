@@ -8,7 +8,7 @@ export const ProposalListStylesWrapper = styled.section`
   align-self: center;
 
   display: grid;
-  grid-template-columns: 1fr auto 0.5fr;
+  grid-template-columns: 1fr auto 1.5fr;
   grid-template-areas:
     'heading . settings'
     'table table table'

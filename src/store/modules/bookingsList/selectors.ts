@@ -109,22 +109,27 @@ export const bookingsListQuerySelector = createSelector(
     status,
     isSr
   ) => {
-    const filterParam = {
-      booking: {
-        [`${filterFields.join(',')}:ilike`]: filter,
-      },
-    };
-    const associations = [];
+    let filterParam = {};
+
+    if (filter != '') {
+      filterParam = {
+        booking: {
+          [`${filterFields.join(',')}:ilike`]: filter,
+        },
+      };
+    }
+
+    const associations: string[] = [];
 
     if (isSr) {
       associations.push('travelAgent');
     }
 
     if (travelAgentUuid) {
-      filterParam['booking']['travelAgentUuid'] = travelAgentUuid;
+      filterParam['booking']['travelAgentUserUuid'] = travelAgentUuid;
     }
     if (hotel) {
-      filterParam['booking']['hotel'] = hotel;
+      filterParam['booking']['hotelUuid'] = hotel;
     }
     if (status) {
       filterParam['booking']['status'] = status;
