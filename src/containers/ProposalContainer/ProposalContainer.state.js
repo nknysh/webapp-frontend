@@ -13,12 +13,15 @@ import {
   getProposal,
   getProposalsStatus,
   getProposalBookings,
+  generateProposalPdf,
+  getProposalPdf
 } from 'store/modules/proposals';
 
 export const mapStateToProps = (state, { id }) => ({
   proposal: getProposal(state, id),
   status: getProposalsStatus(state),
   bookings: getProposalBookings(state, id),
+  proposalPdf: getProposalPdf(state)
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -52,6 +55,10 @@ export const mapDispatchToProps = dispatch => ({
   ),
   proposalBookingRelease: pipe(
     proposalBookingRelease,
+    dispatch
+  ),
+  generateProposalPdf: pipe(
+    generateProposalPdf,
     dispatch
   ),
 });

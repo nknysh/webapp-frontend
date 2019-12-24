@@ -50,6 +50,7 @@ export const PROPOSAL_COMPLETE = 'PROPOSAL_COMPLETE';
 export const PROPOSALS_ADD = 'PROPOSALS_ADD';
 export const PROPOSALS_FETCH = 'PROPOSALS_FETCH';
 export const PROPOSALS_NEW = 'PROPOSALS_NEW';
+export const PROPOSAL_GENERATE_PDF = 'PROPOSAL_GENERATE_PDF';
 
 /**
  * Clean payload
@@ -516,4 +517,18 @@ export const proposalBookingRelease = (proposalId, bookingId) => async (dispatch
   }
 
   dispatch(successAction(PROPOSAL_BOOKING_RELEASE, { bookingId }));
+};
+
+export const generateProposalPdf = (proposalUuid, payload) => async (dispatch, getState) => {
+  dispatch(genericAction(PROPOSAL_GENERATE_PDF, { id: proposalUuid, payload }));
+  
+  try {
+    const {
+      data: { data },
+    } = await client.generateProposalPdf(proposalUuid, { data: { attributes: payload } });
+
+    dispatch(successAction(PROPOSAL_GENERATE_PDF, data));
+  } catch (e) {
+    dispatch(errorFromResponse(PROPOSAL_GENERATE_PDF, e, 'There was a problem generating a PDF.'));
+  }
 };

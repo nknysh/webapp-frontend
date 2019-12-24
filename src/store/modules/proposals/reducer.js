@@ -10,7 +10,23 @@ import {
   PROPOSALS_ADD,
   PROPOSALS_FETCH,
   PROPOSALS_NEW,
+  PROPOSAL_GENERATE_PDF
 } from './actions';
+
+const generatePdfSuccess = (state,  { payload }) => {
+  return {
+    ...state,
+    proposalPdf: payload.url
+  };
+};
+
+const generatePdfRequest = state => {
+  return {
+    ...state,
+    proposalPdf: null
+  };
+};
+
 
 export default createReducer(
   {
@@ -31,6 +47,7 @@ export default createReducer(
     [getSuccessActionName(PROPOSALS_ADD)]: successReducer,
     [getSuccessActionName(PROPOSALS_FETCH)]: successReducer,
     [getSuccessActionName(PROPOSALS_NEW)]: successReducer,
+    [getSuccessActionName(PROPOSAL_GENERATE_PDF)]: generatePdfSuccess,
 
     [PROPOSAL_AMEND_BOOKING]: loadingReducer,
     [PROPOSAL_BOOKING_REQUEST]: sendingReducer,
@@ -40,6 +57,7 @@ export default createReducer(
     [PROPOSALS_ADD]: loadingReducer,
     [PROPOSALS_FETCH]: loadingReducer,
     [PROPOSALS_NEW]: loadingReducer,
+    [PROPOSAL_GENERATE_PDF]: generatePdfRequest
   },
   initialState
 );
