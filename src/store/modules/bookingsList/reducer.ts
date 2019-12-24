@@ -1,29 +1,29 @@
 import * as Actions from './actions';
-import { initialState, IProposalsListDomain } from './model';
+import { initialState, IBookingsListDomain } from './model';
 
-const proposalListReducer = (
-  state: IProposalsListDomain = initialState,
-  action: Actions.ProposalsListAction
-): IProposalsListDomain => {
+const bookingListReducer = (
+  state: IBookingsListDomain = initialState,
+  action: Actions.BookingsListAction
+): IBookingsListDomain => {
   switch (action.type) {
-    case Actions.GET_PROPOSAL_LIST_REQUEST:
+    case Actions.GET_BOOKING_LIST_REQUEST:
       return {
         ...state,
         requestPending: true,
         totalResults: 0,
-        proposals: null,
+        bookings: null,
       };
 
-    case Actions.GET_PROPOSAL_LIST_SUCCESS:
+    case Actions.GET_BOOKING_LIST_SUCCESS:
       return {
         ...state,
         requestPending: false,
         totalResults: action.totalResults,
-        proposals: action.proposals,
+        bookings: action.bookings,
         error: null,
       };
 
-    case Actions.GET_PROPOSAL_LIST_FAILURE:
+    case Actions.GET_BOOKING_LIST_FAILURE:
       return {
         ...state,
         requestPending: false,
@@ -54,10 +54,20 @@ const proposalListReducer = (
         ...state,
         travelAgentUuid: action.travelAgentUuid,
       };
+    case Actions.SET_HOTEL:
+      return {
+        ...state,
+        hotel: action.hotel,
+      };
+    case Actions.SET_STATUS:
+      return {
+        ...state,
+        bookingStatus: action.status,
+      };
 
     default:
       return state;
   }
 };
 
-export default proposalListReducer;
+export default bookingListReducer;

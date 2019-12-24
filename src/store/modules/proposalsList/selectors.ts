@@ -1,5 +1,8 @@
 import { createSelector } from 'reselect';
 import { IProposalsListDomain } from './model';
+import { travelAgentUserUuidSelector } from '../bookingBuilder';
+
+import { isSR } from 'store/modules/auth';
 
 const proposalsListDomain = (state: any) => state.proposalsList;
 
@@ -68,6 +71,11 @@ export const pageCountSelector = createSelector(
   }
 );
 
+export const selectedTravelAgentUuidSelector = createSelector(
+  proposalsListDomain,
+  (domain: IProposalsListDomain): IProposalsListDomain['travelAgentUuid'] => domain.travelAgentUuid
+);
+
 export const proposalsListQuerySelector = createSelector(
   sortBySelector,
   filterSelector,
@@ -76,22 +84,38 @@ export const proposalsListQuerySelector = createSelector(
   itemsPerPageSelector,
   sortOrderSelector,
   filterFieldsSelector,
-  (sortBy, filter, bookingFields, currentPage, itemsPerPage, sortOrder, filterFields) => {
+  travelAgentUserUuidSelector,
+  isSR,
+  (sortBy, filter, bookingFields, currentPage, itemsPerPage, sortOrder, filterFields, travelAgentUuid, isSr) => {
+    const associations = ['bookings'];
+    const fields = {
+      bookings: bookingFields.join(','),
+    };
+
+    if (isSr) {
+      associations.push('user');
+      fields['user'] = 'uuid,title,firstName,lastName';
+    }
+
+    const filterParam = {
+      proposal: {
+        [`${filterFields.join(',')}:ilike`]: filter,
+      },
+    };
+
+    if (travelAgentUuid) {
+      filterParam['proposal']['travelAgentUuid'] = travelAgentUuid;
+    }
+
     return {
       sort: sortOrder === 'asc' ? `proposal.${sortBy}` : `-proposal.${sortBy}`,
       page: {
         offset: currentPage * itemsPerPage,
         limit: itemsPerPage,
       },
-      associations: 'bookings',
-      fields: {
-        bookings: bookingFields.join(','),
-      },
-      filter: {
-        proposal: {
-          [`${filterFields.join(',')}:ilike`]: filter,
-        },
-      },
+      associations: associations.join(','),
+      fields,
+      filter: filterParam,
     };
   }
 );

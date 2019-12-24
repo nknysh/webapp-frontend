@@ -6,6 +6,7 @@ import { watchDestinationChange } from 'store/modules/fastSearch/sagas/nameSearc
 import { watchInitializeQuery } from 'store/modules/fastSearch/sagas/initializeQuerySaga';
 import { watchInitializeBookingBuilder } from './modules/bookingBuilder/sagas/initializeBookingBuilder';
 import { watchGetProposalsList } from './modules/proposalsList/sagas/proposalsListSaga';
+import { watchGetBookingsList } from './modules/bookingsList/sagas/bookingsListSaga';
 
 export default function* searchSagas() {
   const sagas = [
@@ -16,6 +17,7 @@ export default function* searchSagas() {
     watchInitializeQuery,
     watchInitializeBookingBuilder,
     watchGetProposalsList,
+    watchGetBookingsList,
   ];
 
   yield all(

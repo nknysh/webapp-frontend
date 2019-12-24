@@ -6,6 +6,7 @@ export const GET_PROPOSAL_LIST_FAILURE = 'proposalList/GET_PROPOSAL_LIST_FAILURE
 export const SET_FILTER = 'proposalList/SET_FILTER';
 export const SET_PAGE_NUMBER = 'proposalList/SET_PAGE_NUMBER';
 export const SET_SORT = 'proposalList/SET_SORT';
+export const SET_TRAVEL_AGENT_UUID = 'proposalList/SET_TRAVEL_AGENT_UUID';
 
 export type GetProposalListRequestAction = ReturnType<typeof getProposalListRequestAction>;
 export const getProposalListRequestAction = () => ({
@@ -44,10 +45,17 @@ export const setSortAction = (sortBy: keyof IProposalsListItem, sortOrder: 'asc'
   sortOrder,
 });
 
+export type SetSelectedTravelAgentAction = ReturnType<typeof setSelectedTravelAgentAction>;
+export const setSelectedTravelAgentAction = (travelAgentUuid: string) => ({
+  type: SET_TRAVEL_AGENT_UUID as typeof SET_SORT,
+  travelAgentUuid,
+});
+
 export type ProposalsListAction =
   | GetProposalListRequestAction
   | GetProposalListSuccessAction
   | GetProposalListFailureAction
   | SetFilterAction
   | SetPageNumberAction
-  | SetSortAction;
+  | SetSortAction
+  | SetSelectedTravelAgentAction;

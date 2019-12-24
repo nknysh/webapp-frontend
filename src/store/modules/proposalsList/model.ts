@@ -12,6 +12,7 @@ export interface IProposalsListDomain {
   sortOrder: 'asc' | 'desc';
   filterFields: string[];
   bookingFields: string[];
+  travelAgentUuid: string | null;
 }
 
 export const initialState: IProposalsListDomain = {
@@ -24,6 +25,7 @@ export const initialState: IProposalsListDomain = {
   sortBy: 'createdAt',
   sortOrder: 'asc',
   totalResults: 0,
-  filterFields: ['uuid', 'guestFirstName', 'guestLastName'],
-  bookingFields: ['hotelUuid'],
+  filterFields: ['uuid', 'guestFirstName', 'guestLastName', 'name'],
+  bookingFields: ['hotelUuid', 'checkInDate', 'checkOutDate'],
+  travelAgentUuid: null,
 };

@@ -1,61 +1,85 @@
 import React, { FormEvent } from 'react';
 import { Table, THead, TBody, TRow, TH, TD } from 'pureUi/Table';
 import { LinkButton } from 'pureUi/Buttons';
-import { ProposalListStylesWrapper } from './ProposalListStylesWrapper';
+import { BookingListStylesWrapper } from './BookingListStylesWrapper';
 import { Heading2 } from 'styles';
 import TextInput from 'pureUi/TextInput';
 import { Pagination } from 'pureUi/Pagination';
-import Select from 'pureUi/Select';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators, Dispatch, compose } from 'redux';
 import { connect } from 'react-redux';
-import { IProposalsListItem } from 'services/BackendApi/types/ProposalsListResponse';
+import { IBookingsListItem } from 'services/BackendApi/types/BookingsListResponse';
 import { Search } from '@material-ui/icons';
 import { formatDate } from 'utils';
-import { min, max } from 'date-fns';
+import Select from 'pureUi/Select';
 
 import { getUserCountryContext, isSR } from 'store/modules/auth';
 
 import {
   requestPendingSelector,
   errorSelector,
-  proposalsSelector,
+  bookingsSelector,
   filterSelector,
   currentPageSelector,
   totalResultsSelector,
   sortBySelector,
   sortOrderSelector,
   pageCountSelector,
+  selectedHotelSelector,
+  selectedStatusSelector,
   selectedTravelAgentUuidSelector,
-} from 'store/modules/proposalsList/selectors';
+} from 'store/modules/bookingsList/selectors';
 
 import {
-  getProposalListRequestAction,
+  getBookingListRequestAction,
   setFilterAction,
   setPageNumberAction,
   setSortAction,
   setSelectedTravelAgentAction,
-} from 'store/modules/proposalsList/actions';
+  setSelectedHotelAction,
+  setSelectedStatusAction,
+} from 'store/modules/bookingsList/actions';
 
 import { makeBackendApi } from 'services/BackendApi';
 
-export class ProposalListContainer extends React.Component<IProposalListProps, IProposalListState> {
+export class BookingListContainer extends React.Component<IBookingListProps, IBookingListState> {
   constructor(props) {
     super(props);
     this.state = {
       travelAgentsForSelect: [{ value: null, label: 'None Selected' }],
+      hotelsForSelect: [{ value: null, label: 'None Selected' }],
+      statusesForSelect: [
+        { value: null, label: 'None Selected' },
+        { value: 'potential', label: 'Potential' },
+        { value: 'requested', label: 'Requested' },
+        { value: 'confirmed', label: 'Confirmed' },
+        { value: 'cancelled', label: 'Cancelled' },
+      ],
     };
   }
 
   componentDidMount() {
-    this.props.getProposalListRequest();
+    this.props.getBookingListRequest();
+
+    const backendApi = makeBackendApi(this.props.actingCountryCode);
+
+    backendApi.getHotelsAsHotelNames().then(res => {
+      const hotelsForSelect = res.data.data.map(hotel => {
+        return {
+          value: hotel.uuid,
+          label: `${hotel.name}`,
+        };
+      });
+      hotelsForSelect.unshift({ value: null, label: 'None Selected' });
+      this.setState({
+        hotelsForSelect,
+      });
+    });
 
     // if we're not an SR, we don't need the travel agents
     if (!this.props.isSr) {
       return;
     }
-
-    const backendApi = makeBackendApi(this.props.actingCountryCode);
 
     backendApi.getTravelAgents().then(res => {
       const travelAgentsForSelect = res.data.data.map(ta => {
@@ -75,7 +99,7 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
     this.props.setFilter(e.currentTarget.value);
   };
 
-  handleSort = (sortBy: keyof IProposalsListItem) => () => {
+  handleSort = (sortBy: keyof IBookingsListItem) => () => {
     const newSortOrder = sortBy === this.props.sortBy && this.props.sortOrder === 'asc' ? 'desc' : 'asc';
     this.props.setSort(sortBy, newSortOrder);
   };
@@ -84,19 +108,19 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
     this.props.setPageNumber(pageNumber - 1);
   };
 
-  getSortOrderForProp = (prop: keyof IProposalsListItem) =>
+  getSortOrderForProp = (prop: keyof IBookingsListItem) =>
     this.props.sortBy === prop ? this.props.sortOrder : undefined;
 
   getHeadingText = () => {
-    let headingText = 'Proposals - Loading...';
+    let headingText = 'Bookings - Loading...';
     if (!this.props.requestPending && this.props.totalResults > 0) {
-      headingText = `Proposals - ${this.props.totalResults} ${
+      headingText = `Bookings - ${this.props.totalResults} ${
         this.props.totalResults === 1 ? 'Result' : 'Results'
       } Found.`;
     }
 
     if (!this.props.requestPending && this.props.totalResults === 0) {
-      headingText = 'Proposals - No Results';
+      headingText = 'Bookings - No Results';
     }
 
     return headingText;
@@ -104,9 +128,23 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
 
   render() {
     return (
-      <ProposalListStylesWrapper>
+      <BookingListStylesWrapper>
         <Heading2 className="heading">{this.getHeadingText()}</Heading2>
         <div className="settings">
+          <Select
+            value={this.props.selectedHotel || ''}
+            options={this.state.hotelsForSelect}
+            onChange={e => {
+              this.props.setSelectedHotel(e.target.value);
+            }}
+          />
+          <Select
+            value={this.props.selectedStatus || ''}
+            options={this.state.statusesForSelect}
+            onChange={e => {
+              this.props.setSelectedStatus(e.target.value);
+            }}
+          />
           {this.props.isSr && (
             <Select
               value={this.props.selectedTravelAgentUuid || ''}
@@ -116,11 +154,12 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
               }}
             />
           )}
+
           <TextInput
             className="filterInput"
             value={this.props.filter}
             onChange={this.handleFilterChange}
-            placeholder="filter by ID, client or name"
+            placeholder="filter by ID or client"
           >
             <Search className="searchIcon"></Search>
           </TextInput>
@@ -133,10 +172,6 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
                 <TH sortOrder={this.getSortOrderForProp('uuid')} onClick={this.handleSort('uuid')} className="id">
                   ID
                 </TH>
-                <TH sortOrder={this.getSortOrderForProp('name')} onClick={this.handleSort('name')} className="id">
-                  Name
-                </TH>
-                <TH>Travel Dates</TH>
                 <TH
                   sortOrder={this.getSortOrderForProp('guestLastName')}
                   onClick={this.handleSort('guestLastName')}
@@ -152,50 +187,40 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
                   Created On
                 </TH>
                 <TH
-                  sortOrder={this.getSortOrderForProp('updatedAt')}
-                  onClick={this.handleSort('updatedAt')}
-                  className="created"
+                  sortOrder={this.getSortOrderForProp('hotelName')}
+                  onClick={this.handleSort('hotelName')}
+                  className="id"
                 >
-                  Updated On
+                  Hotel
                 </TH>
-                <TH className="bookingCount centered">No. Bookings</TH>
-                <TH className="hotelCount centered">No. Hotels</TH>
+
+                <TH
+                  sortOrder={this.getSortOrderForProp('status')}
+                  onClick={this.handleSort('status')}
+                  className="comments"
+                >
+                  Status
+                </TH>
                 {this.props.isSr && <TH>Travel Agent</TH>}
-                <TH>Is Sent?</TH>
                 <TH className="actions">Actions</TH>
               </TRow>
             </THead>
-            <TBody tableData={this.props.proposals!}>
-              {(proposal: IProposalsListItem) => {
-                const hotelCount = proposal.bookings.reduce((acc: Array<string | undefined>, next) => {
-                  return acc.includes(next!.hotelUuid) ? acc : [...acc, next.hotelUuid];
-                }, []).length;
-
-                let travelDate = '';
-                if (proposal.bookings.length >= 1) {
-                  const earliestDate = min(proposal.bookings.map(b => new Date(b.checkInDate!)));
-                  const latestDate = max(proposal.bookings.map(b => new Date(b.checkOutDate!)));
-                  travelDate = `${formatDate(earliestDate)} - ${formatDate(latestDate)}`;
-                }
-
+            <TBody tableData={this.props.bookings!}>
+              {(booking: IBookingsListItem) => {
                 return (
-                  <TRow key={proposal.uuid}>
-                    <TD title={proposal.uuid}>{proposal.uuid}</TD>
-                    <TD title={proposal.name}>{proposal.name}</TD>
-                    <TD>{travelDate}</TD>
-                    <TD>{`${proposal.guestFirstName || ''} ${proposal.guestLastName || ''}`.trimLeft()}</TD>
-                    <TD>{formatDate(proposal.createdAt, 'dd MMM yyyy')}</TD>
-                    <TD>{formatDate(proposal.updatedAt, 'dd MMM yyyy')}</TD>
-                    <TD className="centered">{proposal.bookings.length}</TD>
-                    <TD className="centered">{hotelCount}</TD>
-                    {proposal.user && (
+                  <TRow key={booking.uuid}>
+                    <TD title={booking.uuid}>{booking.uuid}</TD>
+                    <TD>{`${booking.guestFirstName || ''} ${booking.guestLastName || ''}`.trimLeft()}</TD>
+                    <TD>{formatDate(booking.createdAt, 'dd MMM yyyy')}</TD>
+                    <TD>{booking.hotelName}</TD>
+                    <TD>{booking.status.toUpperCase()}</TD>
+                    {booking.travelAgent && (
                       <TD>
-                        {proposal.user.title}. {proposal.user.firstName} {proposal.user.lastName}
+                        {booking.travelAgent.title}. {booking.travelAgent.firstName} {booking.travelAgent.lastName}
                       </TD>
                     )}
-                    <TD>{proposal.isLocked ? 'Yes' : 'No'}</TD>
                     <TD>
-                      <LinkButton to={`/proposals/${proposal.uuid}`}>Details</LinkButton>
+                      <LinkButton to={`/bookings/${booking.uuid}`}>Details</LinkButton>
                     </TD>
                   </TRow>
                 );
@@ -212,7 +237,7 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
             currentPage={this.props.currentPage + 1}
           />
         )}
-      </ProposalListStylesWrapper>
+      </BookingListStylesWrapper>
     );
   }
 }
@@ -222,20 +247,24 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
 // -----------------------------------------------------------------------------
 export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
-export interface IProposalListProps extends StateToProps, DispatchToProps {
+export interface IBookingListProps extends StateToProps, DispatchToProps {
   className: string;
   actingCountryCode: string;
   selectedTravelAgentUuid: string;
+  selectedHotel: string;
+  selectedStatus: string;
 }
 
-export interface IProposalListState {
+export interface IBookingListState {
   travelAgentsForSelect: any;
+  hotelsForSelect: any;
+  statusesForSelect: any;
 }
 
 const mapStateToProps = createStructuredSelector({
   requestPending: requestPendingSelector,
   error: errorSelector,
-  proposals: proposalsSelector,
+  bookings: bookingsSelector,
   filter: filterSelector,
   totalResults: totalResultsSelector,
   sortBy: sortBySelector,
@@ -244,15 +273,19 @@ const mapStateToProps = createStructuredSelector({
   pageCount: pageCountSelector,
   actingCountryCode: getUserCountryContext,
   selectedTravelAgentUuid: selectedTravelAgentUuidSelector,
+  selectedHotel: selectedHotelSelector,
+  selectedStatus: selectedStatusSelector,
   isSr: isSR,
 });
 
 const actionCreators = {
-  getProposalListRequest: getProposalListRequestAction,
+  getBookingListRequest: getBookingListRequestAction,
   setFilter: setFilterAction,
   setPageNumber: setPageNumberAction,
   setSort: setSortAction,
   setSelectedTravelAgent: setSelectedTravelAgentAction,
+  setSelectedHotel: setSelectedHotelAction,
+  setSelectedStatus: setSelectedStatusAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -260,6 +293,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IProposalListProps>(mapStateToProps, mapDispatchToProps);
+const withConnect = connect<StateToProps, DispatchToProps, IBookingListProps>(mapStateToProps, mapDispatchToProps);
 
-export const ProposalListConnected = compose(withConnect)(ProposalListContainer);
+export const BookingListConnected = compose(withConnect)(BookingListContainer);

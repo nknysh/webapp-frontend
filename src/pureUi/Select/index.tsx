@@ -27,9 +27,29 @@ const Select = ({
   className?: string;
 }) => {
   return (
-    <StyledSelect className={className || ''} value={value} onChange={e => onChange(e)}>
+    <StyledSelect
+      className={className || ''}
+      value={value}
+      onChange={e => {
+        if (e.target.value === 'null') {
+          return onChange({
+            target: {
+              value: null,
+            },
+          });
+        }
+        return onChange(e);
+      }}
+    >
       {options &&
         options.map(option => {
+          if (option.value === null) {
+            return (
+              <option key={`${option.value}-${option.label}`} value={'null'}>
+                {option.label}
+              </option>
+            );
+          }
           return (
             <option key={`${option.value}-${option.label}`} value={option.value}>
               {option.label}

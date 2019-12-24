@@ -25,8 +25,7 @@ export default {
     },
     {
       title: 'Enquiries and Bookings',
-      href: `${ADMIN_BASE_URL}/bookings`,
-      hard: true,
+      href: `/bookings`,
     },
   ],
   rl: [
@@ -58,8 +57,7 @@ export default {
     },
     {
       title: 'Enquiries and Bookings',
-      href: `${ADMIN_BASE_URL}/bookings`,
-      hard: true,
+      href: `/bookings`,
     },
     {
       title: 'Travel Agents',
@@ -97,8 +95,7 @@ export default {
     },
     {
       title: 'Enquiries and Bookings',
-      href: `${ADMIN_BASE_URL}/bookings`,
-      hard: true,
+      href: `/bookings`,
     },
     {
       title: 'Users',

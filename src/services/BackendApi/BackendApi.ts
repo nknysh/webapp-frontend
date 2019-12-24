@@ -19,6 +19,7 @@ import { IBookingAttributes, IBookingInformation, IReviewBookingSchema } from 'i
 import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
 import { getBookingInformationForBooking } from '../../utils/bookingBuilder';
 import { IProposalsListResponse } from './types/ProposalsListResponse';
+import { IBookingsListResponse } from './types/BookingsListResponse';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -78,6 +79,21 @@ export class BackendApiService<T extends AxiosInstance> {
   getProposalsList = async (query): Promise<AxiosResponse<IProposalsListResponse>> => {
     const endpoint = `${BackendEndpoints.PROPOSALS}`;
     return this.client.get(endpoint, { params: query });
+  };
+
+  getBookingsList = async (query): Promise<AxiosResponse<IBookingsListResponse>> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}`;
+    return this.client.get(endpoint, { params: query });
+  };
+
+  getTravelAgents = async () => {
+    const endpoint = `/users?filter[user][type]=ta`;
+    return this.client.get(endpoint);
+  };
+
+  getHotelsAsHotelNames = async () => {
+    const endpoint = `/hotels?fields[hotel]=uuid,name`;
+    return this.client.get(endpoint);
   };
 
   sanitizQueryObject = (query: SearchQuery): SearchQuery => {

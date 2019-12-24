@@ -13,6 +13,7 @@ import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 import { FastSearchContainerConnected } from 'containers/FastSearch';
 import { ProposalListConnected } from 'containers/ProposalList';
+import { BookingListConnected } from 'containers/BookingList';
 
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange }) => {
   // Scroll to top on path change
@@ -32,6 +33,7 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange })
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
           <Route path="/proposals" exact component={ProposalListConnected} />
+          <Route path="/bookings" exact component={BookingListConnected} />
 
           {...getAppRoutes(prop('type', user))}
         </Switch>
@@ -43,9 +45,4 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange })
 App.propTypes = propTypes;
 App.defaultProps = defaultProps;
 
-export default compose(
-  ErrorBoundary,
-  withRouter,
-  withUser,
-  connect
-)(App);
+export default compose(ErrorBoundary, withRouter, withUser, connect)(App);

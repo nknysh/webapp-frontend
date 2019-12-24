@@ -1,6 +1,15 @@
 export interface IProposalBooking {
   uuid: string;
   hotelUuid: string;
+  checkInDate: string;
+  checkOutDate: string;
+}
+
+export interface IProposalUser {
+  uuid: string;
+  title: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface IProposalsListItem {
@@ -16,6 +25,7 @@ export interface IProposalsListItem {
   createdAt: string;
   updatedAt: string;
   bookings: Partial<IProposalBooking>[];
+  user: Partial<IProposalUser>[];
 }
 
 export interface IProposalsListResponseMeta {
