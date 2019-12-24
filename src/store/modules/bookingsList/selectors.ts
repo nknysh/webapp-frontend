@@ -141,7 +141,7 @@ export const bookingsListQuerySelector = createSelector(
           'uuid,checkInDate,checkOutDate,guestTitle,guestFirstName,guestLastName,guestEmail,status,travelAgentUserUuid,hotelName,hotelUuid,overrideTotal,createdAt,updatedAt,clientUuid',
       },
       filter: filterParam,
-      associations: associations.join(','),
+      associations: associations.length >= 1 ? associations.join(',') : undefined,
     };
   }
 );
