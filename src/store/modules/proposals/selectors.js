@@ -98,3 +98,7 @@ export const getProposalsKeyValue = createSelector(
     reduce((accum, { uuid, name }) => mergeDeepRight(accum, { [uuid]: name }), {})
   )
 );
+export const getProposalPdf = pipe(
+  getProposals,
+  propOr(null, 'proposalPdf')
+);

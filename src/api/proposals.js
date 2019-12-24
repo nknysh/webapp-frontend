@@ -46,6 +46,9 @@ export const updateProposal = (id, body, params, opts) => client.patch(`/proposa
 export const completeProposal = (id, body, params, opts) =>
   client.post(`/proposals/${id}/complete`, body, { params, ...opts });
 
+export const generateProposalPdf = (id, body, params, opts) =>
+  client.post(`/proposals/${id}/pdf`, body, { params, ...opts });
+
 /**
  * Remove booking
  *
@@ -58,4 +61,4 @@ export const completeProposal = (id, body, params, opts) =>
 export const removeBooking = (id, bookingId, params, opts) =>
   client.delete(`/proposals/${id}/bookings/${bookingId}`, { params, ...opts });
 
-export default { getProposals, getProposal, createProposal, updateProposal, removeBooking, completeProposal };
+export default { getProposals, getProposal, createProposal, updateProposal, removeBooking, completeProposal, generateProposalPdf };

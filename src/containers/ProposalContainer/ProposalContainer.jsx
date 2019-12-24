@@ -182,20 +182,18 @@ const renderProposalGuestInfo = (t, { isEdit, isMobile, proposal, pdfCount, onPr
     </Fragment>
   );
 
-const renderPDFModal = (t, { id, showPDF, setShowPDF, guestsDetails }) => {
-  const queryString = toPairs(guestsDetails)
-    .map(([k, v]) => `${k}=${v ? encodeURIComponent(v) : v}`)
-    .join('&');
+const renderPDFModal = (t, { id, showPDF, setShowPDF, proposalPdf }) => {
   return (
     showPDF && (
       <Modal open={showPDF} onClose={() => setShowPDF(false)}>
         <PDFFrame>
-          <iframe src={`${API_BASE_URL}/proposals/${id}/pdf?${queryString}`} />
+          <iframe src={proposalPdf} />
         </PDFFrame>
       </Modal>
     )
   );
 };
+
 
 const renderLatestPDFModal = (proposalId, pdfUrl, setState) => {
   return (
@@ -269,6 +267,8 @@ export const ProposalContainer = ({
   removeBooking,
   status,
   completeProposal,
+  generateProposalPdf,
+  proposalPdf
 }) => {
   const { t } = useTranslation();
 
@@ -282,7 +282,6 @@ export const ProposalContainer = ({
   const [canEdit, setCanEdit] = useState({});
   const [showPDF, setShowPDF] = useState(false);
   const [showLatestPDF, setShowLatestPDF] = useState(false);
-  const [guestsDetails, setGuestDetails] = useState({});
   const [attachedUploads, setAttachedUploads] = useState(propOr([], 'attachedUploads', proposal));
 
   useEffectBoundary(() => {
@@ -350,7 +349,7 @@ export const ProposalContainer = ({
   );
 
   const onPreviewPDF = useCallback(values => {
-    setGuestDetails(values);
+    generateProposalPdf(id, values);
     setShowPDF(true);
   }, []);
 
@@ -430,7 +429,7 @@ export const ProposalContainer = ({
             })
           : renderTabs(t, { id, summaryProps, guestInfoProps })}
       </StyledProposalContainer>
-      {renderPDFModal(t, { id, showPDF, setShowPDF, guestsDetails })}
+      {renderPDFModal(t, { id, showPDF, setShowPDF, proposalPdf })}
       {showLatestPDF && renderLatestPDFModal(proposal.id, latestPdfUrl, setShowLatestPDF)}
     </Loader>
   );
