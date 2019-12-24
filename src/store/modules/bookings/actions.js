@@ -169,7 +169,10 @@ const allHaveStartAndEndDate = all(hasStartAndEndDate);
 const hasAccommodation = allPass([
   // Has acommodation product key
   propIsNotEmptyOrNil(ProductTypes.ACCOMMODATION),
-  pipe(propOr([], ProductTypes.ACCOMMODATION), allHaveStartAndEndDate),
+  pipe(
+    propOr([], ProductTypes.ACCOMMODATION),
+    allHaveStartAndEndDate
+  ),
 ]);
 
 /**
@@ -363,13 +366,23 @@ export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
   }
 
   // concat the new room into the Accommodation object
-  const next = overProducts(ProductTypes.ACCOMMODATION, pipe(defaultTo([]), concat(__, newRoomToBeAdded)), booking);
+  const next = overProducts(
+    ProductTypes.ACCOMMODATION,
+    pipe(
+      defaultTo([]),
+      concat(__, newRoomToBeAdded)
+    ),
+    booking
+  );
 
   // Update booking first to trigger BB call, which will pull down meal plans
   await dispatch(updateBooking(hotelUuid, pick(['breakdown'], next)));
 
   // Format meal plan so it's all uppercase
-  const mealPlan = pipe(getSearchMealPlan, when(complement(isNilOrEmpty), toUpper))(state);
+  const mealPlan = pipe(
+    getSearchMealPlan,
+    when(complement(isNilOrEmpty), toUpper)
+  )(state);
 
   // If there is a meal plan, then we need to attach those as sub products
   if (!isNilOrEmpty(mealPlan)) {
@@ -377,7 +390,14 @@ export const addRoom = (hotelUuid, roomUuid) => async (dispatch, getState) => {
     const roomMealPlans = getBookingMealPlanForRoomByType(state, hotelUuid, roomUuid, mealPlan);
 
     // Get the selected meal plans
-    const selectedMealPlans = map(pipe(reduce(reduceMealPlans, []), uniq, map(objOf('uuid'))), roomMealPlans);
+    const selectedMealPlans = map(
+      pipe(
+        reduce(reduceMealPlans, []),
+        uniq,
+        map(objOf('uuid'))
+      ),
+      roomMealPlans
+    );
 
     // This is current booking that will be manipulated
     const nextBooking = getBooking(state, hotelUuid);
@@ -434,7 +454,14 @@ export const updateRoom = (id, uuid, payload) => (dispatch, getState) => {
   )(accommodations);
 
   // Replace the rooms with new data
-  const next = overProducts(ProductTypes.ACCOMMODATION, pipe(reject(whereUuid), concat(rooms)), booking);
+  const next = overProducts(
+    ProductTypes.ACCOMMODATION,
+    pipe(
+      reject(whereUuid),
+      concat(rooms)
+    ),
+    booking
+  );
 
   dispatch(updateBooking(id, pick(['breakdown'], next)));
 };
@@ -562,7 +589,14 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
     touched: false,
   };
 
-  const nextState = over(lensPath(['bookings', 'data', id]), pipe(defaultTo({}), mergeDeepLeft(nextBooking)), state);
+  const nextState = over(
+    lensPath(['bookings', 'data', id]),
+    pipe(
+      defaultTo({}),
+      mergeDeepLeft(nextBooking)
+    ),
+    state
+  );
 
   const bookingBuilderPayload = getBookingForBuilderPure(nextState, id);
 
@@ -641,10 +675,21 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
     omit(omitProps),
     // Extract the special request keys and only use
     // ones that are true
-    over(lensProp('specialRequests'), pipe(pickBy(equals(true)), keys)),
+    over(
+      lensProp('specialRequests'),
+      pipe(
+        pickBy(equals(true)),
+        keys
+      )
+    ),
     toPairs,
     // Filter out empty keys
-    reject(pipe(last, isNil)),
+    reject(
+      pipe(
+        last,
+        isNil
+      )
+    ),
     fromPairs
   )(booking);
 
@@ -1012,7 +1057,10 @@ export const fetchBookings = params => async dispatch => {
             // Add the final day to internal dates
             over(
               lensPath(['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION]),
-              pipe(defaultTo([]), map(dateEvolve))
+              pipe(
+                defaultTo([]),
+                map(dateEvolve)
+              )
             )
           )
         )
@@ -1021,7 +1069,10 @@ export const fetchBookings = params => async dispatch => {
     );
 
     // Get users entities from payload by removing bookings entities and result
-    const users = pipe(dissocPath(['entities', 'bookings']), dissocPath(['result']))(bookings);
+    const users = pipe(
+      dissocPath(['entities', 'bookings']),
+      dissocPath(['result'])
+    )(bookings);
 
     await dispatch(successAction(USERS_FETCH, users));
     dispatch(successAction(BOOKINGS_FETCH, path(['entities', 'bookings'], bookings)));

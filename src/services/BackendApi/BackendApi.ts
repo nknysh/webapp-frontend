@@ -18,6 +18,7 @@ import { Hotel, IBooking } from './types/OffersSearchResponse';
 import { IBookingAttributes, IBookingInformation, IReviewBookingSchema } from 'interfaces';
 import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
 import { getBookingInformationForBooking } from '../../utils/bookingBuilder';
+import { IProposalsListResponse } from './types/ProposalsListResponse';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -26,6 +27,7 @@ export enum BackendEndpoints {
   BOOKING_BUILDER = 'booking-builder',
   HOTEL = 'hotels',
   BOOKINGS = 'bookings',
+  PROPOSALS = 'proposals',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -71,6 +73,11 @@ export class BackendApiService<T extends AxiosInstance> {
   getAvailableProposals = async () => {
     const endpoint = `proposals/available`;
     return this.client.get(endpoint);
+  };
+
+  getProposalsList = async (query): Promise<AxiosResponse<IProposalsListResponse>> => {
+    const endpoint = `${BackendEndpoints.PROPOSALS}`;
+    return this.client.get(endpoint, { params: query });
   };
 
   sanitizQueryObject = (query: SearchQuery): SearchQuery => {

@@ -58,19 +58,61 @@ export const mapStateToProps = (state, { id }) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchBooking: pipe(fetchBooking, dispatch),
-  clearCreatedBooking: pipe(clearCreatedBooking, dispatch),
-  requestBooking: pipe(requestBooking, dispatch),
-  addHoldToBooking: pipe(addHoldToBooking, dispatch),
-  releaseHoldFromBooking: pipe(releaseHoldFromBooking, dispatch),
-  completeBooking: pipe(completeBooking, dispatch),
-  reviewBooking: pipe(reviewBooking, dispatch),
-  cancelBooking: pipe(cancelBooking, dispatch),
-  forwardsCompatBookingBuilderAction: pipe(forwardsCompatBookingBuilderAction, dispatch),
-  addToProposal: pipe(addExistingBookingToProposal, dispatch),
-  updateBookingGuestInformationAction: pipe(updateBookingGuestInformationAction, dispatch),
-  createNewProposal: pipe(createNewProposalWithExistingBooking, dispatch),
-  fetchProposals: pipe(fetchProposals, dispatch),
+  fetchBooking: pipe(
+    fetchBooking,
+    dispatch
+  ),
+  clearCreatedBooking: pipe(
+    clearCreatedBooking,
+    dispatch
+  ),
+  requestBooking: pipe(
+    requestBooking,
+    dispatch
+  ),
+  addHoldToBooking: pipe(
+    addHoldToBooking,
+    dispatch
+  ),
+  releaseHoldFromBooking: pipe(
+    releaseHoldFromBooking,
+    dispatch
+  ),
+  completeBooking: pipe(
+    completeBooking,
+    dispatch
+  ),
+  reviewBooking: pipe(
+    reviewBooking,
+    dispatch
+  ),
+  cancelBooking: pipe(
+    cancelBooking,
+    dispatch
+  ),
+  forwardsCompatBookingBuilderAction: pipe(
+    forwardsCompatBookingBuilderAction,
+    dispatch
+  ),
+  addToProposal: pipe(
+    addExistingBookingToProposal,
+    dispatch
+  ),
+  updateBookingGuestInformationAction: pipe(
+    updateBookingGuestInformationAction,
+    dispatch
+  ),
+  createNewProposal: pipe(
+    createNewProposalWithExistingBooking,
+    dispatch
+  ),
+  fetchProposals: pipe(
+    fetchProposals,
+    dispatch
+  ),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+);

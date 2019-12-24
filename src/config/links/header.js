@@ -21,8 +21,7 @@ export default {
     },
     {
       title: 'Proposals',
-      href: `${ADMIN_BASE_URL}/proposals`,
-      hard: true,
+      href: `/proposals`,
     },
     {
       title: 'Enquiries and Bookings',
@@ -54,7 +53,7 @@ export default {
     },
     {
       title: 'Proposals',
-      href: `${ADMIN_BASE_URL}/proposals`,
+      href: `/proposals`,
       hard: true,
     },
     {
@@ -65,7 +64,6 @@ export default {
     {
       title: 'Travel Agents',
       href: `${ADMIN_BASE_URL}/travel-agents`,
-      hard: true,
     },
   ],
   admin: [
@@ -95,8 +93,7 @@ export default {
     },
     {
       title: 'Proposals',
-      href: `${ADMIN_BASE_URL}/proposals`,
-      hard: true,
+      href: `/proposals`,
     },
     {
       title: 'Enquiries and Bookings',

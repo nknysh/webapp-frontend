@@ -12,6 +12,7 @@ import { withUser } from 'hoc';
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 import { FastSearchContainerConnected } from 'containers/FastSearch';
+import { ProposalListConnected } from 'containers/ProposalList';
 
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange }) => {
   // Scroll to top on path change
@@ -30,6 +31,8 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange })
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
+          <Route path="/proposals" exact component={ProposalListConnected} />
+
           {...getAppRoutes(prop('type', user))}
         </Switch>
       </Suspense>

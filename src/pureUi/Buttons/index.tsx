@@ -3,11 +3,22 @@ import styled from 'styled-components';
 import { pureUiTheme } from '../pureUiTheme';
 import { Link, LinkProps } from 'react-router-dom';
 
-/* TODO: Try to remove the duplication in this file */
-
-const baseButtonStyles = `
-  position: relative;
+export const buttonStates = `
   transition: all 0.15s ease-out;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px ${pureUiTheme.colors.marine};
+  }
+
+  &:active {
+    background-color: ${pureUiTheme.colors.black};
+    box-shadow: 0 0 0 8px ${pureUiTheme.colors.lightBlue};
+  }
+`;
+
+export const baseButtonStyles = `
+  position: relative;
   display: block;
   line-height: 35px;
   font-family: 'HurmeGeometricSans2';
@@ -29,18 +40,11 @@ const baseButtonStyles = `
     border-color: ${pureUiTheme.colors.goldDark};
   }
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px ${pureUiTheme.colors.marine};
-  }
-
   &:hover {
     background-color: ${pureUiTheme.colors.goldDark};
   }
-  &:active {
-    background-color: ${pureUiTheme.colors.black};
-    box-shadow: 0 0 0 8px ${pureUiTheme.colors.lightBlue};
-  }
+
+  ${buttonStates}
 `;
 
 export const PrimaryButton = styled.button`
@@ -69,18 +73,11 @@ export const IconButton = styled.button`
   color: ${pureUiTheme.colors.gold};
   box-shadow: 0 0 0 5px transparent;
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px ${pureUiTheme.colors.marine};
-  }
-
   &:hover {
     color: ${pureUiTheme.colors.goldDark};
   }
-  &:active {
-    color: ${pureUiTheme.colors.black};
-    box-shadow: 0 0 0 8px ${pureUiTheme.colors.lightBlue};
-  }
+
+  ${buttonStates}
 `;
 
 export const Tab = styled.button`

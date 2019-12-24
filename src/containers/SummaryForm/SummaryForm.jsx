@@ -47,7 +47,12 @@ import { makeBackendApi } from 'services/BackendApi';
 const modalProps = { className: 'room-summary-form' };
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
-const getSingleValue = (type, data) => pipe(pathOr([''], ['request', type]), head, propOr('', 'uuid'))(data);
+const getSingleValue = (type, data) =>
+  pipe(
+    pathOr([''], ['request', type]),
+    head,
+    propOr('', 'uuid')
+  )(data);
 
 const renderTotalPrice = (t, currencyCode, isOnRequest, value, isSecondary, isDiscounted) => {
   <Total data-request={isOnRequest} data-secondary={isSecondary} data-discounted={isDiscounted}>

@@ -123,7 +123,7 @@ const BookingSummaryPotentialSR = props => {
   const handleConfirmOverrideAndPlaceHold = () => {
     setIsConfirmPlaceHoldPending(true);
     try {
-      backendApi.addHoldToBooking(newBooking.uuid);
+      backendApi.addHoldToBooking(newBooking.uuid!);
     } catch (e) {
       console.error(`Error ${e}`);
     } finally {

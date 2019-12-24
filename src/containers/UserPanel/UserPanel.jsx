@@ -35,9 +35,8 @@ export const UserPanel = ({
   countries,
   setCountry,
   isSr,
-  location
+  location,
 }) => {
-  
   const { t } = useTranslation();
   const [logout, setLogout] = useState(false);
 

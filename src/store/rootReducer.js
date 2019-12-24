@@ -19,6 +19,7 @@ import travelAgents from './modules/travelAgents/reducer';
 import hotelAccommodationProducts from './modules/hotelAccommodationProducts/reducer';
 import fastSearch from './modules/fastSearch/reducer';
 import bookingBuilder from './modules/bookingBuilder/reducer';
+import proposalsList from './modules/proposalsList/reducer';
 
 const clearState = mapObjIndexed(always(undefined));
 
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
   hotelAccommodationProducts,
   fastSearch,
   bookingBuilder,
+  proposalsList,
 });
 
 export default (state, action) => {

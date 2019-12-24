@@ -13,7 +13,6 @@ export const colors = {
   goldLight: '#9D9591',
   goldBorder: '#816850',
   goldOpacity: 'rgba(161,130,101, 0.75)',
-
   black: '#373C46',
   blackLight: '#999999',
   blackDarker: '#333333',
