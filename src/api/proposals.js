@@ -61,4 +61,12 @@ export const generateProposalPdf = (id, body, params, opts) =>
 export const removeBooking = (id, bookingId, params, opts) =>
   client.delete(`/proposals/${id}/bookings/${bookingId}`, { params, ...opts });
 
-export default { getProposals, getProposal, createProposal, updateProposal, removeBooking, completeProposal, generateProposalPdf };
+export default {
+  getProposals,
+  getProposal,
+  createProposal,
+  updateProposal,
+  removeBooking,
+  completeProposal,
+  generateProposalPdf,
+};

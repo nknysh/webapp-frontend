@@ -521,7 +521,7 @@ export const proposalBookingRelease = (proposalId, bookingId) => async (dispatch
 
 export const generateProposalPdf = (proposalUuid, payload) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSAL_GENERATE_PDF, { id: proposalUuid, payload }));
-  
+
   try {
     const {
       data: { data },

@@ -45,4 +45,9 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange })
 App.propTypes = propTypes;
 App.defaultProps = defaultProps;
 
-export default compose(ErrorBoundary, withRouter, withUser, connect)(App);
+export default compose(
+  ErrorBoundary,
+  withRouter,
+  withUser,
+  connect
+)(App);

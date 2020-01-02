@@ -194,7 +194,6 @@ const renderPDFModal = (t, { id, showPDF, setShowPDF, proposalPdf }) => {
   );
 };
 
-
 const renderLatestPDFModal = (proposalId, pdfUrl, setState) => {
   return (
     <Modal open={true} onClose={() => setState(false)}>
@@ -268,7 +267,7 @@ export const ProposalContainer = ({
   status,
   completeProposal,
   generateProposalPdf,
-  proposalPdf
+  proposalPdf,
 }) => {
   const { t } = useTranslation();
 

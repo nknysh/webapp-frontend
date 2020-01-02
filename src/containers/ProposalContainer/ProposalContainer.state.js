@@ -14,14 +14,14 @@ import {
   getProposalsStatus,
   getProposalBookings,
   generateProposalPdf,
-  getProposalPdf
+  getProposalPdf,
 } from 'store/modules/proposals';
 
 export const mapStateToProps = (state, { id }) => ({
   proposal: getProposal(state, id),
   status: getProposalsStatus(state),
   bookings: getProposalBookings(state, id),
-  proposalPdf: getProposalPdf(state)
+  proposalPdf: getProposalPdf(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

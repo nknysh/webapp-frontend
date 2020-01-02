@@ -10,23 +10,22 @@ import {
   PROPOSALS_ADD,
   PROPOSALS_FETCH,
   PROPOSALS_NEW,
-  PROPOSAL_GENERATE_PDF
+  PROPOSAL_GENERATE_PDF,
 } from './actions';
 
-const generatePdfSuccess = (state,  { payload }) => {
+const generatePdfSuccess = (state, { payload }) => {
   return {
     ...state,
-    proposalPdf: payload.url
+    proposalPdf: payload.url,
   };
 };
 
 const generatePdfRequest = state => {
   return {
     ...state,
-    proposalPdf: null
+    proposalPdf: null,
   };
 };
-
 
 export default createReducer(
   {
@@ -57,7 +56,7 @@ export default createReducer(
     [PROPOSALS_ADD]: loadingReducer,
     [PROPOSALS_FETCH]: loadingReducer,
     [PROPOSALS_NEW]: loadingReducer,
-    [PROPOSAL_GENERATE_PDF]: generatePdfRequest
+    [PROPOSAL_GENERATE_PDF]: generatePdfRequest,
   },
   initialState
 );
