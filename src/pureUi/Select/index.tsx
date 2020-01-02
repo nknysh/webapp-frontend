@@ -49,13 +49,13 @@ const Select = ({
         options.map(option => {
           if (option.value === null) {
             return (
-              <option key={`${option.value}-${option.label}`} value={'null'}>
+              <option key={`${option.value}-${option.label}`} value={'null'} disabled={option.disabled}>
                 {option.label}
               </option>
             );
           }
           return (
-            <option key={`${option.value}-${option.label}`} value={option.value}>
+            <option key={`${option.value}-${option.label}`} value={option.value} disabled={option.disabled}>
               {option.label}
             </option>
           );

@@ -65,6 +65,30 @@ const bookingListReducer = (
         bookingStatus: action.status,
       };
 
+    case Actions.GET_HOTEL_NAMES_REQUEST:
+      return {
+        ...state,
+        hotelsRequestPending: true,
+        hotelNames: null,
+        hotelNamesError: null,
+      };
+
+    case Actions.GET_HOTEL_NAMES_SUCCESS:
+      return {
+        ...state,
+        hotelsRequestPending: false,
+        hotelNames: action.hotelNames,
+        hotelNamesError: null,
+      };
+
+    case Actions.GET_HOTEL_NAMES_FAILURE:
+      return {
+        ...state,
+        hotelsRequestPending: false,
+        hotelNames: null,
+        hotelNamesError: action.error,
+      };
+
     default:
       return state;
   }

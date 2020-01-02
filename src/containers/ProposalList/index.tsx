@@ -37,38 +37,16 @@ import {
   setSelectedTravelAgentAction,
 } from 'store/modules/proposalsList/actions';
 
-import { makeBackendApi } from 'services/BackendApi';
+import { getTravelAgentsRequestAction } from '../../store/modules/agents/actions';
+import { travelAgentSelectOptionsSelector } from '../../store/modules/agents/selectors';
 
 export class ProposalListContainer extends React.Component<IProposalListProps, IProposalListState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      travelAgentsForSelect: [{ value: null, label: 'None Selected' }],
-    };
-  }
-
   componentDidMount() {
     this.props.getProposalListRequest();
 
-    // if we're not an SR, we don't need the travel agents
-    if (!this.props.isSr) {
-      return;
+    if (this.props.isSr) {
+      this.props.getTravelAgents();
     }
-
-    const backendApi = makeBackendApi(this.props.actingCountryCode);
-
-    backendApi.getTravelAgents().then(res => {
-      const travelAgentsForSelect = res.data.data.map(ta => {
-        return {
-          value: ta.uuid,
-          label: `${ta.title}. ${ta.firstName} ${ta.lastName}`,
-        };
-      });
-      travelAgentsForSelect.unshift({ value: null, label: 'None Selected' });
-      this.setState({
-        travelAgentsForSelect,
-      });
-    });
   }
 
   handleFilterChange = (e: FormEvent<HTMLInputElement>) => {
@@ -103,24 +81,26 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
   };
 
   render() {
+    console.log(this.props);
     return (
       <ProposalListStylesWrapper>
         <Heading2 className="heading">{this.getHeadingText()}</Heading2>
         <div className="settings">
           {this.props.isSr && (
-            <div>
-              <label>Travel Agent</label>
+            <label>
+              Travel Agent
               <Select
                 value={this.props.selectedTravelAgentUuid || ''}
-                options={this.state.travelAgentsForSelect}
+                options={this.props.travelAgentSelectOptions}
                 onChange={e => {
                   this.props.setSelectedTravelAgent(e.target.value);
                 }}
               />
-            </div>
+            </label>
           )}
-          <div>
-            <label>Filter</label>
+
+          <label>
+            Filter
             <TextInput
               className="filterInput"
               value={this.props.filter}
@@ -129,7 +109,7 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
             >
               <Search className="searchIcon"></Search>
             </TextInput>
-          </div>
+          </label>
         </div>
 
         {!this.props.requestPending && this.props.totalResults > 0 && (
@@ -160,14 +140,14 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
                 <TH
                   sortOrder={this.getSortOrderForProp('updatedAt')}
                   onClick={this.handleSort('updatedAt')}
-                  className="created"
+                  className="updated"
                 >
                   Updated On
                 </TH>
-                <TH className="bookingCount centered">No. Bookings</TH>
-                <TH className="hotelCount centered">No. Hotels</TH>
-                {this.props.isSr && <TH>Travel Agent</TH>}
-                <TH>Is Sent?</TH>
+                <TH className="bookingCount centered">Nº Bookings</TH>
+                <TH className="hotelCount centered">Nº Hotels</TH>
+                {this.props.isSr && <TH className="travelAgent">Travel Agent</TH>}
+                <TH className="isSent">Is Sent?</TH>
                 <TH className="actions">Actions</TH>
               </TRow>
             </THead>
@@ -200,7 +180,7 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
                     </TD>
                     <TD className="centered">{proposal.bookings.length}</TD>
                     <TD className="centered">{hotelCount}</TD>
-                    {proposal.user && (
+                    {this.props.isSr && (
                       <TD>
                         {proposal.user.title}. {proposal.user.firstName} {proposal.user.lastName}
                       </TD>
@@ -257,6 +237,7 @@ const mapStateToProps = createStructuredSelector({
   actingCountryCode: getUserCountryContext,
   selectedTravelAgentUuid: selectedTravelAgentUuidSelector,
   isSr: isSR,
+  travelAgentSelectOptions: travelAgentSelectOptionsSelector,
 });
 
 const actionCreators = {
@@ -265,6 +246,7 @@ const actionCreators = {
   setPageNumber: setPageNumberAction,
   setSort: setSortAction,
   setSelectedTravelAgent: setSelectedTravelAgentAction,
+  getTravelAgents: getTravelAgentsRequestAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -272,6 +254,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IProposalListProps>(mapStateToProps, mapDispatchToProps);
+const withConnect = connect<StateToProps, DispatchToProps, IProposalListProps>(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
 export const ProposalListConnected = compose(withConnect)(ProposalListContainer);

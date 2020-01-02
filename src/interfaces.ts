@@ -71,6 +71,7 @@ export interface LodgingSummary extends RequestedBuildAccommodation {
 export interface IValueLabelPair {
   value: string;
   label: string;
+  disabled?: boolean;
 }
 
 export type IReduxDomainStatus = 'SUCCESS' | 'LOADING' | 'IDLE';

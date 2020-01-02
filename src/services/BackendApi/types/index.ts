@@ -6,3 +6,5 @@ export * from './ErrorResponse';
 export * from './NameSearchResponse';
 export * from './BookingBuilderEndpoint';
 export * from './BookingsListResponse';
+export * from './TravelAgentResponse';
+export * from './HotelNamesResponse';

@@ -4,12 +4,12 @@ import { makeBackendApi, IBookingsListResponse } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 import { bookingsListQuerySelector } from '../selectors';
 import {
+  getBookingListSuccessAction,
+  getBookingListFailureAction,
   GET_BOOKING_LIST_REQUEST,
   SET_FILTER,
   SET_SORT,
   SET_PAGE_NUMBER,
-  getBookingListSuccessAction,
-  getBookingListFailureAction,
   SET_TRAVEL_AGENT_UUID,
   SET_HOTEL,
   SET_STATUS,

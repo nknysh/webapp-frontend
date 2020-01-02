@@ -25,7 +25,7 @@ export interface IProposalsListItem {
   createdAt: string;
   updatedAt: string;
   bookings: Partial<IProposalBooking>[];
-  user: Partial<IProposalUser>[];
+  user: IProposalUser;
 }
 
 export interface IProposalsListResponseMeta {

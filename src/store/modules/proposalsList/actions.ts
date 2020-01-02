@@ -47,7 +47,7 @@ export const setSortAction = (sortBy: keyof IProposalsListItem, sortOrder: 'asc'
 
 export type SetSelectedTravelAgentAction = ReturnType<typeof setSelectedTravelAgentAction>;
 export const setSelectedTravelAgentAction = (travelAgentUuid: string) => ({
-  type: SET_TRAVEL_AGENT_UUID as typeof SET_SORT,
+  type: SET_TRAVEL_AGENT_UUID as typeof SET_TRAVEL_AGENT_UUID,
   travelAgentUuid,
 });
 

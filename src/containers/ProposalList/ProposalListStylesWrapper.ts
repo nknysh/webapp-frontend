@@ -23,14 +23,20 @@ export const ProposalListStylesWrapper = styled.section`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: flex-end;
     margin-bottom: 50px;
+  }
+
+  .settings > label {
+    margin-left: 10px;
+    color: ${pureUiTheme.colors.black};
+    font-size: 12px;
+    flex-grow: 1;
   }
 
   .settings .filterInput {
     flex-grow: 1;
-    margin-right: 10px;
-    height: 38px;
-    margin-top: 6px; /* Can't remove the syupid margin on material UI's select, so have to match the margin here. */
+    height: 35px;
   }
 
   .table {
@@ -43,29 +49,28 @@ export const ProposalListStylesWrapper = styled.section`
   }
 
   .table .id {
-    width: 13%;
   }
 
   .table .client {
     width: 10%;
   }
-  .table .created {
-    width: 13%;
+  .table .created,
+  .table .updated {
+    width: 100px;
   }
 
-  .table .bookingCount {
-    width: 85px;
-  }
-
+  .table .bookingCount,
   .table .hotelCount {
-    width: 85px;
+    width: 79px;
   }
 
-  .table .comments {
-    width: auto;
+  .isSent {
+    width: 60px;
   }
+
   .table .actions {
     width: 13%;
+    text-indent: -99999px;
   }
 
   .table .centered {

@@ -7,6 +7,8 @@ import { watchInitializeQuery } from 'store/modules/fastSearch/sagas/initializeQ
 import { watchInitializeBookingBuilder } from './modules/bookingBuilder/sagas/initializeBookingBuilder';
 import { watchGetProposalsList } from './modules/proposalsList/sagas/proposalsListSaga';
 import { watchGetBookingsList } from './modules/bookingsList/sagas/bookingsListSaga';
+import { watchGetTravelAgentsRequest } from './modules/agents/sagas/getTravelAgentsSaga';
+import { watchGetHotelNames } from './modules/bookingsList/sagas/hotelNamesSaga';
 
 export default function* searchSagas() {
   const sagas = [
@@ -18,6 +20,8 @@ export default function* searchSagas() {
     watchInitializeBookingBuilder,
     watchGetProposalsList,
     watchGetBookingsList,
+    watchGetTravelAgentsRequest,
+    watchGetHotelNames,
   ];
 
   yield all(

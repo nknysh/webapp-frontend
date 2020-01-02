@@ -1,7 +1,9 @@
 import { IBookingsListItem } from 'services/BackendApi/types/BookingsListResponse';
+import { IHotelNameItem } from '../../../services/BackendApi/types/HotelNamesResponse';
 
 export interface IBookingsListDomain {
   requestPending: boolean;
+  hotelsRequestPending: boolean;
   error: any | null;
   bookings: IBookingsListItem[] | null;
   filter: string;
@@ -15,10 +17,13 @@ export interface IBookingsListDomain {
   travelAgentUuid: string | null;
   hotel: string | null;
   bookingStatus: string | null;
+  hotelNames: IHotelNameItem[] | null;
+  hotelNamesError: string | null;
 }
 
 export const initialState: IBookingsListDomain = {
   requestPending: true,
+  hotelsRequestPending: false,
   error: null,
   bookings: null,
   filter: '',
@@ -32,4 +37,6 @@ export const initialState: IBookingsListDomain = {
   travelAgentUuid: null,
   hotel: null,
   bookingStatus: null,
+  hotelNames: null,
+  hotelNamesError: null,
 };

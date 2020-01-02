@@ -28,6 +28,7 @@ import {
   selectedHotelSelector,
   selectedStatusSelector,
   selectedTravelAgentUuidSelector,
+  hotelNameOptionsSelector,
 } from 'store/modules/bookingsList/selectors';
 
 import {
@@ -38,61 +39,29 @@ import {
   setSelectedTravelAgentAction,
   setSelectedHotelAction,
   setSelectedStatusAction,
+  getHotelNamesRequestAction,
 } from 'store/modules/bookingsList/actions';
 
 import { makeBackendApi } from 'services/BackendApi';
+import { getTravelAgentsRequestAction } from '../../store/modules/agents/actions';
+import { travelAgentSelectOptionsSelector } from '../../store/modules/agents/selectors';
+import { IValueLabelPair } from '../../interfaces';
 
-export class BookingListContainer extends React.Component<IBookingListProps, IBookingListState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      travelAgentsForSelect: [{ value: null, label: 'None Selected' }],
-      hotelsForSelect: [{ value: null, label: 'None Selected' }],
-      statusesForSelect: [
-        { value: null, label: 'None Selected' },
-        { value: 'potential', label: 'Potential' },
-        { value: 'requested', label: 'Requested' },
-        { value: 'confirmed', label: 'Confirmed' },
-        { value: 'cancelled', label: 'Cancelled' },
-      ],
-    };
-  }
+export class BookingListContainer extends React.Component<IBookingListProps, {}> {
+  bookingStatusOptions: IValueLabelPair[] = [
+    { value: '', label: 'All Statuses' },
+    { value: 'potential', label: 'Potential' },
+    { value: 'requested', label: 'Requested' },
+    { value: 'confirmed', label: 'Confirmed' },
+    { value: 'cancelled', label: 'Cancelled' },
+  ];
 
   componentDidMount() {
     this.props.getBookingListRequest();
-
-    const backendApi = makeBackendApi(this.props.actingCountryCode);
-
-    backendApi.getHotelsAsHotelNames().then(res => {
-      const hotelsForSelect = res.data.data.map(hotel => {
-        return {
-          value: hotel.uuid,
-          label: `${hotel.name}`,
-        };
-      });
-      hotelsForSelect.unshift({ value: null, label: 'None Selected' });
-      this.setState({
-        hotelsForSelect,
-      });
-    });
-
-    // if we're not an SR, we don't need the travel agents
-    if (!this.props.isSr) {
-      return;
+    this.props.getHotelNames();
+    if (this.props.isSr) {
+      this.props.getTravelAgents();
     }
-
-    backendApi.getTravelAgents().then(res => {
-      const travelAgentsForSelect = res.data.data.map(ta => {
-        return {
-          value: ta.uuid,
-          label: `${ta.title}. ${ta.firstName} ${ta.lastName}`,
-        };
-      });
-      travelAgentsForSelect.unshift({ value: null, label: 'None Selected' });
-      this.setState({
-        travelAgentsForSelect,
-      });
-    });
   }
 
   handleFilterChange = (e: FormEvent<HTMLInputElement>) => {
@@ -131,43 +100,43 @@ export class BookingListContainer extends React.Component<IBookingListProps, IBo
       <BookingListStylesWrapper>
         <Heading2 className="heading">{this.getHeadingText()}</Heading2>
         <div className="settings">
-          <div>
-            <label>Hotel</label>
+          <label>
+            Hotel
             <Select
               value={this.props.selectedHotel || ''}
-              options={this.state.hotelsForSelect}
+              options={this.props.hotelNameOptions}
               onChange={e => {
                 this.props.setSelectedHotel(e.target.value);
               }}
             />
-          </div>
+          </label>
 
-          <div>
-            <label>Status</label>
+          <label>
+            Status
             <Select
               value={this.props.selectedStatus || ''}
-              options={this.state.statusesForSelect}
+              options={this.bookingStatusOptions}
               onChange={e => {
                 this.props.setSelectedStatus(e.target.value);
               }}
             />
-          </div>
+          </label>
 
           {this.props.isSr && (
-            <div>
-              <label>Travel Agent</label>
+            <label>
+              Travel Agent
               <Select
                 value={this.props.selectedTravelAgentUuid || ''}
-                options={this.state.travelAgentsForSelect}
+                options={this.props.travelAgentSelectOptions}
                 onChange={e => {
                   this.props.setSelectedTravelAgent(e.target.value);
                 }}
               />
-            </div>
+            </label>
           )}
 
-          <div>
-            <label>Filter</label>
+          <label>
+            Filter
             <TextInput
               className="filterInput"
               value={this.props.filter}
@@ -176,7 +145,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, IBo
             >
               <Search className="searchIcon"></Search>
             </TextInput>
-          </div>
+          </label>
         </div>
 
         {!this.props.requestPending && this.props.totalResults > 0 && (
@@ -228,7 +197,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, IBo
                     <TD>{formatDate(booking.createdAt, 'dd MMM yyyy')}</TD>
                     <TD>{booking.hotelName}</TD>
                     <TD>{booking.status.toUpperCase()}</TD>
-                    {booking.travelAgent && (
+                    {this.props.isSr && (
                       <TD>
                         {booking.travelAgent.title}. {booking.travelAgent.firstName} {booking.travelAgent.lastName}
                       </TD>
@@ -269,12 +238,6 @@ export interface IBookingListProps extends StateToProps, DispatchToProps {
   selectedStatus: string;
 }
 
-export interface IBookingListState {
-  travelAgentsForSelect: any;
-  hotelsForSelect: any;
-  statusesForSelect: any;
-}
-
 const mapStateToProps = createStructuredSelector({
   requestPending: requestPendingSelector,
   error: errorSelector,
@@ -290,6 +253,8 @@ const mapStateToProps = createStructuredSelector({
   selectedHotel: selectedHotelSelector,
   selectedStatus: selectedStatusSelector,
   isSr: isSR,
+  travelAgentSelectOptions: travelAgentSelectOptionsSelector,
+  hotelNameOptions: hotelNameOptionsSelector,
 });
 
 const actionCreators = {
@@ -300,6 +265,8 @@ const actionCreators = {
   setSelectedTravelAgent: setSelectedTravelAgentAction,
   setSelectedHotel: setSelectedHotelAction,
   setSelectedStatus: setSelectedStatusAction,
+  getTravelAgents: getTravelAgentsRequestAction,
+  getHotelNames: getHotelNamesRequestAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -307,6 +274,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IBookingListProps>(mapStateToProps, mapDispatchToProps);
+const withConnect = connect<StateToProps, DispatchToProps, IBookingListProps>(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
 export const BookingListConnected = compose(withConnect)(BookingListContainer);

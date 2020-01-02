@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
-import { IBookingsListDomain } from './model';
+import { IBookingsListDomain, initialState } from './model';
 import { isSR } from 'store/modules/auth';
+import { IHotelNameItem } from '../../../services/BackendApi/types/HotelNamesResponse';
+import { IValueLabelPair } from '../../../interfaces';
 
 const bookingsListDomain = (state: any) => state.bookingsList;
 
@@ -82,6 +84,44 @@ export const selectedHotelSelector = createSelector(
 export const selectedStatusSelector = createSelector(
   bookingsListDomain,
   (domain: IBookingsListDomain): IBookingsListDomain['bookingStatus'] => domain.bookingStatus
+);
+
+export const getHotelNamesSelector = createSelector(
+  bookingsListDomain,
+  (domain: IBookingsListDomain): IBookingsListDomain['hotelNames'] => domain.hotelNames
+);
+
+export const getHotelsRequestPendingSelector = createSelector(
+  bookingsListDomain,
+  (domain: IBookingsListDomain): IBookingsListDomain['hotelsRequestPending'] => domain.hotelsRequestPending
+);
+
+export const getHotelNamesErrorSelector = createSelector(
+  bookingsListDomain,
+  (domain: IBookingsListDomain): IBookingsListDomain['hotelNamesError'] => domain.hotelNamesError
+);
+
+export const hotelNameOptionsSelector = createSelector(
+  getHotelNamesSelector,
+  getHotelsRequestPendingSelector,
+  getHotelNamesErrorSelector,
+  (hotelNames: IHotelNameItem[] | null, requestPending: boolean, error: string | null): IValueLabelPair[] => {
+    if (requestPending) {
+      return [{ value: '', label: 'Loading hotel names', disabled: true }];
+    }
+
+    if (error) {
+      return [{ value: '', label: 'Error loading hotel names', disabled: true }];
+    }
+
+    if (!hotelNames) {
+      return [{ value: '', label: 'No hotels', disabled: true }];
+    }
+
+    const initialOption = { value: '', label: 'All Hotels' };
+    const options = hotelNames.map(h => ({ value: h.uuid, label: h.name }));
+    return [initialOption, ...options];
+  }
 );
 
 export const bookingsListQuerySelector = createSelector(
