@@ -894,7 +894,7 @@ exports[`<Footer /> render matches snapshot 1`] = `
         <styled.div>
           <Styled(styled.p)>
             © 
-            2019
+            2020
              Pure Escapes
           </Styled(styled.p)>
         </styled.div>
