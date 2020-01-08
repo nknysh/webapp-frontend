@@ -62,6 +62,7 @@ export default {
     {
       title: 'Travel Agents',
       href: `${ADMIN_BASE_URL}/travel-agents`,
+      hard: true,
     },
   ],
   admin: [
