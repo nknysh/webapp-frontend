@@ -30,7 +30,9 @@ const renderForm = (t, { formValues, onSubmit }) => (
         <Link button={true} to="/settings/password">
           {t('buttons.updatePassword')}
         </Link>
-        <Button type="submit">{t('buttons.updateDetails')}</Button>
+        <Button className="mt-4" type="submit">
+          {t('buttons.updateDetails')}
+        </Button>
       </Fragment>
     )}
   </Form>
