@@ -15,14 +15,13 @@ import {
   propOr,
   props,
   without,
-  toPairs,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Loader, Tabs, Section, Modal } from '@pure-escapes/webapp-ui-components';
 
-import { ADMIN_BASE_URL, API_BASE_URL } from 'config';
+import { ADMIN_BASE_URL } from 'config';
 import { BookingForm } from 'components';
 import { useFetchData, useCurrentWidth, useEffectBoundary } from 'effects';
 import { formatDate } from 'utils';
