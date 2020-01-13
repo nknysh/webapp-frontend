@@ -1,3 +1,3 @@
-import { auth, booking, user, adminRedirect } from 'routing/common';
+import { auth, booking, user, adminRedirect, proposals } from 'routing/common';
 
-export default [...auth, ...booking, ...user, ...adminRedirect];
+export default [...auth, ...booking, ...user, ...proposals, ...adminRedirect];
