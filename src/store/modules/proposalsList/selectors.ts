@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { IProposalsListDomain } from './model';
-import { travelAgentUserUuidSelector } from '../bookingBuilder';
 
 import { isSR } from 'store/modules/auth';
 
@@ -84,7 +83,7 @@ export const proposalsListQuerySelector = createSelector(
   itemsPerPageSelector,
   sortOrderSelector,
   filterFieldsSelector,
-  travelAgentUserUuidSelector,
+  selectedTravelAgentUuidSelector,
   isSR,
   (sortBy, filter, bookingFields, currentPage, itemsPerPage, sortOrder, filterFields, travelAgentUuid, isSr) => {
     const associations = ['bookings'];
@@ -110,7 +109,7 @@ export const proposalsListQuerySelector = createSelector(
     }
 
     if (travelAgentUuid) {
-      filterParam['proposal']['travelAgentUuid'] = travelAgentUuid;
+      filterParam['proposal']['userUuid'] = travelAgentUuid;
     }
 
     return {

@@ -8,6 +8,7 @@ import {
   SET_FILTER,
   SET_SORT,
   SET_PAGE_NUMBER,
+  SET_TRAVEL_AGENT_UUID,
   getProposalListSuccessAction,
   getProposalListFailureAction,
 } from '../actions';
@@ -25,5 +26,8 @@ export function* getProposalsListSaga(action: any) {
 }
 
 export function* watchGetProposalsList() {
-  yield takeLatest([GET_PROPOSAL_LIST_REQUEST, SET_FILTER, SET_SORT, SET_PAGE_NUMBER], getProposalsListSaga);
+  yield takeLatest(
+    [GET_PROPOSAL_LIST_REQUEST, SET_FILTER, SET_SORT, SET_PAGE_NUMBER, SET_TRAVEL_AGENT_UUID],
+    getProposalsListSaga
+  );
 }
