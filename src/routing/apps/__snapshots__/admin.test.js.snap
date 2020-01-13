@@ -98,6 +98,20 @@ Object {
 
 exports[`routing app routes match snapshot 8`] = `
 Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "name": "Proposal page",
+  "path": "/proposals/:id/:stage?",
+}
+`;
+
+exports[`routing app routes match snapshot 9`] = `
+Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
     "_ctor": [Function],
