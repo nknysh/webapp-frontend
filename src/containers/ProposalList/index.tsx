@@ -81,7 +81,6 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
   };
 
   render() {
-    console.log(this.props);
     return (
       <ProposalListStylesWrapper>
         <Heading2 className="heading">{this.getHeadingText()}</Heading2>
@@ -260,3 +259,5 @@ const withConnect = connect<StateToProps, DispatchToProps, IProposalListProps>(
 );
 
 export const ProposalListConnected = compose(withConnect)(ProposalListContainer);
+
+export default ProposalListConnected;

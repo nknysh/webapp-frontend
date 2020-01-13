@@ -280,3 +280,5 @@ const withConnect = connect<StateToProps, DispatchToProps, IBookingListProps>(
 );
 
 export const BookingListConnected = compose(withConnect)(BookingListContainer);
+
+export default BookingListConnected;
