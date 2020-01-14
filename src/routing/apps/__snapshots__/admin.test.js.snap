@@ -124,7 +124,21 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 9`] = `
+exports[`routing app routes match snapshot 10`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "name": "Proposal list page",
+  "path": "/proposals",
+}
+`;
+
+exports[`routing app routes match snapshot 11`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
