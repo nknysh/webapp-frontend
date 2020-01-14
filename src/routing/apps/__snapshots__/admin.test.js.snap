@@ -91,12 +91,26 @@ Object {
     "_result": null,
     "_status": -1,
   },
+  "name": "Booking list",
+  "path": "/bookings",
+}
+`;
+
+exports[`routing app routes match snapshot 8`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "User",
   "path": "/settings/:section?",
 }
 `;
 
-exports[`routing app routes match snapshot 8`] = `
+exports[`routing app routes match snapshot 9`] = `
 Object {
   "auth": true,
   "component": Object {

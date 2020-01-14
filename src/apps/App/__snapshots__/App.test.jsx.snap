@@ -450,32 +450,6 @@ exports[`<App /> render matches snapshot 1`] = `
         path="/search/beta"
       />
       <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ProposalListContainer)",
-            "type": [Function],
-          }
-        }
-        exact={true}
-        path="/proposals"
-      />
-      <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(BookingListContainer)",
-            "type": [Function],
-          }
-        }
-        exact={true}
-        path="/bookings"
-      />
-      <Route
         auth={true}
         authCheckIgnore={true}
         authComponent={
@@ -557,9 +531,23 @@ exports[`<App /> render matches snapshot 1`] = `
       />
       <Route
         auth={true}
+        key="b39dbf7287b1aeef982ddba3f39cd4025f17a822"
+        name="Proposal list page"
+        path="/proposals"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
         key="3696bdeab0bf9acf2e4f7841de1cb8abca9ff8f2"
         name="Booking Details"
         path="/bookings/:id/:stage?"
+        render={[Function]}
+      />
+      <Route
+        auth={true}
+        key="0d357fdfaee005362c382ad4f8ebbbccc877d6bf"
+        name="Booking list"
+        path="/bookings"
         render={[Function]}
       />
       <Route

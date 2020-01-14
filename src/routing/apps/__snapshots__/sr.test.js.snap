@@ -149,12 +149,40 @@ Object {
     "_result": null,
     "_status": -1,
   },
+  "name": "Proposal list page",
+  "path": "/proposals",
+}
+`;
+
+exports[`routing app routes match snapshot 12`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
   "name": "Booking Details",
   "path": "/bookings/:id/:stage?",
 }
 `;
 
-exports[`routing app routes match snapshot 12`] = `
+exports[`routing app routes match snapshot 13`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "name": "Booking list",
+  "path": "/bookings",
+}
+`;
+
+exports[`routing app routes match snapshot 14`] = `
 Object {
   "auth": true,
   "component": Object {
@@ -168,7 +196,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 13`] = `
+exports[`routing app routes match snapshot 15`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
@@ -182,7 +210,7 @@ Object {
 }
 `;
 
-exports[`routing app routes match snapshot 14`] = `
+exports[`routing app routes match snapshot 16`] = `
 Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),

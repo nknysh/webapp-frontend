@@ -13,3 +13,17 @@ Object {
   "path": "/proposals/:id/:stage?",
 }
 `;
+
+exports[`routing routes match snapshot 2`] = `
+Object {
+  "auth": true,
+  "component": Object {
+    "$$typeof": Symbol(react.lazy),
+    "_ctor": [Function],
+    "_result": null,
+    "_status": -1,
+  },
+  "name": "Proposal list page",
+  "path": "/proposals",
+}
+`;
