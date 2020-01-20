@@ -29,3 +29,4 @@ tests/coverage
 # npm token
 .npmrc
 /.cache
+/test-report.xml

@@ -1,4 +1,5 @@
 module.exports = {
+  testResultsProcessor: 'jest-sonar-reporter',
   preset: 'ts-jest',
   collectCoverageFrom: [
     '**/src/**/*.{js,jsx}',

@@ -16,7 +16,7 @@
     "prod": "NODE_ENV=production webpack-dev-server --mode production --inline --progress",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "jest",
-    "test:ci": "jest --runInBand --ci",
+    "test:ci": "jest --runInBand --ci --coverage",
     "test:coverage": "jest --coverage",
     "typecheck": "tsc --noEmit --skipLibCheck true"
   },
@@ -152,6 +152,7 @@
     "jest": "24.9.0",
     "jest-canvas-mock": "2.1.2",
     "jest-mock-axios": "3.1.2",
+    "jest-sonar-reporter": "^2.0.0",
     "markdown-loader": "5.1.0",
     "offline-plugin": "5.0.7",
     "parcel-bundler": "1.12.4",
