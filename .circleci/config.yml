@@ -2,6 +2,7 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@0.1.16
+  sonarcloud: sonarsource/sonarcloud@1.0.1
 
 docker_images: &docker_images
   docker:
@@ -50,6 +51,7 @@ jobs:
           aws cloudfront create-invalidation \
               --distribution-id E3DKVF7CKJKFV \
               --paths /\*
+      - sonarcloud/scan
   deploy_sandbox:
     <<: *docker_images
     <<: *env_vars
@@ -147,7 +149,6 @@ jobs:
               --distribution-id E1ZNSARBE2K0BC \
               --paths /\*
 workflows:
-  version: 2
   build_and_deploy:
     jobs:
       - deploy_develop:
