@@ -4,10 +4,10 @@ import { Modal, Button } from '@pure-escapes/webapp-ui-components';
 import { theme, Heading2 } from 'styles';
 
 export const StyledSummary = styled.div`
-  background: ${theme.backgrounds.secondary};
-  padding: ${theme.spacing.gutter * 2}px;
-  margin-bottom: ${theme.spacing.gutter * 3.5}px;
-  position: relative;
+  // background: ${theme.backgrounds.secondary};
+  // padding: ${theme.spacing.gutter * 2}px;
+  // margin-bottom: ${theme.spacing.gutter * 3.5}px;
+  // position: relative;
 
   label,
   label > span {
@@ -138,31 +138,7 @@ export const ErrorSmall = styled(Error)`
   font-size: 12px;
 `;
 
-export const Hotel = styled.div`
-  padding: ${theme.spacing.gutter * 1.5}px 0;
-  border-bottom: 1px solid ${theme.borders.default};
-  border-top: 1px solid ${theme.borders.default};
-
-  ${({ ['data-compact']: compact }) =>
-    compact &&
-    css`
-      display: flex;
-      align-items: center;
-      border-top: 0;
-
-      h2 {
-        flex: 1;
-      }
-
-      p {
-        margin: 0;
-        flex: 1;
-        font-size: 20px;
-        letter-spacing: 0.5px;
-        text-align: right;
-      }
-    `}
-`;
+export const Hotel = styled.div``;
 
 export const HotelName = styled(Heading2)`
   font-size: 20px;

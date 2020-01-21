@@ -93,7 +93,6 @@ export const CollapseToggle = styled.button`
 
 export const CollapseTitle = styled.div`
   display: flex;
-  margin-bottom: 10px;
 
   span {
     flex: 1;

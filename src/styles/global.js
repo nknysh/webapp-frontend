@@ -107,9 +107,12 @@ export const GlobalStyle = createGlobalStyle`
     .pr-4 { padding-right: 16px; }
     .pl-2 { padding-left: 8px; }
     .pr-2 { padding-right: 8px; }
+    .pt-4 { padding-top: 16px; }
+    .pb-4 { padding-bottom: 16px; }
     .w-50 { width: 50%; }
     .font-material-ui { font-family: HurmeGeometricSans2, 'Open Sans', sans-serif !important; }
     .flex { display: flex; }
+    .flex-row-reverse { flex-direction: row-reverse; }
 `;
 
 export default { GlobalFonts, GlobalStyle };

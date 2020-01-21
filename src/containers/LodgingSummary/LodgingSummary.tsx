@@ -54,7 +54,7 @@ import { Icon } from '@material-ui/core';
 import { Text } from '../SummaryForm/SummaryForm.styles';
 
 // @ts-ignore
-import { DatePicker, RadioButton, NumberSelect, Button } from '@pure-escapes/webapp-ui-components';
+import { RadioButton, NumberSelect } from '@pure-escapes/webapp-ui-components';
 
 import {
   LodgingSummaryCard,
@@ -69,6 +69,8 @@ import {
 } from './LodgingSummary.styles';
 import connect from './LodgingSummary.state';
 import { DateHelper } from 'pureUi/DatePicker';
+
+import { TableCardBox, TableCardRow } from '../../pureUi/TableCard';
 
 export const LodgingSummaryRender = props => {
   const lodging: LodgingSummary = props.lodging;
@@ -96,9 +98,6 @@ export const LodgingSummaryRender = props => {
     return (
       <CollapseButton
         onClick={() => {
-          if (editGuard) {
-            return onEditGuard();
-          }
           onClick(!isCollapsed);
         }}
       >
@@ -351,60 +350,81 @@ export const LodgingSummaryRender = props => {
   // a loading component
   if (lodgingTotals.total === '0') {
     return (
-      <LodgingSummaryCard className="lodging-summary">
+      <TableCardBox className="lodging-summary">
         <label>
           <strong>{t('messages.addingLodging')}</strong>
         </label>
-      </LodgingSummaryCard>
+      </TableCardBox>
     );
   }
 
   return (
-    <LodgingSummaryCard className="lodging-summary">
-      <LodgingSummaryTitle>
-        <strong>{lodging.title}</strong>
-        <LodgingTotalWrapper>
-          <PriceBreakdown
-            total={lodgingTotals.total}
-            totalBeforeDiscount={lodgingTotals.totalBeforeDiscount}
-            isOnRequest={lodgingTotals.isOnRequest}
-          />
-        </LodgingTotalWrapper>
-      </LodgingSummaryTitle>
-      <DateCollapsible />
-      <OccupancyCollapsible />
-      <MealPlanCollapsible />
-      <OccasionsCollapsible />
+    <TableCardBox className="lodging-summary">
+      <TableCardRow depth={2}>
+        <LodgingSummaryTitle>
+          <strong>{lodging.title}</strong>
+          <LodgingTotalWrapper>
+            <PriceBreakdown
+              total={lodgingTotals.total}
+              totalBeforeDiscount={lodgingTotals.totalBeforeDiscount}
+              isOnRequest={lodgingTotals.isOnRequest}
+            />
+          </LodgingTotalWrapper>
+        </LodgingSummaryTitle>
+      </TableCardRow>
 
-      <CollapsibleSection>
-        {appliedSupplements && appliedSupplements.length >= 1 && (
-          <CollapseHeader>
-            <label>{t('labels.appliedSupplements')}</label>
-            {appliedSupplements.map(s => (
-              <Text>{s}</Text>
-            ))}
-          </CollapseHeader>
-        )}
-      </CollapsibleSection>
+      <TableCardRow depth={3}>
+        <DateCollapsible />
+      </TableCardRow>
 
-      <CollapsibleSection>
-        {appliedOffers && appliedOffers.length >= 1 && (
-          <CollapseHeader>
-            <label>{t('labels.appliedOffers')}</label>
-            {appliedOffers.map(s => (
-              <Text data-discounted="true">{s}</Text>
-            ))}
-          </CollapseHeader>
-        )}
-      </CollapsibleSection>
-      <ButtonSmall
-        onClick={() => {
-          removeLodgingAction(lodging.hotelUuid, lodging.index);
-        }}
-      >
-        {t('labels.removeLodging')}
-      </ButtonSmall>
-    </LodgingSummaryCard>
+      <TableCardRow depth={3}>
+        <OccupancyCollapsible />
+      </TableCardRow>
+
+      <TableCardRow depth={3}>
+        <MealPlanCollapsible />
+      </TableCardRow>
+
+      <TableCardRow depth={3}>
+        <OccasionsCollapsible />
+      </TableCardRow>
+
+      <TableCardRow depth={3}>
+        <CollapsibleSection>
+          {appliedSupplements && appliedSupplements.length >= 1 && (
+            <CollapseHeader>
+              <label>{t('labels.appliedSupplements')}</label>
+              {appliedSupplements.map(s => (
+                <Text>{s}</Text>
+              ))}
+            </CollapseHeader>
+          )}
+        </CollapsibleSection>
+      </TableCardRow>
+
+      <TableCardRow depth={3}>
+        <CollapsibleSection>
+          {appliedOffers && appliedOffers.length >= 1 && (
+            <CollapseHeader>
+              <label>{t('labels.appliedOffers')}</label>
+              {appliedOffers.map(s => (
+                <Text data-discounted="true">{s}</Text>
+              ))}
+            </CollapseHeader>
+          )}
+        </CollapsibleSection>
+      </TableCardRow>
+
+      <TableCardRow depth={3} className="pb-4 flex flex-row-reverse">
+        <ButtonSmall
+          onClick={() => {
+            removeLodgingAction(lodging.hotelUuid, lodging.index);
+          }}
+        >
+          {t('labels.removeLodging')}
+        </ButtonSmall>
+      </TableCardRow>
+    </TableCardBox>
   );
 };
 

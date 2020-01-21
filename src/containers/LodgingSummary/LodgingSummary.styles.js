@@ -2,23 +2,7 @@ import styled, { css } from 'styled-components';
 import { Text, Total } from '../SummaryForm/SummaryForm.styles';
 import { Select, Button } from '@pure-escapes/webapp-ui-components';
 
-export const LodgingSummaryCard = styled.div`
-  padding-bottom: 10px;
-  margin-top: 15px;
-
-  &:first-child {
-    margin-top: 0px;
-  }
-
-  &:last-child {
-    margin-bottom: 0px;
-    border-bottom: none;
-  }
-
-  .lodgingDateRangeInput {
-    margin: 10px 0 20px;
-  }
-`;
+export const LodgingSummaryCard = styled.div``;
 
 export const CollapseButton = styled.button`
   float: right;
@@ -61,11 +45,10 @@ export const LodgingTotalWrapper = styled.div`
 
 export const ChildAgeSelect = styled(Select)``;
 
-export const CollapsibleSection = styled.div`
-  margin-bottom: 20px;
-`;
+export const CollapsibleSection = styled.div``;
 
 export const ButtonSmall = styled(Button)`
   font-size: 14px;
   padding: 10px;
+  width: 200px;
 `;

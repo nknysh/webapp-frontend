@@ -14,14 +14,12 @@ export const StyledHotelContainer = styled(Container)`
   `}
 `;
 
-export const StyledHotel = styled(Hotel)`
-  ${props => props.theme.breakpoints.tablet`
-        flex: 1;
-        max-width: 64%;
-        padding: 0;
-        margin-top: ${theme.spacing.gutter * 2}px;
-    `}
-`;
+// export const StyledHotel = styled(Hotel)`
+//   flex: 1;
+//   max-width: 50%;
+//   padding-left: 14px;
+//   padding-right: 14px;
+// `;
 
 export const StyledSummary = styled(SummaryForm)``;
 
@@ -39,16 +37,6 @@ export const Back = styled(BackButton)`
   padding ${theme.spacing.gutter * 2}px !important;
 `;
 
-export const Aside = styled.aside`
-  position: relative;
-
-  ${props => props.theme.breakpoints.tablet`
-    flex: 1;
-    max-width: 36%;
-    margin-top: ${theme.spacing.gutter * 2}px;
-  `}
-`;
-
 export const Title = styled.h3`
   font-size: ${theme.fonts.sizes.default}px;
   padding: 0 0 ${theme.spacing.gutter * 1.45}px;
@@ -59,6 +47,8 @@ export const Title = styled.h3`
   color: ${theme.palette.neutral};
   border-bottom: 1px solid ${theme.borders.default};
 `;
+
+export const Aside = styled.aside``;
 
 export const AsideDetails = styled.div`
   margin: 0 ${theme.spacing.gutter * 2}px ${theme.spacing.gutter * 3.5}px;
@@ -110,3 +100,5 @@ export const Text = styled.p`
   color: ${theme.palette.secondary};
   font-size: ${theme.fonts.sizes.normal}px;
 `;
+
+// export const BookingBuilderSectionHeader

@@ -86,15 +86,7 @@ export const HotelHighlight = styled(CardHighlight)`
     `}
 `;
 
-export const HotelGallery = styled.div`
-  margin: 0 0 ${theme.spacing.gutter * 2.5}px;
-
-  ${props => props.theme.breakpoints.tablet`
-   margin-bottom: ${theme.spacing.gutter * 4}px;
-   margin-right: ${theme.spacing.gutter * 3.6}px;
-   margin-left: ${theme.spacing.gutter * 2}px;
-  `}
-`;
+export const HotelGallery = styled.div``;
 
 export const FixedSlider = styled(Slider)`
   ${props => props.theme.breakpoints.tablet`

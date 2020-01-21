@@ -82,25 +82,6 @@ const BookingDetails = props => {
   );
 };
 
-const BookingSummaryRequested = props => {
-  const { t, booking } = props;
-
-  const isOnProposal: boolean = booking.proposalUuid;
-
-  return (
-    <React.Fragment>
-      {isOnProposal && (
-        <AsideDetails>
-          <Title>{t('labels.proposalId')}</Title>
-          <List>
-            <a href={`/proposals/${booking.proposalUuid}`}>Proposal #{booking.proposalUuid}</a>
-          </List>
-        </AsideDetails>
-      )}
-    </React.Fragment>
-  );
-};
-
 const BookingSummaryConfirmed = props => {
   return (
     <React.Fragment>
@@ -143,7 +124,7 @@ const BookingSummary = props => {
   }
 
   return (
-    <React.Fragment>
+    <div>
       <BookingSummaryLite t={t} booking={booking} />
 
       {booking.status === 'potential' &&
@@ -199,7 +180,7 @@ const BookingSummary = props => {
           </List>
         </AsideDetails>
       )}
-    </React.Fragment>
+    </div>
   );
 };
 
@@ -230,9 +211,9 @@ const BookingFullLayout = props => {
       {props.isSr && props.isDetails && renderStatusStrip(props.t, props.booking)}
       <Main>
         {props.isDetails ? <BookingDetails {...props} /> : <BookingContent>{props.children}</BookingContent>}
-        <Aside>
+        <aside style={{ width: '50%' }}>
           <BookingSummary {...props} />
-        </Aside>
+        </aside>
       </Main>
     </Fragment>
   );

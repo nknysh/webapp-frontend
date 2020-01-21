@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import { Price, TotalSection, TotalSectionColumn, LabelRed } from './DisplayTotalsBreakdown.styles';
 
+import { TableCardBox, TableCardRow } from '../../pureUi/TableCard';
+
 interface IItem {
   title: string;
   labels: string[];
@@ -43,6 +45,8 @@ export interface IDisplayTotalsBreakdownProps {
 export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
   const { t, currencyCode, overrideTotal } = props;
   const displayTotals: IDisplayTotals = props.displayTotals;
+
+  console.log('displayTotals.blocks', displayTotals.blocks);
 
   const PriceBreakdown = props => {
     const { total, totalBeforeDiscount, oneOrMoreItemsOnRequest } = props;
@@ -85,41 +89,44 @@ export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
 
     const itemsBlocks = block.items.map((item: IItem) => {
       return (
-        <React.Fragment key={item.title}>
-          <TotalSection>
-            <TotalSectionColumn isLeft={true}>
-              <label>
-                <strong>{item.title}</strong>
-              </label>
-              <ul>
-                {item.labels.map(l => {
-                  return (
-                    <li key={l}>
-                      <label>{l}</label>
-                    </li>
-                  );
-                })}
-              </ul>
-              <LabelRed>{item.offers.join(', ')}</LabelRed>
-            </TotalSectionColumn>
-            <TotalSectionColumn>
-              <PriceBreakdown total={item.total} totalBeforeDiscount={item.totalBeforeDiscount} />
-            </TotalSectionColumn>
-          </TotalSection>
+        <React.Fragment>
+          <TableCardRow className="table-card-row" depth={2} key={item.title}>
+            <TotalSection>
+              <TotalSectionColumn isLeft={true}>
+                <label className="item-label">
+                  <strong>{item.title}</strong>
+                </label>
+              </TotalSectionColumn>
+              <TotalSectionColumn>
+                <PriceBreakdown total={item.total} totalBeforeDiscount={item.totalBeforeDiscount} />
+              </TotalSectionColumn>
+            </TotalSection>
+          </TableCardRow>
+
+          <TableCardRow className="table-card-row" depth={3}>
+            {item.labels.map(l => {
+              return (
+                <span key={l}>
+                  <label>{l}</label>
+                </span>
+              );
+            })}
+            <LabelRed>{item.offers.join(', ')}</LabelRed>
+          </TableCardRow>
         </React.Fragment>
       );
     });
 
     return (
-      <React.Fragment key={block.header}>
-        <div>
+      <TableCardBox className="table-card-box" key={block.header}>
+        <TableCardRow depth={2}>
           <label>
             <strong>{block.header}</strong>
           </label>
+        </TableCardRow>
 
-          {itemsBlocks}
-        </div>
-      </React.Fragment>
+        {itemsBlocks}
+      </TableCardBox>
     );
   });
 
@@ -127,21 +134,23 @@ export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
     <div className={props.className}>
       {blocksMarkup}
 
-      <TotalSection>
-        <TotalSectionColumn isLeft={true}>
-          <label>Total Cost To You</label>
-          <br />
-          <label>Total Cost Before Offers</label>
-        </TotalSectionColumn>
+      <TableCardBox>
+        <TotalSection>
+          <TotalSectionColumn isLeft={true}>
+            <label>Total Cost To You</label>
+            <br />
+            <label>Total Cost Before Offers</label>
+          </TotalSectionColumn>
 
-        <TotalSectionColumn>
-          <PriceBreakdown
-            total={overrideTotal || displayTotals.totals.total}
-            totalBeforeDiscount={displayTotals.totals.totalBeforeDiscount}
-            oneOrMoreItemsOnRequest={displayTotals.totals.oneOrMoreItemsOnRequest}
-          />
-        </TotalSectionColumn>
-      </TotalSection>
+          <TotalSectionColumn>
+            <PriceBreakdown
+              total={overrideTotal || displayTotals.totals.total}
+              totalBeforeDiscount={displayTotals.totals.totalBeforeDiscount}
+              oneOrMoreItemsOnRequest={displayTotals.totals.oneOrMoreItemsOnRequest}
+            />
+          </TotalSectionColumn>
+        </TotalSection>
+      </TableCardBox>
     </div>
   );
 };

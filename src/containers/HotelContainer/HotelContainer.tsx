@@ -1,6 +1,6 @@
 import React, { Fragment, useState, Children, useCallback, useEffect } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
-import { compose, isEmpty, map, prop, values, equals, partial } from 'ramda';
+import { compose, isEmpty, map, prop, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { Loader, Tabs, List } from '@pure-escapes/webapp-ui-components';
@@ -12,23 +12,59 @@ import Modal from 'pureUi/Modal';
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
 import {
-  Aside,
   AsideDetails,
   Back,
   Brochure,
   Full,
   StyledBreadcrumbs,
-  StyledHotel,
   StyledHotelContainer,
-  StyledSummary,
-  SummaryAction,
-  SummaryActions,
   Text,
   Title,
 } from './HotelContainer.styles';
-
+import { Hotel } from 'components';
+import SummaryForm from 'containers/SummaryForm';
 import { IReduxDomainStatus } from '../../interfaces';
 import { AddToProposalModalContent } from './AddToProposalModal';
+import {
+  TableCardNumberedBanner,
+  TableCardNumberBannerNumber,
+  TableCardNumberBannerText,
+} from '../../pureUi/TableCard';
+const LeftColumn = props => {
+  const { id, hotel, photos } = props;
+
+  return (
+    <div
+      style={{
+        flex: 1,
+        maxWidth: '50%',
+        paddingLeft: '14px',
+        paddingRight: '14px',
+      }}
+    >
+      <TableCardNumberedBanner className="mb-4">
+        <TableCardNumberBannerNumber>1</TableCardNumberBannerNumber>
+        <TableCardNumberBannerText>Select Your Lodgings</TableCardNumberBannerText>
+      </TableCardNumberedBanner>
+      <Hotel {...hotel} id={id} photos={photos} />
+    </div>
+  );
+};
+
+const RightColumn = props => {
+  return (
+    <div
+      style={{
+        flex: 1,
+        maxWidth: '50%',
+        paddingLeft: '14px',
+        paddingRight: '14px',
+      }}
+    >
+      <HotelSummary {...props} />
+    </div>
+  );
+};
 
 const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}</Back>;
 
@@ -65,7 +101,11 @@ const HotelSummary = props => {
   };
 
   return (
-    <Aside>
+    <aside id="aside">
+      <TableCardNumberedBanner className="mb-4">
+        <TableCardNumberBannerNumber>2</TableCardNumberBannerNumber>
+        <TableCardNumberBannerText>Review Your Lodging</TableCardNumberBannerText>
+      </TableCardNumberedBanner>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <h2>{t('buttons.addToProposal')}</h2>
@@ -80,26 +120,14 @@ const HotelSummary = props => {
           />
         </Modal>
       )}
-      <StyledSummary id={id} onSubmit={onSubmit} showRoomImage={false} canHold={canHold}>
-        {() => {
-          // for some INSANE reason, SummaryForm treats its children as a function, always, which receives the booking
-          return (
-            <Fragment>
-              {!isNilOrEmpty(booking) && (
-                <AsideDetails>
-                  <Title>{t('labels.availability')}</Title>
-                  <Text>{t(canHold ? 'labels.availableToHoldInfo' : 'labels.unavailableToHoldInfo')}</Text>
-                </AsideDetails>
-              )}
-              <SummaryActions>
-                <SummaryAction type="button" disabled={!canBook} onClick={handleAddToProposalClick}>
-                  {t('buttons.addToProposal')}
-                </SummaryAction>
-              </SummaryActions>
-            </Fragment>
-          );
-        }}
-      </StyledSummary>
+      <SummaryForm
+        id={id}
+        onSubmit={onSubmit}
+        showRoomImage={false}
+        canHold={canHold}
+        handleAddToProposalClick={handleAddToProposalClick}
+      />
+
       {hotel.additionalInfo && (
         <AsideDetails>
           <Title>{t('labels.thingsToBeAwareOf')}</Title>
@@ -146,21 +174,7 @@ const HotelSummary = props => {
           {values(map(renderBrochure, brochures))}
         </AsideDetails>
       )}
-    </Aside>
-  );
-};
-
-export const HotelTabLayout = props => {
-  const { t, id, hotel, photos } = props;
-
-  return (
-    <Fragment>
-      {renderBackButton(t)}
-      <Tabs centered labels={[t('labels.hotelDetails'), t('labels.yourSelection')]}>
-        <StyledHotel {...hotel} id={id} photos={photos} />
-        <HotelSummary t={t} {...props} />
-      </Tabs>
-    </Fragment>
+    </aside>
   );
 };
 
@@ -173,8 +187,8 @@ export const HotelFullLayout = props => {
         links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]}
       />
       <Full>
-        <StyledHotel {...hotel} id={id} photos={photos} />
-        <HotelSummary t={t} {...props} />
+        <LeftColumn id={id} photos={photos} hotel={hotel} />
+        <RightColumn {...props} />
       </Full>
     </Fragment>
   );
@@ -206,8 +220,6 @@ export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, resetBo
     load();
   }, [fetchHotel, id]);
 
-  const { isMobile } = useCurrentWidth();
-
   const onTakeHold = useCallback(() => setRedirectToHold(true), []);
   const onSubmit = useCallback(() => setRedirectToBooking(true), []);
 
@@ -225,7 +237,7 @@ export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, resetBo
   const renderWithoutLoader = () => (
     <React.Fragment>
       <StyledHotelContainer>
-        {isMobile ? <HotelTabLayout t={t} {...defaultProps} /> : <HotelFullLayout t={t} {...defaultProps} />}
+        <HotelFullLayout t={t} {...defaultProps} />
       </StyledHotelContainer>
     </React.Fragment>
   );

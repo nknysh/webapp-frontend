@@ -51,10 +51,10 @@ export const Hotel = ({
   const renderedPhotos = values(map(renderImage, photos));
 
   return (
-    <StyledHotel {...props}>
-      <HotelDetails>
+    <StyledHotel id="hotel" {...props}>
+      <HotelDetails id="hotel-details">
         {!isNilOrEmpty(photos) && (
-          <HotelGallery>
+          <HotelGallery id="hotel-gallery">
             <MainSlider asNavFor={sliderNav} centerMode={false} fade={true} ref={sliderMain} slidesToShow={1}>
               {renderedPhotos}
             </MainSlider>
@@ -71,7 +71,7 @@ export const Hotel = ({
             </NavSlider>
           </HotelGallery>
         )}
-        <HotelInfo>
+        <HotelInfo id="hotel-info">
           <HotelStarRating>
             <HotelStar>star</HotelStar>{' '}
             <HotelStarText>

@@ -31,7 +31,6 @@ export const Price = styled.span<IPrice>`
 export const TotalSection = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
 `;
 
 export const LabelRed = styled.span`
