@@ -3,6 +3,7 @@ import { compose, head, pathOr, pipe, propOr } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { Form, Input, Loader, List } from '@pure-escapes/webapp-ui-components';
+import styled from 'styled-components';
 
 import LodgingSummary from 'containers/LodgingSummary';
 import SummaryFormExtras from 'containers/SummaryFormExtras';
@@ -23,8 +24,8 @@ import { ProductTypes } from 'config/enums';
 
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
-import { Error, HotelName, StyledSummary, SummaryFormActions, SummaryFormButton } from './SummaryForm.styles';
-import { PrimaryButton } from 'pureUi/Buttons';
+import { Error, HotelName, StyledSummary } from './SummaryForm.styles';
+import { SummaryFormPrimaryButton, SummaryFormSecondaryButton } from 'pureUi/Buttons';
 import { makeBackendApi } from 'services/BackendApi';
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
@@ -38,7 +39,7 @@ const getSingleValue = (type, data) =>
   )(data);
 
 // exported as its used in src/containers/SummaryFormExtras/SummaryFormExtras.jsx as well
-export const renderHotel = (t, { name }) => {
+export const renderHotelName = (t, { name }) => {
   return (
     <TableCardBox>
       <TableCardRow depth={1}>
@@ -144,8 +145,8 @@ const SaveBookingButton = props => {
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
-    <PrimaryButton
-      className="mt-4"
+    <SummaryFormSecondaryButton
+      className="save-booking-button"
       type="button"
       disabled={!canBook || hasClicked}
       onClick={() => {
@@ -158,7 +159,17 @@ const SaveBookingButton = props => {
       }}
     >
       {t('buttons.saveBooking')}
-    </PrimaryButton>
+    </SummaryFormSecondaryButton>
+  );
+};
+
+const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest }) => {
+  // logic taken from previous declaration and reworked into its own component
+
+  return (
+    <SummaryFormPrimaryButton className="request-to-book-button" disabled={!(showHolds || canBook)} type="submit">
+      {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
+    </SummaryFormPrimaryButton>
   );
 };
 
@@ -167,7 +178,8 @@ const SaveBookingAndTakeHoldsButton = props => {
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
-    <SummaryFormButton
+    <SummaryFormSecondaryButton
+      className="save-booking-and-take-hold-button"
       type="button"
       data-secondary
       disabled={!canBook || !canHold || hasClicked}
@@ -181,7 +193,7 @@ const SaveBookingAndTakeHoldsButton = props => {
       }}
     >
       {t('buttons.takeAHold')}
-    </SummaryFormButton>
+    </SummaryFormSecondaryButton>
   );
 };
 
@@ -191,7 +203,6 @@ const renderForm = (
     booking,
     bookLabel,
     canBook,
-    canEdit,
     compact,
     errors,
     holdOnly,
@@ -214,34 +225,49 @@ const renderForm = (
           <Input type="hidden" value={canBook} name="valid" />
           <SummaryFormExtras compact={compact} id={id} summaryOnly={summaryOnly} values={values} booking={booking} />
           {renderSummaryErrors(errors)}
-          {!isNilOrEmpty(booking) && (
-            <div>
-              <p>{t('labels.availability')}</p>
-              <p>{t(canHold ? 'labels.availableToHoldInfo' : 'labels.unavailableToHoldInfo')}</p>
-            </div>
+          {!isNilOrEmpty(booking?.request?.Accommodation) && (
+            <TableCardBox className="mt-4 mb-4">
+              <TableCardRow depth={3}>
+                <p>{t('labels.availability')}</p>
+                <p>{t(canHold ? 'labels.availableToHoldInfo' : 'labels.unavailableToHoldInfo')}</p>
+              </TableCardRow>
+            </TableCardBox>
           )}
-          <div>
-            <button type="button" disabled={!canBook} onClick={handleAddToProposalClick}>
-              {t('buttons.addToProposal')}
-            </button>
-          </div>
-          <SummaryFormActions>
-            <SaveBookingAndTakeHoldsButton
-              t={t}
-              canBook={canBook}
-              canHold={canHold}
-              backendApi={backendApi}
-              bookingDomain={bookingDomain}
-            />
 
-            {/* this if logic is insane, but i dont dare touch it */}
-            {((!summaryOnly && canEdit) || (showHolds && !holdOnly)) && showBookNow && (
-              <SummaryFormButton disabled={!(showHolds || canBook)} type="submit">
-                {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
-              </SummaryFormButton>
-            )}
-          </SummaryFormActions>
-          <SaveBookingButton t={t} canBook={canBook} backendApi={backendApi} bookingDomain={bookingDomain} />
+          <div className="summary-form-buttons">
+            <div className="flex">
+              <SaveBookingAndTakeHoldsButton
+                className="save-booking-and-take-holds-button"
+                t={t}
+                canBook={canBook}
+                canHold={canHold}
+                backendApi={backendApi}
+                bookingDomain={bookingDomain}
+              />
+
+              <SaveBookingButton t={t} canBook={canBook} backendApi={backendApi} bookingDomain={bookingDomain} />
+            </div>
+
+            <div className="flex">
+              <SummaryFormPrimaryButton
+                className="add-to-proposal-button"
+                type="button"
+                disabled={!canBook}
+                onClick={handleAddToProposalClick}
+              >
+                {t('buttons.addToProposal')}
+              </SummaryFormPrimaryButton>
+              <RequestToBookButton
+                t={t}
+                showHolds={showHolds}
+                holdOnly={holdOnly}
+                showBookNow={showBookNow}
+                canBook={canBook}
+                bookLabel={bookLabel}
+                isOnRequest={isOnRequest}
+              />
+            </div>
+          </div>
         </Fragment>
       )}
     </Form>
@@ -251,7 +277,7 @@ const renderForm = (
 export const SummaryForm = props => {
   const { t } = useTranslation();
 
-  const { booking, className, compact, guardEdit, hotelName, id, actingCountryCode } = props;
+  const { booking, className, compact, hotelName, actingCountryCode } = props;
 
   const backendApi = makeBackendApi(actingCountryCode);
 
@@ -273,7 +299,7 @@ export const SummaryForm = props => {
   return (
     <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
-        {renderHotel(t, {
+        {renderHotelName(t, {
           name: hotelName || booking?.response?.hotel?.name || 'Hotel',
           overrideTotal: booking?.response?.totals?.total || '0.00',
           ...props,
@@ -294,4 +320,23 @@ export const SummaryForm = props => {
 SummaryForm.propTypes = propTypes;
 SummaryForm.defaultProps = defaultProps;
 
-export default compose(connect)(SummaryForm);
+const ConnectedSummaryForm = compose(connect)(SummaryForm);
+
+export default styled(ConnectedSummaryForm)`
+  .save-booking-and-take-hold-button {
+    margin-bottom: 4px;
+    margin-right: 4px;
+  }
+  .save-booking-button {
+    margin-bottom: 4px;
+    margin-left: 4px;
+  }
+  .add-to-proposal-button {
+    margin-top: 4px;
+    margin-right: 4px;
+  }
+  .request-to-book-button {
+    margin-top: 4px;
+    margin-left: 4px;
+  }
+`;

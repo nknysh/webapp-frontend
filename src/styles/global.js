@@ -100,9 +100,9 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
     }
 
+    .my-4 { margin-top: 16px; margin-bottom: 16px; }
     .mt-4 { margin-top: 16px; }
     .mb-4 { margin-bottom: 16px; }
-    .my-4 { margin-top: 16px; margin-bottom: 16px; }
     .pl-4 { padding-left: 16px; }
     .pr-4 { padding-right: 16px; }
     .pl-2 { padding-left: 8px; }

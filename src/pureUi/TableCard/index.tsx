@@ -4,6 +4,7 @@ import { theme } from 'styles';
 
 interface ITableCardRowProps {
   depth: number;
+  hasLeftBorder?: boolean;
 }
 
 export const TableCardBox = styled.div``;
@@ -32,6 +33,15 @@ export const TableCardNumberBannerText = styled.div`
 export const TableCardRow = styled.div`
   padding: 16px;
   line-height: 28px;
+  ${(props: ITableCardRowProps) => {
+    if (props.hasLeftBorder) {
+      return css`
+        border-left: 10px solid red;
+        padding-left: 6px;
+      `;
+    }
+  }}
+
   ${(props: ITableCardRowProps) => {
     switch (props.depth) {
       case 1:

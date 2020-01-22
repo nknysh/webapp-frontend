@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { differenceInCalendarDays } from 'date-fns';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 import DateRangeInput from 'pureUi/DateRangeInput';
+import styled from 'styled-components';
 
 const possibleChildAges = {
   0: '0',
@@ -57,7 +58,6 @@ import { Text } from '../SummaryForm/SummaryForm.styles';
 import { RadioButton, NumberSelect } from '@pure-escapes/webapp-ui-components';
 
 import {
-  LodgingSummaryCard,
   CollapseButton,
   CollapseHeader,
   LodgingSummaryTitle,
@@ -83,8 +83,6 @@ export const LodgingSummaryRender = props => {
   const removeLodgingAction: Function = props.removeLodgingAction;
   const updateLodgingOccasionsAction: Function = props.updateLodgingOccasionsAction;
   const currencyCode: string = props.currencyCode;
-  const editGuard: boolean = props.editGuard;
-  const onEditGuard: Function = props.onEditGuard;
 
   const appliedSupplements = getAppliedSupplementsForLodging(lodging, availableProductSets, currencyCode);
   const lodgingTotals = getLodgingTotals(lodging, availableProductSets);
@@ -128,9 +126,8 @@ export const LodgingSummaryRender = props => {
     return (
       <div>
         <div className="lodging-summary__occupancy-editor__number-of-adults">
-          <label>{t('labels.numberOfAdults')}</label>
-          <br />
-          <div style={{ display: 'inline-block' }}>
+          <div className="number-select-wrapper">
+            <label>{t('labels.numberOfAdults')}</label>
             <NumberSelect
               className="numberSelect"
               min={0}
@@ -143,9 +140,8 @@ export const LodgingSummaryRender = props => {
         </div>
 
         <div className="lodging-summary__occupancy-editor__number-of-children">
-          <label>{t('labels.numberOfChildren')}</label>
-          <br />
-          <div style={{ display: 'inline-block' }}>
+          <div className="number-select-wrapper">
+            <label>{t('labels.numberOfChildren')}</label>
             <NumberSelect
               className="numberSelect"
               min={0}
@@ -163,21 +159,24 @@ export const LodgingSummaryRender = props => {
 
         {agesOfAllChildren.length >= 1 && (
           <div className="className='lodging-summary__occupancy-editor__specify-ages-of-children">
-            <label>{t('labels.pleaseSpecifyAgesOfAllChildren')}:</label>
-            <br />
             {agesOfAllChildren.map((ageOfChild, index) => {
               return (
-                <ChildAgeSelect
-                  options={possibleChildAges}
-                  value={ageOfChild}
-                  onChange={e => updateAgeOfChild(index, e.target.value)}
-                />
+                <div className="child-age-selector">
+                  <label>Child {index + 1}</label>
+                  <ChildAgeSelect
+                    options={possibleChildAges}
+                    value={ageOfChild}
+                    onChange={e => updateAgeOfChild(index, e.target.value)}
+                  />
+                </div>
               );
             })}
           </div>
         )}
 
-        <ButtonSmall onClick={handleUpdate}>{t('labels.updateOccupancy')}</ButtonSmall>
+        <div className="flex flex-row-reverse mt-4">
+          <ButtonSmall onClick={handleUpdate}>{t('labels.updateOccupancy')}</ButtonSmall>
+        </div>
       </div>
     );
   };
@@ -359,74 +358,94 @@ export const LodgingSummaryRender = props => {
   }
 
   return (
-    <TableCardBox className="lodging-summary">
-      <TableCardRow depth={2}>
-        <LodgingSummaryTitle>
-          <strong>{lodging.title}</strong>
-          <LodgingTotalWrapper>
-            <PriceBreakdown
-              total={lodgingTotals.total}
-              totalBeforeDiscount={lodgingTotals.totalBeforeDiscount}
-              isOnRequest={lodgingTotals.isOnRequest}
-            />
-          </LodgingTotalWrapper>
-        </LodgingSummaryTitle>
-      </TableCardRow>
+    <div className={props.className}>
+      <TableCardBox className="lodging-summary">
+        <TableCardRow depth={2}>
+          <LodgingSummaryTitle>
+            <strong>{lodging.title}</strong>
+            <LodgingTotalWrapper>
+              <PriceBreakdown
+                total={lodgingTotals.total}
+                totalBeforeDiscount={lodgingTotals.totalBeforeDiscount}
+                isOnRequest={lodgingTotals.isOnRequest}
+              />
+            </LodgingTotalWrapper>
+          </LodgingSummaryTitle>
+        </TableCardRow>
 
-      <TableCardRow depth={3}>
-        <DateCollapsible />
-      </TableCardRow>
+        <TableCardRow depth={3}>
+          <DateCollapsible />
+        </TableCardRow>
 
-      <TableCardRow depth={3}>
-        <OccupancyCollapsible />
-      </TableCardRow>
+        <TableCardRow depth={3}>
+          <OccupancyCollapsible />
+        </TableCardRow>
 
-      <TableCardRow depth={3}>
-        <MealPlanCollapsible />
-      </TableCardRow>
+        <TableCardRow depth={3}>
+          <MealPlanCollapsible />
+        </TableCardRow>
 
-      <TableCardRow depth={3}>
-        <OccasionsCollapsible />
-      </TableCardRow>
+        <TableCardRow depth={3}>
+          <OccasionsCollapsible />
+        </TableCardRow>
 
-      <TableCardRow depth={3}>
-        <CollapsibleSection>
-          {appliedSupplements && appliedSupplements.length >= 1 && (
-            <CollapseHeader>
-              <label>{t('labels.appliedSupplements')}</label>
-              {appliedSupplements.map(s => (
-                <Text>{s}</Text>
-              ))}
-            </CollapseHeader>
-          )}
-        </CollapsibleSection>
-      </TableCardRow>
+        {appliedSupplements && appliedSupplements.length >= 1 && (
+          <TableCardRow depth={3}>
+            <CollapsibleSection>
+              <CollapseHeader>
+                <label>{t('labels.appliedSupplements')}</label>
+                {appliedSupplements.map(s => (
+                  <Text>{s}</Text>
+                ))}
+              </CollapseHeader>
+            </CollapsibleSection>
+          </TableCardRow>
+        )}
 
-      <TableCardRow depth={3}>
-        <CollapsibleSection>
-          {appliedOffers && appliedOffers.length >= 1 && (
-            <CollapseHeader>
-              <label>{t('labels.appliedOffers')}</label>
-              {appliedOffers.map(s => (
-                <Text data-discounted="true">{s}</Text>
-              ))}
-            </CollapseHeader>
-          )}
-        </CollapsibleSection>
-      </TableCardRow>
+        {appliedOffers && appliedOffers.length >= 1 && (
+          <TableCardRow depth={3}>
+            <CollapsibleSection>
+              <CollapseHeader>
+                <label>{t('labels.appliedOffers')}</label>
+                {appliedOffers.map(s => (
+                  <Text data-discounted="true">{s}</Text>
+                ))}
+              </CollapseHeader>
+            </CollapsibleSection>
+          </TableCardRow>
+        )}
 
-      <TableCardRow depth={3} className="pb-4 flex flex-row-reverse">
-        <ButtonSmall
-          onClick={() => {
-            removeLodgingAction(lodging.hotelUuid, lodging.index);
-          }}
-        >
-          {t('labels.removeLodging')}
-        </ButtonSmall>
-      </TableCardRow>
-    </TableCardBox>
+        <TableCardRow depth={3} className="pb-4 flex flex-row-reverse">
+          <ButtonSmall
+            onClick={() => {
+              removeLodgingAction(lodging.hotelUuid, lodging.index);
+            }}
+          >
+            {t('labels.removeLodging')}
+          </ButtonSmall>
+        </TableCardRow>
+      </TableCardBox>
+    </div>
   );
 };
 
 // @ts-ignore
-export default compose(connect)(LodgingSummaryRender);
+const ConnectedLodgingSummary = compose(connect)(LodgingSummaryRender);
+
+export default styled(ConnectedLodgingSummary)`
+  .number-select-wrapper {
+    display: flex;
+
+    & > label {
+      flex: 1;
+    }
+  }
+
+  .child-age-selector {
+    display: flex;
+
+    & > label {
+      flex: 1;
+    }
+  }
+`;

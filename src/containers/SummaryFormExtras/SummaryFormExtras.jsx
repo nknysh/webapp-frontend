@@ -17,7 +17,6 @@ import {
   AddonCheckbox,
   Clear,
   Description,
-  Extra,
   Title,
   TravelAgent,
   TravelAgentName,
@@ -32,6 +31,7 @@ import {
   TableCardNumberBannerNumber,
   TableCardNumberBannerText,
 } from '../../pureUi/TableCard';
+import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
 const InfoIcon = ({ modalHeader, modalText }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,13 +54,6 @@ const InfoIcon = ({ modalHeader, modalText }) => {
     </React.Fragment>
   );
 };
-
-const renderExtra = ({ title, children }) => (
-  <Extra>
-    <Title>{title}</Title>
-    {children}
-  </Extra>
-);
 
 const renderInlinePrice = (translate, currencyCode, total, totalBeforeDiscount, isOnRequestOrPartiallyOnRequest) => {
   if (isOnRequestOrPartiallyOnRequest === true) {
@@ -380,9 +373,6 @@ const renderMargin = (
     onMarginChange,
     grandTotal,
     summaryOnly,
-    compact,
-    compactEdit,
-    onEditClick,
     editGuard,
     onEditGuard,
     canBook,
@@ -393,10 +383,11 @@ const renderMargin = (
   }
 ) => {
   if (!canBook) return;
-  return renderExtra({
-    title: t('labels.commission'),
-    children: (
-      <Fragment>
+
+  return (
+    <TableCardBox className="mt-4 mb-4">
+      <TableCardRow depth={3}>
+        <Title>{t('labels.commission')}</Title>
         <SummaryFormMargin
           checked={isTAMarginApplied}
           currencyCode={currencyCode}
@@ -409,15 +400,15 @@ const renderMargin = (
           value={taMarginAmount}
         />
         <Description>{t('labels.addCommission')}</Description>
-      </Fragment>
-    ),
-  });
+      </TableCardRow>
+    </TableCardBox>
+  );
 };
 
-const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent }) =>
-  renderExtra({
-    title: t('travelAgent'),
-    children: (
+const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent }) => (
+  <TableCardBox className="mt-4 mb-4">
+    <TableCardRow depth={3}>
+      <Title>{t('travelAgent')}</Title>
       <Loader isLoading={!travelAgentsLoaded} text={t('messages.loadingUsers')}>
         <IndexSearch
           placeholder={t('labels.searchForTA')}
@@ -432,8 +423,9 @@ const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect,
           </TravelAgent>
         )}
       </Loader>
-    ),
-  });
+    </TableCardRow>
+  </TableCardBox>
+);
 
 export const SummaryFormExtras = ({
   addons,
@@ -573,13 +565,12 @@ export const SummaryFormExtras = ({
     return (
       <TableCardBox className="table-card-box">
         <TableCardRow className="table-card-row" depth={1}>
-          <CollapseTitle>
-            <span>
-              <label>
-                <strong>{t('labels.transfers')}</strong>
-              </label>
-            </span>
+          <HotelName>{t('labels.transfers')}</HotelName>
+        </TableCardRow>
 
+        <TableCardRow className="table-card-row" depth={3}>
+          <CollapseTitle>
+            <label>{selectedTransfersBreakdown}</label>
             <CollapseToggle
               type="button"
               onClick={() =>
@@ -593,9 +584,7 @@ export const SummaryFormExtras = ({
             </CollapseToggle>
           </CollapseTitle>
         </TableCardRow>
-
         <TableCardRow className="table-card-row" depth={3}>
-          <label>{selectedTransfersBreakdown}</label>
           {isTransferSectionCollapsed === false &&
             renderTransferOptionsSimple(t, selectedTransfers, transfers, updateTransferAction, id, currencyCode)}
         </TableCardRow>
@@ -607,13 +596,13 @@ export const SummaryFormExtras = ({
     const breakdown = selectedGroundServicesBreakdown();
     return (
       <TableCardBox className="table-card-box">
-        <TableCardRow depth={1}>
+        <TableCardRow className="table-card-row" depth={1}>
+          <HotelName>{t('labels.groundServices')}</HotelName>
+        </TableCardRow>
+        <TableCardRow className="table-card-row" depth={3}>
           <CollapseTitle>
-            <span>
-              <label>
-                <strong>{t('labels.groundServices')}</strong>
-              </label>
-            </span>
+            <label>{breakdown}</label>
+
             <CollapseToggle
               type="button"
               onClick={() =>
@@ -628,7 +617,6 @@ export const SummaryFormExtras = ({
           </CollapseTitle>
         </TableCardRow>
         <TableCardRow className="table-card-row" depth={3}>
-          <label>{breakdown}</label>
           {isGroundServicesSectionCollapsed === false &&
             renderGroundServices(
               t,
@@ -647,13 +635,13 @@ export const SummaryFormExtras = ({
     const breakdown = selectedAddonsBreakdown();
     return (
       <TableCardBox>
-        <TableCardRow depth={1}>
+        <TableCardRow className="table-card-row" depth={1}>
+          <HotelName>{t('labels.addons')}</HotelName>
+        </TableCardRow>
+
+        <TableCardRow className="table-card-row" depth={3}>
           <CollapseTitle>
-            <span>
-              <label>
-                <strong>{t('labels.addons')}</strong>
-              </label>
-            </span>
+            <label>{breakdown}</label>
             <CollapseToggle
               type="button"
               onClick={() =>
@@ -667,8 +655,8 @@ export const SummaryFormExtras = ({
             </CollapseToggle>
           </CollapseTitle>
         </TableCardRow>
-        <TableCardRow depth={3}>
-          <label>{breakdown}</label>
+
+        <TableCardRow className="table-card-row" depth={3}>
           {isAddonsSectionCollapsed === false &&
             renderAddons(
               t,

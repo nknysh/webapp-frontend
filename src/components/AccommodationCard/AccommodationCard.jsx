@@ -87,15 +87,6 @@ export const AccommodationCard = props => {
         </div>
 
         <ul className="pricing">
-          <li>
-            <label>
-              {t('labels.lodgingCountPrefix')} {props.count ? props.count : 0}
-            </label>
-            <br />
-            <PrimaryButton className={'addLodgingButton'} onClick={handleAdd}>
-              {t('labels.addLodging')}
-            </PrimaryButton>
-          </li>
           <li>{t('labels.totalNet')}</li>
           {onRequest && <li className="price">{t('labels.onRequest')}</li>}
           {!onRequest && <li className="price">{`${props.currencyCode}${formatPrice(props.totals.total)}`}</li>}
@@ -109,6 +100,15 @@ export const AccommodationCard = props => {
               {offer}
             </li>
           ))}
+          <li>
+            <label>
+              {t('labels.lodgingCountPrefix')} {props.count ? props.count : 0}
+            </label>
+            <br />
+            <PrimaryButton className={'addLodgingButton'} onClick={handleAdd}>
+              {t('labels.addLodging')}
+            </PrimaryButton>
+          </li>
         </ul>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { pureUiTheme } from '../pureUiTheme';
 import { Link, LinkProps } from 'react-router-dom';
+import { theme } from 'styles';
 
 export const buttonStates = `
   transition: all 0.15s ease-out;
@@ -49,6 +50,22 @@ export const baseButtonStyles = `
 
 export const PrimaryButton = styled.button`
   ${baseButtonStyles}
+`;
+
+export const SummaryFormPrimaryButton = styled.button`
+  ${baseButtonStyles}
+  height: 70px;
+`;
+
+export const SummaryFormSecondaryButton = styled(SummaryFormPrimaryButton)`
+  &:disabled {
+    opacity: 0.75;
+  }
+
+  background-color: red !important;
+  &:hover {
+    background-color: blue !important;
+  }
 `;
 
 export const RoundedIconButton = styled(PrimaryButton)`

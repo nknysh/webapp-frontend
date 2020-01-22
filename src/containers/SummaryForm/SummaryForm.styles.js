@@ -4,11 +4,6 @@ import { Modal, Button } from '@pure-escapes/webapp-ui-components';
 import { theme, Heading2 } from 'styles';
 
 export const StyledSummary = styled.div`
-  // background: ${theme.backgrounds.secondary};
-  // padding: ${theme.spacing.gutter * 2}px;
-  // margin-bottom: ${theme.spacing.gutter * 3.5}px;
-  // position: relative;
-
   label,
   label > span {
     color: ${theme.palette.neutral} !important;

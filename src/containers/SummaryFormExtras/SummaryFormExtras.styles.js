@@ -94,7 +94,7 @@ export const CollapseToggle = styled.button`
 export const CollapseTitle = styled.div`
   display: flex;
 
-  span {
+  label {
     flex: 1;
   }
 `;
