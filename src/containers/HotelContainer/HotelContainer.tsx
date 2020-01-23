@@ -10,6 +10,7 @@ import { mapWithIndex } from 'utils';
 import Modal from 'pureUi/Modal';
 import { Icon } from '@material-ui/core';
 import styled from 'styled-components';
+import { pureUiTheme } from '../../pureUi/pureUiTheme';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
@@ -135,40 +136,40 @@ const HotelSummary = props => {
       />
 
       {hotel.additionalInfo && (
-        <TableCardBox className="mb-4">
-          <TableCardRow depth={3}>
+        <TableCardBox className="mt-4">
+          <TableCardRow depth={3} hasOriginalLineHeight={true}>
             <Title>{t('labels.thingsToBeAwareOf')}</Title>
             <Text>{hotel.additionalInfo}</Text>
           </TableCardRow>
         </TableCardBox>
       )}
       {!isNilOrEmpty(hotel.policiesAndRestrictions) && (
-        <TableCardBox className="mb-4">
-          <TableCardRow depth={3}>
+        <TableCardBox className="mt-4">
+          <TableCardRow depth={3} hasOriginalLineHeight={true}>
             <Title>{t('labels.policiesAndRestrictions')}</Title>
             <List>{Children.toArray(hotel.policiesAndRestrictions)}</List>
           </TableCardRow>
         </TableCardBox>
       )}
       {!isNilOrEmpty(cancellationPolicy) && (
-        <TableCardBox className="mb-4">
-          <TableCardRow depth={3}>
+        <TableCardBox className="mt-4">
+          <TableCardRow depth={3} hasOriginalLineHeight={true}>
             <Title>{t('labels.cancellationPolicy')}</Title>
             <List>{cancellationPolicy}</List>
           </TableCardRow>
         </TableCardBox>
       )}
       {!isNilOrEmpty(paymentTerms) && (
-        <TableCardBox className="mb-4">
-          <TableCardRow depth={3}>
+        <TableCardBox className="mt-4">
+          <TableCardRow depth={3} hasOriginalLineHeight={true}>
             <Title>{t('labels.paymentTerms')}</Title>
             <List>{paymentTerms}</List>
           </TableCardRow>
         </TableCardBox>
       )}
       {!isNilOrEmpty(offersTerms) && (
-        <TableCardBox className="mb-4">
-          <TableCardRow depth={3}>
+        <TableCardBox className="mt-4">
+          <TableCardRow depth={3} hasOriginalLineHeight={true}>
             <AsideDetails>
               <Title>{t('labels.offersTerms')}</Title>
               <List>
@@ -187,9 +188,9 @@ const HotelSummary = props => {
         </TableCardBox>
       )}
       {!isEmpty(brochures) && (
-        <TableCardBox className="mb-4">
+        <TableCardBox className="mt-4">
           <AsideDetails>
-            <TableCardRow depth={3}>
+            <TableCardRow depth={3} hasOriginalLineHeight={true}>
               <Title>{t('brochure_plural')}</Title>
             </TableCardRow>
             {values(map(renderBrochure, brochures))}
@@ -288,11 +289,37 @@ const ConnectedHotel = compose(
 export default styled(ConnectedHotel)`
   .table-card-row.brochure-row {
     display: flex;
+    padding-bottom: 12px;
+    padding-top: 12px;
+    line-height: 14px;
+    padding-left: 40px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #736a65;
+
+    &:nth-child(2) {
+      padding-top: 0px;
+    }
+    border-bottom: 1px solid ${pureUiTheme.colors.grayDark};
     span {
       flex: 1;
+      &::before {
+        content: '';
+        border-color: transparent #111;
+        border-style: solid;
+        border-width: 3px 0 3px 4px;
+        display: block;
+        height: 0;
+        width: 0;
+        left: -10px;
+        top: 10px;
+        position: relative;
+      }
     }
     a {
       display: block;
+      margin-top: 4px;
+      margin-bottom: -4px;
     }
   }
 `;

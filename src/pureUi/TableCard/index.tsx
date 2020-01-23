@@ -6,6 +6,7 @@ import { colors } from '../../pureUi/pureUiTheme';
 interface ITableCardRowProps {
   depth: number;
   hasLeftBorder?: boolean;
+  hasOriginalLineHeight?: boolean;
 }
 
 export const TableCardBox = styled.div``;
@@ -41,6 +42,14 @@ export const TableCardRow = styled.div`
       return css`
         border-left: 10px solid ${colors.teal};
         padding-left: 10px;
+      `;
+    }
+  }}
+
+  ${(props: ITableCardRowProps) => {
+    if (props.hasOriginalLineHeight) {
+      return css`
+        line-height: inherit;
       `;
     }
   }}
