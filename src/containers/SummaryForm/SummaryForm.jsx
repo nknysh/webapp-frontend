@@ -203,7 +203,6 @@ const renderForm = (
     booking,
     bookLabel,
     canBook,
-    compact,
     errors,
     holdOnly,
     id,
@@ -223,7 +222,7 @@ const renderForm = (
       {({ values }) => (
         <Fragment>
           <Input type="hidden" value={canBook} name="valid" />
-          <SummaryFormExtras compact={compact} id={id} summaryOnly={summaryOnly} values={values} booking={booking} />
+          <SummaryFormExtras id={id} summaryOnly={summaryOnly} values={values} booking={booking} />
           {renderSummaryErrors(errors)}
           {!isNilOrEmpty(booking?.request?.Accommodation) && (
             <TableCardBox className="mt-4 mb-4">

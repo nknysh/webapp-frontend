@@ -3,7 +3,7 @@ import { pipe } from 'ramda';
 
 import { getHotel, getHotelsBrochures, getHotelsPhotos } from 'store/modules/hotels';
 import { fetchHotel } from 'store/modules/hotel';
-import { addRoom, getBooking, removeRoom, updateBooking } from 'store/modules/bookings';
+import { addRoom, removeRoom, updateBooking } from 'store/modules/bookings';
 
 import {
   initializeBookingBuilderAction,
@@ -13,6 +13,7 @@ import {
   bookingPaymentTermsSelector,
   bookingCancellationPoliciesSelector,
   bookingOffersTermsSelector,
+  bookingBuilderSelector,
 } from 'store/modules/bookingBuilder';
 
 import {
@@ -25,7 +26,7 @@ import {
 } from 'store/modules/proposals';
 
 export const mapStateToProps = (state, { id }) => ({
-  booking: getBooking(state, id),
+  booking: bookingBuilderSelector(state),
   brochures: getHotelsBrochures(state, id),
   canBook: bookingCanBookSelector(state),
   canHold: bookingCanHoldSelector(state),

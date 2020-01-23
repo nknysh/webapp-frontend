@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { pureUiTheme } from '../pureUiTheme';
 import { Link, LinkProps } from 'react-router-dom';
-import { theme } from 'styles';
 
 export const buttonStates = `
   transition: all 0.15s ease-out;
@@ -34,15 +33,15 @@ export const baseButtonStyles = `
   cursor: pointer;
   box-shadow: 0 0 0 5px transparent;
 
+  &:hover {
+    background-color: ${pureUiTheme.colors.goldDark};
+  }
+
   &:disabled {
     cursor: default;
     opacity: 0.75;
     background-color: ${pureUiTheme.colors.goldOpacity};
     border-color: ${pureUiTheme.colors.goldDark};
-  }
-
-  &:hover {
-    background-color: ${pureUiTheme.colors.goldDark};
   }
 
   ${buttonStates}
@@ -55,17 +54,14 @@ export const PrimaryButton = styled.button`
 export const SummaryFormPrimaryButton = styled.button`
   ${baseButtonStyles}
   height: 70px;
+
+  &:hover {
+    background-color: ${pureUiTheme.colors.teal} !important;
+  }
 `;
 
 export const SummaryFormSecondaryButton = styled(SummaryFormPrimaryButton)`
-  &:disabled {
-    opacity: 0.75;
-  }
-
-  background-color: red !important;
-  &:hover {
-    background-color: blue !important;
-  }
+  background-color: ${pureUiTheme.colors.grayDarker} !important;
 `;
 
 export const RoundedIconButton = styled(PrimaryButton)`

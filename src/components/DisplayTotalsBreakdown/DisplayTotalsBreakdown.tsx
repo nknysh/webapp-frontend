@@ -46,8 +46,6 @@ export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
   const { t, currencyCode, overrideTotal } = props;
   const displayTotals: IDisplayTotals = props.displayTotals;
 
-  console.log('displayTotals.blocks', displayTotals.blocks);
-
   const PriceBreakdown = props => {
     const { total, totalBeforeDiscount, oneOrMoreItemsOnRequest } = props;
 

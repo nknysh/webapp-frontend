@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { RadioButton, Loader } from '@pure-escapes/webapp-ui-components';
 import Modal from 'pureUi/Modal';
 
-import { SummaryFormMargin, IndexSearch, Summary, DisplayTotalsBreakdown } from 'components';
+import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'components';
 import { useModalState, useFetchData } from 'effects';
 import { withUser } from 'hoc';
 import { formatPrice, filterByObjectProperties } from 'utils';
@@ -129,7 +129,7 @@ const renderTransferOptionsSimple = (
     .map(t => ({
       value: t.uuid,
       label: (
-        <label>
+        <span className="normal-case">
           {t.name} {t.priceFormatted}{' '}
           <InfoIcon
             modalHeader={
@@ -139,7 +139,7 @@ const renderTransferOptionsSimple = (
             }
             modalText={<p>{t.description}</p>}
           />
-        </label>
+        </span>
       ),
     }));
 
@@ -153,48 +153,67 @@ const renderTransferOptionsSimple = (
     </React.Fragment>
   );
 
-  const oneWayTransfersOptions = simpleTransfers.filter(t => t.direction !== undefined);
-  const oneWayTransfersMarkup = (
-    <React.Fragment>
-      {oneWayTransfersOptions.map(to => {
-        const isChecked = selectedTransferOptions.some(sto => sto.uuid === to.uuid && sto.direction === to.direction);
-        return (
-          <AddonCheckbox
-            onChange={() => handleCheckboxClick(to)}
-            key={`${to.name}/${to.direction}`}
-            checked={isChecked}
-            label={
-              <label>
-                {to.name} ({to.direction}) {to.priceFormatted}{' '}
-                <InfoIcon
-                  modalHeader={
-                    <h2>
-                      {to.name} <small>{to.priceFormatted}</small>
-                    </h2>
-                  }
-                  modalText={<p>{to.description}</p>}
-                />
-              </label>
-            }
-          />
-        );
-      })}
-    </React.Fragment>
-  );
+  const inDirectionTransferOptions = simpleTransfers.filter(t => t.direction === 'in');
+  const outDirectionTransferOptions = simpleTransfers.filter(t => t.direction === 'out');
+
+  const buildMarkupForOneWayTransfers = transfers => {
+    return (
+      <React.Fragment>
+        {transfers.map(to => {
+          const isChecked = selectedTransferOptions.some(sto => sto.uuid === to.uuid && sto.direction === to.direction);
+          return (
+            <AddonCheckbox
+              onChange={() => handleCheckboxClick(to)}
+              key={`${to.name}/${to.direction}`}
+              checked={isChecked}
+              label={
+                <span className="normal-case">
+                  {to.name} {to.priceFormatted}{' '}
+                  <InfoIcon
+                    modalHeader={
+                      <h2>
+                        {to.name} <small>{to.priceFormatted}</small>
+                      </h2>
+                    }
+                    modalText={<p>{to.description}</p>}
+                  />
+                </span>
+              }
+            />
+          );
+        })}
+      </React.Fragment>
+    );
+  };
+
+  const inDirectionTransfersMarkup = buildMarkupForOneWayTransfers(inDirectionTransferOptions);
+  const outDirectionTransfersMarkup = buildMarkupForOneWayTransfers(outDirectionTransferOptions);
 
   return (
     <div>
+      <hr />
       {bothWayTransfersOptions && (
         <React.Fragment>
-          <label>Return Transfers</label>
+          <label className="uppercase font-bold">Return Transfers</label>
           {bothWayTransferMarkup}
         </React.Fragment>
       )}
-      {bothWayTransfersOptions && oneWayTransfersOptions && <hr />}
-      {oneWayTransfersOptions && (
+
+      {bothWayTransfersOptions && inDirectionTransferOptions && <hr />}
+
+      {inDirectionTransferOptions && (
         <React.Fragment>
-          <label>One Way Transfers</label>
-          {oneWayTransfersMarkup}
+          <label className="uppercase font-bold">One Way Transfers (In)</label>
+          {inDirectionTransfersMarkup}
+        </React.Fragment>
+      )}
+
+      {((bothWayTransfersOptions && outDirectionTransferOptions) ||
+        (inDirectionTransferOptions && outDirectionTransferOptions)) && <hr />}
+      {outDirectionTransfersMarkup && (
+        <React.Fragment>
+          <label className="uppercase font-bold">One Way Transfers (Out)</label>
+          {outDirectionTransfersMarkup}
         </React.Fragment>
       )}
     </div>
@@ -369,18 +388,7 @@ const renderAddons = (
 
 const renderMargin = (
   t,
-  {
-    onMarginChange,
-    grandTotal,
-    summaryOnly,
-    editGuard,
-    onEditGuard,
-    canBook,
-    currencyCode,
-    isTAMarginApplied,
-    taMarginType,
-    taMarginAmount,
-  }
+  { onMarginChange, grandTotal, canBook, currencyCode, isTAMarginApplied, taMarginType, taMarginAmount }
 ) => {
   if (!canBook) return;
 
@@ -391,10 +399,7 @@ const renderMargin = (
         <SummaryFormMargin
           checked={isTAMarginApplied}
           currencyCode={currencyCode}
-          editGuard={editGuard}
           onChange={onMarginChange}
-          onEditGuard={onEditGuard}
-          summaryOnly={summaryOnly}
           total={grandTotal}
           type={taMarginType}
           value={taMarginAmount}
@@ -433,7 +438,6 @@ export const SummaryFormExtras = ({
   canBook,
   compact,
   currencyCode,
-  editGuard,
   fetchTravelAgents,
   getTravelAgentName,
   grandTotal,
@@ -441,13 +445,10 @@ export const SummaryFormExtras = ({
   id,
   isRl,
   isSr,
-  onEditGuard,
-  replaceProducts,
   selectedFines,
   selectedGroundServices,
   selectedSupplements,
   selectedTransfers,
-  summaryOnly,
   transfers,
   travelAgent,
   updateBooking,
@@ -487,10 +488,6 @@ export const SummaryFormExtras = ({
     []
   );
 
-  const compactEdit = !summaryOnly && compact;
-
-  const { modalOpen, onModalOpen, onModalClose, setModalContext, modalContext } = useModalState();
-
   const onMarginChange = useCallback(
     (e, marginType, marginValue, shouldUpdateCheckbox = undefined) => {
       if (shouldUpdateCheckbox === true || shouldUpdateCheckbox === false) {
@@ -508,18 +505,6 @@ export const SummaryFormExtras = ({
       return;
     },
     [updateTAMarginTypeAction, updateTAMarginAmountAction, updateIsTAMarginAppliedAction, id]
-  );
-
-  const onEditClick = useCallback(
-    type => {
-      if (editGuard) {
-        return onEditGuard();
-      }
-
-      setModalContext(type);
-      onModalOpen();
-    },
-    [editGuard, onEditGuard, onModalOpen, setModalContext]
   );
 
   const onTASelect = useCallback(
@@ -570,7 +555,9 @@ export const SummaryFormExtras = ({
 
         <TableCardRow className="table-card-row" depth={3}>
           <CollapseTitle>
-            <label>{selectedTransfersBreakdown}</label>
+            <label className={`uppercase font-bold ${!isTransferSectionCollapsed ? 'color-teal' : ''}`}>
+              {selectedTransfersBreakdown}
+            </label>
             <CollapseToggle
               type="button"
               onClick={() =>
@@ -584,10 +571,12 @@ export const SummaryFormExtras = ({
             </CollapseToggle>
           </CollapseTitle>
         </TableCardRow>
-        <TableCardRow className="table-card-row" depth={3}>
-          {isTransferSectionCollapsed === false &&
-            renderTransferOptionsSimple(t, selectedTransfers, transfers, updateTransferAction, id, currencyCode)}
-        </TableCardRow>
+
+        {isTransferSectionCollapsed === false && (
+          <TableCardRow className="table-card-row" depth={3}>
+            {renderTransferOptionsSimple(t, selectedTransfers, transfers, updateTransferAction, id, currencyCode)}
+          </TableCardRow>
+        )}
       </TableCardBox>
     );
   };
@@ -595,13 +584,15 @@ export const SummaryFormExtras = ({
   const GroundServicesWrapper = () => {
     const breakdown = selectedGroundServicesBreakdown();
     return (
-      <TableCardBox className="table-card-box">
+      <TableCardBox className="table-card-box mt-4">
         <TableCardRow className="table-card-row" depth={1}>
           <HotelName>{t('labels.groundServices')}</HotelName>
         </TableCardRow>
         <TableCardRow className="table-card-row" depth={3}>
           <CollapseTitle>
-            <label>{breakdown}</label>
+            <label className={`uppercase font-bold ${!isGroundServicesSectionCollapsed ? 'color-teal ' : ''}`}>
+              {breakdown}
+            </label>
 
             <CollapseToggle
               type="button"
@@ -616,9 +607,9 @@ export const SummaryFormExtras = ({
             </CollapseToggle>
           </CollapseTitle>
         </TableCardRow>
-        <TableCardRow className="table-card-row" depth={3}>
-          {isGroundServicesSectionCollapsed === false &&
-            renderGroundServices(
+        {isGroundServicesSectionCollapsed === false && (
+          <TableCardRow className="table-card-row" depth={3}>
+            {renderGroundServices(
               t,
               currencyCode,
               selectedGroundServices,
@@ -626,7 +617,8 @@ export const SummaryFormExtras = ({
               updateGroundServiceAction,
               id
             )}
-        </TableCardRow>
+          </TableCardRow>
+        )}
       </TableCardBox>
     );
   };
@@ -634,14 +626,16 @@ export const SummaryFormExtras = ({
   const AddonsWrapper = () => {
     const breakdown = selectedAddonsBreakdown();
     return (
-      <TableCardBox>
+      <TableCardBox className="table-card-box mt-4">
         <TableCardRow className="table-card-row" depth={1}>
           <HotelName>{t('labels.addons')}</HotelName>
         </TableCardRow>
 
         <TableCardRow className="table-card-row" depth={3}>
           <CollapseTitle>
-            <label>{breakdown}</label>
+            <label className={`uppercase font-bold ${!isAddonsSectionCollapsed ? 'color-teal ' : ''}`}>
+              {breakdown}
+            </label>
             <CollapseToggle
               type="button"
               onClick={() =>
@@ -656,9 +650,9 @@ export const SummaryFormExtras = ({
           </CollapseTitle>
         </TableCardRow>
 
-        <TableCardRow className="table-card-row" depth={3}>
-          {isAddonsSectionCollapsed === false &&
-            renderAddons(
+        {isAddonsSectionCollapsed === false && (
+          <TableCardRow className="table-card-row" depth={3}>
+            {renderAddons(
               t,
               currencyCode,
               selectedSupplements,
@@ -669,7 +663,8 @@ export const SummaryFormExtras = ({
               updateFineAction,
               id
             )}
-        </TableCardRow>
+          </TableCardRow>
+        )}
       </TableCardBox>
     );
   };
@@ -715,12 +710,7 @@ export const SummaryFormExtras = ({
         onMarginChange,
         grandTotal,
         values,
-        summaryOnly,
         compact,
-        compactEdit,
-        onEditClick,
-        editGuard,
-        onEditGuard,
         canBook,
         isTAMarginApplied,
         taMarginType,

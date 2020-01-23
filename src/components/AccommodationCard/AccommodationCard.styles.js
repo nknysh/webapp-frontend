@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import AccommodationCard from './AccommodationCard.jsx';
 import { theme } from 'styles';
+import { colors } from '../../pureUi/pureUiTheme';
 
 export default styled(AccommodationCard)`
   position: relative;
@@ -12,10 +13,9 @@ export default styled(AccommodationCard)`
   line-height: 20px;
   margin-bottom: 1rem;
 
-  .addLodgingButton {
-    float: right;
-    width: 129px;
-    margin-bottom: 20px;
+  hr {
+    width: 90%;
+    border-top: 1px solid ${colors.grayDark};
   }
 
   .canHold {
@@ -71,19 +71,6 @@ export default styled(AccommodationCard)`
     flex-grow: 0;
   }
 
-  .price {
-    font-size: 22.4px;
-    color: ${theme.colors['red-fade']};
-    margin-top: 14px;
-    margin-bottom: 6px;
-  }
-
-  .priceBeforeDiscount {
-    font-size: 19.2px;
-    text-decoration: line-through;
-    margin-bottom: 14px;
-  }
-
   .actions {
     list-style: none;
     margin: 1rem 0;
@@ -120,11 +107,39 @@ export default styled(AccommodationCard)`
       text-align: right;
       padding: 1rem 1rem 1rem 0;
       width: 50%;
+
+      li {
+        font-size: 12px;
+      }
+
+      .price {
+        font-size: 20px;
+        color: ${theme.colors['red-fade']};
+        margin-top: 10px;
+        margin-bottom: 6px;
+      }
+
+      .priceBeforeDiscount {
+        font-size: 19.2px;
+        text-decoration: line-through;
+        margin-bottom: 14px;
+      }
+
+      .add-lodging-button-wrapper {
+        position: absolute;
+        bottom: 28px;
+        right: 28px;
+      }
+
+      .addLodgingButton {
+        float: right;
+        width: 129px;
+      }
     }
 
     .info {
       width: 50%;
-      padding: 1rem 0 1rem 1rem;
+      padding: 0 0 1rem 1rem;
     }
 
     .numberSelect {

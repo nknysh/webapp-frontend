@@ -39,6 +39,7 @@ export const AccommodationCard = props => {
       <h1 data-role="ac-title" className="title">
         {props.title}
       </h1>
+      <hr />
       <div className="innerWrapper">
         <div className="info">
           <ul className="occupancy">
@@ -100,7 +101,7 @@ export const AccommodationCard = props => {
               {offer}
             </li>
           ))}
-          <li>
+          <li className="add-lodging-button-wrapper">
             <label>
               {t('labels.lodgingCountPrefix')} {props.count ? props.count : 0}
             </label>

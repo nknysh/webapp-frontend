@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { theme } from 'styles';
+import { colors } from '../../pureUi/pureUiTheme';
 
 interface ITableCardRowProps {
   depth: number;
@@ -17,7 +18,7 @@ export const TableCardNumberedBanner = styled.div`
 `;
 
 export const TableCardNumberBannerNumber = styled.div`
-  padding: 16px;
+  padding: 20px;
   padding-left: 20px;
   margin-right: 2px;
   width: 50px;
@@ -25,19 +26,21 @@ export const TableCardNumberBannerNumber = styled.div`
 `;
 
 export const TableCardNumberBannerText = styled.div`
-  padding: 16px;
+  padding: 20px;
   width: 100%;
   background-color: #a18265;
+  padding-top: 16px;
 `;
 
 export const TableCardRow = styled.div`
-  padding: 16px;
+  padding: 20px;
+  padding-top: 16px;
   line-height: 28px;
   ${(props: ITableCardRowProps) => {
     if (props.hasLeftBorder) {
       return css`
-        border-left: 10px solid red;
-        padding-left: 6px;
+        border-left: 10px solid ${colors.teal};
+        padding-left: 10px;
       `;
     }
   }}

@@ -8,13 +8,14 @@ import { withUser } from 'hoc';
 import { useCurrentWidth } from 'effects';
 import { mapWithIndex } from 'utils';
 import Modal from 'pureUi/Modal';
+import { Icon } from '@material-ui/core';
+import styled from 'styled-components';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
 import {
   AsideDetails,
   Back,
-  Brochure,
   Full,
   StyledBreadcrumbs,
   StyledHotelContainer,
@@ -26,6 +27,8 @@ import SummaryForm from 'containers/SummaryForm';
 import { IReduxDomainStatus } from '../../interfaces';
 import { AddToProposalModalContent } from './AddToProposalModal';
 import {
+  TableCardBox,
+  TableCardRow,
   TableCardNumberedBanner,
   TableCardNumberBannerNumber,
   TableCardNumberBannerText,
@@ -69,9 +72,12 @@ const RightColumn = props => {
 const renderBackButton = t => <Back to="/search/beta">{t('labels.backToSearch')}</Back>;
 
 const renderBrochure = ({ uuid, displayName, url }) => (
-  <Brochure key={uuid} href={url} target="_blank">
-    {displayName}
-  </Brochure>
+  <TableCardRow key={uuid} depth={3} className="table-card-row brochure-row">
+    <span>{displayName}</span>
+    <a href={url} target="_blank">
+      <Icon>get_app</Icon>
+    </a>
+  </TableCardRow>
 );
 
 const HotelSummary = props => {
@@ -129,50 +135,66 @@ const HotelSummary = props => {
       />
 
       {hotel.additionalInfo && (
-        <AsideDetails>
-          <Title>{t('labels.thingsToBeAwareOf')}</Title>
-          <Text>{hotel.additionalInfo}</Text>
-        </AsideDetails>
+        <TableCardBox className="mb-4">
+          <TableCardRow depth={3}>
+            <Title>{t('labels.thingsToBeAwareOf')}</Title>
+            <Text>{hotel.additionalInfo}</Text>
+          </TableCardRow>
+        </TableCardBox>
       )}
       {!isNilOrEmpty(hotel.policiesAndRestrictions) && (
-        <AsideDetails>
-          <Title>{t('labels.policiesAndRestrictions')}</Title>
-          <List>{Children.toArray(hotel.policiesAndRestrictions)}</List>
-        </AsideDetails>
+        <TableCardBox className="mb-4">
+          <TableCardRow depth={3}>
+            <Title>{t('labels.policiesAndRestrictions')}</Title>
+            <List>{Children.toArray(hotel.policiesAndRestrictions)}</List>
+          </TableCardRow>
+        </TableCardBox>
       )}
       {!isNilOrEmpty(cancellationPolicy) && (
-        <AsideDetails>
-          <Title>{t('labels.cancellationPolicy')}</Title>
-          <List>{cancellationPolicy}</List>
-        </AsideDetails>
+        <TableCardBox className="mb-4">
+          <TableCardRow depth={3}>
+            <Title>{t('labels.cancellationPolicy')}</Title>
+            <List>{cancellationPolicy}</List>
+          </TableCardRow>
+        </TableCardBox>
       )}
       {!isNilOrEmpty(paymentTerms) && (
-        <AsideDetails>
-          <Title>{t('labels.paymentTerms')}</Title>
-          <List>{paymentTerms}</List>
-        </AsideDetails>
+        <TableCardBox className="mb-4">
+          <TableCardRow depth={3}>
+            <Title>{t('labels.paymentTerms')}</Title>
+            <List>{paymentTerms}</List>
+          </TableCardRow>
+        </TableCardBox>
       )}
       {!isNilOrEmpty(offersTerms) && (
-        <AsideDetails>
-          <Title>{t('labels.offersTerms')}</Title>
-          <List>
-            {mapWithIndex(
-              ({ name, termsAndConditions }, i) => (
-                <Fragment key={i}>
-                  <span>{name}</span>
-                  <p>{termsAndConditions}</p>
-                </Fragment>
-              ),
-              values(offersTerms)
-            )}
-          </List>
-        </AsideDetails>
+        <TableCardBox className="mb-4">
+          <TableCardRow depth={3}>
+            <AsideDetails>
+              <Title>{t('labels.offersTerms')}</Title>
+              <List>
+                {mapWithIndex(
+                  ({ name, termsAndConditions }, i) => (
+                    <Fragment key={i}>
+                      <span>{name}</span>
+                      <p>{termsAndConditions}</p>
+                    </Fragment>
+                  ),
+                  values(offersTerms)
+                )}
+              </List>
+            </AsideDetails>
+          </TableCardRow>
+        </TableCardBox>
       )}
       {!isEmpty(brochures) && (
-        <AsideDetails>
-          <Title>{t('brochure_plural')}</Title>
-          {values(map(renderBrochure, brochures))}
-        </AsideDetails>
+        <TableCardBox className="mb-4">
+          <AsideDetails>
+            <TableCardRow depth={3}>
+              <Title>{t('brochure_plural')}</Title>
+            </TableCardRow>
+            {values(map(renderBrochure, brochures))}
+          </AsideDetails>
+        </TableCardBox>
       )}
     </aside>
   );
@@ -194,7 +216,16 @@ export const HotelFullLayout = props => {
   );
 };
 
-export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, resetBookingBuilderUiState, ...props }) => {
+export const HotelContainer = ({
+  className,
+  history,
+  fetchHotel,
+  hotel,
+  photos,
+  id,
+  resetBookingBuilderUiState,
+  ...props
+}) => {
   const { t } = useTranslation();
 
   const [redirectToBooking, setRedirectToBooking] = useState(false);
@@ -242,15 +273,26 @@ export const HotelContainer = ({ history, fetchHotel, hotel, photos, id, resetBo
     </React.Fragment>
   );
 
-  return isEmpty(hotel) ? renderWithLoader() : renderWithoutLoader();
+  return <div className={className}>{isEmpty(hotel) ? renderWithLoader() : renderWithoutLoader()}</div>;
 };
 
 HotelContainer.propTypes = propTypes;
 HotelContainer.defaultProps = defaultProps;
 
-export default compose(
+const ConnectedHotel = compose(
   connect,
   // @ts-ignore
   withRouter,
   withUser
 )(HotelContainer);
+export default styled(ConnectedHotel)`
+  .table-card-row.brochure-row {
+    display: flex;
+    span {
+      flex: 1;
+    }
+    a {
+      display: block;
+    }
+  }
+`;

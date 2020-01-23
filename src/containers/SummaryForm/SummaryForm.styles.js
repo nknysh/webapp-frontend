@@ -6,9 +6,8 @@ import { theme, Heading2 } from 'styles';
 export const StyledSummary = styled.div`
   label,
   label > span {
-    color: ${theme.palette.neutral} !important;
-    font-size: ${theme.fonts.sizes.less}px !important;
-    text-transform: uppercase;
+    color: ${theme.palette.neutral};
+    font-size: ${theme.fonts.sizes.less}px;
   }
 `;
 

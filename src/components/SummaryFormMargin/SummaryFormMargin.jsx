@@ -14,29 +14,15 @@ import {
   MarginTotal,
   MarginTotalAmount,
   MarginValue,
-  ContextMenu,
   MarginWrapper,
 } from './SummaryFormMargin.styles';
 
-export const SummaryFormMargin = ({
-  compact,
-  className,
-  onChange,
-  checked,
-  value,
-  type,
-  summaryOnly,
-  total,
-  compactEdit,
-  onEditClick,
-  currencyCode,
-}) => {
+export const SummaryFormMargin = ({ className, onChange, checked, value, type, total, currencyCode }) => {
   const { t } = useTranslation();
   const typeIsPercent = equals('percentage', type);
 
-  const notSummaryAndNotCompact = !summaryOnly && !compact;
-  const checkedAndNotSummaryAndNotCompact = checked && notSummaryAndNotCompact;
-  const checkedOrSummaryOrCompactEdit = checked || summaryOnly || compactEdit;
+  const isChecked = checked;
+  // const checkedOrSummaryOrCompactEdit = checked || summaryOnly || compactEdit;
 
   const handleChange = e => {
     if (e.target.name === 'taMarginAmount') {
@@ -52,15 +38,13 @@ export const SummaryFormMargin = ({
 
   return (
     <Margin className={className}>
-      {notSummaryAndNotCompact && (
-        <MarginCheckbox
-          onChange={() => handleCheckboxChange(checked)}
-          checked={checked}
-          label={t('labels.applyMargin')}
-          name="marginApplied"
-        />
-      )}
-      {checkedAndNotSummaryAndNotCompact && (
+      <MarginCheckbox
+        onChange={() => handleCheckboxChange(checked)}
+        checked={checked}
+        label={t('labels.applyMargin')}
+        name="marginApplied"
+      />
+      {isChecked && (
         <Fragment>
           <MarginInputs>
             <Select
@@ -84,11 +68,11 @@ export const SummaryFormMargin = ({
           </MarginInputs>
         </Fragment>
       )}
-      {checkedOrSummaryOrCompactEdit && (
-        <MarginTotal data-compact={checkedOrSummaryOrCompactEdit}>
+      {isChecked && (
+        <MarginTotal>
           <MarginWrapper>
-            {!compact && t('labels.currentMargin')}{' '}
-            {!checked && compactEdit ? (
+            {t('labels.currentMargin')}{' '}
+            {!checked ? (
               t('labels.notApplied')
             ) : (
               <MarginTotalAmount>
@@ -96,16 +80,11 @@ export const SummaryFormMargin = ({
               </MarginTotalAmount>
             )}
             {typeIsPercent && (
-              <MarginValue data-compact={compact}>
+              <MarginValue>
                 <MarginPercentSuffix>{value}</MarginPercentSuffix> {t('labels.currentMarginPercentageSuffix')}
               </MarginValue>
             )}
           </MarginWrapper>
-          {compactEdit && (
-            <ContextMenu>
-              <span onClick={() => onEditClick('margin')}>{t('buttons.edit')}</span>
-            </ContextMenu>
-          )}
         </MarginTotal>
       )}
     </Margin>

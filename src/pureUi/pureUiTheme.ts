@@ -28,6 +28,7 @@ export const colors = {
   grayMedium: '#E9E8E9',
   grayDark: '#E0E0E0',
   graySecondary: '#E1E1E1',
+  grayDarker: '#7b7b7b',
 
   grayOpacity1: 'rgba(0,0,0,0.35)',
 
@@ -38,6 +39,8 @@ export const colors = {
   aqua: '#D4F3EE',
 
   lightBlue: '#F3F9FB',
+
+  teal: '#57d2bf',
 
   redFade: '#FD5656',
   yellow: '#f5a623',
