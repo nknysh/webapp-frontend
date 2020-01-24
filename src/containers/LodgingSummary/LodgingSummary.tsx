@@ -444,6 +444,10 @@ export default styled(ConnectedLodgingSummary)`
     & > label {
       flex: 1;
     }
+
+    span.material-icons:hover {
+      background: ${pureUiTheme.colors.teal};
+    }
   }
 
   .child-age-selector {

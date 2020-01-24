@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { theme } from 'styles';
+import { pureUiTheme } from '../../pureUi/pureUiTheme';
 
 export const OfferSpan = styled.span`
   color: ${theme.colors['red-fade']} !important;
@@ -26,7 +27,7 @@ export const Price = styled.span<IPrice>`
   font-weight: bold;
   color: ${theme.palette.secondary};
   ${props => props.discount && `color: ${theme.colors['red-fade']} !important;`}
-  ${props => props.preDiscount && `text-decoration: line-through;`}
+  ${props => props.preDiscount && `color: ${pureUiTheme.colors.blackLight}; text-decoration: line-through;`}
 `;
 
 export const TotalSection = styled.div`

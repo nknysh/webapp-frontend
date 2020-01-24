@@ -6,7 +6,7 @@ import { RadioButton, Loader } from '@pure-escapes/webapp-ui-components';
 import Modal from 'pureUi/Modal';
 
 import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'components';
-import { useModalState, useFetchData } from 'effects';
+import { useFetchData } from 'effects';
 import { withUser } from 'hoc';
 import { formatPrice, filterByObjectProperties } from 'utils';
 import { Icon } from '@material-ui/core';
@@ -196,7 +196,6 @@ const renderTransferOptionsSimple = (
 
   return (
     <div>
-      <hr />
       {bothWayTransfersOptions && (
         <React.Fragment>
           <label className="uppercase font-bold">Return Transfers</label>
@@ -351,15 +350,17 @@ const renderAddons = (
             key={`${fineProduct.uuid}/${fineProduct.name}`}
             checked={isChecked}
             label={
-              <label>
-                {fineProduct.name}{' '}
-                {renderInlinePrice(
-                  translate,
-                  currencyCode,
-                  fp.total,
-                  fp.totalBeforeDiscount,
-                  fp.isOnRequestOrPartiallyOnRequest
-                )}
+              <ProductLabel>
+                <span>
+                  {fineProduct.name}{' '}
+                  {renderInlinePrice(
+                    translate,
+                    currencyCode,
+                    fp.total,
+                    fp.totalBeforeDiscount,
+                    fp.isOnRequestOrPartiallyOnRequest
+                  )}
+                </span>
                 <InfoIcon
                   modalHeader={
                     <h2>
@@ -377,7 +378,7 @@ const renderAddons = (
                   }
                   modalText={<p>{fineProduct.meta.description}</p>}
                 />
-              </label>
+              </ProductLabel>
             }
           />
         );

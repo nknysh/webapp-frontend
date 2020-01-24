@@ -20,7 +20,7 @@ export default {
   search: 'Search',
   submit: 'Submit',
   submitBookingRequest: 'Submit Booking Request',
-  takeAHold: 'Save Booking With Holds',
+  takeAHold: 'Hold for 24 Hours',
   update: 'Update',
   previewPDF: 'Preview PDF',
   releaseHold: 'Release hold',
@@ -35,5 +35,5 @@ export default {
   requestBooking: 'Request Booking',
   updateDetails: 'Update Details',
   updatePassword: 'Update Password',
-  saveBooking: 'Save Booking',
+  saveBooking: 'Save Results',
 };
