@@ -9,6 +9,8 @@ import { theme, withDiscountStyles } from 'styles';
 
 export { Title } from 'containers/SummaryForm/SummaryForm.styles';
 
+import { pureUiTheme } from '../../pureUi/pureUiTheme';
+
 export const OptionLabel = styled.span``;
 
 export const OptionRate = styled.span`
@@ -105,4 +107,20 @@ export const InformationIcon = styled(InfoIcon)`
   margin-left: 10px;
   fill: ${theme.palette.primary} !important;
   cursor: pointer;
+`;
+
+export const ProductLabel = styled.div`
+  display: flex;
+  position: relative;
+  width: 540px;
+  span {
+    flex: 1;
+  }
+  svg {
+    position: absolute;
+    right: 0;
+    &:hover {
+      fill: ${pureUiTheme.colors.teal};
+    }
+  }
 `;

@@ -24,7 +24,7 @@ import { ProductTypes } from 'config/enums';
 
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
-import { Error, HotelName, StyledSummary } from './SummaryForm.styles';
+import { Error, HotelName, StyledSummary, Title, Text } from './SummaryForm.styles';
 import { SummaryFormPrimaryButton, SummaryFormSecondaryButton } from 'pureUi/Buttons';
 import { makeBackendApi } from 'services/BackendApi';
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
@@ -227,8 +227,8 @@ const renderForm = (
           {!isNilOrEmpty(booking?.request?.Accommodation) && (
             <TableCardBox className="mt-4 mb-4">
               <TableCardRow depth={3}>
-                <p>{t('labels.availability')}</p>
-                <p>{t(canHold ? 'labels.availableToHoldInfo' : 'labels.unavailableToHoldInfo')}</p>
+                <Title>{t('labels.availability')}</Title>
+                <Text>{t(canHold ? 'labels.availableToHoldInfo' : 'labels.unavailableToHoldInfo')}</Text>
               </TableCardRow>
             </TableCardBox>
           )}

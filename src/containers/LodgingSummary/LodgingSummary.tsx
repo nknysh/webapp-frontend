@@ -4,6 +4,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 import DateRangeInput from 'pureUi/DateRangeInput';
 import styled from 'styled-components';
+import { pureUiTheme } from '../../pureUi/pureUiTheme';
 
 const possibleChildAges = {
   0: '0',
@@ -124,7 +125,7 @@ export const LodgingSummaryRender = props => {
     };
 
     return (
-      <div>
+      <div className="mt-4">
         <div className="lodging-summary__occupancy-editor__number-of-adults">
           <div className="number-select-wrapper">
             <label>{t('labels.numberOfAdults')}</label>
@@ -200,13 +201,13 @@ export const LodgingSummaryRender = props => {
     }
 
     return (
-      <React.Fragment>
+      <div className="mt-4">
         <RadioButton
           onChange={handleMealPlanSetSelection}
           value={selectedMealPlanSetUuid}
           options={availableMealPlans}
         />
-      </React.Fragment>
+      </div>
     );
   };
 
@@ -228,13 +229,13 @@ export const LodgingSummaryRender = props => {
 
     return (
       <React.Fragment>
-        <CollapseHeader>
+        <CollapseHeader className={!isCollapsed ? 'color-teal' : ''}>
           {lodging.nightsBreakdown}
           <CollapseToggle isCollapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
         </CollapseHeader>
 
         {!isCollapsed && (
-          <>
+          <div className="mt-4">
             <label>{t('labels.datePicker')}</label>
             <DatePickerStateProvider
               defaultSelectedDates={selectedDates}
@@ -257,7 +258,7 @@ export const LodgingSummaryRender = props => {
                 />
               )}
             />
-          </>
+          </div>
         )}
       </React.Fragment>
     );
@@ -268,7 +269,7 @@ export const LodgingSummaryRender = props => {
 
     return (
       <CollapsibleSection>
-        <CollapseHeader>
+        <CollapseHeader className={!isCollapsed ? 'color-teal' : ''}>
           {lodging.occupancyBreakdown}
           <CollapseToggle isCollapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
         </CollapseHeader>
@@ -283,7 +284,7 @@ export const LodgingSummaryRender = props => {
 
     return (
       <CollapsibleSection>
-        <CollapseHeader>
+        <CollapseHeader className={!isCollapsed ? 'color-teal' : ''}>
           {lodging.mealPlanBreakdown || 'Meal Plan Selection'}
           <CollapseToggle isCollapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
         </CollapseHeader>
@@ -298,20 +299,21 @@ export const LodgingSummaryRender = props => {
 
     return (
       <CollapsibleSection>
-        <CollapseHeader>
-          <label>Occasion(s): </label>
-          {lodging.occasionsBreakdown || <label>None</label>}
+        <CollapseHeader className={!isCollapsed ? 'color-teal' : ''}>
+          Occasion(s): {lodging.occasionsBreakdown || 'None'}
           <CollapseToggle isCollapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
         </CollapseHeader>
 
         {!isCollapsed && (
-          <OccasionsSelect
-            onChange={e => {
-              updateLodgingOccasionsAction(lodging.hotelUuid, lodging.index, e.occasions);
-            }}
-            occasions={undefined} // need to specify undefined because OccassionsSelect is setup badly
-            selected={lodging}
-          />
+          <div className="mt-4">
+            <OccasionsSelect
+              onChange={e => {
+                updateLodgingOccasionsAction(lodging.hotelUuid, lodging.index, e.occasions);
+              }}
+              occasions={undefined} // need to specify undefined because OccassionsSelect is setup badly
+              selected={lodging}
+            />
+          </div>
         )}
       </CollapsibleSection>
     );
@@ -359,8 +361,8 @@ export const LodgingSummaryRender = props => {
 
   return (
     <div className={props.className}>
-      <TableCardBox className="lodging-summary">
-        <TableCardRow depth={2}>
+      <TableCardBox className="table-card-box lodging-summary">
+        <TableCardRow className="table-card-row" depth={2}>
           <LodgingSummaryTitle>
             <strong>{lodging.title}</strong>
             <LodgingTotalWrapper>
@@ -373,24 +375,24 @@ export const LodgingSummaryRender = props => {
           </LodgingSummaryTitle>
         </TableCardRow>
 
-        <TableCardRow depth={3}>
+        <TableCardRow className="table-card-row" depth={3}>
           <DateCollapsible />
         </TableCardRow>
 
-        <TableCardRow depth={3}>
+        <TableCardRow className="table-card-row" depth={3}>
           <OccupancyCollapsible />
         </TableCardRow>
 
-        <TableCardRow depth={3}>
+        <TableCardRow className="table-card-row" depth={3}>
           <MealPlanCollapsible />
         </TableCardRow>
 
-        <TableCardRow depth={3}>
+        <TableCardRow className="table-card-row" depth={3}>
           <OccasionsCollapsible />
         </TableCardRow>
 
         {appliedSupplements && appliedSupplements.length >= 1 && (
-          <TableCardRow depth={3}>
+          <TableCardRow className="table-card-row " depth={3}>
             <CollapsibleSection>
               <CollapseHeader>
                 <label>{t('labels.appliedSupplements')}</label>
@@ -403,7 +405,7 @@ export const LodgingSummaryRender = props => {
         )}
 
         {appliedOffers && appliedOffers.length >= 1 && (
-          <TableCardRow depth={3}>
+          <TableCardRow className="table-card-row " depth={3}>
             <CollapsibleSection>
               <CollapseHeader>
                 <label>{t('labels.appliedOffers')}</label>
@@ -415,7 +417,7 @@ export const LodgingSummaryRender = props => {
           </TableCardRow>
         )}
 
-        <TableCardRow depth={3} className="pb-4 flex flex-row-reverse">
+        <TableCardRow depth={3} className="table-card-row pb-4 flex flex-row-reverse">
           <ButtonSmall
             onClick={() => {
               removeLodgingAction(lodging.hotelUuid, lodging.index);
@@ -433,9 +435,12 @@ export const LodgingSummaryRender = props => {
 const ConnectedLodgingSummary = compose(connect)(LodgingSummaryRender);
 
 export default styled(ConnectedLodgingSummary)`
+  .table-card-box .table-card-row + .table-card-row {
+    border-bottom: 1px solid ${pureUiTheme.colors.grayDark};
+  }
+
   .number-select-wrapper {
     display: flex;
-
     & > label {
       flex: 1;
     }

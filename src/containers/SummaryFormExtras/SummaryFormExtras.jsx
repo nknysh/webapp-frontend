@@ -23,6 +23,7 @@ import {
   CollapseToggle,
   CollapseTitle,
   InformationIcon,
+  ProductLabel,
 } from './SummaryFormExtras.styles';
 import {
   TableCardBox,
@@ -129,8 +130,10 @@ const renderTransferOptionsSimple = (
     .map(t => ({
       value: t.uuid,
       label: (
-        <span className="normal-case">
-          {t.name} {t.priceFormatted}{' '}
+        <ProductLabel className="normal-case">
+          <span>
+            {t.name} {t.priceFormatted}{' '}
+          </span>
           <InfoIcon
             modalHeader={
               <h2>
@@ -139,7 +142,7 @@ const renderTransferOptionsSimple = (
             }
             modalText={<p>{t.description}</p>}
           />
-        </span>
+        </ProductLabel>
       ),
     }));
 
@@ -167,8 +170,10 @@ const renderTransferOptionsSimple = (
               key={`${to.name}/${to.direction}`}
               checked={isChecked}
               label={
-                <span className="normal-case">
-                  {to.name} {to.priceFormatted}{' '}
+                <ProductLabel className="normal-case">
+                  <span>
+                    {to.name} {to.priceFormatted}{' '}
+                  </span>
                   <InfoIcon
                     modalHeader={
                       <h2>
@@ -177,7 +182,7 @@ const renderTransferOptionsSimple = (
                     }
                     modalText={<p>{to.description}</p>}
                   />
-                </span>
+                </ProductLabel>
               }
             />
           );
@@ -240,8 +245,8 @@ const renderGroundServices = (
             key={`${gsProduct.uuid}/${gsProduct.name}`}
             checked={isChecked}
             label={
-              <React.Fragment>
-                <label>
+              <ProductLabel>
+                <span>
                   {gsProduct.name}{' '}
                   {renderInlinePrice(
                     translate,
@@ -250,7 +255,7 @@ const renderGroundServices = (
                     gs.totalBeforeDiscount,
                     gs.isOnRequestOrPartiallyOnRequest
                   )}
-                </label>
+                </span>
                 <InfoIcon
                   modalHeader={
                     <h2>
@@ -268,7 +273,7 @@ const renderGroundServices = (
                   }
                   modalText={<p>{gsProduct.meta.description}</p>}
                 />
-              </React.Fragment>
+              </ProductLabel>
             }
           />
         );
@@ -299,15 +304,17 @@ const renderAddons = (
             key={`${supplementProduct.uuid}/${supplementProduct.name}`}
             checked={isChecked}
             label={
-              <label>
-                {supplementProduct.name}{' '}
-                {renderInlinePrice(
-                  translate,
-                  currencyCode,
-                  sp.total,
-                  sp.totalBeforeDiscount,
-                  sp.isOnRequestOrPartiallyOnRequest
-                )}
+              <ProductLabel>
+                <span>
+                  {supplementProduct.name}{' '}
+                  {renderInlinePrice(
+                    translate,
+                    currencyCode,
+                    sp.total,
+                    sp.totalBeforeDiscount,
+                    sp.isOnRequestOrPartiallyOnRequest
+                  )}
+                </span>
                 <InfoIcon
                   modalHeader={
                     <h2>
@@ -325,7 +332,7 @@ const renderAddons = (
                   }
                   modalText={<p>{supplementProduct.meta.description}</p>}
                 />
-              </label>
+              </ProductLabel>
             }
           />
         );

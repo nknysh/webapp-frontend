@@ -19,10 +19,11 @@ interface IPrice {
 }
 
 export const Price = styled.span<IPrice>`
-  font-size: 16px;
+  font-size: 16px !important;
   letter-spacing: 1.62px;
   display: block;
   text-align: right;
+  font-weight: bold;
   color: ${theme.palette.secondary};
   ${props => props.discount && `color: ${theme.colors['red-fade']} !important;`}
   ${props => props.preDiscount && `text-decoration: line-through;`}

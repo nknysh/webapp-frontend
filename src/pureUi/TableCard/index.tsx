@@ -23,18 +23,20 @@ export const TableCardNumberBannerNumber = styled.div`
   padding-left: 20px;
   margin-right: 2px;
   width: 50px;
-  background-color: #a18265;
+  background-color: ${colors.gold};
+  padding-top: 16px;
 `;
 
 export const TableCardNumberBannerText = styled.div`
   padding: 20px;
   width: 100%;
-  background-color: #a18265;
+  background-color: ${colors.gold};
   padding-top: 16px;
 `;
 
 export const TableCardRow = styled.div`
   padding: 20px;
+  padding-bottom: 16px;
   padding-top: 16px;
   line-height: 28px;
   ${(props: ITableCardRowProps) => {

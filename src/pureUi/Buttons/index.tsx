@@ -34,7 +34,7 @@ export const baseButtonStyles = `
   box-shadow: 0 0 0 5px transparent;
 
   &:hover {
-    background-color: ${pureUiTheme.colors.goldDark};
+    background-color: ${pureUiTheme.colors.teal};
   }
 
   &:disabled {

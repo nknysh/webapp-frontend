@@ -41,7 +41,6 @@ const LeftColumn = props => {
     <div
       style={{
         flex: 1,
-        maxWidth: '50%',
         paddingLeft: '14px',
         paddingRight: '14px',
       }}
@@ -60,7 +59,6 @@ const RightColumn = props => {
     <div
       style={{
         flex: 1,
-        maxWidth: '50%',
         paddingLeft: '14px',
         paddingRight: '14px',
       }}
@@ -210,9 +208,41 @@ export const HotelFullLayout = props => {
         links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]}
       />
       <Full>
-        <LeftColumn id={id} photos={photos} hotel={hotel} />
-        <RightColumn {...props} />
+        <div
+          style={{
+            width: '50%',
+          }}
+        >
+          <LeftColumn id={id} photos={photos} hotel={hotel} />
+        </div>
+        <div
+          style={{
+            width: '50%',
+          }}
+        >
+          <RightColumn {...props} />
+        </div>
       </Full>
+    </Fragment>
+  );
+};
+
+export const HotelTabLayout = props => {
+  const { t, id, hotel, photos } = props;
+
+  return (
+    <Fragment>
+      <StyledBreadcrumbs
+        links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]}
+      />
+      <Tabs labels={['Lodgings', 'Booking']}>
+        <div style={{ paddingTop: '14px' }}>
+          <LeftColumn id={id} photos={photos} hotel={hotel} />
+        </div>
+        <div style={{ paddingTop: '14px' }}>
+          <RightColumn {...props} />
+        </div>
+      </Tabs>
     </Fragment>
   );
 };
@@ -233,6 +263,8 @@ export const HotelContainer = ({
   const [redirectToHold, setRedirectToHold] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { initializeBooking, match } = props;
+
+  const { isMobile } = useCurrentWidth();
 
   useEffect(() => {
     return () => {
@@ -269,7 +301,8 @@ export const HotelContainer = ({
   const renderWithoutLoader = () => (
     <React.Fragment>
       <StyledHotelContainer>
-        <HotelFullLayout t={t} {...defaultProps} />
+        {isMobile && <HotelTabLayout t={t} {...defaultProps} />}
+        {!isMobile && <HotelFullLayout t={t} {...defaultProps} />}
       </StyledHotelContainer>
     </React.Fragment>
   );
@@ -320,6 +353,10 @@ export default styled(ConnectedHotel)`
       display: block;
       margin-top: 4px;
       margin-bottom: -4px;
+      color: ${pureUiTheme.colors.gold}
+      &:hover {
+        color: ${pureUiTheme.colors.teal}
+      }
     }
   }
 `;

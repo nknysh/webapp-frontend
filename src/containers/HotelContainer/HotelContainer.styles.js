@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Container, BackButton, Modal, Button } from '@pure-escapes/webapp-ui-components';
 
-import { Breadcrumbs, Hotel } from 'components';
+import { Breadcrumbs } from 'components';
 import SummaryForm from 'containers/SummaryForm';
 
 import { theme } from 'styles';
@@ -13,13 +13,6 @@ export const StyledHotelContainer = styled(Container)`
     padding-top: ${theme.spacing.gutter * 6.5}px;
   `}
 `;
-
-// export const StyledHotel = styled(Hotel)`
-//   flex: 1;
-//   max-width: 50%;
-//   padding-left: 14px;
-//   padding-right: 14px;
-// `;
 
 export const StyledSummary = styled(SummaryForm)``;
 
