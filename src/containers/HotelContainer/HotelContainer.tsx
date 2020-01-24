@@ -116,7 +116,7 @@ const HotelSummary = props => {
           <h2>{t('buttons.addToProposal')}</h2>
           <AddToProposalModalContent
             proposals={proposals}
-            hotelUuid={booking && booking.hotelUuid ? booking.hotelUuid : null}
+            hotelUuid={booking && booking.request && booking.request.hotelUuid ? booking.request.hotelUuid : null}
             createNewProposal={createNewProposal}
             addToProposal={addToProposal}
             proposalStatus={proposalStatus}

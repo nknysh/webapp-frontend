@@ -215,10 +215,11 @@ const renderForm = (
     bookingDomain,
     canHold,
     handleAddToProposalClick,
+    onSubmit,
   }
 ) => {
   return (
-    <Form initialValues={initialValues} enableReinitialize={true}>
+    <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
       {({ values }) => (
         <Fragment>
           <Input type="hidden" value={canBook} name="valid" />
