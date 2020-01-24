@@ -34,7 +34,7 @@ import {
 } from '../../pureUi/TableCard';
 import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
-const InfoIcon = ({ modalHeader, modalText }) => {
+const InfoIconWithModal = ({ modalHeader, modalText }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -134,7 +134,7 @@ const renderTransferOptionsSimple = (
           <span>
             {t.name} {t.priceFormatted}{' '}
           </span>
-          <InfoIcon
+          <InfoIconWithModal
             modalHeader={
               <h2>
                 {t.name} <small>{t.priceFormatted}</small>
@@ -174,7 +174,7 @@ const renderTransferOptionsSimple = (
                   <span>
                     {to.name} {to.priceFormatted}{' '}
                   </span>
-                  <InfoIcon
+                  <InfoIconWithModal
                     modalHeader={
                       <h2>
                         {to.name} <small>{to.priceFormatted}</small>
@@ -255,7 +255,7 @@ const renderGroundServices = (
                     gs.isOnRequestOrPartiallyOnRequest
                   )}
                 </span>
-                <InfoIcon
+                <InfoIconWithModal
                   modalHeader={
                     <h2>
                       {gsProduct.name}{' '}
@@ -314,7 +314,7 @@ const renderAddons = (
                     sp.isOnRequestOrPartiallyOnRequest
                   )}
                 </span>
-                <InfoIcon
+                <InfoIconWithModal
                   modalHeader={
                     <h2>
                       {supplementProduct.name}{' '}
@@ -361,7 +361,7 @@ const renderAddons = (
                     fp.isOnRequestOrPartiallyOnRequest
                   )}
                 </span>
-                <InfoIcon
+                <InfoIconWithModal
                   modalHeader={
                     <h2>
                       {fineProduct.name}{' '}
