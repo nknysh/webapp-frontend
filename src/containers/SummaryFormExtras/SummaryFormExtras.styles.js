@@ -107,6 +107,10 @@ export const InformationIcon = styled(InfoIcon)`
   margin-left: 10px;
   fill: ${theme.palette.primary} !important;
   cursor: pointer;
+
+  &:hover {
+    fill: ${pureUiTheme.colors.teal} !important;
+  }
 `;
 
 export const ProductLabel = styled.div`
@@ -119,8 +123,5 @@ export const ProductLabel = styled.div`
   svg {
     position: absolute;
     right: 0;
-    &:hover {
-      fill: ${pureUiTheme.colors.teal};
-    }
   }
 `;
