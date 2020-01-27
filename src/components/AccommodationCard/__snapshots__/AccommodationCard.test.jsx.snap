@@ -19,6 +19,7 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
   >
     Test Subject
   </h1>
+  <hr />
   <div
     className="innerWrapper"
   >
@@ -133,20 +134,6 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
       className="pricing"
     >
       <li>
-        <label>
-          Lodging Count:
-           
-          0
-        </label>
-        <br />
-        <styled.button
-          className="addLodgingButton"
-          onClick={[Function]}
-        >
-          Add Lodging
-        </styled.button>
-      </li>
-      <li>
         Total net cost
       </li>
       <li
@@ -170,6 +157,22 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
         key="Test Offer 2"
       >
         Test Offer 2
+      </li>
+      <li
+        className="add-lodging-button-wrapper"
+      >
+        <label>
+          Lodging Count:
+           
+          0
+        </label>
+        <br />
+        <styled.button
+          className="addLodgingButton"
+          onClick={[Function]}
+        >
+          Add Lodging
+        </styled.button>
       </li>
     </ul>
   </div>
@@ -190,6 +193,7 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
   >
     Test Subject
   </h1>
+  <hr />
   <div
     className="innerWrapper"
   >
@@ -304,20 +308,6 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
       className="pricing"
     >
       <li>
-        <label>
-          Lodging Count:
-           
-          0
-        </label>
-        <br />
-        <styled.button
-          className="addLodgingButton"
-          onClick={[Function]}
-        >
-          Add Lodging
-        </styled.button>
-      </li>
-      <li>
         Total net cost
       </li>
       <li
@@ -341,6 +331,22 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
         key="Test Offer 2"
       >
         Test Offer 2
+      </li>
+      <li
+        className="add-lodging-button-wrapper"
+      >
+        <label>
+          Lodging Count:
+           
+          0
+        </label>
+        <br />
+        <styled.button
+          className="addLodgingButton"
+          onClick={[Function]}
+        >
+          Add Lodging
+        </styled.button>
       </li>
     </ul>
   </div>
@@ -361,6 +367,7 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
   >
     Test Subject
   </h1>
+  <hr />
   <div
     className="innerWrapper"
   >
@@ -475,20 +482,6 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
       className="pricing"
     >
       <li>
-        <label>
-          Lodging Count:
-           
-          0
-        </label>
-        <br />
-        <styled.button
-          className="addLodgingButton"
-          onClick={[Function]}
-        >
-          Add Lodging
-        </styled.button>
-      </li>
-      <li>
         Total net cost
       </li>
       <li
@@ -512,6 +505,22 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
         key="Test Offer 2"
       >
         Test Offer 2
+      </li>
+      <li
+        className="add-lodging-button-wrapper"
+      >
+        <label>
+          Lodging Count:
+           
+          0
+        </label>
+        <br />
+        <styled.button
+          className="addLodgingButton"
+          onClick={[Function]}
+        >
+          Add Lodging
+        </styled.button>
       </li>
     </ul>
   </div>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import AccommodationCard from './AccommodationCard.jsx';
 import { theme } from 'styles';
-import { colors } from '../../pureUi/pureUiTheme';
+import { colors } from 'pureUi/pureUiTheme';
 
 export default styled(AccommodationCard)`
   position: relative;

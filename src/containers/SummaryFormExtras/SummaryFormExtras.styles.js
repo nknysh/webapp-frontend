@@ -9,7 +9,7 @@ import { theme, withDiscountStyles } from 'styles';
 
 export { Title } from 'containers/SummaryForm/SummaryForm.styles';
 
-import { pureUiTheme } from '../../pureUi/pureUiTheme';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
 
 export const OptionLabel = styled.span``;
 

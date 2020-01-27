@@ -93,5 +93,3 @@ export const Text = styled.p`
   color: ${theme.palette.secondary};
   font-size: ${theme.fonts.sizes.normal}px;
 `;
-
-// export const BookingBuilderSectionHeader

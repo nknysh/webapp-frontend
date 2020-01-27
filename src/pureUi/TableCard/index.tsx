@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { theme } from 'styles';
-import { colors } from '../../pureUi/pureUiTheme';
+import { colors } from 'pureUi/pureUiTheme';
 
 interface ITableCardRowProps {
   depth: number;

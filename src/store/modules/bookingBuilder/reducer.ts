@@ -531,6 +531,8 @@ export const calculateBookingTotalGuestAges = (lodgings: SelectedAccommodation[]
   let numberOfAdults: number = 0;
   let agesOfAllChildren: number[] = [];
 
+  console.log('lodgings', lodgings);
+
   const { earliestStartDate: esd } = calculateBookingDates(lodgings);
   const earliestStartDate = formatDate(esd);
 

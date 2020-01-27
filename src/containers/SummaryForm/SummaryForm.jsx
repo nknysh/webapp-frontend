@@ -29,7 +29,7 @@ import { SummaryFormPrimaryButton, SummaryFormSecondaryButton } from 'pureUi/But
 import { makeBackendApi } from 'services/BackendApi';
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
-import { TableCardBox, TableCardRow } from '../../pureUi/TableCard';
+import { TableCardBox, TableCardRow } from 'pureUi/TableCard';
 
 const getSingleValue = (type, data) =>
   pipe(

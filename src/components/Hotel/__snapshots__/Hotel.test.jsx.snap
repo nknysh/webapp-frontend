@@ -4,14 +4,19 @@ exports[`<Hotel /> render matches snapshot 1`] = `
 <styled.div
   additionalInfo={Array []}
   features={Array []}
+  id="hotel"
   images={Array []}
   listPrice="123"
   preferred={true}
   promotionalText=""
   suitableForHoneymooners={false}
 >
-  <styled.div>
-    <styled.div>
+  <styled.div
+    id="hotel-details"
+  >
+    <styled.div
+      id="hotel-info"
+    >
       <Styled(styled.div)>
         <Styled(Styled(WithStyles(ForwardRef(Icon))))>
           star

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Text, Total } from '../SummaryForm/SummaryForm.styles';
 import { Select } from '@pure-escapes/webapp-ui-components';
-import { PrimaryButton } from '../../pureUi/Buttons';
+import { PrimaryButton } from 'pureUi/Buttons';
 
 export const LodgingSummaryCard = styled.div``;
 

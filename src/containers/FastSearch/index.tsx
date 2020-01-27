@@ -6,7 +6,7 @@ import StyledFastSearchContainer from './styles';
 import SearchSettings from 'pureUi/SearchSettings';
 import PredictiveTextInput from 'pureUi/PredictiveTextInput';
 import { RangeValueType } from 'pureUi/RangeInput';
-import { LodgingsEditor } from '../../pureUi/LodgingsEditor/index';
+import { LodgingsEditor } from 'pureUi/LodgingsEditor/index';
 import SidebarGroup from 'pureUi/SidebarGroup';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Heading2 } from 'styles';
@@ -88,8 +88,8 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     }
   }
 
-  componentDidUpdate(prevProps){
-    if(this.props.actingCountryCode !== prevProps.actingCountryCode) {
+  componentDidUpdate(prevProps) {
+    if (this.props.actingCountryCode !== prevProps.actingCountryCode) {
       this.props.getOffers(this.props.searchQuery);
     }
   }
@@ -311,7 +311,7 @@ const mapStateToProps = createStructuredSelector({
   isRepeatGuest: isRepeatGuestSelector,
   queryHasChanged: queryHasChangedSelector,
   canSearch: canSearchSelector,
-  actingCountryCode: getUserCountryContext
+  actingCountryCode: getUserCountryContext,
 });
 
 const actionCreators = {

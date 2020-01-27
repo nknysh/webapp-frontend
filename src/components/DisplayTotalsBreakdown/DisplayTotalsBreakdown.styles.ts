@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { theme } from 'styles';
-import { pureUiTheme } from '../../pureUi/pureUiTheme';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
 
 export const OfferSpan = styled.span`
   color: ${theme.colors['red-fade']} !important;

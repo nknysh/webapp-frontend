@@ -10,7 +10,7 @@ import { mapWithIndex } from 'utils';
 import Modal from 'pureUi/Modal';
 import { Icon } from '@material-ui/core';
 import styled from 'styled-components';
-import { pureUiTheme } from '../../pureUi/pureUiTheme';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
@@ -33,7 +33,7 @@ import {
   TableCardNumberedBanner,
   TableCardNumberBannerNumber,
   TableCardNumberBannerText,
-} from '../../pureUi/TableCard';
+} from 'pureUi/TableCard';
 const LeftColumn = props => {
   const { id, hotel, photos } = props;
 

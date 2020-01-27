@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { Price, TotalSection, TotalSectionColumn, LabelRed } from './DisplayTotalsBreakdown.styles';
 
-import { TableCardBox, TableCardRow } from '../../pureUi/TableCard';
+import { TableCardBox, TableCardRow } from 'pureUi/TableCard';
 
 interface IItem {
   title: string;

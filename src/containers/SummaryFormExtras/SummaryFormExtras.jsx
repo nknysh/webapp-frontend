@@ -31,7 +31,7 @@ import {
   TableCardNumberedBanner,
   TableCardNumberBannerNumber,
   TableCardNumberBannerText,
-} from '../../pureUi/TableCard';
+} from 'pureUi/TableCard';
 import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
 const InfoIconWithModal = ({ modalHeader, modalText }) => {

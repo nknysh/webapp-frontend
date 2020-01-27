@@ -4,7 +4,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 import DateRangeInput from 'pureUi/DateRangeInput';
 import styled from 'styled-components';
-import { pureUiTheme } from '../../pureUi/pureUiTheme';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
 
 const possibleChildAges = {
   0: '0',
@@ -71,7 +71,7 @@ import {
 import connect from './LodgingSummary.state';
 import { DateHelper } from 'pureUi/DatePicker';
 
-import { TableCardBox, TableCardRow } from '../../pureUi/TableCard';
+import { TableCardBox, TableCardRow } from 'pureUi/TableCard';
 
 export const LodgingSummaryRender = props => {
   const lodging: LodgingSummary = props.lodging;

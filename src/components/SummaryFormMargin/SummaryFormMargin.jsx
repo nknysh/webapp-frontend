@@ -22,7 +22,6 @@ export const SummaryFormMargin = ({ className, onChange, checked, value, type, t
   const typeIsPercent = equals('percentage', type);
 
   const isChecked = checked;
-  // const checkedOrSummaryOrCompactEdit = checked || summaryOnly || compactEdit;
 
   const handleChange = e => {
     if (e.target.name === 'taMarginAmount') {
