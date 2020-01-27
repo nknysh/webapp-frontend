@@ -162,7 +162,7 @@ export const LodgingSummaryRender = props => {
           <div className="className='lodging-summary__occupancy-editor__specify-ages-of-children">
             {agesOfAllChildren.map((ageOfChild, index) => {
               return (
-                <div className="child-age-selector">
+                <div key={`child-age-selector-${index}`} className="child-age-selector">
                   <label>Child {index + 1}</label>
                   <ChildAgeSelect
                     options={possibleChildAges}
