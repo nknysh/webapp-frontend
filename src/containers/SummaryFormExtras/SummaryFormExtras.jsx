@@ -52,7 +52,7 @@ const InfoIconWithModal = ({ modalHeader, modalText }) => {
 
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          {modalHeader}
+          <span className="uppercase color-gold">{modalHeader}</span>
           {modalText}
         </Modal>
       )}

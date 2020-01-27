@@ -116,6 +116,7 @@ export const GlobalStyle = createGlobalStyle`
     .uppercase { text-transform: uppercase; }
     .normal-case { text-transform: none; }
     .color-teal { color: #57d2bf !important ; }
+    .color-gold { color: #A18265 !important ; }
     .font-bold { font-weight: bold; }
 `;
 
