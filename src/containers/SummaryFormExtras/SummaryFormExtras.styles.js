@@ -40,6 +40,32 @@ export const AddonCheckbox = styled(Checkbox)`
   }
 `;
 
+export const OptionList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    border: red 1px solid;
+    margin-bottom: 10px;
+  }
+
+  .labelText {
+    margin-left: 10px;
+  }
+
+  .info-button {
+    position: relative;
+    right: 0;
+
+    & > svg {
+      left: 0;
+      top: 0;
+    }
+  }
+`;
+
 export const AddonSummary = styled.div`
   display: flex;
   margin-bottom: ${theme.spacing.gutter * 2}px;

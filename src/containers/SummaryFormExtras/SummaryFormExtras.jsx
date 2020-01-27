@@ -24,6 +24,7 @@ import {
   CollapseTitle,
   InformationIcon,
   ProductLabel,
+  OptionList,
 } from './SummaryFormExtras.styles';
 import {
   TableCardBox,
@@ -33,6 +34,9 @@ import {
   TableCardNumberBannerText,
 } from 'pureUi/TableCard';
 import { HotelName } from '../SummaryForm/SummaryForm.styles';
+
+import Checkbox from 'pureUi/Checkbox';
+import { IconButton } from 'pureUi/Buttons';
 
 const InfoIconWithModal = ({ modalHeader, modalText }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -161,33 +165,24 @@ const renderTransferOptionsSimple = (
 
   const buildMarkupForOneWayTransfers = transfers => {
     return (
-      <React.Fragment>
+      <OptionList>
         {transfers.map(to => {
           const isChecked = selectedTransferOptions.some(sto => sto.uuid === to.uuid && sto.direction === to.direction);
           return (
-            <AddonCheckbox
-              onChange={() => handleCheckboxClick(to)}
-              key={`${to.name}/${to.direction}`}
-              checked={isChecked}
-              label={
-                <ProductLabel className="normal-case">
-                  <span>
-                    {to.name} {to.priceFormatted}{' '}
-                  </span>
-                  <InfoIconWithModal
-                    modalHeader={
-                      <h2>
-                        {to.name} <small>{to.priceFormatted}</small>
-                      </h2>
-                    }
-                    modalText={<p>{to.description}</p>}
-                  />
-                </ProductLabel>
-              }
-            />
+            <li key={to.name}>
+              <label>
+                <Checkbox onChange={() => handleCheckboxClick(to)} checked={isChecked} />
+                <span className="labelText">
+                  {to.name} {to.priceFormatted}{' '}
+                </span>
+                <IconButton className="info-button" onClick={() => {}}>
+                  <InformationIcon />
+                </IconButton>
+              </label>
+            </li>
           );
         })}
-      </React.Fragment>
+      </OptionList>
     );
   };
 
@@ -255,6 +250,34 @@ const renderGroundServices = (
                     gs.isOnRequestOrPartiallyOnRequest
                   )}
                 </span>
+                {/* <InfoIconWithModal>
+                  {(open) => {
+                    return open && (
+                      <>
+                      <ModalHader>
+                      {gsProduct.name}{' '}
+                      <small>
+                        {renderInlinePrice(
+                          translate,
+                          currencyCode,
+                          gs.total,
+                          gs.totalBeforeDiscount,
+                          gs.isOnRequestOrPartiallyOnRequest
+                        )}
+                      </small>
+                      </ModalHader>
+                      <ModalBody>
+                        <p>{gsProduct.meta.description}</p>
+                      </ModalBody>
+                      </>   
+                    )
+                  }}
+                </InfoIconWithModal> */}
+
+                {/* <ActiveStateProvider render={(isActive) => {
+
+                }}> */}
+
                 <InfoIconWithModal
                   modalHeader={
                     <h2>

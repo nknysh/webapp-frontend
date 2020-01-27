@@ -1,9 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { pureUiTheme } from '../pureUiTheme';
 import { Link, LinkProps } from 'react-router-dom';
 
-export const buttonStates = `
+export const buttonStates = css`
   transition: all 0.15s ease-out;
 
   &:focus {
@@ -17,7 +17,7 @@ export const buttonStates = `
   }
 `;
 
-export const baseButtonStyles = `
+export const baseButtonStyles = css`
   position: relative;
   display: block;
   line-height: 35px;
