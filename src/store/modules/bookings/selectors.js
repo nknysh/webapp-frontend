@@ -1123,8 +1123,6 @@ export const getBookingForBuilderPure = (state, hotelUuid) => {
 
   const lodgings = pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking);
 
-  console.log('lodgings', lodgings);
-
   const guestAges = calculateBookingTotalGuestAges(lodgings);
 
   // Sort the final dates

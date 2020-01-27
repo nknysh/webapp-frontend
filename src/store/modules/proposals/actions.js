@@ -206,7 +206,6 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
     );
   } catch (e) {
     console.error(`Error ${e}`);
-    console.log('e', e);
     dispatch(errorFromResponse(PROPOSALS_NEW, e, 'There was a problem creating proposal.'));
   }
 };
