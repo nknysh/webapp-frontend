@@ -38,7 +38,7 @@ import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
 import Checkbox from 'pureUi/Checkbox';
 
-const InfoIconWithModal = ({ modalHeader, modalText }) => {
+const InfoIconWithModal = ({ modalRender }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -50,12 +50,7 @@ const InfoIconWithModal = ({ modalHeader, modalText }) => {
         }}
       />
 
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <span className="uppercase color-gold">{modalHeader}</span>
-          {modalText}
-        </Modal>
-      )}
+      {isModalOpen && <Modal onClose={() => setIsModalOpen(false)}>{modalRender()}</Modal>}
     </React.Fragment>
   );
 };
@@ -139,12 +134,14 @@ const renderTransferOptionsSimple = (
             {t.name} {t.priceFormatted}{' '}
           </span>
           <InfoIconWithModal
-            modalHeader={
-              <h2>
-                {t.name} <small>{t.priceFormatted}</small>
-              </h2>
-            }
-            modalText={<p>{t.description}</p>}
+            modalRender={() => (
+              <React.Fragment>
+                <h2 className="uppercase color-gold">
+                  {t.name} <small>{t.priceFormatted}</small>
+                </h2>
+                <p>{t.description}</p>
+              </React.Fragment>
+            )}
           />
         </ProductLabel>
       ),
@@ -177,12 +174,14 @@ const renderTransferOptionsSimple = (
                 </span>
               </label>
               <InfoIconWithModal
-                modalHeader={
-                  <h2>
-                    {to.name} <small>{to.priceFormatted}</small>
-                  </h2>
-                }
-                modalText={<p>{to.description}</p>}
+                modalRender={() => (
+                  <React.Fragment>
+                    <h2 className="uppercase color-gold">
+                      {to.name} <small>{to.priceFormatted}</small>
+                    </h2>
+                    <p>{to.description}</p>
+                  </React.Fragment>
+                )}
               />
             </li>
           );
@@ -255,50 +254,24 @@ const renderGroundServices = (
                     gs.isOnRequestOrPartiallyOnRequest
                   )}
                 </span>
-                {/* <InfoIconWithModal>
-                  {(open) => {
-                    return open && (
-                      <>
-                      <ModalHader>
-                      {gsProduct.name}{' '}
-                      <small>
-                        {renderInlinePrice(
-                          translate,
-                          currencyCode,
-                          gs.total,
-                          gs.totalBeforeDiscount,
-                          gs.isOnRequestOrPartiallyOnRequest
-                        )}
-                      </small>
-                      </ModalHader>
-                      <ModalBody>
-                        <p>{gsProduct.meta.description}</p>
-                      </ModalBody>
-                      </>   
-                    )
-                  }}
-                </InfoIconWithModal> */}
-
-                {/* <ActiveStateProvider render={(isActive) => {
-
-                }}> */}
-
                 <InfoIconWithModal
-                  modalHeader={
-                    <h2>
-                      {gsProduct.name}{' '}
-                      <small>
-                        {renderInlinePrice(
-                          translate,
-                          currencyCode,
-                          gs.total,
-                          gs.totalBeforeDiscount,
-                          gs.isOnRequestOrPartiallyOnRequest
-                        )}
-                      </small>
-                    </h2>
-                  }
-                  modalText={<p>{gsProduct.meta.description}</p>}
+                  modalRender={() => (
+                    <React.Fragment>
+                      <h2 className="uppercase color-gold">
+                        {gsProduct.name}{' '}
+                        <small>
+                          {renderInlinePrice(
+                            translate,
+                            currencyCode,
+                            gs.total,
+                            gs.totalBeforeDiscount,
+                            gs.isOnRequestOrPartiallyOnRequest
+                          )}
+                        </small>
+                      </h2>
+                      <p>{gsProduct.meta.description}</p>
+                    </React.Fragment>
+                  )}
                 />
               </ProductLabel>
             }
@@ -343,21 +316,23 @@ const renderAddons = (
                   )}
                 </span>
                 <InfoIconWithModal
-                  modalHeader={
-                    <h2>
-                      {supplementProduct.name}{' '}
-                      <small>
-                        {renderInlinePrice(
-                          translate,
-                          currencyCode,
-                          sp.total,
-                          sp.totalBeforeDiscount,
-                          sp.isOnRequestOrPartiallyOnRequest
-                        )}
-                      </small>
-                    </h2>
-                  }
-                  modalText={<p>{supplementProduct.meta.description}</p>}
+                  modalRender={() => (
+                    <React.Fragment>
+                      <h2 className="uppercase color-gold">
+                        {supplementProduct.name}{' '}
+                        <small>
+                          {renderInlinePrice(
+                            translate,
+                            currencyCode,
+                            sp.total,
+                            sp.totalBeforeDiscount,
+                            sp.isOnRequestOrPartiallyOnRequest
+                          )}
+                        </small>
+                      </h2>
+                      <p>{supplementProduct.meta.description}</p>
+                    </React.Fragment>
+                  )}
                 />
               </ProductLabel>
             }
@@ -390,21 +365,23 @@ const renderAddons = (
                   )}
                 </span>
                 <InfoIconWithModal
-                  modalHeader={
-                    <h2>
-                      {fineProduct.name}{' '}
-                      <small>
-                        {renderInlinePrice(
-                          translate,
-                          currencyCode,
-                          fp.total,
-                          fp.totalBeforeDiscount,
-                          fp.isOnRequestOrPartiallyOnRequest
-                        )}
-                      </small>
-                    </h2>
-                  }
-                  modalText={<p>{fineProduct.meta.description}</p>}
+                  modalRender={() => (
+                    <React.Fragment>
+                      <h2 className="uppercase color-gold">
+                        {fineProduct.name}{' '}
+                        <small>
+                          {renderInlinePrice(
+                            translate,
+                            currencyCode,
+                            fp.total,
+                            fp.totalBeforeDiscount,
+                            fp.isOnRequestOrPartiallyOnRequest
+                          )}
+                        </small>
+                      </h2>
+                      <p>{fineProduct.meta.description}</p>
+                    </React.Fragment>
+                  )}
                 />
               </ProductLabel>
             }
