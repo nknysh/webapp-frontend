@@ -47,22 +47,17 @@ export const OptionList = styled.ul`
 
   li {
     position: relative;
-    border: red 1px solid;
     margin-bottom: 10px;
+  }
+
+  svg {
+    position: absolute;
+    right: 14px;
+    top: 6px;
   }
 
   .labelText {
     margin-left: 10px;
-  }
-
-  .info-button {
-    position: relative;
-    right: 0;
-
-    & > svg {
-      left: 0;
-      top: 0;
-    }
   }
 `;
 
@@ -142,12 +137,19 @@ export const InformationIcon = styled(InfoIcon)`
 export const ProductLabel = styled.div`
   display: flex;
   position: relative;
-  width: 540px;
+  width: 100%;
   span {
     flex: 1;
   }
   svg {
     position: absolute;
     right: 0;
+  }
+`;
+
+export const BothWayTransferRadioWrapper = styled.div`
+  // odd CSS rule - this is to overwrite some nonsense from material UI
+  span:nth-child(2) {
+    width: 100%;
   }
 `;

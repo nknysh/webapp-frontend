@@ -25,6 +25,7 @@ import {
   InformationIcon,
   ProductLabel,
   OptionList,
+  BothWayTransferRadioWrapper,
 } from './SummaryFormExtras.styles';
 import {
   TableCardBox,
@@ -36,7 +37,6 @@ import {
 import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
 import Checkbox from 'pureUi/Checkbox';
-import { IconButton } from 'pureUi/Buttons';
 
 const InfoIconWithModal = ({ modalHeader, modalText }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -175,10 +175,15 @@ const renderTransferOptionsSimple = (
                 <span className="labelText">
                   {to.name} {to.priceFormatted}{' '}
                 </span>
-                <IconButton className="info-button" onClick={() => {}}>
-                  <InformationIcon />
-                </IconButton>
               </label>
+              <InfoIconWithModal
+                modalHeader={
+                  <h2>
+                    {to.name} <small>{to.priceFormatted}</small>
+                  </h2>
+                }
+                modalText={<p>{to.description}</p>}
+              />
             </li>
           );
         })}
@@ -192,10 +197,10 @@ const renderTransferOptionsSimple = (
   return (
     <div>
       {bothWayTransfersOptions && (
-        <React.Fragment>
+        <BothWayTransferRadioWrapper>
           <label className="uppercase font-bold">Return Transfers</label>
           {bothWayTransferMarkup}
-        </React.Fragment>
+        </BothWayTransferRadioWrapper>
       )}
 
       {bothWayTransfersOptions && inDirectionTransferOptions && <hr />}
