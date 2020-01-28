@@ -1,75 +1,93 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
-import { Icon } from '@material-ui/core';
-import { IPureUiModalView } from '../../interfaces';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
+import logo from 'public/assets/img/PE_logo.png';
+import { IconButton } from '../Buttons/index';
+import { renderPortal, PortalType } from '../../utils/portals';
 
-const ModalContainer = styled.div`
+export const ModalWrapper = styled.div`
   position: fixed;
-  z-index: 9999; /* needs to be this so high to cover the gallery buttons */
-  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
-  cursor: default;
-  &.modal-open {
-    display: block;
-  }
-  &.modal-closed {
-    display: none;
-  }
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: ${pureUiTheme.colors.grayOpacity1};
+  z-index: 1;
 `;
 
-const ModalContentWrapper = styled.div`
-  background-color: #fefefe;
-  margin: auto;
-  margin-top: 8vh;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 60%;
-  cursor: default;
-  overflow-y: auto;
-  max-height: calc(92vh - 8vh);
-`;
-
-const ModalCloseButton = styled.button`
-  float: right;
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
-
-const Modal = (props: IPureUiModalView) => {
-  useEffect(() => {
-    document.addEventListener('keyup', handleKeyUp, true);
-
-    return () => {
-      document.removeEventListener('keyup', handleKeyUp, true);
-    };
-  }, []);
-
-  const handleKeyUp = e => {
-    if (e.key === 'Escape') {
-      props.onClose();
-    }
-  };
-
-  const handleCloseButtonPress = () => props.onClose();
+export const ModalFrameComponet = (props: React.HTMLAttributes<HTMLDivElement>) => {
+  const { children, ...otherProps } = props;
   return (
     <FocusTrap>
-      <ModalContainer className={props.className || ''} onClick={e => e.stopPropagation()}>
-        <ModalContentWrapper>
-          <ModalCloseButton type="button" className="modal-close-button" onClick={handleCloseButtonPress}>
-            <Icon>close</Icon>
-          </ModalCloseButton>
-
-          {props.children}
-        </ModalContentWrapper>
-      </ModalContainer>
+      <div {...otherProps}>{children}</div>
     </FocusTrap>
   );
 };
 
-export default Modal;
+export const ModalFrame = styled(ModalFrameComponet)`
+  display: flex;
+  flex-direction: column;
+  background-color: ${pureUiTheme.colors.white};
+  position: fixed;
+  padding: 80px 100px 70px;
+  max-height: 80vh;
+  max-width: 90vw;
+`;
+
+export interface IModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  noLogo: boolean;
+}
+export const ModalHeader = styled.div<IModalHeaderProps>`
+  padding-top: ${props => (props.noLogo ? 0 : '50px')};
+  background-image: ${props => (props.noLogo ? 'none' : `url(${logo})`)};
+  background-position: top center;
+  background-repeat: no-repeat;
+`;
+
+export const ModalContent = styled.div`
+  overflow: scroll;
+`;
+
+export const ModalFooter = styled.div`
+  margin-top: 30px;
+`;
+
+const ModalCloseButtonComponent = (props: React.HTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <IconButton {...props}>
+      <CloseIcon />
+    </IconButton>
+  );
+};
+export const ModalCloseButton = styled(ModalCloseButtonComponent)`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  color: ${pureUiTheme.colors.grayDark};
+  border-radius: 40px;
+`;
+
+export interface IStandardModalProps {
+  className?: string;
+  children?: React.ReactNode;
+  onClose: () => void;
+}
+export const StandardModal = (props: IStandardModalProps) => {
+  return renderPortal(
+    <ModalWrapper onClick={props.onClose}>
+      <ModalFrame>
+        {props.children}
+        <ModalCloseButton onClick={props.onClose} />
+      </ModalFrame>
+    </ModalWrapper>,
+    PortalType.Modal
+  );
+};

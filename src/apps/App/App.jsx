@@ -13,6 +13,11 @@ import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 import { FastSearchContainerConnected } from 'containers/FastSearch';
 
+import { StandardModal, ModalContent, ModalHeader, ModalFooter } from 'pureUi/Modal';
+import { PortalType, renderPortal } from 'utils/portals';
+import { Heading1 } from 'styles';
+import { PrimaryButton } from 'pureUi/Buttons';
+
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange }) => {
   // Scroll to top on path change
   useScrollToTop(pathname);
@@ -28,11 +33,26 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange })
   return (
     <Layout>
       <Suspense fallback={<Loader />}>
-        <Switch>
-          <Route path="/search/beta" exact component={FastSearchContainerConnected} />
+        <>
+          <StandardModal>
+            <ModalHeader noLogo>
+              <Heading1>My Modal Header</Heading1>
+            </ModalHeader>
+            <ModalContent>
+              <p>My Modal</p>
+              <p>My Modal</p>
+              <p>My Modal</p>
+            </ModalContent>
+            <ModalFooter>
+              <PrimaryButton>Do Something</PrimaryButton>
+            </ModalFooter>
+          </StandardModal>
+          <Switch>
+            <Route path="/search/beta" exact component={FastSearchContainerConnected} />
 
-          {...getAppRoutes(prop('type', user))}
-        </Switch>
+            {...getAppRoutes(prop('type', user))}
+          </Switch>
+        </>
       </Suspense>
     </Layout>
   );

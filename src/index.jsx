@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
 // import OfflinePluginRuntime from 'offline-plugin/runtime';
 import { ThemeProvider } from 'styled-components';
+import { appendPortalElements } from 'utils/portals';
 
 import 'store/modules/fastSearch';
 
@@ -28,6 +29,8 @@ if (APP_ENV !== 'production') {
   whyDidYouRender(React);
 }
 
+appendPortalElements();
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
@@ -44,5 +47,3 @@ ReactDOM.render(
   </ThemeProvider>,
   document.getElementById('app')
 );
-
-// APP_ENV === 'production' && OfflinePluginRuntime.install();

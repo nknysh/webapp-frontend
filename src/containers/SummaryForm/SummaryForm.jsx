@@ -24,8 +24,22 @@ import { ProductTypes } from 'config/enums';
 
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
-import { Error, HotelName, StyledSummary, Title, Text } from './SummaryForm.styles';
-import { SummaryFormPrimaryButton, SummaryFormSecondaryButton } from 'pureUi/Buttons';
+import {
+  Error,
+  Hotel,
+  HotelName,
+  StyledModal,
+  StyledSummary,
+  SummaryFormActions,
+  SummaryFormButton,
+  Total,
+  EditGuard,
+  ModalContent,
+  ModalTitle,
+  HotelTotals,
+} from './SummaryForm.styles';
+import { formatPrice } from '../../utils';
+import { PrimaryButton } from 'pureUi/Buttons';
 import { makeBackendApi } from 'services/BackendApi';
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
