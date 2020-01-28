@@ -141,14 +141,14 @@ const handleSaveBookingAndTakeHoldsButton = async props => {
 };
 
 const SaveBookingButton = props => {
-  const { backendApi, bookingDomain, canBook, t } = props;
+  const { backendApi, bookingDomain, canBook, t, forceDisabled } = props;
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
     <SummaryFormSecondaryButton
       className="save-booking-button"
       type="button"
-      disabled={!canBook || hasClicked}
+      disabled={!canBook || hasClicked || forceDisabled}
       onClick={() => {
         setHasClicked(true);
         try {
@@ -163,18 +163,22 @@ const SaveBookingButton = props => {
   );
 };
 
-const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest }) => {
+const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, forceDisabled }) => {
   // logic taken from previous declaration and reworked into its own component
 
   return (
-    <SummaryFormPrimaryButton className="request-to-book-button" disabled={!(showHolds || canBook)} type="submit">
+    <SummaryFormPrimaryButton
+      className="request-to-book-button"
+      disabled={!(showHolds || canBook) || forceDisabled}
+      type="submit"
+    >
       {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
     </SummaryFormPrimaryButton>
   );
 };
 
 const SaveBookingAndTakeHoldsButton = props => {
-  const { backendApi, bookingDomain, canBook, canHold, t } = props;
+  const { backendApi, bookingDomain, canBook, canHold, t, forceDisabled } = props;
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
@@ -182,7 +186,7 @@ const SaveBookingAndTakeHoldsButton = props => {
       className="save-booking-and-take-hold-button"
       type="button"
       data-secondary
-      disabled={!canBook || !canHold || hasClicked}
+      disabled={!canBook || !canHold || hasClicked || forceDisabled}
       onClick={() => {
         setHasClicked(true);
         try {
@@ -216,6 +220,8 @@ const renderForm = (
     canHold,
     handleAddToProposalClick,
     onSubmit,
+    travelAgentUserUuid,
+    isSr,
   }
 ) => {
   return (
@@ -243,16 +249,23 @@ const renderForm = (
                 canHold={canHold}
                 backendApi={backendApi}
                 bookingDomain={bookingDomain}
+                forceDisabled={isSr && !travelAgentUserUuid}
               />
 
-              <SaveBookingButton t={t} canBook={canBook} backendApi={backendApi} bookingDomain={bookingDomain} />
+              <SaveBookingButton
+                t={t}
+                canBook={canBook}
+                backendApi={backendApi}
+                bookingDomain={bookingDomain}
+                forceDisabled={isSr && !travelAgentUserUuid}
+              />
             </div>
 
             <div className="flex">
               <SummaryFormPrimaryButton
                 className="add-to-proposal-button"
                 type="button"
-                disabled={!canBook}
+                disabled={!canBook || (isSr && !travelAgentUserUuid)}
                 onClick={handleAddToProposalClick}
               >
                 {t('buttons.addToProposal')}
@@ -265,6 +278,7 @@ const renderForm = (
                 canBook={canBook}
                 bookLabel={bookLabel}
                 isOnRequest={isOnRequest}
+                forceDisabled={isSr && !travelAgentUserUuid}
               />
             </div>
           </div>
@@ -294,7 +308,10 @@ export const SummaryForm = props => {
     setFormValues(initialValues);
   }, [booking]);
 
-  const isLoading = isActive(status);
+  // TODO this `isLoading` was based on checking a `status`, which didn't exist
+  // not sure how long this has been broken, but its effectively been false for some time
+  // Setting to a hard `false` now until we have time to investigate
+  const isLoading = false;
 
   return (
     <StyledSummary className={className} data-compact={compact}>

@@ -15,9 +15,10 @@ import {
   replaceProducts,
   updateBooking,
   getAccommodationEditModalErrors,
+  getBookingTravelAgent,
 } from 'store/modules/bookings';
 
-import { getUserCountryContext } from 'store/modules/auth';
+import { getUserCountryContext, isSR as isSrSelector } from 'store/modules/auth';
 
 import {
   bookingBuilderSelector,
@@ -43,6 +44,8 @@ export const mapStateToProps = (state, { id }) => ({
   totals: getBookingTotals(state, id),
   accommodationEditModalErrors: getAccommodationEditModalErrors(state, id),
   actingCountryCode: getUserCountryContext(state),
+  travelAgentUserUuid: getBookingTravelAgent(state, id),
+  isSr: isSrSelector(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
