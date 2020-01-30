@@ -39,6 +39,10 @@ jobs:
       - run:
           name: Run tests
           command: yarn test:ci
+      - store_artifacts:
+          path: tests/coverage
+      - store_test_results:
+          path: tests/coverage
       - aws-cli/setup:
           profile-name: default
       - run: |
