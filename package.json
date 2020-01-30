@@ -16,7 +16,7 @@
     "prod": "NODE_ENV=production webpack-dev-server --mode production --inline --progress",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "jest",
-    "test:ci": "jest --runInBand --ci --coverage",
+    "test:ci": "JEST_JUNIT_OUTPUT_DIR=\"tests/coverage\" jest --runInBand --ci --coverage --reporters=default --reporters=jest-junit",
     "test:coverage": "jest --coverage",
     "typecheck": "tsc --noEmit --skipLibCheck true"
   },
@@ -151,6 +151,7 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "24.9.0",
     "jest-canvas-mock": "2.1.2",
+    "jest-junit": "^10.0.0",
     "jest-mock-axios": "3.1.2",
     "markdown-loader": "5.1.0",
     "offline-plugin": "5.0.7",
