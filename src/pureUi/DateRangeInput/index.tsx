@@ -41,7 +41,8 @@ const DateRangeInput = (props: DateRangeInputPops) => {
 
   const handleClickOutside = useCallback(
     (e: MouseEvent) => {
-      if (!wrapper.current!.contains(e.target as Node)) {
+      const overlayContainer = document.getElementById(PortalType.Overlay);
+      if (!wrapper.current!.contains(e.target as Node) && !overlayContainer!.contains(e.target as Node)) {
         props.onClickOutside(e);
         return;
       }
