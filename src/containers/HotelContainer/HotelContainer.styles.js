@@ -27,7 +27,7 @@ export const Full = styled.div`
 
 export const Back = styled(BackButton)`
   display: flex;
-  padding ${theme.spacing.gutter * 2}px !important;
+  padding: ${theme.spacing.gutter * 2}px !important;
 `;
 
 export const Title = styled.h3`
@@ -92,4 +92,13 @@ export const SummaryAction = styled(Button)`
 export const Text = styled.p`
   color: ${theme.palette.secondary};
   font-size: ${theme.fonts.sizes.normal}px;
+`;
+
+export const AddToProposalStyles = styled.div`
+  margin: 10px 0;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-row-gap: 20px;
+  min-width: 400px;
+  font-size: 10px;
 `;

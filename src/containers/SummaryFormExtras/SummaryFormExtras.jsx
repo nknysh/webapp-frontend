@@ -3,7 +3,7 @@ import { compose, prop, flatten } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { RadioButton, Loader } from '@pure-escapes/webapp-ui-components';
-import Modal from 'pureUi/Modal';
+import { StandardModal, ModalContent } from 'pureUi/Modal';
 
 import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'components';
 import { useFetchData } from 'effects';
@@ -50,7 +50,7 @@ const InfoIconWithModal = ({ modalRender }) => {
         }}
       />
 
-      {isModalOpen && <Modal onClose={() => setIsModalOpen(false)}>{modalRender()}</Modal>}
+      {isModalOpen && <StandardModal onClose={() => setIsModalOpen(false)}>{modalRender()}</StandardModal>}
     </React.Fragment>
   );
 };
@@ -135,12 +135,12 @@ const renderTransferOptionsSimple = (
           </span>
           <InfoIconWithModal
             modalRender={() => (
-              <React.Fragment>
+              <ModalContent>
                 <h2 className="uppercase color-gold">
                   {t.name} <small>{t.priceFormatted}</small>
                 </h2>
                 <p>{t.description}</p>
-              </React.Fragment>
+              </ModalContent>
             )}
           />
         </ProductLabel>
@@ -175,12 +175,12 @@ const renderTransferOptionsSimple = (
               </label>
               <InfoIconWithModal
                 modalRender={() => (
-                  <React.Fragment>
+                  <ModalContent>
                     <h2 className="uppercase color-gold">
                       {to.name} <small>{to.priceFormatted}</small>
                     </h2>
                     <p>{to.description}</p>
-                  </React.Fragment>
+                  </ModalContent>
                 )}
               />
             </li>
@@ -256,7 +256,7 @@ const renderGroundServices = (
                 </span>
                 <InfoIconWithModal
                   modalRender={() => (
-                    <React.Fragment>
+                    <ModalContent>
                       <h2 className="uppercase color-gold">
                         {gsProduct.name}{' '}
                         <small>
@@ -270,7 +270,7 @@ const renderGroundServices = (
                         </small>
                       </h2>
                       <p>{gsProduct.meta.description}</p>
-                    </React.Fragment>
+                    </ModalContent>
                   )}
                 />
               </ProductLabel>
@@ -317,7 +317,7 @@ const renderAddons = (
                 </span>
                 <InfoIconWithModal
                   modalRender={() => (
-                    <React.Fragment>
+                    <ModalContent>
                       <h2 className="uppercase color-gold">
                         {supplementProduct.name}{' '}
                         <small>
@@ -331,7 +331,7 @@ const renderAddons = (
                         </small>
                       </h2>
                       <p>{supplementProduct.meta.description}</p>
-                    </React.Fragment>
+                    </ModalContent>
                   )}
                 />
               </ProductLabel>
@@ -366,7 +366,7 @@ const renderAddons = (
                 </span>
                 <InfoIconWithModal
                   modalRender={() => (
-                    <React.Fragment>
+                    <ModalContent>
                       <h2 className="uppercase color-gold">
                         {fineProduct.name}{' '}
                         <small>
@@ -380,7 +380,7 @@ const renderAddons = (
                         </small>
                       </h2>
                       <p>{fineProduct.meta.description}</p>
-                    </React.Fragment>
+                    </ModalContent>
                   )}
                 />
               </ProductLabel>

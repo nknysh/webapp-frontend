@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
-import logo from 'public/assets/img/PE_logo.png';
 import { IconButton } from '../Buttons/index';
 import { renderPortal, PortalType } from '../../utils/portals';
+import CloseIcon from '@material-ui/icons/Close';
+import logo from 'public/assets/img/PE_logo.png';
 
 export const ModalWrapper = styled.div`
   position: fixed;
@@ -16,7 +17,6 @@ export const ModalWrapper = styled.div`
   bottom: 0;
   right: 0;
   background-color: ${pureUiTheme.colors.grayOpacity1};
-  z-index: 1;
 `;
 
 export const ModalFrameComponet = (props: React.HTMLAttributes<HTMLDivElement>) => {
@@ -33,27 +33,31 @@ export const ModalFrame = styled(ModalFrameComponet)`
   flex-direction: column;
   background-color: ${pureUiTheme.colors.white};
   position: fixed;
-  padding: 80px 100px 70px;
+  padding: 80px 0 70px;
   max-height: 80vh;
   max-width: 90vw;
 `;
 
 export interface IModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  noLogo: boolean;
+  noLogo?: boolean;
 }
 export const ModalHeader = styled.div<IModalHeaderProps>`
+  padding: 0 100px;
   padding-top: ${props => (props.noLogo ? 0 : '50px')};
   background-image: ${props => (props.noLogo ? 'none' : `url(${logo})`)};
   background-position: top center;
   background-repeat: no-repeat;
+  text-align: center;
 `;
 
 export const ModalContent = styled.div`
   overflow: scroll;
+  padding: 0 100px;
 `;
 
 export const ModalFooter = styled.div`
   margin-top: 30px;
+  padding: 0 100px;
 `;
 
 const ModalCloseButtonComponent = (props: React.HTMLAttributes<HTMLButtonElement>) => {
@@ -81,11 +85,15 @@ export interface IStandardModalProps {
   onClose: () => void;
 }
 export const StandardModal = (props: IStandardModalProps) => {
+  const closeProxy = () => {
+    console.log('closeProxy');
+    props.onClose();
+  };
   return renderPortal(
-    <ModalWrapper onClick={props.onClose}>
+    <ModalWrapper>
       <ModalFrame>
         {props.children}
-        <ModalCloseButton onClick={props.onClose} />
+        <ModalCloseButton onClick={closeProxy} />
       </ModalFrame>
     </ModalWrapper>,
     PortalType.Modal

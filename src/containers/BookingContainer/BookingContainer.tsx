@@ -16,7 +16,6 @@ import { ADMIN_BASE_URL } from 'config';
 import connect from './BookingContainer.state';
 import { propTypes, defaultProps } from './BookingContainer.props';
 import {
-  Aside,
   Back,
   Bolded,
   Booking,
@@ -143,7 +142,7 @@ const BookingSummary = props => {
           <List>
             {booking.breakdown.uploads.map((upload: IUpload) => {
               return (
-                <a target="_blank" href={upload.url}>
+                <a target="_blank" rel="noopener noreferrer" key={upload.url} href={upload.url}>
                   {upload.displayName}
                 </a>
               );
@@ -289,4 +288,8 @@ export const BookingContainer = props => {
 BookingContainer.propTypes = propTypes;
 BookingContainer.defaultProps = defaultProps;
 
-export default compose(withRouter, withUser, connect)(BookingContainer);
+export default compose(
+  withRouter,
+  withUser,
+  connect
+)(BookingContainer);

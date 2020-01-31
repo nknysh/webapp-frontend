@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
-import { AddToProposalModalContent } from '../../HotelContainer/AddToProposalModal';
-import PureModal from 'pureUi/Modal';
 import { PrimaryButton } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 
@@ -11,17 +8,9 @@ const BookingSummaryPotential = props => {
 
   const {
     newBooking,
-    proposals,
-    createNewProposal,
-    addToProposal,
-    proposalStatus,
-    proposalResult,
-    history,
     addHoldToBooking,
     releaseHoldFromBooking,
   } = props;
-
-  const [isProposalModalOpen, setIsProposalModalOpen] = useState(false);
 
   const isOnProposal: boolean = newBooking.proposalUuid;
 

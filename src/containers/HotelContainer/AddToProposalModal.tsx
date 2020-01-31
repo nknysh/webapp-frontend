@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+import { AddToProposalStyles } from './HotelContainer.styles';
 import { PrimaryButton } from 'pureUi/Buttons';
 import Label from 'pureUi/Label';
 import Select from 'pureUi/Select';
-import Input from 'pureUi/Input';
+import TextInput from 'pureUi/TextInput';
 
 import { useTranslation } from 'react-i18next';
 import { IValueLabelPair, IReduxDomainStatus } from '../../interfaces';
@@ -68,25 +69,20 @@ export const AddToProposalModalContent = props => {
   );
 
   return (
-    <div className="add-to-proposal">
-      <Label className="mb-4">{t('labels.proposalId')}</Label>
-      <Select
-        className="mb-4"
-        value={selectedProposalUuid}
-        options={selectOptions}
-        onChange={handleProposalNameChange}
-      />
+    <AddToProposalStyles>
+      <Label text={t('labels.proposalId')}>
+        <Select value={selectedProposalUuid} options={selectOptions} onChange={handleProposalNameChange} />
+      </Label>
 
       {isNewProposal && (
-        <div className="mb-4">
-          <Label className="mb-4">{t('labels.proposalName')}</Label>
-          <Input value={newProposalName} onChange={e => setNewProposalName(e.target.value)} />
-        </div>
+        <Label text={t('labels.proposalName')}>
+          <TextInput value={newProposalName} onChange={e => setNewProposalName(e.currentTarget.value)} />
+        </Label>
       )}
 
       <PrimaryButton type="button" onClick={handleAddToProposalSubmit}>
         {t('buttons.addToProposal')}
       </PrimaryButton>
-    </div>
+    </AddToProposalStyles>
   );
 };

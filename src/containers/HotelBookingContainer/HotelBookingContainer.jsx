@@ -26,18 +26,16 @@ import {
   ConfirmationContent,
   FormWrapper,
   Main,
-  ModalBody,
-  ModalContent,
-  ModalTitle,
   PaymentMethod,
   StyledBreadcrumbs,
   StyledHotelContainer,
-  StyledModal,
   Total,
 } from './HotelBookingContainer.styles';
 import { PaymentType, ViewType } from './HotelBookingContainer.types';
 import { formatPrice } from 'utils';
 import BookingSummaryLite from 'pureUi/BookingSummaryLite';
+
+import { StandardModal, ModalContent, ModalHeader } from 'pureUi/Modal';
 
 export const simpleForm = pick(['guestTitle', 'guestFirstName', 'guestLastName']);
 export const withoutSections = over(lensProp('sections'), take(1));
@@ -204,20 +202,19 @@ const renderModalContent = (t, { isOnRequest, paymentType, onModalSubmit, total,
     t('buttons.submitBookingRequest');
 
   return (
-    <ModalBody>
-      <ModalTitle>{title}</ModalTitle>
-
+    <StandardModal>
+      <ModalHeader>{title}</ModalHeader>
       <ModalContent>{content}</ModalContent>
       {renderModalForm({ onModalSubmit, buttonLabel, initialValues: { agreeToTerms: false } })}
-    </ModalBody>
+    </StandardModal>
   );
 };
 
 const renderModal = (t, { modalOpen, paymentType, onModalClose, ...props }) =>
   modalOpen && (
-    <StyledModal open={modalOpen} onClose={onModalClose}>
+    <StandardModal open={modalOpen} onClose={onModalClose}>
       {renderModalContent(t, { paymentType, ...props })}
-    </StyledModal>
+    </StandardModal>
   );
 
 const renderConfirmation = (t, { isOnRequest, paymentType, reservationId }) => {

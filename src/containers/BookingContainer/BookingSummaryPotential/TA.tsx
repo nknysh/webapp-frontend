@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 import { AddToProposalModalContent } from '../../HotelContainer/AddToProposalModal';
-import PureModal from 'pureUi/Modal';
+import {StandardModal, ModalHeader, ModalContent, ModalFooter} from 'pureUi/Modal';
 import { PrimaryButton } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Redirect } from 'react-router-dom';
 import BookingGuestInformationForm from 'pureUi/BookingGuestInformationForm';
 import { makeBackendApi } from 'services/BackendApi';
 import { formatDate } from 'utils';
+import { Heading1 } from 'styles';
 
 const BookingSummaryPotentialTA = props => {
   const canHold: boolean = props.holds?.canHold;
@@ -57,8 +58,11 @@ const BookingSummaryPotentialTA = props => {
           <Title>{props.t('labels.proposalId')}</Title>
 
           {isProposalModalOpen && (
-            <PureModal onClose={() => setIsProposalModalOpen(false)}>
-              <h2>{props.t('buttons.addToProposal')}</h2>
+            <StandardModal onClose={() => setIsProposalModalOpen(false)}>
+              <ModalHeader>
+                <Heading1>{props.t('buttons.addToProposal')}</Heading1>
+              </ModalHeader>
+              <ModalContent>
               <AddToProposalModalContent
                 proposals={proposals}
                 hotelUuid={newBooking.uuid} // TODO write up this
@@ -68,7 +72,8 @@ const BookingSummaryPotentialTA = props => {
                 proposalResult={proposalResult}
                 history={history}
               />
-            </PureModal>
+              </ModalContent>
+            </StandardModal>
           )}
 
           <PrimaryButton onClick={() => setIsProposalModalOpen(true)}>{props.t('buttons.addToProposal')}</PrimaryButton>
@@ -121,8 +126,11 @@ const BookingSummaryPotentialTA = props => {
             </PrimaryButton>
 
             {isRequestToBookModalOpen && (
-              <PureModal onClose={() => setIsRequestToBookModalOpen(false)}>
-                <h2>{props.t('labels.requestToBook')}</h2>
+              <StandardModal onClose={() => setIsRequestToBookModalOpen(false)}>
+                <ModalHeader>
+                  <Heading1>{props.t('labels.requestToBook')}</Heading1>
+                </ModalHeader>
+                <ModalContent>
                 <BookingGuestInformationForm
                   bookingGuestFormValues={...newBooking}
                   onValueChange={newValues => {
@@ -133,7 +141,8 @@ const BookingSummaryPotentialTA = props => {
                     }
                   }}
                 />
-
+                </ModalContent>
+                <ModalFooter>
                 <PrimaryButton
                   type="button"
                   onClick={async () => {
@@ -147,7 +156,8 @@ const BookingSummaryPotentialTA = props => {
                 >
                   Request Booking
                 </PrimaryButton>
-              </PureModal>
+                </ModalFooter>
+              </StandardModal>
             )}
           </AsideDetails>
         </React.Fragment>
@@ -159,16 +169,18 @@ const BookingSummaryPotentialTA = props => {
           <PrimaryButton onClick={e => setIsCancelModalOpen(true)}>Cancel & Restart Booking</PrimaryButton>
 
           {isCancelModalOpen && (
-            <PureModal onClose={() => setIsRequestToBookModalOpen(false)}>
-              <h2>Cancel & Restart Booking</h2>
-              <div>
-                Are you sure you want to cancel and restart this booking?
+            <StandardModal onClose={() => setIsRequestToBookModalOpen(false)}>
+              <ModalHeader>
+                <Heading1>Cancel & Restart Booking</Heading1>
+              </ModalHeader>
+              <ModalContent>
+                <p>Are you sure you want to cancel and restart this booking?</p>
+              </ModalContent>
+              <ModalFooter>
                 <PrimaryButton onClick={() => handleCancel()}>Yes</PrimaryButton>
-                <PrimaryButton className="mt-4" onClick={() => setIsRequestToBookModalOpen(false)}>
-                  No
-                </PrimaryButton>
-              </div>
-            </PureModal>
+                <PrimaryButton onClick={() => setIsRequestToBookModalOpen(false)}>No</PrimaryButton>
+              </ModalFooter>
+            </StandardModal>
           )}
         </AsideDetails>
       )}

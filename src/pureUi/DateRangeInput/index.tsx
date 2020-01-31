@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import DatePicker, { DateHelper } from 'pureUi/DatePicker';
 import { pureUiTheme } from '../pureUiTheme';
 import { Frame } from '../Frame/index';
+import { renderPortal, PortalType } from 'utils/portals';
+import { DimensionsProvider } from '../DimensionsProvider';
+import { AutoPosition } from '../AutoPosition';
 
 export interface DateRangeInputPops extends HTMLAttributes<HTMLButtonElement> {
   displayString: string;
@@ -54,27 +57,36 @@ const DateRangeInput = (props: DateRangeInputPops) => {
   });
 
   return (
-    <div className={props.className} ref={wrapper}>
-      <button tabIndex={0} className="pseudoSelect" {...buttonProps}>
-        <span className="displayString">{displayString}</span>
-        <span className="countBadge">
-          {totalNights} {totalNights > 1 || totalNights === 0 ? 'Nights' : 'Night'}
-        </span>
-      </button>
-      {showDatePicker && (
-        <Frame className="datePickerWrapper">
-          <DatePicker
-            calendarCount={2}
-            currentDate={props.currentDate}
-            selectedDates={props.selectedDates}
-            onDayClick={props.onDayClick}
-            onDayMouseOver={props.onDayMouseOver}
-            onNextClick={props.onNextClick}
-            onPrevClick={props.onPrevClick}
-          />
-        </Frame>
+    <DimensionsProvider
+      display="inline"
+      render={(ancestorDimensions, viewportDimensions) => (
+        <div className={props.className} ref={wrapper}>
+          <button tabIndex={0} className="pseudoSelect" {...buttonProps}>
+            <span className="displayString">{displayString}</span>
+            <span className="countBadge">
+              {totalNights} {totalNights > 1 || totalNights === 0 ? 'Nights' : 'Night'}
+            </span>
+          </button>
+          {showDatePicker &&
+            renderPortal(
+              <AutoPosition ancestorDimensions={ancestorDimensions!} viewportDimensions={viewportDimensions!}>
+                <Frame className="datePickerWrapper">
+                  <DatePicker
+                    calendarCount={2}
+                    currentDate={props.currentDate}
+                    selectedDates={props.selectedDates}
+                    onDayClick={props.onDayClick}
+                    onDayMouseOver={props.onDayMouseOver}
+                    onNextClick={props.onNextClick}
+                    onPrevClick={props.onPrevClick}
+                  />
+                </Frame>
+              </AutoPosition>,
+              PortalType.Overlay
+            )}
+        </div>
       )}
-    </div>
+    />
   );
 };
 

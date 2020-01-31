@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
 import { AddToProposalModalContent } from '../../HotelContainer/AddToProposalModal';
-import PureModal from 'pureUi/Modal';
+import {StandardModal, ModalHeader, ModalContent, ModalFooter} from 'pureUi/Modal';
 import Textarea from 'pureUi/Textarea';
-import Input from 'pureUi/Input';
+import TextInput from 'pureUi/TextInput';
 import { PrimaryButton } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Redirect } from 'react-router-dom';
 import BookingGuestInformationForm from 'pureUi/BookingGuestInformationForm';
 import { makeBackendApi } from 'services/BackendApi';
 import { formatDate } from 'utils';
+import { Heading1 } from 'styles';
 
 const BookingSummaryPotentialSR = props => {
   const isOnProposal: boolean = props.newBooking?.proposalUuid;
@@ -121,7 +122,7 @@ const BookingSummaryPotentialSR = props => {
       <AsideDetails>
         <Title>Grand Total</Title>
         <label>Grand Total Override</label>
-        <Input value={overrideTotal} onChange={e => setTotalOverride(e.target.value)} />
+        <TextInput value={overrideTotal} onChange={e => setTotalOverride(e.currentTarget.value)} />
         <div className="mt-4">
           <PrimaryButton disabled={isConfirmTotalOverridePending} onClick={handleConfirmOverrideTotal}>
             Save Grand Total Override
@@ -160,18 +161,22 @@ const BookingSummaryPotentialSR = props => {
           <Title>{props.t('labels.proposalId')}</Title>
 
           {isProposalModalOpen && (
-            <PureModal onClose={() => setIsProposalModalOpen(false)}>
-              <h2>{props.t('buttons.addToProposal')}</h2>
-              <AddToProposalModalContent
-                proposals={proposals}
-                hotelUuid={newBooking.uuid} // TODO write up this
-                createNewProposal={createNewProposal}
-                addToProposal={addToProposal}
-                proposalStatus={proposalStatus}
-                proposalResult={proposalResult}
-                history={history}
-              />
-            </PureModal>
+            <StandardModal onClose={() => setIsProposalModalOpen(false)}>
+              <ModalHeader>
+                <Heading1>{props.t('buttons.addToProposal')}</Heading1>
+              </ModalHeader>
+                <ModalContent>
+                  <AddToProposalModalContent
+                    proposals={proposals}
+                    hotelUuid={newBooking.uuid} // TODO write up this
+                    createNewProposal={createNewProposal}
+                    addToProposal={addToProposal}
+                    proposalStatus={proposalStatus}
+                    proposalResult={proposalResult}
+                    history={history}
+                  />
+                </ModalContent>
+            </StandardModal>
           )}
 
           <p>You can add this booking onto a proposal</p>
@@ -202,7 +207,7 @@ const BookingSummaryPotentialSR = props => {
             <label>Hold Hours</label>
             <div className="flex mt-4">
               <div className="w-50 pr-2">
-                <Input type="number" min={1} max={24} value={holdHours} onChange={e => setHoldHours(e.target.value)} />
+                <TextInput type="number" min={1} max={24} value={holdHours} onChange={e => setHoldHours(e.currentTarget.value)} />
               </div>
 
               <div className="w-50 pl-2">
@@ -232,15 +237,17 @@ const BookingSummaryPotentialSR = props => {
           <PrimaryButton onClick={() => setIsOverrideHoldModalOpen(true)}>Place Hold</PrimaryButton>
 
           {isOverrideHoldModalOpen && (
-            <PureModal onClose={() => setIsOverrideHoldModalOpen(false)}>
-              <h3>Warning!</h3>
-              <p>The system reports that this booking is not available to hold</p>
-              <p>However, you have permission to override this, and place a hold regardless</p>
-              <p>If you place a hold, you should contact the hotel</p>
-              <PrimaryButton disabled={isConfirmPlaceHoldPending} onClick={handleConfirmOverrideAndPlaceHold}>
-                Override and Place Hold
-              </PrimaryButton>
-            </PureModal>
+            <StandardModal onClose={() => setIsOverrideHoldModalOpen(false)}>
+              <ModalContent>
+                <h3>Warning!</h3>
+                <p>The system reports that this booking is not available to hold</p>
+                <p>However, you have permission to override this, and place a hold regardless</p>
+                <p>If you place a hold, you should contact the hotel</p>
+                <PrimaryButton disabled={isConfirmPlaceHoldPending} onClick={handleConfirmOverrideAndPlaceHold}>
+                  Override and Place Hold
+                </PrimaryButton>
+              </ModalContent>
+            </StandardModal>
           )}
         </AsideDetails>
       )}
@@ -255,8 +262,11 @@ const BookingSummaryPotentialSR = props => {
             </PrimaryButton>
 
             {isRequestToBookModalOpen && (
-              <PureModal onClose={() => setIsRequestToBookModalOpen(false)}>
-                <h2>{props.t('labels.requestToBook')}</h2>
+              <StandardModal onClose={() => setIsRequestToBookModalOpen(false)}>
+                <ModalHeader>
+                  <Heading1>{props.t('labels.requestToBook')}</Heading1>
+                </ModalHeader>
+                <ModalContent>
                 <BookingGuestInformationForm
                   bookingGuestFormValues={...newBooking}
                   onValueChange={newValues => {
@@ -267,7 +277,8 @@ const BookingSummaryPotentialSR = props => {
                     }
                   }}
                 />
-
+                </ModalContent>
+                <ModalFooter>
                 <PrimaryButton
                   type="button"
                   onClick={async () => {
@@ -281,7 +292,8 @@ const BookingSummaryPotentialSR = props => {
                 >
                   Request Booking
                 </PrimaryButton>
-              </PureModal>
+                </ModalFooter>
+              </StandardModal>
             )}
           </AsideDetails>
         </React.Fragment>
@@ -298,16 +310,18 @@ const BookingSummaryPotentialSR = props => {
           <PrimaryButton onClick={e => setIsCancelModalOpen(true)}>Cancel & Restart Booking</PrimaryButton>
 
           {isCancelModalOpen && (
-            <PureModal onClose={() => setIsCancelModalOpen(false)}>
-              <h2>Cancel & Restart Booking</h2>
-              <div>
-                Are you sure you want to cancel and restart this booking?
+            <StandardModal onClose={() => setIsCancelModalOpen(false)}>
+              <ModalHeader>
+                <Heading1>Cancel & Restart Booking</Heading1>
+              </ModalHeader>
+              <ModalContent>
+                <p>Are you sure you want to cancel and restart this booking?</p>
+              </ModalContent>
+              <ModalFooter>
                 <PrimaryButton onClick={() => handleCancel()}>Yes</PrimaryButton>
-                <PrimaryButton className="mt-4" onClick={() => setIsCancelModalOpen(false)}>
-                  No
-                </PrimaryButton>
-              </div>
-            </PureModal>
+                <PrimaryButton onClick={() => setIsRequestToBookModalOpen(false)}>No</PrimaryButton>
+              </ModalFooter>
+            </StandardModal>
           )}
         </AsideDetails>
       )}

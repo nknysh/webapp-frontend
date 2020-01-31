@@ -7,10 +7,11 @@ import { Loader, Tabs, List } from '@pure-escapes/webapp-ui-components';
 import { withUser } from 'hoc';
 import { useCurrentWidth } from 'effects';
 import { mapWithIndex } from 'utils';
-import Modal from 'pureUi/Modal';
+import { StandardModal, ModalContent, ModalHeader } from 'pureUi/Modal';
 import { Icon } from '@material-ui/core';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
+import { Heading1 } from 'styles';
 
 import connect from './HotelContainer.state';
 import { propTypes, defaultProps } from './HotelContainer.props';
@@ -112,18 +113,22 @@ const HotelSummary = props => {
         <TableCardNumberBannerText>Review Your Lodging</TableCardNumberBannerText>
       </TableCardNumberedBanner>
       {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <h2>{t('buttons.addToProposal')}</h2>
-          <AddToProposalModalContent
-            proposals={proposals}
-            hotelUuid={booking && booking.request && booking.request.hotelUuid ? booking.request.hotelUuid : null}
-            createNewProposal={createNewProposal}
-            addToProposal={addToProposal}
-            proposalStatus={proposalStatus}
-            proposalResult={proposalResult}
-            history={history}
-          />
-        </Modal>
+        <StandardModal onClose={() => setIsModalOpen(false)}>
+          <ModalHeader>
+            <Heading1>{t('buttons.addToProposal')}</Heading1>
+          </ModalHeader>
+          <ModalContent>
+            <AddToProposalModalContent
+              proposals={proposals}
+              hotelUuid={booking && booking.request && booking.request.hotelUuid ? booking.request.hotelUuid : null}
+              createNewProposal={createNewProposal}
+              addToProposal={addToProposal}
+              proposalStatus={proposalStatus}
+              proposalResult={proposalResult}
+              history={history}
+            />
+          </ModalContent>
+        </StandardModal>
       )}
       <SummaryForm
         id={id}
@@ -319,6 +324,7 @@ const ConnectedHotel = compose(
   withRouter,
   withUser
 )(HotelContainer);
+
 export default styled(ConnectedHotel)`
   .table-card-row.brochure-row {
     display: flex;
@@ -329,11 +335,12 @@ export default styled(ConnectedHotel)`
     font-size: 12px;
     text-transform: uppercase;
     color: #736a65;
+    border-bottom: 1px solid ${pureUiTheme.colors.grayDark};
 
     &:nth-child(2) {
       padding-top: 0px;
     }
-    border-bottom: 1px solid ${pureUiTheme.colors.grayDark};
+
     span {
       flex: 1;
       &::before {
@@ -349,13 +356,15 @@ export default styled(ConnectedHotel)`
         position: relative;
       }
     }
+
     a {
       display: block;
       margin-top: 4px;
       margin-bottom: -4px;
-      color: ${pureUiTheme.colors.gold}
+      color: ${pureUiTheme.colors.gold};
+
       &:hover {
-        color: ${pureUiTheme.colors.teal}
+        color: ${pureUiTheme.colors.teal};
       }
     }
   }

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
 import produce from 'immer';
-import Input from 'pureUi/Input';
+import TextInput from 'pureUi/TextInput';
+import Label from 'pureUi/Label';
 import Select from 'pureUi/Select';
 import Checkbox from 'pureUi/Checkbox';
 import Textarea from 'pureUi/Textarea';
@@ -9,6 +10,7 @@ import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers
 import DateRangeInput from 'pureUi/DateRangeInput';
 import { formatDate } from 'utils';
 import { IValueLabelPair, IBookingGuestInformationForm } from '../../interfaces';
+import { BookingGuestInformationFormStyles } from './styles';
 
 const titles: IValueLabelPair[] = [
   {
@@ -68,185 +70,162 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
   };
 
   return (
-    <div>
-      <div>
-        <label>Title</label>
-        <Select
-          value={bookingGuestFormValues.guestTitle || ''}
-          options={titles}
-          onChange={e => onValueChange(handleValueChange('guestTitle', e.target.value))}
-        ></Select>
-      </div>
+    <BookingGuestInformationFormStyles>      
+        <Label className="title" text="Title">
+          <Select
+            value={bookingGuestFormValues.guestTitle || ''}
+            options={titles}
+            onChange={e => onValueChange(handleValueChange('guestTitle', e.target.value))}
+          ></Select>
+        </Label>
+        
+        <Label className="firstName" text="First Name">
+          <TextInput
+            value={bookingGuestFormValues.guestFirstName || ''}
+            onChange={e => onValueChange(handleValueChange('guestFirstName', e.currentTarget.value))}
+          />
+        </Label>
+        
+        <Label className="lastName" text="Last Name">
+          <TextInput
+            value={bookingGuestFormValues.guestLastName || ''}
+            onChange={e => onValueChange(handleValueChange('guestLastName', e.currentTarget.value))}
+          />
+        </Label>
+        
+        <Label className="repeatGuest" text="This client is a repeating guest" inline reverse>
+          <Checkbox
+            checked={bookingGuestFormValues.isRepeatGuest || false}
+            onChange={() => {
+              try {
+                return onValueChange(toggleCheckboxValue('isRepeatGuest'));
+              } catch (e) {
+                console.error(`Error ${e}`);
+              }
+            }}
+          />
+        </Label>
 
-      <div className="mt-4">
-        <label>First Name</label>
-        <Input
-          value={bookingGuestFormValues.guestFirstName || ''}
-          onChange={e => onValueChange(handleValueChange('guestFirstName', e.target.value))}
-        />
-      </div>
+        <Label className="flightInfoLabel">Flight Information</Label>
 
-      <div className="mt-4">
-        <label>Last Name</label>
-        <Input
-          value={bookingGuestFormValues.guestLastName || ''}
-          onChange={e => onValueChange(handleValueChange('guestLastName', e.target.value))}
-        />
-      </div>
-
-      <div className="mt-4">
-        <label>This client is a repeating guest</label>
-        <Checkbox
-          checked={bookingGuestFormValues.isRepeatGuest || false}
-          onChange={() => {
-            try {
-              return onValueChange(toggleCheckboxValue('isRepeatGuest'));
-            } catch (e) {
-              console.error(`Error ${e}`);
-            }
-          }}
-        />
-      </div>
-
-      <hr />
-
-      <div className="mt-4">
-        <label>Flight Information</label>
-        <div className="flex">
-          <div className="w-50 pr-2">
-            <label>Arrival Number</label>
-            <Input
-              value={bookingGuestFormValues.flightArrivalNumber || ''}
-              onChange={e => onValueChange(handleValueChange('flightArrivalNumber', e.target.value))}
-            />
-          </div>
-          <div className="w-50 pl-2">
-            <label>Arrival Date</label>
-
-            <DatePickerStateProvider
-              isSingleDateSelection={true}
-              defaultSelectedDates={[]}
-              onDateChange={dateTimeStrings => {
-                onValueChange(handleValueChange('flightArrivalDate', formatDate(dateTimeStrings[0])));
-              }}
-              render={(params: IDatePickerSateParams) => (
-                <DateRangeInput
-                  className="serachBarDateRangeInput"
-                  displayString={params.displayString}
-                  currentDate={params.datePickerCurrentDate}
-                  selectedDates={params.selectedDates}
-                  onDayClick={params.handleDayClick}
-                  showDatePicker={params.showDatePicker}
-                  onNextClick={params.incrementDate}
-                  onPrevClick={params.decrementDate}
-                  onMouseDown={params.toggleDatePicker}
-                  onClickOutside={params.hideDatePicker}
-                />
+        <Label className="arrivalNumber" text="Arrival Number">
+          <TextInput
+            value={bookingGuestFormValues.flightArrivalNumber || ''}
+            onChange={e => onValueChange(handleValueChange('flightArrivalNumber', e.currentTarget.value))}
+          />
+        </Label>
+        
+        <Label className="arrivalDate" text="Arrival Date">
+          <DatePickerStateProvider
+            isSingleDateSelection={true}
+            defaultSelectedDates={[]}
+            onDateChange={dateTimeStrings => {
+              onValueChange(handleValueChange('flightArrivalDate', formatDate(dateTimeStrings[0])));
+            }}
+            render={(params: IDatePickerSateParams) => (
+              <DateRangeInput
+              className="serachBarDateRangeInput"
+              displayString={params.displayString}
+              currentDate={params.datePickerCurrentDate}
+              selectedDates={params.selectedDates}
+              onDayClick={params.handleDayClick}
+              showDatePicker={params.showDatePicker}
+              onNextClick={params.incrementDate}
+              onPrevClick={params.decrementDate}
+              onMouseDown={params.toggleDatePicker}
+              onClickOutside={params.hideDatePicker}
+              />
               )}
-            />
+              />
+        </Label>
+        
+        <Label className="departureNumber" text="Dearture Number">
+          <TextInput
+            value={bookingGuestFormValues.flightDepartureNumber || ''}
+            onChange={e => onValueChange(handleValueChange('flightDepartureNumber', e.currentTarget.value))}
+          />
+        </Label>
+        
+        <Label className="departureDate" text="Departure Date">
+          <DatePickerStateProvider
+            isSingleDateSelection={true}
+            defaultSelectedDates={[]}
+            onDateChange={dateTimeStrings => {
+              onValueChange(handleValueChange('flightDepartureDate', formatDate(dateTimeStrings[0])));
+            }}
+            render={(params: IDatePickerSateParams) => (
+              <DateRangeInput
+                className="serachBarDateRangeInput"
+                displayString={params.displayString}
+                currentDate={params.datePickerCurrentDate}
+                selectedDates={params.selectedDates}
+                onDayClick={params.handleDayClick}
+                showDatePicker={params.showDatePicker}
+                onNextClick={params.incrementDate}
+                onPrevClick={params.decrementDate}
+                onMouseDown={params.toggleDatePicker}
+                onClickOutside={params.hideDatePicker}
+              />
+            )}
+          />
+        </Label>
+        <div className="specialRequests">
+          <Label>Special Requests</Label>
+          <div className="twoColumn">
+            <Label text="Crib Cob" inline reverse>
+              <Checkbox
+                checked={bookingGuestFormValues.specialRequests.includes('cribCob')}
+                onChange={() => onValueChange(toggleSpecialRequest('cribCob'))}
+              />
+            </Label>
+
+            <Label text="Bed Guard" inline reverse>
+              <Checkbox
+                checked={bookingGuestFormValues.specialRequests.includes('bedGuard')}
+                onChange={() => onValueChange(toggleSpecialRequest('bedGuard'))}
+              />
+            </Label>
+          
+            <Label text="Adjacent Rooms" inline reverse>
+              <Checkbox
+                checked={bookingGuestFormValues.specialRequests.includes('adjacentRooms')}
+                onChange={() => onValueChange(toggleSpecialRequest('adjacentRooms'))}
+              />
+            </Label>
+          
+            <Label text="Connecting Rooms" inline reverse>
+              <Checkbox
+                checked={bookingGuestFormValues.specialRequests.includes('connectingRooms')}
+                onChange={() => onValueChange(toggleSpecialRequest('connectingRooms'))}
+              />
+            </Label>
+          
+            <Label text="Accessible Room" inline reverse>
+              <Checkbox
+                checked={bookingGuestFormValues.specialRequests.includes('accessibleRoom')}
+                onChange={() => onValueChange(toggleSpecialRequest('accessibleRoom'))}
+              />
+            </Label>
+          
+            <Label text="Dietary" inline reverse>
+              <Checkbox
+                checked={bookingGuestFormValues.specialRequests.includes('dietary')}
+                onChange={() => onValueChange(toggleSpecialRequest('dietary'))}
+              />
+            </Label>
           </div>
         </div>
-
-        <div className="flex mt-4">
-          <div className="w-50 pr-2">
-            <label>Dearture Number</label>
-            <Input
-              value={bookingGuestFormValues.flightDepartureNumber || ''}
-              onChange={e => onValueChange(handleValueChange('flightDepartureNumber', e.target.value))}
+        
+        <div className="comments">
+          <Label text="Comments">
+            <Textarea
+              value={bookingGuestFormValues.comments || ''}
+              onChange={e => onValueChange(handleValueChange('comments', e.target.value))}
             />
-          </div>
-          <div className="w-50 pl-2">
-            <label>Departure Date</label>
-
-            <DatePickerStateProvider
-              isSingleDateSelection={true}
-              defaultSelectedDates={[]}
-              onDateChange={dateTimeStrings => {
-                onValueChange(handleValueChange('flightDepartureDate', formatDate(dateTimeStrings[0])));
-              }}
-              render={(params: IDatePickerSateParams) => (
-                <DateRangeInput
-                  className="serachBarDateRangeInput"
-                  displayString={params.displayString}
-                  currentDate={params.datePickerCurrentDate}
-                  selectedDates={params.selectedDates}
-                  onDayClick={params.handleDayClick}
-                  showDatePicker={params.showDatePicker}
-                  onNextClick={params.incrementDate}
-                  onPrevClick={params.decrementDate}
-                  onMouseDown={params.toggleDatePicker}
-                  onClickOutside={params.hideDatePicker}
-                />
-              )}
-            />
-          </div>
+          </Label>
         </div>
-      </div>
-
-      <hr />
-
-      <div>
-        <label>Special Requests</label>
-
-        <div>
-          <label>Crib Cob</label>
-          <Checkbox
-            checked={bookingGuestFormValues.specialRequests.includes('cribCob')}
-            onChange={() => onValueChange(toggleSpecialRequest('cribCob'))}
-          />
-        </div>
-
-        <div>
-          <label>Bed Guard</label>
-          <Checkbox
-            checked={bookingGuestFormValues.specialRequests.includes('bedGuard')}
-            onChange={() => onValueChange(toggleSpecialRequest('bedGuard'))}
-          />
-        </div>
-
-        <div>
-          <label>Adjacent Rooms</label>
-          <Checkbox
-            checked={bookingGuestFormValues.specialRequests.includes('adjacentRooms')}
-            onChange={() => onValueChange(toggleSpecialRequest('adjacentRooms'))}
-          />
-        </div>
-
-        <div>
-          <label>Connecting Rooms</label>
-          <Checkbox
-            checked={bookingGuestFormValues.specialRequests.includes('connectingRooms')}
-            onChange={() => onValueChange(toggleSpecialRequest('connectingRooms'))}
-          />
-        </div>
-
-        <div>
-          <label>Accessible Room</label>
-          <Checkbox
-            checked={bookingGuestFormValues.specialRequests.includes('accessibleRoom')}
-            onChange={() => onValueChange(toggleSpecialRequest('accessibleRoom'))}
-          />
-        </div>
-
-        <div>
-          <label>Dietary</label>
-          <Checkbox
-            checked={bookingGuestFormValues.specialRequests.includes('dietary')}
-            onChange={() => onValueChange(toggleSpecialRequest('dietary'))}
-          />
-        </div>
-      </div>
-
-      <hr />
-
-      <div className="mb-4">
-        <label>Comments</label>
-        <Textarea
-          value={bookingGuestFormValues.comments || ''}
-          onChange={e => onValueChange(handleValueChange('comments', e.target.value))}
-        />
-      </div>
-    </div>
+      
+    </BookingGuestInformationFormStyles>
   );
 };
 
