@@ -30,7 +30,6 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange })
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
-
           {...getAppRoutes(prop('type', user))}
         </Switch>
       </Suspense>

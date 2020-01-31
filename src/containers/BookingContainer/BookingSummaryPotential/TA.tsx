@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { AddToProposalModalContent } from '../../HotelContainer/AddToProposalModal';
 import {StandardModal, ModalHeader, ModalContent, ModalFooter} from 'pureUi/Modal';
-import { PrimaryButton } from 'pureUi/Buttons';
+import { PrimaryButton, SecondaryButton, ButtonBar } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Redirect } from 'react-router-dom';
 import BookingGuestInformationForm from 'pureUi/BookingGuestInformationForm';
@@ -169,7 +169,7 @@ const BookingSummaryPotentialTA = props => {
           <PrimaryButton onClick={e => setIsCancelModalOpen(true)}>Cancel & Restart Booking</PrimaryButton>
 
           {isCancelModalOpen && (
-            <StandardModal onClose={() => setIsRequestToBookModalOpen(false)}>
+            <StandardModal onClose={() => setIsCancelModalOpen(false)}>
               <ModalHeader>
                 <Heading1>Cancel & Restart Booking</Heading1>
               </ModalHeader>
@@ -177,8 +177,10 @@ const BookingSummaryPotentialTA = props => {
                 <p>Are you sure you want to cancel and restart this booking?</p>
               </ModalContent>
               <ModalFooter>
-                <PrimaryButton onClick={() => handleCancel()}>Yes</PrimaryButton>
-                <PrimaryButton onClick={() => setIsRequestToBookModalOpen(false)}>No</PrimaryButton>
+                <ButtonBar>
+                  <SecondaryButton onClick={() => handleCancel()}>Cancel & Restart</SecondaryButton>
+                  <PrimaryButton autoFocus onClick={() => setIsCancelModalOpen(false)}>Keep</PrimaryButton>
+                </ButtonBar>
               </ModalFooter>
             </StandardModal>
           )}

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {StandardModal, ModalHeader, ModalContent, ModalFooter} from 'pureUi/Modal';
 import Textarea from 'pureUi/Textarea';
 import TextInput from 'pureUi/TextInput';
-import { PrimaryButton } from 'pureUi/Buttons';
+import { PrimaryButton, SecondaryButton, ButtonBar } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Redirect } from 'react-router-dom';
 import { makeBackendApi } from 'services/BackendApi';
@@ -292,8 +292,10 @@ const BookingSummaryPotentialSR = props => {
                 Are you sure you want to cancel and restart this booking?
               </ModalContent>
               <ModalFooter>
-                <PrimaryButton onClick={() => handleCancel()}>Yes</PrimaryButton>
-                <PrimaryButton onClick={() => setIsCancelModalOpen(false)}>No</PrimaryButton>
+                <ButtonBar>
+                  <SecondaryButton onClick={() => handleCancel()}>Cancel & Restart</SecondaryButton>
+                  <PrimaryButton autoFocus onClick={() => setIsCancelModalOpen(false)}>Keep</PrimaryButton>
+                </ButtonBar>
               </ModalFooter>
             </StandardModal>
           )}

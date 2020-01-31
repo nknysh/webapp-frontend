@@ -25,13 +25,14 @@ export const baseButtonStyles = css`
   font-size: 14px;
   font-weight: 600;
   background-color: ${pureUiTheme.colors.gold};
-  border: ${pureUiTheme.colors.goldBorder} 1px solid;
   color: ${pureUiTheme.colors.white};
   border: none;
   text-transform: uppercase;
   width: 100%;
   cursor: pointer;
   box-shadow: 0 0 0 5px transparent;
+  flex-shrink: 1;
+  flex-grow: 1;
 
   &:hover {
     background-color: ${pureUiTheme.colors.teal};
@@ -49,6 +50,17 @@ export const baseButtonStyles = css`
 
 export const PrimaryButton = styled.button`
   ${baseButtonStyles}
+`;
+
+export const SecondaryButton = styled.button`
+  ${baseButtonStyles}
+  background-color: transparent;
+  border: ${pureUiTheme.colors.goldBorder} 1px solid;
+  color: ${pureUiTheme.colors.goldBorder};
+
+  &:hover {
+    color: ${pureUiTheme.colors.white};
+  }
 `;
 
 export const SummaryFormPrimaryButton = styled.button`
@@ -110,4 +122,17 @@ export const LinkButton = styled(Link)<LinkProps>`
   ${baseButtonStyles};
   text-align: center;
   color: ${pureUiTheme.colors.white} !important; /* Something somewhere is leaking styles for link colors */
+`;
+
+export const ButtonBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  button {
+    margin-right: 10px;
+  }
+
+  button:last-of-type {
+    margin-right: 0;
+  }
 `;
