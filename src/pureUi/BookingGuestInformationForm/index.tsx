@@ -124,6 +124,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
             }}
             render={(params: IDatePickerSateParams) => (
               <DateRangeInput
+              noPortal
               className="serachBarDateRangeInput"
               displayString={params.displayString}
               currentDate={params.datePickerCurrentDate}
@@ -155,6 +156,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
             }}
             render={(params: IDatePickerSateParams) => (
               <DateRangeInput
+                noPortal
                 className="serachBarDateRangeInput"
                 displayString={params.displayString}
                 currentDate={params.datePickerCurrentDate}

@@ -19,6 +19,7 @@ export interface DateRangeInputPops extends HTMLAttributes<HTMLButtonElement> {
   onDayMouseOver?: React.EventHandler<any>;
   onNextClick?: React.EventHandler<any>;
   onPrevClick?: React.EventHandler<any>;
+  noPortal?: boolean;
   onClickOutside: (e: MouseEvent) => void;
 }
 
@@ -34,6 +35,7 @@ const DateRangeInput = (props: DateRangeInputPops) => {
     onDayMouseOver,
     onNextClick,
     onPrevClick,
+    noPortal,
     onClickOutside,
     ...buttonProps
   } = props;
@@ -56,6 +58,39 @@ const DateRangeInput = (props: DateRangeInputPops) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   });
+
+  if (noPortal) {
+    return (
+      <DimensionsProvider
+        display="inline"
+        render={(ancestorDimensions, viewportDimensions) => (
+          <div className={props.className} ref={wrapper}>
+            <button tabIndex={0} className="pseudoSelect" {...buttonProps}>
+              <span className="displayString">{displayString}</span>
+              <span className="countBadge">
+                {totalNights} {totalNights > 1 || totalNights === 0 ? 'Nights' : 'Night'}
+              </span>
+            </button>
+            {showDatePicker && (
+              <AutoPosition ancestorDimensions={ancestorDimensions!} viewportDimensions={viewportDimensions!}>
+                <Frame className="datePickerWrapper">
+                  <DatePicker
+                    calendarCount={2}
+                    currentDate={props.currentDate}
+                    selectedDates={props.selectedDates}
+                    onDayClick={props.onDayClick}
+                    onDayMouseOver={props.onDayMouseOver}
+                    onNextClick={props.onNextClick}
+                    onPrevClick={props.onPrevClick}
+                  />
+                </Frame>
+              </AutoPosition>
+            )}
+          </div>
+        )}
+      />
+    );
+  }
 
   return (
     <DimensionsProvider
