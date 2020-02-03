@@ -27,7 +27,9 @@ export const Label = styled(LabelComponent)<ILabelProps>`
 
   span.labelText {
     display: ${props => (props.inline ? 'inline' : 'block')};
-    margin-bottom: ${props => (props.inline ? '0' : '5px')};
+    margin-bottom: ${props => (props.inline ? '0' : '10px')};
+    margin-left: ${props => (props.inline ? '5px' : '0')};
+    margin-right: ${props => (props.inline ? '5px' : '0')};
   }
 `;
 

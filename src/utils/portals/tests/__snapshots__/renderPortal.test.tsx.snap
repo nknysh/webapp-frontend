@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renderPortal renders a portal container 1`] = `
+<body>
+  <span
+    id="portal-modal"
+    style="z-index:1300; width: 0px;"
+  />
+  <span
+    id="portal-tooltip"
+    style="z-index:1301; width: 0px;"
+  />
+  <span
+    id="portal-overlay"
+    style="z-index:1302; width: 0px;"
+  >
+    <p
+      id="content"
+    >
+      Hello
+    </p>
+  </span>
+</body>
+`;

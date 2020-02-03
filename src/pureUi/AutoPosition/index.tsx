@@ -79,7 +79,7 @@ export const AutoPosition = (props: IAutoPositionProps) => {
   }, [ancestorDimensions, viewportDimensions, readyToDisplay]);
 
   return (
-    <span ref={wrapper} style={computePosition()}>
+    <span className="autoPosition" ref={wrapper} style={computePosition()}>
       {props.children}
     </span>
   );

@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dimensions provider Provides dimensions 1`] = `
+Object {
+  "dimensions": Object {
+    "bottom": 0,
+    "height": 0,
+    "left": 0,
+    "right": 0,
+    "top": 0,
+    "width": 0,
+  },
+  "windowSize": Object {
+    "height": 768,
+    "width": 1024,
+  },
+}
+`;
+
+exports[`dimensions provider Renders  correctly 1`] = `
+<Component
+  display="block"
+  render={[Function]}
+>
+  <span
+    style={
+      Object {
+        "display": "block",
+      }
+    }
+  >
+    <p
+      style={
+        Object {
+          "height": 20,
+          "width": 10,
+        }
+      }
+    >
+      Test
+    </p>
+  </span>
+</Component>
+`;
+
+exports[`dimensions provider updates on resize 1`] = `
+Object {
+  "dimensions": Object {
+    "bottom": 0,
+    "height": 0,
+    "left": 0,
+    "right": 0,
+    "top": 0,
+    "width": 0,
+  },
+  "windowSize": Object {
+    "height": 768,
+    "width": 500,
+  },
+}
+`;
+
+exports[`dimensions provider updates on scroll 1`] = `
+Object {
+  "dimensions": Object {
+    "bottom": 0,
+    "height": 0,
+    "left": 0,
+    "right": 0,
+    "top": 0,
+    "width": 0,
+  },
+  "windowSize": Object {
+    "height": 768,
+    "width": 300,
+  },
+}
+`;

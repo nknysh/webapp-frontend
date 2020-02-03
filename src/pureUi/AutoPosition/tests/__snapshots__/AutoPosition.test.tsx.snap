@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AutoPosition /> matches the snapshot 1`] = `
+<Component
+  ancestorDimensions={
+    Object {
+      "bottom": 10,
+      "height": 180,
+      "left": 10,
+      "right": 10,
+      "top": 10,
+      "width": 80,
+    }
+  }
+  viewportDimensions={
+    Object {
+      "height": 200,
+      "width": 100,
+    }
+  }
+>
+  <span
+    className="autoPosition"
+    style={Object {}}
+  >
+    <p>
+      Test
+    </p>
+  </span>
+</Component>
+`;
