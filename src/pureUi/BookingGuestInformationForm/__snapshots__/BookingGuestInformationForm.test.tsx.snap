@@ -1,0 +1,200 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
+<styled.div>
+  <Styled(LabelComponent)
+    className="title"
+    text="Title"
+  >
+    <Select
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "label": "None Set",
+            "value": "",
+          },
+          Object {
+            "label": "Master",
+            "value": "master",
+          },
+          Object {
+            "label": "Miss",
+            "value": "miss",
+          },
+          Object {
+            "label": "Mr.",
+            "value": "mr",
+          },
+          Object {
+            "label": "Mrs.",
+            "value": "mrs",
+          },
+          Object {
+            "label": "Ms.",
+            "value": "ms",
+          },
+        ]
+      }
+      value=""
+    />
+  </Styled(LabelComponent)>
+  <Styled(LabelComponent)
+    className="firstName"
+    text="First Name"
+  >
+    <Styled(TextInput)
+      onChange={[Function]}
+      value=""
+    />
+  </Styled(LabelComponent)>
+  <Styled(LabelComponent)
+    className="lastName"
+    text="Last Name"
+  >
+    <Styled(TextInput)
+      onChange={[Function]}
+      value=""
+    />
+  </Styled(LabelComponent)>
+  <Styled(LabelComponent)
+    className="repeatGuest"
+    inline={true}
+    reverse={true}
+    text="This client is a repeating guest"
+  >
+    <Styled(Checkbox)
+      checked={false}
+      onChange={[Function]}
+    />
+  </Styled(LabelComponent)>
+  <Styled(LabelComponent)
+    className="flightInfoLabel"
+  >
+    Flight Information
+  </Styled(LabelComponent)>
+  <Styled(LabelComponent)
+    className="arrivalNumber"
+    text="Arrival Number"
+  >
+    <Styled(TextInput)
+      onChange={[Function]}
+      value=""
+    />
+  </Styled(LabelComponent)>
+  <Styled(LabelComponent)
+    className="arrivalDate"
+    text="Arrival Date"
+  >
+    <Component
+      defaultSelectedDates={Array []}
+      isSingleDateSelection={true}
+      onDateChange={[Function]}
+      render={[Function]}
+    />
+  </Styled(LabelComponent)>
+  <Styled(LabelComponent)
+    className="departureNumber"
+    text="Dearture Number"
+  >
+    <Styled(TextInput)
+      onChange={[Function]}
+      value=""
+    />
+  </Styled(LabelComponent)>
+  <Styled(LabelComponent)
+    className="departureDate"
+    text="Departure Date"
+  >
+    <Component
+      defaultSelectedDates={Array []}
+      isSingleDateSelection={true}
+      onDateChange={[Function]}
+      render={[Function]}
+    />
+  </Styled(LabelComponent)>
+  <div
+    className="specialRequests"
+  >
+    <Styled(LabelComponent)>
+      Special Requests
+    </Styled(LabelComponent)>
+    <div
+      className="twoColumn"
+    >
+      <Styled(LabelComponent)
+        inline={true}
+        reverse={true}
+        text="Crib Cob"
+      >
+        <Styled(Checkbox)
+          checked={false}
+          onChange={[Function]}
+        />
+      </Styled(LabelComponent)>
+      <Styled(LabelComponent)
+        inline={true}
+        reverse={true}
+        text="Bed Guard"
+      >
+        <Styled(Checkbox)
+          checked={false}
+          onChange={[Function]}
+        />
+      </Styled(LabelComponent)>
+      <Styled(LabelComponent)
+        inline={true}
+        reverse={true}
+        text="Adjacent Rooms"
+      >
+        <Styled(Checkbox)
+          checked={false}
+          onChange={[Function]}
+        />
+      </Styled(LabelComponent)>
+      <Styled(LabelComponent)
+        inline={true}
+        reverse={true}
+        text="Connecting Rooms"
+      >
+        <Styled(Checkbox)
+          checked={false}
+          onChange={[Function]}
+        />
+      </Styled(LabelComponent)>
+      <Styled(LabelComponent)
+        inline={true}
+        reverse={true}
+        text="Accessible Room"
+      >
+        <Styled(Checkbox)
+          checked={false}
+          onChange={[Function]}
+        />
+      </Styled(LabelComponent)>
+      <Styled(LabelComponent)
+        inline={true}
+        reverse={true}
+        text="Dietary"
+      >
+        <Styled(Checkbox)
+          checked={false}
+          onChange={[Function]}
+        />
+      </Styled(LabelComponent)>
+    </div>
+  </div>
+  <div
+    className="comments"
+  >
+    <Styled(LabelComponent)
+      text="Comments"
+    >
+      <Textarea
+        onChange={[Function]}
+        value=""
+      />
+    </Styled(LabelComponent)>
+  </div>
+</styled.div>
+`;

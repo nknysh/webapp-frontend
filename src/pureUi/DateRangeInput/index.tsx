@@ -59,6 +59,10 @@ const DateRangeInput = (props: DateRangeInputPops) => {
     };
   });
 
+  // React doesn't allow for spawning portals from portals. So in the event you
+  // need to put this component in a Modal view, you'll have to set `noPortal` to
+  // true. This isn't ideal, and you might have to deal with layering issues, but
+  // the designs call for it, and this is a passable solution.
   if (noPortal) {
     return (
       <DimensionsProvider
