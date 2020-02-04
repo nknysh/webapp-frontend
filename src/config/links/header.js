@@ -51,6 +51,11 @@ export default {
       href: '/',
     },
     {
+      title: 'Hotels',
+      href: `${ADMIN_BASE_URL}/hotels`,
+      hard: true,
+    },
+    {
       title: 'Proposals',
       href: `/proposals`,
       hard: true,
