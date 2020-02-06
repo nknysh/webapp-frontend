@@ -67,11 +67,11 @@ const reloadIfMissing = pipe(
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 
-const renderBackToProposals = t => renderBackButton(t('labels.proposals'), { href: `${ADMIN_BASE_URL}/proposals` });
+const renderBackToProposals = t => renderBackButton(t('labels.proposals'), { href: '/proposals' });
 const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search/beta' });
 
-const renderBreadcrumbs = (t, { proposal, id, isMobile, onMobileNavClick, isGenerateView, isResortsView, isEdit }) => {
-  const links = isEdit
+const renderBreadcrumbs = (t, { proposal, id, isMobile, onMobileNavClick, isGenerateView, isResortsView, isReview }) => {
+  const links = isReview
     ? [
         { label: renderBackToSearch(t) },
         { label: prop('name', proposal), to: `/proposals/${id}` },
@@ -80,7 +80,7 @@ const renderBreadcrumbs = (t, { proposal, id, isMobile, onMobileNavClick, isGene
     : [{ label: renderBackToProposals(t) }, { label: t('labels.proposalWithId', { id }), to: `/proposals/${id}` }];
   return (
     <Fragment>
-      {isMobile && (isEdit ? renderBackToSearch(t) : renderBackToProposals(t))}
+      {isMobile && (isReview ? renderBackToSearch(t) : renderBackToProposals(t))}
       {isMobile ? (
         <BookingPath>
           <BookingPathSegment onClick={onMobileNavClick} data-active={isResortsView}>
@@ -208,6 +208,7 @@ const renderFull = (
   {
     id,
     isEdit,
+    isReview,
     isGenerateView,
     isResortsView,
     isMobile,
@@ -222,7 +223,7 @@ const renderFull = (
     <Fragment>
       {renderBreadcrumbs(t, {
         id,
-        isEdit,
+        isReview,
         isGenerateView,
         isResortsView,
         isMobile,
@@ -258,6 +259,7 @@ export const ProposalContainer = ({
   fetchProposal,
   id,
   isEdit,
+  isReview,
   proposal,
   proposalBookingHold,
   proposalBookingRelease,
@@ -415,6 +417,7 @@ export const ProposalContainer = ({
           ? renderFull(t, {
               id,
               isEdit,
+              isReview,
               isGenerateView,
               isResortsView,
               isMobile,
