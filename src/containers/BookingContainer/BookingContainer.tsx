@@ -40,7 +40,7 @@ import { Upload as IUpload } from 'services/BackendApi/types';
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search/beta' });
-const renderBackToBookings = t => renderBackButton(t('enquiryBooking_plural'), { href: `${ADMIN_BASE_URL}/bookings` });
+const renderBackToBookings = t => renderBackButton(t('enquiryBooking_plural'), { href: '/bookings' });
 
 const renderBreadcrumbs = (t, { id }) => (
   <Breadcrumbs

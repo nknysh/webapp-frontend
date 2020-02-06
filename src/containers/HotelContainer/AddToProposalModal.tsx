@@ -25,7 +25,7 @@ export const AddToProposalModalContent = props => {
   // when the modal is submitted and the proposal status is SUCCESS, we're complete
   useEffect(() => {
     if (isSubmitted && proposalStatus === 'SUCCESS') {
-      history.push(`/proposals/${proposalResult}/edit`);
+      history.push(`/proposals/${proposalResult}/review`);
     }
   }, [isSubmitted, proposalStatus]);
 
