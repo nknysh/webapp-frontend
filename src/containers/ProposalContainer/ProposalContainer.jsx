@@ -70,7 +70,10 @@ const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 const renderBackToProposals = t => renderBackButton(t('labels.proposals'), { href: '/proposals' });
 const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search/beta' });
 
-const renderBreadcrumbs = (t, { proposal, id, isMobile, onMobileNavClick, isGenerateView, isResortsView, isReview }) => {
+const renderBreadcrumbs = (
+  t,
+  { proposal, id, isMobile, onMobileNavClick, isGenerateView, isResortsView, isReview }
+) => {
   const links = isReview
     ? [
         { label: renderBackToSearch(t) },

@@ -9,13 +9,7 @@ export const Proposal = ({
   match: {
     params: { id, stage },
   },
-}) => (
-  <ProposalContainer
-    id={id}
-    isEdit={['edit', 'review'].includes(stage)}
-    isReview={stage === 'review'}
-  />
-);
+}) => <ProposalContainer id={id} isEdit={['edit', 'review'].includes(stage)} isReview={stage === 'review'} />;
 
 Proposal.propTypes = propTypes;
 Proposal.defaultProps = defaultProps;
