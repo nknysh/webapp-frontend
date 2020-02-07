@@ -79,7 +79,7 @@ export default function fastSearchReducer(
           ...state.query,
           lodgings: state.query.lodgings.map(item => ({
             ...item,
-            honeymoon:false,
+            honeymoon: false,
             birthday: false,
             anniversary: false,
             wedding: false,
@@ -100,6 +100,8 @@ export default function fastSearchReducer(
         ...state,
         results: action.successResponse.data.hotels,
         offersRequestPending: false,
+        queryHasChanged: false,
+        lastExecutedQuery: state.query,
       };
 
     case Actions.OFFERS_SEARCH_FAILURE:
@@ -107,7 +109,21 @@ export default function fastSearchReducer(
         ...state,
         offersRequestError: action.errorResponse,
         offersRequestPending: false,
+        queryHasChanged: false,
+        lastExecutedQuery: state.query,
       };
+
+    case Actions.RESET_SEARCH_QUERY:
+      if (state.lastExecutedQuery) {
+        return {
+          ...state,
+          queryHasChanged: false,
+          query: state.lastExecutedQuery,
+          lastExecutedQuery: null,
+        };
+      }
+
+      return state;
 
     // ------------------------------------------------------
     // Destination

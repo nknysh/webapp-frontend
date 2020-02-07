@@ -63,6 +63,8 @@ import {
   queryHasChangedSelector,
   canSearchSelector,
   dateRangeChangeAction,
+  updateQueryStringAction,
+  resetSearchQueryAction,
 } from 'store/modules/fastSearch';
 
 import { getUserCountryContext } from 'store/modules/auth';
@@ -73,8 +75,15 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       this.props.getOptions();
     }
 
+    // Automatically execute the URL search query
     if (window.location.search && !this.props.searchResults) {
       this.props.initializeQuery(window.location.search.replace('?', ''));
+    }
+
+    // The UI Back button does not go "back" in history, so we lose the
+    // Query String info. This condition puts it back
+    if (!window.location.search && this.props.searchResults) {
+      this.props.updateQueryString();
     }
 
     if (!window.location.search && !this.props.searchResults) {
@@ -82,7 +91,9 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       clearBookingBuilderAction();
     }
 
-    if (this.props.searchResults && this.props.queryHasChanged) {
+    // If the user has search results, then navigates back to the homepage,
+    // edits the query, and hit's search again, trigger a search
+    if (this.props.queryHasChanged) {
       this.props.getOffers(this.props.searchQuery);
       clearBookingBuilderAction();
     }
@@ -90,8 +101,13 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
   componentDidUpdate(prevProps) {
     if (this.props.actingCountryCode !== prevProps.actingCountryCode) {
+      console.log('update -  Will search');
       this.props.getOffers(this.props.searchQuery);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetSearchQuery();
   }
 
   handleDestinationChange = (e: FormEvent<HTMLInputElement>) => {
@@ -341,6 +357,8 @@ const actionCreators = {
   toggleRepeatGuest: toggleRepeatGuestAction,
   clearBookingBuilderAction,
   dateRangeChangeAction,
+  updateQueryString: updateQueryStringAction,
+  resetSearchQuery: resetSearchQueryAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

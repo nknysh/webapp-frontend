@@ -41,8 +41,9 @@ export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
 export const NAME_SEARCH_SUCCESS = 'fastSearch/NAME_SEARCH_SUCCESS';
 export const NAME_SEARCH_FAILURE = 'fastSearch/NAME_SEARCH_FAILURE';
 export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RESUTS_VISIBILITY';
-
 export const DATE_RANGE_CHANGE = 'fastSearch/DATE_RANGE_CHANGE';
+export const UPDATE_QUERY_STRING = 'fastSearch/UPDATE_QUERY_STRING';
+export const RESET_SEARCH_QUERY = 'fastSearch/RESET_SEARCH_QUERY';
 
 // ---------------------------------------------------------------------------------------
 // How to type Redux Actions with as little boilerplate as possible.
@@ -264,6 +265,16 @@ export const dateRangeChangeAction = (dates: string[]) => ({
   dates,
 });
 
+export type UpdateQueryStringAction = ReturnType<typeof updateQueryStringAction>;
+export const updateQueryStringAction = () => ({
+  type: UPDATE_QUERY_STRING as typeof UPDATE_QUERY_STRING,
+});
+
+export type ResetSearchQueryAction = ReturnType<typeof resetSearchQueryAction>;
+export const resetSearchQueryAction = () => ({
+  type: RESET_SEARCH_QUERY as typeof RESET_SEARCH_QUERY,
+});
+
 // 3. Create a union type which we can pass as the reducers action type.
 // goto DestinationChangeAction to see start of these comments.
 export type FastSearchAction =
@@ -300,4 +311,6 @@ export type FastSearchAction =
   | SetNamesSearchResultsVisibilityAction
   | PopulateQueryAction
   | ClearExtendedQueryAction
-  | DateRangeChangeAction;
+  | DateRangeChangeAction
+  | UpdateQueryStringAction
+  | ResetSearchQueryAction;

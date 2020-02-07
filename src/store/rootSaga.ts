@@ -9,6 +9,7 @@ import { watchGetProposalsList } from './modules/proposalsList/sagas/proposalsLi
 import { watchGetBookingsList } from './modules/bookingsList/sagas/bookingsListSaga';
 import { watchGetTravelAgentsRequest } from './modules/agents/sagas/getTravelAgentsSaga';
 import { watchGetHotelNames } from './modules/bookingsList/sagas/hotelNamesSaga';
+import { watchUpdateQueryString } from './modules/fastSearch/sagas/updateQueryStringSaga';
 
 export default function* searchSagas() {
   const sagas = [
@@ -22,6 +23,7 @@ export default function* searchSagas() {
     watchGetBookingsList,
     watchGetTravelAgentsRequest,
     watchGetHotelNames,
+    watchUpdateQueryString,
   ];
 
   yield all(

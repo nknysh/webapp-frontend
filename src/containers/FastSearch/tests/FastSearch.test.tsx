@@ -5,6 +5,7 @@ import { clearBookingBuilderAction } from '../../../store/modules/bookingBuilder
 import { shallow } from 'enzyme';
 import * as Fixtures from './fixtures';
 import { createMemoryHistory } from 'history';
+import { updateQueryStringAction } from '../../../store/modules/fastSearch/actions';
 
 const makeProps = (overrides?: Partial<FastSearchProps>) => {
   const defaultProps: FastSearchProps = {
@@ -66,6 +67,7 @@ const makeProps = (overrides?: Partial<FastSearchProps>) => {
     initializeQuery: jest.fn(Actions.initializeQueryAction),
     toggleRepeatGuest: jest.fn(Actions.toggleRepeatGuestAction),
     clearBookingBuilderAction: jest.fn(clearBookingBuilderAction),
+    updateQueryString: jest.fn(updateQueryStringAction),
 
     // Router props
     match: {

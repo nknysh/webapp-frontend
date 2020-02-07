@@ -8,7 +8,6 @@ import {
   SearchOptions,
   NameSearchResponseData,
 } from 'services/BackendApi';
-import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 import { getDefaultSearchAndBookingStartDate, getDefaultSearchAndBookingEndDate } from '../../utils';
 
 export interface FastSearchDomain {
@@ -34,6 +33,7 @@ export interface FastSearchDomain {
   optionsRequestError: ErrorResponse | null;
 
   query: SearchQuery;
+  lastExecutedQuery: SearchQuery | null;
   queryHasChanged: boolean;
   activeHotelId: string | undefined;
 }
@@ -59,6 +59,7 @@ export const initialState: FastSearchDomain = {
   dateSelectionInProgress: false,
 
   queryHasChanged: false,
+  lastExecutedQuery: null,
   query: {
     name: '',
     lodgings: [
