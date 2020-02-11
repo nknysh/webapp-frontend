@@ -29,6 +29,7 @@ export const Back = styled(BaseBack)``;
 export const ProposalsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 50%;
 `;
 
 export const Proposal = styled.div`
@@ -57,7 +58,6 @@ export const ProposalGuestForm = styled.div`
 
   ${props => props.theme.breakpoints.tablet`
     margin-top: ${theme.spacing.gutter}px;
-    padding-left: ${theme.spacing.gutter * 8.2}px;
     flex: 1 1 50%;
     max-width: 50%;
   `}

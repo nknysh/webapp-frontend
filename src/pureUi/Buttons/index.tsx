@@ -34,7 +34,7 @@ export const baseButtonStyles = css`
   flex-shrink: 1;
   flex-grow: 1;
 
-  &:hover {
+  &:hover:enabled {
     background-color: ${pureUiTheme.colors.teal};
   }
 
@@ -63,17 +63,20 @@ export const SecondaryButton = styled.button`
   }
 `;
 
-export const SummaryFormPrimaryButton = styled.button`
+export const PrimaryButtonTall = styled.button`
   ${baseButtonStyles}
   height: 70px;
-
-  &:hover {
-    background-color: ${pureUiTheme.colors.teal} !important;
-  }
 `;
 
-export const SummaryFormSecondaryButton = styled(SummaryFormPrimaryButton)`
-  background-color: ${pureUiTheme.colors.grayDarker} !important;
+export const PrimaryButtonTallAltColor = styled(PrimaryButtonTall)`
+  background-color: ${pureUiTheme.colors.grayDarker};
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.75;
+    background-color: ${pureUiTheme.colors.grayDarker};
+    border-color: ${pureUiTheme.colors.grayDarker};
+  }
 `;
 
 export const RoundedIconButton = styled(PrimaryButton)`

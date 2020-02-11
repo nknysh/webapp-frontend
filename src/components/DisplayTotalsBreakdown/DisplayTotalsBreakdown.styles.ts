@@ -52,6 +52,7 @@ export const TotalSectionColumn = styled.div<ITotalSectionColumn>`
     `
 &:first-child {
   flex: 1;
+  padding-right: 16px;
 }`}
 
   ${props => `

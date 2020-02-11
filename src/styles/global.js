@@ -113,6 +113,7 @@ export const GlobalStyle = createGlobalStyle`
     .font-material-ui { font-family: HurmeGeometricSans2, 'Open Sans', sans-serif !important; }
     .flex { display: flex; }
     .flex-row-reverse { flex-direction: row-reverse; }
+    .flex-1 { flex: 1 1 0%; }
     .uppercase { text-transform: uppercase; }
     .normal-case { text-transform: none; }
     .color-teal { color: #57d2bf !important ; }

@@ -3,6 +3,8 @@ import { Text, Total } from '../SummaryForm/SummaryForm.styles';
 import { Select } from '@pure-escapes/webapp-ui-components';
 import { PrimaryButton } from 'pureUi/Buttons';
 
+import { RadioButton } from '@pure-escapes/webapp-ui-components';
+
 export const LodgingSummaryCard = styled.div``;
 
 export const CollapseButton = styled.button`
@@ -20,9 +22,10 @@ export const CollapseHeader = styled(Text)`
 
 export const LodgingTotal = styled(Total)`
   margin: 0;
-  font-size: 16px !important;
+  font-size: 18px !important;
   line-height: auto;
-  font-weight: bold !important;
+  font-weight: 600 !important;
+  text-align: right;
 
   ${({ ['data-secondary']: secondary }) =>
     secondary &&
@@ -55,4 +58,17 @@ export const ButtonSmall = styled(PrimaryButton)`
   width: 200px;
   height: 40px;
   line-height: 20px;
+  flex-grow: 0;
+`;
+
+export const StyledRadioButton = styled(RadioButton)`
+  text-transform: none !important;
+  span {
+    text-transform: none !important;
+  }
+
+  // odd CSS rule - this is to overwrite some nonsense from material UI
+  span:nth-child(2) {
+    width: 100%;
+  }
 `;

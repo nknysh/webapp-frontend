@@ -23,7 +23,7 @@ import { ProductTypes } from 'config/enums';
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
 import { Error, HotelName, StyledSummary, Title, Text } from './SummaryForm.styles';
-import { SummaryFormPrimaryButton, SummaryFormSecondaryButton } from 'pureUi/Buttons';
+import { PrimaryButtonTall, PrimaryButtonTallAltColor } from 'pureUi/Buttons';
 import { makeBackendApi } from 'services/BackendApi';
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
@@ -37,7 +37,7 @@ const getSingleValue = (type, data) =>
   )(data);
 
 // exported as its used in src/containers/SummaryFormExtras/SummaryFormExtras.jsx as well
-export const renderHotelName = (t, { name }) => {
+export const renderHotelName = ({ name }) => {
   return (
     <TableCardBox>
       <TableCardRow depth={1}>
@@ -143,7 +143,7 @@ const SaveBookingButton = props => {
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
-    <SummaryFormSecondaryButton
+    <PrimaryButtonTallAltColor
       className="save-booking-button"
       type="button"
       disabled={!canBook || hasClicked || forceDisabled}
@@ -157,7 +157,7 @@ const SaveBookingButton = props => {
       }}
     >
       {t('buttons.saveBooking')}
-    </SummaryFormSecondaryButton>
+    </PrimaryButtonTallAltColor>
   );
 };
 
@@ -165,13 +165,13 @@ const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, fo
   // logic taken from previous declaration and reworked into its own component
 
   return (
-    <SummaryFormPrimaryButton
+    <PrimaryButtonTall
       className="request-to-book-button"
       disabled={!(showHolds || canBook) || forceDisabled}
       type="submit"
     >
       {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
-    </SummaryFormPrimaryButton>
+    </PrimaryButtonTall>
   );
 };
 
@@ -180,7 +180,7 @@ const SaveBookingAndTakeHoldsButton = props => {
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
-    <SummaryFormSecondaryButton
+    <PrimaryButtonTallAltColor
       className="save-booking-and-take-hold-button"
       type="button"
       data-secondary
@@ -195,7 +195,7 @@ const SaveBookingAndTakeHoldsButton = props => {
       }}
     >
       {t('buttons.takeAHold')}
-    </SummaryFormSecondaryButton>
+    </PrimaryButtonTallAltColor>
   );
 };
 
@@ -260,14 +260,14 @@ const renderForm = (
             </div>
 
             <div className="flex">
-              <SummaryFormPrimaryButton
+              <PrimaryButtonTall
                 className="add-to-proposal-button"
                 type="button"
                 disabled={!canBook || (isSr && !travelAgentUserUuid)}
                 onClick={handleAddToProposalClick}
               >
                 {t('buttons.addToProposal')}
-              </SummaryFormPrimaryButton>
+              </PrimaryButtonTall>
               <RequestToBookButton
                 t={t}
                 showHolds={showHolds}
@@ -314,10 +314,8 @@ export const SummaryForm = props => {
   return (
     <StyledSummary className={className} data-compact={compact}>
       <Loader isLoading={isLoading} showPrev={true} text="Updating...">
-        {renderHotelName(t, {
+        {renderHotelName({
           name: hotelName || booking?.response?.hotel?.name || 'Hotel',
-          overrideTotal: booking?.response?.totals?.total || '0.00',
-          ...props,
         })}
 
         {renderLodgingSummaries(t, booking)}

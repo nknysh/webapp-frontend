@@ -36,7 +36,13 @@ export const Extra = styled.div`
 
 export const AddonCheckbox = styled(Checkbox)`
   label {
+    width: 100%;
     margin-bottom: ${theme.spacing.gutter}px;
+
+    // odd CSS rule - this is to overwrite some nonsense from material UI
+    span:nth-child(2) {
+      width: 100%;
+    }
   }
 `;
 

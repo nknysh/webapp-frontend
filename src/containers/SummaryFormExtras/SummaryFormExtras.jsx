@@ -36,6 +36,8 @@ import {
 } from 'pureUi/TableCard';
 import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
+import { renderHotelName } from '../SummaryForm/SummaryForm';
+
 import Checkbox from 'pureUi/Checkbox';
 
 const InfoIconWithModal = ({ modalRender }) => {
@@ -243,7 +245,7 @@ const renderGroundServices = (
             key={`${gsProduct.uuid}/${gsProduct.name}`}
             checked={isChecked}
             label={
-              <ProductLabel>
+              <ProductLabel className="normal-case">
                 <span>
                   {gsProduct.name}{' '}
                   {renderInlinePrice(
@@ -304,7 +306,7 @@ const renderAddons = (
             key={`${supplementProduct.uuid}/${supplementProduct.name}`}
             checked={isChecked}
             label={
-              <ProductLabel>
+              <ProductLabel className="normal-case">
                 <span>
                   {supplementProduct.name}{' '}
                   {renderInlinePrice(
@@ -699,6 +701,11 @@ export const SummaryFormExtras = ({
         <TableCardNumberBannerNumber>4</TableCardNumberBannerNumber>
         <TableCardNumberBannerText>Process Your Booking</TableCardNumberBannerText>
       </TableCardNumberedBanner>
+
+      {totalCents > 0 &&
+        renderHotelName({
+          name: booking?.response?.hotel?.name,
+        })}
 
       {totalCents > 0 && (
         <DisplayTotalsBreakdown

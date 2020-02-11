@@ -60,15 +60,15 @@ export const TableCardRow = styled.div`
     switch (props.depth) {
       case 1:
         return css`
-          background-color: ${theme.colors['gray-dark']};
+          background-color: ${colors.grayDepth1};
         `;
       case 2:
         return css`
-          background-color: ${theme.colors['gray-medium']};
+          background-color: ${colors.grayDepth2};
         `;
       case 3:
         return css`
-          background-color: ${theme.colors['gray-light']};
+          background-color: ${colors.grayDepth3};
         `;
     }
   }}

@@ -157,16 +157,12 @@ export const getAvailableMealPlansForAccommodation = (
     );
 
     const label = (
-      <div>
+      <React.Fragment>
         <div>
-          {labelNames}{' '}
-          {labelOffers && <MealPlanRatePrice data-discount="true">{labelOffers.join(' & ')}</MealPlanRatePrice>}
+          <span>
+          {labelNames} {labelOffers && <MealPlanRatePrice data-discount="true">{labelOffers.join(' & ')}</MealPlanRatePrice>} - {currencyCode}{formatPrice(labelPrice)}</span>
         </div>
-        <div>
-          {currencyCode}
-          {formatPrice(labelPrice)}
-        </div>
-      </div>
+      </React.Fragment>
     );
 
     availableMealPlans.push({

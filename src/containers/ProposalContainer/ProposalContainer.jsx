@@ -99,14 +99,6 @@ const renderBreadcrumbs = (
   );
 };
 
-const renderBooking = booking => {
-  return <BookingSummaryLite key={booking.bookingHash} booking={booking} />;
-};
-
-const renderBookings = bookings => {
-  return <ProposalsWrapper>{Object.keys(bookings).map(key => renderBooking(bookings[key]))}</ProposalsWrapper>;
-};
-
 const renderProposalGuestForm = (
   t,
   { isMobile, isGenerateView, proposal, onGenerateAndSend, onPreviewPDF, onPreviewLatestPdf, pdfCount }
@@ -235,7 +227,14 @@ const renderFull = (
       })}
       {renderStatusStrip(t, { isEdit, ...proposal })}
       <Proposal>
-        {storeBookings && renderBookings(storeBookings)}
+        {storeBookings && (
+          <ProposalsWrapper className="proposals-wrapper">
+            {Object.keys(storeBookings).map(key => (
+              <BookingSummaryLite key={storeBookings[key].bookingHash} booking={storeBookings[key]} />
+            ))}
+          </ProposalsWrapper>
+        )}
+
         {isEdit || proposal.containsPotentialBookings
           ? renderProposalGuestForm(t, guestFormProps)
           : renderProposalGuestInfo(t, guestInfoProps)}
@@ -248,7 +247,6 @@ const renderTabs = (t, { id, guestInfoProps }) => (
   <Fragment>
     <ProposalId>{t('labels.proposalWithId', { id })}</ProposalId>
     <Tabs labels={[t('labels.resortsIncluded'), t('labels.guestsDetails')]}>
-      {/* {renderProposalSummary(t, summaryProps)} */}
       {renderProposalGuestInfo(t, guestInfoProps)}
     </Tabs>
   </Fragment>

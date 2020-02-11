@@ -30,6 +30,10 @@ export const colors = {
   graySecondary: '#E1E1E1',
   grayDarker: '#7b7b7b',
 
+  grayDepth1: '#E5E3E2',
+  grayDepth2: '#F3F3F3',
+  grayDepth3: '#FAFAFA',
+
   grayOpacity1: 'rgba(0,0,0,0.35)',
 
   grayFaded: '#9d9591', // duplicate

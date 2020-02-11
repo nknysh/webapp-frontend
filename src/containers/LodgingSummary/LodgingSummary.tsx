@@ -56,7 +56,7 @@ import { Icon } from '@material-ui/core';
 import { Text } from '../SummaryForm/SummaryForm.styles';
 
 // @ts-ignore
-import { RadioButton, NumberSelect } from '@pure-escapes/webapp-ui-components';
+import { NumberSelect } from '@pure-escapes/webapp-ui-components';
 
 import {
   CollapseButton,
@@ -67,6 +67,7 @@ import {
   ChildAgeSelect,
   CollapsibleSection,
   ButtonSmall,
+  StyledRadioButton,
 } from './LodgingSummary.styles';
 import connect from './LodgingSummary.state';
 import { DateHelper } from 'pureUi/DatePicker';
@@ -184,6 +185,7 @@ export const LodgingSummaryRender = props => {
 
   const MealPlanEditor = ({ onUpdate }: { onUpdate: Function }) => {
     const availableMealPlans = getAvailableMealPlansForAccommodation(lodging, availableProductSets, currencyCode);
+
     const selectedMealPlanSetUuid = lodging.subProducts['Meal Plan'].map(m => m.uuid).join('/');
 
     const handleMealPlanSetSelection = (event, mealPlanSetUuid) => {
@@ -202,7 +204,7 @@ export const LodgingSummaryRender = props => {
 
     return (
       <div className="mt-4">
-        <RadioButton
+        <StyledRadioButton
           onChange={handleMealPlanSetSelection}
           value={selectedMealPlanSetUuid}
           options={availableMealPlans}

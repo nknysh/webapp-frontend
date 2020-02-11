@@ -80,47 +80,100 @@ export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
     }
   };
 
+  const renderItemTitle = (block, item, itemIndex) => {
+    if (block.blockType === 'Accommodations' || block.blockType === 'Transfers') {
+      if (itemIndex === 0) {
+        return null;
+      }
+    }
+
+    const depth = block.blockType === 'Ground Services' || block.blockType === 'Addons' ? 3 : 2;
+    const title =
+      block.blockType === 'Ground Services' || block.blockType === 'Addons' ? (
+        <span>{item.title}</span>
+      ) : (
+        <strong>{item.title}</strong>
+      );
+
+    return (
+      <TableCardRow className="table-card-row" depth={depth} key={item.title}>
+        <TotalSection>
+          <TotalSectionColumn isLeft={true}>
+            <label className="item-title">{title}</label>
+          </TotalSectionColumn>
+          <TotalSectionColumn>
+            <PriceBreakdown total={item.total} totalBeforeDiscount={item.totalBeforeDiscount} />
+          </TotalSectionColumn>
+        </TotalSection>
+      </TableCardRow>
+    );
+  };
+
   const blocksMarkup = displayTotals.blocks.map((block: IBlock) => {
     if (block.items.length <= 0) {
       return null;
     }
 
-    const itemsBlocks = block.items.map((item: IItem) => {
+    const firstItem = block.items[0];
+
+    const itemsBlocks = block.items.map((item: IItem, index: number) => {
       return (
         <React.Fragment>
-          <TableCardRow className="table-card-row" depth={2} key={item.title}>
-            <TotalSection>
-              <TotalSectionColumn isLeft={true}>
-                <label className="item-title">
-                  <strong>{item.title}</strong>
-                </label>
-              </TotalSectionColumn>
-              <TotalSectionColumn>
-                <PriceBreakdown total={item.total} totalBeforeDiscount={item.totalBeforeDiscount} />
-              </TotalSectionColumn>
-            </TotalSection>
-          </TableCardRow>
-
-          <TableCardRow className="table-card-row" depth={3}>
-            {item.labels.map(l => {
-              return (
-                <span style={{ display: 'block' }} key={l}>
-                  <label className="item-label">{l}</label>
-                </span>
-              );
-            })}
-            <LabelRed>{item.offers.join(', ')}</LabelRed>
-          </TableCardRow>
+          {renderItemTitle(block, item, index)}
+          {item.labels.length >= 1 && (
+            <TableCardRow className="table-card-row" depth={3}>
+              {item.labels.map(l => {
+                return (
+                  <span style={{ display: 'block' }} key={l}>
+                    <label className="item-label">{l}</label>
+                  </span>
+                );
+              })}
+              <LabelRed>{item.offers.join(', ')}</LabelRed>
+            </TableCardRow>
+          )}
         </React.Fragment>
       );
     });
 
+    let blockHeader: any;
+
+    if (block.blockType === 'Accommodations') {
+      blockHeader = (
+        <label className="item-title">
+          {block.header}
+          <br />
+          {firstItem.title}
+        </label>
+      );
+    } else if (block.blockType === 'Transfers') {
+      blockHeader = (
+        <label className="item-title">
+          {block.header} ({firstItem.title})
+        </label>
+      );
+    } else {
+      blockHeader = <label className="item-title">{block.header}</label>;
+    }
+
     return (
-      <TableCardBox className="table-card-box" key={block.header}>
+      <TableCardBox className="table-card-box mb-4" key={block.header}>
         <TableCardRow depth={2}>
-          <label>
-            <strong>{block.header}</strong>
-          </label>
+          <TotalSection>
+            <TotalSectionColumn isLeft={true}>
+              <strong>{blockHeader}</strong>
+            </TotalSectionColumn>
+
+            {(block.blockType === 'Accommodations' || block.blockType === 'Transfers') && (
+              <TotalSectionColumn>
+                <PriceBreakdown
+                  total={firstItem.total}
+                  totalBeforeDiscount={firstItem.totalBeforeDiscount}
+                  oneOrMoreItemsOnRequest={firstItem.isOnRequestOrPartiallyOnRequest}
+                />
+              </TotalSectionColumn>
+            )}
+          </TotalSection>
         </TableCardRow>
 
         {itemsBlocks}
