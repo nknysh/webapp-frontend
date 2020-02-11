@@ -299,6 +299,30 @@ export const logIn = values => async dispatch => {
 };
 
 /**
+ * Auth0 Callback action
+ *
+ * @param {object} values
+ * @returns {Function}
+ */
+export const auth0Callback = values => async dispatch => {
+  dispatch(authRequest(values));
+
+  try {
+    const {
+      data: { data },
+    } = await client.auth0Callback(values);
+
+    persistUser(dispatch, data);
+
+    dispatch(successAction(AUTH_REQUEST, { user: { ...data } }));
+    dispatch(successAction(AUTH_LOG_IN, { user: { ...data } }));
+  } catch (e) {
+    dispatch(errorFromResponse(AUTH_REQUEST, e));
+  }
+};
+
+
+/**
  * Reset password action
  *
  * @param {object} values

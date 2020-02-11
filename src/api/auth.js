@@ -33,6 +33,15 @@ export const signUp = (body, params, opts) => client.post('/users/signup', body,
 export const logIn = (body, params, opts) => client.post('/users/login', body, { params, ...opts });
 
 /**
+ * Auth0 callback
+ *
+ * @param {*} params
+ * @param {Partial<AxiosRequestConfig>} opts
+ * @returns {Promise}
+ */
+export const auth0Callback = (params, opts) => client.get('/users/auth0/callback', { params, ...opts });
+
+/**
  * Log out
  *
  * @param {object} body
@@ -71,4 +80,4 @@ export const setPassword = (body, params, opts) => client.patch('/users/set-pass
  */
 export const updatePassword = (body, params, opts) => client.patch('/users/update-password', body, { params, ...opts });
 
-export default { getUser, signUp, logIn, logOut, resetPassword, setPassword, updatePassword };
+export default { getUser, signUp, logIn, auth0Callback, logOut, resetPassword, setPassword, updatePassword };
