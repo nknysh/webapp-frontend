@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Booking /> render matches snapshot 1`] = `
+<withRouter(withUser(Connect(Component)))
+  isDetails={true}
+>
+  <Styled(withThemeProvider(Da)) />
+</withRouter(withUser(Connect(Component)))>
+`;
