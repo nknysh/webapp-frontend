@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BookingList /> render matches snapshot 1`] = `<Connect(BookingListContainer) />`;

@@ -81,15 +81,15 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
     this.props.sortBy === prop ? this.props.sortOrder : undefined;
 
   getHeadingText = () => {
-    let headingText = 'Bookings - Loading...';
+    let headingText = 'Enquiries and Bookings - Loading...';
     if (!this.props.requestPending && this.props.totalResults > 0) {
-      headingText = `Bookings - ${this.props.totalResults} ${
+      headingText = `Enquiries and Bookings - ${this.props.totalResults} ${
         this.props.totalResults === 1 ? 'Result' : 'Results'
       } Found.`;
     }
 
     if (!this.props.requestPending && this.props.totalResults === 0) {
-      headingText = 'Bookings - No Results';
+      headingText = 'Enquiries and Bookings - No Results';
     }
 
     return headingText;
