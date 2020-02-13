@@ -36,14 +36,26 @@ export const ForgotPassword = styled.div`
   text-align: center;
 `;
 
-export const ForgotLink = styled.span`
+const LinkStyles = `
   color: ${theme.palette.neutral};
   text-transform: uppercase;
-  text-align: center;
   line-height: ${theme.fonts.sizes.normal}px;
   cursor: pointer;
   font-size: ${theme.fonts.sizes.default}px;
   letter-spacing: 0.46px;
+`;
+
+export const ForgotLink = styled.span`
+  ${LinkStyles}
+`;
+
+export const Auth0 = styled.div`
+  margin-top: ${theme.spacing.gutter}px;
+  text-align: center;
+`;
+
+export const Auth0Link = styled.a`
+  ${LinkStyles}
 `;
 
 export const CompleteIcon = styled(Icon)`

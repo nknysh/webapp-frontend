@@ -5,6 +5,7 @@ import { Grid } from '@material-ui/core';
 import { Form, Section, Button, Status, Loader, Link } from '@pure-escapes/webapp-ui-components';
 
 import { withAuthentication, withUser } from 'hoc';
+import { getDeploymentEnv } from 'utils';
 
 import { AuthTypes } from 'config/enums';
 import { fields, validation } from 'config/forms/settings';
@@ -57,6 +58,7 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
   );
 
   const assigned = propOr([], assignedKey, user);
+  const deploymentEnv = getDeploymentEnv();
 
   return (
     <Settings>
@@ -73,6 +75,14 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
                 <Section label={t('labels.accountStatus')}>
                   <Status data-status={status}>{status}</Status>
                 </Section>
+                <Section label={t('labels.accountRole')}>
+                  {t(`labels.${type}`)}
+                </Section>
+                {Boolean(deploymentEnv) &&
+                  <Section label={t('labels.environment')}>
+                    {deploymentEnv}
+                  </Section>
+                }
               </Fragment>
             )}
           </Grid>

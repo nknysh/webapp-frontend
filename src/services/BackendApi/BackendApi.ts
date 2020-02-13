@@ -31,6 +31,7 @@ export enum BackendEndpoints {
   HOTEL = 'hotels',
   BOOKINGS = 'bookings',
   PROPOSALS = 'proposals',
+  AUTH0_LOGIN = 'users/auth0/login'
 }
 
 export class BackendApiService<T extends AxiosInstance> {
