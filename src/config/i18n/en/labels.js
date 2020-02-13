@@ -220,6 +220,8 @@ export default {
 
   accountRep: 'Your Pure Escapes Representative',
   accountStatus: 'Your Account Status',
+  accountRole: 'Your Account Role',
+  environment: 'Environment',
 
   availability: 'Availability',
   availableToHold: 'This hotel has accommodation available to hold',
@@ -271,4 +273,8 @@ export default {
   cancellation: 'Cancellation',
   requestToBook: 'Request to Book',
   uploads: 'Uploads',
+  ta: 'Travel Agent',
+  sr: 'Sales Representative',
+  rl: 'Rates Loader',
+  admin: 'Admin'
 };

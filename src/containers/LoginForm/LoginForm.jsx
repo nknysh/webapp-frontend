@@ -62,7 +62,9 @@ const renderForm = (t, { formValues, onSubmit, onForgottenClick }) => (
             <ForgotLink>{t('buttons.forgotten')}</ForgotLink>
           </ForgotPassword>
           <Auth0>
-            <Auth0Link href={`${process.env.BACKEND_BASE_URL}/${BackendEndpoints.AUTH0_LOGIN}`}>Log in with Auth0</Auth0Link>
+            <Auth0Link href={`${process.env.BACKEND_BASE_URL}/${BackendEndpoints.AUTH0_LOGIN}`}>
+              {t('buttons.loginAuth0')}
+            </Auth0Link>
           </Auth0>
         </Actions>
       </Fragment>
