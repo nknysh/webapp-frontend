@@ -27,7 +27,7 @@ import {
   StyledLoginForm,
   SubmitText,
   Auth0Link,
-  Auth0
+  Auth0,
 } from './LoginForm.styles';
 
 const renderServerError = content => <ServerErrorContent>{content}</ServerErrorContent>;
@@ -96,12 +96,12 @@ export const LoginForm = ({ requestStatus, onLogin, onAuth0Callback, error, onCo
     const params = qs.parse(location.search.slice(1));
     const isAuth0Callback = params.auth0 && params.code && params.state;
 
-    if(isAuth0Callback) {
+    if (isAuth0Callback) {
       setSubmitted(true);
       onAuth0Callback(pick(['state', 'code'], params));
     }
   }, []);
-  
+
   const onForgottenClick = useCallback(() => setForgotten(true), []);
 
   if (forgotten) return <PasswordResetForm />;

@@ -276,5 +276,5 @@ export default {
   ta: 'Travel Agent',
   sr: 'Sales Representative',
   rl: 'Rates Loader',
-  admin: 'Admin'
+  admin: 'Admin',
 };

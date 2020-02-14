@@ -10,6 +10,7 @@ import { LinkButton } from 'pureUi/Buttons/index';
 export interface IBookingSummaryLiteProps {
   className?: string;
   booking: any;
+  hideViewBookingButton: boolean;
   t: (key: string) => string;
 }
 
@@ -76,7 +77,7 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
         </React.Fragment>
       )}
 
-      {props.booking.uuid && (
+      {props.booking.uuid && !props.hideViewBookingButton && (
         <div className="actions">
           <LinkButton to={`/bookings/${props.booking.uuid}`}>View booking</LinkButton>
         </div>

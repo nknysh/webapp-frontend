@@ -77,14 +77,8 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
                 </Section>
               </Fragment>
             )}
-            <Section label={t('labels.accountRole')}>
-              {t(`labels.${type}`)}
-            </Section>
-            {Boolean(deploymentEnv) &&
-              <Section label={t('labels.environment')}>
-                {deploymentEnv}
-              </Section>
-            } 
+            <Section label={t('labels.accountRole')}>{t(`labels.${type}`)}</Section>
+            {Boolean(deploymentEnv) && <Section label={t('labels.environment')}>{deploymentEnv}</Section>}
           </Grid>
         </Grid>
       </Loader>

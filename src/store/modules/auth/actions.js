@@ -321,7 +321,6 @@ export const auth0Callback = values => async dispatch => {
   }
 };
 
-
 /**
  * Reset password action
  *

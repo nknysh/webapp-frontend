@@ -124,7 +124,7 @@ const BookingSummary = props => {
 
   return (
     <div>
-      <BookingSummaryLite t={t} booking={booking} />
+      <BookingSummaryLite t={t} booking={booking} hideViewBookingButton={true} />
 
       {booking.status === 'potential' &&
         (isSr ? <BookingSummaryPotentialSR {...props} /> : <BookingSummaryPotentialTA {...props} />)}

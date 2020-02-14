@@ -36,5 +36,5 @@ export default {
   updateDetails: 'Update Details',
   updatePassword: 'Update Password',
   saveBooking: 'Save Results',
-  loginAuth0: 'Log in with Auth0'
+  loginAuth0: 'Log in with Auth0',
 };
