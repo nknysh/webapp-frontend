@@ -266,8 +266,10 @@ const BookingSummaryPotentialSR = props => {
               Are you sure you want to confirm this booking?
             </ModalContent>
             <ModalFooter>
-              <PrimaryButton onClick={() => handleConfirmBooking()}>Yes</PrimaryButton>
-              <PrimaryButton onClick={() => setIsConfirmModalOpen(false)}>No</PrimaryButton>
+              <ButtonBar>
+                <SecondaryButton onClick={() => setIsConfirmModalOpen(false)}>No</SecondaryButton>
+                <PrimaryButton autoFocus onClick={() => handleConfirmBooking()}>Yes</PrimaryButton>
+              </ButtonBar>
             </ModalFooter>
           </StandardModal>
         )}
