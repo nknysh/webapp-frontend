@@ -21,6 +21,8 @@ export interface DateRangeInputPops extends HTMLAttributes<HTMLButtonElement> {
   onPrevClick?: React.EventHandler<any>;
   noPortal?: boolean;
   onClickOutside: (e: MouseEvent) => void;
+  minDate?: string; // An ISO8601 Date string
+  maxDate?: string; // An ISO8601 Date string
 }
 
 const DateRangeInput = (props: DateRangeInputPops) => {
@@ -37,6 +39,8 @@ const DateRangeInput = (props: DateRangeInputPops) => {
     onPrevClick,
     noPortal,
     onClickOutside,
+    minDate,
+    maxDate,
     ...buttonProps
   } = props;
   const wrapper = useRef<HTMLDivElement>(null);
@@ -86,6 +90,8 @@ const DateRangeInput = (props: DateRangeInputPops) => {
                     onDayMouseOver={props.onDayMouseOver}
                     onNextClick={props.onNextClick}
                     onPrevClick={props.onPrevClick}
+                    minDate={props.minDate}
+                    maxDate={props.maxDate}
                   />
                 </Frame>
               </AutoPosition>
@@ -119,6 +125,8 @@ const DateRangeInput = (props: DateRangeInputPops) => {
                     onDayMouseOver={props.onDayMouseOver}
                     onNextClick={props.onNextClick}
                     onPrevClick={props.onPrevClick}
+                    minDate={props.minDate}
+                    maxDate={props.maxDate}
                   />
                 </Frame>
               </AutoPosition>,

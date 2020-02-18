@@ -209,6 +209,7 @@ export const getDaysBetween = (startDate, endDate) =>
 export const minusDays = curry((amount, date) => subDays(date, amount));
 
 export const addDaysUTC = (date, amount) => addDays(new Date(date), amount);
+export const subDaysUTC = (date, amount) => subDays(new Date(date), amount);
 
 // @see https://pureescapes.atlassian.net/browse/OWA-1031
 export const subDaysString = (dateAsString, amount) => {
