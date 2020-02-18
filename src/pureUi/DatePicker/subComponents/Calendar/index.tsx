@@ -32,7 +32,7 @@ export interface ICalendarProps extends React.HTMLProps<HTMLDivElement> {
 
 // -----------------------------------------------------------------------------
 
-const normalizeDate = date => new Date(date).toISOString();
+const normalizeDate = (date: Date | string | number): string => new Date(date).toISOString();
 
 class Calendar extends React.Component<ICalendarProps, {}> {
   private currentMonth: number;
@@ -64,9 +64,9 @@ class Calendar extends React.Component<ICalendarProps, {}> {
     const isSelected = this.props.selectedDates && this.props.selectedDates.includes(date.dateString);
     
     const isDisabled = this.props.disablePastDates && date.dateString < this.today ||
-                      // @ts-ignore
+                      // @ts-ignore 
                        Boolean(this.props.minDate) && date.dateString < normalizeDate(this.props.minDate) ||
-                       // @ts-ignore
+                       // @ts-ignore 
                        Boolean(this.props.maxDate) && date.dateString > normalizeDate(this.props.maxDate);
     
     return (
