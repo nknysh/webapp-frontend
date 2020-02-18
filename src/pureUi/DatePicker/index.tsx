@@ -16,6 +16,8 @@ export interface IDatePickerOwnProps {
   locale?: string;
   localeDates?: string;
   firstDayOfWeek?: number; // 0 = sunday
+  minDate?: string; // An ISO8601 Date string
+  maxDate?: string; // An ISO8601 Date string
 }
 export interface IDatePickerProps extends IDatePickerOwnProps, React.HTMLProps<HTMLDivElement> {}
 
@@ -43,6 +45,8 @@ const DatePicker = (props: IDatePickerProps) => (
             firstDayOfWeek={props.firstDayOfWeek}
             onDayClick={props.onDayClick}
             onDayMouseOver={props.onDayMouseOver}
+            minDate={props.minDate}
+            maxDate={props.maxDate}
           />
         ))}
     </div>

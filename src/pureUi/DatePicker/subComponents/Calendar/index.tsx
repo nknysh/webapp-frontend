@@ -26,13 +26,17 @@ export interface ICalendarProps extends React.HTMLProps<HTMLDivElement> {
   onDayClick?: React.EventHandler<any>;
   onDayMouseOver?: React.EventHandler<any>;
   disablePastDates: boolean;
+  minDate?: string; // An ISO8601 Date string
+  maxDate?: string; // An ISO8601 Date string
 }
 
 // -----------------------------------------------------------------------------
 
+const normalizeDate = date => new Date(date).toISOString();
+
 class Calendar extends React.Component<ICalendarProps, {}> {
   private currentMonth: number;
-  private today = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
+  private today = normalizeDate(new Date().setHours(0, 0, 0, 0));
   private localeOptions = { year: 'numeric', month: 'long', timeZone: 'GMT' };
 
   public shouldComponentUpdate(nextProps, nextState) {
@@ -58,6 +62,13 @@ class Calendar extends React.Component<ICalendarProps, {}> {
     const key = `${this.currentMonth}-date-${date.month}-${date.date}`;
     const isFirstDate = this.props.selectedDates && this.props.selectedDates[0] === date.dateString;
     const isSelected = this.props.selectedDates && this.props.selectedDates.includes(date.dateString);
+    
+    const isDisabled = this.props.disablePastDates && date.dateString < this.today ||
+                      // @ts-ignore
+                       Boolean(this.props.minDate) && date.dateString < normalizeDate(this.props.minDate) ||
+                       // @ts-ignore
+                       Boolean(this.props.maxDate) && date.dateString > normalizeDate(this.props.maxDate);
+    
     return (
       <DateButton
         key={key}
@@ -69,7 +80,7 @@ class Calendar extends React.Component<ICalendarProps, {}> {
         isFirstDate={isFirstDate}
         isExtra={date.month !== this.currentMonth}
         isToday={this.today === date.dateString}
-        isDisabled={this.props.disablePastDates && date.dateString < this.today}
+        isDisabled={isDisabled}
       />
     );
   };

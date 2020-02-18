@@ -8,7 +8,7 @@ import Checkbox from 'pureUi/Checkbox';
 import Textarea from 'pureUi/Textarea';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 import DateRangeInput from 'pureUi/DateRangeInput';
-import { formatDate } from 'utils';
+import { formatDate, addDaysUTC, subDaysUTC } from 'utils';
 import { IValueLabelPair, IBookingGuestInformationForm } from '../../interfaces';
 import { BookingGuestInformationFormStyles } from './styles';
 
@@ -68,6 +68,13 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
       return draft;
     });
   };
+
+  const minDate = bookingGuestFormValues.flightArrivalDate ? 
+    addDaysUTC(bookingGuestFormValues.flightArrivalDate, 1) : null;
+  
+  const maxDate = bookingGuestFormValues.flightDepartureDate ? 
+    subDaysUTC(bookingGuestFormValues.flightDepartureDate, 1) : null;
+
 
   return (
     <BookingGuestInformationFormStyles>      
@@ -135,6 +142,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
               onPrevClick={params.decrementDate}
               onMouseDown={params.toggleDatePicker}
               onClickOutside={params.hideDatePicker}
+              maxDate={maxDate}
               />
               )}
               />
@@ -167,6 +175,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
                 onPrevClick={params.decrementDate}
                 onMouseDown={params.toggleDatePicker}
                 onClickOutside={params.hideDatePicker}
+                minDate={minDate}
               />
             )}
           />
