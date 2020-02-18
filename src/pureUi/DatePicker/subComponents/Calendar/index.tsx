@@ -62,12 +62,11 @@ class Calendar extends React.Component<ICalendarProps, {}> {
     const key = `${this.currentMonth}-date-${date.month}-${date.date}`;
     const isFirstDate = this.props.selectedDates && this.props.selectedDates[0] === date.dateString;
     const isSelected = this.props.selectedDates && this.props.selectedDates.includes(date.dateString);
-    
-    const isDisabled = this.props.disablePastDates && date.dateString < this.today ||
-                      // @ts-ignore 
-                       Boolean(this.props.minDate) && date.dateString < normalizeDate(this.props.minDate) ||
-                       // @ts-ignore 
-                       Boolean(this.props.maxDate) && date.dateString > normalizeDate(this.props.maxDate);
+
+    const isDisabledPastDate = this.props.disablePastDates && date.dateString < this.today;
+    const isBeforeMin = this.props.minDate && date.dateString < normalizeDate(this.props.minDate); 
+    const isAfterMax = this.props.maxDate && date.dateString > normalizeDate(this.props.maxDate);
+    const isDisabled = isDisabledPastDate || isBeforeMin || isAfterMax;
     
     return (
       <DateButton
