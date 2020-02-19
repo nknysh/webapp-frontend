@@ -70,10 +70,10 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
   };
 
   const minDate = bookingGuestFormValues.flightArrivalDate ? 
-    addDaysUTC(bookingGuestFormValues.flightArrivalDate, 1) : null;
+    addDaysUTC(bookingGuestFormValues.flightArrivalDate, 1).toISOString() : undefined;
   
   const maxDate = bookingGuestFormValues.flightDepartureDate ? 
-    subDaysUTC(bookingGuestFormValues.flightDepartureDate, 1) : null;
+    subDaysUTC(bookingGuestFormValues.flightDepartureDate, 1).toISOString() : undefined;
 
 
   return (

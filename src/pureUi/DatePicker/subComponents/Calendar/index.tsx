@@ -64,10 +64,10 @@ class Calendar extends React.Component<ICalendarProps, {}> {
     const isSelected = this.props.selectedDates && this.props.selectedDates.includes(date.dateString);
 
     const isDisabledPastDate = this.props.disablePastDates && date.dateString < this.today;
-    const isBeforeMin = this.props.minDate && date.dateString < normalizeDate(this.props.minDate); 
-    const isAfterMax = this.props.maxDate && date.dateString > normalizeDate(this.props.maxDate);
+    const isBeforeMin = Boolean(this.props.minDate && date.dateString < normalizeDate(this.props.minDate));
+    const isAfterMax = Boolean(this.props.maxDate && date.dateString > normalizeDate(this.props.maxDate));
     const isDisabled = isDisabledPastDate || isBeforeMin || isAfterMax;
-    
+
     return (
       <DateButton
         key={key}
