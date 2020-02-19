@@ -202,11 +202,15 @@ const renderModalContent = (t, { isOnRequest, paymentType, onModalSubmit, total,
     t('buttons.submitBookingRequest');
 
   return (
-    <StandardModal>
+    <>
       <ModalHeader>{title}</ModalHeader>
-      <ModalContent>{content}</ModalContent>
-      {renderModalForm({ onModalSubmit, buttonLabel, initialValues: { agreeToTerms: false } })}
-    </StandardModal>
+      <ModalContent>
+        <>
+          {content}
+          {renderModalForm({ onModalSubmit, buttonLabel, initialValues: { agreeToTerms: false } })}
+        </>
+      </ModalContent>
+    </>
   );
 };
 
