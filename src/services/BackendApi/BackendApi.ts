@@ -95,7 +95,7 @@ export class BackendApiService<T extends AxiosInstance> {
   };
 
   getHotelsAsHotelNames = async (): Promise<AxiosResponse<IHotelNamesResponse>> => {
-    const endpoint = `/hotels?fields[hotel]=uuid,name`;
+    const endpoint = `/hotels?fields[hotel]=uuid,name&sort=hotel.name`;
     return this.client.get(endpoint);
   };
 
