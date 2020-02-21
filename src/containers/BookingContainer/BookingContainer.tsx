@@ -29,6 +29,7 @@ import {
 import { AsideDetails, Title } from '../HotelContainer/HotelContainer.styles';
 import { List } from '@pure-escapes/webapp-ui-components';
 import BookingSummaryLite from 'pureUi/BookingSummaryLite';
+import BookingStatus from 'pureUi/BookingStatus';
 import { mapWithIndex } from 'utils';
 
 import BookingGuestDetails from './BookingGuestDetails';
@@ -58,9 +59,7 @@ const renderStatusStrip = (t, booking) => {
       <StatusStripDate>
         {t('labels.createdAt')} <Bolded>{formatDate(booking.createdAt, 'MMM d, yyyy')}</Bolded>
       </StatusStripDate>
-      <StatusStripStatus key={booking.status} data-status={booking.status}>
-        {booking.status}
-      </StatusStripStatus>
+      <StatusStripStatus status={booking.status} />
     </StatusStrip>
   );
 };
@@ -74,7 +73,7 @@ const BookingDetails = props => {
     <BookingContent>
       {isSr && isMobile && renderStatusStrip(t, booking)}
       <Section label={t('labels.bookingStatus')}>
-        <label>{t(`labels.${booking.status}`)}</label>
+        <BookingStatus status={booking.status} />
       </Section>
       <BookingGuestDetails t={t} isSr={isSr} booking={booking} />
     </BookingContent>
