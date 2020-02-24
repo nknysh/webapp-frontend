@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { Status } from '@pure-escapes/webapp-ui-components';
-
 import { theme, Heading2 } from 'styles';
 
 import { Main as BaseMain, Aside as BaseAside } from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
@@ -8,6 +6,7 @@ import {
   StatusStrip as BaseStatusStrip,
   StatusStripDate as BaseStatusStripDate,
 } from 'containers/ProposalContainer/ProposalContainer.styles';
+import BookingStatus from 'pureUi/BookingStatus';
 
 export { Back } from 'containers/HotelBookingContainer/HotelBookingContainer.styles';
 
@@ -37,9 +36,11 @@ export const StatusStripDate = styled(BaseStatusStripDate)`
   font-weight: ${theme.fonts.normal};
 `;
 
-export const StatusStripStatus = styled(Status)`
+export const StatusStripStatus = styled(BookingStatus)`
   flex: 0 0 auto;
   position: relative;
+  font-size: 14px;
+  text-transform: none;
 `;
 
 export const Main = styled(BaseMain)`

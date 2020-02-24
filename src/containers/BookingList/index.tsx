@@ -1,7 +1,7 @@
 import React, { FormEvent } from 'react';
 import { Table, THead, TBody, TRow, TH, TD } from 'pureUi/Table';
 import { LinkButton } from 'pureUi/Buttons';
-import { BookingListStylesWrapper } from './BookingListStylesWrapper';
+import { BookingListStylesWrapper, StyledLegacySelect } from './BookingListStylesWrapper';
 import { Heading2 } from 'styles';
 import TextInput from 'pureUi/TextInput';
 import { Pagination } from 'pureUi/Pagination';
@@ -12,6 +12,7 @@ import { IBookingsListItem } from 'services/BackendApi/types/BookingsListRespons
 import { Search } from '@material-ui/icons';
 import { formatDate } from 'utils';
 import Select from 'pureUi/Select';
+import BookingStatus from 'pureUi/BookingStatus';
 
 import { getUserCountryContext, isSR } from 'store/modules/auth';
 
@@ -42,15 +43,15 @@ import {
   getHotelNamesRequestAction,
 } from 'store/modules/bookingsList/actions';
 
-import { makeBackendApi } from 'services/BackendApi';
 import { getTravelAgentsRequestAction } from '../../store/modules/agents/actions';
 import { travelAgentSelectOptionsSelector } from '../../store/modules/agents/selectors';
 import { IValueLabelPair } from '../../interfaces';
-import { EBookingStatus } from '../../services/BackendApi/types/BookingsListResponse';
+
+const EMPTY_SELECT_VALUE = 'empty';
 
 export class BookingListContainer extends React.Component<IBookingListProps, {}> {
   bookingStatusOptions: IValueLabelPair[] = [
-    { value: '', label: 'All Statuses' },
+    { value: EMPTY_SELECT_VALUE, label: 'All Statuses' },
     { value: 'potential', label: 'Enquiries' },
     { value: 'requested', label: 'Requested' },
     { value: 'confirmed', label: 'Confirmed' },
@@ -96,14 +97,29 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
     return headingText;
   };
 
-  mapStatusToLabel = (bookingStatus: EBookingStatus) => {
-    switch (bookingStatus) {
-      case EBookingStatus.POTENTIAL:
-        return 'Enquiry'
-      default:
-        return bookingStatus
-    }
-  }
+  renderStatusSelect = () => {
+    const options = this.bookingStatusOptions.reduce(
+      (acc, cur) => ({
+        ...acc,
+        [cur.value]: cur.value === EMPTY_SELECT_VALUE
+          ? cur.label
+          : <BookingStatus  status={cur.value} />
+      }),
+      {}
+    );
+
+    return (
+      <StyledLegacySelect
+        value={this.props.selectedStatus || EMPTY_SELECT_VALUE}
+        options={options}
+        onChange={e => 
+          this.props.setSelectedStatus(
+            e.target.value === EMPTY_SELECT_VALUE ? '' : e.target.value
+          )
+        }
+      />
+    );
+  };
 
   render() {
     return (
@@ -123,13 +139,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
 
           <label>
             Status
-            <Select
-              value={this.props.selectedStatus || ''}
-              options={this.bookingStatusOptions}
-              onChange={e => {
-                this.props.setSelectedStatus(e.target.value);
-              }}
-            />
+            {this.renderStatusSelect()}
           </label>
 
           {this.props.isSr && (
@@ -206,7 +216,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
                     <TD>{`${booking.guestFirstName || ''} ${booking.guestLastName || ''}`.trimLeft()}</TD>
                     <TD>{formatDate(booking.createdAt, 'dd MMM yyyy')}</TD>
                     <TD>{booking.hotelName}</TD>
-                    <TD>{this.mapStatusToLabel(booking.status).toUpperCase()}</TD>
+                    <TD><BookingStatus status={booking.status}/></TD>
                     {this.props.isSr && (
                       <TD>
                         {booking.travelAgent.title}. {booking.travelAgent.firstName} {booking.travelAgent.lastName}
