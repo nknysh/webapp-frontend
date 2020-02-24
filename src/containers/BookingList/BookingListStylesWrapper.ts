@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
+import { Select as LegacySelect } from '@pure-escapes/webapp-ui-components';
 
 export const BookingListStylesWrapper = styled.section`
   width: 90%;
@@ -82,5 +83,14 @@ export const BookingListStylesWrapper = styled.section`
     height: 100%;
     color: ${pureUiTheme.colors.goldLight};
     margin-right: 10px;
+  }
+`;
+
+export const StyledLegacySelect = styled(LegacySelect)`
+  .material-select {
+    margin-top: 0;
+    font-size: 11px;
+    line-height: 13px;
+    text-transform: uppercase;
   }
 `;
