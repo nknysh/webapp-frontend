@@ -1,3 +1,10 @@
+export enum EBookingStatus {
+  POTENTIAL = 'potential',
+  REQUESTED = 'requested',
+  CONFIRMED = 'confirmed',
+  CANCELLED = 'cancelled',
+}
+
 export interface IBookingBooking {
   uuid: string;
   hotelUuid: string;
@@ -23,7 +30,7 @@ export interface IBookingsListItem {
   comments: string;
   taMarginType: string;
   taMarginAmount: string;
-  status: string;
+  status: EBookingStatus;
   flightArrivalDate: string;
   flightArrivalNumber: string;
   flightDepartureDate: string;

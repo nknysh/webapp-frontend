@@ -21,6 +21,7 @@ import {
 
 import { AvailableProductSets, IBooking } from 'services/BackendApi/types';
 import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
+import { BookingStatusTypes } from '../config/enums';
 
 export const getAvailableProductSetAccommodationForUuid = (
   uuid: string,
@@ -316,7 +317,7 @@ export const getOccassionsBreakdownForLodging = (accommodation: RequestedBuildAc
 export const getBookingsEndpointAttributesForBookingDomain = props => {
   const {
     bookingDomain,
-    bookingStatus = 'potential',
+    bookingStatus = BookingStatusTypes.POTENTIAL,
     placeHolds = false,
     proposalUuid = undefined,
   }: {

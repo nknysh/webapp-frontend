@@ -46,11 +46,12 @@ import { makeBackendApi } from 'services/BackendApi';
 import { getTravelAgentsRequestAction } from '../../store/modules/agents/actions';
 import { travelAgentSelectOptionsSelector } from '../../store/modules/agents/selectors';
 import { IValueLabelPair } from '../../interfaces';
+import { EBookingStatus } from '../../services/BackendApi/types/BookingsListResponse';
 
 export class BookingListContainer extends React.Component<IBookingListProps, {}> {
   bookingStatusOptions: IValueLabelPair[] = [
     { value: '', label: 'All Statuses' },
-    { value: 'potential', label: 'Potential' },
+    { value: 'potential', label: 'Enquiries' },
     { value: 'requested', label: 'Requested' },
     { value: 'confirmed', label: 'Confirmed' },
     { value: 'cancelled', label: 'Cancelled' },
@@ -94,6 +95,15 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
 
     return headingText;
   };
+
+  mapStatusToLabel = (bookingStatus: EBookingStatus) => {
+    switch (bookingStatus) {
+      case EBookingStatus.POTENTIAL:
+        return 'Enquiry'
+      default:
+        return bookingStatus
+    }
+  }
 
   render() {
     return (
@@ -196,7 +206,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
                     <TD>{`${booking.guestFirstName || ''} ${booking.guestLastName || ''}`.trimLeft()}</TD>
                     <TD>{formatDate(booking.createdAt, 'dd MMM yyyy')}</TD>
                     <TD>{booking.hotelName}</TD>
-                    <TD>{booking.status.toUpperCase()}</TD>
+                    <TD>{this.mapStatusToLabel(booking.status).toUpperCase()}</TD>
                     {this.props.isSr && (
                       <TD>
                         {booking.travelAgent.title}. {booking.travelAgent.firstName} {booking.travelAgent.lastName}

@@ -140,7 +140,7 @@ export const fetchProposal = (id, params) => async dispatch => {
 
 const someBookingsArePotential = (bookingKeys, bookings) => {
   return bookingKeys.reduce((res, key) => {
-    return bookings[key].status === 'potential' ? true : res;
+    return bookings[key].status === BookingStatusTypes.POTENTIAL ? true : res;
   }, false);
 };
 

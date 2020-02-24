@@ -36,6 +36,7 @@ import { formatPrice } from 'utils';
 import BookingSummaryLite from 'pureUi/BookingSummaryLite';
 
 import { StandardModal, ModalContent, ModalHeader } from 'pureUi/Modal';
+import { BookingStatusTypes } from '../../config/enums';
 
 export const simpleForm = pick(['guestTitle', 'guestFirstName', 'guestLastName']);
 export const withoutSections = over(lensProp('sections'), take(1));
@@ -307,9 +308,15 @@ export const HotelBookingContainer = ({
       setGuestFormValues(values);
       updateBooking(id, values);
 
-      // When form is submitted and we aare only holding, trigger the redux action
-      if (holdOnly)
-        return completeAndHold(id, pick(['guestFirstName', 'guestLastName', 'guestTitle'], values), 'potential', true);
+      // When form is submitted and we are only holding, trigger the redux action
+      if (holdOnly) {
+        return completeAndHold(
+          id,
+          pick(['guestFirstName', 'guestLastName', 'guestTitle'], values),
+          BookingStatusTypes.POTENTIAL,
+          true
+        );
+      }
 
       isMobile && isDetailsView ? setView(ViewType.REVIEW) : onModalOpen();
     },

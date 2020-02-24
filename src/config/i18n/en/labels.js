@@ -135,13 +135,13 @@ export default {
 
   searchForTA: 'Search for Travel Agent',
 
-  potential: 'Potential',
+  potential: 'Enquiries',
   requested: 'Requested',
   confirmed: 'Confirmed',
   cancelled: 'Cancelled',
 
   latestTa: {
-    [BookingStatusTypes.POTENTIAL]: "Latest TA's Potential Bookings",
+    [BookingStatusTypes.POTENTIAL]: "Latest TA's Enquiries Bookings",
     [BookingStatusTypes.REQUESTED]: "Latest TA's Requested Bookings",
     [BookingStatusTypes.CONFIRMED]: "Latest TA's Confirmed Bookings",
     [BookingStatusTypes.CANCELLED]: "Latest TA's Cancelled Bookings",
