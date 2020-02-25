@@ -8,10 +8,10 @@ export interface BookingStatusProps extends HTMLProps<HTMLDivElement> {
   status: string;
 }
 const statusToColorMap = {
-  [BookingStatusTypes.POTENTIAL]: colors.goldLight,
+  [BookingStatusTypes.POTENTIAL]: colors.warmGreen,
   [BookingStatusTypes.REQUESTED]: colors.yellow,
   [BookingStatusTypes.CONFIRMED]: colors.green,
-  [BookingStatusTypes.CANCELLED]: colors.gold
+  [BookingStatusTypes.CANCELLED]: colors.redFade
 };
 
 const Indicator = styled.div`
