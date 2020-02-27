@@ -11,7 +11,7 @@ import { bindActionCreators, Dispatch, compose } from 'redux';
 import { connect } from 'react-redux';
 import { IProposalsListItem } from 'services/BackendApi/types/ProposalsListResponse';
 import { Search } from '@material-ui/icons';
-import { formatDate } from 'utils';
+import { formatDateDisplay, formatDateRangeDisplay } from 'utils';
 import { min, max } from 'date-fns';
 
 import { getUserCountryContext, isSR } from 'store/modules/auth';
@@ -160,8 +160,11 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
                 if (proposal.bookings.length >= 1) {
                   const earliestDate = min(proposal.bookings.map(b => new Date(b.checkInDate!)));
                   const latestDate = max(proposal.bookings.map(b => new Date(b.checkOutDate!)));
-                  travelDate = `${formatDate(earliestDate)} - ${formatDate(latestDate)}`;
+                  travelDate = formatDateRangeDisplay(earliestDate, latestDate);
                 }
+
+                const formattedCreatedAt = formatDateDisplay(proposal.createdAt);
+                const formattedUpdatedAt = formatDateDisplay(proposal.updatedAt);
 
                 return (
                   <TRow key={proposal.uuid}>
@@ -171,11 +174,11 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
                     <TD title={`${proposal.guestFirstName || ''} ${proposal.guestLastName || ''}`.trimLeft()}>
                       {`${proposal.guestFirstName || ''} ${proposal.guestLastName || ''}`.trimLeft()}
                     </TD>
-                    <TD title={formatDate(proposal.createdAt, 'dd MMM yyyy')}>
-                      {formatDate(proposal.createdAt, 'dd MMM yyyy')}
+                    <TD title={formattedCreatedAt}>
+                      {formattedCreatedAt}
                     </TD>
-                    <TD title={formatDate(proposal.updatedAt, 'dd MMM yyyy')}>
-                      {formatDate(proposal.updatedAt, 'dd MMM yyyy')}
+                    <TD title={formattedUpdatedAt}>
+                      {formattedUpdatedAt}
                     </TD>
                     <TD className="centered">{proposal.bookings.length}</TD>
                     <TD className="centered">{hotelCount}</TD>

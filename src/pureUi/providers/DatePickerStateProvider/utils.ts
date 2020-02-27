@@ -1,6 +1,7 @@
 import { format, isSameMonth, isSameYear } from 'date-fns';
+import { formatDateRangeDisplay } from 'utils/date';
 
-export const getDateRangeDisplayString = (startDate: string, endDate: string): string => {
+export const getDateRangeDisplayStringDeprecated = (startDate: string, endDate: string): string => {
   if (!endDate) {
     return startDate ? format(new Date(startDate), 'LLL') : 'Select date range';
   }
@@ -30,4 +31,8 @@ export const getDateRangeDisplayString = (startDate: string, endDate: string): s
 
   //  Default same month/year
   return `${startDay} - ${endDay} ${startMonth} ${endYear}`;
+};
+
+export const getDateRangeDisplayString = (startDate: string, endDate: string): string => {
+  return formatDateRangeDisplay(startDate, endDate) || 'Select date range';
 };

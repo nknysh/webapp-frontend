@@ -10,7 +10,7 @@ import { bindActionCreators, Dispatch, compose } from 'redux';
 import { connect } from 'react-redux';
 import { IBookingsListItem } from 'services/BackendApi/types/BookingsListResponse';
 import { Search } from '@material-ui/icons';
-import { formatDate } from 'utils';
+import { formatDateDisplay } from 'utils';
 import Select from 'pureUi/Select';
 import BookingStatus from 'pureUi/BookingStatus';
 
@@ -214,7 +214,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
                   <TRow key={booking.uuid}>
                     <TD title={booking.uuid}>{booking.uuid}</TD>
                     <TD>{`${booking.guestFirstName || ''} ${booking.guestLastName || ''}`.trimLeft()}</TD>
-                    <TD>{formatDate(booking.createdAt, 'dd MMM yyyy')}</TD>
+                    <TD>{formatDateDisplay(booking.createdAt)}</TD>
                     <TD>{booking.hotelName}</TD>
                     <TD><BookingStatus status={booking.status}/></TD>
                     {this.props.isSr && (
