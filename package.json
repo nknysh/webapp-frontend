@@ -14,11 +14,12 @@
     "lint": "eslint --ext .jsx --ext .js src/",
     "prettier": "prettier 'src/**/*.{js,jsx,json,css,scss}' --write --single-quote=true --print-width=120 --trailing-comma=es5",
     "prod": "NODE_ENV=production webpack-dev-server --mode production --inline --progress",
-    "storybook": "start-storybook -p 9001 -c .storybook",
+    "storybook": "start-storybook -p 6006 -s ./src/styles/fonts",
     "test": "jest",
     "test:ci": "JEST_JUNIT_OUTPUT_DIR=\"tests/coverage\" jest --runInBand --ci --coverage --reporters=default --reporters=jest-junit",
     "test:coverage": "jest --coverage",
-    "typecheck": "tsc --noEmit --skipLibCheck true"
+    "typecheck": "tsc --noEmit --skipLibCheck true",
+    "build-storybook": "build-storybook"
   },
   "babel": {
     "env": {
@@ -106,9 +107,11 @@
     "@babel/preset-env": "7.7.1",
     "@babel/preset-flow": "7.0.0",
     "@babel/preset-react": "7.7.0",
-    "@storybook/addon-actions": "5.2.5",
+    "@storybook/addon-actions": "^5.3.14",
     "@storybook/addon-knobs": "5.2.5",
-    "@storybook/react": "5.2.5",
+    "@storybook/addon-links": "^5.3.14",
+    "@storybook/addons": "^5.3.14",
+    "@storybook/react": "^5.3.14",
     "@types/axios": "0.14.0",
     "@types/enzyme": "3.10.3",
     "@types/jest": "24.0.22",
