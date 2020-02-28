@@ -9,6 +9,7 @@ import { uniq, flatten, pipe, uniqBy } from 'ramda';
 
 // @ts-ignore
 import { formatPrice } from 'utils';
+import { formatDateRangeDisplay } from './date';
 
 import {
   BookingBuilderAvailableProductSets,
@@ -42,7 +43,7 @@ export const getNightsBreakdownForDates = (startDate: any, endDate: any, transla
   const amendedEndDate = addDays(new Date(endDate), 1);
 
   const nights = differenceInCalendarDays(amendedEndDate, new Date(startDate));
-  const dateRangeText = format(new Date(startDate), 'do LLL yyyy') + ' - ' + format(amendedEndDate, 'do LLL yyyy');
+  const dateRangeText = formatDateRangeDisplay(startDate, amendedEndDate);
 
   const nightSigular = translate ? translate('labels.nightSigular') : 'night';
   const nightPlural = translate ? translate('labels.nightPlural') : 'nights';

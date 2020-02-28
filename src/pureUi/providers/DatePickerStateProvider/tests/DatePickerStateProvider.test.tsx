@@ -52,7 +52,7 @@ beforeEach(() => {
 describe('DatePickerStateProvider', () => {
   it('initializes with the correct state', () => {
     mount(<DatePickerStateProvider {...defaultProps} />);
-    expect(testState.displayString).toEqual('17 - 31 Dec 2019');
+    expect(testState.displayString).toEqual('17 Dec 19 - 31 Dec 19');
     expect(testState.totalNights).toEqual(14);
     expect(testState.startDate).toEqual(defaultSelectedDates[0]);
     expect(testState.endDate).toEqual(defaultSelectedDates[14]);
@@ -74,7 +74,7 @@ describe('DatePickerStateProvider', () => {
       ReactDOM.render(<DatePickerStateProvider {...defaultProps} />, container);
       testState.handleDayClick(testDate);
     });
-    expect(testState.displayString).toEqual('1 Dec 2019');
+    expect(testState.displayString).toEqual('01 Dec 19');
     expect(testState.totalNights).toEqual(0);
     expect(testState.startDate).toEqual(testDate);
     expect(testState.endDate).toEqual(testDate);
@@ -98,7 +98,7 @@ describe('DatePickerStateProvider', () => {
       testState.handleDateMouseOver!(hoverDate);
     });
 
-    expect(testState.displayString).toEqual('1 - 4 Dec 2019');
+    expect(testState.displayString).toEqual('01 Dec 19 - 04 Dec 19');
     expect(testState.totalNights).toEqual(3);
     expect(testState.startDate).toEqual(testDate);
     expect(testState.endDate).toEqual(hoverDate);
@@ -211,7 +211,7 @@ describe('DatePickerStateProvider', () => {
         testState.handleDayClick(testDate);
       });
 
-      expect(testState.displayString).toEqual('1 Dec 2019');
+      expect(testState.displayString).toEqual('01 Dec 19');
       expect(testState.totalNights).toEqual(0);
       expect(testState.startDate).toEqual(testDate);
       expect(testState.endDate).toEqual(testDate);
