@@ -33,7 +33,7 @@ const BookingStatus = (props: BookingStatusProps) => {
   );
 };
 
-export default styled<BookingStatusProps>(BookingStatus)`
+export default styled(BookingStatus)`
   display: flex;
   align-items: center;
 `;

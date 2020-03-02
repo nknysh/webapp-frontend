@@ -16,6 +16,4 @@ const StyledBookingStatus = styled(BookingStatus)`
   font-size: 24px;
 `;
 
-export const LargeBookingStatus = () => (
-  <StyledBookingStatus status="potential" />
-);
+export const LargeBookingStatus = () => <StyledBookingStatus status="potential" />;
