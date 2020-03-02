@@ -49,7 +49,7 @@ export const colors = {
   redFade: '#FD5656',
   yellow: '#f5a623',
   green: '#56d1bf',
-  warmGreen: '#2cc663'
+  warmGreen: '#2cc663',
 };
 
 const colorRoles = {

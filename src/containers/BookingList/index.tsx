@@ -101,9 +101,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
     const options = this.bookingStatusOptions.reduce(
       (acc, cur) => ({
         ...acc,
-        [cur.value]: cur.value === EMPTY_SELECT_VALUE
-          ? cur.label
-          : <BookingStatus  status={cur.value} />
+        [cur.value]: cur.value === EMPTY_SELECT_VALUE ? cur.label : <BookingStatus status={cur.value} />,
       }),
       {}
     );
@@ -112,11 +110,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
       <StyledLegacySelect
         value={this.props.selectedStatus || EMPTY_SELECT_VALUE}
         options={options}
-        onChange={e => 
-          this.props.setSelectedStatus(
-            e.target.value === EMPTY_SELECT_VALUE ? '' : e.target.value
-          )
-        }
+        onChange={e => this.props.setSelectedStatus(e.target.value === EMPTY_SELECT_VALUE ? '' : e.target.value)}
       />
     );
   };
@@ -216,7 +210,9 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
                     <TD>{`${booking.guestFirstName || ''} ${booking.guestLastName || ''}`.trimLeft()}</TD>
                     <TD>{formatDateDisplay(booking.createdAt)}</TD>
                     <TD>{booking.hotelName}</TD>
-                    <TD><BookingStatus status={booking.status}/></TD>
+                    <TD>
+                      <BookingStatus status={booking.status} />
+                    </TD>
                     {this.props.isSr && (
                       <TD>
                         {booking.travelAgent.title}. {booking.travelAgent.firstName} {booking.travelAgent.lastName}
