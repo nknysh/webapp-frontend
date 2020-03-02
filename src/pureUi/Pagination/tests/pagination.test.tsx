@@ -57,4 +57,20 @@ describe('<Pagination />', () => {
       expect(nextButton.props().disabled).toBe(true);
     });
   });
+
+  // I can't figure out how to test this... needs an e2e test
+  // describe('Show all button', () => {
+  //   it('Does not render a show all button if not needed', () => {
+  //     act(() => {
+  //       // Change the viewport to 500px.
+  //       (global as any).innerWidth = 1000;
+
+  //       // Trigger the window resize event.
+  //       (global as any).dispatchEvent(new Event('resize'));
+  //     });
+
+  //     const bespokeSubject = mount(<Pagination currentPage={1} pageCount={1} onPageSelect={pageSelectSpy} />);
+  //     expect(bespokeSubject.exists('.showAll')).toBe(false);
+  //   });
+  // });
 });

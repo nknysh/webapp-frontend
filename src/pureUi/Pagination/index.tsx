@@ -13,11 +13,11 @@ const buttonMargin = 5;
 export const getStartIdex = (currentPage: number, totalPages: number, maxItems: number): number => {
   const remainingPages = totalPages - currentPage;
 
-  if (currentPage > maxItems && remainingPages > maxItems) {
+  if (currentPage >= maxItems && remainingPages >= maxItems) {
     return currentPage - Math.floor(maxItems / 2) - 1;
   }
 
-  if (currentPage > maxItems && remainingPages < maxItems) {
+  if (currentPage >= maxItems && remainingPages <= maxItems) {
     return totalPages - maxItems;
   }
 
@@ -103,8 +103,8 @@ export const PaginationComponent = (props: IPaginationProps) => {
             }
 
             const buttonAbsoluteSize = buttonMargin * 2 + buttonSize;
-            const maxItems = Math.floor(ancestorDimensions.width / buttonAbsoluteSize) - 1;
-            const buttonCount = maxItems < props.pageCount ? maxItems : props.pageCount;
+            const maxItems = Math.floor(ancestorDimensions.width / buttonAbsoluteSize);
+            const buttonCount = maxItems < props.pageCount ? maxItems - 1 : props.pageCount;
             const startIndex = getStartIdex(props.currentPage, props.pageCount, maxItems);
 
             return (
@@ -120,7 +120,7 @@ export const PaginationComponent = (props: IPaginationProps) => {
                     {startIndex + idx + 1}
                   </PaginationButton>
                 ))}
-                {props.pageCount >= maxItems && (
+                {props.pageCount > maxItems && (
                   <PaginationButton data-role="show all button" onClick={toggleShowAll} className="showAll">
                     ...
                   </PaginationButton>
