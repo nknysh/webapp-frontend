@@ -180,12 +180,17 @@ exports[`<Footer /> render matches snapshot 1`] = `
           },
           "palette": Object {
             "action": Object {
+              "activatedOpacity": 0.12,
               "active": "rgba(0, 0, 0, 0.54)",
               "disabled": "rgba(0, 0, 0, 0.26)",
               "disabledBackground": "rgba(0, 0, 0, 0.12)",
-              "hover": "rgba(0, 0, 0, 0.08)",
-              "hoverOpacity": 0.08,
-              "selected": "rgba(0, 0, 0, 0.14)",
+              "disabledOpacity": 0.38,
+              "focus": "rgba(0, 0, 0, 0.12)",
+              "focusOpacity": 0.12,
+              "hover": "rgba(0, 0, 0, 0.04)",
+              "hoverOpacity": 0.04,
+              "selected": "rgba(0, 0, 0, 0.08)",
+              "selectedOpacity": 0.08,
             },
             "augmentColor": [Function],
             "background": Object {
@@ -221,6 +226,12 @@ exports[`<Footer /> render matches snapshot 1`] = `
               "A400": "#303030",
               "A700": "#616161",
             },
+            "info": Object {
+              "contrastText": "#fff",
+              "dark": "#1976d2",
+              "light": "#64b5f6",
+              "main": "#2196f3",
+            },
             "primary": Object {
               "contrastText": "#fff",
               "dark": "rgb(112, 91, 70)",
@@ -233,6 +244,12 @@ exports[`<Footer /> render matches snapshot 1`] = `
               "light": "rgb(95, 84, 77)",
               "main": "#382A21",
             },
+            "success": Object {
+              "contrastText": "rgba(0, 0, 0, 0.87)",
+              "dark": "#388e3c",
+              "light": "#81c784",
+              "main": "#4caf50",
+            },
             "text": Object {
               "disabled": "rgba(0, 0, 0, 0.38)",
               "hint": "rgba(0, 0, 0, 0.38)",
@@ -241,6 +258,12 @@ exports[`<Footer /> render matches snapshot 1`] = `
             },
             "tonalOffset": 0.2,
             "type": "light",
+            "warning": Object {
+              "contrastText": "rgba(0, 0, 0, 0.87)",
+              "dark": "#f57c00",
+              "light": "#ffb74d",
+              "main": "#ff9800",
+            },
           },
           "props": Object {},
           "shadows": Array [
@@ -329,31 +352,31 @@ exports[`<Footer /> render matches snapshot 1`] = `
               "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
               "fontSize": "6rem",
               "fontWeight": 300,
-              "lineHeight": 1,
+              "lineHeight": 1.167,
             },
             "h2": Object {
               "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
               "fontSize": "3.75rem",
               "fontWeight": 300,
-              "lineHeight": 1,
+              "lineHeight": 1.2,
             },
             "h3": Object {
               "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
               "fontSize": "3rem",
               "fontWeight": 400,
-              "lineHeight": 1.04,
+              "lineHeight": 1.167,
             },
             "h4": Object {
               "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
               "fontSize": "2.125rem",
               "fontWeight": 400,
-              "lineHeight": 1.17,
+              "lineHeight": 1.235,
             },
             "h5": Object {
               "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
               "fontSize": "1.5rem",
               "fontWeight": 400,
-              "lineHeight": 1.33,
+              "lineHeight": 1.334,
             },
             "h6": Object {
               "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
@@ -612,12 +635,17 @@ exports[`<Footer /> render matches snapshot 1`] = `
                   },
                   "palette": Object {
                     "action": Object {
+                      "activatedOpacity": 0.12,
                       "active": "rgba(0, 0, 0, 0.54)",
                       "disabled": "rgba(0, 0, 0, 0.26)",
                       "disabledBackground": "rgba(0, 0, 0, 0.12)",
-                      "hover": "rgba(0, 0, 0, 0.08)",
-                      "hoverOpacity": 0.08,
-                      "selected": "rgba(0, 0, 0, 0.14)",
+                      "disabledOpacity": 0.38,
+                      "focus": "rgba(0, 0, 0, 0.12)",
+                      "focusOpacity": 0.12,
+                      "hover": "rgba(0, 0, 0, 0.04)",
+                      "hoverOpacity": 0.04,
+                      "selected": "rgba(0, 0, 0, 0.08)",
+                      "selectedOpacity": 0.08,
                     },
                     "augmentColor": [Function],
                     "background": Object {
@@ -653,6 +681,12 @@ exports[`<Footer /> render matches snapshot 1`] = `
                       "A400": "#303030",
                       "A700": "#616161",
                     },
+                    "info": Object {
+                      "contrastText": "#fff",
+                      "dark": "#1976d2",
+                      "light": "#64b5f6",
+                      "main": "#2196f3",
+                    },
                     "primary": Object {
                       "contrastText": "#fff",
                       "dark": "rgb(112, 91, 70)",
@@ -665,6 +699,12 @@ exports[`<Footer /> render matches snapshot 1`] = `
                       "light": "rgb(95, 84, 77)",
                       "main": "#382A21",
                     },
+                    "success": Object {
+                      "contrastText": "rgba(0, 0, 0, 0.87)",
+                      "dark": "#388e3c",
+                      "light": "#81c784",
+                      "main": "#4caf50",
+                    },
                     "text": Object {
                       "disabled": "rgba(0, 0, 0, 0.38)",
                       "hint": "rgba(0, 0, 0, 0.38)",
@@ -673,6 +713,12 @@ exports[`<Footer /> render matches snapshot 1`] = `
                     },
                     "tonalOffset": 0.2,
                     "type": "light",
+                    "warning": Object {
+                      "contrastText": "rgba(0, 0, 0, 0.87)",
+                      "dark": "#f57c00",
+                      "light": "#ffb74d",
+                      "main": "#ff9800",
+                    },
                   },
                   "props": Object {},
                   "shadows": Array [
@@ -761,31 +807,31 @@ exports[`<Footer /> render matches snapshot 1`] = `
                       "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
                       "fontSize": "6rem",
                       "fontWeight": 300,
-                      "lineHeight": 1,
+                      "lineHeight": 1.167,
                     },
                     "h2": Object {
                       "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
                       "fontSize": "3.75rem",
                       "fontWeight": 300,
-                      "lineHeight": 1,
+                      "lineHeight": 1.2,
                     },
                     "h3": Object {
                       "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
                       "fontSize": "3rem",
                       "fontWeight": 400,
-                      "lineHeight": 1.04,
+                      "lineHeight": 1.167,
                     },
                     "h4": Object {
                       "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
                       "fontSize": "2.125rem",
                       "fontWeight": 400,
-                      "lineHeight": 1.17,
+                      "lineHeight": 1.235,
                     },
                     "h5": Object {
                       "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",
                       "fontSize": "1.5rem",
                       "fontWeight": 400,
-                      "lineHeight": 1.33,
+                      "lineHeight": 1.334,
                     },
                     "h6": Object {
                       "fontFamily": "HurmeGeometricSans2, \\"Open Sans\\", sans-serif",

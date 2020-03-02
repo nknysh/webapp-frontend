@@ -1,4 +1,4 @@
-import { Meta, Story, Preview, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Preview, Source, Props } from '@storybook/addon-docs/blocks';
 import BookingStatus from './';
 import { AllBookingStatuses, LargeBookingStatus } from './stories';
 
@@ -7,6 +7,7 @@ import { AllBookingStatuses, LargeBookingStatus } from './stories';
 # BookingStatus
 *BookingStatus* is a label with color indicator corresponding to a booking status.
 
+<Props of={BookingStatus} />
 
 <Preview>
   <Story name="All booking statuses">
