@@ -33,6 +33,7 @@ module.exports = {
   testMatch: ['**/?(*.)+(spec|test).+(ts|tsx|js|jsx)'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)?$': 'ts-jest',
+    "^.+\\.mdx$": "@storybook/addon-docs/jest-transform-mdx"
   },
   globals: {
     'ts-jest': {

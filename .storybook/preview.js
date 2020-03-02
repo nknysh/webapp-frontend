@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { createGlobalStyle } from 'styled-components';
 import { addDecorator } from '@storybook/react';
 
 import { ThemeProvider } from 'styled-components';
@@ -9,11 +10,18 @@ import '../src/styles/fonts/NoeDisplay.css';
 
 import '../src/config/i18n';
 
+export const StorybookStyle = createGlobalStyle`
+  body {
+    padding: 25px;
+  }
+`;
+
 addDecorator(
   storyFn => 
     <ThemeProvider theme={theme}>
       <GlobalFonts/>
       <GlobalStyle />
+      <StorybookStyle />
       {storyFn()}
     </ThemeProvider>
 );
