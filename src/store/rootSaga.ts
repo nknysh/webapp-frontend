@@ -10,6 +10,8 @@ import { watchGetBookingsList } from './modules/bookingsList/sagas/bookingsListS
 import { watchGetTravelAgentsRequest } from './modules/agents/sagas/getTravelAgentsSaga';
 import { watchGetHotelNames } from './modules/bookingsList/sagas/hotelNamesSaga';
 import { watchUpdateQueryString } from './modules/fastSearch/sagas/updateQueryStringSaga';
+import { watchGetOffersList } from './modules/offersList/sagas/offersListSaga';
+import { watchConfirmRequestToDeleteOffersSaga } from './modules/offersList/sagas/offersListDeleteSaga';
 
 export default function* searchSagas() {
   const sagas = [
@@ -24,6 +26,8 @@ export default function* searchSagas() {
     watchGetTravelAgentsRequest,
     watchGetHotelNames,
     watchUpdateQueryString,
+    watchGetOffersList,
+    watchConfirmRequestToDeleteOffersSaga,
   ];
 
   yield all(

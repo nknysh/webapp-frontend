@@ -50,6 +50,7 @@ export const colors = {
   yellow: '#f5a623',
   green: '#56d1bf',
   warmGreen: '#2cc663',
+  redLight: '#fed7d7',
 };
 
 const colorRoles = {

@@ -13,8 +13,6 @@ export const getProposalListRequestAction = () => ({
   type: GET_PROPOSAL_LIST_REQUEST as typeof GET_PROPOSAL_LIST_REQUEST,
 });
 
-export const c = foo => foo * 2;
-
 export type GetProposalListSuccessAction = ReturnType<typeof getProposalListSuccessAction>;
 export const getProposalListSuccessAction = (proposals: IProposalsListItem[], totalResults: number) => ({
   type: GET_PROPOSAL_LIST_SUCCESS as typeof GET_PROPOSAL_LIST_SUCCESS,
@@ -35,7 +33,7 @@ export const setFilterAction = (filter: string) => ({
 });
 
 export type SetPageNumberAction = ReturnType<typeof setPageNumberAction>;
-export const setPageNumberAction = (pageNumber: any) => ({
+export const setPageNumberAction = (pageNumber: number) => ({
   type: SET_PAGE_NUMBER as typeof SET_PAGE_NUMBER,
   pageNumber,
 });

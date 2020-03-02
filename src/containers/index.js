@@ -28,3 +28,5 @@ export { default as SummaryRoomEdit } from './SummaryRoomEdit';
 export { default as UserPanel } from './UserPanel';
 export { default as ProposalListContainer } from './ProposalList';
 export { default as BookingListContainer } from './BookingList';
+export { default as OffersViewContainer } from './OffersView';
+export { default as OffersListContainer } from './OffersList';

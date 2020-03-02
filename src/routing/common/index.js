@@ -8,3 +8,4 @@ export { default as proposals } from './proposals';
 export { default as root } from './root';
 export { default as search } from './search';
 export { default as user } from './user';
+export { default as offers } from './offers';

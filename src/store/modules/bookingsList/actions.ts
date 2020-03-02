@@ -57,7 +57,7 @@ export const setFilterAction = (filter: string) => ({
 });
 
 export type SetPageNumberAction = ReturnType<typeof setPageNumberAction>;
-export const setPageNumberAction = (pageNumber: any) => ({
+export const setPageNumberAction = (pageNumber: number) => ({
   type: SET_PAGE_NUMBER as typeof SET_PAGE_NUMBER,
   pageNumber,
 });

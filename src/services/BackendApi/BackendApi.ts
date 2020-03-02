@@ -22,6 +22,7 @@ import { IProposalsListResponse } from './types/ProposalsListResponse';
 import { IBookingsListResponse } from './types/BookingsListResponse';
 import { ITravelAgentRespone } from './types/TravelAgentResponse';
 import { IHotelNamesResponse } from './types/HotelNamesResponse';
+import { IOffersListResponse, IOffersDeleteResponse } from './types/OffersListResponse';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -31,7 +32,8 @@ export enum BackendEndpoints {
   HOTEL = 'hotels',
   BOOKINGS = 'bookings',
   PROPOSALS = 'proposals',
-  AUTH0_LOGIN = 'users/auth0/login'
+  AUTH0_LOGIN = 'users/auth0/login',
+  OFFERS = 'offers',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -97,6 +99,23 @@ export class BackendApiService<T extends AxiosInstance> {
   getHotelsAsHotelNames = async (): Promise<AxiosResponse<IHotelNamesResponse>> => {
     const endpoint = `/hotels?fields[hotel]=uuid,name&sort=hotel.name`;
     return this.client.get(endpoint);
+  };
+
+  getOffersList = async (query): Promise<AxiosResponse<IOffersListResponse>> => {
+    const endpoint = `${BackendEndpoints.OFFERS}`;
+    return this.client.get(endpoint, { params: query });
+  };
+
+  deleteOffers = async (uuids): Promise<AxiosResponse<IOffersDeleteResponse> | undefined> => {
+    if (uuids.length <= 0) {
+      return;
+    }
+
+    let query = '?';
+    query += uuids.map(uuid => `filter[offer][uuid:id][]=${uuid}`).join('&');
+
+    const endpoint = `${BackendEndpoints.OFFERS}${query}`;
+    return this.client.delete(endpoint);
   };
 
   sanitizQueryObject = (query: SearchQuery): SearchQuery => {

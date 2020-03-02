@@ -36,8 +36,7 @@ export default {
     },
     {
       title: 'Offers',
-      href: `${ADMIN_BASE_URL}/offers`,
-      hard: true,
+      href: `/offers`,
     },
     {
       title: 'Content',
@@ -87,8 +86,7 @@ export default {
     },
     {
       title: 'Offers',
-      href: `${ADMIN_BASE_URL}/offers`,
-      hard: true,
+      href: `/offers`,
     },
     {
       title: 'Content',
