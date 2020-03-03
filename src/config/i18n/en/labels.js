@@ -135,7 +135,7 @@ export default {
 
   searchForTA: 'Search for Travel Agent',
 
-  potential: 'Enquiries',
+  potential: 'Enquiry',
   requested: 'Requested',
   confirmed: 'Confirmed',
   cancelled: 'Cancelled',

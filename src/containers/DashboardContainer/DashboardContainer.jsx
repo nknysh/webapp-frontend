@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { equals, map, partial, values, prop, compose, isEmpty } from 'ramda';
-import {
-  Loader,
-  Table,
-  TableData,
-  TableDataStatus,
-  TableShowButton,
-  Container,
-} from '@pure-escapes/webapp-ui-components';
+import { Loader, Table, TableData, TableShowButton, Container } from '@pure-escapes/webapp-ui-components';
 
 import { ADMIN_BASE_URL } from 'config';
 import { BookingStatusTypes } from 'config/enums';
@@ -17,6 +10,7 @@ import { useFetchData } from 'effects';
 import connect from './DashboardContainer.state';
 import { propTypes, defaultProps } from './DashboardContainer.props';
 import { Dashboard, DashboardContent, Sidebar, SidebarItem, ShowAll } from './DashboardContainer.styles';
+import BookingStatus from 'pureUi/BookingStatus';
 
 const renderSidebarItem = (t, { tableContext, setTableContext }, status) => (
   <SidebarItem data-active={equals(status, tableContext)} key={status} onClick={() => setTableContext(status)}>
@@ -26,11 +20,12 @@ const renderSidebarItem = (t, { tableContext, setTableContext }, status) => (
 
 const renderSidebarLinks = (t, props) => values(map(partial(renderSidebarItem, [t, props]), BookingStatusTypes));
 
+const BookingStatusTableData = ({ record }) => (record ? <BookingStatus status={record.status} /> : null);
+
 export const DashboardContainer = ({ bookingsStatus, fetchBookings, bookings }) => {
   const { t } = useTranslation();
   const [tableContext, setTableContext] = useState(BookingStatusTypes.POTENTIAL);
   const loaded = useFetchData(bookingsStatus, fetchBookings, undefined, [isEmpty(bookings)]);
-
   return (
     <Container>
       <Dashboard>
@@ -44,7 +39,7 @@ export const DashboardContainer = ({ bookingsStatus, fetchBookings, bookings }) 
                 label={t('travelAgent')}
                 source={['travelAgentUserUuid.firstName', 'travelAgentUserUuid.lastName']}
               />
-              <TableDataStatus label={t('labels.status')} source="status" />
+              <BookingStatusTableData label={t('Status')} />
               <TableShowButton source="uuid" basePath="/bookings" />
             </Table>
           </Loader>
@@ -59,5 +54,8 @@ export const DashboardContainer = ({ bookingsStatus, fetchBookings, bookings }) 
 
 DashboardContainer.propTypes = propTypes;
 DashboardContainer.defaultProps = defaultProps;
+
+BookingStatusTableData.propTypes = propTypes;
+BookingStatusTableData.defaultProps = defaultProps;
 
 export default compose(connect)(DashboardContainer);
