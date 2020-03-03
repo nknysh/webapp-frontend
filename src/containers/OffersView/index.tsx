@@ -288,11 +288,7 @@ const _OffersView = (props: IOffersViewProps) => {
 
   const backendApi = makeBackendApi(props.actingCountryCode);
 
-  const compareOffers = (offerA: IOffersViewResponseOffer, offerB: IOffersViewResponseOffer) => {
-    return offerA.order - offerB.order;
-  };
-  // load the offer, its sub offers (combines with and cannot combines with) and any data
-  // required to render its prerequisites (accommodation products)
+  // load the offer, its associated offers, its associated products, and its sister offers
   useEffect(() => {
     backendApi
       .getOffer(id)
@@ -302,8 +298,9 @@ const _OffersView = (props: IOffersViewProps) => {
       })
       .then((offer: IOffersViewResponseOffer) => {
         backendApi.getOffersForHotel(offer.hotelUuid).then(results => {
-          results.data.data.sort(compareOffers);
-          console.log('results.data.data', results.data.data);
+          results.data.data.sort((offerA: IOffersViewResponseOffer, offerB: IOffersViewResponseOffer) => {
+            return offerA.order - offerB.order;
+          });
           setOrderedOffersOnHotel(results.data.data);
         });
 
