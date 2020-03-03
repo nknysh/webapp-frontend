@@ -277,4 +277,13 @@ export default {
   sr: 'Sales Representative',
   rl: 'Rates Loader',
   admin: 'Admin',
+
+  prerequisites: {
+    dates: 'Stay Between',
+    maximumLodgingsInBooking: 'Maximum Lodgings in Booking',
+    advance: 'advance',
+    stayLength: 'stayLength',
+    countryCodes: 'countryCodes',
+    accommodationProducts: 'accommodationProducts',
+  },
 };

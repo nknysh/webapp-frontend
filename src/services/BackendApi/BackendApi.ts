@@ -35,6 +35,7 @@ export enum BackendEndpoints {
   PROPOSALS = 'proposals',
   AUTH0_LOGIN = 'users/auth0/login',
   OFFERS = 'offers',
+  PRODUCTS = 'products',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -99,6 +100,28 @@ export class BackendApiService<T extends AxiosInstance> {
 
   getHotelsAsHotelNames = async (): Promise<AxiosResponse<IHotelNamesResponse>> => {
     const endpoint = `/hotels?fields[hotel]=uuid,name&sort=hotel.name`;
+    return this.client.get(endpoint);
+  };
+
+  getOffer = async (uuid: string): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.OFFERS}/${uuid}?associations=hotel&fields[hotel]=name`;
+    return this.client.get(endpoint);
+  };
+
+  getOffersAsUuidAndName = async (uuids: string[]): Promise<AxiosResponse> => {
+    const filter = uuids.map(uuid => `filter[offer][uuid:in][]=${uuid}`).join('&');
+    const endpoint = `${BackendEndpoints.OFFERS}?fields[offer]=uuid,name&${filter}`;
+    return this.client.get(endpoint);
+  };
+
+  getOffersForHotel = async (hotelUuid: string): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.OFFERS}?fields[offer]=uuid,name,order&filter[offer][hotelUuid]=${hotelUuid}`;
+    return this.client.get(endpoint);
+  };
+
+  getProductsAsUuidAndName = async (uuids: string[]): Promise<AxiosResponse> => {
+    const filter = uuids.map(uuid => `filter[product][uuid:in][]=${uuid}`).join('&');
+    const endpoint = `${BackendEndpoints.PRODUCTS}?fields[product]=uuid,name&${filter}`;
     return this.client.get(endpoint);
   };
 
