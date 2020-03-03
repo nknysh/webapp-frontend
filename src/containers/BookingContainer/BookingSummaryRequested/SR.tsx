@@ -10,7 +10,10 @@ import { makeBackendApi } from 'services/BackendApi';
 import { formatDate } from 'utils';
 import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
 import { isNilOrEmpty } from 'ramda-adjunct';
-import { Heading1 } from 'styles';
+import { Heading1, P } from 'styles';
+import { Label } from 'pureUi/Label';
+import { Text } from 'pureUi/typography';
+import {validHoldHours} from '../helpers';
 
 const BookingSummaryPotentialSR = props => {
   const newBooking: BookingBuilderDomain = props.newBooking;
@@ -109,11 +112,23 @@ const BookingSummaryPotentialSR = props => {
   const [isOverrideHoldModalOpen, setIsOverrideHoldModalOpen] = useState(false);
   const [isConfirmPlaceHoldPending, setIsConfirmPlaceHoldPending] = useState(false);
   const [isUpdateHoldHoursPending, setIsUpdateHoldHoursPending] = useState(false);
+  const [updatedHoldExpiry, setUpdatedHoldExpiry] = useState<string | null>(null);
   const [holdHours, setHoldHours] = useState('24');
+
+
+  const handleHoldHoursChange = (value: string) => {
+    if(validHoldHours(value)) {
+      setHoldHours(value);
+    }
+  }
+
   const handleUpdateHoldHours = () => {
     setIsUpdateHoldHoursPending(true);
     try {
-      backendApi.updateHoldHoursForBooking(newBooking.uuid!, holdHours);
+      backendApi.updateHoldHoursForBooking(newBooking.uuid!, holdHours)
+      .then(json => {
+        setUpdatedHoldExpiry(json.data.data.fullHoldsExpires);
+      });
     } catch (e) {
       console.error(`Error ${e}`);
     } finally {
@@ -140,34 +155,35 @@ const BookingSummaryPotentialSR = props => {
     <React.Fragment>
       <AsideDetails>
         <Title>Grand Total</Title>
-        <label>Grand Total Override</label>
-        <TextInput value={overrideTotal} onChange={e => setTotalOverride(e.currentTarget.value)} />
-        <div className="mt-4">
-          <PrimaryButton disabled={isConfirmTotalOverridePending} onClick={handleConfirmOverrideTotal}>
-            Save Grand Total Override
-          </PrimaryButton>
-        </div>
+        <Label text="Grand Total Override">
+          <TextInput value={overrideTotal} onChange={e => setTotalOverride(e.currentTarget.value)} />
+        </Label>
+        <PrimaryButton className="mt-4" disabled={isConfirmTotalOverridePending} onClick={handleConfirmOverrideTotal}>
+          Save Grand Total Override
+        </PrimaryButton>
       </AsideDetails>
 
       <AsideDetails>
         <Title>Comments</Title>
         <div className="mt-4">
-          <label>Booking Comments</label>
-          <Textarea
-            value={localBookingCommentsState}
-            onChange={e => {
-              setLocalBookingCommentsState(e.target.value);
-            }}
-          />
+          <Label text="Booking Comments">
+            <Textarea
+              value={localBookingCommentsState}
+              onChange={e => {
+                setLocalBookingCommentsState(e.target.value);
+              }}
+            />
+          </Label>
         </div>
         <div className="mt-4 mb-4">
-          <label>Internal Comments</label>
-          <Textarea
-            value={localInternalCommentsState}
-            onChange={e => {
-              setLocalInternalCommentsState(e.target.value);
-            }}
-          />
+          <Label text="Internal Comments">
+            <Textarea
+              value={localInternalCommentsState}
+              onChange={e => {
+                setLocalInternalCommentsState(e.target.value);
+              }}
+            />
+          </Label>
         </div>
         <PrimaryButton disabled={isUpdateCommentsPending} onClick={handleUpdateComments}>
           Save All Comments
@@ -186,25 +202,27 @@ const BookingSummaryPotentialSR = props => {
       {isHeld && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is being held.</p>
-          <p>
-            It will expire {formatDate(props.holds.fullHoldsExpires)} at{' '}
-            {formatDate(props.holds.fullHoldsExpires, 'h:ma')}
-          </p>
+          <Text>This booking is being held.</Text>
+          <Text>
+            It will expire {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires)} at{' '}
+            {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires, 'h:mma')}
+          </Text>
           <PrimaryButton onClick={() => releaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
           <div className="mt-4">
-            <label>Hold Hours</label>
-            <div className="flex mt-4">
-              <div className="w-50 pr-2">
-                <TextInput type="number" min={1} max={24} value={holdHours} onChange={e => setHoldHours(e.currentTarget.value)} />
-              </div>
-
-              <div className="w-50 pl-2">
-                <PrimaryButton disabled={isUpdateHoldHoursPending} onClick={handleUpdateHoldHours}>
-                  Update Hold Hours
-                </PrimaryButton>
-              </div>
-            </div>
+            <Label text="Hold Hours">
+              <span className="number-input-form">
+              <TextInput 
+                inputmode="numeric"
+                pattern="[0-9]*" 
+                min={1} max={24} 
+                value={holdHours} 
+                onChange={e => handleHoldHoursChange(e.currentTarget.value)} 
+              />
+              <PrimaryButton disabled={isUpdateHoldHoursPending} onClick={handleUpdateHoldHours}>
+                Update Hold Hours
+              </PrimaryButton>
+              </span>
+            </Label>
           </div>
         </AsideDetails>
       )}
@@ -212,7 +230,7 @@ const BookingSummaryPotentialSR = props => {
       {!isHeld && canHold && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is currently not being held</p>
+          <Text>This booking is currently not being held</Text>
           <PrimaryButton onClick={() => addHoldToBooking(newBooking.uuid)}>Hold for 24 Hours</PrimaryButton>
         </AsideDetails>
       )}
@@ -220,8 +238,8 @@ const BookingSummaryPotentialSR = props => {
       {!isHeld && !canHold && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is currently not being held</p>
-          <p>This booking is not available to hold</p>
+          <Text>This booking is currently not being held</Text>
+          <Text>This booking is not available to hold</Text>
 
           <PrimaryButton onClick={() => setIsOverrideHoldModalOpen(true)}>Place Hold</PrimaryButton>
 
@@ -229,9 +247,9 @@ const BookingSummaryPotentialSR = props => {
             <StandardModal onClose={() => setIsOverrideHoldModalOpen(false)}>
               <ModalContent>
               <h3>Warning!</h3>
-              <p>The system reports that this booking is not available to hold</p>
-              <p>However, you have permission to override this, and place a hold regardless</p>
-              <p>If you place a hold, you should contact the hotel</p>
+              <Text>The system reports that this booking is not available to hold</Text>
+              <Text>However, you have permission to override this, and place a hold regardless</Text>
+              <Text>If you place a hold, you should contact the hotel</Text>
               </ModalContent>
               <ModalFooter>
               <PrimaryButton disabled={isConfirmPlaceHoldPending} onClick={handleConfirmOverrideAndPlaceHold}>
@@ -246,12 +264,12 @@ const BookingSummaryPotentialSR = props => {
       {/* Confirm aside */}
       <AsideDetails>
         <Title>Confirm</Title>
-        {canConfirm && <p>You can confirm this booking</p>}
+        {canConfirm && <Text>You can confirm this booking</Text>}
         {!canConfirm && (
-          <p>
+          <Text>
             This booking can only be confirmed once an override total, booking comments and internal comments have been
             set
-          </p>
+          </Text>
         )}
         <PrimaryButton disabled={!canConfirm || isConfirmBookingPending} onClick={() => setIsConfirmModalOpen(true)}>
           Confirm Booking
@@ -278,11 +296,11 @@ const BookingSummaryPotentialSR = props => {
       {canCancel && (
         <AsideDetails>
           <Title>{props.t('labels.cancellation')}</Title>
-          <p>You can cancel and restart this booking</p>
-          <p>
+          <Text>You can cancel and restart this booking</Text>
+          <Text>
             This will mark the booking as cancelled, and you will be redirected to the resort page to restart the
             booking process
-          </p>
+          </Text>
           <PrimaryButton onClick={e => setIsCancelModalOpen(true)}>Cancel & Restart Booking</PrimaryButton>
 
           {isCancelModalOpen && (

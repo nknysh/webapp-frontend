@@ -1,0 +1,29 @@
+import { Meta, Story, Preview, Source, Props } from '@storybook/addon-docs/blocks';
+import { TextInput } from './';
+import { AllTextInputs } from './stories';
+
+<Meta title="PureUi/TextInput" component={TextInput} />
+
+# TextInput
+
+<Preview>
+  <Story name="All Text Inputs">
+    <AllTextInputs />
+  </Story>
+</Preview>
+
+## Numeric values
+
+See https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/
+
+In this example, the `inputype="numeric"` attribute does not restrict input, but does present the user with the correct input UI on certain devices. Input restriction would need to be handled with an event handler, for examples
+
+```
+const handleNumChange = value => {
+  if (!isNaN(value) || value === '.') {
+    setNumValue(value);
+  }
+};
+```
+
+_Note_: This handler is not i18n aware. In production, it would need more robust checking to handle different systems for decimal and thousands seperators.

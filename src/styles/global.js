@@ -119,6 +119,12 @@ export const GlobalStyle = createGlobalStyle`
     .color-teal { color: #57d2bf !important ; }
     .color-gold { color: #A18265 !important ; }
     .font-bold { font-weight: bold; }
+    .number-input-form {
+        display: grid;
+        grid-template-columns: 0.5fr auto;
+        grid-gap: 10px;
+        height: 48px;
+    }
 `;
 
 export default { GlobalFonts, GlobalStyle };

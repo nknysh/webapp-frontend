@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PrimaryButton } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
+import { Text } from 'pureUi/typography';
 
 const BookingSummaryPotential = props => {
   const canHold: boolean = false;
@@ -19,7 +20,7 @@ const BookingSummaryPotential = props => {
       {!isOnProposal && (
         <AsideDetails>
           <Title>{props.t('labels.proposalId')}</Title>
-          <p>This booking is not on a proposal</p>
+          <Text>This booking is not on a proposal</Text>
         </AsideDetails>
       )}
 
@@ -42,7 +43,7 @@ const BookingSummaryPotential = props => {
       {!isHeld && canHold && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is currently not being held</p>
+          <Text>This booking is currently not being held</Text>
           <PrimaryButton onClick={() => addHoldToBooking(newBooking.uuid)}>Hold for 24 Hours</PrimaryButton>
         </AsideDetails>
       )}
@@ -50,8 +51,8 @@ const BookingSummaryPotential = props => {
       {!isHeld && !canHold && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is currently not being held</p>
-          <p>There are no available actions to take</p>
+          <Text>This booking is currently not being held</Text>
+          <Text>There are no available actions to take</Text>
         </AsideDetails>
       )}
     </React.Fragment>

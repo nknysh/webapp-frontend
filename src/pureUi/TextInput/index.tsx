@@ -2,10 +2,13 @@ import React, { useCallback, FocusEvent } from 'react';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 
+export type InputMode = 'none' | 'text' | 'Standard' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url';
+
 export interface TextInputProps extends React.HTMLProps<HTMLInputElement> {
   children?: JSX.Element | JSX.Element[] | null | undefined;
+  inputmode?: InputMode; // Looks like the TS definitions missed this one
 }
-const TextInput = (props: TextInputProps) => {
+const TextInputComponent = (props: TextInputProps) => {
   const { className, children, type, onFocus, ...inputProps } = props;
 
   const handleFocus = useCallback(
@@ -27,7 +30,7 @@ const TextInput = (props: TextInputProps) => {
   );
 };
 
-export default styled(TextInput)`
+export const TextInput = styled(TextInputComponent)`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -75,3 +78,5 @@ export default styled(TextInput)`
     box-shadow: 0 0 0 2px ${pureUiTheme.colors.marine};
   }
 `;
+
+export default TextInput;

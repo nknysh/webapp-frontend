@@ -271,13 +271,13 @@ export class BackendApiService<T extends AxiosInstance> {
     });
   };
 
-  updateHoldHoursForBooking = async (bookingUuid: string, holdHours: string | number): Promise<AxiosResponse> => {
+  updateHoldHoursForBooking = async (bookingUuid: string, holdHours: string): Promise<AxiosResponse> => {
     const endpoint = `${BackendEndpoints.BOOKINGS}/${bookingUuid}/holds`;
 
     return this.client.post(endpoint, {
       data: {
         attributes: {
-          holdHours,
+          holdHours: parseInt(holdHours, 10),
         },
       },
     });
