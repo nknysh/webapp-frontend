@@ -12,8 +12,9 @@ import { watchGetHotelNames } from './modules/bookingsList/sagas/hotelNamesSaga'
 import { watchUpdateQueryString } from './modules/fastSearch/sagas/updateQueryStringSaga';
 import { watchGetOffersList } from './modules/offersList/sagas/offersListSaga';
 import { watchConfirmRequestToDeleteOffersSaga } from './modules/offersList/sagas/offersListDeleteSaga';
+import { watchGetOfferRequest } from './modules/offer/sagas/getOfferSaga';
 
-export default function* searchSagas() {
+export default function* allSagas() {
   const sagas = [
     watchOffersSearchRequest,
     watchOptionsRequest,
@@ -28,6 +29,7 @@ export default function* searchSagas() {
     watchUpdateQueryString,
     watchGetOffersList,
     watchConfirmRequestToDeleteOffersSaga,
+    watchGetOfferRequest,
   ];
 
   yield all(

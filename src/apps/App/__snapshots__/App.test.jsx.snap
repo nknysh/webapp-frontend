@@ -473,6 +473,19 @@ exports[`<App /> render matches snapshot 1`] = `
         path="/search/beta"
       />
       <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(withRouter(OfferEditContainer))",
+            "type": [Function],
+          }
+        }
+        exact={true}
+        path="/offer/:offerId/edit"
+      />
+      <Route
         auth={true}
         authCheckIgnore={true}
         authComponent={

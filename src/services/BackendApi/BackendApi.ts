@@ -23,6 +23,7 @@ import { IBookingsListResponse } from './types/BookingsListResponse';
 import { ITravelAgentRespone } from './types/TravelAgentResponse';
 import { IHotelNamesResponse } from './types/HotelNamesResponse';
 import { IOffersListResponse, IOffersDeleteResponse } from './types/OffersListResponse';
+import { IOfferResponse } from './types/OfferResponse';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -116,6 +117,12 @@ export class BackendApiService<T extends AxiosInstance> {
 
     const endpoint = `${BackendEndpoints.OFFERS}${query}`;
     return this.client.delete(endpoint);
+  };
+
+  getOffer = async (uuid: string): Promise<AxiosResponse<IOfferResponse>> => {
+    // TODO: This really should take a params object, but this API makesa it really difficult to type properly.
+    const endpoint = `${BackendEndpoints.OFFERS}/${uuid}?associations=hotel&fields[hotel]=name`;
+    return this.client.get(endpoint);
   };
 
   sanitizQueryObject = (query: SearchQuery): SearchQuery => {
