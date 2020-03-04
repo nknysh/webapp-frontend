@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Offer Actions ... 1`] = `
+Object {
+  "offerId": "123",
+  "type": "offer/GET_OFFER_REQUEST",
+}
+`;
+
+exports[`Offer Actions ... 2`] = `
+Object {
+  "offer": Object {
+    "uuid": "123",
+  },
+  "type": "offer/GET_OFFER_SUCCESS",
+}
+`;
+
+exports[`Offer Actions ... 3`] = `
+Object {
+  "error": "An error",
+  "type": "offer/GET_OFFER_FAILURE",
+}
+`;

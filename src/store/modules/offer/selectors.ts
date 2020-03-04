@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 export const offerDomainSelector = (state: any): IOfferModel => state.offer as IOfferModel;
 
-export const getOfferRequestPendingSelector = createSelector(
+export const getOfferRequestIsPendingSelector = createSelector(
   offerDomainSelector,
   domain => domain.getOfferRequestIsPending
 );

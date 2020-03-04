@@ -4,7 +4,7 @@ import { GET_OFFER_REQUEST, GetOfferRequestAction, getOfferSuccessAction, getOff
 import { makeBackendApi, IOfferResponse } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 
-export function* getOfferRequestSage(action: GetOfferRequestAction) {
+export function* getOfferRequestSaga(action: GetOfferRequestAction) {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
@@ -16,5 +16,5 @@ export function* getOfferRequestSage(action: GetOfferRequestAction) {
 }
 
 export function* watchGetOfferRequest() {
-  yield takeLatest(GET_OFFER_REQUEST, getOfferRequestSage);
+  yield takeLatest(GET_OFFER_REQUEST, getOfferRequestSaga);
 }

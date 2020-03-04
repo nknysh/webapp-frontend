@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-import { getOfferRequestPendingSelector, offerSelector, offerErrorSelector } from '../../store/modules/offer/selectors';
+import {
+  getOfferRequestIsPendingSelector,
+  offerSelector,
+  offerErrorSelector,
+} from '../../store/modules/offer/selectors';
 import { getOfferRequestAction } from '../../store/modules/offer/actions';
 
 export class OfferEditContainer extends React.PureComponent<IOfferEditProps, {}> {
@@ -15,8 +19,10 @@ export class OfferEditContainer extends React.PureComponent<IOfferEditProps, {}>
   render() {
     return (
       <div>
-        <h1>Edit Offer</h1>
-        {this.props.getOfferRequestPending && <p>Loading offer {this.props.match.params.offerId}</p>}
+        <h1 data-role="heading">Edit Offer</h1>
+        {this.props.getOfferRequestPending && (
+          <p data-role="loadingMessage">Loading offer {this.props.match.params.offerId}</p>
+        )}
         {this.props.error && <p>There was a problem loading Offer:{this.props.match.params.offerId}</p>}
         {this.props.offer && <p>Offer:{this.props.match.params.offerId} loaded succesfully</p>}
       </div>
@@ -37,12 +43,12 @@ export interface IOfferRouteMatch extends RouteComponentProps {
 }
 
 export interface IOfferEditProps extends StateToProps, DispatchToProps {
-  className: string;
+  className?: string;
   match: IOfferRouteMatch;
 }
 
 const mapStateToProps = createStructuredSelector({
-  getOfferRequestPending: getOfferRequestPendingSelector,
+  getOfferRequestPending: getOfferRequestIsPendingSelector,
   offer: offerSelector,
   error: offerErrorSelector,
 });
