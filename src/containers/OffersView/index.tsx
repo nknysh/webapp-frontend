@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import * as R from 'ramda';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { makeBackendApi } from 'services/BackendApi';
@@ -11,29 +10,40 @@ import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import ResultBadge from 'pureUi/ResultBadge';
 import { useTranslation } from 'react-i18next';
+import { ageNameToHumanReadable, greenTaxToHumanReadable, formatDateDisplay } from 'utils';
 
 const _ReadOnlyField = props => {
   const { label, children, className } = props;
   return (
     <div className={className}>
-      <label>{label}</label>
+      <label className="primary">{label}</label>
       {children}
     </div>
   );
 };
 const ReadOnlyField = styled(_ReadOnlyField)`
-  border: 1px solid black;
+  background-color: #edf2f7;
   padding: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   &:last-of-type {
     margin-bottom: 0px;
   }
-  p {
-    margin: ;
+  div {
+    margin-bottom: 16px;
+    &:last-of-type {
+      margin-bottom: 0px;
+    }
   }
   label {
-    text-transform: uppercase;
     display: block;
+    color: #4a5568;
+    margin-bottom: 4px;
+    &.primary {
+      font-weight: bold;
+      color: #2d3748;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
   }
 `;
 
@@ -91,27 +101,32 @@ const _OffersView = (props: IOffersViewProps) => {
           return (
             <div key={`transfers-${i}`} className="application-product-block">
               <h3>{label}</h3>
-              {productBlock.products.map(product => {
-                return (
-                  <div key={product.uuid} className="application-product-field">
-                    <ResultBadge key={product.uuid} type="text" label={productMapping[product.uuid]} />
+              <ReadOnlyField label={'Applied Products / Age Ranges'}>
+                {productBlock.products.map(product => {
+                  return (
+                    <p>
+                      <span key={product.uuid}>{productMapping[product.uuid]}</span>
 
-                    {product.ageNames && (
                       <div className="application-product-field-age-names">
                         /
-                        {product.ageNames.map(ageName => {
-                          return <ResultBadge key={ageName} type="text" label={ageName} />;
-                        })}
+                        {(product.ageNames &&
+                          product.ageNames.map(ageName => {
+                            return <span key={ageName}>{ageNameToHumanReadable(ageName)}</span>;
+                          })) || <span>All ages</span>}
                       </div>
-                    )}
-                  </div>
-                );
-              })}
+                    </p>
+                  );
+                })}
+              </ReadOnlyField>
+
               <ReadOnlyField label={'Discount Percentage'}>
                 <p>{productBlock.discountPercentage}</p>
               </ReadOnlyField>
               <ReadOnlyField label={'Maximum Quantity'}>
                 {(productBlock.maximumQuantity && <p>{productBlock.maximumQuantity}</p>) || <p>N/A</p>}
+              </ReadOnlyField>
+              <ReadOnlyField label={'Green Tax Discount Approach'}>
+                <p>{greenTaxToHumanReadable(productBlock.greenTaxDiscountApproach)}</p>
               </ReadOnlyField>
             </div>
           );
@@ -138,6 +153,7 @@ const _OffersView = (props: IOffersViewProps) => {
         )}
 
         <ReadOnlyField label={'Pre Discount'}>{offer.preDiscount ? <CheckIcon /> : <CloseIcon />}</ReadOnlyField>
+        <ReadOnlyField label={'Combines'}>{offer.combines ? <CheckIcon /> : <CloseIcon />}</ReadOnlyField>
 
         {offer.combinesWith && offer.combinesWith.length >= 1 && (
           <ReadOnlyField label={'Combines With'}>
@@ -171,7 +187,7 @@ const _OffersView = (props: IOffersViewProps) => {
           <ReadOnlyField label={t('labels.prerequisites.dates')}>
             {offer.prerequisites.dates.map(date => (
               <p key={date.startDate}>
-                {date.startDate} - {date.endDate}
+                {formatDateDisplay(date.startDate)} - {formatDateDisplay(date.endDate)}
               </p>
             ))}
           </ReadOnlyField>
@@ -185,30 +201,93 @@ const _OffersView = (props: IOffersViewProps) => {
 
         {offer.prerequisites.advance && (
           <ReadOnlyField label={t('labels.prerequisites.advance')}>
-            <p>{offer.prerequisites.advance.bookBy}</p>
+            <div>
+              <label>Book By</label>
+              <span>{formatDateDisplay(offer.prerequisites.advance.bookBy)}</span>
+            </div>
+            {offer.prerequisites.advance.minimum && (
+              <div>
+                <label>Minimum</label>
+                <span>{offer.prerequisites.advance.minimum}</span>
+              </div>
+            )}
+            {offer.prerequisites.advance.maximum && (
+              <div>
+                <label>Maximum</label>
+                <span>{offer.prerequisites.advance.maximum}</span>
+              </div>
+            )}
           </ReadOnlyField>
         )}
 
         {offer.prerequisites.stayLength && (
           <ReadOnlyField label={t('labels.prerequisites.stayLength')}>
-            <p>{offer.prerequisites.stayLength.minimum}</p>
-            <p>{offer.prerequisites.stayLength.strictMinMaxStay ? <CheckIcon /> : <CloseIcon />}</p>
+            {offer.prerequisites.stayLength.minimum && (
+              <div>
+                <label>Minimum</label>
+                <span>{offer.prerequisites.stayLength.minimum}</span>
+              </div>
+            )}
+            {offer.prerequisites.stayLength.maximum && (
+              <div>
+                <label>Maximum</label>
+                <span>{offer.prerequisites.stayLength.maximum}</span>
+              </div>
+            )}
+            {offer.prerequisites.stayLength.strictMinMaxStay && (
+              <div>
+                <label>Strict Min/Max Stay</label>
+                <span>{offer.prerequisites.stayLength.strictMinMaxStay ? <CheckIcon /> : <CloseIcon />}</span>
+              </div>
+            )}
           </ReadOnlyField>
         )}
 
         {offer.prerequisites.countryCodes && (
           <ReadOnlyField label={t('labels.prerequisites.countryCodes')}>
             {offer.prerequisites.countryCodes.map(countryCode => (
-              <ResultBadge key={countryCode} type="text" label={countryCode} />
+              <p key={countryCode}>{countryCode}</p>
             ))}
           </ReadOnlyField>
         )}
 
         {offer.prerequisites.accommodationProducts && (
           <ReadOnlyField label={t('labels.prerequisites.accommodationProducts')}>
-            {offer.prerequisites.accommodationProducts.map((pUuid: string) => (
-              <ResultBadge key={pUuid} type="text" label={productMapping[pUuid]} />
-            ))}
+            <ul>
+              {offer.prerequisites.accommodationProducts.map((pUuid: string) => (
+                <li key={pUuid}>{productMapping[pUuid]}</li>
+              ))}
+            </ul>
+          </ReadOnlyField>
+        )}
+
+        {offer.prerequisites.payload.anniversary != null && (
+          <ReadOnlyField label={t('labels.prerequisites.anniversary')}>
+            <p>{offer.prerequisites.payload.anniversary ? <CheckIcon /> : <CloseIcon />}</p>
+          </ReadOnlyField>
+        )}
+
+        {offer.prerequisites.payload.birthday != null && (
+          <ReadOnlyField label={t('labels.prerequisites.birthday')}>
+            <p>{offer.prerequisites.payload.birthday ? <CheckIcon /> : <CloseIcon />}</p>
+          </ReadOnlyField>
+        )}
+
+        {offer.prerequisites.payload.honeymoon != null && (
+          <ReadOnlyField label={t('labels.prerequisites.honeymoon')}>
+            <p>{offer.prerequisites.payload.honeymoon ? <CheckIcon /> : <CloseIcon />}</p>
+          </ReadOnlyField>
+        )}
+
+        {offer.prerequisites.payload.repeatCustomer != null && (
+          <ReadOnlyField label={t('labels.prerequisites.repeatCustomer')}>
+            <p>{offer.prerequisites.payload.repeatCustomer ? <CheckIcon /> : <CloseIcon />}</p>
+          </ReadOnlyField>
+        )}
+
+        {offer.prerequisites.payload.wedding != null && (
+          <ReadOnlyField label={t('labels.prerequisites.wedding')}>
+            <p>{offer.prerequisites.payload.wedding ? <CheckIcon /> : <CloseIcon />}</p>
           </ReadOnlyField>
         )}
       </section>
@@ -231,18 +310,17 @@ const _OffersView = (props: IOffersViewProps) => {
         <h2>Applications</h2>
         {offer.stepping && (
           <ReadOnlyField label={'Stepping'}>
-            <p>{offer.stepping.applyTo}</p>
-            <p>{offer.stepping.everyXNights}</p>
-            <p>{offer.stepping.maximumNights}</p>
+            <p>Apply To: {offer.stepping.applyTo}</p>
+            <p>Every X Nights: {offer.stepping.everyXNights}</p>
+            <p>Maximum Nights: {offer.stepping.maximumNights}</p>
           </ReadOnlyField>
         )}
 
         {offer.accommodationProductDiscount && (
-          <div>
-            <label>Accommodation Discount</label>
+          <ReadOnlyField label={'Accommodation Discount'}>
             <p>{offer.accommodationProductDiscount.discountPercentage}</p>
-            <p>{offer.accommodationProductDiscount.greenTaxDiscountApproach}</p>
-          </div>
+            <p>{greenTaxToHumanReadable(offer.accommodationProductDiscount.greenTaxDiscountApproach)}</p>
+          </ReadOnlyField>
         )}
 
         {offer.productDiscounts &&
@@ -275,7 +353,7 @@ const _OffersView = (props: IOffersViewProps) => {
 
     return (
       <section>
-        <h2>Offer Ordering</h2>
+        <h2>Offer Ordering for {offer.hotel.name}</h2>
 
         <ol>
           {orderedOffersOnHotel.map((offerOnHotel: any) => {

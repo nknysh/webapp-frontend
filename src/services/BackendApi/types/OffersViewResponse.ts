@@ -42,13 +42,23 @@ export interface IOffersViewResponseOffer {
     maximumLodgingsInBooking: number;
     advance: {
       bookBy: string;
+      minimum: number;
+      maximum: number;
     };
     stayLength: {
       minimum: number;
+      maximum: number;
       strictMinMaxStay: boolean;
     };
     countryCodes: string[];
     accommodationProducts: string[];
+    payload: {
+      anniversary: boolean;
+      birthday: boolean;
+      honeymoon: boolean;
+      repeatCustomer: boolean;
+      wedding: boolean;
+    };
   };
   preDiscount: boolean;
   stepping?: {

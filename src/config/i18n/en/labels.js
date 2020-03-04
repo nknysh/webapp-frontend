@@ -281,9 +281,14 @@ export default {
   prerequisites: {
     dates: 'Stay Between',
     maximumLodgingsInBooking: 'Maximum Lodgings in Booking',
-    advance: 'advance',
-    stayLength: 'stayLength',
-    countryCodes: 'countryCodes',
-    accommodationProducts: 'accommodationProducts',
+    advance: 'Advance',
+    stayLength: 'Stay Length',
+    countryCodes: 'TA Country Codes',
+    accommodationProducts: 'Accommodation Products',
+    anniversary: 'Anniversary',
+    birthday: 'Birthday',
+    honeymoon: 'Honeymoon',
+    repeatCustomer: 'Repeat Customer',
+    wedding: 'Wedding',
   },
 };
