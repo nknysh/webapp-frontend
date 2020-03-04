@@ -22,7 +22,8 @@ const _ReadOnlyField = props => {
   );
 };
 const ReadOnlyField = styled(_ReadOnlyField)`
-  background-color: #edf2f7;
+  border: 1px solid #cbd5e0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 8px;
   margin-bottom: 16px;
   &:last-of-type {
@@ -39,9 +40,8 @@ const ReadOnlyField = styled(_ReadOnlyField)`
     color: #4a5568;
     margin-bottom: 4px;
     &.primary {
-      font-weight: bold;
-      color: #2d3748;
-      text-transform: uppercase;
+      font-size: 12px;
+      color: #4a5568;
       margin-bottom: 8px;
     }
   }
@@ -99,35 +99,43 @@ const _OffersView = (props: IOffersViewProps) => {
       <div>
         {applicationProductSet.map((productBlock, i) => {
           return (
-            <div key={`transfers-${i}`} className="application-product-block">
-              <h3>{label}</h3>
-              <ReadOnlyField label={'Applied Products / Age Ranges'}>
-                {productBlock.products.map(product => {
-                  return (
-                    <p>
-                      <span key={product.uuid}>{productMapping[product.uuid]}</span>
+            <div key={`transfers-${i}`}>
+              <h4>{label}</h4>
+              <div className="application-product-block">
+                <ReadOnlyField label={'Applied Products / Age Ranges'}>
+                  {productBlock.products.map(product => {
+                    return (
+                      <p>
+                        <span key={product.uuid}>{productMapping[product.uuid]}</span>
 
-                      <div className="application-product-field-age-names">
-                        /
-                        {(product.ageNames &&
-                          product.ageNames.map(ageName => {
-                            return <span key={ageName}>{ageNameToHumanReadable(ageName)}</span>;
-                          })) || <span>All ages</span>}
-                      </div>
-                    </p>
-                  );
-                })}
-              </ReadOnlyField>
+                        <div className="application-product-field-age-names">
+                          /
+                          {(product.ageNames &&
+                            product.ageNames.map(ageName => {
+                              return <span key={ageName}>{ageNameToHumanReadable(ageName)}</span>;
+                            })) || <span>All ages</span>}
+                        </div>
+                      </p>
+                    );
+                  })}
+                </ReadOnlyField>
 
-              <ReadOnlyField label={'Discount Percentage'}>
-                <p>{productBlock.discountPercentage}</p>
-              </ReadOnlyField>
-              <ReadOnlyField label={'Maximum Quantity'}>
-                {(productBlock.maximumQuantity && <p>{productBlock.maximumQuantity}</p>) || <p>N/A</p>}
-              </ReadOnlyField>
-              <ReadOnlyField label={'Green Tax Discount Approach'}>
-                <p>{greenTaxToHumanReadable(productBlock.greenTaxDiscountApproach)}</p>
-              </ReadOnlyField>
+                <ReadOnlyField label={'Discount Percentage'}>
+                  <p>{productBlock.discountPercentage}</p>
+                </ReadOnlyField>
+
+                {productBlock.maximumQuantity != null && (
+                  <ReadOnlyField label={'Maximum Quantity'}>
+                    {(productBlock.maximumQuantity && <p>{productBlock.maximumQuantity}</p>) || <p>N/A</p>}
+                  </ReadOnlyField>
+                )}
+
+                {productBlock.greenTaxDiscountApproach != null && (
+                  <ReadOnlyField label={'Green Tax Discount Approach'}>
+                    <p>{greenTaxToHumanReadable(productBlock.greenTaxDiscountApproach)}</p>
+                  </ReadOnlyField>
+                )}
+              </div>
             </div>
           );
         })}
@@ -141,7 +149,7 @@ const _OffersView = (props: IOffersViewProps) => {
     }
     return (
       <section>
-        <h2>Offer Details</h2>
+        <h3>Offer Details</h3>
         <ReadOnlyField label={'Terms and Conditions'}>
           <p>{offer.termsAndConditions}</p>
         </ReadOnlyField>
@@ -182,7 +190,7 @@ const _OffersView = (props: IOffersViewProps) => {
 
     return (
       <section>
-        <h2>Prerequisites</h2>
+        <h3>Prerequisites</h3>
         {offer.prerequisites.dates && (
           <ReadOnlyField label={t('labels.prerequisites.dates')}>
             {offer.prerequisites.dates.map(date => (
@@ -307,12 +315,27 @@ const _OffersView = (props: IOffersViewProps) => {
 
     return (
       <section>
-        <h2>Applications</h2>
+        <h3>Applications</h3>
         {offer.stepping && (
           <ReadOnlyField label={'Stepping'}>
-            <p>Apply To: {offer.stepping.applyTo}</p>
-            <p>Every X Nights: {offer.stepping.everyXNights}</p>
-            <p>Maximum Nights: {offer.stepping.maximumNights}</p>
+            {offer.stepping.applyTo && (
+              <div>
+                <label>Apply To</label>
+                <span>{offer.stepping.applyTo}</span>
+              </div>
+            )}
+            {offer.stepping.everyXNights && (
+              <div>
+                <label>Every X Nights</label>
+                <span>{offer.stepping.everyXNights}</span>
+              </div>
+            )}
+            {offer.stepping.maximumNights && (
+              <div>
+                <label>Maximum Nights</label>
+                <span>{offer.stepping.maximumNights}</span>
+              </div>
+            )}
           </ReadOnlyField>
         )}
 
@@ -353,7 +376,7 @@ const _OffersView = (props: IOffersViewProps) => {
 
     return (
       <section>
-        <h2>Offer Ordering for {offer.hotel.name}</h2>
+        <h3>Offer Ordering for {offer.hotel.name}</h3>
 
         <ol>
           {orderedOffersOnHotel.map((offerOnHotel: any) => {
@@ -405,7 +428,7 @@ const _OffersView = (props: IOffersViewProps) => {
   return (
     <main className={props.className}>
       <h1>{offer.name}</h1>
-      <p>{offer.hotel.name}</p>
+      <h2>{offer.hotel.name}</h2>
 
       <OfferDetailsSection />
 
@@ -424,9 +447,18 @@ const OffersView = styled(_OffersView)`
   margin: 2rem 5%;
   align-self: center;
 
+  padding: 16px;
+
   .application-product-block {
-    background-color: #ccc;
+    border-left: 1px solid #ccc;
+    margin-left: 24px;
+    padding-left: 24px;
+    margin-bottom: 16px;
+    &:last-of-type {
+      margin-bottom: 0px;
+    }
   }
+
   .application-product-field-age-names {
     display: inline;
   }
