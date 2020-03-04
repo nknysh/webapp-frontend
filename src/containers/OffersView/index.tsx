@@ -11,6 +11,7 @@ import CheckIcon from '@material-ui/icons/Check';
 import ResultBadge from 'pureUi/ResultBadge';
 import { useTranslation } from 'react-i18next';
 import { ageNameToHumanReadable, greenTaxToHumanReadable, formatDateDisplay } from 'utils';
+import { TabbedNavigation } from 'pureUi/TabbedNavigation';
 
 const _ReadOnlyField = props => {
   const { label, children, className } = props;
@@ -149,7 +150,6 @@ const _OffersView = (props: IOffersViewProps) => {
     }
     return (
       <section>
-        <h3>Offer Details</h3>
         <ReadOnlyField label={'Terms and Conditions'}>
           <p>{offer.termsAndConditions}</p>
         </ReadOnlyField>
@@ -190,7 +190,6 @@ const _OffersView = (props: IOffersViewProps) => {
 
     return (
       <section>
-        <h3>Prerequisites</h3>
         {offer.prerequisites.dates && (
           <ReadOnlyField label={t('labels.prerequisites.dates')}>
             {offer.prerequisites.dates.map(date => (
@@ -315,7 +314,6 @@ const _OffersView = (props: IOffersViewProps) => {
 
     return (
       <section>
-        <h3>Applications</h3>
         {offer.stepping && (
           <ReadOnlyField label={'Stepping'}>
             {offer.stepping.applyTo && (
@@ -375,12 +373,14 @@ const _OffersView = (props: IOffersViewProps) => {
     }
 
     return (
-      <section>
-        <h3>Offer Ordering for {offer.hotel.name}</h3>
-
+      <section className="ordering-section">
         <ol>
           {orderedOffersOnHotel.map((offerOnHotel: any) => {
-            return <li className={offerOnHotel.uuid === offer.uuid ? 'active' : ''}>{offerOnHotel.name}</li>;
+            return (
+              <li key={offerOnHotel.uuid} className={offerOnHotel.uuid === offer.uuid ? 'active' : ''}>
+                {offerOnHotel.name}
+              </li>
+            );
           })}
         </ol>
       </section>
@@ -430,13 +430,17 @@ const _OffersView = (props: IOffersViewProps) => {
       <h1>{offer.name}</h1>
       <h2>{offer.hotel.name}</h2>
 
-      <OfferDetailsSection />
+      <TabbedNavigation
+        tabHeaders={[<h3>Offer Details</h3>, <h3>Prerequisites</h3>, <h3>Applications</h3>, <h3>Ordering</h3>]}
+      >
+        <OfferDetailsSection />
 
-      <PrerequisitesSection />
+        <PrerequisitesSection />
 
-      <ApplicationsSection />
+        <ApplicationsSection />
 
-      <OfferOrderingSection />
+        <OfferOrderingSection />
+      </TabbedNavigation>
     </main>
   );
 };
@@ -463,8 +467,13 @@ const OffersView = styled(_OffersView)`
     display: inline;
   }
 
-  li.active {
-    background-color: #ccc;
+  .ordering-section {
+    li {
+      padding: 8px;
+      &.active {
+        background-color: #e2e8f0;
+      }
+    }
   }
 `;
 

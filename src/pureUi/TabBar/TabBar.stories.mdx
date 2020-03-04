@@ -1,0 +1,22 @@
+import { Meta, Story, Preview, Source, Props } from '@storybook/addon-docs/blocks';
+import { TabBarCompact } from './';
+import { TabBarIndexZero, TabBarIndexOne } from './TabBar.stories';
+
+<Meta title="PureUi/TabBar" component={TabBarCompact} />
+
+# TabBar
+
+A _TabBar_ displays one tab at a time (the active time) and if it has more than 1 available, displays icons
+on the left and right ends of the tab to navigate between the tabs.
+
+<Preview>
+  <Story name="Tab Bar at Index 0">
+    <TabBarIndexZero />
+  </Story>
+</Preview>
+
+<Preview>
+  <Story name="Tab Bar at Index 1">
+    <TabBarIndexOne />
+  </Story>
+</Preview>
