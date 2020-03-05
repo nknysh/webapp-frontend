@@ -116,7 +116,6 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
   render() {
     const allOffersOnPageUuid = this.props.offers ? this.props.offers.map(offer => offer.uuid) : [];
 
-    console.log('this.props.actingCountryCode', this.props.actingCountryCode);
     return (
       <OffersListStylesWrapper>
         <Heading2 className="heading">{this.getHeadingText()}</Heading2>
