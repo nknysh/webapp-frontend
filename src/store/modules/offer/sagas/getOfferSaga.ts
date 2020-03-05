@@ -59,7 +59,6 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
       )
     );
   } catch (e) {
-    console.error(e);
     yield put(getOfferFailureAction(e));
   }
 }

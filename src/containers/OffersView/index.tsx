@@ -373,6 +373,10 @@ export class _OffersView extends React.PureComponent<IOffersViewProps, {}> {
       return <p>Loading...</p>;
     }
 
+    if (this.props.offerError) {
+      return <p>There was a problem loading this offer. Please refresh the page to try again.</p>;
+    }
+
     return (
       <main className={this.props.className}>
         <Breadcrumbs
