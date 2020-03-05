@@ -14,6 +14,9 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
         ...state,
         getOfferRequestIsPending: false,
         offer: action.offer,
+        associatedOffersMapping: action.associatedOffersMapping,
+        associatedProductsMapping: action.associatedProductsMapping,
+        offersOnHotel: action.offersOnHotel,
         error: null,
       };
 

@@ -179,3 +179,13 @@ export const greenTaxToHumanReadable = greenTaxConstant => {
       return 'Unknown green tax discount approach';
   }
 };
+
+export const arrayOfObjectsToMapping = (arrayOfObjects, key, value) => {
+  const mapping = {};
+
+  arrayOfObjects.forEach(o => {
+    mapping[o[key]] = o[value];
+  });
+
+  return mapping;
+};

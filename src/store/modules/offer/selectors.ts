@@ -17,3 +17,18 @@ export const offerSelector = createSelector(
   offerDomainSelector,
   domain => domain.offer
 );
+
+export const getAssociatedOffersMappingSelector = createSelector(
+  offerDomainSelector,
+  domain => domain.associatedOffersMapping
+);
+
+export const getAssociatedProductsMappingSelector = createSelector(
+  offerDomainSelector,
+  domain => domain.associatedProductsMapping
+);
+
+export const getOffersOnHotelSelector = createSelector(
+  offerDomainSelector,
+  domain => domain.offersOnHotel
+);

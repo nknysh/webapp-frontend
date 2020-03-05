@@ -54,4 +54,4 @@ export const TabbedNavigation = styled(_TabbedNavigation)`
   }
 `;
 
-interface ITabbedNavigationProps {}
+// interface ITabbedNavigationProps {}

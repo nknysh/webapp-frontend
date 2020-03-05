@@ -11,9 +11,17 @@ export const getOfferRequestAction = (offerId: string) => ({
 });
 
 export type GetOfferSuccessAction = ReturnType<typeof getOfferSuccessAction>;
-export const getOfferSuccessAction = (offer: IOffer) => ({
+export const getOfferSuccessAction = (
+  offer: IOffer,
+  associatedOffersMapping,
+  associatedProductsMapping,
+  offersOnHotel
+) => ({
   type: GET_OFFER_SUCCESS as typeof GET_OFFER_SUCCESS,
   offer,
+  associatedOffersMapping,
+  associatedProductsMapping,
+  offersOnHotel,
 });
 
 export type GetOfferFailureAction = ReturnType<typeof getOfferFailureAction>;
