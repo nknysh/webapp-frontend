@@ -12,7 +12,10 @@ import ResultBadge from 'pureUi/ResultBadge';
 import { useTranslation } from 'react-i18next';
 import { ageNameToHumanReadable, greenTaxToHumanReadable, formatDateDisplay } from 'utils';
 import { TabbedNavigation } from 'pureUi/TabbedNavigation';
+import { Breadcrumbs } from 'components';
+// import { Back } from 'containers/HotelContainer/HotelContainer.styles';
 
+import { Back } from '../BookingContainer/BookingContainer.styles';
 import {
   getOfferRequestIsPendingSelector,
   offerSelector,
@@ -375,6 +378,18 @@ export class _OffersView extends React.PureComponent<IOffersViewProps, {}> {
 
     return (
       <main className={this.props.className}>
+        <Breadcrumbs
+          links={[
+            {
+              label: <Back>Offers</Back>,
+              to: '/offers',
+            },
+            {
+              label: this.props.offer.name,
+              to: `/offers/${this.props.offer.uuid}`,
+            },
+          ]}
+        />
         <h1>{this.props.offer.name}</h1>
         <h2>{this.props.offer.hotel.name}</h2>
 
