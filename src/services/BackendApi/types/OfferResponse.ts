@@ -12,6 +12,12 @@ export interface IUuidAndName {
   name: string;
 }
 
+export interface IOfferOnHotelItem {
+  uuid: string;
+  name: string;
+  order: number;
+}
+
 export interface IProductDiscount {
   discountPercentage: number;
   maximumQuantity: number;

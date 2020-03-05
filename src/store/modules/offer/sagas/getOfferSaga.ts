@@ -1,15 +1,15 @@
 import { AxiosResponse } from 'axios';
 import { call, takeLatest, select, put } from 'redux-saga/effects';
 import { GET_OFFER_REQUEST, GetOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../actions';
-import { makeBackendApi, IOfferResponse } from 'services/BackendApi';
+import { makeBackendApi, IOfferResponse, IOffer, IProductDiscount } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 import { arrayOfObjectsToMapping } from 'utils';
 
-const getAllAssociatedProductUuidsFromOffer = (offer: any) => {
+const getAllAssociatedProductUuidsFromOffer = (offer: IOffer) => {
   const productUuids = [...(offer.prerequisites.accommodationProducts || [])];
 
   if (offer.productDiscounts != undefined) {
-    Object.values(offer.productDiscounts).map((productBlocks: any[]) => {
+    Object.values(offer.productDiscounts).map((productBlocks: IProductDiscount[]) => {
       productBlocks.forEach(productBlock => {
         productBlock.products.map(p => {
           productUuids.push(p.uuid);
@@ -19,7 +19,7 @@ const getAllAssociatedProductUuidsFromOffer = (offer: any) => {
   }
 
   if (offer.subProductDiscounts != undefined) {
-    Object.values(offer.subProductDiscounts).map((productBlocks: any[]) => {
+    Object.values(offer.subProductDiscounts).map((productBlocks: IProductDiscount[]) => {
       productBlocks.forEach(productBlock => {
         productBlock.products.map(p => {
           productUuids.push(p.uuid);
@@ -37,8 +37,8 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
     const result: AxiosResponse<IOfferResponse> = yield call(backendApi.getOffer, action.offerId);
     const offer = result.data.data;
 
-    let associatedOffersResult: any = null;
-    let associatedProductsResult: any = null;
+    let associatedOffersResult: AxiosResponse | null = null;
+    let associatedProductsResult: AxiosResponse | null = null;
     const associatedProductUuids = getAllAssociatedProductUuidsFromOffer(offer);
     const offerUuids = [...(offer.combinesWith || []), ...(offer.cannotCombineWith || [])];
 

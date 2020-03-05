@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { makeBackendApi } from 'services/BackendApi';
 import { bindActionCreators, Dispatch, compose } from 'redux';
 import { getUserCountryContext } from 'store/modules/auth';
 import { createStructuredSelector } from 'reselect';
-import { IOffersViewResponseOffer, IUuidAndName } from 'services/BackendApi/types/OffersViewResponse';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import ResultBadge from 'pureUi/ResultBadge';
@@ -13,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { ageNameToHumanReadable, greenTaxToHumanReadable, formatDateDisplay } from 'utils';
 import { TabbedNavigation } from 'pureUi/TabbedNavigation';
 import { Breadcrumbs } from 'components';
-// import { Back } from 'containers/HotelContainer/HotelContainer.styles';
 
 import { Back } from '../BookingContainer/BookingContainer.styles';
 import {
@@ -372,7 +369,7 @@ export class _OffersView extends React.PureComponent<IOffersViewProps, {}> {
     this.props.getOfferRequestAction(this.props.match.params.id);
   }
   render() {
-    if (this.props.offerRequestIsPending) {
+    if (this.props.offerRequestIsPending || this.props.offer == null) {
       return <p>Loading...</p>;
     }
 

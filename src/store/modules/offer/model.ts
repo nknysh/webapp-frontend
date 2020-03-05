@@ -1,12 +1,16 @@
-import { IOffer } from 'services/BackendApi';
+import { IOffer, IOfferOnHotelItem } from 'services/BackendApi';
+
+interface KeyValuePair {
+  [key: string]: string;
+}
 
 export interface IOfferModel {
   getOfferRequestIsPending: boolean;
   error: any | null;
   offer: IOffer | null;
-  associatedOffersMapping: any;
-  associatedProductsMapping: any;
-  offersOnHotel: any;
+  associatedOffersMapping: KeyValuePair;
+  associatedProductsMapping: KeyValuePair;
+  offersOnHotel: IOfferOnHotelItem[];
 }
 
 export const initialState: IOfferModel = {
