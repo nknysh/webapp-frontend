@@ -3,7 +3,7 @@ import { PrimaryButton } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Text } from 'pureUi/typography';
 
-const BookingSummaryPotential = props => {
+const BookingSummaryRequestedTA = props => {
   const canHold: boolean = false;
   const isHeld: boolean = props.holds?.hasFullHolds;
 
@@ -59,4 +59,4 @@ const BookingSummaryPotential = props => {
   );
 };
 
-export default BookingSummaryPotential;
+export default BookingSummaryRequestedTA;

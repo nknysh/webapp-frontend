@@ -37,6 +37,10 @@ import BookingSummaryPotentialTA from './BookingSummaryPotential/TA';
 import BookingSummaryPotentialSR from './BookingSummaryPotential/SR';
 import BookingSummaryRequestedTA from './BookingSummaryRequested/TA';
 import BookingSummaryRequestedSR from './BookingSummaryRequested/SR';
+
+import BookingSummaryConfirmedTA from './BookingSummaryConfirmed/TA';
+import BookingSummaryConfirmedSR from './BookingSummaryConfirmed/SR';
+
 import { Upload as IUpload } from 'services/BackendApi/types';
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
@@ -131,10 +135,12 @@ const BookingSummary = props => {
       {booking.status === 'requested' &&
         (isSr ? <BookingSummaryRequestedSR {...props} /> : <BookingSummaryRequestedTA {...props} />)}
 
-      {booking.status === 'confirmed' && <BookingSummaryConfirmed t={t} booking={booking} holds={holds} {...props} />}
+      {booking.status === 'confirmed' &&
+        (isSr ? <BookingSummaryConfirmedSR {...props} /> : <BookingSummaryConfirmedTA {...props} />)}
+
       {booking.status === 'cancelled' && <BookingSummaryCancelled t={t} booking={booking} holds={holds} {...props} />}
 
-      {booking?.breakdown?.uploads && (
+      {booking && booking.breakdown && booking.breakdown.uploads && (
         <AsideDetails>
           <Title>{t('labels.uploads')}</Title>
 

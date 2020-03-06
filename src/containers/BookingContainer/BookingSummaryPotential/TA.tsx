@@ -13,7 +13,7 @@ import { Heading1 } from 'styles';
 const BookingSummaryPotentialTA = props => {
   const canHold: boolean = props.holds?.canHold;
   const isHeld: boolean = props.holds?.hasFullHolds;
-  const canCancel = true;
+  const false = true;
   const canRequestToBook = true;
 
   const {

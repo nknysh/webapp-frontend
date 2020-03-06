@@ -19,7 +19,7 @@ const BookingSummaryPotentialSR = props => {
   const isOnProposal: boolean = props.newBooking?.proposalUuid;
   const canHold: boolean = props.holds?.canHold;
   const isHeld: boolean = props.holds?.hasFullHolds;
-  const canCancel = true;
+  const canCancel = false;
   const canRequestToBook = true;
 
   const {

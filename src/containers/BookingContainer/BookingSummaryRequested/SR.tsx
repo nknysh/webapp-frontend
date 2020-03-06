@@ -15,12 +15,12 @@ import { Label } from 'pureUi/Label';
 import { Text } from 'pureUi/typography';
 import {validHoldHours} from '../helpers';
 
-const BookingSummaryPotentialSR = props => {
+const BookingSummaryRequestedSR = props => {
   const newBooking: BookingBuilderDomain = props.newBooking;
   const isOnProposal: boolean = newBooking.proposalUuid ? true : false;
   const canHold: boolean = props.holds?.canHold;
   const isHeld: boolean = props.holds?.hasFullHolds;
-  const canCancel = true;
+  const canCancel: boolean = false;
 
   const { addHoldToBooking, releaseHoldFromBooking, actingCountryCode } = props;
 
@@ -328,4 +328,4 @@ const BookingSummaryPotentialSR = props => {
   );
 };
 
-export default BookingSummaryPotentialSR;
+export default BookingSummaryRequestedSR;
