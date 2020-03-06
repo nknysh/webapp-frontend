@@ -4,7 +4,7 @@ import { initialState } from '../model';
 describe('Offer Selectors', () => {
   describe('getOfferRequestPendingSelector', () => {
     it('Selects correctly', () => {
-      expect(getOfferRequestIsPendingSelector.resultFunc(initialState)).toEqual(false);
+      expect(getOfferRequestIsPendingSelector.resultFunc(initialState)).toEqual(true);
     });
   });
 

@@ -9,9 +9,12 @@ Object {
 
 exports[`Offer Actions ... 2`] = `
 Object {
+  "associatedOffersMapping": Object {},
+  "associatedProductsMapping": Object {},
   "offer": Object {
     "uuid": "123",
   },
+  "offersOnHotel": Array [],
   "type": "offer/GET_OFFER_SUCCESS",
 }
 `;
