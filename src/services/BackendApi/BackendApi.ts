@@ -103,11 +103,6 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
-  getOffer = async (uuid: string): Promise<AxiosResponse> => {
-    const endpoint = `${BackendEndpoints.OFFERS}/${uuid}?associations=hotel&fields[hotel]=name`;
-    return this.client.get(endpoint);
-  };
-
   getOffersAsUuidAndName = async (uuids: string[]): Promise<AxiosResponse> => {
     const filter = uuids.map(uuid => `filter[offer][uuid:in][]=${uuid}`).join('&');
     const endpoint = `${BackendEndpoints.OFFERS}?fields[offer]=uuid,name&${filter}`;
