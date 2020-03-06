@@ -57,7 +57,11 @@ const BookingSummaryPotentialSR = props => {
   const handleConfirmOverrideAndPlaceHold = () => {
     setIsConfirmPlaceHoldPending(true);
     try {
-      backendApi.addHoldToBooking(newBooking.uuid);
+      backendApi.addHoldToBooking(newBooking.uuid)
+        .then(json => {
+          setUpdatedHoldExpiry(json.data.data.fullHoldsExpires);
+          setIsOverrideHoldModalOpen(false);
+        });
     } catch (e) {
       console.error(`Error ${e}`);
     } finally {
@@ -213,7 +217,7 @@ const BookingSummaryPotentialSR = props => {
         </AsideDetails>
       )}
 
-      {isHeld && (
+      {(isHeld || updatedHoldExpiry) && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
           <Text>This booking is being held.</Text>
@@ -257,7 +261,7 @@ const BookingSummaryPotentialSR = props => {
 
           <PrimaryButton onClick={() => setIsOverrideHoldModalOpen(true)}>Place Hold</PrimaryButton>
 
-          {isOverrideHoldModalOpen && (
+          {(isOverrideHoldModalOpen) && (
             <StandardModal onClose={() => setIsOverrideHoldModalOpen(false)}>
               <ModalContent>
                 <h3>Warning!</h3>
