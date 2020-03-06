@@ -10,6 +10,7 @@ import { Heading1 } from 'styles';
 import { Text } from 'pureUi/typography';
 
 const BookingSummaryConfirmedSR = props => {
+  console.log('booking summary confirmed SR');
   const newBooking: BookingBuilderDomain = props.newBooking;
   const isOnProposal: boolean = newBooking.proposalUuid ? true : false;
   const canCancel = true;
@@ -40,12 +41,12 @@ const BookingSummaryConfirmedSR = props => {
           <Title>{props.t('labels.cancellation')}</Title>
           <Text>You can cancel and restart this booking</Text>
           <Text>This will mark the booking as cancelled, and you will be redirected to the landing page</Text>
-          <PrimaryButton onClick={e => setIsCancelModalOpen(true)}>Cancel & Restart Booking</PrimaryButton>
+          <PrimaryButton onClick={e => setIsCancelModalOpen(true)}>Cancel Booking</PrimaryButton>
 
           {isCancelModalOpen && (
             <StandardModal onClose={() => setIsCancelModalOpen(false)}>
               <ModalHeader>
-                <Heading1>Cancel & Restart Booking</Heading1>
+                <Heading1>Cancel Booking</Heading1>
               </ModalHeader>
               <ModalContent>
                 <Text>Are you sure you want to cancel this booking?</Text>

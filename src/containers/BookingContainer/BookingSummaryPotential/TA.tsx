@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { AddToProposalModalContent } from '../../HotelContainer/AddToProposalModal';
 import {StandardModal, ModalHeader, ModalContent, ModalFooter} from 'pureUi/Modal';
@@ -13,7 +13,7 @@ import { Heading1 } from 'styles';
 const BookingSummaryPotentialTA = props => {
   const canHold: boolean = props.holds?.canHold;
   const isHeld: boolean = props.holds?.hasFullHolds;
-  const false = true;
+  const canCancel = false;
   const canRequestToBook = true;
 
   const {
