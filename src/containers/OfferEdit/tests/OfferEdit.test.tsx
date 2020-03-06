@@ -1,20 +1,16 @@
 import React from 'react';
 import { OfferEditContainer } from '../';
 import { shallow } from 'enzyme';
-import { IOfferEditProps, IOfferRouteMatch } from '../index';
+import { IOfferEditProps, IRouteParams } from '../index';
+import { getMockRouterProps } from 'utils/mockRouter';
 
 const createProps = (overrides?: Partial<IOfferEditProps>): IOfferEditProps => {
   const defaultProps: IOfferEditProps = {
     getOfferRequestAction: jest.fn(),
-
     getOfferRequestPending: false,
     offer: null,
     error: null,
-    match: {
-      params: {
-        offerId: '123',
-      },
-    } as IOfferRouteMatch,
+    ...getMockRouterProps<IRouteParams>({ offerId: '123' }),
   };
 
   return {

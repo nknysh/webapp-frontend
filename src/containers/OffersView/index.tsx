@@ -9,7 +9,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import ResultBadge from 'pureUi/ResultBadge';
 import { useTranslation } from 'react-i18next';
 import { ageNameToHumanReadable, greenTaxToHumanReadable, formatDateDisplay } from 'utils';
-import { TabbedNavigation } from 'pureUi/TabbedNavigation';
 import { Breadcrumbs } from 'components';
 
 import { Back } from '../BookingContainer/BookingContainer.styles';
@@ -22,6 +21,8 @@ import {
   getOffersOnHotelSelector,
 } from '../../store/modules/offer/selectors';
 import { getOfferRequestAction } from '../../store/modules/offer/actions';
+import { TabBar, RouteTab } from '../../pureUi/TabBar';
+import { RouteComponentProps, Route, Switch, Redirect } from 'react-router-dom';
 
 const _ReadOnlyField = props => {
   const { label, children, className } = props;
@@ -364,10 +365,13 @@ const OfferOrderingSection = props => {
     </section>
   );
 };
-export class _OffersView extends React.PureComponent<IOffersViewProps, {}> {
-  componentWillMount() {
-    this.props.getOfferRequestAction(this.props.match.params.id);
+export class _OffersView extends React.Component<IOffersViewProps, {}> {
+  componentDidMount() {
+    if (!this.props.offer || this.props.offer!.uuid !== this.props.match.params.id) {
+      this.props.getOfferRequestAction(this.props.match.params.id);
+    }
   }
+
   render() {
     if (this.props.offerRequestIsPending || this.props.offer == null) {
       return <p>Loading...</p>;
@@ -376,6 +380,8 @@ export class _OffersView extends React.PureComponent<IOffersViewProps, {}> {
     if (this.props.offerError) {
       return <p>There was a problem loading this offer. Please refresh the page to try again.</p>;
     }
+
+    const { url, path } = this.props.match;
 
     return (
       <main className={this.props.className}>
@@ -394,17 +400,33 @@ export class _OffersView extends React.PureComponent<IOffersViewProps, {}> {
         <h1>{this.props.offer.name}</h1>
         <h2>{this.props.offer.hotel.name}</h2>
 
-        <TabbedNavigation
-          tabHeaders={[<h3>Offer Details</h3>, <h3>Prerequisites</h3>, <h3>Applications</h3>, <h3>Ordering</h3>]}
-        >
-          <OfferDetailsSection offer={this.props.offer} offerMapping={this.props.associatedOffersMapping} />
+        <TabBar>
+          <RouteTab to={`${url}/details`}>Details</RouteTab>
+          <RouteTab to={`${url}/pre-requisites`}>Pre Requisites</RouteTab>
+          <RouteTab to={`${url}/applications`}>Applicaitons</RouteTab>
+          <RouteTab to={`${url}/combination-ordering`}>Combination & Ordering</RouteTab>
+        </TabBar>
 
-          <PrerequisitesSection offer={this.props.offer} productMapping={this.props.associatedProductsMapping} />
+        <Switch>
+          <Route exact path={`${path}/details`}>
+            <OfferDetailsSection offer={this.props.offer} offerMapping={this.props.associatedOffersMapping} />
+          </Route>
 
-          <ApplicationsSection offer={this.props.offer} productMapping={this.props.associatedProductsMapping} />
+          <Route exact path={`${path}/pre-requisites`}>
+            <PrerequisitesSection offer={this.props.offer} productMapping={this.props.associatedProductsMapping} />
+          </Route>
 
-          <OfferOrderingSection offer={this.props.offer} offersOnHotel={this.props.offersOnHotel} />
-        </TabbedNavigation>
+          <Route exact path={`${path}/applications`}>
+            <ApplicationsSection offer={this.props.offer} productMapping={this.props.associatedProductsMapping} />
+          </Route>
+
+          <Route exact path={`${path}/combination-ordering`}>
+            <OfferOrderingSection offer={this.props.offer} offersOnHotel={this.props.offersOnHotel} />
+          </Route>
+
+          {/* Default route */}
+          <Redirect from="/" to={`${url}/details`} />
+        </Switch>
       </main>
     );
   }
@@ -448,14 +470,14 @@ const actionCreators = {
 
 export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
-export interface IOffersViewProps extends StateToProps, DispatchToProps {
+
+export interface IRouteParams {
+  id: string;
+}
+
+export interface IOffersViewProps extends StateToProps, DispatchToProps, RouteComponentProps<IRouteParams> {
   className: string; // from styled components
   actingCountryCode: string;
-  match: {
-    params: {
-      id: string;
-    };
-  };
 }
 
 const mapStateToProps = createStructuredSelector({

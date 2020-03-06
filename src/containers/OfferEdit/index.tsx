@@ -36,15 +36,12 @@ export class OfferEditContainer extends React.PureComponent<IOfferEditProps, {}>
 export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
 
-export interface IOfferRouteMatch extends RouteComponentProps {
-  params: {
-    offerId: string;
-  };
+export interface IRouteParams {
+  offerId: string;
 }
 
-export interface IOfferEditProps extends StateToProps, DispatchToProps {
+export interface IOfferEditProps extends StateToProps, DispatchToProps, RouteComponentProps<IRouteParams> {
   className?: string;
-  match: IOfferRouteMatch;
 }
 
 const mapStateToProps = createStructuredSelector({
