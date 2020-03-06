@@ -8,9 +8,9 @@ import { makeBackendApi } from 'services/BackendApi';
 import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
 import { Heading1 } from 'styles';
 import { Text } from 'pureUi/typography';
+import { LinkButton } from 'pureUi/Buttons';
 
 const BookingSummaryConfirmedSR = props => {
-  console.log('booking summary confirmed SR');
   const newBooking: BookingBuilderDomain = props.newBooking;
   const isOnProposal: boolean = newBooking.proposalUuid ? true : false;
   const canCancel = true;
@@ -74,9 +74,7 @@ const BookingSummaryConfirmedSR = props => {
       {isOnProposal && (
         <AsideDetails>
           <Title>{props.t('labels.proposalId')}</Title>
-          <a href={`/proposals/${newBooking.proposalUuid}`}>
-            <PrimaryButton>View Proposal</PrimaryButton>
-          </a>
+          <LinkButton to={`/proposals/${newBooking.proposalUuid}`}>View Proposal</LinkButton>
         </AsideDetails>
       )}
     </React.Fragment>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { PrimaryButton } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Text } from 'pureUi/typography';
+import { LinkButton } from 'pureUi/Buttons';
 
 const BookingSummaryConfirmedTA = props => {
   const { newBooking } = props;
@@ -20,9 +20,7 @@ const BookingSummaryConfirmedTA = props => {
       {isOnProposal && (
         <AsideDetails>
           <Title>{props.t('labels.proposalId')}</Title>
-          <a href={`/proposals/${newBooking.proposalUuid}`}>
-            <PrimaryButton>View Proposal</PrimaryButton>
-          </a>
+          <LinkButton to={`/proposals/${newBooking.proposalUuid}`}>View Proposal</LinkButton>
         </AsideDetails>
       )}
     </React.Fragment>
