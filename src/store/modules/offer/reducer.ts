@@ -1,19 +1,19 @@
 import { IOfferModel, initialState } from './model';
 import { OfferAction, GET_OFFER_REQUEST, GET_OFFER_SUCCESS, GET_OFFER_FAILURE } from './actions';
 import {
-  EDIT_OFFER_HOTEL_UUID_CHANGE,
-  EDIT_OFFER_NAME_CHANGE,
-  EDIT_OFFER_TERMS_CHANGE,
-  EDIT_OFFER_FURTHER_INFORMATION_CHANGE,
-  EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE,
+  OFFER_HOTEL_UUID_CHANGE,
+  OFFER_NAME_CHANGE,
+  OFFER_TERMS_CHANGE,
+  OFFER_FURTHER_INFORMATION_CHANGE,
+  OFFER_ADD_STAY_BETWEEN_PREREQUISITE,
 } from './edit/actions';
 
 import {
-  editOfferHotelUuidReducer,
-  editOfferNameReducer,
-  editOfferTermsReducer,
-  editOfferFurtherInformationReducer,
-  editOfferAddStayBetweenPrerequisiteReducer,
+  offerHotelUuidChangeReducer,
+  offerNameChangeReducer,
+  offerTermsChangeReducer,
+  offerFurtherInformationChangeReducer,
+  offerAddStayBetweenPrerequisiteReducer,
 } from './edit/reducer';
 
 export const offer = (state: IOfferModel = initialState, action: OfferAction): IOfferModel => {
@@ -42,16 +42,16 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
         getOfferRequestIsPending: false,
       };
 
-    case EDIT_OFFER_HOTEL_UUID_CHANGE:
-      return editOfferHotelUuidReducer(state, action);
-    case EDIT_OFFER_NAME_CHANGE:
-      return editOfferNameReducer(state, action);
-    case EDIT_OFFER_TERMS_CHANGE:
-      return editOfferTermsReducer(state, action);
-    case EDIT_OFFER_FURTHER_INFORMATION_CHANGE:
-      return editOfferFurtherInformationReducer(state, action);
-    case EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE:
-      return editOfferAddStayBetweenPrerequisiteReducer(state, action);
+    case OFFER_HOTEL_UUID_CHANGE:
+      return offerHotelUuidChangeReducer(state, action);
+    case OFFER_NAME_CHANGE:
+      return offerNameChangeReducer(state, action);
+    case OFFER_TERMS_CHANGE:
+      return offerTermsChangeReducer(state, action);
+    case OFFER_FURTHER_INFORMATION_CHANGE:
+      return offerFurtherInformationChangeReducer(state, action);
+    case OFFER_ADD_STAY_BETWEEN_PREREQUISITE:
+      return offerAddStayBetweenPrerequisiteReducer(state, action);
 
     default:
       return state;

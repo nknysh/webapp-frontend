@@ -1,12 +1,13 @@
 import { IOffer } from 'services/BackendApi';
 
 import {
-  EditOfferHotelUuidChangeAction,
-  EditOfferNameChangeAction,
-  EditOfferTermsChangeAction,
-  EditOfferFurtherInformationChangeAction,
-  EditOfferAddStayBetweenPrerequisiteAction,
-  EditOfferRemoveStayBetweenPrerequisiteAction,
+  OfferHotelUuidChangeAction,
+  OfferNameChangeAction,
+  OfferTermsChangeAction,
+  OfferFurtherInformationChangeAction,
+  OfferAddStayBetweenPrerequisiteAction,
+  OfferRemoveStayBetweenPrerequisiteAction,
+  OfferChangeStayBetweenPrerequisiteAction,
 } from './edit/actions';
 
 export const GET_OFFER_REQUEST = 'offer/GET_OFFER_REQUEST';
@@ -43,9 +44,10 @@ export type OfferAction =
   | GetOfferRequestAction
   | GetOfferSuccessAction
   | GetOfferFailureAction
-  | EditOfferHotelUuidChangeAction
-  | EditOfferNameChangeAction
-  | EditOfferTermsChangeAction
-  | EditOfferFurtherInformationChangeAction
-  | EditOfferAddStayBetweenPrerequisiteAction
-  | EditOfferRemoveStayBetweenPrerequisiteAction;
+  | OfferHotelUuidChangeAction
+  | OfferNameChangeAction
+  | OfferTermsChangeAction
+  | OfferFurtherInformationChangeAction
+  | OfferAddStayBetweenPrerequisiteAction
+  | OfferRemoveStayBetweenPrerequisiteAction
+  | OfferChangeStayBetweenPrerequisiteAction;
