@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch, compose } from 'redux';
 import { getUserCountryContext } from 'store/modules/auth';
 import { createStructuredSelector } from 'reselect';
-import CloseIcon from '@material-ui/icons/Close';
-import CheckIcon from '@material-ui/icons/Check';
-import ResultBadge from 'pureUi/ResultBadge';
-import { useTranslation } from 'react-i18next';
-import { ageNameToHumanReadable, greenTaxToHumanReadable, formatDateDisplay } from 'utils';
 import { Breadcrumbs } from 'components';
-
+import { OfferDetailsSection } from './OfferDetailsSection';
+import { PrerequisitesSection } from './PrerequisitesSection';
+import { ApplicationsSection } from './ApplicationsSection';
+import { CombinationAndOrderingSection } from './CombinationAndOrderingSection';
 import { Back } from '../BookingContainer/BookingContainer.styles';
 import {
   getOfferRequestIsPendingSelector,
@@ -24,7 +22,7 @@ import { getOfferRequestAction } from '../../store/modules/offer/actions';
 import { TabBar, RouteTab } from '../../pureUi/TabBar';
 import { RouteComponentProps, Route, Switch, Redirect } from 'react-router-dom';
 
-const _ReadOnlyField = props => {
+export const _ReadOnlyField = props => {
   const { label, children, className } = props;
   return (
     <div className={className}>
@@ -33,7 +31,7 @@ const _ReadOnlyField = props => {
     </div>
   );
 };
-const ReadOnlyField = styled(_ReadOnlyField)`
+export const ReadOnlyField = styled(_ReadOnlyField)`
   border: 1px solid #cbd5e0;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 8px;
@@ -59,312 +57,6 @@ const ReadOnlyField = styled(_ReadOnlyField)`
   }
 `;
 
-const ApplicationProductField = props => {
-  const { label, applicationProductSet, productMapping } = props;
-  return (
-    <div>
-      {applicationProductSet.map((productBlock, i) => {
-        return (
-          <div key={`transfers-${i}`}>
-            <h4>{label}</h4>
-            <div className="application-product-block">
-              <ReadOnlyField label={'Applied Products / Age Ranges'}>
-                {productBlock.products.map(product => {
-                  return (
-                    <p>
-                      <span key={product.uuid}>{productMapping[product.uuid]}</span>
-
-                      <div className="application-product-field-age-names">
-                        /
-                        {(product.ageNames &&
-                          product.ageNames.map(ageName => {
-                            return <span key={ageName}>{ageNameToHumanReadable(ageName)}</span>;
-                          })) || <span>All ages</span>}
-                      </div>
-                    </p>
-                  );
-                })}
-              </ReadOnlyField>
-
-              <ReadOnlyField label={'Discount Percentage'}>
-                <p>{productBlock.discountPercentage}</p>
-              </ReadOnlyField>
-
-              {productBlock.maximumQuantity != null && (
-                <ReadOnlyField label={'Maximum Quantity'}>
-                  {(productBlock.maximumQuantity && <p>{productBlock.maximumQuantity}</p>) || <p>N/A</p>}
-                </ReadOnlyField>
-              )}
-
-              {productBlock.greenTaxDiscountApproach != null && (
-                <ReadOnlyField label={'Green Tax Discount Approach'}>
-                  <p>{greenTaxToHumanReadable(productBlock.greenTaxDiscountApproach)}</p>
-                </ReadOnlyField>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-const OfferDetailsSection = props => {
-  const { offer, offerMapping } = props;
-  if (offer === undefined) {
-    return null;
-  }
-  return (
-    <section>
-      <ReadOnlyField label={'Terms and Conditions'}>
-        <p>{offer.termsAndConditions}</p>
-      </ReadOnlyField>
-
-      {offer.furtherInformation && (
-        <ReadOnlyField label={'Further Information'}>
-          <p>{offer.furtherInformation}</p>
-        </ReadOnlyField>
-      )}
-
-      <ReadOnlyField label={'Pre Discount'}>{offer.preDiscount ? <CheckIcon /> : <CloseIcon />}</ReadOnlyField>
-      <ReadOnlyField label={'Combines'}>{offer.combines ? <CheckIcon /> : <CloseIcon />}</ReadOnlyField>
-
-      {offer.combinesWith && offer.combinesWith.length >= 1 && (
-        <ReadOnlyField label={'Combines With'}>
-          {offer.combinesWith.map((oUuid: string) => (
-            <ResultBadge key={oUuid} type="text" label={offerMapping[oUuid]} />
-          ))}
-        </ReadOnlyField>
-      )}
-
-      {offer.cannotCombineWith && offer.cannotCombineWith.length >= 1 && (
-        <ReadOnlyField label={'Cannot Combine With'}>
-          {offer.cannotCombineWith.map((oUuid: string) => (
-            <ResultBadge key={oUuid} type="text" label={offerMapping[oUuid]} />
-          ))}
-        </ReadOnlyField>
-      )}
-    </section>
-  );
-};
-
-const PrerequisitesSection = props => {
-  const { offer, productMapping } = props;
-  const { t } = useTranslation();
-  if (offer === undefined) {
-    return null;
-  }
-
-  return (
-    <section>
-      {offer.prerequisites.dates && (
-        <ReadOnlyField label={t('labels.prerequisites.dates')}>
-          {offer.prerequisites.dates.map(date => (
-            <p key={date.startDate}>
-              {formatDateDisplay(date.startDate)} - {formatDateDisplay(date.endDate)}
-            </p>
-          ))}
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.maximumLodgingsInBooking && (
-        <ReadOnlyField label={t('labels.prerequisites.maximumLodgingsInBooking')}>
-          <p>{offer.prerequisites.maximumLodgingsInBooking}</p>
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.advance && (
-        <ReadOnlyField label={t('labels.prerequisites.advance')}>
-          <div>
-            <label>Book By</label>
-            <span>{formatDateDisplay(offer.prerequisites.advance.bookBy)}</span>
-          </div>
-          {offer.prerequisites.advance.minimum && (
-            <div>
-              <label>Minimum</label>
-              <span>{offer.prerequisites.advance.minimum}</span>
-            </div>
-          )}
-          {offer.prerequisites.advance.maximum && (
-            <div>
-              <label>Maximum</label>
-              <span>{offer.prerequisites.advance.maximum}</span>
-            </div>
-          )}
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.stayLength && (
-        <ReadOnlyField label={t('labels.prerequisites.stayLength')}>
-          {offer.prerequisites.stayLength.minimum && (
-            <div>
-              <label>Minimum</label>
-              <span>{offer.prerequisites.stayLength.minimum}</span>
-            </div>
-          )}
-          {offer.prerequisites.stayLength.maximum && (
-            <div>
-              <label>Maximum</label>
-              <span>{offer.prerequisites.stayLength.maximum}</span>
-            </div>
-          )}
-          {offer.prerequisites.stayLength.strictMinMaxStay && (
-            <div>
-              <label>Strict Min/Max Stay</label>
-              <span>{offer.prerequisites.stayLength.strictMinMaxStay ? <CheckIcon /> : <CloseIcon />}</span>
-            </div>
-          )}
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.countryCodes && (
-        <ReadOnlyField label={t('labels.prerequisites.countryCodes')}>
-          {offer.prerequisites.countryCodes.map(countryCode => (
-            <p key={countryCode}>{countryCode}</p>
-          ))}
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.accommodationProducts && (
-        <ReadOnlyField label={t('labels.prerequisites.accommodationProducts')}>
-          <ul>
-            {offer.prerequisites.accommodationProducts.map((pUuid: string) => (
-              <li key={pUuid}>{productMapping[pUuid]}</li>
-            ))}
-          </ul>
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.payload.anniversary != null && (
-        <ReadOnlyField label={t('labels.prerequisites.anniversary')}>
-          <p>{offer.prerequisites.payload.anniversary ? <CheckIcon /> : <CloseIcon />}</p>
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.payload.birthday != null && (
-        <ReadOnlyField label={t('labels.prerequisites.birthday')}>
-          <p>{offer.prerequisites.payload.birthday ? <CheckIcon /> : <CloseIcon />}</p>
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.payload.honeymoon != null && (
-        <ReadOnlyField label={t('labels.prerequisites.honeymoon')}>
-          <p>{offer.prerequisites.payload.honeymoon ? <CheckIcon /> : <CloseIcon />}</p>
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.payload.repeatCustomer != null && (
-        <ReadOnlyField label={t('labels.prerequisites.repeatCustomer')}>
-          <p>{offer.prerequisites.payload.repeatCustomer ? <CheckIcon /> : <CloseIcon />}</p>
-        </ReadOnlyField>
-      )}
-
-      {offer.prerequisites.payload.wedding != null && (
-        <ReadOnlyField label={t('labels.prerequisites.wedding')}>
-          <p>{offer.prerequisites.payload.wedding ? <CheckIcon /> : <CloseIcon />}</p>
-        </ReadOnlyField>
-      )}
-    </section>
-  );
-};
-
-const ApplicationsSection = props => {
-  const { offer, productMapping } = props;
-  if (offer === undefined) {
-    return null;
-  }
-  if (offer.productDiscounts === undefined) {
-    offer.productDiscounts = {};
-  }
-  if (offer.subProductDiscounts === undefined) {
-    offer.subProductDiscounts = {};
-  }
-
-  return (
-    <section>
-      {offer.stepping && (
-        <ReadOnlyField label={'Stepping'}>
-          {offer.stepping.applyTo && (
-            <div>
-              <label>Apply To</label>
-              <span>{offer.stepping.applyTo}</span>
-            </div>
-          )}
-          {offer.stepping.everyXNights && (
-            <div>
-              <label>Every X Nights</label>
-              <span>{offer.stepping.everyXNights}</span>
-            </div>
-          )}
-          {offer.stepping.maximumNights && (
-            <div>
-              <label>Maximum Nights</label>
-              <span>{offer.stepping.maximumNights}</span>
-            </div>
-          )}
-        </ReadOnlyField>
-      )}
-
-      {offer.accommodationProductDiscount && (
-        <ReadOnlyField label={'Accommodation Discount'}>
-          <p>{offer.accommodationProductDiscount.discountPercentage}</p>
-          <p>{greenTaxToHumanReadable(offer.accommodationProductDiscount.greenTaxDiscountApproach)}</p>
-        </ReadOnlyField>
-      )}
-
-      {offer.productDiscounts &&
-        Object.keys(offer.productDiscounts).map(key => {
-          if (offer.productDiscounts === undefined || offer.productDiscounts[key] === undefined) {
-            return null;
-          }
-          return (
-            <ApplicationProductField
-              productMapping={productMapping}
-              key={key}
-              label={key}
-              applicationProductSet={offer.productDiscounts[key]}
-            />
-          );
-        })}
-
-      {offer.subProductDiscounts &&
-        Object.keys(offer.subProductDiscounts).map(key => {
-          if (offer.subProductDiscounts === undefined || offer.subProductDiscounts[key] === undefined) {
-            return null;
-          }
-          return (
-            <ApplicationProductField
-              productMapping={productMapping}
-              key={key}
-              label={key}
-              applicationProductSet={offer.subProductDiscounts[key]}
-            />
-          );
-        })}
-    </section>
-  );
-};
-
-const OfferOrderingSection = props => {
-  const { offer, offersOnHotel } = props;
-  if (offer == null) {
-    return null;
-  }
-
-  return (
-    <section className="ordering-section">
-      <ol>
-        {offersOnHotel.map((offerOnHotel: any) => {
-          return (
-            <li key={offerOnHotel.uuid} className={offerOnHotel.uuid === offer.uuid ? 'active' : ''}>
-              {offerOnHotel.name}
-            </li>
-          );
-        })}
-      </ol>
-    </section>
-  );
-};
 export class _OffersView extends React.Component<IOffersViewProps, {}> {
   componentDidMount() {
     if (!this.props.offer || this.props.offer!.uuid !== this.props.match.params.id) {
@@ -408,20 +100,20 @@ export class _OffersView extends React.Component<IOffersViewProps, {}> {
         </TabBar>
 
         <Switch>
-          <Route exact path={`${path}/details`}>
+          <Route exact path={`${path}/details`} data-role="offer-view-offer-details-tab">
             <OfferDetailsSection offer={this.props.offer} offerMapping={this.props.associatedOffersMapping} />
           </Route>
 
-          <Route exact path={`${path}/pre-requisites`}>
+          <Route exact path={`${path}/pre-requisites`} data-role="offer-view-prerequisites-tab">
             <PrerequisitesSection offer={this.props.offer} productMapping={this.props.associatedProductsMapping} />
           </Route>
 
-          <Route exact path={`${path}/applications`}>
+          <Route exact path={`${path}/applications`} data-role="offer-view-applications-tab">
             <ApplicationsSection offer={this.props.offer} productMapping={this.props.associatedProductsMapping} />
           </Route>
 
-          <Route exact path={`${path}/combination-ordering`}>
-            <OfferOrderingSection offer={this.props.offer} offersOnHotel={this.props.offersOnHotel} />
+          <Route exact path={`${path}/combination-ordering`} data-role="offer-view-combination-and-ordering-tab">
+            <CombinationAndOrderingSection offer={this.props.offer} offersOnHotel={this.props.offersOnHotel} />
           </Route>
 
           {/* Default route */}
