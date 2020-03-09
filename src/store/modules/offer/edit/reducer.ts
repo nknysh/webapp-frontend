@@ -4,47 +4,58 @@ import {
   EditOfferNameChangeAction,
   EditOfferTermsChangeAction,
   EditOfferFurtherInformationChangeAction,
+  EditOfferAddStayBetweenPrerequisiteAction,
 } from './actions';
+import produce from 'immer';
 
 export const editOfferHotelUuidReducer = (state: IOfferModel, action: EditOfferHotelUuidChangeAction) => {
-  return {
-    ...state,
-    offer: {
-      ...state.offer,
-      hotelUuid: action.hotelUuid,
-    },
-  };
+  return produce(state, draftState => {
+    if (draftState.offer) {
+      draftState.offer.hotelUuid = action.hotelUuid;
+    }
+    return draftState;
+  })
 };
 
 export const editOfferNameReducer = (state: IOfferModel, action: EditOfferNameChangeAction) => {
-  return {
-    ...state,
-    offer: {
-      ...state.offer,
-      name: action.offerName,
-    },
-  };
+  return produce(state, draftState => {
+    if (draftState.offer) {
+      draftState.offer.name = action.offerName;
+    }
+    return draftState;
+  })
 };
 
 export const editOfferTermsReducer = (state: IOfferModel, action: EditOfferTermsChangeAction) => {
-  return {
-    ...state,
-    offer: {
-      ...state.offer,
-      termsAndConditions: action.offerTerms,
-    },
-  };
+  return produce(state, draftState => {
+    if (draftState.offer) {
+      draftState.offer.termsAndConditions = action.offerTerms;
+    }
+    return draftState;
+  })
 };
 
 export const editOfferFurtherInformationReducer = (
   state: IOfferModel,
   action: EditOfferFurtherInformationChangeAction
 ) => {
-  return {
-    ...state,
-    offer: {
-      ...state.offer,
-      furtherInformation: action.offerFurtherInformation,
-    },
-  };
+  return produce(state, draftState => {
+    if (draftState.offer) {
+      draftState.offer.furtherInformation = action.offerFurtherInformation;
+    }
+    return draftState;
+  })
+};
+
+export const editOfferAddStayBetweenPrerequisiteReducer = (
+  state: IOfferModel,
+  action: EditOfferAddStayBetweenPrerequisiteAction
+) => {
+  return produce(state, draftState => {
+    draftState.offer?.prerequisites.dates.push({
+      startDate: '',
+      endDate: '',
+    });
+    return draftState;
+  });
 };

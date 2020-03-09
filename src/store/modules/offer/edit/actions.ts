@@ -3,6 +3,8 @@ export const EDIT_OFFER_NAME_CHANGE = 'offer/EDIT_OFFER_NAME_CHANGE';
 export const EDIT_OFFER_TERMS_CHANGE = 'offer/EDIT_OFFER_TERMS_CHANGE';
 export const EDIT_OFFER_FURTHER_INFORMATION_CHANGE = 'offer/EDIT_OFFER_FURTHER_INFORMATION_CHANGE';
 
+export const EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE = 'offer/EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE';
+
 export type EditOfferHotelUuidChangeAction = ReturnType<typeof editOfferHotelUuidChangeAction>;
 export const editOfferHotelUuidChangeAction = (hotelUuid: string) => ({
   type: EDIT_OFFER_HOTEL_UUID_CHANGE as typeof EDIT_OFFER_HOTEL_UUID_CHANGE,
@@ -25,4 +27,9 @@ export type EditOfferFurtherInformationChangeAction = ReturnType<typeof editOffe
 export const editOfferFurtherInformationChangeAction = (offerFurtherInformation: string) => ({
   type: EDIT_OFFER_FURTHER_INFORMATION_CHANGE as typeof EDIT_OFFER_FURTHER_INFORMATION_CHANGE,
   offerFurtherInformation,
+});
+
+export type EditOfferAddStayBetweenPrerequisiteAction = ReturnType<typeof editOfferAddStayBetweenPrerequisiteAction>;
+export const editOfferAddStayBetweenPrerequisiteAction = () => ({
+  type: EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE as typeof EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE,
 });

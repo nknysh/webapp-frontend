@@ -5,6 +5,7 @@ import {
   EDIT_OFFER_NAME_CHANGE,
   EDIT_OFFER_TERMS_CHANGE,
   EDIT_OFFER_FURTHER_INFORMATION_CHANGE,
+  EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE,
 } from './edit/actions';
 
 import {
@@ -12,6 +13,7 @@ import {
   editOfferNameReducer,
   editOfferTermsReducer,
   editOfferFurtherInformationReducer,
+  editOfferAddStayBetweenPrerequisiteReducer,
 } from './edit/reducer';
 
 export const offer = (state: IOfferModel = initialState, action: OfferAction): IOfferModel => {
@@ -48,6 +50,8 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
       return editOfferTermsReducer(state, action);
     case EDIT_OFFER_FURTHER_INFORMATION_CHANGE:
       return editOfferFurtherInformationReducer(state, action);
+    case EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE:
+      return editOfferAddStayBetweenPrerequisiteReducer(state, action);
 
     default:
       return state;
