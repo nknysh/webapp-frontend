@@ -36,22 +36,22 @@ export const getOffersOnHotelSelector = createSelector(
 
 export const offerNameSelector = createSelector(
   offerSelector,
-  offer => (offer ? offer.name : null)
+  offer => offer.name
 );
 
 export const offerHotelUuidSelector = createSelector(
   offerSelector,
-  offer => (offer ? offer.hotelUuid : null)
+  offer => offer.hotelUuid
 );
 
 export const offerTermsSelector = createSelector(
   offerSelector,
-  offer => (offer ? offer.termsAndConditions : null)
+  offer => offer.termsAndConditions
 );
 
 export const offerFurtherInformationSelector = createSelector(
   offerSelector,
-  offer => (offer ? offer.furtherInformation : null)
+  offer => offer.furtherInformation
 );
 
 export const offerStayBetweenPrerequisitesSelector = createSelector(
