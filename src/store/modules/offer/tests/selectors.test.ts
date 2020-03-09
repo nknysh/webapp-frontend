@@ -25,6 +25,11 @@ describe('Offer Selectors', () => {
   describe('offerSelector', () => {
     it('Selects correctly', () => {
       expect(offerSelector.resultFunc(initialState)).toEqual({
+        uuid: '',
+        name: '',
+        termsAndConditions: '',
+        furtherInformation: '',
+        hotelUuid: '',
         prerequisites: {
           dates: [],
         },
