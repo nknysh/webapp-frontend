@@ -1,5 +1,6 @@
 import { IOfferModel } from './model';
 import { createSelector } from 'reselect';
+import { generateArrayOfDatesBetween } from 'utils';
 
 export const offerDomainSelector = (state: any): IOfferModel => state.offer as IOfferModel;
 
@@ -35,20 +36,29 @@ export const getOffersOnHotelSelector = createSelector(
 
 export const offerNameSelector = createSelector(
   offerSelector,
-  offer => (offer == null ? null : offer.name)
+  offer => (offer ? offer.name : null)
 );
 
 export const offerHotelUuidSelector = createSelector(
   offerSelector,
-  offer => (offer == null ? null : offer.hotelUuid)
+  offer => (offer ? offer.hotelUuid : null)
 );
 
 export const offerTermsSelector = createSelector(
   offerSelector,
-  offer => (offer == null ? null : offer.termsAndConditions)
+  offer => (offer ? offer.termsAndConditions : null)
 );
 
 export const offerFurtherInformationSelector = createSelector(
   offerSelector,
-  offer => (offer == null ? null : offer.furtherInformation)
+  offer => (offer ? offer.furtherInformation : null)
+);
+
+export const offerStayBetweenPrerequisitesSelector = createSelector(
+  offerSelector,
+  offer => {
+    return offer.prerequisites.dates.map(dateRange => {
+      return generateArrayOfDatesBetween(dateRange.startDate, dateRange.endDate);
+    });
+  }
 );

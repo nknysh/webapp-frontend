@@ -6,6 +6,7 @@ import {
   offerNameSelector,
   offerTermsSelector,
   offerFurtherInformationSelector,
+  offerStayBetweenPrerequisitesSelector,
 } from '../selectors';
 import { initialState } from '../model';
 
@@ -52,6 +53,54 @@ describe('Offer Selectors', () => {
 
     it('Selects further information correctly', () => {
       expect(offerFurtherInformationSelector.resultFunc(initialState.offer)).toEqual('');
+    });
+  });
+
+  describe.only('offer stay between selector', () => {
+    it('handles a 5 date range correctly', () => {
+      const fixtureOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          dates: [
+            {
+              startDate: '2020-01-01',
+              endDate: '2020-01-05',
+            },
+          ],
+        },
+      };
+
+      const selected = offerStayBetweenPrerequisitesSelector.resultFunc(fixtureOffer);
+
+      expect(selected).toMatchObject([['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05']]);
+    });
+
+    it('handles multiple date prerequisites', () => {
+      const fixtureOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          dates: [
+            {
+              startDate: '2020-01-01',
+              endDate: '2020-01-05',
+            },
+
+            {
+              startDate: '2020-05-01',
+              endDate: '2020-05-03',
+            },
+          ],
+        },
+      };
+
+      const selected = offerStayBetweenPrerequisitesSelector.resultFunc(fixtureOffer);
+
+      expect(selected).toMatchObject([
+        ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05'],
+        ['2020-05-01', '2020-05-02', '2020-05-03'],
+      ]);
     });
   });
 });

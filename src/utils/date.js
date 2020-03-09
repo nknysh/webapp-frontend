@@ -23,6 +23,7 @@ import {
   startOfMonth,
   subDays,
   addDays,
+  parseISO,
 } from 'date-fns';
 
 import config from 'config';
@@ -229,4 +230,11 @@ export const formatDateRangeDisplay = (startDate, endDate) => {
   }
 
   return `${formatDateDisplay(startDate)} - ${formatDateDisplay(endDate)}`;
+};
+
+export const generateArrayOfDatesBetween = (startDate, endDate) => {
+  return eachDayOfInterval({
+    start: typeof startDate === 'string' ? parseISO(startDate) : startDate,
+    end: typeof endDate === 'string' ? parseISO(endDate) : endDate,
+  }).map(date => formatDate(date));
 };

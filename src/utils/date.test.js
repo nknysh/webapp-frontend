@@ -6,6 +6,7 @@ import {
   getFromDateFormat,
   getStartOfMonth,
   getEndOfMonth,
+  generateArrayOfDatesBetween,
 } from './date';
 
 describe('date', () => {
@@ -62,6 +63,20 @@ describe('date', () => {
   describe('getEndOfMonth', () => {
     it('returns last date of month', () => {
       expect(getEndOfMonth(new Date('2019-07-01'))).toMatchSnapshot();
+    });
+  });
+
+  describe('generateArrayOfDatesBetween', () => {
+    it('handles strings', () => {
+      const array = generateArrayOfDatesBetween('2020-01-01', '2020-01-05');
+
+      expect(array).toEqual(['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05']);
+    });
+
+    it('handles dates', () => {
+      const array = generateArrayOfDatesBetween(new Date('2020-01-01'), new Date('2020-01-05'));
+
+      expect(array).toEqual(['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05']);
     });
   });
 });
