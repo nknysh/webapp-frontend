@@ -1,4 +1,4 @@
-interface IPrerequisiteDate {
+export interface IPrerequisiteDate {
   startDate: string;
   endDate: string;
 }

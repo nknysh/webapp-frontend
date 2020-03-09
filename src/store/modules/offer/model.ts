@@ -1,4 +1,4 @@
-import { IOffer, IOfferOnHotelItem } from 'services/BackendApi';
+import { IOffer, IOfferOnHotelItem, IPrerequisiteDate } from 'services/BackendApi';
 
 interface KeyValuePair {
   [key: string]: string;
@@ -7,7 +7,7 @@ interface KeyValuePair {
 export interface IOfferModel {
   getOfferRequestIsPending: boolean;
   error: any | null;
-  offer: IOffer | null;
+  offer: IOffer;
   associatedOffersMapping: KeyValuePair;
   associatedProductsMapping: KeyValuePair;
   offersOnHotel: IOfferOnHotelItem[];
@@ -16,7 +16,11 @@ export interface IOfferModel {
 export const initialState: IOfferModel = {
   getOfferRequestIsPending: true,
   error: null,
-  offer: null,
+  offer: {
+    prerequisites: {
+      dates: [] as IPrerequisiteDate[],
+    },
+  } as IOffer,
   associatedOffersMapping: {},
   associatedProductsMapping: {},
   offersOnHotel: [],

@@ -6,6 +6,8 @@ import {
   OFFER_TERMS_CHANGE,
   OFFER_FURTHER_INFORMATION_CHANGE,
   OFFER_ADD_STAY_BETWEEN_PREREQUISITE,
+  OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE,
+  OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE,
 } from './edit/actions';
 
 import {
@@ -14,6 +16,8 @@ import {
   offerTermsChangeReducer,
   offerFurtherInformationChangeReducer,
   offerAddStayBetweenPrerequisiteReducer,
+  offerChangeStayBetweenPrerequisiteReducer,
+  offerRemoveStayBetweenPrerequisiteReducer,
 } from './edit/reducer';
 
 export const offer = (state: IOfferModel = initialState, action: OfferAction): IOfferModel => {
@@ -52,7 +56,10 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
       return offerFurtherInformationChangeReducer(state, action);
     case OFFER_ADD_STAY_BETWEEN_PREREQUISITE:
       return offerAddStayBetweenPrerequisiteReducer(state, action);
-
+    case OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE:
+      return offerChangeStayBetweenPrerequisiteReducer(state, action);
+    case OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE:
+      return offerRemoveStayBetweenPrerequisiteReducer(state, action);
     default:
       return state;
   }

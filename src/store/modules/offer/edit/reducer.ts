@@ -9,10 +9,11 @@ import {
   OfferChangeStayBetweenPrerequisiteAction,
 } from './actions';
 import produce from 'immer';
+import { IOffer, IPrerequisiteDate } from 'services/BackendApi';
 
 export const offerHotelUuidChangeReducer = (state: IOfferModel, action: OfferHotelUuidChangeAction) => {
   if (!state.offer) {
-    return state;
+    state.offer = {} as IOffer;
   }
   return {
     ...state,
@@ -25,7 +26,7 @@ export const offerHotelUuidChangeReducer = (state: IOfferModel, action: OfferHot
 
 export const offerNameChangeReducer = (state: IOfferModel, action: OfferNameChangeAction) => {
   if (!state.offer) {
-    return state;
+    state.offer = {} as IOffer;
   }
   return {
     ...state,
@@ -38,7 +39,7 @@ export const offerNameChangeReducer = (state: IOfferModel, action: OfferNameChan
 
 export const offerTermsChangeReducer = (state: IOfferModel, action: OfferTermsChangeAction) => {
   if (!state.offer) {
-    return state;
+    state.offer = {} as IOffer;
   }
   return {
     ...state,
@@ -54,7 +55,7 @@ export const offerFurtherInformationChangeReducer = (
   action: OfferFurtherInformationChangeAction
 ) => {
   if (!state.offer) {
-    return state;
+    state.offer = {} as IOffer;
   }
   return {
     ...state,
@@ -70,12 +71,10 @@ export const offerAddStayBetweenPrerequisiteReducer = (
   action: OfferAddStayBetweenPrerequisiteAction
 ) => {
   return produce(state, draftState => {
-    if (draftState.offer) {
-      draftState.offer.prerequisites.dates.push({
-        startDate: '',
-        endDate: '',
-      });
-    }
+    draftState.offer.prerequisites.dates.push({
+      startDate: '',
+      endDate: '',
+    });
     return draftState;
   });
 };
@@ -85,9 +84,7 @@ export const offerRemoveStayBetweenPrerequisiteReducer = (
   action: OfferRemoveStayBetweenPrerequisiteAction
 ) => {
   return produce(state, draftState => {
-    if (draftState.offer) {
-      draftState.offer.prerequisites.dates.splice(action.stayBetweenIndex, 1);
-    }
+    draftState.offer.prerequisites.dates.splice(action.stayBetweenIndex, 1);
     return draftState;
   });
 };
@@ -97,14 +94,12 @@ export const offerChangeStayBetweenPrerequisiteReducer = (
   action: OfferChangeStayBetweenPrerequisiteAction
 ) => {
   return produce(state, draftState => {
-    if (draftState.offer) {
-      if (action.startDate !== undefined) {
-        draftState.offer.prerequisites.dates[action.stayBetweenIndex].startDate = action.startDate;
-      }
+    if (action.startDate) {
+      draftState.offer.prerequisites.dates[action.stayBetweenIndex].startDate = action.startDate;
+    }
 
-      if (action.endDate !== undefined) {
-        draftState.offer.prerequisites.dates[action.stayBetweenIndex].endDate = action.endDate;
-      }
+    if (action.endDate) {
+      draftState.offer.prerequisites.dates[action.stayBetweenIndex].endDate = action.endDate;
     }
 
     return draftState;
