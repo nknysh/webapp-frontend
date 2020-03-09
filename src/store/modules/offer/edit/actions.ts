@@ -1,10 +1,10 @@
-export const OFFER_HOTEL_UUID_CHANGE = 'offer/EDIT_OFFER_HOTEL_UUID_CHANGE';
-export const OFFER_NAME_CHANGE = 'offer/EDIT_OFFER_NAME_CHANGE';
-export const OFFER_TERMS_CHANGE = 'offer/EDIT_OFFER_TERMS_CHANGE';
-export const OFFER_FURTHER_INFORMATION_CHANGE = 'offer/EDIT_OFFER_FURTHER_INFORMATION_CHANGE';
-export const OFFER_ADD_STAY_BETWEEN_PREREQUISITE = 'offer/EDIT_OFFER_ADD_STAY_BETWEEN_PREREQUISITE';
-export const OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE = 'offer/EDIT_OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE';
-export const OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE = 'offer/EDIT_OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE';
+export const OFFER_HOTEL_UUID_CHANGE = 'offer/OFFER_HOTEL_UUID_CHANGE';
+export const OFFER_NAME_CHANGE = 'offer/OFFER_NAME_CHANGE';
+export const OFFER_TERMS_CHANGE = 'offer/OFFER_TERMS_CHANGE';
+export const OFFER_FURTHER_INFORMATION_CHANGE = 'offer/OFFER_FURTHER_INFORMATION_CHANGE';
+export const OFFER_ADD_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_ADD_STAY_BETWEEN_PREREQUISITE';
+export const OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE';
+export const OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE';
 
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
@@ -42,13 +42,8 @@ export const offerRemoveStayBetweenPrerequisiteAction = (stayBetweenIndex: numbe
 });
 
 export type OfferChangeStayBetweenPrerequisiteAction = ReturnType<typeof offerChangeStayBetweenPrerequisiteAction>;
-export const offerChangeStayBetweenPrerequisiteAction = (
-  stayBetweenIndex: number,
-  startDate: string | undefined = undefined,
-  endDate: string | undefined = undefined
-) => ({
+export const offerChangeStayBetweenPrerequisiteAction = (stayBetweenIndex: number, dates: string[] = []) => ({
   type: OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE as typeof OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE,
   stayBetweenIndex,
-  startDate,
-  endDate,
+  dates,
 });

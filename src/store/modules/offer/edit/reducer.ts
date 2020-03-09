@@ -94,12 +94,17 @@ export const offerChangeStayBetweenPrerequisiteReducer = (
   action: OfferChangeStayBetweenPrerequisiteAction
 ) => {
   return produce(state, draftState => {
-    if (action.startDate) {
-      draftState.offer.prerequisites.dates[action.stayBetweenIndex].startDate = action.startDate;
-    }
-
-    if (action.endDate) {
-      draftState.offer.prerequisites.dates[action.stayBetweenIndex].endDate = action.endDate;
+    // no dates got sent - do nothing.
+    if (action.dates.length <= 0) {
+      return draftState;
+    } else if (action.dates.length === 1) {
+      // exactly 1 date means that no end date is set
+      draftState.offer.prerequisites.dates[action.stayBetweenIndex].startDate = action.dates[0];
+      draftState.offer.prerequisites.dates[action.stayBetweenIndex].endDate = '';
+    } else {
+      // 2 or more dates means we have both a start and an end date
+      draftState.offer.prerequisites.dates[action.stayBetweenIndex].startDate = action.dates[0];
+      draftState.offer.prerequisites.dates[action.stayBetweenIndex].endDate = action.dates[action.dates.length - 1];
     }
 
     return draftState;

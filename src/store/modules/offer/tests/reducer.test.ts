@@ -54,80 +54,170 @@ describe('Offer reducer edit', () => {
   it('handles OFFER_HOTEL_UUID_CHANGE correctly', () => {
     const action = offerHotelUuidChangeAction('abc123');
 
-    const result = reducer(undefined, action);
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        hotelUuid: 'abc123',
+      },
+    };
+    const state = reducer(undefined, action);
 
-    expect(result.offer.hotelUuid).toEqual('abc123');
+    expect(state).toMatchObject(expected);
   });
 
   it('handles OFFER_NAME_CHANGE correctly', () => {
     const action = offerNameChangeAction('new name');
 
-    const result = reducer(undefined, action);
+    const state = reducer(undefined, action);
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        name: 'new name',
+      },
+    };
 
-    expect(result.offer.name).toEqual('new name');
+    expect(state).toMatchObject(expected);
   });
 
   it('handles OFFER_TERMS_CHANGE correctly', () => {
     const action = offerTermsChangeAction('new ts and cs');
 
-    const result = reducer(undefined, action);
-
-    expect(result.offer.termsAndConditions).toEqual('new ts and cs');
+    const state = reducer(undefined, action);
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        termsAndConditions: 'new ts and cs',
+      },
+    };
+    expect(state).toMatchObject(expected);
   });
 
   it('handles OFFER_FURTHER_INFORMATION_CHANGE correctly', () => {
     const action = offerFurtherInformationChangeAction('new further information');
 
-    const result = reducer(undefined, action);
+    const state = reducer(undefined, action);
 
-    expect(result.offer.furtherInformation).toEqual('new further information');
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        furtherInformation: 'new further information',
+      },
+    };
+    expect(state).toMatchObject(expected);
   });
 
   it('handles OFFER_ADD_STAY_BETWEEN_PREREQUISITE correctly with initial state', () => {
     const action = offerAddStayBetweenPrerequisiteAction();
 
-    let stateA = reducer(undefined, action);
-    expect(stateA.offer.prerequisites.dates.length).toEqual(1);
-  });
-
-  it('handles OFFER_ADD_STAY_BETWEEN_PREREQUISITE correctly with empty dates array', () => {
-    const action = offerAddStayBetweenPrerequisiteAction();
-
-    let stateA = reducer(
-      {
-        offer: {
-          prerequisites: {
-            dates: [] as IDateRange[],
-          },
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          dates: [
+            {
+              startDate: '',
+              endDate: '',
+            },
+          ],
         },
-      } as IOfferModel,
-      action
-    );
-    expect(stateA.offer.prerequisites.dates.length).toEqual(1);
+      },
+    };
+
+    const state = reducer(undefined, action);
+    expect(state).toMatchObject(expected);
   });
 
-  it('handles OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE correctly', () => {
-    const changeAction = offerChangeStayBetweenPrerequisiteAction(0, '01-01-2020', '01-05-2020');
+  it('handles OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE correctly with 1 date', () => {
+    const changeAction = offerChangeStayBetweenPrerequisiteAction(0, ['01-01-2020']);
 
-    const stateB = reducer(
+    const state = reducer(
       {
+        ...initialState,
         offer: {
+          ...initialState.offer,
           prerequisites: {
+            ...initialState.offer.prerequisites,
             dates: [
               {
                 startDate: '',
                 endDate: '',
               },
-            ],
+            ] as IDateRange[],
           },
         },
       } as IOfferModel,
       changeAction
     );
 
-    expect(stateB.offer.prerequisites.dates.length).toEqual(1);
-    expect(stateB.offer.prerequisites.dates[0].startDate).toEqual('01-01-2020');
-    expect(stateB.offer.prerequisites.dates[0].endDate).toEqual('01-05-2020');
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          dates: [
+            {
+              startDate: '01-01-2020',
+              endDate: '',
+            },
+          ],
+        },
+      },
+    };
+
+    expect(state).toMatchObject(expected);
+  });
+
+  it('handles OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE correctly with multiple dates', () => {
+    const changeAction = offerChangeStayBetweenPrerequisiteAction(0, [
+      '01-01-2020',
+      '02-01-2020',
+      '03-01-2020',
+      '04-01-2020',
+    ]);
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          prerequisites: {
+            ...initialState.offer.prerequisites,
+            dates: [
+              {
+                startDate: '',
+                endDate: '',
+              },
+            ] as IDateRange[],
+          },
+        },
+      } as IOfferModel,
+      changeAction
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          dates: [
+            {
+              startDate: '01-01-2020',
+              endDate: '04-01-2020',
+            },
+          ],
+        },
+      },
+    };
+
+    expect(state).toMatchObject(expected);
   });
 
   it('handles OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE with only 1 prerequisite', () => {
