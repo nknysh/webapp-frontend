@@ -17,6 +17,11 @@ export const initialState: IOfferModel = {
   getOfferRequestIsPending: true,
   error: null,
   offer: {
+    uuid: '',
+    name: '',
+    termsAndConditions: '',
+    furtherInformation: '',
+    hotelUuid: '',
     prerequisites: {
       dates: [] as IPrerequisiteDate[],
     },
