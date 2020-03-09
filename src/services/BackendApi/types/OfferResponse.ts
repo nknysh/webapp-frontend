@@ -1,7 +1,5 @@
-export interface IPrerequisiteDate {
-  startDate: string;
-  endDate: string;
-}
+import { IDateRange } from 'interfaces';
+
 export interface IOffersViewResponse {
   meta: {};
   data: any;
@@ -42,7 +40,7 @@ export interface IOffer {
   termsAndConditions: string;
   furtherInformation: string;
   prerequisites: {
-    dates: IPrerequisiteDate[];
+    dates: IDateRange[];
     maximumLodgingsInBooking: number;
     advance: {
       bookBy: string;

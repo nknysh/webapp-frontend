@@ -1,6 +1,6 @@
 import { offer as reducer } from '../reducer';
 import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../actions';
-
+import { IDateRange } from 'interfaces';
 import {
   offerHotelUuidChangeAction,
   offerNameChangeAction,
@@ -10,7 +10,7 @@ import {
   offerChangeStayBetweenPrerequisiteAction,
   offerRemoveStayBetweenPrerequisiteAction,
 } from '../edit/actions';
-import { IOffer, IPrerequisiteDate } from 'services/BackendApi';
+import { IOffer } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../model';
 
 describe('Offer reducer', () => {
@@ -97,7 +97,7 @@ describe('Offer reducer edit', () => {
       {
         offer: {
           prerequisites: {
-            dates: [] as IPrerequisiteDate[],
+            dates: [] as IDateRange[],
           },
         },
       } as IOfferModel,

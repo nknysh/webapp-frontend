@@ -119,3 +119,8 @@ export interface IReviewBookingSchema {
   internalComments?: string;
   status: string;
 }
+
+export interface IDateRange {
+  startDate: string;
+  endDate: string;
+}

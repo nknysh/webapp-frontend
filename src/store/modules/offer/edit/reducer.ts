@@ -9,7 +9,7 @@ import {
   OfferChangeStayBetweenPrerequisiteAction,
 } from './actions';
 import produce from 'immer';
-import { IOffer, IPrerequisiteDate } from 'services/BackendApi';
+import { IOffer } from 'services/BackendApi';
 
 export const offerHotelUuidChangeReducer = (state: IOfferModel, action: OfferHotelUuidChangeAction) => {
   if (!state.offer) {

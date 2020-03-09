@@ -1,4 +1,5 @@
-import { IOffer, IOfferOnHotelItem, IPrerequisiteDate } from 'services/BackendApi';
+import { IOffer, IOfferOnHotelItem } from 'services/BackendApi';
+import { IDateRange } from 'interfaces';
 
 interface KeyValuePair {
   [key: string]: string;
@@ -23,7 +24,7 @@ export const initialState: IOfferModel = {
     furtherInformation: '',
     hotelUuid: '',
     prerequisites: {
-      dates: [] as IPrerequisiteDate[],
+      dates: [] as IDateRange[],
     },
   } as IOffer,
   associatedOffersMapping: {},
