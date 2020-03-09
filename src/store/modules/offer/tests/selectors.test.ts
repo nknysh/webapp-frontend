@@ -16,7 +16,11 @@ describe('Offer Selectors', () => {
 
   describe('offerSelector', () => {
     it('Selects correctly', () => {
-      expect(offerSelector.resultFunc(initialState)).toEqual(null);
+      expect(offerSelector.resultFunc(initialState)).toEqual({
+        prerequisites: {
+          dates: [],
+        },
+      });
     });
   });
 });
