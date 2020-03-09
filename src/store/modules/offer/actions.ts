@@ -6,6 +6,7 @@ import {
   EditOfferTermsChangeAction,
   EditOfferFurtherInformationChangeAction,
   EditOfferAddStayBetweenPrerequisiteAction,
+  EditOfferRemoveStayBetweenPrerequisiteAction,
 } from './edit/actions';
 
 export const GET_OFFER_REQUEST = 'offer/GET_OFFER_REQUEST';
@@ -46,4 +47,5 @@ export type OfferAction =
   | EditOfferNameChangeAction
   | EditOfferTermsChangeAction
   | EditOfferFurtherInformationChangeAction
-  | EditOfferAddStayBetweenPrerequisiteAction;
+  | EditOfferAddStayBetweenPrerequisiteAction
+  | EditOfferRemoveStayBetweenPrerequisiteAction;

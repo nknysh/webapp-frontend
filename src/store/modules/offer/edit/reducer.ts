@@ -5,6 +5,7 @@ import {
   EditOfferTermsChangeAction,
   EditOfferFurtherInformationChangeAction,
   EditOfferAddStayBetweenPrerequisiteAction,
+  EditOfferRemoveStayBetweenPrerequisiteAction,
 } from './actions';
 import produce from 'immer';
 
@@ -14,7 +15,7 @@ export const editOfferHotelUuidReducer = (state: IOfferModel, action: EditOfferH
       draftState.offer.hotelUuid = action.hotelUuid;
     }
     return draftState;
-  })
+  });
 };
 
 export const editOfferNameReducer = (state: IOfferModel, action: EditOfferNameChangeAction) => {
@@ -23,7 +24,7 @@ export const editOfferNameReducer = (state: IOfferModel, action: EditOfferNameCh
       draftState.offer.name = action.offerName;
     }
     return draftState;
-  })
+  });
 };
 
 export const editOfferTermsReducer = (state: IOfferModel, action: EditOfferTermsChangeAction) => {
@@ -32,7 +33,7 @@ export const editOfferTermsReducer = (state: IOfferModel, action: EditOfferTerms
       draftState.offer.termsAndConditions = action.offerTerms;
     }
     return draftState;
-  })
+  });
 };
 
 export const editOfferFurtherInformationReducer = (
@@ -44,7 +45,7 @@ export const editOfferFurtherInformationReducer = (
       draftState.offer.furtherInformation = action.offerFurtherInformation;
     }
     return draftState;
-  })
+  });
 };
 
 export const editOfferAddStayBetweenPrerequisiteReducer = (
@@ -52,10 +53,24 @@ export const editOfferAddStayBetweenPrerequisiteReducer = (
   action: EditOfferAddStayBetweenPrerequisiteAction
 ) => {
   return produce(state, draftState => {
-    draftState.offer?.prerequisites.dates.push({
-      startDate: '',
-      endDate: '',
-    });
+    if (draftState.offer) {
+      draftState.offer.prerequisites.dates.push({
+        startDate: '',
+        endDate: '',
+      });
+    }
+    return draftState;
+  });
+};
+
+export const editOfferRemoveStayBetweenPrerequisiteReducer = (
+  state: IOfferModel,
+  action: EditOfferRemoveStayBetweenPrerequisiteAction
+) => {
+  return produce(state, draftState => {
+    if (draftState.offer) {
+      draftState.offer.prerequisites.dates.splice(action.stayBetweenIndex, 1);
+    }
     return draftState;
   });
 };
