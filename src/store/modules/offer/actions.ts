@@ -1,5 +1,12 @@
 import { IOffer } from 'services/BackendApi';
 
+import {
+  EditOfferHotelUuidChangeAction,
+  EditOfferNameChangeAction,
+  EditOfferTermsChangeAction,
+  EditOfferFurtherInformationChangeAction,
+} from './edit/actions';
+
 export const GET_OFFER_REQUEST = 'offer/GET_OFFER_REQUEST';
 export const GET_OFFER_SUCCESS = 'offer/GET_OFFER_SUCCESS';
 export const GET_OFFER_FAILURE = 'offer/GET_OFFER_FAILURE';
@@ -30,4 +37,11 @@ export const getOfferFailureAction = (error: any) => ({
   error,
 });
 
-export type OfferAction = GetOfferRequestAction | GetOfferSuccessAction | GetOfferFailureAction;
+export type OfferAction =
+  | GetOfferRequestAction
+  | GetOfferSuccessAction
+  | GetOfferFailureAction
+  | EditOfferHotelUuidChangeAction
+  | EditOfferNameChangeAction
+  | EditOfferTermsChangeAction
+  | EditOfferFurtherInformationChangeAction;

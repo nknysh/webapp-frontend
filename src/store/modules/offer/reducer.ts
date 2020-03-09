@@ -1,5 +1,18 @@
 import { IOfferModel, initialState } from './model';
 import { OfferAction, GET_OFFER_REQUEST, GET_OFFER_SUCCESS, GET_OFFER_FAILURE } from './actions';
+import {
+  EDIT_OFFER_HOTEL_UUID_CHANGE,
+  EDIT_OFFER_NAME_CHANGE,
+  EDIT_OFFER_TERMS_CHANGE,
+  EDIT_OFFER_FURTHER_INFORMATION_CHANGE,
+} from './edit/actions';
+
+import {
+  editOfferHotelUuidReducer,
+  editOfferNameReducer,
+  editOfferTermsReducer,
+  editOfferFurtherInformationReducer,
+} from './edit/reducer';
 
 export const offer = (state: IOfferModel = initialState, action: OfferAction): IOfferModel => {
   switch (action.type) {
@@ -26,6 +39,15 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
         error: action.error,
         getOfferRequestIsPending: false,
       };
+
+    case EDIT_OFFER_HOTEL_UUID_CHANGE:
+      return editOfferHotelUuidReducer(state, action);
+    case EDIT_OFFER_NAME_CHANGE:
+      return editOfferNameReducer(state, action);
+    case EDIT_OFFER_TERMS_CHANGE:
+      return editOfferTermsReducer(state, action);
+    case EDIT_OFFER_FURTHER_INFORMATION_CHANGE:
+      return editOfferFurtherInformationReducer(state, action);
 
     default:
       return state;

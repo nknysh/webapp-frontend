@@ -32,3 +32,23 @@ export const getOffersOnHotelSelector = createSelector(
   offerDomainSelector,
   domain => domain.offersOnHotel
 );
+
+export const offerNameSelector = createSelector(
+  offerSelector,
+  offer => (offer == null ? null : offer.name)
+);
+
+export const offerHotelUuidSelector = createSelector(
+  offerSelector,
+  offer => (offer == null ? null : offer.hotelUuid)
+);
+
+export const offerTermsSelector = createSelector(
+  offerSelector,
+  offer => (offer == null ? null : offer.termsAndConditions)
+);
+
+export const offerFurtherInformationSelector = createSelector(
+  offerSelector,
+  offer => (offer == null ? null : offer.furtherInformation)
+);
