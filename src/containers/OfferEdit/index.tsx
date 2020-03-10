@@ -61,26 +61,26 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, IState>
 
         <section className="basicInfo">
           <Label className="hotelSelect" text="Hotel">
-            <select placeholder="Select a hotel">
+            <select className="hotelSelectInput" placeholder="Select a hotel">
               <option value="1">Hotel 1</option>
               <option value="2">Hotel 2</option>
             </select>
           </Label>
           <Label className="offerNameInput" text="Offer Name">
-            <TextInput placeholder="Offer Name" />
+            <TextInput className="offerNameInput" placeholder="Offer Name" />
           </Label>
           <Label className="termsAndConditions" text="Terms & Conditions">
-            <TextArea />
+            <TextArea className="termsInput" />
           </Label>
           <Label className="furtherInformation" text="Further Information">
-            <TextArea />
+            <TextArea className="furtherInformationInput" />
           </Label>
-          <Label className="textOnlyCheckbox" inline reverse text="Text Only">
-            <Checkbox disabled checked />
+          <Label className="textOnly" inline reverse text="Text Only">
+            <Checkbox className="textOnlyCheckbox" disabled checked />
           </Label>
           <Text className="textOnlyInfo">Does not change the price of any product.</Text>
-          <Label className="preDiscountCheckbox" inline reverse text="Pre Discount">
-            <Checkbox disabled checked />
+          <Label className="preDiscount" inline reverse text="Pre Discount">
+            <Checkbox className="preDiscountCheckbox" disabled />
           </Label>
           <Text className="preDiscountInfo">
             Precentage discounts will be applied to product base rates, before any other percentage discounts.
@@ -90,6 +90,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, IState>
           <Fieldset>
             <Legend>Stay between</Legend>
             <MultiDateRange
+              className="stayBetweenInputs"
               dateRanges={this.state.dateRanges}
               onDateChange={this.handleDateChange}
               onNewDate={this.handleNewDate}

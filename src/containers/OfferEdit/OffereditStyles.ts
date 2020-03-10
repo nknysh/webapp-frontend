@@ -41,7 +41,7 @@ export const OfferEditStyles = styled.main`
   .textOnlyInfo {
     grid-area: textOnlyInfo;
   }
-  .preDiscountCheckbox {
+  .preDiscount {
     grid-area: preDscountCheckbox;
   }
   .preDiscountInfo {
