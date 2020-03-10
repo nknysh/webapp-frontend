@@ -326,14 +326,8 @@ describe('Offer reducer edit', () => {
     expect(stateB.offer.prerequisites.dates[1].endDate).toEqual('c2');
   });
 
-  it.only('handles OFFER_SET_BOOLEAN_PREREQUISITES with all of them as null', () => {
-    const action = offerSetBooleanPrerequisiteAction({
-      anniversary: null,
-      birthday: null,
-      honeymoon: null,
-      repeatCustomer: null,
-      wedding: null,
-    });
+  it('handles OFFER_SET_BOOLEAN_PREREQUISITES with all of them as null', () => {
+    const action = offerSetBooleanPrerequisiteAction('anniversary', null);
 
     const state = reducer(
       {
@@ -343,6 +337,7 @@ describe('Offer reducer edit', () => {
           prerequisites: {
             ...initialState.offer.prerequisites,
             payload: {
+              anniversary: true,
               wedding: true,
             },
           },
@@ -357,6 +352,9 @@ describe('Offer reducer edit', () => {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
+          payload: {
+            wedding: true,
+          },
         },
       },
     };
@@ -364,14 +362,8 @@ describe('Offer reducer edit', () => {
     expect(state).toMatchObject(expected);
   });
 
-  it.only('handles OFFER_SET_BOOLEAN_PREREQUISITES with setting one as true when a different one is true', () => {
-    const action = offerSetBooleanPrerequisiteAction({
-      anniversary: null,
-      birthday: true,
-      honeymoon: null,
-      repeatCustomer: null,
-      wedding: null,
-    });
+  it('handles OFFER_SET_BOOLEAN_PREREQUISITES with setting one as true when a different one is true', () => {
+    const action = offerSetBooleanPrerequisiteAction('honeymoon', true);
 
     const state = reducer(
       {
@@ -396,7 +388,8 @@ describe('Offer reducer edit', () => {
         prerequisites: {
           ...initialState.offer.prerequisites,
           payload: {
-            birthday: true,
+            honeymoon: true,
+            wedding: true,
           },
         },
       },
@@ -405,14 +398,8 @@ describe('Offer reducer edit', () => {
     expect(state).toMatchObject(expected);
   });
 
-  it.only('handles OFFER_SET_BOOLEAN_PREREQUISITES with setting one as false when a different one is false', () => {
-    const action = offerSetBooleanPrerequisiteAction({
-      anniversary: null,
-      birthday: null,
-      honeymoon: null,
-      repeatCustomer: false,
-      wedding: null,
-    });
+  it('handles OFFER_SET_BOOLEAN_PREREQUISITES with setting one as false when a different one is false', () => {
+    const action = offerSetBooleanPrerequisiteAction('birthday', false);
 
     const state = reducer(
       {
@@ -437,13 +424,76 @@ describe('Offer reducer edit', () => {
         prerequisites: {
           ...initialState.offer.prerequisites,
           payload: {
-            repeatCustomer: false,
+            anniversary: true,
+            birthday: false,
           },
         },
       },
     };
 
-    console.log('state', JSON.stringify(state, null, 2));
+    expect(state).toMatchObject(expected);
+  });
+
+  it('handles OFFER_SET_BOOLEAN_PREREQUISITES setting the only payload to null', () => {
+    const action = offerSetBooleanPrerequisiteAction('wedding', null);
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          prerequisites: {
+            ...initialState.offer.prerequisites,
+            payload: {
+              wedding: true,
+            },
+          },
+        },
+      } as IOfferModel,
+      action
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+        },
+      },
+    };
+
+    expect(state).toMatchObject(expected);
+  });
+
+  it('handles OFFER_SET_BOOLEAN_PREREQUISITES setting a payload value with no previous payload', () => {
+    const action = offerSetBooleanPrerequisiteAction('wedding', true);
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          prerequisites: {
+            ...initialState.offer.prerequisites,
+          },
+        },
+      } as IOfferModel,
+      action
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          payload: {
+            wedding: true,
+          },
+        },
+      },
+    };
 
     expect(state).toMatchObject(expected);
   });

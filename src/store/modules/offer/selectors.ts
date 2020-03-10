@@ -1,6 +1,7 @@
 import { IOfferModel } from './model';
 import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
+import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 
 export const offerDomainSelector = (state: any): IOfferModel => state.offer as IOfferModel;
 
@@ -60,5 +61,20 @@ export const offerStayBetweenPrerequisitesSelector = createSelector(
     return offer.prerequisites.dates.map(dateRange => {
       return generateArrayOfDatesBetween(dateRange.startDate, dateRange.endDate);
     });
+  }
+);
+
+export const offerBooleanPrerequisitesSelector = createSelector(
+  offerSelector,
+  offer => {
+
+    // we check for undefined below, as they wont exist in the store
+    return {
+      anniversary: offer.prerequisites.payload?.anniversary !== undefined ? offer.prerequisites.payload?.anniversary : null,
+      birthday: offer.prerequisites.payload?.birthday !== undefined ? offer.prerequisites.payload?.birthday : null,
+      honeymoon: offer.prerequisites.payload?.honeymoon !== undefined ? offer.prerequisites.payload?.honeymoon : null,
+      repeatCustomer: offer.prerequisites.payload?.repeatCustomer !== undefined ? offer.prerequisites.payload?.repeatCustomer : null,
+      wedding: offer.prerequisites.payload?.wedding !== undefined ? offer.prerequisites.payload?.wedding : null,
+    } as IOfferPrerequisitesPayload;
   }
 );

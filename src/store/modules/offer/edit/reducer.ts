@@ -110,11 +110,29 @@ export const offerChangeStayBetweenPrerequisiteReducer = (
 };
 
 export const offerSetBooleanPrerequisitesReducer = (state: IOfferModel, action: OfferSetBooleanPrerequisiteAction) => {
-  console.log('running');
   return produce(state, draftState => {
-    draftState.offer.prerequisites.payload = {
-      ...action.payload,
-    };
+    // if value is true or false, make sure we have a payload object, and then set the value inside it
+    if (action.value !== null) {
+      if (!draftState.offer.prerequisites.payload) {
+        draftState.offer.prerequisites.payload = {};
+      }
+
+      draftState.offer.prerequisites.payload[action.key] = action.value;
+    }
+
+    // if value is null and we HAVE that payload object, delete it from the object
+    if (
+      action.value === null &&
+      draftState.offer.prerequisites.payload &&
+      draftState.offer.prerequisites.payload[action.key]
+    ) {
+      delete draftState.offer.prerequisites.payload[action.key];
+    }
+
+    // if we have a payload, but its now empty, remove payload itself
+    if (draftState.offer.prerequisites.payload && Object.keys(draftState.offer.prerequisites.payload).length <= 0) {
+      delete draftState.offer.prerequisites.payload;
+    }
 
     return draftState;
   });

@@ -8,7 +8,7 @@ import {
   OFFER_ADD_STAY_BETWEEN_PREREQUISITE,
   OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE,
   OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE,
-  OFFER_SET_BOOLEAN_PREREQUISITES,
+  OFFER_SET_BOOLEAN_PREREQUISITE,
 } from './edit/actions';
 
 import {
@@ -62,7 +62,7 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
       return offerChangeStayBetweenPrerequisiteReducer(state, action);
     case OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE:
       return offerRemoveStayBetweenPrerequisiteReducer(state, action);
-    case OFFER_SET_BOOLEAN_PREREQUISITES:
+    case OFFER_SET_BOOLEAN_PREREQUISITE:
       return offerSetBooleanPrerequisitesReducer(state, action);
     default:
       return state;

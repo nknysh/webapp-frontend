@@ -7,6 +7,7 @@ import {
   offerTermsSelector,
   offerFurtherInformationSelector,
   offerStayBetweenPrerequisitesSelector,
+  offerBooleanPrerequisitesSelector,
 } from '../selectors';
 import { initialState } from '../model';
 
@@ -101,6 +102,76 @@ describe('Offer Selectors', () => {
         ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05'],
         ['2020-05-01', '2020-05-02', '2020-05-03'],
       ]);
+    });
+  });
+
+  describe('offer boolean prerequisites selector', () => {
+    it('returns when no payloads are set', () => {
+      const fixtureOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+        },
+      };
+
+      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixtureOffer);
+
+      expect(selected).toMatchObject({
+        anniversary: null,
+        birthday: null,
+        honeymoon: null,
+        repeatCustomer: null,
+        wedding: null,
+      });
+    });
+
+    it('returns when some are not set and some are true and false', () => {
+      const fixtureOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          payload: {
+            anniversary: true,
+            wedding: false,
+          },
+        },
+      };
+
+      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixtureOffer);
+
+      expect(selected).toMatchObject({
+        anniversary: true,
+        birthday: null,
+        honeymoon: null,
+        repeatCustomer: null,
+        wedding: false,
+      });
+    });
+
+    it('returns when all are set to true', () => {
+      const fixtureOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          payload: {
+            anniversary: true,
+            birthday: true,
+            honeymoon: true,
+            repeatCustomer: true,
+            wedding: true,
+          },
+        },
+      };
+
+      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixtureOffer);
+
+      expect(selected).toMatchObject({
+        anniversary: true,
+        birthday: true,
+        honeymoon: true,
+        repeatCustomer: true,
+        wedding: true,
+      });
     });
   });
 });

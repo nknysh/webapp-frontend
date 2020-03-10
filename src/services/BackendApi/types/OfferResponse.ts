@@ -27,12 +27,14 @@ export interface IProductDiscount {
 }
 
 export interface IOfferPrerequisitesPayload {
-  honeymoon?: boolean | null;
-  wedding?: boolean | null;
   anniversary?: boolean | null;
   birthday?: boolean | null;
+  honeymoon?: boolean | null;
   repeatCustomer?: boolean | null;
+  wedding?: boolean | null;
 }
+
+export type IOfferBooleanPrerequisite = 'honeymoon' | 'wedding' | 'anniversary' | 'birthday' | 'repeatCustomer';
 
 export interface IOffer {
   uuid: string;
