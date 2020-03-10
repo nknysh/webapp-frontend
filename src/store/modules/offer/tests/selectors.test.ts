@@ -8,6 +8,7 @@ import {
   offerFurtherInformationSelector,
   offerStayBetweenPrerequisitesSelector,
   offerBooleanPrerequisitesSelector,
+  offerStayBetweenPrerequisitesRawSelector,
 } from '../selectors';
 import { initialState } from '../model';
 
@@ -60,62 +61,72 @@ describe('Offer Selectors', () => {
 
   describe('offer stay between selector', () => {
     it('handles a 5 date range correctly', () => {
-      const fixtureOffer = {
-        ...initialState.offer,
-        prerequisites: {
-          ...initialState.offer.prerequisites,
-          dates: [
-            {
-              startDate: '2020-01-01',
-              endDate: '2020-01-05',
-            },
-          ],
-        },
+      const fixture = {
+        ...initialState.offer.prerequisites,
+        dates: [
+          {
+            startDate: '2020-01-01',
+            endDate: '2020-01-05',
+          },
+        ],
       };
 
-      const selected = offerStayBetweenPrerequisitesSelector.resultFunc(fixtureOffer);
+      const selected = offerStayBetweenPrerequisitesSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05']]);
     });
 
     it('handles multiple date prerequisites', () => {
-      const fixtureOffer = {
-        ...initialState.offer,
-        prerequisites: {
-          ...initialState.offer.prerequisites,
-          dates: [
-            {
-              startDate: '2020-01-01',
-              endDate: '2020-01-05',
-            },
+      const fixture = {
+        ...initialState.offer.prerequisites,
+        dates: [
+          {
+            startDate: '2020-01-01',
+            endDate: '2020-01-05',
+          },
 
-            {
-              startDate: '2020-05-01',
-              endDate: '2020-05-03',
-            },
-          ],
-        },
+          {
+            startDate: '2020-05-01',
+            endDate: '2020-05-03',
+          },
+        ],
       };
 
-      const selected = offerStayBetweenPrerequisitesSelector.resultFunc(fixtureOffer);
+      const selected = offerStayBetweenPrerequisitesSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         ['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04', '2020-01-05'],
         ['2020-05-01', '2020-05-02', '2020-05-03'],
       ]);
     });
+
+    it('raw selector works', () => {
+      const fixture = {
+        ...initialState.offer.prerequisites,
+        dates: [
+          {
+            startDate: '2020-01-01',
+            endDate: '2020-01-05',
+          },
+        ],
+      };
+
+      const selected = offerStayBetweenPrerequisitesRawSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          startDate: '2020-01-01',
+          endDate: '2020-01-05',
+        },
+      ]);
+    });
   });
 
   describe('offer boolean prerequisites selector', () => {
     it('returns when no payloads are set', () => {
-      const fixtureOffer = {
-        ...initialState.offer,
-        prerequisites: {
-          ...initialState.offer.prerequisites,
-        },
-      };
+      const fixture = {};
 
-      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixtureOffer);
+      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject({
         anniversary: null,
@@ -127,18 +138,12 @@ describe('Offer Selectors', () => {
     });
 
     it('returns when some are not set and some are true and false', () => {
-      const fixtureOffer = {
-        ...initialState.offer,
-        prerequisites: {
-          ...initialState.offer.prerequisites,
-          payload: {
-            anniversary: true,
-            wedding: false,
-          },
-        },
+      const fixture = {
+        anniversary: true,
+        wedding: false,
       };
 
-      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixtureOffer);
+      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject({
         anniversary: true,
@@ -150,21 +155,15 @@ describe('Offer Selectors', () => {
     });
 
     it('returns when all are set to true', () => {
-      const fixtureOffer = {
-        ...initialState.offer,
-        prerequisites: {
-          ...initialState.offer.prerequisites,
-          payload: {
-            anniversary: true,
-            birthday: true,
-            honeymoon: true,
-            repeatCustomer: true,
-            wedding: true,
-          },
-        },
+      const fixture = {
+        anniversary: true,
+        birthday: true,
+        honeymoon: true,
+        repeatCustomer: true,
+        wedding: true,
       };
 
-      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixtureOffer);
+      const selected = offerBooleanPrerequisitesSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject({
         anniversary: true,

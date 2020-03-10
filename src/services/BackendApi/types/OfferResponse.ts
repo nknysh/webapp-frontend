@@ -34,8 +34,6 @@ export interface IOfferPrerequisitesPayload {
   wedding?: boolean | null;
 }
 
-export type IOfferBooleanPrerequisite = 'honeymoon' | 'wedding' | 'anniversary' | 'birthday' | 'repeatCustomer';
-
 export interface IOffer {
   uuid: string;
   name: string;

@@ -1,7 +1,7 @@
 import { IOfferModel } from './model';
 import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
-import { IOfferPrerequisitesPayload } from 'services/BackendApi';
+import { IOfferPrerequisitesPayload, OfferPrerequisitePayloadKeys } from 'services/BackendApi';
 
 export const offerDomainSelector = (state: any): IOfferModel => state.offer as IOfferModel;
 
@@ -55,27 +55,51 @@ export const offerFurtherInformationSelector = createSelector(
   offer => offer.furtherInformation
 );
 
-export const offerStayBetweenPrerequisitesSelector = createSelector(
+export const offerPrerequisitesSelector = createSelector(
   offerSelector,
-  offer => {
-    return offer.prerequisites.dates.map(dateRange => {
+  offer => offer.prerequisites
+);
+
+export const offerPayloadPrerequisitesSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => prerequisites.payload
+);
+
+export const offerStayBetweenPrerequisitesSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => {
+    return prerequisites.dates.map(dateRange => {
+      if (!dateRange.startDate || dateRange.startDate === '') {
+        return [];
+      }
+      if (!dateRange.endDate || dateRange.endDate === '') {
+        return [dateRange.startDate];
+      }
       return generateArrayOfDatesBetween(dateRange.startDate, dateRange.endDate);
     });
   }
 );
 
-export const offerBooleanPrerequisitesSelector = createSelector(
-  offerSelector,
-  offer => {
+export const offerStayBetweenPrerequisitesRawSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => prerequisites.dates
+);
 
-    // we check for undefined below, as they wont exist in the store
-    return {
-      anniversary: offer.prerequisites.payload?.anniversary !== undefined ? offer.prerequisites.payload?.anniversary : null,
-      birthday: offer.prerequisites.payload?.birthday !== undefined ? offer.prerequisites.payload?.birthday : null,
-      honeymoon: offer.prerequisites.payload?.honeymoon !== undefined ? offer.prerequisites.payload?.honeymoon : null,
-      repeatCustomer: offer.prerequisites.payload?.repeatCustomer !== undefined ? offer.prerequisites.payload?.repeatCustomer : null,
-      wedding: offer.prerequisites.payload?.wedding !== undefined ? offer.prerequisites.payload?.wedding : null,
-    } as IOfferPrerequisitesPayload;
+export const offerBooleanPrerequisitesSelector = createSelector(
+  offerPayloadPrerequisitesSelector,
+  payload => {
+    const keys = ['anniversary', 'birthday', 'honeymoon', 'repeatCustomer', 'wedding'];
+    const returnedPayload = {} as IOfferPrerequisitesPayload;
+
+    keys.forEach(payloadKey => {
+      if (payload && payload[payloadKey] !== undefined) {
+        returnedPayload[payloadKey] = payload[payloadKey];
+      } else {
+        returnedPayload[payloadKey] = null;
+      }
+    });
+
+    return returnedPayload;
   }
 );
 

@@ -1,4 +1,4 @@
-import { IOfferBooleanPrerequisite } from 'services/BackendApi';
+import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 
 export const OFFER_HOTEL_UUID_CHANGE = 'offer/OFFER_HOTEL_UUID_CHANGE';
 export const OFFER_NAME_CHANGE = 'offer/OFFER_NAME_CHANGE';
@@ -53,7 +53,7 @@ export const offerChangeStayBetweenPrerequisiteAction = (datesArray: string[][])
 });
 
 export type OfferSetBooleanPrerequisiteAction = ReturnType<typeof offerSetBooleanPrerequisiteAction>;
-export const offerSetBooleanPrerequisiteAction = (key: IOfferBooleanPrerequisite, value: boolean | null) => ({
+export const offerSetBooleanPrerequisiteAction = (key: keyof IOfferPrerequisitesPayload, value: boolean | null) => ({
   type: OFFER_SET_BOOLEAN_PREREQUISITE as typeof OFFER_SET_BOOLEAN_PREREQUISITE,
   key,
   value,

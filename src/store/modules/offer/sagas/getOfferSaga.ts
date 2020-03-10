@@ -1,41 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { call, takeLatest, select, put } from 'redux-saga/effects';
 import { GET_OFFER_REQUEST, GetOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../actions';
-import { makeBackendApi, IOfferResponse, IOffer, IProductDiscount } from 'services/BackendApi';
+import { makeBackendApi, IOfferResponse } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 import { arrayOfObjectsToMapping } from 'utils';
-
-const getAllAssociatedProductUuidsFromOffer = (offer: IOffer) => {
-  const productUuids = [...(offer.prerequisites.accommodationProducts || [])];
-
-  if (offer.productDiscounts != undefined) {
-    Object.values(offer.productDiscounts).map((productBlocks: IProductDiscount[]) => {
-      productBlocks.forEach(productBlock => {
-        productBlock.products.map(p => {
-          productUuids.push(p.uuid);
-        });
-      });
-    });
-  }
-
-  if (offer.subProductDiscounts != undefined) {
-    Object.values(offer.subProductDiscounts).map((productBlocks: IProductDiscount[]) => {
-      productBlocks.forEach(productBlock => {
-        productBlock.products.map(p => {
-          productUuids.push(p.uuid);
-        });
-      });
-    });
-  }
-  return productUuids;
-};
-
-const hasOfferGotApplications = (offer: IOffer) => {
-  if (!offer.stepping && !offer.accommodationProductDiscount && !offer.productDiscounts && !offer.subProductDiscounts) {
-    return false;
-  }
-  return true;
-};
+import { getAllAssociatedProductUuidsFromOffer, hasOfferGotApplications } from '../utils';
 
 export function* getOfferRequestSaga(action: GetOfferRequestAction) {
   try {
