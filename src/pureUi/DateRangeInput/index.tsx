@@ -80,7 +80,11 @@ const DateRangeInput = (props: DateRangeInputPops) => {
               </span>
             </button>
             {showDatePicker && (
-              <AutoPosition ancestorDimensions={ancestorDimensions!} viewportDimensions={viewportDimensions!}>
+              <AutoPosition
+                ignoreAncestorWidth
+                ancestorDimensions={ancestorDimensions!}
+                viewportDimensions={viewportDimensions!}
+              >
                 <Frame className="datePickerWrapper">
                   <DatePicker
                     calendarCount={2}
@@ -115,7 +119,11 @@ const DateRangeInput = (props: DateRangeInputPops) => {
           </button>
           {showDatePicker &&
             renderPortal(
-              <AutoPosition ancestorDimensions={ancestorDimensions!} viewportDimensions={viewportDimensions!}>
+              <AutoPosition
+                ignoreAncestorWidth
+                ancestorDimensions={ancestorDimensions!}
+                viewportDimensions={viewportDimensions!}
+              >
                 <Frame className="datePickerWrapper">
                   <DatePicker
                     calendarCount={2}

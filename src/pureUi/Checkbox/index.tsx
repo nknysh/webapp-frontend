@@ -81,4 +81,8 @@ export default styled(Checkbox)`
     height: ${pureUiTheme.measurements.checkboxTittleSize}px;
     background-color: ${pureUiTheme.colors.white};
   }
+
+  & > input:disabled ~ .surrogate {
+    opacity: 0.25;
+  }
 `;

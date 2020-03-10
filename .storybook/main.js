@@ -5,12 +5,12 @@ module.exports = {
   addons: ['@storybook/addon-actions/register', '@storybook/addon-links', '@storybook/addon-docs'],
   webpackFinal: async config => {
     // do mutation to the config
-    
+
     config.module.rules.push(
       {
         test: /\.(t|j)sx?$/,
         use: {
-          loader:  require.resolve('ts-loader'),
+          loader: require.resolve('ts-loader'),
           options: {
             transpileOnly: true,
           },
@@ -25,7 +25,7 @@ module.exports = {
         ],
       }
     );
-    
+
     config.resolve.modules.push(path.resolve(__dirname, '../src'));
     config.resolve.extensions.push('.ts', '.tsx');
 

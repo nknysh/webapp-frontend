@@ -2,6 +2,8 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { pureUiTheme } from '../pureUiTheme';
 import { Link, LinkProps } from 'react-router-dom';
+import { IconButtonProps } from '@material-ui/core/IconButton';
+import { Add, Remove, Close, Edit, ControlPointDuplicate, NavigateNext, NavigateBefore } from '@material-ui/icons';
 
 export const buttonStates = css`
   transition: all 0.15s ease-out;
@@ -93,6 +95,24 @@ export const RoundedIconButton = styled(PrimaryButton)`
   }
 `;
 
+export const AddButton = (props: IconButtonProps) => (
+  <RoundedIconButton {...props}>
+    <Add />
+  </RoundedIconButton>
+);
+
+export const RemoveButton = (props: IconButtonProps) => (
+  <RoundedIconButton {...props}>
+    <Remove />
+  </RoundedIconButton>
+);
+
+export const CloseButton = (props: IconButtonProps) => (
+  <RoundedIconButton {...props}>
+    <Close />
+  </RoundedIconButton>
+);
+
 export const IconButton = styled.button`
   transition: all 0.15s ease-out;
   font-size: 0; /* Fixes flash of text bug in material UI */
@@ -137,5 +157,62 @@ export const ButtonBar = styled.div`
 
   button:last-of-type {
     margin-right: 0;
+  }
+`;
+
+export interface IActionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+  action: 'add' | 'remove' | 'close' | 'edit' | 'duplicate' | 'forward' | 'back';
+}
+
+export const ActionButtonComponent = (props: IActionButtonProps) => {
+  return (
+    <button {...props}>
+      <span>
+        {props.action === 'add' && <Add className="icon" />}
+        {props.action === 'remove' && <Remove className="icon" />}
+        {props.action === 'close' && <Close className="icon" />}
+        {props.action === 'edit' && <Edit className="icon" />}
+        {props.action === 'duplicate' && <ControlPointDuplicate className="icon" />}
+        {props.action === 'forward' && <NavigateNext className="icon" />}
+        {props.action === 'back' && <NavigateBefore className="icon" />}
+        <span className="children">{props.children}</span>
+      </span>
+    </button>
+  );
+};
+
+export const ActionButton = styled(ActionButtonComponent)`
+  display: inline-block;
+  color: ${pureUiTheme.colors.gold};
+  border: 1px solid ${pureUiTheme.colors.gold};
+  border-radius: 100px;
+  box-shadow: 0 0 0 5px transparent;
+  cursor: pointer;
+
+  & > span {
+    display: flex;
+    align-items: center;
+  }
+
+  .children {
+    flex-grow: 1;
+  }
+
+  .icon {
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    margin: 0 8px 0 0;
+  }
+
+  &:focus,
+  &:active {
+    outline: none;
+    box-shadow: 0 0 0 2px ${pureUiTheme.colors.teal};
+  }
+
+  &:active {
+    color: ${pureUiTheme.colors.teal};
+    border-color: ${pureUiTheme.colors.teal};
   }
 `;

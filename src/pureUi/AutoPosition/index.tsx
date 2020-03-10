@@ -7,6 +7,7 @@ export interface IAutoPositionProps {
   viewportDimensions: IViewportDimensions;
   anchorVertical?: 'bottom' | 'top';
   children: React.ReactNode;
+  ignoreAncestorWidth?: boolean;
 }
 
 export const AutoPosition = (props: IAutoPositionProps) => {
@@ -61,17 +62,18 @@ export const AutoPosition = (props: IAutoPositionProps) => {
   const computePosition = useCallback(() => {
     if (isClient && wrapper.current) {
       const rect = wrapper.current.getBoundingClientRect(); // see the comment about about forced rendering
-      console.log('computeTop', computeTop(rect) + 'px');
+
       const styles = {
         transition: 'opacity 0.25s',
         position: 'fixed',
         maxHeight: computeHeight(),
         top: computeTop(rect),
         left: computeLeft(rect),
-        minWidth: ancestorDimensions.width,
+        minWidth: props.ignoreAncestorWidth ? 0 : ancestorDimensions.width,
         visibility: readyToDisplay ? 'visible' : 'hidden',
         zIndex: 1,
       };
+
       return styles;
     }
 
