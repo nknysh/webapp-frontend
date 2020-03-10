@@ -8,6 +8,7 @@ import {
   OfferAddStayBetweenPrerequisiteAction,
   OfferRemoveStayBetweenPrerequisiteAction,
   OfferChangeStayBetweenPrerequisiteAction,
+  OfferSetBooleanPrerequisiteAction,
 } from './edit/actions';
 
 export const GET_OFFER_REQUEST = 'offer/GET_OFFER_REQUEST';
@@ -50,4 +51,5 @@ export type OfferAction =
   | OfferFurtherInformationChangeAction
   | OfferAddStayBetweenPrerequisiteAction
   | OfferRemoveStayBetweenPrerequisiteAction
-  | OfferChangeStayBetweenPrerequisiteAction;
+  | OfferChangeStayBetweenPrerequisiteAction
+  | OfferSetBooleanPrerequisiteAction;

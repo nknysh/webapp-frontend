@@ -9,6 +9,7 @@ import {
   offerAddStayBetweenPrerequisiteAction,
   offerChangeStayBetweenPrerequisiteAction,
   offerRemoveStayBetweenPrerequisiteAction,
+  offerSetBooleanPrerequisiteAction,
 } from '../edit/actions';
 import { IOffer } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../model';
@@ -323,5 +324,127 @@ describe('Offer reducer edit', () => {
     expect(stateB.offer.prerequisites.dates[0].endDate).toEqual('a2');
     expect(stateB.offer.prerequisites.dates[1].startDate).toEqual('c1');
     expect(stateB.offer.prerequisites.dates[1].endDate).toEqual('c2');
+  });
+
+  it.only('handles OFFER_SET_BOOLEAN_PREREQUISITES with all of them as null', () => {
+    const action = offerSetBooleanPrerequisiteAction({
+      anniversary: null,
+      birthday: null,
+      honeymoon: null,
+      repeatCustomer: null,
+      wedding: null,
+    });
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          prerequisites: {
+            ...initialState.offer.prerequisites,
+            payload: {
+              wedding: true,
+            },
+          },
+        },
+      } as IOfferModel,
+      action
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+        },
+      },
+    };
+
+    expect(state).toMatchObject(expected);
+  });
+
+  it.only('handles OFFER_SET_BOOLEAN_PREREQUISITES with setting one as true when a different one is true', () => {
+    const action = offerSetBooleanPrerequisiteAction({
+      anniversary: null,
+      birthday: true,
+      honeymoon: null,
+      repeatCustomer: null,
+      wedding: null,
+    });
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          prerequisites: {
+            ...initialState.offer.prerequisites,
+            payload: {
+              wedding: true,
+            },
+          },
+        },
+      } as IOfferModel,
+      action
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          payload: {
+            birthday: true,
+          },
+        },
+      },
+    };
+
+    expect(state).toMatchObject(expected);
+  });
+
+  it.only('handles OFFER_SET_BOOLEAN_PREREQUISITES with setting one as false when a different one is false', () => {
+    const action = offerSetBooleanPrerequisiteAction({
+      anniversary: null,
+      birthday: null,
+      honeymoon: null,
+      repeatCustomer: false,
+      wedding: null,
+    });
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          prerequisites: {
+            ...initialState.offer.prerequisites,
+            payload: {
+              anniversary: true,
+            },
+          },
+        },
+      } as IOfferModel,
+      action
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          payload: {
+            repeatCustomer: false,
+          },
+        },
+      },
+    };
+
+    console.log('state', JSON.stringify(state, null, 2));
+
+    expect(state).toMatchObject(expected);
   });
 });

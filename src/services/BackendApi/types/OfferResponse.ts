@@ -26,6 +26,14 @@ export interface IProductDiscount {
   }[];
 }
 
+export interface IOfferPrerequisitesPayload {
+  honeymoon?: boolean | null;
+  wedding?: boolean | null;
+  anniversary?: boolean | null;
+  birthday?: boolean | null;
+  repeatCustomer?: boolean | null;
+}
+
 export interface IOffer {
   uuid: string;
   name: string;
@@ -51,6 +59,7 @@ export interface IOffer {
     };
     countryCodes: string[];
     accommodationProducts: string[];
+    payload?: IOfferPrerequisitesPayload;
   };
   preDiscount: boolean;
   stepping?: {

@@ -7,6 +7,7 @@ import {
   OfferAddStayBetweenPrerequisiteAction,
   OfferRemoveStayBetweenPrerequisiteAction,
   OfferChangeStayBetweenPrerequisiteAction,
+  OfferSetBooleanPrerequisiteAction,
 } from './actions';
 import produce from 'immer';
 import { IOffer } from 'services/BackendApi';
@@ -103,6 +104,17 @@ export const offerChangeStayBetweenPrerequisiteReducer = (
 
       draftState.offer.prerequisites.dates[index] = newDateRange;
     });
+
+    return draftState;
+  });
+};
+
+export const offerSetBooleanPrerequisitesReducer = (state: IOfferModel, action: OfferSetBooleanPrerequisiteAction) => {
+  console.log('running');
+  return produce(state, draftState => {
+    draftState.offer.prerequisites.payload = {
+      ...action.payload,
+    };
 
     return draftState;
   });
