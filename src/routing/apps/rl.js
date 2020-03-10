@@ -1,3 +1,3 @@
-import { auth, adminRedirect, user } from 'routing/common';
+import { auth, adminRedirect, user, offers } from 'routing/common';
 
-export default [...auth, ...user, ...adminRedirect];
+export default [...auth, ...user, ...offers, ...adminRedirect];
