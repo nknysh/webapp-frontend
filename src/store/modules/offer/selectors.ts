@@ -78,3 +78,13 @@ export const offerBooleanPrerequisitesSelector = createSelector(
     } as IOfferPrerequisitesPayload;
   }
 );
+
+export const offerPreDiscountSelector = createSelector(
+  offerSelector,
+  offer => offer.preDiscount
+);
+
+export const offerDomainIsTextOnlySelector = createSelector(
+  offerDomainSelector,
+  domain => domain.isTextOnly
+);

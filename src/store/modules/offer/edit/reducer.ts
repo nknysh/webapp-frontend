@@ -8,15 +8,13 @@ import {
   OfferRemoveStayBetweenPrerequisiteAction,
   OfferChangeStayBetweenPrerequisiteAction,
   OfferSetBooleanPrerequisiteAction,
+  OfferSetPreDiscountAction,
 } from './actions';
 import produce from 'immer';
 import { IOffer } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 
 export const offerHotelUuidChangeReducer = (state: IOfferModel, action: OfferHotelUuidChangeAction) => {
-  if (!state.offer) {
-    state.offer = {} as IOffer;
-  }
   return {
     ...state,
     offer: {
@@ -27,9 +25,6 @@ export const offerHotelUuidChangeReducer = (state: IOfferModel, action: OfferHot
 };
 
 export const offerNameChangeReducer = (state: IOfferModel, action: OfferNameChangeAction) => {
-  if (!state.offer) {
-    state.offer = {} as IOffer;
-  }
   return {
     ...state,
     offer: {
@@ -40,9 +35,6 @@ export const offerNameChangeReducer = (state: IOfferModel, action: OfferNameChan
 };
 
 export const offerTermsChangeReducer = (state: IOfferModel, action: OfferTermsChangeAction) => {
-  if (!state.offer) {
-    state.offer = {} as IOffer;
-  }
   return {
     ...state,
     offer: {
@@ -56,9 +48,6 @@ export const offerFurtherInformationChangeReducer = (
   state: IOfferModel,
   action: OfferFurtherInformationChangeAction
 ) => {
-  if (!state.offer) {
-    state.offer = {} as IOffer;
-  }
   return {
     ...state,
     offer: {
@@ -136,4 +125,14 @@ export const offerSetBooleanPrerequisitesReducer = (state: IOfferModel, action: 
 
     return draftState;
   });
+};
+
+export const offerSetPreDiscountReducer = (state: IOfferModel, action: OfferSetPreDiscountAction) => {
+  return {
+    ...state,
+    offer: {
+      ...state.offer,
+      preDiscount: action.value,
+    },
+  };
 };

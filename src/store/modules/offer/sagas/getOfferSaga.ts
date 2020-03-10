@@ -30,6 +30,13 @@ const getAllAssociatedProductUuidsFromOffer = (offer: IOffer) => {
   return productUuids;
 };
 
+const hasOfferGotApplications = (offer: IOffer) => {
+  if (!offer.stepping && !offer.accommodationProductDiscount && !offer.productDiscounts && !offer.subProductDiscounts) {
+    return false;
+  }
+  return true;
+};
+
 export function* getOfferRequestSaga(action: GetOfferRequestAction) {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
@@ -50,12 +57,15 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
     }
     const offersOnHotelResult = yield call(backendApi.getOffersForHotel, offer.hotelUuid);
 
+    const isTextOnly = offer.furtherInformation && !hasOfferGotApplications(offer);
+
     yield put(
       getOfferSuccessAction(
         offer,
         associatedOffersResult ? arrayOfObjectsToMapping(associatedOffersResult.data.data, 'uuid', 'name') : {},
         associatedProductsResult ? arrayOfObjectsToMapping(associatedProductsResult.data.data, 'uuid', 'name') : {},
-        offersOnHotelResult.data.data
+        offersOnHotelResult.data.data,
+        isTextOnly
       )
     );
   } catch (e) {

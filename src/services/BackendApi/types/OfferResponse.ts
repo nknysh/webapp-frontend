@@ -77,7 +77,7 @@ export interface IOffer {
     Supplement?: IProductDiscount[];
     'Meal Plan'?: IProductDiscount[];
   };
-  productDiscounts: {
+  productDiscounts?: {
     Transfer?: IProductDiscount[];
     'Ground Service'?: IProductDiscount[];
     Fine?: IProductDiscount[];

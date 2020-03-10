@@ -1,5 +1,11 @@
 import { IOfferModel, initialState } from './model';
-import { OfferAction, GET_OFFER_REQUEST, GET_OFFER_SUCCESS, GET_OFFER_FAILURE } from './actions';
+import {
+  OfferAction,
+  GET_OFFER_REQUEST,
+  GET_OFFER_SUCCESS,
+  GET_OFFER_FAILURE,
+  SET_OFFER_IS_TEXT_ONLY,
+} from './actions';
 import {
   OFFER_HOTEL_UUID_CHANGE,
   OFFER_NAME_CHANGE,
@@ -9,6 +15,7 @@ import {
   OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE,
   OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE,
   OFFER_SET_BOOLEAN_PREREQUISITE,
+  OFFER_SET_PRE_DISCOUNT,
 } from './edit/actions';
 
 import {
@@ -20,6 +27,7 @@ import {
   offerChangeStayBetweenPrerequisiteReducer,
   offerRemoveStayBetweenPrerequisiteReducer,
   offerSetBooleanPrerequisitesReducer,
+  offerSetPreDiscountReducer,
 } from './edit/reducer';
 
 export const offer = (state: IOfferModel = initialState, action: OfferAction): IOfferModel => {
@@ -39,6 +47,7 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
         associatedProductsMapping: action.associatedProductsMapping,
         offersOnHotel: action.offersOnHotel,
         error: null,
+        isTextOnly: action.isTextOnly,
       };
 
     case GET_OFFER_FAILURE:
@@ -46,6 +55,12 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
         ...state,
         error: action.error,
         getOfferRequestIsPending: false,
+      };
+
+    case SET_OFFER_IS_TEXT_ONLY:
+      return {
+        ...state,
+        isTextOnly: action.value,
       };
 
     case OFFER_HOTEL_UUID_CHANGE:
@@ -64,6 +79,8 @@ export const offer = (state: IOfferModel = initialState, action: OfferAction): I
       return offerRemoveStayBetweenPrerequisiteReducer(state, action);
     case OFFER_SET_BOOLEAN_PREREQUISITE:
       return offerSetBooleanPrerequisitesReducer(state, action);
+    case OFFER_SET_PRE_DISCOUNT:
+      return offerSetPreDiscountReducer(state, action);
     default:
       return state;
   }

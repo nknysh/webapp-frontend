@@ -9,6 +9,8 @@ export const OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_REMOVE_STAY_B
 export const OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE';
 export const OFFER_SET_BOOLEAN_PREREQUISITE = 'offer/OFFER_SET_BOOLEAN_PREREQUISITE';
 
+export const OFFER_SET_PRE_DISCOUNT = 'offer/OFFER_SET_PRE_DISCOUNT';
+
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
@@ -54,5 +56,11 @@ export type OfferSetBooleanPrerequisiteAction = ReturnType<typeof offerSetBoolea
 export const offerSetBooleanPrerequisiteAction = (key: IOfferBooleanPrerequisite, value: boolean | null) => ({
   type: OFFER_SET_BOOLEAN_PREREQUISITE as typeof OFFER_SET_BOOLEAN_PREREQUISITE,
   key,
+  value,
+});
+
+export type OfferSetPreDiscountAction = ReturnType<typeof offerSetPreDiscountAction>;
+export const offerSetPreDiscountAction = (value: boolean) => ({
+  type: OFFER_SET_PRE_DISCOUNT as typeof OFFER_SET_PRE_DISCOUNT,
   value,
 });

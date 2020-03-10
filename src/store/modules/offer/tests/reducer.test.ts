@@ -10,6 +10,7 @@ import {
   offerChangeStayBetweenPrerequisiteAction,
   offerRemoveStayBetweenPrerequisiteAction,
   offerSetBooleanPrerequisiteAction,
+  offerSetPreDiscountAction,
 } from '../edit/actions';
 import { IOffer } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../model';
@@ -492,6 +493,56 @@ describe('Offer reducer edit', () => {
             wedding: true,
           },
         },
+      },
+    };
+
+    expect(state).toMatchObject(expected);
+  });
+
+  it('handles OFFER_SET_PRE_DISCOUNT correctly and sets the value to true', () => {
+    const action = offerSetPreDiscountAction(true);
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          preDiscount: false,
+        },
+      } as IOfferModel,
+      action
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        preDiscount: true,
+      },
+    };
+
+    expect(state).toMatchObject(expected);
+  });
+
+  it('handles OFFER_SET_PRE_DISCOUNT correctly and sets the value to true', () => {
+    const action = offerSetPreDiscountAction(false);
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          preDiscount: true,
+        },
+      } as IOfferModel,
+      action
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        preDiscount: false,
       },
     };
 

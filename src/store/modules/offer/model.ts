@@ -8,6 +8,7 @@ interface KeyValuePair {
 export interface IOfferModel {
   getOfferRequestIsPending: boolean;
   error: any | null;
+  isTextOnly: boolean;
   offer: IOffer;
   associatedOffersMapping: KeyValuePair;
   associatedProductsMapping: KeyValuePair;
@@ -17,6 +18,7 @@ export interface IOfferModel {
 export const initialState: IOfferModel = {
   getOfferRequestIsPending: true,
   error: null,
+  isTextOnly: false,
   offer: {
     uuid: '',
     name: '',
@@ -26,6 +28,7 @@ export const initialState: IOfferModel = {
     prerequisites: {
       dates: [] as IDateRange[],
     },
+    preDiscount: false,
   } as IOffer,
   associatedOffersMapping: {},
   associatedProductsMapping: {},
