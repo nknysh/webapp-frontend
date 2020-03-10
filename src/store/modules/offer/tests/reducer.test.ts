@@ -28,12 +28,13 @@ describe('Offer reducer', () => {
   });
 
   it('handles GET_OFFER_SUCCESS correctly', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOffer, {}, {}, []);
+    const action = getOfferSuccessAction({ uuid: '1234' } as IOffer, {}, {}, [], true);
     const result = reducer(undefined, action);
     const expected: IOfferModel = {
       ...initialState,
       offer: { uuid: '1234' } as IOffer,
       getOfferRequestIsPending: false,
+      isTextOnly: true,
     };
     expect(result).toEqual(expected);
   });

@@ -35,6 +35,7 @@ describe('Offer Selectors', () => {
         prerequisites: {
           dates: [],
         },
+        preDiscount: false,
       });
     });
   });
