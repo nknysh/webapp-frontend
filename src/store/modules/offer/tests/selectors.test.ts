@@ -56,7 +56,7 @@ describe('Offer Selectors', () => {
     });
   });
 
-  describe.only('offer stay between selector', () => {
+  describe('offer stay between selector', () => {
     it('handles a 5 date range correctly', () => {
       const fixtureOffer = {
         ...initialState.offer,

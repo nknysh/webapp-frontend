@@ -134,7 +134,7 @@ describe('Offer reducer edit', () => {
   });
 
   it('handles OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE correctly with 1 date', () => {
-    const changeAction = offerChangeStayBetweenPrerequisiteAction(0, ['01-01-2020']);
+    const changeAction = offerChangeStayBetweenPrerequisiteAction([['01-01-2020']]);
 
     const state = reducer(
       {
@@ -164,7 +164,7 @@ describe('Offer reducer edit', () => {
           dates: [
             {
               startDate: '01-01-2020',
-              endDate: '',
+              endDate: '01-01-2020',
             },
           ],
         },
@@ -175,11 +175,8 @@ describe('Offer reducer edit', () => {
   });
 
   it('handles OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE correctly with multiple dates', () => {
-    const changeAction = offerChangeStayBetweenPrerequisiteAction(0, [
-      '01-01-2020',
-      '02-01-2020',
-      '03-01-2020',
-      '04-01-2020',
+    const changeAction = offerChangeStayBetweenPrerequisiteAction([
+      ['01-01-2020', '02-01-2020', '03-01-2020', '04-01-2020'],
     ]);
 
     const state = reducer(
@@ -211,6 +208,58 @@ describe('Offer reducer edit', () => {
             {
               startDate: '01-01-2020',
               endDate: '04-01-2020',
+            },
+          ],
+        },
+      },
+    };
+
+    expect(state).toMatchObject(expected);
+  });
+
+  it('handles OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE correctly with multiple date arrays', () => {
+    const changeAction = offerChangeStayBetweenPrerequisiteAction([
+      ['01-01-2020', '02-01-2020', '03-01-2020', '04-01-2020'],
+      ['06-02-2020', '07-02-2020', '08-02-2020'],
+    ]);
+
+    const state = reducer(
+      {
+        ...initialState,
+        offer: {
+          ...initialState.offer,
+          prerequisites: {
+            ...initialState.offer.prerequisites,
+            dates: [
+              {
+                startDate: '',
+                endDate: '',
+              },
+              {
+                startDate: '',
+                endDate: '',
+              },
+            ] as IDateRange[],
+          },
+        },
+      } as IOfferModel,
+      changeAction
+    );
+
+    const expected = {
+      ...initialState,
+      offer: {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          dates: [
+            {
+              startDate: '01-01-2020',
+              endDate: '04-01-2020',
+            },
+            {
+              startDate: '06-02-2020',
+              endDate: '08-02-2020',
             },
           ],
         },

@@ -42,8 +42,7 @@ export const offerRemoveStayBetweenPrerequisiteAction = (stayBetweenIndex: numbe
 });
 
 export type OfferChangeStayBetweenPrerequisiteAction = ReturnType<typeof offerChangeStayBetweenPrerequisiteAction>;
-export const offerChangeStayBetweenPrerequisiteAction = (stayBetweenIndex: number, dates: string[] = []) => ({
+export const offerChangeStayBetweenPrerequisiteAction = (datesArray: string[][]) => ({
   type: OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE as typeof OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE,
-  stayBetweenIndex,
-  dates,
+  datesArray,
 });

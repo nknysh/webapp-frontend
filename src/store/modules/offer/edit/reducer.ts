@@ -10,6 +10,7 @@ import {
 } from './actions';
 import produce from 'immer';
 import { IOffer } from 'services/BackendApi';
+import { IDateRange } from 'interfaces';
 
 export const offerHotelUuidChangeReducer = (state: IOfferModel, action: OfferHotelUuidChangeAction) => {
   if (!state.offer) {
@@ -94,18 +95,14 @@ export const offerChangeStayBetweenPrerequisiteReducer = (
   action: OfferChangeStayBetweenPrerequisiteAction
 ) => {
   return produce(state, draftState => {
-    // no dates got sent - do nothing.
-    if (action.dates.length <= 0) {
-      return draftState;
-    } else if (action.dates.length === 1) {
-      // exactly 1 date means that no end date is set
-      draftState.offer.prerequisites.dates[action.stayBetweenIndex].startDate = action.dates[0];
-      draftState.offer.prerequisites.dates[action.stayBetweenIndex].endDate = '';
-    } else {
-      // 2 or more dates means we have both a start and an end date
-      draftState.offer.prerequisites.dates[action.stayBetweenIndex].startDate = action.dates[0];
-      draftState.offer.prerequisites.dates[action.stayBetweenIndex].endDate = action.dates[action.dates.length - 1];
-    }
+    action.datesArray.forEach((dates, index) => {
+      const newDateRange = {
+        startDate: dates[0],
+        endDate: dates[dates.length - 1],
+      } as IDateRange;
+
+      draftState.offer.prerequisites.dates[index] = newDateRange;
+    });
 
     return draftState;
   });
