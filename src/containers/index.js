@@ -9,7 +9,7 @@ export { default as HotelContainer } from './HotelContainer';
 export { default as Landing } from './Landing';
 export { default as LatestOffers } from './LatestOffers';
 export { default as LoginForm } from './LoginForm';
-export { default as Offer } from './Offer';
+export { default as Offer } from './OfferPromo';
 export { default as PageContent } from './PageContent';
 export { default as PasswordResetForm } from './PasswordResetForm';
 export { default as ProposalContainer } from './ProposalContainer';

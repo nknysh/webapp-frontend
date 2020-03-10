@@ -6,7 +6,7 @@ import { Loader, Slider } from '@pure-escapes/webapp-ui-components';
 import { useFetchData, useCurrentWidth } from 'effects';
 import { mapWithIndex } from 'utils';
 
-import Offer from 'containers/Offer';
+import Offer from 'containers/OfferPromo';
 
 import connect from './LatestOffers.state';
 import { propTypes, defaultProps } from './LatestOffers.props';
