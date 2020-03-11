@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Offer sub domain actions Returns the correct object literals 1`] = `
+Object {
+  "hotelUuid": "UUID123",
+  "type": "offer/OFFER_HOTEL_UUID_CHANGE",
+}
+`;
+
+exports[`Offer sub domain actions Returns the correct object literals 2`] = `
+Object {
+  "offerName": "New Name",
+  "type": "offer/OFFER_NAME_CHANGE",
+}
+`;
+
+exports[`Offer sub domain actions Returns the correct object literals 3`] = `
+Object {
+  "offerTerms": "New Terms",
+  "type": "offer/OFFER_TERMS_CHANGE",
+}
+`;
+
+exports[`Offer sub domain actions Returns the correct object literals 4`] = `
+Object {
+  "offerFurtherInformation": "New Info",
+  "type": "offer/OFFER_FURTHER_INFORMATION_CHANGE",
+}
+`;
+
+exports[`Offer sub domain actions Returns the correct object literals 5`] = `
+Object {
+  "type": "offer/OFFER_ADD_STAY_BETWEEN_PREREQUISITE",
+}
+`;
+
+exports[`Offer sub domain actions Returns the correct object literals 6`] = `
+Object {
+  "stayBetweenIndex": 99,
+  "type": "offer/OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE",
+}
+`;
+
+exports[`Offer sub domain actions Returns the correct object literals 7`] = `
+Object {
+  "datesArray": Array [
+    Array [
+      "2020-01-01",
+      "2020-02-02",
+    ],
+  ],
+  "type": "offer/OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE",
+}
+`;
+
+exports[`Offer sub domain actions Returns the correct object literals 8`] = `
+Object {
+  "key": "birthday",
+  "type": "offer/OFFER_SET_BOOLEAN_PREREQUISITE",
+  "value": null,
+}
+`;
+
+exports[`Offer sub domain actions Returns the correct object literals 9`] = `
+Object {
+  "type": "offer/OFFER_SET_PRE_DISCOUNT",
+  "value": false,
+}
+`;

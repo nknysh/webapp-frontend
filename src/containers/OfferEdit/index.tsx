@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -11,11 +11,7 @@ import TextArea from '../../pureUi/Textarea/index';
 import Checkbox from 'pureUi/Checkbox';
 import { Fieldset, Legend } from '../../pureUi/forms/Fieldset/index';
 
-import {
-  getOfferRequestIsPendingSelector,
-  offerSelector,
-  offerErrorSelector,
-} from '../../store/modules/offer/selectors';
+import { getOfferRequestIsPendingSelector, offerSelector, offerErrorSelector } from 'store/modules/offer/selectors';
 import { getOfferRequestAction } from '../../store/modules/offer/actions';
 import { OfferEditStyles } from './OffereditStyles';
 

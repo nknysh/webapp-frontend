@@ -1,32 +1,19 @@
+import { IDateRange } from 'interfaces';
+import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 import {
-  getOfferRequestIsPendingSelector,
-  offerErrorSelector,
   offerSelector,
   offerHotelUuidSelector,
   offerNameSelector,
   offerTermsSelector,
   offerFurtherInformationSelector,
   offerStayBetweenPrerequisitesSelector,
-  offerBooleanPrerequisitesSelector,
   offerStayBetweenPrerequisitesRawSelector,
+  offerBooleanPrerequisitesSelector,
 } from '../selectors';
-import { initialState } from '../model';
-import { IDateRange } from 'interfaces';
-import { IOfferPrerequisitesPayload } from 'services/BackendApi';
+
+import { initialState } from '../../../model';
 
 describe('Offer Selectors', () => {
-  describe('getOfferRequestPendingSelector', () => {
-    it('Selects correctly', () => {
-      expect(getOfferRequestIsPendingSelector.resultFunc(initialState)).toEqual(true);
-    });
-  });
-
-  describe('offerErrorSelector', () => {
-    it('Selects correctly', () => {
-      expect(offerErrorSelector.resultFunc(initialState)).toEqual(null);
-    });
-  });
-
   describe('offerSelector', () => {
     it('Selects correctly', () => {
       expect(offerSelector.resultFunc(initialState)).toEqual({

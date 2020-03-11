@@ -64,3 +64,14 @@ export const offerSetPreDiscountAction = (value: boolean) => ({
   type: OFFER_SET_PRE_DISCOUNT as typeof OFFER_SET_PRE_DISCOUNT,
   value,
 });
+
+export type OfferAction =
+  | OfferHotelUuidChangeAction
+  | OfferNameChangeAction
+  | OfferTermsChangeAction
+  | OfferFurtherInformationChangeAction
+  | OfferAddStayBetweenPrerequisiteAction
+  | OfferRemoveStayBetweenPrerequisiteAction
+  | OfferChangeStayBetweenPrerequisiteAction
+  | OfferSetBooleanPrerequisiteAction
+  | OfferSetPreDiscountAction;

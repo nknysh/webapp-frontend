@@ -1,22 +1,10 @@
+import { OfferAction } from './subdomains/offer/actions';
+import { OfferUiStateAction } from './subdomains/uiState/actions';
 import { IOffer } from 'services/BackendApi';
-
-import {
-  OfferHotelUuidChangeAction,
-  OfferNameChangeAction,
-  OfferTermsChangeAction,
-  OfferFurtherInformationChangeAction,
-  OfferAddStayBetweenPrerequisiteAction,
-  OfferRemoveStayBetweenPrerequisiteAction,
-  OfferChangeStayBetweenPrerequisiteAction,
-  OfferSetBooleanPrerequisiteAction,
-  OfferSetPreDiscountAction,
-} from './edit/actions';
 
 export const GET_OFFER_REQUEST = 'offer/GET_OFFER_REQUEST';
 export const GET_OFFER_SUCCESS = 'offer/GET_OFFER_SUCCESS';
 export const GET_OFFER_FAILURE = 'offer/GET_OFFER_FAILURE';
-
-export const SET_OFFER_IS_TEXT_ONLY = 'offer/SET_OFFER_IS_TEXT_ONLY';
 
 export type GetOfferRequestAction = ReturnType<typeof getOfferRequestAction>;
 export const getOfferRequestAction = (offerId: string) => ({
@@ -46,23 +34,11 @@ export const getOfferFailureAction = (error: any) => ({
   error,
 });
 
-export type SetOfferIsTextOnly = ReturnType<typeof setOfferIsTextOnly>;
-export const setOfferIsTextOnly = (value: boolean) => ({
-  type: SET_OFFER_IS_TEXT_ONLY as typeof SET_OFFER_IS_TEXT_ONLY,
-  value,
-});
-
-export type OfferAction =
+export type OfferDomainAction =
+  | OfferAction
+  | OfferUiStateAction
   | GetOfferRequestAction
   | GetOfferSuccessAction
-  | GetOfferFailureAction
-  | OfferHotelUuidChangeAction
-  | OfferNameChangeAction
-  | OfferTermsChangeAction
-  | OfferFurtherInformationChangeAction
-  | OfferAddStayBetweenPrerequisiteAction
-  | OfferRemoveStayBetweenPrerequisiteAction
-  | OfferChangeStayBetweenPrerequisiteAction
-  | OfferSetBooleanPrerequisiteAction
-  | OfferSetPreDiscountAction
-  | SetOfferIsTextOnly;
+  | GetOfferFailureAction;
+
+export * from './subdomains/offer/actions';

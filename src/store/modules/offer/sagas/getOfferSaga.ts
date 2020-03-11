@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { call, takeLatest, select, put } from 'redux-saga/effects';
-import { GET_OFFER_REQUEST, GetOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../actions';
 import { makeBackendApi, IOfferResponse } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 import { arrayOfObjectsToMapping } from 'utils';
 import { getAllAssociatedProductUuidsFromOffer, hasOfferGotApplications } from '../utils';
+import { GetOfferRequestAction, getOfferSuccessAction, getOfferFailureAction, GET_OFFER_REQUEST } from '../actions';
 
 export function* getOfferRequestSaga(action: GetOfferRequestAction) {
   try {

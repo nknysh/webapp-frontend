@@ -1,5 +1,5 @@
-import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../actions';
 import { IOffer } from 'services/BackendApi';
+import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../actions';
 
 describe('Offer Actions', () => {
   it('...', () => {
@@ -11,7 +11,8 @@ describe('Offer Actions', () => {
         } as IOffer,
         {},
         {},
-        []
+        [],
+        true
       )
     ).toMatchSnapshot();
     expect(getOfferFailureAction('An error')).toMatchSnapshot();

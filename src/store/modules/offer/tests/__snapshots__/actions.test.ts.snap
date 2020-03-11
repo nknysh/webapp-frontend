@@ -11,7 +11,7 @@ exports[`Offer Actions ... 2`] = `
 Object {
   "associatedOffersMapping": Object {},
   "associatedProductsMapping": Object {},
-  "isTextOnly": undefined,
+  "isTextOnly": true,
   "offer": Object {
     "uuid": "123",
   },

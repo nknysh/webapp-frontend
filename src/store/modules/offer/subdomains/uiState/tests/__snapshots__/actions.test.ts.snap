@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`uiState acitons Returns the correct object literals 1`] = `
+Object {
+  "type": "offer/SET_OFFER_IS_TEXT_ONLY",
+  "value": true,
+}
+`;

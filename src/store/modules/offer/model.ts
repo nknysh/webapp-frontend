@@ -5,10 +5,14 @@ interface KeyValuePair {
   [key: string]: string;
 }
 
-export interface IOfferModel {
+export interface IOfferUiState {
   getOfferRequestIsPending: boolean;
   error: any | null;
   isTextOnly: boolean;
+}
+
+export interface IOfferModel {
+  uiState: IOfferUiState;
   offer: IOffer;
   associatedOffersMapping: KeyValuePair;
   associatedProductsMapping: KeyValuePair;
@@ -16,9 +20,11 @@ export interface IOfferModel {
 }
 
 export const initialState: IOfferModel = {
-  getOfferRequestIsPending: true,
-  error: null,
-  isTextOnly: false,
+  uiState: {
+    getOfferRequestIsPending: true,
+    error: null,
+    isTextOnly: true,
+  },
   offer: {
     uuid: '',
     name: '',
