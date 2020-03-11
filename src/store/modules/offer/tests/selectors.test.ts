@@ -11,6 +11,8 @@ import {
   offerStayBetweenPrerequisitesRawSelector,
 } from '../selectors';
 import { initialState } from '../model';
+import { IDateRange } from 'interfaces';
+import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 
 describe('Offer Selectors', () => {
   describe('getOfferRequestPendingSelector', () => {
@@ -68,7 +70,7 @@ describe('Offer Selectors', () => {
             startDate: '2020-01-01',
             endDate: '2020-01-05',
           },
-        ],
+        ] as IDateRange[],
       };
 
       const selected = offerStayBetweenPrerequisitesSelector.resultFunc(fixture);
@@ -84,12 +86,11 @@ describe('Offer Selectors', () => {
             startDate: '2020-01-01',
             endDate: '2020-01-05',
           },
-
           {
             startDate: '2020-05-01',
             endDate: '2020-05-03',
           },
-        ],
+        ] as IDateRange[],
       };
 
       const selected = offerStayBetweenPrerequisitesSelector.resultFunc(fixture);
@@ -108,7 +109,7 @@ describe('Offer Selectors', () => {
             startDate: '2020-01-01',
             endDate: '2020-01-05',
           },
-        ],
+        ] as IDateRange[],
       };
 
       const selected = offerStayBetweenPrerequisitesRawSelector.resultFunc(fixture);
@@ -124,7 +125,7 @@ describe('Offer Selectors', () => {
 
   describe('offer boolean prerequisites selector', () => {
     it('returns when no payloads are set', () => {
-      const fixture = {};
+      const fixture = {} as IOfferPrerequisitesPayload;
 
       const selected = offerBooleanPrerequisitesSelector.resultFunc(fixture);
 
@@ -141,7 +142,7 @@ describe('Offer Selectors', () => {
       const fixture = {
         anniversary: true,
         wedding: false,
-      };
+      } as IOfferPrerequisitesPayload;
 
       const selected = offerBooleanPrerequisitesSelector.resultFunc(fixture);
 
@@ -161,7 +162,7 @@ describe('Offer Selectors', () => {
         honeymoon: true,
         repeatCustomer: true,
         wedding: true,
-      };
+      } as IOfferPrerequisitesPayload;
 
       const selected = offerBooleanPrerequisitesSelector.resultFunc(fixture);
 

@@ -1,7 +1,7 @@
 import { IOfferModel } from './model';
 import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
-import { IOfferPrerequisitesPayload, OfferPrerequisitePayloadKeys } from 'services/BackendApi';
+import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 
 export const offerDomainSelector = (state: any): IOfferModel => state.offer as IOfferModel;
 
