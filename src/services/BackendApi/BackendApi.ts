@@ -27,6 +27,8 @@ import { IOfferResponse, IOffer } from './types/OfferResponse';
 import { transformPut, transformPost } from './helpers';
 import { IApiErrorResponse } from './types/ApiError';
 import { IAPIRepsonse } from './types/ApiResponse';
+import { IRatesImportResponse } from './types/RatesImportResponse';
+
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -40,6 +42,7 @@ export enum BackendEndpoints {
   OFFERS = 'offers',
   PRODUCTS = 'products',
   COUNTRIES = 'countries',
+  RATES_LOADER = 'rates-loader',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -188,6 +191,14 @@ export class BackendApiService<T extends AxiosInstance> {
     );
   };
 
+  importRates = async (): Promise<AxiosResponse<IRatesImportResponse | ErrorResponse>> => {
+    return this.client.post(`${BackendEndpoints.RATES_LOADER}/import`);
+  };
+
+  getRatesImportStatus = async (): Promise<AxiosResponse<IRatesImportResponse | ErrorResponse>> => {
+    return this.client.get(`${BackendEndpoints.RATES_LOADER}/status`);
+  };
+  
   sanitizQueryObject = (query: SearchQuery): SearchQuery => {
     // Convery any strings that should be integers to integers
     // qs seem to not handle stings containing '+' correctly
