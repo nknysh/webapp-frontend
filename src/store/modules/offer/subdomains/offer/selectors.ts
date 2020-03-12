@@ -34,7 +34,7 @@ export const offerTermsSelector = createSelector(
 
 export const offerFurtherInformationSelector = createSelector(
   offerSelector,
-  offer => offer.furtherInformation
+  offer => offer.furtherInformation || ''
 );
 
 export const offerPrerequisitesSelector = createSelector(
@@ -88,6 +88,11 @@ export const offerBooleanPrerequisitesSelector = createSelector(
 export const offerPreDiscountSelector = createSelector(
   offerSelector,
   offer => offer.preDiscount
+);
+
+export const hotelNameSelector = createSelector(
+  offerSelector,
+  offer => offer.hotel?.name
 );
 
 export const offerCountryCodePrerequisiteSelector = createSelector(

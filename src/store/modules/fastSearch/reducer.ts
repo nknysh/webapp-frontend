@@ -1,12 +1,8 @@
-import { lensPath, without, difference, omit, dropLast, update, set, flatten, mergeDeepLeft } from 'ramda';
+import { without, difference, omit, dropLast, update, mergeDeepLeft } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
-import { Filters, Lodging, SelectedAccommodation } from 'services/BackendApi';
-import { addMonths } from 'date-fns';
+import { Filters, Lodging, SearchQuery } from 'services/BackendApi';
 import qs from 'qs';
-import { SearchQuery } from '../../../services/BackendApi/types/SearchQuery';
-import produce from 'immer';
-import { subDaysString } from 'utils';
 
 const defaultAge = 0;
 const makeLodgingStub = (existingLodging?: Lodging): Lodging => {

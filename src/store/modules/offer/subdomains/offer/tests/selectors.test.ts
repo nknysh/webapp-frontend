@@ -3,6 +3,7 @@ import {
   IOfferPrerequisitesPayload,
   IAccommodationProductForHotelItem,
   IOfferPrerequisites,
+  IOffer,
 } from 'services/BackendApi';
 import {
   offerSelector,
@@ -22,6 +23,7 @@ import {
   offerAdvancePrerequisiteSelector,
   offerMaxLodgingsPrerequisiteSelector,
   offerStayLengthPrerequisiteSelector,
+  hotelNameSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -598,6 +600,13 @@ describe('Offer Selectors', () => {
         maximum: 9,
         strictMinMaxStay: true,
       });
+    });
+  });
+
+  describe('hotelNameSelector', () => {
+    it('select the hotel name', () => {
+      const fixture = { hotel: { name: 'TEST NAME' } } as IOffer;
+      expect(hotelNameSelector.resultFunc(fixture)).toEqual('TEST NAME');
     });
   });
 });

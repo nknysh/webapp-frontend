@@ -121,6 +121,6 @@ export interface IReviewBookingSchema {
 }
 
 export interface IDateRange {
-  startDate: string;
-  endDate: string;
+  startDate: string | undefined;
+  endDate: string | undefined;
 }

@@ -7,10 +7,23 @@ import { IOffer } from 'services/BackendApi';
 
 const createProps = (overrides?: Partial<IOfferEditProps>): IOfferEditProps => {
   const defaultProps: IOfferEditProps = {
-    getOfferRequestAction: jest.fn(),
     getOfferRequestPending: false,
     offer: {} as IOffer,
     error: null,
+    stayBetweenDates: [],
+    offerHotelUuid: '123',
+    offerTerms: 'Terms',
+    offerName: 'Offer name',
+    offerFurtherInformation: 'Further info',
+    hotelName: 'Test Hotel name',
+    // Actions
+    getOfferRequestAction: jest.fn(),
+    offerAddStayBetweenPrerequisiteAction: jest.fn(),
+    offerChangeStayBetweenPrerequisiteAction: jest.fn(),
+    offerRemoveStayBetweenPrerequisiteAction: jest.fn(),
+    offerNameChangeAction: jest.fn(),
+    offerTermsChangeAction: jest.fn(),
+    offerFurtherInformationChangeAction: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }),
   };
 

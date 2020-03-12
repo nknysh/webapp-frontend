@@ -30,7 +30,6 @@ export const baseButtonStyles = css`
   color: ${pureUiTheme.colors.white};
   border: none;
   text-transform: uppercase;
-  width: 100%;
   cursor: pointer;
   box-shadow: 0 0 0 5px transparent;
   flex-shrink: 1;
@@ -150,7 +149,7 @@ export const LinkButton = styled(Link)<LinkProps>`
 export const ButtonBar = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+
   button {
     margin-right: 10px;
   }
@@ -158,6 +157,10 @@ export const ButtonBar = styled.div`
   button:last-of-type {
     margin-right: 0;
   }
+`;
+
+export const ButtonSpacer = styled.div`
+  flex-grow: 1;
 `;
 
 export interface IActionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
