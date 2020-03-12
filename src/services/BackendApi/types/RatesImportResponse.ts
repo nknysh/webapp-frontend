@@ -1,4 +1,4 @@
-import { IGenericStatusResponse } from './GenericStatusResponse';
+import { IGenericStatus, IGenericStatusResponse } from './GenericStatusResponse';
 
 export interface IRatesImportErrorItem {
   ref: string;
@@ -18,4 +18,5 @@ export interface IRatesImportData {
   report?: Array<IRatesImportReportItem>
 }
 
+export interface IRatesImportStatus extends IGenericStatus<IRatesImportData> {}
 export interface IRatesImportResponse extends IGenericStatusResponse<IRatesImportData> {}

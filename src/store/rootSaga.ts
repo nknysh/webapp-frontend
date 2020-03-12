@@ -16,6 +16,7 @@ import { watchGetOfferRequest } from './modules/offer/sagas/getOfferSaga';
 import { watchBootstrapAppRequest } from './modules/bootstrap/sagas/bootstrapAppSaga';
 import { watchPutOfferRequest } from './modules/offer/sagas/putOfferSaga';
 import { watchPostOfferRequest } from './modules/offer/sagas/postOfferSaga';
+import { watchRatesImportPageLoaded } from './modules/ratesImport/sagas';
 
 export default function* allSagas() {
   const sagas = [
@@ -36,6 +37,7 @@ export default function* allSagas() {
     watchBootstrapAppRequest,
     watchPutOfferRequest,
     watchPostOfferRequest,
+    watchRatesImportPageLoaded,
   ];
 
   yield all(

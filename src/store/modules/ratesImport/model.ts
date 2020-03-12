@@ -1,13 +1,13 @@
-import { IRatesImportData } from 'services/BackendApi';
+import { IRatesImportStatus } from 'services/BackendApi';
 
 export interface IRatesImportModel {
   importRatesRequestIsPending: boolean;
   error: any | null;
-  status: IRatesImportData | null;
+  latestStatus: IRatesImportStatus | null;
 }
 
 export const initialState: IRatesImportModel = {
   importRatesRequestIsPending: false,
   error: null,
-  status: null
+  latestStatus: null
 };
