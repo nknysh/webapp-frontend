@@ -24,6 +24,7 @@ describe('Offer Selectors', () => {
         hotelUuid: '',
         prerequisites: {
           dates: [],
+          countryCodes: [],
         },
         preDiscount: false,
       });

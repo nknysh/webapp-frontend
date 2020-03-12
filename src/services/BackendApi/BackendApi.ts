@@ -36,6 +36,7 @@ export enum BackendEndpoints {
   AUTH0_LOGIN = 'users/auth0/login',
   OFFERS = 'offers',
   PRODUCTS = 'products',
+  COUNTRIES = 'countries',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -140,6 +141,11 @@ export class BackendApiService<T extends AxiosInstance> {
   getOffer = async (uuid: string): Promise<AxiosResponse<IOfferResponse>> => {
     // TODO: This really should take a params object, but this API makesa it really difficult to type properly.
     const endpoint = `${BackendEndpoints.OFFERS}/${uuid}?associations=hotel&fields[hotel]=name`;
+    return this.client.get(endpoint);
+  };
+
+  getBootstrapCountries = async (): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.COUNTRIES}`;
     return this.client.get(endpoint);
   };
 

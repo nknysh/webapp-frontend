@@ -8,6 +8,8 @@ export const OFFER_ADD_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_ADD_STAY_BETWEEN
 export const OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE';
 export const OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE';
 export const OFFER_SET_BOOLEAN_PREREQUISITE = 'offer/OFFER_SET_BOOLEAN_PREREQUISITE';
+export const OFFER_SET_COUNTRY_CODE_PREREQUISITE = 'offer/OFFER_SET_COUNTRY_CODE_PREREQUISITE';
+export const OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE = 'offer/OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE';
 
 export const OFFER_SET_PRE_DISCOUNT = 'offer/OFFER_SET_PRE_DISCOUNT';
 
@@ -65,6 +67,18 @@ export const offerSetPreDiscountAction = (value: boolean) => ({
   value,
 });
 
+export type OfferSetCountryCodePrerequisiteAction = ReturnType<typeof offerSetCountryCodePrerequisiteAction>;
+export const offerSetCountryCodePrerequisiteAction = (countryCode: string, value: boolean) => ({
+  type: OFFER_SET_COUNTRY_CODE_PREREQUISITE as typeof OFFER_SET_COUNTRY_CODE_PREREQUISITE,
+  countryCode,
+  value,
+});
+
+export type OfferClearAllCountryCodePrerequisiteAction = ReturnType<typeof offerClearAllCountryCodePrerequisiteAction>;
+export const offerClearAllCountryCodePrerequisiteAction = () => ({
+  type: OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE as typeof OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferNameChangeAction
@@ -74,4 +88,6 @@ export type OfferAction =
   | OfferRemoveStayBetweenPrerequisiteAction
   | OfferChangeStayBetweenPrerequisiteAction
   | OfferSetBooleanPrerequisiteAction
-  | OfferSetPreDiscountAction;
+  | OfferSetPreDiscountAction
+  | OfferSetCountryCodePrerequisiteAction
+  | OfferClearAllCountryCodePrerequisiteAction;

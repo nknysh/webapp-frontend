@@ -4,6 +4,7 @@ import { IOffer } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 import { OfferDomainAction, GET_OFFER_SUCCESS } from '../../actions';
 import { initialState } from '../../model';
+import * as R from 'ramda';
 
 export const offerReducer = (state: IOffer = initialState.offer, action: OfferDomainAction): IOffer => {
   switch (action.type) {
@@ -27,6 +28,10 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
       return offerSetBooleanPrerequisitesReducer(state, action);
     case Actions.OFFER_SET_PRE_DISCOUNT:
       return offerSetPreDiscountReducer(state, action);
+    case Actions.OFFER_SET_COUNTRY_CODE_PREREQUISITE:
+      return offerSetCountryCodeReducer(state, action);
+    case Actions.OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE:
+      return offerClearAllCountryCodeReducer(state, action);
     default:
       return state;
   }
@@ -136,5 +141,34 @@ export const offerSetPreDiscountReducer = (state: IOffer, action: Actions.OfferS
   return {
     ...state,
     preDiscount: action.value,
+  };
+};
+
+export const offerSetCountryCodeReducer = (state: IOffer, action: Actions.OfferSetCountryCodePrerequisiteAction) => {
+  return produce(state, draftState => {
+    if (action.value === true) {
+      draftState.prerequisites.countryCodes.push(action.countryCode);
+    } else if (action.value === false) {
+      draftState.prerequisites.countryCodes = draftState.prerequisites.countryCodes.filter(
+        cc => cc !== action.countryCode
+      );
+    }
+
+    draftState.prerequisites.countryCodes = R.uniq(draftState.prerequisites.countryCodes);
+
+    return draftState;
+  });
+};
+
+export const offerClearAllCountryCodeReducer = (
+  state: IOffer,
+  action: Actions.OfferClearAllCountryCodePrerequisiteAction
+) => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      countryCodes: [],
+    },
   };
 };

@@ -57,7 +57,7 @@ export interface IOffer {
       minimum: number;
       strictMinMaxStay: boolean;
     };
-    countryCodes: string[];
+    countryCodes: string[]; // these are the TA country codes - an array of string country codes
     accommodationProducts: string[];
     payload?: IOfferPrerequisitesPayload;
   };

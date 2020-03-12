@@ -13,6 +13,8 @@ import {
   offerRemoveStayBetweenPrerequisiteAction,
   offerSetBooleanPrerequisiteAction,
   offerSetPreDiscountAction,
+  offerSetCountryCodePrerequisiteAction,
+  offerClearAllCountryCodePrerequisiteAction,
 } from '../actions';
 
 describe('Offer reducer', () => {
@@ -414,6 +416,163 @@ describe('Offer reducer', () => {
       const expected: IOffer = {
         ...initialState.offer,
         preDiscount: false,
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly to add a country', () => {
+      const action = offerSetCountryCodePrerequisiteAction('AZ', true);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['AZ'],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly to remove a country', () => {
+      const action = offerSetCountryCodePrerequisiteAction('UK', false);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['UK'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: [],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly wont add a country twice', () => {
+      const action = offerSetCountryCodePrerequisiteAction('UK', true);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['UK'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['UK'],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly add a new country alongside an old country', () => {
+      const action = offerSetCountryCodePrerequisiteAction('UK', true);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['AZ'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['AZ', 'UK'],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly doesnt crash if you attempt to remove a country that isnt there', () => {
+      const action = offerSetCountryCodePrerequisiteAction('UK', false);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['AZ'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['AZ'],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE correctly removes all country codes from array', () => {
+      const action = offerClearAllCountryCodePrerequisiteAction();
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['AZ', 'UK', 'RU'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: [],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE correctly removes all country codes from array even if array is already empty', () => {
+      const action = offerClearAllCountryCodePrerequisiteAction();
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: [],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: [],
+        },
       };
 
       const newState = reducer(testState, action);

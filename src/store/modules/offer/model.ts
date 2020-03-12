@@ -33,6 +33,7 @@ export const initialState: IOfferModel = {
     hotelUuid: '',
     prerequisites: {
       dates: [] as IDateRange[],
+      countryCodes: [] as string[],
     },
     preDiscount: false,
   } as IOffer,

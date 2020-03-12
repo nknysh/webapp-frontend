@@ -85,3 +85,10 @@ export const offerPreDiscountSelector = createSelector(
   offerSelector,
   offer => offer.preDiscount
 );
+
+export const offerCountryCodePrerequisiteSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => {
+    return prerequisites.countryCodes;
+  }
+);

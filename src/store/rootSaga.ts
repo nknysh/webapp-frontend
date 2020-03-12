@@ -13,6 +13,7 @@ import { watchUpdateQueryString } from './modules/fastSearch/sagas/updateQuerySt
 import { watchGetOffersList } from './modules/offersList/sagas/offersListSaga';
 import { watchConfirmRequestToDeleteOffersSaga } from './modules/offersList/sagas/offersListDeleteSaga';
 import { watchGetOfferRequest } from './modules/offer/sagas/getOfferSaga';
+import { watchBootstrapAppRequest } from './modules/bootstrap/sagas/bootstrapAppSaga';
 
 export default function* allSagas() {
   const sagas = [
@@ -30,6 +31,7 @@ export default function* allSagas() {
     watchGetOffersList,
     watchConfirmRequestToDeleteOffersSaga,
     watchGetOfferRequest,
+    watchBootstrapAppRequest,
   ];
 
   yield all(
