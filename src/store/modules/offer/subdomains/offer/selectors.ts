@@ -113,3 +113,15 @@ export const offerTaCountriesPrerequisiteSelector = createSelector(
     });
   }
 );
+
+export const offerTaCountriesLabelPrerequisiteSelector = createSelector(
+  offerCountryCodePrerequisiteSelector,
+  getBootstrapCountriesSelector,
+  (prerequisiteCountries, countries) => {
+    if (prerequisiteCountries.length === countries.length || prerequisiteCountries.length <= 0) {
+      return 'All Countries';
+    } else {
+      return `${prerequisiteCountries.length} Countries`;
+    }
+  }
+);

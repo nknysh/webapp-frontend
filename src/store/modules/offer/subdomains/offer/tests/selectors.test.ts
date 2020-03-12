@@ -11,6 +11,7 @@ import {
   offerBooleanPrerequisitesSelector,
   offerCountryCodePrerequisiteSelector,
   offerTaCountriesPrerequisiteSelector,
+  offerTaCountriesLabelPrerequisiteSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -266,6 +267,93 @@ describe('Offer Selectors', () => {
           value: false,
         },
       ]);
+    });
+
+    it('has the correct TA label for all countries selected when no countries are selected', () => {
+      const prerequisitesCountriesFixture = [];
+
+      const countriesFixture: IBootstrapCountry[] = [
+        {
+          code: 'A',
+          name: 'Country A',
+          isDestination: true,
+        },
+        {
+          code: 'B',
+          name: 'Country B',
+          isDestination: true,
+        },
+        {
+          code: 'C',
+          name: 'Country C',
+          isDestination: true,
+        },
+      ];
+
+      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(
+        prerequisitesCountriesFixture,
+        countriesFixture
+      );
+
+      expect(selected).toEqual('All Countries');
+    });
+
+    it('has the correct TA label for some countries selected', () => {
+      const prerequisitesCountriesFixture = ['A', 'B'];
+
+      const countriesFixture: IBootstrapCountry[] = [
+        {
+          code: 'A',
+          name: 'Country A',
+          isDestination: true,
+        },
+        {
+          code: 'B',
+          name: 'Country B',
+          isDestination: true,
+        },
+        {
+          code: 'C',
+          name: 'Country C',
+          isDestination: true,
+        },
+      ];
+
+      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(
+        prerequisitesCountriesFixture,
+        countriesFixture
+      );
+
+      expect(selected).toEqual('2 Countries');
+    });
+
+    it('has the correct TA label for every country selected', () => {
+      const prerequisitesCountriesFixture = ['A', 'B', 'C'];
+
+      const countriesFixture: IBootstrapCountry[] = [
+        {
+          code: 'A',
+          name: 'Country A',
+          isDestination: true,
+        },
+        {
+          code: 'B',
+          name: 'Country B',
+          isDestination: true,
+        },
+        {
+          code: 'C',
+          name: 'Country C',
+          isDestination: true,
+        },
+      ];
+
+      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(
+        prerequisitesCountriesFixture,
+        countriesFixture
+      );
+
+      expect(selected).toEqual('All Countries');
     });
   });
 });
