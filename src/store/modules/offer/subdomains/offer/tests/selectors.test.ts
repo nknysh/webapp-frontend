@@ -228,5 +228,44 @@ describe('Offer Selectors', () => {
         },
       ]);
     });
+
+    it('returns TA countries in label/value format. if no country codes in prerequisites, all countries are returned with value false', () => {
+      const prerequisitesCountriesFixture = [];
+
+      const countriesFixture: IBootstrapCountry[] = [
+        {
+          code: 'A',
+          name: 'Country A',
+          isDestination: true,
+        },
+        {
+          code: 'B',
+          name: 'Country B',
+          isDestination: true,
+        },
+        {
+          code: 'C',
+          name: 'Country C',
+          isDestination: true,
+        },
+      ];
+
+      const selected = offerTaCountriesPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture, countriesFixture);
+
+      expect(selected).toMatchObject([
+        {
+          label: 'Country A',
+          value: false,
+        },
+        {
+          label: 'Country B',
+          value: false,
+        },
+        {
+          label: 'Country C',
+          value: false,
+        },
+      ]);
+    });
   });
 });
