@@ -12,9 +12,11 @@ export interface IBootstrapHotel {
 export interface IBootstrapModule {
   countries: IBootstrapCountry[];
   hotels: IBootstrapHotel[];
+  error: any;
 }
 
 export const initialState: IBootstrapModule = {
   countries: [],
   hotels: [],
+  error: null,
 };

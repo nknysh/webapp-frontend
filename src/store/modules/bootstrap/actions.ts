@@ -1,6 +1,6 @@
-export const BOOTSTRAP_APP_REQUEST = 'offer/BOOTSTRAP_APP_REQUEST';
-export const BOOTSTRAP_APP_SUCCESS = 'offer/BOOTSTRAP_APP_SUCCESS';
-export const BOOTSTRAP_APP_FAILURE = 'offer/BOOTSTRAP_APP_FAILURE';
+export const BOOTSTRAP_APP_REQUEST = 'bootstrap/BOOTSTRAP_APP_REQUEST';
+export const BOOTSTRAP_APP_SUCCESS = 'bootstrap/BOOTSTRAP_APP_SUCCESS';
+export const BOOTSTRAP_APP_FAILURE = 'bootstrap/BOOTSTRAP_APP_FAILURE';
 
 export type BootstrapAppRequestAction = ReturnType<typeof bootstrapAppRequestAction>;
 export const bootstrapAppRequestAction = () => ({

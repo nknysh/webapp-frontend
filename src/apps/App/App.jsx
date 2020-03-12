@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { compose, prop } from 'ramda';
 import { ErrorBoundary, Loader } from '@pure-escapes/webapp-ui-components';
@@ -14,9 +14,13 @@ import connect from './App.state';
 import { FastSearchContainerConnected } from 'containers/FastSearch';
 import { OfferEditContainerConnected } from 'containers/OfferEdit';
 
-export const App = ({ location: { pathname }, user, resetStatuses, pageChange }) => {
+export const App = ({ location: { pathname }, user, resetStatuses, pageChange, bootstrapAppRequestAction }) => {
   // Scroll to top on path change
   useScrollToTop(pathname);
+
+  useEffect(() => {
+    bootstrapAppRequestAction();
+  }, [bootstrapAppRequestAction]);
 
   useEffectBoundary(() => {
     // Trigger page change action on pathname change
