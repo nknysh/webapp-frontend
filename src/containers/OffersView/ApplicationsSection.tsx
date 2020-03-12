@@ -1,6 +1,9 @@
 import React from 'react';
 import { ReadOnlyField } from './';
 import { ageNameToHumanReadable, greenTaxToHumanReadable } from 'utils';
+import CloseIcon from '@material-ui/icons/Close';
+import CheckIcon from '@material-ui/icons/Check';
+import { useTranslation } from 'react-i18next';
 
 const ApplicationProductField = props => {
   const { label, applicationProductSet, productMapping } = props;
@@ -57,6 +60,8 @@ export const ApplicationsSection = props => {
   if (offer === undefined) {
     return null;
   }
+  const { t } = useTranslation();
+
   if (offer.productDiscounts === undefined) {
     offer.productDiscounts = {};
   }
@@ -86,6 +91,9 @@ export const ApplicationsSection = props => {
               <span>{offer.stepping.maximumNights}</span>
             </div>
           )}
+          <ReadOnlyField label={t('labels.applications.discountCheapest')}>
+            <p>{offer.stepping.discountCheapest ? <CheckIcon /> : <CloseIcon />}</p>
+          </ReadOnlyField>
         </ReadOnlyField>
       )}
 

@@ -291,4 +291,7 @@ export default {
     repeatCustomer: 'Repeat Customer',
     wedding: 'Wedding',
   },
+  applications: {
+    discountCheapest: 'Discount Cheapest?',
+  },
 };

@@ -66,6 +66,7 @@ export interface IOffer {
     everyXNights: any;
     applyTo: any;
     maximumNights: any;
+    discountCheapest: boolean | null;
   };
   accommodationProductDiscount?: {
     discountPercentage: number;
