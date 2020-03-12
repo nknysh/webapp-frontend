@@ -9,7 +9,10 @@ import {
   offerStayBetweenPrerequisitesSelector,
   offerStayBetweenPrerequisitesRawSelector,
   offerBooleanPrerequisitesSelector,
+  offerCountryCodePrerequisiteSelector,
+  offerTaCountriesPrerequisiteSelector,
 } from '../selectors';
+import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
 import { initialState } from '../../../model';
 
@@ -161,6 +164,69 @@ describe('Offer Selectors', () => {
         repeatCustomer: true,
         wedding: true,
       });
+    });
+  });
+
+  describe('offer countries prerequisites', () => {
+    it('returns base array of countries correctly', () => {
+      const fixture = {
+        ...initialState.offer.prerequisites,
+        countryCodes: ['AZ', 'UK'],
+      };
+
+      const selected = offerCountryCodePrerequisiteSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject(['AZ', 'UK']);
+    });
+
+    it('returns base array of countries correctly even if no countries', () => {
+      const fixture = {
+        ...initialState.offer.prerequisites,
+        countryCodes: [],
+      };
+
+      const selected = offerCountryCodePrerequisiteSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([]);
+    });
+
+    it('returns TA countries in label/value format, where value is true for countries who have a matching `code` in the prerequisites', () => {
+      const prerequisitesCountriesFixture = ['B'];
+
+      const countriesFixture: IBootstrapCountry[] = [
+        {
+          code: 'A',
+          name: 'Country A',
+          isDestination: true,
+        },
+        {
+          code: 'B',
+          name: 'Country B',
+          isDestination: true,
+        },
+        {
+          code: 'C',
+          name: 'Country C',
+          isDestination: true,
+        },
+      ];
+
+      const selected = offerTaCountriesPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture, countriesFixture);
+
+      expect(selected).toMatchObject([
+        {
+          label: 'Country A',
+          value: false,
+        },
+        {
+          label: 'Country B',
+          value: true,
+        },
+        {
+          label: 'Country C',
+          value: false,
+        },
+      ]);
     });
   });
 });

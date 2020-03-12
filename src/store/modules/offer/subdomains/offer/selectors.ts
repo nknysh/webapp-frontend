@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
 import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 import { IOfferModel } from '../../model';
+import { getBootstrapCountriesSelector } from '../../../bootstrap/selectors';
 
 // TODO: For some reason, I can't import the offerDomainSelector from
 // the root selector file. This is a tmp fix. I guess there's some minconfiguration
@@ -90,5 +91,25 @@ export const offerCountryCodePrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
   prerequisites => {
     return prerequisites.countryCodes;
+  }
+);
+
+export const offerTaCountriesPrerequisiteSelector = createSelector(
+  offerCountryCodePrerequisiteSelector,
+  getBootstrapCountriesSelector,
+  (prerequisiteCountries, countries) => {
+    return countries.map(country => {
+      if (prerequisiteCountries.includes(country.code)) {
+        return {
+          label: country.name,
+          value: true,
+        };
+      } else {
+        return {
+          label: country.name,
+          value: false,
+        };
+      }
+    });
   }
 );
