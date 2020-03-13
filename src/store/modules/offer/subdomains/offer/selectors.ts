@@ -8,7 +8,10 @@ import { getBootstrapCountriesSelector } from '../../../bootstrap/selectors';
 // the root selector file. This is a tmp fix. I guess there's some minconfiguration
 // in webpack or babel?
 const tmpOfferDomainSelector = (state: any): IOfferModel => state.offer;
-
+const tmpGetAccommodationProductsForHotelSelector = createSelector(
+  tmpOfferDomainSelector,
+  domain => domain.accommodationProductsForHotel
+);
 export const offerSelector = createSelector(
   tmpOfferDomainSelector,
   domain => domain.offer
@@ -123,5 +126,30 @@ export const offerTaCountriesLabelPrerequisiteSelector = createSelector(
     } else {
       return `${prerequisiteCountries.length} Countries`;
     }
+  }
+);
+
+export const offerAccommodationProductPrerequisitesRawSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => prerequisites.accommodationProducts
+);
+
+export const offerAccommodationProductPrerequisitesSelector = createSelector(
+  offerAccommodationProductPrerequisitesRawSelector,
+  tmpGetAccommodationProductsForHotelSelector,
+  (accommodationProductPrerequisites, accommodationProductsOnHotel) => {
+    return accommodationProductsOnHotel.map(accommodationProduct => {
+      if (accommodationProductPrerequisites.includes(accommodationProduct.uuid)) {
+        return {
+          label: accommodationProduct.name,
+          value: true,
+        };
+      } else {
+        return {
+          label: accommodationProduct.name,
+          value: false,
+        };
+      }
+    });
   }
 );

@@ -1,5 +1,5 @@
 import { IDateRange } from 'interfaces';
-import { IOfferPrerequisitesPayload } from 'services/BackendApi';
+import { IOfferPrerequisitesPayload, IAccommodationProductForHotelItem } from 'services/BackendApi';
 import {
   offerSelector,
   offerHotelUuidSelector,
@@ -12,6 +12,8 @@ import {
   offerCountryCodePrerequisiteSelector,
   offerTaCountriesPrerequisiteSelector,
   offerTaCountriesLabelPrerequisiteSelector,
+  offerAccommodationProductPrerequisitesRawSelector,
+  offerAccommodationProductPrerequisitesSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -354,6 +356,72 @@ describe('Offer Selectors', () => {
       );
 
       expect(selected).toEqual('All Countries');
+    });
+  });
+
+  describe('offer accommodation products prerequisite', () => {
+    it('returns base array of accommodation products correctly', () => {
+      const fixture = {
+        ...initialState.offer.prerequisites,
+        accommodationProducts: ['a', 'b'],
+      };
+
+      const selected = offerAccommodationProductPrerequisitesRawSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject(['a', 'b']);
+    });
+
+    it('returns base array of accommodation products even if none', () => {
+      const fixture = {
+        ...initialState.offer.prerequisites,
+        accommodationProducts: [],
+      };
+
+      const selected = offerAccommodationProductPrerequisitesRawSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([]);
+    });
+
+    it('creates a formatted array of all accommodation products on the hotel', () => {
+      const prerequisitesFixture = ['b'];
+
+      const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
+        {
+          uuid: 'a',
+          name: 'Product A',
+          type: 'Accommodation',
+        },
+        {
+          uuid: 'b',
+          name: 'Product B',
+          type: 'Accommodation',
+        },
+        {
+          uuid: 'c',
+          name: 'Product C',
+          type: 'Accommodation',
+        },
+      ];
+
+      const selected = offerAccommodationProductPrerequisitesSelector.resultFunc(
+        prerequisitesFixture,
+        accommodationProductsFixture
+      );
+
+      expect(selected).toMatchObject([
+        {
+          label: 'Product A',
+          value: false,
+        },
+        {
+          label: 'Product B',
+          value: true,
+        },
+        {
+          label: 'Product C',
+          value: false,
+        },
+      ]);
     });
   });
 });

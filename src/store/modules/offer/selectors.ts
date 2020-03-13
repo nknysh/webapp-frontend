@@ -18,5 +18,10 @@ export const getOffersOnHotelSelector = createSelector(
   domain => domain.offersOnHotel
 );
 
+export const getAccommodationProductsForHotelSelector = createSelector(
+  offerDomainSelector,
+  domain => domain.accommodationProductsForHotel
+);
+
 export * from './subdomains/offer/selectors';
 export * from './subdomains/uiState/selectors';
