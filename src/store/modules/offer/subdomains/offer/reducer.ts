@@ -34,6 +34,8 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
       return offerClearAllCountryCodeReducer(state, action);
     case Actions.OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE:
       return offerSetAccommodationProductPrerequisiteReducer(state, action);
+    case Actions.OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE:
+      return offerClearAllAccommodationProductPrerequisiteReducer(state, action);
     default:
       return state;
   }
@@ -177,7 +179,7 @@ export const offerClearAllCountryCodeReducer = (
 
 export const offerSetAccommodationProductPrerequisiteReducer = (
   state: IOffer,
-  action: Actions.OfferSetAccommodationProductPrerequisite
+  action: Actions.OfferSetAccommodationProductPrerequisiteAction
 ) => {
   return produce(state, draftState => {
     if (action.value === true) {
@@ -192,4 +194,17 @@ export const offerSetAccommodationProductPrerequisiteReducer = (
 
     return draftState;
   });
+};
+
+export const offerClearAllAccommodationProductPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferClearAllAccommodationProductPrerequisiteAction
+) => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      accommodationProducts: [],
+    },
+  };
 };

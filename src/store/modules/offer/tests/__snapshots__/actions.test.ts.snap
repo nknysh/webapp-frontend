@@ -3,12 +3,14 @@
 exports[`Offer Actions ... 1`] = `
 Object {
   "offerId": "123",
+  "shouldFetchHotelAccommodationProducts": false,
   "type": "offer/GET_OFFER_REQUEST",
 }
 `;
 
 exports[`Offer Actions ... 2`] = `
 Object {
+  "accommodationProductsForHotel": undefined,
   "associatedOffersMapping": Object {},
   "associatedProductsMapping": Object {},
   "isTextOnly": true,

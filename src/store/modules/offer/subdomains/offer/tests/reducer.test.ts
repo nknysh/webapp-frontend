@@ -15,6 +15,8 @@ import {
   offerSetPreDiscountAction,
   offerSetCountryCodePrerequisiteAction,
   offerClearAllCountryCodePrerequisiteAction,
+  offerSetAccommodationProductPrerequisiteAction,
+  offerClearAllAccommodationProductPrerequisiteAction,
 } from '../actions';
 
 describe('Offer reducer', () => {
@@ -421,7 +423,9 @@ describe('Offer reducer', () => {
       const newState = reducer(testState, action);
       expect(newState).toMatchObject(expected);
     });
+  });
 
+  describe('offer reducer country codes', () => {
     it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly to add a country', () => {
       const action = offerSetCountryCodePrerequisiteAction('AZ', true);
 
@@ -572,6 +576,146 @@ describe('Offer reducer', () => {
         prerequisites: {
           ...initialState.offer.prerequisites,
           countryCodes: [],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+  });
+
+  describe('offer reducer accommodation products', () => {
+    it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly to remove an accommodation product', () => {
+      const action = offerSetAccommodationProductPrerequisiteAction('A', false);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: ['A'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: [],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly wont add an accommodation product twice', () => {
+      const action = offerSetAccommodationProductPrerequisiteAction('A', true);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: ['A'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: ['A'],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly add a new accommodation product alongside an old country', () => {
+      const action = offerSetAccommodationProductPrerequisiteAction('B', true);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: ['A'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: ['A', 'B'],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly doesnt crash if you attempt to remove an accommodation product that isnt there', () => {
+      const action = offerSetAccommodationProductPrerequisiteAction('A', false);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: [],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: [],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE correctly removes all accommodation products from array', () => {
+      const action = offerClearAllAccommodationProductPrerequisiteAction();
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: ['AZ', 'UK', 'RU'],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: [],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE correctly removes all accommodation products from array (even if already empty)', () => {
+      const action = offerClearAllAccommodationProductPrerequisiteAction();
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: [],
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          accommodationProducts: [],
         },
       };
 

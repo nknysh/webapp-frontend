@@ -12,6 +12,8 @@ export const OFFER_SET_BOOLEAN_PREREQUISITE = 'offer/OFFER_SET_BOOLEAN_PREREQUIS
 export const OFFER_SET_COUNTRY_CODE_PREREQUISITE = 'offer/OFFER_SET_COUNTRY_CODE_PREREQUISITE';
 export const OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE = 'offer/OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE';
 export const OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE = 'offer/OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE';
+export const OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE =
+  'offer/OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE';
 
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
@@ -79,11 +81,20 @@ export const offerClearAllCountryCodePrerequisiteAction = () => ({
   type: OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE as typeof OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE,
 });
 
-export type OfferSetAccommodationProductPrerequisite = ReturnType<typeof offerSetAccommodationProductPrerequisite>;
-export const offerSetAccommodationProductPrerequisite = (accommodationProductUuid: string, value: boolean) => ({
+export type OfferSetAccommodationProductPrerequisiteAction = ReturnType<
+  typeof offerSetAccommodationProductPrerequisiteAction
+>;
+export const offerSetAccommodationProductPrerequisiteAction = (accommodationProductUuid: string, value: boolean) => ({
   type: OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE as typeof OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE,
   accommodationProductUuid,
   value,
+});
+
+export type OfferClearAllAccommodationProductPrerequisiteAction = ReturnType<
+  typeof offerClearAllAccommodationProductPrerequisiteAction
+>;
+export const offerClearAllAccommodationProductPrerequisiteAction = () => ({
+  type: OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE as typeof OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE,
 });
 
 export type OfferAction =
@@ -98,4 +109,5 @@ export type OfferAction =
   | OfferSetPreDiscountAction
   | OfferSetCountryCodePrerequisiteAction
   | OfferClearAllCountryCodePrerequisiteAction
-  | OfferSetAccommodationProductPrerequisite;
+  | OfferSetAccommodationProductPrerequisiteAction
+  | OfferClearAllAccommodationProductPrerequisiteAction;

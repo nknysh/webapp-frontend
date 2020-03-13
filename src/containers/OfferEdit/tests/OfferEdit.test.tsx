@@ -48,7 +48,7 @@ describe('OfferEditContainer', () => {
   it('Should call getOfferRequestAction correctly', () => {
     const props = createProps();
     shallow(<OfferEditContainer {...props} />);
-    expect(props.getOfferRequestAction).toHaveBeenCalledWith('123');
+    expect(props.getOfferRequestAction).toHaveBeenCalledWith('123', true);
   });
 
   it('Should show a loading message', () => {
