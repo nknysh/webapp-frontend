@@ -7,9 +7,10 @@ export const GET_OFFER_SUCCESS = 'offer/GET_OFFER_SUCCESS';
 export const GET_OFFER_FAILURE = 'offer/GET_OFFER_FAILURE';
 
 export type GetOfferRequestAction = ReturnType<typeof getOfferRequestAction>;
-export const getOfferRequestAction = (offerId: string) => ({
+export const getOfferRequestAction = (offerId: string, shouldFetchHotelAccommodationProducts: boolean = false) => ({
   type: GET_OFFER_REQUEST as typeof GET_OFFER_REQUEST,
   offerId,
+  shouldFetchHotelAccommodationProducts,
 });
 
 export type GetOfferSuccessAction = ReturnType<typeof getOfferSuccessAction>;
@@ -18,7 +19,8 @@ export const getOfferSuccessAction = (
   associatedOffersMapping,
   associatedProductsMapping,
   offersOnHotel,
-  isTextOnly
+  isTextOnly,
+  accommodationProductsForHotel
 ) => ({
   type: GET_OFFER_SUCCESS as typeof GET_OFFER_SUCCESS,
   offer,
@@ -26,6 +28,7 @@ export const getOfferSuccessAction = (
   associatedProductsMapping,
   offersOnHotel,
   isTextOnly,
+  accommodationProductsForHotel,
 });
 
 export type GetOfferFailureAction = ReturnType<typeof getOfferFailureAction>;

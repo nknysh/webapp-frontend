@@ -11,6 +11,7 @@ export const offer = (state: IOfferModel = initialState, action: OfferDomainActi
     associatedOffersMapping: associatedOffersMappingReducer(state.associatedOffersMapping, action),
     associatedProductsMapping: associatedProductsMappingReducer(state.associatedProductsMapping, action),
     offersOnHotel: offersOnHotelReducer(state.offersOnHotel, action),
+    accommodationProductsForHotel: accommodationProductsForHotelReducer(state.accommodationProductsForHotel, action),
   };
 };
 
@@ -43,6 +44,18 @@ const offersOnHotelReducer = (state: any = initialState.offersOnHotel, action: O
   switch (action.type) {
     case GET_OFFER_SUCCESS:
       return action.offersOnHotel;
+    default:
+      return state;
+  }
+};
+
+const accommodationProductsForHotelReducer = (
+  state: any = initialState.accommodationProductsForHotel,
+  action: OfferDomainAction
+): any => {
+  switch (action.type) {
+    case GET_OFFER_SUCCESS:
+      return action.accommodationProductsForHotel;
     default:
       return state;
   }

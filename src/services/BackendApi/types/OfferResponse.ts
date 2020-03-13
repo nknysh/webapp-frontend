@@ -16,6 +16,12 @@ export interface IOfferOnHotelItem {
   order: number;
 }
 
+export interface IAccommodationProductForHotelItem {
+  uuid: string;
+  name: string;
+  type: string;
+}
+
 export interface IProductDiscount {
   discountPercentage: number;
   maximumQuantity: number;

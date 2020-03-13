@@ -28,13 +28,24 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
 
     const isTextOnly = offer.furtherInformation && !hasOfferGotApplications(offer);
 
+    // if the action says we need to load hotel accommodation products, do that too
+    let accommodationProductsForHotel = [];
+    if (action.shouldFetchHotelAccommodationProducts) {
+      const accommodationProductsForHotelResult = yield call(
+        backendApi.getAccommodationProductsForHotel,
+        offer.hotelUuid
+      );
+      accommodationProductsForHotel = accommodationProductsForHotelResult.data.data;
+    }
+
     yield put(
       getOfferSuccessAction(
         offer,
         associatedOffersResult ? arrayOfObjectsToMapping(associatedOffersResult.data.data, 'uuid', 'name') : {},
         associatedProductsResult ? arrayOfObjectsToMapping(associatedProductsResult.data.data, 'uuid', 'name') : {},
         offersOnHotelResult.data.data,
-        isTextOnly
+        isTextOnly,
+        accommodationProductsForHotel
       )
     );
   } catch (e) {

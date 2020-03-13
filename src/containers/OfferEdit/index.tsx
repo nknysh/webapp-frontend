@@ -38,7 +38,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, IState>
   };
 
   componentWillMount() {
-    this.props.getOfferRequestAction(this.props.match.params.offerId);
+    this.props.getOfferRequestAction(this.props.match.params.offerId, true);
   }
 
   render() {

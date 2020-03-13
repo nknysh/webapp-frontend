@@ -1,4 +1,4 @@
-import { IOffer, IOfferOnHotelItem } from 'services/BackendApi';
+import { IOffer, IOfferOnHotelItem, IAccommodationProductForHotelItem } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 
 interface KeyValuePair {
@@ -17,6 +17,7 @@ export interface IOfferModel {
   associatedOffersMapping: KeyValuePair;
   associatedProductsMapping: KeyValuePair;
   offersOnHotel: IOfferOnHotelItem[];
+  accommodationProductsForHotel: IAccommodationProductForHotelItem[];
 }
 
 export const initialState: IOfferModel = {
@@ -40,4 +41,5 @@ export const initialState: IOfferModel = {
   associatedOffersMapping: {},
   associatedProductsMapping: {},
   offersOnHotel: [],
+  accommodationProductsForHotel: [],
 };

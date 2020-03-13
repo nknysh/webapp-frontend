@@ -60,7 +60,7 @@ export const ReadOnlyField = styled(_ReadOnlyField)`
 export class _OffersView extends React.Component<IOffersViewProps, {}> {
   componentDidMount() {
     if (!this.props.offer || this.props.offer!.uuid !== this.props.match.params.id) {
-      this.props.getOfferRequestAction(this.props.match.params.id);
+      this.props.getOfferRequestAction(this.props.match.params.id, true);
     }
   }
 

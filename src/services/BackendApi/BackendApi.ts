@@ -115,6 +115,11 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
+  getAccommodationProductsForHotel = async (hotelUuid: string): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.PRODUCTS}?fields[product]=uuid,name,type&filter[product][type]=Accommodation&filter[product][ownerUuid]=${hotelUuid}`;
+    return this.client.get(endpoint);
+  };
+
   getProductsAsUuidAndName = async (uuids: string[]): Promise<AxiosResponse> => {
     const filter = uuids.map(uuid => `filter[product][uuid:in][]=${uuid}`).join('&');
     const endpoint = `${BackendEndpoints.PRODUCTS}?fields[product]=uuid,name&${filter}`;
