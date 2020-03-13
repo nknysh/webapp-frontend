@@ -7,11 +7,11 @@ export const OFFER_FURTHER_INFORMATION_CHANGE = 'offer/OFFER_FURTHER_INFORMATION
 export const OFFER_ADD_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_ADD_STAY_BETWEEN_PREREQUISITE';
 export const OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE';
 export const OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE = 'offer/OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE';
+export const OFFER_SET_PRE_DISCOUNT = 'offer/OFFER_SET_PRE_DISCOUNT';
 export const OFFER_SET_BOOLEAN_PREREQUISITE = 'offer/OFFER_SET_BOOLEAN_PREREQUISITE';
 export const OFFER_SET_COUNTRY_CODE_PREREQUISITE = 'offer/OFFER_SET_COUNTRY_CODE_PREREQUISITE';
 export const OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE = 'offer/OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE';
-
-export const OFFER_SET_PRE_DISCOUNT = 'offer/OFFER_SET_PRE_DISCOUNT';
+export const OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE = 'offer/OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE';
 
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
@@ -79,6 +79,13 @@ export const offerClearAllCountryCodePrerequisiteAction = () => ({
   type: OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE as typeof OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE,
 });
 
+export type OfferSetAccommodationProductPrerequisite = ReturnType<typeof offerSetAccommodationProductPrerequisite>;
+export const offerSetAccommodationProductPrerequisite = (accommodationProductUuid: string, value: boolean) => ({
+  type: OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE as typeof OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE,
+  accommodationProductUuid,
+  value,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferNameChangeAction
@@ -90,4 +97,5 @@ export type OfferAction =
   | OfferSetBooleanPrerequisiteAction
   | OfferSetPreDiscountAction
   | OfferSetCountryCodePrerequisiteAction
-  | OfferClearAllCountryCodePrerequisiteAction;
+  | OfferClearAllCountryCodePrerequisiteAction
+  | OfferSetAccommodationProductPrerequisite;

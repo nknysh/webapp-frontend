@@ -32,6 +32,8 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
       return offerSetCountryCodeReducer(state, action);
     case Actions.OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE:
       return offerClearAllCountryCodeReducer(state, action);
+    case Actions.OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE:
+      return offerSetAccommodationProductPrerequisiteReducer(state, action);
     default:
       return state;
   }
@@ -171,4 +173,23 @@ export const offerClearAllCountryCodeReducer = (
       countryCodes: [],
     },
   };
+};
+
+export const offerSetAccommodationProductPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferSetAccommodationProductPrerequisite
+) => {
+  return produce(state, draftState => {
+    if (action.value === true) {
+      draftState.prerequisites.accommodationProducts.push(action.accommodationProductUuid);
+    } else if (action.value === false) {
+      draftState.prerequisites.accommodationProducts = draftState.prerequisites.accommodationProducts.filter(
+        cc => cc !== action.accommodationProductUuid
+      );
+    }
+
+    draftState.prerequisites.accommodationProducts = R.uniq(draftState.prerequisites.accommodationProducts);
+
+    return draftState;
+  });
 };
