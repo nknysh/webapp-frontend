@@ -168,3 +168,13 @@ export const offerAccommodationProductPrerequisitesLabelSelector = createSelecto
     }
   }
 );
+
+export const offerAdvancePrerequisiteSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => prerequisites.advance
+);
+
+export const offerMaxLodgingsPrerequisiteSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => prerequisites.maximumLodgingsInBooking
+);

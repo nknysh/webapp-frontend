@@ -17,6 +17,10 @@ import {
   offerClearAllCountryCodePrerequisiteAction,
   offerSetAccommodationProductPrerequisiteAction,
   offerClearAllAccommodationProductPrerequisiteAction,
+  offerSetAdvanceBookByPrerequisiteAction,
+  offerSetAdvanceMinimumPrerequisiteAction,
+  offerSetAdvanceMaximumPrerequisiteAction,
+  offerClearAllAdvancePrerequisiteAction,
 } from '../actions';
 
 describe('Offer reducer', () => {
@@ -717,6 +721,89 @@ describe('Offer reducer', () => {
           ...initialState.offer.prerequisites,
           accommodationProducts: [],
         },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+  });
+
+  describe('offer reducer advance prerequisite', () => {
+    it('handles offer set advance book by', () => {
+      const action = offerSetAdvanceBookByPrerequisiteAction('2020-05-05');
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          advance: {
+            ...initialState.offer.prerequisites.advance,
+            bookBy: '2020-05-05',
+          },
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer set advance minimum', () => {
+      const action = offerSetAdvanceMinimumPrerequisiteAction(6);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          advance: {
+            ...initialState.offer.prerequisites.advance,
+            minimum: 6,
+          },
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer set advance maximum', () => {
+      const action = offerSetAdvanceMaximumPrerequisiteAction(11);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          advance: {
+            ...initialState.offer.prerequisites.advance,
+            maximum: 11,
+          },
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles clear all advance prerequisite', () => {
+      const action = offerClearAllAdvancePrerequisiteAction();
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
       };
 
       const newState = reducer(testState, action);

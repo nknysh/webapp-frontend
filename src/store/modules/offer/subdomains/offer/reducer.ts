@@ -36,6 +36,16 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
       return offerSetAccommodationProductPrerequisiteReducer(state, action);
     case Actions.OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE:
       return offerClearAllAccommodationProductPrerequisiteReducer(state, action);
+    case Actions.OFFER_SET_ADVANCE_BOOK_BY_PREREQUISITE:
+      return offerSetAdvanceBookByPrerequisiteReducer(state, action);
+    case Actions.OFFER_SET_ADVANCE_MINIMUM_PREREQUISITE:
+      return offerSetAdvanceMinimumPrerequisiteReducer(state, action);
+    case Actions.OFFER_SET_ADVANCE_MAXIMUM_PREREQUISITE:
+      return offerSetAdvanceMaximumPrerequisiteReducer(state, action);
+    case Actions.OFFER_CLEAR_ALL_ADVANCE_PREREQUISITE:
+      return offerClearAllAdvancePrerequisiteReducer(state, action);
+    case Actions.OFFER_SET_MAX_LODGINGS_PREREQUISITE:
+      return offerSetMaxLodgingsPrerequisiteReducer(state, action);
     default:
       return state;
   }
@@ -148,7 +158,10 @@ export const offerSetPreDiscountReducer = (state: IOffer, action: Actions.OfferS
   };
 };
 
-export const offerSetCountryCodeReducer = (state: IOffer, action: Actions.OfferSetCountryCodePrerequisiteAction) => {
+export const offerSetCountryCodeReducer = (
+  state: IOffer,
+  action: Actions.OfferSetCountryCodePrerequisiteAction
+): IOffer => {
   return produce(state, draftState => {
     if (action.value === true) {
       draftState.prerequisites.countryCodes.push(action.countryCode);
@@ -167,7 +180,7 @@ export const offerSetCountryCodeReducer = (state: IOffer, action: Actions.OfferS
 export const offerClearAllCountryCodeReducer = (
   state: IOffer,
   action: Actions.OfferClearAllCountryCodePrerequisiteAction
-) => {
+): IOffer => {
   return {
     ...state,
     prerequisites: {
@@ -180,7 +193,7 @@ export const offerClearAllCountryCodeReducer = (
 export const offerSetAccommodationProductPrerequisiteReducer = (
   state: IOffer,
   action: Actions.OfferSetAccommodationProductPrerequisiteAction
-) => {
+): IOffer => {
   return produce(state, draftState => {
     if (action.value === true) {
       draftState.prerequisites.accommodationProducts.push(action.accommodationProductUuid);
@@ -199,12 +212,86 @@ export const offerSetAccommodationProductPrerequisiteReducer = (
 export const offerClearAllAccommodationProductPrerequisiteReducer = (
   state: IOffer,
   action: Actions.OfferClearAllAccommodationProductPrerequisiteAction
-) => {
+): IOffer => {
   return {
     ...state,
     prerequisites: {
       ...state.prerequisites,
       accommodationProducts: [],
+    },
+  };
+};
+
+export const offerSetAdvanceBookByPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferSetAdvanceBookByPrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      advance: {
+        ...state.prerequisites.advance,
+        bookBy: action.value,
+      },
+    },
+  };
+};
+
+export const offerSetAdvanceMinimumPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferSetAdvanceMinimumPrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      advance: {
+        ...state.prerequisites.advance,
+        minimum: action.value,
+      },
+    },
+  };
+};
+
+export const offerSetAdvanceMaximumPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferSetAdvanceMaximumPrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      advance: {
+        ...state.prerequisites.advance,
+        maximum: action.value,
+      },
+    },
+  };
+};
+
+export const offerClearAllAdvancePrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferClearAllAdvancePrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      advance: undefined,
+    },
+  };
+};
+
+export const offerSetMaxLodgingsPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferSetMaxLodgingsPrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      maximumLodgingsInBooking: action.value,
     },
   };
 };

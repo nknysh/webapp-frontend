@@ -40,6 +40,23 @@ export interface IOfferPrerequisitesPayload {
   wedding?: boolean | null;
 }
 
+export interface IOfferPrerequisites {
+  dates: IDateRange[];
+  maximumLodgingsInBooking?: number;
+  advance?: {
+    bookBy?: string;
+    minimum?: number;
+    maximum?: number;
+  };
+  stayLength: {
+    minimum: number;
+    strictMinMaxStay: boolean;
+  };
+  countryCodes: string[]; // these are the TA country codes - an array of string country codes
+  accommodationProducts: string[];
+  payload?: IOfferPrerequisitesPayload;
+}
+
 export interface IOffer {
   uuid: string;
   name: string;
@@ -53,20 +70,7 @@ export interface IOffer {
   cannotCombineWith: string[]; // uuids
   termsAndConditions: string;
   furtherInformation: string;
-  prerequisites: {
-    dates: IDateRange[];
-    maximumLodgingsInBooking: number;
-    advance: {
-      bookBy: string;
-    };
-    stayLength: {
-      minimum: number;
-      strictMinMaxStay: boolean;
-    };
-    countryCodes: string[]; // these are the TA country codes - an array of string country codes
-    accommodationProducts: string[];
-    payload?: IOfferPrerequisitesPayload;
-  };
+  prerequisites: IOfferPrerequisites;
   preDiscount: boolean;
   stepping?: {
     everyXNights: any;

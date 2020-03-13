@@ -1,5 +1,9 @@
 import { IDateRange } from 'interfaces';
-import { IOfferPrerequisitesPayload, IAccommodationProductForHotelItem } from 'services/BackendApi';
+import {
+  IOfferPrerequisitesPayload,
+  IAccommodationProductForHotelItem,
+  IOfferPrerequisites,
+} from 'services/BackendApi';
 import {
   offerSelector,
   offerHotelUuidSelector,
@@ -15,6 +19,8 @@ import {
   offerAccommodationProductPrerequisitesRawSelector,
   offerAccommodationProductPrerequisitesSelector,
   offerAccommodationProductPrerequisitesLabelSelector,
+  offerAdvancePrerequisiteSelector,
+  offerMaxLodgingsPrerequisiteSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -510,6 +516,56 @@ describe('Offer Selectors', () => {
       );
 
       expect(selected).toEqual('All Accommodation Products');
+    });
+  });
+
+  describe('offer advance selector', () => {
+    it('select advance prerequisite (return undefined if not present)', () => {
+      const prerequisitesFixture = {
+        ...initialState.offer.prerequisites,
+      } as IOfferPrerequisites;
+
+      const selected = offerAdvancePrerequisiteSelector.resultFunc(prerequisitesFixture);
+
+      expect(selected).toEqual(undefined);
+    });
+
+    it('select advance prerequisite (return with data)', () => {
+      const prerequisitesFixture = {
+        ...initialState.offer.prerequisites,
+        advance: {
+          bookBy: '2020-01-01',
+        },
+      } as IOfferPrerequisites;
+
+      const selected = offerAdvancePrerequisiteSelector.resultFunc(prerequisitesFixture);
+
+      expect(selected).toMatchObject({
+        bookBy: '2020-01-01',
+      });
+    });
+  });
+
+  describe('offer max lodgings selector', () => {
+    it('returns max lodgings (when none present)', () => {
+      const prerequisitesFixture = {
+        ...initialState.offer.prerequisites,
+      } as IOfferPrerequisites;
+
+      const selected = offerMaxLodgingsPrerequisiteSelector.resultFunc(prerequisitesFixture);
+
+      expect(selected).toEqual(undefined);
+    });
+
+    it('returns max lodgings (when set)', () => {
+      const prerequisitesFixture = {
+        ...initialState.offer.prerequisites,
+        maximumLodgingsInBooking: 5,
+      } as IOfferPrerequisites;
+
+      const selected = offerMaxLodgingsPrerequisiteSelector.resultFunc(prerequisitesFixture);
+
+      expect(selected).toEqual(5);
     });
   });
 });

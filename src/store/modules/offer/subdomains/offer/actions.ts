@@ -15,6 +15,12 @@ export const OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE = 'offer/OFFER_SET_ACC
 export const OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE =
   'offer/OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE';
 
+export const OFFER_SET_ADVANCE_BOOK_BY_PREREQUISITE = 'offer/OFFER_SET_ADVANCE_BOOK_BY_PREREQUISITE';
+export const OFFER_SET_ADVANCE_MINIMUM_PREREQUISITE = 'offer/OFFER_SET_ADVANCE_MINIMUM_PREREQUISITE';
+export const OFFER_SET_ADVANCE_MAXIMUM_PREREQUISITE = 'offer/OFFER_SET_ADVANCE_MAXIMUM_PREREQUISITE';
+export const OFFER_CLEAR_ALL_ADVANCE_PREREQUISITE = 'offer/OFFER_CLEAR_ALL_ADVANCE_PREREQUISITE';
+export const OFFER_SET_MAX_LODGINGS_PREREQUISITE = 'offer/OFFER_SET_MAX_LODGINGS_PREREQUISITE';
+
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
@@ -97,6 +103,35 @@ export const offerClearAllAccommodationProductPrerequisiteAction = () => ({
   type: OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE as typeof OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE,
 });
 
+export type OfferSetAdvanceBookByPrerequisiteAction = ReturnType<typeof offerSetAdvanceBookByPrerequisiteAction>;
+export const offerSetAdvanceBookByPrerequisiteAction = (value: string | undefined) => ({
+  type: OFFER_SET_ADVANCE_BOOK_BY_PREREQUISITE as typeof OFFER_SET_ADVANCE_BOOK_BY_PREREQUISITE,
+  value,
+});
+
+export type OfferSetAdvanceMinimumPrerequisiteAction = ReturnType<typeof offerSetAdvanceMinimumPrerequisiteAction>;
+export const offerSetAdvanceMinimumPrerequisiteAction = (value: number | undefined) => ({
+  type: OFFER_SET_ADVANCE_MINIMUM_PREREQUISITE as typeof OFFER_SET_ADVANCE_MINIMUM_PREREQUISITE,
+  value,
+});
+
+export type OfferSetAdvanceMaximumPrerequisiteAction = ReturnType<typeof offerSetAdvanceMaximumPrerequisiteAction>;
+export const offerSetAdvanceMaximumPrerequisiteAction = (value: number | undefined) => ({
+  type: OFFER_SET_ADVANCE_MAXIMUM_PREREQUISITE as typeof OFFER_SET_ADVANCE_MAXIMUM_PREREQUISITE,
+  value,
+});
+
+export type OfferClearAllAdvancePrerequisiteAction = ReturnType<typeof offerClearAllAdvancePrerequisiteAction>;
+export const offerClearAllAdvancePrerequisiteAction = () => ({
+  type: OFFER_CLEAR_ALL_ADVANCE_PREREQUISITE as typeof OFFER_CLEAR_ALL_ADVANCE_PREREQUISITE,
+});
+
+export type OfferSetMaxLodgingsPrerequisiteAction = ReturnType<typeof offerSetMaxLodgingsPrerequisiteAction>;
+export const offerSetMaxLodgingsPrerequisiteAction = (value: number | undefined) => ({
+  type: OFFER_SET_MAX_LODGINGS_PREREQUISITE as typeof OFFER_SET_MAX_LODGINGS_PREREQUISITE,
+  value,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferNameChangeAction
@@ -110,4 +145,9 @@ export type OfferAction =
   | OfferSetCountryCodePrerequisiteAction
   | OfferClearAllCountryCodePrerequisiteAction
   | OfferSetAccommodationProductPrerequisiteAction
-  | OfferClearAllAccommodationProductPrerequisiteAction;
+  | OfferClearAllAccommodationProductPrerequisiteAction
+  | OfferSetAdvanceBookByPrerequisiteAction
+  | OfferSetAdvanceMinimumPrerequisiteAction
+  | OfferSetAdvanceMaximumPrerequisiteAction
+  | OfferClearAllAdvancePrerequisiteAction
+  | OfferSetMaxLodgingsPrerequisiteAction;

@@ -35,6 +35,8 @@ export const initialState: IOfferModel = {
     prerequisites: {
       dates: [] as IDateRange[],
       countryCodes: [] as string[],
+      maximumLodgingsInBooking: undefined,
+      advance: undefined,
     },
     preDiscount: false,
   } as IOffer,
