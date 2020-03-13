@@ -48,11 +48,11 @@ jobs:
       - run: |
           aws configure set preview.cloudfront true
       - run: |
-          aws s3 sync ./dist s3://qa.pure-escapes.com \
+          .circleci/do-exclusively.sh aws s3 sync ./dist s3://qa.pure-escapes.com \
             --acl public-read --delete --exclude "admin/*" \
             --cache-control max-age=31536000
       - run: |
-          aws cloudfront create-invalidation \
+          .circleci/do-exclusively.sh aws cloudfront create-invalidation \
               --distribution-id E3DKVF7CKJKFV \
               --paths /\*
       - sonarcloud/scan
@@ -80,13 +80,13 @@ jobs:
       - aws-cli/setup:
           profile-name: default
       - run: |
-          aws configure set preview.cloudfront true
+          onfigure set preview.cloudfront true
       - run: |
-          aws s3 sync ./dist s3://sandbox.pure-escapes.com \
+          .circleci/do-exclusively.sh aws s3 sync ./dist s3://sandbox.pure-escapes.com \
             --acl public-read --delete \
             --cache-control max-age=31536000
       - run: |
-          aws cloudfront create-invalidation \
+          .circleci/do-exclusively.sh aws cloudfront create-invalidation \
               --distribution-id E73FC4CF0OSGY \
               --paths /\*
   deploy_demo:
@@ -115,11 +115,11 @@ jobs:
       - run: |
           aws configure set preview.cloudfront true
       - run: |
-          aws s3 sync ./dist s3://demo.pure-escapes.com \
+          .circleci/do-exclusively.sh aws s3 sync ./dist s3://demo.pure-escapes.com \
             --acl public-read --delete \
             --cache-control max-age=31536000
       - run: |
-          aws cloudfront create-invalidation \
+          .circleci/do-exclusively.sh aws cloudfront create-invalidation \
               --distribution-id E6HAGBWZNMVV2 \
               --paths /\*
   deploy_master:
@@ -145,11 +145,11 @@ jobs:
       - run: |
           aws configure set preview.cloudfront true
       - run: |
-          aws s3 sync ./dist s3://production.pure-escapes.com \
+          .circleci/do-exclusively.sh aws s3 sync ./dist s3://production.pure-escapes.com \
             --acl public-read --delete \
             --cache-control max-age=31536000
       - run: |
-          aws cloudfront create-invalidation \
+          .circleci/do-exclusively.sh aws cloudfront create-invalidation \
               --distribution-id E1ZNSARBE2K0BC \
               --paths /\*
 workflows:
