@@ -153,3 +153,18 @@ export const offerAccommodationProductPrerequisitesSelector = createSelector(
     });
   }
 );
+
+export const offerAccommodationProductPrerequisitesLabelSelector = createSelector(
+  offerAccommodationProductPrerequisitesRawSelector,
+  tmpGetAccommodationProductsForHotelSelector,
+  (accommodationProductPrerequisites, accommodationProductsOnHotel) => {
+    if (
+      accommodationProductPrerequisites.length === accommodationProductsOnHotel.length ||
+      accommodationProductPrerequisites.length <= 0
+    ) {
+      return 'All Accommodation Products';
+    } else {
+      return `${accommodationProductPrerequisites.length} Accommodation Products`;
+    }
+  }
+);

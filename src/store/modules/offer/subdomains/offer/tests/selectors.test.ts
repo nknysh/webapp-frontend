@@ -14,6 +14,7 @@ import {
   offerTaCountriesLabelPrerequisiteSelector,
   offerAccommodationProductPrerequisitesRawSelector,
   offerAccommodationProductPrerequisitesSelector,
+  offerAccommodationProductPrerequisitesLabelSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -422,6 +423,93 @@ describe('Offer Selectors', () => {
           value: false,
         },
       ]);
+    });
+
+    it('returns a label for accommodation products (some selected)', () => {
+      const prerequisitesFixture = ['b', 'c'];
+
+      const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
+        {
+          uuid: 'a',
+          name: 'Product A',
+          type: 'Accommodation',
+        },
+        {
+          uuid: 'b',
+          name: 'Product B',
+          type: 'Accommodation',
+        },
+        {
+          uuid: 'c',
+          name: 'Product C',
+          type: 'Accommodation',
+        },
+      ];
+
+      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(
+        prerequisitesFixture,
+        accommodationProductsFixture
+      );
+
+      expect(selected).toEqual('2 Accommodation Products');
+    });
+
+    it('returns a label for accommodation products (all selected)', () => {
+      const prerequisitesFixture = ['a', 'b', 'c'];
+
+      const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
+        {
+          uuid: 'a',
+          name: 'Product A',
+          type: 'Accommodation',
+        },
+        {
+          uuid: 'b',
+          name: 'Product B',
+          type: 'Accommodation',
+        },
+        {
+          uuid: 'c',
+          name: 'Product C',
+          type: 'Accommodation',
+        },
+      ];
+
+      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(
+        prerequisitesFixture,
+        accommodationProductsFixture
+      );
+
+      expect(selected).toEqual('All Accommodation Products');
+    });
+
+    it('returns a label for accommodation products (none selected)', () => {
+      const prerequisitesFixture = [];
+
+      const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
+        {
+          uuid: 'a',
+          name: 'Product A',
+          type: 'Accommodation',
+        },
+        {
+          uuid: 'b',
+          name: 'Product B',
+          type: 'Accommodation',
+        },
+        {
+          uuid: 'c',
+          name: 'Product C',
+          type: 'Accommodation',
+        },
+      ];
+
+      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(
+        prerequisitesFixture,
+        accommodationProductsFixture
+      );
+
+      expect(selected).toEqual('All Accommodation Products');
     });
   });
 });
