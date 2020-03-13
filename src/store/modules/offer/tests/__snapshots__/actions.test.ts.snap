@@ -10,7 +10,7 @@ Object {
 
 exports[`Offer Actions ... 2`] = `
 Object {
-  "accommodationProductsForHotel": undefined,
+  "accommodationProductsForHotel": Array [],
   "associatedOffersMapping": Object {},
   "associatedProductsMapping": Object {},
   "isTextOnly": true,

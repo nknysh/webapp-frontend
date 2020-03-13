@@ -16,7 +16,7 @@ describe('Offer reducer', () => {
   });
 
   it('handles GET_OFFER_SUCCESS correctly', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOffer, {}, {}, [], true);
+    const action = getOfferSuccessAction({ uuid: '1234' } as IOffer, {}, {}, [], true, []);
     const result = reducer(initialState.uiState, action);
     const expected: IOfferUiState = {
       ...initialState.uiState,

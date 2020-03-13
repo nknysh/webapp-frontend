@@ -12,7 +12,8 @@ describe('Offer Actions', () => {
         {},
         {},
         [],
-        true
+        true,
+        []
       )
     ).toMatchSnapshot();
     expect(getOfferFailureAction('An error')).toMatchSnapshot();
