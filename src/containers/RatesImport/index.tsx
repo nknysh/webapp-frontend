@@ -2,6 +2,7 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { formatDateTimeDisplay } from 'utils/date';
 
 import {
   importRatesRequestAction,
@@ -15,6 +16,15 @@ import {
   latestStatusSelector,
 } from '../../store/modules/ratesImport/selectors';
 
+import { EGenericStatusValue } from 'services/BackendApi';
+import { MainStyles } from './styles';
+import { PrimaryButton } from 'pureUi/Buttons';
+
+const StatusLabels: { [key: string]: string; } = {
+  [EGenericStatusValue.PENDING]: "Pending",
+  [EGenericStatusValue.IN_PROGRESS]: "In Progress",
+  [EGenericStatusValue.DONE]: "Done",
+};
 
 export class RatesImportContainer extends React.Component<IRatesImportProps> {
 
@@ -27,13 +37,33 @@ export class RatesImportContainer extends React.Component<IRatesImportProps> {
   }
 
   render() {
+    const {
+      importRatesRequestIsPending,
+      importRatesRequestAction,
+      latestStatus
+    } = this.props;
+
+    const statusStr = latestStatus
+      ? `${StatusLabels[latestStatus.status]} (${formatDateTimeDisplay(latestStatus.createdAt)})`
+      : null;
+
     return (
-      <div>
-        <button onClick={() => this.props.importRatesRequestAction()}>import rates</button>
-        <div>is pending: {this.props.importRatesRequestIsPending ? 'true' : 'false'}</div>
-        <div>latest status: {JSON.stringify(this.props.latestStatus)}</div>
-        <div>error: {this.props.error || 'null'}</div>
-      </div>
+      <MainStyles>
+        <section className="controls">
+          <PrimaryButton
+            className="importBtn"
+            disabled={importRatesRequestIsPending}
+            onClick={importRatesRequestAction}
+          >
+            Import Rates
+          </PrimaryButton>
+          <div>Latest import: {statusStr}</div>
+        </section>
+        <div className="separator" />
+        <section className="results">
+          {JSON.stringify(this.props.latestStatus)}
+        </section>
+      </MainStyles>
     );
   }
 

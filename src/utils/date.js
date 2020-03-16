@@ -219,6 +219,7 @@ export const subDaysString = (dateAsString, amount) => {
 };
 
 export const formatDateDisplay = date => formatDate(date, path(['defaults', 'displayDateFormat'], config));
+export const formatDateTimeDisplay = date => formatDate(date, path(['defaults', 'displayDateTimeFormat'], config));
 
 export const formatDateRangeDisplay = (startDate, endDate) => {
   if (!endDate) {
