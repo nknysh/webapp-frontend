@@ -1,7 +1,7 @@
 import { IDateRange } from 'interfaces';
 import { IOffer } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../../../model';
-import { offerReducer as reducer } from '../reducer';
+import { offerReducer as reducer, offerSetStayLengthMinimumPrerequisiteReducer } from '../reducer';
 import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../../../actions';
 import {
   offerHotelUuidChangeAction,
@@ -21,6 +21,10 @@ import {
   offerSetAdvanceMinimumPrerequisiteAction,
   offerSetAdvanceMaximumPrerequisiteAction,
   offerClearAllAdvancePrerequisiteAction,
+  offerSetStayLengthMaximumPrerequisiteAction,
+  offerSetStayLengthMinimumPrerequisiteAction,
+  offerSetStayLengthStrictPrerequisiteAction,
+  offerClearAllStayLengthPrerequisiteAction,
 } from '../actions';
 
 describe('Offer reducer', () => {
@@ -797,6 +801,89 @@ describe('Offer reducer', () => {
 
     it('handles clear all advance prerequisite', () => {
       const action = offerClearAllAdvancePrerequisiteAction();
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+  });
+
+  describe('offer reducer stay length prerequisite', () => {
+    it('handles offer set stay length minimum prerequisite', () => {
+      const action = offerSetStayLengthMinimumPrerequisiteAction(4);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          stayLength: {
+            ...initialState.offer.prerequisites.stayLength,
+            minimum: 4,
+          },
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer set stay length maximum prerequisite', () => {
+      const action = offerSetStayLengthMaximumPrerequisiteAction(7);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          stayLength: {
+            ...initialState.offer.prerequisites.stayLength,
+            maximum: 7,
+          },
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer set stay length strict prerequisite', () => {
+      const action = offerSetStayLengthStrictPrerequisiteAction(true);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          stayLength: {
+            ...initialState.offer.prerequisites.stayLength,
+            strictMinMaxStay: true,
+          },
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer clear all stay length prerequisite', () => {
+      const action = offerClearAllStayLengthPrerequisiteAction();
 
       const testState: IOffer = {
         ...initialState.offer,

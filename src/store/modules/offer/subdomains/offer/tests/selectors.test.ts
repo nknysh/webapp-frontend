@@ -21,6 +21,7 @@ import {
   offerAccommodationProductPrerequisitesLabelSelector,
   offerAdvancePrerequisiteSelector,
   offerMaxLodgingsPrerequisiteSelector,
+  offerStayLengthPrerequisiteSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -566,6 +567,37 @@ describe('Offer Selectors', () => {
       const selected = offerMaxLodgingsPrerequisiteSelector.resultFunc(prerequisitesFixture);
 
       expect(selected).toEqual(5);
+    });
+  });
+
+  describe('offer stay length selector', () => {
+    it('select stay length prerequisite (return undefined if not present)', () => {
+      const prerequisitesFixture = {
+        ...initialState.offer.prerequisites,
+      } as IOfferPrerequisites;
+
+      const selected = offerStayLengthPrerequisiteSelector.resultFunc(prerequisitesFixture);
+
+      expect(selected).toEqual(undefined);
+    });
+
+    it('select advance prerequisite (return with data)', () => {
+      const prerequisitesFixture = {
+        ...initialState.offer.prerequisites,
+        stayLength: {
+          minimum: 4,
+          maximum: 9,
+          strictMinMaxStay: true,
+        },
+      } as IOfferPrerequisites;
+
+      const selected = offerStayLengthPrerequisiteSelector.resultFunc(prerequisitesFixture);
+
+      expect(selected).toMatchObject({
+        minimum: 4,
+        maximum: 9,
+        strictMinMaxStay: true,
+      });
     });
   });
 });

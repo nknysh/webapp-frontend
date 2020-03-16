@@ -21,6 +21,11 @@ export const OFFER_SET_ADVANCE_MAXIMUM_PREREQUISITE = 'offer/OFFER_SET_ADVANCE_M
 export const OFFER_CLEAR_ALL_ADVANCE_PREREQUISITE = 'offer/OFFER_CLEAR_ALL_ADVANCE_PREREQUISITE';
 export const OFFER_SET_MAX_LODGINGS_PREREQUISITE = 'offer/OFFER_SET_MAX_LODGINGS_PREREQUISITE';
 
+export const OFFER_SET_STAY_LENGTH_MINIMUM_PREREQUISITE = 'offer/OFFER_SET_STAY_LENGTH_MINIMUM_PREREQUISITE';
+export const OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE = 'offer/OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE';
+export const OFFER_SET_STAY_LENGTH_STRICT_PREREQUISITE = 'offer/OFFER_SET_STAY_LENGTH_STRICT_PREREQUISITE';
+export const OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE = 'offer/OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE';
+
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
@@ -132,6 +137,33 @@ export const offerSetMaxLodgingsPrerequisiteAction = (value: number | undefined)
   value,
 });
 
+export type OfferSetStayLengthMinimumPrerequisiteAction = ReturnType<
+  typeof offerSetStayLengthMinimumPrerequisiteAction
+>;
+export const offerSetStayLengthMinimumPrerequisiteAction = (value: number | undefined) => ({
+  type: OFFER_SET_STAY_LENGTH_MINIMUM_PREREQUISITE as typeof OFFER_SET_STAY_LENGTH_MINIMUM_PREREQUISITE,
+  value,
+});
+
+export type OfferSetStayLengthMaximumPrerequisiteAction = ReturnType<
+  typeof offerSetStayLengthMaximumPrerequisiteAction
+>;
+export const offerSetStayLengthMaximumPrerequisiteAction = (value: number | undefined) => ({
+  type: OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE as typeof OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE,
+  value,
+});
+
+export type OfferSetStayLengthStrictPrerequisiteAction = ReturnType<typeof offerSetStayLengthStrictPrerequisiteAction>;
+export const offerSetStayLengthStrictPrerequisiteAction = (value: boolean | undefined) => ({
+  type: OFFER_SET_STAY_LENGTH_STRICT_PREREQUISITE as typeof OFFER_SET_STAY_LENGTH_STRICT_PREREQUISITE,
+  value,
+});
+
+export type OfferClearAllStayLengthPrerequisiteAction = ReturnType<typeof offerClearAllStayLengthPrerequisiteAction>;
+export const offerClearAllStayLengthPrerequisiteAction = () => ({
+  type: OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE as typeof OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferNameChangeAction
@@ -150,4 +182,8 @@ export type OfferAction =
   | OfferSetAdvanceMinimumPrerequisiteAction
   | OfferSetAdvanceMaximumPrerequisiteAction
   | OfferClearAllAdvancePrerequisiteAction
-  | OfferSetMaxLodgingsPrerequisiteAction;
+  | OfferSetMaxLodgingsPrerequisiteAction
+  | OfferSetStayLengthMinimumPrerequisiteAction
+  | OfferSetStayLengthMaximumPrerequisiteAction
+  | OfferSetStayLengthStrictPrerequisiteAction
+  | OfferClearAllStayLengthPrerequisiteAction;

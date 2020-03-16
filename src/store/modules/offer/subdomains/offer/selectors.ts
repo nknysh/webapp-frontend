@@ -178,3 +178,8 @@ export const offerMaxLodgingsPrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
   prerequisites => prerequisites.maximumLodgingsInBooking
 );
+
+export const offerStayLengthPrerequisiteSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => prerequisites.stayLength
+);

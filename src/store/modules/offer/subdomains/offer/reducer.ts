@@ -46,6 +46,16 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
       return offerClearAllAdvancePrerequisiteReducer(state, action);
     case Actions.OFFER_SET_MAX_LODGINGS_PREREQUISITE:
       return offerSetMaxLodgingsPrerequisiteReducer(state, action);
+
+    case Actions.OFFER_SET_STAY_LENGTH_MINIMUM_PREREQUISITE:
+      return offerSetStayLengthMinimumPrerequisiteReducer(state, action);
+    case Actions.OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE:
+      return offerSetStayLengthMaximumPrerequisiteReducer(state, action);
+    case Actions.OFFER_SET_STAY_LENGTH_STRICT_PREREQUISITE:
+      return offerSetStayLengthStrictPrerequisiteReducer(state, action);
+    case Actions.OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE:
+      return offerClearAllStayLengthPrerequisiteReducer(state, action);
+
     default:
       return state;
   }
@@ -295,3 +305,66 @@ export const offerSetMaxLodgingsPrerequisiteReducer = (
     },
   };
 };
+
+export const offerSetStayLengthMinimumPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferSetStayLengthMinimumPrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      stayLength: {
+        ...state.prerequisites.stayLength,
+        minimum: action.value,
+      },
+    },
+  };
+};
+
+export const offerSetStayLengthMaximumPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferSetStayLengthMaximumPrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      stayLength: {
+        ...state.prerequisites.stayLength,
+        maximum: action.value,
+      },
+    },
+  };
+};
+
+export const offerSetStayLengthStrictPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferSetStayLengthStrictPrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      stayLength: {
+        ...state.prerequisites.stayLength,
+        strictMinMaxStay: action.value,
+      },
+    },
+  };
+};
+
+export const offerClearAllStayLengthPrerequisiteReducer = (
+  state: IOffer,
+  action: Actions.OfferClearAllStayLengthPrerequisiteAction
+): IOffer => {
+  return {
+    ...state,
+    prerequisites: {
+      ...state.prerequisites,
+      stayLength: undefined,
+    },
+  };
+};
+
+export const offerSetStayLengthStrictPrerequisite = () => {};

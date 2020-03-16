@@ -48,9 +48,10 @@ export interface IOfferPrerequisites {
     minimum?: number;
     maximum?: number;
   };
-  stayLength: {
-    minimum: number;
-    strictMinMaxStay: boolean;
+  stayLength?: {
+    minimum?: number;
+    maximum?: number;
+    strictMinMaxStay?: boolean;
   };
   countryCodes: string[]; // these are the TA country codes - an array of string country codes
   accommodationProducts: string[];
