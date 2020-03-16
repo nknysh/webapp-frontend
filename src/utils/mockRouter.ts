@@ -2,7 +2,7 @@ import { RouteComponentProps } from 'react-router';
 import { Href } from 'history';
 
 //This is to mock out the dependencies for react router
-export const getMockRouterProps = <P>(params: P) => {
+export const getMockRouterProps = <P>(params: P, path?: string) => {
   const locationObj = {
     hash: '',
     key: '',
@@ -15,7 +15,7 @@ export const getMockRouterProps = <P>(params: P) => {
     match: {
       isExact: true,
       params: params,
-      path: '',
+      path: path || '',
       url: '',
     },
     location: locationObj,

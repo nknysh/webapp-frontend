@@ -33,7 +33,8 @@ describe('Offer Selectors', () => {
   describe('offerSelector', () => {
     it('Selects correctly', () => {
       expect(offerSelector.resultFunc(initialState)).toEqual({
-        uuid: '',
+        uuid: 'NEW_OFFER',
+        combines: true,
         name: '',
         termsAndConditions: '',
         furtherInformation: '',

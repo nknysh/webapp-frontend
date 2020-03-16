@@ -10,6 +10,7 @@ export const OfferEditStyles = styled.main`
   display: grid;
   grid-gap: 20px;
   grid-template-areas:
+    'errors'
     'basicInfo'
     'preRequisites'
     'actions';
@@ -28,7 +29,6 @@ export const OfferEditStyles = styled.main`
 
   .basicInfo {
     grid-area: basicInfo;
-    margin-bottom: 100px;
     display: grid;
     grid-gap: 20px;
     grid-template-columns: 1fr 1fr;
@@ -41,13 +41,21 @@ export const OfferEditStyles = styled.main`
       'preDiscountInfo textOnlyInfo';
   }
 
+  .errors {
+    grid-area: errors;
+  }
+
+  .error {
+    color: red;
+  }
+
   .hotelName {
     grid-area: hotelName;
     & > select {
       width: 100%;
     }
   }
-  .offerNameInput {
+  .offerName {
     grid-area: offerName;
   }
   .termsAndConditions {

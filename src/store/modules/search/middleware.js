@@ -1,12 +1,10 @@
-import { createBrowserHistory } from 'history';
+import { history } from 'utils/history';
 import { path, prop, pipe, pick, lensPath, lensProp, over, map, when, complement, isNil, identity } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
 import { getQuery, parseJson } from 'utils';
 
 import { setSearchQuery, SEARCH_BY_QUERY } from './actions';
-
-const history = createBrowserHistory();
 
 const datesFromLens = lensPath(['dates', 'startDate']);
 const datesToLens = lensPath(['dates', 'endDate']);

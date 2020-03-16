@@ -1,5 +1,6 @@
 import { IOffer, IOfferOnHotelItem, IAccommodationProductForHotelItem } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
+import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
 
 interface KeyValuePair {
   [key: string]: string;
@@ -7,7 +8,11 @@ interface KeyValuePair {
 
 export interface IOfferUiState {
   getOfferRequestIsPending: boolean;
-  error: any | null;
+  putOfferRequestIsPending: boolean;
+  postOfferRequestIsPending: boolean;
+  getError: any | null;
+  putError: IApiErrorPayload[] | null;
+  postError: IApiErrorPayload[] | null;
   isTextOnly: boolean;
 }
 
@@ -22,15 +27,20 @@ export interface IOfferModel {
 
 export const initialState: IOfferModel = {
   uiState: {
-    getOfferRequestIsPending: true,
-    error: null,
+    getOfferRequestIsPending: false,
+    putOfferRequestIsPending: false,
+    postOfferRequestIsPending: false,
+    getError: null,
+    putError: null,
+    postError: null,
     isTextOnly: true,
   },
   offer: {
-    uuid: '',
+    uuid: 'NEW_OFFER',
     name: '',
     termsAndConditions: '',
     furtherInformation: '',
+    combines: true,
     hotelUuid: '',
     prerequisites: {
       dates: [] as IDateRange[],

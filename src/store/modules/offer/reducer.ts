@@ -1,10 +1,14 @@
 import { IOfferModel, initialState } from './model';
-import { OfferDomainAction, GET_OFFER_SUCCESS } from './actions';
+import { OfferDomainAction, GET_OFFER_SUCCESS, RESET_OFFER_MODULE } from './actions';
 
 import { offerReducer } from './subdomains/offer/reducer';
 import { uiStateReducer } from './subdomains/uiState/reducer';
 
 export const offer = (state: IOfferModel = initialState, action: OfferDomainAction): IOfferModel => {
+  if (action.type === RESET_OFFER_MODULE) {
+    return initialState;
+  }
+
   return {
     uiState: uiStateReducer(state.uiState, action),
     offer: offerReducer(state.offer, action),

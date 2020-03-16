@@ -31,7 +31,7 @@ describe('Offer reducer', () => {
 
     const expected: IOfferUiState = {
       ...initialState.uiState,
-      error: 'An error',
+      getError: 'An error',
       getOfferRequestIsPending: false,
     };
 

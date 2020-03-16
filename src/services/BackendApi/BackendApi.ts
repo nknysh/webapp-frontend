@@ -23,7 +23,10 @@ import { IBookingsListResponse } from './types/BookingsListResponse';
 import { ITravelAgentRespone } from './types/TravelAgentResponse';
 import { IHotelNamesResponse } from './types/HotelNamesResponse';
 import { IOffersListResponse, IOffersDeleteResponse } from './types/OffersListResponse';
-import { IOfferResponse } from './types/OfferResponse';
+import { IOfferResponse, IOffer } from './types/OfferResponse';
+import { transformPut, transformPost } from './helpers';
+import { IApiErrorResponse } from './types/ApiError';
+import { IAPIRepsonse } from './types/ApiResponse';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -152,6 +155,37 @@ export class BackendApiService<T extends AxiosInstance> {
   getBootstrapCountries = async (): Promise<AxiosResponse> => {
     const endpoint = `${BackendEndpoints.COUNTRIES}`;
     return this.client.get(endpoint);
+  };
+
+  putOffer = async (offer: IOffer): Promise<IAPIRepsonse<IOffer, IApiErrorResponse>> => {
+    return (
+      this.client
+        .put(`${BackendEndpoints.OFFERS}/${offer.uuid}`, transformPut<IOffer>(offer, 'offer', ['hotel']))
+        .then(response => ({
+          response,
+        }))
+        // TODO: Create a helper to handle differen error ranges and either throw or return an error
+        .catch(error => ({
+          error,
+        }))
+    );
+  };
+
+  postOffer = async (offer: IOffer): Promise<IAPIRepsonse<IOffer, IApiErrorResponse>> => {
+    return (
+      this.client
+        .post(
+          `${BackendEndpoints.OFFERS}?associations=hotel&fields[hotel]=name`,
+          transformPost<IOffer>(offer, 'offer', ['uuid', 'hotel'])
+        )
+        .then(response => ({
+          response,
+        }))
+        // TODO: Create a helper to handle differen error ranges and either throw or return an error
+        .catch(error => ({
+          error,
+        }))
+    );
   };
 
   sanitizQueryObject = (query: SearchQuery): SearchQuery => {

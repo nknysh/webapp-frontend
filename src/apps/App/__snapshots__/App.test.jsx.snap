@@ -478,12 +478,25 @@ exports[`<App /> render matches snapshot 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(withRouter(OfferEditContainer))",
+            "displayName": "Connect(withRouter(Connect(WithBootstrapData(OfferEditContainer))))",
             "type": [Function],
           }
         }
         exact={true}
         path="/offer/:offerId/edit"
+      />
+      <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(withRouter(Connect(WithBootstrapData(OfferEditContainer))))",
+            "type": [Function],
+          }
+        }
+        exact={true}
+        path="/offer/create"
       />
       <Route
         auth={true}

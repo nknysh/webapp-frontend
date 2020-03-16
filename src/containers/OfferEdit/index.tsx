@@ -4,25 +4,32 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { MultiDateRange } from 'pureUi/forms/MultiDateRange/index';
-import { Text } from 'pureUi/typography';
+import { Text, Heading } from 'pureUi/typography';
 import Label from 'pureUi/Label/index';
 import TextInput from 'pureUi/TextInput/index';
 import TextArea from 'pureUi/Textarea/index';
 import Checkbox from 'pureUi/Checkbox';
 import { Fieldset, Legend } from 'pureUi/forms/Fieldset/index';
+import { OfferEditStyles } from './OffereditStyles';
+import { PrimaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
+import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData';
 
 import {
   offerSelector,
-  offerErrorSelector,
+  getOfferErrorSelector,
   offerStayBetweenPrerequisitesSelector,
   offerNameSelector,
   offerHotelUuidSelector,
   offerTermsSelector,
   offerFurtherInformationSelector,
+  offerDomainIsTextOnlySelector,
+  putOfferErrorSelector,
+  hotelNameSelector,
+  offerPreDiscountSelector,
+  getOfferRequestIsPendingSelector,
+  postOfferErrorSelector,
 } from 'store/modules/offer/selectors';
-import { getOfferRequestAction } from 'store/modules/offer/actions';
 
-import { OfferEditStyles } from './OffereditStyles';
 import {
   offerRemoveStayBetweenPrerequisiteAction,
   offerNameChangeAction,
@@ -30,15 +37,32 @@ import {
   offerFurtherInformationChangeAction,
   offerAddStayBetweenPrerequisiteAction,
   offerChangeStayBetweenPrerequisiteAction,
-} from 'store/modules/offer/subdomains/offer/actions';
-import { PrimaryButton, SecondaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
-import { getOfferRequestIsPendingSelector } from 'store/modules/offer/selectors';
-import { hotelNameSelector, offerPreDiscountSelector } from '../../store/modules/offer/subdomains/offer/selectors';
-import { offerDomainIsTextOnlySelector } from '../../store/modules/offer/subdomains/uiState/selectors';
-import { setOfferIsTextOnly } from '../../store/modules/offer/subdomains/uiState/actions';
-import { offerSetPreDiscountAction } from '../../store/modules/offer/subdomains/offer/actions';
+  offerSetPreDiscountAction,
+  offerHotelUuidChangeAction,
+  setOfferIsTextOnly,
+  putOfferRequestAction,
+  postOfferRequestAction,
+  getOfferRequestAction,
+  resetOfferModuleAction,
+} from 'store/modules/offer/actions';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
+  isEditMode = () => this.props.match.path.includes('edit');
+
+  componentWillMount() {
+    if (this.isEditMode() && this.props.offer.uuid !== this.props.match.params.offerId) {
+      this.props.getOfferRequestAction(this.props.match.params.offerId, true);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.resetOfferModuleAction();
+  }
+
+  handleHotelChange = (e: FormEvent<HTMLSelectElement>) => {
+    this.props.offerHotelUuidChangeAction(e.currentTarget.value);
+  };
+
   handleNameChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerNameChangeAction(e.currentTarget.value);
   };
@@ -52,7 +76,8 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   };
 
   handleDateChange = (dates: string[][]) => {
-    this.props.offerChangeStayBetweenPrerequisiteAction(dates);
+    const datesWithoutTime = dates.map(pair => pair.map(date => date.split('T')[0]));
+    this.props.offerChangeStayBetweenPrerequisiteAction(datesWithoutTime);
   };
 
   handleNewDate = () => {
@@ -67,52 +92,67 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
   toggleTextOnly = () => this.props.setOfferIsTextOnly(!this.props.isTextOnly);
 
-  componentWillMount() {
-    this.props.getOfferRequestAction(this.props.match.params.offerId, true);
-  }
-
   renderHotelName = () => {
-    if (this.props.match.path.includes('edit')) {
-      return <h1 className="hotelName">{this.props.hotelName}</h1>;
+    if (this.isEditMode()) {
+      return (
+        <Heading level="h1" className="hotelName">
+          {this.props.hotelName}
+        </Heading>
+      );
     }
 
     return (
       <Label className="hotelName" text="Hotel">
-        <select className="hotelSelectInput" placeholder="Select a hotel">
-          <option value="1">Hotel 1</option>
-          <option value="2">Hotel 2</option>
+        <select
+          className="hotelSelectInput"
+          defaultValue={undefined}
+          value={this.props.offerHotelUuid}
+          onChange={this.handleHotelChange}
+        >
+          <option disabled>Select a hotel</option>
+          {this.props.bootstrapHotels.map(hotel => (
+            <option key={hotel.uuid} value={hotel.uuid}>
+              {hotel.name}
+            </option>
+          ))}
         </select>
       </Label>
     );
+  };
+
+  handleCreate = () => {
+    this.props.postOfferRequestAction(this.props.history);
   };
 
   render() {
     if (this.props.getOfferRequestPending) {
       return (
         <OfferEditStyles>
-          <h1>Loading</h1>
+          <h1 data-role="loadingMessage">Loading</h1>
         </OfferEditStyles>
       );
     }
 
-    if (this.props.error) {
+    if (this.props.getError) {
       return (
         <OfferEditStyles>
-          <h1>There was a problem loading Offer:{this.props.match.params.offerId}</h1>
+          <h3>There was a problem loading Offer:{this.props.match.params.offerId}</h3>
         </OfferEditStyles>
       );
     }
 
     return (
       <OfferEditStyles>
-        {this.props.getOfferRequestPending && (
-          <p data-role="loadingMessage">Loading offer {this.props.match.params.offerId}</p>
+        {(this.props.putError || this.props.postError) && (
+          <section className="errors">
+            <h3 className="error">There was a problem saving the Offer</h3>
+          </section>
         )}
 
         <section className="basicInfo">
           {this.renderHotelName()}
 
-          <Label className="offerNameInput" text="Offer Name">
+          <Label className="offerName" text="Offer Name">
             <TextInput
               className="offerNameInput"
               value={this.props.offerName}
@@ -174,9 +214,15 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
         </section>
 
         <ButtonBar className="actions">
-          <SecondaryButton>Clear Changes</SecondaryButton>
+          {/* I'll come back to this late */}
+          {/* <SecondaryButton disabled>Clear Changes</SecondaryButton> */}
           <ButtonSpacer />
-          <PrimaryButton>Save Changes</PrimaryButton>
+          <PrimaryButton
+            className="saveButton"
+            onClick={this.isEditMode() ? this.props.putOfferRequestAction : this.handleCreate}
+          >
+            {this.isEditMode() ? 'Save Edits' : 'Create'}
+          </PrimaryButton>
         </ButtonBar>
       </OfferEditStyles>
     );
@@ -193,14 +239,20 @@ export interface IRouteParams {
   offerId: string;
 }
 
-export interface IOfferEditProps extends StateToProps, DispatchToProps, RouteComponentProps<IRouteParams> {
+export interface IOfferEditProps
+  extends StateToProps,
+    DispatchToProps,
+    IWithBootstrapDataProps,
+    RouteComponentProps<IRouteParams> {
   className?: string;
 }
 
 const mapStateToProps = createStructuredSelector({
   getOfferRequestPending: getOfferRequestIsPendingSelector,
   offer: offerSelector,
-  error: offerErrorSelector,
+  getError: getOfferErrorSelector,
+  putError: putOfferErrorSelector,
+  postError: postOfferErrorSelector,
   stayBetweenDates: offerStayBetweenPrerequisitesSelector,
   offerName: offerNameSelector,
   offerHotelUuid: offerHotelUuidSelector,
@@ -221,6 +273,10 @@ const actionCreators = {
   offerFurtherInformationChangeAction,
   setOfferIsTextOnly,
   offerSetPreDiscountAction,
+  offerHotelUuidChangeAction,
+  putOfferRequestAction,
+  postOfferRequestAction,
+  resetOfferModuleAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -235,5 +291,6 @@ const withConnect = connect<StateToProps, DispatchToProps, IOfferEditProps>(
 
 export const OfferEditContainerConnected = compose(
   withConnect,
-  withRouter
+  withRouter,
+  withBootstapData()
 )(OfferEditContainer);

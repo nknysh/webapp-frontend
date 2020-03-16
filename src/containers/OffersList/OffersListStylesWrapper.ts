@@ -12,7 +12,7 @@ export const OffersListStylesWrapper = styled.section`
   grid-template-areas:
     'heading . settings'
     'notificationArea notificationArea notificationArea'
-    'bulkActions . .'
+    'bulkActions bulkActions bulkActions'
     'table table table'
     'pagination pagination pagination';
 
@@ -31,6 +31,7 @@ export const OffersListStylesWrapper = styled.section`
 
   .bulk-actions {
     grid-area: bulkActions;
+    padding-bottom: 20px;
   }
 
   .notification-wrapper {

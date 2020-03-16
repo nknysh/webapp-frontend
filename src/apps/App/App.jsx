@@ -36,6 +36,7 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange, b
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
           <Route exact path="/offer/:offerId/edit" component={OfferEditContainerConnected} />
+          <Route exact path="/offer/create" component={OfferEditContainerConnected} />
           {...getAppRoutes(prop('type', user))}
         </Switch>
       </Suspense>

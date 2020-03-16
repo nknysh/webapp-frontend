@@ -1,16 +1,23 @@
 import { initialState } from '../../../model';
-import { getOfferRequestIsPendingSelector, offerErrorSelector } from '../selectors';
+import {
+  getOfferRequestIsPendingSelector,
+  getOfferErrorSelector,
+  putOfferErrorSelector,
+  postOfferErrorSelector,
+} from '../selectors';
 
-describe('Offer Selectors', () => {
+describe('Offer UI State Selectors', () => {
   describe('getOfferRequestPendingSelector', () => {
     it('Selects correctly', () => {
-      expect(getOfferRequestIsPendingSelector.resultFunc(initialState.uiState)).toEqual(true);
+      expect(getOfferRequestIsPendingSelector.resultFunc(initialState.uiState)).toEqual(false);
     });
   });
 
-  describe('offerErrorSelector', () => {
+  describe('error selectors', () => {
     it('Selects correctly', () => {
-      expect(offerErrorSelector.resultFunc(initialState.uiState)).toEqual(null);
+      expect(getOfferErrorSelector.resultFunc(initialState.uiState)).toEqual(null);
+      expect(putOfferErrorSelector.resultFunc(initialState.uiState)).toEqual(null);
+      expect(postOfferErrorSelector.resultFunc(initialState.uiState)).toEqual(null);
     });
   });
 });

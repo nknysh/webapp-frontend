@@ -13,10 +13,11 @@ import { Back } from '../BookingContainer/BookingContainer.styles';
 import {
   getOfferRequestIsPendingSelector,
   offerSelector,
-  offerErrorSelector,
+  getOfferErrorSelector,
   getAssociatedOffersMappingSelector,
   getAssociatedProductsMappingSelector,
   getOffersOnHotelSelector,
+  hotelNameSelector,
 } from '../../store/modules/offer/selectors';
 import { getOfferRequestAction } from '../../store/modules/offer/actions';
 import { TabBar, RouteTab } from '../../pureUi/TabBar';
@@ -58,7 +59,7 @@ export const ReadOnlyField = styled(_ReadOnlyField)`
 `;
 
 export class _OffersView extends React.Component<IOffersViewProps, {}> {
-  componentDidMount() {
+  componentWillMount() {
     if (!this.props.offer || this.props.offer!.uuid !== this.props.match.params.id) {
       this.props.getOfferRequestAction(this.props.match.params.id);
     }
@@ -90,7 +91,7 @@ export class _OffersView extends React.Component<IOffersViewProps, {}> {
           ]}
         />
         <h1>{this.props.offer.name}</h1>
-        <h2>{this.props.offer.hotel.name}</h2>
+        <h2>{this.props.hotelName}</h2>
 
         <TabBar>
           <RouteTab to={`${url}/details`}>Details</RouteTab>
@@ -176,10 +177,11 @@ const mapStateToProps = createStructuredSelector({
   actingCountryCode: getUserCountryContext,
   offerRequestIsPending: getOfferRequestIsPendingSelector,
   offer: offerSelector,
-  offerError: offerErrorSelector,
+  offerError: getOfferErrorSelector,
   associatedOffersMapping: getAssociatedOffersMappingSelector,
   associatedProductsMapping: getAssociatedProductsMappingSelector,
   offersOnHotel: getOffersOnHotelSelector,
+  hotelName: hotelNameSelector,
 });
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
 

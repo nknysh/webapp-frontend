@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
 import { Table, THead, TBody, TRow, TH, TD } from 'pureUi/Table';
-import { LinkButton, PrimaryButton, SecondaryButton, ButtonBar } from 'pureUi/Buttons';
+import { LinkButton, PrimaryButton, SecondaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
 import TextInput from 'pureUi/TextInput';
 import { Pagination } from 'pureUi/Pagination';
 import Checkbox from 'pureUi/Checkbox';
@@ -151,13 +151,17 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
         )}
 
         <div className="bulk-actions">
-          <PrimaryButton
-            className="bulk-action-delete"
-            disabled={this.props.bulkActionSelectedUuids.length <= 0}
-            onClick={this.handleDeleteSelectedOffers}
-          >
-            Delete Selected Offers
-          </PrimaryButton>
+          <ButtonBar>
+            <PrimaryButton
+              className="bulk-action-delete"
+              disabled={this.props.bulkActionSelectedUuids.length <= 0}
+              onClick={this.handleDeleteSelectedOffers}
+            >
+              Delete Selected Offers
+            </PrimaryButton>
+            <ButtonSpacer />
+            <LinkButton to="/offer/create">New Offer</LinkButton>
+          </ButtonBar>
           {this.props.isBulkDeleteConfirmOpen && (
             <StandardModal onClose={this.props.toggleIsBulkDeleteConfirmOpen}>
               <ModalHeader>
@@ -233,7 +237,7 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
                         <LinkButton className="link-button" to={`/offers/${offer.uuid}`}>
                           Show
                         </LinkButton>
-                        <LinkButton className="link-button" to={`/offers/${offer.uuid}/edit`}>
+                        <LinkButton className="link-button" to={`/offer/${offer.uuid}/edit`}>
                           Edit
                         </LinkButton>
                       </div>

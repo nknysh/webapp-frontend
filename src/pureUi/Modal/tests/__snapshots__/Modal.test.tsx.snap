@@ -8,9 +8,9 @@ exports[`Modal Modal Components renders correctly 1`] = `
         "$$typeof": Symbol(react.forward_ref),
         "attrs": Array [],
         "componentStyle": ComponentStyle {
-          "componentId": "sc-iwsKbI",
+          "componentId": "sc-gZMcBi",
           "isStatic": false,
-          "lastClassName": "ejSuQW",
+          "lastClassName": "jhtXHj",
           "rules": Array [
             "
   position: fixed;
@@ -30,7 +30,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
         "displayName": "styled.div",
         "foldedComponentIds": Array [],
         "render": [Function],
-        "styledComponentId": "sc-iwsKbI",
+        "styledComponentId": "sc-gZMcBi",
         "target": "div",
         "toString": [Function],
         "warnTooManyClasses": [Function],
@@ -40,7 +40,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
     forwardedRef={null}
   >
     <div
-      className="sc-iwsKbI ejSuQW"
+      className="sc-gZMcBi jhtXHj"
     >
       <Styled(Component)>
         <StyledComponent
@@ -49,9 +49,9 @@ exports[`Modal Modal Components renders correctly 1`] = `
               "$$typeof": Symbol(react.forward_ref),
               "attrs": Array [],
               "componentStyle": ComponentStyle {
-                "componentId": "sc-gZMcBi",
+                "componentId": "sc-gqjmRU",
                 "isStatic": false,
-                "lastClassName": "kAFuQQ",
+                "lastClassName": "eNqfbM",
                 "rules": Array [
                   "
   display: flex;
@@ -69,7 +69,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
               "displayName": "Styled(Component)",
               "foldedComponentIds": Array [],
               "render": [Function],
-              "styledComponentId": "sc-gZMcBi",
+              "styledComponentId": "sc-gqjmRU",
               "target": [Function],
               "toString": [Function],
               "warnTooManyClasses": [Function],
@@ -79,7 +79,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
           forwardedRef={null}
         >
           <Component
-            className="sc-gZMcBi kAFuQQ"
+            className="sc-gqjmRU eNqfbM"
           >
             <FocusTrap
               _createFocusTrap={[Function]}
@@ -88,7 +88,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
               paused={false}
             >
               <div
-                className="sc-gZMcBi kAFuQQ"
+                className="sc-gqjmRU eNqfbM"
               >
                 <styled.div>
                   <StyledComponent
@@ -97,9 +97,9 @@ exports[`Modal Modal Components renders correctly 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "sc-gqjmRU",
+                          "componentId": "sc-VigVT",
                           "isStatic": false,
-                          "lastClassName": "kmOEcz",
+                          "lastClassName": "kOngSF",
                           "rules": Array [
                             "
   padding: 0 100px;
@@ -118,7 +118,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
                         "displayName": "styled.div",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "sc-gqjmRU",
+                        "styledComponentId": "sc-VigVT",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -128,7 +128,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
                     forwardedRef={null}
                   >
                     <div
-                      className="sc-gqjmRU kmOEcz"
+                      className="sc-VigVT kOngSF"
                     >
                       <p>
                         Header
@@ -143,50 +143,12 @@ exports[`Modal Modal Components renders correctly 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "sc-VigVT",
+                          "componentId": "sc-jTzLTM",
                           "isStatic": false,
-                          "lastClassName": "LeOuo",
+                          "lastClassName": "eOXmpX",
                           "rules": Array [
                             "
   overflow: scroll;
-  padding: 0 100px;
-",
-                          ],
-                        },
-                        "displayName": "styled.div",
-                        "foldedComponentIds": Array [],
-                        "render": [Function],
-                        "styledComponentId": "sc-VigVT",
-                        "target": "div",
-                        "toString": [Function],
-                        "warnTooManyClasses": [Function],
-                        "withComponent": [Function],
-                      }
-                    }
-                    forwardedRef={null}
-                  >
-                    <div
-                      className="sc-VigVT LeOuo"
-                    >
-                      <p>
-                        Content
-                      </p>
-                    </div>
-                  </StyledComponent>
-                </styled.div>
-                <styled.div>
-                  <StyledComponent
-                    forwardedComponent={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "attrs": Array [],
-                        "componentStyle": ComponentStyle {
-                          "componentId": "sc-jTzLTM",
-                          "isStatic": false,
-                          "lastClassName": "hNEumZ",
-                          "rules": Array [
-                            "
-  margin-top: 30px;
   padding: 0 100px;
 ",
                           ],
@@ -204,7 +166,45 @@ exports[`Modal Modal Components renders correctly 1`] = `
                     forwardedRef={null}
                   >
                     <div
-                      className="sc-jTzLTM hNEumZ"
+                      className="sc-jTzLTM eOXmpX"
+                    >
+                      <p>
+                        Content
+                      </p>
+                    </div>
+                  </StyledComponent>
+                </styled.div>
+                <styled.div>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-fjdhpX",
+                          "isStatic": false,
+                          "lastClassName": "iSzWkA",
+                          "rules": Array [
+                            "
+  margin-top: 30px;
+  padding: 0 100px;
+",
+                          ],
+                        },
+                        "displayName": "styled.div",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-fjdhpX",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <div
+                      className="sc-fjdhpX iSzWkA"
                     >
                       <p>
                         Footer
@@ -219,9 +219,9 @@ exports[`Modal Modal Components renders correctly 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "sc-fjdhpX",
+                          "componentId": "sc-jzJRlG",
                           "isStatic": false,
-                          "lastClassName": "iZDLVA",
+                          "lastClassName": "hhLdEm",
                           "rules": Array [
                             "
   position: absolute;
@@ -241,7 +241,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
                         "displayName": "Styled(ModalCloseButtonComponent)",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "sc-fjdhpX",
+                        "styledComponentId": "sc-jzJRlG",
                         "target": [Function],
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -251,13 +251,13 @@ exports[`Modal Modal Components renders correctly 1`] = `
                     forwardedRef={null}
                   >
                     <ModalCloseButtonComponent
-                      className="sc-fjdhpX iZDLVA"
+                      className="sc-jzJRlG hhLdEm"
                     >
                       <styled.button
-                        className="sc-fjdhpX iZDLVA"
+                        className="sc-jzJRlG hhLdEm"
                       >
                         <StyledComponent
-                          className="sc-fjdhpX iZDLVA"
+                          className="sc-jzJRlG hhLdEm"
                           forwardedComponent={
                             Object {
                               "$$typeof": Symbol(react.forward_ref),
@@ -320,7 +320,7 @@ exports[`Modal Modal Components renders correctly 1`] = `
                           forwardedRef={null}
                         >
                           <button
-                            className="sc-EHOje hCwcmB sc-fjdhpX iZDLVA"
+                            className="sc-EHOje hCwcmB sc-jzJRlG hhLdEm"
                           >
                             <ForwardRef>
                               <WithStyles(ForwardRef(SvgIcon))>
@@ -377,9 +377,9 @@ exports[`Modal StandardModal renders correctly 1`] = `
         "$$typeof": Symbol(react.forward_ref),
         "attrs": Array [],
         "componentStyle": ComponentStyle {
-          "componentId": "sc-iwsKbI",
+          "componentId": "sc-gZMcBi",
           "isStatic": false,
-          "lastClassName": "ejSuQW",
+          "lastClassName": "jhtXHj",
           "rules": Array [
             "
   position: fixed;
@@ -399,7 +399,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
         "displayName": "styled.div",
         "foldedComponentIds": Array [],
         "render": [Function],
-        "styledComponentId": "sc-iwsKbI",
+        "styledComponentId": "sc-gZMcBi",
         "target": "div",
         "toString": [Function],
         "warnTooManyClasses": [Function],
@@ -409,7 +409,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
     forwardedRef={null}
   >
     <div
-      className="sc-iwsKbI ejSuQW"
+      className="sc-gZMcBi jhtXHj"
     >
       <Styled(Component)>
         <StyledComponent
@@ -418,9 +418,9 @@ exports[`Modal StandardModal renders correctly 1`] = `
               "$$typeof": Symbol(react.forward_ref),
               "attrs": Array [],
               "componentStyle": ComponentStyle {
-                "componentId": "sc-gZMcBi",
+                "componentId": "sc-gqjmRU",
                 "isStatic": false,
-                "lastClassName": "kAFuQQ",
+                "lastClassName": "eNqfbM",
                 "rules": Array [
                   "
   display: flex;
@@ -438,7 +438,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
               "displayName": "Styled(Component)",
               "foldedComponentIds": Array [],
               "render": [Function],
-              "styledComponentId": "sc-gZMcBi",
+              "styledComponentId": "sc-gqjmRU",
               "target": [Function],
               "toString": [Function],
               "warnTooManyClasses": [Function],
@@ -448,7 +448,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
           forwardedRef={null}
         >
           <Component
-            className="sc-gZMcBi kAFuQQ"
+            className="sc-gqjmRU eNqfbM"
           >
             <FocusTrap
               _createFocusTrap={[Function]}
@@ -457,7 +457,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
               paused={false}
             >
               <div
-                className="sc-gZMcBi kAFuQQ"
+                className="sc-gqjmRU eNqfbM"
               >
                 <styled.div>
                   <StyledComponent
@@ -466,9 +466,9 @@ exports[`Modal StandardModal renders correctly 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "sc-gqjmRU",
+                          "componentId": "sc-VigVT",
                           "isStatic": false,
-                          "lastClassName": "kmOEcz",
+                          "lastClassName": "kOngSF",
                           "rules": Array [
                             "
   padding: 0 100px;
@@ -487,7 +487,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
                         "displayName": "styled.div",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "sc-gqjmRU",
+                        "styledComponentId": "sc-VigVT",
                         "target": "div",
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -497,7 +497,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
                     forwardedRef={null}
                   >
                     <div
-                      className="sc-gqjmRU kmOEcz"
+                      className="sc-VigVT kOngSF"
                     >
                       <p>
                         Header
@@ -512,50 +512,12 @@ exports[`Modal StandardModal renders correctly 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "sc-VigVT",
+                          "componentId": "sc-jTzLTM",
                           "isStatic": false,
-                          "lastClassName": "LeOuo",
+                          "lastClassName": "eOXmpX",
                           "rules": Array [
                             "
   overflow: scroll;
-  padding: 0 100px;
-",
-                          ],
-                        },
-                        "displayName": "styled.div",
-                        "foldedComponentIds": Array [],
-                        "render": [Function],
-                        "styledComponentId": "sc-VigVT",
-                        "target": "div",
-                        "toString": [Function],
-                        "warnTooManyClasses": [Function],
-                        "withComponent": [Function],
-                      }
-                    }
-                    forwardedRef={null}
-                  >
-                    <div
-                      className="sc-VigVT LeOuo"
-                    >
-                      <p>
-                        Content
-                      </p>
-                    </div>
-                  </StyledComponent>
-                </styled.div>
-                <styled.div>
-                  <StyledComponent
-                    forwardedComponent={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "attrs": Array [],
-                        "componentStyle": ComponentStyle {
-                          "componentId": "sc-jTzLTM",
-                          "isStatic": false,
-                          "lastClassName": "hNEumZ",
-                          "rules": Array [
-                            "
-  margin-top: 30px;
   padding: 0 100px;
 ",
                           ],
@@ -573,7 +535,45 @@ exports[`Modal StandardModal renders correctly 1`] = `
                     forwardedRef={null}
                   >
                     <div
-                      className="sc-jTzLTM hNEumZ"
+                      className="sc-jTzLTM eOXmpX"
+                    >
+                      <p>
+                        Content
+                      </p>
+                    </div>
+                  </StyledComponent>
+                </styled.div>
+                <styled.div>
+                  <StyledComponent
+                    forwardedComponent={
+                      Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "sc-fjdhpX",
+                          "isStatic": false,
+                          "lastClassName": "iSzWkA",
+                          "rules": Array [
+                            "
+  margin-top: 30px;
+  padding: 0 100px;
+",
+                          ],
+                        },
+                        "displayName": "styled.div",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "sc-fjdhpX",
+                        "target": "div",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      }
+                    }
+                    forwardedRef={null}
+                  >
+                    <div
+                      className="sc-fjdhpX iSzWkA"
                     >
                       <p>
                         Footer
@@ -588,9 +588,9 @@ exports[`Modal StandardModal renders correctly 1`] = `
                         "$$typeof": Symbol(react.forward_ref),
                         "attrs": Array [],
                         "componentStyle": ComponentStyle {
-                          "componentId": "sc-fjdhpX",
+                          "componentId": "sc-jzJRlG",
                           "isStatic": false,
-                          "lastClassName": "iZDLVA",
+                          "lastClassName": "hhLdEm",
                           "rules": Array [
                             "
   position: absolute;
@@ -610,7 +610,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
                         "displayName": "Styled(ModalCloseButtonComponent)",
                         "foldedComponentIds": Array [],
                         "render": [Function],
-                        "styledComponentId": "sc-fjdhpX",
+                        "styledComponentId": "sc-jzJRlG",
                         "target": [Function],
                         "toString": [Function],
                         "warnTooManyClasses": [Function],
@@ -620,13 +620,13 @@ exports[`Modal StandardModal renders correctly 1`] = `
                     forwardedRef={null}
                   >
                     <ModalCloseButtonComponent
-                      className="sc-fjdhpX iZDLVA"
+                      className="sc-jzJRlG hhLdEm"
                     >
                       <styled.button
-                        className="sc-fjdhpX iZDLVA"
+                        className="sc-jzJRlG hhLdEm"
                       >
                         <StyledComponent
-                          className="sc-fjdhpX iZDLVA"
+                          className="sc-jzJRlG hhLdEm"
                           forwardedComponent={
                             Object {
                               "$$typeof": Symbol(react.forward_ref),
@@ -689,7 +689,7 @@ exports[`Modal StandardModal renders correctly 1`] = `
                           forwardedRef={null}
                         >
                           <button
-                            className="sc-EHOje hCwcmB sc-fjdhpX iZDLVA"
+                            className="sc-EHOje hCwcmB sc-jzJRlG hhLdEm"
                           >
                             <ForwardRef>
                               <WithStyles(ForwardRef(SvgIcon))>

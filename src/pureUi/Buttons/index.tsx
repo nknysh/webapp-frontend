@@ -159,7 +159,9 @@ export const ButtonBar = styled.div`
   }
 `;
 
-export const ButtonSpacer = styled.div`
+export const ButtonSpacer = styled.div.attrs(() => ({
+  'aria-hidden': 'true',
+}))`
   flex-grow: 1;
 `;
 

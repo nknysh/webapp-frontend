@@ -16,9 +16,19 @@ export const getOfferRequestIsPendingSelector = createSelector(
   uiState => uiState.getOfferRequestIsPending
 );
 
-export const offerErrorSelector = createSelector(
+export const getOfferErrorSelector = createSelector(
   uiStateSelector,
-  uiState => uiState.error
+  uiState => uiState.getError
+);
+
+export const putOfferErrorSelector = createSelector(
+  uiStateSelector,
+  uiState => uiState.putError
+);
+
+export const postOfferErrorSelector = createSelector(
+  uiStateSelector,
+  uiState => uiState.postError
 );
 
 export const offerDomainIsTextOnlySelector = createSelector(

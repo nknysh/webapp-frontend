@@ -2,7 +2,7 @@ import * as Actions from './actions';
 import produce from 'immer';
 import { IOffer } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
-import { OfferDomainAction, GET_OFFER_SUCCESS } from '../../actions';
+import { OfferDomainAction, GET_OFFER_SUCCESS, PUT_OFFER_SUCCESS, POST_OFFER_SUCCESS } from '../../actions';
 import { initialState } from '../../model';
 import * as R from 'ramda';
 
@@ -10,6 +10,13 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
   switch (action.type) {
     case GET_OFFER_SUCCESS:
       return action.offer;
+    case PUT_OFFER_SUCCESS:
+    case POST_OFFER_SUCCESS:
+      return {
+        // Offer may contain associations which are not on the put response
+        ...state,
+        ...action.offer,
+      };
     case Actions.OFFER_HOTEL_UUID_CHANGE:
       return offerHotelUuidChangeReducer(state, action);
     case Actions.OFFER_NAME_CHANGE:
