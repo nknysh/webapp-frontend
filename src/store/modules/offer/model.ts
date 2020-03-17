@@ -48,6 +48,7 @@ export const initialState: IOfferModel = {
       maximumLodgingsInBooking: undefined,
       advance: undefined,
     },
+    stepping: undefined,
     preDiscount: false,
   } as IOffer,
   associatedOffersMapping: {},

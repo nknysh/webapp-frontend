@@ -24,6 +24,7 @@ import {
   offerMaxLodgingsPrerequisiteSelector,
   offerStayLengthPrerequisiteSelector,
   hotelNameSelector,
+  offerSteppingApplicationSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -608,6 +609,77 @@ describe('Offer Selectors', () => {
     it('select the hotel name', () => {
       const fixture = { hotel: { name: 'TEST NAME' } } as IOffer;
       expect(hotelNameSelector.resultFunc(fixture)).toEqual('TEST NAME');
+    });
+  });
+
+  describe('select stepping', () => {
+    it('should select stepping when all set', () => {
+      const fixture = {
+        ...initialState.offer,
+        stepping: {
+          everyXNights: 3,
+          applyTo: 5,
+          maximumNights: 7,
+          discountCheapest: true,
+        },
+      } as IOffer;
+
+      const selected = offerSteppingApplicationSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject({
+        everyXNights: 3,
+        applyTo: 5,
+        maximumNights: 7,
+        discountCheapest: true,
+      });
+    });
+
+    it('should select stepping (any values that are undefined are returned as strings)', () => {
+      const fixture = {
+        ...initialState.offer,
+        stepping: {
+          everyXNights: undefined,
+          applyTo: 5,
+          maximumNights: undefined,
+          discountCheapest: true,
+        },
+      } as IOffer;
+
+      const selected = offerSteppingApplicationSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject({
+        everyXNights: '',
+        applyTo: 5,
+        maximumNights: '',
+        discountCheapest: true,
+      });
+    });
+
+    it('should select stepping (values not set are not returned)', () => {
+      const fixture = {
+        ...initialState.offer,
+        stepping: {
+          applyTo: 5,
+          discountCheapest: true,
+        },
+      } as IOffer;
+
+      const selected = offerSteppingApplicationSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject({
+        applyTo: 5,
+        discountCheapest: true,
+      });
+    });
+
+    it('should select stepping (return undefined if not set)', () => {
+      const fixture = {
+        ...initialState.offer,
+      } as IOffer;
+
+      const selected = offerSteppingApplicationSelector.resultFunc(fixture);
+
+      expect(selected).toEqual(undefined);
     });
   });
 });

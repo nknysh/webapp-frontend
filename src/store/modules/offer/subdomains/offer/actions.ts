@@ -175,13 +175,13 @@ export const offerClearAllStayLengthPrerequisiteAction = () => ({
 export type OfferSetSteppingEveryXNightsApplicationAction = ReturnType<
   typeof offerSetSteppingEveryXNightsApplicationAction
 >;
-export const offerSetSteppingEveryXNightsApplicationAction = (value: number | undefined) => ({
+export const offerSetSteppingEveryXNightsApplicationAction = (value: number) => ({
   type: OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION as typeof OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION,
   value,
 });
 
 export type OfferSetSteppingApplyToApplicationAction = ReturnType<typeof offerSetSteppingApplyToApplicationAction>;
-export const offerSetSteppingApplyToApplicationAction = (value: number | undefined) => ({
+export const offerSetSteppingApplyToApplicationAction = (value: number) => ({
   type: OFFER_SET_STEPPING_APPLY_TO_APPLICATION as typeof OFFER_SET_STEPPING_APPLY_TO_APPLICATION,
   value,
 });

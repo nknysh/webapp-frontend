@@ -191,5 +191,15 @@ export const offerStayLengthPrerequisiteSelector = createSelector(
 
 export const offerSteppingApplicationSelector = createSelector(
   offerSelector,
-  offer => offer.stepping
+  offer => {
+    if (!offer.stepping) {
+      return undefined;
+    }
+    
+    const parsedObject = {};
+    Object.keys(offer.stepping).forEach(steppingKey => {
+      parsedObject[steppingKey] = !offer.stepping || offer.stepping[steppingKey] === undefined ? '' : offer.stepping[steppingKey]
+    });
+    return parsedObject;
+  }
 );
