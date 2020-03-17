@@ -74,10 +74,10 @@ export interface IOffer {
   prerequisites: IOfferPrerequisites;
   preDiscount: boolean;
   stepping?: {
-    everyXNights: any;
-    applyTo: any;
-    maximumNights: any;
-    discountCheapest: boolean | null;
+    everyXNights?: number;
+    applyTo?: number;
+    maximumNights?: number;
+    discountCheapest?: boolean;
   };
   accommodationProductDiscount?: {
     discountPercentage: number;

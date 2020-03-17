@@ -26,6 +26,12 @@ export const OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE = 'offer/OFFER_SET_STAY_
 export const OFFER_SET_STAY_LENGTH_STRICT_PREREQUISITE = 'offer/OFFER_SET_STAY_LENGTH_STRICT_PREREQUISITE';
 export const OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE = 'offer/OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE';
 
+export const OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION = 'offer/OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION';
+export const OFFER_SET_STEPPING_APPLY_TO_APPLICATION = 'offer/OFFER_SET_STEPPING_APPLY_TO_APPLICATION';
+export const OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION = 'offer/OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION';
+export const OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION =
+  'offer/OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION';
+
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
@@ -164,6 +170,36 @@ export const offerClearAllStayLengthPrerequisiteAction = () => ({
   type: OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE as typeof OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE,
 });
 
+export type OfferSetSteppingEveryXNightsApplicationAction = ReturnType<
+  typeof offerSetSteppingEveryXNightsApplicationAction
+>;
+export const offerSetSteppingEveryXNightsApplicationAction = (value: number | undefined) => ({
+  type: OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION as typeof OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION,
+  value,
+});
+
+export type OfferSetSteppingApplyToApplicationAction = ReturnType<typeof offerSetSteppingApplyToApplicationAction>;
+export const offerSetSteppingApplyToApplicationAction = (value: number | undefined) => ({
+  type: OFFER_SET_STEPPING_APPLY_TO_APPLICATION as typeof OFFER_SET_STEPPING_APPLY_TO_APPLICATION,
+  value,
+});
+
+export type OfferSetSteppingMaximumNightsApplicationAction = ReturnType<
+  typeof offerSetSteppingMaximumNightsApplicationAction
+>;
+export const offerSetSteppingMaximumNightsApplicationAction = (value: number | undefined) => ({
+  type: OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION as typeof OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION,
+  value,
+});
+
+export type OfferSetSteppingDiscountCheapestApplicationAction = ReturnType<
+  typeof offerSetSteppingDiscountCheapestApplicationAction
+>;
+export const offerSetSteppingDiscountCheapestApplicationAction = (value: boolean | undefined) => ({
+  type: OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION as typeof OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION,
+  value,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferNameChangeAction
@@ -186,4 +222,8 @@ export type OfferAction =
   | OfferSetStayLengthMinimumPrerequisiteAction
   | OfferSetStayLengthMaximumPrerequisiteAction
   | OfferSetStayLengthStrictPrerequisiteAction
-  | OfferClearAllStayLengthPrerequisiteAction;
+  | OfferClearAllStayLengthPrerequisiteAction
+  | OfferSetSteppingEveryXNightsApplicationAction
+  | OfferSetSteppingApplyToApplicationAction
+  | OfferSetSteppingMaximumNightsApplicationAction
+  | OfferSetSteppingDiscountCheapestApplicationAction;

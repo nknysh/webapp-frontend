@@ -63,6 +63,15 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
     case Actions.OFFER_CLEAR_ALL_STAY_LENGTH_PREREQUISITE:
       return offerClearAllStayLengthPrerequisiteReducer(state, action);
 
+    case Actions.OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION:
+      return offerSetSteppingEveryXNightsApplicationReducer(state, action);
+    case Actions.OFFER_SET_STEPPING_APPLY_TO_APPLICATION:
+      return offerSetSteppingApplyToApplicationReducer(state, action);
+    case Actions.OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION:
+      return offerSetSteppingMaximumNightsApplicationReducer(state, action);
+    case Actions.OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION:
+      return offerSetSteppingDiscountCheapestApplicationReducer(state, action);
+
     default:
       return state;
   }
@@ -374,4 +383,54 @@ export const offerClearAllStayLengthPrerequisiteReducer = (
   };
 };
 
-export const offerSetStayLengthStrictPrerequisite = () => {};
+export const offerSetSteppingEveryXNightsApplicationReducer = (
+  state: IOffer,
+  action: Actions.OfferSetSteppingEveryXNightsApplicationAction
+): IOffer => {
+  return {
+    ...state,
+    stepping: {
+      ...state.stepping,
+      everyXNights: action.value,
+    },
+  };
+};
+
+export const offerSetSteppingApplyToApplicationReducer = (
+  state: IOffer,
+  action: Actions.OfferSetSteppingApplyToApplicationAction
+): IOffer => {
+  return {
+    ...state,
+    stepping: {
+      ...state.stepping,
+      applyTo: action.value,
+    },
+  };
+};
+
+export const offerSetSteppingMaximumNightsApplicationReducer = (
+  state: IOffer,
+  action: Actions.OfferSetSteppingMaximumNightsApplicationAction
+): IOffer => {
+  return {
+    ...state,
+    stepping: {
+      ...state.stepping,
+      maximumNights: action.value,
+    },
+  };
+};
+
+export const offerSetSteppingDiscountCheapestApplicationReducer = (
+  state: IOffer,
+  action: Actions.OfferSetSteppingDiscountCheapestApplicationAction
+): IOffer => {
+  return {
+    ...state,
+    stepping: {
+      ...state.stepping,
+      discountCheapest: action.value,
+    },
+  };
+};
