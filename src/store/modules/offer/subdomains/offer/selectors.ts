@@ -188,3 +188,8 @@ export const offerStayLengthPrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
   prerequisites => prerequisites.stayLength
 );
+
+export const offerSteppingApplicationSelector = createSelector(
+  offerSelector,
+  offer => offer.stepping
+);
