@@ -32,6 +32,8 @@ export const OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION = 'offer/OFFER_SET_ST
 export const OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION =
   'offer/OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION';
 
+export const OFFER_CLEAR_ALL_STEPPING_APPLICATION = 'offer/OFFER_CLEAR_ALL_STEPPING_APPLICATION';
+
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
@@ -200,6 +202,11 @@ export const offerSetSteppingDiscountCheapestApplicationAction = (value: boolean
   value,
 });
 
+export type OfferClearAllSteppingApplicationAction = ReturnType<typeof offerClearAllSteppingApplicationAction>;
+export const offerClearAllSteppingApplicationAction = () => ({
+  type: OFFER_CLEAR_ALL_STEPPING_APPLICATION as typeof OFFER_CLEAR_ALL_STEPPING_APPLICATION,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferNameChangeAction
@@ -226,4 +233,5 @@ export type OfferAction =
   | OfferSetSteppingEveryXNightsApplicationAction
   | OfferSetSteppingApplyToApplicationAction
   | OfferSetSteppingMaximumNightsApplicationAction
-  | OfferSetSteppingDiscountCheapestApplicationAction;
+  | OfferSetSteppingDiscountCheapestApplicationAction
+  | OfferClearAllSteppingApplicationAction;

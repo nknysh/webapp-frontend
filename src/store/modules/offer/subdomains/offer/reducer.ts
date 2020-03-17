@@ -72,6 +72,8 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
     case Actions.OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION:
       return offerSetSteppingDiscountCheapestApplicationReducer(state, action);
 
+    case Actions.OFFER_CLEAR_ALL_STEPPING_APPLICATION:
+      return offerClearAllSteppingApplicationReducer(state, action);
     default:
       return state;
   }
@@ -432,5 +434,15 @@ export const offerSetSteppingDiscountCheapestApplicationReducer = (
       ...state.stepping,
       discountCheapest: action.value,
     },
+  };
+};
+
+export const offerClearAllSteppingApplicationReducer = (
+  state: IOffer,
+  action: Actions.OfferClearAllSteppingApplicationAction
+): IOffer => {
+  return {
+    ...state,
+    stepping: undefined,
   };
 };

@@ -25,6 +25,11 @@ import {
   offerSetStayLengthMinimumPrerequisiteAction,
   offerSetStayLengthStrictPrerequisiteAction,
   offerClearAllStayLengthPrerequisiteAction,
+  offerSetSteppingEveryXNightsApplicationAction,
+  offerSetSteppingApplyToApplicationAction,
+  offerSetSteppingMaximumNightsApplicationAction,
+  offerSetSteppingDiscountCheapestApplicationAction,
+  offerClearAllSteppingApplicationAction,
 } from '../actions';
 
 describe('Offer reducer', () => {
@@ -887,6 +892,105 @@ describe('Offer reducer', () => {
 
       const testState: IOffer = {
         ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+  });
+
+  describe('offer reducer stepping application', () => {
+    it('handles offer set stepping every x nights', () => {
+      const action = offerSetSteppingEveryXNightsApplicationAction(5);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        stepping: {
+          ...initialState.offer.stepping,
+          everyXNights: 5,
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer set stepping apply to', () => {
+      const action = offerSetSteppingApplyToApplicationAction(2);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        stepping: {
+          ...initialState.offer.stepping,
+          applyTo: 2,
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer set stepping maximum nights', () => {
+      const action = offerSetSteppingMaximumNightsApplicationAction(9);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        stepping: {
+          ...initialState.offer.stepping,
+          maximumNights: 9,
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer set stepping discount cheapest', () => {
+      const action = offerSetSteppingDiscountCheapestApplicationAction(true);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        stepping: {
+          ...initialState.offer.stepping,
+          discountCheapest: true,
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles offer clear all stepping', () => {
+      const action = offerClearAllSteppingApplicationAction();
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        stepping: {
+          everyXNights: 2,
+          applyTo: 6,
+          maximumNights: 9,
+          discountCheapest: true,
+        },
       };
 
       const expected: IOffer = {
