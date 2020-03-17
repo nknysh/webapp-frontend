@@ -2,7 +2,6 @@ import * as React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { formatDateTimeDisplay } from 'utils/date';
 
 import {
   importRatesRequestAction,
@@ -16,17 +15,23 @@ import {
   latestStatusSelector,
 } from '../../store/modules/ratesImport/selectors';
 
-import { EGenericStatusValue } from 'services/BackendApi';
 import { MainStyles } from './styles';
 import { PrimaryButton } from 'pureUi/Buttons';
 
-const StatusLabels: { [key: string]: string; } = {
-  [EGenericStatusValue.PENDING]: "Pending",
-  [EGenericStatusValue.IN_PROGRESS]: "In Progress",
-  [EGenericStatusValue.DONE]: "Done",
-};
+import Separator from './components/Separator';
+import Report from './components/Report';
+import LatestStatusInfo from './components/LatestStatusInfo';
+import ConfirmationModal from './components/ConfirmationModal';
 
-export class RatesImportContainer extends React.Component<IRatesImportProps> {
+interface IState {
+  confirmationModalOpen: boolean;
+}
+
+export class RatesImportContainer extends React.Component<IRatesImportProps, IState> {
+
+  state = {
+    confirmationModalOpen: false
+  };
 
   componentWillMount() {
     this.props.ratesImportPageLoaded();
@@ -36,16 +41,24 @@ export class RatesImportContainer extends React.Component<IRatesImportProps> {
     this.props.ratesImportPageUnloaded();
   }
 
+  onConfirmationModalOk = () => {
+    const { importRatesRequestAction } = this.props;
+    
+    importRatesRequestAction();
+    this.setState({ confirmationModalOpen: false  });
+  };
+
+  onConfirmaitonModalCancel = () => {
+    this.setState({ confirmationModalOpen: false  });
+  };
+
   render() {
     const {
       importRatesRequestIsPending,
-      importRatesRequestAction,
       latestStatus
     } = this.props;
 
-    const statusStr = latestStatus
-      ? `${StatusLabels[latestStatus.status]} (${formatDateTimeDisplay(latestStatus.createdAt)})`
-      : null;
+    const { confirmationModalOpen } = this.state;
 
     return (
       <MainStyles>
@@ -53,16 +66,26 @@ export class RatesImportContainer extends React.Component<IRatesImportProps> {
           <PrimaryButton
             className="importBtn"
             disabled={importRatesRequestIsPending}
-            onClick={importRatesRequestAction}
+            onClick={() => this.setState({ confirmationModalOpen: true })}
           >
             Import Rates
           </PrimaryButton>
-          <div>Latest import: {statusStr}</div>
+          {latestStatus &&
+            <LatestStatusInfo status={latestStatus} />
+          }
         </section>
-        <div className="separator" />
-        <section className="results">
-          {JSON.stringify(this.props.latestStatus)}
+        <Separator className="separator" />
+        <section className="report">
+          {latestStatus && latestStatus.data &&
+            <Report data={latestStatus.data} />
+          }
         </section>
+        {confirmationModalOpen &&
+          <ConfirmationModal
+            onOk={this.onConfirmationModalOk}
+            onCancel={this.onConfirmaitonModalCancel}
+          />
+        }
       </MainStyles>
     );
   }

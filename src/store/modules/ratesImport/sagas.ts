@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { call, takeLatest, select, put, delay, race, take } from 'redux-saga/effects';
+import { pathOr } from 'ramda';
 
 import {
   makeBackendApi,
@@ -25,6 +26,13 @@ import { latestStatusSelector } from './selectors';
 
 const GET_RATES_IMPORT_STATUS_POLL_INTERVAL = 10 * 1000;
 
+const getErrorMessage = (err: any) => {
+  const errors: Array<{ title?: string, detail?: string }> = pathOr([], ['response', 'data', 'errors'], err);
+  return errors
+    .map(item => [item.title, item.detail].filter(Boolean).join(': '))
+    .join('\n');
+};
+
 function* importRatesRequestSaga() {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
@@ -33,7 +41,7 @@ function* importRatesRequestSaga() {
     
     yield put(importRatesSuccessAction(result.data.data));
   } catch (e) {
-    yield put(importRatesFailureAction(e));
+    yield put(importRatesFailureAction(getErrorMessage(e)));
   }
 }
 
@@ -45,7 +53,7 @@ function* getRatesImportStatusRequestSaga() {
     
     yield put(getRatesImportStatusSuccessAction(result.data.data));
   } catch (e) {
-    yield put(getRatesImportStatusFailureAction(e));
+    yield put(getRatesImportStatusFailureAction(getErrorMessage(e)));
   }
 }
 
@@ -53,7 +61,7 @@ function* pollRatesImportStatusSaga() {
   while(true){
     const latestStatus = yield select(latestStatusSelector);
 
-    if(latestStatus && latestStatus.status === EGenericStatusValue.IN_PROGRESS) {
+    if(latestStatus && latestStatus.status !== EGenericStatusValue.DONE) {
       yield getRatesImportStatusRequestSaga();
     }
 

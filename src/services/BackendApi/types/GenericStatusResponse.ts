@@ -7,7 +7,7 @@ export enum EGenericStatusValue {
 export interface IGenericStatus<T> {
   status: EGenericStatusValue;
   createdAt: string,
-  data?: T; 
+  data?: T | null;
 }
 
 export interface IGenericStatusResponse<T> {

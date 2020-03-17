@@ -9,7 +9,9 @@ import {
   GET_RATES_IMPORT_STATUS_SUCCESS,
   GET_RATES_IMPORT_STATUS_FAILURE,
 
-} from './actions';  
+} from './actions';
+
+import { EGenericStatusValue } from 'services/BackendApi';
 
 export const ratesImport = (state: IRatesImportModel = initialState, action: RatesImportAction): IRatesImportModel => {
   switch (action.type) {
