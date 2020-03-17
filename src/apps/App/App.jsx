@@ -15,7 +15,6 @@ import { FastSearchContainerConnected } from 'containers/FastSearch';
 import { OfferEditContainerConnected } from 'containers/OfferEdit';
 import { RatesImportContainerConnected } from 'containers/RatesImport';
 
-
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange, bootstrapAppRequestAction }) => {
   // Scroll to top on path change
   useScrollToTop(pathname);
