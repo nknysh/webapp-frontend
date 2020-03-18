@@ -1,8 +1,8 @@
 import { IDateRange } from 'interfaces';
 import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../../../model';
-import { offerReducer as reducer, offerSetStayLengthMinimumPrerequisiteReducer } from '../reducer';
-import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../../../actions';
+import { offerReducer as reducer } from '../reducer';
+import { getOfferSuccessAction } from '../../../actions';
 import {
   offerHotelUuidChangeAction,
   offerNameChangeAction,
@@ -278,7 +278,7 @@ describe('Offer reducer', () => {
       expect(newState.prerequisites.dates[1].endDate).toEqual('c2');
     });
 
-    it('handles OFFER_SET_BOOLEAN_PREREQUISITES with all of them as null', () => {
+    it('handles OFFER_SET_BOOLEAN_PREREQUISITES with one value set to null', () => {
       const action = offerSetBooleanPrerequisiteAction('anniversary', null);
 
       const testState: IOfferUI = {
@@ -362,7 +362,7 @@ describe('Offer reducer', () => {
       expect(newState).toMatchObject(expected);
     });
 
-    it('handles OFFER_SET_BOOLEAN_PREREQUISITES setting the only payload to null', () => {
+    it('handles OFFER_SET_BOOLEAN_PREREQUISITES removing a true value with null', () => {
       const action = offerSetBooleanPrerequisiteAction('wedding', null);
 
       const testState: IOfferUI = {
@@ -378,6 +378,33 @@ describe('Offer reducer', () => {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles OFFER_SET_BOOLEAN_PREREQUISITES removing a false value with null', () => {
+      const action = offerSetBooleanPrerequisiteAction('wedding', null);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          payload: {
+            anniversary: true,
+            wedding: false,
+          },
+        },
+      };
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          payload: {
+            anniversary: true,
+          },
         },
       };
 

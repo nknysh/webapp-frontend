@@ -50,6 +50,41 @@ export const offerStayBetweenPrerequisitesRawSelector = createSelector(
   prerequisites => prerequisites.dates
 );
 
+export const offerBooleanPrerequisitesSelector = createSelector(
+  offerPayloadPrerequisitesSelector,
+  (payload): IOfferPrerequisitesPayload => {
+    const keys = ['anniversary', 'birthday', 'honeymoon', 'repeatCustomer', 'wedding'];
+    const returnedPayload = {} as IOfferPrerequisitesPayload;
+
+    keys.forEach(payloadKey => {
+      if (payload && payload[payloadKey] !== undefined) {
+        returnedPayload[payloadKey] = payload[payloadKey];
+      } else {
+        returnedPayload[payloadKey] = null;
+      }
+    });
+
+    return returnedPayload;
+  }
+);
+
+export const offerPreDiscountSelector = createSelector(
+  offerSelector,
+  offer => offer.preDiscount
+);
+
+export const hotelNameSelector = createSelector(
+  offerSelector,
+  offer => offer.hotel?.name
+);
+
+export const offerCountryCodePrerequisiteSelector = createSelector(
+  offerPrerequisitesSelector,
+  prerequisites => {
+    return prerequisites.countryCodes;
+  }
+);
+
 export const offerBooleanPrerequisitesSelector = createSelector(offerPayloadPrerequisitesSelector, payload => {
   const keys = ['anniversary', 'birthday', 'honeymoon', 'repeatCustomer', 'wedding'];
   const returnedPayload = {} as IOfferPrerequisitesPayload;

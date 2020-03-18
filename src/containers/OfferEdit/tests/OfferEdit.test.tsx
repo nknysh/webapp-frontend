@@ -5,6 +5,7 @@ import { IOfferEditProps, IRouteParams } from '../index';
 import { getMockRouterProps } from 'utils/mockRouter';
 import { IOfferUI } from 'services/BackendApi';
 import { postOfferRequestAction } from '../../../store/modules/offer/actions';
+import { offerSetBooleanPrerequisiteAction } from '../../../store/modules/offer/subdomains/offer/actions';
 
 const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOfferEditProps => {
   const defaultProps: IOfferEditProps = {
@@ -31,6 +32,11 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
       name: `Test Hotel ${idx}`,
       uuid: `hotel_${idx}`,
     })),
+    nullableBooleans: {
+      honeymoon: true,
+      wedding: false,
+      repeatCustomer: null,
+    },
     // Actions
     getOfferRequestAction: jest.fn(),
     offerAddStayBetweenPrerequisiteAction: jest.fn(),
@@ -45,6 +51,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     putOfferRequestAction: jest.fn(),
     postOfferRequestAction: jest.fn(),
     resetOfferModuleAction: jest.fn(),
+    offerSetBooleanPrerequisiteAction: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 

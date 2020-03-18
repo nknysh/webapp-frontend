@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
+import { Throggle } from 'pureUi/forms/Throggle/index';
 
 export const OfferEditStyles = styled.main`
   width: 100%;
@@ -75,5 +76,17 @@ export const OfferEditStyles = styled.main`
   }
   .preDiscountInfo {
     grid-area: preDiscountInfo;
+  }
+
+  .nullableBooleans {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 80px;
+    grid-row-gap: 10px;
+  }
+
+  ${Throggle} {
+    border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
+    padding-bottom: 10px;
   }
 `;

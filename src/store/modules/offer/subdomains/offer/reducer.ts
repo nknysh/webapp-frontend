@@ -54,7 +54,6 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
       return offerClearAllAdvancePrerequisiteReducer(state, action);
     case Actions.OFFER_SET_MAX_LODGINGS_PREREQUISITE:
       return offerSetMaxLodgingsPrerequisiteReducer(state, action);
-
     case Actions.OFFER_SET_STAY_LENGTH_MINIMUM_PREREQUISITE:
       return offerSetStayLengthMinimumPrerequisiteReducer(state, action);
     case Actions.OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE:
@@ -180,7 +179,7 @@ export const offerSetBooleanPrerequisitesReducer = (
     }
 
     // if value is null and we HAVE that payload object, delete it from the object
-    if (action.value === null && draftState.prerequisites.payload && draftState.prerequisites.payload[action.key]) {
+    if (action.value === null && draftState.prerequisites.payload && action.key in draftState.prerequisites.payload) {
       delete draftState.prerequisites.payload[action.key];
     }
 

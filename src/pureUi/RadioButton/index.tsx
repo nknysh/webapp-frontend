@@ -64,6 +64,11 @@ export default styled(RadioButton)`
     box-shadow: 0 0 0 2px ${pureUiTheme.colors.marine};
   }
 
+  & > input:disabled:focus ~ .surrogate,
+  & > input:disabled:active ~ .surrogate {
+    box-shadow: none;
+  }
+
   & > input ~ .surrogate:after {
     content: '';
     display: block;

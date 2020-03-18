@@ -6,6 +6,7 @@ interface ILabelProps extends React.HTMLAttributes<HTMLLabelElement> {
   text?: string;
   inline?: boolean;
   reverse?: boolean;
+  disabled?: boolean;
 }
 
 const LabelComponent = (props: ILabelProps) => {
@@ -22,7 +23,7 @@ const LabelComponent = (props: ILabelProps) => {
 export const Label = styled(LabelComponent)<ILabelProps>`
   display: block;
   text-transform: uppercase;
-  color: ${pureUiTheme.colorRoles.grayLabel};
+  color: ${props => (props.disabled ? pureUiTheme.colors.grayDepth1 : pureUiTheme.colorRoles.grayLabel)};
   font-size: 12px;
 
   span.labelText {

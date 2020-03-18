@@ -28,6 +28,7 @@ import {
   offerPreDiscountSelector,
   getOfferRequestIsPendingSelector,
   postOfferErrorSelector,
+  offerBooleanPrerequisitesSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -45,6 +46,9 @@ import {
   getOfferRequestAction,
   resetOfferModuleAction,
 } from 'store/modules/offer/actions';
+import { Throggle } from 'pureUi/forms/Throggle';
+import { offerSetBooleanPrerequisiteAction } from '../../store/modules/offer/subdomains/offer/actions';
+import { IOfferPrerequisitesPayload } from '../../services/BackendApi/types/OfferResponse';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
@@ -91,6 +95,10 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   togglePreDiscount = () => this.props.offerSetPreDiscountAction(!this.props.isPreDiscount);
 
   toggleTextOnly = () => this.props.setOfferIsTextOnly(!this.props.isTextOnly);
+
+  handleNullableBooleanChange = (key: keyof IOfferPrerequisitesPayload) => (value: boolean | null) => {
+    this.props.offerSetBooleanPrerequisiteAction(key, value);
+  };
 
   renderHotelName = () => {
     if (this.isEditMode()) {
@@ -211,6 +219,23 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
               onRemoveDate={this.handleRemoveDate}
             />
           </Fieldset>
+
+          <Fieldset>
+            <div className="nullableBooleans">
+              {Object.keys(this.props.nullableBooleans).map(key => {
+                return (
+                  <Throggle
+                    label={key.replace(/([A-Z])/g, ' $1')}
+                    name={key}
+                    trueLabel="Include"
+                    falseLabel="Exclude"
+                    value={this.props.nullableBooleans[key]}
+                    onChange={this.handleNullableBooleanChange(key as keyof IOfferPrerequisitesPayload)}
+                  />
+                );
+              })}
+            </div>
+          </Fieldset>
         </section>
 
         <ButtonBar className="actions">
@@ -261,6 +286,7 @@ const mapStateToProps = createStructuredSelector({
   hotelName: hotelNameSelector,
   isTextOnly: offerDomainIsTextOnlySelector,
   isPreDiscount: offerPreDiscountSelector,
+  nullableBooleans: offerBooleanPrerequisitesSelector,
 });
 
 const actionCreators = {
@@ -277,6 +303,7 @@ const actionCreators = {
   putOfferRequestAction,
   postOfferRequestAction,
   resetOfferModuleAction,
+  offerSetBooleanPrerequisiteAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
