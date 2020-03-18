@@ -15,7 +15,7 @@ import {
 } from './actions';
 
 
-const uiStateReducer = (state: IRatesImportUiState = initialState.uiState, action: RatesImportAction): IRatesImportUiState => {
+export const uiStateReducer = (state: IRatesImportUiState = initialState.uiState, action: RatesImportAction): IRatesImportUiState => {
   switch (action.type) {
     case OPEN_RATES_IMPORT_CONFIRMATION_MODAL:
       return {

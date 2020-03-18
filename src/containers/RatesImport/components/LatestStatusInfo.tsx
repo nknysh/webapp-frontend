@@ -2,7 +2,7 @@ import React from 'react';
 import { IRatesImportStatus, EGenericStatusValue } from 'services/BackendApi';
 import { formatDateTimeDisplay } from 'utils/date';
 
-interface LatestStatusInfoProps {
+export interface LatestStatusInfoProps {
   className?: string;
   status: IRatesImportStatus;
 }
