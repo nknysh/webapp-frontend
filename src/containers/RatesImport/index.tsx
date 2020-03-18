@@ -4,15 +4,18 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import {
-  importRatesRequestAction,
   ratesImportPageLoaded,
-  ratesImportPageUnloaded
+  ratesImportPageUnloaded,
+  openRatesImportConfirmationModal,
+  confirmRatesImportIntent,
+  cancelRatesImportIntent,
 } from '../../store/modules/ratesImport/actions';
 
 import {
   importRatesRequestIsPendingSelector,
   errorSelector,
   latestStatusSelector,
+  confirmationModalOpenSelector,
 } from '../../store/modules/ratesImport/selectors';
 
 import { MainStyles } from './styles';
@@ -23,15 +26,7 @@ import Report from './components/Report';
 import LatestStatusInfo from './components/LatestStatusInfo';
 import ConfirmationModal from './components/ConfirmationModal';
 
-interface IState {
-  confirmationModalOpen: boolean;
-}
-
-export class RatesImportContainer extends React.Component<IRatesImportProps, IState> {
-
-  state = {
-    confirmationModalOpen: false
-  };
+export class RatesImportContainer extends React.Component<IRatesImportProps> {
 
   componentWillMount() {
     this.props.ratesImportPageLoaded();
@@ -41,24 +36,15 @@ export class RatesImportContainer extends React.Component<IRatesImportProps, ISt
     this.props.ratesImportPageUnloaded();
   }
 
-  onConfirmationModalOk = () => {
-    const { importRatesRequestAction } = this.props;
-    
-    importRatesRequestAction();
-    this.setState({ confirmationModalOpen: false  });
-  };
-
-  onConfirmaitonModalCancel = () => {
-    this.setState({ confirmationModalOpen: false  });
-  };
-
   render() {
     const {
       importRatesRequestIsPending,
-      latestStatus
+      latestStatus,
+      confirmationModalOpen,
+      openRatesImportConfirmationModal,
+      confirmRatesImportIntent,
+      cancelRatesImportIntent,
     } = this.props;
-
-    const { confirmationModalOpen } = this.state;
 
     return (
       <MainStyles>
@@ -66,7 +52,7 @@ export class RatesImportContainer extends React.Component<IRatesImportProps, ISt
           <PrimaryButton
             className="importBtn"
             disabled={importRatesRequestIsPending}
-            onClick={() => this.setState({ confirmationModalOpen: true })}
+            onClick={openRatesImportConfirmationModal}
           >
             Import Rates
           </PrimaryButton>
@@ -82,8 +68,8 @@ export class RatesImportContainer extends React.Component<IRatesImportProps, ISt
         </section>
         {confirmationModalOpen &&
           <ConfirmationModal
-            onOk={this.onConfirmationModalOk}
-            onCancel={this.onConfirmaitonModalCancel}
+            onOk={confirmRatesImportIntent}
+            onCancel={cancelRatesImportIntent}
           />
         }
       </MainStyles>
@@ -106,12 +92,15 @@ const mapStateToProps = createStructuredSelector({
   importRatesRequestIsPending: importRatesRequestIsPendingSelector,
   error: errorSelector,
   latestStatus: latestStatusSelector,
+  confirmationModalOpen: confirmationModalOpenSelector,
 });
 
 const actionCreators = {
-  importRatesRequestAction,
   ratesImportPageLoaded,
-  ratesImportPageUnloaded
+  ratesImportPageUnloaded,
+  openRatesImportConfirmationModal,
+  confirmRatesImportIntent,
+  cancelRatesImportIntent,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

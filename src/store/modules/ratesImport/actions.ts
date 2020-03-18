@@ -61,6 +61,27 @@ export const ratesImportPageUnloaded = () => ({
   type: RATES_IMPORT_PAGE_UNLOADED as typeof RATES_IMPORT_PAGE_UNLOADED
 });
 
+//-------------------------- ui action ------------------------------------------
+
+export const OPEN_RATES_IMPORT_CONFIRMATION_MODAL = 'ratesImport/OPEN_RATES_IMPORT_CONFIRMATION_MODAL';
+export const CONFIRM_RATES_IMPORT_INTENT = 'ratesImport/CONFIRM_RATES_IMPORT_INTENT';
+export const CANCEL_RATES_IMPORT_INTENT = 'ratesImport/CANCEL_RATES_IMPORT_INTENT';
+
+export type OpenRatesImportConfirmationModal = ReturnType<typeof openRatesImportConfirmationModal>;
+export const openRatesImportConfirmationModal = () => ({
+  type: OPEN_RATES_IMPORT_CONFIRMATION_MODAL as typeof OPEN_RATES_IMPORT_CONFIRMATION_MODAL
+});
+
+export type ConfirmRatesImportIntent = ReturnType<typeof confirmRatesImportIntent>;
+export const confirmRatesImportIntent = () => ({
+  type: CONFIRM_RATES_IMPORT_INTENT as typeof CONFIRM_RATES_IMPORT_INTENT
+});
+
+export type CancelRatesImportIntent = ReturnType<typeof cancelRatesImportIntent>;
+export const cancelRatesImportIntent = () => ({
+  type: CANCEL_RATES_IMPORT_INTENT as typeof CANCEL_RATES_IMPORT_INTENT
+});
+
 export type RatesImportAction =
   | ImportRatesRequestAction
   | ImportRatesSuccessAction
@@ -69,4 +90,7 @@ export type RatesImportAction =
   | GetRatesImportStatusSuccessAction
   | GetRatesImportStatusFailureAction
   | RatesImportPageLoaded
-  | RatesImportPageUnloaded;
+  | RatesImportPageUnloaded
+  | OpenRatesImportConfirmationModal
+  | ConfirmRatesImportIntent
+  | CancelRatesImportIntent;

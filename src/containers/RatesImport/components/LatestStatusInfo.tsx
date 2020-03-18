@@ -7,7 +7,7 @@ interface LatestStatusInfoProps {
   status: IRatesImportStatus;
 }
 
-const StatusLabels: { [key: string]: string; } = {
+const StatusLabels: { [key in EGenericStatusValue]: string; } = {
   [EGenericStatusValue.PENDING]: "Pending",
   [EGenericStatusValue.IN_PROGRESS]: "In Progress",
   [EGenericStatusValue.DONE]: "Done",

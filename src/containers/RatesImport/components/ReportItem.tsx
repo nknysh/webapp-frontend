@@ -9,7 +9,7 @@ interface ReportItemProps {
   data: IRatesImportReportItem;
 }
 
-const EntityLabels: { [key: string]: string; } = {
+const EntityLabels: { [key in ERatesImportReportItemKey]: string; } = {
   [ERatesImportReportItemKey.REGIONS]: "Regions",
   [ERatesImportReportItemKey.SEASONS]: "Seasons",
   [ERatesImportReportItemKey.ACCOMMODATION_RATES]: "Accommodation Rates",

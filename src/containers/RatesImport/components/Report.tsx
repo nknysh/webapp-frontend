@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'pureUi/pureUiTheme';
-import { Heading2 } from 'styles';
+import { Heading } from 'pureUi/typography';
 import { IRatesImportData } from 'services/BackendApi';
 import ReportItem from './ReportItem';
 
@@ -9,6 +9,10 @@ interface ReportProps {
   className?: string;
   data: IRatesImportData;
 }
+
+const StyledHeading = styled(Heading)`
+  color: ${colors.gold};
+`;
 
 const StatusLabel = styled.span<{ success: boolean }>`
   color: ${props => props.success ? colors.warmGreen : colors.redFade};
@@ -24,9 +28,9 @@ const Report = (props: ReportProps) => {
 
   return (
     <div className={className}>
-      <Heading2>
+      <StyledHeading level="h2">
         Status: <StatusLabel success={success}>{success ? 'Success': 'Fail'}</StatusLabel>
-      </Heading2>
+      </StyledHeading>
       {error && (
         <span>Error: {error}</span>
       )}

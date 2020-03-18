@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { call, takeLatest, select, put, delay, race, take } from 'redux-saga/effects';
+import { call, takeLatest, select, put, delay, race, take, all } from 'redux-saga/effects';
 import { pathOr } from 'ramda';
 
 import {
@@ -13,11 +13,11 @@ import { getUserCountryContext } from 'store/modules/auth';
 import {
   RATES_IMPORT_PAGE_LOADED,
   RATES_IMPORT_PAGE_UNLOADED,
+  CONFIRM_RATES_IMPORT_INTENT,
 
   getRatesImportStatusSuccessAction,
   getRatesImportStatusFailureAction,
 
-  IMPORT_RATES_REQUEST,
   importRatesSuccessAction,
   importRatesFailureAction,
 } from './actions';
@@ -77,10 +77,9 @@ function* ratesImportPageLoadedSaga() {
   ]);
 }
 
-export function* watchRatesImportPageLoaded() {
-  yield takeLatest(RATES_IMPORT_PAGE_LOADED, ratesImportPageLoadedSaga);
-}
-
-export function* watchImportRatesRequest() {
-  yield takeLatest(IMPORT_RATES_REQUEST, importRatesRequestSaga);
+export default function*() {
+  yield all([
+    takeLatest(RATES_IMPORT_PAGE_LOADED, ratesImportPageLoadedSaga),    
+    takeLatest(CONFIRM_RATES_IMPORT_INTENT, importRatesRequestSaga)
+  ]);
 }

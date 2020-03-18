@@ -1,4 +1,4 @@
-import { IRatesImportModel, initialState } from './model';
+import { IRatesImportModel, initialState, IRatesImportUiState } from './model';
 import {
   RatesImportAction,
   
@@ -9,9 +9,37 @@ import {
   GET_RATES_IMPORT_STATUS_SUCCESS,
   GET_RATES_IMPORT_STATUS_FAILURE,
 
+  OPEN_RATES_IMPORT_CONFIRMATION_MODAL,
+  CONFIRM_RATES_IMPORT_INTENT,
+  CANCEL_RATES_IMPORT_INTENT,
 } from './actions';
 
-import { EGenericStatusValue } from 'services/BackendApi';
+
+const uiStateReducer = (state: IRatesImportUiState = initialState.uiState, action: RatesImportAction): IRatesImportUiState => {
+  switch (action.type) {
+    case OPEN_RATES_IMPORT_CONFIRMATION_MODAL:
+      return {
+        ...state,
+        confirmationModalOpen: true
+      };
+    
+    case CONFIRM_RATES_IMPORT_INTENT:
+      return {
+        ...state,
+        confirmationModalOpen: false
+      };
+    
+    case CANCEL_RATES_IMPORT_INTENT:
+      return {
+        ...state,
+        confirmationModalOpen: false
+      };
+
+    default:
+      return state;
+  }
+};
+
 
 export const ratesImport = (state: IRatesImportModel = initialState, action: RatesImportAction): IRatesImportModel => {
   switch (action.type) {
@@ -53,6 +81,16 @@ export const ratesImport = (state: IRatesImportModel = initialState, action: Rat
       return {
         ...state,
         error: action.error,
+      };
+    
+    //------------------- UI actions -------------------------------
+
+    case OPEN_RATES_IMPORT_CONFIRMATION_MODAL:
+    case CONFIRM_RATES_IMPORT_INTENT:
+    case CANCEL_RATES_IMPORT_INTENT:
+      return {
+        ...state,
+        uiState: uiStateReducer(state.uiState, action)
       };
 
     default:

@@ -18,3 +18,13 @@ export const latestStatusSelector = createSelector(
   ratesImportDomainSelector,
   domain => domain.latestStatus
 );
+
+export const uiStateSelector = createSelector(
+  ratesImportDomainSelector,
+  domain => domain.uiState
+);
+
+export const confirmationModalOpenSelector = createSelector(
+  uiStateSelector,
+  uiState => uiState.confirmationModalOpen
+);
