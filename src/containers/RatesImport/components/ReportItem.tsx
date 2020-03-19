@@ -4,7 +4,7 @@ import { colors } from 'pureUi/pureUiTheme';
 import { IRatesImportReportItem, ERatesImportReportItemKey } from 'services/BackendApi';
 import  ReportErrorList from './ReportErrorList';
 
-interface ReportItemProps {
+export interface ReportItemProps {
   className?: string;
   data: IRatesImportReportItem;
 }
@@ -22,17 +22,17 @@ const EntityLabels: { [key in ERatesImportReportItemKey]: string; } = {
   [ERatesImportReportItemKey.FINE_RATES]: "Fine Rates",
 };
 
-const HeaderInfo = styled.div<{ success: boolean }>`
+export const HeaderInfo = styled.div<{ success: boolean }>`
   padding-left: 10px;
   border-left: 5px solid ${props => props.success ? colors.warmGreen : colors.redFade};
 `;
 
-const Totals = styled.span`
+export const Totals = styled.span`
   padding-left: 10px;
   color: ${colors.grayDarker};
 `;
 
-const StyledReportErrorList = styled(ReportErrorList)`
+export const StyledReportErrorList = styled(ReportErrorList)`
   margin: 15px;
 `;
 

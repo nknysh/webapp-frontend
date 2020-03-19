@@ -5,12 +5,12 @@ import { Heading } from 'pureUi/typography';
 import { IRatesImportData } from 'services/BackendApi';
 import ReportItem from './ReportItem';
 
-interface ReportProps {
+export interface ReportProps {
   className?: string;
   data: IRatesImportData;
 }
 
-const StyledHeading = styled(Heading)`
+export const StyledHeading = styled(Heading)`
   color: ${colors.gold};
 `;
 
@@ -18,9 +18,11 @@ const StatusLabel = styled.span<{ success: boolean }>`
   color: ${props => props.success ? colors.warmGreen : colors.redFade};
 `;
 
-const StyledReportItem = styled(ReportItem)`
+export const StyledReportItem = styled(ReportItem)`
   margin: 20px 0;
 `;
+
+export const ErrorMessage = styled.span``;
 
 const Report = (props: ReportProps) => {
   const { className, data } = props;
@@ -32,7 +34,7 @@ const Report = (props: ReportProps) => {
         Status: <StatusLabel success={success}>{success ? 'Success': 'Fail'}</StatusLabel>
       </StyledHeading>
       {error && (
-        <span>Error: {error}</span>
+        <ErrorMessage>Error: {error}</ErrorMessage>
       )}
       {report && report.map(item =>
         <StyledReportItem key={item.key} data={item} />

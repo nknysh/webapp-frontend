@@ -3,36 +3,36 @@ import styled from 'styled-components';
 import { colors } from 'pureUi/pureUiTheme';
 import { IRatesImportErrorItem } from 'services/BackendApi';
 
-interface ReportErrorListProps {
+export interface ReportErrorListProps {
   className?: string;
   title: string;
   items: Array<IRatesImportErrorItem>;
 }
 
-interface ErrorItemProps {
+export interface ErrorItemProps {
   className?: string;
   data: IRatesImportErrorItem;
 }
 
-const Title = styled.div`
+export const Title = styled.div`
   font-weight: 600;
 `;
 
-const ErrorList = styled.div`
+export const ErrorList = styled.div`
 `;
 
-const ErrorRef = styled.div`
+export const ErrorRef = styled.div`
 `;
 
-const ErrorMessageList = styled.div`
+export const ErrorMessageList = styled.div`
   margin-top: 10px;
 `;
 
-const ErrorMessage = styled.div`
+export const ErrorMessage = styled.div`
   color: ${colors.grayDarker};
 `;
 
-const ErrorItem = (props: ErrorItemProps) => {
+export const ErrorItem = (props: ErrorItemProps) => {
   const { className, data } = props;
 
   return (

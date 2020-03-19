@@ -5,7 +5,7 @@ import { PrimaryButton, SecondaryButton, ButtonBar } from 'pureUi/Buttons';
 import { Heading, Text } from 'pureUi/typography';
 import { colors } from 'pureUi/pureUiTheme';
 
-interface ConfirmationModalProps {
+export interface ConfirmationModalProps {
   className?: string;
   onOk: () => void;
   onCancel: () => void;
