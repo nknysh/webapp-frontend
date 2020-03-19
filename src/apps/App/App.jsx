@@ -13,6 +13,7 @@ import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 import { FastSearchContainerConnected } from 'containers/FastSearch';
 import { OfferEditContainerConnected } from 'containers/OfferEdit';
+import { RatesImportContainerConnected } from 'containers/RatesImport';
 
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange, bootstrapAppRequestAction }) => {
   // Scroll to top on path change
@@ -37,6 +38,7 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange, b
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
           <Route exact path="/offer/:offerId/edit" component={OfferEditContainerConnected} />
           <Route exact path="/offer/create" component={OfferEditContainerConnected} />
+          <Route exact path="/rates/import" component={RatesImportContainerConnected} />
           {...getAppRoutes(prop('type', user))}
         </Switch>
       </Suspense>

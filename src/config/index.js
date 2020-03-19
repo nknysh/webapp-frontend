@@ -16,10 +16,15 @@ export const DRIFT_ENABLED_ROLES = process.env.DRIFT_ENABLED_ROLES
 
 export const isDev = equals('development', APP_ENV);
 
+const DISPLAY_DATE_FORMAT = 'dd MMM yy';
+const DISPLAY_TIME_FORMAT = 'HH:mm';
+
 export default {
   defaults: {
     dateFormat: 'yyyy-MM-dd',
-    displayDateFormat: 'dd MMM yy',
+    displayDateFormat: DISPLAY_DATE_FORMAT,
+    displayTimeFormat: DISPLAY_TIME_FORMAT,
+    displayDateTimeFormat: `${DISPLAY_DATE_FORMAT}, ${DISPLAY_TIME_FORMAT}`,
     priceRange: [1000, 10000],
   },
 };

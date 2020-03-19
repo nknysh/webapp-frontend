@@ -25,6 +25,7 @@ import agents from './modules/agents/reducer';
 import offersList from './modules/offersList/reducer';
 import { offer } from './modules/offer/reducer';
 import { bootstrap } from './modules/bootstrap/reducer';
+import { ratesImport } from './modules/ratesImport/reducer';
 
 const clearState = mapObjIndexed(always(undefined));
 
@@ -51,6 +52,7 @@ const rootReducer = combineReducers({
   agents, // this is the good, controlable, travel agents reducer.
   offer,
   bootstrap,
+  ratesImport,
 });
 
 export default (state, action) => {

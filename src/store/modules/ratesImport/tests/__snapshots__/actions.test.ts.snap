@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rates Import actions Returns the correct object literals 1`] = `
+Object {
+  "type": "ratesImport/IMPORT_RATES_REQUEST",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 2`] = `
+Object {
+  "status": Object {
+    "createdAt": "2020-03-16T07:33:50.816Z",
+    "data": Object {
+      "report": Array [
+        Object {
+          "errors": Array [],
+          "key": "regions",
+          "total": 15,
+          "warnings": Array [],
+        },
+        Object {
+          "errors": Array [
+            Object {
+              "messages": Array [
+                "points to a parent called 'Finolhu / Beach Pool Villa' but that does not match from the list of parents",
+              ],
+              "ref": "Finolhu / FIN 92",
+            },
+            Object {
+              "messages": Array [
+                "points to a parent called 'Finolhu / Beach Pool Villa' but that does not match from the list of parents",
+              ],
+              "ref": "Finolhu / FIN 93",
+            },
+          ],
+          "key": "accommodationRates",
+          "total": 4127,
+          "warnings": Array [],
+        },
+      ],
+      "success": false,
+    },
+    "status": "done",
+  },
+  "type": "ratesImport/IMPORT_RATES_SUCCESS",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 3`] = `
+Object {
+  "error": "Failed to import rates",
+  "type": "ratesImport/IMPORT_RATES_FAILURE",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 4`] = `
+Object {
+  "type": "ratesImport/GET_RATES_IMPORT_STATUS_REQUEST",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 5`] = `
+Object {
+  "status": Object {
+    "createdAt": "2020-03-16T07:33:50.816Z",
+    "data": Object {
+      "report": Array [
+        Object {
+          "errors": Array [],
+          "key": "regions",
+          "total": 15,
+          "warnings": Array [],
+        },
+        Object {
+          "errors": Array [
+            Object {
+              "messages": Array [
+                "points to a parent called 'Finolhu / Beach Pool Villa' but that does not match from the list of parents",
+              ],
+              "ref": "Finolhu / FIN 92",
+            },
+            Object {
+              "messages": Array [
+                "points to a parent called 'Finolhu / Beach Pool Villa' but that does not match from the list of parents",
+              ],
+              "ref": "Finolhu / FIN 93",
+            },
+          ],
+          "key": "accommodationRates",
+          "total": 4127,
+          "warnings": Array [],
+        },
+      ],
+      "success": false,
+    },
+    "status": "done",
+  },
+  "type": "ratesImport/GET_RATES_IMPORT_STATUS_SUCCESS",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 6`] = `
+Object {
+  "error": "Failed to get import rates status",
+  "type": "ratesImport/GET_RATES_IMPORT_STATUS_FAILURE",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 7`] = `
+Object {
+  "type": "ratesImport/RATES_IMPORT_PAGE_LOADED",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 8`] = `
+Object {
+  "type": "ratesImport/RATES_IMPORT_PAGE_UNLOADED",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 9`] = `
+Object {
+  "type": "ratesImport/OPEN_RATES_IMPORT_CONFIRMATION_MODAL",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 10`] = `
+Object {
+  "type": "ratesImport/CONFIRM_RATES_IMPORT_INTENT",
+}
+`;
+
+exports[`Rates Import actions Returns the correct object literals 11`] = `
+Object {
+  "type": "ratesImport/CANCEL_RATES_IMPORT_INTENT",
+}
+`;

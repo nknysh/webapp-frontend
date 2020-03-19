@@ -10,3 +10,5 @@ export * from './BookingsListResponse';
 export * from './TravelAgentResponse';
 export * from './HotelNamesResponse';
 export * from './OfferResponse';
+export * from './GenericStatusResponse';
+export * from './RatesImportResponse';

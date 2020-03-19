@@ -499,6 +499,19 @@ exports[`<App /> render matches snapshot 1`] = `
         path="/offer/create"
       />
       <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(RatesImportContainer)",
+            "type": [Function],
+          }
+        }
+        exact={true}
+        path="/rates/import"
+      />
+      <Route
         auth={true}
         authCheckIgnore={true}
         authComponent={
