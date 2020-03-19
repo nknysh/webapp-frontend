@@ -83,10 +83,17 @@ export const OfferEditStyles = styled.main`
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 80px;
     grid-row-gap: 10px;
+
+    ${Throggle} {
+      border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
+      padding-bottom: 10px;
+    }
   }
 
-  ${Throggle} {
-    border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
-    padding-bottom: 10px;
+  .checkboxGrid {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
   }
 `;

@@ -12,7 +12,11 @@ import Checkbox from 'pureUi/Checkbox';
 import { Fieldset, Legend } from 'pureUi/forms/Fieldset/index';
 import { OfferEditStyles } from './OffereditStyles';
 import { PrimaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
+import { Throggle } from 'pureUi/forms/Throggle';
+
 import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData';
+import { IOfferPrerequisitesPayload } from '../../services/BackendApi/types/OfferResponse';
+import { AccordianSection, Accordian } from '../../pureUi/Accordian/index';
 
 import {
   offerSelector,
@@ -29,6 +33,8 @@ import {
   getOfferRequestIsPendingSelector,
   postOfferErrorSelector,
   offerBooleanPrerequisitesSelector,
+  offerTaCountriesPrerequisiteSelector,
+  taCountryAccordianKeysSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -45,10 +51,17 @@ import {
   postOfferRequestAction,
   getOfferRequestAction,
   resetOfferModuleAction,
+  offerSetBooleanPrerequisiteAction,
+  offerSetCountryCodePrerequisiteAction,
+  offerToggleTaCountryAccodian,
 } from 'store/modules/offer/actions';
-import { Throggle } from 'pureUi/forms/Throggle';
-import { offerSetBooleanPrerequisiteAction } from '../../store/modules/offer/subdomains/offer/actions';
-import { IOfferPrerequisitesPayload } from '../../services/BackendApi/types/OfferResponse';
+import { string } from 'prop-types';
+import { CloseButton } from '../../pureUi/Buttons/index';
+import { offerClearAllCountryCodePrerequisiteAction } from '../../store/modules/offer/subdomains/offer/actions';
+import {
+  offerTaCountriesLabelPrerequisiteSelector,
+  offerTaCountriesPrerequisiteByRegionSelector,
+} from '../../store/modules/offer/subdomains/offer/selectors';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
@@ -96,8 +109,16 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
   toggleTextOnly = () => this.props.setOfferIsTextOnly(!this.props.isTextOnly);
 
+  toggleTaCountryAccordian = (key: string) => () => {
+    this.props.offerToggleTaCountryAccodian(key);
+  };
+
   handleNullableBooleanChange = (key: keyof IOfferPrerequisitesPayload) => (value: boolean | null) => {
     this.props.offerSetBooleanPrerequisiteAction(key, value);
+  };
+
+  handleTaCoutryChange = (code: string) => (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetCountryCodePrerequisiteAction(code, e.currentTarget.checked);
   };
 
   renderHotelName = () => {
@@ -110,7 +131,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     }
 
     return (
-      <Label className="hotelName" text="Hotel">
+      <Label uppercase={false} className="hotelName" text="Hotel">
         <select
           className="hotelSelectInput"
           defaultValue={undefined}
@@ -160,7 +181,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
         <section className="basicInfo">
           {this.renderHotelName()}
 
-          <Label className="offerName" text="Offer Name">
+          <Label uppercase={false} className="offerName" text="Offer Name">
             <TextInput
               className="offerNameInput"
               value={this.props.offerName}
@@ -169,11 +190,12 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
             />
           </Label>
 
-          <Label className="termsAndConditions" text="Terms & Conditions">
+          <Label uppercase={false} className="termsAndConditions" text="Terms & Conditions">
             <TextArea className="termsInput" value={this.props.offerTerms} onChange={this.handleTermsChange} />
           </Label>
 
           <Label
+            uppercase={false}
             className="furtherInformation"
             text={`Further Information ${this.props.isTextOnly ? `(Required)` : ''}`}
           >
@@ -184,7 +206,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
             />
           </Label>
 
-          <Label className="textOnly" inline reverse text="Text Only">
+          <Label uppercase={false} className="textOnly" inline reverse text="Text Only">
             <Checkbox
               className="textOnlyCheckbox"
               checked={this.props.isTextOnly}
@@ -195,7 +217,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
           <Text className="textOnlyInfo">Does not change the price of any product.</Text>
 
-          <Label className="preDiscount" inline reverse text="Pre Discount">
+          <Label uppercase={false} className="preDiscount" inline reverse text="Pre Discount">
             <Checkbox
               className="preDiscountCheckbox"
               checked={this.props.isPreDiscount}
@@ -221,12 +243,45 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           </Fieldset>
 
           <Fieldset>
+            <Legend className="legendWithExtras">
+              TA Countries{' '}
+              <span>
+                {this.props.taCountriesLabel}{' '}
+                <CloseButton onClick={this.props.offerClearAllCountryCodePrerequisiteAction} />
+              </span>
+            </Legend>
+
+            <Accordian>
+              {Object.keys(this.props.taCountries).map(region => (
+                <AccordianSection
+                  title={region}
+                  key={region}
+                  suffix={this.props.taCountries[region].total}
+                  isOpen={this.props.taCountryAccordianKeys.includes(region)}
+                  onClick={this.toggleTaCountryAccordian(region)}
+                >
+                  <div className="checkboxGrid">
+                    {this.props.taCountries[region].countries.map(country => {
+                      return (
+                        <Label uppercase={false} key={country.label} inline reverse text={country.label}>
+                          <Checkbox checked={country.value} onChange={this.handleTaCoutryChange(country.code)} />
+                        </Label>
+                      );
+                    })}
+                  </div>
+                </AccordianSection>
+              ))}
+            </Accordian>
+          </Fieldset>
+
+          <Fieldset>
             <div className="nullableBooleans">
               {Object.keys(this.props.nullableBooleans).map(key => {
                 return (
                   <Throggle
                     label={key.replace(/([A-Z])/g, ' $1')}
                     name={key}
+                    key={key}
                     trueLabel="Include"
                     falseLabel="Exclude"
                     value={this.props.nullableBooleans[key]}
@@ -287,6 +342,9 @@ const mapStateToProps = createStructuredSelector({
   isTextOnly: offerDomainIsTextOnlySelector,
   isPreDiscount: offerPreDiscountSelector,
   nullableBooleans: offerBooleanPrerequisitesSelector,
+  taCountries: offerTaCountriesPrerequisiteByRegionSelector,
+  taCountryAccordianKeys: taCountryAccordianKeysSelector,
+  taCountriesLabel: offerTaCountriesLabelPrerequisiteSelector,
 });
 
 const actionCreators = {
@@ -304,6 +362,9 @@ const actionCreators = {
   postOfferRequestAction,
   resetOfferModuleAction,
   offerSetBooleanPrerequisiteAction,
+  offerSetCountryCodePrerequisiteAction,
+  offerToggleTaCountryAccodian,
+  offerClearAllCountryCodePrerequisiteAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

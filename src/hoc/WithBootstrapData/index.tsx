@@ -3,16 +3,22 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { getBootstrapCountriesSelector, getBootstrapHotelsSelector } from 'store/modules/bootstrap/selectors';
+import {
+  getBootstrapCountriesSelector,
+  getBootstrapHotelsSelector,
+  bootstrapCountriesByRegionSelector,
+} from 'store/modules/bootstrap/selectors';
 
 // Connect to the store
 // ---------------------------------------------------------------------------------------------------------------
 export interface IStateToProps {
   bootstrapCountries: ReturnType<typeof getBootstrapCountriesSelector>;
+  bootstrapCountriesByRegion: ReturnType<typeof bootstrapCountriesByRegionSelector>;
   bootstrapHotels: ReturnType<typeof getBootstrapHotelsSelector>;
 }
 const mapStateToProps = createStructuredSelector({
   bootstrapCountries: getBootstrapCountriesSelector,
+  bootstrapCountriesByRegion: bootstrapCountriesByRegionSelector,
   bootstrapHotels: getBootstrapHotelsSelector,
 });
 

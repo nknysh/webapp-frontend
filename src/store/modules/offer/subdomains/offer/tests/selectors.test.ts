@@ -221,16 +221,19 @@ describe('Offer Selectors', () => {
         {
           code: 'A',
           name: 'Country A',
+          region: 'Region A',
           isDestination: true,
         },
         {
           code: 'B',
           name: 'Country B',
+          region: 'Region B',
           isDestination: true,
         },
         {
           code: 'C',
           name: 'Country C',
+          region: 'Region C',
           isDestination: true,
         },
       ];
@@ -260,16 +263,19 @@ describe('Offer Selectors', () => {
         {
           code: 'A',
           name: 'Country A',
+          region: 'Region A',
           isDestination: true,
         },
         {
           code: 'B',
           name: 'Country B',
+          region: 'Region B',
           isDestination: true,
         },
         {
           code: 'C',
           name: 'Country C',
+          region: 'Region C',
           isDestination: true,
         },
       ];
@@ -299,16 +305,19 @@ describe('Offer Selectors', () => {
         {
           code: 'A',
           name: 'Country A',
+          region: 'Region A',
           isDestination: true,
         },
         {
           code: 'B',
           name: 'Country B',
+          region: 'Region B',
           isDestination: true,
         },
         {
           code: 'C',
           name: 'Country C',
+          region: 'Region C',
           isDestination: true,
         },
       ];
@@ -328,16 +337,19 @@ describe('Offer Selectors', () => {
         {
           code: 'A',
           name: 'Country A',
+          region: 'Region A',
           isDestination: true,
         },
         {
           code: 'B',
           name: 'Country B',
+          region: 'Region B',
           isDestination: true,
         },
         {
           code: 'C',
           name: 'Country C',
+          region: 'Region C',
           isDestination: true,
         },
       ];
@@ -357,16 +369,19 @@ describe('Offer Selectors', () => {
         {
           code: 'A',
           name: 'Country A',
+          region: 'Region A',
           isDestination: true,
         },
         {
           code: 'B',
           name: 'Country B',
+          region: 'Region B',
           isDestination: true,
         },
         {
           code: 'C',
           name: 'Country C',
+          region: 'Region C',
           isDestination: true,
         },
       ];

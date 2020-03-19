@@ -13,4 +13,11 @@ export const Legend = styled.legend`
   position: absolute;
   top: -30px;
   color: ${pureUiTheme.colors.grayDarker};
+  left: 0;
+  right: 0;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
 `;

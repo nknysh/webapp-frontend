@@ -7,6 +7,8 @@ import {
   getBootstrapExtraPersonSupplementProductSelector,
 } from '../../../bootstrap/selectors';
 import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
+import groupBy from 'ramda/es/groupBy';
+import { IBootstrapCountry } from '../../../bootstrap/model';
 
 // TODO: For some reason, I can't import the offerDomainSelector from
 // the root selector file. This is a tmp fix. I guess there's some minconfiguration
@@ -81,7 +83,7 @@ export const hotelNameSelector = createSelector(
 export const offerCountryCodePrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
   prerequisites => {
-    return prerequisites.countryCodes;
+    return prerequisites.countryCodes || [];
   }
 );
 
@@ -116,17 +118,53 @@ export const offerTaCountriesPrerequisiteSelector = createSelector(
       if (prerequisiteCountries.includes(country.code)) {
         return {
           label: country.name,
+          region: country.region,
           value: true,
+          code: country.code,
         };
       } else {
         return {
           label: country.name,
+          region: country.region,
           value: false,
+          code: country.code,
         };
       }
     });
   }
 );
+
+export interface ITaCountriesUiData {
+  [key: string]: {
+    total: string,
+    countries: ITACountry[]
+  }
+}
+
+export interface ITACountry {
+  label: string;
+  region: string;
+  value: boolean;
+  code: string;
+}
+
+export const offerTaCountriesPrerequisiteByRegionSelector = createSelector(
+  offerTaCountriesPrerequisiteSelector,
+  (countries): ITaCountriesUiData => {
+    const grouped = groupBy((c) => c.region, countries);
+
+    return Object.keys(grouped).reduce((acc, group) => {
+      const count = grouped[group].reduce((acc, next) => next.value ? acc + 1 : acc, 0);
+      const total = count === 1 ? '1 Country' : `${count} Countries`;
+      acc[group] = {
+        total,
+        countries: grouped[group],
+      }
+
+      return acc;
+    }, {});
+  }
+)
 
 export const offerTaCountriesLabelPrerequisiteSelector = createSelector(
   offerCountryCodePrerequisiteSelector,

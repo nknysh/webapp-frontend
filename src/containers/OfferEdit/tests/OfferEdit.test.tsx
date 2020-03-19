@@ -22,12 +22,8 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     getError: null,
     putError: null,
     postError: null,
-    bootstrapCountries: Array.from({ length: 10 }).map((_, idx) => ({
-      name: `Test Country ${idx}`,
-      uuid: `country_${idx}`,
-      code: `countryCode_${idx}`,
-      isDestination: true,
-    })),
+    taCountries: [],
+    bootstrapCountriesByRegion: [],
     bootstrapHotels: Array.from({ length: 10 }).map((_, idx) => ({
       name: `Test Hotel ${idx}`,
       uuid: `hotel_${idx}`,
@@ -52,6 +48,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     postOfferRequestAction: jest.fn(),
     resetOfferModuleAction: jest.fn(),
     offerSetBooleanPrerequisiteAction: jest.fn(),
+    offerSetCountryCodePrerequisiteAction: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 

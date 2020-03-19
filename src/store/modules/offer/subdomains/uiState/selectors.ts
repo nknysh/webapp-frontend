@@ -35,3 +35,8 @@ export const offerDomainIsTextOnlySelector = createSelector(
   uiStateSelector,
   uiStateSelector => uiStateSelector.isTextOnly
 );
+
+export const taCountryAccordianKeysSelector = createSelector(
+  uiStateSelector,
+  uiStateSelector => uiStateSelector.taCountryAccordianKeys
+);

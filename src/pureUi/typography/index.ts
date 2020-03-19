@@ -14,6 +14,7 @@ const HeadingComponent = (props: IHeadingProps) => {
 
 export const Heading = styled(HeadingComponent)`
   color: inherit;
+  margin: 0;
 `;
 
 export const Text = styled.p`

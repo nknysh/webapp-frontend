@@ -204,6 +204,10 @@ export const offerSetCountryCodeReducer = (
   action: Actions.OfferSetCountryCodePrerequisiteAction
 ): IOfferUI => {
   return produce(state, draftState => {
+    if (!draftState.prerequisites.countryCodes) {
+      draftState.prerequisites.countryCodes = [];
+    }
+
     if (action.value === true) {
       draftState.prerequisites.countryCodes.push(action.countryCode);
     } else if (action.value === false) {

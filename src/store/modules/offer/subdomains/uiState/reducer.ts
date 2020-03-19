@@ -10,8 +10,9 @@ import {
   POST_OFFER_SUCCESS,
   POST_OFFER_FAILURE,
 } from '../../actions';
-import { SET_OFFER_IS_TEXT_ONLY } from './actions';
+import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
+import { ifElse, contains, without, append } from 'ramda';
 
 export const uiStateReducer = (
   state: IOfferUiState = initialState.uiState,
@@ -83,6 +84,14 @@ export const uiStateReducer = (
       return {
         ...state,
         isTextOnly: action.value,
+      };
+
+    case TOGGLE_TA_COUNTRY_ACCORDIAN:
+      return {
+        ...state,
+        taCountryAccordianKeys: ifElse(contains(action.key), without([action.key]), append(action.key))(
+          state.taCountryAccordianKeys
+        ),
       };
 
     default:

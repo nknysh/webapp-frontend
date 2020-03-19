@@ -583,6 +583,28 @@ describe('Offer reducer', () => {
       expect(newState).toMatchObject(expected);
     });
 
+    it('creates a countryCode array if none exists', () => {
+      const action = offerSetCountryCodePrerequisiteAction('UK', false);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        prerequisites: {
+          ...initialState.offer.prerequisites,
+          countryCodes: ['AZ'],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
     it('handles OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE correctly removes all country codes from array', () => {
       const action = offerClearAllCountryCodePrerequisiteAction();
 

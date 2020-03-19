@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import Checkbox from 'pureUi/Checkbox';
 import Label from 'pureUi/Label';
 import RadioButton from 'pureUi/RadioButton';

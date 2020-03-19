@@ -1,6 +1,7 @@
 export interface IBootstrapCountry {
   code: string;
   name: string;
+  region: string;
   isDestination: boolean;
 }
 
