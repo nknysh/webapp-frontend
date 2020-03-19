@@ -25,6 +25,7 @@ import {
   offerStayLengthPrerequisiteSelector,
   hotelNameSelector,
   offerSteppingApplicationSelector,
+  offerAccommodationDiscountSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -680,6 +681,35 @@ describe('Offer Selectors', () => {
       const selected = offerSteppingApplicationSelector.resultFunc(fixture);
 
       expect(selected).toEqual(undefined);
+    });
+  });
+
+  describe('select accommodation discount', () => {
+    it('select accommodation discount (return undefined if not present)', () => {
+      const fixture = {
+        ...initialState.offer,
+      } as IOffer;
+
+      const selected = offerAccommodationDiscountSelector.resultFunc(fixture);
+
+      expect(selected).toEqual(undefined);
+    });
+
+    it('select accommodation discount (return with data)', () => {
+      const fixture = {
+        ...initialState.offer,
+        accommodationProductDiscount: {
+          discountPercentage: 10,
+          greenTaxDiscountApproach: 'A',
+        },
+      } as IOffer;
+
+      const selected = offerAccommodationDiscountSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject({
+        discountPercentage: 10,
+        greenTaxDiscountApproach: 'A',
+      });
     });
   });
 });

@@ -23,12 +23,12 @@ export interface IAccommodationProductForHotelItem {
 }
 
 export interface IProductDiscount {
-  discountPercentage: number;
-  maximumQuantity: number;
-  greenTaxDiscountApproach: string;
+  discountPercentage?: number;
+  maximumQuantity?: number;
+  greenTaxDiscountApproach?: string;
   products: {
     uuid: string;
-    ageNames: string[];
+    ageNames?: string[];
   }[];
 }
 
@@ -80,8 +80,8 @@ export interface IOffer {
     discountCheapest?: boolean;
   };
   accommodationProductDiscount?: {
-    discountPercentage: number;
-    greenTaxDiscountApproach: string;
+    discountPercentage?: number;
+    greenTaxDiscountApproach?: string;
   };
   subProductDiscounts?: {
     Supplement?: IProductDiscount[];
@@ -91,6 +91,7 @@ export interface IOffer {
     Transfer?: IProductDiscount[];
     'Ground Service'?: IProductDiscount[];
     Fine?: IProductDiscount[];
+    Supplement?: IProductDiscount[];
   };
   createdAt: string;
   updatedAt: string;

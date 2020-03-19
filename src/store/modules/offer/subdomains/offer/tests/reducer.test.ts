@@ -30,6 +30,9 @@ import {
   offerSetSteppingMaximumNightsApplicationAction,
   offerSetSteppingDiscountCheapestApplicationAction,
   offerClearAllSteppingApplicationAction,
+  offerSetAccommodationDiscountDiscountPercentageAction,
+  offerSetAccommodationDiscountGreenTaxApproachAction,
+  offerClearAllAccommodationDiscountAction,
 } from '../actions';
 
 describe('Offer reducer', () => {
@@ -990,6 +993,103 @@ describe('Offer reducer', () => {
           applyTo: 6,
           maximumNights: 9,
           discountCheapest: true,
+        },
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+  });
+
+  describe('offer reducer accommodation discount application', () => {
+    it('handles setting accommodation discount discount percentage (integer)', () => {
+      const action = offerSetAccommodationDiscountDiscountPercentageAction(5);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        accommodationProductDiscount: {
+          ...initialState.offer.accommodationProductDiscount,
+          discountPercentage: 5,
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles setting accommodation discount discount percentage (float)', () => {
+      const action = offerSetAccommodationDiscountDiscountPercentageAction(8.3);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        accommodationProductDiscount: {
+          ...initialState.offer.accommodationProductDiscount,
+          discountPercentage: 8.3,
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles setting accommodation discount discount percentage (2 decimal places float)', () => {
+      const action = offerSetAccommodationDiscountDiscountPercentageAction(8.39);
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        accommodationProductDiscount: {
+          ...initialState.offer.accommodationProductDiscount,
+          discountPercentage: 8.39,
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles setting accommodation discount green tax approach', () => {
+      const action = offerSetAccommodationDiscountGreenTaxApproachAction('GREEN_TAX');
+
+      const testState: IOffer = {
+        ...initialState.offer,
+      };
+
+      const expected: IOffer = {
+        ...initialState.offer,
+        accommodationProductDiscount: {
+          ...initialState.offer.accommodationProductDiscount,
+          greenTaxDiscountApproach: 'GREEN_TAX',
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('handles clear all accommodation discount', () => {
+      const action = offerClearAllAccommodationDiscountAction();
+
+      const testState: IOffer = {
+        ...initialState.offer,
+        accommodationProductDiscount: {
+          discountPercentage: 5,
+          greenTaxDiscountApproach: 'GREEN_TAX',
         },
       };
 

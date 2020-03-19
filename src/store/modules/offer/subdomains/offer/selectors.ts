@@ -3,6 +3,7 @@ import { generateArrayOfDatesBetween } from 'utils';
 import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 import { IOfferModel } from '../../model';
 import { getBootstrapCountriesSelector } from '../../../bootstrap/selectors';
+import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
 
 // TODO: For some reason, I can't import the offerDomainSelector from
 // the root selector file. This is a tmp fix. I guess there's some minconfiguration
@@ -12,95 +13,62 @@ const tmpGetAccommodationProductsForHotelSelector = createSelector(
   tmpOfferDomainSelector,
   domain => domain.accommodationProductsForHotel
 );
-export const offerSelector = createSelector(
-  tmpOfferDomainSelector,
-  domain => domain.offer
-);
+export const offerSelector = createSelector(tmpOfferDomainSelector, domain => domain.offer);
 
-export const offerNameSelector = createSelector(
-  offerSelector,
-  offer => offer.name
-);
+export const offerNameSelector = createSelector(offerSelector, offer => offer.name);
 
-export const offerHotelUuidSelector = createSelector(
-  offerSelector,
-  offer => offer.hotelUuid
-);
+export const offerHotelUuidSelector = createSelector(offerSelector, offer => offer.hotelUuid);
 
-export const offerTermsSelector = createSelector(
-  offerSelector,
-  offer => offer.termsAndConditions
-);
+export const offerTermsSelector = createSelector(offerSelector, offer => offer.termsAndConditions);
 
-export const offerFurtherInformationSelector = createSelector(
-  offerSelector,
-  offer => offer.furtherInformation || ''
-);
+export const offerFurtherInformationSelector = createSelector(offerSelector, offer => offer.furtherInformation || '');
 
-export const offerPrerequisitesSelector = createSelector(
-  offerSelector,
-  offer => offer.prerequisites
-);
+export const offerPrerequisitesSelector = createSelector(offerSelector, offer => offer.prerequisites);
 
 export const offerPayloadPrerequisitesSelector = createSelector(
   offerPrerequisitesSelector,
   prerequisites => prerequisites.payload
 );
 
-export const offerStayBetweenPrerequisitesSelector = createSelector(
-  offerPrerequisitesSelector,
-  prerequisites => {
-    return prerequisites.dates.map(dateRange => {
-      if (!dateRange.startDate || dateRange.startDate === '') {
-        return [];
-      }
-      if (!dateRange.endDate || dateRange.endDate === '') {
-        return [dateRange.startDate];
-      }
-      return generateArrayOfDatesBetween(dateRange.startDate, dateRange.endDate);
-    });
-  }
-);
+export const offerStayBetweenPrerequisitesSelector = createSelector(offerPrerequisitesSelector, prerequisites => {
+  return prerequisites.dates.map(dateRange => {
+    if (!dateRange.startDate || dateRange.startDate === '') {
+      return [];
+    }
+    if (!dateRange.endDate || dateRange.endDate === '') {
+      return [dateRange.startDate];
+    }
+    return generateArrayOfDatesBetween(dateRange.startDate, dateRange.endDate);
+  });
+});
 
 export const offerStayBetweenPrerequisitesRawSelector = createSelector(
   offerPrerequisitesSelector,
   prerequisites => prerequisites.dates
 );
 
-export const offerBooleanPrerequisitesSelector = createSelector(
-  offerPayloadPrerequisitesSelector,
-  payload => {
-    const keys = ['anniversary', 'birthday', 'honeymoon', 'repeatCustomer', 'wedding'];
-    const returnedPayload = {} as IOfferPrerequisitesPayload;
+export const offerBooleanPrerequisitesSelector = createSelector(offerPayloadPrerequisitesSelector, payload => {
+  const keys = ['anniversary', 'birthday', 'honeymoon', 'repeatCustomer', 'wedding'];
+  const returnedPayload = {} as IOfferPrerequisitesPayload;
 
-    keys.forEach(payloadKey => {
-      if (payload && payload[payloadKey] !== undefined) {
-        returnedPayload[payloadKey] = payload[payloadKey];
-      } else {
-        returnedPayload[payloadKey] = null;
-      }
-    });
+  keys.forEach(payloadKey => {
+    if (payload && payload[payloadKey] !== undefined) {
+      returnedPayload[payloadKey] = payload[payloadKey];
+    } else {
+      returnedPayload[payloadKey] = null;
+    }
+  });
 
-    return returnedPayload;
-  }
-);
+  return returnedPayload;
+});
 
-export const offerPreDiscountSelector = createSelector(
-  offerSelector,
-  offer => offer.preDiscount
-);
+export const offerPreDiscountSelector = createSelector(offerSelector, offer => offer.preDiscount);
 
-export const hotelNameSelector = createSelector(
-  offerSelector,
-  offer => offer.hotel?.name
-);
+export const hotelNameSelector = createSelector(offerSelector, offer => offer.hotel?.name);
 
-export const offerCountryCodePrerequisiteSelector = createSelector(
-  offerPrerequisitesSelector,
-  prerequisites => {
-    return prerequisites.countryCodes;
-  }
-);
+export const offerCountryCodePrerequisiteSelector = createSelector(offerPrerequisitesSelector, prerequisites => {
+  return prerequisites.countryCodes;
+});
 
 export const offerTaCountriesPrerequisiteSelector = createSelector(
   offerCountryCodePrerequisiteSelector,
@@ -189,17 +157,13 @@ export const offerStayLengthPrerequisiteSelector = createSelector(
   prerequisites => prerequisites.stayLength
 );
 
-export const offerSteppingApplicationSelector = createSelector(
-  offerSelector,
-  offer => {
-    if (!offer.stepping) {
-      return undefined;
-    }
-    
-    const parsedObject = {};
-    Object.keys(offer.stepping).forEach(steppingKey => {
-      parsedObject[steppingKey] = !offer.stepping || offer.stepping[steppingKey] === undefined ? '' : offer.stepping[steppingKey]
-    });
-    return parsedObject;
+export const offerSteppingApplicationSelector = createSelector(offerSelector, offer => {
+  if (!offer.stepping) {
+    return undefined;
   }
-);
+  return returnObjectWithUndefinedsAsEmptyStrings(offer.stepping);
+});
+
+export const offerAccommodationDiscountSelector = createSelector(offerSelector, offer => {
+  return returnObjectWithUndefinedsAsEmptyStrings(offer.accommodationProductDiscount);
+});

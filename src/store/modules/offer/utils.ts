@@ -31,3 +31,14 @@ export const hasOfferGotApplications = (offer: IOffer) => {
   }
   return true;
 };
+
+export const returnObjectWithUndefinedsAsEmptyStrings = obj => {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const parsedObject = {};
+  Object.keys(obj).forEach(steppingKey => {
+    parsedObject[steppingKey] = !obj || obj[steppingKey] === undefined ? '' : obj[steppingKey];
+  });
+  return parsedObject;
+};

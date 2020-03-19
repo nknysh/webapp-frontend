@@ -71,9 +71,15 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
       return offerSetSteppingMaximumNightsApplicationReducer(state, action);
     case Actions.OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION:
       return offerSetSteppingDiscountCheapestApplicationReducer(state, action);
-
     case Actions.OFFER_CLEAR_ALL_STEPPING_APPLICATION:
       return offerClearAllSteppingApplicationReducer(state, action);
+
+    case Actions.OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION:
+      return offerSetAccommodationDiscountDiscountPercentageReducer(state, action);
+    case Actions.OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION:
+      return offerSetAccommodationDiscountGreenTaxApproachReducer(state, action);
+    case Actions.OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION:
+      return offerClearAllAccommodationDiscountReducer(state, action);
     default:
       return state;
   }
@@ -444,5 +450,41 @@ export const offerClearAllSteppingApplicationReducer = (
   return {
     ...state,
     stepping: undefined,
+  };
+};
+
+export const offerSetAccommodationDiscountDiscountPercentageReducer = (
+  state: IOffer,
+  action: Actions.OfferSetAccommodationDiscountDiscountPercentageAction
+): IOffer => {
+  return {
+    ...state,
+    accommodationProductDiscount: {
+      ...state.accommodationProductDiscount,
+      discountPercentage: action.value,
+    },
+  };
+};
+
+export const offerSetAccommodationDiscountGreenTaxApproachReducer = (
+  state: IOffer,
+  action: Actions.OfferSetAccommodationDiscountGreenTaxApproachAction
+): IOffer => {
+  return {
+    ...state,
+    accommodationProductDiscount: {
+      ...state.accommodationProductDiscount,
+      greenTaxDiscountApproach: action.value,
+    },
+  };
+};
+
+export const offerClearAllAccommodationDiscountReducer = (
+  state: IOffer,
+  action: Actions.OfferClearAllAccommodationDiscountAction
+): IOffer => {
+  return {
+    ...state,
+    accommodationProductDiscount: undefined,
   };
 };

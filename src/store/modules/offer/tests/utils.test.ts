@@ -1,4 +1,8 @@
-import { getAllAssociatedProductUuidsFromOffer, hasOfferGotApplications } from '../utils';
+import {
+  getAllAssociatedProductUuidsFromOffer,
+  hasOfferGotApplications,
+  returnObjectWithUndefinedsAsEmptyStrings,
+} from '../utils';
 import { initialState } from '../model';
 import { IOffer } from 'services/BackendApi';
 
@@ -126,6 +130,50 @@ describe('offer module utils test', () => {
       } as IOffer;
 
       expect(hasOfferGotApplications(fixture)).toEqual(true);
+    });
+  });
+
+  describe('returnObjectWithUndefinedsAsEmptyStrings', () => {
+    it('will return undefined as undefined', () => {
+      expect(returnObjectWithUndefinedsAsEmptyStrings(undefined)).toEqual(undefined);
+    });
+
+    it('returns undefined values as empty strings', () => {
+      const fixture = {
+        a: undefined,
+        b: 5,
+        c: 'TEST',
+      };
+
+      expect(returnObjectWithUndefinedsAsEmptyStrings(fixture)).toMatchObject({
+        a: '',
+        b: 5,
+        c: 'TEST',
+      });
+    });
+
+    it('returns undefined values as empty strings', () => {
+      const fixture = {
+        a: undefined,
+        b: 5,
+        c: undefined,
+      };
+
+      expect(returnObjectWithUndefinedsAsEmptyStrings(fixture)).toMatchObject({
+        a: '',
+        b: 5,
+        c: '',
+      });
+    });
+
+    it('returns undefined values as empty strings', () => {
+      const fixture = {
+        c: undefined,
+      };
+
+      expect(returnObjectWithUndefinedsAsEmptyStrings(fixture)).toMatchObject({
+        c: '',
+      });
     });
   });
 });

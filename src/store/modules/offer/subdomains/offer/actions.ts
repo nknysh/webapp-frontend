@@ -11,6 +11,7 @@ export const OFFER_SET_PRE_DISCOUNT = 'offer/OFFER_SET_PRE_DISCOUNT';
 export const OFFER_SET_BOOLEAN_PREREQUISITE = 'offer/OFFER_SET_BOOLEAN_PREREQUISITE';
 export const OFFER_SET_COUNTRY_CODE_PREREQUISITE = 'offer/OFFER_SET_COUNTRY_CODE_PREREQUISITE';
 export const OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE = 'offer/OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE';
+
 export const OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE = 'offer/OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE';
 export const OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE =
   'offer/OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE';
@@ -31,8 +32,14 @@ export const OFFER_SET_STEPPING_APPLY_TO_APPLICATION = 'offer/OFFER_SET_STEPPING
 export const OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION = 'offer/OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION';
 export const OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION =
   'offer/OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION';
-
 export const OFFER_CLEAR_ALL_STEPPING_APPLICATION = 'offer/OFFER_CLEAR_ALL_STEPPING_APPLICATION';
+
+export const OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION =
+  'offer/OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION';
+export const OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION =
+  'offer/OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION';
+export const OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION =
+  'offer/OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION';
 
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
@@ -207,6 +214,27 @@ export const offerClearAllSteppingApplicationAction = () => ({
   type: OFFER_CLEAR_ALL_STEPPING_APPLICATION as typeof OFFER_CLEAR_ALL_STEPPING_APPLICATION,
 });
 
+export type OfferSetAccommodationDiscountDiscountPercentageAction = ReturnType<
+  typeof offerSetAccommodationDiscountDiscountPercentageAction
+>;
+export const offerSetAccommodationDiscountDiscountPercentageAction = (value: number) => ({
+  type: OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION as typeof OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION,
+  value,
+});
+
+export type OfferSetAccommodationDiscountGreenTaxApproachAction = ReturnType<
+  typeof offerSetAccommodationDiscountGreenTaxApproachAction
+>;
+export const offerSetAccommodationDiscountGreenTaxApproachAction = (value: string | undefined) => ({
+  type: OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION as typeof OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION,
+  value,
+});
+
+export type OfferClearAllAccommodationDiscountAction = ReturnType<typeof offerClearAllAccommodationDiscountAction>;
+export const offerClearAllAccommodationDiscountAction = () => ({
+  type: OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION as typeof OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferNameChangeAction
@@ -234,4 +262,7 @@ export type OfferAction =
   | OfferSetSteppingApplyToApplicationAction
   | OfferSetSteppingMaximumNightsApplicationAction
   | OfferSetSteppingDiscountCheapestApplicationAction
-  | OfferClearAllSteppingApplicationAction;
+  | OfferClearAllSteppingApplicationAction
+  | OfferSetAccommodationDiscountDiscountPercentageAction
+  | OfferSetAccommodationDiscountGreenTaxApproachAction
+  | OfferClearAllAccommodationDiscountAction;
