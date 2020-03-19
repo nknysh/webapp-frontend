@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { PrimaryButton, SecondaryButton } from 'pureUi/Buttons';
 import ConfirmationModal, { ConfirmationModalProps } from './ConfirmationModal';
 
-const createProps = (hash: number = 0): ConfirmationModalProps => ({
+const createProps = (): ConfirmationModalProps => ({
   onCancel: jest.fn(),
   onOk: jest.fn()
 });
