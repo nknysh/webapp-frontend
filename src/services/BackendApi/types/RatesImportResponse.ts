@@ -32,4 +32,8 @@ export interface IRatesImportData {
 }
 
 export interface IRatesImportStatus extends IGenericStatus<IRatesImportData> {}
-export interface IRatesImportResponse extends IGenericStatusResponse<IRatesImportData> {}
+export interface IRatesImportResponse extends IGenericStatusResponse<IRatesImportData> {
+  meta: {
+    workbookId: string;
+  }
+}

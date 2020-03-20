@@ -43,6 +43,7 @@ Object {
     "status": "done",
   },
   "type": "ratesImport/IMPORT_RATES_SUCCESS",
+  "workbookId": "123-456",
 }
 `;
 
@@ -96,6 +97,7 @@ Object {
     "status": "done",
   },
   "type": "ratesImport/GET_RATES_IMPORT_STATUS_SUCCESS",
+  "workbookId": "123-456",
 }
 `;
 

@@ -59,6 +59,7 @@ export const ratesImport = (state: IRatesImportModel = initialState, action: Rat
         importRatesRequestIsPending: false,
         error: null,
         latestStatus: action.status,
+        workbookId: action.workbookId
       };
 
     case IMPORT_RATES_FAILURE:
@@ -75,6 +76,7 @@ export const ratesImport = (state: IRatesImportModel = initialState, action: Rat
         ...state,
         error: null,
         latestStatus: action.status,
+        workbookId: action.workbookId
       };
 
     case GET_RATES_IMPORT_STATUS_FAILURE:

@@ -19,6 +19,11 @@ export const latestStatusSelector = createSelector(
   domain => domain.latestStatus
 );
 
+export const workbookIdSelector = createSelector(
+  ratesImportDomainSelector,
+  domain => domain.workbookId
+);
+
 export const uiStateSelector = createSelector(
   ratesImportDomainSelector,
   domain => domain.uiState

@@ -12,9 +12,10 @@ export const importRatesRequestAction = () => ({
 });
 
 export type ImportRatesSuccessAction = ReturnType<typeof importRatesSuccessAction>;
-export const importRatesSuccessAction = (status: IRatesImportStatus) => ({
+export const importRatesSuccessAction = (status: IRatesImportStatus, workbookId: string) => ({
   type: IMPORT_RATES_SUCCESS as typeof IMPORT_RATES_SUCCESS,
   status,
+  workbookId
 });
 
 export type ImportRatesFailureAction = ReturnType<typeof importRatesFailureAction>;
@@ -35,9 +36,10 @@ export const getRatesImportStatusRequestAction = () => ({
 });
 
 export type GetRatesImportStatusSuccessAction = ReturnType<typeof getRatesImportStatusSuccessAction>;
-export const getRatesImportStatusSuccessAction = (status: IRatesImportStatus) => ({
+export const getRatesImportStatusSuccessAction = (status: IRatesImportStatus, workbookId: string) => ({
   type: GET_RATES_IMPORT_STATUS_SUCCESS as typeof GET_RATES_IMPORT_STATUS_SUCCESS,
   status,
+  workbookId
 });
 
 export type GetRatesImportStatusFailureAction = ReturnType<typeof getRatesImportStatusFailureAction>;

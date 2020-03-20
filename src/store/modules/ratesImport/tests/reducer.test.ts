@@ -13,6 +13,8 @@ import { initialState } from '../model';
 import { ratesImport as reducer, uiStateReducer } from '../reducer';
 import { ratesImportStatus as mockRatesImportStatus } from './mock';
 
+const mockWorkbookId = '123-456';
+
 describe('Rates Import reducer', () => {
 
   it('handles IMPORT_RATES_REQUEST correctly', () => {
@@ -28,13 +30,14 @@ describe('Rates Import reducer', () => {
   });
 
   it('handles IMPORT_RATES_SUCCESS correctly', () => {
-    const action = importRatesSuccessAction(mockRatesImportStatus);
+    const action = importRatesSuccessAction(mockRatesImportStatus, mockWorkbookId);
     const result = reducer(initialState, action);
     
     const expected = {
       ...initialState,
       importRatesRequestIsPending: false,
-      latestStatus: mockRatesImportStatus
+      latestStatus: mockRatesImportStatus,
+      workbookId: mockWorkbookId
     };
 
     expect(result).toEqual(expected);
@@ -55,12 +58,13 @@ describe('Rates Import reducer', () => {
   });
 
   it('handles GET_RATES_IMPORT_STATUS_SUCCESS correctly', () => {
-    const action = getRatesImportStatusSuccessAction(mockRatesImportStatus);
+    const action = getRatesImportStatusSuccessAction(mockRatesImportStatus, mockWorkbookId);
     const result = reducer(initialState, action);
     
     const expected = {
       ...initialState,
-      latestStatus: mockRatesImportStatus
+      latestStatus: mockRatesImportStatus,
+      workbookId: mockWorkbookId
     };
 
     expect(result).toEqual(expected);

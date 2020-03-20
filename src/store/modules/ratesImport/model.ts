@@ -9,6 +9,7 @@ export interface IRatesImportModel {
   importRatesRequestIsPending: boolean;
   error: any | null;
   latestStatus: IRatesImportStatus | null;
+  workbookId: string | null;
 }
 
 export const initialState: IRatesImportModel = {
@@ -17,5 +18,6 @@ export const initialState: IRatesImportModel = {
   },
   importRatesRequestIsPending: false,
   error: null,
-  latestStatus: null
+  latestStatus: null,
+  workbookId: null
 };
