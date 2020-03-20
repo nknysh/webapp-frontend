@@ -22,17 +22,21 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     getError: null,
     putError: null,
     postError: null,
-    taCountries: [],
-    bootstrapCountriesByRegion: [],
-    bootstrapHotels: Array.from({ length: 10 }).map((_, idx) => ({
-      name: `Test Hotel ${idx}`,
-      uuid: `hotel_${idx}`,
-    })),
+    taCountries: {},
+    taCountriesLabel: 'All Countries',
+    taCountryAccordianKeys: [],
     nullableBooleans: {
       honeymoon: true,
       wedding: false,
       repeatCustomer: null,
     },
+    // WithBootstrapData props
+    bootstrapCountries: [],
+    bootstrapCountriesByRegion: {},
+    bootstrapHotels: Array.from({ length: 10 }).map((_, idx) => ({
+      name: `Test Hotel ${idx}`,
+      uuid: `hotel_${idx}`,
+    })),
     // Actions
     getOfferRequestAction: jest.fn(),
     offerAddStayBetweenPrerequisiteAction: jest.fn(),
@@ -49,6 +53,8 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     resetOfferModuleAction: jest.fn(),
     offerSetBooleanPrerequisiteAction: jest.fn(),
     offerSetCountryCodePrerequisiteAction: jest.fn(),
+    offerClearAllCountryCodePrerequisiteAction: jest.fn(),
+    offerToggleTaCountryAccodian: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 

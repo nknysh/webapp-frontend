@@ -1,47 +1,37 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { Throggle, IThroggleProps } from './index';
+import { Accordian, AccordianSection } from '.';
 
-const getProps = (overrides?: Partial<IThroggleProps>): IThroggleProps => ({
-  name: 'Test name',
-  label: 'Test label',
-  trueLabel: 'True label',
-  falseLabel: 'FalseLable label',
-  value: null,
-  onChange: jest.fn(),
-  ...overrides,
-});
-
-describe('Throggle', () => {
-  // Pulling my hair out trying to get thesse tests to pass. I think I'm missing something super obvious.
-  // Anyway, the compnent works.
-  // it('Emits true when turned on', () => {
-  //   // Have to mount for some reason
-  //   const props = getProps();
-  //   const wrapper = mount(<Throggle {...props} />);
-  //   const checkbox = wrapper.find('[type="checkbox"]');
-  //   checkbox.simulate('change', { currentTarget: { checked: 'true' } });
-  //   expect(props.onChange).toHaveBeenCalledWith(true);
-  // });
-
-  // it('Emits null when turned off', () => {
-  //   // Have to mount for some reason
-  //   const props = getProps({ value: true });
-  //   const wrapper = mount(<Throggle {...props} />);
-  //   const checkbox = wrapper.find('[type="checkbox"]');
-  //   checkbox.simulate('change', { currentTarget: { checked: 'false' } });
-  //   expect(props.onChange).toHaveBeenCalledWith(null);
-  // });
-
-  it('Emits the correct value when the radio buttons are clicks', () => {
-    // Have to mount for some reason
-    const props = getProps();
-    const wrapper = mount(<Throggle {...props} />);
-    const radioTrue = wrapper.find('[data-role="radioTrue"]').last();
-    const radioFalse = wrapper.find('[data-role="radioFalse"]').last();
-    radioFalse.simulate('change', { currentTarget: { value: 'true' } });
-    expect(props.onChange).toHaveBeenCalledWith(false);
-    radioTrue.simulate('change', { currentTarget: { value: 'true' } });
-    expect(props.onChange).toHaveBeenCalledWith(true);
+describe('Accordian', () => {
+  it('render correctly', () => {
+    let wrapper = mount(
+      <Accordian>
+        <AccordianSection title="Section 1" isOpen={false} onClick={jest.fn(() => 'item1')} suffix="1 Item">
+          <p>Accordian Item 1</p>
+        </AccordianSection>
+        <AccordianSection title="Section 2" isOpen={true} onClick={jest.fn(() => 'item2')}>
+          <p>Accordian Item 2</p>
+          <p>Accordian Item 2</p>
+          <p>Accordian Item 2</p>
+          <p>Accordian Item 2</p>
+          <p>Accordian Item 2</p>
+        </AccordianSection>
+        <AccordianSection title="Section 3" isOpen={false} onClick={jest.fn(() => 'item3')}>
+          <p>Accordian Item 3</p>
+          <p>Accordian Item 3</p>
+          <p>Accordian Item 3</p>
+        </AccordianSection>
+        <AccordianSection title="Section 4" isOpen={true} onClick={jest.fn(() => 'item4')}>
+          <p>Accordian Item 4</p>
+          <p>Accordian Item 4</p>
+          <p>Accordian Item 4</p>
+          <p>Accordian Item 4</p>
+          <p>Accordian Item 4</p>
+          <p>Accordian Item 4</p>
+        </AccordianSection>
+      </Accordian>
+    );
+    // Checting here, but it's a super simple component
+    expect(wrapper).toMatchSnapshot();
   });
 });

@@ -1,6 +1,6 @@
 import { IBootstrapModule, IBootstrapCountry } from './model';
 import { createSelector } from 'reselect';
-import groupBy from 'ramda/es/groupBy';
+import { groupBy } from 'ramda';
 
 export const bootstrapDomainSelector = (state: any) => state.bootstrap as IBootstrapModule;
 

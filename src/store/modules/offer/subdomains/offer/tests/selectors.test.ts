@@ -34,10 +34,12 @@ import {
   offerSubProductDiscountsSelector,
   offerSubProductDiscountsSupplementsSelector,
   offerExtraPersonSupplementsSelector,
+ offerTaCountriesPrerequisiteByRegionSelector
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
 import { initialState } from '../../../model';
+import { ITaCountriesUiData, ITACountry } from '../../../types';
 
 describe('Offer Selectors', () => {
   describe('offerSelector', () => {
@@ -893,6 +895,38 @@ describe('Offer Selectors', () => {
           products: [{ uuid: 'EPS' }],
         },
       ]);
+    });
+  });
+
+  describe('offerTaCountriesPrerequisiteByRegionSelector', () => {
+    it('returns a map of regions with a total string and a countries array', () => {
+      const input: ITACountry[] = [
+        {
+          label: 'Country A',
+          region: 'Region A',
+          value: true,
+          code: 'CA',
+        },
+        {
+          label: 'Country B',
+          region: 'Region B',
+          value: false,
+          code: 'CB',
+        },
+      ];
+
+      const expected: ITaCountriesUiData = {
+        'Region A': {
+          total: '1 Country',
+          countries: [{ ...input[0] }],
+        },
+        'Region B': {
+          total: '0 Countries',
+          countries: [{ ...input[1] }],
+        },
+      };
+      const result = offerTaCountriesPrerequisiteByRegionSelector.resultFunc(input);
+      expect(result).toMatchObject(expected);
     });
   });
 });

@@ -1,0 +1,631 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Accordian render correctly 1`] = `
+<styled.dl>
+  <StyledComponent
+    forwardedComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "attrs": Array [],
+        "componentStyle": ComponentStyle {
+          "componentId": "sc-bdVaJa",
+          "isStatic": false,
+          "lastClassName": "glFxCu",
+          "rules": Array [
+            "
+  display: flex;
+  flex-direction: column;
+  border: ",
+            "#E0E0E0",
+            " 1px solid;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+",
+          ],
+        },
+        "displayName": "styled.dl",
+        "foldedComponentIds": Array [],
+        "render": [Function],
+        "styledComponentId": "sc-bdVaJa",
+        "target": "dl",
+        "toString": [Function],
+        "warnTooManyClasses": [Function],
+        "withComponent": [Function],
+      }
+    }
+    forwardedRef={null}
+  >
+    <dl
+      className="sc-bdVaJa glFxCu"
+    >
+      <Styled(Component)
+        isOpen={false}
+        onClick={[MockFunction]}
+        suffix="1 Item"
+        title="Section 1"
+      >
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-bwzfXH",
+                "isStatic": false,
+                "lastClassName": "gFwgqg",
+                "rules": Array [
+                  "
+  padding: 10px;
+  border: ",
+                  "#E0E0E0",
+                  " 1px solid;
+  border-width: 1px 0 ",
+                  [Function],
+                  " 0;
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+  cursor: pointer;
+
+  &:first-of-type {
+    border-top: none;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  & > span {
+    display: flex;
+  }
+
+  p {
+    margin: 0 10px 0 0;
+    color: ",
+                  "#736A65",
+                  ";
+    font-size: 12px;
+    align-self: center;
+  }
+",
+                ],
+              },
+              "displayName": "Styled(Component)",
+              "foldedComponentIds": Array [],
+              "render": [Function],
+              "styledComponentId": "sc-bwzfXH",
+              "target": [Function],
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          isOpen={false}
+          onClick={[MockFunction]}
+          suffix="1 Item"
+          title="Section 1"
+        >
+          <Component
+            className="sc-bwzfXH gQzMdT"
+            isOpen={false}
+            onClick={[MockFunction]}
+            suffix="1 Item"
+            title="Section 1"
+          >
+            <dt
+              className="sc-bwzfXH gQzMdT"
+              onClick={[MockFunction]}
+              suffix="1 Item"
+              title="Section 1"
+            >
+              <p
+                className="title"
+              >
+                Section 1
+              </p>
+              <span>
+                <p>
+                  1 Item
+                </p>
+                <ForwardRef>
+                  <WithStyles(ForwardRef(SvgIcon))>
+                    <ForwardRef(SvgIcon)
+                      classes={
+                        Object {
+                          "colorAction": "MuiSvgIcon-colorAction",
+                          "colorDisabled": "MuiSvgIcon-colorDisabled",
+                          "colorError": "MuiSvgIcon-colorError",
+                          "colorPrimary": "MuiSvgIcon-colorPrimary",
+                          "colorSecondary": "MuiSvgIcon-colorSecondary",
+                          "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                          "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                          "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                          "root": "MuiSvgIcon-root",
+                        }
+                      }
+                    >
+                      <svg
+                        aria-hidden="true"
+                        className="MuiSvgIcon-root"
+                        focusable="false"
+                        role="presentation"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+                        />
+                      </svg>
+                    </ForwardRef(SvgIcon)>
+                  </WithStyles(ForwardRef(SvgIcon))>
+                </ForwardRef>
+              </span>
+            </dt>
+          </Component>
+        </StyledComponent>
+      </Styled(Component)>
+      <Styled(Component)
+        isOpen={true}
+        onClick={[MockFunction]}
+        title="Section 2"
+      >
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-bwzfXH",
+                "isStatic": false,
+                "lastClassName": "gFwgqg",
+                "rules": Array [
+                  "
+  padding: 10px;
+  border: ",
+                  "#E0E0E0",
+                  " 1px solid;
+  border-width: 1px 0 ",
+                  [Function],
+                  " 0;
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+  cursor: pointer;
+
+  &:first-of-type {
+    border-top: none;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  & > span {
+    display: flex;
+  }
+
+  p {
+    margin: 0 10px 0 0;
+    color: ",
+                  "#736A65",
+                  ";
+    font-size: 12px;
+    align-self: center;
+  }
+",
+                ],
+              },
+              "displayName": "Styled(Component)",
+              "foldedComponentIds": Array [],
+              "render": [Function],
+              "styledComponentId": "sc-bwzfXH",
+              "target": [Function],
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          isOpen={true}
+          onClick={[MockFunction]}
+          title="Section 2"
+        >
+          <Component
+            className="sc-bwzfXH gFwgqg"
+            isOpen={true}
+            onClick={[MockFunction]}
+            title="Section 2"
+          >
+            <dt
+              className="sc-bwzfXH gFwgqg"
+              onClick={[MockFunction]}
+              title="Section 2"
+            >
+              <p
+                className="title"
+              >
+                Section 2
+              </p>
+              <span>
+                <ForwardRef>
+                  <WithStyles(ForwardRef(SvgIcon))>
+                    <ForwardRef(SvgIcon)
+                      classes={
+                        Object {
+                          "colorAction": "MuiSvgIcon-colorAction",
+                          "colorDisabled": "MuiSvgIcon-colorDisabled",
+                          "colorError": "MuiSvgIcon-colorError",
+                          "colorPrimary": "MuiSvgIcon-colorPrimary",
+                          "colorSecondary": "MuiSvgIcon-colorSecondary",
+                          "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                          "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                          "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                          "root": "MuiSvgIcon-root",
+                        }
+                      }
+                    >
+                      <svg
+                        aria-hidden="true"
+                        className="MuiSvgIcon-root"
+                        focusable="false"
+                        role="presentation"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                        />
+                      </svg>
+                    </ForwardRef(SvgIcon)>
+                  </WithStyles(ForwardRef(SvgIcon))>
+                </ForwardRef>
+              </span>
+            </dt>
+            <styled.dd>
+              <StyledComponent
+                forwardedComponent={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "attrs": Array [],
+                    "componentStyle": ComponentStyle {
+                      "componentId": "sc-htpNat",
+                      "isStatic": false,
+                      "lastClassName": "iZwImm",
+                      "rules": Array [
+                        "
+  padding: 0;
+  margin: 0;
+",
+                      ],
+                    },
+                    "displayName": "styled.dd",
+                    "foldedComponentIds": Array [],
+                    "render": [Function],
+                    "styledComponentId": "sc-htpNat",
+                    "target": "dd",
+                    "toString": [Function],
+                    "warnTooManyClasses": [Function],
+                    "withComponent": [Function],
+                  }
+                }
+                forwardedRef={null}
+              >
+                <dd
+                  className="sc-htpNat iZwImm"
+                >
+                  <p>
+                    Accordian Item 2
+                  </p>
+                  <p>
+                    Accordian Item 2
+                  </p>
+                  <p>
+                    Accordian Item 2
+                  </p>
+                  <p>
+                    Accordian Item 2
+                  </p>
+                  <p>
+                    Accordian Item 2
+                  </p>
+                </dd>
+              </StyledComponent>
+            </styled.dd>
+          </Component>
+        </StyledComponent>
+      </Styled(Component)>
+      <Styled(Component)
+        isOpen={false}
+        onClick={[MockFunction]}
+        title="Section 3"
+      >
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-bwzfXH",
+                "isStatic": false,
+                "lastClassName": "gFwgqg",
+                "rules": Array [
+                  "
+  padding: 10px;
+  border: ",
+                  "#E0E0E0",
+                  " 1px solid;
+  border-width: 1px 0 ",
+                  [Function],
+                  " 0;
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+  cursor: pointer;
+
+  &:first-of-type {
+    border-top: none;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  & > span {
+    display: flex;
+  }
+
+  p {
+    margin: 0 10px 0 0;
+    color: ",
+                  "#736A65",
+                  ";
+    font-size: 12px;
+    align-self: center;
+  }
+",
+                ],
+              },
+              "displayName": "Styled(Component)",
+              "foldedComponentIds": Array [],
+              "render": [Function],
+              "styledComponentId": "sc-bwzfXH",
+              "target": [Function],
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          isOpen={false}
+          onClick={[MockFunction]}
+          title="Section 3"
+        >
+          <Component
+            className="sc-bwzfXH gQzMdT"
+            isOpen={false}
+            onClick={[MockFunction]}
+            title="Section 3"
+          >
+            <dt
+              className="sc-bwzfXH gQzMdT"
+              onClick={[MockFunction]}
+              title="Section 3"
+            >
+              <p
+                className="title"
+              >
+                Section 3
+              </p>
+              <span>
+                <ForwardRef>
+                  <WithStyles(ForwardRef(SvgIcon))>
+                    <ForwardRef(SvgIcon)
+                      classes={
+                        Object {
+                          "colorAction": "MuiSvgIcon-colorAction",
+                          "colorDisabled": "MuiSvgIcon-colorDisabled",
+                          "colorError": "MuiSvgIcon-colorError",
+                          "colorPrimary": "MuiSvgIcon-colorPrimary",
+                          "colorSecondary": "MuiSvgIcon-colorSecondary",
+                          "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                          "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                          "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                          "root": "MuiSvgIcon-root",
+                        }
+                      }
+                    >
+                      <svg
+                        aria-hidden="true"
+                        className="MuiSvgIcon-root"
+                        focusable="false"
+                        role="presentation"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
+                        />
+                      </svg>
+                    </ForwardRef(SvgIcon)>
+                  </WithStyles(ForwardRef(SvgIcon))>
+                </ForwardRef>
+              </span>
+            </dt>
+          </Component>
+        </StyledComponent>
+      </Styled(Component)>
+      <Styled(Component)
+        isOpen={true}
+        onClick={[MockFunction]}
+        title="Section 4"
+      >
+        <StyledComponent
+          forwardedComponent={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "sc-bwzfXH",
+                "isStatic": false,
+                "lastClassName": "gFwgqg",
+                "rules": Array [
+                  "
+  padding: 10px;
+  border: ",
+                  "#E0E0E0",
+                  " 1px solid;
+  border-width: 1px 0 ",
+                  [Function],
+                  " 0;
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+  cursor: pointer;
+
+  &:first-of-type {
+    border-top: none;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  & > span {
+    display: flex;
+  }
+
+  p {
+    margin: 0 10px 0 0;
+    color: ",
+                  "#736A65",
+                  ";
+    font-size: 12px;
+    align-self: center;
+  }
+",
+                ],
+              },
+              "displayName": "Styled(Component)",
+              "foldedComponentIds": Array [],
+              "render": [Function],
+              "styledComponentId": "sc-bwzfXH",
+              "target": [Function],
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
+          forwardedRef={null}
+          isOpen={true}
+          onClick={[MockFunction]}
+          title="Section 4"
+        >
+          <Component
+            className="sc-bwzfXH gFwgqg"
+            isOpen={true}
+            onClick={[MockFunction]}
+            title="Section 4"
+          >
+            <dt
+              className="sc-bwzfXH gFwgqg"
+              onClick={[MockFunction]}
+              title="Section 4"
+            >
+              <p
+                className="title"
+              >
+                Section 4
+              </p>
+              <span>
+                <ForwardRef>
+                  <WithStyles(ForwardRef(SvgIcon))>
+                    <ForwardRef(SvgIcon)
+                      classes={
+                        Object {
+                          "colorAction": "MuiSvgIcon-colorAction",
+                          "colorDisabled": "MuiSvgIcon-colorDisabled",
+                          "colorError": "MuiSvgIcon-colorError",
+                          "colorPrimary": "MuiSvgIcon-colorPrimary",
+                          "colorSecondary": "MuiSvgIcon-colorSecondary",
+                          "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                          "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                          "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                          "root": "MuiSvgIcon-root",
+                        }
+                      }
+                    >
+                      <svg
+                        aria-hidden="true"
+                        className="MuiSvgIcon-root"
+                        focusable="false"
+                        role="presentation"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+                        />
+                      </svg>
+                    </ForwardRef(SvgIcon)>
+                  </WithStyles(ForwardRef(SvgIcon))>
+                </ForwardRef>
+              </span>
+            </dt>
+            <styled.dd>
+              <StyledComponent
+                forwardedComponent={
+                  Object {
+                    "$$typeof": Symbol(react.forward_ref),
+                    "attrs": Array [],
+                    "componentStyle": ComponentStyle {
+                      "componentId": "sc-htpNat",
+                      "isStatic": false,
+                      "lastClassName": "iZwImm",
+                      "rules": Array [
+                        "
+  padding: 0;
+  margin: 0;
+",
+                      ],
+                    },
+                    "displayName": "styled.dd",
+                    "foldedComponentIds": Array [],
+                    "render": [Function],
+                    "styledComponentId": "sc-htpNat",
+                    "target": "dd",
+                    "toString": [Function],
+                    "warnTooManyClasses": [Function],
+                    "withComponent": [Function],
+                  }
+                }
+                forwardedRef={null}
+              >
+                <dd
+                  className="sc-htpNat iZwImm"
+                >
+                  <p>
+                    Accordian Item 4
+                  </p>
+                  <p>
+                    Accordian Item 4
+                  </p>
+                  <p>
+                    Accordian Item 4
+                  </p>
+                  <p>
+                    Accordian Item 4
+                  </p>
+                  <p>
+                    Accordian Item 4
+                  </p>
+                  <p>
+                    Accordian Item 4
+                  </p>
+                </dd>
+              </StyledComponent>
+            </styled.dd>
+          </Component>
+        </StyledComponent>
+      </Styled(Component)>
+    </dl>
+  </StyledComponent>
+</styled.dl>
+`;

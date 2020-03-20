@@ -2,13 +2,12 @@ import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
 import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 import { IOfferModel } from '../../model';
-import {
-  getBootstrapCountriesSelector,
-  getBootstrapExtraPersonSupplementProductSelector,
-} from '../../../bootstrap/selectors';
-import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
-import groupBy from 'ramda/es/groupBy';
+import { getBootstrapCountriesSelector, getBootstrapExtraPersonSupplementProductSelector } from '../../../bootstrap/selectors';
+import { groupBy } from 'ramda';
+import { ITaCountriesUiData } from '../../types';
 import { IBootstrapCountry } from '../../../bootstrap/model';
+import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
+import { groupBy } from 'ramda';
 
 // TODO: For some reason, I can't import the offerDomainSelector from
 // the root selector file. This is a tmp fix. I guess there's some minconfiguration
@@ -87,29 +86,6 @@ export const offerCountryCodePrerequisiteSelector = createSelector(
   }
 );
 
-export const offerBooleanPrerequisitesSelector = createSelector(offerPayloadPrerequisitesSelector, payload => {
-  const keys = ['anniversary', 'birthday', 'honeymoon', 'repeatCustomer', 'wedding'];
-  const returnedPayload = {} as IOfferPrerequisitesPayload;
-
-  keys.forEach(payloadKey => {
-    if (payload && payload[payloadKey] !== undefined) {
-      returnedPayload[payloadKey] = payload[payloadKey];
-    } else {
-      returnedPayload[payloadKey] = null;
-    }
-  });
-
-  return returnedPayload;
-});
-
-export const offerPreDiscountSelector = createSelector(offerSelector, offer => offer.preDiscount);
-
-export const hotelNameSelector = createSelector(offerSelector, offer => offer.hotel?.name);
-
-export const offerCountryCodePrerequisiteSelector = createSelector(offerPrerequisitesSelector, prerequisites => {
-  return prerequisites.countryCodes;
-});
-
 export const offerTaCountriesPrerequisiteSelector = createSelector(
   offerCountryCodePrerequisiteSelector,
   getBootstrapCountriesSelector,
@@ -134,19 +110,6 @@ export const offerTaCountriesPrerequisiteSelector = createSelector(
   }
 );
 
-export interface ITaCountriesUiData {
-  [key: string]: {
-    total: string,
-    countries: ITACountry[]
-  }
-}
-
-export interface ITACountry {
-  label: string;
-  region: string;
-  value: boolean;
-  code: string;
-}
 
 export const offerTaCountriesPrerequisiteByRegionSelector = createSelector(
   offerTaCountriesPrerequisiteSelector,

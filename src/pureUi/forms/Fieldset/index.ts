@@ -19,5 +19,15 @@ export const Legend = styled.legend`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-weight: bold;
+  color: ${pureUiTheme.colors.gold};
+`;
+
+export const LegendExtras = styled.span`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > * {
+    margin-left: 10px;
+  }
 `;

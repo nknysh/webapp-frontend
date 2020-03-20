@@ -3,6 +3,7 @@ import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../../../model';
 import { offerReducer as reducer } from '../reducer';
 import { getOfferSuccessAction } from '../../../actions';
+import { IOfferPrerequisites } from '../../../../../../services/BackendApi/types/OfferResponse';
 import {
   offerHotelUuidChangeAction,
   offerNameChangeAction,
@@ -583,22 +584,19 @@ describe('Offer reducer', () => {
       expect(newState).toMatchObject(expected);
     });
 
-    it('creates a countryCode array if none exists', () => {
-      const action = offerSetCountryCodePrerequisiteAction('UK', false);
+    it('Creates a countryCode array if none exists', () => {
+      const action = offerSetCountryCodePrerequisiteAction('UK', true);
 
       const testState: IOffer = {
         ...initialState.offer,
-        prerequisites: {
-          ...initialState.offer.prerequisites,
-        },
+        prerequisites: {} as IOfferPrerequisites,
       };
 
       const expected: IOffer = {
         ...initialState.offer,
         prerequisites: {
-          ...initialState.offer.prerequisites,
-          countryCodes: ['AZ'],
-        },
+          countryCodes: ['UK'],
+        } as IOfferPrerequisites,
       };
 
       const newState = reducer(testState, action);

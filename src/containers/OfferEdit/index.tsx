@@ -9,7 +9,7 @@ import Label from 'pureUi/Label/index';
 import TextInput from 'pureUi/TextInput/index';
 import TextArea from 'pureUi/Textarea/index';
 import Checkbox from 'pureUi/Checkbox';
-import { Fieldset, Legend } from 'pureUi/forms/Fieldset/index';
+import { Fieldset, Legend, LegendExtras } from 'pureUi/forms/Fieldset/index';
 import { OfferEditStyles } from './OffereditStyles';
 import { PrimaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
 import { Throggle } from 'pureUi/forms/Throggle';
@@ -245,10 +245,10 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           <Fieldset>
             <Legend className="legendWithExtras">
               TA Countries{' '}
-              <span>
-                {this.props.taCountriesLabel}{' '}
+              <LegendExtras>
+                {this.props.taCountriesLabel}
                 <CloseButton onClick={this.props.offerClearAllCountryCodePrerequisiteAction} />
-              </span>
+              </LegendExtras>
             </Legend>
 
             <Accordian>

@@ -60,6 +60,30 @@ const colorRoles = {
   error: colors.redFade,
 };
 
+const typography = {
+  sansSerifFont: 'HurmeGeometricSans2, "Open Sans", sans-serif',
+  serifFont: 'NoeDisplay, "Open Sans", sans-serif',
+  sizes: {
+    default: 12,
+    less: 13,
+    normal: 14,
+    mid: 16,
+    big: 18,
+    bigger: 22,
+    link: 11,
+  },
+  bolder: 800,
+  bold: 600,
+  normal: 'normal',
+  light: 300,
+  lighter: 200,
+  letterSpacing: {
+    wide: 1,
+    mid: 0.5,
+    narrow: 0.46,
+  },
+};
+
 const checkboxSize = 23;
 const checkboxTittleSize = 6;
 const measurements = {
@@ -74,6 +98,7 @@ export const pureUiTheme = {
   colors,
   colorRoles,
   measurements,
+  typography,
 };
 
 export type PureUiTheme = typeof pureUiTheme;
