@@ -3,7 +3,8 @@ import {
   errorSelector,
   latestStatusSelector,
   uiStateSelector,
-  confirmationModalOpenSelector
+  confirmationModalOpenSelector,
+  workbookIdSelector
 } from '../selectors';
 
 import { initialState } from '../model';
@@ -25,6 +26,12 @@ describe('Rates Import Selectors', () => {
   describe('latestStatusSelector', () => {
     it('selects correctly', () => {
       expect(latestStatusSelector.resultFunc(initialState)).toEqual(null);
+    });
+  });
+
+  describe('workbookIdSelector', () => {
+    it('selects correctly', () => {
+      expect(workbookIdSelector.resultFunc(initialState)).toEqual(null);
     });
   });
 

@@ -39,7 +39,7 @@ function* importRatesRequestSaga() {
     const backendApi = makeBackendApi(actingCountryCode);
     const result: AxiosResponse<IRatesImportResponse> = yield call(backendApi.importRates);
     
-    yield put(importRatesSuccessAction(result.data.data));
+    yield put(importRatesSuccessAction(result.data.data, result.data.meta.workbookId));
   } catch (e) {
     yield put(importRatesFailureAction(getErrorMessage(e)));
   }
@@ -51,7 +51,7 @@ function* getRatesImportStatusRequestSaga() {
     const backendApi = makeBackendApi(actingCountryCode);
     const result: AxiosResponse<IRatesImportResponse> = yield call(backendApi.getRatesImportStatus);
     
-    yield put(getRatesImportStatusSuccessAction(result.data.data));
+    yield put(getRatesImportStatusSuccessAction(result.data.data, result.data.meta.workbookId));
   } catch (e) {
     yield put(getRatesImportStatusFailureAction(getErrorMessage(e)));
   }

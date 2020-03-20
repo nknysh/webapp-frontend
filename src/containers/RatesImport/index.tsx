@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Fragment } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -16,6 +16,7 @@ import {
   errorSelector,
   latestStatusSelector,
   confirmationModalOpenSelector,
+  workbookIdSelector
 } from '../../store/modules/ratesImport/selectors';
 
 import { MainStyles } from './styles';
@@ -44,34 +45,53 @@ export class RatesImportContainer extends React.Component<IRatesImportProps> {
       openRatesImportConfirmationModal,
       confirmRatesImportIntent,
       cancelRatesImportIntent,
+      workbookId
     } = this.props;
+
+    const workbookUrl = workbookId
+      ? `https://docs.google.com/spreadsheets/d/${workbookId}/edit`
+      : null;
 
     return (
       <MainStyles>
-        <section className="controls">
-          <PrimaryButton
-            className="importBtn"
-            disabled={importRatesRequestIsPending}
-            onClick={openRatesImportConfirmationModal}
-          >
-            Import Rates
-          </PrimaryButton>
-          {latestStatus &&
-            <LatestStatusInfo status={latestStatus} />
+        <div className="importer">
+          <section className="controls">
+            <PrimaryButton
+              className="importBtn"
+              disabled={importRatesRequestIsPending}
+              onClick={openRatesImportConfirmationModal}
+            >
+              Import Rates
+            </PrimaryButton>
+            {latestStatus &&
+              <LatestStatusInfo status={latestStatus} />
+            }
+          </section>
+          
+          {latestStatus && latestStatus.data && (
+            <Fragment>
+              <Separator className="separator" />
+              <section className="report">
+                <Report data={latestStatus.data} />
+              </section>
+            </Fragment>
+          )}
+          
+          {confirmationModalOpen &&
+            <ConfirmationModal
+              onOk={confirmRatesImportIntent}
+              onCancel={cancelRatesImportIntent}
+            />
           }
-        </section>
-        <Separator className="separator" />
-        <section className="report">
-          {latestStatus && latestStatus.data &&
-            <Report data={latestStatus.data} />
-          }
-        </section>
-        {confirmationModalOpen &&
-          <ConfirmationModal
-            onOk={confirmRatesImportIntent}
-            onCancel={cancelRatesImportIntent}
-          />
-        }
+        </div>
+        {workbookUrl && (
+          <Fragment>
+            <Separator className="separator" />
+            <div className="editor">
+              <iframe src={workbookUrl}/>
+            </div>
+          </Fragment>
+        )}
       </MainStyles>
     );
   }
@@ -93,6 +113,7 @@ const mapStateToProps = createStructuredSelector({
   error: errorSelector,
   latestStatus: latestStatusSelector,
   confirmationModalOpen: confirmationModalOpenSelector,
+  workbookId: workbookIdSelector
 });
 
 const actionCreators = {

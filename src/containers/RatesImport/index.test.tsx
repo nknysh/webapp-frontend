@@ -13,6 +13,7 @@ const createProps = (overrides: Partial<IRatesImportProps> = {}): IRatesImportPr
   importRatesRequestIsPending: false,
   error: null,
   latestStatus: mockRatesImportStatus,
+  workbookId: '123-456',
   confirmationModalOpen: false,
   ratesImportPageLoaded: jest.fn(),
   ratesImportPageUnloaded: jest.fn(),
@@ -31,6 +32,7 @@ describe('RatesImport', () => {
     expect(wrapper.exists(PrimaryButton)).toBe(true);
     expect(wrapper.exists(LatestStatusInfo)).toBe(true);
     expect(wrapper.exists(Report)).toBe(true);
+    expect(wrapper.exists('.editor')).toBe(true);
   });
 
   it('displays the correct UI when latest status does not exist', () => {
