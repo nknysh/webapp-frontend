@@ -7,7 +7,6 @@ import { ALL_COUNTRIES_AND_RESORTS } from '../constants';
 import { MealPlanNames } from 'services/BackendApi';
 
 export function* updateQueryStringSaga() {
-  console.log(UPDATE_QUERY_STRING);
   // We need to sanitize the query a little
   const query = yield select(offersQuerySelector);
   const sanitizedQuery = yield {

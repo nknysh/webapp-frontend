@@ -15,8 +15,9 @@ import { PrimaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
 import { Throggle } from 'pureUi/forms/Throggle';
 
 import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData';
-import { IOfferPrerequisitesPayload } from '../../services/BackendApi/types/OfferResponse';
-import { AccordianSection, Accordian } from '../../pureUi/Accordian/index';
+import { IOfferPrerequisitesPayload } from 'services/BackendApi/types/OfferResponse';
+import { AccordianSection, Accordian } from 'pureUi/Accordian/index';
+import { CloseButton } from 'pureUi/Buttons/index';
 
 import {
   offerSelector,
@@ -33,8 +34,9 @@ import {
   getOfferRequestIsPendingSelector,
   postOfferErrorSelector,
   offerBooleanPrerequisitesSelector,
-  offerTaCountriesPrerequisiteSelector,
   taCountryAccordianKeysSelector,
+  offerTaCountriesLabelPrerequisiteSelector,
+  offerTaCountriesPrerequisiteByRegionSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -54,14 +56,8 @@ import {
   offerSetBooleanPrerequisiteAction,
   offerSetCountryCodePrerequisiteAction,
   offerToggleTaCountryAccodian,
+  offerClearAllCountryCodePrerequisiteAction,
 } from 'store/modules/offer/actions';
-import { string } from 'prop-types';
-import { CloseButton } from '../../pureUi/Buttons/index';
-import { offerClearAllCountryCodePrerequisiteAction } from '../../store/modules/offer/subdomains/offer/actions';
-import {
-  offerTaCountriesLabelPrerequisiteSelector,
-  offerTaCountriesPrerequisiteByRegionSelector,
-} from '../../store/modules/offer/subdomains/offer/selectors';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
@@ -131,7 +127,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     }
 
     return (
-      <Label uppercase={false} className="hotelName" text="Hotel">
+      <Label lowercase className="hotelName" text="Hotel">
         <select
           className="hotelSelectInput"
           defaultValue={undefined}
@@ -181,7 +177,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
         <section className="basicInfo">
           {this.renderHotelName()}
 
-          <Label uppercase={false} className="offerName" text="Offer Name">
+          <Label lowercase className="offerName" text="Offer Name">
             <TextInput
               className="offerNameInput"
               value={this.props.offerName}
@@ -190,12 +186,12 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
             />
           </Label>
 
-          <Label uppercase={false} className="termsAndConditions" text="Terms & Conditions">
+          <Label lowercase className="termsAndConditions" text="Terms & Conditions">
             <TextArea className="termsInput" value={this.props.offerTerms} onChange={this.handleTermsChange} />
           </Label>
 
           <Label
-            uppercase={false}
+            lowercase
             className="furtherInformation"
             text={`Further Information ${this.props.isTextOnly ? `(Required)` : ''}`}
           >
@@ -206,7 +202,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
             />
           </Label>
 
-          <Label uppercase={false} className="textOnly" inline reverse text="Text Only">
+          <Label lowercase className="textOnly" inline reverse text="Text Only">
             <Checkbox
               className="textOnlyCheckbox"
               checked={this.props.isTextOnly}
@@ -217,7 +213,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
           <Text className="textOnlyInfo">Does not change the price of any product.</Text>
 
-          <Label uppercase={false} className="preDiscount" inline reverse text="Pre Discount">
+          <Label lowercase className="preDiscount" inline reverse text="Pre Discount">
             <Checkbox
               className="preDiscountCheckbox"
               checked={this.props.isPreDiscount}
@@ -244,7 +240,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
           <Fieldset>
             <Legend className="legendWithExtras">
-              TA Countries{' '}
+              TA Countries
               <LegendExtras>
                 {this.props.taCountriesLabel}
                 <CloseButton onClick={this.props.offerClearAllCountryCodePrerequisiteAction} />
@@ -263,7 +259,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
                   <div className="checkboxGrid">
                     {this.props.taCountries[region].countries.map(country => {
                       return (
-                        <Label uppercase={false} key={country.label} inline reverse text={country.label}>
+                        <Label lowercase key={country.label} inline reverse text={country.label}>
                           <Checkbox checked={country.value} onChange={this.handleTaCoutryChange(country.code)} />
                         </Label>
                       );

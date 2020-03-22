@@ -5,7 +5,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   <Styled(LabelComponent)
     className="title"
     text="Title"
-    uppercase={true}
   >
     <Select
       onChange={[Function]}
@@ -43,7 +42,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   <Styled(LabelComponent)
     className="firstName"
     text="First Name"
-    uppercase={true}
   >
     <Styled(TextInputComponent)
       onChange={[Function]}
@@ -53,7 +51,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   <Styled(LabelComponent)
     className="lastName"
     text="Last Name"
-    uppercase={true}
   >
     <Styled(TextInputComponent)
       onChange={[Function]}
@@ -65,7 +62,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
     inline={true}
     reverse={true}
     text="This client is a repeating guest"
-    uppercase={true}
   >
     <Styled(Checkbox)
       checked={false}
@@ -74,14 +70,12 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   </Styled(LabelComponent)>
   <Styled(LabelComponent)
     className="flightInfoLabel"
-    uppercase={true}
   >
     Flight Information
   </Styled(LabelComponent)>
   <Styled(LabelComponent)
     className="arrivalNumber"
     text="Arrival Number"
-    uppercase={true}
   >
     <Styled(TextInputComponent)
       onChange={[Function]}
@@ -91,7 +85,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   <Styled(LabelComponent)
     className="arrivalDate"
     text="Arrival Date"
-    uppercase={true}
   >
     <Component
       defaultSelectedDates={Array []}
@@ -103,7 +96,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   <Styled(LabelComponent)
     className="departureNumber"
     text="Dearture Number"
-    uppercase={true}
   >
     <Styled(TextInputComponent)
       onChange={[Function]}
@@ -113,7 +105,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   <Styled(LabelComponent)
     className="departureDate"
     text="Departure Date"
-    uppercase={true}
   >
     <Component
       defaultSelectedDates={Array []}
@@ -125,9 +116,7 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   <div
     className="specialRequests"
   >
-    <Styled(LabelComponent)
-      uppercase={true}
-    >
+    <Styled(LabelComponent)>
       Special Requests
     </Styled(LabelComponent)>
     <div
@@ -137,7 +126,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         inline={true}
         reverse={true}
         text="Crib Cob"
-        uppercase={true}
       >
         <Styled(Checkbox)
           checked={false}
@@ -148,7 +136,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         inline={true}
         reverse={true}
         text="Bed Guard"
-        uppercase={true}
       >
         <Styled(Checkbox)
           checked={false}
@@ -159,7 +146,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         inline={true}
         reverse={true}
         text="Adjacent Rooms"
-        uppercase={true}
       >
         <Styled(Checkbox)
           checked={false}
@@ -170,7 +156,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         inline={true}
         reverse={true}
         text="Connecting Rooms"
-        uppercase={true}
       >
         <Styled(Checkbox)
           checked={false}
@@ -181,7 +166,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         inline={true}
         reverse={true}
         text="Accessible Room"
-        uppercase={true}
       >
         <Styled(Checkbox)
           checked={false}
@@ -192,7 +176,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         inline={true}
         reverse={true}
         text="Dietary"
-        uppercase={true}
       >
         <Styled(Checkbox)
           checked={false}
@@ -206,7 +189,6 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   >
     <Styled(LabelComponent)
       text="Comments"
-      uppercase={true}
     >
       <styled.textarea
         onChange={[Function]}

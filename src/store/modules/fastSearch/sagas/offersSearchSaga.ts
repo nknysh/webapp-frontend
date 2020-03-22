@@ -35,7 +35,6 @@ export function* offersSearchRequestSaga(action: SearchRequestAction) {
     yield put(clearBookingBuilderAction());
   } finally {
     const params = qs.stringify(sanitizedQuery);
-    console.log('repace query', params);
     window.history.replaceState({}, '', decodeURIComponent(`${location.pathname}?${params}`));
   }
 }

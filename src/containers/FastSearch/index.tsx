@@ -101,7 +101,6 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
   componentDidUpdate(prevProps) {
     if (this.props.actingCountryCode !== prevProps.actingCountryCode) {
-      console.log('update -  Will search');
       this.props.getOffers(this.props.searchQuery);
     }
   }

@@ -4,10 +4,9 @@ import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 import { IOfferModel } from '../../model';
 import { getBootstrapCountriesSelector, getBootstrapExtraPersonSupplementProductSelector } from '../../../bootstrap/selectors';
 import { groupBy } from 'ramda';
-import { ITaCountriesUiData } from '../../types';
+import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../types';
 import { IBootstrapCountry } from '../../../bootstrap/model';
 import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
-import { groupBy } from 'ramda';
 
 // TODO: For some reason, I can't import the offerDomainSelector from
 // the root selector file. This is a tmp fix. I guess there's some minconfiguration
@@ -113,7 +112,7 @@ export const offerTaCountriesPrerequisiteSelector = createSelector(
 
 export const offerTaCountriesPrerequisiteByRegionSelector = createSelector(
   offerTaCountriesPrerequisiteSelector,
-  (countries): ITaCountriesUiData => {
+  (countries): IOfferTaCountriesPreRequisiteUi => {
     const grouped = groupBy((c) => c.region, countries);
 
     return Object.keys(grouped).reduce((acc, group) => {

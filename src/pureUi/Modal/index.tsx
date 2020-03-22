@@ -86,7 +86,6 @@ export interface IStandardModalProps {
 }
 export const StandardModal = (props: IStandardModalProps) => {
   const closeProxy = () => {
-    console.log('closeProxy');
     props.onClose();
   };
   return renderPortal(

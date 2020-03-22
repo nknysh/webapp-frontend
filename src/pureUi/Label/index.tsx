@@ -11,11 +11,11 @@ interface ILabelProps extends React.HTMLAttributes<HTMLLabelElement> {
   // For now, this will be a default prop set to true, so I don't
   // have to update the rest of the UI, and when we remove it, then
   // Typescirpt will help us remove it from the newer instances.
-  uppercase?: boolean;
+  lowercase?: boolean;
 }
 
 const LabelComponent = (props: ILabelProps) => {
-  const { text, children, inline, reverse, ...labelProps } = props;
+  const { text, children, inline, lowercase, reverse, ...labelProps } = props;
   return (
     <label {...labelProps}>
       {text && !reverse && (
@@ -36,7 +36,7 @@ const LabelComponent = (props: ILabelProps) => {
 export const Label = styled(LabelComponent)<ILabelProps>`
   display: ${props => (props.inline ? 'inline-flex' : 'block')};
   align-items: center;
-  text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
+  text-transform: ${props => (props.lowercase ? 'capitalize' : 'uppercase')};
   color: ${props => (props.disabled ? pureUiTheme.colors.grayDepth1 : pureUiTheme.colorRoles.grayLabel)};
   font-size: 12px;
 
@@ -52,9 +52,5 @@ export const Label = styled(LabelComponent)<ILabelProps>`
     text-overflow: ellipsis;
   }
 `;
-
-Label.defaultProps = {
-  uppercase: true,
-};
 
 export default Label;

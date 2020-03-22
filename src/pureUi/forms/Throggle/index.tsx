@@ -16,35 +16,26 @@ export interface IThroggleProps {
 }
 
 export const ThroggleComponent = (props: IThroggleProps) => {
-  const handleCheckboxChange = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      console.log('e.currentTarget.checked', e.currentTarget.checked);
-      const emitValue = e.currentTarget.checked === true ? true : null;
-      props.onChange(emitValue);
-    },
-    [props]
-  );
+  const handleCheckboxChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const emitValue = e.currentTarget.checked === true ? true : null;
+    props.onChange(emitValue);
+  };
 
-  const handleRadioChange = useCallback(
-    (e: React.FormEvent<HTMLInputElement>) => {
-      const emitValue = e.currentTarget.value === 'true' ? true : false;
-      props.onChange(emitValue);
-    },
-    [props]
-  );
-
-  console.log('checked', props.value !== null);
+  const handleRadioChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const emitValue = e.currentTarget.value === 'true' ? true : false;
+    props.onChange(emitValue);
+  };
 
   return (
     <div className={props.className}>
-      <Label className="checkbox" text={props.label} inline reverse>
+      <Label lowercase className="checkbox" text={props.label} inline reverse>
         <Checkbox
           disabled={props.disabled}
           checked={props.value === true || props.value === false}
           onChange={handleCheckboxChange}
         />
       </Label>
-      <Label className="trueLabel" text={props.trueLabel} inline disabled={props.value === null}>
+      <Label lowercase className="trueLabel" text={props.trueLabel} inline disabled={props.value === null}>
         <RadioButton
           name={props.name}
           data-role="radioTrue"
@@ -54,7 +45,7 @@ export const ThroggleComponent = (props: IThroggleProps) => {
           onChange={handleRadioChange}
         />
       </Label>
-      <Label text={props.falseLabel} inline reverse disabled={props.value === null}>
+      <Label lowercase text={props.falseLabel} inline reverse disabled={props.value === null}>
         <RadioButton
           name={props.name}
           data-role="radioFalse"
@@ -70,6 +61,7 @@ export const ThroggleComponent = (props: IThroggleProps) => {
 
 export const Throggle = styled(ThroggleComponent)`
   display: flex;
+  outline: none;
 
   & > .checkbox {
     flex-grow: 1;

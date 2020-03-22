@@ -184,7 +184,6 @@ describe('Offer Edit/Create Actions', () => {
     const createModeProps = createProps({}, '/create');
     const createWrapper = shallow(<OfferEditContainer {...createModeProps} />);
     let eventEmitter = createWrapper.find('.saveButton');
-    console.log(eventEmitter);
     eventEmitter.simulate('click');
     expect(createModeProps.postOfferRequestAction).toHaveBeenCalledWith(createModeProps.history);
   });

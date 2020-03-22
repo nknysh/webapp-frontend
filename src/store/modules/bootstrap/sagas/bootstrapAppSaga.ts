@@ -19,12 +19,10 @@ export function* bootstrapAppRequestSaga(action: BootstrapAppRequestAction) {
       backendApi.getBootstrapExtraPersonSupplementProduct
     );
 
+    const countriesResult: AxiosResponse = yield call(backendApi.getBootstrapCountries);
     const countries = countriesResult.data.data;
     const hotels = hotelsResult.data.data;
     const extraPersonSupplementProduct = extraPersonSupplementProductResult.data.data;
-
-    const countriesResult: AxiosResponse = yield call(backendApi.getBootstrapCountries);
-    const countries = countriesResult.data.data;
 
     yield put(bootstrapAppSuccessAction(countries, hotels, extraPersonSupplementProduct));
   } catch (e) {

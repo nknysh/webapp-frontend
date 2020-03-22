@@ -389,7 +389,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_BOOLEAN_PREREQUISITES removing a false value with null', () => {
       const action = offerSetBooleanPrerequisiteAction('wedding', null);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -399,7 +399,7 @@ describe('Offer reducer', () => {
           },
         },
       };
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -587,12 +587,12 @@ describe('Offer reducer', () => {
     it('Creates a countryCode array if none exists', () => {
       const action = offerSetCountryCodePrerequisiteAction('UK', true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {} as IOfferPrerequisites,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           countryCodes: ['UK'],
