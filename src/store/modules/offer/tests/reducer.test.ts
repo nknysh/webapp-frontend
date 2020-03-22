@@ -1,7 +1,8 @@
-import { offer as reducer } from '../reducer';
+import { offer as reducer, accommodationProductsForHotelReducer } from '../reducer';
 import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../model';
 import { getOfferSuccessAction, getOfferFailureAction } from '../actions';
+import { offerHotelUuidChangeSuccessAction, offerHotelUuidChangeAction } from '../subdomains/offer/actions';
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
@@ -43,6 +44,26 @@ describe('Offer reducer', () => {
           type: 'Accommodation',
         },
       ],
+    };
+    expect(result).toEqual(expected);
+  });
+});
+
+describe('accommodationProductsForHotelReducer', () => {
+  it('handles OFFER_HOTEL_UUID_CHANGE_SUCCESS', () => {
+    const fixture = [
+      {
+        uuid: 'a',
+        name: 'A',
+        type: 'Accommodation',
+      },
+    ];
+
+    const action = offerHotelUuidChangeSuccessAction(fixture);
+    const result = reducer(undefined, action);
+    const expected: IOfferModel = {
+      ...initialState,
+      accommodationProductsForHotel: fixture,
     };
     expect(result).toEqual(expected);
   });

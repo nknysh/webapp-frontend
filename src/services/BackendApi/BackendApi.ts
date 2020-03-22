@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 import { without } from 'ramda';
 import qs from 'qs';
 import {
@@ -64,9 +64,13 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
-  getHotel = async (hotelUuid: string): Promise<AxiosResponse<Hotel | ErrorResponse>> => {
+  getHotel = async (hotelUuid: string, associations?: string[]): Promise<AxiosResponse<Hotel | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.HOTEL}/${hotelUuid}`;
-    return this.client.get(endpoint);
+    return this.client.get(endpoint, {
+      params: {
+        associations,
+      },
+    });
   };
 
   postBookingBuilderRequest = async (

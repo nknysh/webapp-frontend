@@ -89,11 +89,4 @@ export const OfferEditStyles = styled.main`
       padding-bottom: 10px;
     }
   }
-
-  .checkboxGrid {
-    padding: 10px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
-  }
 `;

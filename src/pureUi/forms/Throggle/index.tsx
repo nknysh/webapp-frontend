@@ -65,9 +65,11 @@ export const Throggle = styled(ThroggleComponent)`
 
   & > .checkbox {
     flex-grow: 1;
+    width: 100%;
   }
 
   & > .trueLabel {
     margin-right: 10px;
+    width: auto;
   }
 `;

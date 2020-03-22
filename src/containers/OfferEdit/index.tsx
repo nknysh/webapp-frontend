@@ -18,6 +18,8 @@ import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData
 import { IOfferPrerequisitesPayload } from 'services/BackendApi/types/OfferResponse';
 import { AccordianSection, Accordian } from 'pureUi/Accordian/index';
 import { CloseButton } from 'pureUi/Buttons/index';
+import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
+import { PureSelect } from 'pureUi/forms/PureSelect';
 
 import {
   offerSelector,
@@ -37,6 +39,8 @@ import {
   taCountryAccordianKeysSelector,
   offerTaCountriesLabelPrerequisiteSelector,
   offerTaCountriesPrerequisiteByRegionSelector,
+  offerAccommodationProductPrerequisitesSelector,
+  offerAccommodationProductPrerequisitesLabelSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -57,6 +61,8 @@ import {
   offerSetCountryCodePrerequisiteAction,
   offerToggleTaCountryAccodian,
   offerClearAllCountryCodePrerequisiteAction,
+  offerClearAllAccommodationProductPrerequisiteAction,
+  offerSetAccommodationProductPrerequisiteAction,
 } from 'store/modules/offer/actions';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
@@ -117,6 +123,10 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     this.props.offerSetCountryCodePrerequisiteAction(code, e.currentTarget.checked);
   };
 
+  handleAccomPreReqChange = (uuid: string) => (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetAccommodationProductPrerequisiteAction(uuid, e.currentTarget.checked);
+  };
+
   renderHotelName = () => {
     if (this.isEditMode()) {
       return (
@@ -128,19 +138,16 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
     return (
       <Label lowercase className="hotelName" text="Hotel">
-        <select
-          className="hotelSelectInput"
-          defaultValue={undefined}
-          value={this.props.offerHotelUuid}
-          onChange={this.handleHotelChange}
-        >
-          <option disabled>Select a hotel</option>
+        <PureSelect className="hotelSelectInput" value={this.props.offerHotelUuid} onChange={this.handleHotelChange}>
+          <option value="" disabled>
+            Select a hotel
+          </option>
           {this.props.bootstrapHotels.map(hotel => (
             <option key={hotel.uuid} value={hotel.uuid}>
               {hotel.name}
             </option>
           ))}
-        </select>
+        </PureSelect>
       </Label>
     );
   };
@@ -240,7 +247,30 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
           <Fieldset>
             <Legend className="legendWithExtras">
-              TA Countries
+              Accomodation Products
+              {this.props.offerHotelUuid && (
+                <LegendExtras>
+                  {this.props.accomodationPreReqsLabel}
+                  <CloseButton onClick={this.props.offerClearAllAccommodationProductPrerequisiteAction} />
+                </LegendExtras>
+              )}
+            </Legend>
+            {!this.props.offerHotelUuid && <Text>Select a hotel to see accomodation products</Text>}
+
+            <FormControlGrid columnCount={3}>
+              {this.props.accomodationPreReqs.map(product => {
+                return (
+                  <Label lowercase key={product.label} inline reverse text={product.label}>
+                    <Checkbox checked={product.value} onChange={this.handleAccomPreReqChange(product.uuid)} />
+                  </Label>
+                );
+              })}
+            </FormControlGrid>
+          </Fieldset>
+
+          <Fieldset>
+            <Legend className="legendWithExtras">
+              Travel Agent Countries
               <LegendExtras>
                 {this.props.taCountriesLabel}
                 <CloseButton onClick={this.props.offerClearAllCountryCodePrerequisiteAction} />
@@ -256,7 +286,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
                   isOpen={this.props.taCountryAccordianKeys.includes(region)}
                   onClick={this.toggleTaCountryAccordian(region)}
                 >
-                  <div className="checkboxGrid">
+                  <FormControlGrid columnCount={4}>
                     {this.props.taCountries[region].countries.map(country => {
                       return (
                         <Label lowercase key={country.label} inline reverse text={country.label}>
@@ -264,13 +294,14 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
                         </Label>
                       );
                     })}
-                  </div>
+                  </FormControlGrid>
                 </AccordianSection>
               ))}
             </Accordian>
           </Fieldset>
 
           <Fieldset>
+            <Legend>Booking Type</Legend>
             <div className="nullableBooleans">
               {Object.keys(this.props.nullableBooleans).map(key => {
                 return (
@@ -341,6 +372,8 @@ const mapStateToProps = createStructuredSelector({
   taCountries: offerTaCountriesPrerequisiteByRegionSelector,
   taCountryAccordianKeys: taCountryAccordianKeysSelector,
   taCountriesLabel: offerTaCountriesLabelPrerequisiteSelector,
+  accomodationPreReqs: offerAccommodationProductPrerequisitesSelector,
+  accomodationPreReqsLabel: offerAccommodationProductPrerequisitesLabelSelector,
 });
 
 const actionCreators = {
@@ -361,6 +394,8 @@ const actionCreators = {
   offerSetCountryCodePrerequisiteAction,
   offerToggleTaCountryAccodian,
   offerClearAllCountryCodePrerequisiteAction,
+  offerClearAllAccommodationProductPrerequisiteAction,
+  offerSetAccommodationProductPrerequisiteAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

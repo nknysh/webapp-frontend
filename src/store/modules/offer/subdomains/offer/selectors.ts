@@ -142,7 +142,7 @@ export const offerTaCountriesLabelPrerequisiteSelector = createSelector(
 
 export const offerAccommodationProductPrerequisitesRawSelector = createSelector(
   offerPrerequisitesSelector,
-  prerequisites => prerequisites.accommodationProducts
+  prerequisites => prerequisites.accommodationProducts || []
 );
 
 export const offerAccommodationProductPrerequisitesSelector = createSelector(
@@ -153,11 +153,13 @@ export const offerAccommodationProductPrerequisitesSelector = createSelector(
       if (accommodationProductPrerequisites.includes(accommodationProduct.uuid)) {
         return {
           label: accommodationProduct.name,
+          uuid: accommodationProduct.uuid,
           value: true,
         };
       } else {
         return {
           label: accommodationProduct.name,
+          uuid: accommodationProduct.uuid,
           value: false,
         };
       }

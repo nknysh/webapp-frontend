@@ -674,8 +674,8 @@ describe('Offer reducer', () => {
       expect(newState).toMatchObject(expected);
     });
 
-    it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly wont add an accommodation product twice', () => {
-      const action = offerSetAccommodationProductPrerequisiteAction('A', true);
+    it('clears accomodation products when the hotel UUID changed', () => {
+      const action = offerHotelUuidChangeAction('A');
 
       const testState: IOfferUI = {
         ...initialState.offer,
@@ -687,9 +687,9 @@ describe('Offer reducer', () => {
 
       const expected: IOfferUI = {
         ...initialState.offer,
+        hotelUuid: 'A',
         prerequisites: {
           ...initialState.offer.prerequisites,
-          accommodationProducts: ['A'],
         },
       };
 

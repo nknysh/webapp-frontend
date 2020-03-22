@@ -96,6 +96,10 @@ export const offerHotelUuidChangeReducer = (state: IOfferUI, action: Actions.Off
   return {
     ...state,
     hotelUuid: action.hotelUuid,
+    prerequisites: {
+      ...state.prerequisites,
+      accommodationProducts: [],
+    }
   };
 };
 
@@ -240,6 +244,10 @@ export const offerSetAccommodationProductPrerequisiteReducer = (
   action: Actions.OfferSetAccommodationProductPrerequisiteAction
 ): IOfferUI => {
   return produce(state, draftState => {
+    if (!draftState.prerequisites.accommodationProducts) {
+      draftState.prerequisites.accommodationProducts = [];
+    }
+
     if (action.value === true) {
       draftState.prerequisites.accommodationProducts.push(action.accommodationProductUuid);
     } else if (action.value === false) {

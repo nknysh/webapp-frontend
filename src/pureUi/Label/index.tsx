@@ -39,14 +39,16 @@ export const Label = styled(LabelComponent)<ILabelProps>`
   text-transform: ${props => (props.lowercase ? 'capitalize' : 'uppercase')};
   color: ${props => (props.disabled ? pureUiTheme.colors.grayDepth1 : pureUiTheme.colorRoles.grayLabel)};
   font-size: 12px;
+  width: 100%;
 
   span.labelText {
     flex-grow: 0;
+    flex-shrink: 1;
     display: ${props => (props.inline ? 'inline' : 'block')};
     margin-bottom: ${props => (props.inline ? '0' : '10px')};
     margin-left: ${props => (props.inline ? '5px' : '0')};
     margin-right: ${props => (props.inline ? '5px' : '0')};
-
+    width: auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

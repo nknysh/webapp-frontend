@@ -4,8 +4,6 @@ import { shallow } from 'enzyme';
 import { IOfferEditProps, IRouteParams } from '../index';
 import { getMockRouterProps } from 'utils/mockRouter';
 import { IOfferUI } from 'services/BackendApi';
-import { postOfferRequestAction } from '../../../store/modules/offer/actions';
-import { offerSetBooleanPrerequisiteAction } from '../../../store/modules/offer/subdomains/offer/actions';
 
 const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOfferEditProps => {
   const defaultProps: IOfferEditProps = {
@@ -25,6 +23,8 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     taCountries: {},
     taCountriesLabel: 'All Countries',
     taCountryAccordianKeys: [],
+    accomodationPreReqsLabel: 'All Countries',
+    accomodationPreReqs: [],
     nullableBooleans: {
       honeymoon: true,
       wedding: false,
@@ -55,6 +55,8 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     offerSetCountryCodePrerequisiteAction: jest.fn(),
     offerClearAllCountryCodePrerequisiteAction: jest.fn(),
     offerToggleTaCountryAccodian: jest.fn(),
+    offerClearAllAccommodationProductPrerequisiteAction: jest.fn(),
+    offerSetAccommodationProductPrerequisiteAction: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 

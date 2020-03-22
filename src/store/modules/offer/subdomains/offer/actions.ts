@@ -1,6 +1,8 @@
 import { IOfferPrerequisitesPayload, IUIOfferProductDiscountInstance } from 'services/BackendApi';
 
-export const OFFER_HOTEL_UUID_CHANGE = 'offer/OFFER_HOTEL_UUID_CHANGE';
+export const OFFER_HOTEL_UUID_CHANGE = 'offer/OFFER_HOTEL_UUID_CHANGE'; // In create mode, this will trigger a saga to load hotel data
+export const OFFER_HOTEL_UUID_CHANGE_SUCCESS = 'offer/OFFER_HOTEL_UUID_CHANGE_SUCCESS';
+
 export const OFFER_NAME_CHANGE = 'offer/OFFER_NAME_CHANGE';
 export const OFFER_TERMS_CHANGE = 'offer/OFFER_TERMS_CHANGE';
 export const OFFER_FURTHER_INFORMATION_CHANGE = 'offer/OFFER_FURTHER_INFORMATION_CHANGE';
@@ -50,6 +52,12 @@ export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeA
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
   hotelUuid,
+});
+
+export type OfferHotelUuidChangeSuccessAction = ReturnType<typeof offerHotelUuidChangeSuccessAction>;
+export const offerHotelUuidChangeSuccessAction = (data: any) => ({
+  type: OFFER_HOTEL_UUID_CHANGE_SUCCESS as typeof OFFER_HOTEL_UUID_CHANGE_SUCCESS,
+  data,
 });
 
 export type OfferNameChangeAction = ReturnType<typeof offerNameChangeAction>;
@@ -263,6 +271,7 @@ export const offerDeleteSubProductDiscountSupplementAction = (index: number) => 
 
 export type OfferAction =
   | OfferHotelUuidChangeAction
+  | OfferHotelUuidChangeSuccessAction
   | OfferNameChangeAction
   | OfferTermsChangeAction
   | OfferFurtherInformationChangeAction

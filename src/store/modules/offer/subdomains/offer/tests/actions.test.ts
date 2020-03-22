@@ -8,6 +8,7 @@ import {
   offerChangeStayBetweenPrerequisiteAction,
   offerSetBooleanPrerequisiteAction,
   offerSetPreDiscountAction,
+  offerHotelUuidChangeSuccessAction,
 } from '../actions';
 
 describe('Offer sub domain actions', () => {
@@ -21,5 +22,6 @@ describe('Offer sub domain actions', () => {
     expect(offerChangeStayBetweenPrerequisiteAction([['2020-01-01', '2020-02-02']])).toMatchSnapshot();
     expect(offerSetBooleanPrerequisiteAction('birthday', null)).toMatchSnapshot();
     expect(offerSetPreDiscountAction(false)).toMatchSnapshot();
+    expect(offerHotelUuidChangeSuccessAction('TEST DATA')).toMatchSnapshot();
   });
 });

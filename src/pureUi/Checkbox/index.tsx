@@ -21,6 +21,7 @@ export default styled(Checkbox)`
   display: inline-block;
   vertical-align: middle;
   margin: 1px;
+  flex-shrink: 0;
 
   & > input {
     position: absolute;
