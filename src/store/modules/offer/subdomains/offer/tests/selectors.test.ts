@@ -34,7 +34,7 @@ import {
   offerSubProductDiscountsSelector,
   offerSubProductDiscountsSupplementsSelector,
   offerExtraPersonSupplementsSelector,
- offerTaCountriesPrerequisiteByRegionSelector
+  offerTaCountriesPrerequisiteByRegionSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -578,14 +578,14 @@ describe('Offer Selectors', () => {
   });
 
   describe('offer max lodgings selector', () => {
-    it('returns max lodgings (when none present)', () => {
+    it('returns an empty string when undefined', () => {
       const prerequisitesFixture = {
         ...initialState.offer.prerequisites,
       } as IOfferPrerequisites;
 
       const selected = offerMaxLodgingsPrerequisiteSelector.resultFunc(prerequisitesFixture);
 
-      expect(selected).toEqual(undefined);
+      expect(selected).toEqual('');
     });
 
     it('returns max lodgings (when set)', () => {

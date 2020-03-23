@@ -41,6 +41,7 @@ import {
   offerTaCountriesPrerequisiteByRegionSelector,
   offerAccommodationProductPrerequisitesSelector,
   offerAccommodationProductPrerequisitesLabelSelector,
+  offerMaxLodgingsPrerequisiteSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -63,6 +64,7 @@ import {
   offerClearAllCountryCodePrerequisiteAction,
   offerClearAllAccommodationProductPrerequisiteAction,
   offerSetAccommodationProductPrerequisiteAction,
+  offerSetMaxLodgingsPrerequisiteAction,
 } from 'store/modules/offer/actions';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
@@ -125,6 +127,10 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
   handleAccomPreReqChange = (uuid: string) => (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetAccommodationProductPrerequisiteAction(uuid, e.currentTarget.checked);
+  };
+
+  handleMaxLodgingsChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetMaxLodgingsPrerequisiteAction(parseInt(e.currentTarget.value, 10));
   };
 
   renderHotelName = () => {
@@ -301,6 +307,12 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           </Fieldset>
 
           <Fieldset>
+            <Label text="Maximum Lodgings" inline>
+              <TextInput value={this.props.maxLodgings} onChange={this.handleMaxLodgingsChange} />
+            </Label>
+          </Fieldset>
+
+          <Fieldset>
             <Legend>Booking Type</Legend>
             <div className="nullableBooleans">
               {Object.keys(this.props.nullableBooleans).map(key => {
@@ -374,6 +386,7 @@ const mapStateToProps = createStructuredSelector({
   taCountriesLabel: offerTaCountriesLabelPrerequisiteSelector,
   accomodationPreReqs: offerAccommodationProductPrerequisitesSelector,
   accomodationPreReqsLabel: offerAccommodationProductPrerequisitesLabelSelector,
+  maxLodgings: offerMaxLodgingsPrerequisiteSelector,
 });
 
 const actionCreators = {
@@ -396,6 +409,7 @@ const actionCreators = {
   offerClearAllCountryCodePrerequisiteAction,
   offerClearAllAccommodationProductPrerequisiteAction,
   offerSetAccommodationProductPrerequisiteAction,
+  offerSetMaxLodgingsPrerequisiteAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

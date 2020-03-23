@@ -30,6 +30,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
       wedding: false,
       repeatCustomer: null,
     },
+    maxLodgings: 10,
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},
@@ -57,6 +58,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     offerToggleTaCountryAccodian: jest.fn(),
     offerClearAllAccommodationProductPrerequisiteAction: jest.fn(),
     offerSetAccommodationProductPrerequisiteAction: jest.fn(),
+    offerSetMaxLodgingsPrerequisiteAction: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 
