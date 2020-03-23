@@ -42,6 +42,7 @@ import {
   offerAccommodationProductPrerequisitesSelector,
   offerAccommodationProductPrerequisitesLabelSelector,
   offerMaxLodgingsPrerequisiteSelector,
+  offerStayLengthPrerequisiteSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -65,6 +66,9 @@ import {
   offerClearAllAccommodationProductPrerequisiteAction,
   offerSetAccommodationProductPrerequisiteAction,
   offerSetMaxLodgingsPrerequisiteAction,
+  offerSetStayLengthMaximumPrerequisiteAction,
+  offerSetStayLengthMinimumPrerequisiteAction,
+  offerSetStayLengthStrictPrerequisiteAction,
 } from 'store/modules/offer/actions';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
@@ -131,6 +135,18 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
   handleMaxLodgingsChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetMaxLodgingsPrerequisiteAction(parseInt(e.currentTarget.value, 10));
+  };
+
+  handelStayLengthMinChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetStayLengthMinimumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
+  };
+
+  handelStayLengthMaxChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetStayLengthMaximumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
+  };
+
+  handelStayLengthStrictChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetStayLengthStrictPrerequisiteAction(e.currentTarget.checked);
   };
 
   renderHotelName = () => {
@@ -307,6 +323,31 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           </Fieldset>
 
           <Fieldset>
+            <Legend>Stay Length</Legend>
+            <div className="stayLength">
+              <Label lowercase text="From" className="stayLengthMin">
+                <TextInput value={this.props.stayLength.minimum} onChange={this.handelStayLengthMinChange} />
+              </Label>
+
+              <Label lowercase text="To" className="stayLengthMax">
+                <TextInput value={this.props.stayLength.maximum} onChange={this.handelStayLengthMaxChange} />
+              </Label>
+
+              <Label lowercase inline reverse text="Strict" className="stayLengthStrict">
+                <Checkbox
+                  checked={this.props.stayLength.strictMinMaxStay}
+                  onChange={this.handelStayLengthStrictChange}
+                />
+              </Label>
+              {this.props.stayLength.strictMinMaxStay ? (
+                <Text className="stayLengthInfo">Nights in the room during offer dates must pass min/max.</Text>
+              ) : (
+                <Text className="stayLengthInfo">Nights in the room must pass min/max</Text>
+              )}
+            </div>
+          </Fieldset>
+
+          <Fieldset>
             <Label text="Maximum Lodgings" inline>
               <TextInput value={this.props.maxLodgings} onChange={this.handleMaxLodgingsChange} />
             </Label>
@@ -387,6 +428,7 @@ const mapStateToProps = createStructuredSelector({
   accomodationPreReqs: offerAccommodationProductPrerequisitesSelector,
   accomodationPreReqsLabel: offerAccommodationProductPrerequisitesLabelSelector,
   maxLodgings: offerMaxLodgingsPrerequisiteSelector,
+  stayLength: offerStayLengthPrerequisiteSelector,
 });
 
 const actionCreators = {
@@ -410,6 +452,9 @@ const actionCreators = {
   offerClearAllAccommodationProductPrerequisiteAction,
   offerSetAccommodationProductPrerequisiteAction,
   offerSetMaxLodgingsPrerequisiteAction,
+  offerSetStayLengthMaximumPrerequisiteAction,
+  offerSetStayLengthMinimumPrerequisiteAction,
+  offerSetStayLengthStrictPrerequisiteAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

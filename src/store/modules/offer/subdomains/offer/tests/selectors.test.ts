@@ -610,7 +610,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerStayLengthPrerequisiteSelector.resultFunc(prerequisitesFixture);
 
-      expect(selected).toEqual(undefined);
+      expect(selected).toMatchObject({ maximum: '', minimum: '', strictMinMaxStay: false });
     });
 
     it('select advance prerequisite (return with data)', () => {

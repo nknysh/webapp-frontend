@@ -42,6 +42,10 @@ export const OfferEditStyles = styled.main`
       'preDiscountInfo textOnlyInfo';
   }
 
+  fieldset {
+    margin-bottom: 50px;
+  }
+
   .errors {
     grid-area: errors;
   }
@@ -87,6 +91,21 @@ export const OfferEditStyles = styled.main`
     ${Throggle} {
       border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
       padding-bottom: 10px;
+    }
+  }
+
+  .stayLength {
+    display: grid;
+    grid-gap: 10px;
+    grid-row-gap: 10px 20px;
+    grid-template-columns: 200px 200px 100px auto;
+
+    .stayLengthStrict {
+      margin-top: 24px;
+    }
+
+    .stayLengthInfo {
+      margin-top: 35px;
     }
   }
 `;

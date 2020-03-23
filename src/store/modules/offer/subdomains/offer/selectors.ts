@@ -194,7 +194,7 @@ export const offerMaxLodgingsPrerequisiteSelector = createSelector(
 
 export const offerStayLengthPrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
-  prerequisites => prerequisites.stayLength
+  prerequisites => prerequisites.stayLength || { minimum: '', maximum: '', strictMinMaxStay: false}
 );
 
 export const offerSteppingApplicationSelector = createSelector(offerSelector, offer => {

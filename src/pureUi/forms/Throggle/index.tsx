@@ -45,7 +45,7 @@ export const ThroggleComponent = (props: IThroggleProps) => {
           onChange={handleRadioChange}
         />
       </Label>
-      <Label lowercase text={props.falseLabel} inline reverse disabled={props.value === null}>
+      <Label lowercase className="falseLabel" text={props.falseLabel} inline reverse disabled={props.value === null}>
         <RadioButton
           name={props.name}
           data-role="radioFalse"
@@ -71,5 +71,10 @@ export const Throggle = styled(ThroggleComponent)`
   & > .trueLabel {
     margin-right: 10px;
     width: auto;
+  }
+
+  & > .falseLabel {
+    width: auto;
+    flex-shrink: 1;
   }
 `;
