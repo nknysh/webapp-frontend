@@ -8,10 +8,11 @@ export const bootstrapAppRequestAction = () => ({
 });
 
 export type BootstrapAppSuccessAction = ReturnType<typeof bootstrapAppSuccessAction>;
-export const bootstrapAppSuccessAction = (countries: any[], hotels: any[]) => ({
+export const bootstrapAppSuccessAction = (countries: any[], hotels: any[], extraPersonSupplementProduct: any) => ({
   type: BOOTSTRAP_APP_SUCCESS as typeof BOOTSTRAP_APP_SUCCESS,
   countries,
   hotels,
+  extraPersonSupplementProduct,
 });
 
 export type BootstrapAppFailureAction = ReturnType<typeof bootstrapAppFailureAction>;

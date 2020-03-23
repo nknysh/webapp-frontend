@@ -8,6 +8,7 @@ export const bootstrap = (state: IBootstrapModule = initialState, action: Boostr
       return produce(state, draftState => {
         draftState.countries = action.countries;
         draftState.hotels = action.hotels;
+        draftState.extraPersonSupplementProduct = action.extraPersonSupplementProduct;
         return draftState;
       });
     default:

@@ -1,5 +1,5 @@
 import { IDateRange } from 'interfaces';
-import { IOffer } from 'services/BackendApi';
+import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../../../model';
 import { offerReducer as reducer, offerSetStayLengthMinimumPrerequisiteReducer } from '../reducer';
 import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../../../actions';
@@ -33,13 +33,16 @@ import {
   offerSetAccommodationDiscountDiscountPercentageAction,
   offerSetAccommodationDiscountGreenTaxApproachAction,
   offerClearAllAccommodationDiscountAction,
+  offerAddSubProductDiscountSupplementAction,
+  offerPutSubProductDiscountSupplementAction,
+  offerDeleteSubProductDiscountSupplementAction,
 } from '../actions';
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOffer, {}, {}, [], true, []);
+    const action = getOfferSuccessAction({ uuid: '1234' } as IOfferUI, {}, {}, [], true, []);
     const result = reducer(initialState.offer, action);
-    const expected = { uuid: '1234' } as IOffer;
+    const expected = { uuid: '1234' } as IOfferUI;
     expect(result).toEqual(expected);
   });
 
@@ -115,7 +118,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_CHANGE_STAY_BETWEEN_PREREQUISITE correctly with 1 date', () => {
       const changeAction = offerChangeStayBetweenPrerequisiteAction([['01-01-2020']]);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -128,7 +131,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -162,7 +165,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -202,7 +205,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -225,7 +228,7 @@ describe('Offer reducer', () => {
 
     it('handles OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE with only 1 prerequisite', () => {
       const removeAction = offerRemoveStayBetweenPrerequisiteAction(0);
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -246,7 +249,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_REMOVE_STAY_BETWEEN_PREREQUISITE with only multiple prerequisites', () => {
       const removeAction = offerRemoveStayBetweenPrerequisiteAction(1);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -278,7 +281,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_BOOLEAN_PREREQUISITES with all of them as null', () => {
       const action = offerSetBooleanPrerequisiteAction('anniversary', null);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -306,7 +309,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_BOOLEAN_PREREQUISITES with setting one as true when a different one is true', () => {
       const action = offerSetBooleanPrerequisiteAction('honeymoon', true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -316,7 +319,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -334,7 +337,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_BOOLEAN_PREREQUISITES with setting one as false when a different one is false', () => {
       const action = offerSetBooleanPrerequisiteAction('birthday', false);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -344,7 +347,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -362,7 +365,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_BOOLEAN_PREREQUISITES setting the only payload to null', () => {
       const action = offerSetBooleanPrerequisiteAction('wedding', null);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -371,7 +374,7 @@ describe('Offer reducer', () => {
           },
         },
       };
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -385,14 +388,14 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_BOOLEAN_PREREQUISITES setting a payload value with no previous payload', () => {
       const action = offerSetBooleanPrerequisiteAction('wedding', true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -409,12 +412,12 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_PRE_DISCOUNT correctly and sets the value to true', () => {
       const action = offerSetPreDiscountAction(true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         preDiscount: false,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         preDiscount: true,
       };
@@ -426,12 +429,12 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_PRE_DISCOUNT correctly and sets the value to true', () => {
       const action = offerSetPreDiscountAction(false);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         preDiscount: true,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         preDiscount: false,
       };
@@ -445,11 +448,11 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly to add a country', () => {
       const action = offerSetCountryCodePrerequisiteAction('AZ', true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -464,7 +467,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly to remove a country', () => {
       const action = offerSetCountryCodePrerequisiteAction('UK', false);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -472,7 +475,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -487,7 +490,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly wont add a country twice', () => {
       const action = offerSetCountryCodePrerequisiteAction('UK', true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -495,7 +498,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -510,7 +513,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly add a new country alongside an old country', () => {
       const action = offerSetCountryCodePrerequisiteAction('UK', true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -518,7 +521,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -533,7 +536,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_COUNTRY_CODE_PREREQUISITE correctly doesnt crash if you attempt to remove a country that isnt there', () => {
       const action = offerSetCountryCodePrerequisiteAction('UK', false);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -541,7 +544,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -556,7 +559,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE correctly removes all country codes from array', () => {
       const action = offerClearAllCountryCodePrerequisiteAction();
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -564,7 +567,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -579,7 +582,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_CLEAR_ALL_COUNTRY_CODE_PREREQUISITE correctly removes all country codes from array even if array is already empty', () => {
       const action = offerClearAllCountryCodePrerequisiteAction();
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -587,7 +590,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -604,7 +607,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly to remove an accommodation product', () => {
       const action = offerSetAccommodationProductPrerequisiteAction('A', false);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -612,7 +615,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -627,7 +630,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly wont add an accommodation product twice', () => {
       const action = offerSetAccommodationProductPrerequisiteAction('A', true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -635,7 +638,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -650,7 +653,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly add a new accommodation product alongside an old country', () => {
       const action = offerSetAccommodationProductPrerequisiteAction('B', true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -658,7 +661,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -673,7 +676,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_SET_ACCOMMODATION_PRODUCT_PREREQUISITE correctly doesnt crash if you attempt to remove an accommodation product that isnt there', () => {
       const action = offerSetAccommodationProductPrerequisiteAction('A', false);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -681,7 +684,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -696,7 +699,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE correctly removes all accommodation products from array', () => {
       const action = offerClearAllAccommodationProductPrerequisiteAction();
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -704,7 +707,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -719,7 +722,7 @@ describe('Offer reducer', () => {
     it('handles OFFER_CLEAR_ALL_ACCOMMODATION_PRODUCT_PREREQUISITE correctly removes all accommodation products from array (even if already empty)', () => {
       const action = offerClearAllAccommodationProductPrerequisiteAction();
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -727,7 +730,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -744,11 +747,11 @@ describe('Offer reducer', () => {
     it('handles offer set advance book by', () => {
       const action = offerSetAdvanceBookByPrerequisiteAction('2020-05-05');
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -766,11 +769,11 @@ describe('Offer reducer', () => {
     it('handles offer set advance minimum', () => {
       const action = offerSetAdvanceMinimumPrerequisiteAction(6);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -788,11 +791,11 @@ describe('Offer reducer', () => {
     it('handles offer set advance maximum', () => {
       const action = offerSetAdvanceMaximumPrerequisiteAction(11);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -810,11 +813,11 @@ describe('Offer reducer', () => {
     it('handles clear all advance prerequisite', () => {
       const action = offerClearAllAdvancePrerequisiteAction();
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
       };
 
@@ -827,11 +830,11 @@ describe('Offer reducer', () => {
     it('handles offer set stay length minimum prerequisite', () => {
       const action = offerSetStayLengthMinimumPrerequisiteAction(4);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -849,11 +852,11 @@ describe('Offer reducer', () => {
     it('handles offer set stay length maximum prerequisite', () => {
       const action = offerSetStayLengthMaximumPrerequisiteAction(7);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -871,11 +874,11 @@ describe('Offer reducer', () => {
     it('handles offer set stay length strict prerequisite', () => {
       const action = offerSetStayLengthStrictPrerequisiteAction(true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         prerequisites: {
           ...initialState.offer.prerequisites,
@@ -893,11 +896,11 @@ describe('Offer reducer', () => {
     it('handles offer clear all stay length prerequisite', () => {
       const action = offerClearAllStayLengthPrerequisiteAction();
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
       };
 
@@ -910,11 +913,11 @@ describe('Offer reducer', () => {
     it('handles offer set stepping every x nights', () => {
       const action = offerSetSteppingEveryXNightsApplicationAction(5);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         stepping: {
           ...initialState.offer.stepping,
@@ -929,11 +932,11 @@ describe('Offer reducer', () => {
     it('handles offer set stepping apply to', () => {
       const action = offerSetSteppingApplyToApplicationAction(2);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         stepping: {
           ...initialState.offer.stepping,
@@ -948,11 +951,11 @@ describe('Offer reducer', () => {
     it('handles offer set stepping maximum nights', () => {
       const action = offerSetSteppingMaximumNightsApplicationAction(9);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         stepping: {
           ...initialState.offer.stepping,
@@ -967,11 +970,11 @@ describe('Offer reducer', () => {
     it('handles offer set stepping discount cheapest', () => {
       const action = offerSetSteppingDiscountCheapestApplicationAction(true);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         stepping: {
           ...initialState.offer.stepping,
@@ -986,7 +989,7 @@ describe('Offer reducer', () => {
     it('handles offer clear all stepping', () => {
       const action = offerClearAllSteppingApplicationAction();
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         stepping: {
           everyXNights: 2,
@@ -996,7 +999,7 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
       };
 
@@ -1009,11 +1012,11 @@ describe('Offer reducer', () => {
     it('handles setting accommodation discount discount percentage (integer)', () => {
       const action = offerSetAccommodationDiscountDiscountPercentageAction(5);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         accommodationProductDiscount: {
           ...initialState.offer.accommodationProductDiscount,
@@ -1028,11 +1031,11 @@ describe('Offer reducer', () => {
     it('handles setting accommodation discount discount percentage (float)', () => {
       const action = offerSetAccommodationDiscountDiscountPercentageAction(8.3);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         accommodationProductDiscount: {
           ...initialState.offer.accommodationProductDiscount,
@@ -1047,11 +1050,11 @@ describe('Offer reducer', () => {
     it('handles setting accommodation discount discount percentage (2 decimal places float)', () => {
       const action = offerSetAccommodationDiscountDiscountPercentageAction(8.39);
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         accommodationProductDiscount: {
           ...initialState.offer.accommodationProductDiscount,
@@ -1066,11 +1069,11 @@ describe('Offer reducer', () => {
     it('handles setting accommodation discount green tax approach', () => {
       const action = offerSetAccommodationDiscountGreenTaxApproachAction('GREEN_TAX');
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
         accommodationProductDiscount: {
           ...initialState.offer.accommodationProductDiscount,
@@ -1085,7 +1088,7 @@ describe('Offer reducer', () => {
     it('handles clear all accommodation discount', () => {
       const action = offerClearAllAccommodationDiscountAction();
 
-      const testState: IOffer = {
+      const testState: IOfferUI = {
         ...initialState.offer,
         accommodationProductDiscount: {
           discountPercentage: 5,
@@ -1093,8 +1096,438 @@ describe('Offer reducer', () => {
         },
       };
 
-      const expected: IOffer = {
+      const expected: IOfferUI = {
         ...initialState.offer,
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+  });
+
+  describe('offer reducer sub product supplements', () => {
+    it('adding a new one to the array (object is completely empty)', () => {
+      const action = offerAddSubProductDiscountSupplementAction();
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [],
+            },
+          ],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('adding a new one to the array (object already has empty array of supplements)', () => {
+      const action = offerAddSubProductDiscountSupplementAction();
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [],
+            },
+          ],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('putting a supplement into the array', () => {
+      const action = offerPutSubProductDiscountSupplementAction({
+        index: 0,
+        discountPercentage: 1,
+        maximumQuantity: 2,
+        products: [{ uuid: 'A' }],
+      });
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [],
+            },
+          ],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              discountPercentage: 1,
+              maximumQuantity: 2,
+              products: [{ uuid: 'A' }],
+            },
+          ],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('putting a supplement into the array (if index doesnt already exist, change nothing)', () => {
+      const action = offerPutSubProductDiscountSupplementAction({
+        index: 0,
+        discountPercentage: 1,
+        maximumQuantity: 2,
+        products: [{ uuid: 'A' }],
+      });
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('putting a supplement into the array (dont alter supplements around it)', () => {
+      const action = offerPutSubProductDiscountSupplementAction({
+        index: 1,
+        discountPercentage: 44,
+        maximumQuantity: 55,
+        products: [{ uuid: 'Z' }],
+      });
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              discountPercentage: 1,
+              maximumQuantity: 2,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 1,
+              discountPercentage: 10,
+              maximumQuantity: 20,
+              products: [{ uuid: 'B' }],
+            },
+            {
+              index: 2,
+              discountPercentage: 11,
+              maximumQuantity: 22,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              discountPercentage: 1,
+              maximumQuantity: 2,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 1,
+              discountPercentage: 44,
+              maximumQuantity: 55,
+              products: [{ uuid: 'Z' }],
+            },
+            {
+              index: 2,
+              discountPercentage: 11,
+              maximumQuantity: 22,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('putting a supplement into the array (ensure index changes are based on value and not array index)', () => {
+      const action = offerPutSubProductDiscountSupplementAction({
+        index: 5,
+        discountPercentage: 44,
+        maximumQuantity: 55,
+        products: [{ uuid: 'Z' }],
+      });
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 4,
+              discountPercentage: 1,
+              maximumQuantity: 2,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 5,
+              discountPercentage: 10,
+              maximumQuantity: 20,
+              products: [{ uuid: 'B' }],
+            },
+            {
+              index: 6,
+              discountPercentage: 11,
+              maximumQuantity: 22,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 4,
+              discountPercentage: 1,
+              maximumQuantity: 2,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 5,
+              discountPercentage: 44,
+              maximumQuantity: 55,
+              products: [{ uuid: 'Z' }],
+            },
+            {
+              index: 6,
+              discountPercentage: 11,
+              maximumQuantity: 22,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('putting a supplement into the array (ensure index changes are based on value and not array index, and gaps between indexes)', () => {
+      const action = offerPutSubProductDiscountSupplementAction({
+        index: 7,
+        discountPercentage: 44,
+        maximumQuantity: 55,
+        products: [{ uuid: 'Z' }],
+      });
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 4,
+              discountPercentage: 1,
+              maximumQuantity: 2,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 7,
+              discountPercentage: 10,
+              maximumQuantity: 20,
+              products: [{ uuid: 'B' }],
+            },
+            {
+              index: 10,
+              discountPercentage: 11,
+              maximumQuantity: 22,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 4,
+              discountPercentage: 1,
+              maximumQuantity: 2,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 7,
+              discountPercentage: 44,
+              maximumQuantity: 55,
+              products: [{ uuid: 'Z' }],
+            },
+            {
+              index: 10,
+              discountPercentage: 11,
+              maximumQuantity: 22,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('deleteing a supplement', () => {
+      const action = offerDeleteSubProductDiscountSupplementAction(1);
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 1,
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+          ],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('deleting a supplement (deleting the last one leaves an empty array)', () => {
+      const action = offerDeleteSubProductDiscountSupplementAction(0);
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+          ],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [],
+        },
+      };
+
+      const newState = reducer(testState, action);
+      expect(newState).toMatchObject(expected);
+    });
+
+    it('deleting a supplement (with an index value different to its actual index)', () => {
+      const action = offerDeleteSubProductDiscountSupplementAction(4);
+
+      const testState: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 3,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 4,
+              products: [{ uuid: 'B' }],
+            },
+            {
+              index: 5,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
+      };
+
+      const expected: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 3,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 5,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
       };
 
       const newState = reducer(testState, action);

@@ -1,4 +1,4 @@
-import { IOfferPrerequisitesPayload } from 'services/BackendApi';
+import { IOfferPrerequisitesPayload, IUIOfferProductDiscountInstance } from 'services/BackendApi';
 
 export const OFFER_HOTEL_UUID_CHANGE = 'offer/OFFER_HOTEL_UUID_CHANGE';
 export const OFFER_NAME_CHANGE = 'offer/OFFER_NAME_CHANGE';
@@ -40,6 +40,11 @@ export const OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION =
   'offer/OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION';
 export const OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION =
   'offer/OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION';
+
+// Sub product discounts > Supplements
+export const OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT';
+export const OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT';
+export const OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT';
 
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
@@ -235,6 +240,27 @@ export const offerClearAllAccommodationDiscountAction = () => ({
   type: OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION as typeof OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION,
 });
 
+export type OfferAddSubProductDiscountSupplementAction = ReturnType<typeof offerAddSubProductDiscountSupplementAction>;
+export const offerAddSubProductDiscountSupplementAction = () => ({
+  type: OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT,
+});
+
+export type OfferPutSubProductDiscountSupplementAction = ReturnType<typeof offerPutSubProductDiscountSupplementAction>;
+export const offerPutSubProductDiscountSupplementAction = (
+  subProductDiscountSupplement: IUIOfferProductDiscountInstance
+) => ({
+  type: OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT,
+  subProductDiscountSupplement,
+});
+
+export type OfferDeleteSubProductDiscountSupplementAction = ReturnType<
+  typeof offerDeleteSubProductDiscountSupplementAction
+>;
+export const offerDeleteSubProductDiscountSupplementAction = (index: number) => ({
+  type: OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT,
+  index,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferNameChangeAction
@@ -265,4 +291,7 @@ export type OfferAction =
   | OfferClearAllSteppingApplicationAction
   | OfferSetAccommodationDiscountDiscountPercentageAction
   | OfferSetAccommodationDiscountGreenTaxApproachAction
-  | OfferClearAllAccommodationDiscountAction;
+  | OfferClearAllAccommodationDiscountAction
+  | OfferAddSubProductDiscountSupplementAction
+  | OfferPutSubProductDiscountSupplementAction
+  | OfferDeleteSubProductDiscountSupplementAction;

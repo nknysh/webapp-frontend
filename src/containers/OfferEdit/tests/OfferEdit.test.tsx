@@ -3,13 +3,13 @@ import { OfferEditContainer } from '../';
 import { shallow } from 'enzyme';
 import { IOfferEditProps, IRouteParams } from '../index';
 import { getMockRouterProps } from 'utils/mockRouter';
-import { IOffer } from 'services/BackendApi';
+import { IOfferUI } from 'services/BackendApi';
 import { postOfferRequestAction } from '../../../store/modules/offer/actions';
 
 const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOfferEditProps => {
   const defaultProps: IOfferEditProps = {
     getOfferRequestPending: false,
-    offer: {} as IOffer,
+    offer: {} as IOfferUI,
     stayBetweenDates: [['2020-01-01', '2020-02-01']],
     offerHotelUuid: '123',
     offerTerms: 'Terms',

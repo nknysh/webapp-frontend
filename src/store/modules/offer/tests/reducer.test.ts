@@ -1,15 +1,15 @@
 import { offer as reducer } from '../reducer';
-import { IOffer } from 'services/BackendApi';
+import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../model';
 import { getOfferSuccessAction, getOfferFailureAction } from '../actions';
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOffer, {}, {}, [], true, []);
+    const action = getOfferSuccessAction({ uuid: '1234' } as IOfferUI, {}, {}, [], true, []);
     const result = reducer(undefined, action);
     const expected: IOfferModel = {
       ...initialState,
-      offer: { uuid: '1234' } as IOffer,
+      offer: { uuid: '1234' } as IOfferUI,
       uiState: {
         ...initialState.uiState,
         getOfferRequestIsPending: false,
@@ -20,7 +20,7 @@ describe('Offer reducer', () => {
   });
 
   it('handles GET_OFFER_SUCCESS correctly with some hotel accommodation products', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOffer, {}, {}, [], true, [
+    const action = getOfferSuccessAction({ uuid: '1234' } as IOfferUI, {}, {}, [], true, [
       {
         uuid: 'a',
         name: 'A',
@@ -30,7 +30,7 @@ describe('Offer reducer', () => {
     const result = reducer(undefined, action);
     const expected: IOfferModel = {
       ...initialState,
-      offer: { uuid: '1234' } as IOffer,
+      offer: { uuid: '1234' } as IOfferUI,
       uiState: {
         ...initialState.uiState,
         getOfferRequestIsPending: false,

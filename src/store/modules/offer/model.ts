@@ -1,4 +1,4 @@
-import { IOffer, IOfferOnHotelItem, IAccommodationProductForHotelItem } from 'services/BackendApi';
+import { IOfferOnHotelItem, IAccommodationProductForHotelItem, IOfferUI } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
 
@@ -18,7 +18,7 @@ export interface IOfferUiState {
 
 export interface IOfferModel {
   uiState: IOfferUiState;
-  offer: IOffer;
+  offer: IOfferUI;
   associatedOffersMapping: KeyValuePair;
   associatedProductsMapping: KeyValuePair;
   offersOnHotel: IOfferOnHotelItem[];
@@ -50,7 +50,7 @@ export const initialState: IOfferModel = {
     },
     stepping: undefined,
     preDiscount: false,
-  } as IOffer,
+  } as IOfferUI,
   associatedOffersMapping: {},
   associatedProductsMapping: {},
   offersOnHotel: [],

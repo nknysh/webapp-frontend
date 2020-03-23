@@ -3,8 +3,13 @@ import {
   IOfferPrerequisitesPayload,
   IAccommodationProductForHotelItem,
   IOfferPrerequisites,
-  IOffer,
+  IOfferSubProductDiscounts,
+  IUIOfferProductDiscountInstance,
+  IOfferUI,
 } from 'services/BackendApi';
+
+import { IBootstrapExtraPersonSupplementProduct } from 'store/modules/bootstrap/model';
+
 import {
   offerSelector,
   offerHotelUuidSelector,
@@ -26,6 +31,9 @@ import {
   hotelNameSelector,
   offerSteppingApplicationSelector,
   offerAccommodationDiscountSelector,
+  offerSubProductDiscountsSelector,
+  offerSubProductDiscountsSupplementsSelector,
+  offerExtraPersonSupplementsSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -608,7 +616,7 @@ describe('Offer Selectors', () => {
 
   describe('hotelNameSelector', () => {
     it('select the hotel name', () => {
-      const fixture = { hotel: { name: 'TEST NAME' } } as IOffer;
+      const fixture = { hotel: { name: 'TEST NAME' } } as IOfferUI;
       expect(hotelNameSelector.resultFunc(fixture)).toEqual('TEST NAME');
     });
   });
@@ -623,7 +631,7 @@ describe('Offer Selectors', () => {
           maximumNights: 7,
           discountCheapest: true,
         },
-      } as IOffer;
+      } as IOfferUI;
 
       const selected = offerSteppingApplicationSelector.resultFunc(fixture);
 
@@ -644,7 +652,7 @@ describe('Offer Selectors', () => {
           maximumNights: undefined,
           discountCheapest: true,
         },
-      } as IOffer;
+      } as IOfferUI;
 
       const selected = offerSteppingApplicationSelector.resultFunc(fixture);
 
@@ -663,7 +671,7 @@ describe('Offer Selectors', () => {
           applyTo: 5,
           discountCheapest: true,
         },
-      } as IOffer;
+      } as IOfferUI;
 
       const selected = offerSteppingApplicationSelector.resultFunc(fixture);
 
@@ -676,7 +684,7 @@ describe('Offer Selectors', () => {
     it('should select stepping (return undefined if not set)', () => {
       const fixture = {
         ...initialState.offer,
-      } as IOffer;
+      } as IOfferUI;
 
       const selected = offerSteppingApplicationSelector.resultFunc(fixture);
 
@@ -688,7 +696,7 @@ describe('Offer Selectors', () => {
     it('select accommodation discount (return undefined if not present)', () => {
       const fixture = {
         ...initialState.offer,
-      } as IOffer;
+      } as IOfferUI;
 
       const selected = offerAccommodationDiscountSelector.resultFunc(fixture);
 
@@ -702,7 +710,7 @@ describe('Offer Selectors', () => {
           discountPercentage: 10,
           greenTaxDiscountApproach: 'A',
         },
-      } as IOffer;
+      } as IOfferUI;
 
       const selected = offerAccommodationDiscountSelector.resultFunc(fixture);
 
@@ -710,6 +718,166 @@ describe('Offer Selectors', () => {
         discountPercentage: 10,
         greenTaxDiscountApproach: 'A',
       });
+    });
+  });
+
+  describe('select sub product discounts', () => {
+    it('gets undefined if none are set', () => {
+      const fixture = {
+        ...initialState.offer,
+      } as IOfferUI;
+
+      const selected = offerSubProductDiscountsSelector.resultFunc(fixture);
+
+      expect(selected).toEqual(undefined);
+    });
+
+    it('gets the object if some are set', () => {
+      const fixture = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [],
+        },
+      } as IOfferUI;
+
+      const selected = offerSubProductDiscountsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject({
+        'Meal Plan': [],
+        Supplement: [],
+      });
+    });
+  });
+
+  describe('select sub product discount supplements', () => {
+    it('gets an empty array if none are set', () => {
+      const fixture = undefined;
+
+      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([]);
+    });
+
+    it('gets an array of discounts if set', () => {
+      const fixture = {
+        'Meal Plan': [],
+        Supplement: [
+          {
+            index: 0,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 1,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 0,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 1,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+
+    it('gets an array of discounts if set, respects set indexes', () => {
+      const fixture = {
+        'Meal Plan': [],
+        Supplement: [
+          {
+            index: 4,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 6,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 4,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 6,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+  });
+
+  describe('select extra person supplement supplements', () => {
+    it('returns an empty array when we have supplements, but none are extra person', () => {
+      const supplementFixture = [
+        {
+          index: 0,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 1,
+          products: [{ uuid: 'B' }],
+        },
+      ] as IUIOfferProductDiscountInstance[];
+
+      const epsFixture = {
+        uuid: 'C',
+        name: 'EPS',
+      } as IBootstrapExtraPersonSupplementProduct;
+
+      const selected = offerExtraPersonSupplementsSelector.resultFunc(supplementFixture, epsFixture);
+
+      expect(selected).toEqual([]);
+    });
+
+    it('returns 1 or more EPS supplements with correct index', () => {
+      const supplementFixture = [
+        {
+          index: 0,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 1,
+          products: [{ uuid: 'EPS' }],
+        },
+        {
+          index: 2,
+          products: [{ uuid: 'C' }],
+        },
+        {
+          index: 3,
+          products: [{ uuid: 'EPS' }],
+        },
+      ] as IUIOfferProductDiscountInstance[];
+
+      const epsFixture = {
+        uuid: 'EPS',
+        name: 'EPS',
+      } as IBootstrapExtraPersonSupplementProduct;
+
+      const selected = offerExtraPersonSupplementsSelector.resultFunc(supplementFixture, epsFixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 1,
+          products: [{ uuid: 'EPS' }],
+        },
+        {
+          index: 3,
+          products: [{ uuid: 'EPS' }],
+        },
+      ]);
     });
   });
 });

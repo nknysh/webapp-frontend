@@ -1,12 +1,13 @@
 import * as Actions from './actions';
 import produce from 'immer';
-import { IOffer } from 'services/BackendApi';
+import { IOfferUI, IUIOfferProductDiscountInstance } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 import { OfferDomainAction, GET_OFFER_SUCCESS, PUT_OFFER_SUCCESS, POST_OFFER_SUCCESS } from '../../actions';
 import { initialState } from '../../model';
 import * as R from 'ramda';
+export const sortSupplementsByIndex = R.sortWith<IUIOfferProductDiscountInstance>([R.ascend(R.prop('index'))]);
 
-export const offerReducer = (state: IOffer = initialState.offer, action: OfferDomainAction): IOffer => {
+export const offerReducer = (state: IOfferUI = initialState.offer, action: OfferDomainAction): IOfferUI => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
       return action.offer;
@@ -80,26 +81,33 @@ export const offerReducer = (state: IOffer = initialState.offer, action: OfferDo
       return offerSetAccommodationDiscountGreenTaxApproachReducer(state, action);
     case Actions.OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION:
       return offerClearAllAccommodationDiscountReducer(state, action);
+
+    case Actions.OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
+      return offerAddSubProductDiscountSupplementReducer(state, action);
+    case Actions.OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
+      return offerPutSubProductDiscountSupplementReducer(state, action);
+    case Actions.OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
+      return offerDeleteSubProductDiscountSupplementReducer(state, action);
     default:
       return state;
   }
 };
 
-export const offerHotelUuidChangeReducer = (state: IOffer, action: Actions.OfferHotelUuidChangeAction): IOffer => {
+export const offerHotelUuidChangeReducer = (state: IOfferUI, action: Actions.OfferHotelUuidChangeAction): IOfferUI => {
   return {
     ...state,
     hotelUuid: action.hotelUuid,
   };
 };
 
-export const offerNameChangeReducer = (state: IOffer, action: Actions.OfferNameChangeAction): IOffer => {
+export const offerNameChangeReducer = (state: IOfferUI, action: Actions.OfferNameChangeAction): IOfferUI => {
   return {
     ...state,
     name: action.offerName,
   };
 };
 
-export const offerTermsChangeReducer = (state: IOffer, action: Actions.OfferTermsChangeAction): IOffer => {
+export const offerTermsChangeReducer = (state: IOfferUI, action: Actions.OfferTermsChangeAction): IOfferUI => {
   return {
     ...state,
     termsAndConditions: action.offerTerms,
@@ -107,9 +115,9 @@ export const offerTermsChangeReducer = (state: IOffer, action: Actions.OfferTerm
 };
 
 export const offerFurtherInformationChangeReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferFurtherInformationChangeAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     furtherInformation: action.offerFurtherInformation,
@@ -117,10 +125,10 @@ export const offerFurtherInformationChangeReducer = (
 };
 
 export const offerAddStayBetweenPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferAddStayBetweenPrerequisiteAction
-): IOffer => {
-  return produce<IOffer>(state, draftState => {
+): IOfferUI => {
+  return produce<IOfferUI>(state, draftState => {
     draftState.prerequisites.dates.push({
       startDate: '',
       endDate: '',
@@ -130,20 +138,20 @@ export const offerAddStayBetweenPrerequisiteReducer = (
 };
 
 export const offerRemoveStayBetweenPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferRemoveStayBetweenPrerequisiteAction
-): IOffer => {
-  return produce<IOffer>(state, draftState => {
+): IOfferUI => {
+  return produce<IOfferUI>(state, draftState => {
     draftState.prerequisites.dates.splice(action.stayBetweenIndex, 1);
     return draftState;
   });
 };
 
 export const offerChangeStayBetweenPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferChangeStayBetweenPrerequisiteAction
-): IOffer => {
-  return produce<IOffer>(state, draftState => {
+): IOfferUI => {
+  return produce<IOfferUI>(state, draftState => {
     action.datesArray.forEach((dates, index) => {
       const newDateRange = {
         startDate: dates[0],
@@ -158,10 +166,10 @@ export const offerChangeStayBetweenPrerequisiteReducer = (
 };
 
 export const offerSetBooleanPrerequisitesReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetBooleanPrerequisiteAction
-): IOffer => {
-  return produce<IOffer>(state, draftState => {
+): IOfferUI => {
+  return produce<IOfferUI>(state, draftState => {
     // if value is true or false, make sure we have a payload object, and then set the value inside it
     if (action.value !== null) {
       if (!draftState.prerequisites.payload) {
@@ -185,7 +193,7 @@ export const offerSetBooleanPrerequisitesReducer = (
   });
 };
 
-export const offerSetPreDiscountReducer = (state: IOffer, action: Actions.OfferSetPreDiscountAction): IOffer => {
+export const offerSetPreDiscountReducer = (state: IOfferUI, action: Actions.OfferSetPreDiscountAction): IOfferUI => {
   return {
     ...state,
     preDiscount: action.value,
@@ -193,9 +201,9 @@ export const offerSetPreDiscountReducer = (state: IOffer, action: Actions.OfferS
 };
 
 export const offerSetCountryCodeReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetCountryCodePrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return produce(state, draftState => {
     if (action.value === true) {
       draftState.prerequisites.countryCodes.push(action.countryCode);
@@ -212,9 +220,9 @@ export const offerSetCountryCodeReducer = (
 };
 
 export const offerClearAllCountryCodeReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferClearAllCountryCodePrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -225,9 +233,9 @@ export const offerClearAllCountryCodeReducer = (
 };
 
 export const offerSetAccommodationProductPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetAccommodationProductPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return produce(state, draftState => {
     if (action.value === true) {
       draftState.prerequisites.accommodationProducts.push(action.accommodationProductUuid);
@@ -244,9 +252,9 @@ export const offerSetAccommodationProductPrerequisiteReducer = (
 };
 
 export const offerClearAllAccommodationProductPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferClearAllAccommodationProductPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -257,9 +265,9 @@ export const offerClearAllAccommodationProductPrerequisiteReducer = (
 };
 
 export const offerSetAdvanceBookByPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetAdvanceBookByPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -273,9 +281,9 @@ export const offerSetAdvanceBookByPrerequisiteReducer = (
 };
 
 export const offerSetAdvanceMinimumPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetAdvanceMinimumPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -289,9 +297,9 @@ export const offerSetAdvanceMinimumPrerequisiteReducer = (
 };
 
 export const offerSetAdvanceMaximumPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetAdvanceMaximumPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -305,9 +313,9 @@ export const offerSetAdvanceMaximumPrerequisiteReducer = (
 };
 
 export const offerClearAllAdvancePrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferClearAllAdvancePrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -318,9 +326,9 @@ export const offerClearAllAdvancePrerequisiteReducer = (
 };
 
 export const offerSetMaxLodgingsPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetMaxLodgingsPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -331,9 +339,9 @@ export const offerSetMaxLodgingsPrerequisiteReducer = (
 };
 
 export const offerSetStayLengthMinimumPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetStayLengthMinimumPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -347,9 +355,9 @@ export const offerSetStayLengthMinimumPrerequisiteReducer = (
 };
 
 export const offerSetStayLengthMaximumPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetStayLengthMaximumPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -363,9 +371,9 @@ export const offerSetStayLengthMaximumPrerequisiteReducer = (
 };
 
 export const offerSetStayLengthStrictPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetStayLengthStrictPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -379,9 +387,9 @@ export const offerSetStayLengthStrictPrerequisiteReducer = (
 };
 
 export const offerClearAllStayLengthPrerequisiteReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferClearAllStayLengthPrerequisiteAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     prerequisites: {
@@ -392,9 +400,9 @@ export const offerClearAllStayLengthPrerequisiteReducer = (
 };
 
 export const offerSetSteppingEveryXNightsApplicationReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetSteppingEveryXNightsApplicationAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     stepping: {
@@ -405,9 +413,9 @@ export const offerSetSteppingEveryXNightsApplicationReducer = (
 };
 
 export const offerSetSteppingApplyToApplicationReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetSteppingApplyToApplicationAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     stepping: {
@@ -418,9 +426,9 @@ export const offerSetSteppingApplyToApplicationReducer = (
 };
 
 export const offerSetSteppingMaximumNightsApplicationReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetSteppingMaximumNightsApplicationAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     stepping: {
@@ -431,9 +439,9 @@ export const offerSetSteppingMaximumNightsApplicationReducer = (
 };
 
 export const offerSetSteppingDiscountCheapestApplicationReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetSteppingDiscountCheapestApplicationAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     stepping: {
@@ -444,9 +452,9 @@ export const offerSetSteppingDiscountCheapestApplicationReducer = (
 };
 
 export const offerClearAllSteppingApplicationReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferClearAllSteppingApplicationAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     stepping: undefined,
@@ -454,9 +462,9 @@ export const offerClearAllSteppingApplicationReducer = (
 };
 
 export const offerSetAccommodationDiscountDiscountPercentageReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetAccommodationDiscountDiscountPercentageAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     accommodationProductDiscount: {
@@ -467,9 +475,9 @@ export const offerSetAccommodationDiscountDiscountPercentageReducer = (
 };
 
 export const offerSetAccommodationDiscountGreenTaxApproachReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferSetAccommodationDiscountGreenTaxApproachAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     accommodationProductDiscount: {
@@ -480,11 +488,90 @@ export const offerSetAccommodationDiscountGreenTaxApproachReducer = (
 };
 
 export const offerClearAllAccommodationDiscountReducer = (
-  state: IOffer,
+  state: IOfferUI,
   action: Actions.OfferClearAllAccommodationDiscountAction
-): IOffer => {
+): IOfferUI => {
   return {
     ...state,
     accommodationProductDiscount: undefined,
   };
+};
+
+export const offerAddSubProductDiscountSupplementReducer = (
+  state: IOfferUI,
+  action: Actions.OfferAddSubProductDiscountSupplementAction
+): IOfferUI => {
+  return produce(state, draftState => {
+    let subProductDiscounts = draftState.subProductDiscounts
+      ? draftState.subProductDiscounts
+      : {
+          'Meal Plan': [],
+          Supplement: [],
+        };
+
+    subProductDiscounts.Supplement.push({
+      index: subProductDiscounts.Supplement.length,
+      products: [],
+    });
+
+    draftState.subProductDiscounts = subProductDiscounts;
+    return draftState;
+  });
+};
+
+export const offerPutSubProductDiscountSupplementReducer = (
+  state: IOfferUI,
+  action: Actions.OfferPutSubProductDiscountSupplementAction
+): IOfferUI => {
+  return produce(state, draftState => {
+    let subProductDiscounts = draftState.subProductDiscounts
+      ? draftState.subProductDiscounts
+      : {
+          'Meal Plan': [],
+          Supplement: [],
+        };
+
+    // if we're trying to put a discount for an index that doens't exist, just return the state
+    const supplementArrayIndex = subProductDiscounts.Supplement.findIndex(
+      s => s.index === action.subProductDiscountSupplement.index
+    );
+    if (supplementArrayIndex === -1) {
+      return draftState;
+    }
+
+    // remove it from the original array, and re-add the new one in, and then sort them
+    subProductDiscounts.Supplement.splice(supplementArrayIndex, 1);
+    subProductDiscounts.Supplement = [...subProductDiscounts.Supplement, action.subProductDiscountSupplement];
+    subProductDiscounts.Supplement = sortSupplementsByIndex(subProductDiscounts.Supplement);
+
+    // rebuild the main object
+    draftState.subProductDiscounts = {
+      ...subProductDiscounts,
+    };
+
+    return draftState;
+  });
+};
+
+export const offerDeleteSubProductDiscountSupplementReducer = (
+  state: IOfferUI,
+  action: Actions.OfferDeleteSubProductDiscountSupplementAction
+): IOfferUI => {
+  return produce(state, draftState => {
+    let subProductDiscounts = draftState.subProductDiscounts
+      ? draftState.subProductDiscounts
+      : {
+          'Meal Plan': [],
+          Supplement: [],
+        };
+
+    const indexToDelete = subProductDiscounts.Supplement.findIndex(sup => sup.index === action.index);
+
+    if (indexToDelete === -1) {
+      return draftState;
+    }
+
+    draftState.subProductDiscounts?.Supplement.splice(indexToDelete, 1);
+    return draftState;
+  });
 };

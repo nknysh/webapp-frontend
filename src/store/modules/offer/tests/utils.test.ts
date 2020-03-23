@@ -2,16 +2,18 @@ import {
   getAllAssociatedProductUuidsFromOffer,
   hasOfferGotApplications,
   returnObjectWithUndefinedsAsEmptyStrings,
+  transformApiOfferToUiOffer,
+  transformUiOfferToApiOffer,
 } from '../utils';
 import { initialState } from '../model';
-import { IOffer } from 'services/BackendApi';
+import { IOfferAPI, IOfferUI } from 'services/BackendApi';
 
 describe('offer module utils test', () => {
   describe('getAllAssociatedProductUuidsFromOffer', () => {
     it('initial state offer will have no product', () => {
       const fixture = {
         ...initialState.offer,
-      } as IOffer;
+      } as IOfferUI;
 
       const productArray = getAllAssociatedProductUuidsFromOffer(fixture);
 
@@ -74,7 +76,7 @@ describe('offer module utils test', () => {
             },
           ],
         },
-      } as IOffer;
+      } as IOfferUI;
 
       const productArray = getAllAssociatedProductUuidsFromOffer(fixture);
 
@@ -91,7 +93,7 @@ describe('offer module utils test', () => {
     it('it has no applications', () => {
       const fixture = {
         ...initialState.offer,
-      } as IOffer;
+      } as IOfferUI;
 
       expect(hasOfferGotApplications(fixture)).toEqual(false);
     });
@@ -100,7 +102,7 @@ describe('offer module utils test', () => {
       const fixture = {
         ...initialState.offer,
         stepping: {},
-      } as IOffer;
+      } as IOfferUI;
 
       expect(hasOfferGotApplications(fixture)).toEqual(true);
     });
@@ -109,7 +111,7 @@ describe('offer module utils test', () => {
       const fixture = {
         ...initialState.offer,
         accommodationProductDiscount: {},
-      } as IOffer;
+      } as IOfferUI;
 
       expect(hasOfferGotApplications(fixture)).toEqual(true);
     });
@@ -118,7 +120,7 @@ describe('offer module utils test', () => {
       const fixture = {
         ...initialState.offer,
         productDiscounts: {},
-      } as IOffer;
+      } as IOfferUI;
 
       expect(hasOfferGotApplications(fixture)).toEqual(true);
     });
@@ -127,7 +129,7 @@ describe('offer module utils test', () => {
       const fixture = {
         ...initialState.offer,
         subProductDiscounts: {},
-      } as IOffer;
+      } as IOfferUI;
 
       expect(hasOfferGotApplications(fixture)).toEqual(true);
     });
@@ -173,6 +175,75 @@ describe('offer module utils test', () => {
 
       expect(returnObjectWithUndefinedsAsEmptyStrings(fixture)).toMatchObject({
         c: '',
+      });
+    });
+  });
+
+  describe('transformApiOfferToUiOffer', () => {
+    it('adds indexes to sub product discount supplements', () => {
+      const fixture: IOfferAPI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              products: [{ uuid: 'A' }],
+            },
+          ],
+        },
+      };
+
+      const transformed = transformApiOfferToUiOffer(fixture);
+
+      expect(transformed).toMatchObject({
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+          ],
+        },
+      });
+    });
+  });
+
+  describe('transformUiOfferToApiOffer', () => {
+    it('adds indexes to sub product discount supplements', () => {
+      const fixture: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 1,
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      };
+
+      const transformed = transformUiOfferToApiOffer(fixture);
+
+      expect(transformed).toMatchObject({
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              products: [{ uuid: 'A' }],
+            },
+            {
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
       });
     });
   });

@@ -1,5 +1,5 @@
 import { uiStateReducer as reducer } from '../reducer';
-import { IOffer } from 'services/BackendApi';
+import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferUiState } from '../../../model';
 import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from 'store/modules/offer/actions';
 
@@ -16,7 +16,7 @@ describe('Offer reducer', () => {
   });
 
   it('handles GET_OFFER_SUCCESS correctly', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOffer, {}, {}, [], true, []);
+    const action = getOfferSuccessAction({ uuid: '1234' } as IOfferUI, {}, {}, [], true, []);
     const result = reducer(initialState.uiState, action);
     const expected: IOfferUiState = {
       ...initialState.uiState,

@@ -23,12 +23,11 @@ import { IBookingsListResponse } from './types/BookingsListResponse';
 import { ITravelAgentRespone } from './types/TravelAgentResponse';
 import { IHotelNamesResponse } from './types/HotelNamesResponse';
 import { IOffersListResponse, IOffersDeleteResponse } from './types/OffersListResponse';
-import { IOfferResponse, IOffer } from './types/OfferResponse';
+import { IOfferResponse, IOfferAPI } from './types/OfferResponse';
 import { transformPut, transformPost } from './helpers';
 import { IApiErrorResponse } from './types/ApiError';
 import { IAPIRepsonse } from './types/ApiResponse';
 import { IRatesImportResponse } from './types/RatesImportResponse';
-
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -160,10 +159,18 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
-  putOffer = async (offer: IOffer): Promise<IAPIRepsonse<IOffer, IApiErrorResponse>> => {
+  getBootstrapExtraPersonSupplementProduct = async (): Promise<AxiosResponse> => {
+    const endpoint = `${BackendEndpoints.PRODUCTS}/extra-person`;
+    return this.client.get(endpoint);
+  };
+
+  putOffer = async (offer: IOfferAPI): Promise<IAPIRepsonse<IOfferAPI, IApiErrorResponse>> => {
     return (
       this.client
-        .put(`${BackendEndpoints.OFFERS}/${offer.uuid}`, transformPut<IOffer>(offer, 'offer', ['hotel']))
+        .put(
+          `${BackendEndpoints.OFFERS}/${offer.uuid}`,
+          transformPut<IOfferAPI>(offer, 'offer', ['hotel'])
+        )
         .then(response => ({
           response,
         }))
@@ -174,12 +181,12 @@ export class BackendApiService<T extends AxiosInstance> {
     );
   };
 
-  postOffer = async (offer: IOffer): Promise<IAPIRepsonse<IOffer, IApiErrorResponse>> => {
+  postOffer = async (offer: IOfferAPI): Promise<IAPIRepsonse<IOfferAPI, IApiErrorResponse>> => {
     return (
       this.client
         .post(
           `${BackendEndpoints.OFFERS}?associations=hotel&fields[hotel]=name`,
-          transformPost<IOffer>(offer, 'offer', ['uuid', 'hotel'])
+          transformPost<IOfferAPI>(offer, 'offer', ['uuid', 'hotel'])
         )
         .then(response => ({
           response,
@@ -198,7 +205,7 @@ export class BackendApiService<T extends AxiosInstance> {
   getRatesImportStatus = async (): Promise<AxiosResponse<IRatesImportResponse | ErrorResponse>> => {
     return this.client.get(`${BackendEndpoints.RATES_LOADER}/status`);
   };
-  
+
   sanitizQueryObject = (query: SearchQuery): SearchQuery => {
     // Convery any strings that should be integers to integers
     // qs seem to not handle stings containing '+' correctly

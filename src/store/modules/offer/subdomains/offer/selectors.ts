@@ -2,7 +2,10 @@ import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
 import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 import { IOfferModel } from '../../model';
-import { getBootstrapCountriesSelector } from '../../../bootstrap/selectors';
+import {
+  getBootstrapCountriesSelector,
+  getBootstrapExtraPersonSupplementProductSelector,
+} from '../../../bootstrap/selectors';
 import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
 
 // TODO: For some reason, I can't import the offerDomainSelector from
@@ -167,3 +170,29 @@ export const offerSteppingApplicationSelector = createSelector(offerSelector, of
 export const offerAccommodationDiscountSelector = createSelector(offerSelector, offer => {
   return returnObjectWithUndefinedsAsEmptyStrings(offer.accommodationProductDiscount);
 });
+
+export const offerSubProductDiscountsSelector = createSelector(offerSelector, offer => {
+  return offer.subProductDiscounts;
+});
+
+export const offerSubProductDiscountsSupplementsSelector = createSelector(
+  offerSubProductDiscountsSelector,
+  subProductDiscounts => {
+    if (!subProductDiscounts || !subProductDiscounts.Supplement) {
+      return [];
+    }
+    return subProductDiscounts.Supplement;
+  }
+);
+
+export const offerExtraPersonSupplementsSelector = createSelector(
+  offerSubProductDiscountsSupplementsSelector,
+  getBootstrapExtraPersonSupplementProductSelector,
+  (supplements, extraPersonSupplementProduct) => {
+    return supplements.filter(sup => {
+      return sup.products.some(p => {
+        return p.uuid === extraPersonSupplementProduct.uuid;
+      });
+    });
+  }
+);

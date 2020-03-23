@@ -1,4 +1,4 @@
-import { IOffer } from 'services/BackendApi';
+import { IOfferUI } from 'services/BackendApi';
 import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../actions';
 
 describe('Offer Actions', () => {
@@ -8,7 +8,7 @@ describe('Offer Actions', () => {
       getOfferSuccessAction(
         {
           uuid: '123',
-        } as IOffer,
+        } as IOfferUI,
         {},
         {},
         [],
