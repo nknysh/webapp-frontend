@@ -178,6 +178,6 @@
     "webpack-dashboard": "3.2.0",
     "webpack-dev-server": "3.9.0",
     "webpack-pwa-manifest": "4.1.1",
-    "yup": "0.27.0"
+    "yup": "0.28.3"
   }
 }
