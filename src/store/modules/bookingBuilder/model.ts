@@ -1,4 +1,8 @@
-import { BookingBuilder } from 'services/BackendApi';
+import { BookingBuilder, CustomItemPayload } from 'services/BackendApi';
+
+export interface CustomItemSubdomain {
+  payload: CustomItemPayload | null;
+};
 
 export interface BookingBuilderDomain {
   currentBookingBuilder: BookingBuilder | null;
@@ -37,6 +41,7 @@ export interface BookingBuilderDomain {
   isTAMarginApplied: boolean;
   taMarginType: string | undefined;
   taMarginAmount: string | undefined;
+  customItem: CustomItemSubdomain;
 }
 
 export const initialState: BookingBuilderDomain = {
@@ -76,4 +81,7 @@ export const initialState: BookingBuilderDomain = {
   deletedAt: null,
   clientUuid: null,
   isTAMarginApplied: true,
+  customItem: {
+    payload: null
+  },
 };

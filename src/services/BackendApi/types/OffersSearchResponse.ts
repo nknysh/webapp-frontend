@@ -65,6 +65,14 @@ export interface SelectedAccommodation {
   subProducts: SelectedSubproducts;
 }
 
+export interface CustomItemPayload {
+  total: string;
+  name: string;
+  description?: string | null;
+  countsAsMealPlan?: boolean | null;
+  countsAsTransfer?: boolean | null;
+}
+
 export interface BookingBuilderRequest {
   startDate: string;
   endDate: string;
@@ -75,6 +83,7 @@ export interface BookingBuilderRequest {
   'Ground Service': GroundServiceReference[];
   Fine: FineReference[];
   Supplement: SupplementReference[];
+  customItems: CustomItemPayload[];
 }
 
 export interface AgeRange {

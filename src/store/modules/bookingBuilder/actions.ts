@@ -11,6 +11,8 @@ import {
   ISearchQuery,
 } from 'services/BackendApi/types';
 
+import { CustomItemAction } from './subdomains/customItem/actions';
+
 export const INITIALIZE_BOOKING_BUILDER = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER';
 export const INITIALIZE_BOOKING_BUILDER_FAILURE = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER_FAILURE';
 export const COPY_BOOKING_BUILDER = 'bookingBuilder/COPY_BOOKING_BUILDER';
@@ -246,4 +248,5 @@ export type BookingBuilderAction =
   | UpdateBookingGuestInformationAction
   | ResetBookingBuilderUiStateAction
   | UpdateBookingTravelAgentUserIdAction
-  | UpdateLodgingRepeatGuestAction;
+  | UpdateLodgingRepeatGuestAction
+  | CustomItemAction;
