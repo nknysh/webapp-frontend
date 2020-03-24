@@ -305,9 +305,8 @@ export const offerDeleteProductDiscountFineAction = (index: number) => ({
 
 // Product Discounts > Ground Services
 export type OfferAddProductDiscountGroundServiceAction = ReturnType<typeof offerAddProductDiscountGroundServiceAction>;
-export const offerAddProductDiscountGroundServiceAction = (index: number) => ({
+export const offerAddProductDiscountGroundServiceAction = () => ({
   type: OFFER_ADD_PRODUCT_DISCOUNT_GROUND_SERVICE as typeof OFFER_ADD_PRODUCT_DISCOUNT_GROUND_SERVICE,
-  index,
 });
 
 export type OfferPutProductDiscountGroundServiceAction = ReturnType<typeof offerPutProductDiscountGroundServiceAction>;
