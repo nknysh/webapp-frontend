@@ -1166,7 +1166,6 @@ describe('Offer reducer', () => {
       const expected: IOfferUI = {
         ...initialState.offer,
         subProductDiscounts: {
-          'Meal Plan': [],
           Supplement: [
             {
               index: 0,
@@ -1596,9 +1595,6 @@ describe('Offer reducer', () => {
       const expected: IOfferUI = {
         ...initialState.offer,
         productDiscounts: {
-          Transfer: [],
-          'Ground Service': [],
-          Supplement: [],
           Fine: [
             {
               index: 0,

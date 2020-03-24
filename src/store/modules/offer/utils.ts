@@ -3,8 +3,11 @@ import {
   IOfferUI,
   IOfferAPI,
   IUIOfferProductDiscountInstance,
+  IOfferProductDiscounts,
+  IOfferSubProductDiscounts,
 } from 'services/BackendApi';
 import produce from 'immer';
+import * as R from 'ramda';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
   const productUuids = [...(offer.prerequisites.accommodationProducts || [])];
@@ -101,4 +104,34 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI): IOfferAPI => {
 
     return draftOffer;
   });
+};
+
+export const sortObjectsByIndex = R.sortWith<IUIOfferProductDiscountInstance>([R.ascend(R.prop('index'))]);
+
+export const getSubProductDiscountsOrInitial = (
+  subProductDiscounts: IOfferSubProductDiscounts<IUIOfferProductDiscountInstance> | undefined
+) => {
+  if (subProductDiscounts !== undefined) {
+    return subProductDiscounts;
+  } else {
+    return {
+      'Meal Plan': [],
+      Supplement: [],
+    };
+  }
+};
+
+export const getProductDiscountsOrInitial = (
+  productDiscounts: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined
+) => {
+  if (productDiscounts !== undefined) {
+    return productDiscounts;
+  } else {
+    return {
+      Transfer: [],
+      'Ground Service': [],
+      Fine: [],
+      Supplement: [],
+    };
+  }
 };

@@ -63,15 +63,15 @@ export interface IOfferPrerequisites {
 }
 
 export interface IOfferSubProductDiscounts<T> {
-  Supplement: T[];
-  'Meal Plan': T[];
+  Supplement?: T[];
+  'Meal Plan'?: T[];
 }
 
 export interface IOfferProductDiscounts<T> {
-  Transfer: T[];
-  'Ground Service': T[];
-  Fine: T[];
-  Supplement: T[];
+  Transfer?: T[];
+  'Ground Service'?: T[];
+  Fine?: T[];
+  Supplement?: T[];
 }
 
 export interface IOffer<T> {
@@ -108,6 +108,8 @@ export interface IOffer<T> {
 export interface IOfferUI extends IOffer<IUIOfferProductDiscountInstance> {}
 
 export interface IOfferAPI extends IOffer<IOfferProductDiscountInstance> {}
+
+export interface IOfferProductDiscountsUI extends IOfferProductDiscounts<IUIOfferProductDiscountInstance> {}
 
 export interface IOfferResponse {
   meta: any;
