@@ -14,7 +14,7 @@ import { StyledUserPanel, Text, Country, CountrySelect, Link } from './UserPanel
 
 // eslint-disable-next-line
 const renderLink = ({ title, ...props }) => (
-  <Link key={title} {...props}>
+  <Link className="link" key={title} {...props}>
     {title}
   </Link>
 );
@@ -39,16 +39,19 @@ export const UserPanel = ({
 }) => {
   const { t } = useTranslation();
   const [logout, setLogout] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const onSetCountry = useCallback(
     e => {
       setCountry(e.target.value);
+      setOpen(false);
     },
     [setCountry]
   );
 
   const onLogoutClick = useCallback(() => {
     setLogout(true);
+    setOpen(false);
     logOut(token);
   }, [logOut, token]);
 
@@ -61,27 +64,41 @@ export const UserPanel = ({
 
   return (
     <StyledUserPanel>
-      <DropDownMenu
-        title={
-          <Text>
-            {firstName} {lastName} {isSr && !equals(countryContext, userCountry) && `(${countryContext})`}
-          </Text>
-        }
+      <Text
+        onClick={() => {
+          setOpen(!open);
+        }}
       >
-        {isSr && (
-          <Country>
-            Country
-            <CountrySelect
-              value={countryContext}
-              options={countries}
-              onChange={onSetCountry}
-              disabled={shouldDisableCountrySelector(location)}
-            />
-          </Country>
-        )}
-        {renderLink({ title: t('labels.settings'), to: '/settings' })}
-        {renderLink({ title: t('labels.logout'), onClick: onLogoutClick })}
-      </DropDownMenu>
+        {firstName} {lastName} {isSr && !equals(countryContext, userCountry) && `(${countryContext})`}
+      </Text>
+
+      {open && (
+        <>
+          <div
+            className="dropdownBG"
+            onClick={() => {
+              setOpen(false);
+            }}
+          />
+          <ul className="dropdown">
+            <li>
+              {isSr && (
+                <Country>
+                  Country
+                  <CountrySelect
+                    value={countryContext}
+                    options={countries}
+                    onChange={onSetCountry}
+                    disabled={shouldDisableCountrySelector(location)}
+                  />
+                </Country>
+              )}
+            </li>
+            <li>{renderLink({ title: t('labels.settings'), to: '/settings', onClick: () => setOpen(false) })}</li>
+            <li>{renderLink({ title: t('labels.logout'), onClick: onLogoutClick })}</li>
+          </ul>
+        </>
+      )}
     </StyledUserPanel>
   );
 };
