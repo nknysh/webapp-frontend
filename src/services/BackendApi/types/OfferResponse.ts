@@ -67,6 +67,13 @@ export interface IOfferSubProductDiscounts<T> {
   'Meal Plan': T[];
 }
 
+export interface IOfferProductDiscounts<T> {
+  Transfer: T[];
+  'Ground Service': T[];
+  Fine: T[];
+  Supplement: T[];
+}
+
 export interface IOffer<T> {
   uuid: string;
   name: string;
@@ -93,12 +100,7 @@ export interface IOffer<T> {
     greenTaxDiscountApproach?: string;
   };
   subProductDiscounts?: IOfferSubProductDiscounts<T>;
-  productDiscounts?: {
-    Transfer?: IOfferProductDiscountInstance[];
-    'Ground Service'?: IOfferProductDiscountInstance[];
-    Fine?: IOfferProductDiscountInstance[];
-    Supplement?: IOfferProductDiscountInstance[];
-  };
+  productDiscounts?: IOfferProductDiscounts<T>;
   createdAt: string;
   updatedAt: string;
 }

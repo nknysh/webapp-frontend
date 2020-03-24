@@ -87,6 +87,13 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
       return offerPutSubProductDiscountSupplementReducer(state, action);
     case Actions.OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
       return offerDeleteSubProductDiscountSupplementReducer(state, action);
+
+    case Actions.OFFER_ADD_PRODUCT_DISCOUNT_FINE:
+      return offerAddProductDiscountFineReducer(state, action);
+    case Actions.OFFER_PUT_PRODUCT_DISCOUNT_FINE:
+      return offerPutProductDiscountFineReducer(state, action);
+    case Actions.OFFER_DELETE_PRODUCT_DISCOUNT_FINE:
+      return offerDeleteProductDiscountFineReducer(state, action);
     default:
       return state;
   }
@@ -513,12 +520,7 @@ export const offerAddSubProductDiscountSupplementReducer = (
   action: Actions.OfferAddSubProductDiscountSupplementAction
 ): IOfferUI => {
   return produce(state, draftState => {
-    let subProductDiscounts = draftState.subProductDiscounts
-      ? draftState.subProductDiscounts
-      : {
-          'Meal Plan': [],
-          Supplement: [],
-        };
+    let subProductDiscounts = getSubProductDiscountsOrInitial(draftState);
 
     subProductDiscounts.Supplement.push({
       index: subProductDiscounts.Supplement.length,
@@ -535,12 +537,7 @@ export const offerPutSubProductDiscountSupplementReducer = (
   action: Actions.OfferPutSubProductDiscountSupplementAction
 ): IOfferUI => {
   return produce(state, draftState => {
-    let subProductDiscounts = draftState.subProductDiscounts
-      ? draftState.subProductDiscounts
-      : {
-          'Meal Plan': [],
-          Supplement: [],
-        };
+    let subProductDiscounts = getSubProductDiscountsOrInitial(draftState);
 
     // if we're trying to put a discount for an index that doens't exist, just return the state
     const supplementArrayIndex = subProductDiscounts.Supplement.findIndex(
@@ -569,12 +566,7 @@ export const offerDeleteSubProductDiscountSupplementReducer = (
   action: Actions.OfferDeleteSubProductDiscountSupplementAction
 ): IOfferUI => {
   return produce(state, draftState => {
-    let subProductDiscounts = draftState.subProductDiscounts
-      ? draftState.subProductDiscounts
-      : {
-          'Meal Plan': [],
-          Supplement: [],
-        };
+    let subProductDiscounts = getSubProductDiscountsOrInitial(draftState);
 
     const indexToDelete = subProductDiscounts.Supplement.findIndex(sup => sup.index === action.index);
 
@@ -585,4 +577,90 @@ export const offerDeleteSubProductDiscountSupplementReducer = (
     draftState.subProductDiscounts?.Supplement.splice(indexToDelete, 1);
     return draftState;
   });
+};
+
+export const offerAddProductDiscountFineReducer = (
+  state: IOfferUI,
+  action: Actions.OfferAddProductDiscountFineAction
+) => {
+  return produce(state, draftState => {
+    let productDiscounts = getProductDiscountsOrInitial(draftState);
+
+    productDiscounts.Fine.push({
+      index: productDiscounts.Supplement.length,
+      products: [],
+    });
+
+    draftState.productDiscounts = productDiscounts;
+    return draftState;
+  });
+};
+
+export const offerPutProductDiscountFineReducer = (
+  state: IOfferUI,
+  action: Actions.OfferPutProductDiscountFineAction
+) => {
+  return produce(state, draftState => {
+    let productDiscounts = getProductDiscountsOrInitial(draftState);
+
+    // if we're trying to put a discount for an index that doens't exist, just return the state
+    const fineArrayIndex = productDiscounts.Fine.findIndex(s => s.index === action.fineDiscount.index);
+    if (fineArrayIndex === -1) {
+      return draftState;
+    }
+
+    // remove it from the original array, and re-add the new one in, and then sort them
+    productDiscounts.Fine.splice(fineArrayIndex, 1);
+    productDiscounts.Fine = [...productDiscounts.Fine, action.fineDiscount];
+    productDiscounts.Fine = sortSupplementsByIndex(productDiscounts.Fine);
+
+    // rebuild the main object
+    draftState.productDiscounts = {
+      ...productDiscounts,
+    };
+
+    return draftState;
+  });
+};
+
+export const offerDeleteProductDiscountFineReducer = (
+  state: IOfferUI,
+  action: Actions.OfferDeleteProductDiscountFineAction
+) => {
+  return produce(state, draftState => {
+    let productDiscounts = getProductDiscountsOrInitial(draftState);
+
+    const indexToDelete = productDiscounts.Fine.findIndex(sup => sup.index === action.index);
+
+    if (indexToDelete === -1) {
+      return draftState;
+    }
+
+    draftState.productDiscounts?.Fine.splice(indexToDelete, 1);
+    return draftState;
+  });
+};
+
+const getSubProductDiscountsOrInitial = (offer: IOfferUI) => {
+  if (offer.subProductDiscounts) {
+    return offer.subProductDiscounts;
+  } else {
+    return {
+      'Meal Plan': [],
+      Supplement: [],
+    };
+  }
+};
+
+const getProductDiscountsOrInitial = (offer: IOfferUI) => {
+  if (offer.productDiscounts) {
+    return offer.productDiscounts;
+  } else {
+    return {
+      Transfer: [],
+      'Ground Service': [],
+      Fine: [],
+      Supplement: [],
+    };
+  }
 };

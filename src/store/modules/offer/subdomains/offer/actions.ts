@@ -48,6 +48,11 @@ export const OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_ADD_SUB_PR
 export const OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT';
 export const OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT';
 
+// product discounts > Supplements
+export const OFFER_ADD_PRODUCT_DISCOUNT_FINE = 'offer/OFFER_ADD_PRODUCT_DISCOUNT_FINE';
+export const OFFER_PUT_PRODUCT_DISCOUNT_FINE = 'offer/OFFER_PUT_PRODUCT_DISCOUNT_FINE';
+export const OFFER_DELETE_PRODUCT_DISCOUNT_FINE = 'offer/OFFER_DELETE_PRODUCT_DISCOUNT_FINE';
+
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
@@ -248,6 +253,7 @@ export const offerClearAllAccommodationDiscountAction = () => ({
   type: OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION as typeof OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION,
 });
 
+// supplement discounts
 export type OfferAddSubProductDiscountSupplementAction = ReturnType<typeof offerAddSubProductDiscountSupplementAction>;
 export const offerAddSubProductDiscountSupplementAction = () => ({
   type: OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT,
@@ -266,6 +272,24 @@ export type OfferDeleteSubProductDiscountSupplementAction = ReturnType<
 >;
 export const offerDeleteSubProductDiscountSupplementAction = (index: number) => ({
   type: OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT,
+  index,
+});
+
+// Fine discounts
+export type OfferAddProductDiscountFineAction = ReturnType<typeof offerAddProductDiscountFineAction>;
+export const offerAddProductDiscountFineAction = () => ({
+  type: OFFER_ADD_PRODUCT_DISCOUNT_FINE as typeof OFFER_ADD_PRODUCT_DISCOUNT_FINE,
+});
+
+export type OfferPutProductDiscountFineAction = ReturnType<typeof offerPutProductDiscountFineAction>;
+export const offerPutProductDiscountFineAction = (fineDiscount: IUIOfferProductDiscountInstance) => ({
+  type: OFFER_PUT_PRODUCT_DISCOUNT_FINE as typeof OFFER_PUT_PRODUCT_DISCOUNT_FINE,
+  fineDiscount,
+});
+
+export type OfferDeleteProductDiscountFineAction = ReturnType<typeof offerDeleteProductDiscountFineAction>;
+export const offerDeleteProductDiscountFineAction = (index: number) => ({
+  type: OFFER_DELETE_PRODUCT_DISCOUNT_FINE as typeof OFFER_DELETE_PRODUCT_DISCOUNT_FINE,
   index,
 });
 
@@ -303,4 +327,7 @@ export type OfferAction =
   | OfferClearAllAccommodationDiscountAction
   | OfferAddSubProductDiscountSupplementAction
   | OfferPutSubProductDiscountSupplementAction
-  | OfferDeleteSubProductDiscountSupplementAction;
+  | OfferDeleteSubProductDiscountSupplementAction
+  | OfferAddProductDiscountFineAction
+  | OfferPutProductDiscountFineAction
+  | OfferDeleteProductDiscountFineAction;

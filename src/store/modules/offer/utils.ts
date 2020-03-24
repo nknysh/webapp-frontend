@@ -52,9 +52,18 @@ export const returnObjectWithUndefinedsAsEmptyStrings = obj => {
 export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
   return produce(offer, (draftOffer: IOfferUI) => {
     if (draftOffer.subProductDiscounts?.Supplement) {
-      draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map((sup, arrayIndex) => {
-        sup.index = arrayIndex;
-        return sup;
+      draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(
+        (discount, arrayIndex) => {
+          discount.index = arrayIndex;
+          return discount;
+        }
+      );
+    }
+
+    if (draftOffer.productDiscounts?.Fine) {
+      draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map((discount, arrayIndex) => {
+        discount.index = arrayIndex;
+        return discount;
       });
     }
 
@@ -65,12 +74,26 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
 export const transformUiOfferToApiOffer = (offer: IOfferUI): IOfferAPI => {
   return produce(offer, (draftOffer: IOfferAPI) => {
     if (draftOffer.subProductDiscounts?.Supplement) {
-      draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map((sup, arrayIndex) => {
+      draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(
+        (discount, arrayIndex) => {
+          const newSupplement: IOfferProductDiscountInstance = {
+            products: discount.products,
+            discountPercentage: discount.discountPercentage,
+            greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
+            maximumQuantity: discount.maximumQuantity,
+          };
+          return newSupplement;
+        }
+      );
+    }
+
+    if (draftOffer.productDiscounts?.Fine) {
+      draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map((discount, arrayIndex) => {
         const newSupplement: IOfferProductDiscountInstance = {
-          products: sup.products,
-          discountPercentage: sup.discountPercentage,
-          greenTaxDiscountApproach: sup.greenTaxDiscountApproach,
-          maximumQuantity: sup.maximumQuantity,
+          products: discount.products,
+          discountPercentage: discount.discountPercentage,
+          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
+          maximumQuantity: discount.maximumQuantity,
         };
         return newSupplement;
       });

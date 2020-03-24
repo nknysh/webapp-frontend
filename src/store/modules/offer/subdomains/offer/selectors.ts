@@ -233,3 +233,14 @@ export const offerExtraPersonSupplementsSelector = createSelector(
     });
   }
 );
+
+export const offerProductDiscountsSelector = createSelector(offerSelector, offer => {
+  return offer.productDiscounts;
+});
+
+export const offerProductDiscountsFinesSelector = createSelector(offerProductDiscountsSelector, productDiscounts => {
+  if (!productDiscounts || !productDiscounts.Fine) {
+    return [];
+  }
+  return productDiscounts.Fine;
+});
