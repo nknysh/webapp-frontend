@@ -7,7 +7,6 @@ import { initialState } from '../../model';
 import * as R from 'ramda';
 import { productDiscountsReducer } from './offerProductDiscountsReducer';
 import { subProductDiscountsReducer } from './offerSubProductDiscountsReducer';
-import { sortObjectsByIndex, getSubProductDiscountsOrInitial } from '../../utils';
 
 export const offerReducer = (state: IOfferUI = initialState.offer, action: OfferDomainAction): IOfferUI => {
   switch (action.type) {
