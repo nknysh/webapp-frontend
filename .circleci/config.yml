@@ -80,7 +80,7 @@ jobs:
       - aws-cli/setup:
           profile-name: default
       - run: |
-          configure set preview.cloudfront true
+          aws configure set preview.cloudfront true
       - run: |
           .circleci/do-exclusively.sh aws s3 sync ./dist s3://sandbox.pure-escapes.com \
             --acl public-read --delete \
