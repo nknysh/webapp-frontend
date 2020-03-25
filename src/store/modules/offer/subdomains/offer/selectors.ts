@@ -247,3 +247,13 @@ export const offerProductDiscountsGroundServicesSelector = createSelector(
     return productDiscounts['Ground Service'];
   }
 );
+
+export const offerSubProductDiscountsMealPlansSelector = createSelector(
+  offerSubProductDiscountsSelector,
+  subProductDiscounts => {
+    if (!subProductDiscounts || !subProductDiscounts['Meal Plan']) {
+      return [];
+    }
+    return subProductDiscounts['Meal Plan'];
+  }
+);

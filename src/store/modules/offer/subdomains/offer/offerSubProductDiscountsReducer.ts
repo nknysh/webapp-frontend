@@ -17,6 +17,12 @@ export const subProductDiscountsReducer = (
       return offerPutSubProductDiscountSupplementReducer(state, action);
     case Actions.OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
       return offerDeleteSubProductDiscountSupplementReducer(state, action);
+    case Actions.OFFER_ADD_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
+      return offerAddSubProductDiscountMealPlanReducer(state, action);
+    case Actions.OFFER_PUT_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
+      return offerPutSubProductDiscountMealPlanReducer(state, action);
+    case Actions.OFFER_DELETE_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
+      return offerDeleteSubProductDiscountMealPlanReducer(state, action);
   }
 };
 
@@ -92,7 +98,7 @@ export const offerDeleteSubProductDiscountSupplementReducer = (
 // Meal Plans
 export const offerAddSubProductDiscountMealPlanReducer = (
   state: IOfferSubProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
-  action: Actions.OfferAddSubProductDiscountSupplementAction
+  action: Actions.OfferAddSubProductDiscountMealPlanAction
 ) => {
   return produce(state, draftState => {
     if (draftState === undefined) {
@@ -114,7 +120,7 @@ export const offerAddSubProductDiscountMealPlanReducer = (
 
 export const offerPutSubProductDiscountMealPlanReducer = (
   state: IOfferSubProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
-  action: Actions.OfferPutSubProductDiscountSupplementAction
+  action: Actions.OfferPutSubProductDiscountMealPlanAction
 ) => {
   return produce(state, draftState => {
     if (draftState === undefined || draftState['Meal Plan'] === undefined) {
@@ -123,7 +129,7 @@ export const offerPutSubProductDiscountMealPlanReducer = (
 
     // if we're trying to put a discount for an index that doens't exist, just return the state
     const supplementArrayIndex = draftState['Meal Plan'].findIndex(
-      s => s.index === action.subProductDiscountSupplement.index
+      s => s.index === action.subProductDiscountMealPlan.index
     );
     if (supplementArrayIndex === -1) {
       return draftState;
@@ -131,7 +137,7 @@ export const offerPutSubProductDiscountMealPlanReducer = (
 
     // remove it from the original array, and re-add the new one in, and then sort them
     draftState['Meal Plan'].splice(supplementArrayIndex, 1);
-    draftState['Meal Plan'] = [...draftState['Meal Plan'], action.subProductDiscountSupplement];
+    draftState['Meal Plan'] = [...draftState['Meal Plan'], action.subProductDiscountMealPlan];
     draftState['Meal Plan'] = sortObjectsByIndex(draftState['Meal Plan']);
 
     return draftState;
@@ -140,14 +146,14 @@ export const offerPutSubProductDiscountMealPlanReducer = (
 
 export const offerDeleteSubProductDiscountMealPlanReducer = (
   state: IOfferSubProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
-  action: Actions.OfferDeleteSubProductDiscountSupplementAction
+  action: Actions.OfferDeleteSubProductDiscountMealPlanAction
 ) => {
   return produce(state, draftState => {
     if (draftState === undefined || draftState['Meal Plan'] === undefined) {
       return draftState;
     }
 
-    const indexToDelete = draftState['Meal Plan'].findIndex(sup => sup.index === action.index);
+    const indexToDelete = draftState['Meal Plan'].findIndex(discount => discount.index === action.index);
 
     if (indexToDelete === -1) {
       return draftState;

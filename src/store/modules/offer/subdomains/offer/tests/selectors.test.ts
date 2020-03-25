@@ -38,6 +38,8 @@ import {
   offerTaCountriesPrerequisiteByRegionSelector,
   offerProductDiscountsFinesSelector,
   offerProductDiscountsGroundServicesSelector,
+  offerSubProductDiscountsMealPlansSelector,
+  offerProductDiscountsSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -1011,7 +1013,7 @@ describe('Offer Selectors', () => {
         ...initialState.offer,
       } as IOfferUI;
 
-      const selected = offerSubProductDiscountsSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsSelector.resultFunc(fixture);
 
       expect(selected).toEqual(undefined);
     });
@@ -1025,7 +1027,7 @@ describe('Offer Selectors', () => {
         },
       } as IOfferUI;
 
-      const selected = offerSubProductDiscountsSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject({
         'Ground Service': [],
@@ -1038,7 +1040,7 @@ describe('Offer Selectors', () => {
     it('gets an empty array if none are set', () => {
       const fixture = undefined;
 
-      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offerSubProductDiscountsMealPlansSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([]);
     });
@@ -1057,7 +1059,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offerSubProductDiscountsMealPlansSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {
@@ -1085,7 +1087,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offerSubProductDiscountsMealPlansSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {
