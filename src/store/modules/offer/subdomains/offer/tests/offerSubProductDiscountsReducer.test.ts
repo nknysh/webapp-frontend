@@ -486,7 +486,7 @@ describe('offer reducer sub product meal plan', () => {
             products: [],
           },
         ],
-        Supplement: [,],
+        Supplement: [],
       },
     };
 
