@@ -109,8 +109,6 @@ export interface IOfferUI extends IOffer<IUIOfferProductDiscountInstance> {}
 
 export interface IOfferAPI extends IOffer<IOfferProductDiscountInstance> {}
 
-export interface IOfferProductDiscountsUI extends IOfferProductDiscounts<IUIOfferProductDiscountInstance> {}
-
 export interface IOfferResponse {
   meta: any;
   data: IOfferAPI;
