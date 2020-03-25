@@ -2,7 +2,7 @@ import * as Actions from '../../actions';
 import produce from 'immer';
 import { IOfferProductDiscounts, IUIOfferProductDiscountInstance } from 'services/BackendApi';
 import { GET_OFFER_SUCCESS } from '../../actions';
-import { sortObjectsByIndex, getProductDiscountsOrInitial } from '../../utils';
+import { sortObjectsByIndex } from '../../utils';
 
 export const productDiscountsReducer = (
   state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
@@ -51,20 +51,7 @@ export const offerAddProductDiscountFineReducer = (
   action: Actions.OfferAddProductDiscountFineAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined) {
-      draftState = {} as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
-    }
-
-    if (draftState.Fine === undefined) {
-      draftState.Fine = [];
-    }
-
-    draftState.Fine.push({
-      index: draftState?.Fine.length,
-      products: [],
-    });
-
-    return draftState;
+    return addDiscountHandler(draftState, 'Fine');
   });
 };
 
@@ -73,21 +60,7 @@ export const offerPutProductDiscountFineReducer = (
   action: Actions.OfferPutProductDiscountFineAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined || draftState.Fine === undefined) {
-      return draftState;
-    }
-
-    // if we're trying to put a discount for an index that doens't exist, just return the state
-    const fineArrayIndex = draftState.Fine.findIndex(s => s.index === action.fineDiscount.index);
-    if (fineArrayIndex === -1) {
-      return draftState;
-    }
-
-    draftState.Fine.splice(fineArrayIndex, 1);
-    draftState.Fine = [...draftState.Fine, action.fineDiscount];
-    draftState.Fine = sortObjectsByIndex(draftState.Fine);
-
-    return draftState;
+    return putDiscountHandler(draftState, 'Fine', action.fineDiscount);
   });
 };
 
@@ -96,18 +69,7 @@ export const offerDeleteProductDiscountFineReducer = (
   action: Actions.OfferDeleteProductDiscountFineAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined || draftState.Fine === undefined) {
-      return draftState;
-    }
-
-    const indexToDelete = draftState.Fine.findIndex(sup => sup.index === action.index);
-
-    if (indexToDelete === -1) {
-      return draftState;
-    }
-
-    draftState?.Fine.splice(indexToDelete, 1);
-    return draftState;
+    return deleteDiscountHandler(draftState, 'Fine', action.index);
   });
 };
 
@@ -119,20 +81,7 @@ export const offerAddProductDiscountGroundServiceReducer = (
   action: Actions.OfferAddProductDiscountGroundServiceAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined) {
-      draftState = {} as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
-    }
-
-    if (draftState['Ground Service'] === undefined || draftState['Ground Service'].length <= 0) {
-      draftState['Ground Service'] = [];
-    }
-
-    draftState['Ground Service'].push({
-      index: draftState['Ground Service'].length,
-      products: [],
-    });
-
-    return draftState;
+    return addDiscountHandler(draftState, 'Ground Service');
   });
 };
 
@@ -141,21 +90,7 @@ export const offerPutProductDiscountGroundServiceReducer = (
   action: Actions.OfferPutProductDiscountGroundServiceAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined || draftState['Ground Service'] === undefined) {
-      return draftState;
-    }
-
-    // if we're trying to put a discount for an index that doens't exist, just return the state
-    const fineArrayIndex = draftState['Ground Service'].findIndex(s => s.index === action.groundServiceDiscount.index);
-    if (fineArrayIndex === -1) {
-      return draftState;
-    }
-
-    draftState['Ground Service'].splice(fineArrayIndex, 1);
-    draftState['Ground Service'] = [...draftState['Ground Service'], action.groundServiceDiscount];
-    draftState['Ground Service'] = sortObjectsByIndex(draftState['Ground Service']);
-
-    return draftState;
+    return putDiscountHandler(draftState, 'Ground Service', action.groundServiceDiscount);
   });
 };
 
@@ -164,18 +99,7 @@ export const offerDeleteProductDiscountGroundServiceReducer = (
   action: Actions.OfferDeleteProductDiscountGroundServiceAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined || draftState['Ground Service'] === undefined) {
-      return draftState;
-    }
-
-    const indexToDelete = draftState['Ground Service'].findIndex(sup => sup.index === action.index);
-
-    if (indexToDelete === -1) {
-      return draftState;
-    }
-
-    draftState['Ground Service'].splice(indexToDelete, 1);
-    return draftState;
+    return deleteDiscountHandler(draftState, 'Ground Service', action.index);
   });
 };
 
@@ -187,20 +111,7 @@ export const offerAddProductDiscountTransferReducer = (
   action: Actions.OfferAddProductDiscountTransferAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined) {
-      draftState = {} as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
-    }
-
-    if (draftState.Transfer === undefined) {
-      draftState.Transfer = [];
-    }
-
-    draftState.Transfer.push({
-      index: draftState.Transfer.length,
-      products: [],
-    });
-
-    return draftState;
+    return addDiscountHandler(draftState, 'Transfer');
   });
 };
 
@@ -209,21 +120,7 @@ export const offerPutProductDiscountTransferReducer = (
   action: Actions.OfferPutProductDiscountTransferAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined || draftState.Transfer === undefined) {
-      return draftState;
-    }
-
-    // if we're trying to put a discount for an index that doens't exist, just return the state
-    const fineArrayIndex = draftState.Transfer.findIndex(s => s.index === action.transferDiscount.index);
-    if (fineArrayIndex === -1) {
-      return draftState;
-    }
-
-    draftState.Transfer.splice(fineArrayIndex, 1);
-    draftState.Transfer = [...draftState.Transfer, action.transferDiscount];
-    draftState.Transfer = sortObjectsByIndex(draftState.Transfer);
-
-    return draftState;
+    return putDiscountHandler(draftState, 'Transfer', action.transferDiscount);
   });
 };
 
@@ -232,18 +129,7 @@ export const offerDeleteProductDiscountTransferReducer = (
   action: Actions.OfferDeleteProductDiscountTransferAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined || draftState.Transfer === undefined) {
-      return draftState;
-    }
-
-    const indexToDelete = draftState.Transfer.findIndex(sup => sup.index === action.index);
-
-    if (indexToDelete === -1) {
-      return draftState;
-    }
-
-    draftState?.Transfer.splice(indexToDelete, 1);
-    return draftState;
+    return deleteDiscountHandler(draftState, 'Transfer', action.index);
   });
 };
 
@@ -255,20 +141,7 @@ export const offerAddProductDiscountSupplementReducer = (
   action: Actions.OfferAddProductDiscountSupplementAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined) {
-      draftState = {} as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
-    }
-
-    if (draftState.Supplement === undefined) {
-      draftState.Supplement = [];
-    }
-
-    draftState.Supplement.push({
-      index: draftState.Supplement.length,
-      products: [],
-    });
-
-    return draftState;
+    return addDiscountHandler(draftState, 'Supplement');
   });
 };
 
@@ -277,21 +150,7 @@ export const offerPutProductDiscountSupplementReducer = (
   action: Actions.OfferPutProductDiscountSupplementAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined || draftState.Supplement === undefined) {
-      return draftState;
-    }
-
-    // if we're trying to put a discount for an index that doens't exist, just return the state
-    const fineArrayIndex = draftState.Supplement.findIndex(s => s.index === action.supplementDiscount.index);
-    if (fineArrayIndex === -1) {
-      return draftState;
-    }
-
-    draftState.Supplement.splice(fineArrayIndex, 1);
-    draftState.Supplement = [...draftState.Supplement, action.supplementDiscount];
-    draftState.Supplement = sortObjectsByIndex(draftState.Supplement);
-
-    return draftState;
+    return putDiscountHandler(draftState, 'Supplement', action.supplementDiscount);
   });
 };
 
@@ -300,17 +159,67 @@ export const offerDeleteProductDiscountSupplementReducer = (
   action: Actions.OfferDeleteProductDiscountSupplementAction
 ) => {
   return produce(state, draftState => {
-    if (draftState === undefined || draftState.Supplement === undefined) {
-      return draftState;
-    }
-
-    const indexToDelete = draftState.Supplement.findIndex(sup => sup.index === action.index);
-
-    if (indexToDelete === -1) {
-      return draftState;
-    }
-
-    draftState?.Supplement.splice(indexToDelete, 1);
-    return draftState;
+    return deleteDiscountHandler(draftState, 'Supplement', action.index);
   });
+};
+
+const addDiscountHandler = (
+  draftState,
+  discountType: keyof IOfferProductDiscounts<IUIOfferProductDiscountInstance>
+) => {
+  if (draftState === undefined) {
+    draftState = {} as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+  }
+
+  if (draftState[discountType] === undefined) {
+    draftState[discountType] = [];
+  }
+
+  draftState[discountType].push({
+    index: draftState[discountType].length,
+    products: [],
+  });
+
+  return draftState;
+};
+
+const putDiscountHandler = (
+  draftState,
+  discountType: keyof IOfferProductDiscounts<IUIOfferProductDiscountInstance>,
+  discountInstance
+) => {
+  if (draftState === undefined || draftState[discountType] === undefined) {
+    return draftState;
+  }
+
+  // if we're trying to put a discount for an index that doens't exist, just return the state
+  const fineArrayIndex = draftState[discountType].findIndex(s => s.index === discountInstance.index);
+  if (fineArrayIndex === -1) {
+    return draftState;
+  }
+
+  draftState[discountType].splice(fineArrayIndex, 1);
+  draftState[discountType] = [...draftState[discountType], discountInstance];
+  draftState[discountType] = sortObjectsByIndex(draftState[discountType]);
+
+  return draftState;
+};
+
+const deleteDiscountHandler = (
+  draftState,
+  discountType: keyof IOfferProductDiscounts<IUIOfferProductDiscountInstance>,
+  index: number
+) => {
+  if (draftState === undefined || draftState[discountType] === undefined) {
+    return draftState;
+  }
+
+  const indexToDelete = draftState[discountType].findIndex(sup => sup.index === index);
+
+  if (indexToDelete === -1) {
+    return draftState;
+  }
+
+  draftState[discountType].splice(indexToDelete, 1);
+  return draftState;
 };
