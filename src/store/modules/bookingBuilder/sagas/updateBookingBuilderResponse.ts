@@ -17,6 +17,8 @@ import {
   UPDATE_TA_MARGIN_TYPE_ACTION,
   UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
   UPDATE_TRAVEL_AGENT_USER_ID,
+  SAVE_CUSTOM_ITEM,
+  REMOVE_CUSTOM_ITEM
 } from '../actions';
 
 import { makeBackendApi, BookingBuilderEndpointSuccess, BookingBuilderRequest } from 'services/BackendApi';
@@ -79,6 +81,8 @@ export function* watchBookingActions() {
       UPDATE_TA_MARGIN_TYPE_ACTION,
       UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
       UPDATE_TRAVEL_AGENT_USER_ID,
+      SAVE_CUSTOM_ITEM,
+      REMOVE_CUSTOM_ITEM
     ],
     bookingBuilderResponseSaga
   );

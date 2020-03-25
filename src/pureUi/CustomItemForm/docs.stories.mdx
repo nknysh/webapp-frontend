@@ -1,0 +1,18 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import CustomItemForm from './';
+
+
+<Meta title="PureUi/CustomItemForm" component={CustomItemForm} />
+
+# CustomItemForm
+
+<Preview>
+  <Story name="Initial state">
+    <CustomItemForm />
+  </Story>
+  <Story name="With data">
+    <CustomItemForm data={{
+      name: 'Custom Item'
+    }}/>
+  </Story>
+</Preview>

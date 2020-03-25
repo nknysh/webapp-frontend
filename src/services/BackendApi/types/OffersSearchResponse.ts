@@ -66,11 +66,11 @@ export interface SelectedAccommodation {
 }
 
 export interface CustomItemPayload {
-  total: string;
-  name: string;
-  description?: string | null;
-  countsAsMealPlan?: boolean | null;
-  countsAsTransfer?: boolean | null;
+  total?: string;
+  name?: string;
+  description?: string;
+  countsAsMealPlan?: boolean;
+  countsAsTransfer?: boolean;
 }
 
 export interface BookingBuilderRequest {

@@ -1,5 +1,7 @@
 import { initialState, BookingBuilderDomain } from './model';
 import * as Actions from './actions';
+import * as CustomItemActions from './subdomains/customItem/actions';
+import { customItemReducer } from './subdomains/customItem/reducer';
 import { makeBookingBuilderStub } from './utils';
 import { SelectedAccommodation } from 'services/BackendApi';
 import { flatten, min as Rmin } from 'ramda';
@@ -67,6 +69,24 @@ export const bookingBuilderReducer = (
 
     case Actions.UPDATE_LODGING_REPEAT_GUEST_ACTION:
       return updateLodgingRepeatGuestReducer(state, action);
+    
+    case Actions.SAVE_CUSTOM_ITEM:
+      return saveCustomItemReducer(state, action);
+    case Actions.REMOVE_CUSTOM_ITEM:
+      return removeCustomItemReducer(state, action);
+
+    case CustomItemActions.SHOW_CUSTOM_ITEM_FORM:
+    case CustomItemActions.HIDE_CUSTOM_ITEM_FORM:
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_NAME:
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_TOTAL: 
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_DESCRIPTION: 
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_COUNTS_AS_MEAL_PLAN: 
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_COUNTS_AS_TRANSFER: 
+      return {
+        ...state,
+        customItem: customItemReducer(state.customItem, action)
+      };
+
     default:
       return state;
   }
@@ -625,3 +645,50 @@ export const calculateBookingDates = (accommodations: SelectedAccommodation[]) =
 };
 
 export default bookingBuilderReducer;
+
+
+export const saveCustomItemReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.SaveCustomItemAction
+): BookingBuilderDomain => {
+  
+  return produce(state, draftState => {
+    if (!draftState.currentBookingBuilder || !draftState.customItem.payload) {
+      return state;
+    }
+
+    if (!draftState.currentBookingBuilder.request.customItems) {
+      draftState.currentBookingBuilder.request.customItems = [];
+    }
+
+    draftState
+      .currentBookingBuilder
+      .request
+      .customItems
+      .push(draftState.customItem.payload);
+    
+    draftState.customItem.payload = null;
+
+    return draftState;
+  });
+};
+
+export const removeCustomItemReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.RemoveCustomItemAction
+): BookingBuilderDomain => {
+  
+  return produce(state, draftState => {
+    if (!draftState.currentBookingBuilder) {
+      return state;
+    }
+
+    draftState
+      .currentBookingBuilder
+      .request
+      .customItems
+      .splice(action.index, 1);
+
+    return draftState;
+  });
+};
