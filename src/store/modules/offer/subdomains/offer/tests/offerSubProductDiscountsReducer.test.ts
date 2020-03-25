@@ -750,7 +750,7 @@ describe('offer reducer sub product meal plan', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleteing a supplement', () => {
+  it('deleteing a meal plan', () => {
     const action = offerDeleteSubProductDiscountMealPlanAction(1);
 
     const testState: IOfferUI = {
@@ -785,7 +785,7 @@ describe('offer reducer sub product meal plan', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleting a supplement (deleting the last one leaves an empty array)', () => {
+  it('deleting a meal plan (deleting the last one leaves an empty array)', () => {
     const action = offerDeleteSubProductDiscountMealPlanAction(0);
 
     const testState: IOfferUI = {
@@ -811,7 +811,7 @@ describe('offer reducer sub product meal plan', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleting a supplement (with an index value different to its actual index)', () => {
+  it('deleting a meal plan (with an index value different to its actual index)', () => {
     const action = offerDeleteSubProductDiscountMealPlanAction(4);
 
     const testState: IOfferUI = {

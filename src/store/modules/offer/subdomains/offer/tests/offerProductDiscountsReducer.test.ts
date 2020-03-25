@@ -428,7 +428,7 @@ describe('offer reducer product fines', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleting a supplement (with an index value different to its actual index)', () => {
+  it('deleting a fine (with an index value different to its actual index)', () => {
     const action = offerDeleteProductDiscountFineAction(4);
 
     const testState: IOfferUI = {
