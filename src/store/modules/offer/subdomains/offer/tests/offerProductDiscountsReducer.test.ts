@@ -1694,7 +1694,7 @@ describe('offer reducer product supplements', () => {
     const expected: IOfferUI = {
       ...initialState.offer,
       productDiscounts: {
-        Transfer: [],
+        Supplement: [],
         Fine: [],
       },
     };
