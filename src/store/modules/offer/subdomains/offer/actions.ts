@@ -63,6 +63,16 @@ export const OFFER_ADD_PRODUCT_DISCOUNT_GROUND_SERVICE = 'offer/OFFER_ADD_PRODUC
 export const OFFER_PUT_PRODUCT_DISCOUNT_GROUND_SERVICE = 'offer/OFFER_PUT_PRODUCT_DISCOUNT_GROUND_SERVICE';
 export const OFFER_DELETE_PRODUCT_DISCOUNT_GROUND_SERVICE = 'offer/OFFER_DELETE_PRODUCT_DISCOUNT_GROUND_SERVICE';
 
+// Product discounts > Transfer
+export const OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER = 'offer/OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER';
+export const OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER = 'offer/OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER';
+export const OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER = 'offer/OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER';
+
+// Product discounts > Supplement
+export const OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT';
+export const OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT';
+export const OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT';
+
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
@@ -345,6 +355,42 @@ export const offerDeleteSubProductDiscountMealPlanAction = (index: number) => ({
   index,
 });
 
+// Product Discounts > Transfer
+export type OfferAddProductDiscountTransferAction = ReturnType<typeof offerAddProductDiscountTransferAction>;
+export const offerAddProductDiscountTransferAction = () => ({
+  type: OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER as typeof OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER,
+});
+
+export type OfferPutProductDiscountTransferAction = ReturnType<typeof offerPutProductDiscountTransferAction>;
+export const offerPutProductDiscountTransferAction = (transferDiscount: IUIOfferProductDiscountInstance) => ({
+  type: OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER as typeof OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER,
+  transferDiscount,
+});
+
+export type OfferDeleteProductDiscountTransferAction = ReturnType<typeof offerDeleteProductDiscountTransferAction>;
+export const offerDeleteProductDiscountTransferAction = (index: number) => ({
+  type: OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER as typeof OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER,
+  index,
+});
+
+// Product Discounts > Supplement
+export type OfferAddProductDiscountSupplementAction = ReturnType<typeof offerAddProductDiscountSupplementAction>;
+export const offerAddProductDiscountSupplementAction = () => ({
+  type: OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT,
+});
+
+export type OfferPutProductDiscountSupplementAction = ReturnType<typeof offerPutProductDiscountSupplementAction>;
+export const offerPutProductDiscountSupplementAction = (supplementDiscount: IUIOfferProductDiscountInstance) => ({
+  type: OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT,
+  supplementDiscount: supplementDiscount,
+});
+
+export type OfferDeleteProductDiscountSupplementAction = ReturnType<typeof offerDeleteProductDiscountSupplementAction>;
+export const offerDeleteProductDiscountSupplementAction = (index: number) => ({
+  type: OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT,
+  index,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferHotelUuidChangeSuccessAction
@@ -388,4 +434,10 @@ export type OfferAction =
   | OfferDeleteProductDiscountGroundServiceAction
   | OfferAddSubProductDiscountMealPlanAction
   | OfferPutSubProductDiscountMealPlanAction
-  | OfferDeleteSubProductDiscountMealPlanAction;
+  | OfferDeleteSubProductDiscountMealPlanAction
+  | OfferAddProductDiscountTransferAction
+  | OfferPutProductDiscountTransferAction
+  | OfferDeleteProductDiscountTransferAction
+  | OfferAddProductDiscountSupplementAction
+  | OfferPutProductDiscountSupplementAction
+  | OfferDeleteProductDiscountSupplementAction;

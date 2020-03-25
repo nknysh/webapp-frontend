@@ -187,7 +187,7 @@ export const offerMaxLodgingsPrerequisiteSelector = createSelector(
 
 export const offerStayLengthPrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
-  prerequisites => prerequisites.stayLength || { minimum: '', maximum: '', strictMinMaxStay: false}
+  prerequisites => prerequisites.stayLength || { minimum: '', maximum: '', strictMinMaxStay: false }
 );
 
 export const offerSteppingApplicationSelector = createSelector(offerSelector, offer => {
@@ -255,5 +255,25 @@ export const offerSubProductDiscountsMealPlansSelector = createSelector(
       return [];
     }
     return subProductDiscounts['Meal Plan'];
+  }
+);
+
+export const offerProductDiscountsTransfersSelector = createSelector(
+  offerProductDiscountsSelector,
+  productDiscounts => {
+    if (!productDiscounts || !productDiscounts.Transfer) {
+      return [];
+    }
+    return productDiscounts.Transfer;
+  }
+);
+
+export const offerProductDiscountsSupplementsSelector = createSelector(
+  offerProductDiscountsSelector,
+  productDiscounts => {
+    if (!productDiscounts || !productDiscounts.Supplement) {
+      return [];
+    }
+    return productDiscounts.Supplement;
   }
 );

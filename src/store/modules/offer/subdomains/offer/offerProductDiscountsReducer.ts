@@ -24,11 +24,28 @@ export const productDiscountsReducer = (
     case Actions.OFFER_DELETE_PRODUCT_DISCOUNT_GROUND_SERVICE:
       return offerDeleteProductDiscountGroundServiceReducer(state, action);
 
+    case Actions.OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER:
+      return offerAddProductDiscountTransferReducer(state, action);
+    case Actions.OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER:
+      return offerPutProductDiscountTransferReducer(state, action);
+    case Actions.OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER:
+      return offerDeleteProductDiscountTransferReducer(state, action);
+
+    case Actions.OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT:
+      return offerAddProductDiscountSupplementReducer(state, action);
+    case Actions.OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT:
+      return offerPutProductDiscountSupplementReducer(state, action);
+    case Actions.OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT:
+      return offerDeleteProductDiscountSupplementReducer(state, action);
+
     default:
       return state;
   }
 };
 
+//
+// Fine
+//
 export const offerAddProductDiscountFineReducer = (
   state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
   action: Actions.OfferAddProductDiscountFineAction
@@ -94,6 +111,9 @@ export const offerDeleteProductDiscountFineReducer = (
   });
 };
 
+//
+// Ground Service
+//
 export const offerAddProductDiscountGroundServiceReducer = (
   state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
   action: Actions.OfferAddProductDiscountGroundServiceAction
@@ -155,6 +175,142 @@ export const offerDeleteProductDiscountGroundServiceReducer = (
     }
 
     draftState['Ground Service'].splice(indexToDelete, 1);
+    return draftState;
+  });
+};
+
+//
+// Transfer
+//
+export const offerAddProductDiscountTransferReducer = (
+  state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
+  action: Actions.OfferAddProductDiscountTransferAction
+) => {
+  return produce(state, draftState => {
+    if (draftState === undefined) {
+      draftState = {} as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+    }
+
+    if (draftState.Transfer === undefined) {
+      draftState.Transfer = [];
+    }
+
+    draftState.Transfer.push({
+      index: draftState.Transfer.length,
+      products: [],
+    });
+
+    return draftState;
+  });
+};
+
+export const offerPutProductDiscountTransferReducer = (
+  state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
+  action: Actions.OfferPutProductDiscountTransferAction
+) => {
+  return produce(state, draftState => {
+    if (draftState === undefined || draftState.Transfer === undefined) {
+      return draftState;
+    }
+
+    // if we're trying to put a discount for an index that doens't exist, just return the state
+    const fineArrayIndex = draftState.Transfer.findIndex(s => s.index === action.transferDiscount.index);
+    if (fineArrayIndex === -1) {
+      return draftState;
+    }
+
+    draftState.Transfer.splice(fineArrayIndex, 1);
+    draftState.Transfer = [...draftState.Transfer, action.transferDiscount];
+    draftState.Transfer = sortObjectsByIndex(draftState.Transfer);
+
+    return draftState;
+  });
+};
+
+export const offerDeleteProductDiscountTransferReducer = (
+  state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
+  action: Actions.OfferDeleteProductDiscountTransferAction
+) => {
+  return produce(state, draftState => {
+    if (draftState === undefined || draftState.Transfer === undefined) {
+      return draftState;
+    }
+
+    const indexToDelete = draftState.Transfer.findIndex(sup => sup.index === action.index);
+
+    if (indexToDelete === -1) {
+      return draftState;
+    }
+
+    draftState?.Transfer.splice(indexToDelete, 1);
+    return draftState;
+  });
+};
+
+//
+// Supplement
+//
+export const offerAddProductDiscountSupplementReducer = (
+  state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
+  action: Actions.OfferAddProductDiscountSupplementAction
+) => {
+  return produce(state, draftState => {
+    if (draftState === undefined) {
+      draftState = {} as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+    }
+
+    if (draftState.Supplement === undefined) {
+      draftState.Supplement = [];
+    }
+
+    draftState.Supplement.push({
+      index: draftState.Supplement.length,
+      products: [],
+    });
+
+    return draftState;
+  });
+};
+
+export const offerPutProductDiscountSupplementReducer = (
+  state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
+  action: Actions.OfferPutProductDiscountSupplementAction
+) => {
+  return produce(state, draftState => {
+    if (draftState === undefined || draftState.Supplement === undefined) {
+      return draftState;
+    }
+
+    // if we're trying to put a discount for an index that doens't exist, just return the state
+    const fineArrayIndex = draftState.Supplement.findIndex(s => s.index === action.supplementDiscount.index);
+    if (fineArrayIndex === -1) {
+      return draftState;
+    }
+
+    draftState.Supplement.splice(fineArrayIndex, 1);
+    draftState.Supplement = [...draftState.Supplement, action.supplementDiscount];
+    draftState.Supplement = sortObjectsByIndex(draftState.Supplement);
+
+    return draftState;
+  });
+};
+
+export const offerDeleteProductDiscountSupplementReducer = (
+  state: IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
+  action: Actions.OfferDeleteProductDiscountSupplementAction
+) => {
+  return produce(state, draftState => {
+    if (draftState === undefined || draftState.Supplement === undefined) {
+      return draftState;
+    }
+
+    const indexToDelete = draftState.Supplement.findIndex(sup => sup.index === action.index);
+
+    if (indexToDelete === -1) {
+      return draftState;
+    }
+
+    draftState?.Supplement.splice(indexToDelete, 1);
     return draftState;
   });
 };

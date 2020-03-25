@@ -40,6 +40,8 @@ import {
   offerProductDiscountsGroundServicesSelector,
   offerSubProductDiscountsMealPlansSelector,
   offerProductDiscountsSelector,
+  offerProductDiscountsTransfersSelector,
+  offerProductDiscountsSupplementsSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -935,7 +937,7 @@ describe('Offer Selectors', () => {
     });
   });
 
-  describe('select sub product discount fines', () => {
+  describe('select product discount fines', () => {
     it('gets an empty array if none are set', () => {
       const fixture = undefined;
 
@@ -1102,7 +1104,7 @@ describe('Offer Selectors', () => {
     });
   });
 
-  describe('select sub product discount ground services', () => {
+  describe('select product discount ground services', () => {
     it('gets an empty array if none are set', () => {
       const fixture = undefined;
 
@@ -1154,6 +1156,138 @@ describe('Offer Selectors', () => {
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
       const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 4,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 6,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+  });
+
+  describe('select product discount transfers', () => {
+    it('gets an empty array if none are set', () => {
+      const fixture = undefined;
+
+      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([]);
+    });
+
+    it('gets an array of discounts if set', () => {
+      const fixture = {
+        Transfer: [
+          {
+            index: 0,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 1,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 0,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 1,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+
+    it('gets an array of discounts if set, respects set indexes', () => {
+      const fixture = {
+        Transfer: [
+          {
+            index: 4,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 6,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 4,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 6,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+  });
+
+  describe('select product discount supplements', () => {
+    it('gets an empty array if none are set', () => {
+      const fixture = undefined;
+
+      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([]);
+    });
+
+    it('gets an array of discounts if set', () => {
+      const fixture = {
+        Supplement: [
+          {
+            index: 0,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 1,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 0,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 1,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+
+    it('gets an array of discounts if set, respects set indexes', () => {
+      const fixture = {
+        Supplement: [
+          {
+            index: 4,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 6,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {
