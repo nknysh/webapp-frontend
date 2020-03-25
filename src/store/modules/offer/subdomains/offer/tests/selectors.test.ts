@@ -1003,4 +1003,165 @@ describe('Offer Selectors', () => {
       ]);
     });
   });
+
+  describe('select product discounts', () => {
+    it('gets undefined if none are set', () => {
+      const fixture = {
+        ...initialState.offer,
+      } as IOfferUI;
+
+      const selected = offerSubProductDiscountsSelector.resultFunc(fixture);
+
+      expect(selected).toEqual(undefined);
+    });
+
+    it('gets the object if some are set', () => {
+      const fixture = {
+        ...initialState.offer,
+        productDiscounts: {
+          'Ground Service': [],
+          Supplement: [],
+        },
+      } as IOfferUI;
+
+      const selected = offerSubProductDiscountsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject({
+        'Ground Service': [],
+        Supplement: [],
+      });
+    });
+  });
+
+  describe('select sub product discount meal plans', () => {
+    it('gets an empty array if none are set', () => {
+      const fixture = undefined;
+
+      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([]);
+    });
+
+    it('gets an array of discounts if set', () => {
+      const fixture = {
+        'Meal Plan': [
+          {
+            index: 0,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 1,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 0,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 1,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+
+    it('gets an array of discounts if set, respects set indexes', () => {
+      const fixture = {
+        'Meal Plan': [
+          {
+            index: 4,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 6,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 4,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 6,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+  });
+
+  describe('select sub product discount ground services', () => {
+    it('gets an empty array if none are set', () => {
+      const fixture = undefined;
+
+      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([]);
+    });
+
+    it('gets an array of discounts if set', () => {
+      const fixture = {
+        'Ground Service': [
+          {
+            index: 0,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 1,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 0,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 1,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+
+    it('gets an array of discounts if set, respects set indexes', () => {
+      const fixture = {
+        'Ground Service': [
+          {
+            index: 4,
+            products: [{ uuid: 'A' }],
+          },
+          {
+            index: 6,
+            products: [{ uuid: 'B' }],
+          },
+        ],
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
+
+      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+
+      expect(selected).toMatchObject([
+        {
+          index: 4,
+          products: [{ uuid: 'A' }],
+        },
+        {
+          index: 6,
+          products: [{ uuid: 'B' }],
+        },
+      ]);
+    });
+  });
 });
