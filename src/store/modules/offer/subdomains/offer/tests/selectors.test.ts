@@ -37,6 +37,7 @@ import {
   offerExtraPersonSupplementsSelector,
   offerTaCountriesPrerequisiteByRegionSelector,
   offerProductDiscountsFinesSelector,
+  offerProductDiscountsGroundServicesSelector,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
@@ -1103,7 +1104,7 @@ describe('Offer Selectors', () => {
     it('gets an empty array if none are set', () => {
       const fixture = undefined;
 
-      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([]);
     });
@@ -1122,7 +1123,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {
@@ -1150,7 +1151,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {

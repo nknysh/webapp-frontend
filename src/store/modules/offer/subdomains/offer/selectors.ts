@@ -2,7 +2,10 @@ import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
 import { IOfferPrerequisitesPayload } from 'services/BackendApi';
 import { IOfferModel } from '../../model';
-import { getBootstrapCountriesSelector, getBootstrapExtraPersonSupplementProductSelector } from '../../../bootstrap/selectors';
+import {
+  getBootstrapCountriesSelector,
+  getBootstrapExtraPersonSupplementProductSelector,
+} from '../../../bootstrap/selectors';
 import { groupBy } from 'ramda';
 import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../types';
 import { IBootstrapCountry } from '../../../bootstrap/model';
@@ -68,22 +71,13 @@ export const offerBooleanPrerequisitesSelector = createSelector(
   }
 );
 
-export const offerPreDiscountSelector = createSelector(
-  offerSelector,
-  offer => offer.preDiscount
-);
+export const offerPreDiscountSelector = createSelector(offerSelector, offer => offer.preDiscount);
 
-export const hotelNameSelector = createSelector(
-  offerSelector,
-  offer => offer.hotel?.name
-);
+export const hotelNameSelector = createSelector(offerSelector, offer => offer.hotel?.name);
 
-export const offerCountryCodePrerequisiteSelector = createSelector(
-  offerPrerequisitesSelector,
-  prerequisites => {
-    return prerequisites.countryCodes || [];
-  }
-);
+export const offerCountryCodePrerequisiteSelector = createSelector(offerPrerequisitesSelector, prerequisites => {
+  return prerequisites.countryCodes || [];
+});
 
 export const offerTaCountriesPrerequisiteSelector = createSelector(
   offerCountryCodePrerequisiteSelector,
@@ -109,24 +103,23 @@ export const offerTaCountriesPrerequisiteSelector = createSelector(
   }
 );
 
-
 export const offerTaCountriesPrerequisiteByRegionSelector = createSelector(
   offerTaCountriesPrerequisiteSelector,
   (countries): IOfferTaCountriesPreRequisiteUi => {
-    const grouped = groupBy((c) => c.region, countries);
+    const grouped = groupBy(c => c.region, countries);
 
     return Object.keys(grouped).reduce((acc, group) => {
-      const count = grouped[group].reduce((acc, next) => next.value ? acc + 1 : acc, 0);
+      const count = grouped[group].reduce((acc, next) => (next.value ? acc + 1 : acc), 0);
       const total = count === 1 ? '1 Country' : `${count} Countries`;
       acc[group] = {
         total,
         countries: grouped[group],
-      }
+      };
 
       return acc;
     }, {});
   }
-)
+);
 
 export const offerTaCountriesLabelPrerequisiteSelector = createSelector(
   offerCountryCodePrerequisiteSelector,
@@ -244,3 +237,13 @@ export const offerProductDiscountsFinesSelector = createSelector(offerProductDis
   }
   return productDiscounts.Fine;
 });
+
+export const offerProductDiscountsGroundServicesSelector = createSelector(
+  offerProductDiscountsSelector,
+  productDiscounts => {
+    if (!productDiscounts || !productDiscounts['Ground Service']) {
+      return [];
+    }
+    return productDiscounts['Ground Service'];
+  }
+);
