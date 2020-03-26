@@ -6,6 +6,12 @@ interface KeyValuePair {
   [key: string]: string;
 }
 
+export type ICombinationMode =
+  | 'COMBINES_WITH_ANY'
+  | 'COMBINES_WITH_NONE'
+  | 'COMBINES_WITH_LIST'
+  | 'CANNOT_COMBINE_WITH_LIST';
+
 export interface IOfferUiState {
   getOfferRequestIsPending: boolean;
   putOfferRequestIsPending: boolean;
@@ -15,7 +21,7 @@ export interface IOfferUiState {
   postError: IApiErrorPayload[] | null;
   isTextOnly: boolean;
   taCountryAccordianKeys: string[];
-  combinationMode: string;
+  combinationMode: ICombinationMode;
   combinationList: string[];
 }
 
@@ -38,7 +44,7 @@ export const initialState: IOfferModel = {
     postError: null,
     isTextOnly: true,
     taCountryAccordianKeys: [],
-    combinationMode: '',
+    combinationMode: 'COMBINES_WITH_ANY',
     combinationList: [],
   },
   offer: {

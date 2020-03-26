@@ -1,3 +1,5 @@
+import { ICombinationMode } from '../../model';
+
 export const SET_OFFER_IS_TEXT_ONLY = 'offer/SET_OFFER_IS_TEXT_ONLY';
 export const TOGGLE_TA_COUNTRY_ACCORDIAN = 'offer/TOGGLE_TA_COUNTRY_ACCORDIAN';
 
@@ -18,7 +20,7 @@ export const offerToggleTaCountryAccodian = (key: string) => ({
 });
 
 export type OfferSetCombinationMode = ReturnType<typeof offerSetCombinationMode>;
-export const offerSetCombinationMode = (combinationMode: string) => ({
+export const offerSetCombinationMode = (combinationMode: ICombinationMode) => ({
   type: SET_COMBINATION_MODE as typeof SET_COMBINATION_MODE,
   combinationMode,
 });

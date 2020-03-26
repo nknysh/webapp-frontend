@@ -16,6 +16,7 @@ import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
 import { ifElse, contains, without, append } from 'ramda';
 import produce from 'immer';
+import * as R from 'ramda';
 
 export const uiStateReducer = (
   state: IOfferUiState = initialState.uiState,
@@ -112,6 +113,8 @@ export const uiStateReducer = (
         } else if (action.isChecked === false) {
           draftState.combinationList = draftState.combinationList.filter(cc => cc !== action.offerUuid);
         }
+
+        draftState.combinationList = R.uniq(draftState.combinationList);
 
         return draftState;
       });
