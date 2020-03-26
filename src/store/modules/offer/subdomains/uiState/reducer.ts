@@ -109,12 +109,12 @@ export const uiStateReducer = (
     case TOGGLE_OFFER_IN_COMBINATION_LIST:
       return produce(state, draftState => {
         if (action.isChecked === true) {
-          draftState.combinationList.push(action.offerUuid);
+          draftState.combinationOfferUuids.push(action.offerUuid);
         } else if (action.isChecked === false) {
-          draftState.combinationList = draftState.combinationList.filter(cc => cc !== action.offerUuid);
+          draftState.combinationOfferUuids = draftState.combinationOfferUuids.filter(cc => cc !== action.offerUuid);
         }
 
-        draftState.combinationList = R.uniq(draftState.combinationList);
+        draftState.combinationOfferUuids = R.uniq(draftState.combinationOfferUuids);
 
         return draftState;
       });

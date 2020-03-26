@@ -30,7 +30,7 @@ export interface IOfferUiState {
   isTextOnly: boolean;
   taCountryAccordianKeys: string[];
   combinationMode: ECombinationMode;
-  combinationList: string[];
+  combinationOfferUuids: string[];
 }
 
 export interface IOfferModel {
@@ -53,7 +53,7 @@ export const initialState: IOfferModel = {
     isTextOnly: true,
     taCountryAccordianKeys: [],
     combinationMode: ECombinationMode.COMBINES_WITH_ANY,
-    combinationList: [],
+    combinationOfferUuids: [],
   },
   offer: {
     uuid: 'NEW_OFFER',

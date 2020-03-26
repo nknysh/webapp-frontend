@@ -35,13 +35,13 @@ export const combinationModeSelector = createSelector(
   uiStateSelector => uiStateSelector.combinationMode
 );
 
-export const combinationListRawSelector = createSelector(
+export const combinationOfferUuidsSelector = createSelector(
   uiStateSelector,
-  uiStateSelector => uiStateSelector.combinationList
+  uiStateSelector => uiStateSelector.combinationOfferUuids
 );
 
 export const combinationListSelector = createSelector(
-  combinationListRawSelector,
+  combinationOfferUuidsSelector,
   getOffersOnHotelSelector,
   (combinationList, offersOnHotel) => {
     return offersOnHotel.map(offerOnHotel => {

@@ -74,7 +74,7 @@ describe('offer UI state reducer > toggling combination list', () => {
   it('should not add the same uuid twice', () => {
     const fixture = {
       ...initialState.uiState,
-      combinationList: ['a'],
+      combinationOfferUuids: ['a'],
     } as IOfferUiState;
 
     const action = offerToggleOfferInCombinationList('a', true);
@@ -90,7 +90,7 @@ describe('offer UI state reducer > toggling combination list', () => {
   it('should add a new one to the list', () => {
     const fixture = {
       ...initialState.uiState,
-      combinationList: ['a'],
+      combinationOfferUuids: ['a'],
     } as IOfferUiState;
 
     const action = offerToggleOfferInCombinationList('b', true);
@@ -106,7 +106,7 @@ describe('offer UI state reducer > toggling combination list', () => {
   it('remove one from the list when toggling off', () => {
     const fixture = {
       ...initialState.uiState,
-      combinationList: ['a', 'b', 'c'],
+      combinationOfferUuids: ['a', 'b', 'c'],
     } as IOfferUiState;
 
     const action = offerToggleOfferInCombinationList('b', false);
@@ -122,7 +122,7 @@ describe('offer UI state reducer > toggling combination list', () => {
   it('should not error when toggling off a uuid not in the list', () => {
     const fixture = {
       ...initialState.uiState,
-      combinationList: ['a', 'b', 'c'],
+      combinationOfferUuids: ['a', 'b', 'c'],
     } as IOfferUiState;
 
     const action = offerToggleOfferInCombinationList('d', false);
