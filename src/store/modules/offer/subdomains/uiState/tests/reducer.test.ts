@@ -1,6 +1,6 @@
 import { uiStateReducer as reducer } from '../reducer';
 import { IOfferUI } from 'services/BackendApi';
-import { initialState, IOfferUiState } from '../../../model';
+import { initialState, IOfferUiState, ECombinationMode } from '../../../model';
 import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from 'store/modules/offer/actions';
 import { offerSetCombinationMode, offerToggleOfferInCombinationList } from '../actions';
 
@@ -46,7 +46,7 @@ describe('offer UI state reducer > set combination mode', () => {
     const fixture = {
       ...initialState.uiState,
     } as IOfferUiState;
-    const action = offerSetCombinationMode('COMBINES_WITH_LIST');
+    const action = offerSetCombinationMode(ECombinationMode.COMBINES_WITH_LIST);
     const result = reducer(fixture, action);
     expect(result).toMatchObject({
       ...initialState.uiState,
