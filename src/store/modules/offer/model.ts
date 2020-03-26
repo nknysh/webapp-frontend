@@ -6,11 +6,19 @@ interface KeyValuePair {
   [key: string]: string;
 }
 
-export type ICombinationMode =
-  | 'COMBINES_WITH_ANY'
-  | 'COMBINES_WITH_NONE'
-  | 'COMBINES_WITH_LIST'
-  | 'CANNOT_COMBINE_WITH_LIST';
+export enum ECombinationMode {
+  COMBINES_WITH_ANY = 'COMBINES_WITH_ANY',
+  COMBINES_WITH_NONE = 'COMBINES_WITH_NONE',
+  COMBINES_WITH_LIST = 'COMBINES_WITH_LIST',
+  CANNOT_COMBINE_WITH_LIST = 'CANNOT_COMBINE_WITH_LIST',
+}
+
+export const CombinationModeOptions: { [key in ECombinationMode]: string } = {
+  [ECombinationMode.COMBINES_WITH_ANY]: 'Combines with any other offer',
+  [ECombinationMode.COMBINES_WITH_NONE]: 'Does not combine with any offers',
+  [ECombinationMode.COMBINES_WITH_LIST]: 'Exclusively combines with the offers selected',
+  [ECombinationMode.CANNOT_COMBINE_WITH_LIST]: 'Combines with any offers EXCEPT the ones selected',
+};
 
 export interface IOfferUiState {
   getOfferRequestIsPending: boolean;
@@ -21,7 +29,7 @@ export interface IOfferUiState {
   postError: IApiErrorPayload[] | null;
   isTextOnly: boolean;
   taCountryAccordianKeys: string[];
-  combinationMode: ICombinationMode;
+  combinationMode: ECombinationMode;
   combinationList: string[];
 }
 
@@ -44,7 +52,7 @@ export const initialState: IOfferModel = {
     postError: null,
     isTextOnly: true,
     taCountryAccordianKeys: [],
-    combinationMode: 'COMBINES_WITH_ANY',
+    combinationMode: ECombinationMode.COMBINES_WITH_ANY,
     combinationList: [],
   },
   offer: {
