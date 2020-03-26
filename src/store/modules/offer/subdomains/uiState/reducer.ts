@@ -9,10 +9,13 @@ import {
   POST_OFFER_REQUEST,
   POST_OFFER_SUCCESS,
   POST_OFFER_FAILURE,
+  SET_COMBINATION_MODE,
+  TOGGLE_OFFER_IN_COMBINATION_LIST,
 } from '../../actions';
 import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
 import { ifElse, contains, without, append } from 'ramda';
+import produce from 'immer';
 
 export const uiStateReducer = (
   state: IOfferUiState = initialState.uiState,
@@ -89,10 +92,29 @@ export const uiStateReducer = (
     case TOGGLE_TA_COUNTRY_ACCORDIAN:
       return {
         ...state,
-        taCountryAccordianKeys: ifElse(contains(action.key), without([action.key]), append(action.key))(
-          state.taCountryAccordianKeys
-        ),
+        taCountryAccordianKeys: ifElse(
+          contains(action.key),
+          without([action.key]),
+          append(action.key)
+        )(state.taCountryAccordianKeys),
       };
+
+    case SET_COMBINATION_MODE:
+      return {
+        ...state,
+        combinationMode: action.combinationMode,
+      };
+
+    case TOGGLE_OFFER_IN_COMBINATION_LIST:
+      return produce(state, draftState => {
+        if (action.isChecked === true) {
+          draftState.combinationList.push(action.offerUuid);
+        } else if (action.isChecked === false) {
+          draftState.combinationList = draftState.combinationList.filter(cc => cc !== action.offerUuid);
+        }
+
+        return draftState;
+      });
 
     default:
       return state;

@@ -15,6 +15,8 @@ export interface IOfferUiState {
   postError: IApiErrorPayload[] | null;
   isTextOnly: boolean;
   taCountryAccordianKeys: string[];
+  combinationMode: string;
+  combinationList: string[];
 }
 
 export interface IOfferModel {
@@ -36,6 +38,8 @@ export const initialState: IOfferModel = {
     postError: null,
     isTextOnly: true,
     taCountryAccordianKeys: [],
+    combinationMode: '',
+    combinationList: [],
   },
   offer: {
     uuid: 'NEW_OFFER',
