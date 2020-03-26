@@ -4,6 +4,7 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { RadioButton, Loader } from '@pure-escapes/webapp-ui-components';
 import { StandardModal, ModalContent } from 'pureUi/Modal';
+import CustomItemForm from 'pureUi/CustomItemForm';
 
 import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'components';
 import { useFetchData } from 'effects';
@@ -301,13 +302,41 @@ const renderAddons = (
   availableFines,
   updateSupplementAction,
   updateFineAction,
-  hotelUuid
+  hotelUuid,
+  customItem
 ) => {
+  const customItemMarkup = (
+    <CustomItemForm
+      currency={currencyCode}
+      data={customItem.payload}
+      onNameChange={customItem.actions.updateName}
+      onTotalChange={customItem.actions.updateTotal}
+      onDescriptionChange={customItem.actions.updateDescription}
+      onCountAsMealPlanChange={customItem.actions.updateCountsAsMealPlan}
+      onCountAsTransferChange={customItem.actions.updateCountsAsTransfer}
+      onShow={customItem.actions.showForm}
+      onCancel={customItem.actions.hideForm}
+      onConfirm={customItem.actions.save}
+    />
+  );
+
   const supplementMarkup = (
     <React.Fragment>
       {availableSupplements.map(sp => {
         const supplementProduct = sp.products[0];
         const isChecked = selectedSupplements.some(sgs => sgs.uuid === supplementProduct.uuid);
+
+        const isCustomItem = supplementProduct.opttions && supplementProduct.options.genericIdentifier === 'customItem';
+
+        const ConnectedAddonCheckbox = ({ label }) => (
+          <AddonCheckbox
+            onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
+            key={`${supplementProduct.uuid}/${supplementProduct.name}`}
+            checked={isChecked}
+            label={label}
+          />
+        );
+
         return (
           <AddonCheckbox
             onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
@@ -405,6 +434,7 @@ const renderAddons = (
     <React.Fragment>
       {supplementMarkup}
       {fineMarkup}
+      {customItemMarkup}
     </React.Fragment>
   );
 };
@@ -496,6 +526,8 @@ export const SummaryFormExtras = ({
   taMarginAmount,
   currentCountry,
   updateBookingTravelAgentUserIdAction,
+  customItemPayload,
+  customItemActions,
 }) => {
   const { t } = useTranslation();
 
@@ -684,7 +716,11 @@ export const SummaryFormExtras = ({
               availableFines,
               updateSupplementAction,
               updateFineAction,
-              id
+              id,
+              {
+                payload: customItemPayload,
+                actions: customItemActions,
+              }
             )}
           </TableCardRow>
         )}

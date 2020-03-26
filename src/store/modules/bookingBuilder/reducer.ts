@@ -661,11 +661,30 @@ export const saveCustomItemReducer = (
       draftState.currentBookingBuilder.request.customItems = [];
     }
 
+    const { payload } = draftState.customItem;
+
     draftState
       .currentBookingBuilder
       .request
       .customItems
-      .push(draftState.customItem.payload);
+      .push(payload);
+    
+    if(payload.countsAsTransfer){
+      draftState
+        .currentBookingBuilder
+        .request
+        .Transfer = [];
+    }
+
+    if(payload.countsAsMealPlan){
+      draftState
+        .currentBookingBuilder
+        .request
+        .Accommodation
+        .forEach(product => {
+          product.subProducts['Meal Plan'] = [];
+        })
+    }
     
     draftState.customItem.payload = null;
 

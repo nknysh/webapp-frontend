@@ -46,7 +46,21 @@ import {
   taMarginAmountSelector,
   bookingBuilderTotalSelector,
   updateBookingTravelAgentUserIdAction,
+  saveCustomItemAction,
+  removeCustomItemAction,
 } from 'store/modules/bookingBuilder';
+
+import { customItemPayloadSelector } from 'store/modules/bookingBuilder/subdomains/customItem/selectors';
+
+import {
+  showCustomItemFormAction,
+  hideCustomItemFormAction,
+  updateCustomItemNameAction,
+  updateCustomItemTotalAction,
+  updateCustomItemDescriptionAction,
+  updateCustomItemCountsAsMealPlanAction,
+  updateCustomItemCountsAsTransferAction,
+} from 'store/modules/bookingBuilder/subdomains/customItem/actions';
 
 export const mapStateToProps = (state, { id }) => {
   const travelAgentUserUuid = getBookingTravelAgent(state, id);
@@ -76,6 +90,7 @@ export const mapStateToProps = (state, { id }) => {
     taMarginType: taMarginTypeSelector(state),
     taMarginAmount: taMarginAmountSelector(state),
     currentCountry: getCurrentCountry(state),
+    customItemPayload: customItemPayloadSelector(state),
   };
 };
 
@@ -127,6 +142,26 @@ export const mapDispatchToProps = dispatch => ({
   updateBookingTravelAgentUserIdAction: pipe(
     updateBookingTravelAgentUserIdAction,
     dispatch
+  ),
+  customItemActions: [
+    ['showForm', showCustomItemFormAction],
+    ['hideForm', hideCustomItemFormAction],
+    ['updateName', updateCustomItemNameAction],
+    ['updateTotal', updateCustomItemTotalAction],
+    ['updateDescription', updateCustomItemDescriptionAction],
+    ['updateCountsAsMealPlan', updateCustomItemCountsAsMealPlanAction],
+    ['updateCountsAsTransfer', updateCustomItemCountsAsTransferAction],
+    ['save', saveCustomItemAction],
+    ['remove', removeCustomItemAction],
+  ].reduce(
+    (acc, [key, action]) => ({
+      ...acc,
+      [key]: pipe(
+        action,
+        dispatch
+      ),
+    }),
+    {}
   ),
 });
 

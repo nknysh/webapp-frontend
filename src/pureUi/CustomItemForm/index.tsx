@@ -1,18 +1,28 @@
-import React, { Fragment, FormEvent } from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { CustomItemPayload } from 'services/BackendApi';
 
-import { ActionButton } from '../Buttons';
+import { ActionButton, PrimaryButton, SecondaryButton } from '../Buttons';
 import Label from '../Label';
 import TextInput from '../TextInput';
+import TextArea from '../Textarea';
 import Checkbox from '../Checkbox';
+
+import { eventValueSelector, eventCheckedSelector } from './form';
+import { sanitizeDecimal } from './format';
 
 export interface CustomItemFormProps {
   className?: string;
   data: CustomItemPayload | null;
+  currency: string;
+  onShow: () => void;
   onNameChange: (string) => void;
+  onTotalChange: (string) => void;
   onDescriptionChange: (string) => void;
   onCountAsMealPlanChange: (boolean) => void;
+  onCountAsTransferChange: (boolean) => void;
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 
 const Wrapper = styled.div``;
@@ -21,20 +31,16 @@ const FormItem = styled.div`
   margin: 10px 0;
 `;
 
-const eventValueSelector = (handler: (any) => void) =>
-  (e: FormEvent<HTMLInputElement>) => handler(e.currentTarget.value);
+const Controls = styled.div`
+  display: flex;
+`;
 
-const eventCheckedSelector = (handler: (any) => void) =>
-  (e: FormEvent<HTMLInputElement>) => handler(e.currentTarget.checked);
+const StyledPrimaryButton = styled(PrimaryButton)`
+  margin-left: 10px;
+`;
 
 const CustomItemForm = (props: CustomItemFormProps) => {
-  const {
-    className,
-    data,
-    onNameChange,
-    onDescriptionChange,
-    onCountAsMealPlanChange
-  } = props;
+  const { className, data, currency } = props;
 
   return (
     <Wrapper className={className}>
@@ -45,32 +51,54 @@ const CustomItemForm = (props: CustomItemFormProps) => {
               <Label lowercase text="Name">
                 <TextInput
                   value={data.name}
-                  onChange={eventValueSelector(onNameChange)}
+                  onChange={eventValueSelector(props.onNameChange)}
                   placeholder="Name"
+                />
+              </Label>
+            </FormItem>
+            <FormItem>
+              <Label lowercase text={`Total ${currency}`}>
+                <TextInput
+                  value={data.total}
+                  onChange={eventValueSelector(props.onTotalChange, sanitizeDecimal)}
+                  placeholder="Total"
+                  inputmode="decimal"
+                  type="number"
                 />
               </Label>
             </FormItem>
             <FormItem>
               <Label lowercase text="Description">
-                <TextInput
+                <TextArea
                   value={data.description}
-                  onChange={eventValueSelector(onDescriptionChange)}
-                  placeholder="Name"
+                  onChange={eventValueSelector(props.onDescriptionChange)}
                 />
               </Label>
             </FormItem>
             <FormItem>
               <Label lowercase inline reverse text="This item replaces Meal Plans">
-              <Checkbox
-                checked={data.countsAsMealPlan}
-                onChange={eventCheckedSelector(onCountAsMealPlanChange)}
-              />
-            </Label>
+                <Checkbox
+                  checked={data.countsAsMealPlan}
+                  onChange={eventCheckedSelector(props.onCountAsMealPlanChange)}
+                />
+              </Label>
             </FormItem>
+            <FormItem>
+              <Label lowercase inline reverse text="This item replaces Transfers">
+                <Checkbox
+                  checked={data.countsAsTransfer}
+                  onChange={eventCheckedSelector(props.onCountAsTransferChange)}
+                />
+              </Label>
+            </FormItem>
+            <Controls>
+              <SecondaryButton onClick={props.onCancel}>Cancel</SecondaryButton>
+              <StyledPrimaryButton onClick={props.onConfirm}>Save</StyledPrimaryButton>
+            </Controls>
           </Fragment>
         )
         : (
-          <ActionButton action="add">
+          <ActionButton action="add" onClick={props.onShow}>
             Add Custom Item
           </ActionButton>
         )

@@ -229,14 +229,16 @@ export const updateLodgingRepeatGuestAction = (hotelUuid: string, lodgingIndex: 
 });
 
 export type SaveCustomItemAction = ReturnType<typeof saveCustomItemAction>;
-export const saveCustomItemAction = () => ({
-  type: SAVE_CUSTOM_ITEM as typeof SAVE_CUSTOM_ITEM
+export const saveCustomItemAction = (hotelUuid: string) => ({
+  type: SAVE_CUSTOM_ITEM as typeof SAVE_CUSTOM_ITEM,
+  hotelUuid
 });
 
 export type RemoveCustomItemAction = ReturnType<typeof removeCustomItemAction>;
-export const removeCustomItemAction = (index: number) => ({
+export const removeCustomItemAction = (index: number, hotelUuid: string) => ({
   type: REMOVE_CUSTOM_ITEM as typeof REMOVE_CUSTOM_ITEM,
-  index
+  index,
+  hotelUuid
 });
 
 

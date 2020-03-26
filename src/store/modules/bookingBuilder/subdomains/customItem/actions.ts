@@ -5,7 +5,7 @@ export const UPDATE_CUSTOM_ITEM_NAME = 'bookingBuilder/customItem/UPDATE_CUSTOM_
 export const UPDATE_CUSTOM_ITEM_TOTAL = 'bookingBuilder/customItem/UPDATE_CUSTOM_ITEM_TOTAL';
 export const UPDATE_CUSTOM_ITEM_DESCRIPTION = 'bookingBuilder/customItem/UPDATE_CUSTOM_ITEM_DESCRIPTION';
 export const UPDATE_CUSTOM_ITEM_COUNTS_AS_MEAL_PLAN = 'bookingBuilder/customItem/UPDATE_CUSTOM_ITEM_COUNTS_AS_MEAL_PLAN';
-export const UPDATE_CUSTOM_ITEM_COUNTS_AS_TRANSFER = 'bookingBuilder/customItem/UPDATE_CUSTOM_ITEM_COUNTS_AS_MEAL_PLAN';
+export const UPDATE_CUSTOM_ITEM_COUNTS_AS_TRANSFER = 'bookingBuilder/customItem/UPDATE_CUSTOM_ITEM_COUNTS_AS_TRANSFER';
 
 
 export type ShowCustomItemFormAction = ReturnType<typeof showCustomItemFormAction>;
