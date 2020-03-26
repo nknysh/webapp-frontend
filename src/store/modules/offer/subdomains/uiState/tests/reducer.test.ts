@@ -67,7 +67,7 @@ describe('offer UI state reducer > toggling combination list', () => {
 
     expect(result).toMatchObject({
       ...initialState.uiState,
-      combinationList: ['a'],
+      combinationOfferUuids: ['a'],
     });
   });
 
@@ -83,7 +83,7 @@ describe('offer UI state reducer > toggling combination list', () => {
 
     expect(result).toMatchObject({
       ...initialState.uiState,
-      combinationList: ['a'],
+      combinationOfferUuids: ['a'],
     });
   });
 
@@ -99,7 +99,7 @@ describe('offer UI state reducer > toggling combination list', () => {
 
     expect(result).toMatchObject({
       ...initialState.uiState,
-      combinationList: ['a', 'b'],
+      combinationOfferUuids: ['a', 'b'],
     });
   });
 
@@ -115,7 +115,7 @@ describe('offer UI state reducer > toggling combination list', () => {
 
     expect(result).toMatchObject({
       ...initialState.uiState,
-      combinationList: ['a', 'c'],
+      combinationOfferUuids: ['a', 'c'],
     });
   });
 
@@ -131,7 +131,7 @@ describe('offer UI state reducer > toggling combination list', () => {
 
     expect(result).toMatchObject({
       ...initialState.uiState,
-      combinationList: ['a', 'b', 'c'],
+      combinationOfferUuids: ['a', 'b', 'c'],
     });
   });
 });
