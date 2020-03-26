@@ -473,30 +473,8 @@ exports[`<App /> render matches snapshot 1`] = `
         path="/search/beta"
       />
       <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(withRouter(Connect(WithBootstrapData(OfferEditContainer))))",
-            "type": [Function],
-          }
-        }
-        exact={true}
-        path="/offer/:offerId/edit"
-      />
-      <Route
-        component={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(withRouter(Connect(WithBootstrapData(OfferEditContainer))))",
-            "type": [Function],
-          }
-        }
-        exact={true}
-        path="/offer/create"
+        component={[Function]}
+        path="/offer"
       />
       <Route
         component={

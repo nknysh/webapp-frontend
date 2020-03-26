@@ -20,23 +20,6 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     getError: null,
     putError: null,
     postError: null,
-    taCountries: {},
-    taCountriesLabel: 'All Countries',
-    taCountryAccordianKeys: [],
-    accomodationPreReqsLabel: 'All Countries',
-    accomodationPreReqs: [],
-    nullableBooleans: {
-      honeymoon: true,
-      wedding: false,
-      repeatCustomer: null,
-    },
-    maxLodgings: 10,
-    stayLength: {
-      minimum: 0,
-      maximum: 10,
-      strictMinMaxStay: false,
-    },
-    advance: {},
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},
@@ -46,32 +29,15 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     })),
     // Actions
     getOfferRequestAction: jest.fn(),
-    offerAddStayBetweenPrerequisiteAction: jest.fn(),
-    offerChangeStayBetweenPrerequisiteAction: jest.fn(),
-    offerRemoveStayBetweenPrerequisiteAction: jest.fn(),
+    putOfferRequestAction: jest.fn(),
+    postOfferRequestAction: jest.fn(),
     offerNameChangeAction: jest.fn(),
     offerTermsChangeAction: jest.fn(),
     offerFurtherInformationChangeAction: jest.fn(),
     setOfferIsTextOnly: jest.fn(),
     offerSetPreDiscountAction: jest.fn(),
     offerHotelUuidChangeAction: jest.fn(),
-    putOfferRequestAction: jest.fn(),
-    postOfferRequestAction: jest.fn(),
     resetOfferModuleAction: jest.fn(),
-    offerSetBooleanPrerequisiteAction: jest.fn(),
-    offerSetCountryCodePrerequisiteAction: jest.fn(),
-    offerClearAllCountryCodePrerequisiteAction: jest.fn(),
-    offerToggleTaCountryAccodian: jest.fn(),
-    offerClearAllAccommodationProductPrerequisiteAction: jest.fn(),
-    offerSetAccommodationProductPrerequisiteAction: jest.fn(),
-    offerSetMaxLodgingsPrerequisiteAction: jest.fn(),
-    offerSetStayLengthMaximumPrerequisiteAction: jest.fn(),
-    offerSetStayLengthMinimumPrerequisiteAction: jest.fn(),
-    offerSetStayLengthStrictPrerequisiteAction: jest.fn(),
-    offerSetAdvanceBookByPrerequisiteAction: jest.fn(),
-    offerSetAdvanceMaximumPrerequisiteAction: jest.fn(),
-    offerSetAdvanceMinimumPrerequisiteAction: jest.fn(),
-    offerClearAllAdvancePrerequisiteAction: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 
@@ -102,8 +68,6 @@ describe('OfferEditContainer Edit Mode', () => {
     expect(wrapper.exists('.textOnlyInfo')).toBe(true);
     expect(wrapper.exists('.preDiscount')).toBe(true);
     expect(wrapper.exists('.preDiscountInfo')).toBe(true);
-    expect(wrapper.exists('.preRequisites')).toBe(true);
-    expect(wrapper.exists('.stayBetweenInputs')).toBe(true);
   });
 
   it('Should call getOfferRequestAction correctly', () => {

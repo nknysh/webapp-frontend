@@ -21,7 +21,7 @@ import {
 } from '../../store/modules/offer/selectors';
 import { getOfferRequestAction } from '../../store/modules/offer/actions';
 import { TabBar, RouteTab } from '../../pureUi/TabBar';
-import { RouteComponentProps, Route, Switch, Redirect } from 'react-router-dom';
+import { RouteComponentProps, Route, Switch, Redirect, withRouter } from 'react-router-dom';
 
 export const _ReadOnlyField = props => {
   const { label, children, className } = props;
@@ -58,10 +58,10 @@ export const ReadOnlyField = styled(_ReadOnlyField)`
   }
 `;
 
-export class _OffersView extends React.Component<IOffersViewProps, {}> {
+export class OffersViewComponent extends React.Component<IOffersViewProps, {}> {
   componentWillMount() {
-    if (!this.props.offer || this.props.offer!.uuid !== this.props.match.params.id) {
-      this.props.getOfferRequestAction(this.props.match.params.id);
+    if (!this.props.offer || this.props.offer!.uuid !== this.props.match.params.offerId) {
+      this.props.getOfferRequestAction(this.props.match.params.offerId);
     }
   }
 
@@ -74,7 +74,7 @@ export class _OffersView extends React.Component<IOffersViewProps, {}> {
       return <p>There was a problem loading this offer. Please refresh the page to try again.</p>;
     }
 
-    const { url, path } = this.props.match;
+    const { url } = this.props.match;
 
     return (
       <main className={this.props.className}>
@@ -94,38 +94,39 @@ export class _OffersView extends React.Component<IOffersViewProps, {}> {
         <h2>{this.props.hotelName}</h2>
 
         <TabBar>
-          <RouteTab to={`${url}/details`}>Details</RouteTab>
+          <RouteTab to={`${url}`}>Details</RouteTab>
           <RouteTab to={`${url}/pre-requisites`}>Pre Requisites</RouteTab>
           <RouteTab to={`${url}/applications`}>Applicaitons</RouteTab>
           <RouteTab to={`${url}/combination-ordering`}>Combination & Ordering</RouteTab>
         </TabBar>
 
         <Switch>
-          <Route exact path={`${path}/details`} data-role="offer-view-offer-details-tab">
+          <Route exact path={`${this.props.match.path}`} data-role="offer-view-offer-details-tab">
             <OfferDetailsSection offer={this.props.offer} offerMapping={this.props.associatedOffersMapping} />
           </Route>
 
-          <Route exact path={`${path}/pre-requisites`} data-role="offer-view-prerequisites-tab">
+          <Route exact path={`${this.props.match.path}/pre-requisites`} data-role="offer-view-prerequisites-tab">
             <PrerequisitesSection offer={this.props.offer} productMapping={this.props.associatedProductsMapping} />
           </Route>
 
-          <Route exact path={`${path}/applications`} data-role="offer-view-applications-tab">
+          <Route exact path={`${this.props.match.path}/applications`} data-role="offer-view-applications-tab">
             <ApplicationsSection offer={this.props.offer} productMapping={this.props.associatedProductsMapping} />
           </Route>
 
-          <Route exact path={`${path}/combination-ordering`} data-role="offer-view-combination-and-ordering-tab">
+          <Route
+            exact
+            path={`${this.props.match.path}/combination-ordering`}
+            data-role="offer-view-combination-and-ordering-tab"
+          >
             <CombinationAndOrderingSection offer={this.props.offer} offersOnHotel={this.props.offersOnHotel} />
           </Route>
-
-          {/* Default route */}
-          <Redirect from="/" to={`${url}/details`} />
         </Switch>
       </main>
     );
   }
 }
 
-const OffersView = styled(_OffersView)`
+const StyledOffersView = styled(OffersViewComponent)`
   width: 90%;
   max-width: 1280px;
   margin: 2rem 5%;
@@ -165,7 +166,7 @@ export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
 
 export interface IRouteParams {
-  id: string;
+  offerId: string;
 }
 
 export interface IOffersViewProps extends StateToProps, DispatchToProps, RouteComponentProps<IRouteParams> {
@@ -190,6 +191,9 @@ const withConnect = connect<StateToProps, DispatchToProps, IOffersViewProps>(
   mapDispatchToProps
 );
 
-export const OffersViewConnected = compose(withConnect)(OffersView);
+export const OffersViewConnected = compose(
+  withConnect,
+  withRouter
+)(StyledOffersView);
 
 export default OffersViewConnected;

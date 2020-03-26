@@ -2,26 +2,17 @@ import React, { FormEvent } from 'react';
 import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { MultiDateRange } from 'pureUi/forms/MultiDateRange/index';
+import { withRouter, RouteComponentProps, Switch, Route, Redirect } from 'react-router-dom';
 import { Text, Heading } from 'pureUi/typography';
 import Label from 'pureUi/Label/index';
 import TextInput from 'pureUi/TextInput/index';
 import TextArea from 'pureUi/Textarea/index';
 import Checkbox from 'pureUi/Checkbox';
-import { Fieldset, Legend, LegendExtras } from 'pureUi/forms/Fieldset/index';
 import { OfferEditStyles } from './OffereditStyles';
 import { PrimaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
-import { Throggle } from 'pureUi/forms/Throggle';
 
 import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData';
-import { IOfferPrerequisitesPayload } from 'services/BackendApi/types/OfferResponse';
-import { AccordianSection, Accordian } from 'pureUi/Accordian/index';
-import { CloseButton } from 'pureUi/Buttons/index';
-import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
 import { PureSelect } from 'pureUi/forms/PureSelect';
-import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
-import DateRangeInput from 'pureUi/DateRangeInput';
 
 import {
   offerSelector,
@@ -38,23 +29,12 @@ import {
   getOfferRequestIsPendingSelector,
   postOfferErrorSelector,
   offerBooleanPrerequisitesSelector,
-  taCountryAccordianKeysSelector,
-  offerTaCountriesLabelPrerequisiteSelector,
-  offerTaCountriesPrerequisiteByRegionSelector,
-  offerAccommodationProductPrerequisitesSelector,
-  offerAccommodationProductPrerequisitesLabelSelector,
-  offerMaxLodgingsPrerequisiteSelector,
-  offerStayLengthPrerequisiteSelector,
-  offerAdvancePrerequisiteSelector
 } from 'store/modules/offer/selectors';
 
 import {
-  offerRemoveStayBetweenPrerequisiteAction,
   offerNameChangeAction,
   offerTermsChangeAction,
   offerFurtherInformationChangeAction,
-  offerAddStayBetweenPrerequisiteAction,
-  offerChangeStayBetweenPrerequisiteAction,
   offerSetPreDiscountAction,
   offerHotelUuidChangeAction,
   setOfferIsTextOnly,
@@ -62,22 +42,10 @@ import {
   postOfferRequestAction,
   getOfferRequestAction,
   resetOfferModuleAction,
-  offerSetBooleanPrerequisiteAction,
-  offerSetCountryCodePrerequisiteAction,
-  offerToggleTaCountryAccodian,
-  offerClearAllCountryCodePrerequisiteAction,
-  offerClearAllAccommodationProductPrerequisiteAction,
-  offerSetAccommodationProductPrerequisiteAction,
-  offerSetMaxLodgingsPrerequisiteAction,
-  offerSetStayLengthMaximumPrerequisiteAction,
-  offerSetStayLengthMinimumPrerequisiteAction,
-  offerSetStayLengthStrictPrerequisiteAction,
-  offerSetAdvanceBookByPrerequisiteAction,
-  offerSetAdvanceMaximumPrerequisiteAction,
-  offerSetAdvanceMinimumPrerequisiteAction,
-  offerClearAllAdvancePrerequisiteAction,
 } from 'store/modules/offer/actions';
-
+import { TabBar, RouteTab } from 'pureUi/TabBar';
+import { OfferEditPreRequisitesContainerConnected } from '../OfferEditPreRequisites/index';
+import { OfferEditApplicationsContainerConnected } from 'containers/OfferEditApplications';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
@@ -108,66 +76,9 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     this.props.offerFurtherInformationChangeAction(e.currentTarget.value);
   };
 
-  handleDateChange = (dates: string[][]) => {
-    const datesWithoutTime = dates.map(pair => pair.map(date => date.split('T')[0]));
-    this.props.offerChangeStayBetweenPrerequisiteAction(datesWithoutTime);
-  };
-
-  handleNewDate = () => {
-    this.props.offerAddStayBetweenPrerequisiteAction();
-  };
-
-  handleRemoveDate = (idx: number) => {
-    this.props.offerRemoveStayBetweenPrerequisiteAction(idx);
-  };
-
   togglePreDiscount = () => this.props.offerSetPreDiscountAction(!this.props.isPreDiscount);
 
   toggleTextOnly = () => this.props.setOfferIsTextOnly(!this.props.isTextOnly);
-
-  toggleTaCountryAccordian = (key: string) => () => {
-    this.props.offerToggleTaCountryAccodian(key);
-  };
-
-  handleNullableBooleanChange = (key: keyof IOfferPrerequisitesPayload) => (value: boolean | null) => {
-    this.props.offerSetBooleanPrerequisiteAction(key, value);
-  };
-
-  handleTaCoutryChange = (code: string) => (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetCountryCodePrerequisiteAction(code, e.currentTarget.checked);
-  };
-
-  handleAccomPreReqChange = (uuid: string) => (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetAccommodationProductPrerequisiteAction(uuid, e.currentTarget.checked);
-  };
-
-  handleMaxLodgingsChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetMaxLodgingsPrerequisiteAction(parseInt(e.currentTarget.value, 10));
-  };
-
-  handelStayLengthMinChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetStayLengthMinimumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
-  };
-
-  handelStayLengthMaxChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetStayLengthMaximumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
-  };
-
-  handelStayLengthStrictChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetStayLengthStrictPrerequisiteAction(e.currentTarget.checked);
-  };
-
-  handleAdvanceDateChange = (date: string[]) => {
-    this.props.offerSetAdvanceBookByPrerequisiteAction(date[0].split('T')[0]);
-  }
-
-  handleAdvanceMinChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetAdvanceMinimumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
-  }
-
-  handleAdvanceMaxChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetAdvanceMaximumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
-  }
 
   renderHotelName = () => {
     if (this.isEditMode()) {
@@ -275,160 +186,28 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           </Text>
         </section>
 
-        <section className="preRequisites">
-          <Fieldset>
-            <Legend>Stay between</Legend>
-            <MultiDateRange
-              className="stayBetweenInputs"
-              dateRanges={this.props.stayBetweenDates}
-              onDateChange={this.handleDateChange}
-              onNewDate={this.handleNewDate}
-              onRemoveDate={this.handleRemoveDate}
+        <TabBar className="tabBar">
+          <RouteTab to={`${this.props.match.url}/pre-requisites`}>Pre Requisites</RouteTab>
+          <RouteTab to={`${this.props.match.url}/applications`}>Applications</RouteTab>
+          <RouteTab to={`${this.props.match.url}/combinations`}>Combinations</RouteTab>
+          <RouteTab to={`${this.props.match.url}/priority`}>Priority</RouteTab>
+        </TabBar>
+
+        <div className="routes">
+          <Switch>
+            <Route
+              exact
+              path={`${this.props.match.url}/pre-requisites`}
+              component={OfferEditPreRequisitesContainerConnected}
             />
-          </Fieldset>
-
-          <Fieldset>
-            <Legend className="legendWithExtras">
-              Accomodation Products
-              {this.props.offerHotelUuid && (
-                <LegendExtras>
-                  {this.props.accomodationPreReqsLabel}
-                  <CloseButton onClick={this.props.offerClearAllAccommodationProductPrerequisiteAction} />
-                </LegendExtras>
-              )}
-            </Legend>
-            {!this.props.offerHotelUuid && <Text>Select a hotel to see accomodation products</Text>}
-
-            <FormControlGrid columnCount={3}>
-              {this.props.accomodationPreReqs.map(product => {
-                return (
-                  <Label lowercase key={product.label} inline reverse text={product.label}>
-                    <Checkbox checked={product.value} onChange={this.handleAccomPreReqChange(product.uuid)} />
-                  </Label>
-                );
-              })}
-            </FormControlGrid>
-          </Fieldset>
-
-          <Fieldset>
-            <Legend className="legendWithExtras">
-              Travel Agent Countries
-              <LegendExtras>
-                {this.props.taCountriesLabel}
-                <CloseButton onClick={this.props.offerClearAllCountryCodePrerequisiteAction} />
-              </LegendExtras>
-            </Legend>
-
-            <Accordian>
-              {Object.keys(this.props.taCountries).map(region => (
-                <AccordianSection
-                  title={region}
-                  key={region}
-                  suffix={this.props.taCountries[region].total}
-                  isOpen={this.props.taCountryAccordianKeys.includes(region)}
-                  onClick={this.toggleTaCountryAccordian(region)}
-                >
-                  <FormControlGrid columnCount={4}>
-                    {this.props.taCountries[region].countries.map(country => {
-                      return (
-                        <Label lowercase key={country.label} inline reverse text={country.label}>
-                          <Checkbox checked={country.value} onChange={this.handleTaCoutryChange(country.code)} />
-                        </Label>
-                      );
-                    })}
-                  </FormControlGrid>
-                </AccordianSection>
-              ))}
-            </Accordian>
-          </Fieldset>
-
-          <Fieldset>
-            <Legend>Stay Length</Legend>
-            <div className="stayLength">
-              <Label lowercase text="From" className="stayLengthMin">
-                <TextInput value={this.props.stayLength.minimum} onChange={this.handelStayLengthMinChange} />
-              </Label>
-
-              <Label lowercase text="To" className="stayLengthMax">
-                <TextInput value={this.props.stayLength.maximum} onChange={this.handelStayLengthMaxChange} />
-              </Label>
-
-              <Label lowercase inline reverse text="Strict" className="stayLengthStrict">
-                <Checkbox
-                  checked={this.props.stayLength.strictMinMaxStay}
-                  onChange={this.handelStayLengthStrictChange}
-                />
-              </Label>
-              {this.props.stayLength.strictMinMaxStay ? (
-                <Text className="stayLengthInfo">Nights in the room during offer dates must pass min/max.</Text>
-              ) : (
-                <Text className="stayLengthInfo">Nights in the room must pass min/max</Text>
-              )}
-            </div>
-          </Fieldset>
-
-          <Fieldset>
-            <Label text="Maximum Lodgings" inline>
-              <TextInput value={this.props.maxLodgings} onChange={this.handleMaxLodgingsChange} />
-            </Label>
-            <Legend>
-              Advance
-              <LegendExtras>
-                <CloseButton onClick={this.props.offerClearAllAdvancePrerequisiteAction} />
-              </LegendExtras>
-            </Legend>
-            <div className="advanceGrid">
-              <Label text="Book By">
-              <DatePickerStateProvider
-                isSingleDateSelection
-                defaultSelectedDates={[this.props.advance.bookBy!]}
-                onDateChange={this.handleAdvanceDateChange}
-                render={(params: IDatePickerSateParams) => {
-                  return (<DateRangeInput
-                    displayString={params.displayString}
-                    currentDate={params.datePickerCurrentDate}
-                    selectedDates={[this.props.advance.bookBy!]}
-                    onDayClick={params.handleDayClick}
-                    onDayMouseOver={params.handleDateMouseOver}
-                    showDatePicker={params.showDatePicker}
-                    onNextClick={params.incrementDate}
-                    onPrevClick={params.decrementDate}
-                    onMouseDown={params.toggleDatePicker}
-                    onClickOutside={params.hideDatePicker}
-                    placeholder="Select Book By Date"
-                  />)
-                }}
-              />
-              </Label>
-              <Label text="Minimum">
-                <TextInput value={this.props.advance?.minimum || ''} onChange={this.handleAdvanceMinChange} />
-              </Label>
-
-              <Label text="Maximum Lodgings">
-                <TextInput value={this.props.advance?.maximum || ''} onChange={this.handleAdvanceMaxChange} />
-              </Label>
-            </div>
-          </Fieldset>
-
-          <Fieldset>
-            <Legend>Booking Type</Legend>
-            <div className="nullableBooleans">
-              {Object.keys(this.props.nullableBooleans).map(key => {
-                return (
-                  <Throggle
-                    label={key.replace(/([A-Z])/g, ' $1')}
-                    name={key}
-                    key={key}
-                    trueLabel="Include"
-                    falseLabel="Exclude"
-                    value={this.props.nullableBooleans[key]}
-                    onChange={this.handleNullableBooleanChange(key as keyof IOfferPrerequisitesPayload)}
-                  />
-                );
-              })}
-            </div>
-          </Fieldset>
-        </section>
+            <Route
+              exact
+              path={`${this.props.match.url}/applications`}
+              component={OfferEditApplicationsContainerConnected}
+            />
+          </Switch>
+          <Redirect from={this.props.match.path} to={`${this.props.match.url}/pre-requisites`} />
+        </div>
 
         <ButtonBar className="actions">
           {/* I'll come back to this late */}
@@ -478,22 +257,10 @@ const mapStateToProps = createStructuredSelector({
   hotelName: hotelNameSelector,
   isTextOnly: offerDomainIsTextOnlySelector,
   isPreDiscount: offerPreDiscountSelector,
-  nullableBooleans: offerBooleanPrerequisitesSelector,
-  taCountries: offerTaCountriesPrerequisiteByRegionSelector,
-  taCountryAccordianKeys: taCountryAccordianKeysSelector,
-  taCountriesLabel: offerTaCountriesLabelPrerequisiteSelector,
-  accomodationPreReqs: offerAccommodationProductPrerequisitesSelector,
-  accomodationPreReqsLabel: offerAccommodationProductPrerequisitesLabelSelector,
-  maxLodgings: offerMaxLodgingsPrerequisiteSelector,
-  stayLength: offerStayLengthPrerequisiteSelector,
-  advance: offerAdvancePrerequisiteSelector,
 });
 
 const actionCreators = {
   getOfferRequestAction,
-  offerAddStayBetweenPrerequisiteAction,
-  offerChangeStayBetweenPrerequisiteAction,
-  offerRemoveStayBetweenPrerequisiteAction,
   offerNameChangeAction,
   offerTermsChangeAction,
   offerFurtherInformationChangeAction,
@@ -503,20 +270,6 @@ const actionCreators = {
   putOfferRequestAction,
   postOfferRequestAction,
   resetOfferModuleAction,
-  offerSetBooleanPrerequisiteAction,
-  offerSetCountryCodePrerequisiteAction,
-  offerToggleTaCountryAccodian,
-  offerClearAllCountryCodePrerequisiteAction,
-  offerClearAllAccommodationProductPrerequisiteAction,
-  offerSetAccommodationProductPrerequisiteAction,
-  offerSetMaxLodgingsPrerequisiteAction,
-  offerSetStayLengthMaximumPrerequisiteAction,
-  offerSetStayLengthMinimumPrerequisiteAction,
-  offerSetStayLengthStrictPrerequisiteAction,
-  offerSetAdvanceBookByPrerequisiteAction,
-  offerSetAdvanceMaximumPrerequisiteAction,
-  offerSetAdvanceMinimumPrerequisiteAction,
-  offerClearAllAdvancePrerequisiteAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

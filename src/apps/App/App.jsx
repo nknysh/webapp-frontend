@@ -12,8 +12,8 @@ import { withUser } from 'hoc';
 import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 import { FastSearchContainerConnected } from 'containers/FastSearch';
-import { OfferEditContainerConnected } from 'containers/OfferEdit';
 import { RatesImportContainerConnected } from 'containers/RatesImport';
+import { OfferRouting } from 'containers/OfferRouting';
 
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange, bootstrapAppRequestAction }) => {
   // Scroll to top on path change
@@ -36,8 +36,7 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange, b
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
-          <Route exact path="/offer/:offerId/edit" component={OfferEditContainerConnected} />
-          <Route exact path="/offer/create" component={OfferEditContainerConnected} />
+          <Route path="/offer" component={OfferRouting} />
           <Route exact path="/rates/import" component={RatesImportContainerConnected} />
           {...getAppRoutes(prop('type', user))}
         </Switch>
