@@ -36,6 +36,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
       maximum: 10,
       strictMinMaxStay: false,
     },
+    advance: {},
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},
@@ -67,6 +68,10 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     offerSetStayLengthMaximumPrerequisiteAction: jest.fn(),
     offerSetStayLengthMinimumPrerequisiteAction: jest.fn(),
     offerSetStayLengthStrictPrerequisiteAction: jest.fn(),
+    offerSetAdvanceBookByPrerequisiteAction: jest.fn(),
+    offerSetAdvanceMaximumPrerequisiteAction: jest.fn(),
+    offerSetAdvanceMinimumPrerequisiteAction: jest.fn(),
+    offerClearAllAdvancePrerequisiteAction: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 

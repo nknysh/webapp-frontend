@@ -20,6 +20,8 @@ import { AccordianSection, Accordian } from 'pureUi/Accordian/index';
 import { CloseButton } from 'pureUi/Buttons/index';
 import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
 import { PureSelect } from 'pureUi/forms/PureSelect';
+import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
+import DateRangeInput from 'pureUi/DateRangeInput';
 
 import {
   offerSelector,
@@ -43,6 +45,7 @@ import {
   offerAccommodationProductPrerequisitesLabelSelector,
   offerMaxLodgingsPrerequisiteSelector,
   offerStayLengthPrerequisiteSelector,
+  offerAdvancePrerequisiteSelector
 } from 'store/modules/offer/selectors';
 
 import {
@@ -69,7 +72,12 @@ import {
   offerSetStayLengthMaximumPrerequisiteAction,
   offerSetStayLengthMinimumPrerequisiteAction,
   offerSetStayLengthStrictPrerequisiteAction,
+  offerSetAdvanceBookByPrerequisiteAction,
+  offerSetAdvanceMaximumPrerequisiteAction,
+  offerSetAdvanceMinimumPrerequisiteAction,
+  offerClearAllAdvancePrerequisiteAction,
 } from 'store/modules/offer/actions';
+
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
@@ -148,6 +156,18 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   handelStayLengthStrictChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetStayLengthStrictPrerequisiteAction(e.currentTarget.checked);
   };
+
+  handleAdvanceDateChange = (date: string[]) => {
+    this.props.offerSetAdvanceBookByPrerequisiteAction(date[0].split('T')[0]);
+  }
+
+  handleAdvanceMinChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetAdvanceMinimumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
+  }
+
+  handleAdvanceMaxChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetAdvanceMaximumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
+  }
 
   renderHotelName = () => {
     if (this.isEditMode()) {
@@ -351,6 +371,43 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
             <Label text="Maximum Lodgings" inline>
               <TextInput value={this.props.maxLodgings} onChange={this.handleMaxLodgingsChange} />
             </Label>
+            <Legend>
+              Advance
+              <LegendExtras>
+                <CloseButton onClick={this.props.offerClearAllAdvancePrerequisiteAction} />
+              </LegendExtras>
+            </Legend>
+            <div className="advanceGrid">
+              <Label text="Book By">
+              <DatePickerStateProvider
+                isSingleDateSelection
+                defaultSelectedDates={[this.props.advance.bookBy!]}
+                onDateChange={this.handleAdvanceDateChange}
+                render={(params: IDatePickerSateParams) => {
+                  return (<DateRangeInput
+                    displayString={params.displayString}
+                    currentDate={params.datePickerCurrentDate}
+                    selectedDates={[this.props.advance.bookBy!]}
+                    onDayClick={params.handleDayClick}
+                    onDayMouseOver={params.handleDateMouseOver}
+                    showDatePicker={params.showDatePicker}
+                    onNextClick={params.incrementDate}
+                    onPrevClick={params.decrementDate}
+                    onMouseDown={params.toggleDatePicker}
+                    onClickOutside={params.hideDatePicker}
+                    placeholder="Select Book By Date"
+                  />)
+                }}
+              />
+              </Label>
+              <Label text="Minimum">
+                <TextInput value={this.props.advance?.minimum || ''} onChange={this.handleAdvanceMinChange} />
+              </Label>
+
+              <Label text="Maximum Lodgings">
+                <TextInput value={this.props.advance?.maximum || ''} onChange={this.handleAdvanceMaxChange} />
+              </Label>
+            </div>
           </Fieldset>
 
           <Fieldset>
@@ -429,6 +486,7 @@ const mapStateToProps = createStructuredSelector({
   accomodationPreReqsLabel: offerAccommodationProductPrerequisitesLabelSelector,
   maxLodgings: offerMaxLodgingsPrerequisiteSelector,
   stayLength: offerStayLengthPrerequisiteSelector,
+  advance: offerAdvancePrerequisiteSelector,
 });
 
 const actionCreators = {
@@ -455,6 +513,10 @@ const actionCreators = {
   offerSetStayLengthMaximumPrerequisiteAction,
   offerSetStayLengthMinimumPrerequisiteAction,
   offerSetStayLengthStrictPrerequisiteAction,
+  offerSetAdvanceBookByPrerequisiteAction,
+  offerSetAdvanceMaximumPrerequisiteAction,
+  offerSetAdvanceMinimumPrerequisiteAction,
+  offerClearAllAdvancePrerequisiteAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

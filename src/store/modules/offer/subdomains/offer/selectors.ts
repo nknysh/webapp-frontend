@@ -177,7 +177,7 @@ export const offerAccommodationProductPrerequisitesLabelSelector = createSelecto
 
 export const offerAdvancePrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
-  prerequisites => prerequisites.advance
+  prerequisites => prerequisites.advance || { bookBy: '', minimum: '', maximum: ''}
 );
 
 export const offerMaxLodgingsPrerequisiteSelector = createSelector(

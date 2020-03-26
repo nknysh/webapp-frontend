@@ -558,14 +558,14 @@ describe('Offer Selectors', () => {
   });
 
   describe('offer advance selector', () => {
-    it('select advance prerequisite (return undefined if not present)', () => {
+    it('select advance prerequisite (return stub if not present)', () => {
       const prerequisitesFixture = {
         ...initialState.offer.prerequisites,
       } as IOfferPrerequisites;
 
       const selected = offerAdvancePrerequisiteSelector.resultFunc(prerequisitesFixture);
 
-      expect(selected).toEqual(undefined);
+      expect(selected).toEqual({ bookBy: '', maximum: '', minimum: '' });
     });
 
     it('select advance prerequisite (return with data)', () => {

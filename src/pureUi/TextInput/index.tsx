@@ -38,7 +38,7 @@ export const TextInput = styled(TextInputComponent)`
   input {
     flex-grow: 1;
     flex-shrink: 1;
-    padding: 10px;
+    padding: 11px;
     font-family: 'HurmeGeometricSans2';
     font-size: 14px;
     width: 100%;
