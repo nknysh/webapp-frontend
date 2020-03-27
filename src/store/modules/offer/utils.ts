@@ -91,6 +91,20 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       );
     }
 
+    if (draftOffer.subProductDiscounts?.['Meal Plan']) {
+      draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan'].map(
+        (discount, arrayIndex) => {
+          const newSupplement: IOfferProductDiscountInstance = {
+            products: discount.products,
+            discountPercentage: discount.discountPercentage,
+            greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
+            maximumQuantity: discount.maximumQuantity,
+          };
+          return newSupplement;
+        }
+      );
+    }
+
     if (draftOffer.productDiscounts?.Fine) {
       draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map((discount, arrayIndex) => {
         const newSupplement: IOfferProductDiscountInstance = {
@@ -103,6 +117,46 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       });
     }
 
+    if (draftOffer.productDiscounts?.['Ground Service']) {
+      draftOffer.productDiscounts['Ground Service'] = draftOffer.productDiscounts['Ground Service'].map(
+        (discount, arrayIndex) => {
+          const newSupplement: IOfferProductDiscountInstance = {
+            products: discount.products,
+            discountPercentage: discount.discountPercentage,
+            greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
+            maximumQuantity: discount.maximumQuantity,
+          };
+          return newSupplement;
+        }
+      );
+    }
+
+    if (draftOffer.productDiscounts?.Supplement) {
+      draftOffer.productDiscounts.Supplement = draftOffer.productDiscounts.Supplement.map((discount, arrayIndex) => {
+        const newSupplement: IOfferProductDiscountInstance = {
+          products: discount.products,
+          discountPercentage: discount.discountPercentage,
+          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
+          maximumQuantity: discount.maximumQuantity,
+        };
+        return newSupplement;
+      });
+    }
+
+    if (draftOffer.productDiscounts?.Transfer) {
+      draftOffer.productDiscounts.Transfer = draftOffer.productDiscounts.Transfer.map((discount, arrayIndex) => {
+        const newSupplement: IOfferProductDiscountInstance = {
+          products: discount.products,
+          discountPercentage: discount.discountPercentage,
+          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
+          maximumQuantity: discount.maximumQuantity,
+        };
+        return newSupplement;
+      });
+    }
+
+    // handle offer `combines`, `combinesWith` and `cannotCombineWith`
+    // basd on UI state
     switch (uiState.combinationMode) {
       case ECombinationMode.COMBINES_WITH_ANY:
         draftOffer.combines = true;
