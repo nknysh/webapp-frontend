@@ -249,7 +249,7 @@ describe('offer module utils test', () => {
 
       expect(transformed).toMatchObject({
         ...initialState.offer,
-        subProductDiscounts: {
+        productDiscounts: {
           Transfer: [
             {
               index: 0,
