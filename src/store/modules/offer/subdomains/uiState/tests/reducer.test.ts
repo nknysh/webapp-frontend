@@ -136,3 +136,108 @@ describe('offer UI state reducer > toggling combination list', () => {
     });
   });
 });
+
+describe('offer GET_OFFER_SUCCESS handling combines data', () => {
+  it('with combines true combinesWith is empty and cannotCombineWith is empty', () => {
+    const action = getOfferSuccessAction(
+      {
+        ...initialState.offer,
+        combines: true,
+        combinesWith: [],
+        cannotCombineWith: [],
+      } as IOfferUI,
+      {},
+      {},
+      [],
+      true,
+      []
+    );
+
+    const result = reducer(initialState.uiState, action);
+    const expected: IOfferUiState = {
+      ...initialState.uiState,
+      getOfferRequestIsPending: false,
+      isTextOnly: true,
+      combinationMode: ECombinationMode.COMBINES_WITH_ANY,
+    };
+    expect(result).toEqual(expected);
+  });
+
+  it('with combines true combinesWith has entries and cannotCombineWith is empty', () => {
+    const action = getOfferSuccessAction(
+      {
+        ...initialState.offer,
+        combines: true,
+        combinesWith: ['a'],
+        cannotCombineWith: [],
+      } as IOfferUI,
+      {},
+      {},
+      [],
+      true,
+      []
+    );
+
+    const result = reducer(initialState.uiState, action);
+    const expected: IOfferUiState = {
+      ...initialState.uiState,
+      getOfferRequestIsPending: false,
+      isTextOnly: true,
+      combinationMode: ECombinationMode.COMBINES_WITH_LIST,
+      combinationOfferUuids: ['a'],
+    };
+    expect(result).toEqual(expected);
+  });
+
+  it('with combines true combinesWith is empty and cannotCombineWith has entries', () => {
+    const action = getOfferSuccessAction(
+      {
+        ...initialState.offer,
+        combines: true,
+        combinesWith: [],
+        cannotCombineWith: ['b'],
+      } as IOfferUI,
+      {},
+      {},
+      [],
+      true,
+      []
+    );
+
+    const result = reducer(initialState.uiState, action);
+    const expected: IOfferUiState = {
+      ...initialState.uiState,
+      getOfferRequestIsPending: false,
+      isTextOnly: true,
+      combinationMode: ECombinationMode.CANNOT_COMBINE_WITH_LIST,
+      combinationOfferUuids: ['b'],
+    };
+    expect(result).toEqual(expected);
+  });
+
+  it('with combines false combinesWith has values and cannotCombineWith is empty', () => {
+    const action = getOfferSuccessAction(
+      {
+        ...initialState.offer,
+        combines: false,
+        combinesWith: ['a'],
+        cannotCombineWith: [],
+      } as IOfferUI,
+      {},
+      {},
+      [],
+      true,
+      []
+    );
+
+    const result = reducer(initialState.uiState, action);
+    const expected: IOfferUiState = {
+      ...initialState.uiState,
+      getOfferRequestIsPending: false,
+      isTextOnly: true,
+      combinationMode: ECombinationMode.COMBINES_WITH_NONE,
+      combinationOfferUuids: [],
+    };
+    expect(result).toEqual(expected);
+  });
+});
