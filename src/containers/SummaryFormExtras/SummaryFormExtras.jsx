@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useCallback } from 'react';
-import { compose, prop, flatten } from 'ramda';
+import { compose, prop, flatten, partition } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { RadioButton, Loader } from '@pure-escapes/webapp-ui-components';
@@ -293,6 +293,9 @@ const renderGroundServices = (
   );
 };
 
+const isCustomItem = supplementProduct =>
+  supplementProduct.options && supplementProduct.options.genericIdentifier === 'customItem';
+
 const renderAddons = (
   translate,
   currencyCode,
@@ -316,70 +319,59 @@ const renderAddons = (
       onCountAsTransferChange={customItem.actions.updateCountsAsTransfer}
       onShow={customItem.actions.showForm}
       onCancel={customItem.actions.hideForm}
-      onConfirm={customItem.actions.save}
+      onConfirm={() => customItem.actions.save(hotelUuid)}
     />
   );
 
-  const supplementMarkup = (
-    <React.Fragment>
-      {availableSupplements.map(sp => {
-        const supplementProduct = sp.products[0];
-        const isChecked = selectedSupplements.some(sgs => sgs.uuid === supplementProduct.uuid);
+  const renderSupplement = (sp, idx, custom) => {
+    const supplementProduct = sp.products[0];
+    const isChecked = selectedSupplements.some(sgs => sgs.uuid === supplementProduct.uuid);
 
-        const isCustomItem = supplementProduct.opttions && supplementProduct.options.genericIdentifier === 'customItem';
+    return (
+      <AddonCheckbox
+        onChange={() =>
+          custom ? customItem.actions.remove(idx, hotelUuid) : updateSupplementAction(supplementProduct, hotelUuid)
+        }
+        key={`${supplementProduct.uuid}/${supplementProduct.name}`}
+        checked={isChecked || custom}
+        label={
+          <ProductLabel className="normal-case">
+            <span>
+              {supplementProduct.name}{' '}
+              {renderInlinePrice(
+                translate,
+                currencyCode,
+                sp.total,
+                sp.totalBeforeDiscount,
+                sp.isOnRequestOrPartiallyOnRequest
+              )}
+            </span>
+            <InfoIconWithModal
+              modalRender={() => (
+                <ModalContent>
+                  <h2 className="uppercase color-gold">
+                    {supplementProduct.name}{' '}
+                    <small>
+                      {renderInlinePrice(
+                        translate,
+                        currencyCode,
+                        sp.total,
+                        sp.totalBeforeDiscount,
+                        sp.isOnRequestOrPartiallyOnRequest
+                      )}
+                    </small>
+                  </h2>
+                  <p>{supplementProduct.meta.description}</p>
+                </ModalContent>
+              )}
+            />
+          </ProductLabel>
+        }
+      />
+    );
+  };
 
-        const ConnectedAddonCheckbox = ({ label }) => (
-          <AddonCheckbox
-            onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
-            key={`${supplementProduct.uuid}/${supplementProduct.name}`}
-            checked={isChecked}
-            label={label}
-          />
-        );
-
-        return (
-          <AddonCheckbox
-            onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
-            key={`${supplementProduct.uuid}/${supplementProduct.name}`}
-            checked={isChecked}
-            label={
-              <ProductLabel className="normal-case">
-                <span>
-                  {supplementProduct.name}{' '}
-                  {renderInlinePrice(
-                    translate,
-                    currencyCode,
-                    sp.total,
-                    sp.totalBeforeDiscount,
-                    sp.isOnRequestOrPartiallyOnRequest
-                  )}
-                </span>
-                <InfoIconWithModal
-                  modalRender={() => (
-                    <ModalContent>
-                      <h2 className="uppercase color-gold">
-                        {supplementProduct.name}{' '}
-                        <small>
-                          {renderInlinePrice(
-                            translate,
-                            currencyCode,
-                            sp.total,
-                            sp.totalBeforeDiscount,
-                            sp.isOnRequestOrPartiallyOnRequest
-                          )}
-                        </small>
-                      </h2>
-                      <p>{supplementProduct.meta.description}</p>
-                    </ModalContent>
-                  )}
-                />
-              </ProductLabel>
-            }
-          />
-        );
-      })}
-    </React.Fragment>
-  );
+  const [customSupplement, standardSupplement] = partition(sp => isCustomItem(sp.products[0]), availableSupplements);
 
   const fineMarkup = (
     <React.Fragment>
@@ -432,8 +424,9 @@ const renderAddons = (
 
   return (
     <React.Fragment>
-      {supplementMarkup}
+      {standardSupplement.map(sp => renderSupplement(sp))}
       {fineMarkup}
+      {customSupplement.map((sp, idx) => renderSupplement(sp, idx, true))}
       {customItemMarkup}
     </React.Fragment>
   );
