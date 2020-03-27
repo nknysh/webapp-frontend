@@ -601,7 +601,7 @@ export const SummaryFormExtras = ({
     return 'None selected';
   }, [selectedFines, selectedSupplements, addons]);
 
-  const TransfersWrapper = () => {
+  const renderTransfersWrapper = () => {
     return (
       <TableCardBox className="table-card-box">
         <TableCardRow className="table-card-row" depth={1}>
@@ -636,7 +636,7 @@ export const SummaryFormExtras = ({
     );
   };
 
-  const GroundServicesWrapper = () => {
+  const renderGroundServicesWrapper = () => {
     const breakdown = selectedGroundServicesBreakdown();
     return (
       <TableCardBox className="table-card-box mt-4">
@@ -678,7 +678,7 @@ export const SummaryFormExtras = ({
     );
   };
 
-  const AddonsWrapper = () => {
+  const renderAddonsWrapper = () => {
     const breakdown = selectedAddonsBreakdown();
     return (
       <TableCardBox className="table-card-box mt-4">
@@ -737,9 +737,9 @@ export const SummaryFormExtras = ({
         <TableCardNumberBannerText>Select Your Add-Ons</TableCardNumberBannerText>
       </TableCardNumberedBanner>
 
-      {transfers.length >= 1 && <TransfersWrapper />}
-      {groundServices.length >= 1 && <GroundServicesWrapper />}
-      {addons.length >= 1 && <AddonsWrapper />}
+      {transfers.length >= 1 && renderTransfersWrapper()}
+      {groundServices.length >= 1 && renderGroundServicesWrapper()}
+      {addons.length >= 1 && renderAddonsWrapper()}
 
       <TableCardNumberedBanner className="mt-4 mb-4">
         <TableCardNumberBannerNumber>4</TableCardNumberBannerNumber>
