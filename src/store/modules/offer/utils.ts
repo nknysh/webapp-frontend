@@ -8,6 +8,7 @@ import {
 } from 'services/BackendApi';
 import produce from 'immer';
 import * as R from 'ramda';
+import { IOfferUiState, ECombinationMode } from './model';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
   const productUuids = [...(offer.prerequisites.accommodationProducts || [])];
@@ -74,7 +75,7 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
   });
 };
 
-export const transformUiOfferToApiOffer = (offer: IOfferUI): IOfferAPI => {
+export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiState): IOfferAPI => {
   return produce(offer, (draftOffer: IOfferAPI) => {
     if (draftOffer.subProductDiscounts?.Supplement) {
       draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(
@@ -100,6 +101,22 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI): IOfferAPI => {
         };
         return newSupplement;
       });
+    }
+
+    switch (uiState.combinationMode) {
+      case ECombinationMode.COMBINES_WITH_ANY:
+        draftOffer.combines = true;
+        break;
+      case ECombinationMode.COMBINES_WITH_NONE:
+        draftOffer.combines = false;
+        break;
+      case ECombinationMode.COMBINES_WITH_LIST:
+        draftOffer.combines = true;
+        draftOffer.combinesWith = uiState.combinationOfferUuids;
+      case ECombinationMode.CANNOT_COMBINE_WITH_LIST:
+        draftOffer.combines = true;
+        draftOffer.cannotCombineWith = uiState.combinationOfferUuids;
+        break;
     }
 
     return draftOffer;
