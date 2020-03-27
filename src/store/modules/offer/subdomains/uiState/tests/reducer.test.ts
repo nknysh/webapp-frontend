@@ -23,6 +23,7 @@ describe('Offer reducer', () => {
       ...initialState.uiState,
       getOfferRequestIsPending: false,
       isTextOnly: true,
+      combinationMode: ECombinationMode.COMBINES_WITH_NONE,
     };
     expect(result).toEqual(expected);
   });
