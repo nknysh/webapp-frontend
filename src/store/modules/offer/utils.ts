@@ -64,8 +64,40 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
       );
     }
 
+    if (draftOffer.subProductDiscounts?.['Meal Plan']) {
+      draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan'].map(
+        (discount, arrayIndex) => {
+          discount.index = arrayIndex;
+          return discount;
+        }
+      );
+    }
+
     if (draftOffer.productDiscounts?.Fine) {
       draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map((discount, arrayIndex) => {
+        discount.index = arrayIndex;
+        return discount;
+      });
+    }
+
+    if (draftOffer.productDiscounts?.['Ground Service']) {
+      draftOffer.productDiscounts['Ground Service'] = draftOffer.productDiscounts['Ground Service'].map(
+        (discount, arrayIndex) => {
+          discount.index = arrayIndex;
+          return discount;
+        }
+      );
+    }
+
+    if (draftOffer.productDiscounts?.Transfer) {
+      draftOffer.productDiscounts.Transfer = draftOffer.productDiscounts.Transfer.map((discount, arrayIndex) => {
+        discount.index = arrayIndex;
+        return discount;
+      });
+    }
+
+    if (draftOffer.productDiscounts?.Supplement) {
+      draftOffer.productDiscounts.Supplement = draftOffer.productDiscounts.Supplement.map((discount, arrayIndex) => {
         discount.index = arrayIndex;
         return discount;
       });
