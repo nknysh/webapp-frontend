@@ -1,6 +1,6 @@
 import { offer as reducer, accommodationProductsForHotelReducer } from '../reducer';
 import { IOfferUI } from 'services/BackendApi';
-import { initialState, IOfferModel } from '../model';
+import { initialState, IOfferModel, ECombinationMode } from '../model';
 import { getOfferSuccessAction, getOfferFailureAction } from '../actions';
 import { offerHotelUuidChangeSuccessAction, offerHotelUuidChangeAction } from '../subdomains/offer/actions';
 
@@ -15,6 +15,7 @@ describe('Offer reducer', () => {
         ...initialState.uiState,
         getOfferRequestIsPending: false,
         isTextOnly: true,
+        combinationMode: ECombinationMode.COMBINES_WITH_NONE,
       },
     };
     expect(result).toEqual(expected);
@@ -36,6 +37,7 @@ describe('Offer reducer', () => {
         ...initialState.uiState,
         getOfferRequestIsPending: false,
         isTextOnly: true,
+        combinationMode: ECombinationMode.COMBINES_WITH_NONE,
       },
       accommodationProductsForHotel: [
         {
@@ -63,6 +65,7 @@ describe('accommodationProductsForHotelReducer', () => {
     const result = reducer(undefined, action);
     const expected: IOfferModel = {
       ...initialState,
+
       accommodationProductsForHotel: fixture,
     };
     expect(result).toEqual(expected);

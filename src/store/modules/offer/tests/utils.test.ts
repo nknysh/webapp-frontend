@@ -5,7 +5,7 @@ import {
   transformApiOfferToUiOffer,
   transformUiOfferToApiOffer,
 } from '../utils';
-import { initialState } from '../model';
+import { initialState, IOfferUiState, ECombinationMode } from '../model';
 import { IOfferAPI, IOfferUI } from 'services/BackendApi';
 
 describe('offer module utils test', () => {
@@ -184,7 +184,11 @@ describe('offer module utils test', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
         subProductDiscounts: {
-          'Meal Plan': [],
+          'Meal Plan': [
+            {
+              products: [{ uuid: 'B' }],
+            },
+          ],
           Supplement: [
             {
               products: [{ uuid: 'A' }],
@@ -198,11 +202,76 @@ describe('offer module utils test', () => {
       expect(transformed).toMatchObject({
         ...initialState.offer,
         subProductDiscounts: {
-          'Meal Plan': [],
+          'Meal Plan': [
+            {
+              index: 0,
+              products: [{ uuid: 'B' }],
+            },
+          ],
           Supplement: [
             {
               index: 0,
               products: [{ uuid: 'A' }],
+            },
+          ],
+        },
+      });
+    });
+
+    it('adds indexes to product discount supplements', () => {
+      const fixture: IOfferAPI = {
+        ...initialState.offer,
+        productDiscounts: {
+          Transfer: [
+            {
+              products: [{ uuid: 'A' }],
+            },
+          ],
+          Supplement: [
+            {
+              products: [{ uuid: 'B' }],
+            },
+          ],
+          Fine: [
+            {
+              products: [{ uuid: 'C' }],
+            },
+          ],
+          'Ground Service': [
+            {
+              products: [{ uuid: 'C' }],
+            },
+          ],
+        },
+      };
+
+      const transformed = transformApiOfferToUiOffer(fixture);
+
+      expect(transformed).toMatchObject({
+        ...initialState.offer,
+        subProductDiscounts: {
+          Transfer: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+          ],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'B' }],
+            },
+          ],
+          Fine: [
+            {
+              index: 0,
+              products: [{ uuid: 'C' }],
+            },
+          ],
+          'Ground Service': [
+            {
+              index: 0,
+              products: [{ uuid: 'C' }],
             },
           ],
         },
@@ -229,10 +298,189 @@ describe('offer module utils test', () => {
         },
       };
 
-      const transformed = transformUiOfferToApiOffer(fixture);
+      const uiFixture: IOfferUiState = {
+        ...initialState.uiState,
+        combinationMode: ECombinationMode.COMBINES_WITH_ANY,
+      };
+
+      const transformed = transformUiOfferToApiOffer(fixture, uiFixture);
 
       expect(transformed).toMatchObject({
         ...initialState.offer,
+        combines: true,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              products: [{ uuid: 'A' }],
+            },
+            {
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      });
+    });
+
+    it('ui combination mode COMBINES WITH ANY', () => {
+      const fixture: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 1,
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      };
+
+      const uiFixture: IOfferUiState = {
+        ...initialState.uiState,
+        combinationMode: ECombinationMode.COMBINES_WITH_ANY,
+      };
+
+      const transformed = transformUiOfferToApiOffer(fixture, uiFixture);
+
+      expect(transformed).toMatchObject({
+        ...initialState.offer,
+        combines: true,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              products: [{ uuid: 'A' }],
+            },
+            {
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      });
+    });
+
+    it('ui combination mode COMBINES WITH LIST', () => {
+      const fixture: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 1,
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      };
+
+      const uiFixture: IOfferUiState = {
+        ...initialState.uiState,
+        combinationMode: ECombinationMode.COMBINES_WITH_LIST,
+        combinationOfferUuids: ['a'],
+      };
+
+      const transformed = transformUiOfferToApiOffer(fixture, uiFixture);
+
+      expect(transformed).toMatchObject({
+        ...initialState.offer,
+        combines: true,
+        combinesWith: ['a'],
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              products: [{ uuid: 'A' }],
+            },
+            {
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      });
+    });
+
+    it('ui combination mode CANNOT_COMBINE_WITH_LIST', () => {
+      const fixture: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 1,
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      };
+
+      const uiFixture: IOfferUiState = {
+        ...initialState.uiState,
+        combinationMode: ECombinationMode.CANNOT_COMBINE_WITH_LIST,
+        combinationOfferUuids: ['a'],
+      };
+
+      const transformed = transformUiOfferToApiOffer(fixture, uiFixture);
+
+      expect(transformed).toMatchObject({
+        ...initialState.offer,
+        combines: true,
+        cannotCombineWith: ['a'],
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              products: [{ uuid: 'A' }],
+            },
+            {
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      });
+    });
+
+    it('ui combination mode COMBINES_WITH_NONE', () => {
+      const fixture: IOfferUI = {
+        ...initialState.offer,
+        subProductDiscounts: {
+          'Meal Plan': [],
+          Supplement: [
+            {
+              index: 0,
+              products: [{ uuid: 'A' }],
+            },
+            {
+              index: 1,
+              products: [{ uuid: 'B' }],
+            },
+          ],
+        },
+      };
+
+      const uiFixture: IOfferUiState = {
+        ...initialState.uiState,
+        combinationMode: ECombinationMode.COMBINES_WITH_NONE,
+        combinationOfferUuids: [],
+      };
+
+      const transformed = transformUiOfferToApiOffer(fixture, uiFixture);
+
+      expect(transformed).toMatchObject({
+        ...initialState.offer,
+        combines: false,
         subProductDiscounts: {
           'Meal Plan': [],
           Supplement: [
