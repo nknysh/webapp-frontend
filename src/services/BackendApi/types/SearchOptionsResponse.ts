@@ -1,5 +1,4 @@
 import { StarRating, Filters } from './SearchQuery';
-import { AxiosResponse } from 'axios';
 
 export interface SearchOptions {
   starRatings: StarRating[];

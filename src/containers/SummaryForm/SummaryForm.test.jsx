@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { SummaryForm } from './SummaryForm';
 
 const getComponent = props => shallow(<SummaryForm {...props} />);

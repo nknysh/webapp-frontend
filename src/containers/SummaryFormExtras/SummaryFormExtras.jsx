@@ -36,9 +36,17 @@ import {
 } from 'pureUi/TableCard';
 import { HotelName } from '../SummaryForm/SummaryForm.styles';
 
-import { renderHotelName } from '../SummaryForm/SummaryForm';
-
 import Checkbox from 'pureUi/Checkbox';
+
+export const renderHotelName = ({ name }) => {
+  return (
+    <TableCardBox>
+      <TableCardRow depth={1}>
+        <HotelName>{name}</HotelName>
+      </TableCardRow>
+    </TableCardBox>
+  );
+};
 
 const InfoIconWithModal = ({ modalRender }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

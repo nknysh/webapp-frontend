@@ -6,7 +6,7 @@ import { Form, Input, Loader, List } from '@pure-escapes/webapp-ui-components';
 import styled from 'styled-components';
 
 import LodgingSummary from 'containers/LodgingSummary';
-import SummaryFormExtras from 'containers/SummaryFormExtras';
+import SummaryFormExtras from 'containers/SummaryFormExtras/SummaryFormExtras';
 
 import { useEffectBoundary } from 'effects';
 import {
@@ -36,7 +36,6 @@ const getSingleValue = (type, data) =>
     propOr('', 'uuid')
   )(data);
 
-// exported as its used in src/containers/SummaryFormExtras/SummaryFormExtras.jsx as well
 export const renderHotelName = ({ name }) => {
   return (
     <TableCardBox>

@@ -129,7 +129,7 @@ module.exports = (env, argv) => ({
     }),
     new CircularDependencyPlugin({
       exclude: /node_modules/,
-      failOnError: false,
+      failOnError: true,
       allowAsyncCycles: false,
       cwd: process.cwd(),
     }),

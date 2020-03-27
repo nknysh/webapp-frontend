@@ -1,34 +1,20 @@
 import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
 import { IOfferPrerequisitesPayload } from 'services/BackendApi';
-import { IOfferModel } from '../../model';
 import {
   getBootstrapCountriesSelector,
   getBootstrapExtraPersonSupplementProductSelector,
 } from '../../../bootstrap/selectors';
 import { groupBy } from 'ramda';
 import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../types';
-import { IBootstrapCountry } from '../../../bootstrap/model';
 import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
+import { offerDomainSelector, getAccommodationProductsForHotelSelector } from '../../domainSelectors';
 
-// TODO: For some reason, I can't import the offerDomainSelector from
-// the root selector file. This is a tmp fix. I guess there's some minconfiguration
-// in webpack or babel?
-const tmpOfferDomainSelector = (state: any): IOfferModel => state.offer;
-const tmpGetAccommodationProductsForHotelSelector = createSelector(
-  tmpOfferDomainSelector,
-  domain => domain.accommodationProductsForHotel
-);
-export const offerSelector = createSelector(tmpOfferDomainSelector, domain => domain.offer);
-
+export const offerSelector = createSelector(offerDomainSelector, domain => domain.offer);
 export const offerNameSelector = createSelector(offerSelector, offer => offer.name);
-
 export const offerHotelUuidSelector = createSelector(offerSelector, offer => offer.hotelUuid);
-
 export const offerTermsSelector = createSelector(offerSelector, offer => offer.termsAndConditions);
-
 export const offerFurtherInformationSelector = createSelector(offerSelector, offer => offer.furtherInformation || '');
-
 export const offerPrerequisitesSelector = createSelector(offerSelector, offer => offer.prerequisites);
 
 export const offerPayloadPrerequisitesSelector = createSelector(
@@ -140,7 +126,7 @@ export const offerAccommodationProductPrerequisitesRawSelector = createSelector(
 
 export const offerAccommodationProductPrerequisitesSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
-  tmpGetAccommodationProductsForHotelSelector,
+  getAccommodationProductsForHotelSelector,
   (accommodationProductPrerequisites, accommodationProductsOnHotel) => {
     return accommodationProductsOnHotel.map(accommodationProduct => {
       if (accommodationProductPrerequisites.includes(accommodationProduct.uuid)) {
@@ -162,7 +148,7 @@ export const offerAccommodationProductPrerequisitesSelector = createSelector(
 
 export const offerAccommodationProductPrerequisitesLabelSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
-  tmpGetAccommodationProductsForHotelSelector,
+  getAccommodationProductsForHotelSelector,
   (accommodationProductPrerequisites, accommodationProductsOnHotel) => {
     if (
       accommodationProductPrerequisites.length === accommodationProductsOnHotel.length ||

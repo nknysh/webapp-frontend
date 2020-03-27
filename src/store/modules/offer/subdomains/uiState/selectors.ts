@@ -1,14 +1,8 @@
 import { createSelector } from 'reselect';
-import { IOfferModel } from '../../model';
-import { getOffersOnHotelSelector } from '../../selectors';
-
-// TODO: For some reason, I can't import the offerDomainSelector from
-// the root selector file. This is a tmp fix. I guess there's some minconfiguration
-// in webpack or babel?
-const tmpOfferDomainSelector = (state: any): IOfferModel => state.offer;
+import { offerDomainSelector, getOffersOnHotelSelector } from '../../domainSelectors';
 
 export const uiStateSelector = createSelector(
-  tmpOfferDomainSelector,
+  offerDomainSelector,
   domain => domain.uiState
 );
 
@@ -52,24 +46,24 @@ export const combinationOfferUuidsSelector = createSelector(
   uiStateSelector => uiStateSelector.combinationOfferUuids
 );
 
-// export const combinationListSelector = createSelector(
-//   combinationOfferUuidsSelector,
-//   getOffersOnHotelSelector,
-//   (combinationList, offersOnHotel) => {
-//     return offersOnHotel.map(offerOnHotel => {
-//       if (combinationList.includes(offerOnHotel.uuid)) {
-//         return {
-//           uuid: offerOnHotel.uuid,
-//           label: offerOnHotel.name,
-//           value: true,
-//         };
-//       } else {
-//         return {
-//           uuid: offerOnHotel.uuid,
-//           label: offerOnHotel.name,
-//           value: false,
-//         };
-//       }
-//     });
-//   }
-// );
+export const combinationListSelector = createSelector(
+  combinationOfferUuidsSelector,
+  getOffersOnHotelSelector,
+  (combinationList, offersOnHotel) => {
+    return offersOnHotel.map(offerOnHotel => {
+      if (combinationList.includes(offerOnHotel.uuid)) {
+        return {
+          uuid: offerOnHotel.uuid,
+          label: offerOnHotel.name,
+          value: true,
+        };
+      } else {
+        return {
+          uuid: offerOnHotel.uuid,
+          label: offerOnHotel.name,
+          value: false,
+        };
+      }
+    });
+  }
+);

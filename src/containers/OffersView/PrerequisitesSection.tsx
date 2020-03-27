@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReadOnlyField } from './';
+import { ReadOnlyField } from './ReadOnlyField';
 
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';

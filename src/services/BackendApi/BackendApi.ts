@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { without } from 'ramda';
 import qs from 'qs';
 import {
@@ -12,7 +12,7 @@ import {
 } from './types';
 
 // Move to backkendApiService
-import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch';
+import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch/constants';
 import { PriceRange, StarRating } from './types/SearchQuery';
 import { Hotel, IBooking } from './types/OffersSearchResponse';
 import { IBookingAttributes, IBookingInformation, IReviewBookingSchema } from 'interfaces';
@@ -171,10 +171,7 @@ export class BackendApiService<T extends AxiosInstance> {
   putOffer = async (offer: IOfferAPI): Promise<IAPIRepsonse<IOfferAPI, IApiErrorResponse>> => {
     return (
       this.client
-        .put(
-          `${BackendEndpoints.OFFERS}/${offer.uuid}`,
-          transformPut<IOfferAPI>(offer, 'offer', ['hotel'])
-        )
+        .put(`${BackendEndpoints.OFFERS}/${offer.uuid}`, transformPut<IOfferAPI>(offer, 'offer', ['hotel']))
         .then(response => ({
           response,
         }))

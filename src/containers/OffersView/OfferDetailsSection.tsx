@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReadOnlyField } from './';
+import { ReadOnlyField } from './ReadOnlyField';
 import ResultBadge from 'pureUi/ResultBadge';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';

@@ -3,12 +3,12 @@ import React from 'react';
 import { MealPlanRatePrice } from '../containers/SummaryRoomEdit/SummaryRoomEdit.styles';
 
 // @ts-ignore
-import { differenceInCalendarDays, format, addDays } from 'date-fns';
+import { differenceInCalendarDays, addDays } from 'date-fns';
 
-import { uniq, flatten, pipe, uniqBy } from 'ramda';
+import { uniq, flatten, uniqBy } from 'ramda';
 
 // @ts-ignore
-import { formatPrice } from 'utils';
+import { formatPrice } from './number';
 import { formatDateRangeDisplay } from './date';
 
 import {
