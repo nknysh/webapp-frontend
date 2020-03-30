@@ -159,7 +159,9 @@ export const addLodgingReducer = (
   state: BookingBuilderDomain,
   action: Actions.AddLodgingAction
 ): BookingBuilderDomain => {
-  const { hotelUuid, accommodationProductUuid, hotelAccommodationProducts, startDate, endDate } = action;
+  const { hotelUuid, accommodationProductUuid, hotelAccommodationProducts, searchQuery } = action;
+  console.log('searchQuery', searchQuery);
+  const { startDate, endDate } = searchQuery;
 
   const selectedAccommodationProduct = hotelAccommodationProducts.find(r => r.uuid === accommodationProductUuid);
 
@@ -186,6 +188,11 @@ export const addLodgingReducer = (
         ...existingLodgingOfAccommodationProduct,
         startDate: formatDate(existingLodgingOfAccommodationProduct.startDate),
         endDate: formatDate(existingLodgingOfAccommodationProduct.endDate),
+        honeymoon: false,
+        anniversary: false,
+        wedding: false,
+        birthday: false,
+        repeatCustomer: false,
         guestAges: {
           numberOfAdults,
           agesOfAllChildren: [],
@@ -194,10 +201,16 @@ export const addLodgingReducer = (
     } else {
       // this is the first lodging of this accommodation product, so add it with standard occupancy,
       // the search query dates, and the accommodation product default meal plan
+      // OWA-1257 if this is the first accommodation we're adding, it should take the occasions and repeatCustomer from the first accommodation of the search too
       newLodging = {
         uuid: accommodationProductUuid,
         startDate: formatDate(startDate),
         endDate: formatDate(endDate),
+        honeymoon: searchQuery.lodgings[0].honeymoon || false,
+        anniversary: searchQuery.lodgings[0].anniversary || false,
+        wedding: searchQuery.lodgings[0].wedding || false,
+        birthday: searchQuery.lodgings[0].birthday || false,
+        repeatCustomer: searchQuery.lodgings[0].repeatCustomer || false,
         guestAges: {
           numberOfAdults,
           agesOfAllChildren: [],
@@ -568,8 +581,8 @@ export const calculateBookingTotalGuestAges = (lodgings: SelectedAccommodation[]
 // rebuild the request level `startDate` and `endDate` so they are the earliest state
 // and latest end, respectively
 export const calculateBookingDates = (accommodations: SelectedAccommodation[]) => {
-  let earliestStartDate = new Date(accommodations[0].startDate);
-  let latestEndDate = new Date(accommodations[0].endDate);
+  let earliestStartDate = accommodations[0] ? new Date(accommodations[0].startDate) : new Date();
+  let latestEndDate = accommodations[0] ? new Date(accommodations[0].endDate) : new Date();
 
   accommodations.forEach(reqAccom => {
     earliestStartDate = min([new Date(reqAccom.startDate), earliestStartDate]);

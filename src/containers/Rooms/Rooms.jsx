@@ -113,10 +113,12 @@ export const Rooms = props => {
 
   const filteredRooms = filterRoomsByCategoryType(rooms, selectedCategoryTypes);
 
-  const handleRoomAdd = useCallback(
-    uuid => addRoom(hotelUuid, uuid, rooms, searchQuery.startDate, searchQuery.endDate),
-    [addRoom, hotelUuid, rooms, searchQuery]
-  );
+  const handleRoomAdd = useCallback(uuid => addRoom(hotelUuid, uuid, rooms, searchQuery), [
+    addRoom,
+    hotelUuid,
+    rooms,
+    searchQuery,
+  ]);
 
   return (
     <StyledRooms className={className}>

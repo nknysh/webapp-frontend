@@ -159,15 +159,13 @@ export const addLodgingAction = (
   hotelUuid: string,
   accommodationProductUuid: string,
   hotelAccommodationProducts: HotelAccommodationProduct[],
-  startDate: string,
-  endDate: string
+  searchQuery: any
 ) => ({
   type: ADD_LODGING_ACTION as typeof ADD_LODGING_ACTION,
   hotelUuid,
   accommodationProductUuid,
   hotelAccommodationProducts,
-  startDate,
-  endDate,
+  searchQuery,
 });
 
 export type ForwardsCompatBookingBuilderAction = ReturnType<typeof forwardsCompatBookingBuilderAction>;
