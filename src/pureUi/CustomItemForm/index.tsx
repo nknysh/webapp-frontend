@@ -11,9 +11,18 @@ import Checkbox from '../Checkbox';
 import { eventValueSelector, eventCheckedSelector } from './form';
 import { sanitizeDecimal } from './format';
 
+export interface CustomItemValidation {
+  name?: String[];
+  total?: String[];
+  description?: String[];
+  countsAsMealPlan?: String[];
+  countsAsTransfer?: String[];
+}
+
 export interface CustomItemFormProps {
   className?: string;
   data: CustomItemPayload | null;
+  validation?: CustomItemValidation | null;
   currency: string;
   onShow: () => void;
   onNameChange: (string) => void;
@@ -40,8 +49,9 @@ const StyledPrimaryButton = styled(PrimaryButton)`
 `;
 
 const CustomItemForm = (props: CustomItemFormProps) => {
-  const { className, data, currency } = props;
-
+  const { className, data, currency, validation } = props;
+  const isValid = !validation || Object.keys(validation).every(k => !validation[k].length);
+  
   return (
     <Wrapper className={className}>
       {!!data
@@ -60,7 +70,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
               <Label lowercase text={`Total ${currency}`}>
                 <TextInput
                   value={data.total}
-                  onChange={eventValueSelector(props.onTotalChange, sanitizeDecimal)}
+                  onChange={eventValueSelector(props.onTotalChange, sanitizeDecimal(2))}
                   placeholder="Total"
                   inputmode="decimal"
                   type="number"
@@ -93,7 +103,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
             </FormItem>
             <Controls>
               <SecondaryButton onClick={props.onCancel}>Cancel</SecondaryButton>
-              <StyledPrimaryButton onClick={props.onConfirm}>Save</StyledPrimaryButton>
+              <StyledPrimaryButton onClick={props.onConfirm} disabled={!isValid}>Save</StyledPrimaryButton>
             </Controls>
           </Fragment>
         )

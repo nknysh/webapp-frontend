@@ -50,7 +50,10 @@ import {
   removeCustomItemAction,
 } from 'store/modules/bookingBuilder';
 
-import { customItemPayloadSelector } from 'store/modules/bookingBuilder/subdomains/customItem/selectors';
+import {
+  customItemPayloadSelector,
+  customItemValidationSelector,
+} from 'store/modules/bookingBuilder/subdomains/customItem/selectors';
 
 import {
   showCustomItemFormAction,
@@ -90,7 +93,10 @@ export const mapStateToProps = (state, { id }) => {
     taMarginType: taMarginTypeSelector(state),
     taMarginAmount: taMarginAmountSelector(state),
     currentCountry: getCurrentCountry(state),
-    customItemPayload: customItemPayloadSelector(state),
+    customItem: {
+      payload: customItemPayloadSelector(state),
+      validation: customItemValidationSelector(state),
+    },
   };
 };
 

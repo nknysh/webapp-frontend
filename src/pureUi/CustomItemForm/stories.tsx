@@ -9,6 +9,7 @@ const createProps = (
 
   return {
     data: null,
+    validation: null,
     currency: '$',
     onNameChange: update('name'),
     onTotalChange: update('total'),
@@ -22,6 +23,9 @@ const createProps = (
   };
 };
 
+const requireProp = (prop: string, obj: Object) =>
+  obj && !obj[prop] ? ['Required'] : [];
+
 export const BasicUsage = () => {
   const [state, setState] = useState<any>(null);
   
@@ -30,15 +34,21 @@ export const BasicUsage = () => {
     [key]: val
   });
 
+  
+
   const props = createProps({
       data: state,
       onShow: () => setState({}),
       onConfirm: () => setState(null),
       onCancel: () => setState(null),
+      validation: {
+        name: requireProp('name', state),
+        total: requireProp('total', state),
+      }
     },
     setKeyVal
   );
-  console.log(props.data);
+  console.log('data', props.data, 'validation', props.validation);
 
   return (
     <CustomItemForm {...props}/>

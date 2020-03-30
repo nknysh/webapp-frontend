@@ -120,6 +120,7 @@ export const makeBookingBuilderStub = (hotelResponse): BookingBuilder => {
       'Ground Service': [],
       Fine: [],
       Supplement: [],
+      customItems: []
     },
   };
 };

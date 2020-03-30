@@ -312,6 +312,7 @@ const renderAddons = (
     <CustomItemForm
       currency={currencyCode}
       data={customItem.payload}
+      validation={customItem.validation}
       onNameChange={customItem.actions.updateName}
       onTotalChange={customItem.actions.updateTotal}
       onDescriptionChange={customItem.actions.updateDescription}
@@ -519,7 +520,7 @@ export const SummaryFormExtras = ({
   taMarginAmount,
   currentCountry,
   updateBookingTravelAgentUserIdAction,
-  customItemPayload,
+  customItem,
   customItemActions,
 }) => {
   const { t } = useTranslation();
@@ -583,9 +584,11 @@ export const SummaryFormExtras = ({
   const selectedAddonsBreakdown = useCallback(() => {
     const selectedAddons = flatten([selectedFines, selectedSupplements]);
 
+    const customItemProducts = flatten(availableSupplements.map(sp => sp.products)).filter(isCustomItem);
+
     const selectedAddonProducts = filterByObjectProperties(flatten(addons.map(a => a.products)), selectedAddons, [
       'uuid',
-    ]);
+    ]).concat(customItemProducts);
 
     if (selectedAddonProducts.length >= 1) {
       return selectedAddonProducts.map(stp => stp.name).join(' & ');
@@ -711,7 +714,7 @@ export const SummaryFormExtras = ({
               updateFineAction,
               id,
               {
-                payload: customItemPayload,
+                ...customItem,
                 actions: customItemActions,
               }
             )}
