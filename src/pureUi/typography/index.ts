@@ -45,9 +45,9 @@ const headingFont = (level: HeadingLevel) => {
 const headingColor = (level: HeadingLevel) => {
   switch (level) {
     case 'h1':
-      return pureUiTheme.colors.gold;
     case 'h2':
     case 'h3':
+      return pureUiTheme.colors.gold;
     case 'h4':
     case 'h5':
     case 'h6':
@@ -58,11 +58,12 @@ const headingColor = (level: HeadingLevel) => {
 const headingWeight = (level: HeadingLevel) => {
   switch (level) {
     case 'h1':
+      return `${pureUiTheme.typography.bolder}`;
     case 'h2':
     case 'h3':
     case 'h4':
     case 'h5':
     case 'h6':
-      return `${pureUiTheme.typography.bolder}`;
+      return `${pureUiTheme.typography.normal}`;
   }
 };

@@ -70,7 +70,7 @@ Object {
 
 exports[`Offer sub domain actions Returns the correct object literals 10`] = `
 Object {
-  "data": "TEST DATA",
+  "data": Object {},
   "type": "offer/OFFER_HOTEL_UUID_CHANGE_SUCCESS",
 }
 `;

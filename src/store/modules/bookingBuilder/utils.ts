@@ -1,8 +1,8 @@
-import { Hotel, BookingBuilder } from 'services/BackendApi';
+import { IHotel, BookingBuilder } from 'services/BackendApi';
 import { getDefaultSearchAndBookingStartDate, getDefaultSearchAndBookingEndDate } from '../../utils';
 
 export const makeBookingBuilderStub = (hotelResponse): BookingBuilder => {
-  const hotel: Hotel = hotelResponse.data.data;
+  const hotel: IHotel = hotelResponse.data.data;
 
   return {
     response: {

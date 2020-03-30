@@ -3,6 +3,7 @@ import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferModel, ECombinationMode } from '../model';
 import { getOfferSuccessAction, getOfferFailureAction } from '../actions';
 import { offerHotelUuidChangeSuccessAction, offerHotelUuidChangeAction } from '../subdomains/offer/actions';
+import { IHotel } from 'services/BackendApi/types/HotelResponse';
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
@@ -53,20 +54,21 @@ describe('Offer reducer', () => {
 
 describe('accommodationProductsForHotelReducer', () => {
   it('handles OFFER_HOTEL_UUID_CHANGE_SUCCESS', () => {
-    const fixture = [
-      {
-        uuid: 'a',
-        name: 'A',
-        type: 'Accommodation',
-      },
-    ];
+    const fixture = {
+      countryCode: 'MV',
+      name: 'TEST',
+      accommodationProducts: [
+        {
+          uuid: 'a',
+          name: 'A',
+          type: 'Accommodation',
+        },
+      ],
+    } as IHotel;
 
     const action = offerHotelUuidChangeSuccessAction(fixture);
-    const result = reducer(undefined, action);
-    const expected: IOfferModel = {
-      ...initialState,
-      accommodationProductsForHotel: fixture,
-    };
+    const result = accommodationProductsForHotelReducer(initialState, action);
+    const expected = fixture.accommodationProducts;
     expect(result).toEqual(expected);
   });
 });

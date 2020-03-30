@@ -280,6 +280,27 @@ describe('offer module utils test', () => {
   });
 
   describe('transformUiOfferToApiOffer', () => {
+    it('Converts furtherInformation to null if given an empty string', () => {
+      const fixture: IOfferAPI = {
+        ...initialState.offer,
+        furtherInformation: '',
+      };
+
+      const expected = {
+        ...initialState.offer,
+        furtherInformation: null,
+      };
+
+      const uiFixture: IOfferUiState = {
+        ...initialState.uiState,
+        combinationMode: ECombinationMode.COMBINES_WITH_ANY,
+      };
+
+      const transformed = transformUiOfferToApiOffer(fixture as IOfferUI, uiFixture);
+
+      expect(transformed).toMatchObject(expected);
+    });
+
     it('adds indexes to sub product discount supplements', () => {
       const fixture: IOfferUI = {
         ...initialState.offer,
@@ -308,6 +329,7 @@ describe('offer module utils test', () => {
       expect(transformed).toMatchObject({
         ...initialState.offer,
         combines: true,
+        furtherInformation: null,
         subProductDiscounts: {
           'Meal Plan': [],
           Supplement: [
@@ -349,6 +371,7 @@ describe('offer module utils test', () => {
 
       expect(transformed).toMatchObject({
         ...initialState.offer,
+        furtherInformation: null,
         combines: true,
         subProductDiscounts: {
           'Meal Plan': [],
@@ -392,6 +415,7 @@ describe('offer module utils test', () => {
 
       expect(transformed).toMatchObject({
         ...initialState.offer,
+        furtherInformation: null,
         combines: true,
         combinesWith: ['a'],
         subProductDiscounts: {
@@ -438,6 +462,7 @@ describe('offer module utils test', () => {
         ...initialState.offer,
         combines: true,
         cannotCombineWith: ['a'],
+        furtherInformation: null,
         subProductDiscounts: {
           'Meal Plan': [],
           Supplement: [
@@ -481,6 +506,7 @@ describe('offer module utils test', () => {
       expect(transformed).toMatchObject({
         ...initialState.offer,
         combines: false,
+        furtherInformation: null,
         subProductDiscounts: {
           'Meal Plan': [],
           Supplement: [

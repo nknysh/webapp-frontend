@@ -163,12 +163,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           </Label>
 
           <Label lowercase className="textOnly" inline reverse text="Text Only">
-            <Checkbox
-              className="textOnlyCheckbox"
-              checked={this.props.isTextOnly}
-              onChange={this.toggleTextOnly}
-              disabled
-            />
+            <Checkbox className="textOnlyCheckbox" checked={this.props.isTextOnly} onChange={this.toggleTextOnly} />
           </Label>
 
           <Text className="textOnlyInfo">Does not change the price of any product.</Text>
@@ -206,7 +201,11 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
               component={OfferEditApplicationsContainerConnected}
             />
           </Switch>
-          <Redirect from={this.props.match.path} to={`${this.props.match.url}/pre-requisites`} />
+          <Route
+            exact
+            path={`${this.props.match.path}`}
+            render={() => <Redirect to={`${this.props.match.url}/pre-requisites`} />}
+          />
         </div>
 
         <ButtonBar className="actions">

@@ -1,11 +1,5 @@
 import { IOfferModel, initialState } from './model';
-import {
-  OfferDomainAction,
-  GET_OFFER_SUCCESS,
-  RESET_OFFER_MODULE,
-  OFFER_HOTEL_UUID_CHANGE_SUCCESS,
-  OFFER_HOTEL_UUID_CHANGE,
-} from './actions';
+import { OfferDomainAction, GET_OFFER_SUCCESS, RESET_OFFER_MODULE, OFFER_HOTEL_UUID_CHANGE_SUCCESS } from './actions';
 
 import { offerReducer } from './subdomains/offer/reducer';
 import { uiStateReducer } from './subdomains/uiState/reducer';
@@ -67,7 +61,7 @@ export const accommodationProductsForHotelReducer = (
     case GET_OFFER_SUCCESS:
       return action.accommodationProductsForHotel;
     case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
-      return action.data;
+      return action.data.accommodationProducts;
     default:
       return state;
   }

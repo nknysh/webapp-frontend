@@ -144,7 +144,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
             {!this.props.offerHotelUuid && <Text>Select a hotel to see accomodation products</Text>}
 
             <FormControlGrid columnCount={3}>
-              {this.props.accomodationPreReqs.map(product => {
+              {this.props.accomodationPreReqs?.map(product => {
                 return (
                   <Label lowercase key={product.label} inline reverse text={product.label}>
                     <Checkbox checked={product.value} onChange={this.handleAccomPreReqChange(product.uuid)} />

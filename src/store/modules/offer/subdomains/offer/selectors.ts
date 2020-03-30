@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
-import { IOfferPrerequisitesPayload } from 'services/BackendApi';
+import { IOfferPrerequisitesPayload, IOfferProductDiscountInstance } from 'services/BackendApi';
 import {
   getBootstrapCountriesSelector,
   getBootstrapExtraPersonSupplementProductSelector,
@@ -11,8 +11,21 @@ import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
 import { offerDomainSelector, getAccommodationProductsForHotelSelector } from '../../domainSelectors';
 
 export const offerSelector = createSelector(offerDomainSelector, domain => domain.offer);
-export const offerNameSelector = createSelector(offerSelector, offer => offer.name);
+
 export const offerHotelUuidSelector = createSelector(offerSelector, offer => offer.hotelUuid);
+
+export const offerHotelSelector = createSelector(offerSelector, offer => offer.hotel)
+export const offerHotelCountryCodeSelector = createSelector(offerHotelSelector, hotel => hotel?.countryCode);
+export const offerRequiresGreenTaxApproachSelector = createSelector(
+  offerHotelUuidSelector,
+  offerHotelCountryCodeSelector,
+  (hotelUuid, countryCode): boolean => {
+    return Boolean(hotelUuid && countryCode === 'MV');
+  },
+)
+
+export const offerNameSelector = createSelector(offerSelector, offer => offer.name);
+
 export const offerTermsSelector = createSelector(offerSelector, offer => offer.termsAndConditions);
 export const offerFurtherInformationSelector = createSelector(offerSelector, offer => offer.furtherInformation || '');
 export const offerPrerequisitesSelector = createSelector(offerSelector, offer => offer.prerequisites);
@@ -60,7 +73,6 @@ export const offerBooleanPrerequisitesSelector = createSelector(
 export const offerPreDiscountSelector = createSelector(offerSelector, offer => offer.preDiscount);
 
 export const hotelNameSelector = createSelector(offerSelector, offer => offer.hotel?.name);
-
 export const offerCountryCodePrerequisiteSelector = createSelector(offerPrerequisitesSelector, prerequisites => {
   return prerequisites.countryCodes || [];
 });
@@ -128,7 +140,7 @@ export const offerAccommodationProductPrerequisitesSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
   getAccommodationProductsForHotelSelector,
   (accommodationProductPrerequisites, accommodationProductsOnHotel) => {
-    return accommodationProductsOnHotel.map(accommodationProduct => {
+    return accommodationProductsOnHotel?.map(accommodationProduct => {
       if (accommodationProductPrerequisites.includes(accommodationProduct.uuid)) {
         return {
           label: accommodationProduct.name,
@@ -151,7 +163,7 @@ export const offerAccommodationProductPrerequisitesLabelSelector = createSelecto
   getAccommodationProductsForHotelSelector,
   (accommodationProductPrerequisites, accommodationProductsOnHotel) => {
     if (
-      accommodationProductPrerequisites.length === accommodationProductsOnHotel.length ||
+      accommodationProductPrerequisites.length === accommodationProductsOnHotel?.length ||
       accommodationProductPrerequisites.length <= 0
     ) {
       return 'All Accommodation Products';
@@ -183,8 +195,10 @@ export const offerSteppingApplicationSelector = createSelector(offerSelector, of
   return returnObjectWithUndefinedsAsEmptyStrings(offer.stepping);
 });
 
-export const offerAccommodationDiscountSelector = createSelector(offerSelector, offer => {
-  return returnObjectWithUndefinedsAsEmptyStrings(offer.accommodationProductDiscount);
+export const offerAccommodationDiscountSelector = createSelector(
+  offerSelector, 
+  (offer) => {
+  return returnObjectWithUndefinedsAsEmptyStrings<IOfferProductDiscountInstance>(offer.accommodationProductDiscount);
 });
 
 export const offerSubProductDiscountsSelector = createSelector(offerSelector, offer => {

@@ -10,6 +10,7 @@ import {
   offerSetPreDiscountAction,
   offerHotelUuidChangeSuccessAction,
 } from '../actions';
+import { IHotel } from 'services/BackendApi/types/HotelResponse';
 
 describe('Offer sub domain actions', () => {
   it('Returns the correct object literals', () => {
@@ -22,6 +23,6 @@ describe('Offer sub domain actions', () => {
     expect(offerChangeStayBetweenPrerequisiteAction([['2020-01-01', '2020-02-02']])).toMatchSnapshot();
     expect(offerSetBooleanPrerequisiteAction('birthday', null)).toMatchSnapshot();
     expect(offerSetPreDiscountAction(false)).toMatchSnapshot();
-    expect(offerHotelUuidChangeSuccessAction('TEST DATA')).toMatchSnapshot();
+    expect(offerHotelUuidChangeSuccessAction({} as IHotel)).toMatchSnapshot();
   });
 });

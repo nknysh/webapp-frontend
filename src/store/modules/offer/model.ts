@@ -39,7 +39,7 @@ export interface IOfferModel {
   associatedOffersMapping: KeyValuePair;
   associatedProductsMapping: KeyValuePair;
   offersOnHotel: IOfferOnHotelItem[];
-  accommodationProductsForHotel: IAccommodationProductForHotelItem[];
+  accommodationProductsForHotel?: IAccommodationProductForHotelItem[];
 }
 
 export const initialState: IOfferModel = {
@@ -50,7 +50,7 @@ export const initialState: IOfferModel = {
     getError: null,
     putError: null,
     postError: null,
-    isTextOnly: true,
+    isTextOnly: false,
     taCountryAccordianKeys: [],
     combinationMode: ECombinationMode.COMBINES_WITH_ANY,
     combinationOfferUuids: [],

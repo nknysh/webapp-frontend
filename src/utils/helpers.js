@@ -167,19 +167,6 @@ export const ageNameToHumanReadable = ageNameValue => {
   return ageName.charAt(0).toUpperCase() + ageName.slice(1);
 };
 
-export const greenTaxToHumanReadable = greenTaxConstant => {
-  switch (greenTaxConstant) {
-    case 'DISCOUNT_BEFORE_GREEN_TAX':
-      return 'Discount before green tax - Subtract green tax from marked up rate, discount that, add green tax';
-    case 'DISCOUNT_WITH_GREEN_TAX_AS_MINIMUM':
-      return "Discount with green tax as minimum - Discount the marked up rate, but don't let it be cheaper than the green tax minimum";
-    case 'DISCOUNT_WITH_GREEN_TAX':
-      return 'Discount with green tax - Discount the marked up rate, and allow it to hit zero, the hotel will swallow the tax';
-    default:
-      return 'Unknown green tax discount approach';
-  }
-};
-
 export const arrayOfObjectsToMapping = (arrayOfObjects, key, value) => {
   const mapping = {};
 

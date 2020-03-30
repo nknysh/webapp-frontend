@@ -14,7 +14,7 @@ import {
 // Move to backkendApiService
 import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch/constants';
 import { PriceRange, StarRating } from './types/SearchQuery';
-import { Hotel, IBooking } from './types/OffersSearchResponse';
+import { IBooking } from './types/OffersSearchResponse';
 import { IBookingAttributes, IBookingInformation, IReviewBookingSchema } from 'interfaces';
 import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
 import { getBookingInformationForBooking } from '../../utils/bookingBuilder';
@@ -28,6 +28,7 @@ import { transformPut, transformPost } from './helpers';
 import { IApiErrorResponse } from './types/ApiError';
 import { IAPIRepsonse } from './types/ApiResponse';
 import { IRatesImportResponse } from './types/RatesImportResponse';
+import { IHotel } from './types/HotelResponse';
 
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
@@ -64,7 +65,7 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
-  getHotel = async (hotelUuid: string, associations?: string[]): Promise<AxiosResponse<Hotel | ErrorResponse>> => {
+  getHotel = async (hotelUuid: string, associations?: string[]): Promise<AxiosResponse<IHotel | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.HOTEL}/${hotelUuid}`;
     return this.client.get(endpoint, {
       params: {
@@ -154,7 +155,7 @@ export class BackendApiService<T extends AxiosInstance> {
 
   getOffer = async (uuid: string): Promise<AxiosResponse<IOfferResponse>> => {
     // TODO: This really should take a params object, but this API makesa it really difficult to type properly.
-    const endpoint = `${BackendEndpoints.OFFERS}/${uuid}?associations=hotel&fields[hotel]=name`;
+    const endpoint = `${BackendEndpoints.OFFERS}/${uuid}?associations=hotel&fields[hotel]=name&fields[hotel]=countryCode`;
     return this.client.get(endpoint);
   };
 

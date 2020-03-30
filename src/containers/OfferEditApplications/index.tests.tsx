@@ -8,6 +8,9 @@ const createProps = (
   path?: string
 ): IOfferEditPreRequisitesProps => {
   const defaultProps: IOfferEditPreRequisitesProps = {
+    accomodationDiscount: undefined,
+    requiresGreenTax: true,
+    isTextOnly: false,
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},
@@ -16,6 +19,8 @@ const createProps = (
       uuid: `hotel_${idx}`,
     })),
     // Actions
+    offerSetAccommodationDiscountDiscountPercentageAction: jest.fn(),
+    offerSetAccommodationDiscountGreenTaxApproachAction: jest.fn(),
     ...getMockRouterProps<{}>({}, path || 'offer/edit/applications'),
   };
 

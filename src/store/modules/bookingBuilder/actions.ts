@@ -1,5 +1,5 @@
 import {
-  Hotel,
+  IHotel,
   BookingBuilder,
   BookingBuilderResponse,
   TransferReference,
@@ -61,7 +61,7 @@ export const copyBookingBuilderAction = (bookingBuilder: BookingBuilder) => ({
 });
 
 export type CreateStubBookingBuilderAction = ReturnType<typeof createStubBookingBuilderAction>;
-export const createStubBookingBuilderAction = (hotel: Hotel) => ({
+export const createStubBookingBuilderAction = (hotel: IHotel) => ({
   type: CREATE_STUB_BOOKING_BUILDER as typeof CREATE_STUB_BOOKING_BUILDER,
   hotel,
 });

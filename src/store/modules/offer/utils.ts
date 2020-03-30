@@ -42,7 +42,7 @@ export const hasOfferGotApplications = (offer: IOfferUI) => {
   return true;
 };
 
-export const returnObjectWithUndefinedsAsEmptyStrings = obj => {
+export const returnObjectWithUndefinedsAsEmptyStrings = <T>(obj): T | undefined => {
   if (obj === undefined) {
     return undefined;
   }
@@ -50,7 +50,7 @@ export const returnObjectWithUndefinedsAsEmptyStrings = obj => {
   Object.keys(obj).forEach(steppingKey => {
     parsedObject[steppingKey] = !obj || obj[steppingKey] === undefined ? '' : obj[steppingKey];
   });
-  return parsedObject;
+  return parsedObject as T;
 };
 
 export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
@@ -111,7 +111,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
   return produce(offer, (draftOffer: IOfferAPI) => {
     if (draftOffer.subProductDiscounts?.Supplement) {
       draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(
-        (discount, arrayIndex) => {
+        (discount) => {
           const newSupplement: IOfferProductDiscountInstance = {
             products: discount.products,
             discountPercentage: discount.discountPercentage,
@@ -125,7 +125,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
 
     if (draftOffer.subProductDiscounts?.['Meal Plan']) {
       draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan'].map(
-        (discount, arrayIndex) => {
+        (discount) => {
           const newSupplement: IOfferProductDiscountInstance = {
             products: discount.products,
             discountPercentage: discount.discountPercentage,
@@ -149,9 +149,13 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       });
     }
 
+    if(draftOffer.furtherInformation === '') {
+      draftOffer.furtherInformation = null;
+    }
+
     if (draftOffer.productDiscounts?.['Ground Service']) {
       draftOffer.productDiscounts['Ground Service'] = draftOffer.productDiscounts['Ground Service'].map(
-        (discount, arrayIndex) => {
+        (discount) => {
           const newSupplement: IOfferProductDiscountInstance = {
             products: discount.products,
             discountPercentage: discount.discountPercentage,
@@ -203,6 +207,13 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
         draftOffer.combines = true;
         draftOffer.cannotCombineWith = uiState.combinationOfferUuids;
         break;
+    }
+
+    if(uiState.isTextOnly) {
+      draftOffer.productDiscounts = undefined;
+      draftOffer.subProductDiscounts = undefined;
+      draftOffer.stepping = undefined;
+      draftOffer.accommodationProductDiscount = undefined;
     }
 
     return draftOffer;

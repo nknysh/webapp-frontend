@@ -14,7 +14,7 @@ export function* getHotelDataSaga(action: OfferHotelUuidChangeAction) {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
     const result: AxiosResponse<any> = yield call(backendApi.getHotel, action.hotelUuid, ['accommodationProducts']);
-    yield put(offerHotelUuidChangeSuccessAction(result.data.data.accommodationProducts));
+    yield put(offerHotelUuidChangeSuccessAction(result.data.data));
   } catch (e) {
     throw e;
   }

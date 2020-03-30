@@ -1,6 +1,7 @@
 import React from 'react';
 import { ReadOnlyField } from './ReadOnlyField';
-import { ageNameToHumanReadable, greenTaxToHumanReadable } from 'utils';
+import { ageNameToHumanReadable } from 'utils';
+import { greenTaxToHumanReadable } from 'utils/greenTax';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import { useTranslation } from 'react-i18next';

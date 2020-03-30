@@ -81,12 +81,13 @@ export interface IOffer<T> {
   hotelUuid: string;
   hotel: {
     name: string;
+    countryCode: string;
   };
   combines: boolean;
   combinesWith: string[]; // uuids
   cannotCombineWith: string[]; // uuids
   termsAndConditions: string;
-  furtherInformation: string;
+  furtherInformation: string | null;
   prerequisites: IOfferPrerequisites;
   preDiscount: boolean;
   stepping?: {

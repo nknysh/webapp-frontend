@@ -1,4 +1,5 @@
 import { IOfferPrerequisitesPayload, IUIOfferProductDiscountInstance } from 'services/BackendApi';
+import { IHotel } from 'services/BackendApi/types/HotelResponse';
 
 export const OFFER_HOTEL_UUID_CHANGE = 'offer/OFFER_HOTEL_UUID_CHANGE'; // In create mode, this will trigger a saga to load hotel data
 export const OFFER_HOTEL_UUID_CHANGE_SUCCESS = 'offer/OFFER_HOTEL_UUID_CHANGE_SUCCESS';
@@ -80,7 +81,7 @@ export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
 });
 
 export type OfferHotelUuidChangeSuccessAction = ReturnType<typeof offerHotelUuidChangeSuccessAction>;
-export const offerHotelUuidChangeSuccessAction = (data: any) => ({
+export const offerHotelUuidChangeSuccessAction = (data: IHotel) => ({
   type: OFFER_HOTEL_UUID_CHANGE_SUCCESS as typeof OFFER_HOTEL_UUID_CHANGE_SUCCESS,
   data,
 });

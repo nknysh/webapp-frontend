@@ -36,4 +36,9 @@ export const PureSelect = styled.select`
   & > option {
     font-weight: normal;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 `;

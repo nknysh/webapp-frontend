@@ -7,6 +7,7 @@ import { initialState } from '../../model';
 import * as R from 'ramda';
 import { productDiscountsReducer } from './offerProductDiscountsReducer';
 import { subProductDiscountsReducer } from './offerSubProductDiscountsReducer';
+import { OFFER_HOTEL_UUID_CHANGE_SUCCESS, OfferHotelUuidChangeSuccessAction } from './actions';
 
 export const offerReducer = (state: IOfferUI = initialState.offer, action: OfferDomainAction): IOfferUI => {
   switch (action.type) {
@@ -21,6 +22,8 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
       };
     case Actions.OFFER_HOTEL_UUID_CHANGE:
       return offerHotelUuidChangeReducer(state, action);
+    case Actions.OFFER_HOTEL_UUID_CHANGE_SUCCESS:
+      return offerHotelUuidChangeSuccessReducer(state, action);
     case Actions.OFFER_NAME_CHANGE:
       return offerNameChangeReducer(state, action);
     case Actions.OFFER_TERMS_CHANGE:
@@ -122,6 +125,20 @@ export const offerHotelUuidChangeReducer = (state: IOfferUI, action: Actions.Off
     prerequisites: {
       ...state.prerequisites,
       accommodationProducts: [],
+    },
+  };
+};
+
+export const offerHotelUuidChangeSuccessReducer = (
+  state: IOfferUI,
+  action: Actions.OfferHotelUuidChangeSuccessAction
+): IOfferUI => {
+  return {
+    ...state,
+    accommodationProductDiscount: action.data.countryCode === 'MV' ? state.accommodationProductDiscount : undefined,
+    hotel: {
+      name: action.data.name,
+      countryCode: action.data.countryCode,
     },
   };
 };

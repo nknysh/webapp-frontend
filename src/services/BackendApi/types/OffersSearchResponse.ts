@@ -1,5 +1,4 @@
-import { Filters } from './SearchQuery';
-
+import { IHotel } from './HotelResponse';
 export type AgeName = 'Infant' | 'Child' | 'Adult' | 'default';
 
 export interface Meta {
@@ -456,30 +455,6 @@ export interface AvailableProductSets {
   Fine: Fine[];
 }
 
-export interface Hotel {
-  uuid: string;
-  name: string;
-  description: string;
-  email: string;
-  phoneNumber: string;
-  address: string;
-  countryCode: string;
-  region: string;
-  starRating: string;
-  defaultCurrency: string;
-  amenities: string[];
-  highlights: string[];
-  additionalInfo: string | null;
-  policiesAndRestrictions: string[] | null;
-  suitableForHoneymooners: boolean;
-  preferred: boolean;
-  overview: string[];
-  filters: Filters[];
-  inLoveWith: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface Totals {
   oneOrMoreItemsOnRequest: boolean;
   totalForPricedItemsCents: number;
@@ -502,7 +477,7 @@ export interface BookingBuilderResponse {
   textOnlyOffersPerLodging: any[][];
   appliedOfferNames: string[];
   uploads: Upload[];
-  hotel: Hotel;
+  hotel: IHotel;
   totals: Totals;
   minimumNightsReview: boolean;
   displayTotals: IDisplayTotalsBreakdown;
