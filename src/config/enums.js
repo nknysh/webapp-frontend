@@ -52,7 +52,6 @@ export const Occassions = Object.freeze({
   BIRTHDAY: 'birthday',
   ANNIVERSARY: 'anniversary',
   WEDDING: 'wedding',
-  // REPEATGUEST: 'repeatGuest',
 });
 
 export const UserStatusTypes = Object.freeze({
