@@ -5,6 +5,8 @@ import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers
 import DateRangeInput from 'pureUi/DateRangeInput';
 import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
+import Checkbox from 'pureUi/Checkbox';
+import Label from 'pureUi/Label/index';
 
 const possibleChildAges = {
   0: '0',
@@ -84,6 +86,7 @@ export const LodgingSummaryRender = props => {
   const updateLodgingDatesAction: Function = props.updateLodgingDatesAction;
   const removeLodgingAction: Function = props.removeLodgingAction;
   const updateLodgingOccasionsAction: Function = props.updateLodgingOccasionsAction;
+  const updateLodgingRepeatGuestAction: Function = props.updateLodgingRepeatGuestAction;
   const currencyCode: string = props.currencyCode;
 
   const appliedSupplements = getAppliedSupplementsForLodging(lodging, availableProductSets, currencyCode);
@@ -361,6 +364,7 @@ export const LodgingSummaryRender = props => {
     );
   }
 
+  console.log('lodging', lodging);
   return (
     <div className={props.className}>
       <TableCardBox className="table-card-box lodging-summary">
@@ -391,6 +395,17 @@ export const LodgingSummaryRender = props => {
 
         <TableCardRow className="table-card-row" depth={3}>
           <OccasionsCollapsible />
+        </TableCardRow>
+
+        <TableCardRow className="table-card-row" depth={3}>
+          <Label lowercase text="Repeat Guest">
+            <Checkbox
+              checked={lodging.repeatCustomer}
+              onChange={() => {
+                updateLodgingRepeatGuestAction(lodging.hotelUuid, lodging.index, !lodging.repeatCustomer);
+              }}
+            />
+          </Label>
         </TableCardRow>
 
         {appliedSupplements && appliedSupplements.length >= 1 && (

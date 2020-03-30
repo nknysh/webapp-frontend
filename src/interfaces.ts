@@ -47,6 +47,7 @@ export interface RequestedBuildAccommodation {
   anniversary: boolean;
   birthday: boolean;
   honeymoon: boolean;
+  repeatCustomer: boolean;
   subProducts: {
     'Meal Plan': RequestedBuildAccommodationSubProduct[];
   };

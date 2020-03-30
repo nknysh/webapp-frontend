@@ -64,6 +64,9 @@ export const bookingBuilderReducer = (
       return resetBookingBuilderUiStateReducer(state);
     case Actions.UPDATE_TRAVEL_AGENT_USER_ID:
       return updateBookingTravelAgentUserIdReducer(state, action);
+
+    case Actions.UPDATE_LODGING_REPEAT_GUEST_ACTION:
+      return updateLodgingRepeatGuestReducer(state, action);
     default:
       return state;
   }
@@ -506,6 +509,19 @@ export const updateBookingGuestInformationReducer = (
       ...action.bookingGuestInformation,
     };
 
+    return draftState;
+  });
+};
+
+export const updateLodgingRepeatGuestReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.UpdateLodgingRepeatGuestAction
+) => {
+  return produce(state, draftState => {
+    if (!draftState.currentBookingBuilder) {
+      return draftState;
+    }
+    draftState.currentBookingBuilder.request.Accommodation[action.lodgingIndex].repeatCustomer = action.checked;
     return draftState;
   });
 };

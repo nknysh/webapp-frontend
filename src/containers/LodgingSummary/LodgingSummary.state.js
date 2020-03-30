@@ -9,6 +9,7 @@ import {
   updateLodgingOccasionsAction,
   updateLodgingDatesAction,
   removeLodgingAction,
+  updateLodgingRepeatGuestAction,
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { hotelUuid }) => {
@@ -25,11 +26,9 @@ const mapDispatchToProps = dispatch =>
       updateLodgingDatesAction,
       removeLodgingAction,
       updateLodgingOccasionsAction,
+      updateLodgingRepeatGuestAction,
     },
     dispatch
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

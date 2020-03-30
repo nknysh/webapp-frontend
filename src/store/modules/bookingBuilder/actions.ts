@@ -43,6 +43,8 @@ export const CLEAR_BOOKING_BUILDER_UI_STATE = 'bookingBuilder/CLEAR_BOOKING_BUIL
 
 export const UPDATE_TRAVEL_AGENT_USER_ID = 'bookingBuilder/UPDATE_TRAVEL_AGENT_USER_ID';
 
+export const UPDATE_LODGING_REPEAT_GUEST_ACTION = 'bookingBuilder/UPDATE_LODGING_REPEAT_GUEST_ACTION';
+
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
   type: INITIALIZE_BOOKING_BUILDER as typeof INITIALIZE_BOOKING_BUILDER,
@@ -214,6 +216,14 @@ export const updateBookingTravelAgentUserIdAction = (hotelUuid: string, travelAg
   travelAgentUserUuid,
 });
 
+export type UpdateLodgingRepeatGuestAction = ReturnType<typeof updateLodgingRepeatGuestAction>;
+export const updateLodgingRepeatGuestAction = (hotelUuid: string, lodgingIndex: number, checked: boolean) => ({
+  type: UPDATE_LODGING_REPEAT_GUEST_ACTION as typeof UPDATE_LODGING_REPEAT_GUEST_ACTION,
+  hotelUuid,
+  lodgingIndex,
+  checked,
+});
+
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -236,4 +246,5 @@ export type BookingBuilderAction =
   | UpdateIsTAMarginAppliedAction
   | UpdateBookingGuestInformationAction
   | ResetBookingBuilderUiStateAction
-  | UpdateBookingTravelAgentUserIdAction;
+  | UpdateBookingTravelAgentUserIdAction
+  | UpdateLodgingRepeatGuestAction;
