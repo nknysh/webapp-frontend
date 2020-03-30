@@ -65,7 +65,6 @@ describe('accommodationProductsForHotelReducer', () => {
     const result = reducer(undefined, action);
     const expected: IOfferModel = {
       ...initialState,
-
       accommodationProductsForHotel: fixture,
     };
     expect(result).toEqual(expected);
