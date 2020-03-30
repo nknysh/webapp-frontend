@@ -181,9 +181,36 @@ export const addLodgingReducer = (
     );
 
     let newLodging;
-    if (existingLodgingOfAccommodationProduct) {
-      // we already have a lodging of this accommodation product, which means the new lodging
-      // should be added with the exact same data + standard occupancy
+
+    if (draftState.currentBookingBuilder.request.Accommodation.length <= 0) {
+      // this is the very first accommodation - use data from the search
+      newLodging = {
+        // ...existingLodgingOfAccommodationProduct,
+        uuid: accommodationProductUuid,
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
+        honeymoon: searchQuery.lodgings[0].honeymoon || false,
+        anniversary: searchQuery.lodgings[0].anniversary || false,
+        wedding: searchQuery.lodgings[0].wedding || false,
+        birthday: searchQuery.lodgings[0].birthday || false,
+        repeatCustomer: searchQuery.lodgings[0].repeatCustomer || false,
+        guestAges: {
+          numberOfAdults,
+          agesOfAllChildren: [],
+        },
+        subProducts: {
+          'Meal Plan': [
+            {
+              uuid: selectedAccommodationProduct ? selectedAccommodationProduct.defaultMealPlanUuid : null,
+            },
+          ],
+        },
+      };
+    } else if (existingLodgingOfAccommodationProduct) {
+      // not the first accommodation, but we already have one of this type,
+      // so use information from the previous accommodation
+      // EXCEPT all the occasions should be false
+
       newLodging = {
         ...existingLodgingOfAccommodationProduct,
         startDate: formatDate(existingLodgingOfAccommodationProduct.startDate),
@@ -201,16 +228,17 @@ export const addLodgingReducer = (
     } else {
       // this is the first lodging of this accommodation product, so add it with standard occupancy,
       // the search query dates, and the accommodation product default meal plan
-      // OWA-1257 if this is the first accommodation we're adding, it should take the occasions and repeatCustomer from the first accommodation of the search too
+      // AGAIN, it isn't the first one, so occasions are all false
       newLodging = {
+        // ...existingLodgingOfAccommodationProduct,
         uuid: accommodationProductUuid,
         startDate: formatDate(startDate),
         endDate: formatDate(endDate),
-        honeymoon: searchQuery.lodgings[0].honeymoon || false,
-        anniversary: searchQuery.lodgings[0].anniversary || false,
-        wedding: searchQuery.lodgings[0].wedding || false,
-        birthday: searchQuery.lodgings[0].birthday || false,
-        repeatCustomer: searchQuery.lodgings[0].repeatCustomer || false,
+        honeymoon: false,
+        anniversary: false,
+        wedding: false,
+        birthday: false,
+        repeatCustomer: false,
         guestAges: {
           numberOfAdults,
           agesOfAllChildren: [],

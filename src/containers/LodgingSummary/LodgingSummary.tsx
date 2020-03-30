@@ -364,7 +364,6 @@ export const LodgingSummaryRender = props => {
     );
   }
 
-  console.log('lodging', lodging);
   return (
     <div className={props.className}>
       <TableCardBox className="table-card-box lodging-summary">
