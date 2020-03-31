@@ -2,7 +2,7 @@ import { uiStateReducer as reducer } from '../reducer';
 import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferUiState, ECombinationMode } from '../../../model';
 import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from 'store/modules/offer/actions';
-import { offerSetCombinationMode, offerToggleOfferInCombinationList } from '../actions';
+import { offerSetCombinationMode, offerToggleOfferInCombinationList, setOrderedOffersListAction } from '../actions';
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_REQUEST correctly', () => {
@@ -239,5 +239,51 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
       combinationOfferUuids: [],
     };
     expect(result).toEqual(expected);
+  });
+});
+
+describe('handle SET_ORDERED_OFFERS_LIST', () => {
+  it('set the list from an array', () => {
+    const fixture = {
+      ...initialState.uiState,
+    } as IOfferUiState;
+
+    const action = setOrderedOffersListAction([
+      {
+        uuid: 'a',
+        name: 'A',
+      },
+      {
+        uuid: 'b',
+        name: 'B',
+      },
+    ]);
+    const result = reducer(fixture, action);
+    expect(result).toMatchObject({
+      ...initialState.uiState,
+      orderedOffersList: [
+        {
+          uuid: 'a',
+          name: 'A',
+        },
+        {
+          uuid: 'b',
+          name: 'B',
+        },
+      ],
+    });
+  });
+
+  it('set the list to an empty array', () => {
+    const fixture = {
+      ...initialState.uiState,
+    } as IOfferUiState;
+
+    const action = setOrderedOffersListAction([]);
+    const result = reducer(fixture, action);
+    expect(result).toMatchObject({
+      ...initialState.uiState,
+      orderedOffersList: [],
+    });
   });
 });
