@@ -11,6 +11,8 @@ import {
   ISearchQuery,
 } from 'services/BackendApi/types';
 
+import { CustomItemAction } from './subdomains/customItem/actions';
+
 export const INITIALIZE_BOOKING_BUILDER = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER';
 export const INITIALIZE_BOOKING_BUILDER_FAILURE = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER_FAILURE';
 export const COPY_BOOKING_BUILDER = 'bookingBuilder/COPY_BOOKING_BUILDER';
@@ -45,6 +47,9 @@ export const CLEAR_BOOKING_BUILDER_UI_STATE = 'bookingBuilder/CLEAR_BOOKING_BUIL
 export const UPDATE_TRAVEL_AGENT_USER_ID = 'bookingBuilder/UPDATE_TRAVEL_AGENT_USER_ID';
 
 export const UPDATE_LODGING_REPEAT_GUEST_ACTION = 'bookingBuilder/UPDATE_LODGING_REPEAT_GUEST_ACTION';
+export const SAVE_CUSTOM_ITEM = 'bookingBuilder/SAVE_CUSTOM_ITEM';
+export const REMOVE_CUSTOM_ITEM = 'bookingBuilder/REMOVE_CUSTOM_ITEM';
+
 
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
@@ -223,6 +228,20 @@ export const updateLodgingRepeatGuestAction = (hotelUuid: string, lodgingIndex: 
   checked,
 });
 
+export type SaveCustomItemAction = ReturnType<typeof saveCustomItemAction>;
+export const saveCustomItemAction = (hotelUuid: string) => ({
+  type: SAVE_CUSTOM_ITEM as typeof SAVE_CUSTOM_ITEM,
+  hotelUuid
+});
+
+export type RemoveCustomItemAction = ReturnType<typeof removeCustomItemAction>;
+export const removeCustomItemAction = (index: number, hotelUuid: string) => ({
+  type: REMOVE_CUSTOM_ITEM as typeof REMOVE_CUSTOM_ITEM,
+  index,
+  hotelUuid
+});
+
+
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -246,4 +265,7 @@ export type BookingBuilderAction =
   | UpdateBookingGuestInformationAction
   | ResetBookingBuilderUiStateAction
   | UpdateBookingTravelAgentUserIdAction
-  | UpdateLodgingRepeatGuestAction;
+  | UpdateLodgingRepeatGuestAction
+  | SaveCustomItemAction
+  | RemoveCustomItemAction
+  | CustomItemAction;

@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useCallback } from 'react';
-import { compose, prop, flatten } from 'ramda';
+import { compose, prop, flatten, partition } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { RadioButton, Loader } from '@pure-escapes/webapp-ui-components';
 import { StandardModal, ModalContent } from 'pureUi/Modal';
+import CustomItemForm from 'pureUi/CustomItemForm';
 
 import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'components';
 import { useFetchData } from 'effects';
@@ -292,6 +293,9 @@ const renderGroundServices = (
   );
 };
 
+const isCustomItem = supplementProduct =>
+  supplementProduct.options && supplementProduct.options.genericIdentifier === 'customItem';
+
 const renderAddons = (
   translate,
   currencyCode,
@@ -301,56 +305,74 @@ const renderAddons = (
   availableFines,
   updateSupplementAction,
   updateFineAction,
-  hotelUuid
+  hotelUuid,
+  customItem
 ) => {
-  const supplementMarkup = (
-    <React.Fragment>
-      {availableSupplements.map(sp => {
-        const supplementProduct = sp.products[0];
-        const isChecked = selectedSupplements.some(sgs => sgs.uuid === supplementProduct.uuid);
-        return (
-          <AddonCheckbox
-            onChange={() => updateSupplementAction(supplementProduct, hotelUuid)}
-            key={`${supplementProduct.uuid}/${supplementProduct.name}`}
-            checked={isChecked}
-            label={
-              <ProductLabel className="normal-case">
-                <span>
-                  {supplementProduct.name}{' '}
-                  {renderInlinePrice(
-                    translate,
-                    currencyCode,
-                    sp.total,
-                    sp.totalBeforeDiscount,
-                    sp.isOnRequestOrPartiallyOnRequest
-                  )}
-                </span>
-                <InfoIconWithModal
-                  modalRender={() => (
-                    <ModalContent>
-                      <h2 className="uppercase color-gold">
-                        {supplementProduct.name}{' '}
-                        <small>
-                          {renderInlinePrice(
-                            translate,
-                            currencyCode,
-                            sp.total,
-                            sp.totalBeforeDiscount,
-                            sp.isOnRequestOrPartiallyOnRequest
-                          )}
-                        </small>
-                      </h2>
-                      <p>{supplementProduct.meta.description}</p>
-                    </ModalContent>
-                  )}
-                />
-              </ProductLabel>
-            }
-          />
-        );
-      })}
-    </React.Fragment>
-  );
+  const customItemMarkup = customItem ? (
+    <CustomItemForm
+      currency={currencyCode}
+      data={customItem.payload}
+      validation={customItem.validation}
+      onNameChange={customItem.actions.updateName}
+      onTotalChange={customItem.actions.updateTotal}
+      onDescriptionChange={customItem.actions.updateDescription}
+      onCountAsMealPlanChange={customItem.actions.updateCountsAsMealPlan}
+      onCountAsTransferChange={customItem.actions.updateCountsAsTransfer}
+      onShow={customItem.actions.showForm}
+      onCancel={customItem.actions.hideForm}
+      onConfirm={() => customItem.actions.save(hotelUuid)}
+    />
+  ) : null;
+
+  const renderSupplement = (sp, idx, custom) => {
+    const supplementProduct = sp.products[0];
+    const isChecked = selectedSupplements.some(sgs => sgs.uuid === supplementProduct.uuid);
+
+    return (
+      <AddonCheckbox
+        onChange={() =>
+          custom ? customItem.actions.remove(idx, hotelUuid) : updateSupplementAction(supplementProduct, hotelUuid)
+        }
+        key={`${supplementProduct.uuid}/${supplementProduct.name}`}
+        checked={isChecked || custom}
+        label={
+          <ProductLabel className="normal-case">
+            <span>
+              {supplementProduct.name}{' '}
+              {renderInlinePrice(
+                translate,
+                currencyCode,
+                sp.total,
+                sp.totalBeforeDiscount,
+                sp.isOnRequestOrPartiallyOnRequest
+              )}
+            </span>
+            <InfoIconWithModal
+              modalRender={() => (
+                <ModalContent>
+                  <h2 className="uppercase color-gold">
+                    {supplementProduct.name}{' '}
+                    <small>
+                      {renderInlinePrice(
+                        translate,
+                        currencyCode,
+                        sp.total,
+                        sp.totalBeforeDiscount,
+                        sp.isOnRequestOrPartiallyOnRequest
+                      )}
+                    </small>
+                  </h2>
+                  <p>{supplementProduct.meta.description}</p>
+                </ModalContent>
+              )}
+            />
+          </ProductLabel>
+        }
+      />
+    );
+  };
+
+  const [customSupplement, standardSupplement] = partition(sp => isCustomItem(sp.products[0]), availableSupplements);
 
   const fineMarkup = (
     <React.Fragment>
@@ -403,8 +425,10 @@ const renderAddons = (
 
   return (
     <React.Fragment>
-      {supplementMarkup}
+      {standardSupplement.map(sp => renderSupplement(sp))}
       {fineMarkup}
+      {customSupplement.map((sp, idx) => renderSupplement(sp, idx, true))}
+      {customItemMarkup}
     </React.Fragment>
   );
 };
@@ -496,6 +520,8 @@ export const SummaryFormExtras = ({
   taMarginAmount,
   currentCountry,
   updateBookingTravelAgentUserIdAction,
+  customItem,
+  customItemActions,
 }) => {
   const { t } = useTranslation();
 
@@ -558,9 +584,11 @@ export const SummaryFormExtras = ({
   const selectedAddonsBreakdown = useCallback(() => {
     const selectedAddons = flatten([selectedFines, selectedSupplements]);
 
+    const customItemProducts = flatten(availableSupplements.map(sp => sp.products)).filter(isCustomItem);
+
     const selectedAddonProducts = filterByObjectProperties(flatten(addons.map(a => a.products)), selectedAddons, [
       'uuid',
-    ]);
+    ]).concat(customItemProducts);
 
     if (selectedAddonProducts.length >= 1) {
       return selectedAddonProducts.map(stp => stp.name).join(' & ');
@@ -569,7 +597,7 @@ export const SummaryFormExtras = ({
     return 'None selected';
   }, [selectedFines, selectedSupplements, addons]);
 
-  const TransfersWrapper = () => {
+  const renderTransfersWrapper = () => {
     return (
       <TableCardBox className="table-card-box">
         <TableCardRow className="table-card-row" depth={1}>
@@ -604,7 +632,7 @@ export const SummaryFormExtras = ({
     );
   };
 
-  const GroundServicesWrapper = () => {
+  const renderGroundServicesWrapper = () => {
     const breakdown = selectedGroundServicesBreakdown();
     return (
       <TableCardBox className="table-card-box mt-4">
@@ -646,7 +674,7 @@ export const SummaryFormExtras = ({
     );
   };
 
-  const AddonsWrapper = () => {
+  const renderAddonsWrapper = () => {
     const breakdown = selectedAddonsBreakdown();
     return (
       <TableCardBox className="table-card-box mt-4">
@@ -684,7 +712,13 @@ export const SummaryFormExtras = ({
               availableFines,
               updateSupplementAction,
               updateFineAction,
-              id
+              id,
+              isSr
+                ? {
+                    ...customItem,
+                    actions: customItemActions,
+                  }
+                : null
             )}
           </TableCardRow>
         )}
@@ -701,9 +735,9 @@ export const SummaryFormExtras = ({
         <TableCardNumberBannerText>Select Your Add-Ons</TableCardNumberBannerText>
       </TableCardNumberedBanner>
 
-      {transfers.length >= 1 && <TransfersWrapper />}
-      {groundServices.length >= 1 && <GroundServicesWrapper />}
-      {addons.length >= 1 && <AddonsWrapper />}
+      {transfers.length >= 1 && renderTransfersWrapper()}
+      {groundServices.length >= 1 && renderGroundServicesWrapper()}
+      {addons.length >= 1 && renderAddonsWrapper()}
 
       <TableCardNumberedBanner className="mt-4 mb-4">
         <TableCardNumberBannerNumber>4</TableCardNumberBannerNumber>

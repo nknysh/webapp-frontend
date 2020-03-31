@@ -1053,6 +1053,7 @@ export const getBookingForBuilder = createSelector(
       [ProductTypes.GROUND_SERVICE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.GROUND_SERVICE], booking),
       [ProductTypes.SUPPLEMENT]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.SUPPLEMENT], booking),
       [ProductTypes.FINE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.FINE], booking),
+      customItems: pathOr([], ['breakdown', 'requestedBuild', 'customItems'], booking),
     };
 
     const lodgings = pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking);
@@ -1119,6 +1120,7 @@ export const getBookingForBuilderPure = (state, hotelUuid) => {
     [ProductTypes.GROUND_SERVICE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.GROUND_SERVICE], booking),
     [ProductTypes.SUPPLEMENT]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.SUPPLEMENT], booking),
     [ProductTypes.FINE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.FINE], booking),
+    customItems: pathOr([], ['breakdown', 'requestedBuild', 'customItems'], booking),
   };
 
   const lodgings = pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking);

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bookin Builder actions Returns the correct object literals 1`] = `
+Object {
+  "hotelUuid": "123-456",
+  "type": "bookingBuilder/SAVE_CUSTOM_ITEM",
+}
+`;
+
+exports[`Bookin Builder actions Returns the correct object literals 2`] = `
+Object {
+  "hotelUuid": "123-456",
+  "index": 0,
+  "type": "bookingBuilder/REMOVE_CUSTOM_ITEM",
+}
+`;

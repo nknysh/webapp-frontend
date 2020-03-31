@@ -117,6 +117,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
             Fine: [],
             Supplement: [],
             'Ground Service': [],
+            customItems: []
           },
           response: {
             canBeBooked: true,
