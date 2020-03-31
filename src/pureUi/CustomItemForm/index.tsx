@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import styled from 'styled-components';
 import { CustomItemPayload } from 'services/BackendApi';
 
@@ -50,7 +50,28 @@ const StyledPrimaryButton = styled(PrimaryButton)`
 const CustomItemForm = (props: CustomItemFormProps) => {
   const { className, data, currency, validation } = props;
   const isValid = !validation || Object.keys(validation).every(k => !validation[k].length);
-  
+
+  const onNameChange = useCallback(
+    eventValueSelector(props.onNameChange),
+    [props.onNameChange]
+  );
+  const onTotalChange = useCallback(
+    eventValueSelector(props.onTotalChange, sanitizeDecimal(2)),
+    [props.onTotalChange]
+  );
+  const onDescriptionChange = useCallback(
+    eventValueSelector(props.onDescriptionChange),
+    [props.onDescriptionChange]
+  );
+  const onCountAsMealPlanChange = useCallback(
+    eventCheckedSelector(props.onCountAsMealPlanChange),
+    [props.onCountAsMealPlanChange]
+  );
+  const onCountAsTransferChange = useCallback(
+    eventCheckedSelector(props.onCountAsTransferChange),
+    [props.onCountAsTransferChange]
+  );
+
   return (
     <Wrapper className={className}>
       {!!data
@@ -61,7 +82,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
                 <TextInput
                   name="name"
                   value={data.name}
-                  onChange={eventValueSelector(props.onNameChange)}
+                  onChange={onNameChange}
                   placeholder="Name"
                 />
               </Label>
@@ -71,7 +92,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
                 <TextInput
                   name="total"
                   value={data.total}
-                  onChange={eventValueSelector(props.onTotalChange, sanitizeDecimal(2))}
+                  onChange={onTotalChange}
                   placeholder="Total"
                   inputmode="decimal"
                   type="number"
@@ -83,7 +104,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
                 <TextArea
                   name="description"
                   value={data.description}
-                  onChange={eventValueSelector(props.onDescriptionChange)}
+                  onChange={onDescriptionChange}
                 />
               </Label>
             </FormItem>
@@ -92,7 +113,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
                 <Checkbox
                   name="countsAsMealPlan"
                   checked={data.countsAsMealPlan}
-                  onChange={eventCheckedSelector(props.onCountAsMealPlanChange)}
+                  onChange={onCountAsMealPlanChange}
                 />
               </Label>
             </FormItem>
@@ -101,7 +122,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
                 <Checkbox
                   name="countsAsTransfer"
                   checked={data.countsAsTransfer}
-                  onChange={eventCheckedSelector(props.onCountAsTransferChange)}
+                  onChange={onCountAsTransferChange}
                 />
               </Label>
             </FormItem>
