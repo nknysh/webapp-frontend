@@ -19,7 +19,7 @@ import {
   UPDATE_TRAVEL_AGENT_USER_ID,
 } from '../actions';
 
-import { makeBackendApi, BookingBuilderEndpointSuccess } from 'services/BackendApi';
+import { makeBackendApi, BookingBuilderEndpointSuccess, BookingBuilderRequest } from 'services/BackendApi';
 import { bookingRequestSelector } from '../selectors';
 import { getUserCountryContext } from 'store/modules/auth';
 
@@ -29,7 +29,10 @@ export function* bookingBuilderResponseSaga(action: any) {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
-    const request = yield select(bookingRequestSelector);
+    const request: BookingBuilderRequest = yield select(bookingRequestSelector);
+    if (request.Accommodation.length <= 0) {
+      return;
+    }
     const bookingBuilderEndpointResponse: AxiosResponse<BookingBuilderEndpointSuccess> = yield call(
       backendApi.postBookingBuilderRequest,
       request

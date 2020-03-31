@@ -159,10 +159,8 @@ export const addLodgingReducer = (
   state: BookingBuilderDomain,
   action: Actions.AddLodgingAction
 ): BookingBuilderDomain => {
-  const { hotelUuid, accommodationProductUuid, hotelAccommodationProducts, searchQuery } = action;
-  console.log('searchQuery', searchQuery);
+  const { accommodationProductUuid, hotelAccommodationProducts, searchQuery } = action;
   const { startDate, endDate } = searchQuery;
-
   const selectedAccommodationProduct = hotelAccommodationProducts.find(r => r.uuid === accommodationProductUuid);
 
   if (!selectedAccommodationProduct) {
@@ -179,13 +177,18 @@ export const addLodgingReducer = (
     const existingLodgingOfAccommodationProduct = draftState.currentBookingBuilder.request.Accommodation.find(
       a => a.uuid === accommodationProductUuid
     );
+    const previousLodging =
+      draftState.currentBookingBuilder.request.Accommodation[
+        draftState.currentBookingBuilder.request.Accommodation.length - 1
+      ];
 
     let newLodging;
 
+    //
+    // See description on https://github.com/pure-escapes/webapp-frontend/pull/460 re. add lodging logic
+    //
     if (draftState.currentBookingBuilder.request.Accommodation.length <= 0) {
-      // this is the very first accommodation - use data from the search
       newLodging = {
-        // ...existingLodgingOfAccommodationProduct,
         uuid: accommodationProductUuid,
         startDate: formatDate(startDate),
         endDate: formatDate(endDate),
@@ -207,10 +210,6 @@ export const addLodgingReducer = (
         },
       };
     } else if (existingLodgingOfAccommodationProduct) {
-      // not the first accommodation, but we already have one of this type,
-      // so use information from the previous accommodation
-      // EXCEPT all the occasions should be false
-
       newLodging = {
         ...existingLodgingOfAccommodationProduct,
         startDate: formatDate(existingLodgingOfAccommodationProduct.startDate),
@@ -226,14 +225,10 @@ export const addLodgingReducer = (
         },
       };
     } else {
-      // this is the first lodging of this accommodation product, so add it with standard occupancy,
-      // the search query dates, and the accommodation product default meal plan
-      // AGAIN, it isn't the first one, so occasions are all false
       newLodging = {
-        // ...existingLodgingOfAccommodationProduct,
         uuid: accommodationProductUuid,
-        startDate: formatDate(startDate),
-        endDate: formatDate(endDate),
+        startDate: formatDate(previousLodging.startDate),
+        endDate: formatDate(previousLodging.endDate),
         honeymoon: false,
         anniversary: false,
         wedding: false,
@@ -297,7 +292,7 @@ export const removeLodgingReducer = (
   state: BookingBuilderDomain,
   action: Actions.RemoveLodgingAction
 ): BookingBuilderDomain => {
-  const { hotelUuid, lodgingIndex } = action;
+  const { lodgingIndex } = action;
 
   return produce(state, draftState => {
     if (!draftState.currentBookingBuilder) {
@@ -311,6 +306,12 @@ export const removeLodgingReducer = (
     draftState.currentBookingBuilder.request.guestAges = calculateBookingTotalGuestAges(
       draftState.currentBookingBuilder.request.Accommodation
     );
+
+    // if the user has got to a position where they have no lodgings at all,
+    // they've basically manually reset the booking - so clear it out
+    if (draftState.currentBookingBuilder.request.Accommodation.length <= 0) {
+      draftState.currentBookingBuilder = null;
+    }
 
     return draftState;
   });
