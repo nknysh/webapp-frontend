@@ -6,6 +6,7 @@ import {
   postOfferErrorSelector,
   taCountryAccordianKeysSelector,
   combinationListSelector,
+  orderedOffersListSelector,
 } from '../selectors';
 
 describe('Offer UI State Selectors', () => {
@@ -105,6 +106,35 @@ describe('Offer UI State Selectors', () => {
           label: 'Offer D',
           value: true,
         },
+      ]);
+    });
+  });
+
+  describe('orderedOffersListSelector', () => {
+    it('selects initial ordered offers list', () => {
+      const fixture: IOfferUiState = {
+        ...initialState.uiState,
+      } as IOfferUiState;
+
+      const result = orderedOffersListSelector.resultFunc(fixture);
+
+      expect(result).toMatchObject([]);
+    });
+
+    it('selects ordered offers list', () => {
+      const fixture: IOfferUiState = {
+        ...initialState.uiState,
+        orderedOffersList: [
+          { uuid: 'a', name: 'A' },
+          { uuid: 'b', name: 'B' },
+        ],
+      } as IOfferUiState;
+
+      const result = orderedOffersListSelector.resultFunc(fixture);
+
+      expect(result).toMatchObject([
+        { uuid: 'a', name: 'A' },
+        { uuid: 'b', name: 'B' },
       ]);
     });
   });
