@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { getBookingCurrencySymbol } from 'store/modules/bookings';
+import { isSR } from 'store/modules/auth';
 
 import {
   updateLodgingGuestAgesAction,
@@ -15,6 +16,7 @@ import {
 export const mapStateToProps = (state, { hotelUuid }) => {
   return {
     currencyCode: getBookingCurrencySymbol(state, hotelUuid),
+    isSr: isSR(state),
   };
 };
 

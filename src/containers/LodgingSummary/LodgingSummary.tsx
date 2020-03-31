@@ -79,7 +79,7 @@ import { TableCardBox, TableCardRow } from 'pureUi/TableCard';
 export const LodgingSummaryRender = props => {
   const lodging: LodgingSummary = props.lodging;
   const availableProductSets: AvailableProductSets = props.availableProductSets;
-
+  const isSr = props.isSr;
   const textOnlyOffersPerLodging: any = props.textOnlyOffersPerLodging;
   const updateLodgingGuestAgesAction: Function = props.updateLodgingGuestAgesAction;
   const updateLodgingMealPlanAction: Function = props.updateLodgingMealPlanAction;
@@ -396,16 +396,18 @@ export const LodgingSummaryRender = props => {
           <OccasionsCollapsible />
         </TableCardRow>
 
-        <TableCardRow className="table-card-row" depth={3}>
-          <Label lowercase text="Repeat Guest">
-            <Checkbox
-              checked={lodging.repeatCustomer}
-              onChange={() => {
-                updateLodgingRepeatGuestAction(lodging.hotelUuid, lodging.index, !lodging.repeatCustomer);
-              }}
-            />
-          </Label>
-        </TableCardRow>
+        {isSr && (
+          <TableCardRow className="table-card-row" depth={3}>
+            <Label lowercase text="Repeat Guest">
+              <Checkbox
+                checked={lodging.repeatCustomer}
+                onChange={() => {
+                  updateLodgingRepeatGuestAction(lodging.hotelUuid, lodging.index, !lodging.repeatCustomer);
+                }}
+              />
+            </Label>
+          </TableCardRow>
+        )}
 
         {appliedSupplements && appliedSupplements.length >= 1 && (
           <TableCardRow className="table-card-row " depth={3}>
