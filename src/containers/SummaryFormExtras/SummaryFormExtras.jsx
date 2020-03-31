@@ -308,7 +308,7 @@ const renderAddons = (
   hotelUuid,
   customItem
 ) => {
-  const customItemMarkup = (
+  const customItemMarkup = customItem ? (
     <CustomItemForm
       currency={currencyCode}
       data={customItem.payload}
@@ -322,7 +322,7 @@ const renderAddons = (
       onCancel={customItem.actions.hideForm}
       onConfirm={() => customItem.actions.save(hotelUuid)}
     />
-  );
+  ) : null;
 
   const renderSupplement = (sp, idx, custom) => {
     const supplementProduct = sp.products[0];
@@ -713,10 +713,12 @@ export const SummaryFormExtras = ({
               updateSupplementAction,
               updateFineAction,
               id,
-              {
-                ...customItem,
-                actions: customItemActions,
-              }
+              isSr
+                ? {
+                    ...customItem,
+                    actions: customItemActions,
+                  }
+                : null
             )}
           </TableCardRow>
         )}

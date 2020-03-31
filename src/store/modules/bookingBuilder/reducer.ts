@@ -525,6 +525,7 @@ export const forwardsCompatBookingBuilderReducer = (
         },
       },
       breakdown: undefined,
+      customItem: initialState.customItem
     };
 
     return draftState;
