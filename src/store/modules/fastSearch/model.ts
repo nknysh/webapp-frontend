@@ -1,6 +1,6 @@
 import * as Actions from './actions';
 import {
-  SearchQuery,
+  ISearchQuery,
   HotelResult,
   ErrorResponse,
   MealPlanNames,
@@ -32,8 +32,8 @@ export interface FastSearchDomain {
   optionsRequestPending: boolean;
   optionsRequestError: ErrorResponse | null;
 
-  query: SearchQuery;
-  lastExecutedQuery: SearchQuery | null;
+  query: ISearchQuery;
+  lastExecutedQuery: ISearchQuery | null;
   queryHasChanged: boolean;
   activeHotelId: string | undefined;
 }

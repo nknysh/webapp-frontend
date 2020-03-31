@@ -8,7 +8,7 @@ import {
   FineReference,
   SupplementReference,
   HotelAccommodationProduct,
-  SearchQuery,
+  ISearchQuery,
 } from 'services/BackendApi/types';
 
 export const INITIALIZE_BOOKING_BUILDER = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER';
@@ -160,7 +160,7 @@ export const addLodgingAction = (
   hotelUuid: string,
   accommodationProductUuid: string,
   hotelAccommodationProducts: HotelAccommodationProduct[],
-  searchQuery: SearchQuery
+  searchQuery: ISearchQuery
 ) => ({
   type: ADD_LODGING_ACTION as typeof ADD_LODGING_ACTION,
   hotelUuid,

@@ -1,9 +1,9 @@
 import { updateQueryStringSaga } from '../updateQueryStringSaga';
 import { select, call } from 'redux-saga/effects';
-import { SearchQuery } from 'services/BackendApi/types/SearchQuery';
+import { ISearchQuery } from 'services/BackendApi/types/SearchQuery';
 import { offersQuerySelector } from '../../selectors';
 
-const sampleQuery: SearchQuery = {
+const sampleQuery: ISearchQuery = {
   name: 'Test',
   lodgings: [],
   startDate: '2020-02-07T15:49:35.191Z',

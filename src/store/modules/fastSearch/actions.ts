@@ -1,6 +1,6 @@
 import { Filters, OffersSearchSuccessResponse, ErrorResponse } from 'services/BackendApi';
 import {
-  SearchQuery,
+  ISearchQuery,
   SearchOptions,
   StarRating,
   Occasion,
@@ -74,7 +74,7 @@ export const initializeQueryAction = (queryString: string) => ({
 });
 
 export type PopulateQueryAction = ReturnType<typeof populateQueryAction>;
-export const populateQueryAction = (query: SearchQuery) => ({
+export const populateQueryAction = (query: ISearchQuery) => ({
   type: POPULATE_QUERY as typeof POPULATE_QUERY,
   query,
 });
@@ -207,7 +207,7 @@ export const setAgeAction = (lodgingIndex: number, childIndex: number, value: st
 });
 
 export type SearchRequestAction = ReturnType<typeof offersSearchRequestAction>;
-export const offersSearchRequestAction = (query: SearchQuery) => ({
+export const offersSearchRequestAction = (query: ISearchQuery) => ({
   type: OFFERS_SEARCH_REQUEST as typeof OFFERS_SEARCH_REQUEST,
   query,
 });

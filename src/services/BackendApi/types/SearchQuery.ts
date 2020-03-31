@@ -59,7 +59,7 @@ export enum StarRating {
   FiveStarPlus = '5+',
 }
 
-export interface SearchQuery {
+export interface ISearchQuery {
   name: string | null; // Destination
   lodgings: Lodging[];
   startDate: string;

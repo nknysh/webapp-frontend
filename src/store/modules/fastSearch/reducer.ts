@@ -1,7 +1,7 @@
 import { without, difference, omit, dropLast, update, mergeDeepLeft } from 'ramda';
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
-import { Filters, Lodging, SearchQuery } from 'services/BackendApi';
+import { Filters, Lodging, ISearchQuery } from 'services/BackendApi';
 import qs from 'qs';
 
 const defaultAge = 0;
@@ -55,7 +55,7 @@ export default function fastSearchReducer(
         // The only time we should merge two object.
         // The query string isn't guaranteed to have all the required properties
         // but our initial state is. So merging is a form of autocorrect.
-        query: mergeDeepLeft<SearchQuery, SearchQuery>(state.query, qs.parse(action.queryString)),
+        query: mergeDeepLeft<ISearchQuery, ISearchQuery>(state.query, qs.parse(action.queryString)),
       };
 
     case Actions.POPULATE_QUERY: {

@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { without } from 'ramda';
 import qs from 'qs';
 import {
-  SearchQuery,
+  ISearchQuery,
   OffersSearchSuccessResponse,
   MealPlanNames,
   ErrorResponse,
@@ -55,7 +55,9 @@ export class BackendApiService<T extends AxiosInstance> {
   getSearchOptions = async (): Promise<AxiosResponse<SearchOptionsResponse>> =>
     this.client.get(BackendEndpoints.SEARCH_OPTIONS);
 
-  getOffersSearch = async (query: SearchQuery): Promise<AxiosResponse<OffersSearchSuccessResponse | ErrorResponse>> => {
+  getOffersSearch = async (
+    query: ISearchQuery
+  ): Promise<AxiosResponse<OffersSearchSuccessResponse | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.SEARCH}`;
     return this.client.get(endpoint, { params: query });
   };
@@ -172,7 +174,10 @@ export class BackendApiService<T extends AxiosInstance> {
   putOffer = async (offer: IOfferAPI): Promise<IAPIRepsonse<IOfferAPI, IApiErrorResponse>> => {
     return (
       this.client
-        .put(`${BackendEndpoints.OFFERS}/${offer.uuid}`, transformPut<IOfferAPI>(offer, 'offer', ['hotel']))
+        .put(
+          `${BackendEndpoints.OFFERS}/${offer.uuid}`,
+          transformPut<IOfferAPI>(offer, 'offer', ['hotel'])
+        )
         .then(response => ({
           response,
         }))
@@ -208,7 +213,7 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(`${BackendEndpoints.RATES_LOADER}/status`);
   };
 
-  sanitizQueryObject = (query: SearchQuery): SearchQuery => {
+  sanitizQueryObject = (query: ISearchQuery): ISearchQuery => {
     // Convery any strings that should be integers to integers
     // qs seem to not handle stings containing '+' correctly
     const sanitizeStarRatings = (sr: string[]) =>
