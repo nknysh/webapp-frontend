@@ -20,6 +20,11 @@ export const CombinationModeOptions: { [key in ECombinationMode]: string } = {
   [ECombinationMode.CANNOT_COMBINE_WITH_LIST]: 'Combines with any offers EXCEPT the ones selected',
 };
 
+export interface OrderedOffer {
+  uuid: string;
+  name: string;
+}
+
 export interface IOfferUiState {
   getOfferRequestIsPending: boolean;
   putOfferRequestIsPending: boolean;
@@ -31,6 +36,7 @@ export interface IOfferUiState {
   taCountryAccordianKeys: string[];
   combinationMode: ECombinationMode;
   combinationOfferUuids: string[];
+  orderedOffersList: OrderedOffer[];
 }
 
 export interface IOfferModel {
@@ -54,6 +60,7 @@ export const initialState: IOfferModel = {
     taCountryAccordianKeys: [],
     combinationMode: ECombinationMode.COMBINES_WITH_ANY,
     combinationOfferUuids: [],
+    orderedOffersList: [],
   },
   offer: {
     uuid: 'NEW_OFFER',

@@ -1,30 +1,18 @@
 import { createSelector } from 'reselect';
 import { offerDomainSelector, getOffersOnHotelSelector } from '../../domainSelectors';
 
-export const uiStateSelector = createSelector(
-  offerDomainSelector,
-  domain => domain.uiState
-);
+export const uiStateSelector = createSelector(offerDomainSelector, domain => domain.uiState);
 
 export const getOfferRequestIsPendingSelector = createSelector(
   uiStateSelector,
   uiState => uiState.getOfferRequestIsPending
 );
 
-export const getOfferErrorSelector = createSelector(
-  uiStateSelector,
-  uiState => uiState.getError
-);
+export const getOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.getError);
 
-export const putOfferErrorSelector = createSelector(
-  uiStateSelector,
-  uiState => uiState.putError
-);
+export const putOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.putError);
 
-export const postOfferErrorSelector = createSelector(
-  uiStateSelector,
-  uiState => uiState.postError
-);
+export const postOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.postError);
 
 export const offerDomainIsTextOnlySelector = createSelector(
   uiStateSelector,
@@ -66,4 +54,9 @@ export const combinationListSelector = createSelector(
       }
     });
   }
+);
+
+export const orderedOffersListSelector = createSelector(
+  uiStateSelector,
+  uiStateSelector => uiStateSelector.orderedOffersList
 );
