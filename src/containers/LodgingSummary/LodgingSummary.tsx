@@ -398,8 +398,9 @@ export const LodgingSummaryRender = props => {
 
         {isSr && (
           <TableCardRow className="table-card-row" depth={3}>
-            <Label lowercase text="Repeat Guest">
+            <Label inline reverse text="Repeat Guest">
               <Checkbox
+                className="repeatGuest"
                 checked={lodging.repeatCustomer}
                 onChange={() => {
                   updateLodgingRepeatGuestAction(lodging.hotelUuid, lodging.index, !lodging.repeatCustomer);
@@ -455,6 +456,10 @@ const ConnectedLodgingSummary = compose(connect)(LodgingSummaryRender);
 export default styled(ConnectedLodgingSummary)`
   .table-card-box .table-card-row + .table-card-row {
     border-bottom: 1px solid ${pureUiTheme.colors.grayDark};
+  }
+
+  .repeatGuest {
+    margin-right: 10px;
   }
 
   .number-select-wrapper {
