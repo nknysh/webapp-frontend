@@ -8,8 +8,7 @@ import TextInput from '../TextInput';
 import TextArea from '../Textarea';
 import Checkbox from '../Checkbox';
 
-import { eventValueSelector, eventCheckedSelector } from './form';
-import { sanitizeDecimal } from './format';
+import { eventValueSelector, eventCheckedSelector, sanitizeDecimal } from './form';
 
 export interface CustomItemValidation {
   name?: String[];
@@ -60,6 +59,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
             <FormItem>
               <Label lowercase text="Name">
                 <TextInput
+                  name="name"
                   value={data.name}
                   onChange={eventValueSelector(props.onNameChange)}
                   placeholder="Name"
@@ -69,6 +69,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
             <FormItem>
               <Label lowercase text={`Total ${currency}`}>
                 <TextInput
+                  name="total"
                   value={data.total}
                   onChange={eventValueSelector(props.onTotalChange, sanitizeDecimal(2))}
                   placeholder="Total"
@@ -80,6 +81,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
             <FormItem>
               <Label lowercase text="Description">
                 <TextArea
+                  name="description"
                   value={data.description}
                   onChange={eventValueSelector(props.onDescriptionChange)}
                 />
@@ -88,6 +90,7 @@ const CustomItemForm = (props: CustomItemFormProps) => {
             <FormItem>
               <Label lowercase inline reverse text="This item replaces Meal Plans">
                 <Checkbox
+                  name="countsAsMealPlan"
                   checked={data.countsAsMealPlan}
                   onChange={eventCheckedSelector(props.onCountAsMealPlanChange)}
                 />
@@ -96,14 +99,15 @@ const CustomItemForm = (props: CustomItemFormProps) => {
             <FormItem>
               <Label lowercase inline reverse text="This item replaces Transfers">
                 <Checkbox
+                  name="countsAsTransfer"
                   checked={data.countsAsTransfer}
                   onChange={eventCheckedSelector(props.onCountAsTransferChange)}
                 />
               </Label>
             </FormItem>
             <Controls>
-              <SecondaryButton onClick={props.onCancel}>Cancel</SecondaryButton>
-              <StyledPrimaryButton onClick={props.onConfirm} disabled={!isValid}>Save</StyledPrimaryButton>
+              <SecondaryButton name="cancel" onClick={props.onCancel}>Cancel</SecondaryButton>
+              <StyledPrimaryButton name="confirm" onClick={props.onConfirm} disabled={!isValid}>Save</StyledPrimaryButton>
             </Controls>
           </Fragment>
         )

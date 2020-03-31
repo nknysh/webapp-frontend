@@ -34,8 +34,6 @@ export const BasicUsage = () => {
     [key]: val
   });
 
-  
-
   const props = createProps({
       data: state,
       onShow: () => setState({}),
