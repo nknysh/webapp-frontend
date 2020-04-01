@@ -54,7 +54,7 @@ export const makeBookingBuilderStub = (hotelResponse): BookingBuilder => {
             blockType: 'Ground Services',
           },
           {
-            header: 'Addons',
+            header: 'Other Items',
             items: [],
             blockType: 'Addons',
           },
