@@ -38,7 +38,7 @@ export default {
   totalExcludingCommission: 'Total cost to you excluding your commission',
   returnTransfers: 'Return transfers',
   groundService: 'Ground service',
-  addOns: 'Addons',
+  addOns: 'Other Items',
   addAccommodation: 'Add Accommodation',
   addCommission:
     'Add your commission (If client is paying Pure Escapes directly or if you wish to send this proposal directly to your clients)',
@@ -57,7 +57,7 @@ export default {
   min: 'Min',
   max: 'Max',
   squareMeters: 'Square Meters',
-  addons: 'Addons',
+  addons: 'Other Items',
   onRequest: 'On Request',
   out: 'Outbound',
   in: 'Inbound',

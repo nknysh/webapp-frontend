@@ -9,6 +9,13 @@ export const StyledSummary = styled.div`
     color: ${theme.palette.neutral};
     font-size: ${theme.fonts.sizes.less}px;
   }
+  .summary-form-buttons {
+    .flex {
+      button {
+        flex: 1;
+      }
+    }
+  }
 `;
 
 export const Title = styled.h3`
