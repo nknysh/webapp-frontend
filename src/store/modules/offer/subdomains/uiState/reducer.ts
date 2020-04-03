@@ -11,6 +11,7 @@ import {
   POST_OFFER_FAILURE,
   SET_COMBINATION_MODE,
   TOGGLE_OFFER_IN_COMBINATION_LIST,
+  SET_ORDERED_OFFERS_LIST,
 } from '../../actions';
 import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
@@ -128,11 +129,15 @@ export const uiStateReducer = (
         } else if (action.isChecked === false) {
           draftState.combinationOfferUuids = draftState.combinationOfferUuids.filter(cc => cc !== action.offerUuid);
         }
-
         draftState.combinationOfferUuids = R.uniq(draftState.combinationOfferUuids);
-
         return draftState;
       });
+
+    case SET_ORDERED_OFFERS_LIST:
+      return {
+        ...state,
+        orderedOffersList: action.list,
+      };
 
     default:
       return state;

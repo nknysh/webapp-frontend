@@ -1,4 +1,4 @@
-import { ECombinationMode } from '../../model';
+import { ECombinationMode, OrderedOffer } from '../../model';
 
 export const SET_OFFER_IS_TEXT_ONLY = 'offer/SET_OFFER_IS_TEXT_ONLY';
 export const TOGGLE_TA_COUNTRY_ACCORDIAN = 'offer/TOGGLE_TA_COUNTRY_ACCORDIAN';
@@ -6,6 +6,9 @@ export const TOGGLE_TA_COUNTRY_ACCORDIAN = 'offer/TOGGLE_TA_COUNTRY_ACCORDIAN';
 // combination UI state
 export const SET_COMBINATION_MODE = 'offer/SET_COMBINATION_MODE';
 export const TOGGLE_OFFER_IN_COMBINATION_LIST = 'offer/TOGGLE_OFFER_IN_COMBINATION_LIST';
+
+// Sorting
+export const SET_ORDERED_OFFERS_LIST = 'offer/SET_OFFERS_ORDERED_LIST';
 
 export type SetOfferIsTextOnly = ReturnType<typeof setOfferIsTextOnly>;
 export const setOfferIsTextOnly = (value: boolean) => ({
@@ -32,8 +35,15 @@ export const offerToggleOfferInCombinationList = (offerUuid: string, isChecked: 
   isChecked,
 });
 
+export type SetOrderedOffersListAction = ReturnType<typeof setOrderedOffersListAction>;
+export const setOrderedOffersListAction = (list: OrderedOffer[]) => ({
+  type: SET_ORDERED_OFFERS_LIST as typeof SET_ORDERED_OFFERS_LIST,
+  list,
+});
+
 export type OfferUiStateAction =
   | SetOfferIsTextOnly
   | OfferToggleTaCountryAccodian
   | OfferSetCombinationMode
-  | OfferToggleOfferInCombinationList;
+  | OfferToggleOfferInCombinationList
+  | SetOrderedOffersListAction;
