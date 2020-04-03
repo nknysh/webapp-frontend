@@ -51,6 +51,15 @@ export const uiStateReducer = (
           draftState.combinationMode = ECombinationMode.COMBINES_WITH_NONE;
         }
 
+        if(action.offersOnHotel){
+          draftState.orderedOffersList = R.sortBy(
+              item => item.order,
+              action.offersOnHotel
+            ).map(
+              ({ uuid, name }) => ({ uuid, name })
+            );
+        }
+
         return draftState;
       });
 

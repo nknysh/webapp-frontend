@@ -23,7 +23,7 @@ export const offer = (state: IOfferModel = initialState, action: OfferDomainActi
 // Stub reducers
 const associatedOffersMappingReducer = (
   state: any = initialState.associatedOffersMapping,
-  action: OfferDomainAction
+  action: OfferDomainActionki
 ): any => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:

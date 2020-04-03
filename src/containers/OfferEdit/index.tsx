@@ -52,7 +52,8 @@ import {
 } from 'store/modules/offer/actions';
 import { TabBar, RouteTab } from 'pureUi/TabBar';
 import { OfferEditPreRequisitesContainerConnected } from '../OfferEditPreRequisites/index';
-import { OfferEditApplicationsContainerConnected } from 'containers/OfferEditApplications';
+import { OfferEditApplicationsContainerConnected } from '../OfferEditApplications';
+import { OfferEditOrderingContainerConnected } from '../OfferEditOrdering';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
@@ -257,6 +258,11 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
               exact
               path={`${this.props.match.url}/applications`}
               component={OfferEditApplicationsContainerConnected}
+            />
+            <Route
+              exact
+              path={`${this.props.match.url}/priority`}
+              component={OfferEditOrderingContainerConnected}
             />
           </Switch>
           <Route

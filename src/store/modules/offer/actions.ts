@@ -1,6 +1,6 @@
 import { OfferAction } from './subdomains/offer/actions';
 import { OfferUiStateAction } from './subdomains/uiState/actions';
-import { IOfferUI } from 'services/BackendApi';
+import { IOfferUI, IOfferOnHotelItem } from 'services/BackendApi';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
 
 export const GET_OFFER_REQUEST = 'offer/GET_OFFER_REQUEST';
@@ -29,7 +29,7 @@ export const getOfferSuccessAction = (
   offer: IOfferUI,
   associatedOffersMapping,
   associatedProductsMapping,
-  offersOnHotel,
+  offersOnHotel: IOfferOnHotelItem[],
   isTextOnly,
   accommodationProductsForHotel
 ) => ({

@@ -17,6 +17,11 @@ export interface IOfferOnHotelItem {
   order: number;
 }
 
+export interface IOffersOnHotelResponse {
+  meta: any;
+  data: IOfferOnHotelItem[];
+}
+
 export interface IAgeName {
   name: string;
   ageFrom?: number;

@@ -23,7 +23,12 @@ import { IBookingsListResponse } from './types/BookingsListResponse';
 import { ITravelAgentRespone } from './types/TravelAgentResponse';
 import { IHotelNamesResponse } from './types/HotelNamesResponse';
 import { IOffersListResponse, IOffersDeleteResponse } from './types/OffersListResponse';
-import { IOfferResponse, IOfferAPI, IAccommodationProductForHotelItem } from './types/OfferResponse';
+import {
+  IOfferResponse,
+  IOfferAPI,
+  IOffersOnHotelResponse,
+  IAccommodationProductForHotelItem
+} from './types/OfferResponse';
 import { transformPut, transformPost } from './helpers';
 import { IApiErrorResponse } from './types/ApiError';
 import { IAPIRepsonse } from './types/ApiResponse';
@@ -122,7 +127,7 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
-  getOffersForHotel = async (hotelUuid: string): Promise<AxiosResponse> => {
+  getOffersForHotel = async (hotelUuid: string): Promise<AxiosResponse<IOffersOnHotelResponse>> => {
     const endpoint = `${BackendEndpoints.OFFERS}?fields[offer]=uuid,name,order&filter[offer][hotelUuid]=${hotelUuid}`;
     return this.client.get(endpoint);
   };
