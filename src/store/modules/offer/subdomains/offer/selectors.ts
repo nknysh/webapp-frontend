@@ -1,6 +1,11 @@
 import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
-import { IOfferPrerequisitesPayload, IOfferProductDiscountInstance } from 'services/BackendApi';
+import {
+  IOfferPrerequisitesPayload,
+  IOfferProductDiscountInstance,
+  IOfferUI,
+  IOfferStepping,
+} from 'services/BackendApi';
 import {
   getBootstrapCountriesSelector,
   getBootstrapExtraPersonSupplementProductSelector,
@@ -10,20 +15,21 @@ import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../typ
 import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
 import { offerDomainSelector, getAccommodationProductsForHotelSelector as hotelAccomodationProductsSelector } from '../../domainSelectors';
 import { IAgeName, IUIOfferProductDiscountInstance } from '../../../../../services/BackendApi/types/OfferResponse';
+import { Validator, ValidatorFieldResult, OfferValidatorResultSet, ValidatorFieldError } from '../../validation';
 
 export const offerSelector = createSelector(offerDomainSelector, domain => domain.offer);
 
 export const offerHotelUuidSelector = createSelector(offerSelector, offer => offer.hotelUuid);
 
-export const offerHotelSelector = createSelector(offerSelector, offer => offer.hotel)
+export const offerHotelSelector = createSelector(offerSelector, offer => offer.hotel);
 export const offerHotelCountryCodeSelector = createSelector(offerHotelSelector, hotel => hotel?.countryCode);
 export const offerRequiresGreenTaxApproachSelector = createSelector(
   offerHotelUuidSelector,
   offerHotelCountryCodeSelector,
   (hotelUuid, countryCode): boolean => {
     return Boolean(hotelUuid && countryCode === 'MV');
-  },
-)
+  }
+);
 
 export const offerNameSelector = createSelector(offerSelector, offer => offer.name);
 
@@ -222,7 +228,7 @@ export const accomodationPreRequisiteAgeNamesSelector = createSelector(
 
 export const offerAdvancePrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
-  prerequisites => prerequisites.advance || { bookBy: '', minimum: '', maximum: ''}
+  prerequisites => prerequisites.advance || { bookBy: '', minimum: '', maximum: '' }
 );
 
 export const offerMaxLodgingsPrerequisiteSelector = createSelector(
@@ -239,12 +245,10 @@ export const offerSteppingApplicationSelector = createSelector(offerSelector, of
   if (!offer.stepping) {
     return undefined;
   }
-  return returnObjectWithUndefinedsAsEmptyStrings(offer.stepping);
+  return returnObjectWithUndefinedsAsEmptyStrings(offer.stepping) as IOfferStepping;
 });
 
-export const offerAccommodationDiscountSelector = createSelector(
-  offerSelector, 
-  (offer) => {
+export const offerAccommodationDiscountSelector = createSelector(offerSelector, offer => {
   return returnObjectWithUndefinedsAsEmptyStrings<IOfferProductDiscountInstance>(offer.accommodationProductDiscount);
 });
 
@@ -332,5 +336,219 @@ export const offerProductDiscountsSupplementsSelector = createSelector(
       return [];
     }
     return productDiscounts.Supplement;
+  }
+);
+
+export const offerNameValidationSelector = createSelector(offerSelector, offer =>
+  new Validator<OfferValidatorResultSet>(offer)
+    .required('name')
+    .string('name')
+    .results()
+);
+
+export const offerTsAndCsValidationSelector = createSelector(offerSelector, offer =>
+  new Validator<OfferValidatorResultSet>(offer)
+    .required('termsAndConditions')
+    .string('termsAndConditions')
+    .results()
+);
+
+export const offerAccommodationProductsPrerequisitesValidationSelector = createSelector(
+  offerAccommodationProductPrerequisitesRawSelector,
+  accommodationPrerequisites => {
+    if (accommodationPrerequisites && accommodationPrerequisites.length <= 0) {
+      return {
+        errors: [
+          {
+            field: 'name',
+            message: 'Accommodation prerequisites requires at least 1 item',
+          },
+        ],
+      } as ValidatorFieldResult<OfferValidatorResultSet>;
+    }
+
+    return {
+      errors: [],
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
+
+export const offerStayBetweenPrerequisiteValidationSelector = createSelector(
+  offerStayBetweenPrerequisitesRawSelector,
+  stayBetweens => {
+    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+    // stay between needs to exist
+    if (stayBetweens.length <= 0) {
+      errors.push({
+        field: 'stayBetweenPrerequisite',
+        message: 'At least 1 stay between prerequisite must be set',
+      });
+    }
+
+    // stay between end needs to be after start
+    stayBetweens.forEach((sb, index) => {
+      if (sb.startDate !== undefined && sb.endDate !== undefined) {
+        if (new Date(sb.startDate) > new Date(sb.endDate)) {
+          errors.push({
+            field: 'stayBetweenPrerequisite',
+            index,
+            message: 'Accommodation prerequisites requires at least 1 item',
+          });
+        }
+      }
+    });
+
+    return {
+      errors,
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
+
+export const offerSteppingValidationSelector = createSelector(offerSteppingApplicationSelector, stepping => {
+  const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+  if (stepping) {
+    if (stepping.everyXNights === undefined) {
+      errors.push({
+        field: 'stepping',
+        message: 'If Stepping is set, Stepping > Every X Nights is required',
+      });
+    }
+
+    if (stepping.applyTo === undefined) {
+      errors.push({
+        field: 'stepping',
+        message: 'If Stepping is set, Stepping > Apply To is required',
+      });
+    }
+  }
+
+  return {
+    errors,
+  } as ValidatorFieldResult<OfferValidatorResultSet>;
+});
+
+export const offerProductDiscountsValidationSelector = createSelector(
+  offerProductDiscountsSelector,
+  productDiscounts => {
+    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+    if (productDiscounts !== undefined) {
+      if (productDiscounts.Fine) {
+        productDiscounts.Fine.forEach((discount, index) => {
+          if (discount.discountPercentage === undefined) {
+            errors.push({
+              field: 'productDiscounts',
+              index,
+              message: `Fine discount ${index} - discount percentage is required`,
+            });
+          }
+        });
+      }
+      if (productDiscounts['Ground Service']) {
+        productDiscounts['Ground Service'].forEach((discount, index) => {
+          if (discount.discountPercentage === undefined) {
+            errors.push({
+              field: 'productDiscounts',
+              index,
+              message: `Ground Service discount ${index} - discount percentage is required`,
+            });
+          }
+        });
+      }
+      if (productDiscounts.Supplement) {
+        productDiscounts.Supplement.forEach((discount, index) => {
+          if (discount.discountPercentage === undefined) {
+            errors.push({
+              field: 'productDiscounts',
+              index,
+              message: `Supplement discount ${index} - discount percentage is required`,
+            });
+          }
+        });
+      }
+      if (productDiscounts.Transfer) {
+        productDiscounts.Transfer.forEach((discount, index) => {
+          if (discount.discountPercentage === undefined) {
+            errors.push({
+              field: 'productDiscounts',
+              index,
+              message: `Transfer discount ${index} - discount percentage is required`,
+            });
+          }
+        });
+      }
+    }
+
+    return {
+      errors,
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
+
+export const offerSubProductDiscountsValidationSelector = createSelector(
+  offerSubProductDiscountsSelector,
+  subProductDiscounts => {
+    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+    if (subProductDiscounts !== undefined) {
+      if (subProductDiscounts['Meal Plan']) {
+        subProductDiscounts['Meal Plan'].forEach((discount, index) => {
+          if (discount.discountPercentage === undefined) {
+            errors.push({
+              field: 'productDiscounts',
+              index,
+              message: `Meal Plan discount ${index} - discount percentage is required`,
+            });
+          }
+        });
+      }
+      if (subProductDiscounts.Supplement) {
+        subProductDiscounts.Supplement.forEach((discount, index) => {
+          if (discount.discountPercentage === undefined) {
+            errors.push({
+              field: 'productDiscounts',
+              index,
+              message: `Supplement discount ${index} - discount percentage is required`,
+            });
+          }
+        });
+      }
+    }
+
+    return {
+      errors,
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
+
+export const offerValidationSelector = createSelector(
+  offerNameValidationSelector,
+  offerTsAndCsValidationSelector,
+  offerAccommodationProductsPrerequisitesValidationSelector,
+  offerStayBetweenPrerequisiteValidationSelector,
+  offerSteppingValidationSelector,
+  offerProductDiscountsValidationSelector,
+  offerSubProductDiscountsValidationSelector,
+  (
+    nameValidatorFieldResult,
+    tsAndCsValidatorFieldResult,
+    accommodationProductValidatorFieldResult,
+    stayBetweenValidatorFieldResult,
+    steppingValidatorFieldResult,
+    productDiscountsValidatorFieldResult,
+    subProductDiscountsValidatorFieldResult
+  ) => {
+    const groupedBy: OfferValidatorResultSet = {
+      name: nameValidatorFieldResult.errors,
+      termsAndConditions: tsAndCsValidatorFieldResult.errors,
+      accommodationProductsPrerequisite: accommodationProductValidatorFieldResult.errors,
+      stayBetweenPrerequisite: stayBetweenValidatorFieldResult.errors,
+      stepping: steppingValidatorFieldResult.errors,
+      productDiscounts: productDiscountsValidatorFieldResult.errors,
+      subProductDiscounts: subProductDiscountsValidatorFieldResult.errors,
+    };
+    return groupedBy;
   }
 );

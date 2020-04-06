@@ -82,8 +82,8 @@ export interface IOfferPrerequisites {
     maximum?: number;
     strictMinMaxStay?: boolean;
   };
-  countryCodes: string[]; // these are the TA country codes - an array of string country codes
-  accommodationProducts: string[];
+  countryCodes?: string[]; // these are the TA country codes - an array of string country codes
+  accommodationProducts?: string[];
   payload?: IOfferPrerequisitesPayload;
 }
 
@@ -97,6 +97,13 @@ export interface IOfferProductDiscounts<T> {
   'Ground Service'?: T[];
   Fine?: T[];
   Supplement?: T[];
+}
+
+export interface IOfferStepping {
+  everyXNights?: number;
+  applyTo?: number;
+  maximumNights?: number;
+  discountCheapest?: boolean;
 }
 
 export interface IOffer<T> {
@@ -115,12 +122,7 @@ export interface IOffer<T> {
   furtherInformation: string | null;
   prerequisites: IOfferPrerequisites;
   preDiscount: boolean;
-  stepping?: {
-    everyXNights?: number;
-    applyTo?: number;
-    maximumNights?: number;
-    discountCheapest?: boolean;
-  };
+  stepping?: IOfferStepping;
   accommodationProductDiscount?: {
     discountPercentage?: number;
     greenTaxDiscountApproach?: string;
