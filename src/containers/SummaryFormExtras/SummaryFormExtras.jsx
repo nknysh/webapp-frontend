@@ -27,6 +27,7 @@ import {
   ProductLabel,
   OptionList,
   BothWayTransferRadioWrapper,
+  InlinePriceLabel,
 } from './SummaryFormExtras.styles';
 import {
   TableCardBox,
@@ -73,14 +74,14 @@ const renderInlinePrice = (translate, currencyCode, total, totalBeforeDiscount, 
   if (total !== totalBeforeDiscount) {
     return (
       <React.Fragment>
-        <label data-discounted={true}>
+        <InlinePriceLabel data-discounted={true} margin-right={true}>
           {currencyCode}
           {formatPrice(total)}
-        </label>
-        <label data-secondary={true}>
+        </InlinePriceLabel>
+        <InlinePriceLabel data-secondary={true}>
           {currencyCode}
           {formatPrice(totalBeforeDiscount)}
-        </label>
+        </InlinePriceLabel>
       </React.Fragment>
     );
   } else {
@@ -785,7 +786,4 @@ export const SummaryFormExtras = ({
 SummaryFormExtras.propTypes = propTypes;
 SummaryFormExtras.defaultProps = defaultProps;
 
-export default compose(
-  connect,
-  withUser
-)(SummaryFormExtras);
+export default compose(connect, withUser)(SummaryFormExtras);

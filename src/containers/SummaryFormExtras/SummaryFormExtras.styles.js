@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Icon } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 
@@ -158,4 +158,27 @@ export const BothWayTransferRadioWrapper = styled.div`
   span:nth-child(2) {
     width: 100%;
   }
+`;
+
+export const InlinePriceLabel = styled.label`
+  ${({ ['data-discounted']: secondary }) =>
+    secondary &&
+    css`
+      margin: 0 0 ${theme.spacing.gutter * 1.4}px;
+      color: ${theme.colors['red-fade']} !important;
+    `}
+
+    ${({ ['margin-right']: marginRight }) =>
+      marginRight &&
+      css`
+        margin-right: 8px;
+      `}
+
+  ${({ ['data-secondary']: secondary }) =>
+    secondary &&
+    css`
+      font-size: 1.2em;
+      color: ${theme.palette.light} !important;
+      text-decoration: line-through;
+    `}
 `;
