@@ -280,7 +280,7 @@ export const offerUpdateProductDiscountAction = (
   discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string,
   key: EditableProductDiscountField,
-  newValue: string,
+  newValue: string | boolean,
   currentValue: number | string | undefined
 ) => ({
   type: OFFER_UPDATE_PRODUCT_DISCOUNT as typeof OFFER_UPDATE_PRODUCT_DISCOUNT,
@@ -344,7 +344,7 @@ export const offerToggleProductDiscountAgeNameAction = (
 // Sub Product Discounts
 export type OfferAddSubProductDiscountAction = ReturnType<typeof offerAddSubProductDiscountAction>;
 export const offerAddSubProductDiscountAction = (
-  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   productUuid?: string
 ) => ({
   type: OFFER_ADD_SUB_PRODUCT_DISCOUNT as typeof OFFER_ADD_SUB_PRODUCT_DISCOUNT,

@@ -31,7 +31,7 @@ import {
   offerToggleSubProductDiscountAgeNameAction,
 } from 'store/modules/offer/actions';
 
-import { IUIOfferProductDiscountInstance } from '../../services/BackendApi/types/OfferResponse';
+import { IUIOfferProductDiscountInstance, IOfferProductDiscounts, IOfferProductDiscountInstance, IOfferSubProductDiscounts } from '../../services/BackendApi/types/OfferResponse';
 import { EGreenTaxApproach, GreenTaxApproachOptions, GreenTaxApproachInfo } from 'utils/greenTax';
 import { Fieldset, Legend } from '../../pureUi/forms/Fieldset/index';
 import TextInput from '../../pureUi/TextInput/index';
@@ -41,6 +41,7 @@ import { Text, Heading } from 'pureUi/typography'
 import Checkbox from 'pureUi/Checkbox';
 import { ActionButton, CloseButton } from '../../pureUi/Buttons/index';
 import { sanitizeInteger } from 'utils/number';
+import { offerProductDiscountsFinesSelector } from '../../store/modules/offer/subdomains/offer/selectors';
 
 export class OfferEditApplicationsContainer extends React.Component<IOfferEditPreRequisitesProps, {}> {
 
@@ -67,6 +68,19 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
   handleExtraPersonSupplementAgeNameChange = (uuid: string, ageName: string) => () => {
     this.props.offerToggleSubProductDiscountAgeNameAction('Supplement', uuid, this.props.bootsrapExtraPersonSupplementId.uuid, ageName);
   }
+
+  handleAddProduct = (type: keyof IOfferProductDiscounts<any>) => () => { this.props.offerAddProductDiscountAction(type)}
+  handleAddSubProduct = (type: keyof IOfferSubProductDiscounts<any>) => () => { this.props.offerAddSubProductDiscountAction(type)}
+
+  handleProductDiscountChange = (type: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const currentValue = this.props.extraPersonSupplements!.find(eps => eps.uuid === uuid)![key];
+    this.props.offerUpdateProductDiscountAction(type, uuid, key, e.currentTarget.value, currentValue);
+  };
+  
+  handleProductDiscountBooleanChange = (type: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
+    const currentValue = this.props.extraPersonSupplements!.find(eps => eps.uuid === uuid)![key];
+    this.props.offerUpdateProductDiscountAction(type, uuid, key, e.currentTarget.checked, currentValue);
+  };
   
   render() {
 
@@ -146,6 +160,31 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             <ActionButton action="add" onClick={this.handleAddExtraPersonSupplement}>Add Extra Person Supplement</ActionButton>
           )}
         </Fieldset>
+
+        <Fieldset>
+          <Legend>Fine Discount</Legend>
+          {this.props.fineDiscounts.map(fineDiscount => {
+            return (
+              <div className="fineDiscount">
+                <Label text="Discount %">
+                  <TextInput className="discountInput" value={fineDiscount.discountPercentage} onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'discountPercentage')}/>
+                </Label>
+                <Label text="Maximum Quantity">
+                  <TextInput className="maxQuantityInput" value={fineDiscount.maximumQuantity} onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')} />
+                </Label>
+                <Label text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
+                  <Checkbox check={fineDiscount.standardOccupancyOnly} onChange={this.handleProductDiscountBooleanChange('Fine', fineDiscount.uuid, 'standardOccupancyOnly')}/>
+                </Label>
+              </div>
+            );
+          })}
+
+          {this.props.hotelUuid && (
+            <ActionButton action="add" onClick={this.handleAddProduct('Fine')}>Add Fine Discount</ActionButton>
+          )}
+
+          {!this.props.hotelUuid && <Text>Select a hotel to add an extra person supplement</Text>}
+        </Fieldset>
       </OfferEditApplicationsStyles>
     );
   }
@@ -163,9 +202,10 @@ const mapStateToProps = createStructuredSelector({
   accomodationDiscount: offerAccommodationDiscountSelector,
   requiresGreenTax: offerRequiresGreenTaxApproachSelector,
   isTextOnly: offerDomainIsTextOnlySelector,
-  extraPersonSupplements: offerExtraPersonSupplementsSelector,
-  accomodationAgeNames: accomodationPreRequisiteAgeNamesSelector,
   hotelUuid: offerHotelUuidSelector,
+  accomodationAgeNames: accomodationPreRequisiteAgeNamesSelector,
+  extraPersonSupplements: offerExtraPersonSupplementsSelector,
+  fineDiscounts: offerProductDiscountsFinesSelector
 });
 
 const actionCreators = {

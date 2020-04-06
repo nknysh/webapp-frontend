@@ -14,6 +14,7 @@ const createProps = (
     extraPersonSupplements: [],
     accomodationAgeNames: [{ name: 'Adult', ageFrom: 0, ageTo: undefined }],
     hotelUuid: 'HOTEL_123',
+    fineDiscounts: [],
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},

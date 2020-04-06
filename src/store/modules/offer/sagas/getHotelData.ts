@@ -13,7 +13,14 @@ export function* getHotelDataSaga(action: OfferHotelUuidChangeAction) {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
-    const result: AxiosResponse<any> = yield call(backendApi.getHotel, action.hotelUuid, ['accommodationProducts']);
+    const result: AxiosResponse<any> = yield call(backendApi.getHotel, action.hotelUuid, [
+      'accommodationProducts',
+      'fineProducts',
+      'transferProducts',
+      'groundServiceProducts',
+      'mealPlanProducts',
+      'supplementProducts',
+    ]);
     yield put(offerHotelUuidChangeSuccessAction(result.data.data));
   } catch (e) {
     throw e;
