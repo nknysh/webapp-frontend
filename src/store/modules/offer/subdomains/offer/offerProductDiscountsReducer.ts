@@ -8,6 +8,7 @@ import {
   removeProductFromDiscountHandler,
   updateDiscountHandler,
   toggleDiscountAgeName,
+  toggleProductOnDiscount,
 } from '../../utils';
 import { IOfferModel } from '../../model';
 
@@ -32,6 +33,9 @@ export const productDiscountsReducer = (
 
     case Actions.OFFER_REMOVE_PRODUCT_FROM_PRODUCT_DISCOUNT:
       return removeProductFromDiscountHandler(state, action);
+
+    case Actions.OFFER_TOGGLE_PRODUCT_ON_PRODUCT_DISCOUNT:
+      return toggleProductOnDiscount(state, action);
 
     case Actions.OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME:
       return toggleDiscountAgeName(state, action);

@@ -1,4 +1,4 @@
-import { IOfferModel, initialState } from './model';
+import { IOfferModel, initialState, IHotelAvailableProducts } from './model';
 import { OfferDomainAction, GET_OFFER_SUCCESS, RESET_OFFER_MODULE, OFFER_HOTEL_UUID_CHANGE_SUCCESS } from './actions';
 
 import { offerReducer } from './subdomains/offer/reducer';
@@ -16,6 +16,7 @@ export const offer = (state: IOfferModel = initialState, action: OfferDomainActi
     associatedProductsMapping: associatedProductsMappingReducer(state.associatedProductsMapping, action),
     offersOnHotel: offersOnHotelReducer(state.offersOnHotel, action),
     accommodationProductsForHotel: accommodationProductsForHotelReducer(state.accommodationProductsForHotel, action),
+    availableProducts: availableProductsReducer(state.availableProducts, action),
   };
 };
 
@@ -62,6 +63,25 @@ export const accommodationProductsForHotelReducer = (
       return action.accommodationProductsForHotel;
     case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
       return action.data.accommodationProducts;
+    default:
+      return state;
+  }
+};
+
+export const availableProductsReducer = (
+  state: IHotelAvailableProducts = initialState.availableProducts,
+  action: OfferDomainAction
+): IHotelAvailableProducts => {
+  switch (action.type) {
+    case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
+      return {
+        accommodationProducts: action.data.accommodationProducts || [],
+        fineProducts: action.data.fineProducts || [],
+        transferProducts: action.data.transferProducts || [],
+        groundServiceProducts: action.data.groundServiceProducts || [],
+        mealPlanProducts: action.data.mealPlanProducts || [],
+        supplementProducts: action.data.supplementProducts || [],
+      };
     default:
       return state;
   }

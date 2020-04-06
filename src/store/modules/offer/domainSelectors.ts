@@ -22,3 +22,32 @@ export const getAccommodationProductsForHotelSelector = createSelector(
   offerDomainSelector,
   domain => domain.accommodationProductsForHotel || []
 );
+
+export const availableProductsSelector = createSelector(
+  offerDomainSelector,
+  domain => domain.availableProducts
+);
+export const availableAccommodationProductsSelector = createSelector(
+  availableProductsSelector,
+  availableProducts => availableProducts.accommodationProducts
+);
+export const availableFineProductsSelector = createSelector(
+  availableProductsSelector,
+  availableProducts => availableProducts.fineProducts
+);
+export const availableTransferProductsSelector = createSelector(
+  availableProductsSelector,
+  availableProducts => availableProducts.transferProducts
+);
+export const availableGroundServiceProductsSelector = createSelector(
+  availableProductsSelector,
+  availableProducts => availableProducts.groundServiceProducts
+);
+export const availableMealPlanProductsSelector = createSelector(
+  availableProductsSelector,
+  availableProducts => availableProducts.mealPlanProducts
+);
+export const availableSupplementProductsSelector = createSelector(
+  availableProductsSelector,
+  availableProducts => availableProducts.supplementProducts
+);

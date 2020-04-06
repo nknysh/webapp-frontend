@@ -138,26 +138,28 @@ const renderTransferOptionsSimple = (
 
   const bothWayTransfersOptions = simpleTransfers
     .filter(t => t.direction === undefined)
-    .map(t => ({
-      value: t.uuid,
-      label: (
-        <ProductLabel className="normal-case">
-          <span>
-            {t.name} {t.priceFormatted}{' '}
-          </span>
-          <InfoIconWithModal
-            modalRender={() => (
-              <ModalContent>
-                <h2 className="uppercase color-gold">
-                  {t.name} <small>{t.priceFormatted}</small>
-                </h2>
-                <p>{t.description}</p>
-              </ModalContent>
-            )}
-          />
-        </ProductLabel>
-      ),
-    }));
+    .map(t => {
+      return {
+        value: t.uuid,
+        label: (
+          <ProductLabel className="normal-case">
+            <span>
+              {t.name} {t.priceFormatted}{' '}
+            </span>
+            <InfoIconWithModal
+              modalRender={() => (
+                <ModalContent>
+                  <h2 className="uppercase color-gold">
+                    {t.name} <small>{t.priceFormatted}</small>
+                  </h2>
+                  <p>{t.description}</p>
+                </ModalContent>
+              )}
+            />
+          </ProductLabel>
+        ),
+      };
+    });
 
   const bothWayTransferMarkup = (
     <React.Fragment>

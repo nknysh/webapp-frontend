@@ -11,10 +11,20 @@ const createProps = (
     accomodationDiscount: undefined,
     requiresGreenTax: true,
     isTextOnly: false,
-    extraPersonSupplements: [],
     accomodationAgeNames: [{ name: 'Adult', ageFrom: 0, ageTo: undefined }],
     hotelUuid: 'HOTEL_123',
+    availableAccommodationProducts: [],
+    availableFineProducts: [],
+    availableTransferProducts: [],
+    availableGroundServiceProducts: [],
+    availableMealPlanProducts: [],
+    availableSupplementProducts: [],
+
     fineDiscounts: [],
+    groundServiceDiscounts: [],
+    transferDiscounts: [],
+    extraPersonSupplementDiscounts: [],
+    mealPlanDiscounts: [],
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},
@@ -39,6 +49,8 @@ const createProps = (
     offerAddProductToSubProductDiscountAction: jest.fn(),
     offerToggleProductDiscountAgeNameAction: jest.fn(),
     offerToggleSubProductDiscountAgeNameAction: jest.fn(),
+    offerToggleProductOnProductDiscountAction: jest.fn(),
+    offerToggleProductOnSubProductDiscountAction: jest.fn(),
     ...getMockRouterProps<{}>({}, path || 'offer/edit/applications'),
   };
 

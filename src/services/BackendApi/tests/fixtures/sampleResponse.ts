@@ -1,5 +1,4 @@
 import { OffersSearchSuccessResponse, Filters } from '../../types';
-import { GroundService } from '../../types/OffersSearchResponse';
 
 export const sampleResponse: OffersSearchSuccessResponse = {
   meta: {
@@ -117,7 +116,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
             Fine: [],
             Supplement: [],
             'Ground Service': [],
-            customItems: []
+            customItems: [],
           },
           response: {
             canBeBooked: true,
@@ -174,6 +173,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
                       description:
                         'Tranquil treetop eyries, breathtakingly suspended 12 metres up between a canopy of lush palms and the vast Maldivian skies. Serenity infuses every space, the sound of birds outside, sunlight glinting off a cantilevered pool. Up in the treetops, peace & serenity awaits in our Amilla Fushi Maldives',
                       size: 200,
+
                       amenities: [
                         '7ft king bed in master bedroom',
                         'One spa treatment room',
@@ -344,6 +344,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
                       description:
                         'Tranquil treetop eyries, breathtakingly suspended 12 metres up between a canopy of lush palms and the vast Maldivian skies. Serenity infuses every space, the sound of birds outside, sunlight glinting off a cantilevered pool. Up in the treetops, peace & serenity awaits in our Amilla Fushi Maldives',
                       size: 200,
+
                       amenities: [
                         '7ft king bed in master bedroom',
                         'One spa treatment room',
@@ -567,6 +568,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
                         description:
                           'Tranquil treetop eyries, breathtakingly suspended 12 metres up between a canopy of lush palms and the vast Maldivian skies. Serenity infuses every space, the sound of birds outside, sunlight glinting off a cantilevered pool. Up in the treetops, peace & serenity awaits in our Amilla Fushi Maldives',
                         size: 200,
+
                         amenities: [
                           '7ft king bed in master bedroom',
                           'One spa treatment room',
@@ -644,6 +646,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
                           description:
                             'Tranquil treetop eyries, breathtakingly suspended 12 metres up between a canopy of lush palms and the vast Maldivian skies. Serenity infuses every space, the sound of birds outside, sunlight glinting off a cantilevered pool. Up in the treetops, peace & serenity awaits in our Amilla Fushi Maldives',
                           size: 200,
+
                           amenities: [
                             '7ft king bed in master bedroom',
                             'One spa treatment room',
@@ -729,6 +732,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
                           description:
                             'Tranquil treetop eyries, breathtakingly suspended 12 metres up between a canopy of lush palms and the vast Maldivian skies. Serenity infuses every space, the sound of birds outside, sunlight glinting off a cantilevered pool. Up in the treetops, peace & serenity awaits in our Amilla Fushi Maldives',
                           size: 200,
+
                           amenities: [
                             '7ft king bed in master bedroom',
                             'One spa treatment room',
@@ -5062,6 +5066,7 @@ export const sampleResponse: OffersSearchSuccessResponse = {
               region: 'Baa Atoll',
               starRating: '5+',
               defaultCurrency: 'USD',
+
               amenities: [
                 '3 Restaurants',
                 '1 Bar',

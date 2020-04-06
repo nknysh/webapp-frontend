@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 export interface IFormControlGridProps extends React.HTMLAttributes<HTMLDivElement> {
   columnCount: number;
+  padded?: boolean;
 }
 
 export const FormControlGrid = styled.div<IFormControlGridProps>`
-  padding: 10px;
+  padding: ${props => (props.padded ? '10px' : 0)};
   display: grid;
   grid-gap: 10px;
   /* 

@@ -65,6 +65,9 @@ export const OFFER_ADD_PRODUCT_TO_SUB_PRODUCT_DISCOUNT = 'offer/ADD_PRODUCT_TO_S
 export const OFFER_REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT = 'offer/REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT';
 export const OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME = 'offer/OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME';
 
+export const OFFER_TOGGLE_PRODUCT_ON_PRODUCT_DISCOUNT = 'offer/OFFER_TOGGLE_PRODUCT_ON_PRODUCT_DISCOUNT';
+export const OFFER_TOGGLE_PRODUCT_ON_SUB_PRODUCT_DISCOUNT = 'offer/OFFER_TOGGLE_PRODUCT_ON_SUB_PRODUCT_DISCOUNT';
+
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
   type: OFFER_HOTEL_UUID_CHANGE as typeof OFFER_HOTEL_UUID_CHANGE,
@@ -280,8 +283,8 @@ export const offerUpdateProductDiscountAction = (
   discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string,
   key: EditableProductDiscountField,
-  newValue: string,
-  currentValue: number | string | undefined
+  newValue: string | boolean,
+  currentValue: number | string | boolean | undefined
 ) => ({
   type: OFFER_UPDATE_PRODUCT_DISCOUNT as typeof OFFER_UPDATE_PRODUCT_DISCOUNT,
   discountType,
@@ -354,11 +357,11 @@ export const offerAddSubProductDiscountAction = (
 
 export type OfferUpdateSubProductDiscountAction = ReturnType<typeof offerUpdateSubProductDiscountAction>;
 export const offerUpdateSubProductDiscountAction = (
-  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string,
   key: keyof Omit<IUIOfferProductDiscountInstance, 'uuid' | 'products'>,
-  newValue: string,
-  currentValue: number | string | undefined
+  newValue: string | boolean,
+  currentValue: number | string | boolean | undefined
 ) => ({
   type: OFFER_UPDATE_SUB_PRODUCT_DISCOUNT as typeof OFFER_UPDATE_SUB_PRODUCT_DISCOUNT,
   discountType,
@@ -370,7 +373,7 @@ export const offerUpdateSubProductDiscountAction = (
 
 export type OfferRemoveSubProductDiscountAction = ReturnType<typeof offerRemoveSubProductDiscountAction>;
 export const offerRemoveSubProductDiscountAction = (
-  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string
 ) => ({
   type: OFFER_REMOVE_SUB_PRODUCT_DISCOUNT as typeof OFFER_REMOVE_SUB_PRODUCT_DISCOUNT,
@@ -418,6 +421,32 @@ export const offerToggleSubProductDiscountAgeNameAction = (
   ageName,
 });
 
+export type OfferToggleProductOnProductDiscountAction = ReturnType<typeof offerToggleProductOnProductDiscountAction>;
+export const offerToggleProductOnProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountUuid: string,
+  productUuid: string
+) => ({
+  type: OFFER_TOGGLE_PRODUCT_ON_PRODUCT_DISCOUNT as typeof OFFER_TOGGLE_PRODUCT_ON_PRODUCT_DISCOUNT,
+  discountType,
+  discountUuid,
+  productUuid,
+});
+
+export type OfferToggleProductOnSubProductDiscountAction = ReturnType<
+  typeof offerToggleProductOnSubProductDiscountAction
+>;
+export const offerToggleProductOnSubProductDiscountAction = (
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
+  discountUuid: string,
+  productUuid: string
+) => ({
+  type: OFFER_TOGGLE_PRODUCT_ON_SUB_PRODUCT_DISCOUNT as typeof OFFER_TOGGLE_PRODUCT_ON_SUB_PRODUCT_DISCOUNT,
+  discountType,
+  discountUuid,
+  productUuid,
+});
+
 export type OfferAction =
   | OfferHotelUuidChangeAction
   | OfferHotelUuidChangeSuccessAction
@@ -461,4 +490,6 @@ export type OfferAction =
   | OfferAddProductToSubProductDiscountAction
   | OfferRemoveProductFromSubProductDiscountAction
   | OfferToggleProductDiscountAgeNameAction
-  | OfferToggleSubProductDiscountAgeNameAction;
+  | OfferToggleSubProductDiscountAgeNameAction
+  | OfferToggleProductOnProductDiscountAction
+  | OfferToggleProductOnSubProductDiscountAction;

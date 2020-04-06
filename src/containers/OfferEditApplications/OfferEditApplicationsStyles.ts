@@ -24,9 +24,6 @@ export const OfferEditApplicationsStyles = styled.section`
   }
 
   .extraPersonSupplement {
-    border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
     display: grid;
     grid-gap: 20px;
     grid-template-columns: repeat(4, 1fr);
@@ -34,29 +31,62 @@ export const OfferEditApplicationsStyles = styled.section`
       'ageNames ageNames ageNames epsCloseButton'
       'discountInput maxQuantityInput epsGreentax epsGreentax';
 
-    .ageNames {
+    & > .ageNames {
       grid-area: ageNames;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-gap: 20px;
     }
 
-    .discountInput {
+    & > .discountInput {
       grid-area: discountInput;
     }
-    .maxQuantityInput {
+    & > .maxQuantityInput {
       grid-area: maxQuantityInput;
     }
-    .epsCloseButton {
+    & > .epsCloseButton {
       grid-area: epsCloseButton;
       text-align: right;
     }
 
-    .epsGreentax {
+    & > .epsGreentax {
       grid-area: epsGreentax;
       display: grid;
       grid-template-rows: 1fr 1fr;
       grid-gap: 10px;
     }
+  }
+
+  .fineDiscountGrid {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-areas:
+      'formGrid formGrid closeButton'
+      'discountInput maxQuantityInput .'
+      'checkbox checkbox .';
+
+    & > .formGrid {
+      grid-area: formGrid;
+    }
+    & > .removeFineDiscountButton {
+      grid-area: closeButton;
+      text-align: right;
+    }
+    & > .discountInput {
+      grid-area: discountInput;
+    }
+    & > .maxQuantityInput {
+      grid-area: maxQuantityInput;
+    }
+    & > .occupancyCheckbox {
+      grid-area: checkbox;
+    }
+  }
+
+  .extraPersonSupplement,
+  .fineDiscountGrid {
+    border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
 `;

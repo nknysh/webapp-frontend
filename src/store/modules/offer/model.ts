@@ -1,6 +1,15 @@
-import { IOfferOnHotelItem, IAccommodationProductForHotelItem, IOfferUI } from 'services/BackendApi';
+import {
+  IOfferOnHotelItem,
+  IAccommodationProductForHotelItem,
+  IOfferUI,
+  IProduct,
+  IAccomodationProductOptions,
+  ITransferProductOptions,
+  IMealPlanProductOptions,
+} from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
+import { any } from 'prop-types';
 
 interface KeyValuePair {
   [key: string]: string;
@@ -39,6 +48,15 @@ export interface IOfferUiState {
   orderedOffersList: OrderedOffer[];
 }
 
+export interface IHotelAvailableProducts {
+  accommodationProducts: IProduct<IAccomodationProductOptions>[];
+  fineProducts: IProduct<{}>[];
+  transferProducts: IProduct<ITransferProductOptions>[];
+  groundServiceProducts: IProduct<{}>[];
+  mealPlanProducts: IProduct<IMealPlanProductOptions>[];
+  supplementProducts: IProduct<any>[];
+}
+
 export interface IOfferModel {
   uiState: IOfferUiState;
   offer: IOfferUI;
@@ -46,6 +64,7 @@ export interface IOfferModel {
   associatedProductsMapping: KeyValuePair;
   offersOnHotel: IOfferOnHotelItem[];
   accommodationProductsForHotel?: IAccommodationProductForHotelItem[];
+  availableProducts: IHotelAvailableProducts;
 }
 
 export const initialState: IOfferModel = {
@@ -82,4 +101,12 @@ export const initialState: IOfferModel = {
   associatedProductsMapping: {},
   offersOnHotel: [],
   accommodationProductsForHotel: [],
+  availableProducts: {
+    accommodationProducts: [],
+    fineProducts: [],
+    transferProducts: [],
+    groundServiceProducts: [],
+    mealPlanProducts: [],
+    supplementProducts: [],
+  },
 };

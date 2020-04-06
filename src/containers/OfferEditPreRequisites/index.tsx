@@ -143,7 +143,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
             </Legend>
             {!this.props.offerHotelUuid && <Text>Select a hotel to see accomodation products</Text>}
 
-            <FormControlGrid columnCount={3}>
+            <FormControlGrid padded columnCount={3}>
               {this.props.accomodationPreReqs?.map(product => {
                 return (
                   <Label lowercase key={product.label} inline reverse text={product.label}>
@@ -172,7 +172,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
                   isOpen={this.props.taCountryAccordianKeys.includes(region)}
                   onClick={this.toggleTaCountryAccordian(region)}
                 >
-                  <FormControlGrid columnCount={4}>
+                  <FormControlGrid padded columnCount={4}>
                     {this.props.taCountries[region].countries.map(country => {
                       return (
                         <Label lowercase key={country.label} inline reverse text={country.label}>

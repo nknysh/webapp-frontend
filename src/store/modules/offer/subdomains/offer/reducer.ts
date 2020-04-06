@@ -91,6 +91,7 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
     case Actions.OFFER_REMOVE_PRODUCT_FROM_PRODUCT_DISCOUNT:
     case Actions.OFFER_UPDATE_PRODUCT_DISCOUNT:
     case Actions.OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME:
+    case Actions.OFFER_TOGGLE_PRODUCT_ON_PRODUCT_DISCOUNT:
       return {
         ...state,
         productDiscounts: productDiscountsReducer(state.productDiscounts, action),
@@ -102,6 +103,7 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
     case Actions.OFFER_REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT:
     case Actions.OFFER_UPDATE_SUB_PRODUCT_DISCOUNT:
     case Actions.OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME:
+    case Actions.OFFER_TOGGLE_PRODUCT_ON_SUB_PRODUCT_DISCOUNT:
       return {
         ...state,
         subProductDiscounts: subProductDiscountsReducer(state.subProductDiscounts, action),

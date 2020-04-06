@@ -1,10 +1,6 @@
-import uuid from 'uuid';
 import * as Actions from '../../actions';
-import produce from 'immer';
 import { IUIOfferProductDiscountInstance, IOfferSubProductDiscounts } from 'services/BackendApi';
 import { GET_OFFER_SUCCESS } from '../../actions';
-import { sanitizeInteger } from 'utils/number';
-import { without } from 'ramda';
 import {
   addDiscountHandler,
   removeDiscountHandler,
@@ -12,6 +8,7 @@ import {
   addProductToDiscountHandler,
   removeProductFromDiscountHandler,
   toggleDiscountAgeName,
+  toggleProductOnDiscount,
 } from '../../utils';
 
 export const subProductDiscountsReducer = (
@@ -36,21 +33,10 @@ export const subProductDiscountsReducer = (
     case Actions.OFFER_REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT:
       return removeProductFromDiscountHandler(state, action);
 
+    case Actions.OFFER_TOGGLE_PRODUCT_ON_SUB_PRODUCT_DISCOUNT:
+      return toggleProductOnDiscount(state, action);
+
     case Actions.OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME:
       return toggleDiscountAgeName(state, action);
-    // case Actions.OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
-    //   return offerAddSubProductDiscountSupplementReducer(state, action);
-    // case Actions.OFFER_UPDATE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
-    //   return offerUpdateSubProductDiscountSupplementReducer(state, action);
-    // case Actions.OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
-    //   return offerDeleteSubProductDiscountSupplementReducer(state, action);
-    // case Actions.OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME:
-    //   return offerToggleSubProductDiscountSupplementAgeNameReducer(state, action);
-    // case Actions.OFFER_ADD_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
-    //   return offerAddSubProductDiscountMealPlanReducer(state, action);
-    // case Actions.OFFER_UPDATE_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
-    //   return offerUpdateSubProductDiscountMealPlanReducer(state, action);
-    // case Actions.OFFER_DELETE_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
-    //   return offerDeleteSubProductDiscountMealPlanReducer(state, action);
   }
 };

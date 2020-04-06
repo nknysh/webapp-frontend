@@ -11,7 +11,7 @@ import produce from 'immer';
 import * as R from 'ramda';
 import { IOfferUiState, ECombinationMode, IOfferModel } from './model';
 import { sanitizeInteger } from 'utils/number';
-import { OfferAddProductToProductDiscountAction, OfferRemoveProductDiscountAction, OfferAddProductDiscountAction, OfferRemoveProductFromProductDiscountAction, OfferUpdateProductDiscountAction, OfferToggleProductDiscountAgeNameAction, OfferToggleSubProductDiscountAgeNameAction, OfferRemoveProductFromSubProductDiscountAction, OfferAddProductToSubProductDiscountAction, OfferUpdateSubProductDiscountAction, OfferAddSubProductDiscountAction, OfferRemoveSubProductDiscountAction } from './subdomains/offer/actions';
+import { OfferAddProductToProductDiscountAction, OfferRemoveProductDiscountAction, OfferAddProductDiscountAction, OfferRemoveProductFromProductDiscountAction, OfferUpdateProductDiscountAction, OfferToggleProductDiscountAgeNameAction, OfferToggleSubProductDiscountAgeNameAction, OfferRemoveProductFromSubProductDiscountAction, OfferAddProductToSubProductDiscountAction, OfferUpdateSubProductDiscountAction, OfferAddSubProductDiscountAction, OfferRemoveSubProductDiscountAction, OfferToggleProductOnProductDiscountAction, OfferToggleProductOnSubProductDiscountAction } from './subdomains/offer/actions';
 import { without } from 'ramda';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
@@ -296,7 +296,7 @@ export const updateDiscountHandler = (
   const { discountType, uuid, key, newValue, currentValue } = action; 
 
   const sanitizedValue = key === 'discountPercentage' || key === 'maximumQuantity'
-    ? sanitizeInteger(newValue, currentValue)
+    ? sanitizeInteger(newValue as string, currentValue)
     : newValue;
   
   const newDiscountType = state![discountType]!.map(discount => {
@@ -392,4 +392,28 @@ export const toggleDiscountAgeName = (
     ...state,
     [discountType]: updatedDiscounType,
   }
+}
+
+export const toggleProductOnDiscount = (
+  state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
+  action: OfferToggleProductOnProductDiscountAction | OfferToggleProductOnSubProductDiscountAction
+): IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'] => {
+  const { discountType, discountUuid, productUuid } = action;
+  
+  const newDiscountType = state![discountType]!.map(discount => {
+    if (discount.uuid !== discountUuid) {
+      return discount;
+    }
+    
+    return {
+      ...discount,
+      products: discount.products.findIndex(p => p.uuid === productUuid) > -1
+        ? discount.products.filter(p => p.uuid !== productUuid)
+        : [...discount.products, {uuid: productUuid}],
+    }
+  })
+  return {
+    ...state,
+    [discountType]: newDiscountType,
+  };
 }

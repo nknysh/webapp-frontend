@@ -2,6 +2,7 @@ import { IOfferUI } from 'services/BackendApi';
 import { initialState } from '../../../model';
 import { offerReducer as reducer } from '../reducer';
 import { IDiscountProduct } from '../../../../../../services/BackendApi/types/OfferResponse';
+import { offerToggleProductOnProductDiscountAction } from '../actions';
 import {
   offerRemoveProductDiscountAction,
   offerUpdateProductDiscountAction,
@@ -561,7 +562,6 @@ describe('offer reducer product fines', () => {
 
     const action = offerToggleProductDiscountAgeNameAction('Transfer', 'T_UUID_2', 'P_UUID_2', 'Adult');
     const newState = reducer(testState, action);
-    console.log(newState.productDiscounts?.Transfer![1].products);
     expect(newState).toMatchObject(expected);
   });
 
@@ -629,6 +629,98 @@ describe('offer reducer product fines', () => {
     };
 
     const action = offerToggleProductDiscountAgeNameAction('Transfer', 'T_UUID_2', 'P_UUID_2', 'Adult');
+    const newState = reducer(testState, action);
+    expect(newState).toMatchObject(expected);
+  });
+
+  it('toggles a product discount product on', () => {
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [
+          {
+            uuid: 'T_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'T_UUID_2',
+            products: [],
+          },
+          {
+            uuid: 'T_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const expected: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [
+          {
+            uuid: 'T_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'T_UUID_2',
+            products: [{ uuid: 'TEST_UUID' }],
+          },
+          {
+            uuid: 'T_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const action = offerToggleProductOnProductDiscountAction('Transfer', 'T_UUID_2', 'TEST_UUID');
+    const newState = reducer(testState, action);
+    expect(newState).toMatchObject(expected);
+  });
+
+  it('toggles a product discount product OFF', () => {
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [
+          {
+            uuid: 'T_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'T_UUID_2',
+            products: [{ uuid: 'TEST_UUID' }],
+          },
+          {
+            uuid: 'T_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const expected: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [
+          {
+            uuid: 'T_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'T_UUID_2',
+            products: [],
+          },
+          {
+            uuid: 'T_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const action = offerToggleProductOnProductDiscountAction('Transfer', 'T_UUID_2', 'TEST_UUID');
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });

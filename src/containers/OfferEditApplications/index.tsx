@@ -12,7 +12,13 @@ import {
   offerDomainIsTextOnlySelector,
   offerExtraPersonSupplementsSelector, 
   accomodationPreRequisiteAgeNamesSelector,
-  offerHotelUuidSelector, 
+  offerHotelUuidSelector,
+  availableAccommodationProductsSelector,
+  availableFineProductsSelector,
+  availableTransferProductsSelector,
+  availableGroundServiceProductsSelector,
+  availableMealPlanProductsSelector,
+  availableSupplementProductsSelector, 
  } from 'store/modules/offer/selectors';
 
 import {
@@ -29,9 +35,11 @@ import {
   offerAddProductToSubProductDiscountAction,
   offerToggleProductDiscountAgeNameAction,
   offerToggleSubProductDiscountAgeNameAction,
+  offerToggleProductOnProductDiscountAction,
+  offerToggleProductOnSubProductDiscountAction
 } from 'store/modules/offer/actions';
 
-import { IUIOfferProductDiscountInstance, IOfferProductDiscounts, IOfferProductDiscountInstance, IOfferSubProductDiscounts } from '../../services/BackendApi/types/OfferResponse';
+import { IOfferProductDiscounts, IOfferSubProductDiscounts } from '../../services/BackendApi/types/OfferResponse';
 import { EGreenTaxApproach, GreenTaxApproachOptions, GreenTaxApproachInfo } from 'utils/greenTax';
 import { Fieldset, Legend } from '../../pureUi/forms/Fieldset/index';
 import TextInput from '../../pureUi/TextInput/index';
@@ -41,9 +49,21 @@ import { Text, Heading } from 'pureUi/typography'
 import Checkbox from 'pureUi/Checkbox';
 import { ActionButton, CloseButton } from '../../pureUi/Buttons/index';
 import { sanitizeInteger } from 'utils/number';
-import { offerProductDiscountsFinesSelector } from '../../store/modules/offer/subdomains/offer/selectors';
+import { offerProductDiscountsFinesSelector, offerProductDiscountsGroundServicesSelector, offerProductDiscountsTransfersSelector, offerSubProductDiscountsMealPlansSelector } from '../../store/modules/offer/subdomains/offer/selectors';
+import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
+
 
 export class OfferEditApplicationsContainer extends React.Component<IOfferEditPreRequisitesProps, {}> {
+  
+  discountTypeToPropName = (discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>): keyof discountTypeProps => {
+    switch(discountType) {
+      case 'Fine': return 'fineDiscounts';
+      case 'Ground Service': return 'groundServiceDiscounts';
+      case 'Transfer': return 'transferDiscounts';
+      case 'Supplement': return 'extraPersonSupplementDiscounts';
+      case 'Meal Plan': return 'mealPlanDiscounts';
+    }
+  }
 
   handleAccomodationDiscountPctChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetAccommodationDiscountDiscountPercentageAction(
@@ -56,31 +76,43 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     this.props.offerSetAccommodationDiscountGreenTaxApproachAction(e.currentTarget.value);
   }
 
-  handleAddExtraPersonSupplement = () => this.props.offerAddSubProductDiscountAction('Supplement', this.props.bootsrapExtraPersonSupplementId.uuid)
-  
-  handleRemoveExtraPersonSupplement = (uuid: string) => () => this.props.offerRemoveSubProductDiscountAction('Supplement', uuid);
-  
   handleUpdateExtraPersonSupplementChange = (uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const currentValue = this.props.extraPersonSupplements!.find(eps => eps.uuid === uuid)![key];
+    const currentValue = this.props.extraPersonSupplementDiscounts!.find(eps => eps.uuid === uuid)![key];
     this.props.offerUpdateSubProductDiscountAction('Supplement', uuid, key, e.currentTarget.value, currentValue);
   }
-
+  
   handleExtraPersonSupplementAgeNameChange = (uuid: string, ageName: string) => () => {
     this.props.offerToggleSubProductDiscountAgeNameAction('Supplement', uuid, this.props.bootsrapExtraPersonSupplementId.uuid, ageName);
   }
-
+  
   handleAddProduct = (type: keyof IOfferProductDiscounts<any>) => () => { this.props.offerAddProductDiscountAction(type)}
+  
   handleAddSubProduct = (type: keyof IOfferSubProductDiscounts<any>) => () => { this.props.offerAddSubProductDiscountAction(type)}
+  
+  handleAddExtraPersonSupplement = () => this.props.offerAddSubProductDiscountAction('Supplement', this.props.bootsrapExtraPersonSupplementId.uuid)  
+  
+  handleRemoveProductDiscount = (type: keyof IOfferProductDiscounts<any>, uuid: string) => () => { this.props.offerRemoveProductDiscountAction(type, uuid); }
+  
+  handleRemoveSubProductDiscount = (type: keyof IOfferSubProductDiscounts<any>, uuid: string) => () => { this.props.offerRemoveSubProductDiscountAction(type, uuid); }
 
-  handleProductDiscountChange = (type: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const currentValue = this.props.extraPersonSupplements!.find(eps => eps.uuid === uuid)![key];
-    this.props.offerUpdateProductDiscountAction(type, uuid, key, e.currentTarget.value, currentValue);
+  handleProductDiscountChange = (discountType: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(d => d.uuid === uuid)![key];
+    this.props.offerUpdateProductDiscountAction(discountType, uuid, key, e.currentTarget.value, currentValue);
   };
   
-  // handleProductDiscountBooleanChange = (type: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
-  //   const currentValue = this.props.extraPersonSupplements!.find(eps => eps.uuid === uuid)![key];
-  //   this.props.offerUpdateProductDiscountAction(type, uuid, key, e.currentTarget.checked, currentValue);
-  // };
+  handleSubProductDiscountChange = (discountType: keyof IOfferSubProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(d => d.uuid === uuid)![key];
+    this.props.offerUpdateSubProductDiscountAction(discountType, uuid, key, e.currentTarget.value, currentValue);
+  };
+  
+  handleProductDiscountBooleanChange = (discountType: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
+    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(d => d.uuid === uuid)![key];
+    this.props.offerUpdateProductDiscountAction(discountType, uuid, key, e.currentTarget.checked, currentValue);
+  };
+
+  toggleProductOnDiscount = (discountType: keyof IOfferProductDiscounts<any>, discountUuid: string, productUuid: string) => () => {
+    this.props.offerToggleProductOnProductDiscountAction(discountType, discountUuid, productUuid);
+  }
   
   render() {
 
@@ -110,10 +142,10 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           <Legend>Extra Person Supplement</Legend>
           {!this.props.hotelUuid && <Text>Select a hotel to add an extra person supplement</Text>}
 
-          {this.props.hotelUuid && this.props.extraPersonSupplements.map((eps: IUIOfferProductDiscountInstanceWithAgeNames) => {
+          {this.props.hotelUuid && this.props.extraPersonSupplementDiscounts.map((eps: IUIOfferProductDiscountInstanceWithAgeNames) => {
             return (
               <div key={eps.uuid} className="extraPersonSupplement">
-                  <div className="ageNames">
+                  <FormControlGrid columnCount={4} className="ageNames">
                     <Label inline reverse text={'Adult'}>
                       <Checkbox 
                         checked={eps.ageNames.includes('Adult')} 
@@ -135,8 +167,8 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                       </Label>
                       );
                     })}
-                  </div>
-                  <span className="epsCloseButton"><CloseButton onClick={this.handleRemoveExtraPersonSupplement(eps.uuid)} /></span>
+                  </FormControlGrid>
+                  <span className="epsCloseButton"><CloseButton onClick={this.handleRemoveSubProductDiscount('Supplement', eps.uuid)} /></span>
                   <Label text="Discount %">
                     <TextInput className="discountInput" value={eps.discountPercentage || ''} onChange={this.handleUpdateExtraPersonSupplementChange(eps.uuid, 'discountPercentage')}/>
                   </Label>
@@ -165,20 +197,43 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           <Legend>Fine Discount</Legend>
           {this.props.fineDiscounts.map(fineDiscount => {
             return (
-              <div className="fineDiscount">
-                <Label text="Discount %">
-                  <TextInput className="discountInput" value={fineDiscount.discountPercentage} onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'discountPercentage')}/>
+              <div key={fineDiscount.uuid} className="fineDiscountGrid">
+                <FormControlGrid className="formGrid" columnCount={4}>
+                  {this.props.availableFineProducts.map(product => (
+                    <Label key={product.name} text={product.name} inline reverse lowercase>
+                      <Checkbox 
+                        checked={fineDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                        onChange={this.toggleProductOnDiscount('Fine', fineDiscount.uuid, product.uuid)}
+                      />
+                    </Label>
+                  ))}
+                </FormControlGrid>
+                <span className="removeFineDiscountButton">
+                  <CloseButton 
+                    onClick={this.handleRemoveProductDiscount('Fine', fineDiscount.uuid)} 
+                  />
+                </span>
+                <Label className="discountInput"  text="Discount %">
+                  <TextInput 
+                    value={fineDiscount.discountPercentage} 
+                    onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'discountPercentage')}
+                  />
                 </Label>
-                <Label text="Maximum Quantity">
-                  <TextInput className="maxQuantityInput" value={fineDiscount.maximumQuantity} onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')} />
+                <Label className="maxQuantityInput" text="Maximum Quantity">
+                  <TextInput  
+                    value={fineDiscount.maximumQuantity} 
+                    onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')} 
+                  />
                 </Label>
-                <Label text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
-                  {/* <Checkbox checked={fineDiscount.standardOccupancyOnly} onChange={this.handleProductDiscountBooleanChange('Fine', fineDiscount.uuid, 'standardOccupancyOnly')}/> */}
+                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
+                  <Checkbox 
+                    checked={fineDiscount.standardOccupancyOnly} 
+                    onChange={this.handleProductDiscountBooleanChange('Fine', fineDiscount.uuid, 'standardOccupancyOnly')}
+                  />
                 </Label>
               </div>
             );
           })}
-
           {this.props.hotelUuid && (
             <ActionButton action="add" onClick={this.handleAddProduct('Fine')}>Add Fine Discount</ActionButton>
           )}
@@ -195,17 +250,33 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
 // -----------------------------------------------------------------------------
 export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
+export type discountTypeProps = typeof discountTypes;
 
 export interface IOfferEditPreRequisitesProps extends StateToProps, DispatchToProps, IWithBootstrapDataProps {}
 
+const discountTypes = {
+  // NOTE: These prop names are bound to thge discountTypeToPropName method
+  fineDiscounts: offerProductDiscountsFinesSelector,
+  groundServiceDiscounts: offerProductDiscountsGroundServicesSelector,
+  transferDiscounts: offerProductDiscountsTransfersSelector,
+  extraPersonSupplementDiscounts: offerExtraPersonSupplementsSelector,
+  mealPlanDiscounts: offerSubProductDiscountsMealPlansSelector
+}
+
+
 const mapStateToProps = createStructuredSelector({
+  ...discountTypes,
   accomodationDiscount: offerAccommodationDiscountSelector,
   requiresGreenTax: offerRequiresGreenTaxApproachSelector,
   isTextOnly: offerDomainIsTextOnlySelector,
   hotelUuid: offerHotelUuidSelector,
   accomodationAgeNames: accomodationPreRequisiteAgeNamesSelector,
-  extraPersonSupplements: offerExtraPersonSupplementsSelector,
-  fineDiscounts: offerProductDiscountsFinesSelector
+  availableAccommodationProducts: availableAccommodationProductsSelector,
+  availableFineProducts: availableFineProductsSelector,
+  availableTransferProducts: availableTransferProductsSelector,
+  availableGroundServiceProducts: availableGroundServiceProductsSelector,
+  availableMealPlanProducts: availableMealPlanProductsSelector,
+  availableSupplementProducts: availableSupplementProductsSelector,
 });
 
 const actionCreators = {
@@ -221,6 +292,8 @@ const actionCreators = {
   offerAddProductToSubProductDiscountAction,
   offerToggleProductDiscountAgeNameAction,
   offerToggleSubProductDiscountAgeNameAction,
+  offerToggleProductOnProductDiscountAction,
+  offerToggleProductOnSubProductDiscountAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

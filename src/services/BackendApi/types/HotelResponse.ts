@@ -1,4 +1,5 @@
-import { IAccommodationProductForHotelItem } from './OfferResponse';
+import { IAgeName, IOccupancy } from './OfferResponse';
+import { AvailableProductSets } from './OffersSearchResponse';
 
 export interface IHotel {
   uuid: string;
@@ -24,5 +25,39 @@ export interface IHotel {
   updatedAt: string;
 
   // Add associations here as optional properties
-  accommodationProducts?: IAccommodationProductForHotelItem[];
+  accommodationProducts?: IProduct<IAccomodationProductOptions>[];
+  fineProducts?: IProduct<{}>[];
+  transferProducts?: IProduct<ITransferProductOptions>[];
+  groundServiceProducts?: IProduct<{}>[];
+  mealPlanProducts?: IProduct<IMealPlanProductOptions>[];
+  supplementProducts?: IProduct<any>[];
+}
+
+export interface IProduct<T> {
+  uuid: string;
+  name: string;
+  type: string;
+  category: string;
+  options: T;
+  isOneWay: true;
+  capacity: number;
+  meta: any;
+  ownerType: string;
+  ownerUuid: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ITransferProductOptions {
+  isOneWay: boolean;
+  capacity: number;
+}
+
+export interface IMealPlanProductOptions {
+  ages: IAgeName[];
+}
+
+export interface IAccomodationProductOptions {
+  ages: IAgeName[];
+  occupancy: IOccupancy[];
 }
