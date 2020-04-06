@@ -3,6 +3,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { getBootstrapExtraPersonSupplementProductSelector } from '../../store/modules/bootstrap/selectors';
 import {
   getBootstrapCountriesSelector,
   getBootstrapHotelsSelector,
@@ -15,11 +16,13 @@ export interface IStateToProps {
   bootstrapCountries: ReturnType<typeof getBootstrapCountriesSelector>;
   bootstrapCountriesByRegion: ReturnType<typeof bootstrapCountriesByRegionSelector>;
   bootstrapHotels: ReturnType<typeof getBootstrapHotelsSelector>;
+  bootsrapExtraPersonSupplementId: ReturnType<typeof getBootstrapExtraPersonSupplementProductSelector>;
 }
 const mapStateToProps = createStructuredSelector({
   bootstrapCountries: getBootstrapCountriesSelector,
   bootstrapCountriesByRegion: bootstrapCountriesByRegionSelector,
   bootstrapHotels: getBootstrapHotelsSelector,
+  bootsrapExtraPersonSupplementId: getBootstrapExtraPersonSupplementProductSelector,
 });
 
 export interface IWithBootstrapDataProps extends IStateToProps {}

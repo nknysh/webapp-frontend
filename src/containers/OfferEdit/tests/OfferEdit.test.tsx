@@ -22,6 +22,10 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     postError: null,
     // WithBootstrapData props
     bootstrapCountries: [],
+    bootsrapExtraPersonSupplementId: {
+      uuid: 'EPS_123',
+      name: 'Extra Person Supplement',
+    },
     bootstrapCountriesByRegion: {},
     bootstrapHotels: Array.from({ length: 10 }).map((_, idx) => ({
       name: `Test Hotel ${idx}`,

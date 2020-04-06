@@ -218,7 +218,7 @@ describe('offer module utils test', () => {
       });
     });
 
-    it('adds indexes to product discount supplements', () => {
+    fit('adds UUIDS to product discount supplements', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
         productDiscounts: {
@@ -247,35 +247,10 @@ describe('offer module utils test', () => {
 
       const transformed = transformApiOfferToUiOffer(fixture);
 
-      expect(transformed).toMatchObject({
-        ...initialState.offer,
-        productDiscounts: {
-          Transfer: [
-            {
-              index: 0,
-              products: [{ uuid: 'A' }],
-            },
-          ],
-          Supplement: [
-            {
-              index: 0,
-              products: [{ uuid: 'B' }],
-            },
-          ],
-          Fine: [
-            {
-              index: 0,
-              products: [{ uuid: 'C' }],
-            },
-          ],
-          'Ground Service': [
-            {
-              index: 0,
-              products: [{ uuid: 'C' }],
-            },
-          ],
-        },
-      });
+      expect(typeof transformed.productDiscounts?.Transfer![0]!.products[0].uuid).toBe('string');
+      expect(typeof transformed.productDiscounts?.Supplement![0]!.products[0].uuid).toBe('string');
+      expect(typeof transformed.productDiscounts?.Fine![0]!.products[0].uuid).toBe('string');
+      expect(typeof transformed.productDiscounts!['Ground Service']![0]!.products[0].uuid).toBe('string');
     });
   });
 
@@ -308,11 +283,11 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              index: 0,
+              uuid: '0',
               products: [{ uuid: 'A' }],
             },
             {
-              index: 1,
+              uuid: '1',
               products: [{ uuid: 'B' }],
             },
           ],
@@ -351,11 +326,11 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              index: 0,
+              uuid: '0',
               products: [{ uuid: 'A' }],
             },
             {
-              index: 1,
+              uuid: '1',
               products: [{ uuid: 'B' }],
             },
           ],
@@ -394,11 +369,11 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              index: 0,
+              uuid: '0',
               products: [{ uuid: 'A' }],
             },
             {
-              index: 1,
+              uuid: '1',
               products: [{ uuid: 'B' }],
             },
           ],
@@ -439,11 +414,11 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              index: 0,
+              uuid: '0',
               products: [{ uuid: 'A' }],
             },
             {
-              index: 1,
+              uuid: '1',
               products: [{ uuid: 'B' }],
             },
           ],
@@ -484,11 +459,11 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              index: 0,
+              uuid: 'AA',
               products: [{ uuid: 'A' }],
             },
             {
-              index: 1,
+              uuid: 'BB',
               products: [{ uuid: 'B' }],
             },
           ],

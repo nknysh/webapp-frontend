@@ -20,5 +20,5 @@ export const getOffersOnHotelSelector = createSelector(
 
 export const getAccommodationProductsForHotelSelector = createSelector(
   offerDomainSelector,
-  domain => domain.accommodationProductsForHotel
+  domain => domain.accommodationProductsForHotel || []
 );

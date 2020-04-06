@@ -1,38 +1,103 @@
-import { IDateRange } from 'interfaces';
 import { IOfferUI } from 'services/BackendApi';
-import { initialState, IOfferModel } from '../../../model';
+import { initialState } from '../../../model';
 import { offerReducer as reducer } from '../reducer';
-import { getOfferSuccessAction } from '../../../actions';
-import { IOfferPrerequisites } from '../../../../../../services/BackendApi/types/OfferResponse';
+import { IDiscountProduct } from '../../../../../../services/BackendApi/types/OfferResponse';
 import {
-  offerAddProductDiscountFineAction,
-  offerPutProductDiscountFineAction,
-  offerDeleteProductDiscountFineAction,
-  offerAddProductDiscountGroundServiceAction,
-  offerPutProductDiscountGroundServiceAction,
-  offerDeleteProductDiscountGroundServiceAction,
-  offerAddProductDiscountTransferAction,
-  offerPutProductDiscountTransferAction,
-  offerDeleteProductDiscountTransferAction,
-  offerAddProductDiscountSupplementAction,
-  offerPutProductDiscountSupplementAction,
-  offerDeleteProductDiscountSupplementAction,
+  offerRemoveProductDiscountAction,
+  offerUpdateProductDiscountAction,
+  offerToggleProductDiscountAgeNameAction,
+} from '../actions';
+import {
+  offerAddProductDiscountAction,
+  offerAddProductToProductDiscountAction,
+  offerRemoveProductFromProductDiscountAction,
 } from '../actions';
 
+const mockProduct: IDiscountProduct = { uuid: 'XXX' };
+
+// TODO: Reorganise these by aciton and test each discoun type, just to be safe
 describe('offer reducer product fines', () => {
-  it('adding a new one to the array (object is completely empty)', () => {
-    const action = offerAddProductDiscountFineAction();
+  it('adds a new product discount to the array (object is completely empty)', () => {
+    const action = offerAddProductDiscountAction('Fine');
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: undefined,
+    };
+
+    // Expect
+    // {
+    //   ...initialState.offer,
+    //   productDiscounts: {
+    //     Fine: [
+    //       {
+    //         uuid: 'TEST_UUID',
+    //         products: [],
+    //       },
+    //     ],
+    //   },
+    // };
+
+    const newState = reducer(testState, action);
+    expect(newState.productDiscounts!.Fine![0]).toHaveProperty('uuid');
+    expect(newState.productDiscounts!.Fine![0]).toHaveProperty('products');
+    expect(typeof newState.productDiscounts!.Fine![0].uuid).toBe('string');
+    expect(newState.productDiscounts!.Fine![0].products).toBeInstanceOf(Array);
+  });
+
+  it('adds a new product discount to the array (object already has empty array of fines)', () => {
+    const action = offerAddProductDiscountAction('Fine');
 
     const testState: IOfferUI = {
       ...initialState.offer,
+      productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
+        Fine: [],
+      },
     };
 
-    const expected: IOfferUI = {
+    // Expect
+    //{
+    //   ...initialState.offer,
+    //   productDiscounts: {
+    //     Transfer: [],
+    //     'Ground Service': [],
+    //     Supplement: [],
+    //     Fine: [
+    //       {
+    //         uuid: 'TEST_UUID',
+    //         products: [],
+    //       },
+    //     ],
+    //   },
+    // };
+
+    const newState = reducer(testState, action);
+    expect(newState.productDiscounts!.Fine).not.toBe(undefined);
+    expect(newState.productDiscounts!.Fine![0]).toHaveProperty('uuid');
+    expect(newState.productDiscounts!.Fine![0]).toHaveProperty('products');
+    expect(typeof newState.productDiscounts!.Fine![0].uuid).toBe('string');
+    expect(newState.productDiscounts!.Fine![0].products).toBeInstanceOf(Array);
+    expect(newState.productDiscounts!.Transfer!.length).toEqual(0);
+    expect(newState.productDiscounts!['Ground Service']!.length).toEqual(0);
+    expect(newState.productDiscounts!.Supplement!.length).toEqual(0);
+  });
+
+  it('adds a product into the discount product array', () => {
+    const action = offerAddProductToProductDiscountAction('Fine', 'TEST_UUID', mockProduct);
+
+    const testState: IOfferUI = {
       ...initialState.offer,
       productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
         Fine: [
           {
-            index: 0,
+            uuid: 'TEST_UUID',
+            discountPercentage: 1,
+            maximumQuantity: 2,
             products: [],
           },
         ],
@@ -40,48 +105,11 @@ describe('offer reducer product fines', () => {
     };
 
     const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
+    expect(newState.productDiscounts!.Fine![0].products[0]).toMatchObject(mockProduct);
   });
 
-  it('adding a new one to the array (object already has empty array of fines)', () => {
-    const action = offerAddProductDiscountFineAction();
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 0,
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a fine into the array', () => {
-    const action = offerPutProductDiscountFineAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
+  it('adds a product to discount product array', () => {
+    const action = offerAddProductToProductDiscountAction('Fine', 'TEST_UUID_2', mockProduct);
 
     const testState: IOfferUI = {
       ...initialState.offer,
@@ -91,95 +119,19 @@ describe('offer reducer product fines', () => {
         Supplement: [],
         Fine: [
           {
-            index: 0,
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a fine into the array (if index doesnt already exist, change nothing)', () => {
-    const action = offerPutProductDiscountFineAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a fine into the array (dont alter fines around it)', () => {
-    const action = offerPutProductDiscountFineAction({
-      index: 1,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 0,
+            uuid: 'TEST_UUID_1',
             discountPercentage: 1,
             maximumQuantity: 2,
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
+            uuid: 'TEST_UUID_2',
             discountPercentage: 10,
             maximumQuantity: 20,
             products: [{ uuid: 'B' }],
           },
           {
-            index: 2,
+            uuid: 'TEST_UUID_3',
             discountPercentage: 11,
             maximumQuantity: 22,
             products: [{ uuid: 'C' }],
@@ -196,63 +148,52 @@ describe('offer reducer product fines', () => {
         Supplement: [],
         Fine: [
           {
-            index: 0,
+            uuid: 'TEST_UUID_1',
             discountPercentage: 1,
             maximumQuantity: 2,
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a fine into the array (ensure index changes are based on value and not array index)', () => {
-    const action = offerPutProductDiscountFineAction({
-      index: 5,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
+            uuid: 'TEST_UUID_2',
             discountPercentage: 10,
             maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B' }, mockProduct],
           },
           {
-            index: 6,
+            uuid: 'TEST_UUID_3',
             discountPercentage: 11,
             maximumQuantity: 22,
             products: [{ uuid: 'C' }],
+          },
+        ],
+      },
+    };
+
+    const newState = reducer(testState, action);
+    expect(newState).toMatchObject(expected);
+  });
+
+  it('removes a product discount', () => {
+    const action = offerRemoveProductDiscountAction('Fine', 'TEST_UUID_2');
+
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
+        Fine: [
+          {
+            uuid: 'TEST_UUID_1',
+            products: [{ uuid: 'A' }],
+          },
+          {
+            uuid: 'TEST_UUID_2',
+            products: [{ uuid: 'A' }],
+          },
+          {
+            uuid: 'TEST_UUID_3',
+            products: [{ uuid: 'A' }],
           },
         ],
       },
@@ -266,132 +207,11 @@ describe('offer reducer product fines', () => {
         Supplement: [],
         Fine: [
           {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
+            uuid: 'TEST_UUID_1',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 5,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a fine into the array (ensure index changes are based on value and not array index, and gaps between indexes)', () => {
-    const action = offerPutProductDiscountFineAction({
-      index: 7,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleteing a fine', () => {
-    const action = offerDeleteProductDiscountFineAction(1);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            products: [{ uuid: 'B' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 0,
+            uuid: 'TEST_UUID_3',
             products: [{ uuid: 'A' }],
           },
         ],
@@ -402,8 +222,8 @@ describe('offer reducer product fines', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleting a fine (deleting the last one leaves an empty array)', () => {
-    const action = offerDeleteProductDiscountFineAction(0);
+  it('leaves an empty array when deleting the only discount', () => {
+    const action = offerRemoveProductDiscountAction('Fine', 'TEST_UUID_1');
 
     const testState: IOfferUI = {
       ...initialState.offer,
@@ -413,7 +233,7 @@ describe('offer reducer product fines', () => {
         Supplement: [],
         Fine: [
           {
-            index: 0,
+            uuid: 'TEST_UUID_1',
             products: [{ uuid: 'A' }],
           },
         ],
@@ -434,510 +254,42 @@ describe('offer reducer product fines', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleting a fine (with an index value different to its actual index)', () => {
-    const action = offerDeleteProductDiscountFineAction(4);
-
+  it('removes a product from a discount', () => {
     const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 3,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 4,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 5,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            index: 3,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-});
-
-describe('offer reducer product ground services', () => {
-  it('adding a new one to the array (object is completely empty)', () => {
-    const action = offerAddProductDiscountGroundServiceAction();
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 0,
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('adding a new one to the array (object already has empty array of ground service)', () => {
-    const action = offerAddProductDiscountGroundServiceAction();
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 0,
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a ground service into the array', () => {
-    const action = offerPutProductDiscountGroundServiceAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 0,
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a fine into the array (if index doesnt already exist, change nothing)', () => {
-    const action = offerPutProductDiscountGroundServiceAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a ground service into the array (dont alter ground service around it)', () => {
-    const action = offerPutProductDiscountGroundServiceAction({
-      index: 1,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a ground service into the array (ensure index changes are based on value and not array index)', () => {
-    const action = offerPutProductDiscountGroundServiceAction({
-      index: 5,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a ground service into the array (ensure index changes are based on value and not array index, and gaps between indexes)', () => {
-    const action = offerPutProductDiscountGroundServiceAction({
-      index: 7,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleteing a fine', () => {
-    const action = offerDeleteProductDiscountGroundServiceAction(1);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            products: [{ uuid: 'B' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleting a fine (deleting the last one leaves an empty array)', () => {
-    const action = offerDeleteProductDiscountGroundServiceAction(0);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        Fine: [],
-        Supplement: [],
-        'Ground Service': [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleting a ground service (with an index value different to its actual index)', () => {
-    const action = offerDeleteProductDiscountGroundServiceAction(4);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 3,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 4,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 5,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        'Ground Service': [
-          {
-            index: 3,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-});
-
-describe('offer reducer product transfers', () => {
-  it('adding a new one to the array (object is completely empty)', () => {
-    const action = offerAddProductDiscountTransferAction();
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-    };
-
-    const expected: IOfferUI = {
       ...initialState.offer,
       productDiscounts: {
         Transfer: [
           {
-            index: 0,
-            products: [],
+            uuid: 'T_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
           },
         ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('adding a new one to the array (object already has empty array of transfer)', () => {
-    const action = offerAddProductDiscountTransferAction();
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
+        'Ground Service': [
+          {
+            uuid: 'GS_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+        Supplement: [
+          {
+            uuid: 'S_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+        Fine: [
+          {
+            uuid: 'F_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+          {
+            uuid: 'F_UUID_2',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+          {
+            uuid: 'F_UUID_3',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
       },
     };
 
@@ -946,31 +298,230 @@ describe('offer reducer product transfers', () => {
       productDiscounts: {
         Transfer: [
           {
-            index: 0,
+            uuid: 'T_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+        'Ground Service': [
+          {
+            uuid: 'GS_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+        Supplement: [
+          {
+            uuid: 'S_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+        Fine: [
+          {
+            uuid: 'F_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+          {
+            uuid: 'F_UUID_2',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_3' }],
+          },
+          {
+            uuid: 'F_UUID_3',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+      },
+    };
+
+    const action = offerRemoveProductFromProductDiscountAction('Fine', 'F_UUID_2', 'P_UUID_2');
+    const newState = reducer(testState, action);
+    expect(newState).toMatchObject(expected);
+  });
+
+  it('Updates a product discount discountPercentage', () => {
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
+        Fine: [
+          {
+            uuid: 'F_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_2',
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_3',
             products: [],
           },
         ],
       },
     };
 
+    const expected: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
+        Fine: [
+          {
+            uuid: 'F_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_2',
+            discountPercentage: 1,
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const action = offerUpdateProductDiscountAction('Fine', 'F_UUID_2', 'discountPercentage', '1', undefined);
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });
 
-  it('putting a transfer into the array', () => {
-    const action = offerPutProductDiscountTransferAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
+  it('Updates a product discount maximumQuantity', () => {
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
+        Fine: [
+          {
+            uuid: 'F_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_2',
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
 
+    const expected: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
+        Fine: [
+          {
+            uuid: 'F_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_2',
+            maximumQuantity: 1,
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const action = offerUpdateProductDiscountAction('Fine', 'F_UUID_2', 'maximumQuantity', '1', undefined);
+    const newState = reducer(testState, action);
+    expect(newState).toMatchObject(expected);
+  });
+
+  it('Does not a product discount maximumQuantity with an invalid value', () => {
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
+        Fine: [
+          {
+            uuid: 'F_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_2',
+            maximumQuantity: 1,
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const expected: IOfferUI = {
+      ...initialState.offer,
+      productDiscounts: {
+        Transfer: [],
+        'Ground Service': [],
+        Supplement: [],
+        Fine: [
+          {
+            uuid: 'F_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_2',
+            maximumQuantity: 1,
+            products: [],
+          },
+          {
+            uuid: 'F_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const action = offerUpdateProductDiscountAction('Fine', 'F_UUID_2', 'maximumQuantity', 'INVALID_VALUE', 1);
+    const newState = reducer(testState, action);
+    expect(newState).toMatchObject(expected);
+  });
+
+  it('adds an age name to a product', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
       productDiscounts: {
         Transfer: [
           {
-            index: 0,
+            uuid: 'T_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'T_UUID_2',
+            products: [
+              {
+                uuid: 'P_UUID_1',
+              },
+              {
+                uuid: 'P_UUID_2',
+                ageNames: ['Child'],
+              },
+              {
+                uuid: 'P_UUID_3',
+              },
+            ],
+          },
+          {
+            uuid: 'T_UUID_3',
             products: [],
           },
         ],
@@ -982,416 +533,64 @@ describe('offer reducer product transfers', () => {
       productDiscounts: {
         Transfer: [
           {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a fine into the array (if index doesnt already exist, change nothing)', () => {
-    const action = offerPutProductDiscountTransferAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a ground service into the array (dont alter transfer around it)', () => {
-    const action = offerPutProductDiscountTransferAction({
-      index: 1,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
+            uuid: 'T_UUID_1',
+            products: [],
           },
           {
-            index: 1,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
+            uuid: 'T_UUID_2',
+            products: [
+              {
+                uuid: 'P_UUID_1',
+              },
+              {
+                uuid: 'P_UUID_2',
+                ageNames: ['Child', 'Adult'],
+              },
+              {
+                uuid: 'P_UUID_3',
+              },
+            ],
           },
           {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a transfer into the array (ensure index changes are based on value and not array index)', () => {
-    const action = offerPutProductDiscountTransferAction({
-      index: 5,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a transfer into the array (ensure index changes are based on value and not array index, and gaps between indexes)', () => {
-    const action = offerPutProductDiscountTransferAction({
-      index: 7,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleteing a transfer', () => {
-    const action = offerDeleteProductDiscountTransferAction(1);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            products: [{ uuid: 'B' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleting a transfer (deleting the last one leaves an empty array)', () => {
-    const action = offerDeleteProductDiscountTransferAction(0);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Fine: [],
-        Supplement: [],
-        Transfer: [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleting a transfer (with an index value different to its actual index)', () => {
-    const action = offerDeleteProductDiscountTransferAction(4);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 3,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 4,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 5,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [
-          {
-            index: 3,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-});
-
-describe('offer reducer product supplements', () => {
-  it('adding a new one to the array (object is completely empty)', () => {
-    const action = offerAddProductDiscountSupplementAction();
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 0,
+            uuid: 'T_UUID_3',
             products: [],
           },
         ],
       },
     };
 
+    const action = offerToggleProductDiscountAgeNameAction('Transfer', 'T_UUID_2', 'P_UUID_2', 'Adult');
     const newState = reducer(testState, action);
+    console.log(newState.productDiscounts?.Transfer![1].products);
     expect(newState).toMatchObject(expected);
   });
 
-  it('adding a new one to the array (object already has empty array of supplement)', () => {
-    const action = offerAddProductDiscountSupplementAction();
-
+  it('adds an age name to a product', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
       productDiscounts: {
-        Supplement: [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
+        Transfer: [
           {
-            index: 0,
+            uuid: 'T_UUID_1',
             products: [],
           },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a supplement into the array', () => {
-    const action = offerPutProductDiscountSupplementAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
           {
-            index: 0,
+            uuid: 'T_UUID_2',
+            products: [
+              {
+                uuid: 'P_UUID_1',
+              },
+              {
+                uuid: 'P_UUID_2',
+                ageNames: ['Adult', 'Child'],
+              },
+              {
+                uuid: 'P_UUID_3',
+              },
+            ],
+          },
+          {
+            uuid: 'T_UUID_3',
             products: [],
           },
         ],
@@ -1401,347 +600,35 @@ describe('offer reducer product supplements', () => {
     const expected: IOfferUI = {
       ...initialState.offer,
       productDiscounts: {
-        Supplement: [
+        Transfer: [
           {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
+            uuid: 'T_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'T_UUID_2',
+            products: [
+              {
+                uuid: 'P_UUID_1',
+              },
+              {
+                uuid: 'P_UUID_2',
+                ageNames: ['Child'],
+              },
+              {
+                uuid: 'P_UUID_3',
+              },
+            ],
+          },
+          {
+            uuid: 'T_UUID_3',
+            products: [],
           },
         ],
       },
     };
 
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a supplement into the array (if index doesnt already exist, change nothing)', () => {
-    const action = offerPutProductDiscountSupplementAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a supplement into the array (dont alter supplement around it)', () => {
-    const action = offerPutProductDiscountSupplementAction({
-      index: 1,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a supplement into the array (ensure index changes are based on value and not array index)', () => {
-    const action = offerPutProductDiscountSupplementAction({
-      index: 5,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a supplement into the array (ensure index changes are based on value and not array index, and gaps between indexes)', () => {
-    const action = offerPutProductDiscountSupplementAction({
-      index: 7,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleteing a supplement', () => {
-    const action = offerDeleteProductDiscountSupplementAction(1);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            products: [{ uuid: 'B' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleting a supplement (deleting the last one leaves an empty array)', () => {
-    const action = offerDeleteProductDiscountSupplementAction(0);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Fine: [],
-        Supplement: [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [],
-        Fine: [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleting a supplement (with an index value different to its actual index)', () => {
-    const action = offerDeleteProductDiscountSupplementAction(4);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 3,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 4,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 5,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Supplement: [
-          {
-            index: 3,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
+    const action = offerToggleProductDiscountAgeNameAction('Transfer', 'T_UUID_2', 'P_UUID_2', 'Adult');
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });

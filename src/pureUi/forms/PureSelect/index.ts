@@ -16,7 +16,7 @@ export const PureSelect = styled.select`
   border: 1px solid ${pureUiTheme.colorRoles.lightGreyBorder};
   appearance: none;
   background-color: ${pureUiTheme.colors.white};
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTYgMTJDOS4zMTM3MSAxMiAxMiA5LjMxMzcxIDEyIDZDMTIgMi42ODYyOSA5LjMxMzcxIDAgNiAwQzIuNjg2MjkgMCAwIDIuNjg2MjkgMCA2QzAgOS4zMTM3MSAyLjY4NjI5IDEyIDYgMTJaTTMuNDAxOTIgNC41TDYgOUw4LjU5ODA4IDQuNUwzLjQwMTkyIDQuNVoiIGZpbGw9IiMzMzMzMzMiLz48L3N2Zz4=');
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxMiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02IDEyQzkuMzEzNzEgMTIgMTIgOS4zMTM3MSAxMiA2QzEyIDIuNjg2MjkgOS4zMTM3MSAwIDYgMEMyLjY4NjI5IDAgMCAyLjY4NjI5IDAgNkMwIDkuMzEzNzEgMi42ODYyOSAxMiA2IDEyWk0zLjQwMTkyIDQuNUw2IDlMOC41OTgwOCA0LjVMMy40MDE5MiA0LjVaIiBmaWxsPSIjQTI4MjY1Ii8+Cjwvc3ZnPgo=');
   background-repeat: no-repeat, repeat;
   background-position: right 10px top 50%, 0 0;
   background-size: 16px auto, 100%;

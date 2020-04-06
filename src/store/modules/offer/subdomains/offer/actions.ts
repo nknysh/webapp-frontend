@@ -1,5 +1,12 @@
-import { IOfferPrerequisitesPayload, IUIOfferProductDiscountInstance } from 'services/BackendApi';
+import {
+  IOfferPrerequisitesPayload,
+  IUIOfferProductDiscountInstance,
+  IOfferProductDiscountInstance,
+  IOfferProductDiscounts,
+  IDiscountProduct,
+} from 'services/BackendApi';
 import { IHotel } from 'services/BackendApi/types/HotelResponse';
+import { IOfferSubProductDiscounts } from '../../../../../services/BackendApi/types/OfferResponse';
 
 export const OFFER_HOTEL_UUID_CHANGE = 'offer/OFFER_HOTEL_UUID_CHANGE'; // In create mode, this will trigger a saga to load hotel data
 export const OFFER_HOTEL_UUID_CHANGE_SUCCESS = 'offer/OFFER_HOTEL_UUID_CHANGE_SUCCESS';
@@ -44,35 +51,19 @@ export const OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION =
 export const OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION =
   'offer/OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION';
 
-// Sub product discounts > Supplements
-export const OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT';
-export const OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT';
-export const OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT';
+export const OFFER_ADD_PRODUCT_DISCOUNT = 'offer/ADD_PRODUCT_DISCOUNT';
+export const OFFER_UPDATE_PRODUCT_DISCOUNT = 'offer/UPDATE_PRODUCT_DISCOUNT';
+export const OFFER_REMOVE_PRODUCT_DISCOUNT = 'offer/OFFER_REMOVE_PRODUCT_DISCOUNT';
+export const OFFER_ADD_PRODUCT_TO_PRODUCT_DISCOUNT = 'offer/ADD_PRODUCT_TO_PRODUCT_DISCOUNT';
+export const OFFER_REMOVE_PRODUCT_FROM_PRODUCT_DISCOUNT = 'offer/REMOVE_PRODUCT_FROM_PRODUCT_DISCOUNT';
+export const OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME = 'offer/OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME';
 
-// Sub product discounts > Supplements
-export const OFFER_ADD_SUB_PRODUCT_DISCOUNT_MEAL_PLAN = 'offer/OFFER_ADD_SUB_PRODUCT_DISCOUNT_MEAL_PLAN';
-export const OFFER_PUT_SUB_PRODUCT_DISCOUNT_MEAL_PLAN = 'offer/OFFER_PUT_SUB_PRODUCT_DISCOUNT_MEAL_PLAN';
-export const OFFER_DELETE_SUB_PRODUCT_DISCOUNT_MEAL_PLAN = 'offer/OFFER_DELETE_SUB_PRODUCT_DISCOUNT_MEAL_PLAN';
-
-// Product discounts > Fine
-export const OFFER_ADD_PRODUCT_DISCOUNT_FINE = 'offer/OFFER_ADD_PRODUCT_DISCOUNT_FINE';
-export const OFFER_PUT_PRODUCT_DISCOUNT_FINE = 'offer/OFFER_PUT_PRODUCT_DISCOUNT_FINE';
-export const OFFER_DELETE_PRODUCT_DISCOUNT_FINE = 'offer/OFFER_DELETE_PRODUCT_DISCOUNT_FINE';
-
-// Product discounts > Meal Plan
-export const OFFER_ADD_PRODUCT_DISCOUNT_GROUND_SERVICE = 'offer/OFFER_ADD_PRODUCT_DISCOUNT_GROUND_SERVICE';
-export const OFFER_PUT_PRODUCT_DISCOUNT_GROUND_SERVICE = 'offer/OFFER_PUT_PRODUCT_DISCOUNT_GROUND_SERVICE';
-export const OFFER_DELETE_PRODUCT_DISCOUNT_GROUND_SERVICE = 'offer/OFFER_DELETE_PRODUCT_DISCOUNT_GROUND_SERVICE';
-
-// Product discounts > Transfer
-export const OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER = 'offer/OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER';
-export const OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER = 'offer/OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER';
-export const OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER = 'offer/OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER';
-
-// Product discounts > Supplement
-export const OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT';
-export const OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT';
-export const OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT = 'offer/OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT';
+export const OFFER_ADD_SUB_PRODUCT_DISCOUNT = 'offer/ADD_SUB_PRODUCT_DISCOUNT';
+export const OFFER_UPDATE_SUB_PRODUCT_DISCOUNT = 'offer/UPDATE_SUB_PRODUCT_DISCOUNT';
+export const OFFER_REMOVE_SUB_PRODUCT_DISCOUNT = 'offer/OFFER_REMOVE_SUB_PRODUCT_DISCOUNT';
+export const OFFER_ADD_PRODUCT_TO_SUB_PRODUCT_DISCOUNT = 'offer/ADD_PRODUCT_TO_SUB_PRODUCT_DISCOUNT';
+export const OFFER_REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT = 'offer/REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT';
+export const OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME = 'offer/OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME';
 
 export type OfferHotelUuidChangeAction = ReturnType<typeof offerHotelUuidChangeAction>;
 export const offerHotelUuidChangeAction = (hotelUuid: string) => ({
@@ -274,122 +265,157 @@ export const offerClearAllAccommodationDiscountAction = () => ({
   type: OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION as typeof OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION,
 });
 
-// Sub Product Discounts > Supplements
-export type OfferAddSubProductDiscountSupplementAction = ReturnType<typeof offerAddSubProductDiscountSupplementAction>;
-export const offerAddSubProductDiscountSupplementAction = () => ({
-  type: OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT,
-});
-
-export type OfferPutSubProductDiscountSupplementAction = ReturnType<typeof offerPutSubProductDiscountSupplementAction>;
-export const offerPutSubProductDiscountSupplementAction = (
-  subProductDiscountSupplement: IUIOfferProductDiscountInstance
+// Product Discounts
+export type OfferAddProductDiscountAction = ReturnType<typeof offerAddProductDiscountAction>;
+export const offerAddProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>
 ) => ({
-  type: OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT,
-  subProductDiscountSupplement,
+  type: OFFER_ADD_PRODUCT_DISCOUNT as typeof OFFER_ADD_PRODUCT_DISCOUNT,
+  discountType,
 });
 
-export type OfferDeleteSubProductDiscountSupplementAction = ReturnType<
-  typeof offerDeleteSubProductDiscountSupplementAction
->;
-export const offerDeleteSubProductDiscountSupplementAction = (index: number) => ({
-  type: OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT,
-  index,
-});
-
-// Product Discounts > Fines
-export type OfferAddProductDiscountFineAction = ReturnType<typeof offerAddProductDiscountFineAction>;
-export const offerAddProductDiscountFineAction = () => ({
-  type: OFFER_ADD_PRODUCT_DISCOUNT_FINE as typeof OFFER_ADD_PRODUCT_DISCOUNT_FINE,
-});
-
-export type OfferPutProductDiscountFineAction = ReturnType<typeof offerPutProductDiscountFineAction>;
-export const offerPutProductDiscountFineAction = (fineDiscount: IUIOfferProductDiscountInstance) => ({
-  type: OFFER_PUT_PRODUCT_DISCOUNT_FINE as typeof OFFER_PUT_PRODUCT_DISCOUNT_FINE,
-  fineDiscount,
-});
-
-export type OfferDeleteProductDiscountFineAction = ReturnType<typeof offerDeleteProductDiscountFineAction>;
-export const offerDeleteProductDiscountFineAction = (index: number) => ({
-  type: OFFER_DELETE_PRODUCT_DISCOUNT_FINE as typeof OFFER_DELETE_PRODUCT_DISCOUNT_FINE,
-  index,
-});
-
-// Product Discounts > Ground Services
-export type OfferAddProductDiscountGroundServiceAction = ReturnType<typeof offerAddProductDiscountGroundServiceAction>;
-export const offerAddProductDiscountGroundServiceAction = () => ({
-  type: OFFER_ADD_PRODUCT_DISCOUNT_GROUND_SERVICE as typeof OFFER_ADD_PRODUCT_DISCOUNT_GROUND_SERVICE,
-});
-
-export type OfferPutProductDiscountGroundServiceAction = ReturnType<typeof offerPutProductDiscountGroundServiceAction>;
-export const offerPutProductDiscountGroundServiceAction = (groundServiceDiscount: IUIOfferProductDiscountInstance) => ({
-  type: OFFER_PUT_PRODUCT_DISCOUNT_GROUND_SERVICE as typeof OFFER_PUT_PRODUCT_DISCOUNT_GROUND_SERVICE,
-  groundServiceDiscount,
-});
-
-export type OfferDeleteProductDiscountGroundServiceAction = ReturnType<
-  typeof offerDeleteProductDiscountGroundServiceAction
->;
-export const offerDeleteProductDiscountGroundServiceAction = (index: number) => ({
-  type: OFFER_DELETE_PRODUCT_DISCOUNT_GROUND_SERVICE as typeof OFFER_DELETE_PRODUCT_DISCOUNT_GROUND_SERVICE,
-  index,
-});
-
-// Sub Product Discounts > Meal Plans
-export type OfferAddSubProductDiscountMealPlanAction = ReturnType<typeof offerAddSubProductDiscountMealPlanAction>;
-export const offerAddSubProductDiscountMealPlanAction = () => ({
-  type: OFFER_ADD_SUB_PRODUCT_DISCOUNT_MEAL_PLAN as typeof OFFER_ADD_SUB_PRODUCT_DISCOUNT_MEAL_PLAN,
-});
-
-export type OfferPutSubProductDiscountMealPlanAction = ReturnType<typeof offerPutSubProductDiscountMealPlanAction>;
-export const offerPutSubProductDiscountMealPlanAction = (
-  subProductDiscountMealPlan: IUIOfferProductDiscountInstance
+export type EditableProductDiscountField = keyof Omit<IUIOfferProductDiscountInstance, 'uuid' | 'products'>;
+export type OfferUpdateProductDiscountAction = ReturnType<typeof offerUpdateProductDiscountAction>;
+export const offerUpdateProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  uuid: string,
+  key: EditableProductDiscountField,
+  newValue: string,
+  currentValue: number | string | undefined
 ) => ({
-  type: OFFER_PUT_SUB_PRODUCT_DISCOUNT_MEAL_PLAN as typeof OFFER_PUT_SUB_PRODUCT_DISCOUNT_MEAL_PLAN,
-  subProductDiscountMealPlan,
+  type: OFFER_UPDATE_PRODUCT_DISCOUNT as typeof OFFER_UPDATE_PRODUCT_DISCOUNT,
+  discountType,
+  uuid,
+  key,
+  newValue,
+  currentValue,
 });
 
-export type OfferDeleteSubProductDiscountMealPlanAction = ReturnType<
-  typeof offerDeleteSubProductDiscountMealPlanAction
+export type OfferRemoveProductDiscountAction = ReturnType<typeof offerRemoveProductDiscountAction>;
+export const offerRemoveProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  uuid: string
+) => ({
+  type: OFFER_REMOVE_PRODUCT_DISCOUNT as typeof OFFER_REMOVE_PRODUCT_DISCOUNT,
+  discountType,
+  uuid,
+});
+
+export type OfferAddProductToProductDiscountAction = ReturnType<typeof offerAddProductToProductDiscountAction>;
+export const offerAddProductToProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountUuid: string,
+  product: IDiscountProduct
+) => ({
+  type: OFFER_ADD_PRODUCT_TO_PRODUCT_DISCOUNT as typeof OFFER_ADD_PRODUCT_TO_PRODUCT_DISCOUNT,
+  discountType,
+  discountUuid: discountUuid,
+  product,
+});
+
+export type OfferRemoveProductFromProductDiscountAction = ReturnType<
+  typeof offerRemoveProductFromProductDiscountAction
 >;
-export const offerDeleteSubProductDiscountMealPlanAction = (index: number) => ({
-  type: OFFER_DELETE_SUB_PRODUCT_DISCOUNT_MEAL_PLAN as typeof OFFER_DELETE_SUB_PRODUCT_DISCOUNT_MEAL_PLAN,
-  index,
+export const offerRemoveProductFromProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountUuid: string,
+  productUuid: string
+) => ({
+  type: OFFER_REMOVE_PRODUCT_FROM_PRODUCT_DISCOUNT as typeof OFFER_REMOVE_PRODUCT_FROM_PRODUCT_DISCOUNT,
+  discountType,
+  discountUuid,
+  productUuid,
 });
 
-// Product Discounts > Transfer
-export type OfferAddProductDiscountTransferAction = ReturnType<typeof offerAddProductDiscountTransferAction>;
-export const offerAddProductDiscountTransferAction = () => ({
-  type: OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER as typeof OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER,
+export type OfferToggleProductDiscountAgeNameAction = ReturnType<typeof offerToggleProductDiscountAgeNameAction>;
+export const offerToggleProductDiscountAgeNameAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountUuid: string,
+  productUuid: string,
+  ageName: string
+) => ({
+  type: OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME as typeof OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME,
+  discountUuid,
+  discountType,
+  productUuid,
+  ageName,
 });
 
-export type OfferPutProductDiscountTransferAction = ReturnType<typeof offerPutProductDiscountTransferAction>;
-export const offerPutProductDiscountTransferAction = (transferDiscount: IUIOfferProductDiscountInstance) => ({
-  type: OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER as typeof OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER,
-  transferDiscount,
+// Sub Product Discounts
+export type OfferAddSubProductDiscountAction = ReturnType<typeof offerAddSubProductDiscountAction>;
+export const offerAddSubProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  productUuid?: string
+) => ({
+  type: OFFER_ADD_SUB_PRODUCT_DISCOUNT as typeof OFFER_ADD_SUB_PRODUCT_DISCOUNT,
+  discountType,
+  productUuid,
 });
 
-export type OfferDeleteProductDiscountTransferAction = ReturnType<typeof offerDeleteProductDiscountTransferAction>;
-export const offerDeleteProductDiscountTransferAction = (index: number) => ({
-  type: OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER as typeof OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER,
-  index,
+export type OfferUpdateSubProductDiscountAction = ReturnType<typeof offerUpdateSubProductDiscountAction>;
+export const offerUpdateSubProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  uuid: string,
+  key: keyof Omit<IUIOfferProductDiscountInstance, 'uuid' | 'products'>,
+  newValue: string,
+  currentValue: number | string | undefined
+) => ({
+  type: OFFER_UPDATE_SUB_PRODUCT_DISCOUNT as typeof OFFER_UPDATE_SUB_PRODUCT_DISCOUNT,
+  discountType,
+  uuid,
+  key,
+  newValue,
+  currentValue,
 });
 
-// Product Discounts > Supplement
-export type OfferAddProductDiscountSupplementAction = ReturnType<typeof offerAddProductDiscountSupplementAction>;
-export const offerAddProductDiscountSupplementAction = () => ({
-  type: OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT,
+export type OfferRemoveSubProductDiscountAction = ReturnType<typeof offerRemoveSubProductDiscountAction>;
+export const offerRemoveSubProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  uuid: string
+) => ({
+  type: OFFER_REMOVE_SUB_PRODUCT_DISCOUNT as typeof OFFER_REMOVE_SUB_PRODUCT_DISCOUNT,
+  discountType,
+  uuid,
 });
 
-export type OfferPutProductDiscountSupplementAction = ReturnType<typeof offerPutProductDiscountSupplementAction>;
-export const offerPutProductDiscountSupplementAction = (supplementDiscount: IUIOfferProductDiscountInstance) => ({
-  type: OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT,
-  supplementDiscount: supplementDiscount,
+export type OfferAddProductToSubProductDiscountAction = ReturnType<typeof offerAddProductToSubProductDiscountAction>;
+export const offerAddProductToSubProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountUuid: string,
+  product: IDiscountProduct
+) => ({
+  type: OFFER_ADD_PRODUCT_TO_SUB_PRODUCT_DISCOUNT as typeof OFFER_ADD_PRODUCT_TO_SUB_PRODUCT_DISCOUNT,
+  discountType,
+  discountUuid: discountUuid,
+  product,
 });
 
-export type OfferDeleteProductDiscountSupplementAction = ReturnType<typeof offerDeleteProductDiscountSupplementAction>;
-export const offerDeleteProductDiscountSupplementAction = (index: number) => ({
-  type: OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT as typeof OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT,
-  index,
+export type OfferRemoveProductFromSubProductDiscountAction = ReturnType<
+  typeof offerRemoveProductFromSubProductDiscountAction
+>;
+export const offerRemoveProductFromSubProductDiscountAction = (
+  discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
+  discountUuid: string,
+  productUuid: string
+) => ({
+  type: OFFER_REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT as typeof OFFER_REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT,
+  discountType,
+  discountUuid,
+  productUuid,
+});
+
+export type OfferToggleSubProductDiscountAgeNameAction = ReturnType<typeof offerToggleSubProductDiscountAgeNameAction>;
+export const offerToggleSubProductDiscountAgeNameAction = (
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
+  discountUuid: string,
+  productUuid: string,
+  ageName: string
+) => ({
+  type: OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME as typeof OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME,
+  discountType,
+  discountUuid,
+  productUuid,
+  ageName,
 });
 
 export type OfferAction =
@@ -424,21 +450,15 @@ export type OfferAction =
   | OfferSetAccommodationDiscountDiscountPercentageAction
   | OfferSetAccommodationDiscountGreenTaxApproachAction
   | OfferClearAllAccommodationDiscountAction
-  | OfferAddSubProductDiscountSupplementAction
-  | OfferPutSubProductDiscountSupplementAction
-  | OfferDeleteSubProductDiscountSupplementAction
-  | OfferAddProductDiscountFineAction
-  | OfferPutProductDiscountFineAction
-  | OfferDeleteProductDiscountFineAction
-  | OfferAddProductDiscountGroundServiceAction
-  | OfferPutProductDiscountGroundServiceAction
-  | OfferDeleteProductDiscountGroundServiceAction
-  | OfferAddSubProductDiscountMealPlanAction
-  | OfferPutSubProductDiscountMealPlanAction
-  | OfferDeleteSubProductDiscountMealPlanAction
-  | OfferAddProductDiscountTransferAction
-  | OfferPutProductDiscountTransferAction
-  | OfferDeleteProductDiscountTransferAction
-  | OfferAddProductDiscountSupplementAction
-  | OfferPutProductDiscountSupplementAction
-  | OfferDeleteProductDiscountSupplementAction;
+  | OfferAddProductDiscountAction
+  | OfferUpdateProductDiscountAction
+  | OfferRemoveProductDiscountAction
+  | OfferAddProductToProductDiscountAction
+  | OfferRemoveProductFromProductDiscountAction
+  | OfferAddSubProductDiscountAction
+  | OfferUpdateSubProductDiscountAction
+  | OfferRemoveSubProductDiscountAction
+  | OfferAddProductToSubProductDiscountAction
+  | OfferRemoveProductFromSubProductDiscountAction
+  | OfferToggleProductDiscountAgeNameAction
+  | OfferToggleSubProductDiscountAgeNameAction;

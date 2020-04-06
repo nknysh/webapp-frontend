@@ -7,7 +7,7 @@ import { initialState } from '../../model';
 import * as R from 'ramda';
 import { productDiscountsReducer } from './offerProductDiscountsReducer';
 import { subProductDiscountsReducer } from './offerSubProductDiscountsReducer';
-import { OFFER_HOTEL_UUID_CHANGE_SUCCESS, OfferHotelUuidChangeSuccessAction } from './actions';
+import { OFFER_REMOVE_PRODUCT_DISCOUNT } from './actions';
 
 export const offerReducer = (state: IOfferUI = initialState.offer, action: OfferDomainAction): IOfferUI => {
   switch (action.type) {
@@ -85,32 +85,26 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
     case Actions.OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION:
       return offerClearAllAccommodationDiscountReducer(state, action);
 
-    case Actions.OFFER_ADD_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
-    case Actions.OFFER_PUT_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
-    case Actions.OFFER_DELETE_SUB_PRODUCT_DISCOUNT_SUPPLEMENT:
-    case Actions.OFFER_ADD_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
-    case Actions.OFFER_PUT_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
-    case Actions.OFFER_DELETE_SUB_PRODUCT_DISCOUNT_MEAL_PLAN:
-      return {
-        ...state,
-        subProductDiscounts: subProductDiscountsReducer(state.subProductDiscounts, action),
-      };
-
-    case Actions.OFFER_ADD_PRODUCT_DISCOUNT_FINE:
-    case Actions.OFFER_PUT_PRODUCT_DISCOUNT_FINE:
-    case Actions.OFFER_DELETE_PRODUCT_DISCOUNT_FINE:
-    case Actions.OFFER_ADD_PRODUCT_DISCOUNT_GROUND_SERVICE:
-    case Actions.OFFER_PUT_PRODUCT_DISCOUNT_GROUND_SERVICE:
-    case Actions.OFFER_DELETE_PRODUCT_DISCOUNT_GROUND_SERVICE:
-    case Actions.OFFER_ADD_PRODUCT_DISCOUNT_TRANSFER:
-    case Actions.OFFER_PUT_PRODUCT_DISCOUNT_TRANSFER:
-    case Actions.OFFER_DELETE_PRODUCT_DISCOUNT_TRANSFER:
-    case Actions.OFFER_ADD_PRODUCT_DISCOUNT_SUPPLEMENT:
-    case Actions.OFFER_PUT_PRODUCT_DISCOUNT_SUPPLEMENT:
-    case Actions.OFFER_DELETE_PRODUCT_DISCOUNT_SUPPLEMENT:
+    case Actions.OFFER_ADD_PRODUCT_DISCOUNT:
+    case Actions.OFFER_REMOVE_PRODUCT_DISCOUNT:
+    case Actions.OFFER_ADD_PRODUCT_TO_PRODUCT_DISCOUNT:
+    case Actions.OFFER_REMOVE_PRODUCT_FROM_PRODUCT_DISCOUNT:
+    case Actions.OFFER_UPDATE_PRODUCT_DISCOUNT:
+    case Actions.OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME:
       return {
         ...state,
         productDiscounts: productDiscountsReducer(state.productDiscounts, action),
+      };
+
+    case Actions.OFFER_ADD_SUB_PRODUCT_DISCOUNT:
+    case Actions.OFFER_REMOVE_SUB_PRODUCT_DISCOUNT:
+    case Actions.OFFER_ADD_PRODUCT_TO_SUB_PRODUCT_DISCOUNT:
+    case Actions.OFFER_REMOVE_PRODUCT_FROM_SUB_PRODUCT_DISCOUNT:
+    case Actions.OFFER_UPDATE_SUB_PRODUCT_DISCOUNT:
+    case Actions.OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME:
+      return {
+        ...state,
+        subProductDiscounts: subProductDiscountsReducer(state.subProductDiscounts, action),
       };
 
     default:

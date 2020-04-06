@@ -5,10 +5,11 @@ import {
   getBootstrapCountriesSelector,
   getBootstrapExtraPersonSupplementProductSelector,
 } from '../../../bootstrap/selectors';
-import { groupBy } from 'ramda';
+import { groupBy, flatten, uniq } from 'ramda';
 import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../types';
 import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
-import { offerDomainSelector, getAccommodationProductsForHotelSelector } from '../../domainSelectors';
+import { offerDomainSelector, getAccommodationProductsForHotelSelector as hotelAccomodationProductsSelector } from '../../domainSelectors';
+import { IAgeName, IUIOfferProductDiscountInstance } from '../../../../../services/BackendApi/types/OfferResponse';
 
 export const offerSelector = createSelector(offerDomainSelector, domain => domain.offer);
 
@@ -136,42 +137,88 @@ export const offerAccommodationProductPrerequisitesRawSelector = createSelector(
   prerequisites => prerequisites.accommodationProducts || []
 );
 
+export interface IAccomodationProductPreRequisiteUi {
+  label: string;
+  uuid: string;
+  value: boolean;
+  ageNames: IAgeName[]
+}
+
+export interface IAgeNamesMap {
+  [key: string]: {
+    ageFrom?: number;
+    ageTo?: number;
+  }
+}
+
 export const offerAccommodationProductPrerequisitesSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
-  getAccommodationProductsForHotelSelector,
-  (accommodationProductPrerequisites, accommodationProductsOnHotel) => {
-    return accommodationProductsOnHotel?.map(accommodationProduct => {
-      if (accommodationProductPrerequisites.includes(accommodationProduct.uuid)) {
-        return {
-          label: accommodationProduct.name,
-          uuid: accommodationProduct.uuid,
-          value: true,
-        };
-      } else {
-        return {
-          label: accommodationProduct.name,
-          uuid: accommodationProduct.uuid,
-          value: false,
-        };
-      }
-    });
+  hotelAccomodationProductsSelector,
+  (accommodationProductPrerequisites, accommodationProductsOnHotel): IAccomodationProductPreRequisiteUi[] => {
+    if(!accommodationProductsOnHotel) { return []; }
+    return accommodationProductsOnHotel?.map(accommodationProduct => ({
+      label: accommodationProduct.name,
+      uuid: accommodationProduct.uuid,
+      value: accommodationProductPrerequisites.includes(accommodationProduct.uuid),
+      ageNames: accommodationProduct.options.ages
+    }));
   }
 );
 
+export const isAccomodationPreReqAllSelected = createSelector(
+  offerAccommodationProductPrerequisitesRawSelector,
+  hotelAccomodationProductsSelector,
+  (accommodationProductPrerequisites, accommodationProductsOnHotel) => Boolean(
+    accommodationProductPrerequisites.length === accommodationProductsOnHotel?.length ||
+    accommodationProductPrerequisites.length <= 0
+  )
+)
+
 export const offerAccommodationProductPrerequisitesLabelSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
-  getAccommodationProductsForHotelSelector,
-  (accommodationProductPrerequisites, accommodationProductsOnHotel) => {
-    if (
-      accommodationProductPrerequisites.length === accommodationProductsOnHotel?.length ||
-      accommodationProductPrerequisites.length <= 0
-    ) {
-      return 'All Accommodation Products';
-    } else {
-      return `${accommodationProductPrerequisites.length} Accommodation Products`;
-    }
+  isAccomodationPreReqAllSelected,
+  (accommodationProductPrerequisites, isAll) => {
+    return isAll 
+      ? 'All Accommodation Products' 
+      : `${accommodationProductPrerequisites.length} Accommodation Products`;
   }
 );
+
+export const accomodationPreRequisiteAgeNamesSelector = createSelector(
+  offerAccommodationProductPrerequisitesSelector,
+  (accomProducts) => {
+  
+    // Get a unqiue map of age names with age ranges
+    const ageNamesMap: IAgeNamesMap = accomProducts
+      .map(ap => ap.ageNames)
+      .reduce((acc, next) => [...acc, ...next], [])
+      .reduce((acc, next) => {
+        acc[next.name] = {
+          ageFrom: next.ageFrom,
+          ageTo: next.ageTo
+        }
+        return acc;
+      } , {});
+    
+    // Figure out wherre the adult age starts
+    const oldestAge = Object.keys(ageNamesMap)
+      .reduce((acc, key) => {
+        return ageNamesMap[key].ageTo! > acc 
+          ? ageNamesMap[key].ageTo 
+          : acc;
+      }, 0);
+
+    // Populate the rest of the results
+    return Object.keys(ageNamesMap).reduce((acc, key) => {
+      return [...acc, {
+        name: key,
+        ageFrom: ageNamesMap[key].ageFrom,
+        ageTo: ageNamesMap[key].ageTo,
+      }]
+    }, []).sort((a, b) => b.ageFrom! - a.ageFrom!);
+  }
+);
+
 
 export const offerAdvancePrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
@@ -205,20 +252,30 @@ export const offerSubProductDiscountsSelector = createSelector(offerSelector, of
   return offer.subProductDiscounts;
 });
 
+export interface IUIOfferProductDiscountInstanceWithAgeNames extends IUIOfferProductDiscountInstance{
+  ageNames: (string | undefined)[];
+}
+
 export const offerSubProductDiscountsSupplementsSelector = createSelector(
   offerSubProductDiscountsSelector,
-  subProductDiscounts => {
+  (subProductDiscounts): IUIOfferProductDiscountInstanceWithAgeNames[] => {
     if (!subProductDiscounts || !subProductDiscounts.Supplement) {
       return [];
     }
-    return subProductDiscounts.Supplement;
+    return subProductDiscounts.Supplement.map(s => {
+      let ageNames = uniq(flatten(s.products.map(p => p.ageNames)));
+      return {
+        ...s, 
+        ageNames,
+      }
+    })
   }
 );
 
 export const offerExtraPersonSupplementsSelector = createSelector(
   offerSubProductDiscountsSupplementsSelector,
   getBootstrapExtraPersonSupplementProductSelector,
-  (supplements, extraPersonSupplementProduct) => {
+  (supplements, extraPersonSupplementProduct): IUIOfferProductDiscountInstanceWithAgeNames[] => {
     return supplements.filter(sup => {
       return sup.products.some(p => {
         return p.uuid === extraPersonSupplementProduct.uuid;

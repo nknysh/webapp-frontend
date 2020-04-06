@@ -3,42 +3,49 @@ import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferModel } from '../../../model';
 import { offerReducer as reducer } from '../reducer';
 import { getOfferSuccessAction } from '../../../actions';
-import { IOfferPrerequisites } from '../../../../../../services/BackendApi/types/OfferResponse';
+import { IOfferPrerequisites, IDiscountProduct } from '../../../../../../services/BackendApi/types/OfferResponse';
 import {
-  offerAddSubProductDiscountSupplementAction,
-  offerPutSubProductDiscountSupplementAction,
-  offerDeleteSubProductDiscountSupplementAction,
-  offerAddSubProductDiscountMealPlanAction,
-  offerPutSubProductDiscountMealPlanAction,
-  offerDeleteSubProductDiscountMealPlanAction,
+  offerAddSubProductDiscountAction,
+  offerAddProductToSubProductDiscountAction,
+  offerRemoveSubProductDiscountAction,
+  offerRemoveProductFromSubProductDiscountAction,
+  offerUpdateSubProductDiscountAction,
+  offerToggleSubProductDiscountAgeNameAction,
 } from '../actions';
+import { Supplement } from '../../../../../../services/BackendApi/types/OffersSearchResponse';
+
+const mockProduct: IDiscountProduct = { uuid: 'XXX' };
 
 describe('offer reducer sub product supplements', () => {
-  it('adding a new one to the array (object is completely empty)', () => {
-    const action = offerAddSubProductDiscountSupplementAction();
-
+  it('adds a new product discount to the array (object is completely empty)', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
+      subProductDiscounts: undefined,
     };
 
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        Supplement: [
-          {
-            index: 0,
-            products: [],
-          },
-        ],
-      },
-    };
+    // Expect
+    // {
+    //   ...initialState.offer,
+    //   subProductDiscounts: {
+    //     Supplement: [
+    //       {
+    //         uuid: 'TEST_UUID',
+    //         products: [],
+    //       },
+    //     ],
+    //   },
+    // };
 
+    const action = offerAddSubProductDiscountAction('Supplement');
     const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
+    expect(newState.subProductDiscounts!.Supplement![0]).toHaveProperty('uuid');
+    expect(newState.subProductDiscounts!.Supplement![0]).toHaveProperty('products');
+    expect(typeof newState.subProductDiscounts!.Supplement![0].uuid).toBe('string');
+    expect(newState.subProductDiscounts!.Supplement![0].products).toBeInstanceOf(Array);
   });
 
-  it('adding a new one to the array (object already has empty array of supplements)', () => {
-    const action = offerAddSubProductDiscountSupplementAction();
+  it('adds a new product discount to the array (object already has empty array of Supplements)', () => {
+    const action = offerAddSubProductDiscountAction('Supplement');
 
     const testState: IOfferUI = {
       ...initialState.offer,
@@ -48,71 +55,32 @@ describe('offer reducer sub product supplements', () => {
       },
     };
 
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            index: 0,
-            products: [],
-          },
-        ],
-      },
-    };
+    // Expect
+    //{
+    //   ...initialState.offer,
+    //   subProductDiscounts: {
+    //     Transfer: [],
+    //     'Ground Service': [],
+    //     Supplement: [],
+    //     Supplement: [
+    //       {
+    //         uuid: 'TEST_UUID',
+    //         products: [],
+    //       },
+    //     ],
+    //   },
+    // };
 
     const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
+    expect(newState.subProductDiscounts!.Supplement).not.toBe(undefined);
+    expect(newState.subProductDiscounts!.Supplement![0]).toHaveProperty('uuid');
+    expect(newState.subProductDiscounts!.Supplement![0]).toHaveProperty('products');
+    expect(typeof newState.subProductDiscounts!.Supplement![0].uuid).toBe('string');
+    expect(newState.subProductDiscounts!.Supplement![0].products).toBeInstanceOf(Array);
+    expect(newState.subProductDiscounts!['Meal Plan']!.length).toEqual(0);
   });
 
-  it('putting a supplement into the array', () => {
-    const action = offerPutSubProductDiscountSupplementAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            index: 0,
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a supplement into the array (if index doesnt already exist, change nothing)', () => {
-    const action = offerPutSubProductDiscountSupplementAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
+  it('adds a new product discount to the array AND a product if given a product UUID', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
       subProductDiscounts: {
@@ -121,25 +89,29 @@ describe('offer reducer sub product supplements', () => {
       },
     };
 
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [],
-      },
-    };
+    // Expect
+    //{
+    //   ...initialState.offer,
+    //   subProductDiscounts: {
+    //     Transfer: [],
+    //     'Ground Service': [],
+    //     Supplement: [],
+    //     Supplement: [
+    //       {
+    //         uuid: 'TEST_UUID',
+    //         products: [{ uuid: 'TEST_PRODUCT_UUID'}],
+    //       },
+    //     ],
+    //   },
+    // };
 
+    const action = offerAddSubProductDiscountAction('Supplement', 'TEST_PRODUCT_UUID');
     const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
+    expect(newState.subProductDiscounts!.Supplement![0].products[0]).toMatchObject({ uuid: 'TEST_PRODUCT_UUID' });
   });
 
-  it('putting a supplement into the array (dont alter supplements around it)', () => {
-    const action = offerPutSubProductDiscountSupplementAction({
-      index: 1,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
+  it('adds a product into the discount product array', () => {
+    const action = offerAddProductToSubProductDiscountAction('Supplement', 'TEST_UUID', mockProduct);
 
     const testState: IOfferUI = {
       ...initialState.offer,
@@ -147,19 +119,41 @@ describe('offer reducer sub product supplements', () => {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 0,
+            uuid: 'TEST_UUID',
+            discountPercentage: 1,
+            maximumQuantity: 2,
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const newState = reducer(testState, action);
+    expect(newState.subProductDiscounts!.Supplement![0].products[0]).toMatchObject(mockProduct);
+  });
+
+  it('adds a product to discount product array', () => {
+    const action = offerAddProductToSubProductDiscountAction('Supplement', 'TEST_UUID_2', mockProduct);
+
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      subProductDiscounts: {
+        'Meal Plan': [],
+        Supplement: [
+          {
+            uuid: 'TEST_UUID_1',
             discountPercentage: 1,
             maximumQuantity: 2,
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
+            uuid: 'TEST_UUID_2',
             discountPercentage: 10,
             maximumQuantity: 20,
             products: [{ uuid: 'B' }],
           },
           {
-            index: 2,
+            uuid: 'TEST_UUID_3',
             discountPercentage: 11,
             maximumQuantity: 22,
             products: [{ uuid: 'C' }],
@@ -174,85 +168,19 @@ describe('offer reducer sub product supplements', () => {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 0,
+            uuid: 'TEST_UUID_1',
             discountPercentage: 1,
             maximumQuantity: 2,
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a supplement into the array (ensure index changes are based on value and not array index)', () => {
-    const action = offerPutSubProductDiscountSupplementAction({
-      index: 5,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
+            uuid: 'TEST_UUID_2',
             discountPercentage: 10,
             maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B' }, mockProduct],
           },
           {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 6,
+            uuid: 'TEST_UUID_3',
             discountPercentage: 11,
             maximumQuantity: 22,
             products: [{ uuid: 'C' }],
@@ -265,13 +193,8 @@ describe('offer reducer sub product supplements', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('putting a supplement into the array (ensure index changes are based on value and not array index, and gaps between indexes)', () => {
-    const action = offerPutSubProductDiscountSupplementAction({
-      index: 7,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
+  it('removes a product discount', () => {
+    const action = offerRemoveSubProductDiscountAction('Supplement', 'TEST_UUID_2');
 
     const testState: IOfferUI = {
       ...initialState.offer,
@@ -279,22 +202,16 @@ describe('offer reducer sub product supplements', () => {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
+            uuid: 'TEST_UUID_1',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 7,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
+            uuid: 'TEST_UUID_2',
+            products: [{ uuid: 'A' }],
           },
           {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
+            uuid: 'TEST_UUID_3',
+            products: [{ uuid: 'A' }],
           },
         ],
       },
@@ -306,58 +223,11 @@ describe('offer reducer sub product supplements', () => {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
+            uuid: 'TEST_UUID_1',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 7,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleteing a supplement', () => {
-    const action = offerDeleteSubProductDiscountSupplementAction(1);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            products: [{ uuid: 'B' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            index: 0,
+            uuid: 'TEST_UUID_3',
             products: [{ uuid: 'A' }],
           },
         ],
@@ -368,8 +238,8 @@ describe('offer reducer sub product supplements', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleting a supplement (deleting the last one leaves an empty array)', () => {
-    const action = offerDeleteSubProductDiscountSupplementAction(0);
+  it('leaves an empty array when deleting the only discount', () => {
+    const action = offerRemoveSubProductDiscountAction('Supplement', 'TEST_UUID_1');
 
     const testState: IOfferUI = {
       ...initialState.offer,
@@ -377,7 +247,7 @@ describe('offer reducer sub product supplements', () => {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 0,
+            uuid: 'TEST_UUID_1',
             products: [{ uuid: 'A' }],
           },
         ],
@@ -396,25 +266,81 @@ describe('offer reducer sub product supplements', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleting a supplement (with an index value different to its actual index)', () => {
-    const action = offerDeleteSubProductDiscountSupplementAction(4);
+  it('removes a product from a discount', () => {
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      subProductDiscounts: {
+        'Meal Plan': [
+          {
+            uuid: 'MP_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+        Supplement: [
+          {
+            uuid: 'S_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+          {
+            uuid: 'S_UUID_2',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+          {
+            uuid: 'S_UUID_3',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+      },
+    };
 
+    const expected: IOfferUI = {
+      ...initialState.offer,
+      subProductDiscounts: {
+        'Meal Plan': [
+          {
+            uuid: 'MP_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+        Supplement: [
+          {
+            uuid: 'S_UUID_1',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+          {
+            uuid: 'S_UUID_2',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_3' }],
+          },
+          {
+            uuid: 'S_UUID_3',
+            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+          },
+        ],
+      },
+    };
+
+    const action = offerRemoveProductFromSubProductDiscountAction('Supplement', 'S_UUID_2', 'P_UUID_2');
+    const newState = reducer(testState, action);
+    expect(newState).toMatchObject(expected);
+  });
+
+  it('Updates a product discount discountPercentage', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
       subProductDiscounts: {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 3,
-            products: [{ uuid: 'A' }],
+            uuid: 'S_UUID_1',
+            products: [],
           },
           {
-            index: 4,
-            products: [{ uuid: 'B' }],
+            uuid: 'S_UUID_2',
+            products: [],
           },
           {
-            index: 5,
-            products: [{ uuid: 'C' }],
+            uuid: 'S_UUID_3',
+            products: [],
           },
         ],
       },
@@ -426,88 +352,43 @@ describe('offer reducer sub product supplements', () => {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 3,
-            products: [{ uuid: 'A' }],
+            uuid: 'S_UUID_1',
+            products: [],
           },
           {
-            index: 5,
-            products: [{ uuid: 'C' }],
+            uuid: 'S_UUID_2',
+            discountPercentage: 1,
+            products: [],
           },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-});
-
-describe('offer reducer sub product meal plan', () => {
-  it('adding a new one to the array (object is completely empty)', () => {
-    const action = offerAddSubProductDiscountMealPlanAction();
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
           {
-            index: 0,
+            uuid: 'S_UUID_3',
             products: [],
           },
         ],
       },
     };
 
+    const action = offerUpdateSubProductDiscountAction('Supplement', 'S_UUID_2', 'discountPercentage', '1', undefined);
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });
 
-  it('adding a new one to the array (object already has empty array of meal plans)', () => {
-    const action = offerAddSubProductDiscountMealPlanAction();
-
+  it('Updates a product discount maximumQuantity', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
       subProductDiscounts: {
         'Meal Plan': [],
-        Supplement: [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
+        Supplement: [
           {
-            index: 0,
+            uuid: 'S_UUID_1',
             products: [],
           },
-        ],
-        Supplement: [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a meal plan into the array', () => {
-    const action = offerPutSubProductDiscountMealPlanAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
           {
-            index: 0,
+            uuid: 'S_UUID_2',
+            products: [],
+          },
+          {
+            uuid: 'S_UUID_3',
             products: [],
           },
         ],
@@ -517,284 +398,48 @@ describe('offer reducer sub product meal plan', () => {
     const expected: IOfferUI = {
       ...initialState.offer,
       subProductDiscounts: {
-        'Meal Plan': [
+        'Meal Plan': [],
+        Supplement: [
           {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
+            uuid: 'S_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'S_UUID_2',
+            maximumQuantity: 1,
+            products: [],
+          },
+          {
+            uuid: 'S_UUID_3',
+            products: [],
           },
         ],
       },
     };
 
+    const action = offerUpdateSubProductDiscountAction('Supplement', 'S_UUID_2', 'maximumQuantity', '1', undefined);
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });
 
-  it('putting a meal plan into the array (if index doesnt already exist, change nothing)', () => {
-    const action = offerPutSubProductDiscountMealPlanAction({
-      index: 0,
-      discountPercentage: 1,
-      maximumQuantity: 2,
-      products: [{ uuid: 'A' }],
-    });
-
+  it('Does not update a product discount maximumQuantity with an invalid value', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
       subProductDiscounts: {
         'Meal Plan': [],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a meal plan into the array (dont alter meal plans around it)', () => {
-    const action = offerPutSubProductDiscountMealPlanAction({
-      index: 1,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
+        Supplement: [
           {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
+            uuid: 'S_UUID_1',
+            products: [],
           },
           {
-            index: 1,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
+            uuid: 'S_UUID_2',
+            maximumQuantity: 1,
+            products: [],
           },
           {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
-          {
-            index: 0,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 2,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a meal plan into the array (ensure index changes are based on value and not array index)', () => {
-    const action = offerPutSubProductDiscountMealPlanAction({
-      index: 5,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 5,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 6,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('putting a meal plan into the array (ensure index changes are based on value and not array index, and gaps between indexes)', () => {
-    const action = offerPutSubProductDiscountMealPlanAction({
-      index: 7,
-      discountPercentage: 44,
-      maximumQuantity: 55,
-      products: [{ uuid: 'Z' }],
-    });
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 10,
-            maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
-          {
-            index: 4,
-            discountPercentage: 1,
-            maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 7,
-            discountPercentage: 44,
-            maximumQuantity: 55,
-            products: [{ uuid: 'Z' }],
-          },
-          {
-            index: 10,
-            discountPercentage: 11,
-            maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleteing a meal plan', () => {
-    const action = offerDeleteSubProductDiscountMealPlanAction(1);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-          {
-            index: 1,
-            products: [{ uuid: 'B' }],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
-          },
-        ],
-      },
-    };
-
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it('deleting a meal plan (deleting the last one leaves an empty array)', () => {
-    const action = offerDeleteSubProductDiscountMealPlanAction(0);
-
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [
-          {
-            index: 0,
-            products: [{ uuid: 'A' }],
+            uuid: 'S_UUID_3',
+            products: [],
           },
         ],
       },
@@ -804,31 +449,56 @@ describe('offer reducer sub product meal plan', () => {
       ...initialState.offer,
       subProductDiscounts: {
         'Meal Plan': [],
+        Supplement: [
+          {
+            uuid: 'S_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'S_UUID_2',
+            maximumQuantity: 1,
+            products: [],
+          },
+          {
+            uuid: 'S_UUID_3',
+            products: [],
+          },
+        ],
       },
     };
 
+    const action = offerUpdateSubProductDiscountAction('Supplement', 'S_UUID_2', 'maximumQuantity', 'INVALID_VALUE', 1);
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });
 
-  it('deleting a meal plan (with an index value different to its actual index)', () => {
-    const action = offerDeleteSubProductDiscountMealPlanAction(4);
-
+  it('adds an age name to a product', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
       subProductDiscounts: {
-        'Meal Plan': [
+        'Meal Plan': [],
+        Supplement: [
           {
-            index: 3,
-            products: [{ uuid: 'A' }],
+            uuid: 'S_UUID_1',
+            products: [],
           },
           {
-            index: 4,
-            products: [{ uuid: 'B' }],
+            uuid: 'S_UUID_2',
+            products: [
+              {
+                uuid: 'P_UUID_1',
+              },
+              {
+                uuid: 'P_UUID_2',
+              },
+              {
+                uuid: 'P_UUID_3',
+              },
+            ],
           },
           {
-            index: 5,
-            products: [{ uuid: 'C' }],
+            uuid: 'S_UUID_3',
+            products: [],
           },
         ],
       },
@@ -837,19 +507,106 @@ describe('offer reducer sub product meal plan', () => {
     const expected: IOfferUI = {
       ...initialState.offer,
       subProductDiscounts: {
-        'Meal Plan': [
+        'Meal Plan': [],
+        Supplement: [
           {
-            index: 3,
-            products: [{ uuid: 'A' }],
+            uuid: 'S_UUID_1',
+            products: [],
           },
           {
-            index: 5,
-            products: [{ uuid: 'C' }],
+            uuid: 'S_UUID_2',
+            products: [
+              {
+                uuid: 'P_UUID_1',
+              },
+              {
+                uuid: 'P_UUID_2',
+                ageNames: ['Adult'],
+              },
+              {
+                uuid: 'P_UUID_3',
+              },
+            ],
+          },
+          {
+            uuid: 'S_UUID_3',
+            products: [],
           },
         ],
       },
     };
 
+    const action = offerToggleSubProductDiscountAgeNameAction('Supplement', 'S_UUID_2', 'P_UUID_2', 'Adult');
+    const newState = reducer(testState, action);
+    expect(newState).toMatchObject(expected);
+  });
+
+  it('removes an age name to a product', () => {
+    const testState: IOfferUI = {
+      ...initialState.offer,
+      subProductDiscounts: {
+        'Meal Plan': [],
+        Supplement: [
+          {
+            uuid: 'S_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'S_UUID_2',
+            products: [
+              {
+                uuid: 'P_UUID_1',
+              },
+              {
+                uuid: 'P_UUID_2',
+                ageNames: ['Adult', 'Child', 'Infant'],
+              },
+              {
+                uuid: 'P_UUID_3',
+              },
+            ],
+          },
+          {
+            uuid: 'S_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const expected: IOfferUI = {
+      ...initialState.offer,
+      subProductDiscounts: {
+        'Meal Plan': [],
+        Supplement: [
+          {
+            uuid: 'S_UUID_1',
+            products: [],
+          },
+          {
+            uuid: 'S_UUID_2',
+            products: [
+              {
+                uuid: 'P_UUID_1',
+              },
+              {
+                uuid: 'P_UUID_2',
+                ageNames: ['Adult', 'Infant'],
+              },
+              {
+                uuid: 'P_UUID_3',
+              },
+            ],
+          },
+          {
+            uuid: 'S_UUID_3',
+            products: [],
+          },
+        ],
+      },
+    };
+
+    const action = offerToggleSubProductDiscountAgeNameAction('Supplement', 'S_UUID_2', 'P_UUID_2', 'Child');
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });

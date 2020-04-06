@@ -4,6 +4,7 @@ import { initialState, IOfferModel, ECombinationMode } from '../model';
 import { getOfferSuccessAction, getOfferFailureAction } from '../actions';
 import { offerHotelUuidChangeSuccessAction, offerHotelUuidChangeAction } from '../subdomains/offer/actions';
 import { IHotel } from 'services/BackendApi/types/HotelResponse';
+import { IAccommodationProductForHotelItem } from '../../../../services/BackendApi/types/OfferResponse';
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
@@ -45,7 +46,7 @@ describe('Offer reducer', () => {
           uuid: 'a',
           name: 'A',
           type: 'Accommodation',
-        },
+        } as IAccommodationProductForHotelItem,
       ],
     };
     expect(result).toEqual(expected);

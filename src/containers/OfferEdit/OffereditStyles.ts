@@ -31,6 +31,10 @@ export const OfferEditStyles = styled.main`
 
   .tabBar {
     grid-area: tabBar;
+    position: sticky;
+    top: 0;
+    background-color: ${pureUiTheme.colors.white};
+    z-index: 1; /* Z-Index is on purpose. Grids and position sticky mess around with the z-index, so need controlling*/
   }
 
   .routes {

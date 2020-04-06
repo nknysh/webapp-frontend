@@ -6,12 +6,17 @@ import {
   IOfferProductDiscounts,
   IOfferSubProductDiscounts,
 } from 'services/BackendApi';
+import uuid from 'uuid';
 import produce from 'immer';
 import * as R from 'ramda';
-import { IOfferUiState, ECombinationMode } from './model';
+import { IOfferUiState, ECombinationMode, IOfferModel } from './model';
+import { sanitizeInteger } from 'utils/number';
+import { OfferAddProductToProductDiscountAction, OfferRemoveProductDiscountAction, OfferAddProductDiscountAction, OfferRemoveProductFromProductDiscountAction, OfferUpdateProductDiscountAction, OfferToggleProductDiscountAgeNameAction, OfferToggleSubProductDiscountAgeNameAction, OfferRemoveProductFromSubProductDiscountAction, OfferAddProductToSubProductDiscountAction, OfferUpdateSubProductDiscountAction, OfferAddSubProductDiscountAction, OfferRemoveSubProductDiscountAction } from './subdomains/offer/actions';
+import { without } from 'ramda';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
-  const productUuids = [...(offer.prerequisites.accommodationProducts || [])];
+  const productUuids = offer.prerequisites.accommodationProducts ? offer.prerequisites.accommodationProducts : [];
+  
 
   if (offer.productDiscounts != undefined) {
     Object.values(offer.productDiscounts).map((productBlocks: IOfferProductDiscountInstance[]) => {
@@ -43,7 +48,7 @@ export const hasOfferGotApplications = (offer: IOfferUI) => {
 };
 
 export const returnObjectWithUndefinedsAsEmptyStrings = <T>(obj): T | undefined => {
-  if (obj === undefined) {
+  if (!obj) {
     return undefined;
   }
   const parsedObject = {};
@@ -57,8 +62,8 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
   return produce(offer, (draftOffer: IOfferUI) => {
     if (draftOffer.subProductDiscounts?.Supplement) {
       draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(
-        (discount, arrayIndex) => {
-          discount.index = arrayIndex;
+        (discount) => {
+          discount.uuid = uuid.v4();
           return discount;
         }
       );
@@ -67,7 +72,7 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
     if (draftOffer.subProductDiscounts?.['Meal Plan']) {
       draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan'].map(
         (discount, arrayIndex) => {
-          discount.index = arrayIndex;
+          discount.uuid = uuid.v4();
           return discount;
         }
       );
@@ -75,7 +80,7 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
 
     if (draftOffer.productDiscounts?.Fine) {
       draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map((discount, arrayIndex) => {
-        discount.index = arrayIndex;
+        discount.uuid = uuid.v4();
         return discount;
       });
     }
@@ -83,7 +88,7 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
     if (draftOffer.productDiscounts?.['Ground Service']) {
       draftOffer.productDiscounts['Ground Service'] = draftOffer.productDiscounts['Ground Service'].map(
         (discount, arrayIndex) => {
-          discount.index = arrayIndex;
+          discount.uuid = uuid.v4();
           return discount;
         }
       );
@@ -91,14 +96,14 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
 
     if (draftOffer.productDiscounts?.Transfer) {
       draftOffer.productDiscounts.Transfer = draftOffer.productDiscounts.Transfer.map((discount, arrayIndex) => {
-        discount.index = arrayIndex;
+        discount.uuid = uuid.v4();
         return discount;
       });
     }
 
     if (draftOffer.productDiscounts?.Supplement) {
       draftOffer.productDiscounts.Supplement = draftOffer.productDiscounts.Supplement.map((discount, arrayIndex) => {
-        discount.index = arrayIndex;
+        discount.uuid = uuid.v4();
         return discount;
       });
     }
@@ -220,7 +225,6 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
   });
 };
 
-export const sortObjectsByIndex = R.sortWith<IUIOfferProductDiscountInstance>([R.ascend(R.prop('index'))]);
 
 export const getSubProductDiscountsOrInitial = (
   subProductDiscounts: IOfferSubProductDiscounts<IUIOfferProductDiscountInstance> | undefined
@@ -249,3 +253,143 @@ export const getProductDiscountsOrInitial = (
     };
   }
 };
+
+
+export const addDiscountHandler = (
+  state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
+  action: OfferAddProductDiscountAction | OfferAddSubProductDiscountAction
+): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
+  const { discountType } = action;
+  const newState: IOfferProductDiscounts<IUIOfferProductDiscountInstance> = state === undefined ? {} : { ...state };
+  newState[discountType] = !newState[discountType] ? [] : [...newState[discountType]];
+  const newProductDiscount: IUIOfferProductDiscountInstance = {
+    uuid: uuid.v4(),
+    products: []
+  };
+
+  if((action as OfferAddSubProductDiscountAction).productUuid) {
+    newProductDiscount.products.push({uuid: (action as OfferAddSubProductDiscountAction).productUuid!});
+  }
+
+  return {
+    ...newState,
+    [discountType]: [...newState[discountType]!, newProductDiscount],
+  };
+};
+
+export const removeDiscountHandler = (
+  state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
+  action: OfferRemoveProductDiscountAction | OfferRemoveSubProductDiscountAction
+): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
+  const { discountType, uuid } = action;
+  
+  return {
+    ...state,
+    [discountType]: state![discountType]!.filter(d => d.uuid !== uuid),
+  }
+};
+
+export const updateDiscountHandler = (
+  state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
+  action: OfferUpdateProductDiscountAction | OfferUpdateSubProductDiscountAction
+): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
+  const { discountType, uuid, key, newValue, currentValue } = action; 
+
+  const sanitizedValue = key === 'discountPercentage' || key === 'maximumQuantity'
+    ? sanitizeInteger(newValue, currentValue)
+    : newValue;
+  
+  const newDiscountType = state![discountType]!.map(discount => {
+    if (discount.uuid !== uuid) {
+      return discount;
+    }
+    
+    return {
+      ...discount,
+      [key]: sanitizedValue,
+    }
+  })
+  return {
+    ...state,
+    [discountType]: newDiscountType,
+  };
+};
+
+export const addProductToDiscountHandler = (
+  state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
+  action: OfferAddProductToProductDiscountAction | OfferAddProductToSubProductDiscountAction
+): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
+  const { discountType, discountUuid, product, } = action;
+
+  const discountIndex = state![discountType]?.findIndex(d => d.uuid === discountUuid);
+  const discountToUpdate = state![discountType]![discountIndex!];
+  
+  const updatedDiscount: IUIOfferProductDiscountInstance = {
+    ...discountToUpdate,
+    products: [
+      ...discountToUpdate.products,
+      product,
+    ]
+  }
+
+  const updatedDiscountType = [...state![discountType]];
+  updatedDiscountType[discountIndex!] = updatedDiscount
+
+  return {
+    ...state,
+    [discountType]: updatedDiscountType
+  }
+};
+
+export const removeProductFromDiscountHandler = (
+  state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
+  action: OfferRemoveProductFromProductDiscountAction | OfferRemoveProductFromSubProductDiscountAction
+) => {
+  const { discountType, discountUuid, productUuid } = action;
+  
+  const newDiscountType = state![discountType]!.map(discount => {
+    if (discount.uuid !== discountUuid) {
+      return discount;
+    }
+    
+    return {
+      ...discount,
+      products: discount.products.filter(product => product.uuid !== productUuid),
+    }
+  })
+  return {
+    ...state,
+    [discountType]: newDiscountType,
+  };
+}
+
+export const toggleDiscountAgeName = (
+  state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
+  action: OfferToggleProductDiscountAgeNameAction | OfferToggleSubProductDiscountAgeNameAction
+) => {
+  const {discountType, discountUuid, productUuid, ageName} = action;
+  const updatedDiscounType = [...state![discountType]!];
+  const subProductDiscountToUpdate = updatedDiscounType.find(dt => dt.uuid === discountUuid)!;
+  const updateIndex = updatedDiscounType.findIndex(dt => dt.uuid === discountUuid);
+  
+  const updatedProducts = subProductDiscountToUpdate.products
+    .map(p => {
+      const arr = p.ageNames ? p.ageNames : [];
+      return {
+        ...p,
+        ageNames: arr.includes(action.ageName) ? without([action.ageName], arr) : [...arr, action.ageName],
+      }
+    });
+
+  const updatedProductDiscount: IUIOfferProductDiscountInstance = {
+    ...subProductDiscountToUpdate,
+    products: updatedProducts,
+  }
+
+  updatedDiscounType[updateIndex] = updatedProductDiscount;
+
+  return {
+    ...state,
+    [discountType]: updatedDiscounType,
+  }
+}

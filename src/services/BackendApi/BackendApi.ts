@@ -23,7 +23,7 @@ import { IBookingsListResponse } from './types/BookingsListResponse';
 import { ITravelAgentRespone } from './types/TravelAgentResponse';
 import { IHotelNamesResponse } from './types/HotelNamesResponse';
 import { IOffersListResponse, IOffersDeleteResponse } from './types/OffersListResponse';
-import { IOfferResponse, IOfferAPI } from './types/OfferResponse';
+import { IOfferResponse, IOfferAPI, IAccommodationProductForHotelItem } from './types/OfferResponse';
 import { transformPut, transformPost } from './helpers';
 import { IApiErrorResponse } from './types/ApiError';
 import { IAPIRepsonse } from './types/ApiResponse';
@@ -127,9 +127,21 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
-  getAccommodationProductsForHotel = async (hotelUuid: string): Promise<AxiosResponse> => {
-    const endpoint = `${BackendEndpoints.PRODUCTS}?fields[product]=uuid,name,type&filter[product][type]=Accommodation&filter[product][ownerUuid]=${hotelUuid}`;
-    return this.client.get(endpoint);
+  getAccommodationProductsForHotel = async (
+    hotelUuid: string
+  ): Promise<IAPIRepsonse<IAccommodationProductForHotelItem, IApiErrorResponse>> => {
+    const endpoint = `${BackendEndpoints.PRODUCTS}?fields[product]=uuid,name,options,type&filter[product][type]=Accommodation&filter[product][ownerUuid]=${hotelUuid}`;
+    return (
+      this.client
+        .get(endpoint)
+        .then(response => ({
+          response,
+        }))
+        // TODO: Create a helper to handle differen error ranges and either throw or return an error
+        .catch(error => ({
+          error,
+        }))
+    );
   };
 
   getProductsAsUuidAndName = async (uuids: string[]): Promise<AxiosResponse> => {

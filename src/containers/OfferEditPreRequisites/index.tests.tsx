@@ -34,6 +34,10 @@ const createProps = (
       name: `Test Hotel ${idx}`,
       uuid: `hotel_${idx}`,
     })),
+    bootsrapExtraPersonSupplementId: {
+      uuid: 'EPS_123',
+      name: 'Extra Person Supplement',
+    },
     // Actions
     offerAddStayBetweenPrerequisiteAction: jest.fn(),
     offerChangeStayBetweenPrerequisiteAction: jest.fn(),

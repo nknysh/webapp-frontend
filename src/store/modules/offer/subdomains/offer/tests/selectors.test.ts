@@ -42,11 +42,13 @@ import {
   offerProductDiscountsSelector,
   offerProductDiscountsTransfersSelector,
   offerProductDiscountsSupplementsSelector,
+  isAccomodationPreReqAllSelected,
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
 import { initialState } from '../../../model';
 import { ITaCountriesUiData, ITACountry } from '../../../types';
+import { IUIOfferProductDiscountInstanceWithAgeNames } from '../selectors';
 
 describe('Offer Selectors', () => {
   describe('offerSelector', () => {
@@ -404,6 +406,34 @@ describe('Offer Selectors', () => {
     });
   });
 
+  describe('isAccomodationPreReqAllSelected', () => {
+    const options = {} as IAccommodationProductForHotelItem['options'];
+    const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
+      {
+        uuid: 'a',
+        name: 'Product A',
+        type: 'Accommodation',
+        options,
+      },
+      {
+        uuid: 'b',
+        name: 'Product B',
+        type: 'Accommodation',
+        options,
+      },
+      {
+        uuid: 'c',
+        name: 'Product C',
+        type: 'Accommodation',
+        options,
+      },
+    ];
+
+    it('returns true if none are selected', () => {
+      expect(isAccomodationPreReqAllSelected.resultFunc([], accommodationProductsFixture)).toEqual(true);
+    });
+  });
+
   describe('offer accommodation products prerequisite', () => {
     it('returns base array of accommodation products correctly', () => {
       const fixture = {
@@ -429,22 +459,26 @@ describe('Offer Selectors', () => {
 
     it('creates a formatted array of all accommodation products on the hotel', () => {
       const prerequisitesFixture = ['b'];
+      const options = {} as IAccommodationProductForHotelItem['options'];
 
       const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
         {
           uuid: 'a',
           name: 'Product A',
           type: 'Accommodation',
+          options,
         },
         {
           uuid: 'b',
           name: 'Product B',
           type: 'Accommodation',
+          options,
         },
         {
           uuid: 'c',
           name: 'Product C',
           type: 'Accommodation',
+          options,
         },
       ];
 
@@ -471,87 +505,65 @@ describe('Offer Selectors', () => {
 
     it('returns a label for accommodation products (some selected)', () => {
       const prerequisitesFixture = ['b', 'c'];
-
-      const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
-        {
-          uuid: 'a',
-          name: 'Product A',
-          type: 'Accommodation',
-        },
-        {
-          uuid: 'b',
-          name: 'Product B',
-          type: 'Accommodation',
-        },
-        {
-          uuid: 'c',
-          name: 'Product C',
-          type: 'Accommodation',
-        },
-      ];
-
-      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(
-        prerequisitesFixture,
-        accommodationProductsFixture
-      );
-
+      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, false);
       expect(selected).toEqual('2 Accommodation Products');
     });
 
     it('returns a label for accommodation products (all selected)', () => {
       const prerequisitesFixture = ['a', 'b', 'c'];
-
+      const options = {} as IAccommodationProductForHotelItem['options'];
       const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
         {
           uuid: 'a',
           name: 'Product A',
           type: 'Accommodation',
+          options,
         },
         {
           uuid: 'b',
           name: 'Product B',
           type: 'Accommodation',
+          options,
         },
         {
           uuid: 'c',
           name: 'Product C',
           type: 'Accommodation',
+          options,
         },
       ];
 
-      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(
-        prerequisitesFixture,
-        accommodationProductsFixture
-      );
+      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, true);
 
       expect(selected).toEqual('All Accommodation Products');
     });
 
     it('returns a label for accommodation products (none selected)', () => {
       const prerequisitesFixture = [];
+      const options = {} as IAccommodationProductForHotelItem['options'];
 
       const accommodationProductsFixture: IAccommodationProductForHotelItem[] = [
         {
           uuid: 'a',
           name: 'Product A',
           type: 'Accommodation',
+          options,
         },
         {
           uuid: 'b',
           name: 'Product B',
           type: 'Accommodation',
+          options,
         },
         {
           uuid: 'c',
           name: 'Product C',
           type: 'Accommodation',
+          options,
         },
       ];
 
-      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(
-        prerequisitesFixture,
-        accommodationProductsFixture
-      );
+      const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, true);
 
       expect(selected).toEqual('All Accommodation Products');
     });
@@ -788,11 +800,11 @@ describe('Offer Selectors', () => {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 0,
+            uuid: 'AA',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
+            uuid: 'BB',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -802,11 +814,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 0,
+          uuid: 'AA',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 1,
+          uuid: 'BB',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -817,11 +829,11 @@ describe('Offer Selectors', () => {
         'Meal Plan': [],
         Supplement: [
           {
-            index: 4,
+            uuid: '4',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 6,
+            uuid: '6',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -831,11 +843,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 4,
+          uuid: '4',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 6,
+          uuid: '6',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -846,14 +858,14 @@ describe('Offer Selectors', () => {
     it('returns an empty array when we have supplements, but none are extra person', () => {
       const supplementFixture = [
         {
-          index: 0,
+          uuid: '0',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 1,
+          uuid: '1',
           products: [{ uuid: 'B' }],
         },
-      ] as IUIOfferProductDiscountInstance[];
+      ] as IUIOfferProductDiscountInstanceWithAgeNames[];
 
       const epsFixture = {
         uuid: 'C',
@@ -868,22 +880,22 @@ describe('Offer Selectors', () => {
     it('returns 1 or more EPS supplements with correct index', () => {
       const supplementFixture = [
         {
-          index: 0,
+          uuid: '0',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 1,
+          uuid: '1',
           products: [{ uuid: 'EPS' }],
         },
         {
-          index: 2,
+          uuid: '2',
           products: [{ uuid: 'C' }],
         },
         {
-          index: 3,
+          uuid: '3',
           products: [{ uuid: 'EPS' }],
         },
-      ] as IUIOfferProductDiscountInstance[];
+      ] as IUIOfferProductDiscountInstanceWithAgeNames[];
 
       const epsFixture = {
         uuid: 'EPS',
@@ -894,11 +906,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 1,
+          uuid: '1',
           products: [{ uuid: 'EPS' }],
         },
         {
-          index: 3,
+          uuid: '3',
           products: [{ uuid: 'EPS' }],
         },
       ]);
@@ -953,11 +965,11 @@ describe('Offer Selectors', () => {
         Supplement: [],
         Fine: [
           {
-            index: 0,
+            uuid: '0',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
+            uuid: '1',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -967,11 +979,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 0,
+          uuid: '0',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 1,
+          uuid: '1',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -984,11 +996,11 @@ describe('Offer Selectors', () => {
         Supplement: [],
         Fine: [
           {
-            index: 4,
+            uuid: '4',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 6,
+            uuid: '6',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -998,11 +1010,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 4,
+          uuid: '4',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 6,
+          uuid: '6',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -1051,11 +1063,11 @@ describe('Offer Selectors', () => {
       const fixture = {
         'Meal Plan': [
           {
-            index: 0,
+            uuid: '0',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
+            uuid: '1',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -1065,11 +1077,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 0,
+          uuid: '0',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 1,
+          uuid: '1',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -1079,11 +1091,11 @@ describe('Offer Selectors', () => {
       const fixture = {
         'Meal Plan': [
           {
-            index: 4,
+            uuid: '4',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 6,
+            uuid: '6',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -1093,11 +1105,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 4,
+          uuid: '4',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 6,
+          uuid: '6',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -1117,11 +1129,11 @@ describe('Offer Selectors', () => {
       const fixture = {
         'Ground Service': [
           {
-            index: 0,
+            uuid: '0',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
+            uuid: '1',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -1131,11 +1143,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 0,
+          uuid: '0',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 1,
+          uuid: '1',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -1145,11 +1157,11 @@ describe('Offer Selectors', () => {
       const fixture = {
         'Ground Service': [
           {
-            index: 4,
+            uuid: '4',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 6,
+            uuid: '6',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -1159,11 +1171,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 4,
+          uuid: '4',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 6,
+          uuid: '6',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -1183,11 +1195,11 @@ describe('Offer Selectors', () => {
       const fixture = {
         Transfer: [
           {
-            index: 0,
+            uuid: '0',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
+            uuid: '1',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -1197,11 +1209,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 0,
+          uuid: '0',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 1,
+          uuid: '1',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -1211,11 +1223,11 @@ describe('Offer Selectors', () => {
       const fixture = {
         Transfer: [
           {
-            index: 4,
+            uuid: '4',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 6,
+            uuid: '6',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -1225,11 +1237,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 4,
+          uuid: '4',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 6,
+          uuid: '6',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -1249,11 +1261,11 @@ describe('Offer Selectors', () => {
       const fixture = {
         Supplement: [
           {
-            index: 0,
+            uuid: '0',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 1,
+            uuid: '1',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -1263,11 +1275,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 0,
+          uuid: '0',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 1,
+          uuid: '1',
           products: [{ uuid: 'B' }],
         },
       ]);
@@ -1277,11 +1289,11 @@ describe('Offer Selectors', () => {
       const fixture = {
         Supplement: [
           {
-            index: 4,
+            uuid: '4',
             products: [{ uuid: 'A' }],
           },
           {
-            index: 6,
+            uuid: '6',
             products: [{ uuid: 'B' }],
           },
         ],
@@ -1291,11 +1303,11 @@ describe('Offer Selectors', () => {
 
       expect(selected).toMatchObject([
         {
-          index: 4,
+          uuid: '4',
           products: [{ uuid: 'A' }],
         },
         {
-          index: 6,
+          uuid: '6',
           products: [{ uuid: 'B' }],
         },
       ]);

@@ -22,4 +22,41 @@ export const OfferEditApplicationsStyles = styled.section`
       grid-area: info;
     }
   }
+
+  .extraPersonSupplement {
+    border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      'ageNames ageNames ageNames epsCloseButton'
+      'discountInput maxQuantityInput epsGreentax epsGreentax';
+
+    .ageNames {
+      grid-area: ageNames;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 20px;
+    }
+
+    .discountInput {
+      grid-area: discountInput;
+    }
+    .maxQuantityInput {
+      grid-area: maxQuantityInput;
+    }
+    .epsCloseButton {
+      grid-area: epsCloseButton;
+      text-align: right;
+    }
+
+    .epsGreentax {
+      grid-area: epsGreentax;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-gap: 10px;
+    }
+  }
 `;

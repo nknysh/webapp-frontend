@@ -33,11 +33,14 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
     // if the action says we need to load hotel accommodation products, do that too
     let accommodationProductsForHotel = [];
     if (action.shouldFetchHotelAccommodationProducts) {
-      const accommodationProductsForHotelResult = yield call(
-        backendApi.getAccommodationProductsForHotel,
-        uiOffer.hotelUuid
-      );
-      accommodationProductsForHotel = accommodationProductsForHotelResult.data.data;
+      const { response, error } = yield call(backendApi.getAccommodationProductsForHotel, uiOffer.hotelUuid);
+      if (response) {
+        accommodationProductsForHotel = response.data.data;
+      }
+
+      if (error) {
+        throw error;
+      }
     }
 
     yield put(
@@ -51,6 +54,7 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
       )
     );
   } catch (e) {
+    console.error(e);
     yield put(getOfferFailureAction(e));
   }
 }

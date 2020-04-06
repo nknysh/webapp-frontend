@@ -36,7 +36,7 @@ export const uiStateReducer = (
         draftState.getError = null;
         draftState.isTextOnly = action.isTextOnly;
 
-        if (action.offer.combines) {
+        if (action.offer.combines && action.offer.combinesWith) {
           if (action.offer.combinesWith.length >= 1) {
             draftState.combinationMode = ECombinationMode.COMBINES_WITH_LIST;
             draftState.combinationOfferUuids = action.offer.combinesWith;
@@ -109,11 +109,9 @@ export const uiStateReducer = (
     case TOGGLE_TA_COUNTRY_ACCORDIAN:
       return {
         ...state,
-        taCountryAccordianKeys: ifElse(
-          contains(action.key),
-          without([action.key]),
-          append(action.key)
-        )(state.taCountryAccordianKeys),
+        taCountryAccordianKeys: ifElse(contains(action.key), without([action.key]), append(action.key))(
+          state.taCountryAccordianKeys
+        ),
       };
 
     case SET_COMBINATION_MODE:
