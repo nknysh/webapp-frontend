@@ -53,7 +53,7 @@ export interface IOfferProductDiscountInstance {
   discountPercentage?: number;
   maximumQuantity?: number;
   greenTaxDiscountApproach?: string;
-  standardOccupancyOnly?: boolean;
+  standardOccupancyOnly?: string; // Change to boolean
   products: IDiscountProduct[];
 }
 
@@ -131,20 +131,20 @@ export interface IOffer<T> {
   updatedAt: string;
 }
 
-export interface IProduct<T> {
-  uuid: string;
-  name: string;
-  type: string;
-  category: string;
-  options: T;
-  isOneWay: true
-  capacity: 4
-  meta: {,…}
-  ownerType: "hotel"
-  ownerUuid: "9a33c5a9-10b4-4aa9-bdea-2b4dd597e35e"
-  createdAt: "2020-03-12T09:16:01.486Z"
-  updatedAt: "2020-03-12T09:16:01.486Z"
-}
+// export interface IProduct<T> {
+//   uuid: string;
+//   name: string;
+//   type: string;
+//   category: string;
+//   options: T;
+//   isOneWay: true
+//   capacity: 4
+//   meta: {,…}
+//   ownerType: "hotel"
+//   ownerUuid: "9a33c5a9-10b4-4aa9-bdea-2b4dd597e35e"
+//   createdAt: "2020-03-12T09:16:01.486Z"
+//   updatedAt: "2020-03-12T09:16:01.486Z"
+// }
 
 export interface ITransferOptions {
   isOneWay: boolean;

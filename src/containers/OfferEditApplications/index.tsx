@@ -77,10 +77,10 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     this.props.offerUpdateProductDiscountAction(type, uuid, key, e.currentTarget.value, currentValue);
   };
   
-  handleProductDiscountBooleanChange = (type: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
-    const currentValue = this.props.extraPersonSupplements!.find(eps => eps.uuid === uuid)![key];
-    this.props.offerUpdateProductDiscountAction(type, uuid, key, e.currentTarget.checked, currentValue);
-  };
+  // handleProductDiscountBooleanChange = (type: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
+  //   const currentValue = this.props.extraPersonSupplements!.find(eps => eps.uuid === uuid)![key];
+  //   this.props.offerUpdateProductDiscountAction(type, uuid, key, e.currentTarget.checked, currentValue);
+  // };
   
   render() {
 
@@ -173,7 +173,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                   <TextInput className="maxQuantityInput" value={fineDiscount.maximumQuantity} onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')} />
                 </Label>
                 <Label text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
-                  <Checkbox check={fineDiscount.standardOccupancyOnly} onChange={this.handleProductDiscountBooleanChange('Fine', fineDiscount.uuid, 'standardOccupancyOnly')}/>
+                  {/* <Checkbox checked={fineDiscount.standardOccupancyOnly} onChange={this.handleProductDiscountBooleanChange('Fine', fineDiscount.uuid, 'standardOccupancyOnly')}/> */}
                 </Label>
               </div>
             );

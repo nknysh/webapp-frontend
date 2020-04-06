@@ -280,7 +280,7 @@ export const offerUpdateProductDiscountAction = (
   discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string,
   key: EditableProductDiscountField,
-  newValue: string | boolean,
+  newValue: string,
   currentValue: number | string | undefined
 ) => ({
   type: OFFER_UPDATE_PRODUCT_DISCOUNT as typeof OFFER_UPDATE_PRODUCT_DISCOUNT,
