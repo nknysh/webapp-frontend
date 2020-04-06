@@ -109,9 +109,18 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(d => d.uuid === uuid)![key];
     this.props.offerUpdateProductDiscountAction(discountType, uuid, key, e.currentTarget.checked, currentValue);
   };
+  
+  handleSubProductDiscountBooleanChange = (discountType: keyof IOfferSubProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
+    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(d => d.uuid === uuid)![key];
+    this.props.offerUpdateSubProductDiscountAction(discountType, uuid, key, e.currentTarget.checked, currentValue);
+  };
 
-  toggleProductOnDiscount = (discountType: keyof IOfferProductDiscounts<any>, discountUuid: string, productUuid: string) => () => {
+  toggleProductOnProductDiscount = (discountType: keyof IOfferProductDiscounts<any>, discountUuid: string, productUuid: string) => () => {
     this.props.offerToggleProductOnProductDiscountAction(discountType, discountUuid, productUuid);
+  }
+  
+  toggleProductOnSubProductDiscount = (discountType: keyof IOfferSubProductDiscounts<any>, discountUuid: string, productUuid: string) => () => {
+    this.props.offerToggleProductOnSubProductDiscountAction(discountType, discountUuid, productUuid);
   }
   
   render() {
@@ -203,7 +212,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     <Label key={product.name} text={product.name} inline reverse lowercase>
                       <Checkbox 
                         checked={fineDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                        onChange={this.toggleProductOnDiscount('Fine', fineDiscount.uuid, product.uuid)}
+                        onChange={this.toggleProductOnProductDiscount('Fine', fineDiscount.uuid, product.uuid)}
                       />
                     </Label>
                   ))}
@@ -225,7 +234,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')} 
                   />
                 </Label>
-                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
+                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse lowercase>
                   <Checkbox 
                     checked={fineDiscount.standardOccupancyOnly} 
                     onChange={this.handleProductDiscountBooleanChange('Fine', fineDiscount.uuid, 'standardOccupancyOnly')}
@@ -251,7 +260,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     <Label key={product.name} text={product.name} inline reverse lowercase>
                       <Checkbox 
                         checked={groundServiceDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                        onChange={this.toggleProductOnDiscount('Ground Service', groundServiceDiscount.uuid, product.uuid)}
+                        onChange={this.toggleProductOnProductDiscount('Ground Service', groundServiceDiscount.uuid, product.uuid)}
                       />
                     </Label>
                   ))}
@@ -273,7 +282,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     onChange={this.handleProductDiscountChange('Ground Service', groundServiceDiscount.uuid, 'maximumQuantity')} 
                   />
                 </Label>
-                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
+                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse lowercase>
                   <Checkbox 
                     checked={groundServiceDiscount.standardOccupancyOnly} 
                     onChange={this.handleProductDiscountBooleanChange('Ground Service', groundServiceDiscount.uuid, 'standardOccupancyOnly')}
@@ -299,7 +308,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     <Label key={product.name} text={product.name} inline reverse lowercase>
                       <Checkbox 
                         checked={transferDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                        onChange={this.toggleProductOnDiscount('Transfer', transferDiscount.uuid, product.uuid)}
+                        onChange={this.toggleProductOnProductDiscount('Transfer', transferDiscount.uuid, product.uuid)}
                       />
                     </Label>
                   ))}
@@ -321,7 +330,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'maximumQuantity')} 
                   />
                 </Label>
-                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
+                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse lowercase>
                   <Checkbox 
                     checked={transferDiscount.standardOccupancyOnly} 
                     onChange={this.handleProductDiscountBooleanChange('Transfer', transferDiscount.uuid, 'standardOccupancyOnly')}
@@ -335,6 +344,54 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add an transfer discount</Text>}
+        </Fieldset>
+
+        <Fieldset>
+          <Legend>Meal Plan Discount</Legend>
+          {this.props.mealPlanDiscounts.map(mealPlanDiscount => {
+            return (
+              <div key={mealPlanDiscount.uuid} className="mealPlanDiscountGrid">
+                <FormControlGrid className="formGrid" columnCount={4}>
+                  {this.props.availableMealPlanProducts.map(product => (
+                    <Label key={product.name} text={product.name} inline reverse lowercase>
+                      <Checkbox 
+                        checked={mealPlanDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                        onChange={this.toggleProductOnSubProductDiscount('Meal Plan', mealPlanDiscount.uuid, product.uuid)}
+                      />
+                    </Label>
+                  ))}
+                </FormControlGrid>
+                <span className="removeDiscountButton">
+                  <CloseButton 
+                    onClick={this.handleRemoveSubProductDiscount('Meal Plan', mealPlanDiscount.uuid)} 
+                  />
+                </span>
+                <Label className="discountInput"  text="Discount %">
+                  <TextInput 
+                    value={mealPlanDiscount.discountPercentage} 
+                    onChange={this.handleSubProductDiscountChange('Meal Plan', mealPlanDiscount.uuid, 'discountPercentage')}
+                  />
+                </Label>
+                <Label className="maxQuantityInput" text="Maximum Quantity">
+                  <TextInput  
+                    value={mealPlanDiscount.maximumQuantity} 
+                    onChange={this.handleSubProductDiscountChange('Meal Plan', mealPlanDiscount.uuid, 'maximumQuantity')} 
+                  />
+                </Label>
+                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse lowercase>
+                  <Checkbox 
+                    checked={mealPlanDiscount.standardOccupancyOnly} 
+                    onChange={this.handleSubProductDiscountBooleanChange('Meal Plan', mealPlanDiscount.uuid, 'standardOccupancyOnly')}
+                  />
+                </Label>
+              </div>
+            );
+          })}
+          {this.props.hotelUuid && (
+            <ActionButton action="add" onClick={this.handleAddSubProduct('Meal Plan')}>Add Meal Plan Discount</ActionButton>
+          )}
+
+          {!this.props.hotelUuid && <Text>Select a hotel to add a meal plan discount</Text>}
         </Fieldset>
       </OfferEditApplicationsStyles>
     );

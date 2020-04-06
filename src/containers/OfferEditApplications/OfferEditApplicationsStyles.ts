@@ -59,7 +59,8 @@ export const OfferEditApplicationsStyles = styled.section`
 
   .fineDiscountGrid,
   .groundServiceDiscountGrid,
-  .transferDiscountGrid {
+  .transferDiscountGrid,
+  .mealPlanDiscountGrid {
     display: grid;
     grid-gap: 20px;
     grid-template-areas:
@@ -88,7 +89,8 @@ export const OfferEditApplicationsStyles = styled.section`
   .extraPersonSupplement,
   .fineDiscountGrid,
   .groundServiceDiscountGrid,
-  .transferDiscountGrid {
+  .transferDiscountGrid,
+  .mealPlanDiscountGrid {
     border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
     margin-bottom: 20px;
     padding-bottom: 20px;
