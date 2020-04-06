@@ -57,7 +57,8 @@ export const OfferEditApplicationsStyles = styled.section`
     }
   }
 
-  .fineDiscountGrid {
+  .fineDiscountGrid,
+  .groundServiceDiscountGrid {
     display: grid;
     grid-gap: 20px;
     grid-template-areas:
@@ -68,7 +69,7 @@ export const OfferEditApplicationsStyles = styled.section`
     & > .formGrid {
       grid-area: formGrid;
     }
-    & > .removeFineDiscountButton {
+    & > .removeDiscountButton {
       grid-area: closeButton;
       text-align: right;
     }
@@ -84,7 +85,8 @@ export const OfferEditApplicationsStyles = styled.section`
   }
 
   .extraPersonSupplement,
-  .fineDiscountGrid {
+  .fineDiscountGrid,
+  .groundServiceDiscountGrid {
     border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
     margin-bottom: 20px;
     padding-bottom: 20px;

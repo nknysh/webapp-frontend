@@ -208,7 +208,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     </Label>
                   ))}
                 </FormControlGrid>
-                <span className="removeFineDiscountButton">
+                <span className="removeDiscountButton">
                   <CloseButton 
                     onClick={this.handleRemoveProductDiscount('Fine', fineDiscount.uuid)} 
                   />
@@ -236,6 +236,54 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           })}
           {this.props.hotelUuid && (
             <ActionButton action="add" onClick={this.handleAddProduct('Fine')}>Add Fine Discount</ActionButton>
+          )}
+
+          {!this.props.hotelUuid && <Text>Select a hotel to add fine discount</Text>}
+        </Fieldset>
+
+        <Fieldset>
+          <Legend>Ground Service Discount</Legend>
+          {this.props.groundServiceDiscounts.map(groundServiceDiscount => {
+            return (
+              <div key={groundServiceDiscount.uuid} className="groundServiceDiscountGrid">
+                <FormControlGrid className="formGrid" columnCount={4}>
+                  {this.props.availableGroundServiceProducts.map(product => (
+                    <Label key={product.name} text={product.name} inline reverse lowercase>
+                      <Checkbox 
+                        checked={groundServiceDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                        onChange={this.toggleProductOnDiscount('Ground Service', groundServiceDiscount.uuid, product.uuid)}
+                      />
+                    </Label>
+                  ))}
+                </FormControlGrid>
+                <span className="removeDiscountButton">
+                  <CloseButton 
+                    onClick={this.handleRemoveProductDiscount('Ground Service', groundServiceDiscount.uuid)} 
+                  />
+                </span>
+                <Label className="discountInput"  text="Discount %">
+                  <TextInput 
+                    value={groundServiceDiscount.discountPercentage} 
+                    onChange={this.handleProductDiscountChange('Ground Service', groundServiceDiscount.uuid, 'discountPercentage')}
+                  />
+                </Label>
+                <Label className="maxQuantityInput" text="Maximum Quantity">
+                  <TextInput  
+                    value={groundServiceDiscount.maximumQuantity} 
+                    onChange={this.handleProductDiscountChange('Ground Service', groundServiceDiscount.uuid, 'maximumQuantity')} 
+                  />
+                </Label>
+                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
+                  <Checkbox 
+                    checked={groundServiceDiscount.standardOccupancyOnly} 
+                    onChange={this.handleProductDiscountBooleanChange('Ground Service', groundServiceDiscount.uuid, 'standardOccupancyOnly')}
+                  />
+                </Label>
+              </div>
+            );
+          })}
+          {this.props.hotelUuid && (
+            <ActionButton action="add" onClick={this.handleAddProduct('Ground Service')}>Add Fine Discount</ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add an extra person supplement</Text>}
