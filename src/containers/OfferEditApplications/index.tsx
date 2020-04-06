@@ -283,10 +283,58 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             );
           })}
           {this.props.hotelUuid && (
-            <ActionButton action="add" onClick={this.handleAddProduct('Ground Service')}>Add Fine Discount</ActionButton>
+            <ActionButton action="add" onClick={this.handleAddProduct('Ground Service')}>Add Ground Service Discount</ActionButton>
           )}
 
-          {!this.props.hotelUuid && <Text>Select a hotel to add an extra person supplement</Text>}
+          {!this.props.hotelUuid && <Text>Select a hotel to add an ground service discount</Text>}
+        </Fieldset>
+
+        <Fieldset>
+          <Legend>Transfer Discount</Legend>
+          {this.props.transferDiscounts.map(transferDiscount => {
+            return (
+              <div key={transferDiscount.uuid} className="transferDiscountGrid">
+                <FormControlGrid className="formGrid" columnCount={4}>
+                  {this.props.availableGroundServiceProducts.map(product => (
+                    <Label key={product.name} text={product.name} inline reverse lowercase>
+                      <Checkbox 
+                        checked={transferDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                        onChange={this.toggleProductOnDiscount('Transfer', transferDiscount.uuid, product.uuid)}
+                      />
+                    </Label>
+                  ))}
+                </FormControlGrid>
+                <span className="removeDiscountButton">
+                  <CloseButton 
+                    onClick={this.handleRemoveProductDiscount('Transfer', transferDiscount.uuid)} 
+                  />
+                </span>
+                <Label className="discountInput"  text="Discount %">
+                  <TextInput 
+                    value={transferDiscount.discountPercentage} 
+                    onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'discountPercentage')}
+                  />
+                </Label>
+                <Label className="maxQuantityInput" text="Maximum Quantity">
+                  <TextInput  
+                    value={transferDiscount.maximumQuantity} 
+                    onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'maximumQuantity')} 
+                  />
+                </Label>
+                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse>
+                  <Checkbox 
+                    checked={transferDiscount.standardOccupancyOnly} 
+                    onChange={this.handleProductDiscountBooleanChange('Transfer', transferDiscount.uuid, 'standardOccupancyOnly')}
+                  />
+                </Label>
+              </div>
+            );
+          })}
+          {this.props.hotelUuid && (
+            <ActionButton action="add" onClick={this.handleAddProduct('Transfer')}>Add Transfer Discount</ActionButton>
+          )}
+
+          {!this.props.hotelUuid && <Text>Select a hotel to add an transfer discount</Text>}
         </Fieldset>
       </OfferEditApplicationsStyles>
     );
