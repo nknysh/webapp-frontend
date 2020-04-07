@@ -13,7 +13,7 @@ import SortableList from 'pureUi/SortableList';
 
 
 const keySelector = (item: OrderedOffer): string => item.uuid;
-const renderItem = (item: OrderedOffer): string => item.name;
+const renderItem = (item: OrderedOffer, index: number): string => `${index + 1}. ${item.name}`;
 
 export class OfferEditOrderingContainer extends React.Component<IOfferEditOrderingProps, {}> {
   

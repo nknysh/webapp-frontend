@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import arrayMove from 'array-move';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
@@ -8,8 +8,8 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 export interface SortableListProps<T> {
   className?: string;
   items?: T[] | null;
-  keySelector: (item: T) => number | string;
-  renderItem: (item: T) => React.ReactNode;
+  keySelector: (item: T, index: number) => number | string;
+  renderItem: (item: T, index: number) => React.ReactNode;
   onChange: (items: T[]) => void;
 }
 
@@ -39,20 +39,28 @@ export const SortableList = <T,>(props: SortableListProps<T>) => {
     return null;
   }
 
-  const keyValItems = items.map(item => ({
-    key: keySelector(item),
-    value: renderItem(item)
-  }));
+  const keyValItems = useMemo(() =>
+    items.map((item, index) => ({
+      key: keySelector(item, index),
+      value: renderItem(item, index)
+    })),
+    [items, keySelector, renderItem]
+  );
 
-  const onSortEnd = ({ oldIndex, newIndex }) =>
-    onChange(arrayMove(items, oldIndex, newIndex));
-
+  const onSortEnd = useCallback(
+    ({ oldIndex, newIndex }) =>
+      onChange(arrayMove(items, oldIndex, newIndex)),
+    [items, onChange]
+  );
+  
   return (
     <Wrapper className={className}>
       <InternalList
         helperClass="dragging"
         items={keyValItems}
         onSortEnd={onSortEnd}
+        //@ts-ignore missing in exported by library type
+        disableAutoscroll
       />
     </Wrapper>
   );
@@ -61,6 +69,7 @@ export const SortableList = <T,>(props: SortableListProps<T>) => {
 const StyledSortableList = styled(SortableList)`
   border: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
   background-color: ${pureUiTheme.colors.grayDepth3};
+  cursor: grab;
 `;
 
 const StyledSortableItem = styled.div`
@@ -69,7 +78,6 @@ const StyledSortableItem = styled.div`
   padding: 15px;
   border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
   background-color: #fff;
-  cursor: grab;
 
   &:last-of-type {
     border-bottom: 0;
@@ -77,7 +85,6 @@ const StyledSortableItem = styled.div`
 
   &.dragging {
     opacity: 0.9;
-    cursor: grab;
     border: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
     box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.2),
                 0 -5px 5px -5px rgba(0, 0, 0, 0.2);
@@ -87,9 +94,16 @@ const StyledSortableItem = styled.div`
 export const DefaultSortableList = <T,>(props: SortableListProps<T>) => {
   const { renderItem, ...rest } = props;
 
+  const styledRenderItem = useCallback(
+    (item: T, index: number) => (
+      <StyledSortableItem>{renderItem(item, index)}</StyledSortableItem>
+    ),
+    [renderItem]
+  );
+
   return (
     <StyledSortableList
-      renderItem={(item: T) => <StyledSortableItem>{renderItem(item)}</StyledSortableItem>}
+      renderItem={styledRenderItem}
       {...rest}
     />
   );
