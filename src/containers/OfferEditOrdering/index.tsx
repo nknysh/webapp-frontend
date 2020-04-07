@@ -6,20 +6,33 @@ import { OfferEditOrderingStyles } from './OfferEditOrderingStyles';
 
 import { orderedOffersListSelector } from 'store/modules/offer/selectors';
 import { setOrderedOffersListAction } from 'store/modules/offer/actions';
+import { OrderedOffer } from 'store/modules/offer/model';
 
-import { Fieldset, Legend } from '../../pureUi/forms/Fieldset/index';
+import { Fieldset, Legend } from 'pureUi/forms/Fieldset';
+import SortableList from 'pureUi/SortableList';
+
+
+const keySelector = (item: OrderedOffer): string => item.uuid;
+const renderItem = (item: OrderedOffer): string => item.name;
 
 export class OfferEditOrderingContainer extends React.Component<IOfferEditOrderingProps, {}> {
   
-  
   render() {
+    const { orderedOffersList, setOrderedOffersListAction } = this.props;
 
     return (
       <OfferEditOrderingStyles>
         <Fieldset>
           <Legend>Order</Legend>
           <div className="contentGrid">
-              <div className="ordering">TODO ordering list</div>
+              <div className="ordering">
+                <SortableList
+                  items={orderedOffersList}
+                  keySelector={keySelector}
+                  renderItem={renderItem}
+                  onChange={setOrderedOffersListAction}
+                />
+              </div>
           </div>
         </Fieldset>
       </OfferEditOrderingStyles>

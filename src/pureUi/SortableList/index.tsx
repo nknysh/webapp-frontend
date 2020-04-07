@@ -64,10 +64,11 @@ const StyledSortableList = styled(SortableList)`
 `;
 
 const StyledSortableItem = styled.div`
-  padding: 10px;
+  color: ${pureUiTheme.colorRoles.grayLabel};
+  font-size: 12px;
+  padding: 15px;
   border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
   background-color: #fff;
-
   cursor: grab;
 
   &:last-of-type {
@@ -75,6 +76,7 @@ const StyledSortableItem = styled.div`
   }
 
   &.dragging {
+    opacity: 0.9;
     cursor: grab;
     border: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
     box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.2),
