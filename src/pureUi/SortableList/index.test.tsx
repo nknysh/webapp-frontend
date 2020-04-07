@@ -25,7 +25,7 @@ describe('SortableList', () => {
 
   it('renders items', () => {
     const props = createProps();
-    const wrapper = mount(<SortableList {...props} />);
+    const wrapper = mount(<SortableList<SampleItem> {...props} />);
 
     expect(wrapper.find('.item')).toHaveLength(5);
     expect(wrapper.find('.item').at(0).text()).toContain('Item 0');

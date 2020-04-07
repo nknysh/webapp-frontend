@@ -26,7 +26,7 @@ export class OfferEditOrderingContainer extends React.Component<IOfferEditOrderi
           <Legend>Order</Legend>
           <div className="contentGrid">
               <div className="ordering">
-                <SortableList
+                <SortableList<OrderedOffer>
                   items={orderedOffersList}
                   keySelector={keySelector}
                   renderItem={renderItem}
