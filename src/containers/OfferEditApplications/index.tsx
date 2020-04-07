@@ -49,19 +49,20 @@ import { Text, Heading } from 'pureUi/typography'
 import Checkbox from 'pureUi/Checkbox';
 import { ActionButton, CloseButton } from '../../pureUi/Buttons/index';
 import { sanitizeInteger } from 'utils/number';
-import { offerProductDiscountsFinesSelector, offerProductDiscountsGroundServicesSelector, offerProductDiscountsTransfersSelector, offerSubProductDiscountsMealPlansSelector } from '../../store/modules/offer/subdomains/offer/selectors';
+import { offerProductDiscountsFinesSelector, offerProductDiscountsGroundServicesSelector, offerProductDiscountsTransfersSelector, offerSubProductDiscountsMealPlansSelector, offerProductDiscountsSupplementsSelector } from '../../store/modules/offer/subdomains/offer/selectors';
 import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
 
 
 export class OfferEditApplicationsContainer extends React.Component<IOfferEditPreRequisitesProps, {}> {
   
-  discountTypeToPropName = (discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>): keyof discountTypeProps => {
+  discountTypeToPropName = (discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>, isSubProduct?: boolean): keyof DiscountTypeProps => {
     switch(discountType) {
       case 'Fine': return 'fineDiscounts';
       case 'Ground Service': return 'groundServiceDiscounts';
       case 'Transfer': return 'transferDiscounts';
-      case 'Supplement': return 'extraPersonSupplementDiscounts';
       case 'Meal Plan': return 'mealPlanDiscounts';
+      // Annoying...
+      case 'Supplement': return isSubProduct ? 'extraPersonSupplementDiscounts' : 'supplementDiscounts';
     }
   }
 
@@ -101,7 +102,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
   };
   
   handleSubProductDiscountChange = (discountType: keyof IOfferSubProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(d => d.uuid === uuid)![key];
+    const currentValue = this.props[this.discountTypeToPropName(discountType, true)]!.find(d => d.uuid === uuid)![key];
     this.props.offerUpdateSubProductDiscountAction(discountType, uuid, key, e.currentTarget.value, currentValue);
   };
   
@@ -111,7 +112,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
   };
   
   handleSubProductDiscountBooleanChange = (discountType: keyof IOfferSubProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
-    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(d => d.uuid === uuid)![key];
+    const currentValue = this.props[this.discountTypeToPropName(discountType, true)]!.find(d => d.uuid === uuid)![key];
     this.props.offerUpdateSubProductDiscountAction(discountType, uuid, key, e.currentTarget.checked, currentValue);
   };
 
@@ -200,6 +201,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.hotelUuid && (
             <ActionButton action="add" onClick={this.handleAddExtraPersonSupplement}>Add Extra Person Supplement</ActionButton>
           )}
+          
         </Fieldset>
 
         <Fieldset>
@@ -224,13 +226,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                 </span>
                 <Label className="discountInput"  text="Discount %">
                   <TextInput 
-                    value={fineDiscount.discountPercentage} 
+                    value={fineDiscount.discountPercentage || ''} 
                     onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'discountPercentage')}
                   />
                 </Label>
                 <Label className="maxQuantityInput" text="Maximum Quantity">
                   <TextInput  
-                    value={fineDiscount.maximumQuantity} 
+                    value={fineDiscount.maximumQuantity || ''} 
                     onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')} 
                   />
                 </Label>
@@ -243,11 +245,12 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.hotelUuid && (
+          {this.props.hotelUuid && this.props.availableFineProducts.length > 0 && (
             <ActionButton action="add" onClick={this.handleAddProduct('Fine')}>Add Fine Discount</ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add fine discount</Text>}
+          {this.props.hotelUuid && this.props.availableFineProducts.length === 0 && <Text>No fines available for this hotel.</Text>}
         </Fieldset>
 
         <Fieldset>
@@ -272,13 +275,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                 </span>
                 <Label className="discountInput"  text="Discount %">
                   <TextInput 
-                    value={groundServiceDiscount.discountPercentage} 
+                    value={groundServiceDiscount.discountPercentage || ''} 
                     onChange={this.handleProductDiscountChange('Ground Service', groundServiceDiscount.uuid, 'discountPercentage')}
                   />
                 </Label>
                 <Label className="maxQuantityInput" text="Maximum Quantity">
                   <TextInput  
-                    value={groundServiceDiscount.maximumQuantity} 
+                    value={groundServiceDiscount.maximumQuantity || ''} 
                     onChange={this.handleProductDiscountChange('Ground Service', groundServiceDiscount.uuid, 'maximumQuantity')} 
                   />
                 </Label>
@@ -291,11 +294,12 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.hotelUuid && (
+          {this.props.hotelUuid && this.props.availableGroundServiceProducts.length > 0 && (
             <ActionButton action="add" onClick={this.handleAddProduct('Ground Service')}>Add Ground Service Discount</ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add an ground service discount</Text>}
+          {this.props.hotelUuid && this.props.availableGroundServiceProducts.length === 0 && <Text>No ground services available for this hotel.</Text>}
         </Fieldset>
 
         <Fieldset>
@@ -320,13 +324,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                 </span>
                 <Label className="discountInput"  text="Discount %">
                   <TextInput 
-                    value={transferDiscount.discountPercentage} 
+                    value={transferDiscount.discountPercentage || ''} 
                     onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'discountPercentage')}
                   />
                 </Label>
                 <Label className="maxQuantityInput" text="Maximum Quantity">
                   <TextInput  
-                    value={transferDiscount.maximumQuantity} 
+                    value={transferDiscount.maximumQuantity || ''} 
                     onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'maximumQuantity')} 
                   />
                 </Label>
@@ -339,11 +343,12 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.hotelUuid && (
+          {this.props.hotelUuid && this.props.availableTransferProducts.length > 0 && (
             <ActionButton action="add" onClick={this.handleAddProduct('Transfer')}>Add Transfer Discount</ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add an transfer discount</Text>}
+          {this.props.hotelUuid && this.props.availableTransferProducts.length === 0 && <Text>No transfer products available for this hotel.</Text>}
         </Fieldset>
 
         <Fieldset>
@@ -368,13 +373,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                 </span>
                 <Label className="discountInput"  text="Discount %">
                   <TextInput 
-                    value={mealPlanDiscount.discountPercentage} 
+                    value={mealPlanDiscount.discountPercentage || ''} 
                     onChange={this.handleSubProductDiscountChange('Meal Plan', mealPlanDiscount.uuid, 'discountPercentage')}
                   />
                 </Label>
                 <Label className="maxQuantityInput" text="Maximum Quantity">
                   <TextInput  
-                    value={mealPlanDiscount.maximumQuantity} 
+                    value={mealPlanDiscount.maximumQuantity || ''} 
                     onChange={this.handleSubProductDiscountChange('Meal Plan', mealPlanDiscount.uuid, 'maximumQuantity')} 
                   />
                 </Label>
@@ -387,11 +392,61 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.hotelUuid && (
+          {this.props.hotelUuid && this.props.availableMealPlanProducts.length > 0 && (
             <ActionButton action="add" onClick={this.handleAddSubProduct('Meal Plan')}>Add Meal Plan Discount</ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add a meal plan discount</Text>}
+          {this.props.hotelUuid && this.props.availableMealPlanProducts.length === 0 && <Text>No meal plans available for this hotel.</Text>}
+        </Fieldset>
+
+        <Fieldset>
+          <Legend>Supplement Discount</Legend>
+          {this.props.supplementDiscounts.map(supplementDiscount => {
+            return (
+              <div key={supplementDiscount.uuid} className="supplementDiscountGrid">
+                <FormControlGrid className="formGrid" columnCount={4}>
+                  {this.props.availableSupplementProducts.map(product => (
+                    <Label key={product.name} text={product.name} inline reverse lowercase>
+                      <Checkbox 
+                        checked={supplementDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                        onChange={this.toggleProductOnProductDiscount('Supplement', supplementDiscount.uuid, product.uuid)}
+                      />
+                    </Label>
+                  ))}
+                </FormControlGrid>
+                <span className="removeDiscountButton">
+                  <CloseButton 
+                    onClick={this.handleRemoveProductDiscount('Supplement', supplementDiscount.uuid)} 
+                  />
+                </span>
+                <Label className="discountInput"  text="Discount %">
+                  <TextInput 
+                    value={supplementDiscount.discountPercentage || ''} 
+                    onChange={this.handleProductDiscountChange('Supplement', supplementDiscount.uuid, 'discountPercentage')}
+                  />
+                </Label>
+                <Label className="maxQuantityInput" text="Maximum Quantity">
+                  <TextInput  
+                    value={supplementDiscount.maximumQuantity || ''} 
+                    onChange={this.handleProductDiscountChange('Supplement', supplementDiscount.uuid, 'maximumQuantity')} 
+                  />
+                </Label>
+                <Label className="occupancyCheckbox" text="Only apply this to the number of guests that fit within the room's standard occupancy." inline reverse lowercase>
+                  <Checkbox 
+                    checked={supplementDiscount.standardOccupancyOnly} 
+                    onChange={this.handleProductDiscountBooleanChange('Supplement', supplementDiscount.uuid, 'standardOccupancyOnly')}
+                  />
+                </Label>
+              </div>
+            );
+          })}
+          {this.props.availableSupplementProducts.length > 0 && this.props.hotelUuid && (
+            <ActionButton action="add" onClick={this.handleAddProduct('Supplement')}>Add Supplement Discount</ActionButton>
+          )}
+
+          {!this.props.hotelUuid && <Text>Select a hotel to add a meal plan discount</Text>}
+          {this.props.hotelUuid && this.props.availableSupplementProducts.length === 0 && <Text>No Supplements available for this hotel.</Text>}
         </Fieldset>
       </OfferEditApplicationsStyles>
     );
@@ -401,11 +456,10 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
 // -----------------------------------------------------------------------------
 // Prop Typings
 // -----------------------------------------------------------------------------
+export interface IOfferEditPreRequisitesProps extends StateToProps, DispatchToProps, IWithBootstrapDataProps {}
 export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
-export type discountTypeProps = typeof discountTypes;
-
-export interface IOfferEditPreRequisitesProps extends StateToProps, DispatchToProps, IWithBootstrapDataProps {}
+export type DiscountTypeProps = typeof discountTypes;
 
 const discountTypes = {
   // NOTE: These prop names are bound to thge discountTypeToPropName method
@@ -413,7 +467,8 @@ const discountTypes = {
   groundServiceDiscounts: offerProductDiscountsGroundServicesSelector,
   transferDiscounts: offerProductDiscountsTransfersSelector,
   extraPersonSupplementDiscounts: offerExtraPersonSupplementsSelector,
-  mealPlanDiscounts: offerSubProductDiscountsMealPlansSelector
+  mealPlanDiscounts: offerSubProductDiscountsMealPlansSelector,
+  supplementDiscounts: offerProductDiscountsSupplementsSelector,
 }
 
 

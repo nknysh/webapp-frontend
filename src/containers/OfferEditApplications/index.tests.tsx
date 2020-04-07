@@ -25,6 +25,7 @@ const createProps = (
     transferDiscounts: [],
     extraPersonSupplementDiscounts: [],
     mealPlanDiscounts: [],
+    supplementDiscounts: [],
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},
