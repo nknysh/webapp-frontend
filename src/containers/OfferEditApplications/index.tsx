@@ -198,6 +198,8 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         {discount.products.map(discountProduct => {
           const product = availableProducts.find(p => p.uuid === discountProduct.uuid);
           if(!product) { return null; }
+          if(!product.options?.ages) { return null; }
+
           const ageNameAccordianKey = `${discount.uuid} - ${product.name}`;
           const ageNameTitle = `Ages for ${product.name}`;
           const isOpen = this.props.ageNameAccordianKeys.includes(ageNameAccordianKey);
@@ -227,7 +229,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     if (this.props.isTextOnly) {
       return <Heading level="h3">Text only offers can not have applications.</Heading>;
     }
-
+    
     return (
       <OfferEditApplicationsStyles>
         <Fieldset>
@@ -375,16 +377,22 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.fineDiscounts.map(fineDiscount => {
             return (
               <div key={fineDiscount.uuid} className="fineDiscountGrid">
+                <Text className="category">Product Category: {fineDiscount.productCategory ? fineDiscount.productCategory : 'None Selected'}</Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
-                  {this.props.availableFineProducts.map(product => (
-                    <Label key={product.name} text={product.name} inline reverse lowercase>
-                      <Checkbox
-                        checked={fineDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                        onChange={this.toggleProductOnProductDiscount('Fine', fineDiscount.uuid, product.uuid)}
-                      />
-                    </Label>
-                  ))}
+                  {this.props.availableFineProducts.map(product => {
+                    const isDisabled = Boolean(fineDiscount.productCategory && fineDiscount.productCategory !== product.category);
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox 
+                          disabled={isDisabled}
+                          checked={fineDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnProductDiscount('Fine', fineDiscount.uuid, product.uuid)}
+                        />
+                      </Label>
+                    );
+                  })}
                 </FormControlGrid>
+                {this.renderAgeNamesMap('Ground Service', fineDiscount, this.props.availableFineProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Fine', fineDiscount.uuid)} />
                 </span>
@@ -446,20 +454,22 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.groundServiceDiscounts.map(groundServiceDiscount => {
             return (
               <div key={groundServiceDiscount.uuid} className="groundServiceDiscountGrid">
+                <Text className="category">Product Category: {groundServiceDiscount.productCategory ? groundServiceDiscount.productCategory : 'None Selected'}</Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
-                  {this.props.availableGroundServiceProducts.map(product => (
-                    <Label key={product.name} text={product.name} inline reverse lowercase>
-                      <Checkbox
-                        checked={groundServiceDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                        onChange={this.toggleProductOnProductDiscount(
-                          'Ground Service',
-                          groundServiceDiscount.uuid,
-                          product.uuid
-                        )}
-                      />
-                    </Label>
-                  ))}
+                  {this.props.availableGroundServiceProducts.map(product => {
+                    const isDisabled = Boolean(groundServiceDiscount.productCategory && groundServiceDiscount.productCategory !== product.category);
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox 
+                          disabled={isDisabled}
+                          checked={groundServiceDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnProductDiscount('Ground Service', groundServiceDiscount.uuid, product.uuid)}
+                        />
+                      </Label>
+                    );
+                  })}
                 </FormControlGrid>
+                {this.renderAgeNamesMap('Ground Service', groundServiceDiscount, this.props.availableGroundServiceProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton
                     onClick={this.handleRemoveProductDiscount('Ground Service', groundServiceDiscount.uuid)}
@@ -529,16 +539,22 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.transferDiscounts.map(transferDiscount => {
             return (
               <div key={transferDiscount.uuid} className="transferDiscountGrid">
+                <Text className="category">Product Category: {transferDiscount.productCategory ? transferDiscount.productCategory : 'None Selected'}</Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
-                  {this.props.availableGroundServiceProducts.map(product => (
-                    <Label key={product.name} text={product.name} inline reverse lowercase>
-                      <Checkbox
-                        checked={transferDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                        onChange={this.toggleProductOnProductDiscount('Transfer', transferDiscount.uuid, product.uuid)}
-                      />
-                    </Label>
-                  ))}
+                  {this.props.availableTransferProducts.map(product => {
+                    const isDisabled = Boolean(transferDiscount.productCategory && transferDiscount.productCategory !== product.category);
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox 
+                          disabled={isDisabled}
+                          checked={transferDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnProductDiscount('Transfer', transferDiscount.uuid, product.uuid)}
+                        />
+                      </Label>
+                    );
+                  })}
                 </FormControlGrid>
+                {this.renderAgeNamesMap('Transfer', transferDiscount, this.props.availableTransferProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Transfer', transferDiscount.uuid)} />
                 </span>
@@ -598,19 +614,20 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.mealPlanDiscounts.map(mealPlanDiscount => {
             return (
               <div key={mealPlanDiscount.uuid} className="mealPlanDiscountGrid">
+                <Text className="category">Product Category: {mealPlanDiscount.productCategory ? mealPlanDiscount.productCategory : 'None Selected'}</Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
-                  {this.props.availableMealPlanProducts.map(product => (
-                    <Label key={product.name} text={product.name} inline reverse lowercase>
-                      <Checkbox
-                        checked={mealPlanDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                        onChange={this.toggleProductOnSubProductDiscount(
-                          'Meal Plan',
-                          mealPlanDiscount.uuid,
-                          product.uuid
-                        )}
-                      />
-                    </Label>
-                  ))}
+                  {this.props.availableMealPlanProducts.map(product => {
+                    const isDisabled = Boolean(mealPlanDiscount.productCategory && mealPlanDiscount.productCategory !== product.category);
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox 
+                          disabled={isDisabled}
+                          checked={mealPlanDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnSubProductDiscount('Meal Plan', mealPlanDiscount.uuid, product.uuid)}
+                        />
+                      </Label>
+                    );
+                  })}
                 </FormControlGrid>
                 {this.renderAgeNamesMap('Meal Plan', mealPlanDiscount, this.props.availableMealPlanProducts, true)}
                 <span className="removeDiscountButton">
@@ -680,20 +697,22 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.supplementDiscounts.map(supplementDiscount => {
             return (
               <div key={supplementDiscount.uuid} className="supplementDiscountGrid">
+                <Text className="category">Product Category: {supplementDiscount.productCategory ? supplementDiscount.productCategory : 'None Selected'}</Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
-                  {this.props.availableSupplementProducts.map(product => (
-                    <Label key={product.name} text={product.name} inline reverse lowercase>
-                      <Checkbox
-                        checked={supplementDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                        onChange={this.toggleProductOnProductDiscount(
-                          'Supplement',
-                          supplementDiscount.uuid,
-                          product.uuid
-                        )}
-                      />
-                    </Label>
-                  ))}
+                  {this.props.availableSupplementProducts.map(product => {
+                    const isDisabled = Boolean(supplementDiscount.productCategory && supplementDiscount.productCategory !== product.category);
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox 
+                          disabled={isDisabled}
+                          checked={supplementDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnProductDiscount('Supplement', supplementDiscount.uuid, product.uuid)}
+                        />
+                      </Label>
+                    )
+                  })}
                 </FormControlGrid>
+                {this.renderAgeNamesMap('Supplement', supplementDiscount, this.props.availableSupplementProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Supplement', supplementDiscount.uuid)} />
                 </span>

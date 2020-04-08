@@ -22,14 +22,16 @@ import {
   availableFineProductsSelector 
 } from '../../domainSelectors';
 import { IAgeName, IUIOfferProductDiscountInstance } from '../../../../../services/BackendApi/types/OfferResponse';
-import {
-  Validator,
-  ValidatorFieldResult,
-  OfferValidatorResultSet,
-  ValidatorFieldError,
-  isPercentageCompliant,
-} from '../../validation';
+import { Validator, ValidatorFieldResult, OfferValidatorResultSet, ValidatorFieldError } from '../../validation';
+import { returnObjectWithUndefinedsAsEmptyStrings, discountsWithCategory } from '../../utils';
 import { uiStateSelector } from '../uiState/selectors';
+
+export interface IAccomodationProductPreRequisiteUi {
+  label: string;
+  uuid: string;
+  value: boolean;
+  ageNames: IAgeName[]
+}
 
 export const offerSelector = createSelector(offerDomainSelector, domain => domain.offer);
 
@@ -294,55 +296,61 @@ export const offerProductDiscountsSelector = createSelector(offerSelector, offer
 
 export const offerProductDiscountsFinesSelector = createSelector(
   offerProductDiscountsSelector, 
-  (productDiscounts): IUIOfferProductDiscountInstance[] => {
+  availableFineProductsSelector,
+  (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
   if (!productDiscounts || !productDiscounts.Fine) {
     return [];
   }
   
-  return productDiscounts.Fine || [];
+  return productDiscounts.Fine ? discountsWithCategory(productDiscounts.Fine, availableProducts) : [];
 });
 
 
 export const offerProductDiscountsGroundServicesSelector = createSelector(
   offerProductDiscountsSelector,
-  (productDiscounts): IUIOfferProductDiscountInstance[] => {
+  availableGroundServiceProductsSelector,
+  (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
     if (!productDiscounts || !productDiscounts['Ground Service']) {
       return [];
     }
-    return productDiscounts['Ground Service'] || [];
+    return productDiscounts['Ground Service'] ? discountsWithCategory(productDiscounts['Ground Service'], availableProducts) : [];
   }
 );
 
 export const offersubProductDiscountsMealPlansSelector = createSelector(
   offerSubProductDiscountsSelector,
-  (subProductDiscounts): IUIOfferProductDiscountInstance[] => {
+  availableMealPlanProductsSelector,
+  (subProductDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
     if (!subProductDiscounts || !subProductDiscounts['Meal Plan']) {
       return [];
     }
+  
+    return subProductDiscounts['Meal Plan'] ? discountsWithCategory(subProductDiscounts['Meal Plan'], availableProducts) : [];
+  }
+  );
+  
+  export const offerProductDiscountsTransfersSelector = createSelector(
+    offerProductDiscountsSelector,
+    availableTransferProductsSelector,
+    (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
+      if (!productDiscounts || !productDiscounts.Transfer) {
+        return [];
+      }
     
-    return subProductDiscounts['Meal Plan'] || [];
-  }
-);
-
-export const offerProductDiscountsTransfersSelector = createSelector(
-  offerProductDiscountsSelector,
-  (productDiscounts): IUIOfferProductDiscountInstance[] => {
-    if (!productDiscounts || !productDiscounts.Transfer) {
-      return [];
+      return productDiscounts.Transfer ? discountsWithCategory(productDiscounts.Transfer, availableProducts) : [];
     }
-    return productDiscounts.Transfer || [];
-  }
   );
   
   export const offerProductDiscountsSupplementsSelector = createSelector(
     offerProductDiscountsSelector,
-    (productDiscounts): IUIOfferProductDiscountInstance[] => {
+    availableSupplementProductsSelector,
+    (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
     
       if (!productDiscounts || !productDiscounts.Supplement) {
         return [];
       }
       
-      return productDiscounts.Supplement || [];
+      return productDiscounts.Supplement ? discountsWithCategory(productDiscounts.Supplement, availableProducts) : [];
   }
 );
 

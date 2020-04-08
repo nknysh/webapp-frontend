@@ -70,6 +70,7 @@ export interface IOfferProductDiscountInstance {
 export interface IUIOfferProductDiscountInstance extends IOfferProductDiscountInstance {
   uuid: string; // Need to provide this to react so it knows how to update the UI correctly
   ageNames?: (string | undefined)[];
+  productCategory?: string;
 }
 
 export interface IOfferPrerequisitesPayload {

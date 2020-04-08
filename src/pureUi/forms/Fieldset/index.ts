@@ -4,7 +4,7 @@ import { pureUiTheme } from 'pureUi/pureUiTheme';
 export const Fieldset = styled.fieldset`
   position: relative;
   border: none;
-  border-top: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
+  border-top: ${pureUiTheme.colors.gold} 1px solid;
   margin-top: 45px;
   padding: 20px 0;
 `;

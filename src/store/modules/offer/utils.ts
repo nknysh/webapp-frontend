@@ -10,8 +10,7 @@ import {
 
 import uuid from 'uuid';
 import produce from 'immer';
-import * as R from 'ramda';
-import { IOfferUiState, ECombinationMode, OrderedOffer } from './model';
+import { IOfferUiState, ECombinationMode, IOfferModel, OrderedOffer } from './model';
 import { sanitizeInteger } from 'utils/number';
 import {
   OfferAddProductToProductDiscountAction,
@@ -30,7 +29,6 @@ import {
   OfferToggleProductOnSubProductDiscountAction,
 } from './subdomains/offer/actions';
 import { without } from 'ramda';
-import product from 'ramda/es/product';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
   const productUuids = offer.prerequisites.accommodationProducts ? offer.prerequisites.accommodationProducts : [];
@@ -494,5 +492,16 @@ export const clearAllProductsFromDiscounts = (discounts: IOfferProductDiscounts<
     return acc;
   }, {});
   return out;
+}
+
+export const discountsWithCategory = (discounts: IUIOfferProductDiscountInstance[], availableProducts: IProduct<any>[]): IUIOfferProductDiscountInstance[] => {
+  return discounts.map(discount => {
+    const pid = discount.products.find(p => p)?.uuid;
+    const productCategory = availableProducts.find(ap => ap.uuid === pid)?.category;
+    return {
+      ...discount,
+      productCategory,
+    }
+  })
 }
 

@@ -6,7 +6,7 @@ import {
 } from 'services/BackendApi';
 import { IHotel } from 'services/BackendApi/types/HotelResponse';
 import {
-  IOffersubProductDiscounts,
+  IOfferSubProductDiscounts,
   IUIOfferProductDiscountInstance,
 } from '../../../../../services/BackendApi/types/OfferResponse';
 
@@ -359,7 +359,7 @@ export const offerToggleProductDiscountAgeNameAction = (
 // Sub Product Discounts
 export type OfferAddSubProductDiscountAction = ReturnType<typeof offerAddSubProductDiscountAction>;
 export const offerAddSubProductDiscountAction = (
-  discountType: keyof IOffersubProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   productUuid?: string
 ) => ({
   type: OFFER_ADD_SUB_PRODUCT_DISCOUNT as typeof OFFER_ADD_SUB_PRODUCT_DISCOUNT,
@@ -369,7 +369,7 @@ export const offerAddSubProductDiscountAction = (
 
 export type OfferUpdateSubProductDiscountAction = ReturnType<typeof offerUpdateSubProductDiscountAction>;
 export const offerUpdateSubProductDiscountAction = (
-  discountType: keyof IOffersubProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string,
   key: keyof Omit<IUIOfferProductDiscountInstance, 'uuid' | 'products'>,
   newValue: string | boolean,
@@ -385,7 +385,7 @@ export const offerUpdateSubProductDiscountAction = (
 
 export type OfferRemoveSubProductDiscountAction = ReturnType<typeof offerRemoveSubProductDiscountAction>;
 export const offerRemoveSubProductDiscountAction = (
-  discountType: keyof IOffersubProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string
 ) => ({
   type: OFFER_REMOVE_SUB_PRODUCT_DISCOUNT as typeof OFFER_REMOVE_SUB_PRODUCT_DISCOUNT,
@@ -421,7 +421,7 @@ export const offerRemoveProductFromSubProductDiscountAction = (
 
 export type OfferToggleSubProductDiscountAgeNameAction = ReturnType<typeof offerToggleSubProductDiscountAgeNameAction>;
 export const offerToggleSubProductDiscountAgeNameAction = (
-  discountType: keyof IOffersubProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   discountUuid: string,
   productUuid: string,
   ageName: string
@@ -449,7 +449,7 @@ export type OfferToggleProductOnSubProductDiscountAction = ReturnType<
   typeof offerToggleProductOnSubProductDiscountAction
 >;
 export const offerToggleProductOnSubProductDiscountAction = (
-  discountType: keyof IOffersubProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   discountUuid: string,
   productUuid: string
 ) => ({
@@ -475,7 +475,7 @@ export const offerToggleAgeNameOnProductAction = (
 
 export type OfferToggleAgeNameOnSubProductAction = ReturnType<typeof offerToggleAgeNameOnSubProductAction>;
 export const offerToggleAgeNameOnSubProductAction = (
-  discountType: keyof IOffersubProductDiscounts<IOfferProductDiscountInstance>,
+  discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   discountUuid: string,
   productUuid: string,
   ageName
