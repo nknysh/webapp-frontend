@@ -497,7 +497,7 @@ export const clearAllProductsFromDiscounts = (discounts: IOfferProductDiscounts<
 export const discountsWithCategory = (discounts: IUIOfferProductDiscountInstance[], availableProducts: IProduct<any>[]): IUIOfferProductDiscountInstance[] => {
   return discounts.map(discount => {
     const pid = discount.products.find(p => p)?.uuid;
-    const productCategory = availableProducts.find(ap => ap.uuid === pid)?.category;
+    const productCategory = availableProducts.find(ap => ap.uuid === pid)?.category as EProductCategory;
     return {
       ...discount,
       productCategory,

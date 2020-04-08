@@ -67,10 +67,15 @@ export interface IOfferProductDiscountInstance {
   products: IDiscountProduct[];
 }
 
+export enum EProductCategory {
+  PER_BOOKING = 'perBooking',
+  PER_NIGHT = 'perNight',
+  PER_PERSON = 'perPerson',
+}
 export interface IUIOfferProductDiscountInstance extends IOfferProductDiscountInstance {
   uuid: string; // Need to provide this to react so it knows how to update the UI correctly
   ageNames?: (string | undefined)[];
-  productCategory?: string;
+  productCategory?: EProductCategory;
 }
 
 export interface IOfferPrerequisitesPayload {

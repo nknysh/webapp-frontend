@@ -51,7 +51,7 @@ import {
   offerToggleAgeNameOnSubProductAction,
 } from 'store/modules/offer/actions';
 
-import { IOfferProductDiscounts, IOfferSubProductDiscounts, IUIOfferProductDiscountInstance, IAgeName } from '../../services/BackendApi/types/OfferResponse';
+import { IOfferProductDiscounts, IOfferSubProductDiscounts, IUIOfferProductDiscountInstance, IAgeName, EProductCategory } from '../../services/BackendApi/types/OfferResponse';
 import { EGreenTaxApproach, GreenTaxApproachOptions, GreenTaxApproachInfo } from 'utils/greenTax';
 import { Fieldset, Legend } from '../../pureUi/forms/Fieldset/index';
 import TextInput from '../../pureUi/TextInput/index';
@@ -85,6 +85,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         return isSubProduct ? 'extraPersonSupplementDiscounts' : 'supplementDiscounts';
     }
   };
+
+  requiresOccupancyAndQuantity = (category: EProductCategory | undefined): boolean => {
+    if(category === EProductCategory.PER_BOOKING || !category) {
+      return false;
+    }
+
+    return true;
+  }
 
   handleAccomodationDiscountPctChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetAccommodationDiscountDiscountPercentageAction(parseFloat(e.currentTarget.value));
@@ -180,13 +188,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
   }
 
   // Sweet jesus. Age names are well hard!
-  renderAgeNamesMap = (
+  renderAgeNamesOptions = (
     discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>, 
     discount: IUIOfferProductDiscountInstance, 
     availableProducts: IProduct<any>[],
     isSubProduct: boolean,
   ) => {
-    if(discount.products.length === 0) return null;
+    if(discount.products.length === 0 || discount.productCategory === EProductCategory.PER_BOOKING) return null;
     
     return(
       <Accordian className="ageNamesMap">
@@ -194,7 +202,6 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           const product = availableProducts.find(p => p.uuid === discountProduct.uuid);
           if(!product) { return null; }
           if(!product.options?.ages) { return null; }
-
           const ageNameAccordianKey = `${discount.uuid} - ${product.name}`;
           const ageNameTitle = `Ages for ${product.name}`;
           const isOpen = this.props.ageNameAccordianKeys.includes(ageNameAccordianKey);
@@ -202,13 +209,15 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           <AccordianSection key={product.name} title={ageNameTitle} isOpen={isOpen} onClick={this.expandAgeName(ageNameAccordianKey)}>
             <FormControlGrid columnCount={4} padded>
               {this.ageNamesWithAdult(product.options.ages).map(ageName => {
-                const isChecked = discount.products.find(p => p.uuid)!.ageNames?.includes(ageName.name);
+                console.log('discount.products.find(p => p.uuid)!.ageNames', discount.products.find(p => p.uuid)!.ageNames);
+                console.log('isChecked', discount.products.find(p => p.uuid)!.ageNames?.includes(ageName.name))
+                const isChecked = discountProduct.ageNames?.includes(ageName.name);
                 const changeHandler = isSubProduct
                   ? this.handleSubProductAgeNameChange
                   : this.handleProductAgeNameChange;
                 return (
                   <Label key={ageName.name} text={ageName.name} inline reverse lowercase>
-                    <Checkbox checked={isChecked} onChange={changeHandler(discountType, discount.uuid,discountProduct.uuid, ageName.name)}/>
+                    <Checkbox checked={isChecked} onChange={changeHandler(discountType, discount.uuid, discountProduct.uuid, ageName.name)}/>
                   </Label>
                 );
               })}
@@ -387,7 +396,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     );
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesMap('Ground Service', fineDiscount, this.props.availableFineProducts, false)}
+                {this.renderAgeNamesOptions('Ground Service', fineDiscount, this.props.availableFineProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Fine', fineDiscount.uuid)} />
                 </span>
@@ -397,28 +406,33 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'discountPercentage')}
                   />
                 </Label>
-                <Label className="maxQuantityInput" text="Maximum Quantity">
-                  <TextInput
-                    value={fineDiscount.maximumQuantity || ''}
-                    onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')}
-                  />
-                </Label>
-                <Label
-                  className="occupancyCheckbox"
-                  text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                  inline
-                  reverse
-                  lowercase
-                >
-                  <Checkbox
-                    checked={fineDiscount.standardOccupancyOnly}
-                    onChange={this.handleProductDiscountBooleanChange(
-                      'Fine',
-                      fineDiscount.uuid,
-                      'standardOccupancyOnly'
-                    )}
-                  />
-                </Label>
+
+                {this.requiresOccupancyAndQuantity(fineDiscount.productCategory) && (
+                  <>
+                    <Label className="maxQuantityInput" text="Maximum Quantity">
+                      <TextInput
+                        value={fineDiscount.maximumQuantity || ''}
+                        onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')}
+                      />
+                    </Label>
+                    <Label
+                      className="occupancyCheckbox"
+                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                      inline
+                      reverse
+                      lowercase
+                    >
+                      <Checkbox
+                        checked={fineDiscount.standardOccupancyOnly}
+                        onChange={this.handleProductDiscountBooleanChange(
+                          'Fine',
+                          fineDiscount.uuid,
+                          'standardOccupancyOnly'
+                        )}
+                      />
+                    </Label>
+                  </>
+                )}
               </div>
             );
           })}
@@ -464,7 +478,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     );
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesMap('Ground Service', groundServiceDiscount, this.props.availableGroundServiceProducts, false)}
+                {this.renderAgeNamesOptions('Ground Service', groundServiceDiscount, this.props.availableGroundServiceProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton
                     onClick={this.handleRemoveProductDiscount('Ground Service', groundServiceDiscount.uuid)}
@@ -480,32 +494,36 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     )}
                   />
                 </Label>
-                <Label className="maxQuantityInput" text="Maximum Quantity">
-                  <TextInput
-                    value={groundServiceDiscount.maximumQuantity || ''}
-                    onChange={this.handleProductDiscountChange(
-                      'Ground Service',
-                      groundServiceDiscount.uuid,
-                      'maximumQuantity'
-                    )}
-                  />
-                </Label>
-                <Label
-                  className="occupancyCheckbox"
-                  text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                  inline
-                  reverse
-                  lowercase
-                >
-                  <Checkbox
-                    checked={groundServiceDiscount.standardOccupancyOnly}
-                    onChange={this.handleProductDiscountBooleanChange(
-                      'Ground Service',
-                      groundServiceDiscount.uuid,
-                      'standardOccupancyOnly'
-                    )}
-                  />
-                </Label>
+                {this.requiresOccupancyAndQuantity(groundServiceDiscount.productCategory) && (
+                  <>
+                    <Label className="maxQuantityInput" text="Maximum Quantity">
+                      <TextInput
+                        value={groundServiceDiscount.maximumQuantity || ''}
+                        onChange={this.handleProductDiscountChange(
+                          'Ground Service',
+                          groundServiceDiscount.uuid,
+                          'maximumQuantity'
+                        )}
+                      />
+                    </Label>
+                    <Label
+                      className="occupancyCheckbox"
+                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                      inline
+                      reverse
+                      lowercase
+                    >
+                      <Checkbox
+                        checked={groundServiceDiscount.standardOccupancyOnly}
+                        onChange={this.handleProductDiscountBooleanChange(
+                          'Ground Service',
+                          groundServiceDiscount.uuid,
+                          'standardOccupancyOnly'
+                        )}
+                      />
+                    </Label>
+                  </>
+                )}
               </div>
             );
           })}
@@ -549,7 +567,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     );
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesMap('Transfer', transferDiscount, this.props.availableTransferProducts, false)}
+                {this.renderAgeNamesOptions('Transfer', transferDiscount, this.props.availableTransferProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Transfer', transferDiscount.uuid)} />
                 </span>
@@ -559,28 +577,32 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'discountPercentage')}
                   />
                 </Label>
-                <Label className="maxQuantityInput" text="Maximum Quantity">
-                  <TextInput
-                    value={transferDiscount.maximumQuantity || ''}
-                    onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'maximumQuantity')}
-                  />
-                </Label>
-                <Label
-                  className="occupancyCheckbox"
-                  text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                  inline
-                  reverse
-                  lowercase
-                >
-                  <Checkbox
-                    checked={transferDiscount.standardOccupancyOnly}
-                    onChange={this.handleProductDiscountBooleanChange(
-                      'Transfer',
-                      transferDiscount.uuid,
-                      'standardOccupancyOnly'
-                    )}
-                  />
-                </Label>
+                {this.requiresOccupancyAndQuantity(transferDiscount.productCategory) && (
+                  <>
+                    <Label className="maxQuantityInput" text="Maximum Quantity">
+                      <TextInput
+                        value={transferDiscount.maximumQuantity || ''}
+                        onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'maximumQuantity')}
+                      />
+                    </Label>
+                    <Label
+                      className="occupancyCheckbox"
+                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                      inline
+                      reverse
+                      lowercase
+                    >
+                      <Checkbox
+                        checked={transferDiscount.standardOccupancyOnly}
+                        onChange={this.handleProductDiscountBooleanChange(
+                          'Transfer',
+                          transferDiscount.uuid,
+                          'standardOccupancyOnly'
+                        )}
+                      />
+                    </Label>
+                  </>
+                )}
               </div>
             );
           })}
@@ -624,7 +646,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     );
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesMap('Meal Plan', mealPlanDiscount, this.props.availableMealPlanProducts, true)}
+                {this.renderAgeNamesOptions('Meal Plan', mealPlanDiscount, this.props.availableMealPlanProducts, true)}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveSubProductDiscount('Meal Plan', mealPlanDiscount.uuid)} />
                 </span>
@@ -638,32 +660,37 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     )}
                   />
                 </Label>
-                <Label className="maxQuantityInput" text="Maximum Quantity">
-                  <TextInput
-                    value={mealPlanDiscount.maximumQuantity || ''}
-                    onChange={this.handleSubProductDiscountChange(
-                      'Meal Plan',
-                      mealPlanDiscount.uuid,
-                      'maximumQuantity'
-                    )}
-                  />
-                </Label>
-                <Label
-                  className="occupancyCheckbox"
-                  text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                  inline
-                  reverse
-                  lowercase
-                >
-                  <Checkbox
-                    checked={mealPlanDiscount.standardOccupancyOnly}
-                    onChange={this.handleSubProductDiscountBooleanChange(
-                      'Meal Plan',
-                      mealPlanDiscount.uuid,
-                      'standardOccupancyOnly'
-                    )}
-                  />
-                </Label>
+
+                {this.requiresOccupancyAndQuantity(mealPlanDiscount.productCategory) && (
+                  <>
+                    <Label className="maxQuantityInput" text="Maximum Quantity">
+                      <TextInput
+                        value={mealPlanDiscount.maximumQuantity || ''}
+                        onChange={this.handleSubProductDiscountChange(
+                          'Meal Plan',
+                          mealPlanDiscount.uuid,
+                          'maximumQuantity'
+                        )}
+                      />
+                    </Label>
+                    <Label
+                      className="occupancyCheckbox"
+                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                      inline
+                      reverse
+                      lowercase
+                    >
+                      <Checkbox
+                        checked={mealPlanDiscount.standardOccupancyOnly}
+                        onChange={this.handleSubProductDiscountBooleanChange(
+                          'Meal Plan',
+                          mealPlanDiscount.uuid,
+                          'standardOccupancyOnly'
+                        )}
+                      />
+                    </Label>
+                  </>
+                )}
               </div>
             );
           })}
@@ -707,7 +734,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     )
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesMap('Supplement', supplementDiscount, this.props.availableSupplementProducts, false)}
+                {this.renderAgeNamesOptions('Supplement', supplementDiscount, this.props.availableSupplementProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Supplement', supplementDiscount.uuid)} />
                 </span>
@@ -721,32 +748,38 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     )}
                   />
                 </Label>
-                <Label className="maxQuantityInput" text="Maximum Quantity">
-                  <TextInput
-                    value={supplementDiscount.maximumQuantity || ''}
-                    onChange={this.handleProductDiscountChange(
-                      'Supplement',
-                      supplementDiscount.uuid,
-                      'maximumQuantity'
-                    )}
-                  />
-                </Label>
-                <Label
-                  className="occupancyCheckbox"
-                  text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                  inline
-                  reverse
-                  lowercase
-                >
-                  <Checkbox
-                    checked={supplementDiscount.standardOccupancyOnly}
-                    onChange={this.handleProductDiscountBooleanChange(
-                      'Supplement',
-                      supplementDiscount.uuid,
-                      'standardOccupancyOnly'
-                    )}
-                  />
-                </Label>
+                
+                {this.requiresOccupancyAndQuantity(supplementDiscount.productCategory) && (
+                  <>
+                  <Label className="maxQuantityInput" text="Maximum Quantity">
+                    <TextInput
+                      value={supplementDiscount.maximumQuantity || ''}
+                      onChange={this.handleProductDiscountChange(
+                        'Supplement',
+                        supplementDiscount.uuid,
+                        'maximumQuantity'
+                      )}
+                    />
+                  </Label>
+                
+                  <Label
+                    className="occupancyCheckbox"
+                    text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                    inline
+                    reverse
+                    lowercase
+                  >
+                    <Checkbox
+                      checked={supplementDiscount.standardOccupancyOnly}
+                      onChange={this.handleProductDiscountBooleanChange(
+                        'Supplement',
+                        supplementDiscount.uuid,
+                        'standardOccupancyOnly'
+                      )}
+                    />
+                  </Label>
+                  </>
+                )}
               </div>
             );
           })}
