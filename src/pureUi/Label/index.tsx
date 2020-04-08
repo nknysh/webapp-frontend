@@ -1,12 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
+import TextInput from 'pureUi/TextInput/index';
 
 interface ILabelProps extends React.HTMLAttributes<HTMLLabelElement> {
   text?: string;
   inline?: boolean;
   reverse?: boolean;
   disabled?: boolean;
+  isError?: boolean;
   // I'd like to get rid of all this upper case test in the design.
   // For now, this will be a default prop set to true, so I don't
   // have to update the rest of the UI, and when we remove it, then
@@ -15,7 +17,7 @@ interface ILabelProps extends React.HTMLAttributes<HTMLLabelElement> {
 }
 
 const LabelComponent = (props: ILabelProps) => {
-  const { text, children, inline, lowercase, reverse, ...labelProps } = props;
+  const { text, children, inline, lowercase, reverse, isError, ...labelProps } = props;
   return (
     <label {...labelProps}>
       {text && !reverse && (
@@ -53,6 +55,13 @@ export const Label = styled(LabelComponent)<ILabelProps>`
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  ${props =>
+    props.isError
+      ? css`
+          color: red;
+        `
+      : null}
 `;
 
 export default Label;

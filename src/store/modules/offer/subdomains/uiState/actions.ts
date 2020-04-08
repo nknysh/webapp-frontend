@@ -10,6 +10,8 @@ export const TOGGLE_OFFER_IN_COMBINATION_LIST = 'offer/TOGGLE_OFFER_IN_COMBINATI
 // Sorting
 export const SET_ORDERED_OFFERS_LIST = 'offer/SET_OFFERS_ORDERED_LIST';
 
+export const SET_OFFER_IS_PRISTINE = 'offer/SET_OFFER_IS_PRISTINE';
+
 export type SetOfferIsTextOnly = ReturnType<typeof setOfferIsTextOnly>;
 export const setOfferIsTextOnly = (value: boolean) => ({
   type: SET_OFFER_IS_TEXT_ONLY as typeof SET_OFFER_IS_TEXT_ONLY,
@@ -41,9 +43,16 @@ export const setOrderedOffersListAction = (list: OrderedOffer[]) => ({
   list,
 });
 
+export type SetOfferIsPristineAction = ReturnType<typeof setOfferIsPristineAction>;
+export const setOfferIsPristineAction = (value: boolean) => ({
+  type: SET_OFFER_IS_PRISTINE as typeof SET_OFFER_IS_PRISTINE,
+  value,
+});
+
 export type OfferUiStateAction =
   | SetOfferIsTextOnly
   | OfferToggleTaCountryAccodian
   | OfferSetCombinationMode
   | OfferToggleOfferInCombinationList
-  | SetOrderedOffersListAction;
+  | SetOrderedOffersListAction
+  | SetOfferIsPristineAction;

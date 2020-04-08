@@ -60,3 +60,5 @@ export const orderedOffersListSelector = createSelector(
   uiStateSelector,
   uiStateSelector => uiStateSelector.orderedOffersList
 );
+
+export const offerIsPristineSelector = createSelector(uiStateSelector, uiStateSelector => uiStateSelector.isPristine);

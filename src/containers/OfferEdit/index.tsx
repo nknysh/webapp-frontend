@@ -10,6 +10,7 @@ import TextArea from 'pureUi/Textarea/index';
 import Checkbox from 'pureUi/Checkbox';
 import { OfferEditStyles } from './OffereditStyles';
 import { PrimaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
+import { ErrorList } from 'pureUi/ErrorList';
 
 import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData';
 import { PureSelect } from 'pureUi/forms/PureSelect';
@@ -29,6 +30,10 @@ import {
   getOfferRequestIsPendingSelector,
   postOfferErrorSelector,
   offerBooleanPrerequisitesSelector,
+  offerValidationSelector,
+  offerHasPrerequisitesValidationErrorsSelector,
+  offerHasValidationErrorsSelector,
+  offerIsPristineSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -42,6 +47,7 @@ import {
   postOfferRequestAction,
   getOfferRequestAction,
   resetOfferModuleAction,
+  setOfferIsPristineAction,
 } from 'store/modules/offer/actions';
 import { TabBar, RouteTab } from 'pureUi/TabBar';
 import { OfferEditPreRequisitesContainerConnected } from '../OfferEditPreRequisites/index';
@@ -80,6 +86,16 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
   toggleTextOnly = () => this.props.setOfferIsTextOnly(!this.props.isTextOnly);
 
+  handleSaveButtonClick = () => {
+    console.log('this.props.hasValidationErrors', this.props.hasValidationErrors);
+    if (this.props.hasValidationErrors) {
+      this.props.setOfferIsPristineAction(false);
+      return;
+    }
+
+    this.isEditMode() ? this.props.putOfferRequestAction() : this.handleCreate();
+  };
+
   renderHotelName = () => {
     if (this.isEditMode()) {
       return (
@@ -90,7 +106,12 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     }
 
     return (
-      <Label lowercase className="hotelName" text="Hotel">
+      <Label
+        isError={!this.props.offerIsPristine && this.props.validationErrors.hotelUuid.length >= 1}
+        lowercase
+        className="hotelName"
+        text="Hotel"
+      >
         <PureSelect className="hotelSelectInput" value={this.props.offerHotelUuid} onChange={this.handleHotelChange}>
           <option value="" disabled>
             Select a hotel
@@ -110,6 +131,8 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   };
 
   render() {
+    console.log('this.props.hasValidationErrors', this.props.hasValidationErrors);
+
     if (this.props.getOfferRequestPending) {
       return (
         <OfferEditStyles>
@@ -136,8 +159,17 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
         <section className="basicInfo">
           {this.renderHotelName()}
+          <ErrorList className="hotelErrors">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.hotelUuid.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
 
-          <Label lowercase className="offerName" text="Offer Name">
+          <Label
+            lowercase
+            className="offerName"
+            isError={!this.props.offerIsPristine && this.props.validationErrors.name.length >= 1}
+            text="Offer Name"
+          >
             <TextInput
               className="offerNameInput"
               value={this.props.offerName}
@@ -145,12 +177,26 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
               placeholder="Offer Name"
             />
           </Label>
-
-          <Label lowercase className="termsAndConditions" text="Terms & Conditions">
-            <TextArea className="termsInput" value={this.props.offerTerms} onChange={this.handleTermsChange} />
-          </Label>
+          <ErrorList className="offerNameErrors">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.name.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
 
           <Label
+            isError={!this.props.offerIsPristine && this.props.validationErrors.termsAndConditions.length >= 1}
+            lowercase
+            className="termsAndConditions"
+            text="Terms & Conditions"
+          >
+            <TextArea className="termsInput" value={this.props.offerTerms} onChange={this.handleTermsChange} />
+          </Label>
+          <ErrorList className="termsAndConditionsErrors">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.termsAndConditions.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
+          <Label
+            isError={!this.props.offerIsPristine && this.props.validationErrors.furtherInformation.length >= 1}
             lowercase
             className="furtherInformation"
             text={`Further Information ${this.props.isTextOnly ? `(Required)` : ''}`}
@@ -161,6 +207,10 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
               onChange={this.handleFurtherInfoChange}
             />
           </Label>
+          <ErrorList className="furtherInformationErrors">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.furtherInformation.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
 
           <Label lowercase className="textOnly" inline reverse text="Text Only">
             <Checkbox className="textOnlyCheckbox" checked={this.props.isTextOnly} onChange={this.toggleTextOnly} />
@@ -182,7 +232,12 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
         </section>
 
         <TabBar className="tabBar">
-          <RouteTab to={`${this.props.match.url}/pre-requisites`}>Pre Requisites</RouteTab>
+          <RouteTab
+            isError={!this.props.offerIsPristine && this.props.hasPrerequisiteErrors}
+            to={`${this.props.match.url}/pre-requisites`}
+          >
+            Pre Requisites
+          </RouteTab>
           <RouteTab to={`${this.props.match.url}/applications`}>Applications</RouteTab>
           <RouteTab to={`${this.props.match.url}/combinations`}>Combinations</RouteTab>
           <RouteTab to={`${this.props.match.url}/priority`}>Priority</RouteTab>
@@ -212,10 +267,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           {/* I'll come back to this late */}
           {/* <SecondaryButton disabled>Clear Changes</SecondaryButton> */}
           <ButtonSpacer />
-          <PrimaryButton
-            className="saveButton"
-            onClick={this.isEditMode() ? this.props.putOfferRequestAction : this.handleCreate}
-          >
+          <PrimaryButton className="saveButton" onClick={this.handleSaveButtonClick}>
             {this.isEditMode() ? 'Save Edits' : 'Create'}
           </PrimaryButton>
         </ButtonBar>
@@ -256,6 +308,10 @@ const mapStateToProps = createStructuredSelector({
   hotelName: hotelNameSelector,
   isTextOnly: offerDomainIsTextOnlySelector,
   isPreDiscount: offerPreDiscountSelector,
+  validationErrors: offerValidationSelector,
+  hasPrerequisiteErrors: offerHasPrerequisitesValidationErrorsSelector,
+  hasValidationErrors: offerHasValidationErrorsSelector,
+  offerIsPristine: offerIsPristineSelector,
 });
 
 const actionCreators = {
@@ -269,6 +325,7 @@ const actionCreators = {
   putOfferRequestAction,
   postOfferRequestAction,
   resetOfferModuleAction,
+  setOfferIsPristineAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -276,13 +333,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IOfferEditProps>(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect<StateToProps, DispatchToProps, IOfferEditProps>(mapStateToProps, mapDispatchToProps);
 
-export const OfferEditContainerConnected = compose(
-  withConnect,
-  withRouter,
-  withBootstapData()
-)(OfferEditContainer);
+export const OfferEditContainerConnected = compose(withConnect, withRouter, withBootstapData())(OfferEditContainer);

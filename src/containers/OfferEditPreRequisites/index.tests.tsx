@@ -8,13 +8,24 @@ const createProps = (
   path?: string
 ): IOfferEditPreRequisitesProps => {
   const defaultProps: IOfferEditPreRequisitesProps = {
+    validationErrors: {
+      accommodationProductsPrerequisite: [],
+      hotelUuid: [],
+      name: [],
+      productDiscounts: [],
+      stayBetweenPrerequisite: [],
+      stepping: [],
+      subProductDiscounts: [],
+      termsAndConditions: [],
+      furtherInformation: [],
+    },
     stayBetweenDates: [['2020-01-01', '2020-02-01']],
     offerHotelUuid: '123',
     taCountries: {},
     taCountriesLabel: 'All Countries',
     taCountryAccordianKeys: [],
-    accomodationPreReqsLabel: 'All Countries',
-    accomodationPreReqs: [],
+    accommodationPreReqsLabel: 'All Countries',
+    accommodationPreReqs: [],
     nullableBooleans: {
       honeymoon: true,
       wedding: false,
@@ -26,6 +37,7 @@ const createProps = (
       maximum: 10,
       strictMinMaxStay: false,
     },
+    offerIsPristine: true,
     advance: {},
     // WithBootstrapData props
     bootstrapCountries: [],
@@ -56,6 +68,7 @@ const createProps = (
     offerSetAdvanceMaximumPrerequisiteAction: jest.fn(),
     offerSetAdvanceMinimumPrerequisiteAction: jest.fn(),
     offerClearAllAdvancePrerequisiteAction: jest.fn(),
+
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 

@@ -3,8 +3,10 @@ export interface ValidatorFieldResult<T> {
 }
 
 export interface OfferValidatorResultSet {
+  hotelUuid: ValidatorFieldError<OfferValidatorResultSet>[];
   name: ValidatorFieldError<OfferValidatorResultSet>[];
   termsAndConditions: ValidatorFieldError<OfferValidatorResultSet>[];
+  furtherInformation: ValidatorFieldError<OfferValidatorResultSet>[];
   accommodationProductsPrerequisite: ValidatorFieldError<OfferValidatorResultSet>[];
   stayBetweenPrerequisite: ValidatorFieldError<OfferValidatorResultSet>[];
   stepping: ValidatorFieldError<OfferValidatorResultSet>[];
@@ -27,41 +29,41 @@ export class Validator<T> {
     this.errors = [];
   }
 
-  required(propertyName: keyof T) {
-    if (this.modelInstance[propertyName] == null) {
+  required(propertyName: keyof T, message?: string) {
+    if (this.modelInstance[propertyName] == null || this.modelInstance[propertyName] === '') {
       this.errors.push({
         field: propertyName,
-        message: `property '${propertyName}' failed 'required()'`,
+        message: message || `property '${propertyName}' failed 'required()'`,
       });
     }
     return this;
   }
 
-  min(propertyName: keyof T, minLengthValue: number) {
+  min(propertyName: keyof T, minLengthValue: number, message?: string) {
     if (this.modelInstance[propertyName].length < minLengthValue) {
       this.errors.push({
         field: propertyName,
-        message: `property '${propertyName}' failed 'min()' [minLengthValue: ${minLengthValue}]`,
+        message: message || `property '${propertyName}' failed 'min()' [minLengthValue: ${minLengthValue}]`,
       });
     }
     return this;
   }
 
-  number(propertyName: keyof T) {
+  number(propertyName: keyof T, message?: string) {
     if (typeof this.modelInstance[propertyName] !== 'number') {
       this.errors.push({
         field: propertyName,
-        message: `property '${propertyName}' failed 'number()'`,
+        message: message || `property '${propertyName}' failed 'number()'`,
       });
     }
     return this;
   }
 
-  string(propertyName: keyof T) {
+  string(propertyName: keyof T, message?: string) {
     if (typeof this.modelInstance[propertyName] !== 'string') {
       this.errors.push({
         field: propertyName,
-        message: `property '${propertyName}' failed 'string()'`,
+        message: message || `property '${propertyName}' failed 'string()'`,
       });
     }
     return this;

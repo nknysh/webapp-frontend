@@ -13,9 +13,13 @@ import {
 import { groupBy, flatten, uniq } from 'ramda';
 import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../types';
 import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
-import { offerDomainSelector, getAccommodationProductsForHotelSelector as hotelAccomodationProductsSelector } from '../../domainSelectors';
+import {
+  offerDomainSelector,
+  getAccommodationProductsForHotelSelector as hotelAccomodationProductsSelector,
+} from '../../domainSelectors';
 import { IAgeName, IUIOfferProductDiscountInstance } from '../../../../../services/BackendApi/types/OfferResponse';
 import { Validator, ValidatorFieldResult, OfferValidatorResultSet, ValidatorFieldError } from '../../validation';
+import { uiStateSelector } from '../uiState/selectors';
 
 export const offerSelector = createSelector(offerDomainSelector, domain => domain.offer);
 
@@ -147,26 +151,28 @@ export interface IAccomodationProductPreRequisiteUi {
   label: string;
   uuid: string;
   value: boolean;
-  ageNames: IAgeName[]
+  ageNames: IAgeName[];
 }
 
 export interface IAgeNamesMap {
   [key: string]: {
     ageFrom?: number;
     ageTo?: number;
-  }
+  };
 }
 
 export const offerAccommodationProductPrerequisitesSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
   hotelAccomodationProductsSelector,
   (accommodationProductPrerequisites, accommodationProductsOnHotel): IAccomodationProductPreRequisiteUi[] => {
-    if(!accommodationProductsOnHotel) { return []; }
+    if (!accommodationProductsOnHotel) {
+      return [];
+    }
     return accommodationProductsOnHotel?.map(accommodationProduct => ({
       label: accommodationProduct.name,
       uuid: accommodationProduct.uuid,
       value: accommodationProductPrerequisites.includes(accommodationProduct.uuid),
-      ageNames: accommodationProduct.options.ages
+      ageNames: accommodationProduct.options.ages,
     }));
   }
 );
@@ -174,26 +180,24 @@ export const offerAccommodationProductPrerequisitesSelector = createSelector(
 export const isAccomodationPreReqAllSelected = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
   hotelAccomodationProductsSelector,
-  (accommodationProductPrerequisites, accommodationProductsOnHotel) => Boolean(
-    accommodationProductPrerequisites.length === accommodationProductsOnHotel?.length ||
-    accommodationProductPrerequisites.length <= 0
-  )
-)
+  (accommodationProductPrerequisites, accommodationProductsOnHotel) =>
+    Boolean(
+      accommodationProductPrerequisites.length === accommodationProductsOnHotel?.length ||
+        accommodationProductPrerequisites.length <= 0
+    )
+);
 
 export const offerAccommodationProductPrerequisitesLabelSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
   isAccomodationPreReqAllSelected,
   (accommodationProductPrerequisites, isAll) => {
-    return isAll 
-      ? 'All Accommodation Products' 
-      : `${accommodationProductPrerequisites.length} Accommodation Products`;
+    return isAll ? 'All Accommodation Products' : `${accommodationProductPrerequisites.length} Accommodation Products`;
   }
 );
 
 export const accomodationPreRequisiteAgeNamesSelector = createSelector(
   offerAccommodationProductPrerequisitesSelector,
-  (accomProducts) => {
-  
+  accomProducts => {
     // Get a unqiue map of age names with age ranges
     const ageNamesMap: IAgeNamesMap = accomProducts
       .map(ap => ap.ageNames)
@@ -201,30 +205,31 @@ export const accomodationPreRequisiteAgeNamesSelector = createSelector(
       .reduce((acc, next) => {
         acc[next.name] = {
           ageFrom: next.ageFrom,
-          ageTo: next.ageTo
-        }
+          ageTo: next.ageTo,
+        };
         return acc;
-      } , {});
-    
+      }, {});
+
     // Figure out wherre the adult age starts
-    const oldestAge = Object.keys(ageNamesMap)
-      .reduce((acc, key) => {
-        return ageNamesMap[key].ageTo! > acc 
-          ? ageNamesMap[key].ageTo 
-          : acc;
-      }, 0);
+    const oldestAge = Object.keys(ageNamesMap).reduce((acc, key) => {
+      return ageNamesMap[key].ageTo! > acc ? ageNamesMap[key].ageTo : acc;
+    }, 0);
 
     // Populate the rest of the results
-    return Object.keys(ageNamesMap).reduce((acc, key) => {
-      return [...acc, {
-        name: key,
-        ageFrom: ageNamesMap[key].ageFrom,
-        ageTo: ageNamesMap[key].ageTo,
-      }]
-    }, []).sort((a, b) => b.ageFrom! - a.ageFrom!);
+    return Object.keys(ageNamesMap)
+      .reduce((acc, key) => {
+        return [
+          ...acc,
+          {
+            name: key,
+            ageFrom: ageNamesMap[key].ageFrom,
+            ageTo: ageNamesMap[key].ageTo,
+          },
+        ];
+      }, [])
+      .sort((a, b) => b.ageFrom! - a.ageFrom!);
   }
 );
-
 
 export const offerAdvancePrerequisiteSelector = createSelector(
   offerPrerequisitesSelector,
@@ -256,7 +261,7 @@ export const offerSubProductDiscountsSelector = createSelector(offerSelector, of
   return offer.subProductDiscounts;
 });
 
-export interface IUIOfferProductDiscountInstanceWithAgeNames extends IUIOfferProductDiscountInstance{
+export interface IUIOfferProductDiscountInstanceWithAgeNames extends IUIOfferProductDiscountInstance {
   ageNames: (string | undefined)[];
 }
 
@@ -269,10 +274,10 @@ export const offerSubProductDiscountsSupplementsSelector = createSelector(
     return subProductDiscounts.Supplement.map(s => {
       let ageNames = uniq(flatten(s.products.map(p => p.ageNames)));
       return {
-        ...s, 
+        ...s,
         ageNames,
-      }
-    })
+      };
+    });
   }
 );
 
@@ -339,34 +344,33 @@ export const offerProductDiscountsSupplementsSelector = createSelector(
   }
 );
 
+export const offerHotelValidationSelector = createSelector(offerSelector, offer =>
+  new Validator<OfferValidatorResultSet>(offer)
+    .required('hotelUuid', 'Hotel is required')
+    .string('hotelUuid', 'Hotel must be a string')
+    .results()
+);
+
 export const offerNameValidationSelector = createSelector(offerSelector, offer =>
   new Validator<OfferValidatorResultSet>(offer)
-    .required('name')
-    .string('name')
+    .required('name', 'Name is a required field')
+    .string('name', 'Name must be a string')
     .results()
 );
 
 export const offerTsAndCsValidationSelector = createSelector(offerSelector, offer =>
   new Validator<OfferValidatorResultSet>(offer)
-    .required('termsAndConditions')
-    .string('termsAndConditions')
+    .required('termsAndConditions', 'Terms and Conditions are required')
+    .string('termsAndConditions', 'Terms and Conditions must be a string')
     .results()
 );
 
 export const offerAccommodationProductsPrerequisitesValidationSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
-  accommodationPrerequisites => {
-    if (accommodationPrerequisites && accommodationPrerequisites.length <= 0) {
-      return {
-        errors: [
-          {
-            field: 'name',
-            message: 'Accommodation prerequisites requires at least 1 item',
-          },
-        ],
-      } as ValidatorFieldResult<OfferValidatorResultSet>;
-    }
-
+  offerSelector,
+  (accommodationPrerequisites, offer) => {
+    // For now, this selector never returns any errors.
+    // Leaving in, as we may adjust this in the future, and all the wiring is already in place
     return {
       errors: [],
     } as ValidatorFieldResult<OfferValidatorResultSet>;
@@ -441,7 +445,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
             errors.push({
               field: 'productDiscounts',
               index,
-              message: `Fine discount ${index} - discount percentage is required`,
+              message: `Fine discount #${index + 1} - discount percentage is required`,
             });
           }
         });
@@ -452,7 +456,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
             errors.push({
               field: 'productDiscounts',
               index,
-              message: `Ground Service discount ${index} - discount percentage is required`,
+              message: `Ground Service discount #${index + 1} - discount percentage is required`,
             });
           }
         });
@@ -463,7 +467,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
             errors.push({
               field: 'productDiscounts',
               index,
-              message: `Supplement discount ${index} - discount percentage is required`,
+              message: `Supplement discount #${index + 1} - discount percentage is required`,
             });
           }
         });
@@ -474,7 +478,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
             errors.push({
               field: 'productDiscounts',
               index,
-              message: `Transfer discount ${index} - discount percentage is required`,
+              message: `Transfer discount #${index + 1} - discount percentage is required`,
             });
           }
         });
@@ -499,7 +503,7 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
             errors.push({
               field: 'productDiscounts',
               index,
-              message: `Meal Plan discount ${index} - discount percentage is required`,
+              message: `Meal Plan discount #${index + 1} - discount percentage is required`,
             });
           }
         });
@@ -510,7 +514,7 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
             errors.push({
               field: 'productDiscounts',
               index,
-              message: `Supplement discount ${index} - discount percentage is required`,
+              message: `Supplement discount #${index + 1} - discount percentage is required`,
             });
           }
         });
@@ -523,17 +527,40 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
   }
 );
 
+export const offerFurtherInformationValidationSelector = createSelector(
+  offerSelector,
+  uiStateSelector,
+  (offer, uiState) => {
+    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+    if (uiState.isTextOnly && (!offer.furtherInformation || offer.furtherInformation === '')) {
+      errors.push({
+        field: 'furtherInformation',
+        message: 'If offer is Text Only, Further Information is required',
+      });
+    }
+
+    return {
+      errors,
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
+
 export const offerValidationSelector = createSelector(
+  offerHotelValidationSelector,
   offerNameValidationSelector,
   offerTsAndCsValidationSelector,
+  offerFurtherInformationValidationSelector,
   offerAccommodationProductsPrerequisitesValidationSelector,
   offerStayBetweenPrerequisiteValidationSelector,
   offerSteppingValidationSelector,
   offerProductDiscountsValidationSelector,
   offerSubProductDiscountsValidationSelector,
   (
+    hotelValidatorFieldResult,
     nameValidatorFieldResult,
     tsAndCsValidatorFieldResult,
+    furtherInformationValidatorFieldResult,
     accommodationProductValidatorFieldResult,
     stayBetweenValidatorFieldResult,
     steppingValidatorFieldResult,
@@ -541,8 +568,10 @@ export const offerValidationSelector = createSelector(
     subProductDiscountsValidatorFieldResult
   ) => {
     const groupedBy: OfferValidatorResultSet = {
+      hotelUuid: hotelValidatorFieldResult.errors,
       name: nameValidatorFieldResult.errors,
       termsAndConditions: tsAndCsValidatorFieldResult.errors,
+      furtherInformation: furtherInformationValidatorFieldResult.errors,
       accommodationProductsPrerequisite: accommodationProductValidatorFieldResult.errors,
       stayBetweenPrerequisite: stayBetweenValidatorFieldResult.errors,
       stepping: steppingValidatorFieldResult.errors,
@@ -550,5 +579,50 @@ export const offerValidationSelector = createSelector(
       subProductDiscounts: subProductDiscountsValidatorFieldResult.errors,
     };
     return groupedBy;
+  }
+);
+
+export const offerHasDetailsValidatorErrorsSelector = createSelector(
+  offerHotelValidationSelector,
+  offerNameValidationSelector,
+  offerTsAndCsValidationSelector,
+  offerFurtherInformationValidationSelector,
+  (
+    hotelValidatorFieldResult,
+    nameValidatorFieldResult,
+    tsAndCsValidatorFieldResult,
+    furtherInformationValidatorFieldResult
+  ) => {
+    return (
+      hotelValidatorFieldResult.errors.length >= 1 ||
+      nameValidatorFieldResult.errors.length >= 1 ||
+      tsAndCsValidatorFieldResult.errors.length >= 1 ||
+      furtherInformationValidatorFieldResult.errors.length >= 1
+    );
+  }
+);
+
+export const offerHasPrerequisitesValidationErrorsSelector = createSelector(
+  offerAccommodationProductsPrerequisitesValidationSelector,
+  offerStayBetweenPrerequisiteValidationSelector,
+  (accommodationProductValidatorFieldResult, stayBetweenValidatorFieldResult) => {
+    return (
+      accommodationProductValidatorFieldResult.errors.length >= 1 || stayBetweenValidatorFieldResult.errors.length >= 1
+    );
+  }
+);
+
+export const offerHasApplicationsValidationErrorsSelector = createSelector(
+  offerAccommodationProductsPrerequisitesValidationSelector,
+  accommodationProductValidatorFieldResult => {
+    return accommodationProductValidatorFieldResult.errors.length <= 0;
+  }
+);
+
+export const offerHasValidationErrorsSelector = createSelector(
+  offerHasDetailsValidatorErrorsSelector,
+  offerHasPrerequisitesValidationErrorsSelector,
+  (offerHasDetailsErrors, offerHasPrerequisitesErrors) => {
+    return offerHasDetailsErrors || offerHasPrerequisitesErrors;
   }
 );

@@ -7,6 +7,17 @@ import { IOfferUI } from 'services/BackendApi';
 
 const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOfferEditProps => {
   const defaultProps: IOfferEditProps = {
+    validationErrors: {
+      accommodationProductsPrerequisite: [],
+      hotelUuid: [],
+      name: [],
+      productDiscounts: [],
+      stayBetweenPrerequisite: [],
+      stepping: [],
+      subProductDiscounts: [],
+      termsAndConditions: [],
+      furtherInformation: [],
+    },
     getOfferRequestPending: false,
     offer: {} as IOfferUI,
     stayBetweenDates: [['2020-01-01', '2020-02-01']],
@@ -42,6 +53,10 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     offerSetPreDiscountAction: jest.fn(),
     offerHotelUuidChangeAction: jest.fn(),
     resetOfferModuleAction: jest.fn(),
+    hasPrerequisiteErrors: false,
+    hasValidationErrors: false,
+    offerIsPristine: true,
+    setOfferIsPristineAction: jest.fn(),
     ...getMockRouterProps<IRouteParams>({ offerId: '123' }, path || 'offer/edit'),
   };
 

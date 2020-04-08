@@ -35,18 +35,37 @@ describe('offer validation selectors', () => {
     });
   });
 
-  describe('accommodation products', () => {
+  describe.skip('accommodation products', () => {
+    it('if no hotel uuid set, dont fail', () => {
+      const fixture: string[] = [];
+
+      const offerFixture = {
+        hotelUuid: '',
+      } as IOfferUI;
+
+      const results = offerAccommodationProductsPrerequisitesValidationSelector.resultFunc(fixture, offerFixture);
+      expect(results.errors.length).toEqual(0);
+    });
+
     it('if set, it needs to have at least 1 (passing)', () => {
       const fixture: string[] = ['a'];
 
-      const results = offerAccommodationProductsPrerequisitesValidationSelector.resultFunc(fixture);
+      const offerFixture = {
+        hotelUuid: 'a',
+      } as IOfferUI;
+
+      const results = offerAccommodationProductsPrerequisitesValidationSelector.resultFunc(fixture, offerFixture);
       expect(results.errors.length).toEqual(0);
     });
 
     it('if set, it needs to have at least 1 (failing)', () => {
       const fixture: string[] = [];
 
-      const results = offerAccommodationProductsPrerequisitesValidationSelector.resultFunc(fixture);
+      const offerFixture = {
+        hotelUuid: 'a',
+      } as IOfferUI;
+
+      const results = offerAccommodationProductsPrerequisitesValidationSelector.resultFunc(fixture, offerFixture);
       expect(results.errors.length).toEqual(1);
     });
   });

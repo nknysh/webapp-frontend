@@ -12,6 +12,7 @@ import {
   SET_COMBINATION_MODE,
   TOGGLE_OFFER_IN_COMBINATION_LIST,
   SET_ORDERED_OFFERS_LIST,
+  SET_OFFER_IS_PRISTINE,
 } from '../../actions';
 import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
@@ -109,9 +110,11 @@ export const uiStateReducer = (
     case TOGGLE_TA_COUNTRY_ACCORDIAN:
       return {
         ...state,
-        taCountryAccordianKeys: ifElse(contains(action.key), without([action.key]), append(action.key))(
-          state.taCountryAccordianKeys
-        ),
+        taCountryAccordianKeys: ifElse(
+          contains(action.key),
+          without([action.key]),
+          append(action.key)
+        )(state.taCountryAccordianKeys),
       };
 
     case SET_COMBINATION_MODE:
@@ -135,6 +138,12 @@ export const uiStateReducer = (
       return {
         ...state,
         orderedOffersList: action.list,
+      };
+
+    case SET_OFFER_IS_PRISTINE:
+      return {
+        ...state,
+        isPristine: action.value,
       };
 
     default:

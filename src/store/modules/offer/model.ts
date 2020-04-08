@@ -46,6 +46,7 @@ export interface IOfferUiState {
   combinationMode: ECombinationMode;
   combinationOfferUuids: string[];
   orderedOffersList: OrderedOffer[];
+  isPristine: boolean;
 }
 
 export interface IHotelAvailableProducts {
@@ -80,6 +81,7 @@ export const initialState: IOfferModel = {
     combinationMode: ECombinationMode.COMBINES_WITH_ANY,
     combinationOfferUuids: [],
     orderedOffersList: [],
+    isPristine: true,
   },
   offer: {
     uuid: 'NEW_OFFER',

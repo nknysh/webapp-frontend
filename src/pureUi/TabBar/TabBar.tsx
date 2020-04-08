@@ -1,5 +1,5 @@
 import React, { HTMLProps, ReactNode, useCallback, FormEvent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { IconButton } from '../Buttons/index';
 import { Icon } from '@material-ui/core';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
@@ -11,10 +11,12 @@ export const TabBar = styled.div`
   margin-bottom: 20px;
 `;
 
-export interface IRouteTabProps extends LinkProps {}
+export interface IRouteTabProps extends LinkProps {
+  isError?: boolean;
+}
 
 export const RouteTabComponent = (props: IRouteTabProps) => {
-  const { children, className, ...linkProps } = props;
+  const { children, className, isError, ...linkProps } = props;
   return (
     <NavLink className={props.className} activeClassName="active" {...linkProps}>
       {/** This span allows us to override the global styles that apply to links */}
@@ -31,13 +33,32 @@ export const RouteTab = styled(RouteTabComponent)`
     text-transform: uppercase;
     font-size: 13px;
     color: ${pureUiTheme.colors.blackLight};
+
+    ${props =>
+      props.isError
+        ? css`
+            color: red;
+          `
+        : null}
   }
 
   &.active span {
     color: ${pureUiTheme.colors.black};
+    ${props =>
+      props.isError
+        ? css`
+            color: red;
+          `
+        : null}
   }
 
   &.active {
     border-bottom: ${pureUiTheme.colors.goldBorder} 2px solid;
+    ${props =>
+      props.isError
+        ? css`
+            border-color: red;
+          `
+        : null}
   }
 `;

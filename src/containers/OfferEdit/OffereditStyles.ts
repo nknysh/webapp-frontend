@@ -49,8 +49,11 @@ export const OfferEditStyles = styled.main`
     min-width: 300px;
     grid-template-areas:
       'hotelName hotelName'
+      'hotelErrors hotelErrors'
       'offerName offerName'
+      'offerNameErrors offerNameErrors'
       'terms furtherInfo'
+      'termsErrors furtherInformationErrors'
       'preDscountCheckbox textOnlyCheckbox'
       'preDiscountInfo textOnlyInfo';
   }
@@ -73,11 +76,23 @@ export const OfferEditStyles = styled.main`
       width: 100%;
     }
   }
+  .hotelErrors {
+    grid-area: hotelErrors;
+  }
   .offerName {
     grid-area: offerName;
   }
+  .offerNameErrors {
+    grid-area: offerNameErrors;
+  }
   .termsAndConditions {
     grid-area: terms;
+  }
+  .termsAndConditionsErrors {
+    grid-area: termsErrors;
+  }
+  .furtherInformationErrors {
+    grid-area: furtherInformationErrors;
   }
   .furtherInformation {
     grid-area: furtherInfo;
