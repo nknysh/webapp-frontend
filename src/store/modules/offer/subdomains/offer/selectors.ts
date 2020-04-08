@@ -613,16 +613,23 @@ export const offerHasPrerequisitesValidationErrorsSelector = createSelector(
 );
 
 export const offerHasApplicationsValidationErrorsSelector = createSelector(
-  offerAccommodationProductsPrerequisitesValidationSelector,
-  accommodationProductValidatorFieldResult => {
-    return accommodationProductValidatorFieldResult.errors.length <= 0;
+  offerSteppingValidationSelector,
+  offerProductDiscountsValidationSelector,
+  offerSubProductDiscountsValidationSelector,
+  (steppingValidatorResult, productDiscountsValidatorResult, subProductDiscountsValidatorResult) => {
+    return (
+      steppingValidatorResult.errors.length >= 1 ||
+      productDiscountsValidatorResult.errors.length >= 1 ||
+      subProductDiscountsValidatorResult.errors.length >= 1
+    );
   }
 );
 
 export const offerHasValidationErrorsSelector = createSelector(
   offerHasDetailsValidatorErrorsSelector,
   offerHasPrerequisitesValidationErrorsSelector,
-  (offerHasDetailsErrors, offerHasPrerequisitesErrors) => {
-    return offerHasDetailsErrors || offerHasPrerequisitesErrors;
+  offerHasApplicationsValidationErrorsSelector,
+  (offerHasDetailsErrors, offerHasPrerequisitesErrors, offerHasApplicationsErrors) => {
+    return offerHasDetailsErrors || offerHasPrerequisitesErrors || offerHasApplicationsErrors;
   }
 );
