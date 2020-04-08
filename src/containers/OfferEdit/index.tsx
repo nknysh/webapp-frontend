@@ -34,6 +34,7 @@ import {
   offerHasPrerequisitesValidationErrorsSelector,
   offerHasValidationErrorsSelector,
   offerIsPristineSelector,
+  offerHasApplicationsValidationErrorsSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -236,7 +237,12 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           >
             Pre Requisites
           </RouteTab>
-          <RouteTab to={`${this.props.match.url}/applications`}>Applications</RouteTab>
+          <RouteTab
+            isError={!this.props.offerIsPristine && this.props.hasApplicationsErrors}
+            to={`${this.props.match.url}/applications`}
+          >
+            Applications
+          </RouteTab>
           <RouteTab to={`${this.props.match.url}/combinations`}>Combinations</RouteTab>
           <RouteTab to={`${this.props.match.url}/priority`}>Priority</RouteTab>
         </TabBar>
@@ -308,6 +314,7 @@ const mapStateToProps = createStructuredSelector({
   isPreDiscount: offerPreDiscountSelector,
   validationErrors: offerValidationSelector,
   hasPrerequisiteErrors: offerHasPrerequisitesValidationErrorsSelector,
+  hasApplicationsErrors: offerHasApplicationsValidationErrorsSelector,
   hasValidationErrors: offerHasValidationErrorsSelector,
   offerIsPristine: offerIsPristineSelector,
 });

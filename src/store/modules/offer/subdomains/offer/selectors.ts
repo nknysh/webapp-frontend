@@ -441,9 +441,9 @@ export const offerProductDiscountsValidationSelector = createSelector(
     if (productDiscounts !== undefined) {
       if (productDiscounts.Fine) {
         productDiscounts.Fine.forEach((discount, index) => {
-          if (discount.discountPercentage === undefined) {
+          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
             errors.push({
-              field: 'productDiscounts',
+              field: 'fineDiscounts',
               index,
               message: `Fine discount #${index + 1} - discount percentage is required`,
             });
@@ -452,9 +452,9 @@ export const offerProductDiscountsValidationSelector = createSelector(
       }
       if (productDiscounts['Ground Service']) {
         productDiscounts['Ground Service'].forEach((discount, index) => {
-          if (discount.discountPercentage === undefined) {
+          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
             errors.push({
-              field: 'productDiscounts',
+              field: 'groundServiceDiscounts',
               index,
               message: `Ground Service discount #${index + 1} - discount percentage is required`,
             });
@@ -463,9 +463,9 @@ export const offerProductDiscountsValidationSelector = createSelector(
       }
       if (productDiscounts.Supplement) {
         productDiscounts.Supplement.forEach((discount, index) => {
-          if (discount.discountPercentage === undefined) {
+          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
             errors.push({
-              field: 'productDiscounts',
+              field: 'supplementDiscounts',
               index,
               message: `Supplement discount #${index + 1} - discount percentage is required`,
             });
@@ -474,9 +474,9 @@ export const offerProductDiscountsValidationSelector = createSelector(
       }
       if (productDiscounts.Transfer) {
         productDiscounts.Transfer.forEach((discount, index) => {
-          if (discount.discountPercentage === undefined) {
+          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
             errors.push({
-              field: 'productDiscounts',
+              field: 'transferDiscounts',
               index,
               message: `Transfer discount #${index + 1} - discount percentage is required`,
             });
@@ -499,28 +499,37 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
     if (subProductDiscounts !== undefined) {
       if (subProductDiscounts['Meal Plan']) {
         subProductDiscounts['Meal Plan'].forEach((discount, index) => {
-          if (discount.discountPercentage === undefined) {
+          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
             errors.push({
-              field: 'productDiscounts',
+              field: 'mealPlanDiscounts',
               index,
               message: `Meal Plan discount #${index + 1} - discount percentage is required`,
             });
           }
         });
       }
-      if (subProductDiscounts.Supplement) {
-        subProductDiscounts.Supplement.forEach((discount, index) => {
-          if (discount.discountPercentage === undefined) {
-            errors.push({
-              field: 'productDiscounts',
-              index,
-              message: `Supplement discount #${index + 1} - discount percentage is required`,
-            });
-          }
-        });
-      }
     }
 
+    return {
+      errors,
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
+
+export const offerExtraPersonSupplementValidationSelector = createSelector(
+  offerExtraPersonSupplementsSelector,
+  extraPersonSupplementsDiscounts => {
+    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+    extraPersonSupplementsDiscounts.forEach((epsDiscount, index) => {
+      if (epsDiscount.discountPercentage === undefined || epsDiscount.discountPercentage === '') {
+        errors.push({
+          field: 'extraPersonSupplementDiscounts',
+          index,
+          message: `Extra Person Supplement discount #${index + 1} - discount percentage is required`,
+        });
+      }
+    });
     return {
       errors,
     } as ValidatorFieldResult<OfferValidatorResultSet>;
@@ -556,6 +565,7 @@ export const offerValidationSelector = createSelector(
   offerSteppingValidationSelector,
   offerProductDiscountsValidationSelector,
   offerSubProductDiscountsValidationSelector,
+  offerExtraPersonSupplementValidationSelector,
   (
     hotelValidatorFieldResult,
     nameValidatorFieldResult,
@@ -565,7 +575,8 @@ export const offerValidationSelector = createSelector(
     stayBetweenValidatorFieldResult,
     steppingValidatorFieldResult,
     productDiscountsValidatorFieldResult,
-    subProductDiscountsValidatorFieldResult
+    subProductDiscountsValidatorFieldResult,
+    epsDiscountsValidatorFieldResult
   ) => {
     const groupedBy: OfferValidatorResultSet = {
       hotelUuid: hotelValidatorFieldResult.errors,
@@ -575,8 +586,18 @@ export const offerValidationSelector = createSelector(
       accommodationProductsPrerequisite: accommodationProductValidatorFieldResult.errors,
       stayBetweenPrerequisite: stayBetweenValidatorFieldResult.errors,
       stepping: steppingValidatorFieldResult.errors,
-      productDiscounts: productDiscountsValidatorFieldResult.errors,
-      subProductDiscounts: subProductDiscountsValidatorFieldResult.errors,
+
+      // the product discounts, broken up
+      fineDiscounts: productDiscountsValidatorFieldResult.errors.filter(e => e.field === 'fineDiscounts'),
+      groundServiceDiscounts: productDiscountsValidatorFieldResult.errors.filter(
+        e => e.field === 'groundServiceDiscounts'
+      ),
+      supplementDiscounts: productDiscountsValidatorFieldResult.errors.filter(e => e.field === 'supplementDiscounts'),
+      transferDiscounts: productDiscountsValidatorFieldResult.errors.filter(e => e.field === 'transferDiscounts'),
+
+      // sub product discounts, broken up
+      extraPersonSupplementDiscounts: epsDiscountsValidatorFieldResult.errors,
+      mealPlanDiscounts: subProductDiscountsValidatorFieldResult.errors.filter(e => e.field === 'mealPlanDiscounts'),
     };
     return groupedBy;
   }
@@ -614,11 +635,18 @@ export const offerHasPrerequisitesValidationErrorsSelector = createSelector(
 
 export const offerHasApplicationsValidationErrorsSelector = createSelector(
   offerSteppingValidationSelector,
+  offerExtraPersonSupplementValidationSelector,
   offerProductDiscountsValidationSelector,
   offerSubProductDiscountsValidationSelector,
-  (steppingValidatorResult, productDiscountsValidatorResult, subProductDiscountsValidatorResult) => {
+  (
+    steppingValidatorResult,
+    extraPersonSupplementValidatorResult,
+    productDiscountsValidatorResult,
+    subProductDiscountsValidatorResult
+  ) => {
     return (
       steppingValidatorResult.errors.length >= 1 ||
+      extraPersonSupplementValidatorResult.errors.length >= 1 ||
       productDiscountsValidatorResult.errors.length >= 1 ||
       subProductDiscountsValidatorResult.errors.length >= 1
     );

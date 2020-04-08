@@ -10,8 +10,16 @@ export interface OfferValidatorResultSet {
   accommodationProductsPrerequisite: ValidatorFieldError<OfferValidatorResultSet>[];
   stayBetweenPrerequisite: ValidatorFieldError<OfferValidatorResultSet>[];
   stepping: ValidatorFieldError<OfferValidatorResultSet>[];
-  productDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
-  subProductDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
+
+  // product discounts, broken up
+  fineDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
+  groundServiceDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
+  transferDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
+  supplementDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
+
+  // sub product discounts, broken up
+  mealPlanDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
+  extraPersonSupplementDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
 }
 
 export interface ValidatorFieldError<T> {

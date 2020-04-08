@@ -50,7 +50,7 @@ export interface IDiscountProduct {
 }
 
 export interface IOfferProductDiscountInstance {
-  discountPercentage?: number;
+  discountPercentage?: number | string;
   maximumQuantity?: number;
   greenTaxDiscountApproach?: string;
   standardOccupancyOnly?: boolean;
@@ -124,7 +124,7 @@ export interface IOffer<T> {
   preDiscount: boolean;
   stepping?: IOfferStepping;
   accommodationProductDiscount?: {
-    discountPercentage?: number;
+    discountPercentage?: number | string;
     greenTaxDiscountApproach?: string;
   };
   subProductDiscounts?: IOfferSubProductDiscounts<T>;

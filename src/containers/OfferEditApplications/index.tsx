@@ -3,6 +3,7 @@ import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { OfferEditApplicationsStyles } from './OfferEditApplicationsStyles';
+import { ErrorList } from 'pureUi/ErrorList';
 
 import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData';
 import {
@@ -222,7 +223,21 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         </Fieldset>
 
         <Fieldset>
-          <Legend>Extra Person Supplement</Legend>
+          <Legend
+            isError={
+              !this.props.offerIsPristine && this.props.validationErrors.extraPersonSupplementDiscounts.length >= 1
+            }
+          >
+            Extra Person Supplement
+          </Legend>
+
+          <ErrorList>
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.extraPersonSupplementDiscounts.map((error, i) => (
+                <li key={i}>{error.message}</li>
+              ))}
+          </ErrorList>
+
           {!this.props.hotelUuid && <Text>Select a hotel to add an extra person supplement</Text>}
 
           {this.props.hotelUuid &&
@@ -306,7 +321,15 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         </Fieldset>
 
         <Fieldset>
-          <Legend>Fine Discount</Legend>
+          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.fineDiscounts.length >= 1}>
+            Fine Discount
+          </Legend>
+
+          <ErrorList>
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.fineDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
           {this.props.fineDiscounts.map(fineDiscount => {
             return (
               <div key={fineDiscount.uuid} className="fineDiscountGrid">
@@ -367,7 +390,17 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         </Fieldset>
 
         <Fieldset>
-          <Legend>Ground Service Discount</Legend>
+          <Legend
+            isError={!this.props.offerIsPristine && this.props.validationErrors.groundServiceDiscounts.length >= 1}
+          >
+            Ground Service Discount
+          </Legend>
+
+          <ErrorList>
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.groundServiceDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
           {this.props.groundServiceDiscounts.map(groundServiceDiscount => {
             return (
               <div key={groundServiceDiscount.uuid} className="groundServiceDiscountGrid">
@@ -442,7 +475,15 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         </Fieldset>
 
         <Fieldset>
-          <Legend>Transfer Discount</Legend>
+          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.transferDiscounts.length >= 1}>
+            Transfer Discount
+          </Legend>
+
+          <ErrorList>
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.transferDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
           {this.props.transferDiscounts.map(transferDiscount => {
             return (
               <div key={transferDiscount.uuid} className="transferDiscountGrid">
@@ -503,7 +544,15 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         </Fieldset>
 
         <Fieldset>
-          <Legend>Meal Plan Discount</Legend>
+          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.mealPlanDiscounts.length >= 1}>
+            Meal Plan Discount
+          </Legend>
+
+          <ErrorList>
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.mealPlanDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
           {this.props.mealPlanDiscounts.map(mealPlanDiscount => {
             return (
               <div key={mealPlanDiscount.uuid} className="mealPlanDiscountGrid">
@@ -576,7 +625,15 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         </Fieldset>
 
         <Fieldset>
-          <Legend>Supplement Discount</Legend>
+          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.supplementDiscounts.length >= 1}>
+            Supplement Discount
+          </Legend>
+
+          <ErrorList>
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.supplementDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
           {this.props.supplementDiscounts.map(supplementDiscount => {
             return (
               <div key={supplementDiscount.uuid} className="supplementDiscountGrid">

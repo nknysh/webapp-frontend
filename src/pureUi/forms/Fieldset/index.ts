@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 
 export const Fieldset = styled.fieldset`
@@ -9,7 +9,11 @@ export const Fieldset = styled.fieldset`
   padding: 20px 0;
 `;
 
-export const Legend = styled.legend`
+interface ILegendProps extends React.HTMLAttributes<HTMLLegendElement> {
+  isError?: boolean;
+}
+
+export const Legend = styled.legend<ILegendProps>`
   position: absolute;
   top: -30px;
   color: ${pureUiTheme.colors.grayDarker};
@@ -20,6 +24,13 @@ export const Legend = styled.legend`
   justify-content: space-between;
   align-items: center;
   color: ${pureUiTheme.colors.gold};
+
+  ${props =>
+    props.isError
+      ? css`
+          color: red;
+        `
+      : null}
 `;
 
 export const LegendExtras = styled.span`
