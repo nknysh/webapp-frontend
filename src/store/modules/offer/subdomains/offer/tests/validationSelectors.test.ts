@@ -5,7 +5,7 @@ import {
   offerStayBetweenPrerequisiteValidationSelector,
   offerSteppingValidationSelector,
   offerProductDiscountsValidationSelector,
-  offersubProductDiscountsValidationSelector,
+  offerSubProductDiscountsValidationSelector,
 } from '../selectors';
 import { initialState } from '../../../model';
 import { IOfferUI, IOfferStepping } from 'services/BackendApi';
@@ -285,7 +285,7 @@ describe('offer validation selectors', () => {
     it('sub product discounts are not required', () => {
       const fixture = {};
 
-      const results = offersubProductDiscountsValidationSelector.resultFunc(fixture);
+      const results = offerSubProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(0);
     });
 
@@ -300,7 +300,7 @@ describe('offer validation selectors', () => {
         ],
       };
 
-      const results = offersubProductDiscountsValidationSelector.resultFunc(fixture);
+      const results = offerSubProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(1);
     });
 
@@ -315,7 +315,7 @@ describe('offer validation selectors', () => {
         ],
       };
 
-      const results = offersubProductDiscountsValidationSelector.resultFunc(fixture);
+      const results = offerSubProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(0);
     });
   });

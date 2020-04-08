@@ -28,11 +28,6 @@ import {
   offerHasApplicationsValidationErrorsSelector,
   offerHasValidationErrorsSelector,
   offerIsPristineSelector,
-  offerProductDiscountsFinesSelector,
-  offerProductDiscountsGroundServicesSelector,
-  offerProductDiscountsTransfersSelector,
-  offerSubProductDiscountsMealPlansSelector,
-  offerProductDiscountsSupplementsSelector,
 } from 'store/modules/offer/selectors';
 
 import {

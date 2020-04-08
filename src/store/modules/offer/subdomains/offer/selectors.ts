@@ -11,7 +11,6 @@ import {
 } from '../../../bootstrap/selectors';
 import { groupBy, flatten, uniq, reduce } from 'ramda';
 import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../types';
-import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
 import {
   offerDomainSelector,
   getAccommodationProductsForHotelSelector as hotelAccomodationProductsSelector,
@@ -529,7 +528,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
   }
 );
 
-export const offersubProductDiscountsValidationSelector = createSelector(
+export const offerSubProductDiscountsValidationSelector = createSelector(
   offerSubProductDiscountsSelector,
   subProductDiscounts => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
@@ -737,3 +736,41 @@ export const offerHasValidationErrorsSelector = createSelector(
     return offerHasDetailsErrors || offerHasPrerequisitesErrors || offerHasApplicationsErrors;
   }
 );
+
+export const hasProductDiscountsWithProductsSelector = createSelector(
+  offerProductDiscountsSelector,
+  (productDiscounts) => Object.keys(productDiscounts).reduce((acc, nextType) => {
+    const hasProducts = productDiscounts[nextType].reduce((prodAcc, nextProd) => {
+      return prodAcc ? prodAcc : Boolean(nextProd?.products?.length > 0);
+    }, false);
+    
+    return acc ? acc : hasProducts;
+  }, false)
+)
+
+export const hasSubProductDiscountsWithProductsSelector = createSelector(
+  offerSubProductDiscountsSelector,
+  (productDiscounts) => Object.keys(productDiscounts).reduce((acc, nextType) => {
+    const hasProducts = productDiscounts[nextType].reduce((prodAcc, nextProd) => {
+      return prodAcc ? prodAcc : Boolean(nextProd?.products?.length > 0);
+    }, false);
+    
+    return acc ? acc : hasProducts;
+  }, false)
+)
+
+export const hasAccomPreReqsSelector = createSelector(
+  offerAccommodationProductPrerequisitesSelector,
+  (accomPreReqs) => accomPreReqs.reduce((acc, next)=> {
+    return acc ? acc : next.value;
+  }, false)
+)
+
+export const offerHasPerishableDataSelector = createSelector(
+  hasProductDiscountsWithProductsSelector,
+  hasSubProductDiscountsWithProductsSelector,
+  hasAccomPreReqsSelector,
+  (hasProductDiscountsWithProducts, hasSubProductDiscountsWithProducts, hasAccomPreReqs) => {    
+    return hasProductDiscountsWithProducts || hasSubProductDiscountsWithProducts || hasAccomPreReqs;
+  }
+)
