@@ -105,7 +105,12 @@ export const reduceArrayByKey = curry((key, accum, value) => (value ? [...accum,
  * @param {string} key
  * @param {Function} reducer
  */
-export const getMapped = (key, reducer = reduceByKey) => pipe(values, reduce(reducer(key), []), uniq);
+export const getMapped = (key, reducer = reduceByKey) =>
+  pipe(
+    values,
+    reduce(reducer(key), []),
+    uniq
+  );
 
 /**
  * Test adult
