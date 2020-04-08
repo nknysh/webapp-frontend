@@ -131,8 +131,6 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   };
 
   render() {
-    console.log('this.props.hasValidationErrors', this.props.hasValidationErrors);
-
     if (this.props.getOfferRequestPending) {
       return (
         <OfferEditStyles>
