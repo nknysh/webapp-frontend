@@ -8,6 +8,21 @@ const createProps = (
   path?: string
 ): IOfferEditPreRequisitesProps => {
   const defaultProps: IOfferEditPreRequisitesProps = {
+    validationErrors: {
+      accommodationProductsPrerequisite: [],
+      hotelUuid: [],
+      name: [],
+      stayBetweenPrerequisite: [],
+      stepping: [],
+      termsAndConditions: [],
+      furtherInformation: [],
+      extraPersonSupplementDiscounts: [],
+      fineDiscounts: [],
+      groundServiceDiscounts: [],
+      mealPlanDiscounts: [],
+      supplementDiscounts: [],
+      transferDiscounts: [],
+    },
     accomodationDiscount: undefined,
     requiresGreenTax: true,
     isTextOnly: false,
@@ -37,6 +52,9 @@ const createProps = (
       uuid: 'EPS_123',
       name: 'Extra Person Supplement',
     },
+    hasValidationErrors: false,
+    offerIsPristine: true,
+    hasApplicationsErrors: false,
     // Actions
     offerSetAccommodationDiscountDiscountPercentageAction: jest.fn(),
     offerSetAccommodationDiscountGreenTaxApproachAction: jest.fn(),

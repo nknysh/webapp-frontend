@@ -88,7 +88,6 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   toggleTextOnly = () => this.props.setOfferIsTextOnly(!this.props.isTextOnly);
 
   handleSaveButtonClick = () => {
-    console.log('this.props.hasValidationErrors', this.props.hasValidationErrors);
     if (this.props.hasValidationErrors) {
       this.props.setOfferIsPristineAction(false);
       return;

@@ -289,36 +289,6 @@ describe('offer validation selectors', () => {
       expect(results.errors.length).toEqual(0);
     });
 
-    it('if a Supplement discount is present, discount percentage is required', () => {
-      const fixture = {
-        Supplement: [
-          {
-            uuid: '1',
-            discountPercentage: undefined,
-            products: [],
-          },
-        ],
-      };
-
-      const results = offerSubProductDiscountsValidationSelector.resultFunc(fixture);
-      expect(results.errors.length).toEqual(1);
-    });
-
-    it('if a Supplement discount is present, discount percentage is required (passing)', () => {
-      const fixture = {
-        Supplement: [
-          {
-            uuid: '1',
-            discountPercentage: 10,
-            products: [],
-          },
-        ],
-      };
-
-      const results = offerSubProductDiscountsValidationSelector.resultFunc(fixture);
-      expect(results.errors.length).toEqual(0);
-    });
-
     it('if a Meal Plan discount is present, discount percentage is required', () => {
       const fixture = {
         'Meal Plan': [
