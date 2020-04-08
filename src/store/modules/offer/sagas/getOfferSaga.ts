@@ -48,7 +48,7 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
         uiOffer,
         associatedOffersResult ? arrayOfObjectsToMapping(associatedOffersResult.data.data, 'uuid', 'name') : {},
         associatedProductsResult ? arrayOfObjectsToMapping(associatedProductsResult.data.data, 'uuid', 'name') : {},
-        offersOnHotelResult.data.data,
+        offersOnHotelResult.response.data.data,
         isTextOnly,
         accommodationProductsForHotel
       )

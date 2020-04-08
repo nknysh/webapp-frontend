@@ -16,6 +16,7 @@ import { watchGetOfferRequest } from './modules/offer/sagas/getOfferSaga';
 import { watchBootstrapAppRequest } from './modules/bootstrap/sagas/bootstrapAppSaga';
 import { watchPutOfferRequest } from './modules/offer/sagas/putOfferSaga';
 import { watchPostOfferRequest } from './modules/offer/sagas/postOfferSaga';
+import { watchPostOffersOrderRequestSaga } from './modules/offer/sagas/postOffersOrderSaga';
 import { watchOfferHotelUuidChangeAction } from './modules/offer/sagas/getHotelData';
 import importRatesSaga from './modules/ratesImport/sagas';
 
@@ -38,6 +39,7 @@ export default function* allSagas() {
     watchBootstrapAppRequest,
     watchPutOfferRequest,
     watchPostOfferRequest,
+    watchPostOffersOrderRequestSaga,
     watchOfferHotelUuidChangeAction,
     importRatesSaga,
   ];

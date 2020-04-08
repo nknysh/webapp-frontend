@@ -9,6 +9,9 @@ import {
   POST_OFFER_REQUEST,
   POST_OFFER_SUCCESS,
   POST_OFFER_FAILURE,
+  POST_OFFERS_ORDER_REQUEST,
+  POST_OFFERS_ORDER_SUCCESS,
+  POST_OFFERS_ORDER_FAILURE,
   SET_COMBINATION_MODE,
   TOGGLE_OFFER_IN_COMBINATION_LIST,
   SET_ORDERED_OFFERS_LIST,
@@ -91,7 +94,6 @@ export const uiStateReducer = (
         ...state,
         putOfferRequestIsPending: false,
         putError: null,
-        orderedOffersList: getOrderedOffers(action.offersOnHotel, action.offer.uuid)
       };
 
     case PUT_OFFER_FAILURE:
@@ -108,17 +110,50 @@ export const uiStateReducer = (
       };
 
     case POST_OFFER_SUCCESS:
-      return {
-        ...state,
-        postOfferRequestIsPending: false,
-        postError: null,
-      };
+      return produce(state, draftState => {
+        draftState.postOfferRequestIsPending = false;
+        draftState.postError = null;
+
+        const foundOrderedOffer = draftState
+          .orderedOffersList
+          .find(item => item.uuid === initialState.offer.uuid);
+        
+        if(foundOrderedOffer){
+          foundOrderedOffer.uuid = action.offer.uuid;
+          foundOrderedOffer.name = action.offer.name;
+        }
+
+        return draftState;
+      });
 
     case POST_OFFER_FAILURE:
       return {
         ...state,
         postOfferRequestIsPending: false,
         postError: action.errors,
+      };
+
+    // ----------- POST_OFFERS_ORDER ----------------------
+
+    case POST_OFFERS_ORDER_REQUEST:
+      return {
+        ...state,
+        postOffersOrderRequestIsPending: true
+      };
+    
+    case POST_OFFERS_ORDER_SUCCESS:
+      return {
+        ...state,
+        postOffersOrderRequestIsPending: false,
+        postOffersOrderError: null,
+        orderedOffersList: getOrderedOffers(action.offersOnHotel, action.offerUuid)
+      };
+
+    case POST_OFFERS_ORDER_FAILURE:
+      return {
+        ...state,
+        postOffersOrderRequestIsPending: false,
+        postOffersOrderError: action.errors,
       };
 
     case SET_OFFER_IS_TEXT_ONLY:

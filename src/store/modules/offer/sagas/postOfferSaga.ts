@@ -4,7 +4,13 @@ import { getUserCountryContext } from 'store/modules/auth';
 import { offerSelector } from '../subdomains/offer/selectors';
 import { uiStateSelector } from '../subdomains/uiState/selectors';
 import { IOfferUI } from '../../../../services/BackendApi/types/OfferResponse';
-import { POST_OFFER_REQUEST, postOfferSuccessAction, postOfferFailureAction, PostOfferRequestAction } from '../actions';
+import {
+  POST_OFFER_REQUEST,
+  postOfferSuccessAction,
+  postOfferFailureAction,
+  postOffersOrderRequestAction,
+  PostOfferRequestAction
+} from '../actions';
 import { getBootstrapHotelsSelector } from 'store/modules/bootstrap/selectors';
 import { IBootstrapHotel } from '../../bootstrap/model';
 import { transformUiOfferToApiOffer } from '../utils';
@@ -27,11 +33,17 @@ export function* postOfferRequestSaga(action: PostOfferRequestAction) {
           name: hotels.find(h => h.uuid === uiOffer.hotelUuid)?.name,
         },
       };
+      
       yield put(postOfferSuccessAction(offerWithHotel));
+      
+      const uiStateAfterPost: IOfferUiState = yield select(uiStateSelector);
+      yield put(postOffersOrderRequestAction(uiStateAfterPost.orderedOffersList));
+
       yield call(action.history.replace, `/offer/${response.data.data.uuid}/edit`);
     } else {
       yield put(postOfferFailureAction(error.response.data.errors));
     }
+
   } catch (e) {
     // TODO: Need an unexpected error handler
     console.error(e);

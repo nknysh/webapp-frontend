@@ -128,9 +128,33 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
-  getOffersForHotel = async (hotelUuid: string): Promise<AxiosResponse<IOffersOnHotelResponse>> => {
+  getOffersForHotel = async (hotelUuid: string): Promise<IAPIRepsonse<IOffersOnHotelResponse, IApiErrorResponse>> => {
     const endpoint = `${BackendEndpoints.OFFERS}?fields[offer]=uuid,name,order&filter[offer][hotelUuid]=${hotelUuid}`;
-    return this.client.get(endpoint);
+    return this.client.get(endpoint)
+      .then(response => ({
+        response,
+      }))
+      // TODO: Create a helper to handle differen error ranges and either throw or return an error
+      .catch(error => ({
+        error,
+      }))
+  };
+
+  postOffersOrder = async (offersSortPayload: IOffersSortPayload):Promise<IAPIRepsonse<IOffersOnHotelResponse, IApiErrorResponse>> => {
+    return this.client.post(
+        `${BackendEndpoints.OFFERS}/order`,
+        toApiPayload<IOffersSortPayload>(
+          offersSortPayload,
+          { type: 'offersOrder' }
+        )
+      )
+      .then(response => ({
+        response,
+      }))
+      // TODO: Create a helper to handle differen error ranges and either throw or return an error
+      .catch(error => ({
+        error,
+      }))
   };
 
   getAccommodationProductsForHotel = async (
@@ -220,16 +244,6 @@ export class BackendApiService<T extends AxiosInstance> {
         .catch(error => ({
           error,
         }))
-    );
-  };
-
-  postOffersOrder = async (offersSortPayload: IOffersSortPayload): Promise<AxiosResponse<IOffersOnHotelResponse>> => {
-    return this.client.post(
-      `${BackendEndpoints.OFFERS}/order?associations=offer`,
-      toApiPayload<IOffersSortPayload>(
-        offersSortPayload,
-        { type: 'offersOrder' }
-      )
     );
   };
 

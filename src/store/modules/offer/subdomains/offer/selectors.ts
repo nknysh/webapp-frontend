@@ -438,7 +438,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
   productDiscounts => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
-    if (productDiscounts !== undefined) {
+    if (productDiscounts) {
       if (productDiscounts.Fine) {
         productDiscounts.Fine.forEach((discount, index) => {
           if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
@@ -496,7 +496,7 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
   subProductDiscounts => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
-    if (subProductDiscounts !== undefined) {
+    if (subProductDiscounts) {
       if (subProductDiscounts['Meal Plan']) {
         subProductDiscounts['Meal Plan'].forEach((discount, index) => {
           if (discount.discountPercentage === undefined || discount.discountPercentage === '') {

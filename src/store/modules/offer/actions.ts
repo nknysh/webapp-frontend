@@ -2,6 +2,7 @@ import { OfferAction } from './subdomains/offer/actions';
 import { OfferUiStateAction } from './subdomains/uiState/actions';
 import { IOfferUI, IOfferOnHotelItem } from 'services/BackendApi';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
+import { OrderedOffer } from './model';
 
 export const GET_OFFER_REQUEST = 'offer/GET_OFFER_REQUEST';
 export const GET_OFFER_SUCCESS = 'offer/GET_OFFER_SUCCESS';
@@ -14,6 +15,10 @@ export const PUT_OFFER_FAILURE = 'offer/PUT_OFFER_FAILURE';
 export const POST_OFFER_REQUEST = 'offer/POST_OFFER_REQUEST';
 export const POST_OFFER_SUCCESS = 'offer/POST_OFFER_SUCCESS';
 export const POST_OFFER_FAILURE = 'offer/POST_OFFER_FAILURE';
+
+export const POST_OFFERS_ORDER_REQUEST = 'offer/POST_OFFERS_ORDER_REQUEST';
+export const POST_OFFERS_ORDER_SUCCESS = 'offer/POST_OFFERS_ORDER_SUCCESS';
+export const POST_OFFERS_ORDER_FAILURE = 'offer/POST_OFFERS_ORDER_FAILURE';
 
 export const RESET_OFFER_MODULE = 'offer/RESET_OFFER_MODULE';
 
@@ -54,10 +59,9 @@ export const putOfferRequestAction = () => ({
 });
 
 export type PutOfferSuccessAction = ReturnType<typeof putOfferSuccessAction>;
-export const putOfferSuccessAction = (offer: any, offersOnHotel: IOfferOnHotelItem[]) => ({
+export const putOfferSuccessAction = (offer: any) => ({
   type: PUT_OFFER_SUCCESS as typeof PUT_OFFER_SUCCESS,
-  offer,
-  offersOnHotel
+  offer
 });
 
 export type PutOfferFailureAction = ReturnType<typeof putOfferFailureAction>;
@@ -84,6 +88,27 @@ export const postOfferFailureAction = (errors: IApiErrorPayload[]) => ({
   errors,
 });
 
+// ----------- POST_OFFERS_ORDER ----------------------
+
+export type PostOffersOrderRequestAction = ReturnType<typeof postOffersOrderRequestAction>;
+export const postOffersOrderRequestAction = (orderedOffers: OrderedOffer[]) => ({
+  type: POST_OFFERS_ORDER_REQUEST as typeof POST_OFFERS_ORDER_REQUEST,
+  orderedOffers,
+});
+
+export type PostOffersOrderSuccessAction = ReturnType<typeof postOffersOrderSuccessAction>;
+export const postOffersOrderSuccessAction = (offerUuid: string, offersOnHotel: IOfferOnHotelItem[]) => ({
+  type: POST_OFFERS_ORDER_SUCCESS as typeof POST_OFFERS_ORDER_SUCCESS,
+  offerUuid,
+  offersOnHotel,
+});
+
+export type PostOffersOrderFailureAction = ReturnType<typeof postOffersOrderFailureAction>;
+export const postOffersOrderFailureAction = (errors: IApiErrorPayload[]) => ({
+  type: POST_OFFERS_ORDER_FAILURE as typeof POST_OFFERS_ORDER_FAILURE,
+  errors,
+});
+
 export type ResetOfferModuleAction = ReturnType<typeof resetOfferModuleAction>;
 export const resetOfferModuleAction = () => ({
   type: RESET_OFFER_MODULE as typeof RESET_OFFER_MODULE,
@@ -101,6 +126,9 @@ export type OfferDomainAction =
   | PostOfferRequestAction
   | PostOfferSuccessAction
   | PostOfferFailureAction
+  | PostOffersOrderRequestAction
+  | PostOffersOrderSuccessAction
+  | PostOffersOrderFailureAction
   | ResetOfferModuleAction;
 
 export * from './subdomains/offer/actions';
