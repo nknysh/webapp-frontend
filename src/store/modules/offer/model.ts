@@ -6,10 +6,11 @@ import {
   IAccomodationProductOptions,
   ITransferProductOptions,
   IMealPlanProductOptions,
+  IHotel,
 } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
-import { any } from 'prop-types';
+import { subProductDiscounts } from '../../../services/BackendApi/types/OffersSearchResponse';
 
 interface KeyValuePair {
   [key: string]: string;
@@ -50,6 +51,7 @@ export interface IOfferUiState {
   combinationOfferUuids: string[];
   orderedOffersList: OrderedOffer[];
   isPristine: boolean;
+  ageNameAccordianKeys: string[];
 }
 
 export interface IHotelAvailableProducts {
@@ -87,6 +89,7 @@ export const initialState: IOfferModel = {
     combinationOfferUuids: [],
     orderedOffersList: [],
     isPristine: true,
+    ageNameAccordianKeys: [],
   },
   offer: {
     uuid: 'NEW_OFFER',
@@ -103,7 +106,15 @@ export const initialState: IOfferModel = {
     },
     stepping: undefined,
     preDiscount: false,
-  } as IOfferUI,
+    subProductDiscounts: {},
+    productDiscounts: {},
+    combinesWith: [],
+    cannotCombineWith: [],
+    order: Infinity,
+    hotel: {} as IHotel,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
   associatedOffersMapping: {},
   associatedProductsMapping: {},
   offersOnHotel: [],

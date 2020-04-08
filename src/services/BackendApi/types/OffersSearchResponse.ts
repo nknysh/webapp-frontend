@@ -215,7 +215,7 @@ export interface AppliedSuplement {
   selected: boolean;
 }
 
-export interface SubProductDiscounts {
+export interface subProductDiscounts {
   Supplement: AppliedSubProductDiscount[];
 }
 
@@ -241,7 +241,7 @@ export interface Offer {
   preDiscount: boolean;
   stepping?: any;
   accommodationProductDiscount: AccommodationProductDiscount;
-  subProductDiscounts: SubProductDiscounts;
+  subProductDiscounts: subProductDiscounts;
   productDiscounts?: any;
   createdAt: string;
   updatedAt: string;

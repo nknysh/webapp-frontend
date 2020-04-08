@@ -9,13 +9,14 @@ import {
   updateDiscountHandler,
   toggleDiscountAgeName,
   toggleProductOnDiscount,
+  toggleAgeNameOnProductDiscountProduct,
 } from '../../utils';
 import { IOfferModel } from '../../model';
 
 export const productDiscountsReducer = (
   state: IOfferModel['offer']['productDiscounts'],
   action: Actions.OfferDomainAction
-): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
+): IOfferProductDiscounts<IUIOfferProductDiscountInstance> => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
       return state;
@@ -39,6 +40,9 @@ export const productDiscountsReducer = (
 
     case Actions.OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME:
       return toggleDiscountAgeName(state, action);
+
+    case Actions.OFFER_TOGGLE_AGE_NAME_ON_PRODUCT:
+      return toggleAgeNameOnProductDiscountProduct(state, action);
 
     default:
       return state;

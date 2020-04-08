@@ -1,18 +1,30 @@
 import { createSelector } from 'reselect';
 import { offerDomainSelector, getOffersOnHotelSelector } from '../../domainSelectors';
 
-export const uiStateSelector = createSelector(offerDomainSelector, domain => domain.uiState);
+export const uiStateSelector = createSelector(
+  offerDomainSelector,
+  domain => domain.uiState
+);
 
 export const getOfferRequestIsPendingSelector = createSelector(
   uiStateSelector,
   uiState => uiState.getOfferRequestIsPending
 );
 
-export const getOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.getError);
+export const getOfferErrorSelector = createSelector(
+  uiStateSelector,
+  uiState => uiState.getError
+);
 
-export const putOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.putError);
+export const putOfferErrorSelector = createSelector(
+  uiStateSelector,
+  uiState => uiState.putError
+);
 
-export const postOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.postError);
+export const postOfferErrorSelector = createSelector(
+  uiStateSelector,
+  uiState => uiState.postError
+);
 
 export const offerDomainIsTextOnlySelector = createSelector(
   uiStateSelector,
@@ -62,3 +74,8 @@ export const orderedOffersListSelector = createSelector(
 );
 
 export const offerIsPristineSelector = createSelector(uiStateSelector, uiStateSelector => uiStateSelector.isPristine);
+
+export const ageNameAccordianKeysSelector = createSelector(
+  uiStateSelector,
+  uiStateSelector => uiStateSelector.ageNameAccordianKeys
+);

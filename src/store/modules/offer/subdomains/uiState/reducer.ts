@@ -18,9 +18,8 @@ import {
   SET_OFFER_IS_PRISTINE,
   OFFER_HOTEL_UUID_CHANGE_SUCCESS
 } from '../../actions';
-import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN } from './actions';
+import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN, TOGGEL_AGE_NAME_ACCORDIAN_KEY } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
-import { ifElse, contains, without, append } from 'ramda';
 import produce from 'immer';
 import * as R from 'ramda';
 import { getOrderedOffers, toOrderedOffer } from '../../utils';
@@ -147,6 +146,17 @@ export const uiStateReducer = (
           without([action.key]),
           append(action.key)
         )(state.taCountryAccordianKeys),
+        taCountryAccordianKeys: state.taCountryAccordianKeys.includes(action.key)
+          ? state.taCountryAccordianKeys.filter(k => k !== action.key)
+          : [...state.taCountryAccordianKeys, action.key],
+      };
+
+    case TOGGEL_AGE_NAME_ACCORDIAN_KEY:
+      return {
+        ...state,
+        ageNameAccordianKeys: state.ageNameAccordianKeys.includes(action.ageNamekey)
+          ? state.ageNameAccordianKeys.filter(k => k !== action.ageNamekey)
+          : [...state.ageNameAccordianKeys, action.ageNamekey],
       };
 
     case SET_COMBINATION_MODE:

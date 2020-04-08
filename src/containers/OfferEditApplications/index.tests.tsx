@@ -42,6 +42,7 @@ const createProps = (
     extraPersonSupplementDiscounts: [],
     mealPlanDiscounts: [],
     supplementDiscounts: [],
+    ageNameAccordianKeys: [],
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},
@@ -71,6 +72,9 @@ const createProps = (
     offerToggleSubProductDiscountAgeNameAction: jest.fn(),
     offerToggleProductOnProductDiscountAction: jest.fn(),
     offerToggleProductOnSubProductDiscountAction: jest.fn(),
+    toggleAgeNameAccordianKey: jest.fn(),
+    offerToggleAgeNameOnProductAction: jest.fn(),
+    offerToggleAgeNameOnSubProductAction: jest.fn(),
     ...getMockRouterProps<{}>({}, path || 'offer/edit/applications'),
   };
 

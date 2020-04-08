@@ -35,6 +35,7 @@ import {
   offerHasValidationErrorsSelector,
   offerIsPristineSelector,
   offerHasApplicationsValidationErrorsSelector,
+  offerHasPerishableDataSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -69,7 +70,17 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   }
 
   handleHotelChange = (e: FormEvent<HTMLSelectElement>) => {
-    this.props.offerHotelUuidChangeAction(e.currentTarget.value);
+    if (this.props.hasPerishableData) {
+      if (
+        window.confirm(
+          'Changing the hotel will remove Accomodaiton pre-requisites and any applicaiton products you have already assigned'
+        )
+      ) {
+        this.props.offerHotelUuidChangeAction(e.currentTarget.value);
+      }
+    } else {
+      this.props.offerHotelUuidChangeAction(e.currentTarget.value);
+    }
   };
 
   handleNameChange = (e: FormEvent<HTMLInputElement>) => {
@@ -322,6 +333,7 @@ const mapStateToProps = createStructuredSelector({
   hasApplicationsErrors: offerHasApplicationsValidationErrorsSelector,
   hasValidationErrors: offerHasValidationErrorsSelector,
   offerIsPristine: offerIsPristineSelector,
+  hasPerishableData: offerHasPerishableDataSelector,
 });
 
 const actionCreators = {

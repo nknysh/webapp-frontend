@@ -1,4 +1,4 @@
-// This needsa review. The names are nonsense, and it would be better
+// This need a review. The names are nonsense, and it would be better
 // to name colors by their role, not what they look like. e.g.,
 // - primaryActionColor
 // - secondaryActionColor

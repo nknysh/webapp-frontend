@@ -23,7 +23,6 @@ import DateRangeInput from 'pureUi/DateRangeInput';
 import {
   offerStayBetweenPrerequisitesSelector,
   offerHotelUuidSelector,
-  offerTermsSelector,
   offerBooleanPrerequisitesSelector,
   taCountryAccordianKeysSelector,
   offerTaCountriesLabelPrerequisiteSelector,

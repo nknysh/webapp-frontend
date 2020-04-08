@@ -8,7 +8,8 @@ import {
   toOrderedOffer
 } from '../utils';
 import { initialState, IOfferUiState, ECombinationMode } from '../model';
-import { IOfferAPI, IOfferUI } from 'services/BackendApi';
+import { IOfferAPI, IOfferUI, IUIOfferProductDiscountInstance } from 'services/BackendApi';
+import { IMealPlanProductOptions, IProduct } from '../../../../services/BackendApi/types/HotelResponse';
 import { mockOffersOrderingData } from './mock';
 
 describe('offer module utils test', () => {
@@ -189,36 +190,21 @@ describe('offer module utils test', () => {
         subProductDiscounts: {
           'Meal Plan': [
             {
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
           Supplement: [
             {
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
           ],
         },
       };
 
       const transformed = transformApiOfferToUiOffer(fixture);
-
-      expect(transformed).toMatchObject({
-        ...initialState.offer,
-        subProductDiscounts: {
-          'Meal Plan': [
-            {
-              index: 0,
-              products: [{ uuid: 'B' }],
-            },
-          ],
-          Supplement: [
-            {
-              index: 0,
-              products: [{ uuid: 'A' }],
-            },
-          ],
-        },
-      });
+      expect(typeof transformed.subProductDiscounts['Meal Plan']![0]!.products[0].uuid).toBe('string');
+      expect(typeof transformed.subProductDiscounts.Supplement![0]!.products[0].uuid).toBe('string');
+      
     });
 
     it('adds UUIDS to product discount supplements', () => {
@@ -227,22 +213,22 @@ describe('offer module utils test', () => {
         productDiscounts: {
           Transfer: [
             {
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: []}],
             },
           ],
           Supplement: [
             {
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: []}],
             },
           ],
           Fine: [
             {
-              products: [{ uuid: 'C' }],
+              products: [{ uuid: 'C', ageNames: []}],
             },
           ],
           'Ground Service': [
             {
-              products: [{ uuid: 'C' }],
+              products: [{ uuid: 'C', ageNames: []}],
             },
           ],
         },
@@ -253,7 +239,7 @@ describe('offer module utils test', () => {
       expect(typeof transformed.productDiscounts?.Transfer![0]!.products[0].uuid).toBe('string');
       expect(typeof transformed.productDiscounts?.Supplement![0]!.products[0].uuid).toBe('string');
       expect(typeof transformed.productDiscounts?.Fine![0]!.products[0].uuid).toBe('string');
-      expect(typeof transformed.productDiscounts!['Ground Service']![0]!.products[0].uuid).toBe('string');
+      expect(typeof transformed.productDiscounts['Ground Service']![0]!.products[0].uuid).toBe('string');
     });
   });
 
@@ -287,11 +273,11 @@ describe('offer module utils test', () => {
           Supplement: [
             {
               uuid: '0',
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
               uuid: '1',
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -312,10 +298,10 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -330,11 +316,11 @@ describe('offer module utils test', () => {
           Supplement: [
             {
               uuid: '0',
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
               uuid: '1',
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -355,10 +341,10 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -373,11 +359,11 @@ describe('offer module utils test', () => {
           Supplement: [
             {
               uuid: '0',
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
               uuid: '1',
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -400,10 +386,10 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -418,11 +404,11 @@ describe('offer module utils test', () => {
           Supplement: [
             {
               uuid: '0',
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
               uuid: '1',
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -445,10 +431,10 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -463,11 +449,11 @@ describe('offer module utils test', () => {
           Supplement: [
             {
               uuid: 'AA',
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
               uuid: 'BB',
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },
@@ -489,10 +475,10 @@ describe('offer module utils test', () => {
           'Meal Plan': [],
           Supplement: [
             {
-              products: [{ uuid: 'A' }],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
             {
-              products: [{ uuid: 'B' }],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
         },

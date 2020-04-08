@@ -1,5 +1,5 @@
 import * as Actions from '../../actions';
-import { IUIOfferProductDiscountInstance, IOfferSubProductDiscounts } from 'services/BackendApi';
+import { IUIOfferProductDiscountInstance, IOffersubProductDiscounts } from 'services/BackendApi';
 import { GET_OFFER_SUCCESS } from '../../actions';
 import {
   addDiscountHandler,
@@ -9,12 +9,13 @@ import {
   removeProductFromDiscountHandler,
   toggleDiscountAgeName,
   toggleProductOnDiscount,
+  toggleAgeNameOnProductDiscountProduct,
 } from '../../utils';
 
 export const subProductDiscountsReducer = (
-  state: IOfferSubProductDiscounts<IUIOfferProductDiscountInstance> | undefined,
+  state: IOffersubProductDiscounts<IUIOfferProductDiscountInstance>,
   action: Actions.OfferDomainAction
-): IOfferSubProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
+): IOffersubProductDiscounts<IUIOfferProductDiscountInstance> => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
       return state;
@@ -38,5 +39,11 @@ export const subProductDiscountsReducer = (
 
     case Actions.OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME:
       return toggleDiscountAgeName(state, action);
+
+    case Actions.OFFER_TOGGLE_AGE_NAME_ON_SUB_PRODUCT:
+      return toggleAgeNameOnProductDiscountProduct(state, action);
+
+    default:
+      return state;
   }
 };

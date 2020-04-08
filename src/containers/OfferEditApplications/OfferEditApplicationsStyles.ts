@@ -66,6 +66,7 @@ export const OfferEditApplicationsStyles = styled.section`
     grid-gap: 20px;
     grid-template-areas:
       'formGrid formGrid closeButton'
+      'ageNamesMap ageNamesMap .'
       'discountInput maxQuantityInput .'
       'checkbox checkbox .';
 
@@ -84,6 +85,10 @@ export const OfferEditApplicationsStyles = styled.section`
     }
     & > .occupancyCheckbox {
       grid-area: checkbox;
+    }
+
+    & > .ageNamesMap {
+      grid-area: ageNamesMap;
     }
   }
 

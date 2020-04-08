@@ -27,7 +27,7 @@ export interface IHotel {
   accommodationProducts?: IProduct<IAccomodationProductOptions>[];
   fineProducts?: IProduct<{}>[];
   transferProducts?: IProduct<ITransferProductOptions>[];
-  groundServiceProducts?: IProduct<{}>[];
+  groundServiceProducts?: IProduct<IGroundServiceProductOptions>[];
   mealPlanProducts?: IProduct<IMealPlanProductOptions>[];
   supplementProducts?: IProduct<any>[];
   offers?: IOffer<any>[];
@@ -39,8 +39,6 @@ export interface IProduct<T> {
   type: string;
   category: string;
   options: T;
-  isOneWay: true;
-  capacity: number;
   meta: any;
   ownerType: string;
   ownerUuid: string;
@@ -51,6 +49,7 @@ export interface IProduct<T> {
 export interface ITransferProductOptions {
   isOneWay: boolean;
   capacity: number;
+  ages?: IAgeName[];
 }
 
 export interface IMealPlanProductOptions {
@@ -60,4 +59,12 @@ export interface IMealPlanProductOptions {
 export interface IAccomodationProductOptions {
   ages: IAgeName[];
   occupancy: IOccupancy[];
+}
+
+export interface IGroundServiceProductOptions {
+  ages: IAgeName[];
+}
+
+export interface ISupplementOptions {
+  ages: IAgeName[];
 }

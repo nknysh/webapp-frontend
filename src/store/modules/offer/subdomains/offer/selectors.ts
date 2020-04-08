@@ -3,19 +3,23 @@ import { generateArrayOfDatesBetween } from 'utils';
 import {
   IOfferPrerequisitesPayload,
   IOfferProductDiscountInstance,
-  IOfferUI,
   IOfferStepping,
 } from 'services/BackendApi';
 import {
   getBootstrapCountriesSelector,
   getBootstrapExtraPersonSupplementProductSelector,
 } from '../../../bootstrap/selectors';
-import { groupBy, flatten, uniq } from 'ramda';
+import { groupBy, flatten, uniq, reduce } from 'ramda';
 import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../types';
 import { returnObjectWithUndefinedsAsEmptyStrings } from '../../utils';
 import {
   offerDomainSelector,
   getAccommodationProductsForHotelSelector as hotelAccomodationProductsSelector,
+  availableGroundServiceProductsSelector, 
+  availableMealPlanProductsSelector, 
+  availableTransferProductsSelector, 
+  availableSupplementProductsSelector, 
+  availableFineProductsSelector 
 } from '../../domainSelectors';
 import { IAgeName, IUIOfferProductDiscountInstance } from '../../../../../services/BackendApi/types/OfferResponse';
 import {
@@ -205,7 +209,7 @@ export const accomodationPreRequisiteAgeNamesSelector = createSelector(
   offerAccommodationProductPrerequisitesSelector,
   accomProducts => {
     // Get a unqiue map of age names with age ranges
-    const ageNamesMap: IAgeNamesMap = accomProducts
+    const ageNamesMap = accomProducts
       .map(ap => ap.ageNames)
       .reduce((acc, next) => [...acc, ...next], [])
       .reduce((acc, next) => {
@@ -214,26 +218,15 @@ export const accomodationPreRequisiteAgeNamesSelector = createSelector(
           ageTo: next.ageTo,
         };
         return acc;
-      }, {});
-
-    // Figure out wherre the adult age starts
-    const oldestAge = Object.keys(ageNamesMap).reduce((acc, key) => {
-      return ageNamesMap[key].ageTo! > acc ? ageNamesMap[key].ageTo : acc;
-    }, 0);
-
-    // Populate the rest of the results
-    return Object.keys(ageNamesMap)
-      .reduce((acc, key) => {
-        return [
-          ...acc,
-          {
-            name: key,
-            ageFrom: ageNamesMap[key].ageFrom,
-            ageTo: ageNamesMap[key].ageTo,
-          },
-        ];
-      }, [])
-      .sort((a, b) => b.ageFrom! - a.ageFrom!);
+      } , {});
+    
+    return Object.keys(ageNamesMap).reduce((acc, key) => {
+      return [...acc, {
+        name: key,
+        ageFrom: ageNamesMap[key].ageFrom,
+        ageTo: ageNamesMap[key].ageTo,
+      }]
+    }, []).sort((a, b) => b.ageFrom! - a.ageFrom!);
   }
 );
 
@@ -264,16 +257,12 @@ export const offerAccommodationDiscountSelector = createSelector(offerSelector, 
 });
 
 export const offerSubProductDiscountsSelector = createSelector(offerSelector, offer => {
-  return offer.subProductDiscounts;
+  return offer.subProductDiscounts || {};
 });
 
-export interface IUIOfferProductDiscountInstanceWithAgeNames extends IUIOfferProductDiscountInstance {
-  ageNames: (string | undefined)[];
-}
-
-export const offerSubProductDiscountsSupplementsSelector = createSelector(
+export const offersubProductDiscountsSupplementsSelector = createSelector(
   offerSubProductDiscountsSelector,
-  (subProductDiscounts): IUIOfferProductDiscountInstanceWithAgeNames[] => {
+  (subProductDiscounts): IUIOfferProductDiscountInstance[] => {
     if (!subProductDiscounts || !subProductDiscounts.Supplement) {
       return [];
     }
@@ -288,9 +277,9 @@ export const offerSubProductDiscountsSupplementsSelector = createSelector(
 );
 
 export const offerExtraPersonSupplementsSelector = createSelector(
-  offerSubProductDiscountsSupplementsSelector,
+  offersubProductDiscountsSupplementsSelector,
   getBootstrapExtraPersonSupplementProductSelector,
-  (supplements, extraPersonSupplementProduct): IUIOfferProductDiscountInstanceWithAgeNames[] => {
+  (supplements, extraPersonSupplementProduct): IUIOfferProductDiscountInstance[] => {
     return supplements.filter(sup => {
       return sup.products.some(p => {
         return p.uuid === extraPersonSupplementProduct.uuid;
@@ -300,53 +289,60 @@ export const offerExtraPersonSupplementsSelector = createSelector(
 );
 
 export const offerProductDiscountsSelector = createSelector(offerSelector, offer => {
-  return offer.productDiscounts;
+  return offer.productDiscounts || {};
 });
 
-export const offerProductDiscountsFinesSelector = createSelector(offerProductDiscountsSelector, productDiscounts => {
+export const offerProductDiscountsFinesSelector = createSelector(
+  offerProductDiscountsSelector, 
+  (productDiscounts): IUIOfferProductDiscountInstance[] => {
   if (!productDiscounts || !productDiscounts.Fine) {
     return [];
   }
-  return productDiscounts.Fine;
+  
+  return productDiscounts.Fine || [];
 });
+
 
 export const offerProductDiscountsGroundServicesSelector = createSelector(
   offerProductDiscountsSelector,
-  productDiscounts => {
+  (productDiscounts): IUIOfferProductDiscountInstance[] => {
     if (!productDiscounts || !productDiscounts['Ground Service']) {
       return [];
     }
-    return productDiscounts['Ground Service'];
+    return productDiscounts['Ground Service'] || [];
   }
 );
 
-export const offerSubProductDiscountsMealPlansSelector = createSelector(
+export const offersubProductDiscountsMealPlansSelector = createSelector(
   offerSubProductDiscountsSelector,
-  subProductDiscounts => {
+  (subProductDiscounts): IUIOfferProductDiscountInstance[] => {
     if (!subProductDiscounts || !subProductDiscounts['Meal Plan']) {
       return [];
     }
-    return subProductDiscounts['Meal Plan'];
+    
+    return subProductDiscounts['Meal Plan'] || [];
   }
 );
 
 export const offerProductDiscountsTransfersSelector = createSelector(
   offerProductDiscountsSelector,
-  productDiscounts => {
+  (productDiscounts): IUIOfferProductDiscountInstance[] => {
     if (!productDiscounts || !productDiscounts.Transfer) {
       return [];
     }
-    return productDiscounts.Transfer;
+    return productDiscounts.Transfer || [];
   }
-);
-
-export const offerProductDiscountsSupplementsSelector = createSelector(
-  offerProductDiscountsSelector,
-  productDiscounts => {
-    if (!productDiscounts || !productDiscounts.Supplement) {
-      return [];
-    }
-    return productDiscounts.Supplement;
+  );
+  
+  export const offerProductDiscountsSupplementsSelector = createSelector(
+    offerProductDiscountsSelector,
+    (productDiscounts): IUIOfferProductDiscountInstance[] => {
+    
+      if (!productDiscounts || !productDiscounts.Supplement) {
+        return [];
+      }
+      
+      return productDiscounts.Supplement || [];
   }
 );
 
@@ -525,7 +521,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
   }
 );
 
-export const offerSubProductDiscountsValidationSelector = createSelector(
+export const offersubProductDiscountsValidationSelector = createSelector(
   offerSubProductDiscountsSelector,
   subProductDiscounts => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];

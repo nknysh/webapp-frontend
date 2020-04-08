@@ -4,9 +4,10 @@ import {
   IAccommodationProductForHotelItem,
   IOfferPrerequisites,
   IOfferSubProductDiscounts,
-  IUIOfferProductDiscountInstance,
   IOfferUI,
   IOfferProductDiscounts,
+  IProduct,
+  IUIOfferProductDiscountInstance,
 } from 'services/BackendApi';
 
 import { IBootstrapExtraPersonSupplementProduct } from 'store/modules/bootstrap/model';
@@ -33,12 +34,12 @@ import {
   offerSteppingApplicationSelector,
   offerAccommodationDiscountSelector,
   offerSubProductDiscountsSelector,
-  offerSubProductDiscountsSupplementsSelector,
+  offersubProductDiscountsSupplementsSelector,
   offerExtraPersonSupplementsSelector,
   offerTaCountriesPrerequisiteByRegionSelector,
   offerProductDiscountsFinesSelector,
   offerProductDiscountsGroundServicesSelector,
-  offerSubProductDiscountsMealPlansSelector,
+  offersubProductDiscountsMealPlansSelector,
   offerProductDiscountsSelector,
   offerProductDiscountsTransfersSelector,
   offerProductDiscountsSupplementsSelector,
@@ -48,7 +49,21 @@ import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
 import { initialState } from '../../../model';
 import { ITaCountriesUiData, ITACountry } from '../../../types';
-import { IUIOfferProductDiscountInstanceWithAgeNames } from '../selectors';
+
+const mockAvailableProducts: IProduct<any>[] = [
+  {
+    uuid: 'mock_product_uuid',
+    name: 'Mock Product',
+    type: 'mock type',
+    category: 'mockCategory',
+    options: {},
+    meta: {},
+    ownerType: 'owner',
+    ownerUuid: 'owner_uuid',
+    createdAt: '2020-01-01',
+    updatedAt: '2020-01-01',
+  },
+];
 
 describe('Offer Selectors', () => {
   describe('offerSelector', () => {
@@ -788,9 +803,9 @@ describe('Offer Selectors', () => {
 
   describe('select sub product discount supplements', () => {
     it('gets an empty array if none are set', () => {
-      const fixture = undefined;
+      const fixture = {};
 
-      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsSupplementsSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([]);
     });
@@ -801,25 +816,25 @@ describe('Offer Selectors', () => {
         Supplement: [
           {
             uuid: 'AA',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: 'BB',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsSupplementsSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {
           uuid: 'AA',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: 'BB',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -830,25 +845,25 @@ describe('Offer Selectors', () => {
         Supplement: [
           {
             uuid: '4',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '6',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerSubProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsSupplementsSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {
           uuid: '4',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '6',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -859,13 +874,15 @@ describe('Offer Selectors', () => {
       const supplementFixture = [
         {
           uuid: '0',
-          products: [{ uuid: 'A' }],
+          ageNames: [],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '1',
-          products: [{ uuid: 'B' }],
+          ageNames: [],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
-      ] as IUIOfferProductDiscountInstanceWithAgeNames[];
+      ] as IUIOfferProductDiscountInstance[];
 
       const epsFixture = {
         uuid: 'C',
@@ -881,21 +898,21 @@ describe('Offer Selectors', () => {
       const supplementFixture = [
         {
           uuid: '0',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '1',
-          products: [{ uuid: 'EPS' }],
+          products: [{ uuid: 'EPS', ageNames: [] }],
         },
         {
           uuid: '2',
-          products: [{ uuid: 'C' }],
+          products: [{ uuid: 'C', ageNames: [] }],
         },
         {
           uuid: '3',
-          products: [{ uuid: 'EPS' }],
+          products: [{ uuid: 'EPS', ageNames: [] }],
         },
-      ] as IUIOfferProductDiscountInstanceWithAgeNames[];
+      ] as IUIOfferProductDiscountInstance[];
 
       const epsFixture = {
         uuid: 'EPS',
@@ -907,11 +924,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '1',
-          products: [{ uuid: 'EPS' }],
+          products: [{ uuid: 'EPS', ageNames: [] }],
         },
         {
           uuid: '3',
-          products: [{ uuid: 'EPS' }],
+          products: [{ uuid: 'EPS', ageNames: [] }],
         },
       ]);
     });
@@ -951,7 +968,7 @@ describe('Offer Selectors', () => {
 
   describe('select product discount fines', () => {
     it('gets an empty array if none are set', () => {
-      const fixture = undefined;
+      const fixture = {};
 
       const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
 
@@ -966,11 +983,11 @@ describe('Offer Selectors', () => {
         Fine: [
           {
             uuid: '0',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '1',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
@@ -980,11 +997,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '0',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '1',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -997,11 +1014,11 @@ describe('Offer Selectors', () => {
         Fine: [
           {
             uuid: '4',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '6',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
@@ -1011,11 +1028,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '4',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '6',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -1052,9 +1069,9 @@ describe('Offer Selectors', () => {
 
   describe('select sub product discount meal plans', () => {
     it('gets an empty array if none are set', () => {
-      const fixture = undefined;
+      const fixture = {};
 
-      const selected = offerSubProductDiscountsMealPlansSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([]);
     });
@@ -1064,25 +1081,25 @@ describe('Offer Selectors', () => {
         'Meal Plan': [
           {
             uuid: '0',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '1',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerSubProductDiscountsMealPlansSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {
           uuid: '0',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '1',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -1092,25 +1109,25 @@ describe('Offer Selectors', () => {
         'Meal Plan': [
           {
             uuid: '4',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '6',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerSubProductDiscountsMealPlansSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture);
 
       expect(selected).toMatchObject([
         {
           uuid: '4',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '6',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -1118,7 +1135,7 @@ describe('Offer Selectors', () => {
 
   describe('select product discount ground services', () => {
     it('gets an empty array if none are set', () => {
-      const fixture = undefined;
+      const fixture = {};
 
       const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture);
 
@@ -1130,11 +1147,11 @@ describe('Offer Selectors', () => {
         'Ground Service': [
           {
             uuid: '0',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '1',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
@@ -1144,11 +1161,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '0',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '1',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -1158,11 +1175,11 @@ describe('Offer Selectors', () => {
         'Ground Service': [
           {
             uuid: '4',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '6',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
@@ -1172,11 +1189,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '4',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '6',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -1184,7 +1201,7 @@ describe('Offer Selectors', () => {
 
   describe('select product discount transfers', () => {
     it('gets an empty array if none are set', () => {
-      const fixture = undefined;
+      const fixture = {};
 
       const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture);
 
@@ -1196,11 +1213,11 @@ describe('Offer Selectors', () => {
         Transfer: [
           {
             uuid: '0',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '1',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
@@ -1210,11 +1227,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '0',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '1',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -1224,11 +1241,11 @@ describe('Offer Selectors', () => {
         Transfer: [
           {
             uuid: '4',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '6',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
@@ -1238,11 +1255,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '4',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '6',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -1250,7 +1267,7 @@ describe('Offer Selectors', () => {
 
   describe('select product discount supplements', () => {
     it('gets an empty array if none are set', () => {
-      const fixture = undefined;
+      const fixture = {};
 
       const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture);
 
@@ -1262,11 +1279,11 @@ describe('Offer Selectors', () => {
         Supplement: [
           {
             uuid: '0',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '1',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
@@ -1276,11 +1293,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '0',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '1',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });
@@ -1290,11 +1307,11 @@ describe('Offer Selectors', () => {
         Supplement: [
           {
             uuid: '4',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: '6',
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
@@ -1304,11 +1321,11 @@ describe('Offer Selectors', () => {
       expect(selected).toMatchObject([
         {
           uuid: '4',
-          products: [{ uuid: 'A' }],
+          products: [{ uuid: 'A', ageNames: [] }],
         },
         {
           uuid: '6',
-          products: [{ uuid: 'B' }],
+          products: [{ uuid: 'B', ageNames: [] }],
         },
       ]);
     });

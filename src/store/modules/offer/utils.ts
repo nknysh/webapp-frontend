@@ -1,11 +1,11 @@
 import {
   IOfferProductDiscountInstance,
   IOfferUI,
-  IOfferOnHotelItem,
   IOfferAPI,
-  IUIOfferProductDiscountInstance,
   IOfferProductDiscounts,
   IOfferSubProductDiscounts,
+  IUIOfferProductDiscountInstance,
+  IDiscountProduct,
 } from 'services/BackendApi';
 
 import uuid from 'uuid';
@@ -30,6 +30,7 @@ import {
   OfferToggleProductOnSubProductDiscountAction,
 } from './subdomains/offer/actions';
 import { without } from 'ramda';
+import product from 'ramda/es/product';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
   const productUuids = offer.prerequisites.accommodationProducts ? offer.prerequisites.accommodationProducts : [];
@@ -83,8 +84,8 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
       });
     }
 
-    if (draftOffer.subProductDiscounts?.['Meal Plan']) {
-      draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan'].map(
+    if (draftOffer.subProductDiscounts['Meal Plan']) {
+      draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan']?.map(
         (discount, arrayIndex) => {
           discount.uuid = uuid.v4();
           return discount;
@@ -222,9 +223,9 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
         break;
     }
 
-    if (uiState.isTextOnly) {
-      draftOffer.productDiscounts = undefined;
-      draftOffer.subProductDiscounts = undefined;
+    if(uiState.isTextOnly) {
+      draftOffer.productDiscounts = {};
+      draftOffer.subProductDiscounts = {};
       draftOffer.stepping = undefined;
       draftOffer.accommodationProductDiscount = undefined;
     }
@@ -264,7 +265,7 @@ export const getProductDiscountsOrInitial = (
 export const addDiscountHandler = (
   state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
   action: OfferAddProductDiscountAction | OfferAddSubProductDiscountAction
-): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
+): IOfferProductDiscounts<IUIOfferProductDiscountInstance> => {
   const { discountType } = action;
   const newState: IOfferProductDiscounts<IUIOfferProductDiscountInstance> = state === undefined ? {} : { ...state };
   newState[discountType] = !newState[discountType] ? [] : [...newState[discountType]];
@@ -273,8 +274,8 @@ export const addDiscountHandler = (
     products: [],
   };
 
-  if ((action as OfferAddSubProductDiscountAction).productUuid) {
-    newProductDiscount.products.push({ uuid: (action as OfferAddSubProductDiscountAction).productUuid! });
+  if((action as OfferAddSubProductDiscountAction).productUuid) {
+    newProductDiscount.products.push({uuid: (action as OfferAddSubProductDiscountAction).productUuid!, ageNames: []});
   }
 
   return {
@@ -286,7 +287,7 @@ export const addDiscountHandler = (
 export const removeDiscountHandler = (
   state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
   action: OfferRemoveProductDiscountAction | OfferRemoveSubProductDiscountAction
-): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
+): IOfferProductDiscounts<IUIOfferProductDiscountInstance> => {
   const { discountType, uuid } = action;
 
   return {
@@ -326,16 +327,23 @@ export const updateDiscountHandler = (
 export const addProductToDiscountHandler = (
   state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
   action: OfferAddProductToProductDiscountAction | OfferAddProductToSubProductDiscountAction
-): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
-  const { discountType, discountUuid, product } = action;
+): IOfferProductDiscounts<IUIOfferProductDiscountInstance> => {
+  const { discountType, discountUuid, product, } = action;
 
   const discountIndex = state![discountType]?.findIndex(d => d.uuid === discountUuid);
   const discountToUpdate = state![discountType]![discountIndex!];
-
+  
+  const newProduct: IDiscountProduct = {
+    uuid: product.uuid,
+    ageNames: [],
+  }
   const updatedDiscount: IUIOfferProductDiscountInstance = {
     ...discountToUpdate,
-    products: [...discountToUpdate.products, product],
-  };
+    products: [
+      ...discountToUpdate.products,
+      newProduct,
+    ]
+  }
 
   const updatedDiscountType = [...state![discountType]];
   updatedDiscountType[discountIndex!] = updatedDiscount;
@@ -403,20 +411,25 @@ export const toggleProductOnDiscount = (
   action: OfferToggleProductOnProductDiscountAction | OfferToggleProductOnSubProductDiscountAction
 ): IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'] => {
   const { discountType, discountUuid, productUuid } = action;
+  
+  const discountIndex = state![discountType]?.findIndex(d => d.uuid === discountUuid);
+  const discountToUpdate = state![discountType]![discountIndex!];
+  
+  const newProduct: IDiscountProduct = {
+    uuid: productUuid,
+    ageNames: [],
+  }
 
-  const newDiscountType = state![discountType]!.map(discount => {
-    if (discount.uuid !== discountUuid) {
-      return discount;
-    }
+  const updatedDiscount: IUIOfferProductDiscountInstance = {
+    ...discountToUpdate,
+    products: discountToUpdate.products.findIndex(p => p.uuid === productUuid) > -1
+      ? discountToUpdate.products.filter(p => p.uuid !== productUuid)
+      : [...discountToUpdate.products, newProduct]
+  }
 
-    return {
-      ...discount,
-      products:
-        discount.products.findIndex(p => p.uuid === productUuid) > -1
-          ? discount.products.filter(p => p.uuid !== productUuid)
-          : [...discount.products, { uuid: productUuid }],
-    };
-  });
+  const updatedDiscountType = [...state![discountType]];
+  updatedDiscountType[discountIndex!] = updatedDiscount
+
   return {
     ...state,
     [discountType]: newDiscountType,
@@ -429,4 +442,57 @@ export const toOrderedOffer = (offer: IOfferOnHotelItem | IOfferUI | OrderedOffe
 });
 
 export const getOrderedOffers = (offers: IOfferOnHotelItem[] = []): OrderedOffer[] =>
-  R.sortBy(item => item.order, offers).map(item => toOrderedOffer(item));
+  R
+    .sortBy(item => item.order, offers)
+    .map(item => toOrderedOffer(item));
+    [discountType]: updatedDiscountType
+  }
+}
+
+export const toggleAgeNameOnProductDiscountProduct = (
+  state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
+  action: OfferToggleAgeNameOnProductAction | OfferToggleAgeNameOnSubProductAction
+): IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'] => {
+  console.log('toggleAgeNameOnProductDiscountProduct');
+  const { discountType, discountUuid, productUuid, ageName } = action;
+  console.log({discountType, discountUuid, productUuid, ageName});
+  const discountIndex = state![discountType]?.findIndex(d => d.uuid === discountUuid);
+  const newDiscount: IUIOfferProductDiscountInstance  = {...state![discountType]![discountIndex!]};
+  const productIndex = newDiscount.products.findIndex(p => p.uuid === productUuid);
+  const productToUpdate: IDiscountProduct = newDiscount.products[productIndex];
+
+  console.log('roductToUpdate.ageNames.includes(ageName)', productToUpdate.ageNames, productToUpdate.ageNames.includes(ageName))
+  const newProduct = {
+    ...productToUpdate,
+    ageNames: productToUpdate.ageNames.includes(ageName)
+      ? productToUpdate.ageNames.filter(an => an !== ageName)
+      : [...productToUpdate.ageNames, ageName],
+  }
+
+  console.log('newProduct', newProduct);
+
+  // Safe to mutate
+  newDiscount.products[productIndex] = newProduct;
+  console.log('newDiscount', newDiscount);
+
+  const updatedDiscountType = [...state![discountType]];
+  updatedDiscountType[discountIndex] = newDiscount
+  console.log('updatedDiscountType', updatedDiscountType);
+
+  const ret = {
+    ...state,
+    [discountType]: updatedDiscountType
+  }
+
+  console.log(ret);
+  return ret;
+}
+
+export const clearAllProductsFromDiscounts = (discounts: IOfferProductDiscounts<any> | IOfferSubProductDiscounts<any>) => {
+  const out = Object.keys(discounts).reduce((acc, nextKey) => {
+    acc[nextKey] = discounts[nextKey].map(d => ({uuid: d.uuid, products: []}));
+    return acc;
+  }, {});
+  return out;
+}
+

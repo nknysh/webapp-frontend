@@ -56,7 +56,7 @@ export interface IAccommodationProductForHotelItem {
 
 export interface IDiscountProduct {
   uuid: string;
-  ageNames?: string[];
+  ageNames: string[];
 }
 
 export interface IOfferProductDiscountInstance {
@@ -69,6 +69,7 @@ export interface IOfferProductDiscountInstance {
 
 export interface IUIOfferProductDiscountInstance extends IOfferProductDiscountInstance {
   uuid: string; // Need to provide this to react so it knows how to update the UI correctly
+  ageNames?: (string | undefined)[];
 }
 
 export interface IOfferPrerequisitesPayload {
@@ -137,8 +138,8 @@ export interface IOffer<T> {
     discountPercentage?: number | string;
     greenTaxDiscountApproach?: string;
   };
-  subProductDiscounts?: IOfferSubProductDiscounts<T>;
-  productDiscounts?: IOfferProductDiscounts<T>;
+  subProductDiscounts: IOfferSubProductDiscounts<T>;
+  productDiscounts: IOfferProductDiscounts<T>;
   createdAt: string;
   updatedAt: string;
 }
