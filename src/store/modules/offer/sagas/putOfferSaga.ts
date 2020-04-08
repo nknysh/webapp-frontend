@@ -15,12 +15,32 @@ export function* putOfferRequestSaga() {
     const uiState: IOfferUiState = yield select(uiStateSelector);
     const backendApi = makeBackendApi(actingCountryCode);
 
-    const { response, error } = yield call(backendApi.putOffer, transformUiOfferToApiOffer(uiOffer, uiState));
-    if (response) {
-      yield put(putOfferSuccessAction(response.data.data));
-    } else {
-      yield put(putOfferFailureAction(error.response.data.errors));
+    const putOfferRes = yield call(backendApi.putOffer, transformUiOfferToApiOffer(uiOffer, uiState));
+    let postOffersOrderRes;
+
+    if(putOfferRes.response) {
+      postOffersOrderRes = yield call(
+        backendApi.postOffersOrder,
+        {
+          hotelUuid: uiOffer.hotelUuid,
+          offers: uiState.orderedOffersList.map(item => item.uuid)
+        }
+      );
     }
+
+    if (putOfferRes.response && postOffersOrderRes?.response) {
+      yield put(putOfferSuccessAction(
+        putOfferRes.response.data.data,
+        postOffersOrderRes.response.data.data
+      ));
+    } else {
+      yield put(putOfferFailureAction(
+        putOfferRes?.error.response.data.errors ||
+        postOffersOrderRes?.error.response.data.errors
+      ));
+    }
+
+
   } catch (e) {
     // TODO: Need an unexpected error handler
     console.error(e);

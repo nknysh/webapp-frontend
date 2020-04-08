@@ -73,9 +73,6 @@ const StyledSortableList = styled(SortableList)`
 `;
 
 const StyledSortableItem = styled.div`
-  color: ${pureUiTheme.colorRoles.grayLabel};
-  font-size: 12px;
-  padding: 15px;
   border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
   background-color: #fff;
 

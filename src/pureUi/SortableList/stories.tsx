@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import SortableList, { SortableListProps } from './';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
+
 
 interface SampleItem {
   uuid: string;
   label: string;
 }
+
+const StyledItem = styled('div')`
+  padding: 15px
+  color: ${pureUiTheme.colorRoles.grayLabel};
+  font-size: 12px;
+  
+  &.selected {
+    font-weight: bold;
+    background-color: ${pureUiTheme.colors.grayLight};
+  }
+`;
 
 export const BasicUsage = () => {
   
@@ -18,7 +32,9 @@ export const BasicUsage = () => {
   const props: SortableListProps<SampleItem> = {
     items,
     keySelector: item => item.uuid,
-    renderItem: item => item.label,
+    renderItem: item => (
+      <StyledItem className={item.uuid === '2-2' ? 'selected' : ''}>{item.label}</StyledItem>
+    ),
     onChange: setItems
   };
 

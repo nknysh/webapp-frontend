@@ -20,6 +20,7 @@ export function* getHotelDataSaga(action: OfferHotelUuidChangeAction) {
       'groundServiceProducts',
       'mealPlanProducts',
       'supplementProducts',
+      'offers'
     ]);
     yield put(offerHotelUuidChangeSuccessAction(result.data.data));
   } catch (e) {

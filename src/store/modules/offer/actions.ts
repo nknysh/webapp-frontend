@@ -54,9 +54,10 @@ export const putOfferRequestAction = () => ({
 });
 
 export type PutOfferSuccessAction = ReturnType<typeof putOfferSuccessAction>;
-export const putOfferSuccessAction = (offer: any) => ({
+export const putOfferSuccessAction = (offer: any, offersOnHotel: IOfferOnHotelItem[]) => ({
   type: PUT_OFFER_SUCCESS as typeof PUT_OFFER_SUCCESS,
   offer,
+  offersOnHotel
 });
 
 export type PutOfferFailureAction = ReturnType<typeof putOfferFailureAction>;

@@ -9,6 +9,7 @@ const createProps = (overrides?: Partial<IOfferEditOrderingProps>): IOfferEditOr
     (v, i) => ({ uuid: `${i}-${i}`, name: `Item ${i}` })
   ),
   setOrderedOffersListAction: jest.fn(),
+  hotelUuid: '1111-2222-3333-4444',
   ...overrides
 });
 

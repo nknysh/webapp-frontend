@@ -27,9 +27,10 @@ import {
   IOfferResponse,
   IOfferAPI,
   IOffersOnHotelResponse,
-  IAccommodationProductForHotelItem
+  IAccommodationProductForHotelItem,
+  IOffersSortPayload
 } from './types/OfferResponse';
-import { transformPut, transformPost } from './helpers';
+import { transformPut, transformPost, toApiPayload } from './helpers';
 import { IApiErrorResponse } from './types/ApiError';
 import { IAPIRepsonse } from './types/ApiResponse';
 import { IRatesImportResponse } from './types/RatesImportResponse';
@@ -219,6 +220,16 @@ export class BackendApiService<T extends AxiosInstance> {
         .catch(error => ({
           error,
         }))
+    );
+  };
+
+  postOffersOrder = async (offersSortPayload: IOffersSortPayload): Promise<AxiosResponse<IOffersOnHotelResponse>> => {
+    return this.client.post(
+      `${BackendEndpoints.OFFERS}/order?associations=offer`,
+      toApiPayload<IOffersSortPayload>(
+        offersSortPayload,
+        { type: 'offersOrder' }
+      )
     );
   };
 

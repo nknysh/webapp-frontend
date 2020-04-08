@@ -12,6 +12,15 @@ interface IGeneralPayload<T> {
   };
 }
 
+export function toApiPayload<T>(payload: T, rest?: Object): IGeneralPayload<T>{
+  return {
+    data: {
+      attributes: payload,
+      ...rest
+    },
+  };
+}
+
 export function transformPut<T extends IGeneralModel>(
   payload: T,
   type: string,

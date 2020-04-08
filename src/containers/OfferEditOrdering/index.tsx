@@ -1,39 +1,77 @@
 import React from 'react';
+import styled from 'styled-components';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { OfferEditOrderingStyles } from './OfferEditOrderingStyles';
 
-import { orderedOffersListSelector } from 'store/modules/offer/selectors';
+import {
+  orderedOffersListSelector,
+  offerHotelUuidSelector
+} from 'store/modules/offer/selectors';
+
 import { setOrderedOffersListAction } from 'store/modules/offer/actions';
 import { OrderedOffer } from 'store/modules/offer/model';
 
 import { Fieldset, Legend } from 'pureUi/forms/Fieldset';
+import { Text } from 'pureUi/typography';
 import SortableList from 'pureUi/SortableList';
 
 
-const keySelector = (item: OrderedOffer): string => item.uuid;
-const renderItem = (item: OrderedOffer, index: number): string => `${index + 1}. ${item.name}`;
+const StyledItem = styled('div')`
+  font-size: 12px;
+  padding: 15px
+  color: ${pureUiTheme.colorRoles.grayLabel};
+
+  &.selected {
+    font-weight: bold;
+    background-color: ${pureUiTheme.colors.grayLight};
+  }
+`;
 
 export class OfferEditOrderingContainer extends React.Component<IOfferEditOrderingProps, {}> {
   
-  render() {
-    const { orderedOffersList, setOrderedOffersListAction } = this.props;
+  keySelector(item: OrderedOffer): string {
+    return item.uuid;
+  }
 
+  renderItem = (item: OrderedOffer, index: number) => {
+    return (
+      <StyledItem className={item.selected ? 'selected' : ''}>
+        { `${index + 1}. ${item.name}`}
+      </StyledItem>
+    );
+  }; 
+
+  render() {
+    const {
+      orderedOffersList,
+      setOrderedOffersListAction,
+      hotelUuid
+    } = this.props;
+    
     return (
       <OfferEditOrderingStyles>
         <Fieldset>
           <Legend>Order</Legend>
-          <div className="contentGrid">
-              <div className="ordering">
-                <SortableList<OrderedOffer>
-                  items={orderedOffersList}
-                  keySelector={keySelector}
-                  renderItem={renderItem}
-                  onChange={setOrderedOffersListAction}
-                />
+          {hotelUuid
+            ? (
+              <div className="contentGrid">
+                <div className="ordering">
+                  <SortableList<OrderedOffer>
+                    items={orderedOffersList}
+                    keySelector={this.keySelector}
+                    renderItem={this.renderItem}
+                    onChange={setOrderedOffersListAction}
+                  />
+                </div>
               </div>
-          </div>
+            )
+            : (
+              <Text>Select a hotel to start prioritizing offers</Text>
+            )
+          }
         </Fieldset>
       </OfferEditOrderingStyles>
     );
@@ -49,7 +87,8 @@ export type DispatchToProps = typeof actionCreators;
 export interface IOfferEditOrderingProps extends StateToProps, DispatchToProps {}
 
 const mapStateToProps = createStructuredSelector({
-  orderedOffersList: orderedOffersListSelector
+  orderedOffersList: orderedOffersListSelector,
+  hotelUuid: offerHotelUuidSelector
 });
 
 const actionCreators = {

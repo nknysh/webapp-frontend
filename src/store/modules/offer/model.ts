@@ -32,6 +32,7 @@ export const CombinationModeOptions: { [key in ECombinationMode]: string } = {
 export interface OrderedOffer {
   uuid: string;
   name: string;
+  selected?: boolean;
 }
 
 export interface IOfferUiState {

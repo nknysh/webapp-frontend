@@ -1,4 +1,4 @@
-import { IOfferUiState, initialState, ECombinationMode } from '../../model';
+import { IOfferUiState, initialState, ECombinationMode, OrderedOffer } from '../../model';
 import {
   OfferDomainAction,
   GET_OFFER_REQUEST,
@@ -13,12 +13,27 @@ import {
   TOGGLE_OFFER_IN_COMBINATION_LIST,
   SET_ORDERED_OFFERS_LIST,
   SET_OFFER_IS_PRISTINE,
+  OFFER_HOTEL_UUID_CHANGE_SUCCESS
 } from '../../actions';
 import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
 import { ifElse, contains, without, append } from 'ramda';
 import produce from 'immer';
 import * as R from 'ramda';
+import { IOfferOnHotelItem, IOfferUI } from 'services/BackendApi';
+
+const toOrderedOffer = (offer: IOfferOnHotelItem | IOfferUI, selected?: boolean): OrderedOffer =>
+  ({
+    uuid: offer.uuid,
+    name: offer.name,
+    selected
+  });
+  
+
+const getOrderedOffers = (offers: IOfferOnHotelItem[] = [], selectedOfferUuid?: string): OrderedOffer[] =>
+  R
+    .sortBy(item => item.order, offers)
+    .map(item => toOrderedOffer(item, item.uuid === selectedOfferUuid));
 
 export const uiStateReducer = (
   state: IOfferUiState = initialState.uiState,
@@ -52,12 +67,7 @@ export const uiStateReducer = (
         }
 
         if(action.offersOnHotel){
-          draftState.orderedOffersList = R.sortBy(
-              item => item.order,
-              action.offersOnHotel
-            ).map(
-              ({ uuid, name }) => ({ uuid, name })
-            );
+          draftState.orderedOffersList = getOrderedOffers(action.offersOnHotel, action.offer.uuid);
         }
 
         return draftState;
@@ -81,6 +91,7 @@ export const uiStateReducer = (
         ...state,
         putOfferRequestIsPending: false,
         putError: null,
+        orderedOffersList: getOrderedOffers(action.offersOnHotel, action.offer.uuid)
       };
 
     case PUT_OFFER_FAILURE:
@@ -155,6 +166,17 @@ export const uiStateReducer = (
         isPristine: action.value,
       };
 
+    case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
+      const newOffer = initialState.offer;
+
+      return {
+        ...state,
+        orderedOffersList: [
+          ...getOrderedOffers(action.data.offers),
+          toOrderedOffer(newOffer, true)
+        ]
+      };
+    
     default:
       return state;
   }

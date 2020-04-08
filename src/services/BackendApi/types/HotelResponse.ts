@@ -1,5 +1,4 @@
-import { IAgeName, IOccupancy } from './OfferResponse';
-import { AvailableProductSets } from './OffersSearchResponse';
+import { IAgeName, IOccupancy, IOffer } from './OfferResponse';
 
 export interface IHotel {
   uuid: string;
@@ -31,6 +30,7 @@ export interface IHotel {
   groundServiceProducts?: IProduct<{}>[];
   mealPlanProducts?: IProduct<IMealPlanProductOptions>[];
   supplementProducts?: IProduct<any>[];
+  offers?: IOffer<any>[];
 }
 
 export interface IProduct<T> {

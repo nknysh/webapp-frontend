@@ -22,6 +22,11 @@ export interface IOffersOnHotelResponse {
   data: IOfferOnHotelItem[];
 }
 
+export interface IOffersSortPayload {
+  offers: string[];
+  hotelUuid: string;
+}
+
 export interface IAgeName {
   name: string;
   ageFrom?: number;
