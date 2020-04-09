@@ -17,7 +17,7 @@ import {
 } from '../actions';
 import { getBootstrapHotelsSelector } from 'store/modules/bootstrap/selectors';
 import { IBootstrapHotel } from '../../bootstrap/model';
-import { transformUiOfferToApiOffer } from '../utils';
+import { transformUiOfferToApiOffer, toOrderedOffer } from '../utils';
 import { IOfferUiState, OrderedOffer } from '../model';
 
 export function* postOfferRequestSaga(action: PostOfferRequestAction) {
@@ -42,9 +42,7 @@ export function* postOfferRequestSaga(action: PostOfferRequestAction) {
       yield put(postOfferSuccessAction(offerWithHotel));
 
       const updatedOrderedOffers = orderedOffers.map(
-        item => item.selected
-          ? { uuid: offerWithHotel.uuid, name: offerWithHotel.name }
-          : item
+        item => item.selected ? toOrderedOffer(offerWithHotel) : item
       );
      
       yield put(postOffersOrderRequestAction(updatedOrderedOffers));

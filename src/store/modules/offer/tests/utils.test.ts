@@ -4,9 +4,12 @@ import {
   returnObjectWithUndefinedsAsEmptyStrings,
   transformApiOfferToUiOffer,
   transformUiOfferToApiOffer,
+  getOrderedOffers,
+  toOrderedOffer
 } from '../utils';
 import { initialState, IOfferUiState, ECombinationMode } from '../model';
 import { IOfferAPI, IOfferUI } from 'services/BackendApi';
+import { mockOffersOrderingData } from './mock';
 
 describe('offer module utils test', () => {
   describe('getAllAssociatedProductUuidsFromOffer', () => {
@@ -180,7 +183,7 @@ describe('offer module utils test', () => {
   });
 
   describe('transformApiOfferToUiOffer', () => {
-    it('adds indexes to sub product discount supplements', () => {
+    test.skip('adds indexes to sub product discount supplements', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
         subProductDiscounts: {
@@ -218,7 +221,7 @@ describe('offer module utils test', () => {
       });
     });
 
-    fit('adds UUIDS to product discount supplements', () => {
+    it('adds UUIDS to product discount supplements', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
         productDiscounts: {
@@ -496,4 +499,24 @@ describe('offer module utils test', () => {
       });
     });
   });
+});
+
+describe('getOrderedOffers', () => {
+
+  it('orders offers on hotel correctly', () => {
+    const { basic } = mockOffersOrderingData;
+    expect(getOrderedOffers(basic.offersOnHotel)).toMatchObject(basic.orderedOffers);
+  })
+
+});
+
+describe('toOrderedOffer', () => {
+
+  it('transforms offer properly', () => {
+    const input = { uuid: 'a-a', name: 'a', order: 0 };
+    const output = { uuid: 'a-a', name: 'a' };
+
+    expect(toOrderedOffer(input)).toMatchObject(output);
+  })
+
 });

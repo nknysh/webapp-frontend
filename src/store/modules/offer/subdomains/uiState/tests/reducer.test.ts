@@ -1,8 +1,21 @@
 import { uiStateReducer as reducer } from '../reducer';
-import { IOfferUI } from 'services/BackendApi';
+import { IOfferUI, IHotel } from 'services/BackendApi';
 import { initialState, IOfferUiState, ECombinationMode } from '../../../model';
-import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from 'store/modules/offer/actions';
+import {
+  getOfferRequestAction,
+  getOfferSuccessAction,
+  getOfferFailureAction,
+
+  postOffersOrderRequestAction,
+  postOffersOrderSuccessAction,
+  postOffersOrderFailureAction,
+
+  offerHotelUuidChangeSuccessAction
+} from 'store/modules/offer/actions';
+
 import { offerSetCombinationMode, offerToggleOfferInCombinationList, setOrderedOffersListAction } from '../actions';
+import { mockOffersOrderingData } from '../../../tests/mock';
+
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_REQUEST correctly', () => {
@@ -17,13 +30,15 @@ describe('Offer reducer', () => {
   });
 
   it('handles GET_OFFER_SUCCESS correctly', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOfferUI, {}, {}, [], true, []);
+    const action = getOfferSuccessAction(
+      { uuid: '1234' } as IOfferUI, {}, {}, mockOffersOrderingData.basic.offersOnHotel, true, []);
     const result = reducer(initialState.uiState, action);
     const expected: IOfferUiState = {
       ...initialState.uiState,
       getOfferRequestIsPending: false,
       isTextOnly: true,
       combinationMode: ECombinationMode.COMBINES_WITH_NONE,
+      orderedOffersList: mockOffersOrderingData.basic.orderedOffers
     };
     expect(result).toEqual(expected);
   });
@@ -40,6 +55,76 @@ describe('Offer reducer', () => {
     const result = reducer(initialState.uiState, action);
     expect(result).toMatchObject(expected);
   });
+
+  it('handles POST_OFFERS_ORDER_REQUEST correctly', () => {
+    const action = postOffersOrderRequestAction([]);
+
+    const expected: IOfferUiState = {
+      ...initialState.uiState,
+      postOffersOrderRequestIsPending: true
+    };
+
+    const result = reducer(initialState.uiState, action);
+    expect(result).toMatchObject(expected);
+  });
+
+  it('handles POST_OFFERS_ORDER_SUCCESS correctly', () => {
+    const { basic } = mockOffersOrderingData;
+    const action = postOffersOrderSuccessAction(basic.offersOnHotel);
+
+    const expected: IOfferUiState = {
+      ...initialState.uiState,
+      postOffersOrderRequestIsPending: false,
+      postOffersOrderError: null,
+      orderedOffersList: basic.orderedOffers
+    };
+
+    const result = reducer(initialState.uiState, action);
+    expect(result).toMatchObject(expected);
+  });
+
+  it('handles POST_OFFERS_ORDER_FAILURE correctly', () => {
+    const errors = [{
+      id: 'UNKNOWN',
+      status: 'FAIL',
+      title: 'Unknown Error',
+      detail: 'Details of the error',
+      meta: { errors: [], stack: 'stack' }
+    }];
+
+    const action = postOffersOrderFailureAction(errors);
+
+    const expected: IOfferUiState = {
+      ...initialState.uiState,
+      postOffersOrderRequestIsPending: false,
+      postOffersOrderError: errors
+    };
+
+    const result = reducer(initialState.uiState, action);
+    expect(result).toMatchObject(expected);
+  });
+
+  it('handles OFFER_HOTEL_UUID_CHANGE_SUCCESS correctly', () => {
+    const { basic } = mockOffersOrderingData;
+    const action = offerHotelUuidChangeSuccessAction({
+      offers: basic.offersOnHotel
+    } as IHotel);
+
+    const expected: IOfferUiState = {
+      ...initialState.uiState,
+      orderedOffersList: [
+        ...basic.orderedOffers,
+        {
+          uuid: initialState.offer.uuid,
+          name: initialState.offer.name
+        }
+      ]
+    };
+
+    const result = reducer(initialState.uiState, action);
+    expect(result).toMatchObject(expected);
+  });
+
 });
 
 describe('offer UI state reducer > set combination mode', () => {

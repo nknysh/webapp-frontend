@@ -1,4 +1,4 @@
-import { IOfferUiState, initialState, ECombinationMode, OrderedOffer } from '../../model';
+import { IOfferUiState, initialState, ECombinationMode } from '../../model';
 import {
   OfferDomainAction,
   GET_OFFER_REQUEST,
@@ -23,19 +23,7 @@ import { PUT_OFFER_FAILURE } from '../../actions';
 import { ifElse, contains, without, append } from 'ramda';
 import produce from 'immer';
 import * as R from 'ramda';
-import { IOfferOnHotelItem, IOfferUI } from 'services/BackendApi';
-
-const toOrderedOffer = (offer: IOfferOnHotelItem | IOfferUI): OrderedOffer =>
-  ({
-    uuid: offer.uuid,
-    name: offer.name,
-  });
-  
-const getOrderedOffers = (offers: IOfferOnHotelItem[] = []): OrderedOffer[] =>
-  R
-    .sortBy(item => item.order, offers)
-    .map(item => toOrderedOffer(item));
-
+import { getOrderedOffers, toOrderedOffer } from '../../utils';
 
 export const uiStateReducer = (
   state: IOfferUiState = initialState.uiState,

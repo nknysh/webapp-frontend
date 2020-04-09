@@ -1,4 +1,5 @@
 import { ECombinationMode, OrderedOffer } from '../../model';
+import { toOrderedOffer } from '../../utils';
 
 export const SET_OFFER_IS_TEXT_ONLY = 'offer/SET_OFFER_IS_TEXT_ONLY';
 export const TOGGLE_TA_COUNTRY_ACCORDIAN = 'offer/TOGGLE_TA_COUNTRY_ACCORDIAN';
@@ -40,7 +41,7 @@ export const offerToggleOfferInCombinationList = (offerUuid: string, isChecked: 
 export type SetOrderedOffersListAction = ReturnType<typeof setOrderedOffersListAction>;
 export const setOrderedOffersListAction = (list: OrderedOffer[]) => ({
   type: SET_ORDERED_OFFERS_LIST as typeof SET_ORDERED_OFFERS_LIST,
-  list,
+  list: list.map(item => toOrderedOffer(item)),
 });
 
 export type SetOfferIsPristineAction = ReturnType<typeof setOfferIsPristineAction>;

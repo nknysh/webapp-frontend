@@ -1,15 +1,17 @@
 import {
   IOfferProductDiscountInstance,
   IOfferUI,
+  IOfferOnHotelItem,
   IOfferAPI,
   IUIOfferProductDiscountInstance,
   IOfferProductDiscounts,
   IOfferSubProductDiscounts,
 } from 'services/BackendApi';
+
 import uuid from 'uuid';
 import produce from 'immer';
 import * as R from 'ramda';
-import { IOfferUiState, ECombinationMode, IOfferModel } from './model';
+import { IOfferUiState, ECombinationMode, OrderedOffer } from './model';
 import { sanitizeInteger } from 'utils/number';
 import { OfferAddProductToProductDiscountAction, OfferRemoveProductDiscountAction, OfferAddProductDiscountAction, OfferRemoveProductFromProductDiscountAction, OfferUpdateProductDiscountAction, OfferToggleProductDiscountAgeNameAction, OfferToggleSubProductDiscountAgeNameAction, OfferRemoveProductFromSubProductDiscountAction, OfferAddProductToSubProductDiscountAction, OfferUpdateSubProductDiscountAction, OfferAddSubProductDiscountAction, OfferRemoveSubProductDiscountAction, OfferToggleProductOnProductDiscountAction, OfferToggleProductOnSubProductDiscountAction } from './subdomains/offer/actions';
 import { without } from 'ramda';
@@ -417,3 +419,14 @@ export const toggleProductOnDiscount = (
     [discountType]: newDiscountType,
   };
 }
+
+export const toOrderedOffer = (offer: IOfferOnHotelItem | IOfferUI | OrderedOffer): OrderedOffer =>
+  ({
+    uuid: offer.uuid,
+    name: offer.name,
+  });
+  
+export const getOrderedOffers = (offers: IOfferOnHotelItem[] = []): OrderedOffer[] =>
+  R
+    .sortBy(item => item.order, offers)
+    .map(item => toOrderedOffer(item));
