@@ -301,10 +301,11 @@ export const updateDiscountHandler = (
 ): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
   const { discountType, uuid, key, newValue, currentValue } = action;
 
-  // const sanitizedValue = key === 'discountPercentage' || key === 'maximumQuantity'
-  //   ? sanitizeInteger(newValue as string, currentValue)
-  //   : newValue;
-  const sanitizedValue = newValue;
+  // const sanitizedValue =
+  //   key === 'discountPercentage' || key === 'maximumQuantity'
+  //     ? sanitizeInteger(newValue as string, currentValue)
+  //     : newValue;
+  const sanitizedValue = parseFloat(newValue as string);
 
   const newDiscountType = state![discountType]!.map(discount => {
     if (discount.uuid !== uuid) {

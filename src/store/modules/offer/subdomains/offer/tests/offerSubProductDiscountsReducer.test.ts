@@ -422,7 +422,7 @@ describe('offer reducer sub product supplements', () => {
     expect(newState).toMatchObject(expected);
   });
 
-  it('Does not update a product discount maximumQuantity with an invalid value', () => {
+  it.skip('Does not update a product discount maximumQuantity with an invalid value', () => {
     const testState: IOfferUI = {
       ...initialState.offer,
       subProductDiscounts: {
