@@ -49,6 +49,8 @@ export const offersOnHotelReducer = (state: any = initialState.offersOnHotel, ac
   switch (action.type) {
     case GET_OFFER_SUCCESS:
       return action.offersOnHotel;
+    case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
+      return action.data.offers;
     default:
       return state;
   }

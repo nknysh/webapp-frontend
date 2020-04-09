@@ -52,9 +52,10 @@ import {
   setOfferIsPristineAction,
 } from 'store/modules/offer/actions';
 import { TabBar, RouteTab } from 'pureUi/TabBar';
-import { OfferEditPreRequisitesContainerConnected } from '../OfferEditPreRequisites/index';
+import { OfferEditPreRequisitesContainerConnected } from '../OfferEditPreRequisites';
 import { OfferEditApplicationsContainerConnected } from '../OfferEditApplications';
 import { OfferEditOrderingContainerConnected } from '../OfferEditOrdering';
+import { OfferEditCombinationsContainerConnected } from '../OfferEditCombinations';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
@@ -278,9 +279,10 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
             />
             <Route
               exact
-              path={`${this.props.match.url}/priority`}
-              component={OfferEditOrderingContainerConnected}
+              path={`${this.props.match.url}/combinations`}
+              component={OfferEditCombinationsContainerConnected}
             />
+            <Route exact path={`${this.props.match.url}/priority`} component={OfferEditOrderingContainerConnected} />
           </Switch>
           <Route
             exact

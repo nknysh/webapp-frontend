@@ -16,7 +16,7 @@ import {
   TOGGLE_OFFER_IN_COMBINATION_LIST,
   SET_ORDERED_OFFERS_LIST,
   SET_OFFER_IS_PRISTINE,
-  OFFER_HOTEL_UUID_CHANGE_SUCCESS
+  OFFER_HOTEL_UUID_CHANGE_SUCCESS,
 } from '../../actions';
 import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN, TOGGEL_AGE_NAME_ACCORDIAN_KEY } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
@@ -55,7 +55,7 @@ export const uiStateReducer = (
           draftState.combinationMode = ECombinationMode.COMBINES_WITH_NONE;
         }
 
-        if(action.offersOnHotel){
+        if (action.offersOnHotel) {
           draftState.orderedOffersList = getOrderedOffers(action.offersOnHotel);
         }
 
@@ -99,7 +99,7 @@ export const uiStateReducer = (
       return {
         ...state,
         postOfferRequestIsPending: false,
-        postError: null
+        postError: null,
       };
 
     case POST_OFFER_FAILURE:
@@ -114,15 +114,15 @@ export const uiStateReducer = (
     case POST_OFFERS_ORDER_REQUEST:
       return {
         ...state,
-        postOffersOrderRequestIsPending: true
+        postOffersOrderRequestIsPending: true,
       };
-    
+
     case POST_OFFERS_ORDER_SUCCESS:
       return {
         ...state,
         postOffersOrderRequestIsPending: false,
         postOffersOrderError: null,
-        orderedOffersList: getOrderedOffers(action.offersOnHotel)
+        orderedOffersList: getOrderedOffers(action.offersOnHotel),
       };
 
     case POST_OFFERS_ORDER_FAILURE:
@@ -155,9 +155,13 @@ export const uiStateReducer = (
       };
 
     case SET_COMBINATION_MODE:
+      const shouldClearList =
+        action.combinationMode === ECombinationMode.COMBINES_WITH_ANY ||
+        action.combinationMode === ECombinationMode.CANNOT_COMBINE_WITH_LIST;
       return {
         ...state,
         combinationMode: action.combinationMode,
+        combinationOfferUuids: shouldClearList ? [] : state.combinationOfferUuids,
       };
 
     case TOGGLE_OFFER_IN_COMBINATION_LIST:
@@ -186,12 +190,9 @@ export const uiStateReducer = (
     case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
       return {
         ...state,
-        orderedOffersList: [
-          ...getOrderedOffers(action.data.offers),
-          toOrderedOffer(initialState.offer)
-        ]
+        orderedOffersList: [...getOrderedOffers(action.data.offers), toOrderedOffer(initialState.offer)],
       };
-    
+
     default:
       return state;
   }

@@ -2,14 +2,7 @@ import * as Actions from './actions';
 import produce from 'immer';
 import { IOfferUI } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
-import {
-  OfferDomainAction,
-  GET_OFFER_SUCCESS,
-  PUT_OFFER_SUCCESS,
-  POST_OFFER_SUCCESS,
-  OFFER_REMOVE_PRODUCT_DISCOUNT,
-  OFFER_HOTEL_UUID_CHANGE_SUCCESS,
-} from '../../actions';
+import { OfferDomainAction, GET_OFFER_SUCCESS, PUT_OFFER_SUCCESS, POST_OFFER_SUCCESS } from '../../actions';
 import { initialState } from '../../model';
 import * as R from 'ramda';
 import { productDiscountsReducer } from './offerProductDiscountsReducer';
@@ -153,6 +146,7 @@ export const offerHotelUuidChangeSuccessReducer = (
       name: action.data.name,
       countryCode: action.data.countryCode,
     },
+
     productDiscounts: clearAllProductsFromDiscounts(state.productDiscounts || {}),
     subProductDiscounts: clearAllProductsFromDiscounts(state.subProductDiscounts || {}),
     prerequisites: {
