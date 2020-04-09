@@ -6,12 +6,12 @@ import {
   IOfferSubProductDiscounts,
   IUIOfferProductDiscountInstance,
   IDiscountProduct,
+  IProduct,
 } from 'services/BackendApi';
 
 import uuid from 'uuid';
 import produce from 'immer';
-import { IOfferUiState, ECombinationMode, IOfferModel, OrderedOffer } from './model';
-import { sanitizeInteger } from 'utils/number';
+import { IOfferUiState, ECombinationMode, OrderedOffer } from './model';
 import {
   OfferAddProductToProductDiscountAction,
   OfferRemoveProductDiscountAction,
@@ -27,8 +27,12 @@ import {
   OfferRemoveSubProductDiscountAction,
   OfferToggleProductOnProductDiscountAction,
   OfferToggleProductOnSubProductDiscountAction,
+  OfferToggleAgeNameOnProductAction,
+  OfferToggleAgeNameOnSubProductAction,
 } from './subdomains/offer/actions';
 import { without } from 'ramda';
+import { EProductCategory, IOfferOnHotelItem } from '../../../services/BackendApi/types/OfferResponse';
+import * as R from 'ramda';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
   const productUuids = offer.prerequisites.accommodationProducts ? offer.prerequisites.accommodationProducts : [];
