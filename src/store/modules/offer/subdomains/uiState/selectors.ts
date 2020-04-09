@@ -58,7 +58,7 @@ export const combinationListSelector = createSelector(
 
 export const orderedOffersListSelector = createSelector(
   uiStateSelector,
-  uiStateSelector => uiStateSelector.orderedOffersList
+  uiState => uiState.orderedOffersList
 );
 
 export const offerIsPristineSelector = createSelector(uiStateSelector, uiStateSelector => uiStateSelector.isPristine);

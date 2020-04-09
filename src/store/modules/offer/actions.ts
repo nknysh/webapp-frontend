@@ -97,9 +97,8 @@ export const postOffersOrderRequestAction = (orderedOffers: OrderedOffer[]) => (
 });
 
 export type PostOffersOrderSuccessAction = ReturnType<typeof postOffersOrderSuccessAction>;
-export const postOffersOrderSuccessAction = (offerUuid: string, offersOnHotel: IOfferOnHotelItem[]) => ({
+export const postOffersOrderSuccessAction = (offersOnHotel: IOfferOnHotelItem[]) => ({
   type: POST_OFFERS_ORDER_SUCCESS as typeof POST_OFFERS_ORDER_SUCCESS,
-  offerUuid,
   offersOnHotel,
 });
 

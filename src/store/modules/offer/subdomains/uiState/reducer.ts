@@ -25,18 +25,17 @@ import produce from 'immer';
 import * as R from 'ramda';
 import { IOfferOnHotelItem, IOfferUI } from 'services/BackendApi';
 
-const toOrderedOffer = (offer: IOfferOnHotelItem | IOfferUI, selected?: boolean): OrderedOffer =>
+const toOrderedOffer = (offer: IOfferOnHotelItem | IOfferUI): OrderedOffer =>
   ({
     uuid: offer.uuid,
     name: offer.name,
-    selected
   });
   
-
-const getOrderedOffers = (offers: IOfferOnHotelItem[] = [], selectedOfferUuid?: string): OrderedOffer[] =>
+const getOrderedOffers = (offers: IOfferOnHotelItem[] = []): OrderedOffer[] =>
   R
     .sortBy(item => item.order, offers)
-    .map(item => toOrderedOffer(item, item.uuid === selectedOfferUuid));
+    .map(item => toOrderedOffer(item));
+
 
 export const uiStateReducer = (
   state: IOfferUiState = initialState.uiState,
@@ -70,7 +69,7 @@ export const uiStateReducer = (
         }
 
         if(action.offersOnHotel){
-          draftState.orderedOffersList = getOrderedOffers(action.offersOnHotel, action.offer.uuid);
+          draftState.orderedOffersList = getOrderedOffers(action.offersOnHotel);
         }
 
         return draftState;
@@ -110,21 +109,11 @@ export const uiStateReducer = (
       };
 
     case POST_OFFER_SUCCESS:
-      return produce(state, draftState => {
-        draftState.postOfferRequestIsPending = false;
-        draftState.postError = null;
-
-        const foundOrderedOffer = draftState
-          .orderedOffersList
-          .find(item => item.uuid === initialState.offer.uuid);
-        
-        if(foundOrderedOffer){
-          foundOrderedOffer.uuid = action.offer.uuid;
-          foundOrderedOffer.name = action.offer.name;
-        }
-
-        return draftState;
-      });
+      return {
+        ...state,
+        postOfferRequestIsPending: false,
+        postError: null
+      };
 
     case POST_OFFER_FAILURE:
       return {
@@ -146,7 +135,7 @@ export const uiStateReducer = (
         ...state,
         postOffersOrderRequestIsPending: false,
         postOffersOrderError: null,
-        orderedOffersList: getOrderedOffers(action.offersOnHotel, action.offerUuid)
+        orderedOffersList: getOrderedOffers(action.offersOnHotel)
       };
 
     case POST_OFFERS_ORDER_FAILURE:
@@ -202,13 +191,11 @@ export const uiStateReducer = (
       };
 
     case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
-      const newOffer = initialState.offer;
-
       return {
         ...state,
         orderedOffersList: [
           ...getOrderedOffers(action.data.offers),
-          toOrderedOffer(newOffer, true)
+          toOrderedOffer(initialState.offer)
         ]
       };
     

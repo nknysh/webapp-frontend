@@ -30,6 +30,7 @@ export function* putOfferRequestSaga() {
       yield put(putOfferFailureAction(error.response.data.errors));
     }
 
+
   } catch (e) {
     // TODO: Need an unexpected error handler
     console.error(e);

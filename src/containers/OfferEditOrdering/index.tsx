@@ -7,7 +7,7 @@ import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { OfferEditOrderingStyles } from './OfferEditOrderingStyles';
 
 import {
-  orderedOffersListSelector,
+  mergedOrderedOffersListSelector,
   offerHotelUuidSelector
 } from 'store/modules/offer/selectors';
 
@@ -87,7 +87,7 @@ export type DispatchToProps = typeof actionCreators;
 export interface IOfferEditOrderingProps extends StateToProps, DispatchToProps {}
 
 const mapStateToProps = createStructuredSelector({
-  orderedOffersList: orderedOffersListSelector,
+  orderedOffersList: mergedOrderedOffersListSelector,
   hotelUuid: offerHotelUuidSelector
 });
 

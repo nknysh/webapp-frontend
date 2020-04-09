@@ -29,7 +29,7 @@ export function* postOffersOrderRequestSaga(action: PostOffersOrderRequestAction
     );
       
     if(response){
-      yield put(postOffersOrderSuccessAction(uiOffer.uuid, response.data.data));
+      yield put(postOffersOrderSuccessAction(response.data.data));
     } else {
       yield put(postOffersOrderFailureAction(error.response.data.errors));
     }
