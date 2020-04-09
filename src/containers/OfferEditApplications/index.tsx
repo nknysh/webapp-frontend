@@ -220,6 +220,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                 GreenTaxApproachInfo[this.props.accomodationDiscount.greenTaxDiscountApproach]}
             </Text>
           </div>
+
+          <ErrorList>
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.accommodationProductDiscount.map((error, i) => (
+                <li key={i}>{error.message}</li>
+              ))}
+          </ErrorList>
         </Fieldset>
 
         <Fieldset>

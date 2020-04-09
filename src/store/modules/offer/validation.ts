@@ -11,6 +11,9 @@ export interface OfferValidatorResultSet {
   stayBetweenPrerequisite: ValidatorFieldError<OfferValidatorResultSet>[];
   stepping: ValidatorFieldError<OfferValidatorResultSet>[];
 
+  //single one
+  accommodationProductDiscount: ValidatorFieldError<OfferValidatorResultSet>[];
+
   // product discounts, broken up
   fineDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
   groundServiceDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
@@ -27,6 +30,24 @@ export interface ValidatorFieldError<T> {
   message: string;
   index?: number;
 }
+
+export const isPercentageCompliant = val => {
+  if (isNaN(val)) {
+    return false;
+  }
+
+  const numberVal = parseFloat(val);
+
+  if (numberVal === NaN) {
+    return false;
+  }
+
+  if (numberVal >= 1 && numberVal <= 100) {
+    return true;
+  }
+
+  return false;
+};
 
 export class Validator<T> {
   modelInstance: any;

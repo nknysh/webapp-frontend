@@ -1,4 +1,4 @@
-import { Validator } from './validation';
+import { Validator, isPercentageCompliant } from './validation';
 
 describe('validation', () => {
   describe('required()', () => {
@@ -81,6 +81,64 @@ describe('validation', () => {
       };
       const results = new Validator<{ age: any }>(modelInstance).number('age').results();
       expect(results.errors.length).toEqual(1);
+    });
+  });
+});
+
+describe.only('validation funcs', () => {
+  describe('isPercentage', () => {
+    it('allows a number between 1 and 100', () => {
+      const testVal = 40;
+
+      expect(isPercentageCompliant(testVal)).toEqual(true);
+    });
+
+    it('allows a number between 1 and 100 with decimal places', () => {
+      const testVal = 40.54;
+
+      expect(isPercentageCompliant(testVal)).toEqual(true);
+    });
+
+    it('doesnt allow a number between 1 and 100 with 3 or more decimal places', () => {
+      const testVal = 40.542;
+
+      expect(isPercentageCompliant(testVal)).toEqual(false);
+    });
+
+    it('allows a string int between 1 and 100', () => {
+      const testVal = '20';
+
+      expect(isPercentageCompliant(testVal)).toEqual(true);
+    });
+
+    it('allows a string float to 2 decimal places between 1 and 100', () => {
+      const testVal = '20.98';
+
+      expect(isPercentageCompliant(testVal)).toEqual(true);
+    });
+
+    it('doesnt allow a base string value', () => {
+      const testVal = 'hello';
+
+      expect(isPercentageCompliant(testVal)).toEqual(false);
+    });
+
+    it('doesnt allow a string number with a prefix', () => {
+      const testVal = '$20';
+
+      expect(isPercentageCompliant(testVal)).toEqual(false);
+    });
+
+    it('doesnt allow a string number with a suffix', () => {
+      const testVal = '20.99%';
+
+      expect(isPercentageCompliant(testVal)).toEqual(false);
+    });
+
+    it('doesnt allow a string number with more than 2 decimal places', () => {
+      const testVal = '25.465';
+
+      expect(isPercentageCompliant(testVal)).toEqual(false);
     });
   });
 });

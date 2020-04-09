@@ -18,7 +18,13 @@ import {
   getAccommodationProductsForHotelSelector as hotelAccomodationProductsSelector,
 } from '../../domainSelectors';
 import { IAgeName, IUIOfferProductDiscountInstance } from '../../../../../services/BackendApi/types/OfferResponse';
-import { Validator, ValidatorFieldResult, OfferValidatorResultSet, ValidatorFieldError } from '../../validation';
+import {
+  Validator,
+  ValidatorFieldResult,
+  OfferValidatorResultSet,
+  ValidatorFieldError,
+  isPercentageCompliant,
+} from '../../validation';
 import { uiStateSelector } from '../uiState/selectors';
 
 export const offerSelector = createSelector(offerDomainSelector, domain => domain.offer);
@@ -447,6 +453,13 @@ export const offerProductDiscountsValidationSelector = createSelector(
               index,
               message: `Fine discount #${index + 1} - discount percentage is required`,
             });
+          } else if (!isPercentageCompliant(discount.discountPercentage)) {
+            errors.push({
+              field: 'fineDiscounts',
+              index,
+              message: `Fine discount #${index +
+                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+            });
           }
         });
       }
@@ -457,6 +470,13 @@ export const offerProductDiscountsValidationSelector = createSelector(
               field: 'groundServiceDiscounts',
               index,
               message: `Ground Service discount #${index + 1} - discount percentage is required`,
+            });
+          } else if (!isPercentageCompliant(discount.discountPercentage)) {
+            errors.push({
+              field: 'groundServiceDiscounts',
+              index,
+              message: `Ground Service discount #${index +
+                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
             });
           }
         });
@@ -469,6 +489,13 @@ export const offerProductDiscountsValidationSelector = createSelector(
               index,
               message: `Supplement discount #${index + 1} - discount percentage is required`,
             });
+          } else if (!isPercentageCompliant(discount.discountPercentage)) {
+            errors.push({
+              field: 'supplementDiscounts',
+              index,
+              message: `Supplement discount #${index +
+                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+            });
           }
         });
       }
@@ -479,6 +506,13 @@ export const offerProductDiscountsValidationSelector = createSelector(
               field: 'transferDiscounts',
               index,
               message: `Transfer discount #${index + 1} - discount percentage is required`,
+            });
+          } else if (!isPercentageCompliant(discount.discountPercentage)) {
+            errors.push({
+              field: 'transferDiscounts',
+              index,
+              message: `Transfer discount #${index +
+                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
             });
           }
         });
@@ -505,6 +539,13 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
               index,
               message: `Meal Plan discount #${index + 1} - discount percentage is required`,
             });
+          } else if (!isPercentageCompliant(discount.discountPercentage)) {
+            errors.push({
+              field: 'mealPlanDiscounts',
+              index,
+              message: `Meal Plan discount #${index +
+                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+            });
           }
         });
       }
@@ -521,12 +562,19 @@ export const offerExtraPersonSupplementValidationSelector = createSelector(
   extraPersonSupplementsDiscounts => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
-    extraPersonSupplementsDiscounts.forEach((epsDiscount, index) => {
-      if (epsDiscount.discountPercentage === undefined || epsDiscount.discountPercentage === '') {
+    extraPersonSupplementsDiscounts.forEach((discount, index) => {
+      if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
         errors.push({
           field: 'extraPersonSupplementDiscounts',
           index,
           message: `Extra Person Supplement discount #${index + 1} - discount percentage is required`,
+        });
+      } else if (!isPercentageCompliant(discount.discountPercentage)) {
+        errors.push({
+          field: 'extraPersonSupplementDiscounts',
+          index,
+          message: `Extra Person Supplement discount #${index +
+            1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
         });
       }
     });
@@ -555,6 +603,23 @@ export const offerFurtherInformationValidationSelector = createSelector(
   }
 );
 
+export const accommodationDiscountValidationSelector = createSelector(offerSelector, offer => {
+  const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+  if (offer.accommodationProductDiscount && offer.accommodationProductDiscount.discountPercentage) {
+    if (!isPercentageCompliant(offer.accommodationProductDiscount.discountPercentage)) {
+      errors.push({
+        field: 'accommodationProductDiscount',
+        message: `Accommodation Product discount - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+      });
+    }
+  }
+
+  return {
+    errors,
+  } as ValidatorFieldResult<OfferValidatorResultSet>;
+});
+
 export const offerValidationSelector = createSelector(
   offerHotelValidationSelector,
   offerNameValidationSelector,
@@ -566,6 +631,7 @@ export const offerValidationSelector = createSelector(
   offerProductDiscountsValidationSelector,
   offerSubProductDiscountsValidationSelector,
   offerExtraPersonSupplementValidationSelector,
+  accommodationDiscountValidationSelector,
   (
     hotelValidatorFieldResult,
     nameValidatorFieldResult,
@@ -576,7 +642,8 @@ export const offerValidationSelector = createSelector(
     steppingValidatorFieldResult,
     productDiscountsValidatorFieldResult,
     subProductDiscountsValidatorFieldResult,
-    epsDiscountsValidatorFieldResult
+    epsDiscountsValidatorFieldResult,
+    accommodationProductDiscountValidatorFieldResult
   ) => {
     const groupedBy: OfferValidatorResultSet = {
       hotelUuid: hotelValidatorFieldResult.errors,
@@ -586,6 +653,8 @@ export const offerValidationSelector = createSelector(
       accommodationProductsPrerequisite: accommodationProductValidatorFieldResult.errors,
       stayBetweenPrerequisite: stayBetweenValidatorFieldResult.errors,
       stepping: steppingValidatorFieldResult.errors,
+
+      accommodationProductDiscount: accommodationProductDiscountValidatorFieldResult.errors,
 
       // the product discounts, broken up
       fineDiscounts: productDiscountsValidatorFieldResult.errors.filter(e => e.field === 'fineDiscounts'),
@@ -638,17 +707,20 @@ export const offerHasApplicationsValidationErrorsSelector = createSelector(
   offerExtraPersonSupplementValidationSelector,
   offerProductDiscountsValidationSelector,
   offerSubProductDiscountsValidationSelector,
+  accommodationDiscountValidationSelector,
   (
     steppingValidatorResult,
     extraPersonSupplementValidatorResult,
     productDiscountsValidatorResult,
-    subProductDiscountsValidatorResult
+    subProductDiscountsValidatorResult,
+    accommodationProductDiscountValidatorResult
   ) => {
     return (
       steppingValidatorResult.errors.length >= 1 ||
       extraPersonSupplementValidatorResult.errors.length >= 1 ||
       productDiscountsValidatorResult.errors.length >= 1 ||
-      subProductDiscountsValidatorResult.errors.length >= 1
+      subProductDiscountsValidatorResult.errors.length >= 1 ||
+      accommodationProductDiscountValidatorResult.errors.length
     );
   }
 );
