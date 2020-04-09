@@ -9,13 +9,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchLatestOffers: pipe(
-    fetchLatestOffers,
-    dispatch
-  ),
+  fetchLatestOffers: pipe(fetchLatestOffers, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

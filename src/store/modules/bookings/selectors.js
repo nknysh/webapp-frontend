@@ -148,34 +148,16 @@ const getRoomTotal = (key, roomId, potentialBooking) => {
 
   // Extracts all the totals from those rooms
   // into one value
-  const roomTotals = pipe(
-    map(prop(key)),
-    toTotal
-  )(productsForRoom);
+  const roomTotals = pipe(map(prop(key)), toTotal)(productsForRoom);
 
   // Extract all the totals from the sub products of the rooms
   const subProductsTotal = pipe(
-    map(
-      pipe(
-        propOr({}, 'subProducts'),
-        mapObjIndexed(
-          pipe(
-            map(prop(key)),
-            toTotal
-          )
-        ),
-        toTotal
-      )
-    ),
+    map(pipe(propOr({}, 'subProducts'), mapObjIndexed(pipe(map(prop(key)), toTotal)), toTotal)),
     toTotal
   )(productsForRoom);
 
   // Add everything up and format the price to string
-  return pipe(
-    add(roomTotals),
-    add(subProductsTotal),
-    formatPrice
-  )(0);
+  return pipe(add(roomTotals), add(subProductsTotal), formatPrice)(0);
 };
 
 /**
@@ -192,10 +174,7 @@ export const getBookings = prop('bookings');
  * @param {object}
  * @returns {string}
  */
-export const getBookingStatus = pipe(
-  getBookings,
-  getStatus
-);
+export const getBookingStatus = pipe(getBookings, getStatus);
 
 /**
  * Get booking data selector
@@ -203,10 +182,7 @@ export const getBookingStatus = pipe(
  * @param {object}
  * @returns {*}
  */
-export const getBookingData = pipe(
-  getBookings,
-  getData
-);
+export const getBookingData = pipe(getBookings, getData);
 
 /**
  * Get bookings created selector
@@ -214,10 +190,7 @@ export const getBookingData = pipe(
  * @param {object}
  * @returns {object}
  */
-export const getBookingsCreated = pipe(
-  getBookings,
-  propOr({}, 'created')
-);
+export const getBookingsCreated = pipe(getBookings, propOr({}, 'created'));
 
 /**
  * Get bookings holds selector
@@ -225,10 +198,7 @@ export const getBookingsCreated = pipe(
  * @param {object}
  * @returns {object | undefined}
  */
-export const getBookingsHolds = pipe(
-  getBookings,
-  prop('holds')
-);
+export const getBookingsHolds = pipe(getBookings, prop('holds'));
 
 /**
  * Get booking created selector
@@ -239,10 +209,7 @@ export const getBookingsHolds = pipe(
  * @param {string}
  * @returns {object}
  */
-export const getBookingCreated = createSelector(
-  [getArg(1), getBookingsCreated],
-  prop
-);
+export const getBookingCreated = createSelector([getArg(1), getBookingsCreated], prop);
 
 /**
  * Get booking created by value selector
@@ -253,13 +220,8 @@ export const getBookingCreated = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingCreatedByValue = createSelector(
-  [getArg(1), getBookingsCreated],
-  (id, created) =>
-    pipe(
-      values,
-      find(equals(id))
-    )(created)
+export const getBookingCreatedByValue = createSelector([getArg(1), getBookingsCreated], (id, created) =>
+  pipe(values, find(equals(id)))(created)
 );
 
 /**
@@ -269,10 +231,7 @@ export const getBookingCreatedByValue = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBooking = createSelector(
-  [getArg(1), getBookingData],
-  prop
-);
+export const getBooking = createSelector([getArg(1), getBookingData], prop);
 
 /**
  * Get booking breakdown selector
@@ -281,10 +240,7 @@ export const getBooking = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingBreakdown = createSelector(
-  getBooking,
-  prop('breakdown')
-);
+export const getBookingBreakdown = createSelector(getBooking, prop('breakdown'));
 
 /**
  * Get booking uploads selector
@@ -293,10 +249,7 @@ export const getBookingBreakdown = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingUploads = createSelector(
-  getBookingBreakdown,
-  prop('uploads')
-);
+export const getBookingUploads = createSelector(getBookingBreakdown, prop('uploads'));
 
 /**
  * Get potential booking selector
@@ -305,10 +258,7 @@ export const getBookingUploads = createSelector(
  * @param {string}
  * @returns {object}
  */
-const getPotentialBooking = createSelector(
-  getBookingBreakdown,
-  prop('potentialBooking')
-);
+const getPotentialBooking = createSelector(getBookingBreakdown, prop('potentialBooking'));
 
 /**
  * Get booking hotel selector
@@ -317,10 +267,7 @@ const getPotentialBooking = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingHotel = createSelector(
-  getBookingBreakdown,
-  prop('hotel')
-);
+export const getBookingHotel = createSelector(getBookingBreakdown, prop('hotel'));
 
 /**
  * Get booking hotel default currency
@@ -329,10 +276,7 @@ export const getBookingHotel = createSelector(
  * @param {string}
  * @return {string}
  */
-export const getBookingHotelDefaultCurrency = createSelector(
-  getBookingHotel,
-  prop('defaultCurrency')
-);
+export const getBookingHotelDefaultCurrency = createSelector(getBookingHotel, prop('defaultCurrency'));
 
 /**
  * Get booking requested build selector
@@ -341,10 +285,7 @@ export const getBookingHotelDefaultCurrency = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingRequestedBuild = createSelector(
-  getBookingBreakdown,
-  prop('requestedBuild')
-);
+export const getBookingRequestedBuild = createSelector(getBookingBreakdown, prop('requestedBuild'));
 
 /**
  * Get booking product sets selector
@@ -355,10 +296,7 @@ export const getBookingRequestedBuild = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingProductSets = createSelector(
-  getBookingBreakdown,
-  prop('availableProductSets')
-);
+export const getBookingProductSets = createSelector(getBookingBreakdown, prop('availableProductSets'));
 
 /**
  * Get booking build totals selector
@@ -367,10 +305,7 @@ export const getBookingProductSets = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingBuildTotals = createSelector(
-  getBookingBreakdown,
-  prop('totals')
-);
+export const getBookingBuildTotals = createSelector(getBookingBreakdown, prop('totals'));
 
 /**
  * Get booking build currency selector
@@ -379,10 +314,7 @@ export const getBookingBuildTotals = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingBuildCurrency = createSelector(
-  getBookingBreakdown,
-  prop('currency')
-);
+export const getBookingBuildCurrency = createSelector(getBookingBreakdown, prop('currency'));
 
 /**
  * Get booking currency symbol
@@ -408,10 +340,7 @@ export const getBookingCurrencySymbol = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getBookingHash = createSelector(
-  getBookingBreakdown,
-  prop('bookingHash')
-);
+export const getBookingHash = createSelector(getBookingBreakdown, prop('bookingHash'));
 
 /**
  * Get booking available to hold selector
@@ -420,10 +349,7 @@ export const getBookingHash = createSelector(
  * @param {string}
  * @returns {boolean}
  */
-export const getBookingAvailableToHold = createSelector(
-  getBookingBreakdown,
-  prop('availableToHold')
-);
+export const getBookingAvailableToHold = createSelector(getBookingBreakdown, prop('availableToHold'));
 
 /**
  * Get all booking errors selector
@@ -432,10 +358,7 @@ export const getBookingAvailableToHold = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getAllBookingErrors = createSelector(
-  getBookingBreakdown,
-  propOr([], 'errors')
-);
+export const getAllBookingErrors = createSelector(getBookingBreakdown, propOr([], 'errors'));
 
 /**
  * Get booking rooms selector
@@ -446,10 +369,7 @@ export const getAllBookingErrors = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingRooms = createSelector(
-  getBookingRequestedBuild,
-  propOr([], ProductTypes.ACCOMMODATION)
-);
+export const getBookingRooms = createSelector(getBookingRequestedBuild, propOr([], ProductTypes.ACCOMMODATION));
 
 /**
  * Get booking rooms by id selector
@@ -461,9 +381,8 @@ export const getBookingRooms = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingRoomsById = createSelector(
-  [getBookingRooms, getArg(2)],
-  (rooms, uuid) => filter(propEq('uuid', uuid), rooms)
+export const getBookingRoomsById = createSelector([getBookingRooms, getArg(2)], (rooms, uuid) =>
+  filter(propEq('uuid', uuid), rooms)
 );
 
 /**
@@ -476,29 +395,21 @@ export const getBookingRoomsById = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingRoomDatesById = createSelector(
-  [getBookingRoomsById, getSearchDates],
-  (rooms, searchDates) =>
-    map(
-      pipe(
-        // Extracts start and end date
-        pick(['startDate', 'endDate']),
+export const getBookingRoomDatesById = createSelector([getBookingRoomsById, getSearchDates], (rooms, searchDates) =>
+  map(
+    pipe(
+      // Extracts start and end date
+      pick(['startDate', 'endDate']),
 
-        // Evolve the dates so that if they are empty, they will always
-        // default back to the dates supplied to the search
-        evolve({
-          startDate: pipe(
-            when(isNilOrEmpty, always(prop('startDate', searchDates))),
-            toDate
-          ),
-          endDate: pipe(
-            when(isNilOrEmpty, always(prop('endDate', searchDates))),
-            toDate
-          ),
-        })
-      ),
-      rooms
-    )
+      // Evolve the dates so that if they are empty, they will always
+      // default back to the dates supplied to the search
+      evolve({
+        startDate: pipe(when(isNilOrEmpty, always(prop('startDate', searchDates))), toDate),
+        endDate: pipe(when(isNilOrEmpty, always(prop('endDate', searchDates))), toDate),
+      })
+    ),
+    rooms
+  )
 );
 
 /**
@@ -510,10 +421,7 @@ export const getBookingRoomDatesById = createSelector(
  * @param {string}
  * @returns {Array}
  */
-const getPotentialBookingRooms = createSelector(
-  getPotentialBooking,
-  propOr([], ProductTypes.ACCOMMODATION)
-);
+const getPotentialBookingRooms = createSelector(getPotentialBooking, propOr([], ProductTypes.ACCOMMODATION));
 
 /**
  * Get potential booking rooms by id selector
@@ -540,10 +448,7 @@ export const getPotentialBookingRoomsById = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingStopErrors = createSelector(
-  getAllBookingErrors,
-  filter(propEq('type', 'stop'))
-);
+export const getBookingStopErrors = createSelector(getAllBookingErrors, filter(propEq('type', 'stop')));
 
 /**
  * Get booking errors selector
@@ -554,10 +459,7 @@ export const getBookingStopErrors = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingErrors = createSelector(
-  getAllBookingErrors,
-  filter(propEq('type', 'booking'))
-);
+export const getBookingErrors = createSelector(getAllBookingErrors, filter(propEq('type', 'booking')));
 
 /**
  * Get booking errors selector
@@ -583,9 +485,8 @@ export const getBookingNonAccommodationErrors = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingErrorsByRoomId = createSelector(
-  [getBookingErrors, getArg(2)],
-  (errors, roomId) => filter(propEq('accommodationProductUuid', roomId), errors)
+export const getBookingErrorsByRoomId = createSelector([getBookingErrors, getArg(2)], (errors, roomId) =>
+  filter(propEq('accommodationProductUuid', roomId), errors)
 );
 
 /**
@@ -628,10 +529,7 @@ export const isBookingOnRequest = createSelector(
  * @param {string}
  * @returns {boolean}
  */
-export const getBookingCanHold = createSelector(
-  getBooking,
-  path(['breakdown', 'availableToHold'])
-);
+export const getBookingCanHold = createSelector(getBooking, path(['breakdown', 'availableToHold']));
 
 /**
  * Get booking room meal plans selector
@@ -643,19 +541,12 @@ export const getBookingCanHold = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingRoomMealPlans = createSelector(
-  [getBookingProductSets, getArg(2)],
-  (productSets, roomId) =>
-    pipe(
-      propOr([], ProductTypes.ACCOMMODATION),
-      filter(
-        pipe(
-          prop('products'),
-          any(propEq('uuid', roomId))
-        )
-      ),
-      map(path(['availableSubProductSets', ProductTypes.MEAL_PLAN]))
-    )(productSets)
+export const getBookingRoomMealPlans = createSelector([getBookingProductSets, getArg(2)], (productSets, roomId) =>
+  pipe(
+    propOr([], ProductTypes.ACCOMMODATION),
+    filter(pipe(prop('products'), any(propEq('uuid', roomId)))),
+    map(path(['availableSubProductSets', ProductTypes.MEAL_PLAN]))
+  )(productSets)
 );
 
 /**
@@ -689,10 +580,7 @@ export const getBookingAddons = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getBookingTravelAgent = createSelector(
-  getBooking,
-  prop('travelAgentUserUuid')
-);
+export const getBookingTravelAgent = createSelector(getBooking, prop('travelAgentUserUuid'));
 
 /**
  * Get booking transfers selector
@@ -705,10 +593,7 @@ export const getBookingTravelAgent = createSelector(
  */
 export const getBookingTransfers = createSelector(
   getBookingProductSets,
-  pipe(
-    defaultTo({}),
-    propOr([], ProductTypes.TRANSFER)
-  )
+  pipe(defaultTo({}), propOr([], ProductTypes.TRANSFER))
 );
 
 /**
@@ -722,10 +607,7 @@ export const getBookingTransfers = createSelector(
  */
 export const getBookingRequestedTransfers = createSelector(
   getBookingRequestedBuild,
-  pipe(
-    defaultTo({}),
-    propOr([], ProductTypes.TRANSFER)
-  )
+  pipe(defaultTo({}), propOr([], ProductTypes.TRANSFER))
 );
 
 /**
@@ -739,10 +621,7 @@ export const getBookingRequestedTransfers = createSelector(
  */
 export const getBookingRequestedGroundServices = createSelector(
   getBookingRequestedBuild,
-  pipe(
-    defaultTo({}),
-    propOr([], ProductTypes.GROUND_SERVICE)
-  )
+  pipe(defaultTo({}), propOr([], ProductTypes.GROUND_SERVICE))
 );
 
 /**
@@ -756,10 +635,7 @@ export const getBookingRequestedGroundServices = createSelector(
  */
 export const getBookingRequestedSupplements = createSelector(
   getBookingRequestedBuild,
-  pipe(
-    defaultTo({}),
-    propOr([], ProductTypes.SUPPLEMENT)
-  )
+  pipe(defaultTo({}), propOr([], ProductTypes.SUPPLEMENT))
 );
 
 /**
@@ -773,10 +649,7 @@ export const getBookingRequestedSupplements = createSelector(
  */
 export const getBookingRequestedFines = createSelector(
   getBookingRequestedBuild,
-  pipe(
-    defaultTo({}),
-    propOr([], ProductTypes.FINE)
-  )
+  pipe(defaultTo({}), propOr([], ProductTypes.FINE))
 );
 
 /**
@@ -790,10 +663,7 @@ export const getBookingRequestedFines = createSelector(
  */
 export const getBookingGroundServices = createSelector(
   getBookingProductSets,
-  pipe(
-    defaultTo({}),
-    propOr([], ProductTypes.GROUND_SERVICE)
-  )
+  pipe(defaultTo({}), propOr([], ProductTypes.GROUND_SERVICE))
 );
 
 /**
@@ -843,11 +713,7 @@ export const getBookingRoomMealPlan = createSelector(
   pipe(
     reduce(
       (accum, room) =>
-        pipe(
-          pathOr([], ['subProducts', ProductTypes.MEAL_PLAN]),
-          map(prop('uuid')),
-          concat(accum)
-        )(room),
+        pipe(pathOr([], ['subProducts', ProductTypes.MEAL_PLAN]), map(prop('uuid')), concat(accum))(room),
       []
     ),
     uniq,
@@ -865,10 +731,7 @@ export const getBookingRoomMealPlan = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getBookingRoomTotal = createSelector(
-  [getArg(2), getPotentialBooking],
-  partial(getRoomTotal, ['total'])
-);
+export const getBookingRoomTotal = createSelector([getArg(2), getPotentialBooking], partial(getRoomTotal, ['total']));
 
 /**
  * Get booking room total before discount selector
@@ -895,10 +758,7 @@ export const getBookingRoomTotalBeforeDiscount = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingTextOffers = createSelector(
-  getBookingBreakdown,
-  propOr([], 'textOnlyOffersPerLodging')
-);
+export const getBookingTextOffers = createSelector(getBookingBreakdown, propOr([], 'textOnlyOffersPerLodging'));
 
 /**
  * Get booking room offers selector
@@ -957,10 +817,7 @@ export const getBookingRoomOffers = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingTotals = createSelector(
-  getBooking,
-  propOr({ total: formatPrice(0) }, 'totals')
-);
+export const getBookingTotals = createSelector(getBooking, propOr({ total: formatPrice(0) }, 'totals'));
 
 /**
  * Get booking total selector
@@ -971,13 +828,7 @@ export const getBookingTotals = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getBookingTotal = createSelector(
-  getBookingBreakdown,
-  pipe(
-    pathOr(0, ['totals', 'total']),
-    formatPrice
-  )
-);
+export const getBookingTotal = createSelector(getBookingBreakdown, pipe(pathOr(0, ['totals', 'total']), formatPrice));
 
 /**
  * Get booking total before discount selector
@@ -990,10 +841,7 @@ export const getBookingTotal = createSelector(
  */
 export const getBookingTotalBeforeDiscount = createSelector(
   getBookingBreakdown,
-  pipe(
-    pathOr(0, ['totals', 'totalBeforeDiscount']),
-    formatPrice
-  )
+  pipe(pathOr(0, ['totals', 'totalBeforeDiscount']), formatPrice)
 );
 
 /**
@@ -1006,72 +854,64 @@ export const getBookingTotalBeforeDiscount = createSelector(
  * @returns {object}
  */
 
-export const getBookingForBuilder = createSelector(
-  getBooking,
-  booking => {
-    const hotelUuid = prop('hotelUuid', booking);
+export const getBookingForBuilder = createSelector(getBooking, booking => {
+  const hotelUuid = prop('hotelUuid', booking);
 
-    let dates = [];
+  let dates = [];
 
-    // Run through the accommodation products and sanitize
-    const sanitizeAccommodationProducts = pipe(
-      evolve({
-        // Formats the date to be accepted by backend
-        startDate: when(complement(isNilOrEmpty), formatDate),
+  // Run through the accommodation products and sanitize
+  const sanitizeAccommodationProducts = pipe(
+    evolve({
+      // Formats the date to be accepted by backend
+      startDate: when(complement(isNilOrEmpty), formatDate),
 
-        // Removes the final day so backend accepts the days
-        endDate: when(
-          complement(isNilOrEmpty),
-          pipe(
-            input => new Date(input),
-            // @see 1043
-            // partialRight(subDays, [1]),
-            formatDate
-          )
-        ),
-      }),
-
-      // Push dates to the total dates array
-      tap(
+      // Removes the final day so backend accepts the days
+      endDate: when(
+        complement(isNilOrEmpty),
         pipe(
-          props(['startDate', 'endDate']),
-          accomDates => (dates = concat(dates, accomDates))
+          input => new Date(input),
+          // @see 1043
+          // partialRight(subDays, [1]),
+          formatDate
         )
       ),
+    }),
 
-      // Temp remove occasions from guestAges
-      over(lensProp('guestAges'), omit([...values(Occassions), 'repeatCustomer']))
-    );
+    // Push dates to the total dates array
+    tap(pipe(props(['startDate', 'endDate']), accomDates => (dates = concat(dates, accomDates)))),
 
-    // Finally, rebuild all the products into a new array
-    const products = {
-      [ProductTypes.ACCOMMODATION]: map(
-        sanitizeAccommodationProducts,
-        pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking)
-      ),
-      [ProductTypes.TRANSFER]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.TRANSFER], booking),
-      [ProductTypes.GROUND_SERVICE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.GROUND_SERVICE], booking),
-      [ProductTypes.SUPPLEMENT]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.SUPPLEMENT], booking),
-      [ProductTypes.FINE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.FINE], booking),
-      customItems: pathOr([], ['breakdown', 'requestedBuild', 'customItems'], booking),
-    };
+    // Temp remove occasions from guestAges
+    over(lensProp('guestAges'), omit([...values(Occassions), 'repeatCustomer']))
+  );
 
-    const lodgings = pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking);
-    const guestAges = calculateBookingTotalGuestAges(lodgings);
+  // Finally, rebuild all the products into a new array
+  const products = {
+    [ProductTypes.ACCOMMODATION]: map(
+      sanitizeAccommodationProducts,
+      pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking)
+    ),
+    [ProductTypes.TRANSFER]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.TRANSFER], booking),
+    [ProductTypes.GROUND_SERVICE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.GROUND_SERVICE], booking),
+    [ProductTypes.SUPPLEMENT]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.SUPPLEMENT], booking),
+    [ProductTypes.FINE]: pathOr([], ['breakdown', 'requestedBuild', ProductTypes.FINE], booking),
+    customItems: pathOr([], ['breakdown', 'requestedBuild', 'customItems'], booking),
+  };
 
-    // Sort the final dates
-    dates.sort();
+  const lodgings = pathOr([], ['breakdown', 'requestedBuild', ProductTypes.ACCOMMODATION], booking);
+  const guestAges = calculateBookingTotalGuestAges(lodgings);
 
-    // Final booking builder payload
-    return {
-      hotelUuid,
-      startDate: head(dates),
-      endDate: last(dates),
-      ...products,
-      ...(!isNilOrEmpty(guestAges) && { guestAges }),
-    };
-  }
-);
+  // Sort the final dates
+  dates.sort();
+
+  // Final booking builder payload
+  return {
+    hotelUuid,
+    startDate: head(dates),
+    endDate: last(dates),
+    ...products,
+    ...(!isNilOrEmpty(guestAges) && { guestAges }),
+  };
+});
 
 // Not technically a selector, but this is a pure version of `getBookingForBuilder` as that
 // is currently behaving unexpectedly
@@ -1099,12 +939,7 @@ export const getBookingForBuilderPure = (state, hotelUuid) => {
     }),
 
     // Push dates to the total dates array
-    tap(
-      pipe(
-        props(['startDate', 'endDate']),
-        accomDates => (dates = concat(dates, accomDates))
-      )
-    ),
+    tap(pipe(props(['startDate', 'endDate']), accomDates => (dates = concat(dates, accomDates)))),
 
     // Temp remove occasions from guestAges
     over(lensProp('guestAges'), omit([...values(Occassions), 'repeatCustomer']))
@@ -1149,10 +984,7 @@ export const getBookingForBuilderPure = (state, hotelUuid) => {
  * @param {string}
  * @returns {object}
  */
-export const getBookingHolds = createSelector(
-  [getArg(1), getBookingsHolds],
-  prop
-);
+export const getBookingHolds = createSelector([getArg(1), getBookingsHolds], prop);
 
 /**
  * Get booking room holds selector
@@ -1163,13 +995,8 @@ export const getBookingHolds = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getBookingRoomHolds = createSelector(
-  [getArg(2), getBookingHolds],
-  (uuid, hold) =>
-    pipe(
-      propOr([], 'breakdown'),
-      filter(propEq('productUuid', uuid))
-    )(hold)
+export const getBookingRoomHolds = createSelector([getArg(2), getBookingHolds], (uuid, hold) =>
+  pipe(propOr([], 'breakdown'), filter(propEq('productUuid', uuid)))(hold)
 );
 
 /**
@@ -1182,14 +1009,8 @@ export const getBookingRoomHolds = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getBookingRoomPhoto = createSelector(
-  [getArg(2), getBookingUploads],
-  (uuid, uploads) =>
-    pipe(
-      defaultTo([]),
-      filter(propEq('ownerUuid', uuid)),
-      head
-    )(uploads)
+export const getBookingRoomPhoto = createSelector([getArg(2), getBookingUploads], (uuid, uploads) =>
+  pipe(defaultTo([]), filter(propEq('ownerUuid', uuid)), head)(uploads)
 );
 
 /**
@@ -1256,16 +1077,14 @@ export const getBookingReady = createSelector(
  * @param {object}
  * @returns {object}
  */
-export const getBookingsForDashboard = createSelector(
-  [getArg(0), getBookingData],
-  (state, bookings) =>
-    pipe(
-      defaultTo({}),
-      // Gets all bookings for travel agents for users that the current user looks after
-      mapObjIndexed(over(lensProp('travelAgentUserUuid'), partial(getUser, [state]))),
-      values,
-      groupBy(prop('status'))
-    )(bookings)
+export const getBookingsForDashboard = createSelector([getArg(0), getBookingData], (state, bookings) =>
+  pipe(
+    defaultTo({}),
+    // Gets all bookings for travel agents for users that the current user looks after
+    mapObjIndexed(over(lensProp('travelAgentUserUuid'), partial(getUser, [state]))),
+    values,
+    groupBy(prop('status'))
+  )(bookings)
 );
 
 /**
@@ -1281,11 +1100,7 @@ export const getBookingAppliedOffers = createSelector(
   [getPotentialBooking, getBookingTextOffers],
   (potentialBooking, textOffers) => {
     // Gets all offers on products
-    const productOffers = pipe(
-      values,
-      reduce(reduceOffersFromProducts, {}),
-      values
-    )(potentialBooking);
+    const productOffers = pipe(values, reduce(reduceOffersFromProducts, {}), values)(potentialBooking);
 
     // Adds text offers to all product offers
     const allOffers = reduce(
@@ -1314,10 +1129,7 @@ export const getBookingAppliedOffers = createSelector(
  * @param {string}
  * @returns {number}
  */
-export const getBookingAppliedOffersCount = createSelector(
-  getBookingAppliedOffers,
-  length
-);
+export const getBookingAppliedOffersCount = createSelector(getBookingAppliedOffers, length);
 
 /**
  * Get booking applied offers terms selector
@@ -1331,12 +1143,7 @@ export const getBookingAppliedOffersCount = createSelector(
  */
 export const getBookingAppliedOffersTerms = createSelector(
   getBookingAppliedOffers,
-  map(
-    pipe(
-      prop('offer'),
-      pickAll(['name', 'termsAndConditions'])
-    )
-  )
+  map(pipe(prop('offer'), pickAll(['name', 'termsAndConditions'])))
 );
 
 /**

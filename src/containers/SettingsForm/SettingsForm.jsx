@@ -15,10 +15,7 @@ import { propTypes, defaultProps } from './SettingsForm.props';
 import { Settings, Title } from './SettingsForm.styles';
 import { isActive } from 'store/common';
 
-const mapRep = pipe(
-  props(['title', 'firstName', 'lastName']),
-  join(' ')
-);
+const mapRep = pipe(props(['title', 'firstName', 'lastName']), join(' '));
 
 const renderForm = (t, { formValues, onSubmit }) => (
   <Form initialValues={formValues} onSubmit={onSubmit} enableReinitialize={true} validationSchema={validation}>
@@ -89,8 +86,4 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
 SettingsForm.propTypes = propTypes;
 SettingsForm.defaultProps = defaultProps;
 
-export default compose(
-  withAuthentication,
-  withUser,
-  connect
-)(SettingsForm);
+export default compose(withAuthentication, withUser, connect)(SettingsForm);

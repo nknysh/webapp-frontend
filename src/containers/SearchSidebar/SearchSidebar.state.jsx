@@ -46,29 +46,11 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  setSearchQuery: pipe(
-    setSearchQuery,
-    dispatch
-  ),
-  searchFiltersReset: pipe(
-    searchFiltersReset,
-    dispatch
-  ),
-  searchByName: pipe(
-    searchByName,
-    dispatch
-  ),
-  searchByQuery: pipe(
-    searchByQuery,
-    dispatch
-  ),
-  loadSearchOptions: pipe(
-    searchOptionsInitAction,
-    dispatch
-  ),
+  setSearchQuery: pipe(setSearchQuery, dispatch),
+  searchFiltersReset: pipe(searchFiltersReset, dispatch),
+  searchByName: pipe(searchByName, dispatch),
+  searchByQuery: pipe(searchByQuery, dispatch),
+  loadSearchOptions: pipe(searchOptionsInitAction, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

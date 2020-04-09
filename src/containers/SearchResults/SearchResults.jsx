@@ -71,7 +71,4 @@ export const SearchResults = ({ searchStatus, meta, result, canSearch }) => {
 SearchResults.propTypes = propTypes;
 SearchResults.defaultProps = defaultProps;
 
-export default compose(
-  connect,
-  memo
-)(SearchResults);
+export default compose(connect, memo)(SearchResults);

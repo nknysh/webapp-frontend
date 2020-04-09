@@ -90,11 +90,7 @@ const removeLocalStorage = state => {
   return state;
 };
 
-const searchLoading = type =>
-  pipe(
-    assocPath(['status', type], Status.LOADING),
-    set(errorLens, undefined)
-  );
+const searchLoading = type => pipe(assocPath(['status', type], Status.LOADING), set(errorLens, undefined));
 
 const searchError = type => (state, { payload }) => {
   const prevData = propOr([], 'data', state);

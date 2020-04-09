@@ -5,33 +5,12 @@ import { createSelector } from 'store/utils';
 
 export const getUsers = prop('users');
 
-export const getUsersStatus = createSelector(
-  getUsers,
-  getStatus
-);
+export const getUsersStatus = createSelector(getUsers, getStatus);
 
-export const getUsersData = createSelector(
-  getUsers,
-  getData
-);
+export const getUsersData = createSelector(getUsers, getData);
 
-export const getUsersEntities = createSelector(
-  getUsers,
-  pipe(
-    getEntities,
-    prop('users')
-  )
-);
+export const getUsersEntities = createSelector(getUsers, pipe(getEntities, prop('users')));
 
-export const getUser = createSelector(
-  [getArg(1), getUsersEntities],
-  propOr({})
-);
+export const getUser = createSelector([getArg(1), getUsersEntities], propOr({}));
 
-export const getUserFullName = createSelector(
-  getUser,
-  pipe(
-    props(['title', 'firstName', 'lastName']),
-    join(' ')
-  )
-);
+export const getUserFullName = createSelector(getUser, pipe(props(['title', 'firstName', 'lastName']), join(' ')));

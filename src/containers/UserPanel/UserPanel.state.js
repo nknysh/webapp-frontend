@@ -25,13 +25,7 @@ export const mapStateToProps = state => {
 };
 
 export const mapDispatchToProps = dispatch => ({
-  setCountry: pipe(
-    authSetCountry,
-    dispatch
-  ),
+  setCountry: pipe(authSetCountry, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

@@ -38,11 +38,7 @@ export const getHotels = prop('hotels');
  * @param {object}
  * @returns {object}
  */
-const getProducts = pipe(
-  getHotels,
-  getEntities,
-  prop('products')
-);
+const getProducts = pipe(getHotels, getEntities, prop('products'));
 
 /**
  * Get rates selector
@@ -52,11 +48,7 @@ const getProducts = pipe(
  * @param {object}
  * @returns {object}
  */
-const getRates = pipe(
-  getHotels,
-  getEntities,
-  prop('rates')
-);
+const getRates = pipe(getHotels, getEntities, prop('rates'));
 
 /**
  * Get uploads selector
@@ -66,11 +58,7 @@ const getRates = pipe(
  * @param {object}
  * @returns {object}
  */
-const getUploads = pipe(
-  getHotels,
-  getEntities,
-  prop('uploads')
-);
+const getUploads = pipe(getHotels, getEntities, prop('uploads'));
 
 /**
  * Get hotels status selector
@@ -78,10 +66,7 @@ const getUploads = pipe(
  * @param {object}
  * @returns {object}
  */
-export const getHotelsStatus = pipe(
-  getHotels,
-  getStatus
-);
+export const getHotelsStatus = pipe(getHotels, getStatus);
 
 /**
  * Get hotels data selector
@@ -89,11 +74,7 @@ export const getHotelsStatus = pipe(
  * @param {object}
  * @returns {*}
  */
-export const getHotelsData = state =>
-  pipe(
-    getHotels,
-    getData
-  )(state);
+export const getHotelsData = state => pipe(getHotels, getData)(state);
 
 /**
  * Get hotels results selector
@@ -101,16 +82,9 @@ export const getHotelsData = state =>
  * @param {object}
  * @returns {string | Array}
  */
-export const getHotelsResults = pipe(
-  getHotels,
-  getResults
-);
+export const getHotelsResults = pipe(getHotels, getResults);
 
-export const getHotelsEntities = pipe(
-  getHotels,
-  getEntities,
-  prop('hotels')
-);
+export const getHotelsEntities = pipe(getHotels, getEntities, prop('hotels'));
 
 /**
  * Get hotels status selector
@@ -119,10 +93,7 @@ export const getHotelsEntities = pipe(
  * @param {string}
  * @returns {object}
  */
-export const getHotel = createSelector(
-  [getArg(1), getHotelsEntities],
-  prop
-);
+export const getHotel = createSelector([getArg(1), getHotelsEntities], prop);
 
 /**
  * Get hotels uploads selector
@@ -133,10 +104,7 @@ export const getHotel = createSelector(
  * @param {Array}
  * @returns {object}
  */
-export const getHotelsUploads = createSelector(
-  [getArg(1), getUploads],
-  pick
-);
+export const getHotelsUploads = createSelector([getArg(1), getUploads], pick);
 
 /**
  * Get hotels upload selector
@@ -147,10 +115,7 @@ export const getHotelsUploads = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsUpload = createSelector(
-  [getArg(1), getUploads],
-  prop
-);
+export const getHotelsUpload = createSelector([getArg(1), getUploads], prop);
 
 /**
  * Get hotels rates selector
@@ -161,10 +126,7 @@ export const getHotelsUpload = createSelector(
  * @param {Array}
  * @returns {object}
  */
-export const getHotelsRates = createSelector(
-  [getArg(1), getRates],
-  pick
-);
+export const getHotelsRates = createSelector([getArg(1), getRates], pick);
 
 /**
  * Get hotels rate selector
@@ -175,10 +137,7 @@ export const getHotelsRates = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsRate = createSelector(
-  [getArg(1), getRates],
-  prop
-);
+export const getHotelsRate = createSelector([getArg(1), getRates], prop);
 
 /**
  * Get product ids selector
@@ -187,10 +146,7 @@ export const getHotelsRate = createSelector(
  * @param {string}
  * @return {Array}
  */
-const getProductIds = createSelector(
-  getHotel,
-  propOr([])
-);
+const getProductIds = createSelector(getHotel, propOr([]));
 
 /**
  * Get hotel products selector
@@ -201,11 +157,7 @@ const getProductIds = createSelector(
  * @param {string}
  * @return {object}
  */
-export const getHotelProducts = createSelector(
-  getProductIds,
-  getProducts,
-  pick
-);
+export const getHotelProducts = createSelector(getProductIds, getProducts, pick);
 
 /**
  * Get hotel products by ids selector
@@ -216,10 +168,7 @@ export const getHotelProducts = createSelector(
  * @param {Array}
  * @returns {object}
  */
-export const getHotelProductsByIds = createSelector(
-  [getArg(1), getProducts],
-  pick
-);
+export const getHotelProductsByIds = createSelector([getArg(1), getProducts], pick);
 
 /**
  * Get hotel product selector
@@ -230,10 +179,7 @@ export const getHotelProductsByIds = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelProduct = createSelector(
-  [getArg(1), getProducts],
-  prop
-);
+export const getHotelProduct = createSelector([getArg(1), getProducts], prop);
 
 /**
  * Get hotel regions selector
@@ -243,10 +189,7 @@ export const getHotelProduct = createSelector(
  * @param {object}
  * @returns {object}
  */
-export const getHotelRegions = createSelector(
-  getHotelsEntities,
-  getMapped('region')
-);
+export const getHotelRegions = createSelector(getHotelsEntities, getMapped('region'));
 
 /**
  * Get hotel star ratings selector
@@ -256,10 +199,7 @@ export const getHotelRegions = createSelector(
  * @param {object}
  * @returns {object}
  */
-export const getHotelStarRatings = createSelector(
-  getHotelsEntities,
-  getMapped('starRating')
-);
+export const getHotelStarRatings = createSelector(getHotelsEntities, getMapped('starRating'));
 
 /**
  * Get hotel features selector
@@ -269,10 +209,7 @@ export const getHotelStarRatings = createSelector(
  * @param {object}
  * @returns {object}
  */
-export const getHotelFeatures = createSelector(
-  getHotelsEntities,
-  getMapped('amenities', reduceArrayByKey)
-);
+export const getHotelFeatures = createSelector(getHotelsEntities, getMapped('amenities', reduceArrayByKey));
 
 /**
  * Get hotel name selector
@@ -281,10 +218,7 @@ export const getHotelFeatures = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getHotelName = createSelector(
-  getHotel,
-  prop('name')
-);
+export const getHotelName = createSelector(getHotel, prop('name'));
 
 /**
  * Get hotel default currency
@@ -295,10 +229,7 @@ export const getHotelName = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getHotelDefaultCurrency = createSelector(
-  getHotel,
-  prop('defaultCurrency')
-);
+export const getHotelDefaultCurrency = createSelector(getHotel, prop('defaultCurrency'));
 
 /**
  * Get hotels acommodation products selector
@@ -309,9 +240,8 @@ export const getHotelDefaultCurrency = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsAccommodationProducts = createSelector(
-  [getHotel, getProducts],
-  (hotel, products) => pick(propOr([], 'accommodationProducts', hotel), products)
+export const getHotelsAccommodationProducts = createSelector([getHotel, getProducts], (hotel, products) =>
+  pick(propOr([], 'accommodationProducts', hotel), products)
 );
 
 /**
@@ -325,10 +255,7 @@ export const getHotelsAccommodationProducts = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelRoom = createSelector(
-  [getArg(2), getHotelsAccommodationProducts],
-  prop
-);
+export const getHotelRoom = createSelector([getArg(2), getHotelsAccommodationProducts], prop);
 
 /**
  * Get hotel room name selector
@@ -338,10 +265,7 @@ export const getHotelRoom = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getHotelRoomName = createSelector(
-  getHotelRoom,
-  prop('name')
-);
+export const getHotelRoomName = createSelector(getHotelRoom, prop('name'));
 
 /**
  * Get hotel room rates selector
@@ -351,10 +275,7 @@ export const getHotelRoomName = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getHotelRoomRates = createSelector(
-  getHotelRoom,
-  prop('rates')
-);
+export const getHotelRoomRates = createSelector(getHotelRoom, prop('rates'));
 
 /**
  * Get hotel room options selector
@@ -364,10 +285,7 @@ export const getHotelRoomRates = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelRoomOptions = createSelector(
-  getHotelRoom,
-  prop('options')
-);
+export const getHotelRoomOptions = createSelector(getHotelRoom, prop('options'));
 
 /**
  * Get hotel featured photo selector
@@ -376,14 +294,8 @@ export const getHotelRoomOptions = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getHotelFeaturedPhoto = createSelector(
-  [getHotel, getArg(0)],
-  (hotel, state) =>
-    pipe(
-      propOr([], 'featuredPhotos'),
-      head,
-      partial(getHotelsUpload, [state])
-    )(hotel)
+export const getHotelFeaturedPhoto = createSelector([getHotel, getArg(0)], (hotel, state) =>
+  pipe(propOr([], 'featuredPhotos'), head, partial(getHotelsUpload, [state]))(hotel)
 );
 
 /**
@@ -393,10 +305,7 @@ export const getHotelFeaturedPhoto = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getHotelProductAgeRanges = createSelector(
-  getHotelProduct,
-  extractAges
-);
+export const getHotelProductAgeRanges = createSelector(getHotelProduct, extractAges);
 
 /**
  * Get hotels from search results selector
@@ -421,19 +330,16 @@ export const getHotelsFromSearchResults = (state, ids = []) =>
  * @param {string}
  * @returns {object}
  */
-export const getHotelsPhotos = createSelector(
-  [getHotel, getUploads],
-  (hotel, uploads) => {
-    if (!hotel || !uploads || isEmpty(hotel) || isEmpty(uploads)) {
-      return {};
-    }
-
-    return filter(
-      upload => upload.ownerType === 'Hotel' && upload.tag === 'photo' && upload.ownerUuid === hotel.uuid,
-      uploads
-    );
+export const getHotelsPhotos = createSelector([getHotel, getUploads], (hotel, uploads) => {
+  if (!hotel || !uploads || isEmpty(hotel) || isEmpty(uploads)) {
+    return {};
   }
-);
+
+  return filter(
+    upload => upload.ownerType === 'Hotel' && upload.tag === 'photo' && upload.ownerUuid === hotel.uuid,
+    uploads
+  );
+});
 
 /**
  * Get hotels rooms photos selector
@@ -442,9 +348,8 @@ export const getHotelsPhotos = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsRoomsPhotos = createSelector(
-  [getHotelRoom, getUploads],
-  (hotel, uploads) => pick(propOr([], 'uploads', hotel), uploads)
+export const getHotelsRoomsPhotos = createSelector([getHotelRoom, getUploads], (hotel, uploads) =>
+  pick(propOr([], 'uploads', hotel), uploads)
 );
 
 /**
@@ -454,9 +359,8 @@ export const getHotelsRoomsPhotos = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsBrochures = createSelector(
-  [getHotel, getUploads],
-  (hotel, uploads) => pick(propOr([], 'brochures', hotel), uploads)
+export const getHotelsBrochures = createSelector([getHotel, getUploads], (hotel, uploads) =>
+  pick(propOr([], 'brochures', hotel), uploads)
 );
 
 /**
@@ -466,9 +370,8 @@ export const getHotelsBrochures = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsGroundServiceProducts = createSelector(
-  [getHotel, getProducts],
-  (hotel, products) => pick(propOr([], 'groundServiceProducts', hotel), products)
+export const getHotelsGroundServiceProducts = createSelector([getHotel, getProducts], (hotel, products) =>
+  pick(propOr([], 'groundServiceProducts', hotel), products)
 );
 
 /**
@@ -478,9 +381,8 @@ export const getHotelsGroundServiceProducts = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsTransferProducts = createSelector(
-  [getHotel, getProducts],
-  (hotel, products) => pick(propOr([], 'transferProducts', hotel), products)
+export const getHotelsTransferProducts = createSelector([getHotel, getProducts], (hotel, products) =>
+  pick(propOr([], 'transferProducts', hotel), products)
 );
 
 /**
@@ -490,9 +392,8 @@ export const getHotelsTransferProducts = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsFineProducts = createSelector(
-  [getHotel, getProducts],
-  (hotel, products) => pick(propOr([], 'fineProducts', hotel), products)
+export const getHotelsFineProducts = createSelector([getHotel, getProducts], (hotel, products) =>
+  pick(propOr([], 'fineProducts', hotel), products)
 );
 
 /**
@@ -502,9 +403,8 @@ export const getHotelsFineProducts = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelsSupplementProducts = createSelector(
-  [getHotel, getProducts],
-  (hotel, products) => pick(propOr([], 'supplementProducts', hotel), products)
+export const getHotelsSupplementProducts = createSelector([getHotel, getProducts], (hotel, products) =>
+  pick(propOr([], 'supplementProducts', hotel), products)
 );
 
 /**
@@ -516,7 +416,4 @@ export const getHotelsSupplementProducts = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getHotelAddons = createSelector(
-  [getHotelsFineProducts, getHotelsSupplementProducts],
-  mergeDeepRight
-);
+export const getHotelAddons = createSelector([getHotelsFineProducts, getHotelsSupplementProducts], mergeDeepRight);

@@ -16,10 +16,7 @@ export const getPages = prop('pages');
  * @param {object}
  * @returns {*}
  */
-export const getPage = createSelector(
-  getPages,
-  prop('data')
-);
+export const getPage = createSelector(getPages, prop('data'));
 
 /**
  * Get page id selector
@@ -27,10 +24,7 @@ export const getPage = createSelector(
  * @param {object}
  * @returns {string}
  */
-export const getPageId = createSelector(
-  getPage,
-  prop('id')
-);
+export const getPageId = createSelector(getPage, prop('id'));
 
 /**
  * Get page title selector
@@ -38,10 +32,7 @@ export const getPageId = createSelector(
  * @param {object}
  * @returns {string}
  */
-export const getPageTitle = createSelector(
-  getPage,
-  prop('title')
-);
+export const getPageTitle = createSelector(getPage, prop('title'));
 
 /**
  * Get page data selector
@@ -49,10 +40,7 @@ export const getPageTitle = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getPageData = createSelector(
-  getPage,
-  prop('data')
-);
+export const getPageData = createSelector(getPage, prop('data'));
 
 /**
  * Get page links selector
@@ -60,10 +48,7 @@ export const getPageData = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getPageLinks = createSelector(
-  getPage,
-  prop('links')
-);
+export const getPageLinks = createSelector(getPage, prop('links'));
 
 /**
  * Get page hero selector
@@ -71,7 +56,4 @@ export const getPageLinks = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getPageHero = createSelector(
-  getPage,
-  prop('hero')
-);
+export const getPageHero = createSelector(getPage, prop('hero'));

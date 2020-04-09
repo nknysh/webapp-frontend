@@ -86,7 +86,4 @@ export const AuthenticatedRoute = ({
 AuthenticatedRoute.propTypes = propTypes;
 AuthenticatedRoute.defaultProps = defaultProps;
 
-export default compose(
-  withAuthentication,
-  withRouter
-)(AuthenticatedRoute);
+export default compose(withAuthentication, withRouter)(AuthenticatedRoute);

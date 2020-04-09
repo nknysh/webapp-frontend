@@ -177,10 +177,7 @@ export const extractFieldDefaults = fieldConfigExtractor('default');
  * @param {string}
  * @returns {array}
  */
-export const getFormPath = pipe(
-  replace(']', ''),
-  split('[')
-);
+export const getFormPath = pipe(replace(']', ''), split('['));
 
 /**
  * Group fields by section
@@ -214,10 +211,7 @@ export const getFormPath = pipe(
  * @param {object}
  * @returns {object}
  */
-export const groupFieldsBySection = pipe(
-  values,
-  groupBy(propOr('', 'section'))
-);
+export const groupFieldsBySection = pipe(values, groupBy(propOr('', 'section')));
 
 /**
  * Group errors by room index
@@ -236,10 +230,7 @@ export const groupFieldsBySection = pipe(
  * @param {object}
  * @returns {object}
  */
-export const groupErrorsByRoomIndex = pipe(
-  groupBy(prop('accommodationProductRequestIndex')),
-  values
-);
+export const groupErrorsByRoomIndex = pipe(groupBy(prop('accommodationProductRequestIndex')), values);
 
 /**
  * Replace accommodation with room
@@ -251,11 +242,5 @@ export const groupErrorsByRoomIndex = pipe(
  * @return {array}
  */
 export const replaceAccommodationWithRoom = mapWithIndex((data, i) =>
-  map(
-    pipe(
-      prop('message'),
-      replace(/Accommodation #[0-9]/g, `${i18n.t('room')} ${inc(i)}`)
-    ),
-    data
-  )
+  map(pipe(prop('message'), replace(/Accommodation #[0-9]/g, `${i18n.t('room')} ${inc(i)}`)), data)
 );

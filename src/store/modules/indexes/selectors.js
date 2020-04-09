@@ -9,10 +9,7 @@ import { prop, pipe, curry, when, complement, isNil, invoker } from 'ramda';
  * @param {object}
  * @returns {object}
  */
-const loadIndex = pipe(
-  invoker(0, 'toJSON'),
-  lunr.Index.load
-);
+const loadIndex = pipe(invoker(0, 'toJSON'), lunr.Index.load);
 
 /**
  * Get indexes selector
@@ -28,10 +25,7 @@ export const getIndexes = prop('indexes');
  * @param {object}
  * @returns {string}
  */
-export const getIndexesStatus = pipe(
-  getIndexes,
-  prop('status')
-);
+export const getIndexesStatus = pipe(getIndexes, prop('status'));
 
 /**
  * Get indexes data selector
@@ -39,10 +33,7 @@ export const getIndexesStatus = pipe(
  * @param {object}
  * @returns {*}
  */
-export const getIndexesData = pipe(
-  getIndexes,
-  prop('data')
-);
+export const getIndexesData = pipe(getIndexes, prop('data'));
 
 /**
  * Get search indexes selector
@@ -50,10 +41,7 @@ export const getIndexesData = pipe(
  * @param {object}
  * @returns {object}
  */
-export const getSearchIndexes = pipe(
-  getIndexes,
-  prop('indexes')
-);
+export const getSearchIndexes = pipe(getIndexes, prop('indexes'));
 
 /**
  * Get index selector
@@ -63,11 +51,7 @@ export const getSearchIndexes = pipe(
  * @returns {object}
  */
 export const getIndex = curry((state, index) =>
-  pipe(
-    getSearchIndexes,
-    prop(index),
-    when(complement(isNil), loadIndex)
-  )(state)
+  pipe(getSearchIndexes, prop(index), when(complement(isNil), loadIndex))(state)
 );
 
 /**
@@ -77,9 +61,4 @@ export const getIndex = curry((state, index) =>
  * @param {string} index
  * @returns {object}
  */
-export const getIndexResults = curry((state, index) =>
-  pipe(
-    getIndexesData,
-    prop(index)
-  )(state)
-);
+export const getIndexResults = curry((state, index) => pipe(getIndexesData, prop(index))(state));

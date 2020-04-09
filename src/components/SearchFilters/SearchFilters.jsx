@@ -98,55 +98,32 @@ export const SearchFilters = ({ onChange, onReset, searchQuery, starRatings, reg
   }, [minPrice, maxPrice, setPriceRangeError, setPriceRangeToSearchQuery, t]);
 
   const setRegionsTypeToSearchQuery = useCallback(
-    pipe(
-      path(['currentTarget', 'value']),
-      updateSearchQuery(filtersRegionTypeLens),
-      onChange
-    ),
+    pipe(path(['currentTarget', 'value']), updateSearchQuery(filtersRegionTypeLens), onChange),
     [updateSearchQuery, onChange]
   );
 
   const setRegionsSelectedToSearchQuery = useCallback(
-    pipe(
-      merge(getSearchQueryData(filtersRegionSelectedLens)),
-      updateSearchQuery(filtersRegionSelectedLens),
-      onChange
-    ),
+    pipe(merge(getSearchQueryData(filtersRegionSelectedLens)), updateSearchQuery(filtersRegionSelectedLens), onChange),
     [updateSearchQuery, onChange]
   );
 
-  const setPriceRangeToSearchQuery = useCallback(
-    pipe(
-      updateSearchQuery(filtersPricesLens),
-      onChange
-    ),
-    [updateSearchQuery, onChange]
-  );
+  const setPriceRangeToSearchQuery = useCallback(pipe(updateSearchQuery(filtersPricesLens), onChange), [
+    updateSearchQuery,
+    onChange,
+  ]);
 
   const setStarRatingsToSearchQuery = useCallback(
-    pipe(
-      merge(getSearchQueryData(filtersStarRatingsLens)),
-      updateSearchQuery(filtersStarRatingsLens),
-      onChange
-    ),
+    pipe(merge(getSearchQueryData(filtersStarRatingsLens)), updateSearchQuery(filtersStarRatingsLens), onChange),
     [updateSearchQuery, onChange]
   );
 
   const setFeaturesToSearchQuery = useCallback(
-    pipe(
-      merge(getSearchQueryData(filtersFeaturesLens)),
-      updateSearchQuery(filtersFeaturesLens),
-      onChange
-    ),
+    pipe(merge(getSearchQueryData(filtersFeaturesLens)), updateSearchQuery(filtersFeaturesLens), onChange),
     [updateSearchQuery, onChange]
   );
 
   const setMealPlanToSearchQuery = useCallback(
-    pipe(
-      path(['currentTarget', 'value']),
-      updateSearchQuery(filtersMealPlanLens),
-      onChange
-    ),
+    pipe(path(['currentTarget', 'value']), updateSearchQuery(filtersMealPlanLens), onChange),
     [updateSearchQuery, onChange]
   );
 

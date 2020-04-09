@@ -11,10 +11,7 @@ const reduceMinMax = (accum, { name, maximum, minimum }) => ({
   [equals('default', name) ? 'adult' : name]: { max: maximum, min: minimum },
 });
 
-const minMax = pipe(
-  getLimits,
-  reduce(reduceMinMax, {})
-);
+const minMax = pipe(getLimits, reduce(reduceMinMax, {}));
 
 export default product => () => {
   const ageMinMax = minMax(product);

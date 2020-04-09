@@ -29,7 +29,4 @@ export const buildQueryString = search => qs.stringify(search);
  * @param {object}
  * @returns {*}
  */
-export const getQuery = pipe(
-  propOr('', 'search'),
-  parseQueryString
-);
+export const getQuery = pipe(propOr('', 'search'), parseQueryString);

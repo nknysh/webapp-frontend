@@ -37,12 +37,11 @@ export const inputStyles = css`
   padding: ${theme.spacing.gutter}px;
 
   ${({ disabled }) =>
-    disabled &&
-    css`
-      background: ${theme.backgrounds.light};
-    `}
-
-  ::placeholder {
+      disabled &&
+      css`
+        background: ${theme.backgrounds.light};
+      `}
+    ::placeholder {
     color: ${theme.colors.gray};
   }
 `;

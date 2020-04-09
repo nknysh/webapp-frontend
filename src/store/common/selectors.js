@@ -30,10 +30,7 @@ export const getErrors = prop('error');
  * @param {object}
  * @returns {object}
  */
-export const getEntities = pipe(
-  getData,
-  prop('entities')
-);
+export const getEntities = pipe(getData, prop('entities'));
 
 /**
  * Get results
@@ -41,10 +38,7 @@ export const getEntities = pipe(
  * @param {object}
  * @returns {object | string | array}
  */
-export const getResults = pipe(
-  getData,
-  prop('result')
-);
+export const getResults = pipe(getData, prop('result'));
 
 /**
  * Get arg

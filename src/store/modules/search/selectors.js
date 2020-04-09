@@ -88,13 +88,8 @@ export const getSearch = prop('search');
  * @param {object}
  * @returns {string}
  */
-export const getSearchStatus = createSelector(
-  [getSearch, getArg(1)],
-  (search, type) =>
-    pipe(
-      getStatus,
-      prop(type)
-    )(search)
+export const getSearchStatus = createSelector([getSearch, getArg(1)], (search, type) =>
+  pipe(getStatus, prop(type))(search)
 );
 
 /**
@@ -103,10 +98,7 @@ export const getSearchStatus = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getSearchData = pipe(
-  getSearch,
-  getData
-);
+export const getSearchData = pipe(getSearch, getData);
 
 /**
  * Get search results selector
@@ -114,12 +106,7 @@ export const getSearchData = pipe(
  * @param {object}
  * @returns {object}
  */
-export const getSearchResults = curry((state, type) =>
-  pipe(
-    getSearchData,
-    propOr({}, type)
-  )(state)
-);
+export const getSearchResults = curry((state, type) => pipe(getSearchData, propOr({}, type))(state));
 
 /**
  * Get search results meta selector
@@ -127,10 +114,7 @@ export const getSearchResults = curry((state, type) =>
  * @param {object}
  * @returns {object}
  */
-export const getSearchResultsMeta = pipe(
-  getSearchResults,
-  prop('meta')
-);
+export const getSearchResultsMeta = pipe(getSearchResults, prop('meta'));
 
 /**
  * Get search results meta selector
@@ -138,10 +122,7 @@ export const getSearchResultsMeta = pipe(
  * @param {object}
  * @returns {Array}
  */
-export const getSearchResultsResult = pipe(
-  getSearchResults,
-  prop('result')
-);
+export const getSearchResultsResult = pipe(getSearchResults, prop('result'));
 
 /**
  * Get search query selector
@@ -149,10 +130,7 @@ export const getSearchResultsResult = pipe(
  * @param {object}
  * @returns {object}
  */
-export const getSearchQuery = pipe(
-  getSearch,
-  propOr({}, 'query')
-);
+export const getSearchQuery = pipe(getSearch, propOr({}, 'query'));
 
 /**
  * Get base search query selector
@@ -160,10 +138,7 @@ export const getSearchQuery = pipe(
  * @param {object}
  * @returns {object}
  */
-export const getBaseSearchQuery = pipe(
-  getSearchQuery,
-  pick(['dates', 'lodging', 'repeatGuest', 'destination'])
-);
+export const getBaseSearchQuery = pipe(getSearchQuery, pick(['dates', 'lodging', 'repeatGuest', 'destination']));
 
 /**
  * Get search value selector
@@ -171,10 +146,7 @@ export const getBaseSearchQuery = pipe(
  * @param {object}
  * @returns {string}
  */
-export const getSearchValue = pipe(
-  getSearchQuery,
-  path(['search', 'value'])
-);
+export const getSearchValue = pipe(getSearchQuery, path(['search', 'value']));
 
 /**
  * Get search dates selector
@@ -184,11 +156,7 @@ export const getSearchValue = pipe(
  */
 export const getSearchDates = createSelector(
   getSearchQuery,
-  pipe(
-    prop('dates'),
-    renameKeys({ from: 'startDate', to: 'endDate' }),
-    evolve(searchDatesTransformations)
-  )
+  pipe(prop('dates'), renameKeys({ from: 'startDate', to: 'endDate' }), evolve(searchDatesTransformations))
 );
 
 /**
@@ -197,10 +165,7 @@ export const getSearchDates = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getSearchLodgings = createSelector(
-  getSearchQuery,
-  prop('lodging')
-);
+export const getSearchLodgings = createSelector(getSearchQuery, prop('lodging'));
 
 /**
  * Get search meal plan selector
@@ -208,10 +173,7 @@ export const getSearchLodgings = createSelector(
  * @param {object}
  * @returns {object}
  */
-export const getSearchMealPlan = createSelector(
-  getSearchQuery,
-  path(['filters', 'mealPlan'])
-);
+export const getSearchMealPlan = createSelector(getSearchQuery, path(['filters', 'mealPlan']));
 
 /**
  * Get search filters regions selector
@@ -219,10 +181,7 @@ export const getSearchMealPlan = createSelector(
  * @param {object}
  * @returns {Array}
  */
-export const getSearchFiltersRegions = createSelector(
-  getSearchResultsMeta,
-  pathOr([], ['filters', 'regions'])
-);
+export const getSearchFiltersRegions = createSelector(getSearchResultsMeta, pathOr([], ['filters', 'regions']));
 
 /**
  * Get search filters star ratings selector
@@ -230,10 +189,7 @@ export const getSearchFiltersRegions = createSelector(
  * @param {object}
  * @returns {Array}
  */
-export const getSearchFiltersStarRatings = createSelector(
-  getSearchResultsMeta,
-  pathOr([], ['filters', 'starRatings'])
-);
+export const getSearchFiltersStarRatings = createSelector(getSearchResultsMeta, pathOr([], ['filters', 'starRatings']));
 
 /**
  * Get search filters features selector
@@ -241,10 +197,7 @@ export const getSearchFiltersStarRatings = createSelector(
  * @param {object}
  * @returns {Array}
  */
-export const getSearchFiltersFeatures = createSelector(
-  getSearchResultsMeta,
-  pathOr([], ['filters', 'amenities'])
-);
+export const getSearchFiltersFeatures = createSelector(getSearchResultsMeta, pathOr([], ['filters', 'amenities']));
 
 /**
  * Get search filters prices selector
@@ -252,10 +205,7 @@ export const getSearchFiltersFeatures = createSelector(
  * @param {object}
  * @returns {Array}
  */
-export const getSearchFiltersPrices = createSelector(
-  getSearchResultsMeta,
-  pathOr([], ['filters', 'prices'])
-);
+export const getSearchFiltersPrices = createSelector(getSearchResultsMeta, pathOr([], ['filters', 'prices']));
 
 /**
  * Get search occassions selector
@@ -263,10 +213,7 @@ export const getSearchFiltersPrices = createSelector(
  * @param {object}
  * @returns {Array}
  */
-export const getSearchOccassions = createSelector(
-  getSearchResultsMeta,
-  propOr(values(Occassions), 'occasions')
-);
+export const getSearchOccassions = createSelector(getSearchResultsMeta, propOr(values(Occassions), 'occasions'));
 
 /**
  * Get can search selector
@@ -274,108 +221,66 @@ export const getSearchOccassions = createSelector(
  * @param {object}
  * @returns {boolean}
  */
-export const getCanSearch = createSelector(
-  getSearchQuery,
-  ({ dates, lodging }) => {
-    const datesExist = hasDates(dates);
-    const lodgingsExist = hasLodgings(lodging);
-    return and(datesExist, lodgingsExist);
-  }
-);
+export const getCanSearch = createSelector(getSearchQuery, ({ dates, lodging }) => {
+  const datesExist = hasDates(dates);
+  const lodgingsExist = hasLodgings(lodging);
+  return and(datesExist, lodgingsExist);
+});
 
 // We can't use the above selector because it's being used to infer wether
 // the user needs to provide more info in SearchResults.jsx
-export const filtersSelector = createSelector(
-  getSearchQuery,
-  query => propOr({}, 'filters', query)
-);
+export const filtersSelector = createSelector(getSearchQuery, query => propOr({}, 'filters', query));
 
-export const priceRangeSelector = createSelector(
-  filtersSelector,
-  filters => {
-    // Remove undefined values
-    return propOr([], 'prices', filters);
+export const priceRangeSelector = createSelector(filtersSelector, filters => {
+  // Remove undefined values
+  return propOr([], 'prices', filters);
+});
+
+export const isSearchQueryValidSelector = createSelector(priceRangeSelector, getCanSearch, (range, canSearch) => {
+  let validRange = false;
+
+  if (!range.length) {
+    validRange = true;
   }
-);
 
-export const isSearchQueryValidSelector = createSelector(
-  priceRangeSelector,
-  getCanSearch,
-  (range, canSearch) => {
-    let validRange = false;
-
-    if (!range.length) {
-      validRange = true;
-    }
-
-    if (range.length === 2) {
-      const sanitized = range.map((v, i) => {
-        switch (i) {
-          case 0:
-            return v === '' || v === undefined ? 0 : v;
-          case 1:
-            return v === '' || v === undefined ? Infinity : v;
-          default:
-            return v;
-        }
-      });
-      validRange = sanitized[0] < sanitized[1];
-    }
-
-    return canSearch && validRange;
+  if (range.length === 2) {
+    const sanitized = range.map((v, i) => {
+      switch (i) {
+        case 0:
+          return v === '' || v === undefined ? 0 : v;
+        case 1:
+          return v === '' || v === undefined ? Infinity : v;
+        default:
+          return v;
+      }
+    });
+    validRange = sanitized[0] < sanitized[1];
   }
-);
 
-export const getMappedSearchResults = createSelector(
-  [getArg(0), getSearchResultsResult],
-  (state, results) =>
-    evolve({
-      countries: pipe(
-        map(partial(getCountry, [state])),
-        reject(isNilOrEmpty)
-      ),
-      hotels: pipe(
-        map(partial(getHotel, [state])),
-        reject(isNilOrEmpty)
-      ),
-    })(results)
+  return canSearch && validRange;
+});
+
+export const getMappedSearchResults = createSelector([getArg(0), getSearchResultsResult], (state, results) =>
+  evolve({
+    countries: pipe(map(partial(getCountry, [state])), reject(isNilOrEmpty)),
+    hotels: pipe(map(partial(getHotel, [state])), reject(isNilOrEmpty)),
+  })(results)
 );
 
 // Proper selectors
 
 const searchDomain = state => state.search;
 
-export const optionsPendingSelector = createSelector(
-  searchDomain,
-  search => search.optionsPending
-);
+export const optionsPendingSelector = createSelector(searchDomain, search => search.optionsPending);
 
-export const optionsErrorSelector = createSelector(
-  searchDomain,
-  search => search.optionsError
-);
+export const optionsErrorSelector = createSelector(searchDomain, search => search.optionsError);
 
-export const hasOptionsErrorSelector = createSelector(
-  optionsErrorSelector,
-  Boolean
-);
+export const hasOptionsErrorSelector = createSelector(optionsErrorSelector, Boolean);
 
-export const optionsSelector = createSelector(
-  searchDomain,
-  search => search.options
-);
+export const optionsSelector = createSelector(searchDomain, search => search.options);
 
-export const searchFiltersSelector = createSelector(
-  optionsSelector,
-  propOr([], 'filters')
-);
+export const searchFiltersSelector = createSelector(optionsSelector, propOr([], 'filters'));
 
-export const searchRegionsSelector = createSelector(
-  optionsSelector,
-  propOr([], 'regions')
-);
+export const searchRegionsSelector = createSelector(optionsSelector, propOr([], 'regions'));
 
-export const searchStarRatingsSelector = createSelector(
-  optionsSelector,
-  propOr([], 'starRatings')
-);
+export const searchStarRatingsSelector = createSelector(optionsSelector, propOr([], 'starRatings'));

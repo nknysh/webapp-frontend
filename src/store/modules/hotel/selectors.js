@@ -14,10 +14,7 @@ export const getHotel = prop('hotel');
  * @param {object}
  * @returns {string}
  */
-export const getHotelStatus = pipe(
-  getHotel,
-  prop('status')
-);
+export const getHotelStatus = pipe(getHotel, prop('status'));
 
 /**
  * Get hotel id selector
@@ -25,7 +22,4 @@ export const getHotelStatus = pipe(
  * @param {object}
  * @returns {string}
  */
-export const getHotelId = pipe(
-  getHotel,
-  path(['data', 'result'])
-);
+export const getHotelId = pipe(getHotel, path(['data', 'result']));

@@ -9,13 +9,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchBookings: pipe(
-    fetchBookings,
-    dispatch
-  ),
+  fetchBookings: pipe(fetchBookings, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

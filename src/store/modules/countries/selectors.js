@@ -17,10 +17,7 @@ export const getCountries = prop('countries');
  * @param {object}
  * @returns {string}
  */
-export const getCountriesStatus = createSelector(
-  getCountries,
-  getStatus
-);
+export const getCountriesStatus = createSelector(getCountries, getStatus);
 
 /**
  * Get countries data selector
@@ -28,10 +25,7 @@ export const getCountriesStatus = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getCountriesData = createSelector(
-  getCountries,
-  getData
-);
+export const getCountriesData = createSelector(getCountries, getData);
 
 /**
  * Get countries entities selector
@@ -39,13 +33,7 @@ export const getCountriesData = createSelector(
  * @param {object}
  * @returns {object}
  */
-export const getCountriesEntities = createSelector(
-  getCountries,
-  pipe(
-    getEntities,
-    prop('countries')
-  )
-);
+export const getCountriesEntities = createSelector(getCountries, pipe(getEntities, prop('countries')));
 
 /**
  * Get countries results selector
@@ -53,10 +41,7 @@ export const getCountriesEntities = createSelector(
  * @param {object}
  * @returns {Array | string}
  */
-export const getCountriesResults = createSelector(
-  getCountries,
-  getResults
-);
+export const getCountriesResults = createSelector(getCountries, getResults);
 
 /**
  * Get country selector
@@ -65,10 +50,7 @@ export const getCountriesResults = createSelector(
  * @param {string}
  * @returns {object}
  */
-export const getCountry = createSelector(
-  [getArg(1), getCountriesEntities],
-  prop
-);
+export const getCountry = createSelector([getArg(1), getCountriesEntities], prop);
 
 /**
  * Get country name selector
@@ -77,10 +59,7 @@ export const getCountry = createSelector(
  * @param {string}
  * @returns {string}
  */
-export const getCountryName = createSelector(
-  getCountry,
-  prop('name')
-);
+export const getCountryName = createSelector(getCountry, prop('name'));
 
 /**
  * Get countries names as key value selector

@@ -179,10 +179,7 @@ export const getPayloadFromSearchQuery = (query, actingCountryCode, repeatGuest,
 
 export const subDaysFromPayload = over(
   lensPath(['dates', 'endDate']),
-  pipe(
-    input => new Date(input),
-    partialRight(subDays, [1])
-  )
+  pipe(input => new Date(input), partialRight(subDays, [1]))
 );
 
 /**

@@ -37,37 +37,13 @@ export const mapStateToProps = (state, { id, roomId }) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  updateBooking: pipe(
-    updateBooking,
-    dispatch
-  ),
-  updateRoom: pipe(
-    updateRoom,
-    dispatch
-  ),
-  updateIndividualRoom: pipe(
-    updateIndividualRoom,
-    dispatch
-  ),
-  updateAccommodationProductGuestAgeSets: pipe(
-    updateAccommodationProductGuestAgeSets,
-    dispatch
-  ),
-  addRoom: pipe(
-    addRoom,
-    dispatch
-  ),
-  removeRoom: pipe(
-    removeRoom,
-    dispatch
-  ),
-  getRatesForDates: pipe(
-    fetchHotelRoomRatesByDates,
-    dispatch
-  ),
+  updateBooking: pipe(updateBooking, dispatch),
+  updateRoom: pipe(updateRoom, dispatch),
+  updateIndividualRoom: pipe(updateIndividualRoom, dispatch),
+  updateAccommodationProductGuestAgeSets: pipe(updateAccommodationProductGuestAgeSets, dispatch),
+  addRoom: pipe(addRoom, dispatch),
+  removeRoom: pipe(removeRoom, dispatch),
+  getRatesForDates: pipe(fetchHotelRoomRatesByDates, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

@@ -17,10 +17,7 @@ export const getProposals = prop('proposals');
  * @param {object}
  * @returns {string}
  */
-export const getProposalsStatus = pipe(
-  getProposals,
-  getStatus
-);
+export const getProposalsStatus = pipe(getProposals, getStatus);
 
 /**
  * Get proposals data selector
@@ -28,10 +25,7 @@ export const getProposalsStatus = pipe(
  * @param {object}
  * @returns {*}
  */
-export const getProposalsData = pipe(
-  getProposals,
-  getData
-);
+export const getProposalsData = pipe(getProposals, getData);
 
 /**
  * Get proposals errors selector
@@ -39,10 +33,7 @@ export const getProposalsData = pipe(
  * @param {object}
  * @returns {Array}
  */
-export const getProposalsErrors = pipe(
-  getProposals,
-  getErrors
-);
+export const getProposalsErrors = pipe(getProposals, getErrors);
 
 /**
  * Get proposals entities selector
@@ -50,11 +41,7 @@ export const getProposalsErrors = pipe(
  * @param {object}
  * @returns {object}
  */
-export const getProposalsEntities = pipe(
-  getProposals,
-  getEntities,
-  prop('proposals')
-);
+export const getProposalsEntities = pipe(getProposals, getEntities, prop('proposals'));
 
 /**
  * Get proposals results selector
@@ -62,15 +49,9 @@ export const getProposalsEntities = pipe(
  * @param {object}
  * @returns {string | Array}
  */
-export const getProposalsResults = createSelector(
-  getProposals,
-  getResults
-);
+export const getProposalsResults = createSelector(getProposals, getResults);
 
-export const getProposal = createSelector(
-  [getArg(1), getProposalsEntities],
-  prop
-);
+export const getProposal = createSelector([getArg(1), getProposalsEntities], prop);
 
 /**
  * Get proposal bookings selector
@@ -79,10 +60,7 @@ export const getProposal = createSelector(
  * @param {string}
  * @returns {Array}
  */
-export const getProposalBookings = createSelector(
-  getProposal,
-  propOr([], 'bookings')
-);
+export const getProposalBookings = createSelector(getProposal, propOr([], 'bookings'));
 
 /**
  * Get proposal key value selector
@@ -98,7 +76,4 @@ export const getProposalsKeyValue = createSelector(
     reduce((accum, { uuid, name }) => mergeDeepRight(accum, { [uuid]: name }), {})
   )
 );
-export const getProposalPdf = pipe(
-  getProposals,
-  propOr(null, 'proposalPdf')
-);
+export const getProposalPdf = pipe(getProposals, propOr(null, 'proposalPdf'));

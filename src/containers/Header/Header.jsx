@@ -30,11 +30,7 @@ import {
 const createLinkLens = lensProp('createAccount');
 const loginLinkLens = lensProp(contextTypes.LOGIN);
 
-const originRedirect = pipe(
-  parseQueryString,
-  propOr('', 'origin'),
-  decodeURIComponent
-);
+const originRedirect = pipe(parseQueryString, propOr('', 'origin'), decodeURIComponent);
 
 export const Header = ({
   menu,
@@ -149,8 +145,4 @@ export const Header = ({
 Header.propTypes = propTypes;
 Header.defaultProps = defaultProps;
 
-export default compose(
-  withAuthentication,
-  withRouter,
-  connect
-)(Header);
+export default compose(withAuthentication, withRouter, connect)(Header);

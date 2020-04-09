@@ -12,13 +12,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  getPage: pipe(
-    getPageById,
-    dispatch
-  ),
+  getPage: pipe(getPageById, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

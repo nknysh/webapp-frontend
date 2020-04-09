@@ -3,14 +3,7 @@ import { prop, lte, defaultTo, toString, split, propOr, length, pipe, __ } from 
 
 import errors from './errors';
 
-const decimalTest = pipe(
-  defaultTo(''),
-  toString,
-  split('.'),
-  propOr('', 1),
-  length,
-  lte(__, 2)
-);
+const decimalTest = pipe(defaultTo(''), toString, split('.'), propOr('', 1), length, lte(__, 2));
 
 export default {
   number: (min = 0, max = 999999) =>

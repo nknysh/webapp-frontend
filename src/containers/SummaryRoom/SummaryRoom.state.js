@@ -33,13 +33,7 @@ export const mapStateToProps = (state, { id, roomId }) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  removeRoom: pipe(
-    removeRoom,
-    dispatch
-  ),
+  removeRoom: pipe(removeRoom, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

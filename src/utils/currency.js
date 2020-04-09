@@ -20,7 +20,4 @@ export const getCurrency = prop(__, currencies);
  * @param {string}
  * @returns {string}
  */
-export const getCurrencySymbol = pipe(
-  getCurrency,
-  prop('symbol')
-);
+export const getCurrencySymbol = pipe(getCurrency, prop('symbol'));

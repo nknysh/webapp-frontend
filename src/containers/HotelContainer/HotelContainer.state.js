@@ -41,45 +41,15 @@ export const mapStateToProps = (state, { id }) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchHotel: pipe(
-    fetchHotel,
-    dispatch
-  ),
-  addRoom: pipe(
-    addRoom,
-    dispatch
-  ),
-  removeRoom: pipe(
-    removeRoom,
-    dispatch
-  ),
-  updateBooking: pipe(
-    updateBooking,
-    dispatch
-  ),
-  initializeBooking: pipe(
-    initializeBookingBuilderAction,
-    dispatch
-  ),
-  addToProposal: pipe(
-    addToProposal,
-    dispatch
-  ),
-  createNewProposal: pipe(
-    createNewProposal,
-    dispatch
-  ),
-  fetchProposals: pipe(
-    fetchProposals,
-    dispatch
-  ),
-  resetBookingBuilderUiState: pipe(
-    resetBookingBuilderUiStateAction,
-    dispatch
-  ),
+  fetchHotel: pipe(fetchHotel, dispatch),
+  addRoom: pipe(addRoom, dispatch),
+  removeRoom: pipe(removeRoom, dispatch),
+  updateBooking: pipe(updateBooking, dispatch),
+  initializeBooking: pipe(initializeBookingBuilderAction, dispatch),
+  addToProposal: pipe(addToProposal, dispatch),
+  createNewProposal: pipe(createNewProposal, dispatch),
+  fetchProposals: pipe(fetchProposals, dispatch),
+  resetBookingBuilderUiState: pipe(resetBookingBuilderUiStateAction, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

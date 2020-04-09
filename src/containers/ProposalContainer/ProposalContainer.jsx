@@ -59,10 +59,7 @@ const ViewTypes = {
   RESORTS: 'resorts',
 };
 
-const reloadIfMissing = pipe(
-  propOr([], 'bookings'),
-  isEmpty
-);
+const reloadIfMissing = pipe(propOr([], 'bookings'), isEmpty);
 
 const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 
@@ -439,7 +436,4 @@ export const ProposalContainer = ({
 ProposalContainer.propTypes = propTypes;
 ProposalContainer.defaultProps = defaultProps;
 
-export default compose(
-  connect,
-  WithBookings
-)(ProposalContainer);
+export default compose(connect, WithBookings)(ProposalContainer);

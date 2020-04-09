@@ -76,10 +76,7 @@ export const clearNotification = (state, { payload }) => {
    * @param {object}
    * @returns {boolean}
    */
-  const notKey = pipe(
-    prop('key'),
-    complement(equals(__, payload))
-  );
+  const notKey = pipe(prop('key'), complement(equals(__, payload)));
 
   /**
    * Filter notification key
@@ -87,10 +84,7 @@ export const clearNotification = (state, { payload }) => {
    * @param {object}
    * @returns {object}
    */
-  const filterNotificationKey = pipe(
-    filter(notKey),
-    objOf('notifications')
-  );
+  const filterNotificationKey = pipe(filter(notKey), objOf('notifications'));
 
   return mergeDeepRight(state, filterNotificationKey(notifications));
 };

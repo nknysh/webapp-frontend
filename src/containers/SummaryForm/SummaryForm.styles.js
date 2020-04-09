@@ -86,12 +86,12 @@ export const Saving = styled.span`
 
 export const Rooms = styled.div`
   ${({ ['data-summary']: summaryOnly, ['data-compact']: compact }) =>
-    !summaryOnly &&
-    !compact &&
-    css`
-      margin-bottom: ${theme.spacing.gutter * 4}px;
-    `}
-  :not(:empty) {
+      !summaryOnly &&
+      !compact &&
+      css`
+        margin-bottom: ${theme.spacing.gutter * 4}px;
+      `}
+    :not(:empty) {
     padding: ${theme.spacing.gutter * 2}px 0;
   }
 `;

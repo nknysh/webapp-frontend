@@ -31,21 +31,9 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  addRoom: pipe(
-    addLodgingAction,
-    dispatch
-  ),
-  updateBooking: pipe(
-    updateBooking,
-    dispatch
-  ),
-  fetchCurrentHotelAccommodationProductDisplays: pipe(
-    fetchCurrentHotelAccommodationProductDisplays,
-    dispatch
-  ),
+  addRoom: pipe(addLodgingAction, dispatch),
+  updateBooking: pipe(updateBooking, dispatch),
+  fetchCurrentHotelAccommodationProductDisplays: pipe(fetchCurrentHotelAccommodationProductDisplays, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

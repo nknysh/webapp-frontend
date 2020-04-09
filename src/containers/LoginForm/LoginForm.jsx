@@ -120,8 +120,4 @@ export const LoginForm = ({ requestStatus, onLogin, onAuth0Callback, error, onCo
 LoginForm.propTypes = propTypes;
 LoginForm.defaultProps = defaultProps;
 
-export default compose(
-  withAuthentication,
-  withRouter,
-  connect
-)(LoginForm);
+export default compose(withAuthentication, withRouter, connect)(LoginForm);

@@ -14,13 +14,7 @@ import { StyledLatestOffers, Title, Offers } from './LatestOffers.styles';
 
 const renderOffer = (offer, i) => <Offer key={i} id={offer} />;
 
-const renderOffers = when(
-  complement(isNil),
-  pipe(
-    mapWithIndex(renderOffer),
-    values
-  )
-);
+const renderOffers = when(complement(isNil), pipe(mapWithIndex(renderOffer), values));
 
 const renderOfferContainer = ({ offers, isMobile }) =>
   !isMobile ? <Offers>{renderOffers(offers)}</Offers> : <Slider>{renderOffers(offers)}</Slider>;
@@ -42,7 +36,4 @@ export const LatestOffers = ({ fetchLatestOffers, offers, offersStatus }) => {
 LatestOffers.propTypes = propTypes;
 LatestOffers.defaultProps = defaultProps;
 
-export default compose(
-  connect,
-  memo
-)(LatestOffers);
+export default compose(connect, memo)(LatestOffers);

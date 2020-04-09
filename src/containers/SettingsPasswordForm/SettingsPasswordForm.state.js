@@ -11,17 +11,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchMe: pipe(
-    authCheck,
-    dispatch
-  ),
-  updatePassword: pipe(
-    updatePassword,
-    dispatch
-  ),
+  fetchMe: pipe(authCheck, dispatch),
+  updatePassword: pipe(updatePassword, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

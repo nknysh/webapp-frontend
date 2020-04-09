@@ -64,10 +64,7 @@ const renderSupplement = (t, { currencyCode }, { product, title, total, quantity
 );
 
 const renderSupplements = (t, props, supplements) =>
-  pipe(
-    map(partial(renderSupplement, [t, props])),
-    flatten
-  )(supplements);
+  pipe(map(partial(renderSupplement, [t, props])), flatten)(supplements);
 
 const renderMealPlan = (t, { title, quantity }, i) => (
   <RoomRow key={i}>
@@ -75,18 +72,10 @@ const renderMealPlan = (t, { title, quantity }, i) => (
   </RoomRow>
 );
 
-const renderMealPlans = (t, mealPlans) =>
-  pipe(
-    mapWithIndex(partial(renderMealPlan, [t])),
-    flatten
-  )(mealPlans);
+const renderMealPlans = (t, mealPlans) => pipe(mapWithIndex(partial(renderMealPlan, [t])), flatten)(mealPlans);
 
 const renderError = (message, i) => <Error key={i}>{message}</Error>;
-const renderErrors = pipe(
-  groupErrorsByRoomIndex,
-  replaceAccommodationWithRoom,
-  map(mapWithIndex(renderError))
-);
+const renderErrors = pipe(groupErrorsByRoomIndex, replaceAccommodationWithRoom, map(mapWithIndex(renderError)));
 
 const renderHold = (t, hold, i) => (
   <HoldCountdown key={i} label={t('labels.expiresIn')} date={propOr(Date.now(), 'expires', hold)}>

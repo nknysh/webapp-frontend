@@ -51,7 +51,4 @@ export const Layout = ({ user, children, location: { pathname } }) => {
 
 Layout.propTypes = propTypes;
 
-export default compose(
-  withRouter,
-  withUser
-)(Layout);
+export default compose(withRouter, withUser)(Layout);

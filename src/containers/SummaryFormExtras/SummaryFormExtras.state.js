@@ -101,54 +101,18 @@ export const mapStateToProps = (state, { id }) => {
 };
 
 export const mapDispatchToProps = dispatch => ({
-  updateBooking: pipe(
-    updateBooking,
-    dispatch
-  ),
-  replaceProducts: pipe(
-    replaceProducts,
-    dispatch
-  ),
-  fetchTravelAgents: pipe(
-    fetchTravelAgents,
-    dispatch
-  ),
-  setIsBookingSummarySectionCollapsed: pipe(
-    setIsBookingSummarySectionCollapsed,
-    dispatch
-  ),
-  updateTransferAction: pipe(
-    updateTransferAction,
-    dispatch
-  ),
-  updateGroundServiceAction: pipe(
-    updateGroundServiceAction,
-    dispatch
-  ),
-  updateSupplementAction: pipe(
-    updateSupplementAction,
-    dispatch
-  ),
-  updateFineAction: pipe(
-    updateFineAction,
-    dispatch
-  ),
-  updateTAMarginTypeAction: pipe(
-    updateTAMarginTypeAction,
-    dispatch
-  ),
-  updateTAMarginAmountAction: pipe(
-    updateTAMarginAmountAction,
-    dispatch
-  ),
-  updateIsTAMarginAppliedAction: pipe(
-    updateIsTAMarginAppliedAction,
-    dispatch
-  ),
-  updateBookingTravelAgentUserIdAction: pipe(
-    updateBookingTravelAgentUserIdAction,
-    dispatch
-  ),
+  updateBooking: pipe(updateBooking, dispatch),
+  replaceProducts: pipe(replaceProducts, dispatch),
+  fetchTravelAgents: pipe(fetchTravelAgents, dispatch),
+  setIsBookingSummarySectionCollapsed: pipe(setIsBookingSummarySectionCollapsed, dispatch),
+  updateTransferAction: pipe(updateTransferAction, dispatch),
+  updateGroundServiceAction: pipe(updateGroundServiceAction, dispatch),
+  updateSupplementAction: pipe(updateSupplementAction, dispatch),
+  updateFineAction: pipe(updateFineAction, dispatch),
+  updateTAMarginTypeAction: pipe(updateTAMarginTypeAction, dispatch),
+  updateTAMarginAmountAction: pipe(updateTAMarginAmountAction, dispatch),
+  updateIsTAMarginAppliedAction: pipe(updateIsTAMarginAppliedAction, dispatch),
+  updateBookingTravelAgentUserIdAction: pipe(updateBookingTravelAgentUserIdAction, dispatch),
   customItemActions: [
     ['showForm', showCustomItemFormAction],
     ['hideForm', hideCustomItemFormAction],
@@ -162,16 +126,10 @@ export const mapDispatchToProps = dispatch => ({
   ].reduce(
     (acc, [key, action]) => ({
       ...acc,
-      [key]: pipe(
-        action,
-        dispatch
-      ),
+      [key]: pipe(action, dispatch),
     }),
     {}
   ),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

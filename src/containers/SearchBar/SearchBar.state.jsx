@@ -17,21 +17,9 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  setSearchQuery: pipe(
-    setSearchQuery,
-    dispatch
-  ),
-  resetSearchQuery: pipe(
-    resetSearchQuery,
-    dispatch
-  ),
-  searchByName: pipe(
-    searchByName,
-    dispatch
-  ),
+  setSearchQuery: pipe(setSearchQuery, dispatch),
+  resetSearchQuery: pipe(resetSearchQuery, dispatch),
+  searchByName: pipe(searchByName, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

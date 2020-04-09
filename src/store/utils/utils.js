@@ -80,10 +80,7 @@ export const getErrorActionName = buildActionName(Status.ERROR);
  * @param {object}
  * @returns {object}
  */
-export const reducerShim = pipe(
-  identity,
-  defaultTo({})
-);
+export const reducerShim = pipe(identity, defaultTo({}));
 
 export const getDefaultSearchAndBookingStartDate = () => {
   return addDays(new Date(), 7)

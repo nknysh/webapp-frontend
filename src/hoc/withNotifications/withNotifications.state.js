@@ -8,17 +8,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  enqueueNotification: pipe(
-    enqueueNotification,
-    dispatch
-  ),
-  removeNotification: pipe(
-    removeNotification,
-    dispatch
-  ),
+  enqueueNotification: pipe(enqueueNotification, dispatch),
+  removeNotification: pipe(removeNotification, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

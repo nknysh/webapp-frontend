@@ -36,10 +36,4 @@ export const Notifications = ({ notifications, enqueueSnackbar, removeNotificati
 Notifications.defaultProps = defaultProps;
 Notifications.propTypes = propTypes;
 
-export default memo(
-  compose(
-    withSnackbar,
-    withNotifications
-  )(Notifications),
-  shouldUpdate
-);
+export default memo(compose(withSnackbar, withNotifications)(Notifications), shouldUpdate);

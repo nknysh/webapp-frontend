@@ -9,17 +9,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onLogin: pipe(
-    logIn,
-    dispatch
-  ),
-  onAuth0Callback: pipe(
-    auth0Callback,
-    dispatch
-  ),
+  onLogin: pipe(logIn, dispatch),
+  onAuth0Callback: pipe(auth0Callback, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

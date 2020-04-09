@@ -152,8 +152,7 @@ export const Detail = styled.p`
   ${props => props.theme.breakpoints.tablet`
     margin-bottom: ${theme.spacing.gutter / 4}px;
   `}
-
-  :last-child {
+    :last-child {
     border: 0;
     margin: 0;
   }

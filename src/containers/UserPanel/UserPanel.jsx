@@ -106,9 +106,4 @@ export const UserPanel = ({
 UserPanel.propTypes = propTypes;
 UserPanel.defaultProps = defaultProps;
 
-export default compose(
-  withAuthentication,
-  withUser,
-  withRouter,
-  connect
-)(UserPanel);
+export default compose(withAuthentication, withUser, withRouter, connect)(UserPanel);

@@ -25,45 +25,15 @@ export const mapStateToProps = (state, { id }) => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  fetchProposal: pipe(
-    fetchProposal,
-    dispatch
-  ),
-  completeProposal: pipe(
-    completeProposal,
-    dispatch
-  ),
-  removeBooking: pipe(
-    removeBooking,
-    dispatch
-  ),
-  amendBooking: pipe(
-    amendBooking,
-    dispatch
-  ),
-  completeProposalBooking: pipe(
-    completeProposalBooking,
-    dispatch
-  ),
-  proposalBookingRequest: pipe(
-    proposalBookingRequest,
-    dispatch
-  ),
-  proposalBookingHold: pipe(
-    proposalBookingHold,
-    dispatch
-  ),
-  proposalBookingRelease: pipe(
-    proposalBookingRelease,
-    dispatch
-  ),
-  generateProposalPdf: pipe(
-    generateProposalPdf,
-    dispatch
-  ),
+  fetchProposal: pipe(fetchProposal, dispatch),
+  completeProposal: pipe(completeProposal, dispatch),
+  removeBooking: pipe(removeBooking, dispatch),
+  amendBooking: pipe(amendBooking, dispatch),
+  completeProposalBooking: pipe(completeProposalBooking, dispatch),
+  proposalBookingRequest: pipe(proposalBookingRequest, dispatch),
+  proposalBookingHold: pipe(proposalBookingHold, dispatch),
+  proposalBookingRelease: pipe(proposalBookingRelease, dispatch),
+  generateProposalPdf: pipe(generateProposalPdf, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

@@ -788,7 +788,4 @@ export const SummaryFormExtras = ({
 SummaryFormExtras.propTypes = propTypes;
 SummaryFormExtras.defaultProps = defaultProps;
 
-export default compose(
-  connect,
-  withUser
-)(SummaryFormExtras);
+export default compose(connect, withUser)(SummaryFormExtras);

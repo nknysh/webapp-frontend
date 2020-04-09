@@ -29,12 +29,7 @@ import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuil
 
 import { TableCardBox, TableCardRow } from 'pureUi/TableCard';
 
-const getSingleValue = (type, data) =>
-  pipe(
-    pathOr([''], ['request', type]),
-    head,
-    propOr('', 'uuid')
-  )(data);
+const getSingleValue = (type, data) => pipe(pathOr([''], ['request', type]), head, propOr('', 'uuid'))(data);
 
 export const renderHotelName = ({ name }) => {
   return (

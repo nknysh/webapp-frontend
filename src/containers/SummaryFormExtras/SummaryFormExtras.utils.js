@@ -36,11 +36,7 @@ export const fromOneWayProducts = (type, data) => {
   return reduced;
 };
 
-export const toOneWayProducts = pipe(
-  filter(has('direction')),
-  groupBy(prop('direction')),
-  map(map(prop('uuid')))
-);
+export const toOneWayProducts = pipe(filter(has('direction')), groupBy(prop('direction')), map(map(prop('uuid'))));
 
 export const extractChosenAddons = (type, data) =>
   pipe(
@@ -51,9 +47,4 @@ export const extractChosenAddons = (type, data) =>
 
 export const toSelectedAddon = reduce((accum, { uuid }) => mergeDeepRight({ [uuid]: true }, accum), {});
 
-export const groupByProductsUuid = groupBy(
-  pipe(
-    prop('products'),
-    map(prop('uuid'))
-  )
-);
+export const groupByProductsUuid = groupBy(pipe(prop('products'), map(prop('uuid'))));

@@ -34,11 +34,7 @@ const reduceDisabledDays = (accum, [key, dayRate]) => {
   return hasRate(dayRate) ? accum : append(key, accum);
 };
 
-export const getDisabledDays = pipe(
-  toPairs,
-  reduce(reduceDisabledDays, []),
-  map(toDate)
-);
+export const getDisabledDays = pipe(toPairs, reduce(reduceDisabledDays, []), map(toDate));
 
 export const getOptionsFromRates = rates => {
   const ratesDates = keys(rates).sort();
@@ -70,18 +66,11 @@ export const getMinMax = map(
   )
 );
 
-export const getMonthToDisplay = pipe(
-  head,
-  prop('startDate'),
-  toDate
-);
+export const getMonthToDisplay = pipe(head, prop('startDate'), toDate);
 
 export const prepareDates = renameKeys({ from: 'startDate', to: 'endDate' });
 
-export const parseMealPlans = pipe(
-  parseJson,
-  map(objOf('uuid'))
-);
+export const parseMealPlans = pipe(parseJson, map(objOf('uuid')));
 
 export const getMealPlan = pipe(
   head,
@@ -90,12 +79,6 @@ export const getMealPlan = pipe(
   JSON.stringify
 );
 
-export const getSelectedOccasions = pipe(
-  head,
-  pick(values(Occassions))
-);
+export const getSelectedOccasions = pipe(head, pick(values(Occassions)));
 
-export const getRepeatGuest = pipe(
-  head,
-  propOr(false, 'repeatCustomer')
-);
+export const getRepeatGuest = pipe(head, propOr(false, 'repeatCustomer'));

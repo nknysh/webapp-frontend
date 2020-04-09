@@ -14,10 +14,7 @@ const qualifiesAsSr = ['SR', 'ADMIN', 'RL'];
  * @param {string}
  * @returns {boolean}
  */
-const srCheck = pipe(
-  defaultTo({}),
-  propSatisfies(includes(__, props(qualifiesAsSr, AuthTypes)), 'type')
-);
+const srCheck = pipe(defaultTo({}), propSatisfies(includes(__, props(qualifiesAsSr, AuthTypes)), 'type'));
 
 /**
  * Get auth selector
@@ -33,10 +30,7 @@ export const getAuth = prop('auth');
  * @param {object}
  * @returns {string}
  */
-export const getAuthStatus = createSelector(
-  getAuth,
-  prop('status')
-);
+export const getAuthStatus = createSelector(getAuth, prop('status'));
 
 /**
  * Get auth data selector
@@ -44,10 +38,7 @@ export const getAuthStatus = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getAuthData = createSelector(
-  getAuth,
-  prop('data')
-);
+export const getAuthData = createSelector(getAuth, prop('data'));
 
 /**
  * Get auth error selector
@@ -55,10 +46,7 @@ export const getAuthData = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getAuthError = createSelector(
-  getAuth,
-  prop('error')
-);
+export const getAuthError = createSelector(getAuth, prop('error'));
 
 /**
  * Get auth token selector
@@ -66,15 +54,9 @@ export const getAuthError = createSelector(
  * @param {object}
  * @returns {string}
  */
-export const getAuthToken = createSelector(
-  getAuth,
-  prop('token')
-);
+export const getAuthToken = createSelector(getAuth, prop('token'));
 
-export const getLoggedIn = createSelector(
-  getAuth,
-  prop('loggedIn')
-);
+export const getLoggedIn = createSelector(getAuth, prop('loggedIn'));
 
 /**
  * Get current country selector
@@ -82,10 +64,7 @@ export const getLoggedIn = createSelector(
  * @param {object}
  * @returns {*}
  */
-export const getCurrentCountry = createSelector(
-  getAuth,
-  prop('country')
-);
+export const getCurrentCountry = createSelector(getAuth, prop('country'));
 
 /**
  * Get current user selector
@@ -93,10 +72,7 @@ export const getCurrentCountry = createSelector(
  * @param {object}
  * @returns {object}
  */
-export const getCurrentUser = createSelector(
-  getAuthData,
-  prop('user')
-);
+export const getCurrentUser = createSelector(getAuthData, prop('user'));
 
 /**
  * Get current country selector
@@ -104,10 +80,7 @@ export const getCurrentUser = createSelector(
  * @param {object}
  * @returns {string}
  */
-export const getCurrentUserCountryCode = createSelector(
-  getCurrentUser,
-  prop('countryCode')
-);
+export const getCurrentUserCountryCode = createSelector(getCurrentUser, prop('countryCode'));
 
 /**
  * Get user country context selector
@@ -129,10 +102,7 @@ export const getUserCountryContext = createSelector(
  * @param {object}
  * @returns {string}
  */
-export const getCurrentUserUuid = createSelector(
-  getCurrentUser,
-  prop('uuid')
-);
+export const getCurrentUserUuid = createSelector(getCurrentUser, prop('uuid'));
 
 /**
  * Get current user type selector
@@ -140,10 +110,7 @@ export const getCurrentUserUuid = createSelector(
  * @param {object}
  * @returns {string}
  */
-export const getCurrentUserType = createSelector(
-  getCurrentUser,
-  prop('type')
-);
+export const getCurrentUserType = createSelector(getCurrentUser, prop('type'));
 
 /**
  * Is authenticated selector
@@ -151,10 +118,7 @@ export const getCurrentUserType = createSelector(
  * @param {object}
  * @returns {boolean}
  */
-export const isAuthenticated = createSelector(
-  getAuthToken,
-  Boolean
-);
+export const isAuthenticated = createSelector(getAuthToken, Boolean);
 
 /**
  * Is SR selector
@@ -164,10 +128,7 @@ export const isAuthenticated = createSelector(
  * @param {object}
  * @returns {boolean}
  */
-export const isSR = createSelector(
-  getCurrentUser,
-  srCheck
-);
+export const isSR = createSelector(getCurrentUser, srCheck);
 
 /**
  * Is RL selector
@@ -177,7 +138,4 @@ export const isSR = createSelector(
  * @param {object}
  * @returns {boolean}
  */
-export const isRL = createSelector(
-  getCurrentUserType,
-  equals(AuthTypes.RL)
-);
+export const isRL = createSelector(getCurrentUserType, equals(AuthTypes.RL));

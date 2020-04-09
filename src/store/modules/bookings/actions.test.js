@@ -41,7 +41,10 @@ describe('booking actions', () => {
 
       const allErrors = getAllErrorsFromCheckResponses([response1, response2]);
 
-      expect(allErrors).toMatchObject([['1', '2'], ['3', '4']]);
+      expect(allErrors).toMatchObject([
+        ['1', '2'],
+        ['3', '4'],
+      ]);
     });
 
     it('should return an array with a nested array only for the responses that had errors', () => {

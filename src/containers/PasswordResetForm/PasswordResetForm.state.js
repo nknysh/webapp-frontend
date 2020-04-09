@@ -9,13 +9,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onReset: pipe(
-    resetPassword,
-    dispatch
-  ),
+  onReset: pipe(resetPassword, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

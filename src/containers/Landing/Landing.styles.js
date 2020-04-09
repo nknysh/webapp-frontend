@@ -16,8 +16,7 @@ export const LandingHero = styled(Hero)`
   ${props => props.theme.breakpoints.desktop`
     padding: ${theme.spacing.gutter * 9.7}px 0 ${theme.spacing.gutter * 10.7}px;
   `}
-
-  :after {
+    :after {
     content: '';
     position: absolute;
     background: ${theme.backgrounds.default};

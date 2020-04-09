@@ -44,10 +44,7 @@ const sanitizeRoute = omit(['location', 'match', 'history', 'route', 'getCompone
  * @param {object}
  * @returns {string}
  */
-const getRouteHash = pipe(
-  pick(['path']),
-  hash
-);
+const getRouteHash = pipe(pick(['path']), hash);
 
 /**
  * Render component with route
@@ -130,7 +127,11 @@ const getRedirect = renderComponentWithRoute(Redirect);
  * @param {object}
  * @returns {ReactNode}
  */
-const renderRoute = cond([[isRedirect, getRedirect], [requiresAuth, getAuthRoute], [T, getRoute]]);
+const renderRoute = cond([
+  [isRedirect, getRedirect],
+  [requiresAuth, getAuthRoute],
+  [T, getRoute],
+]);
 
 /**
  * Get routes

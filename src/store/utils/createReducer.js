@@ -16,11 +16,7 @@ const getActionType = prop('type');
  * @param {object} action
  * @returns {boolean}
  */
-const isReducerFunction = action =>
-  pipe(
-    prop(getActionType(action)),
-    isFunction
-  );
+const isReducerFunction = action => pipe(prop(getActionType(action)), isFunction);
 
 /**
  * Has action
@@ -31,10 +27,7 @@ const isReducerFunction = action =>
  * @param {object}
  * @returns {Function}
  */
-const hasAction = pipe(
-  getActionType,
-  has
-);
+const hasAction = pipe(getActionType, has);
 
 /**
  * Has reducer
@@ -68,11 +61,7 @@ const callReducer = curry((state, action, reducer) => reducer(state, action));
  * @param {object} action
  * @returns {object}
  */
-const triggerReducer = (state, action) =>
-  pipe(
-    prop(getActionType(action)),
-    callReducer(state, action)
-  );
+const triggerReducer = (state, action) => pipe(prop(getActionType(action)), callReducer(state, action));
 
 /**
  * Apply reducer or default

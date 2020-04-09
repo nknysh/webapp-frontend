@@ -45,10 +45,7 @@ export const toDate = date => (date ? new Date(date) : new Date());
  * @param {object}
  * @returns {boolean}
  */
-const correctLength = pipe(
-  length,
-  equals(2)
-);
+const correctLength = pipe(length, equals(2));
 
 /**
  * Ensure all keys are populate
@@ -80,11 +77,7 @@ const hasToFrom = both(correctLength, allPopulated);
  * @param {object}
  * @returns {number | undefined}
  */
-export const getNumberOfDays = pipe(
-  values,
-  reverse,
-  ifElse(hasToFrom, getDifference, always(undefined))
-);
+export const getNumberOfDays = pipe(values, reverse, ifElse(hasToFrom, getDifference, always(undefined)));
 
 /**
  * Get from date format
@@ -152,10 +145,7 @@ export const formatDate = (date, pattern = path(['defaults', 'dateFormat'], conf
  * @param {string | Date}
  * @returns {string}
  */
-export const getStartOfMonth = pipe(
-  startOfMonth,
-  formatDate
-);
+export const getStartOfMonth = pipe(startOfMonth, formatDate);
 
 /**
  * Get end of month
@@ -165,10 +155,7 @@ export const getStartOfMonth = pipe(
  * @param {string | Date}
  * @returns {string}
  */
-export const getEndOfMonth = pipe(
-  endOfMonth,
-  formatDate
-);
+export const getEndOfMonth = pipe(endOfMonth, formatDate);
 
 /**
  * Get from to from dates

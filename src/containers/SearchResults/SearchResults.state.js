@@ -20,13 +20,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  searchByQuery: pipe(
-    searchByQuery,
-    dispatch
-  ),
+  searchByQuery: pipe(searchByQuery, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

@@ -102,7 +102,4 @@ export const SearchSidebar = ({
 SearchSidebar.propTypes = propTypes;
 SearchSidebar.defaultProps = defaultProps;
 
-export default compose(
-  withRouter,
-  connect
-)(SearchSidebar);
+export default compose(withRouter, connect)(SearchSidebar);

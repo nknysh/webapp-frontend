@@ -25,10 +25,7 @@ import { ProductTypes } from 'config/enums';
  * @param {object}
  * @returns {number}
  */
-export const toTotal = pipe(
-  values,
-  sum
-);
+export const toTotal = pipe(values, sum);
 
 /**
  * Extract age from options
@@ -59,11 +56,7 @@ export const extractAgeFromOptions = (accum, rate) => {
  * @param {object}
  * @return {object}
  */
-export const extractAges = pipe(
-  prop('rates'),
-  values,
-  reduce(extractAgeFromOptions, {})
-);
+export const extractAges = pipe(prop('rates'), values, reduce(extractAgeFromOptions, {}));
 
 /**
  * Add final day to booking
@@ -78,10 +71,7 @@ export const addFinalDayToBooking = over(
   map(
     over(
       lensProp('endDate'),
-      pipe(
-        input => new Date(input),
-        partialRight(addDays, [1])
-      )
+      pipe(input => new Date(input), partialRight(addDays, [1]))
     )
   )
 );

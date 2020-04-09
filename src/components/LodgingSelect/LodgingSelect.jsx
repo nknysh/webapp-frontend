@@ -39,10 +39,7 @@ const getGuestsCounts = pipe(
   defaultTo([]),
   reduce(
     (accum, guestAges) =>
-      pipe(
-        add(propOr(0, 'numberOfAdults', guestAges)),
-        add(length(propOr([], 'agesOfAllChildren', guestAges)))
-      )(accum),
+      pipe(add(propOr(0, 'numberOfAdults', guestAges)), add(length(propOr([], 'agesOfAllChildren', guestAges))))(accum),
     0
   )
 );

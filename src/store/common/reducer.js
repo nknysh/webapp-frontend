@@ -13,10 +13,7 @@ import { Status } from './status';
  * @param {object}
  * @returns {object}
  */
-export const idleReducer = pipe(
-  set(statusLens, Status.IDLE),
-  set(errorLens, undefined)
-);
+export const idleReducer = pipe(set(statusLens, Status.IDLE), set(errorLens, undefined));
 
 /**
  * Loading reducer
@@ -26,10 +23,7 @@ export const idleReducer = pipe(
  * @param {object}
  * @returns {object}
  */
-export const loadingReducer = pipe(
-  set(statusLens, Status.LOADING),
-  set(errorLens, undefined)
-);
+export const loadingReducer = pipe(set(statusLens, Status.LOADING), set(errorLens, undefined));
 
 /**
  * Sending reducer
@@ -39,10 +33,7 @@ export const loadingReducer = pipe(
  * @param {object}
  * @returns {object}
  */
-export const sendingReducer = pipe(
-  set(statusLens, Status.SENDING),
-  set(errorLens, undefined)
-);
+export const sendingReducer = pipe(set(statusLens, Status.SENDING), set(errorLens, undefined));
 
 /**
  * Success reducer
@@ -114,11 +105,7 @@ export const successResetReducer = (state, { payload }) => {
    * @param {object}
    * @returns {object}
    */
-  const setData = pipe(
-    set(statusLens, Status.SUCCESS),
-    set(dataLens, payload),
-    set(errorLens, undefined)
-  );
+  const setData = pipe(set(statusLens, Status.SUCCESS), set(dataLens, payload), set(errorLens, undefined));
 
   return setData(state);
 };

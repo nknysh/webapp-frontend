@@ -18,10 +18,7 @@ export const getUi = prop('ui');
  * @param {object}
  * @returns {object}
  */
-export const getUiMenus = createSelector(
-  getUi,
-  prop('menus')
-);
+export const getUiMenus = createSelector(getUi, prop('menus'));
 
 /**
  * Get ui header menu selector
@@ -29,11 +26,7 @@ export const getUiMenus = createSelector(
  * @param {object}
  * @returns {Array}
  */
-export const getUiHeaderMenu = createSelector(
-  getUiMenus,
-  isAuthenticated,
-  prop('header')
-);
+export const getUiHeaderMenu = createSelector(getUiMenus, isAuthenticated, prop('header'));
 
 /**
  * Get ui footer menu selector
@@ -41,10 +34,7 @@ export const getUiHeaderMenu = createSelector(
  * @param {object}
  * @returns {Array}
  */
-export const getUiFooterMenu = createSelector(
-  getUiMenus,
-  prop('footer')
-);
+export const getUiFooterMenu = createSelector(getUiMenus, prop('footer'));
 
 /**
  * Get ui notifications selector
@@ -52,10 +42,7 @@ export const getUiFooterMenu = createSelector(
  * @param {object}
  * @returns {Array}
  */
-export const getUiNotifications = createSelector(
-  getUi,
-  prop('notifications')
-);
+export const getUiNotifications = createSelector(getUi, prop('notifications'));
 
 export const getIsTransferSectionCollapsed = createSelector(
   getUi,
@@ -67,7 +54,4 @@ export const getIsGroundServicesSectionCollapsed = createSelector(
   pathOr(true, ['bookingSummarySections', 'ground_services'])
 );
 
-export const getIsAddonsSectionCollapsed = createSelector(
-  getUi,
-  pathOr(true, ['bookingSummarySections', 'addons'])
-);
+export const getIsAddonsSectionCollapsed = createSelector(getUi, pathOr(true, ['bookingSummarySections', 'addons']));

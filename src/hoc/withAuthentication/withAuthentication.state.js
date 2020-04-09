@@ -21,17 +21,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  logOut: pipe(
-    logOut,
-    dispatch
-  ),
-  authCheck: pipe(
-    authCheck,
-    dispatch
-  ),
+  logOut: pipe(logOut, dispatch),
+  authCheck: pipe(authCheck, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

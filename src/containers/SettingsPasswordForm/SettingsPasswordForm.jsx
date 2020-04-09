@@ -51,7 +51,4 @@ export const SettingsPasswordForm = ({ updatePassword, onComplete }) => {
 SettingsPasswordForm.propTypes = propTypes;
 SettingsPasswordForm.defaultProps = defaultProps;
 
-export default compose(
-  withAuthentication,
-  connect
-)(SettingsPasswordForm);
+export default compose(withAuthentication, connect)(SettingsPasswordForm);

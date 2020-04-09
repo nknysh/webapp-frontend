@@ -107,12 +107,7 @@ export const errorAction = curry((type, error) => ({
  * @param {*} data
  * @returns {Function | object}
  */
-export const entitiesObject = curry((type, data) =>
-  pipe(
-    objOf(type),
-    objOf('entities')
-  )(data)
-);
+export const entitiesObject = curry((type, data) => pipe(objOf(type), objOf('entities'))(data));
 
 /**
  * Error from response action

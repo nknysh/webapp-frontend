@@ -9,13 +9,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  onSetPassword: pipe(
-    setPassword,
-    dispatch
-  ),
+  onSetPassword: pipe(setPassword, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+export default connect(mapStateToProps, mapDispatchToProps);

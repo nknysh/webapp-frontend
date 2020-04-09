@@ -25,10 +25,7 @@ import {
 import { ProductTypes } from 'config/enums';
 
 const adultLens = lensProp('adult');
-const incrementBy1 = pipe(
-  defaultTo(0),
-  inc
-);
+const incrementBy1 = pipe(defaultTo(0), inc);
 
 export const getTotalGuests = reduce(
   (accum, room) =>
@@ -53,24 +50,12 @@ export const getAgeSplits = (product, rooms, asArray = false) => {
       const nonAdultLens = lensProp(prop('name', ageGroup));
       const lens = ageGroup ? nonAdultLens : adultLens;
 
-      const handler = asArray
-        ? pipe(
-            defaultTo([]),
-            append(age)
-          )
-        : incrementBy1;
+      const handler = asArray ? pipe(defaultTo([]), append(age)) : incrementBy1;
 
       accum = over(lens, handler, accum);
     }, nonAdults);
 
-    return over(
-      adultLens,
-      pipe(
-        defaultTo(0),
-        add(adults)
-      ),
-      accum
-    );
+    return over(adultLens, pipe(defaultTo(0), add(adults)), accum);
   }, {});
 
   return overallSplits(rooms);
@@ -82,10 +67,7 @@ export const getDates = pipe(
   invoker(0, 'sort')
 );
 
-export const getProduct = pipe(
-  head,
-  prop('product')
-);
+export const getProduct = pipe(head, prop('product'));
 
 export const getSupplements = reduce(
   (accum, room) => concat(pathOr([], ['subProducts', 'Supplement'], room), accum),

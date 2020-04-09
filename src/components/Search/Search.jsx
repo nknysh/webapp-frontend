@@ -17,10 +17,7 @@ const datesLens = lensProp('dates');
 const lodgingLens = lensProp('lodging');
 const repeatGuestLens = lensProp('repeatGuest');
 
-export const getMonthToDisplay = pipe(
-  prop('startDate'),
-  toDate
-);
+export const getMonthToDisplay = pipe(prop('startDate'), toDate);
 
 const renderSearchButton = (t, { canSearch, onSubmit }) => (
   <Button disabled={!canSearch} onClick={onSubmit}>
@@ -44,29 +41,16 @@ export const Search = ({
   const getSearchQueryData = useCallback(view(__, searchQuery), [searchQuery]);
 
   const setSelectedDatesToSearchQuery = useCallback(
-    pipe(
-      renameKeys({ from: 'startDate', to: 'endDate' }),
-      updateSearchQuery(datesLens),
-      onChange
-    ),
+    pipe(renameKeys({ from: 'startDate', to: 'endDate' }), updateSearchQuery(datesLens), onChange),
     [updateSearchQuery, onChange]
   );
 
-  const setLodgingsToSearchQuery = useCallback(
-    pipe(
-      updateSearchQuery(lodgingLens),
-      onChange
-    ),
-    [updateSearchQuery, onChange]
-  );
+  const setLodgingsToSearchQuery = useCallback(pipe(updateSearchQuery(lodgingLens), onChange), [
+    updateSearchQuery,
+    onChange,
+  ]);
 
-  const setRepeatGuest = useCallback(
-    pipe(
-      updateSearchQuery(repeatGuestLens),
-      onChange
-    ),
-    [updateSearchQuery, onChange]
-  );
+  const setRepeatGuest = useCallback(pipe(updateSearchQuery(repeatGuestLens), onChange), [updateSearchQuery, onChange]);
 
   const onIndexSelect = useCallback(
     result => {
@@ -76,10 +60,7 @@ export const Search = ({
       if (result.id === 'CLEAR') {
         return pipe(onChange);
       } else {
-        return pipe(
-          updateSearchQuery(destinationLens),
-          onChange
-        );
+        return pipe(updateSearchQuery(destinationLens), onChange);
       }
     },
     [updateSearchQuery, onChange]
