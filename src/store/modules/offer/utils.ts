@@ -430,7 +430,7 @@ export const toggleProductOnDiscount = (
 
   return {
     ...state,
-    [discountType]: newDiscountType,
+    [discountType]: updatedDiscountType
   };
 };
 
@@ -443,23 +443,17 @@ export const getOrderedOffers = (offers: IOfferOnHotelItem[] = []): OrderedOffer
   R
     .sortBy(item => item.order, offers)
     .map(item => toOrderedOffer(item));
-    [discountType]: updatedDiscountType
-  }
-}
 
 export const toggleAgeNameOnProductDiscountProduct = (
   state: IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'],
   action: OfferToggleAgeNameOnProductAction | OfferToggleAgeNameOnSubProductAction
 ): IOfferUI['productDiscounts'] | IOfferUI['subProductDiscounts'] => {
-  console.log('toggleAgeNameOnProductDiscountProduct');
   const { discountType, discountUuid, productUuid, ageName } = action;
-  console.log({discountType, discountUuid, productUuid, ageName});
   const discountIndex = state![discountType]?.findIndex(d => d.uuid === discountUuid);
   const newDiscount: IUIOfferProductDiscountInstance  = {...state![discountType]![discountIndex!]};
   const productIndex = newDiscount.products.findIndex(p => p.uuid === productUuid);
   const productToUpdate: IDiscountProduct = newDiscount.products[productIndex];
 
-  console.log('roductToUpdate.ageNames.includes(ageName)', productToUpdate.ageNames, productToUpdate.ageNames.includes(ageName))
   const newProduct = {
     ...productToUpdate,
     ageNames: productToUpdate.ageNames.includes(ageName)
@@ -467,23 +461,16 @@ export const toggleAgeNameOnProductDiscountProduct = (
       : [...productToUpdate.ageNames, ageName],
   }
 
-  console.log('newProduct', newProduct);
-
   // Safe to mutate
   newDiscount.products[productIndex] = newProduct;
-  console.log('newDiscount', newDiscount);
 
   const updatedDiscountType = [...state![discountType]];
   updatedDiscountType[discountIndex] = newDiscount
-  console.log('updatedDiscountType', updatedDiscountType);
 
-  const ret = {
+  return {
     ...state,
     [discountType]: updatedDiscountType
   }
-
-  console.log(ret);
-  return ret;
 }
 
 export const clearAllProductsFromDiscounts = (discounts: IOfferProductDiscounts<any> | IOfferSubProductDiscounts<any>) => {
