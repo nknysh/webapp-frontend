@@ -95,8 +95,8 @@ export interface IOfferPrerequisites {
     maximum?: number;
   };
   stayLength?: {
-    minimum?: number;
-    maximum?: number;
+    minimum?: string | number | undefined;
+    maximum?: string | number | undefined;
     strictMinMaxStay?: boolean;
   };
   countryCodes?: string[]; // these are the TA country codes - an array of string country codes
@@ -117,9 +117,9 @@ export interface IOfferProductDiscounts<T> {
 }
 
 export interface IOfferStepping {
-  everyXNights?: number;
-  applyTo?: number;
-  maximumNights?: number;
+  everyXNights?: string | number | undefined;
+  applyTo?: string | number | undefined;
+  maximumNights?: string | number | undefined;
   discountCheapest?: boolean;
 }
 
@@ -141,8 +141,8 @@ export interface IOffer<T> {
   preDiscount: boolean;
   stepping?: IOfferStepping;
   accommodationProductDiscount?: {
-    discountPercentage?: number | string;
-    greenTaxDiscountApproach?: string;
+    discountPercentage?: number | string | undefined;
+    greenTaxDiscountApproach?: string | undefined;
   };
   subProductDiscounts: IOfferSubProductDiscounts<T>;
   productDiscounts: IOfferProductDiscounts<T>;

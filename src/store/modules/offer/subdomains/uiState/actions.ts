@@ -10,7 +10,6 @@ export const TOGGLE_OFFER_IN_COMBINATION_LIST = 'offer/TOGGLE_OFFER_IN_COMBINATI
 
 export const TOGGEL_AGE_NAME_ACCORDIAN_KEY = 'offer/TOGGEL_AGE_NAME_ACCORDIAN_KEY';
 
-
 // Sorting
 export const SET_ORDERED_OFFERS_LIST = 'offer/SET_OFFERS_ORDERED_LIST';
 
@@ -67,6 +66,4 @@ export type OfferUiStateAction =
   | SetOrderedOffersListAction
   | SetOfferIsPristineAction
   | SetOrderedOffersListAction
-  | ToggleAgeNameAccoridanKey
-  | SetShowSteppingAciton
-  | SetShowAccomDiscountAction;
+  | ToggleAgeNameAccoridanKey;

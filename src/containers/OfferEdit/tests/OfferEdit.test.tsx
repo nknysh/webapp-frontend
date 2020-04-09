@@ -36,6 +36,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     getError: null,
     putError: null,
     postError: null,
+    hasPerishableData: false,
     // WithBootstrapData props
     bootstrapCountries: [],
     bootsrapExtraPersonSupplementId: {

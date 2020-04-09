@@ -18,11 +18,7 @@ import {
   SET_OFFER_IS_PRISTINE,
   OFFER_HOTEL_UUID_CHANGE_SUCCESS
 } from '../../actions';
-import {
-  SET_OFFER_IS_TEXT_ONLY,
-  TOGGLE_TA_COUNTRY_ACCORDIAN,
-  TOGGEL_AGE_NAME_ACCORDIAN_KEY,
-} from './actions';
+import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN, TOGGEL_AGE_NAME_ACCORDIAN_KEY } from './actions';
 import { PUT_OFFER_FAILURE } from '../../actions';
 import produce from 'immer';
 import * as R from 'ramda';

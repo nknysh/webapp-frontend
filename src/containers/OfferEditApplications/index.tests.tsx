@@ -43,6 +43,11 @@ const createProps = (
     mealPlanDiscounts: [],
     supplementDiscounts: [],
     ageNameAccordianKeys: [],
+
+    hasApplicationsErrors: false,
+    hasValidationErrors: false,
+    offerIsPristine: true,
+    stepping: undefined,
     // WithBootstrapData props
     bootstrapCountries: [],
     bootstrapCountriesByRegion: {},
@@ -54,9 +59,7 @@ const createProps = (
       uuid: 'EPS_123',
       name: 'Extra Person Supplement',
     },
-    hasValidationErrors: false,
-    offerIsPristine: true,
-    hasApplicationsErrors: false,
+
     // Actions
     offerSetAccommodationDiscountDiscountPercentageAction: jest.fn(),
     offerSetAccommodationDiscountGreenTaxApproachAction: jest.fn(),
@@ -75,6 +78,14 @@ const createProps = (
     toggleAgeNameAccordianKey: jest.fn(),
     offerToggleAgeNameOnProductAction: jest.fn(),
     offerToggleAgeNameOnSubProductAction: jest.fn(),
+    offerSetSteppingEveryXNightsApplicationAction: jest.fn(),
+    offerSetSteppingApplyToApplicationAction: jest.fn(),
+    offerSetSteppingMaximumNightsApplicationAction: jest.fn(),
+    offerSetSteppingDiscountCheapestApplicationAction: jest.fn(),
+    offerClearAllSteppingApplicationAction: jest.fn(),
+    offerAddSteppingApplicationAction: jest.fn(),
+    offerAddAccommodationDiscountAction: jest.fn(),
+    offerClearAllAccommodationDiscountAction: jest.fn(),
     ...getMockRouterProps<{}>({}, path || 'offer/edit/applications'),
   };
 

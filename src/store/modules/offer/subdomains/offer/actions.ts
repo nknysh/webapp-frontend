@@ -200,7 +200,7 @@ export const offerSetMaxLodgingsPrerequisiteAction = (value: number | undefined)
 export type OfferSetStayLengthMinimumPrerequisiteAction = ReturnType<
   typeof offerSetStayLengthMinimumPrerequisiteAction
 >;
-export const offerSetStayLengthMinimumPrerequisiteAction = (value: number | undefined) => ({
+export const offerSetStayLengthMinimumPrerequisiteAction = (value: string | number | undefined) => ({
   type: OFFER_SET_STAY_LENGTH_MINIMUM_PREREQUISITE as typeof OFFER_SET_STAY_LENGTH_MINIMUM_PREREQUISITE,
   value,
 });
@@ -208,7 +208,7 @@ export const offerSetStayLengthMinimumPrerequisiteAction = (value: number | unde
 export type OfferSetStayLengthMaximumPrerequisiteAction = ReturnType<
   typeof offerSetStayLengthMaximumPrerequisiteAction
 >;
-export const offerSetStayLengthMaximumPrerequisiteAction = (value: number | undefined) => ({
+export const offerSetStayLengthMaximumPrerequisiteAction = (value: string | number | undefined) => ({
   type: OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE as typeof OFFER_SET_STAY_LENGTH_MAXIMUM_PREREQUISITE,
   value,
 });
@@ -227,13 +227,13 @@ export const offerClearAllStayLengthPrerequisiteAction = () => ({
 export type OfferSetSteppingEveryXNightsApplicationAction = ReturnType<
   typeof offerSetSteppingEveryXNightsApplicationAction
 >;
-export const offerSetSteppingEveryXNightsApplicationAction = (value: string) => ({
+export const offerSetSteppingEveryXNightsApplicationAction = (value: string | number | undefined) => ({
   type: OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION as typeof OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION,
   value,
 });
 
 export type OfferSetSteppingApplyToApplicationAction = ReturnType<typeof offerSetSteppingApplyToApplicationAction>;
-export const offerSetSteppingApplyToApplicationAction = (value: string) => ({
+export const offerSetSteppingApplyToApplicationAction = (value: string | number | undefined) => ({
   type: OFFER_SET_STEPPING_APPLY_TO_APPLICATION as typeof OFFER_SET_STEPPING_APPLY_TO_APPLICATION,
   value,
 });
@@ -241,7 +241,7 @@ export const offerSetSteppingApplyToApplicationAction = (value: string) => ({
 export type OfferSetSteppingMaximumNightsApplicationAction = ReturnType<
   typeof offerSetSteppingMaximumNightsApplicationAction
 >;
-export const offerSetSteppingMaximumNightsApplicationAction = (value: string) => ({
+export const offerSetSteppingMaximumNightsApplicationAction = (value: string | number | undefined) => ({
   type: OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION as typeof OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION,
   value,
 });

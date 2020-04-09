@@ -14,7 +14,7 @@ import {
 } from '../actions';
 import { Supplement } from '../../../../../../services/BackendApi/types/OffersSearchResponse';
 
-const mockProduct: IDiscountProduct = { uuid: 'XXX' };
+const mockProduct: IDiscountProduct = { uuid: 'XXX', ageNames: [] };
 
 describe('offer reducer sub product supplements', () => {
   it('adds a new product discount to the array (object is completely empty)', () => {
@@ -99,7 +99,7 @@ describe('offer reducer sub product supplements', () => {
     //     Supplement: [
     //       {
     //         uuid: 'TEST_UUID',
-    //         products: [{ uuid: 'TEST_PRODUCT_UUID'}],
+    //         products: [{ uuid: 'TEST_PRODUCT_UUID'}],, ageNames: [],
     //       },
     //     ],
     //   },
@@ -144,19 +144,19 @@ describe('offer reducer sub product supplements', () => {
             uuid: 'TEST_UUID_1',
             discountPercentage: 1,
             maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: 'TEST_UUID_2',
             discountPercentage: 10,
             maximumQuantity: 20,
-            products: [{ uuid: 'B' }],
+            products: [{ uuid: 'B', ageNames: [] }],
           },
           {
             uuid: 'TEST_UUID_3',
             discountPercentage: 11,
             maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
+            products: [{ uuid: 'C', ageNames: [] }],
           },
         ],
       },
@@ -171,19 +171,19 @@ describe('offer reducer sub product supplements', () => {
             uuid: 'TEST_UUID_1',
             discountPercentage: 1,
             maximumQuantity: 2,
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: 'TEST_UUID_2',
             discountPercentage: 10,
             maximumQuantity: 20,
-            products: [{ uuid: 'B' }, mockProduct],
+            products: [{ uuid: 'B', ageNames: [] }, mockProduct],
           },
           {
             uuid: 'TEST_UUID_3',
             discountPercentage: 11,
             maximumQuantity: 22,
-            products: [{ uuid: 'C' }],
+            products: [{ uuid: 'C', ageNames: [] }],
           },
         ],
       },
@@ -203,15 +203,15 @@ describe('offer reducer sub product supplements', () => {
         Supplement: [
           {
             uuid: 'TEST_UUID_1',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: 'TEST_UUID_2',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: 'TEST_UUID_3',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
         ],
       },
@@ -224,11 +224,11 @@ describe('offer reducer sub product supplements', () => {
         Supplement: [
           {
             uuid: 'TEST_UUID_1',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
           {
             uuid: 'TEST_UUID_3',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
         ],
       },
@@ -248,7 +248,7 @@ describe('offer reducer sub product supplements', () => {
         Supplement: [
           {
             uuid: 'TEST_UUID_1',
-            products: [{ uuid: 'A' }],
+            products: [{ uuid: 'A', ageNames: [] }],
           },
         ],
       },
@@ -273,21 +273,37 @@ describe('offer reducer sub product supplements', () => {
         'Meal Plan': [
           {
             uuid: 'MP_UUID_1',
-            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_2', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
         ],
         Supplement: [
           {
             uuid: 'S_UUID_1',
-            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_2', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
           {
             uuid: 'S_UUID_2',
-            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_2', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
           {
             uuid: 'S_UUID_3',
-            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_2', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
         ],
       },
@@ -299,21 +315,33 @@ describe('offer reducer sub product supplements', () => {
         'Meal Plan': [
           {
             uuid: 'MP_UUID_1',
-            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_2', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
         ],
         Supplement: [
           {
             uuid: 'S_UUID_1',
-            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_2', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
           {
             uuid: 'S_UUID_2',
-            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_3' }],
+            products: [{ uuid: 'P_UUID_1', ageNames: [] }, { uuid: 'P_UUID_3', ageNames: [] }],
           },
           {
             uuid: 'S_UUID_3',
-            products: [{ uuid: 'P_UUID_1' }, { uuid: 'P_UUID_2' }, { uuid: 'P_UUID_3' }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_2', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
         ],
       },
@@ -487,12 +515,15 @@ describe('offer reducer sub product supplements', () => {
             products: [
               {
                 uuid: 'P_UUID_1',
+                ageNames: [],
               },
               {
                 uuid: 'P_UUID_2',
+                ageNames: [],
               },
               {
                 uuid: 'P_UUID_3',
+                ageNames: [],
               },
             ],
           },
@@ -518,6 +549,7 @@ describe('offer reducer sub product supplements', () => {
             products: [
               {
                 uuid: 'P_UUID_1',
+                ageNames: [],
               },
               {
                 uuid: 'P_UUID_2',
@@ -525,6 +557,7 @@ describe('offer reducer sub product supplements', () => {
               },
               {
                 uuid: 'P_UUID_3',
+                ageNames: [],
               },
             ],
           },
@@ -556,6 +589,7 @@ describe('offer reducer sub product supplements', () => {
             products: [
               {
                 uuid: 'P_UUID_1',
+                ageNames: [],
               },
               {
                 uuid: 'P_UUID_2',
@@ -563,6 +597,7 @@ describe('offer reducer sub product supplements', () => {
               },
               {
                 uuid: 'P_UUID_3',
+                ageNames: [],
               },
             ],
           },
@@ -588,6 +623,7 @@ describe('offer reducer sub product supplements', () => {
             products: [
               {
                 uuid: 'P_UUID_1',
+                ageNames: [],
               },
               {
                 uuid: 'P_UUID_2',
@@ -595,6 +631,7 @@ describe('offer reducer sub product supplements', () => {
               },
               {
                 uuid: 'P_UUID_3',
+                ageNames: [],
               },
             ],
           },

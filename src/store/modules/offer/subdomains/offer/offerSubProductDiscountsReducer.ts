@@ -1,5 +1,5 @@
 import * as Actions from '../../actions';
-import { IUIOfferProductDiscountInstance, IOffersubProductDiscounts } from 'services/BackendApi';
+import { IUIOfferProductDiscountInstance, IOfferSubProductDiscounts } from 'services/BackendApi';
 import { GET_OFFER_SUCCESS } from '../../actions';
 import {
   addDiscountHandler,
@@ -13,9 +13,9 @@ import {
 } from '../../utils';
 
 export const subProductDiscountsReducer = (
-  state: IOffersubProductDiscounts<IUIOfferProductDiscountInstance>,
+  state: IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>,
   action: Actions.OfferDomainAction
-): IOffersubProductDiscounts<IUIOfferProductDiscountInstance> => {
+): IOfferSubProductDiscounts<IUIOfferProductDiscountInstance> => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
       return state;

@@ -348,12 +348,9 @@ describe('Offer Selectors', () => {
         },
       ];
 
-      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(
-        prerequisitesCountriesFixture,
-        countriesFixture
-      );
+      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
-      expect(selected).toEqual('All Countries');
+      expect(selected).toEqual('Any Countries');
     });
 
     it('has the correct TA label for some countries selected', () => {
@@ -380,10 +377,7 @@ describe('Offer Selectors', () => {
         },
       ];
 
-      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(
-        prerequisitesCountriesFixture,
-        countriesFixture
-      );
+      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
       expect(selected).toEqual('2 Countries');
     });
@@ -412,12 +406,9 @@ describe('Offer Selectors', () => {
         },
       ];
 
-      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(
-        prerequisitesCountriesFixture,
-        countriesFixture
-      );
+      const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
-      expect(selected).toEqual('All Countries');
+      expect(selected).toEqual('Any Countries');
     });
   });
 
@@ -445,7 +436,7 @@ describe('Offer Selectors', () => {
     ];
 
     it('returns true if none are selected', () => {
-      expect(isAccomodationPreReqAllSelected.resultFunc([], accommodationProductsFixture)).toEqual(true);
+      expect(isAccomodationPreReqAllSelected.resultFunc([])).toEqual(true);
     });
   });
 
@@ -550,7 +541,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, true);
 
-      expect(selected).toEqual('All Accommodation Products');
+      expect(selected).toEqual('Any Accommodation Products');
     });
 
     it('returns a label for accommodation products (none selected)', () => {
@@ -580,7 +571,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, true);
 
-      expect(selected).toEqual('All Accommodation Products');
+      expect(selected).toEqual('Any Accommodation Products');
     });
   });
 
@@ -780,7 +771,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerSubProductDiscountsSelector.resultFunc(fixture);
 
-      expect(selected).toEqual(undefined);
+      expect(selected).toEqual({});
     });
 
     it('gets the object if some are set', () => {
@@ -970,7 +961,7 @@ describe('Offer Selectors', () => {
     it('gets an empty array if none are set', () => {
       const fixture = {};
 
-      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([]);
     });
@@ -992,7 +983,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1023,7 +1014,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsFinesSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1046,7 +1037,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerProductDiscountsSelector.resultFunc(fixture);
 
-      expect(selected).toEqual(undefined);
+      expect(selected).toEqual({});
     });
 
     it('gets the object if some are set', () => {
@@ -1071,7 +1062,7 @@ describe('Offer Selectors', () => {
     it('gets an empty array if none are set', () => {
       const fixture = {};
 
-      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([]);
     });
@@ -1090,7 +1081,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1118,7 +1109,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture);
+      const selected = offersubProductDiscountsMealPlansSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1137,7 +1128,7 @@ describe('Offer Selectors', () => {
     it('gets an empty array if none are set', () => {
       const fixture = {};
 
-      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([]);
     });
@@ -1156,7 +1147,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1184,7 +1175,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsGroundServicesSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1203,7 +1194,7 @@ describe('Offer Selectors', () => {
     it('gets an empty array if none are set', () => {
       const fixture = {};
 
-      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([]);
     });
@@ -1222,7 +1213,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1250,7 +1241,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsTransfersSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1269,7 +1260,7 @@ describe('Offer Selectors', () => {
     it('gets an empty array if none are set', () => {
       const fixture = {};
 
-      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([]);
     });
@@ -1288,7 +1279,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
@@ -1316,7 +1307,7 @@ describe('Offer Selectors', () => {
         ],
       } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
-      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture);
+      const selected = offerProductDiscountsSupplementsSelector.resultFunc(fixture, mockAvailableProducts);
 
       expect(selected).toMatchObject([
         {
