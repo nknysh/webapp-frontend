@@ -85,7 +85,7 @@ describe('validation', () => {
   });
 });
 
-describe.only('validation funcs', () => {
+describe('validation funcs', () => {
   describe('isPercentage', () => {
     it('allows a number between 1 and 100', () => {
       const testVal = 40;

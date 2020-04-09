@@ -42,6 +42,13 @@ export const isPercentageCompliant = val => {
     return false;
   }
 
+  if (String(numberVal).includes('.')) {
+    const numOfDecimalPlaces = String(numberVal).split('.')[1].length;
+    if (numOfDecimalPlaces >= 3) {
+      return false;
+    }
+  }
+
   if (numberVal >= 1 && numberVal <= 100) {
     return true;
   }

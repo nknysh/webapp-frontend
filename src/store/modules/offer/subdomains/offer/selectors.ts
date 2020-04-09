@@ -458,7 +458,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
               field: 'fineDiscounts',
               index,
               message: `Fine discount #${index +
-                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
         });
@@ -476,7 +476,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
               field: 'groundServiceDiscounts',
               index,
               message: `Ground Service discount #${index +
-                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
         });
@@ -494,7 +494,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
               field: 'supplementDiscounts',
               index,
               message: `Supplement discount #${index +
-                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
         });
@@ -512,7 +512,7 @@ export const offerProductDiscountsValidationSelector = createSelector(
               field: 'transferDiscounts',
               index,
               message: `Transfer discount #${index +
-                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
         });
@@ -544,7 +544,7 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
               field: 'mealPlanDiscounts',
               index,
               message: `Meal Plan discount #${index +
-                1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
         });
@@ -574,7 +574,7 @@ export const offerExtraPersonSupplementValidationSelector = createSelector(
           field: 'extraPersonSupplementDiscounts',
           index,
           message: `Extra Person Supplement discount #${index +
-            1} - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+            1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
         });
       }
     });
@@ -610,7 +610,7 @@ export const accommodationDiscountValidationSelector = createSelector(offerSelec
     if (!isPercentageCompliant(offer.accommodationProductDiscount.discountPercentage)) {
       errors.push({
         field: 'accommodationProductDiscount',
-        message: `Accommodation Product discount - discount percentage must be percentage compliant (1 - 100, 2 decimal places)`,
+        message: `Accommodation Product discount - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
       });
     }
   }

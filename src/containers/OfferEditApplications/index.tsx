@@ -84,9 +84,8 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
   };
 
   handleAccomodationDiscountPctChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetAccommodationDiscountDiscountPercentageAction(
-      sanitizeInteger(e.currentTarget.value, this.props.accomodationDiscount?.discountPercentage)
-    );
+    this.props.offerSetAccommodationDiscountDiscountPercentageAction(parseFloat(e.currentTarget.value));
+    // sanitizeInteger(e.currentTarget.value, this.props.accomodationDiscount?.discountPercentage)
   };
 
   handleAccomodationDiscountGreenTaxChange = (e: FormEvent<HTMLSelectElement>) => {
