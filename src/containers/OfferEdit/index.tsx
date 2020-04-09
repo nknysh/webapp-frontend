@@ -243,19 +243,25 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
         <TabBar className="tabBar">
           <RouteTab
+            replace
             isError={!this.props.offerIsPristine && this.props.hasPrerequisiteErrors}
             to={`${this.props.match.url}/pre-requisites`}
           >
-            Pre Requisites
+            Prerequisites
           </RouteTab>
           <RouteTab
+            replace
             isError={!this.props.offerIsPristine && this.props.hasApplicationsErrors}
             to={`${this.props.match.url}/applications`}
           >
             Applications
           </RouteTab>
-          <RouteTab to={`${this.props.match.url}/combinations`}>Combinations</RouteTab>
-          <RouteTab to={`${this.props.match.url}/priority`}>Priority</RouteTab>
+          <RouteTab replace to={`${this.props.match.url}/combinations`}>
+            Combinations
+          </RouteTab>
+          <RouteTab replace to={`${this.props.match.url}/priority`}>
+            Priority
+          </RouteTab>
         </TabBar>
 
         <div className="routes">
@@ -355,6 +361,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IOfferEditProps>(mapStateToProps, mapDispatchToProps);
+const withConnect = connect<StateToProps, DispatchToProps, IOfferEditProps>(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
-export const OfferEditContainerConnected = compose(withConnect, withRouter, withBootstapData())(OfferEditContainer);
+export const OfferEditContainerConnected = compose(
+  withConnect,
+  withRouter,
+  withBootstapData()
+)(OfferEditContainer);

@@ -10,7 +10,6 @@ import {
 } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
-import { subProductDiscounts } from '../../../services/BackendApi/types/OffersSearchResponse';
 
 interface KeyValuePair {
   [key: string]: string;

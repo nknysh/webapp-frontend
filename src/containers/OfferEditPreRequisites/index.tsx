@@ -182,7 +182,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
                 isOpen={this.props.taCountryAccordianKeys.includes(region)}
                 onClick={this.toggleTaCountryAccordian(region)}
               >
-                <FormControlGrid columnCount={4}>
+                <FormControlGrid padded columnCount={4}>
                   {this.props.taCountries[region].countries.map(country => {
                     return (
                       <Label lowercase key={country.label} inline reverse text={country.label}>
@@ -254,7 +254,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
               <TextInput value={this.props.advance?.minimum || ''} onChange={this.handleAdvanceMinChange} />
             </Label>
 
-            <Label text="Maximum Lodgings">
+            <Label text="Maximum">
               <TextInput value={this.props.advance?.maximum || ''} onChange={this.handleAdvanceMaxChange} />
             </Label>
           </div>

@@ -33,9 +33,9 @@ export const formatPrice = (data, decimals = 2) =>
 export const calculatePercentage = (amount, percent) =>
   divide(multiply(Number(removeCommasIfString(amount)), Number(percent)), 100);
 
-export const sanitizeInteger = (newValue: string, oldValue: any) => {
+export const sanitizeInteger = (newValue: string, oldValue: any): number | undefined => {
   if (newValue === '') {
-    return newValue;
+    return undefined;
   }
   const parsed = parseInt(newValue, 10);
   return isNaN(parsed) ? oldValue : parsed;

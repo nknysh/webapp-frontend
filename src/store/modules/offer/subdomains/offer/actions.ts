@@ -45,11 +45,14 @@ export const OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION = 'offer/OFFER_SET_ST
 export const OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION =
   'offer/OFFER_SET_STEPPING_DISCOUNT_CHEAPEST_APPLICATION';
 export const OFFER_CLEAR_ALL_STEPPING_APPLICATION = 'offer/OFFER_CLEAR_ALL_STEPPING_APPLICATION';
+export const OFFER_ADD_STEPPING_APPLICATION = 'offer/OFFER_ADD_STEPPING_APPLICATION';
 
 export const OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION =
   'offer/OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION';
 export const OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION =
   'offer/OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION';
+export const OFFER_ADD_ACCOMMODATION_DISCOUNT_DISCOUNT_APPLICATION =
+  'offer/OFFER_ADD_ACCOMMODATION_DISCOUNT_DISCOUNT_APPLICATION';
 export const OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION =
   'offer/OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION';
 
@@ -224,13 +227,13 @@ export const offerClearAllStayLengthPrerequisiteAction = () => ({
 export type OfferSetSteppingEveryXNightsApplicationAction = ReturnType<
   typeof offerSetSteppingEveryXNightsApplicationAction
 >;
-export const offerSetSteppingEveryXNightsApplicationAction = (value: number) => ({
+export const offerSetSteppingEveryXNightsApplicationAction = (value: string) => ({
   type: OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION as typeof OFFER_SET_STEPPING_EVERY_X_NIGHTS_APPLICATION,
   value,
 });
 
 export type OfferSetSteppingApplyToApplicationAction = ReturnType<typeof offerSetSteppingApplyToApplicationAction>;
-export const offerSetSteppingApplyToApplicationAction = (value: number) => ({
+export const offerSetSteppingApplyToApplicationAction = (value: string) => ({
   type: OFFER_SET_STEPPING_APPLY_TO_APPLICATION as typeof OFFER_SET_STEPPING_APPLY_TO_APPLICATION,
   value,
 });
@@ -238,7 +241,7 @@ export const offerSetSteppingApplyToApplicationAction = (value: number) => ({
 export type OfferSetSteppingMaximumNightsApplicationAction = ReturnType<
   typeof offerSetSteppingMaximumNightsApplicationAction
 >;
-export const offerSetSteppingMaximumNightsApplicationAction = (value: number | undefined) => ({
+export const offerSetSteppingMaximumNightsApplicationAction = (value: string) => ({
   type: OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION as typeof OFFER_SET_STEPPING_MAXIMUM_NIGHTS_APPLICATION,
   value,
 });
@@ -256,6 +259,11 @@ export const offerClearAllSteppingApplicationAction = () => ({
   type: OFFER_CLEAR_ALL_STEPPING_APPLICATION as typeof OFFER_CLEAR_ALL_STEPPING_APPLICATION,
 });
 
+export type OfferAddSteppingApplicationAction = ReturnType<typeof offerAddSteppingApplicationAction>;
+export const offerAddSteppingApplicationAction = () => ({
+  type: OFFER_ADD_STEPPING_APPLICATION as typeof OFFER_ADD_STEPPING_APPLICATION,
+});
+
 export type OfferSetAccommodationDiscountDiscountPercentageAction = ReturnType<
   typeof offerSetAccommodationDiscountDiscountPercentageAction
 >;
@@ -270,6 +278,11 @@ export type OfferSetAccommodationDiscountGreenTaxApproachAction = ReturnType<
 export const offerSetAccommodationDiscountGreenTaxApproachAction = (value: string | undefined) => ({
   type: OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION as typeof OFFER_SET_ACCOMMODATION_DISCOUNT_GREEN_TAX_APPROACH_APPLICATION,
   value,
+});
+
+export type OfferAddAccommodationDiscountAction = ReturnType<typeof offerAddAccommodationDiscountAction>;
+export const offerAddAccommodationDiscountAction = () => ({
+  type: OFFER_ADD_ACCOMMODATION_DISCOUNT_DISCOUNT_APPLICATION as typeof OFFER_ADD_ACCOMMODATION_DISCOUNT_DISCOUNT_APPLICATION,
 });
 
 export type OfferClearAllAccommodationDiscountAction = ReturnType<typeof offerClearAllAccommodationDiscountAction>;
@@ -516,8 +529,10 @@ export type OfferAction =
   | OfferSetSteppingMaximumNightsApplicationAction
   | OfferSetSteppingDiscountCheapestApplicationAction
   | OfferClearAllSteppingApplicationAction
+  | OfferAddSteppingApplicationAction
   | OfferSetAccommodationDiscountDiscountPercentageAction
   | OfferSetAccommodationDiscountGreenTaxApproachAction
+  | OfferAddAccommodationDiscountAction
   | OfferClearAllAccommodationDiscountAction
   | OfferAddProductDiscountAction
   | OfferUpdateProductDiscountAction

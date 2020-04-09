@@ -28,6 +28,8 @@ import {
   offerHasApplicationsValidationErrorsSelector,
   offerHasValidationErrorsSelector,
   offerIsPristineSelector,
+  ageNameAccordianKeysSelector,
+  offerSteppingApplicationSelector
 } from 'store/modules/offer/selectors';
 
 import {
@@ -49,6 +51,14 @@ import {
   toggleAgeNameAccordianKey,
   offerToggleAgeNameOnProductAction,
   offerToggleAgeNameOnSubProductAction,
+  offerSetSteppingEveryXNightsApplicationAction,
+  offerSetSteppingApplyToApplicationAction,
+  offerSetSteppingMaximumNightsApplicationAction,
+  offerSetSteppingDiscountCheapestApplicationAction,
+  offerAddSteppingApplicationAction, 
+  offerClearAllSteppingApplicationAction,
+  offerAddAccommodationDiscountAction,
+  offerClearAllAccommodationDiscountAction,
 } from 'store/modules/offer/actions';
 
 import { IOfferProductDiscounts, IOfferSubProductDiscounts, IUIOfferProductDiscountInstance, IAgeName, EProductCategory } from '../../services/BackendApi/types/OfferResponse';
@@ -64,35 +74,48 @@ import { sanitizeInteger } from 'utils/number';
 import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
 import { IProduct } from 'services/BackendApi';
 import { AccordianSection, Accordian } from 'pureUi/Accordian/index';
-import { ageNameAccordianKeysSelector } from '../../store/modules/offer/subdomains/uiState/selectors';
+
+
 
 export class OfferEditApplicationsContainer extends React.Component<IOfferEditPreRequisitesProps, {}> {
   discountTypeToPropName = (
     discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>,
     isSubProduct?: boolean
-  ): keyof DiscountTypeProps => {
-    switch (discountType) {
-      case 'Fine':
-        return 'fineDiscounts';
-      case 'Ground Service':
-        return 'groundServiceDiscounts';
-      case 'Transfer':
-        return 'transferDiscounts';
-      case 'Meal Plan':
+    ): keyof DiscountTypeProps => {
+      switch (discountType) {
+        case 'Fine':
+          return 'fineDiscounts';
+          case 'Ground Service':
+            return 'groundServiceDiscounts';
+            case 'Transfer':
+              return 'transferDiscounts';
+              case 'Meal Plan':
         return 'mealPlanDiscounts';
-      // Annoying...
-      case 'Supplement':
-        return isSubProduct ? 'extraPersonSupplementDiscounts' : 'supplementDiscounts';
-    }
+        // Annoying...
+        case 'Supplement':
+          return isSubProduct ? 'extraPersonSupplementDiscounts' : 'supplementDiscounts';
+        }
   };
-
+  
   requiresOccupancyAndQuantity = (category: EProductCategory | undefined): boolean => {
     if(category === EProductCategory.PER_BOOKING || !category) {
       return false;
     }
-
+    
     return true;
   }
+    handlEeveryXNightsChange = (e: FormEvent<HTMLInputElement>) => {
+      this.props.offerSetSteppingEveryXNightsApplicationAction(e.currentTarget.value)
+    }
+    handleApplyToChange = (e: FormEvent<HTMLInputElement>) => {
+      this.props.offerSetSteppingApplyToApplicationAction(e.currentTarget.value)
+    }
+    handleMaximumNightsChange = (e: FormEvent<HTMLInputElement>) => {
+      this.props.offerSetSteppingMaximumNightsApplicationAction(e.currentTarget.value)
+    }
+    handlediscountCheapestChange = (e: FormEvent<HTMLInputElement>) => {
+      this.props.offerSetSteppingDiscountCheapestApplicationAction(e.currentTarget.checked)
+    }
 
   handleAccomodationDiscountPctChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetAccommodationDiscountDiscountPercentageAction(parseFloat(e.currentTarget.value));
@@ -172,6 +195,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     this.props.offerToggleAgeNameOnSubProductAction(discountType as keyof IOfferSubProductDiscounts<any>, discountUuid, productUuid, ageName);
   }
 
+
   ageNamesWithAdult = (ageNames: IAgeName[]): IAgeName[] => {
     const stortedAgeNames = ageNames.sort((a, b) => {
       const aFrom = a.ageFrom || 0;
@@ -237,43 +261,78 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     return (
       <OfferEditApplicationsStyles>
         <Fieldset>
-          <Legend>Accomodation Discount</Legend>
-          <div className="greenTaxGrid">
-            <Label className="input" lowercase text="Discount %">
-              <TextInput
-                value={this.props.accomodationDiscount?.discountPercentage || ''}
-                onChange={this.handleAccomodationDiscountPctChange}
-              />
-            </Label>
-            <Label className="select" lowercase text="Green Tax Approach">
-              <PureSelect
-                disabled={!this.props.requiresGreenTax}
-                value={this.props.accomodationDiscount?.greenTaxDiscountApproach || ''}
-                onChange={this.handleAccomodationDiscountGreenTaxChange}
-              >
-                <option value="" disabled>
-                  {this.props.requiresGreenTax ? 'Select a green tax approach' : 'Not Applicable'}
-                </option>
-                {this.props.requiresGreenTax &&
-                  Object.keys(EGreenTaxApproach).map(key => (
-                    <option key={key} value={key}>
-                      {GreenTaxApproachOptions[key]}
-                    </option>
-                  ))}
-              </PureSelect>
-            </Label>
-            <Text className="info">
-              {this.props.accomodationDiscount?.greenTaxDiscountApproach &&
-                GreenTaxApproachInfo[this.props.accomodationDiscount.greenTaxDiscountApproach]}
-            </Text>
-          </div>
+          <Legend>Stepping</Legend>
+          {this.props.stepping && (
+            <div className="steppingGrid">
+              <Label className="nights" text="Every X nights" lowercase>
+                <TextInput value={this.props.stepping?.everyXNights || ''} onChange={this.handlEeveryXNightsChange}/>
+              </Label>
+              <Label className="apply" text="Apply To" lowercase>
+                <TextInput value={this.props.stepping?.applyTo || ''} onChange={this.handleApplyToChange}/>
+              </Label>
+              <Label className="max" text="Maximum nights this can repeat" lowercase>
+                <TextInput value={this.props.stepping?.maximumNights || ''} onChange={this.handleMaximumNightsChange}/>
+              </Label>
+              <Label className="checkbox" text="Discount Cheapest" lowercase inline reverse>
+                <Checkbox checked={Boolean(this.props.stepping?.discountCheapest)} onChange={this.handlediscountCheapestChange}/>
+              </Label>
+              <span className="removeButton">
+                <CloseButton onClick={this.props.offerClearAllSteppingApplicationAction} />
+              </span>
+            </div>
+          )}
 
-          <ErrorList className="errorlist">
+          {!this.props.stepping && <ActionButton action="add" onClick={this.props.offerAddSteppingApplicationAction}>Add Stepping</ActionButton>}
+        </Fieldset>
+        <Fieldset>
+          <Legend>Accomodation Discount</Legend>
+          {this.props.accomodationDiscount && (
+            <div className="accomodationDiscountGrid">
+              <Label className="input" lowercase text="Discount %">
+                <TextInput
+                  value={this.props.accomodationDiscount?.discountPercentage || ''}
+                  onChange={this.handleAccomodationDiscountPctChange}
+                />
+              </Label>
+              <Label className="select" lowercase text="Green Tax Approach">
+                <PureSelect
+                  disabled={!this.props.requiresGreenTax}
+                  value={this.props.accomodationDiscount?.greenTaxDiscountApproach || ''}
+                  onChange={this.handleAccomodationDiscountGreenTaxChange}
+                >
+                  <option value="" disabled>
+                    {this.props.requiresGreenTax ? 'Select a green tax approach' : 'Not Applicable'}
+                  </option>
+                  {this.props.requiresGreenTax &&
+                    Object.keys(EGreenTaxApproach).map(key => (
+                      <option key={key} value={key}>
+                        {GreenTaxApproachOptions[key]}
+                      </option>
+                    ))}
+                </PureSelect>
+              </Label>
+              <Text className="info">
+                {this.props.accomodationDiscount?.greenTaxDiscountApproach &&
+                  GreenTaxApproachInfo[this.props.accomodationDiscount.greenTaxDiscountApproach]}
+              </Text>
+              <span className="removeButton">
+                <CloseButton onClick={this.props.offerClearAllAccommodationDiscountAction} />
+              </span>
+            </div>
+          )}
+        <ErrorList className="errorlist">
             {!this.props.offerIsPristine &&
-              this.props.validationErrors.accommodationProductDiscount.map((error, i) => (
-                <li key={i}>{error.message}</li>
-              ))}
-          </ErrorList>
+            this.props.validationErrors.accommodationProductDiscount.map((error, i) => (
+            <li key={i}>{error.message}</li>
+            ))}
+        </ErrorList>
+          {!this.props.accomodationDiscount && (
+            <ActionButton
+              action="add"
+              onClick={this.props.offerAddAccommodationDiscountAction}>
+                Add Accommodaiton Discount
+            </ActionButton>
+          )}
         </Fieldset>
 
         <Fieldset>
@@ -839,6 +898,7 @@ const mapStateToProps = createStructuredSelector({
   hasValidationErrors: offerHasValidationErrorsSelector,
   offerIsPristine: offerIsPristineSelector,
   ageNameAccordianKeys: ageNameAccordianKeysSelector,
+  stepping: offerSteppingApplicationSelector,
 });
 
 const actionCreators = {
@@ -859,6 +919,14 @@ const actionCreators = {
   toggleAgeNameAccordianKey,
   offerToggleAgeNameOnProductAction,
   offerToggleAgeNameOnSubProductAction,
+  offerSetSteppingEveryXNightsApplicationAction,
+  offerSetSteppingApplyToApplicationAction,
+  offerSetSteppingMaximumNightsApplicationAction,
+  offerSetSteppingDiscountCheapestApplicationAction,
+  offerClearAllSteppingApplicationAction,
+  offerAddSteppingApplicationAction,
+  offerAddAccommodationDiscountAction,
+  offerClearAllAccommodationDiscountAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

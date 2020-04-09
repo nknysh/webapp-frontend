@@ -91,6 +91,8 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
       return offerSetAccommodationDiscountGreenTaxApproachReducer(state, action);
     case Actions.OFFER_CLEAR_ALL_ACCOMMODATION_DISCOUNT_APPLICATION:
       return offerClearAllAccommodationDiscountReducer(state, action);
+    case Actions.OFFER_ADD_ACCOMMODATION_DISCOUNT_DISCOUNT_APPLICATION:
+      return offerAddAccomodationDiscountReducer(state, action);
 
     case Actions.OFFER_ADD_PRODUCT_DISCOUNT:
     case Actions.OFFER_REMOVE_PRODUCT_DISCOUNT:
@@ -116,6 +118,12 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
       return {
         ...state,
         subProductDiscounts: subProductDiscountsReducer(state.subProductDiscounts, action),
+      };
+
+    case Actions.OFFER_ADD_STEPPING_APPLICATION:
+      return {
+        ...state,
+        stepping: {},
       };
 
     default:
@@ -545,6 +553,19 @@ export const offerSetAccommodationDiscountGreenTaxApproachReducer = (
     accommodationProductDiscount: {
       ...state.accommodationProductDiscount,
       greenTaxDiscountApproach: action.value,
+    },
+  };
+};
+
+export const offerAddAccomodationDiscountReducer = (
+  state: IOfferUI,
+  action?: Actions.OfferAddAccommodationDiscountAction
+): IOfferUI => {
+  return {
+    ...state,
+    accommodationProductDiscount: {
+      discountPercentage: undefined,
+      greenTaxDiscountApproach: undefined,
     },
   };
 };

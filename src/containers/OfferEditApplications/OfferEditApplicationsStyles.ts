@@ -3,14 +3,14 @@ import { Throggle } from 'pureUi/forms/Throggle';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 
 export const OfferEditApplicationsStyles = styled.section`
-  .greenTaxGrid {
+  .accomodationDiscountGrid {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: repeat(4, 1fr);
     grid-row-gap: 0;
     grid-column-gap: 20px;
     grid-template-areas:
-      'input select'
-      '. info';
+      'input select select removeButton'
+      '. info info .';
 
     .input {
       grid-area: input;
@@ -20,6 +20,37 @@ export const OfferEditApplicationsStyles = styled.section`
     }
     .info {
       grid-area: info;
+    }
+
+    .removeButton {
+      grid-area: removeButton;
+      text-align: right;
+    }
+  }
+
+  .steppingGrid {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      'nights apply max removeButton'
+      'checkbox . . .';
+
+    .nights {
+      grid-area: nights;
+    }
+    .apply {
+      grid-area: apply;
+    }
+    .max {
+      grid-area: max;
+    }
+    .checkbox {
+      grid-area: checkbox;
+    }
+    .removeButton {
+      grid-area: removeButton;
+      text-align: right;
     }
   }
 
@@ -99,6 +130,7 @@ export const OfferEditApplicationsStyles = styled.section`
     }
   }
 
+  .steppingGrid,
   .extraPersonSupplement,
   .fineDiscountGrid,
   .groundServiceDiscountGrid,

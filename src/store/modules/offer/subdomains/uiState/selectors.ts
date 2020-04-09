@@ -73,9 +73,13 @@ export const orderedOffersListSelector = createSelector(
   uiState => uiState.orderedOffersList
 );
 
-export const offerIsPristineSelector = createSelector(uiStateSelector, uiStateSelector => uiStateSelector.isPristine);
+export const offerIsPristineSelector = createSelector(
+  uiStateSelector,
+  uiStateSelector => uiStateSelector.isPristine
+);
 
 export const ageNameAccordianKeysSelector = createSelector(
   uiStateSelector,
   uiStateSelector => uiStateSelector.ageNameAccordianKeys
 );
+

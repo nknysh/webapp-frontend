@@ -143,10 +143,9 @@ export const offerTaCountriesPrerequisiteByRegionSelector = createSelector(
 
 export const offerTaCountriesLabelPrerequisiteSelector = createSelector(
   offerCountryCodePrerequisiteSelector,
-  getBootstrapCountriesSelector,
-  (prerequisiteCountries, countries) => {
-    if (prerequisiteCountries.length === countries.length || prerequisiteCountries.length <= 0) {
-      return 'All Countries';
+  (prerequisiteCountries) => {
+    if (prerequisiteCountries.length < 1) {
+      return 'Any Countries';
     } else {
       return `${prerequisiteCountries.length} Countries`;
     }
@@ -190,19 +189,15 @@ export const offerAccommodationProductPrerequisitesSelector = createSelector(
 
 export const isAccomodationPreReqAllSelected = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
-  hotelAccomodationProductsSelector,
-  (accommodationProductPrerequisites, accommodationProductsOnHotel) =>
-    Boolean(
-      accommodationProductPrerequisites.length === accommodationProductsOnHotel?.length ||
-        accommodationProductPrerequisites.length <= 0
-    )
+  (accommodationProductPrerequisites) =>
+    Boolean(accommodationProductPrerequisites.length < 1 )
 );
 
 export const offerAccommodationProductPrerequisitesLabelSelector = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
   isAccomodationPreReqAllSelected,
   (accommodationProductPrerequisites, isAll) => {
-    return isAll ? 'All Accommodation Products' : `${accommodationProductPrerequisites.length} Accommodation Products`;
+    return isAll ? 'Any Accommodation Products' : `${accommodationProductPrerequisites.length} Accommodation Products`;
   }
 );
 
