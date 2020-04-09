@@ -22,6 +22,7 @@ const createProps = (
       mealPlanDiscounts: [],
       supplementDiscounts: [],
       transferDiscounts: [],
+      accommodationProductDiscount: [],
     },
     stayBetweenDates: [['2020-01-01', '2020-02-01']],
     offerHotelUuid: '123',

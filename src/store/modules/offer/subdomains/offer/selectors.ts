@@ -720,7 +720,7 @@ export const offerHasApplicationsValidationErrorsSelector = createSelector(
       extraPersonSupplementValidatorResult.errors.length >= 1 ||
       productDiscountsValidatorResult.errors.length >= 1 ||
       subProductDiscountsValidatorResult.errors.length >= 1 ||
-      accommodationProductDiscountValidatorResult.errors.length
+      accommodationProductDiscountValidatorResult.errors.length >= 1
     );
   }
 );

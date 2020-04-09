@@ -21,6 +21,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
       mealPlanDiscounts: [],
       supplementDiscounts: [],
       transferDiscounts: [],
+      accommodationProductDiscount: [],
     },
     getOfferRequestPending: false,
     offer: {} as IOfferUI,

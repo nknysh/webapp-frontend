@@ -22,6 +22,7 @@ const createProps = (
       mealPlanDiscounts: [],
       supplementDiscounts: [],
       transferDiscounts: [],
+      accommodationProductDiscount: [],
     },
     accomodationDiscount: undefined,
     requiresGreenTax: true,
