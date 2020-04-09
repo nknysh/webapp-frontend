@@ -113,7 +113,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     if (this.isEditMode()) {
       return (
         <Heading level="h1" className="hotelName">
-          {this.props.hotelName}
+          Offer for: {this.props.hotelName}
         </Heading>
       );
     }

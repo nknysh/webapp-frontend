@@ -15,7 +15,7 @@ import SortableList from 'pureUi/SortableList';
 
 const StyledItem = styled('div')`
   font-size: 12px;
-  padding: 15px
+  padding: 15px;
   color: ${pureUiTheme.colorRoles.grayLabel};
 
   &.selected {
