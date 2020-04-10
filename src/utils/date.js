@@ -26,7 +26,7 @@ import {
   parseISO,
 } from 'date-fns';
 
-import config from 'config';
+import config from '../config';
 import { isString } from './helpers';
 
 /**

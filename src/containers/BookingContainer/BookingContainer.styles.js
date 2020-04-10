@@ -60,6 +60,11 @@ export const BookingContent = styled.article`
     padding: 0;
     flex: 1;
     margin-right: ${theme.spacing.gutter * 14.5}px;
+
+    .booking-status {
+      margin: 20px 20px 50px 20px;
+    }
+
   `}
 `;
 
