@@ -2,13 +2,13 @@ import React, { Fragment } from 'react';
 import { pick, prop, omit } from 'ramda';
 import { RadioButton, Select } from '@pure-escapes/webapp-ui-components';
 
-import i18n from 'config/i18n';
+import i18n from '../../i18n';
 
 import { arrayToKeyValueObject } from 'utils';
 
-import formConfig from 'config/forms';
-import countriesData from 'config/data/countries';
-import promotedCountriesData from 'config/data/countries-promoted';
+import formConfig from '../';
+import countriesData from '../../data/countries';
+import promotedCountriesData from '../../data/countries-promoted';
 
 const keyValueCountries = arrayToKeyValueObject('code', 'name')(countriesData);
 const promotedCountries = pick(promotedCountriesData, keyValueCountries);

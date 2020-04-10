@@ -1,7 +1,7 @@
 import React from 'react';
 import { map } from 'ramda';
 import hash from 'object-hash';
-import i18n from 'config/i18n';
+import i18n from './i18n';
 
 import { theme } from 'styles';
 

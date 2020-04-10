@@ -1,4 +1,4 @@
-import { BookingStatusTypes } from 'config/enums';
+import { BookingStatusTypes } from '../../enums';
 
 export default {
   none: 'None',

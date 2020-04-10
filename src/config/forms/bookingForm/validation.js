@@ -1,4 +1,4 @@
-import validators from 'config/forms/validators';
+import validators from '../validators';
 
 export default validators.shape({
   guestFirstName: validators.text(2),

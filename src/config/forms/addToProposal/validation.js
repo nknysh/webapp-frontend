@@ -1,6 +1,6 @@
 import { string } from 'yup';
 
-import validators from 'config/forms/validators';
+import validators from '../validators';
 
 export default validators.shape({
   proposalId: validators.text(),

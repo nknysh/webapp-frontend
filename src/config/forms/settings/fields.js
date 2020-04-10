@@ -1,9 +1,9 @@
 import { prop } from 'ramda';
 import { Select } from '@pure-escapes/webapp-ui-components';
 
-import i18n from 'config/i18n';
+import i18n from '../../i18n';
 
-import formConfig from 'config/forms';
+import formConfig from '../';
 
 export default {
   title: {
