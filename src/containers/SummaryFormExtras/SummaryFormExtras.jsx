@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { RadioButton, Loader } from '@pure-escapes/webapp-ui-components';
 import { StandardModal, ModalContent } from 'pureUi/Modal';
 import CustomItemForm from 'pureUi/CustomItemForm';
+import BookingGuestInformationForm from 'pureUi/BookingGuestInformationForm';
 
 import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'components';
 import { useFetchData } from 'effects';
@@ -482,6 +483,21 @@ const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect,
   </TableCardBox>
 );
 
+const renderGuestInfo = () => {
+  return (
+    <TableCardBox className="mt-4 mb-4">
+      <TableCardRow depth={3}>
+        <Title>Lead Guest Info</Title>
+        <BookingGuestInformationForm
+          bookingGuestFormValues={{}}
+          onValueChange={console.log}
+          sections={{ guestInfo: true }}
+        />
+      </TableCardRow>
+    </TableCardBox>
+  );
+};
+
 export const SummaryFormExtras = ({
   addons,
   booking,
@@ -759,6 +775,7 @@ export const SummaryFormExtras = ({
           displayTotals={booking.response.displayTotals}
         />
       )}
+      {renderGuestInfo()}
 
       {/* SRs need to be able to select TAs */}
       {hasTASelect &&

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 
 import produce from 'immer';
 import TextInput from 'pureUi/TextInput';
@@ -40,9 +40,19 @@ const titles: IValueLabelPair[] = [
 ];
 
 export const BookingGuestInformationForm = (props: IBookingGuestInformationForm) => {
-  const { bookingGuestFormValues, onValueChange } = props;
+  const {
+    bookingGuestFormValues,
+    onValueChange,
+    sections = {
+      guestInfo: true,
+      flightInfo: true,
+      specialRequests: true,
+      comments: true
+    }
+  } = props;
 
-  if (!bookingGuestFormValues.specialRequests) {
+
+  if (sections.specialRequests && !bookingGuestFormValues.specialRequests) {
     bookingGuestFormValues.specialRequests = [];
   }
 
@@ -77,93 +87,65 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
 
 
   return (
-    <BookingGuestInformationFormStyles>      
-        <Label className="title" text="Title">
-          <Select
-            value={bookingGuestFormValues.guestTitle || ''}
-            options={titles}
-            onChange={e => onValueChange(handleValueChange('guestTitle', e.target.value))}
-          ></Select>
-        </Label>
-        
-        <Label className="firstName" text="First Name">
-          <TextInput
-            value={bookingGuestFormValues.guestFirstName || ''}
-            onChange={e => onValueChange(handleValueChange('guestFirstName', e.currentTarget.value))}
-          />
-        </Label>
-        
-        <Label className="lastName" text="Last Name">
-          <TextInput
-            value={bookingGuestFormValues.guestLastName || ''}
-            onChange={e => onValueChange(handleValueChange('guestLastName', e.currentTarget.value))}
-          />
-        </Label>
-        
-        <Label className="repeatGuest" text="This client is a repeating guest" inline reverse>
-          <Checkbox
-            checked={bookingGuestFormValues.isRepeatGuest || false}
-            onChange={() => {
-              try {
-                return onValueChange(toggleCheckboxValue('isRepeatGuest'));
-              } catch (e) {
-                console.error(`Error ${e}`);
-              }
-            }}
-          />
-        </Label>
+    <BookingGuestInformationFormStyles>
+      {sections.guestInfo && (
+        <Fragment>
+          <Label className="title" text="Title">
+            <Select
+              value={bookingGuestFormValues.guestTitle || ''}
+              options={titles}
+              onChange={e => onValueChange(handleValueChange('guestTitle', e.target.value))}
+            ></Select>
+          </Label>
+          
+          <Label className="firstName" text="First Name">
+            <TextInput
+              value={bookingGuestFormValues.guestFirstName || ''}
+              onChange={e => onValueChange(handleValueChange('guestFirstName', e.currentTarget.value))}
+            />
+          </Label>
+          
+          <Label className="lastName" text="Last Name">
+            <TextInput
+              value={bookingGuestFormValues.guestLastName || ''}
+              onChange={e => onValueChange(handleValueChange('guestLastName', e.currentTarget.value))}
+            />
+          </Label>
+          
+          <Label className="repeatGuest" text="This client is a repeating guest" inline reverse>
+            <Checkbox
+              checked={bookingGuestFormValues.isRepeatGuest || false}
+              onChange={() => {
+                try {
+                  return onValueChange(toggleCheckboxValue('isRepeatGuest'));
+                } catch (e) {
+                  console.error(`Error ${e}`);
+                }
+              }}
+            />
+          </Label>
+        </Fragment>
+      )}
+      {sections.flightInfo && (
+        <div className="flightInfo">
+          <Label className="flightInfoLabel">Flight Information</Label>
 
-        <Label className="flightInfoLabel">Flight Information</Label>
+          <Label className="arrivalNumber" text="Arrival Number">
+            <TextInput
+              value={bookingGuestFormValues.flightArrivalNumber || ''}
+              onChange={e => onValueChange(handleValueChange('flightArrivalNumber', e.currentTarget.value))}
+            />
+          </Label>
 
-        <Label className="arrivalNumber" text="Arrival Number">
-          <TextInput
-            value={bookingGuestFormValues.flightArrivalNumber || ''}
-            onChange={e => onValueChange(handleValueChange('flightArrivalNumber', e.currentTarget.value))}
-          />
-        </Label>
-        
-        <Label className="arrivalDate" text="Arrival Date">
-          <DatePickerStateProvider
-            isSingleDateSelection={true}
-            defaultSelectedDates={[]}
-            onDateChange={dateTimeStrings => {
-              onValueChange(handleValueChange('flightArrivalDate', formatDate(dateTimeStrings[0])));
-            }}
-            render={(params: IDatePickerSateParams) => (
-              <DateRangeInput
-              noPortal
-              className="serachBarDateRangeInput"
-              displayString={params.displayString}
-              currentDate={params.datePickerCurrentDate}
-              selectedDates={params.selectedDates}
-              onDayClick={params.handleDayClick}
-              showDatePicker={params.showDatePicker}
-              onNextClick={params.incrementDate}
-              onPrevClick={params.decrementDate}
-              onMouseDown={params.toggleDatePicker}
-              onClickOutside={params.hideDatePicker}
-              maxDate={maxDate}
-              />
-              )}
-              />
-        </Label>
-        
-        <Label className="departureNumber" text="Dearture Number">
-          <TextInput
-            value={bookingGuestFormValues.flightDepartureNumber || ''}
-            onChange={e => onValueChange(handleValueChange('flightDepartureNumber', e.currentTarget.value))}
-          />
-        </Label>
-        
-        <Label className="departureDate" text="Departure Date">
-          <DatePickerStateProvider
-            isSingleDateSelection={true}
-            defaultSelectedDates={[]}
-            onDateChange={dateTimeStrings => {
-              onValueChange(handleValueChange('flightDepartureDate', formatDate(dateTimeStrings[0])));
-            }}
-            render={(params: IDatePickerSateParams) => (
-              <DateRangeInput
+          <Label className="arrivalDate" text="Arrival Date">
+            <DatePickerStateProvider
+              isSingleDateSelection={true}
+              defaultSelectedDates={[]}
+              onDateChange={dateTimeStrings => {
+                onValueChange(handleValueChange('flightArrivalDate', formatDate(dateTimeStrings[0])));
+              }}
+              render={(params: IDatePickerSateParams) => (
+                <DateRangeInput
                 noPortal
                 className="serachBarDateRangeInput"
                 displayString={params.displayString}
@@ -175,11 +157,47 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
                 onPrevClick={params.decrementDate}
                 onMouseDown={params.toggleDatePicker}
                 onClickOutside={params.hideDatePicker}
-                minDate={minDate}
-              />
-            )}
-          />
-        </Label>
+                maxDate={maxDate}
+                />
+                )}
+                />
+          </Label>
+
+          <Label className="departureNumber" text="Dearture Number">
+            <TextInput
+              value={bookingGuestFormValues.flightDepartureNumber || ''}
+              onChange={e => onValueChange(handleValueChange('flightDepartureNumber', e.currentTarget.value))}
+            />
+          </Label>
+
+          <Label className="departureDate" text="Departure Date">
+            <DatePickerStateProvider
+              isSingleDateSelection={true}
+              defaultSelectedDates={[]}
+              onDateChange={dateTimeStrings => {
+                onValueChange(handleValueChange('flightDepartureDate', formatDate(dateTimeStrings[0])));
+              }}
+              render={(params: IDatePickerSateParams) => (
+                <DateRangeInput
+                  noPortal
+                  className="serachBarDateRangeInput"
+                  displayString={params.displayString}
+                  currentDate={params.datePickerCurrentDate}
+                  selectedDates={params.selectedDates}
+                  onDayClick={params.handleDayClick}
+                  showDatePicker={params.showDatePicker}
+                  onNextClick={params.incrementDate}
+                  onPrevClick={params.decrementDate}
+                  onMouseDown={params.toggleDatePicker}
+                  onClickOutside={params.hideDatePicker}
+                  minDate={minDate}
+                />
+              )}
+            />
+          </Label>
+        </div>
+      )}
+      {sections.specialRequests && bookingGuestFormValues.specialRequests && (
         <div className="specialRequests">
           <Label>Special Requests</Label>
           <div className="twoColumn">
@@ -226,7 +244,8 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
             </Label>
           </div>
         </div>
-        
+      )}
+      {sections.comments && (
         <div className="comments">
           <Label text="Comments">
             <Textarea
@@ -235,7 +254,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
             />
           </Label>
         </div>
-      
+      )}
     </BookingGuestInformationFormStyles>
   );
 };

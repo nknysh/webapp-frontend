@@ -112,6 +112,12 @@ export interface IBookingAttributes {
 export interface IBookingGuestInformationForm {
   bookingGuestFormValues: IBookingInformation;
   onValueChange: Function;
+  sections?: {
+    guestInfo?: boolean;
+    flightInfo?: boolean;
+    specialRequests?: boolean;
+    comments?: boolean;
+  }
 }
 
 export interface IReviewBookingSchema {
