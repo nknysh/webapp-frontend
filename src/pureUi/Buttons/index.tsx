@@ -257,7 +257,6 @@ export const ActionLinkButtonComponent = (props: IActionLinkButtonProps) => {
 
 export const ActionLinkButton = styled(ActionLinkButtonComponent)`
   ${actionButtonStyles}
-
   font-size: 13px;
   padding-right: 16px;
   span svg.icon {
