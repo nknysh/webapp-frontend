@@ -32,6 +32,8 @@ import {
   selectedHotelSelector,
 } from 'store/modules/offersList/selectors';
 import { getBootstrapHotelsSelector } from 'store/modules/bootstrap/selectors';
+import { ActionButton, ActionLinkButton } from '../../pureUi/Buttons/index';
+import { Redirect } from 'react-router-dom';
 
 import {
   getOffersListRequestAction,
@@ -171,15 +173,18 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
 
         <div className="bulk-actions">
           <ButtonBar>
-            <PrimaryButton
+            <ActionButton
               className="bulk-action-delete"
+              action="remove"
               disabled={this.props.bulkActionSelectedUuids.length <= 0}
               onClick={this.handleDeleteSelectedOffers}
             >
               Delete Selected Offers
-            </PrimaryButton>
+            </ActionButton>
             <ButtonSpacer />
-            <LinkButton to="/offer/create">New Offer</LinkButton>
+            <ActionLinkButton action="add" to="/offer/create">
+              New Offer
+            </ActionLinkButton>
           </ButtonBar>
           {this.props.isBulkDeleteConfirmOpen && (
             <StandardModal onClose={this.props.toggleIsBulkDeleteConfirmOpen}>

@@ -167,6 +167,7 @@ export const ButtonSpacer = styled.div.attrs(() => ({
 
 export interface IActionButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   action: 'add' | 'remove' | 'close' | 'edit' | 'duplicate' | 'forward' | 'back';
+  disabled?: boolean;
 }
 
 export const ActionButtonComponent = (props: IActionButtonProps) => {
@@ -186,13 +187,14 @@ export const ActionButtonComponent = (props: IActionButtonProps) => {
   );
 };
 
-export const ActionButton = styled(ActionButtonComponent)`
+const actionButtonStyles = `
   display: inline-block;
   color: ${pureUiTheme.colors.gold};
   border: 1px solid ${pureUiTheme.colors.gold};
   border-radius: 100px;
   box-shadow: 0 0 0 5px transparent;
   cursor: pointer;
+  background: white;
 
   & > span {
     display: flex;
@@ -216,8 +218,49 @@ export const ActionButton = styled(ActionButtonComponent)`
     box-shadow: 0 0 0 2px ${pureUiTheme.colors.teal};
   }
 
+  &:disabled {
+    opacity: 0.5;
+  }
+
   &:active {
     color: ${pureUiTheme.colors.teal};
     border-color: ${pureUiTheme.colors.teal};
+  }
+`;
+
+export const ActionButton = styled(ActionButtonComponent)`
+  ${actionButtonStyles}
+`;
+
+export interface IActionLinkButtonProps extends IActionButtonProps {
+  to: string;
+}
+
+export const ActionLinkButtonComponent = (props: IActionLinkButtonProps) => {
+  const { to, className } = props;
+
+  return (
+    <a href={to} className={className}>
+      <span>
+        {props.action === 'add' && <Add className="icon" />}
+        {props.action === 'remove' && <Remove className="icon" />}
+        {props.action === 'close' && <Close className="icon" />}
+        {props.action === 'edit' && <Edit className="icon" />}
+        {props.action === 'duplicate' && <ControlPointDuplicate className="icon" />}
+        {props.action === 'forward' && <NavigateNext className="icon" />}
+        {props.action === 'back' && <NavigateBefore className="icon" />}
+        <span className="children">{props.children}</span>
+      </span>
+    </a>
+  );
+};
+
+export const ActionLinkButton = styled(ActionLinkButtonComponent)`
+  ${actionButtonStyles}
+
+  font-size: 13px;
+  padding-right: 16px;
+  span svg.icon {
+    margin-left: 8px;
   }
 `;
