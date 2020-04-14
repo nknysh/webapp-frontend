@@ -6,13 +6,12 @@ import { OfferDomainAction, GET_OFFER_SUCCESS, PUT_OFFER_SUCCESS, POST_OFFER_SUC
 import { initialState } from '../../model';
 import * as R from 'ramda';
 import { productDiscountsReducer } from './offerProductDiscountsReducer';
-import { subProductDiscountsReducer } from './offersubProductDiscountsReducer';
+import { subProductDiscountsReducer } from './offerSubProductDiscountsReducer';
 import { clearAllProductsFromDiscounts } from '../../utils';
 
 export const offerReducer = (state: IOfferUI = initialState.offer, action: OfferDomainAction): IOfferUI => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
-      console.log(action.offer);
       return action.offer;
     case PUT_OFFER_SUCCESS:
     case POST_OFFER_SUCCESS:
