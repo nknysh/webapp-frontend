@@ -31,11 +31,13 @@ export function* postOfferRequestSaga(action: PostOfferRequestAction) {
     const backendApi = makeBackendApi(actingCountryCode);
 
     const { response, error } = yield call(backendApi.postOffer, transformUiOfferToApiOffer(uiOffer, uiState));
+    console.log(response.data.data);
     if (response) {
       const offerWithHotel = {
         ...response.data.data,
         hotel: {
           name: hotels.find(h => h.uuid === uiOffer.hotelUuid)?.name,
+          countryCode: hotels.find(h => h.uuid === uiOffer.hotelUuid)?.countryCode,
         },
       };
       

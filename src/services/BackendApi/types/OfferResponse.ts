@@ -60,8 +60,8 @@ export interface IDiscountProduct {
 }
 
 export interface IOfferProductDiscountInstance {
-  discountPercentage?: number | string;
-  maximumQuantity?: number;
+  discountPercentage?: number | string | undefined | null;
+  maximumQuantity?: number | string | undefined | null;
   greenTaxDiscountApproach?: string;
   standardOccupancyOnly?: boolean;
   products: IDiscountProduct[];
@@ -117,9 +117,9 @@ export interface IOfferProductDiscounts<T> {
 }
 
 export interface IOfferStepping {
-  everyXNights?: string | number | undefined;
-  applyTo?: string | number | undefined;
-  maximumNights?: string | number | undefined;
+  everyXNights?: number | string | undefined | null;
+  applyTo?: number | string | undefined | null;
+  maximumNights?: number | string | undefined | null;
   discountCheapest?: boolean;
 }
 
@@ -141,8 +141,8 @@ export interface IOffer<T> {
   preDiscount: boolean;
   stepping?: IOfferStepping;
   accommodationProductDiscount?: {
-    discountPercentage?: number | string | undefined;
-    greenTaxDiscountApproach?: string | undefined;
+    discountPercentage?: number | string | undefined | null;
+    greenTaxDiscountApproach?: string | undefined | null;
   };
   subProductDiscounts: IOfferSubProductDiscounts<T>;
   productDiscounts: IOfferProductDiscounts<T>;

@@ -12,6 +12,7 @@ import { clearAllProductsFromDiscounts } from '../../utils';
 export const offerReducer = (state: IOfferUI = initialState.offer, action: OfferDomainAction): IOfferUI => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
+      console.log(action.offer);
       return action.offer;
     case PUT_OFFER_SUCCESS:
     case POST_OFFER_SUCCESS:

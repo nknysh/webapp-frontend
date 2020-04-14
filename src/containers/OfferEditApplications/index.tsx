@@ -70,7 +70,6 @@ import { PureSelect } from '../../pureUi/forms/PureSelect/index';
 import { Text, Heading } from 'pureUi/typography';
 import Checkbox from 'pureUi/Checkbox';
 import { ActionButton, CloseButton } from '../../pureUi/Buttons/index';
-import { sanitizeInteger } from 'utils/number';
 import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
 import { IProduct } from 'services/BackendApi';
 import { AccordianSection, Accordian } from 'pureUi/Accordian/index';
@@ -119,7 +118,6 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
 
   handleAccomodationDiscountPctChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetAccommodationDiscountDiscountPercentageAction(parseFloat(e.currentTarget.value));
-    // sanitizeInteger(e.currentTarget.value, this.props.accomodationDiscount?.discountPercentage)
   };
 
   handleAccomodationDiscountGreenTaxChange = (e: FormEvent<HTMLSelectElement>) => {
@@ -141,7 +139,10 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
   
   handleAddSubProduct = (type: keyof IOfferSubProductDiscounts<any>) => () => { this.props.offerAddSubProductDiscountAction(type)}
   
-  handleAddExtraPersonSupplement = () => this.props.offerAddSubProductDiscountAction('Supplement', this.props.bootsrapExtraPersonSupplementId.uuid)  
+  handleAddExtraPersonSupplement = () => {
+    console.log('this.props.bootsrapExtraPersonSupplementId.uuid', this.props.bootsrapExtraPersonSupplementId.uuid);
+    this.props.offerAddSubProductDiscountAction('Supplement', this.props.bootsrapExtraPersonSupplementId.uuid)
+  }  
   
   handleRemoveProductDiscount = (type: keyof IOfferProductDiscounts<any>, uuid: string) => () => { this.props.offerRemoveProductDiscountAction(type, uuid); }
   
@@ -495,14 +496,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.hotelUuid && this.props.availableFineProducts.length > 0 && (
+          {this.props.hotelUuid && this.props.availableFineProducts?.length > 0 && (
             <ActionButton action="add" onClick={this.handleAddProduct('Fine')}>
               Add Fine Discount
             </ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add fine discount</Text>}
-          {this.props.hotelUuid && this.props.availableFineProducts.length === 0 && (
+          {this.props.hotelUuid && this.props.availableFineProducts?.length === 0 && (
             <Text>No fines available for this hotel.</Text>
           )}
 
@@ -586,14 +587,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.hotelUuid && this.props.availableGroundServiceProducts.length > 0 && (
+          {this.props.hotelUuid && this.props.availableGroundServiceProducts?.length > 0 && (
             <ActionButton action="add" onClick={this.handleAddProduct('Ground Service')}>
               Add Ground Service Discount
             </ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add an ground service discount</Text>}
-          {this.props.hotelUuid && this.props.availableGroundServiceProducts.length === 0 && (
+          {this.props.hotelUuid && this.props.availableGroundServiceProducts?.length === 0 && (
             <Text>No ground services available for this hotel.</Text>
           )}
 
@@ -604,7 +605,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
         </Fieldset>
 
         <Fieldset>
-          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.transferDiscounts.length >= 1}>
+          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.transferDiscounts?.length >= 1}>
             Transfer Discount
           </Legend>
 
@@ -613,7 +614,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               <div key={transferDiscount.uuid} className="transferDiscountGrid">
                 <Text className="category">Product Category: {transferDiscount.productCategory ? transferDiscount.productCategory : 'None Selected'}</Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
-                  {this.props.availableTransferProducts.map(product => {
+                  {this.props.availableTransferProducts?.map(product => {
                     const isDisabled = Boolean(transferDiscount.productCategory && transferDiscount.productCategory !== product.category);
                     return (
                       <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
@@ -665,14 +666,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.hotelUuid && this.props.availableTransferProducts.length > 0 && (
+          {this.props.hotelUuid && this.props.availableTransferProducts?.length > 0 && (
             <ActionButton action="add" onClick={this.handleAddProduct('Transfer')}>
               Add Transfer Discount
             </ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add an transfer discount</Text>}
-          {this.props.hotelUuid && this.props.availableTransferProducts.length === 0 && (
+          {this.props.hotelUuid && this.props.availableTransferProducts?.length === 0 && (
             <Text>No transfer products available for this hotel.</Text>
           )}
 
@@ -692,7 +693,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               <div key={mealPlanDiscount.uuid} className="mealPlanDiscountGrid">
                 <Text className="category">Product Category: {mealPlanDiscount.productCategory ? mealPlanDiscount.productCategory : 'None Selected'}</Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
-                  {this.props.availableMealPlanProducts.map(product => {
+                  {this.props.availableMealPlanProducts?.map(product => {
                     const isDisabled = Boolean(mealPlanDiscount.productCategory && mealPlanDiscount.productCategory !== product.category);
                     return (
                       <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
@@ -753,14 +754,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.hotelUuid && this.props.availableMealPlanProducts.length > 0 && (
+          {this.props.hotelUuid && this.props.availableMealPlanProducts?.length > 0 && (
             <ActionButton action="add" onClick={this.handleAddSubProduct('Meal Plan')}>
               Add Meal Plan Discount
             </ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add a meal plan discount</Text>}
-          {this.props.hotelUuid && this.props.availableMealPlanProducts.length === 0 && (
+          {this.props.hotelUuid && this.props.availableMealPlanProducts?.length === 0 && (
             <Text>No meal plans available for this hotel.</Text>
           )}
 
@@ -780,7 +781,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               <div key={supplementDiscount.uuid} className="supplementDiscountGrid">
                 <Text className="category">Product Category: {supplementDiscount.productCategory ? supplementDiscount.productCategory : 'None Selected'}</Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
-                  {this.props.availableSupplementProducts.map(product => {
+                  {this.props.availableSupplementProducts?.map(product => {
                     const isDisabled = Boolean(supplementDiscount.productCategory && supplementDiscount.productCategory !== product.category);
                     return (
                       <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
@@ -842,14 +843,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </div>
             );
           })}
-          {this.props.availableSupplementProducts.length > 0 && this.props.hotelUuid && (
+          {this.props.availableSupplementProducts?.length > 0 && this.props.hotelUuid && (
             <ActionButton action="add" onClick={this.handleAddProduct('Supplement')}>
               Add Supplement Discount
             </ActionButton>
           )}
 
           {!this.props.hotelUuid && <Text>Select a hotel to add a meal plan discount</Text>}
-          {this.props.hotelUuid && this.props.availableSupplementProducts.length === 0 && (
+          {this.props.hotelUuid && this.props.availableSupplementProducts?.length === 0 && (
             <Text>No Supplements available for this hotel.</Text>
           )}
           <ErrorList className="errorlist">

@@ -9,7 +9,7 @@ import {
   getBootstrapCountriesSelector,
   getBootstrapExtraPersonSupplementProductSelector,
 } from '../../../bootstrap/selectors';
-import { groupBy, flatten, uniq, reduce } from 'ramda';
+import { groupBy, flatten, uniq, reduce, contains } from 'ramda';
 import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../types';
 import {
   offerDomainSelector,
@@ -21,7 +21,7 @@ import {
   availableFineProductsSelector 
 } from '../../domainSelectors';
 import { IAgeName, IUIOfferProductDiscountInstance } from '../../../../../services/BackendApi/types/OfferResponse';
-import { Validator, ValidatorFieldResult, OfferValidatorResultSet, ValidatorFieldError } from '../../validation';
+import { Validator, ValidatorFieldResult, OfferValidatorResultSet, ValidatorFieldError, isPercentageCompliant } from '../../validation';
 import { returnObjectWithUndefinedsAsEmptyStrings, discountsWithCategory } from '../../utils';
 import { uiStateSelector } from '../uiState/selectors';
 
@@ -424,6 +424,13 @@ export const offerSteppingValidationSelector = createSelector(offerSteppingAppli
       });
     }
 
+    if (parseInt(stepping.everyXNights as string, 10) < 2) {
+      errors.push({
+        field: 'stepping',
+        message: 'everyXNights must be greater than 1',
+      });
+    }
+
     if (stepping.applyTo === undefined) {
       errors.push({
         field: 'stepping',
@@ -459,7 +466,16 @@ export const offerProductDiscountsValidationSelector = createSelector(
                 1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+            errors.push({
+              field: 'fineDiscounts',
+              index,
+              message: `Fine discount #${index +
+                1} - Maximum quantity must be an integer`,
+            });
+          }
         });
+
       }
       if (productDiscounts['Ground Service']) {
         productDiscounts['Ground Service'].forEach((discount, index) => {
@@ -475,6 +491,15 @@ export const offerProductDiscountsValidationSelector = createSelector(
               index,
               message: `Ground Service discount #${index +
                 1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
+            });
+          }
+
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+            errors.push({
+              field: 'groundServiceDiscounts',
+              index,
+              message: `Ground Service #${index +
+                1} - Maximum quantity must be an integer`,
             });
           }
         });
@@ -495,6 +520,15 @@ export const offerProductDiscountsValidationSelector = createSelector(
                 1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
+
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+            errors.push({
+              field: 'supplementDiscounts',
+              index,
+              message: `Supplement discount #${index +
+                1} - Maximum quantity must be an integer`,
+            });
+          }
         });
       }
       if (productDiscounts.Transfer) {
@@ -511,6 +545,15 @@ export const offerProductDiscountsValidationSelector = createSelector(
               index,
               message: `Transfer discount #${index +
                 1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
+            });
+          }
+
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+            errors.push({
+              field: 'transferDiscounts',
+              index,
+              message: `Transfer discount #${index +
+                1} - Maximum quantity must be an integer`,
             });
           }
         });
@@ -545,6 +588,15 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
                 1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
+
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+            errors.push({
+              field: 'mealPlanDiscounts',
+              index,
+              message: `Meal Plan #${index +
+                1} - Maximum quantity must be an integer`,
+            });
+          }
         });
       }
     }
@@ -575,6 +627,16 @@ export const offerExtraPersonSupplementValidationSelector = createSelector(
             1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
         });
       }
+
+      if (discount.maximumQuantity?.toString().includes('.')) {
+        errors.push({
+          field: 'extraPersonSupplementDiscounts',
+          index,
+          message: `Extra Person #${index +
+            1} - Maximum quantity must be an integer`,
+        });
+      }
+      
     });
     return {
       errors,
@@ -601,7 +663,10 @@ export const offerFurtherInformationValidationSelector = createSelector(
   }
 );
 
-export const accommodationDiscountValidationSelector = createSelector(offerSelector, offer => {
+export const accommodationDiscountValidationSelector = createSelector(
+  offerSelector, 
+  offerRequiresGreenTaxApproachSelector,
+  (offer, requiresGreenTax) => {
   const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
   if (offer.accommodationProductDiscount && offer.accommodationProductDiscount.discountPercentage) {
@@ -611,6 +676,15 @@ export const accommodationDiscountValidationSelector = createSelector(offerSelec
         message: `Accommodation Product discount - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
       });
     }
+  }
+  
+  if (offer.accommodationProductDiscount && !offer.accommodationProductDiscount.greenTaxDiscountApproach && requiresGreenTax) {
+
+      errors.push({
+        field: 'accommodationProductDiscount',
+        message: `Green tax approach required`,
+      });
+    
   }
 
   return {

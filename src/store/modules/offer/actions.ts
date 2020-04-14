@@ -2,7 +2,7 @@ import { OfferAction } from './subdomains/offer/actions';
 import { OfferUiStateAction } from './subdomains/uiState/actions';
 import { IOfferUI, IOfferOnHotelItem } from 'services/BackendApi';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
-import { OrderedOffer } from './model';
+import { OrderedOffer, IHotelAvailableProducts } from './model';
 
 export const GET_OFFER_REQUEST = 'offer/GET_OFFER_REQUEST';
 export const GET_OFFER_SUCCESS = 'offer/GET_OFFER_SUCCESS';
@@ -36,7 +36,8 @@ export const getOfferSuccessAction = (
   associatedProductsMapping,
   offersOnHotel: IOfferOnHotelItem[],
   isTextOnly,
-  accommodationProductsForHotel
+  accommodationProductsForHotel,
+  availableProducts: IHotelAvailableProducts
 ) => ({
   type: GET_OFFER_SUCCESS as typeof GET_OFFER_SUCCESS,
   offer,
@@ -45,6 +46,7 @@ export const getOfferSuccessAction = (
   offersOnHotel,
   isTextOnly,
   accommodationProductsForHotel,
+  availableProducts,
 });
 
 export type GetOfferFailureAction = ReturnType<typeof getOfferFailureAction>;
@@ -61,7 +63,7 @@ export const putOfferRequestAction = () => ({
 export type PutOfferSuccessAction = ReturnType<typeof putOfferSuccessAction>;
 export const putOfferSuccessAction = (offer: any) => ({
   type: PUT_OFFER_SUCCESS as typeof PUT_OFFER_SUCCESS,
-  offer
+  offer,
 });
 
 export type PutOfferFailureAction = ReturnType<typeof putOfferFailureAction>;

@@ -8,6 +8,7 @@ export interface IBootstrapCountry {
 export interface IBootstrapHotel {
   uuid: string;
   name: string;
+  countryCode: string;
 }
 
 export interface IBootstrapExtraPersonSupplementProduct {

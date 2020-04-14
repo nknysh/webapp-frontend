@@ -79,12 +79,21 @@ export const returnObjectWithUndefinedsAsEmptyStrings = <T>(obj): T | undefined 
 
 export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
   return produce(offer, (draftOffer: IOfferUI) => {
+    if(draftOffer.productDiscounts === null) {
+      draftOffer.productDiscounts = {}
+    }
+
+    if(draftOffer.subProductDiscounts === null) {
+      draftOffer.subProductDiscounts = {}
+    }
+    
     if (draftOffer.subProductDiscounts?.Supplement) {
       draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(discount => {
         discount.uuid = uuid.v4();
         return discount;
       });
     }
+
 
     if (draftOffer.subProductDiscounts['Meal Plan']) {
       draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan']?.map(
@@ -129,15 +138,28 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
   });
 };
 
+export const sanitizeFloat = (value: string | undefined | number | null): number | null => {
+  if(value === undefined || value === '' || value === null) {return null;}
+  if(typeof value === 'number') { (value as number) }
+  return parseFloat(value as string);
+}
+
+
+export const sanitizeInt = (value: string | undefined | number | null) => {
+  if(value === undefined || value === '' || value === null) {return null;}
+  if(typeof value === 'number') { value }
+  return parseInt(value as string, 10);
+}
+
 export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiState): IOfferAPI => {
   return produce(offer, (draftOffer: IOfferAPI) => {
     if (draftOffer.subProductDiscounts?.Supplement) {
       draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(discount => {
         const newSupplement: IOfferProductDiscountInstance = {
           products: discount.products,
-          discountPercentage: discount.discountPercentage,
+          discountPercentage: sanitizeFloat(discount.discountPercentage),
           greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: discount.maximumQuantity,
+          maximumQuantity: sanitizeInt(discount.maximumQuantity),
         };
         return newSupplement;
       });
@@ -147,9 +169,9 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan'].map(discount => {
         const newSupplement: IOfferProductDiscountInstance = {
           products: discount.products,
-          discountPercentage: discount.discountPercentage,
+          discountPercentage: sanitizeFloat(discount.discountPercentage),
           greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: discount.maximumQuantity,
+          maximumQuantity: sanitizeInt(discount.maximumQuantity),
         };
         return newSupplement;
       });
@@ -159,9 +181,9 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map((discount, arrayIndex) => {
         const newSupplement: IOfferProductDiscountInstance = {
           products: discount.products,
-          discountPercentage: discount.discountPercentage,
+          discountPercentage: sanitizeFloat(discount.discountPercentage),
           greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: discount.maximumQuantity,
+          maximumQuantity: sanitizeInt(discount.maximumQuantity),
         };
         return newSupplement;
       });
@@ -175,9 +197,9 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       draftOffer.productDiscounts['Ground Service'] = draftOffer.productDiscounts['Ground Service'].map(discount => {
         const newSupplement: IOfferProductDiscountInstance = {
           products: discount.products,
-          discountPercentage: discount.discountPercentage,
+          discountPercentage: sanitizeFloat(discount.discountPercentage),
           greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: discount.maximumQuantity,
+          maximumQuantity: sanitizeInt(discount.maximumQuantity),
         };
         return newSupplement;
       });
@@ -187,21 +209,37 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       draftOffer.productDiscounts.Supplement = draftOffer.productDiscounts.Supplement.map((discount, arrayIndex) => {
         const newSupplement: IOfferProductDiscountInstance = {
           products: discount.products,
-          discountPercentage: discount.discountPercentage,
+          discountPercentage: sanitizeFloat(discount.discountPercentage),
           greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: discount.maximumQuantity,
+          maximumQuantity: sanitizeInt(discount.maximumQuantity),
         };
         return newSupplement;
       });
+    }
+    
+    if (draftOffer.accommodationProductDiscount) {
+      draftOffer.accommodationProductDiscount = {
+        discountPercentage: sanitizeFloat(draftOffer.accommodationProductDiscount.discountPercentage),
+        greenTaxDiscountApproach: draftOffer.accommodationProductDiscount.greenTaxDiscountApproach,
+      };
+    }
+    
+    if (draftOffer.stepping) {
+      draftOffer.stepping = {
+        applyTo: sanitizeInt(draftOffer.stepping.applyTo),
+        maximumNights: sanitizeInt(draftOffer.stepping.maximumNights),
+        everyXNights: sanitizeInt(draftOffer.stepping.everyXNights),
+        discountCheapest: draftOffer.stepping.discountCheapest,
+      };
     }
 
     if (draftOffer.productDiscounts?.Transfer) {
       draftOffer.productDiscounts.Transfer = draftOffer.productDiscounts.Transfer.map((discount, arrayIndex) => {
         const newSupplement: IOfferProductDiscountInstance = {
           products: discount.products,
-          discountPercentage: discount.discountPercentage,
+          discountPercentage: sanitizeFloat(discount.discountPercentage),
           greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: discount.maximumQuantity,
+          maximumQuantity: sanitizeInt(discount.maximumQuantity),
         };
         return newSupplement;
       });
@@ -219,6 +257,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       case ECombinationMode.COMBINES_WITH_LIST:
         draftOffer.combines = true;
         draftOffer.combinesWith = uiState.combinationOfferUuids;
+        break;
       case ECombinationMode.CANNOT_COMBINE_WITH_LIST:
         draftOffer.combines = true;
         draftOffer.cannotCombineWith = uiState.combinationOfferUuids;
@@ -272,7 +311,7 @@ export const addDiscountHandler = (
   const newState: IOfferProductDiscounts<IUIOfferProductDiscountInstance> = state === undefined ? {} : { ...state };
   newState[discountType] = !newState[discountType] ? [] : [...newState[discountType]];
   const newProductDiscount: IUIOfferProductDiscountInstance = {
-    uuid: uuid.v4(),
+    uuid: (action as OfferAddSubProductDiscountAction).productUuid ? (action as OfferAddSubProductDiscountAction).productUuid : uuid.v4(),
     products: [],
   };
 
@@ -304,11 +343,7 @@ export const updateDiscountHandler = (
 ): IOfferProductDiscounts<IUIOfferProductDiscountInstance> | undefined => {
   const { discountType, uuid, key, newValue, currentValue } = action;
 
-  // const sanitizedValue =
-  //   key === 'discountPercentage' || key === 'maximumQuantity'
-  //     ? sanitizeInteger(newValue as string, currentValue)
-  //     : newValue;
-  const sanitizedValue = parseFloat(newValue as string);
+  const sanitizedValue = newValue as string;
 
   const newDiscountType = state![discountType]!.map(discount => {
     if (discount.uuid !== uuid) {

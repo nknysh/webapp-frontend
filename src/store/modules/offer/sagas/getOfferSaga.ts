@@ -44,7 +44,24 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
       }
     }
 
-    yield put(offerHotelUuidChangeAction(uiOffer.hotelUuid));
+    const hotelResponse = yield call(backendApi.getHotel, uiOffer.hotelUuid, [
+      'accommodationProducts',
+      'fineProducts',
+      'transferProducts',
+      'groundServiceProducts',
+      'mealPlanProducts',
+      'supplementProducts',
+      'offers',
+    ]);
+
+    const {
+      accommodationProducts,
+      fineProducts,
+      transferProducts,
+      groundServiceProducts,
+      mealPlanProducts,
+      supplementProducts,
+    } = hotelResponse.data.data;
 
     yield put(
       getOfferSuccessAction(
@@ -53,7 +70,15 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
         associatedProductsResult ? arrayOfObjectsToMapping(associatedProductsResult.data.data, 'uuid', 'name') : {},
         offersOnHotelResult.response.data.data,
         isTextOnly,
-        accommodationProductsForHotel
+        accommodationProductsForHotel,
+        {
+          accommodationProducts,
+          fineProducts,
+          transferProducts,
+          groundServiceProducts,
+          mealPlanProducts,
+          supplementProducts,
+        }
       )
     );
   } catch (e) {

@@ -28,7 +28,7 @@ import {
   IOfferAPI,
   IOffersOnHotelResponse,
   IAccommodationProductForHotelItem,
-  IOffersSortPayload
+  IOffersSortPayload,
 } from './types/OfferResponse';
 import { transformPut, transformPost, toApiPayload } from './helpers';
 import { IApiErrorResponse } from './types/ApiError';
@@ -118,7 +118,7 @@ export class BackendApiService<T extends AxiosInstance> {
   };
 
   getHotelsAsHotelNames = async (): Promise<AxiosResponse<IHotelNamesResponse>> => {
-    const endpoint = `/hotels?fields[hotel]=uuid,name&sort=hotel.name`;
+    const endpoint = `/hotels?fields[hotel]=uuid,name,countryCode&sort=hotel.name`;
     return this.client.get(endpoint);
   };
 
@@ -130,31 +130,36 @@ export class BackendApiService<T extends AxiosInstance> {
 
   getOffersForHotel = async (hotelUuid: string): Promise<IAPIRepsonse<IOffersOnHotelResponse, IApiErrorResponse>> => {
     const endpoint = `${BackendEndpoints.OFFERS}?fields[offer]=uuid,name,order&filter[offer][hotelUuid]=${hotelUuid}`;
-    return this.client.get(endpoint)
-      .then(response => ({
-        response,
-      }))
-      // TODO: Create a helper to handle differen error ranges and either throw or return an error
-      .catch(error => ({
-        error,
-      }))
+    return (
+      this.client
+        .get(endpoint)
+        .then(response => ({
+          response,
+        }))
+        // TODO: Create a helper to handle differen error ranges and either throw or return an error
+        .catch(error => ({
+          error,
+        }))
+    );
   };
 
-  postOffersOrder = async (offersSortPayload: IOffersSortPayload):Promise<IAPIRepsonse<IOffersOnHotelResponse, IApiErrorResponse>> => {
-    return this.client.post(
-        `${BackendEndpoints.OFFERS}/order`,
-        toApiPayload<IOffersSortPayload>(
-          offersSortPayload,
-          { type: 'offersOrder' }
+  postOffersOrder = async (
+    offersSortPayload: IOffersSortPayload
+  ): Promise<IAPIRepsonse<IOffersOnHotelResponse, IApiErrorResponse>> => {
+    return (
+      this.client
+        .post(
+          `${BackendEndpoints.OFFERS}/order`,
+          toApiPayload<IOffersSortPayload>(offersSortPayload, { type: 'offersOrder' })
         )
-      )
-      .then(response => ({
-        response,
-      }))
-      // TODO: Create a helper to handle differen error ranges and either throw or return an error
-      .catch(error => ({
-        error,
-      }))
+        .then(response => ({
+          response,
+        }))
+        // TODO: Create a helper to handle differen error ranges and either throw or return an error
+        .catch(error => ({
+          error,
+        }))
+    );
   };
 
   getAccommodationProductsForHotel = async (
@@ -216,10 +221,7 @@ export class BackendApiService<T extends AxiosInstance> {
   putOffer = async (offer: IOfferAPI): Promise<IAPIRepsonse<IOfferAPI, IApiErrorResponse>> => {
     return (
       this.client
-        .put(
-          `${BackendEndpoints.OFFERS}/${offer.uuid}`,
-          transformPut<IOfferAPI>(offer, 'offer', ['hotel'])
-        )
+        .put(`${BackendEndpoints.OFFERS}/${offer.uuid}`, transformPut<IOfferAPI>(offer, 'offer', ['hotel']))
         .then(response => ({
           response,
         }))

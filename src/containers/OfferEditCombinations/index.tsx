@@ -39,8 +39,8 @@ export class OfferEditCombinationsContainer extends React.Component<IOfferEditOr
       <OfferEditCombinationStyles>
         <PureSelect value={this.props.combinationMode} onChange={this.handleCombinationModeChange}>
           <option value={ECombinationMode.COMBINES_WITH_ANY}>Combines with any offer</option>
-          <option value={ECombinationMode.COMBINES_WITH_NONE}>Does not combine with any offer</option>
-          <option value={ECombinationMode.COMBINES_WITH_LIST}>Only combines with these offer...</option>
+          <option value={ECombinationMode.COMBINES_WITH_NONE}>Does not combine with any offers</option>
+          <option value={ECombinationMode.COMBINES_WITH_LIST}>Only combines with these offers...</option>
           <option value={ECombinationMode.CANNOT_COMBINE_WITH_LIST}>Combines with any offers, excluding...</option>
         </PureSelect>
 
