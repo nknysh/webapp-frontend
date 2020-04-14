@@ -1,6 +1,6 @@
 import { IDateRange } from 'interfaces';
 import { IOfferUI } from 'services/BackendApi';
-import { initialState, IOfferModel } from '../../../model';
+import { initialState, IHotelAvailableProducts } from '../../../model';
 import { offerReducer as reducer } from '../reducer';
 import { getOfferSuccessAction } from '../../../actions';
 import { IOfferPrerequisites } from '../../../../../../services/BackendApi/types/OfferResponse';
@@ -38,7 +38,15 @@ import {
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOfferUI, {}, {}, [], true, []);
+    const action = getOfferSuccessAction(
+      { uuid: '1234' } as IOfferUI,
+      {},
+      {},
+      [],
+      true,
+      [],
+      {} as IHotelAvailableProducts
+    );
     const result = reducer(initialState.offer, action);
     const expected = { uuid: '1234' } as IOfferUI;
     expect(result).toEqual(expected);

@@ -1,5 +1,6 @@
 import { IOfferUI } from 'services/BackendApi';
 import { getOfferRequestAction, getOfferSuccessAction, getOfferFailureAction } from '../actions';
+import { IHotelAvailableProducts } from '../model';
 
 describe('Offer Actions', () => {
   it('...', () => {
@@ -13,7 +14,8 @@ describe('Offer Actions', () => {
         {},
         [],
         true,
-        []
+        [],
+        {} as IHotelAvailableProducts
       )
     ).toMatchSnapshot();
     expect(getOfferFailureAction('An error')).toMatchSnapshot();

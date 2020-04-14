@@ -6,7 +6,7 @@ import { OfferEditApplicationsStyles } from './OfferEditApplicationsStyles';
 import { ErrorList } from 'pureUi/ErrorList';
 
 import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData';
-import { 
+import {
   offerAccommodationDiscountSelector,
   offerRequiresGreenTaxApproachSelector,
   offerDomainIsTextOnlySelector,
@@ -18,18 +18,18 @@ import {
   availableTransferProductsSelector,
   availableGroundServiceProductsSelector,
   availableMealPlanProductsSelector,
-  availableSupplementProductsSelector, 
-  offerProductDiscountsFinesSelector, 
-  offerProductDiscountsGroundServicesSelector, 
-  offerProductDiscountsTransfersSelector, 
-  offersubProductDiscountsMealPlansSelector, 
+  availableSupplementProductsSelector,
+  offerProductDiscountsFinesSelector,
+  offerProductDiscountsGroundServicesSelector,
+  offerProductDiscountsTransfersSelector,
+  offersubProductDiscountsMealPlansSelector,
   offerProductDiscountsSupplementsSelector,
   offerValidationSelector,
   offerHasApplicationsValidationErrorsSelector,
   offerHasValidationErrorsSelector,
   offerIsPristineSelector,
   ageNameAccordianKeysSelector,
-  offerSteppingApplicationSelector
+  offerSteppingApplicationSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -55,13 +55,19 @@ import {
   offerSetSteppingApplyToApplicationAction,
   offerSetSteppingMaximumNightsApplicationAction,
   offerSetSteppingDiscountCheapestApplicationAction,
-  offerAddSteppingApplicationAction, 
+  offerAddSteppingApplicationAction,
   offerClearAllSteppingApplicationAction,
   offerAddAccommodationDiscountAction,
   offerClearAllAccommodationDiscountAction,
 } from 'store/modules/offer/actions';
 
-import { IOfferProductDiscounts, IOfferSubProductDiscounts, IUIOfferProductDiscountInstance, IAgeName, EProductCategory } from '../../services/BackendApi/types/OfferResponse';
+import {
+  IOfferProductDiscounts,
+  IOfferSubProductDiscounts,
+  IUIOfferProductDiscountInstance,
+  IAgeName,
+  EProductCategory,
+} from '../../services/BackendApi/types/OfferResponse';
 import { EGreenTaxApproach, GreenTaxApproachOptions, GreenTaxApproachInfo } from 'utils/greenTax';
 import { Fieldset, Legend } from '../../pureUi/forms/Fieldset/index';
 import TextInput from '../../pureUi/TextInput/index';
@@ -74,47 +80,45 @@ import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
 import { IProduct } from 'services/BackendApi';
 import { AccordianSection, Accordian } from 'pureUi/Accordian/index';
 
-
-
 export class OfferEditApplicationsContainer extends React.Component<IOfferEditPreRequisitesProps, {}> {
   discountTypeToPropName = (
     discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>,
     isSubProduct?: boolean
-    ): keyof DiscountTypeProps => {
-      switch (discountType) {
-        case 'Fine':
-          return 'fineDiscounts';
-          case 'Ground Service':
-            return 'groundServiceDiscounts';
-            case 'Transfer':
-              return 'transferDiscounts';
-              case 'Meal Plan':
+  ): keyof DiscountTypeProps => {
+    switch (discountType) {
+      case 'Fine':
+        return 'fineDiscounts';
+      case 'Ground Service':
+        return 'groundServiceDiscounts';
+      case 'Transfer':
+        return 'transferDiscounts';
+      case 'Meal Plan':
         return 'mealPlanDiscounts';
-        // Annoying...
-        case 'Supplement':
-          return isSubProduct ? 'extraPersonSupplementDiscounts' : 'supplementDiscounts';
-        }
+      // Annoying...
+      case 'Supplement':
+        return isSubProduct ? 'extraPersonSupplementDiscounts' : 'supplementDiscounts';
+    }
   };
-  
+
   requiresOccupancyAndQuantity = (category: EProductCategory | undefined): boolean => {
-    if(category === EProductCategory.PER_BOOKING || !category) {
+    if (category === EProductCategory.PER_BOOKING || !category) {
       return false;
     }
-    
+
     return true;
-  }
-    handlEeveryXNightsChange = (e: FormEvent<HTMLInputElement>) => {
-      this.props.offerSetSteppingEveryXNightsApplicationAction(e.currentTarget.value)
-    }
-    handleApplyToChange = (e: FormEvent<HTMLInputElement>) => {
-      this.props.offerSetSteppingApplyToApplicationAction(e.currentTarget.value)
-    }
-    handleMaximumNightsChange = (e: FormEvent<HTMLInputElement>) => {
-      this.props.offerSetSteppingMaximumNightsApplicationAction(e.currentTarget.value)
-    }
-    handlediscountCheapestChange = (e: FormEvent<HTMLInputElement>) => {
-      this.props.offerSetSteppingDiscountCheapestApplicationAction(e.currentTarget.checked)
-    }
+  };
+  handlEeveryXNightsChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetSteppingEveryXNightsApplicationAction(e.currentTarget.value);
+  };
+  handleApplyToChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetSteppingApplyToApplicationAction(e.currentTarget.value);
+  };
+  handleMaximumNightsChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetSteppingMaximumNightsApplicationAction(e.currentTarget.value);
+  };
+  handlediscountCheapestChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.offerSetSteppingDiscountCheapestApplicationAction(e.currentTarget.checked);
+  };
 
   handleAccomodationDiscountPctChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetAccommodationDiscountDiscountPercentageAction(parseFloat(e.currentTarget.value));
@@ -128,44 +132,80 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     e: FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const currentValue = this.props.extraPersonSupplementDiscounts!.find(eps => eps.uuid === uuid)![key];
-    this.props.offerUpdateSubProductDiscountAction('Supplement', uuid, key, e.currentTarget.value, currentValue);
+    this.props.offerUpdateSubProductDiscountAction('Supplement', uuid, key, e.currentTarget.value);
   };
 
   handleExtraPersonSupplementAgeNameChange = (uuid: string, ageName: string) => () => {
-    this.props.offerToggleSubProductDiscountAgeNameAction('Supplement', uuid, this.props.bootsrapExtraPersonSupplementId.uuid, ageName);
-  }
-  
-  handleAddProduct = (type: keyof IOfferProductDiscounts<any>) => () => { this.props.offerAddProductDiscountAction(type)}
-  
-  handleAddSubProduct = (type: keyof IOfferSubProductDiscounts<any>) => () => { this.props.offerAddSubProductDiscountAction(type)}
-  
-  handleAddExtraPersonSupplement = () => {
-    console.log('this.props.bootsrapExtraPersonSupplementId.uuid', this.props.bootsrapExtraPersonSupplementId.uuid);
-    this.props.offerAddSubProductDiscountAction('Supplement', this.props.bootsrapExtraPersonSupplementId.uuid)
-  }  
-  
-  handleRemoveProductDiscount = (type: keyof IOfferProductDiscounts<any>, uuid: string) => () => { this.props.offerRemoveProductDiscountAction(type, uuid); }
-  
-  handleRemoveSubProductDiscount = (type: keyof IOfferSubProductDiscounts<any>, uuid: string) => () => { this.props.offerRemoveSubProductDiscountAction(type, uuid); }
+    this.props.offerToggleSubProductDiscountAgeNameAction(
+      'Supplement',
+      uuid,
+      this.props.bootsrapExtraPersonSupplementId.uuid,
+      ageName
+    );
+  };
 
-  handleProductDiscountChange = (discountType: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find((d: IUIOfferProductDiscountInstance) => d.uuid === uuid)![key];
-    this.props.offerUpdateProductDiscountAction(discountType, uuid, key, e.currentTarget.value, currentValue);
+  handleAddProduct = (type: keyof IOfferProductDiscounts<any>) => () => {
+    this.props.offerAddProductDiscountAction(type);
   };
-  
-  handleSubProductDiscountChange = (discountType: keyof IOfferSubProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const currentValue = this.props[this.discountTypeToPropName(discountType, true)]!.find((d: IUIOfferProductDiscountInstance) => d.uuid === uuid)![key];
-    this.props.offerUpdateSubProductDiscountAction(discountType, uuid, key, e.currentTarget.value, currentValue);
+
+  handleAddSubProduct = (type: keyof IOfferSubProductDiscounts<any>) => () => {
+    this.props.offerAddSubProductDiscountAction(type);
   };
-  
-  handleProductDiscountBooleanChange = (discountType: keyof IOfferProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
-    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find((d: IUIOfferProductDiscountInstance) => d.uuid === uuid)![key];
-    this.props.offerUpdateProductDiscountAction(discountType, uuid, key, e.currentTarget.checked, currentValue);
+
+  handleAddExtraPersonSupplement = () => {
+    this.props.offerAddSubProductDiscountAction('Supplement', this.props.bootsrapExtraPersonSupplementId.uuid);
   };
-  
-  handleSubProductDiscountBooleanChange = (discountType: keyof IOfferSubProductDiscounts<any>, uuid: string, key: EditableProductDiscountField) => (e: FormEvent<HTMLInputElement>) => {
-    const currentValue = this.props[this.discountTypeToPropName(discountType, true)]!.find((d: IUIOfferProductDiscountInstance) => d.uuid === uuid)![key];
-    this.props.offerUpdateSubProductDiscountAction(discountType, uuid, key, e.currentTarget.checked, currentValue);
+
+  handleRemoveProductDiscount = (type: keyof IOfferProductDiscounts<any>, uuid: string) => () => {
+    this.props.offerRemoveProductDiscountAction(type, uuid);
+  };
+
+  handleRemoveSubProductDiscount = (type: keyof IOfferSubProductDiscounts<any>, uuid: string) => () => {
+    this.props.offerRemoveSubProductDiscountAction(type, uuid);
+  };
+
+  handleProductDiscountChange = (
+    discountType: keyof IOfferProductDiscounts<any>,
+    uuid: string,
+    key: EditableProductDiscountField
+  ) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(
+      (d: IUIOfferProductDiscountInstance) => d.uuid === uuid
+    )![key];
+    this.props.offerUpdateProductDiscountAction(discountType, uuid, key, e.currentTarget.value);
+  };
+
+  handleSubProductDiscountChange = (
+    discountType: keyof IOfferSubProductDiscounts<any>,
+    uuid: string,
+    key: EditableProductDiscountField
+  ) => (e: FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const currentValue = this.props[this.discountTypeToPropName(discountType, true)]!.find(
+      (d: IUIOfferProductDiscountInstance) => d.uuid === uuid
+    )![key];
+    this.props.offerUpdateSubProductDiscountAction(discountType, uuid, key, e.currentTarget.value);
+  };
+
+  handleProductDiscountBooleanChange = (
+    discountType: keyof IOfferProductDiscounts<any>,
+    uuid: string,
+    key: EditableProductDiscountField
+  ) => (e: FormEvent<HTMLInputElement>) => {
+    const currentValue = this.props[this.discountTypeToPropName(discountType)]!.find(
+      (d: IUIOfferProductDiscountInstance) => d.uuid === uuid
+    )![key];
+    this.props.offerUpdateProductDiscountAction(discountType, uuid, key, e.currentTarget.checked);
+  };
+
+  handleSubProductDiscountBooleanChange = (
+    discountType: keyof IOfferSubProductDiscounts<any>,
+    uuid: string,
+    key: EditableProductDiscountField
+  ) => (e: FormEvent<HTMLInputElement>) => {
+    const currentValue = this.props[this.discountTypeToPropName(discountType, true)]!.find(
+      (d: IUIOfferProductDiscountInstance) => d.uuid === uuid
+    )![key];
+    this.props.offerUpdateSubProductDiscountAction(discountType, uuid, key, e.currentTarget.checked);
   };
 
   toggleProductOnProductDiscount = (
@@ -182,20 +222,39 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     productUuid: string
   ) => () => {
     this.props.offerToggleProductOnSubProductDiscountAction(discountType, discountUuid, productUuid);
-  }
+  };
 
   expandAgeName = (ageNameAccordianKey: string) => () => {
     this.props.toggleAgeNameAccordianKey(ageNameAccordianKey);
-  }
+  };
 
-  handleProductAgeNameChange = (discountType: string, discountUuid: string, productUuid: string, ageName: string) => () => {
-    this.props.offerToggleAgeNameOnProductAction(discountType as keyof IOfferProductDiscounts<any>, discountUuid, productUuid, ageName);
-  }
-  
-  handleSubProductAgeNameChange = (discountType: string, discountUuid: string, productUuid: string, ageName: string) => () => {
-    this.props.offerToggleAgeNameOnSubProductAction(discountType as keyof IOfferSubProductDiscounts<any>, discountUuid, productUuid, ageName);
-  }
+  handleProductAgeNameChange = (
+    discountType: string,
+    discountUuid: string,
+    productUuid: string,
+    ageName: string
+  ) => () => {
+    this.props.offerToggleAgeNameOnProductAction(
+      discountType as keyof IOfferProductDiscounts<any>,
+      discountUuid,
+      productUuid,
+      ageName
+    );
+  };
 
+  handleSubProductAgeNameChange = (
+    discountType: string,
+    discountUuid: string,
+    productUuid: string,
+    ageName: string
+  ) => () => {
+    this.props.offerToggleAgeNameOnSubProductAction(
+      discountType as keyof IOfferSubProductDiscounts<any>,
+      discountUuid,
+      productUuid,
+      ageName
+    );
+  };
 
   ageNamesWithAdult = (ageNames: IAgeName[]): IAgeName[] => {
     const stortedAgeNames = ageNames.sort((a, b) => {
@@ -207,58 +266,73 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     const adult: IAgeName = {
       name: 'Adult',
       ageFrom: stortedAgeNames[0].ageTo,
-    }
-    
-    return [adult, ...stortedAgeNames]
-  }
+    };
+
+    return [adult, ...stortedAgeNames];
+  };
 
   // Sweet jesus. Age names are well hard!
   renderAgeNamesOptions = (
-    discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>, 
-    discount: IUIOfferProductDiscountInstance, 
+    discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>,
+    discount: IUIOfferProductDiscountInstance,
     availableProducts: IProduct<any>[],
-    isSubProduct: boolean,
+    isSubProduct: boolean
   ) => {
-    if(discount.products.length === 0 || discount.productCategory === EProductCategory.PER_BOOKING) return null;
-    
-    return(
+    if (discount.products.length === 0 || discount.productCategory === EProductCategory.PER_BOOKING) return null;
+
+    return (
       <Accordian className="ageNamesMap">
         {discount.products.map(discountProduct => {
           const product = availableProducts.find(p => p.uuid === discountProduct.uuid);
-          if(!product) { return null; }
-          if(!product.options?.ages) { return null; }
+          if (!product) {
+            return null;
+          }
+          if (!product.options?.ages) {
+            return null;
+          }
           const ageNameAccordianKey = `${discount.uuid} - ${product.name}`;
           const ageNameTitle = `Ages for ${product.name}`;
           const isOpen = this.props.ageNameAccordianKeys.includes(ageNameAccordianKey);
           return (
-          <AccordianSection key={product.name} title={ageNameTitle} isOpen={isOpen} onClick={this.expandAgeName(ageNameAccordianKey)}>
-            <FormControlGrid columnCount={4} padded>
-              {this.ageNamesWithAdult(product.options.ages).map(ageName => {
-                console.log('discount.products.find(p => p.uuid)!.ageNames', discount.products.find(p => p.uuid)!.ageNames);
-                console.log('isChecked', discount.products.find(p => p.uuid)!.ageNames?.includes(ageName.name))
-                const isChecked = discountProduct.ageNames?.includes(ageName.name);
-                const changeHandler = isSubProduct
-                  ? this.handleSubProductAgeNameChange
-                  : this.handleProductAgeNameChange;
-                return (
-                  <Label key={ageName.name} text={ageName.name} inline reverse lowercase>
-                    <Checkbox checked={isChecked} onChange={changeHandler(discountType, discount.uuid, discountProduct.uuid, ageName.name)}/>
-                  </Label>
-                );
-              })}
-            </FormControlGrid>
-          </AccordianSection>
+            <AccordianSection
+              key={product.name}
+              title={ageNameTitle}
+              isOpen={isOpen}
+              onClick={this.expandAgeName(ageNameAccordianKey)}
+            >
+              <FormControlGrid columnCount={4} padded>
+                {this.ageNamesWithAdult(product.options.ages).map(ageName => {
+                  console.log(
+                    'discount.products.find(p => p.uuid)!.ageNames',
+                    discount.products.find(p => p.uuid)!.ageNames
+                  );
+                  console.log('isChecked', discount.products.find(p => p.uuid)!.ageNames?.includes(ageName.name));
+                  const isChecked = discountProduct.ageNames?.includes(ageName.name);
+                  const changeHandler = isSubProduct
+                    ? this.handleSubProductAgeNameChange
+                    : this.handleProductAgeNameChange;
+                  return (
+                    <Label key={ageName.name} text={ageName.name} inline reverse lowercase>
+                      <Checkbox
+                        checked={isChecked}
+                        onChange={changeHandler(discountType, discount.uuid, discountProduct.uuid, ageName.name)}
+                      />
+                    </Label>
+                  );
+                })}
+              </FormControlGrid>
+            </AccordianSection>
           );
         })}
       </Accordian>
-    )
-  }
-  
+    );
+  };
+
   render() {
     if (this.props.isTextOnly) {
       return <Heading level="h3">Text only offers can not have applications.</Heading>;
     }
-    
+
     return (
       <OfferEditApplicationsStyles>
         <Fieldset>
@@ -266,16 +340,19 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.stepping && (
             <div className="steppingGrid">
               <Label className="nights" text="Every X nights" lowercase>
-                <TextInput value={this.props.stepping?.everyXNights || ''} onChange={this.handlEeveryXNightsChange}/>
+                <TextInput value={this.props.stepping?.everyXNights || ''} onChange={this.handlEeveryXNightsChange} />
               </Label>
               <Label className="apply" text="Apply To" lowercase>
-                <TextInput value={this.props.stepping?.applyTo || ''} onChange={this.handleApplyToChange}/>
+                <TextInput value={this.props.stepping?.applyTo || ''} onChange={this.handleApplyToChange} />
               </Label>
               <Label className="max" text="Maximum nights this can repeat" lowercase>
-                <TextInput value={this.props.stepping?.maximumNights || ''} onChange={this.handleMaximumNightsChange}/>
+                <TextInput value={this.props.stepping?.maximumNights || ''} onChange={this.handleMaximumNightsChange} />
               </Label>
               <Label className="checkbox" text="Discount Cheapest" lowercase inline reverse>
-                <Checkbox checked={Boolean(this.props.stepping?.discountCheapest)} onChange={this.handlediscountCheapestChange}/>
+                <Checkbox
+                  checked={Boolean(this.props.stepping?.discountCheapest)}
+                  onChange={this.handlediscountCheapestChange}
+                />
               </Label>
               <span className="removeButton">
                 <CloseButton onClick={this.props.offerClearAllSteppingApplicationAction} />
@@ -283,7 +360,11 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             </div>
           )}
 
-          {!this.props.stepping && <ActionButton action="add" onClick={this.props.offerAddSteppingApplicationAction}>Add Stepping</ActionButton>}
+          {!this.props.stepping && (
+            <ActionButton action="add" onClick={this.props.offerAddSteppingApplicationAction}>
+              Add Stepping
+            </ActionButton>
+          )}
         </Fieldset>
         <Fieldset>
           <Legend>Accomodation Discount</Legend>
@@ -321,17 +402,15 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               </span>
             </div>
           )}
-        <ErrorList className="errorlist">
+          <ErrorList className="errorlist">
             {!this.props.offerIsPristine &&
-            this.props.validationErrors.accommodationProductDiscount.map((error, i) => (
-            <li key={i}>{error.message}</li>
-            ))}
-        </ErrorList>
+              this.props.validationErrors.accommodationProductDiscount.map((error, i) => (
+                <li key={i}>{error.message}</li>
+              ))}
+          </ErrorList>
           {!this.props.accomodationDiscount && (
-            <ActionButton
-              action="add"
-              onClick={this.props.offerAddAccommodationDiscountAction}>
-                Add Accommodaiton Discount
+            <ActionButton action="add" onClick={this.props.offerAddAccommodationDiscountAction}>
+              Add Accommodaiton Discount
             </ActionButton>
           )}
         </Fieldset>
@@ -347,13 +426,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
 
           {!this.props.hotelUuid && <Text>Select a hotel to add an extra person supplement</Text>}
 
-          {this.props.hotelUuid && this.props.extraPersonSupplementDiscounts.map((eps: IUIOfferProductDiscountInstance) => {
-            return (
-              <div key={eps.uuid} className="extraPersonSupplement">
+          {this.props.hotelUuid &&
+            this.props.extraPersonSupplementDiscounts.map((eps: IUIOfferProductDiscountInstance) => {
+              return (
+                <div key={eps.uuid} className="extraPersonSupplement">
                   <FormControlGrid columnCount={4} className="ageNames">
                     <Label inline reverse text={'Adult'}>
-                      <Checkbox 
-                        checked={eps.ageNames?.includes('Adult')} 
+                      <Checkbox
+                        checked={eps.ageNames?.includes('Adult')}
                         onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, 'Adult')}
                       />
                     </Label>
@@ -364,12 +444,12 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                         : `${an.name} ( ${an.ageFrom}+ )`;
 
                       return (
-                      <Label key={an.name} inline reverse text={label}>
-                        <Checkbox 
-                          checked={eps.ageNames?.includes(an.name)} 
-                          onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, an.name)}
-                        />
-                      </Label>
+                        <Label key={an.name} inline reverse text={label}>
+                          <Checkbox
+                            checked={eps.ageNames?.includes(an.name)}
+                            onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, an.name)}
+                          />
+                        </Label>
                       );
                     })}
                   </FormControlGrid>
@@ -441,13 +521,17 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.fineDiscounts.map(fineDiscount => {
             return (
               <div key={fineDiscount.uuid} className="fineDiscountGrid">
-                <Text className="category">Product Category: {fineDiscount.productCategory ? fineDiscount.productCategory : 'None Selected'}</Text>
+                <Text className="category">
+                  Product Category: {fineDiscount.productCategory ? fineDiscount.productCategory : 'None Selected'}
+                </Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
                   {this.props.availableFineProducts.map(product => {
-                    const isDisabled = Boolean(fineDiscount.productCategory && fineDiscount.productCategory !== product.category);
+                    const isDisabled = Boolean(
+                      fineDiscount.productCategory && fineDiscount.productCategory !== product.category
+                    );
                     return (
                       <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox 
+                        <Checkbox
                           disabled={isDisabled}
                           checked={fineDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
                           onChange={this.toggleProductOnProductDiscount('Fine', fineDiscount.uuid, product.uuid)}
@@ -523,22 +607,37 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.groundServiceDiscounts.map(groundServiceDiscount => {
             return (
               <div key={groundServiceDiscount.uuid} className="groundServiceDiscountGrid">
-                <Text className="category">Product Category: {groundServiceDiscount.productCategory ? groundServiceDiscount.productCategory : 'None Selected'}</Text>
+                <Text className="category">
+                  Product Category:{' '}
+                  {groundServiceDiscount.productCategory ? groundServiceDiscount.productCategory : 'None Selected'}
+                </Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
                   {this.props.availableGroundServiceProducts.map(product => {
-                    const isDisabled = Boolean(groundServiceDiscount.productCategory && groundServiceDiscount.productCategory !== product.category);
+                    const isDisabled = Boolean(
+                      groundServiceDiscount.productCategory &&
+                        groundServiceDiscount.productCategory !== product.category
+                    );
                     return (
                       <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox 
+                        <Checkbox
                           disabled={isDisabled}
                           checked={groundServiceDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                          onChange={this.toggleProductOnProductDiscount('Ground Service', groundServiceDiscount.uuid, product.uuid)}
+                          onChange={this.toggleProductOnProductDiscount(
+                            'Ground Service',
+                            groundServiceDiscount.uuid,
+                            product.uuid
+                          )}
                         />
                       </Label>
                     );
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesOptions('Ground Service', groundServiceDiscount, this.props.availableGroundServiceProducts, false)}
+                {this.renderAgeNamesOptions(
+                  'Ground Service',
+                  groundServiceDiscount,
+                  this.props.availableGroundServiceProducts,
+                  false
+                )}
                 <span className="removeDiscountButton">
                   <CloseButton
                     onClick={this.handleRemoveProductDiscount('Ground Service', groundServiceDiscount.uuid)}
@@ -612,16 +711,25 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.transferDiscounts.map(transferDiscount => {
             return (
               <div key={transferDiscount.uuid} className="transferDiscountGrid">
-                <Text className="category">Product Category: {transferDiscount.productCategory ? transferDiscount.productCategory : 'None Selected'}</Text>
+                <Text className="category">
+                  Product Category:{' '}
+                  {transferDiscount.productCategory ? transferDiscount.productCategory : 'None Selected'}
+                </Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
                   {this.props.availableTransferProducts?.map(product => {
-                    const isDisabled = Boolean(transferDiscount.productCategory && transferDiscount.productCategory !== product.category);
+                    const isDisabled = Boolean(
+                      transferDiscount.productCategory && transferDiscount.productCategory !== product.category
+                    );
                     return (
                       <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox 
+                        <Checkbox
                           disabled={isDisabled}
                           checked={transferDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                          onChange={this.toggleProductOnProductDiscount('Transfer', transferDiscount.uuid, product.uuid)}
+                          onChange={this.toggleProductOnProductDiscount(
+                            'Transfer',
+                            transferDiscount.uuid,
+                            product.uuid
+                          )}
                         />
                       </Label>
                     );
@@ -642,7 +750,11 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     <Label className="maxQuantityInput" text="Maximum Quantity">
                       <TextInput
                         value={transferDiscount.maximumQuantity || ''}
-                        onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'maximumQuantity')}
+                        onChange={this.handleProductDiscountChange(
+                          'Transfer',
+                          transferDiscount.uuid,
+                          'maximumQuantity'
+                        )}
                       />
                     </Label>
                     <Label
@@ -691,16 +803,25 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.mealPlanDiscounts.map(mealPlanDiscount => {
             return (
               <div key={mealPlanDiscount.uuid} className="mealPlanDiscountGrid">
-                <Text className="category">Product Category: {mealPlanDiscount.productCategory ? mealPlanDiscount.productCategory : 'None Selected'}</Text>
+                <Text className="category">
+                  Product Category:{' '}
+                  {mealPlanDiscount.productCategory ? mealPlanDiscount.productCategory : 'None Selected'}
+                </Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
                   {this.props.availableMealPlanProducts?.map(product => {
-                    const isDisabled = Boolean(mealPlanDiscount.productCategory && mealPlanDiscount.productCategory !== product.category);
+                    const isDisabled = Boolean(
+                      mealPlanDiscount.productCategory && mealPlanDiscount.productCategory !== product.category
+                    );
                     return (
                       <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox 
+                        <Checkbox
                           disabled={isDisabled}
                           checked={mealPlanDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                          onChange={this.toggleProductOnSubProductDiscount('Meal Plan', mealPlanDiscount.uuid, product.uuid)}
+                          onChange={this.toggleProductOnSubProductDiscount(
+                            'Meal Plan',
+                            mealPlanDiscount.uuid,
+                            product.uuid
+                          )}
                         />
                       </Label>
                     );
@@ -779,22 +900,36 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.supplementDiscounts.map(supplementDiscount => {
             return (
               <div key={supplementDiscount.uuid} className="supplementDiscountGrid">
-                <Text className="category">Product Category: {supplementDiscount.productCategory ? supplementDiscount.productCategory : 'None Selected'}</Text>
+                <Text className="category">
+                  Product Category:{' '}
+                  {supplementDiscount.productCategory ? supplementDiscount.productCategory : 'None Selected'}
+                </Text>
                 <FormControlGrid className="formGrid" columnCount={4}>
                   {this.props.availableSupplementProducts?.map(product => {
-                    const isDisabled = Boolean(supplementDiscount.productCategory && supplementDiscount.productCategory !== product.category);
+                    const isDisabled = Boolean(
+                      supplementDiscount.productCategory && supplementDiscount.productCategory !== product.category
+                    );
                     return (
                       <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox 
+                        <Checkbox
                           disabled={isDisabled}
                           checked={supplementDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                          onChange={this.toggleProductOnProductDiscount('Supplement', supplementDiscount.uuid, product.uuid)}
+                          onChange={this.toggleProductOnProductDiscount(
+                            'Supplement',
+                            supplementDiscount.uuid,
+                            product.uuid
+                          )}
                         />
                       </Label>
-                    )
+                    );
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesOptions('Supplement', supplementDiscount, this.props.availableSupplementProducts, false)}
+                {this.renderAgeNamesOptions(
+                  'Supplement',
+                  supplementDiscount,
+                  this.props.availableSupplementProducts,
+                  false
+                )}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Supplement', supplementDiscount.uuid)} />
                 </span>
@@ -808,36 +943,36 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     )}
                   />
                 </Label>
-                
+
                 {this.requiresOccupancyAndQuantity(supplementDiscount.productCategory) && (
                   <>
-                  <Label className="maxQuantityInput" text="Maximum Quantity">
-                    <TextInput
-                      value={supplementDiscount.maximumQuantity || ''}
-                      onChange={this.handleProductDiscountChange(
-                        'Supplement',
-                        supplementDiscount.uuid,
-                        'maximumQuantity'
-                      )}
-                    />
-                  </Label>
-                
-                  <Label
-                    className="occupancyCheckbox"
-                    text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                    inline
-                    reverse
-                    lowercase
-                  >
-                    <Checkbox
-                      checked={supplementDiscount.standardOccupancyOnly}
-                      onChange={this.handleProductDiscountBooleanChange(
-                        'Supplement',
-                        supplementDiscount.uuid,
-                        'standardOccupancyOnly'
-                      )}
-                    />
-                  </Label>
+                    <Label className="maxQuantityInput" text="Maximum Quantity">
+                      <TextInput
+                        value={supplementDiscount.maximumQuantity || ''}
+                        onChange={this.handleProductDiscountChange(
+                          'Supplement',
+                          supplementDiscount.uuid,
+                          'maximumQuantity'
+                        )}
+                      />
+                    </Label>
+
+                    <Label
+                      className="occupancyCheckbox"
+                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                      inline
+                      reverse
+                      lowercase
+                    >
+                      <Checkbox
+                        checked={supplementDiscount.standardOccupancyOnly}
+                        onChange={this.handleProductDiscountBooleanChange(
+                          'Supplement',
+                          supplementDiscount.uuid,
+                          'standardOccupancyOnly'
+                        )}
+                      />
+                    </Label>
                   </>
                 )}
               </div>

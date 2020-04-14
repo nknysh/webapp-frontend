@@ -362,7 +362,10 @@ describe('offer reducer product fines', () => {
           },
           {
             uuid: 'F_UUID_2',
-            products: [{ uuid: 'P_UUID_1', ageNames: [] }, { uuid: 'P_UUID_3', ageNames: [] }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
           {
             uuid: 'F_UUID_3',
@@ -429,7 +432,7 @@ describe('offer reducer product fines', () => {
       },
     };
 
-    const action = offerUpdateProductDiscountAction('Fine', 'F_UUID_2', 'discountPercentage', '1', undefined);
+    const action = offerUpdateProductDiscountAction('Fine', 'F_UUID_2', 'discountPercentage', '1');
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });
@@ -482,61 +485,7 @@ describe('offer reducer product fines', () => {
       },
     };
 
-    const action = offerUpdateProductDiscountAction('Fine', 'F_UUID_2', 'maximumQuantity', '1', undefined);
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it.skip('Does not a product discount maximumQuantity with an invalid value', () => {
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            uuid: 'F_UUID_1',
-            products: [],
-          },
-          {
-            uuid: 'F_UUID_2',
-            maximumQuantity: 1,
-            products: [],
-          },
-          {
-            uuid: 'F_UUID_3',
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      productDiscounts: {
-        Transfer: [],
-        'Ground Service': [],
-        Supplement: [],
-        Fine: [
-          {
-            uuid: 'F_UUID_1',
-            products: [],
-          },
-          {
-            uuid: 'F_UUID_2',
-            maximumQuantity: 1,
-            products: [],
-          },
-          {
-            uuid: 'F_UUID_3',
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const action = offerUpdateProductDiscountAction('Fine', 'F_UUID_2', 'maximumQuantity', 'INVALID_VALUE', 1);
+    const action = offerUpdateProductDiscountAction('Fine', 'F_UUID_2', 'maximumQuantity', '1');
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });

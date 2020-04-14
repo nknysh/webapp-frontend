@@ -5,12 +5,12 @@ import {
   transformApiOfferToUiOffer,
   transformUiOfferToApiOffer,
   getOrderedOffers,
-  toOrderedOffer
-} from '../utils';
-import { initialState, IOfferUiState, ECombinationMode } from '../model';
+  toOrderedOffer,
+} from '../../utils';
+import { initialState, IOfferUiState, ECombinationMode } from '../../model';
 import { IOfferAPI, IOfferUI, IUIOfferProductDiscountInstance } from 'services/BackendApi';
-import { IMealPlanProductOptions, IProduct } from '../../../../services/BackendApi/types/HotelResponse';
-import { mockOffersOrderingData } from './mock';
+import { IMealPlanProductOptions, IProduct } from 'services/BackendApi/types/HotelResponse';
+import { mockOffersOrderingData } from '../mock';
 
 describe('offer module utils test', () => {
   describe('getAllAssociatedProductUuidsFromOffer', () => {
@@ -204,7 +204,6 @@ describe('offer module utils test', () => {
       const transformed = transformApiOfferToUiOffer(fixture);
       expect(typeof transformed.subProductDiscounts['Meal Plan']![0]!.products[0].uuid).toBe('string');
       expect(typeof transformed.subProductDiscounts.Supplement![0]!.products[0].uuid).toBe('string');
-      
     });
 
     it('adds UUIDS to product discount supplements', () => {
@@ -213,22 +212,22 @@ describe('offer module utils test', () => {
         productDiscounts: {
           Transfer: [
             {
-              products: [{ uuid: 'A', ageNames: []}],
+              products: [{ uuid: 'A', ageNames: [] }],
             },
           ],
           Supplement: [
             {
-              products: [{ uuid: 'B', ageNames: []}],
+              products: [{ uuid: 'B', ageNames: [] }],
             },
           ],
           Fine: [
             {
-              products: [{ uuid: 'C', ageNames: []}],
+              products: [{ uuid: 'C', ageNames: [] }],
             },
           ],
           'Ground Service': [
             {
-              products: [{ uuid: 'C', ageNames: []}],
+              products: [{ uuid: 'C', ageNames: [] }],
             },
           ],
         },
@@ -488,21 +487,17 @@ describe('offer module utils test', () => {
 });
 
 describe('getOrderedOffers', () => {
-
   it('orders offers on hotel correctly', () => {
     const { basic } = mockOffersOrderingData;
     expect(getOrderedOffers(basic.offersOnHotel)).toMatchObject(basic.orderedOffers);
-  })
-
+  });
 });
 
 describe('toOrderedOffer', () => {
-
   it('transforms offer properly', () => {
     const input = { uuid: 'a-a', name: 'a', order: 0 };
     const output = { uuid: 'a-a', name: 'a' };
 
     expect(toOrderedOffer(input)).toMatchObject(output);
-  })
-
+  });
 });

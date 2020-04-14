@@ -1,9 +1,7 @@
-import { IDateRange } from 'interfaces';
 import { IOfferUI } from 'services/BackendApi';
-import { initialState, IOfferModel } from '../../../model';
+import { initialState } from '../../../model';
 import { offerReducer as reducer } from '../reducer';
-import { getOfferSuccessAction } from '../../../actions';
-import { IOfferPrerequisites, IDiscountProduct } from '../../../../../../services/BackendApi/types/OfferResponse';
+import { IDiscountProduct } from 'services/BackendApi/types/OfferResponse';
 import {
   offerAddSubProductDiscountAction,
   offerAddProductToSubProductDiscountAction,
@@ -12,7 +10,6 @@ import {
   offerUpdateSubProductDiscountAction,
   offerToggleSubProductDiscountAgeNameAction,
 } from '../actions';
-import { Supplement } from '../../../../../../services/BackendApi/types/OffersSearchResponse';
 
 const mockProduct: IDiscountProduct = { uuid: 'XXX', ageNames: [] };
 
@@ -333,7 +330,10 @@ describe('offer reducer sub product supplements', () => {
           },
           {
             uuid: 'S_UUID_2',
-            products: [{ uuid: 'P_UUID_1', ageNames: [] }, { uuid: 'P_UUID_3', ageNames: [] }],
+            products: [
+              { uuid: 'P_UUID_1', ageNames: [] },
+              { uuid: 'P_UUID_3', ageNames: [] },
+            ],
           },
           {
             uuid: 'S_UUID_3',
@@ -396,7 +396,7 @@ describe('offer reducer sub product supplements', () => {
       },
     };
 
-    const action = offerUpdateSubProductDiscountAction('Supplement', 'S_UUID_2', 'discountPercentage', '1', undefined);
+    const action = offerUpdateSubProductDiscountAction('Supplement', 'S_UUID_2', 'discountPercentage', '1');
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });
@@ -445,57 +445,7 @@ describe('offer reducer sub product supplements', () => {
       },
     };
 
-    const action = offerUpdateSubProductDiscountAction('Supplement', 'S_UUID_2', 'maximumQuantity', '1', undefined);
-    const newState = reducer(testState, action);
-    expect(newState).toMatchObject(expected);
-  });
-
-  it.skip('Does not update a product discount maximumQuantity with an invalid value', () => {
-    const testState: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            uuid: 'S_UUID_1',
-            products: [],
-          },
-          {
-            uuid: 'S_UUID_2',
-            maximumQuantity: 1,
-            products: [],
-          },
-          {
-            uuid: 'S_UUID_3',
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const expected: IOfferUI = {
-      ...initialState.offer,
-      subProductDiscounts: {
-        'Meal Plan': [],
-        Supplement: [
-          {
-            uuid: 'S_UUID_1',
-            products: [],
-          },
-          {
-            uuid: 'S_UUID_2',
-            maximumQuantity: 1,
-            products: [],
-          },
-          {
-            uuid: 'S_UUID_3',
-            products: [],
-          },
-        ],
-      },
-    };
-
-    const action = offerUpdateSubProductDiscountAction('Supplement', 'S_UUID_2', 'maximumQuantity', 'INVALID_VALUE', 1);
+    const action = offerUpdateSubProductDiscountAction('Supplement', 'S_UUID_2', 'maximumQuantity', '1');
     const newState = reducer(testState, action);
     expect(newState).toMatchObject(expected);
   });

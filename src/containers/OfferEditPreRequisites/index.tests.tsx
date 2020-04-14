@@ -50,6 +50,7 @@ const createProps = (
     bootstrapHotels: Array.from({ length: 10 }).map((_, idx) => ({
       name: `Test Hotel ${idx}`,
       uuid: `hotel_${idx}`,
+      countryCode: 'MV',
     })),
     bootsrapExtraPersonSupplementId: {
       uuid: 'EPS_123',

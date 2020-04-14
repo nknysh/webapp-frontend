@@ -5,10 +5,7 @@ import {
   IDiscountProduct,
 } from 'services/BackendApi';
 import { IHotel } from 'services/BackendApi/types/HotelResponse';
-import {
-  IOfferSubProductDiscounts,
-  IUIOfferProductDiscountInstance,
-} from '../../../../../services/BackendApi/types/OfferResponse';
+import { IOfferSubProductDiscounts, IUIOfferProductDiscountInstance } from 'services/BackendApi/types/OfferResponse';
 
 export const OFFER_HOTEL_UUID_CHANGE = 'offer/OFFER_HOTEL_UUID_CHANGE'; // In create mode, this will trigger a saga to load hotel data
 export const OFFER_HOTEL_UUID_CHANGE_SUCCESS = 'offer/OFFER_HOTEL_UUID_CHANGE_SUCCESS';
@@ -308,15 +305,13 @@ export const offerUpdateProductDiscountAction = (
   discountType: keyof IOfferProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string,
   key: EditableProductDiscountField,
-  newValue: string | boolean,
-  currentValue: number | string | boolean | undefined
+  newValue: string | boolean
 ) => ({
   type: OFFER_UPDATE_PRODUCT_DISCOUNT as typeof OFFER_UPDATE_PRODUCT_DISCOUNT,
   discountType,
   uuid,
   key,
   newValue,
-  currentValue,
 });
 
 export type OfferRemoveProductDiscountAction = ReturnType<typeof offerRemoveProductDiscountAction>;
@@ -385,15 +380,13 @@ export const offerUpdateSubProductDiscountAction = (
   discountType: keyof IOfferSubProductDiscounts<IOfferProductDiscountInstance>,
   uuid: string,
   key: keyof Omit<IUIOfferProductDiscountInstance, 'uuid' | 'products'>,
-  newValue: string | boolean,
-  currentValue: number | string | boolean | undefined
+  newValue: string | boolean
 ) => ({
   type: OFFER_UPDATE_SUB_PRODUCT_DISCOUNT as typeof OFFER_UPDATE_SUB_PRODUCT_DISCOUNT,
   discountType,
   uuid,
   key,
   newValue,
-  currentValue,
 });
 
 export type OfferRemoveSubProductDiscountAction = ReturnType<typeof offerRemoveSubProductDiscountAction>;
