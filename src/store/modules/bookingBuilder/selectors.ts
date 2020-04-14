@@ -328,3 +328,11 @@ export const travelAgentUserUuidSelector = createSelector(
   bookingBuilderDomain,
   bookingBuilderDomain => bookingBuilderDomain.travelAgentUserUuid
 );
+
+export const guestInfoSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => pick(
+    ['guestTitle', 'guestFirstName', 'guestLastName', 'isRepeatGuest'],
+    bookingBuilderDomain
+  )
+);

@@ -46,6 +46,8 @@ import {
   taMarginAmountSelector,
   bookingBuilderTotalSelector,
   updateBookingTravelAgentUserIdAction,
+  updateBookingGuestInformationAction,
+  guestInfoSelector,
   saveCustomItemAction,
   removeCustomItemAction,
 } from 'store/modules/bookingBuilder';
@@ -82,6 +84,7 @@ export const mapStateToProps = (state, { id }) => {
     canBook: bookingCanBookSelector(state),
     currencyCode: getBookingCurrencySymbol(state, id),
     getTravelAgentName: id => getTravelAgentFullName(state, id),
+    guestInfo: guestInfoSelector(state),
     grandTotal: bookingBuilderTotalSelector(state),
     travelAgent,
     travelAgentsStatus: getTravelAgentsStatus(state),
@@ -113,6 +116,7 @@ export const mapDispatchToProps = dispatch => ({
   updateTAMarginAmountAction: pipe(updateTAMarginAmountAction, dispatch),
   updateIsTAMarginAppliedAction: pipe(updateIsTAMarginAppliedAction, dispatch),
   updateBookingTravelAgentUserIdAction: pipe(updateBookingTravelAgentUserIdAction, dispatch),
+  updateBookingGuestInformationAction: pipe(updateBookingGuestInformationAction, dispatch),
   customItemActions: [
     ['showForm', showCustomItemFormAction],
     ['hideForm', hideCustomItemFormAction],

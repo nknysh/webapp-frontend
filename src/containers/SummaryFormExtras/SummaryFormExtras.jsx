@@ -483,14 +483,14 @@ const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect,
   </TableCardBox>
 );
 
-const renderGuestInfo = () => {
+const renderGuestInfo = (data, onChange) => {
   return (
     <TableCardBox className="mt-4 mb-4">
       <TableCardRow depth={3}>
         <Title>Lead Guest Info</Title>
         <BookingGuestInformationForm
-          bookingGuestFormValues={{}}
-          onValueChange={console.log}
+          bookingGuestFormValues={data}
+          onValueChange={onChange}
           sections={{ guestInfo: true }}
         />
       </TableCardRow>
@@ -541,6 +541,8 @@ export const SummaryFormExtras = ({
   updateBookingTravelAgentUserIdAction,
   customItem,
   customItemActions,
+  guestInfo,
+  updateBookingGuestInformationAction
 }) => {
   const { t } = useTranslation();
 
@@ -775,8 +777,10 @@ export const SummaryFormExtras = ({
           displayTotals={booking.response.displayTotals}
         />
       )}
-      {renderGuestInfo()}
-
+      {renderGuestInfo(
+        guestInfo,
+        updateBookingGuestInformationAction
+      )}
       {/* SRs need to be able to select TAs */}
       {hasTASelect &&
         renderTASelect(t, {

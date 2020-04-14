@@ -33,6 +33,7 @@ import {
 } from 'store/modules/bookings/actions';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getBooking, getBookingStatus } from 'store/modules/bookings/selectors';
+import { guestInfoSelector } from 'store/modules/bookingBuilder/selectors';
 import { getCurrentUserUuid, isSR } from 'store/modules/auth/selectors';
 import { getProposal } from 'store/modules/proposals/selectors';
 
@@ -154,20 +155,26 @@ const someBookingsArePotential = (bookingKeys, bookings) => {
  */
 export const createNewProposal = (name, bookingId, placeHolds) => async (dispatch, getState) => {
   const booking = getBooking(getState(), bookingId);
+  const guestInfo = guestInfoSelector(getState());
   const isSr = isSR(getState());
 
   // If the current user is a SR, then we use the `travelAgentUserUuid` from the booking rather than
   // the current user's UUID
   const userUuid = isSr ? prop('travelAgentUserUuid', booking) : getCurrentUserUuid(getState());
+  const proposalPayload = {
+    name,
+    userUuid,
+    ...omit(['isRepeatGuest'], guestInfo)
+  };
 
-  dispatch(genericAction(PROPOSALS_NEW, { name, userUuid }));
+  dispatch(genericAction(PROPOSALS_NEW, proposalPayload));
 
   // Creating a proposal isn't a one step process...
   try {
     // 1. We create the empty proposal so we can access the UUID
     const {
       data: { data },
-    } = await client.createProposal({ data: { attributes: { name, userUuid } } });
+    } = await client.createProposal({ data: { attributes: proposalPayload } });
 
     const proposalUuid = prop('result', data);
 
@@ -178,11 +185,7 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
         {
           // Use the UUID from step 1 to attach the booking to the proposal
           proposalUuid,
-
-          // Fields are mandatory but we don't have them at this point so
-          // default them to empty
-          guestFirstName: '',
-          guestLastName: '',
+          ...guestInfo
         },
         BookingStatusTypes.POTENTIAL,
         placeHolds
@@ -222,6 +225,7 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
  */
 export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSALS_ADD, { proposalUuid, bookingId }));
+  const guestInfo = guestInfoSelector(getState());
 
   // This time we just need to complete the booking with status POTENTIAL.
   /** @todo this is a duplicate of `createProposal` functionality and should be split out into a resuable function */
@@ -230,8 +234,7 @@ export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dis
       bookingId,
       {
         proposalUuid,
-        guestFirstName: '',
-        guestLastName: '',
+        ...guestInfo
       },
       BookingStatusTypes.POTENTIAL,
       placeHolds

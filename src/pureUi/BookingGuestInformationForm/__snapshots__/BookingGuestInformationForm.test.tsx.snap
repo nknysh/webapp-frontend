@@ -68,51 +68,55 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
       onChange={[Function]}
     />
   </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="flightInfoLabel"
+  <div
+    className="flightInfo"
   >
-    Flight Information
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="arrivalNumber"
-    text="Arrival Number"
-  >
-    <Styled(TextInputComponent)
-      onChange={[Function]}
-      value=""
-    />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="arrivalDate"
-    text="Arrival Date"
-  >
-    <Component
-      defaultSelectedDates={Array []}
-      isSingleDateSelection={true}
-      onDateChange={[Function]}
-      render={[Function]}
-    />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="departureNumber"
-    text="Dearture Number"
-  >
-    <Styled(TextInputComponent)
-      onChange={[Function]}
-      value=""
-    />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="departureDate"
-    text="Departure Date"
-  >
-    <Component
-      defaultSelectedDates={Array []}
-      isSingleDateSelection={true}
-      onDateChange={[Function]}
-      render={[Function]}
-    />
-  </Styled(LabelComponent)>
+    <Styled(LabelComponent)
+      className="flightInfoLabel"
+    >
+      Flight Information
+    </Styled(LabelComponent)>
+    <Styled(LabelComponent)
+      className="arrivalNumber"
+      text="Arrival Number"
+    >
+      <Styled(TextInputComponent)
+        onChange={[Function]}
+        value=""
+      />
+    </Styled(LabelComponent)>
+    <Styled(LabelComponent)
+      className="arrivalDate"
+      text="Arrival Date"
+    >
+      <Component
+        defaultSelectedDates={Array []}
+        isSingleDateSelection={true}
+        onDateChange={[Function]}
+        render={[Function]}
+      />
+    </Styled(LabelComponent)>
+    <Styled(LabelComponent)
+      className="departureNumber"
+      text="Dearture Number"
+    >
+      <Styled(TextInputComponent)
+        onChange={[Function]}
+        value=""
+      />
+    </Styled(LabelComponent)>
+    <Styled(LabelComponent)
+      className="departureDate"
+      text="Departure Date"
+    >
+      <Component
+        defaultSelectedDates={Array []}
+        isSingleDateSelection={true}
+        onDateChange={[Function]}
+        render={[Function]}
+      />
+    </Styled(LabelComponent)>
+  </div>
   <div
     className="specialRequests"
   >

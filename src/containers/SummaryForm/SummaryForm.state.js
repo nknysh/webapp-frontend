@@ -15,7 +15,7 @@ import {
   replaceProducts,
   updateBooking,
   getAccommodationEditModalErrors,
-  getBookingTravelAgent,
+  getBookingTravelAgent
 } from 'store/modules/bookings';
 
 import { getUserCountryContext, isSR as isSrSelector } from 'store/modules/auth';

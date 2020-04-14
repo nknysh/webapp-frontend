@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useCallback } from 'react';
 import { compose, head, pathOr, pipe, propOr } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,7 @@ import {
   getOccassionsBreakdownForLodging,
 } from 'utils';
 
-import { ProductTypes } from 'config/enums';
+import { ProductTypes, BookingStatusTypes } from 'config/enums';
 
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
@@ -132,6 +132,25 @@ const handleSaveBookingAndTakeHoldsButton = async props => {
   }
 };
 
+const handleRequestBookingButton = async props => {
+  const { bookingDomain, backendApi, canHold } = props;
+
+  const attr = getBookingsEndpointAttributesForBookingDomain({
+    bookingDomain,
+    bookingStatus: BookingStatusTypes.REQUESTED,
+    placeHolds: canHold
+  });
+
+  try {
+    const res = await backendApi.postBookingSave(attr);
+    const newBookingUuid = res.data.data.uuid;
+
+    window.location.href = `/bookings/${newBookingUuid}`;
+  } catch (e) {
+    throw Error(e);
+  }
+};
+
 const SaveBookingButton = props => {
   const { backendApi, bookingDomain, canBook, t, forceDisabled } = props;
 
@@ -155,14 +174,14 @@ const SaveBookingButton = props => {
   );
 };
 
-const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, forceDisabled }) => {
+const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, forceDisabled, onClick }) => {
   // logic taken from previous declaration and reworked into its own component
 
   return (
     <PrimaryButtonTall
       className="request-to-book-button"
       disabled={!(showHolds || canBook) || forceDisabled}
-      type="submit"
+      onClick={onClick}
     >
       {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
     </PrimaryButtonTall>
@@ -213,9 +232,10 @@ const renderForm = (
     handleAddToProposalClick,
     onSubmit,
     travelAgentUserUuid,
-    isSr,
+    isSr
   }
 ) => {
+
   return (
     <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
       {({ values }) => (
@@ -268,9 +288,11 @@ const renderForm = (
                 holdOnly={holdOnly}
                 showBookNow={showBookNow}
                 canBook={canBook}
+                canHold={canHold}
                 bookLabel={bookLabel}
                 isOnRequest={isOnRequest}
                 forceDisabled={isSr && !travelAgentUserUuid}
+                onClick={() => handleRequestBookingButton({ backendApi, bookingDomain, canHold })}
               />
             </div>
           </div>
