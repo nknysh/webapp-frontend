@@ -1,8 +1,8 @@
 import { pipe, path, reduce, equals, prop } from 'ramda';
 import { array, object, number } from 'yup';
 
-import errors from 'config/forms/errors';
-import validators from 'config/forms/validators';
+import errors from '../errors';
+import validators from '../validators';
 
 const getLimits = path(['options', 'occupancy', 'limits']);
 

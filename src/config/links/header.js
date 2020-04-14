@@ -1,4 +1,4 @@
-import { ADMIN_BASE_URL } from 'config';
+import { ADMIN_BASE_URL } from '../';
 
 export default {
   loggedOut: {

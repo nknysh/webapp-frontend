@@ -24,12 +24,13 @@ import {
   Main,
   StatusStrip,
   StatusStripDate,
-  StatusStripStatus,
+  StatusStripStatus
 } from './BookingContainer.styles';
 import { AsideDetails, Title } from '../HotelContainer/HotelContainer.styles';
 import { List } from '@pure-escapes/webapp-ui-components';
 import BookingSummaryLite from 'pureUi/BookingSummaryLite';
 import BookingStatus from 'pureUi/BookingStatus';
+import BookingStatusHistory from 'pureUi/BookingStatusHistory';
 import { mapWithIndex } from 'utils';
 
 import BookingGuestDetails from './BookingGuestDetails';
@@ -73,11 +74,17 @@ const BookingDetails = props => {
   if (isNilOrEmpty(booking)) {
     return null;
   }
+
+  const { status, stateHistory } = booking;
+
   return (
     <BookingContent>
       {isSr && isMobile && renderStatusStrip(t, booking)}
       <Section label={t('labels.bookingStatus')}>
-        <BookingStatus status={booking.status} />
+        {stateHistory?.length
+          ? <BookingStatusHistory data={stateHistory} />
+          : <BookingStatus status={status} />
+        }
       </Section>
       <BookingGuestDetails t={t} isSr={isSr} booking={booking} />
     </BookingContent>

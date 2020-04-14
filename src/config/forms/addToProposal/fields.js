@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select, Checkbox } from '@pure-escapes/webapp-ui-components';
 
-import i18n from 'config/i18n';
+import i18n from '../../i18n';
 
 export default {
   proposalId: {
