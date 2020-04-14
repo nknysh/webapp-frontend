@@ -95,6 +95,12 @@ const offersListReducer = (
         error: null,
       };
 
+    case Actions.SET_SELECTED_HOTEL:
+      return {
+        ...state,
+        selectedHotel: action.selectedHotelUuid,
+      };
+
     default:
       return state;
   }

@@ -9,6 +9,7 @@ import {
   SET_SORT,
   SET_PAGE_NUMBER,
   SET_TRAVEL_AGENT_UUID,
+  SET_SELECTED_HOTEL,
   getOffersListSuccessAction,
   getOffersListFailureAction,
 } from '../actions';
@@ -27,7 +28,7 @@ export function* getOffersListSaga(action: any) {
 
 export function* watchGetOffersList() {
   yield takeLatest(
-    [GET_OFFERS_LIST_REQUEST, SET_FILTER, SET_SORT, SET_PAGE_NUMBER, SET_TRAVEL_AGENT_UUID],
+    [GET_OFFERS_LIST_REQUEST, SET_FILTER, SET_SORT, SET_PAGE_NUMBER, SET_TRAVEL_AGENT_UUID, SET_SELECTED_HOTEL],
     getOffersListSaga
   );
 }

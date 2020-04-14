@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { IOffersListDomain } from './model';
-
+import { getBootstrapHotelsAsValueLabelPairsSelector } from 'store/modules/bootstrap/selectors';
 const offersListDomain = (state: any) => state.offersList;
 
 export const requestPendingSelector = createSelector(
@@ -73,6 +73,21 @@ export const isBulkDeleteConfirmOpenSelector = createSelector(
   (domain: IOffersListDomain): IOffersListDomain['isBulkDeleteConfirmOpen'] => domain.isBulkDeleteConfirmOpen
 );
 
+export const selectedHotelSelector = createSelector(
+  offersListDomain,
+  (domain: IOffersListDomain): IOffersListDomain['selectedHotel'] => domain.selectedHotel
+);
+
+export const hotelFilterSelector = createSelector(getBootstrapHotelsAsValueLabelPairsSelector, hotels => {
+  return [
+    {
+      value: '',
+      label: 'All hotels',
+    },
+    ...hotels,
+  ];
+});
+
 export const offersListQuerySelector = createSelector(
   sortBySelector,
   filterSelector,
@@ -80,14 +95,15 @@ export const offersListQuerySelector = createSelector(
   itemsPerPageSelector,
   sortOrderSelector,
   filterFieldsSelector,
-  (sortBy, filter, currentPage, itemsPerPage, sortOrder, filterFields) => {
+  selectedHotelSelector,
+  (sortBy, filter, currentPage, itemsPerPage, sortOrder, filterFields, selectedHotel) => {
     const associations = ['hotel'];
     const fields = {
       hotel: 'uuid, name, countryCode',
     };
 
     let filterParam = {
-      offer: {},
+      offer: {} as any,
     };
 
     if (filter != '') {
@@ -96,6 +112,10 @@ export const offersListQuerySelector = createSelector(
           [`${filterFields.join(',')}:ilike`]: filter,
         },
       };
+    }
+
+    if (selectedHotel !== '') {
+      filterParam.offer.hotelUuid = selectedHotel;
     }
 
     return {

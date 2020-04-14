@@ -16,6 +16,7 @@ import { Search } from '@material-ui/icons';
 import { OffersListStylesWrapper } from './OffersListStylesWrapper';
 import { getUserCountryContext, isSR } from 'store/modules/auth';
 import { Translation } from 'react-i18next';
+import Select from 'pureUi/Select';
 
 import {
   requestPendingSelector,
@@ -29,6 +30,8 @@ import {
   pageCountSelector,
   bulkActionSelectedUuidsSelector,
   isBulkDeleteConfirmOpenSelector,
+  selectedHotelSelector,
+  hotelFilterSelector,
 } from 'store/modules/offersList/selectors';
 
 import {
@@ -42,6 +45,7 @@ import {
   toggleIsBulkDeleteConfirmOpenAction,
   confirmRequestToDeleteOffersAction,
   dismissErrorAction,
+  setSelectedHotelAction,
 } from 'store/modules/offersList/actions';
 
 import { getTravelAgentsRequestAction } from '../../store/modules/agents/actions';
@@ -113,6 +117,10 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
     this.props.confirmRequestToDeleteOffers();
   };
 
+  handleHotelFilterChange = (e: FormEvent<HTMLInputElement>) => {
+    console.log('e.currentTarget.value', e.currentTarget.value);
+  };
+
   render() {
     const allOffersOnPageUuid = this.props.offers ? this.props.offers.map(offer => offer.uuid) : [];
 
@@ -130,6 +138,16 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
             >
               <Search className="searchIcon"></Search>
             </TextInput>
+          </Label>
+
+          <Label text="Hotel">
+            <Select
+              value={this.props.selectedHotel || ''}
+              options={this.props.allHotels}
+              onChange={e => {
+                this.props.setSelectedHotel(e.target.value);
+              }}
+            />
           </Label>
         </div>
 
@@ -288,6 +306,8 @@ const mapStateToProps = createStructuredSelector({
   travelAgentSelectOptions: travelAgentSelectOptionsSelector,
   bulkActionSelectedUuids: bulkActionSelectedUuidsSelector,
   isBulkDeleteConfirmOpen: isBulkDeleteConfirmOpenSelector,
+  selectedHotel: selectedHotelSelector,
+  allHotels: hotelFilterSelector,
 });
 
 const actionCreators = {
@@ -302,6 +322,7 @@ const actionCreators = {
   toggleIsBulkDeleteConfirmOpen: toggleIsBulkDeleteConfirmOpenAction,
   confirmRequestToDeleteOffers: confirmRequestToDeleteOffersAction,
   dismissError: dismissErrorAction,
+  setSelectedHotel: setSelectedHotelAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
@@ -309,10 +330,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IOffersListProps>(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect<StateToProps, DispatchToProps, IOffersListProps>(mapStateToProps, mapDispatchToProps);
 
 export const OffersListConnected = compose(withConnect)(OffersListContainer);
 

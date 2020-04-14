@@ -14,6 +14,7 @@ export interface IOffersListDomain {
   travelAgentUuid: string | null;
   bulkActionSelectedUuids: string[];
   isBulkDeleteConfirmOpen: boolean;
+  selectedHotel: string;
 }
 
 export const initialState: IOffersListDomain = {
@@ -30,4 +31,5 @@ export const initialState: IOffersListDomain = {
   travelAgentUuid: null,
   bulkActionSelectedUuids: [],
   isBulkDeleteConfirmOpen: false,
+  selectedHotel: '',
 };

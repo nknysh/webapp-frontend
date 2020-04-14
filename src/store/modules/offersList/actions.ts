@@ -15,6 +15,7 @@ export const CONFIRM_REQUEST_TO_DELETE_OFFERS = 'offersList/CONFIRM_REQUEST_TO_D
 export const OFFERS_DELETE_SUCCESS = 'offersList/OFFERS_DELETE_SUCCESS';
 export const OFFERS_DELETE_FAIL = 'offersList/OFFERS_DELETE_FAIL';
 export const DISMISS_ERROR = 'offersList/DISMISS_ERROR';
+export const SET_SELECTED_HOTEL = 'offersList/SET_SELECTED_HOTEL';
 
 export type GetOffersListRequestAction = ReturnType<typeof getOffersListRequestAction>;
 export const getOffersListRequestAction = () => ({
@@ -101,6 +102,12 @@ export const dismissErrorAction = () => ({
   type: DISMISS_ERROR as typeof DISMISS_ERROR,
 });
 
+export type SetSelectedHotelAction = ReturnType<typeof setSelectedHotelAction>;
+export const setSelectedHotelAction = (selectedHotelUuid: string) => ({
+  type: SET_SELECTED_HOTEL as typeof SET_SELECTED_HOTEL,
+  selectedHotelUuid,
+});
+
 export type OffersListAction =
   | GetOffersListRequestAction
   | GetOffersListSuccessAction
@@ -115,4 +122,5 @@ export type OffersListAction =
   | ConfirmRequestToDeleteOffersAction
   | OffersDeleteSuccessAction
   | OffersDeleteFailAction
-  | DismissErrorAction;
+  | DismissErrorAction
+  | SetSelectedHotelAction;
