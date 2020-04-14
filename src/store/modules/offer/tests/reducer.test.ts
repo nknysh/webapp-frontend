@@ -6,7 +6,14 @@ import { offerHotelUuidChangeSuccessAction, offerHotelUuidChangeAction } from '.
 import { IHotel } from 'services/BackendApi/types/HotelResponse';
 import { IAccommodationProductForHotelItem } from '../../../../services/BackendApi/types/OfferResponse';
 
-const emptyAvailableProducts = {} as IHotelAvailableProducts;
+const emptyAvailableProducts: IHotelAvailableProducts = {
+  accommodationProducts: [],
+  fineProducts: [],
+  groundServiceProducts: [],
+  mealPlanProducts: [],
+  supplementProducts: [],
+  transferProducts: [],
+};
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {

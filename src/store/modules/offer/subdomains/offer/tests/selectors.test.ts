@@ -8,6 +8,7 @@ import {
   IOfferProductDiscounts,
   IProduct,
   IUIOfferProductDiscountInstance,
+  IHotel,
 } from 'services/BackendApi';
 
 import { IBootstrapExtraPersonSupplementProduct } from 'store/modules/bootstrap/model';
@@ -47,7 +48,7 @@ import {
 } from '../selectors';
 import { IBootstrapCountry } from 'store/modules/bootstrap/model';
 
-import { initialState } from '../../../model';
+import { initialState, IOfferModel, IOfferUiState, IHotelAvailableProducts } from '../../../model';
 import { ITaCountriesUiData, ITACountry } from '../../../types';
 
 const mockAvailableProducts: IProduct<any>[] = [
@@ -68,19 +69,39 @@ const mockAvailableProducts: IProduct<any>[] = [
 describe('Offer Selectors', () => {
   describe('offerSelector', () => {
     it('Selects correctly', () => {
-      expect(offerSelector.resultFunc(initialState)).toEqual({
-        uuid: 'NEW_OFFER',
-        combines: true,
-        name: '',
-        termsAndConditions: '',
-        furtherInformation: '',
-        hotelUuid: '',
-        prerequisites: {
-          dates: [],
-          countryCodes: [],
+      const mockOfferDomain: IOfferModel = {
+        uiState: {} as IOfferUiState,
+        associatedOffersMapping: {},
+        associatedProductsMapping: {},
+        availableProducts: {} as IHotelAvailableProducts,
+        offersOnHotel: [],
+        offer: {
+          uuid: 'NEW_OFFER',
+          cannotCombineWith: [],
+          combinesWith: [],
+          combines: true,
+          hotel: {} as IHotel,
+          order: Infinity,
+          name: '',
+          termsAndConditions: '',
+          furtherInformation: '',
+          hotelUuid: '',
+          prerequisites: {
+            dates: [],
+            countryCodes: [],
+            advance: undefined,
+            maximumLodgingsInBooking: undefined,
+          },
+          preDiscount: false,
+          productDiscounts: {},
+          subProductDiscounts: {},
+          stepping: undefined,
+          updatedAt: '',
+          createdAt: '',
         },
-        preDiscount: false,
-      });
+      };
+
+      expect(offerSelector.resultFunc(mockOfferDomain)).toMatchObject(mockOfferDomain.offer);
     });
   });
 
@@ -350,7 +371,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
-      expect(selected).toEqual('Any Countries');
+      expect(selected).toEqual('Any Country');
     });
 
     it('has the correct TA label for some countries selected', () => {
@@ -384,31 +405,9 @@ describe('Offer Selectors', () => {
 
     it('has the correct TA label for every country selected', () => {
       const prerequisitesCountriesFixture = ['A', 'B', 'C'];
-
-      const countriesFixture: IBootstrapCountry[] = [
-        {
-          code: 'A',
-          name: 'Country A',
-          region: 'Region A',
-          isDestination: true,
-        },
-        {
-          code: 'B',
-          name: 'Country B',
-          region: 'Region B',
-          isDestination: true,
-        },
-        {
-          code: 'C',
-          name: 'Country C',
-          region: 'Region C',
-          isDestination: true,
-        },
-      ];
-
       const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
-      expect(selected).toEqual('Any Countries');
+      expect(selected).toEqual('3 Countries');
     });
   });
 

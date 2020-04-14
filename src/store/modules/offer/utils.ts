@@ -423,19 +423,23 @@ export const toggleDiscountAgeName = (
 ) => {
   const { discountType, discountUuid, productUuid, ageName } = action;
   const updatedDiscounType = [...state![discountType]!];
-  const subProductDiscountToUpdate = updatedDiscounType.find(dt => dt.uuid === discountUuid)!;
+  const productDiscountToUpdate = updatedDiscounType.find(dt => dt.uuid === discountUuid)!;
   const updateIndex = updatedDiscounType.findIndex(dt => dt.uuid === discountUuid);
 
-  const updatedProducts = subProductDiscountToUpdate.products.map(p => {
+  const updatedProducts = productDiscountToUpdate.products.map(p => {
+    if (p.uuid !== productUuid) {
+      return p;
+    }
+
     const arr = p.ageNames ? p.ageNames : [];
     return {
       ...p,
-      ageNames: arr.includes(action.ageName) ? without([action.ageName], arr) : [...arr, action.ageName],
+      ageNames: arr.includes(ageName) ? without([ageName], arr) : [...arr, ageName],
     };
   });
 
   const updatedProductDiscount: IUIOfferProductDiscountInstance = {
-    ...subProductDiscountToUpdate,
+    ...productDiscountToUpdate,
     products: updatedProducts,
   };
 

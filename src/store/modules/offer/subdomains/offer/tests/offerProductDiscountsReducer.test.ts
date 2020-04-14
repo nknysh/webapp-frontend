@@ -421,7 +421,7 @@ describe('offer reducer product fines', () => {
           },
           {
             uuid: 'F_UUID_2',
-            discountPercentage: 1,
+            discountPercentage: '1',
             products: [],
           },
           {
@@ -474,7 +474,7 @@ describe('offer reducer product fines', () => {
           },
           {
             uuid: 'F_UUID_2',
-            maximumQuantity: 1,
+            maximumQuantity: '1',
             products: [],
           },
           {

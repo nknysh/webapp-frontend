@@ -385,7 +385,7 @@ describe('offer reducer sub product supplements', () => {
           },
           {
             uuid: 'S_UUID_2',
-            discountPercentage: 1,
+            discountPercentage: '1',
             products: [],
           },
           {
@@ -434,7 +434,7 @@ describe('offer reducer sub product supplements', () => {
           },
           {
             uuid: 'S_UUID_2',
-            maximumQuantity: 1,
+            maximumQuantity: '1',
             products: [],
           },
           {

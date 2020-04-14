@@ -13,6 +13,7 @@ Object {
   "accommodationProductsForHotel": Array [],
   "associatedOffersMapping": Object {},
   "associatedProductsMapping": Object {},
+  "availableProducts": Object {},
   "isTextOnly": true,
   "offer": Object {
     "uuid": "123",

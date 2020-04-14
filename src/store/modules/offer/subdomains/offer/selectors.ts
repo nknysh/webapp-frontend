@@ -1,10 +1,6 @@
 import { createSelector } from 'reselect';
 import { generateArrayOfDatesBetween } from 'utils';
-import {
-  IOfferPrerequisitesPayload,
-  IOfferProductDiscountInstance,
-  IOfferStepping,
-} from 'services/BackendApi';
+import { IOfferPrerequisitesPayload, IOfferProductDiscountInstance, IOfferStepping } from 'services/BackendApi';
 import {
   getBootstrapCountriesSelector,
   getBootstrapExtraPersonSupplementProductSelector,
@@ -14,14 +10,20 @@ import { ITaCountriesUiData as IOfferTaCountriesPreRequisiteUi } from '../../typ
 import {
   offerDomainSelector,
   getAccommodationProductsForHotelSelector as hotelAccomodationProductsSelector,
-  availableGroundServiceProductsSelector, 
-  availableMealPlanProductsSelector, 
-  availableTransferProductsSelector, 
-  availableSupplementProductsSelector, 
-  availableFineProductsSelector 
+  availableGroundServiceProductsSelector,
+  availableMealPlanProductsSelector,
+  availableTransferProductsSelector,
+  availableSupplementProductsSelector,
+  availableFineProductsSelector,
 } from '../../domainSelectors';
 import { IAgeName, IUIOfferProductDiscountInstance } from '../../../../../services/BackendApi/types/OfferResponse';
-import { Validator, ValidatorFieldResult, OfferValidatorResultSet, ValidatorFieldError, isPercentageCompliant } from '../../validation';
+import {
+  Validator,
+  ValidatorFieldResult,
+  OfferValidatorResultSet,
+  ValidatorFieldError,
+  isPercentageCompliant,
+} from '../../validation';
 import { returnObjectWithUndefinedsAsEmptyStrings, discountsWithCategory } from '../../utils';
 import { uiStateSelector } from '../uiState/selectors';
 
@@ -29,7 +31,7 @@ export interface IAccomodationProductPreRequisiteUi {
   label: string;
   uuid: string;
   value: boolean;
-  ageNames: IAgeName[]
+  ageNames: IAgeName[];
 }
 
 export const offerSelector = createSelector(offerDomainSelector, domain => domain.offer);
@@ -143,12 +145,8 @@ export const offerTaCountriesPrerequisiteByRegionSelector = createSelector(
 
 export const offerTaCountriesLabelPrerequisiteSelector = createSelector(
   offerCountryCodePrerequisiteSelector,
-  (prerequisiteCountries) => {
-    if (prerequisiteCountries.length < 1) {
-      return 'Any Countries';
-    } else {
-      return `${prerequisiteCountries.length} Countries`;
-    }
+  prerequisiteCountries => {
+    return prerequisiteCountries.length < 1 ? 'Any Country' : `${prerequisiteCountries.length} Countries`;
   }
 );
 
@@ -189,8 +187,7 @@ export const offerAccommodationProductPrerequisitesSelector = createSelector(
 
 export const isAccomodationPreReqAllSelected = createSelector(
   offerAccommodationProductPrerequisitesRawSelector,
-  (accommodationProductPrerequisites) =>
-    Boolean(accommodationProductPrerequisites.length < 1 )
+  accommodationProductPrerequisites => Boolean(accommodationProductPrerequisites.length < 1)
 );
 
 export const offerAccommodationProductPrerequisitesLabelSelector = createSelector(
@@ -214,15 +211,20 @@ export const accomodationPreRequisiteAgeNamesSelector = createSelector(
           ageTo: next.ageTo,
         };
         return acc;
-      } , {});
-    
-    return Object.keys(ageNamesMap).reduce((acc, key) => {
-      return [...acc, {
-        name: key,
-        ageFrom: ageNamesMap[key].ageFrom,
-        ageTo: ageNamesMap[key].ageTo,
-      }]
-    }, []).sort((a, b) => b.ageFrom! - a.ageFrom!);
+      }, {});
+
+    return Object.keys(ageNamesMap)
+      .reduce((acc, key) => {
+        return [
+          ...acc,
+          {
+            name: key,
+            ageFrom: ageNamesMap[key].ageFrom,
+            ageTo: ageNamesMap[key].ageTo,
+          },
+        ];
+      }, [])
+      .sort((a, b) => b.ageFrom! - a.ageFrom!);
   }
 );
 
@@ -289,16 +291,16 @@ export const offerProductDiscountsSelector = createSelector(offerSelector, offer
 });
 
 export const offerProductDiscountsFinesSelector = createSelector(
-  offerProductDiscountsSelector, 
+  offerProductDiscountsSelector,
   availableFineProductsSelector,
   (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
-  if (!productDiscounts || !productDiscounts.Fine) {
-    return [];
-  }
-  
-  return productDiscounts.Fine ? discountsWithCategory(productDiscounts.Fine, availableProducts) : [];
-});
+    if (!productDiscounts || !productDiscounts.Fine) {
+      return [];
+    }
 
+    return productDiscounts.Fine ? discountsWithCategory(productDiscounts.Fine, availableProducts) : [];
+  }
+);
 
 export const offerProductDiscountsGroundServicesSelector = createSelector(
   offerProductDiscountsSelector,
@@ -307,7 +309,9 @@ export const offerProductDiscountsGroundServicesSelector = createSelector(
     if (!productDiscounts || !productDiscounts['Ground Service']) {
       return [];
     }
-    return productDiscounts['Ground Service'] ? discountsWithCategory(productDiscounts['Ground Service'], availableProducts) : [];
+    return productDiscounts['Ground Service']
+      ? discountsWithCategory(productDiscounts['Ground Service'], availableProducts)
+      : [];
   }
 );
 
@@ -318,33 +322,34 @@ export const offersubProductDiscountsMealPlansSelector = createSelector(
     if (!subProductDiscounts || !subProductDiscounts['Meal Plan']) {
       return [];
     }
-  
-    return subProductDiscounts['Meal Plan'] ? discountsWithCategory(subProductDiscounts['Meal Plan'], availableProducts) : [];
+
+    return subProductDiscounts['Meal Plan']
+      ? discountsWithCategory(subProductDiscounts['Meal Plan'], availableProducts)
+      : [];
   }
-  );
-  
-  export const offerProductDiscountsTransfersSelector = createSelector(
-    offerProductDiscountsSelector,
-    availableTransferProductsSelector,
-    (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
-      if (!productDiscounts || !productDiscounts.Transfer) {
-        return [];
-      }
-    
-      return productDiscounts.Transfer ? discountsWithCategory(productDiscounts.Transfer, availableProducts) : [];
+);
+
+export const offerProductDiscountsTransfersSelector = createSelector(
+  offerProductDiscountsSelector,
+  availableTransferProductsSelector,
+  (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
+    if (!productDiscounts || !productDiscounts.Transfer) {
+      return [];
     }
-  );
-  
-  export const offerProductDiscountsSupplementsSelector = createSelector(
-    offerProductDiscountsSelector,
-    availableSupplementProductsSelector,
-    (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
-    
-      if (!productDiscounts || !productDiscounts.Supplement) {
-        return [];
-      }
-      
-      return productDiscounts.Supplement ? discountsWithCategory(productDiscounts.Supplement, availableProducts) : [];
+
+    return productDiscounts.Transfer ? discountsWithCategory(productDiscounts.Transfer, availableProducts) : [];
+  }
+);
+
+export const offerProductDiscountsSupplementsSelector = createSelector(
+  offerProductDiscountsSelector,
+  availableSupplementProductsSelector,
+  (productDiscounts, availableProducts): IUIOfferProductDiscountInstance[] => {
+    if (!productDiscounts || !productDiscounts.Supplement) {
+      return [];
+    }
+
+    return productDiscounts.Supplement ? discountsWithCategory(productDiscounts.Supplement, availableProducts) : [];
   }
 );
 
@@ -466,16 +471,14 @@ export const offerProductDiscountsValidationSelector = createSelector(
                 1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
             });
           }
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
             errors.push({
               field: 'fineDiscounts',
               index,
-              message: `Fine discount #${index +
-                1} - Maximum quantity must be an integer`,
+              message: `Fine discount #${index + 1} - Maximum quantity must be an integer`,
             });
           }
         });
-
       }
       if (productDiscounts['Ground Service']) {
         productDiscounts['Ground Service'].forEach((discount, index) => {
@@ -494,12 +497,11 @@ export const offerProductDiscountsValidationSelector = createSelector(
             });
           }
 
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
             errors.push({
               field: 'groundServiceDiscounts',
               index,
-              message: `Ground Service #${index +
-                1} - Maximum quantity must be an integer`,
+              message: `Ground Service #${index + 1} - Maximum quantity must be an integer`,
             });
           }
         });
@@ -521,12 +523,11 @@ export const offerProductDiscountsValidationSelector = createSelector(
             });
           }
 
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
             errors.push({
               field: 'supplementDiscounts',
               index,
-              message: `Supplement discount #${index +
-                1} - Maximum quantity must be an integer`,
+              message: `Supplement discount #${index + 1} - Maximum quantity must be an integer`,
             });
           }
         });
@@ -548,12 +549,11 @@ export const offerProductDiscountsValidationSelector = createSelector(
             });
           }
 
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
             errors.push({
               field: 'transferDiscounts',
               index,
-              message: `Transfer discount #${index +
-                1} - Maximum quantity must be an integer`,
+              message: `Transfer discount #${index + 1} - Maximum quantity must be an integer`,
             });
           }
         });
@@ -589,12 +589,11 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
             });
           }
 
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.') ) {
+          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
             errors.push({
               field: 'mealPlanDiscounts',
               index,
-              message: `Meal Plan #${index +
-                1} - Maximum quantity must be an integer`,
+              message: `Meal Plan #${index + 1} - Maximum quantity must be an integer`,
             });
           }
         });
@@ -632,11 +631,9 @@ export const offerExtraPersonSupplementValidationSelector = createSelector(
         errors.push({
           field: 'extraPersonSupplementDiscounts',
           index,
-          message: `Extra Person #${index +
-            1} - Maximum quantity must be an integer`,
+          message: `Extra Person #${index + 1} - Maximum quantity must be an integer`,
         });
       }
-      
     });
     return {
       errors,
@@ -664,33 +661,36 @@ export const offerFurtherInformationValidationSelector = createSelector(
 );
 
 export const accommodationDiscountValidationSelector = createSelector(
-  offerSelector, 
+  offerSelector,
   offerRequiresGreenTaxApproachSelector,
   (offer, requiresGreenTax) => {
-  const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
-  if (offer.accommodationProductDiscount && offer.accommodationProductDiscount.discountPercentage) {
-    if (!isPercentageCompliant(offer.accommodationProductDiscount.discountPercentage)) {
-      errors.push({
-        field: 'accommodationProductDiscount',
-        message: `Accommodation Product discount - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
-      });
+    if (offer.accommodationProductDiscount && offer.accommodationProductDiscount.discountPercentage) {
+      if (!isPercentageCompliant(offer.accommodationProductDiscount.discountPercentage)) {
+        errors.push({
+          field: 'accommodationProductDiscount',
+          message: `Accommodation Product discount - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
+        });
+      }
     }
-  }
-  
-  if (offer.accommodationProductDiscount && !offer.accommodationProductDiscount.greenTaxDiscountApproach && requiresGreenTax) {
 
+    if (
+      offer.accommodationProductDiscount &&
+      !offer.accommodationProductDiscount.greenTaxDiscountApproach &&
+      requiresGreenTax
+    ) {
       errors.push({
         field: 'accommodationProductDiscount',
         message: `Green tax approach required`,
       });
-    
-  }
+    }
 
-  return {
-    errors,
-  } as ValidatorFieldResult<OfferValidatorResultSet>;
-});
+    return {
+      errors,
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
 
 export const offerValidationSelector = createSelector(
   offerHotelValidationSelector,
@@ -806,40 +806,39 @@ export const offerHasValidationErrorsSelector = createSelector(
   }
 );
 
-export const hasProductDiscountsWithProductsSelector = createSelector(
-  offerProductDiscountsSelector,
-  (productDiscounts) => Object.keys(productDiscounts).reduce((acc, nextType) => {
+export const hasProductDiscountsWithProductsSelector = createSelector(offerProductDiscountsSelector, productDiscounts =>
+  Object.keys(productDiscounts).reduce((acc, nextType) => {
     const hasProducts = productDiscounts[nextType].reduce((prodAcc, nextProd) => {
       return prodAcc ? prodAcc : Boolean(nextProd?.products?.length > 0);
     }, false);
-    
+
     return acc ? acc : hasProducts;
   }, false)
-)
+);
 
 export const hasSubProductDiscountsWithProductsSelector = createSelector(
   offerSubProductDiscountsSelector,
-  (productDiscounts) => Object.keys(productDiscounts).reduce((acc, nextType) => {
-    const hasProducts = productDiscounts[nextType].reduce((prodAcc, nextProd) => {
-      return prodAcc ? prodAcc : Boolean(nextProd?.products?.length > 0);
-    }, false);
-    
-    return acc ? acc : hasProducts;
-  }, false)
-)
+  productDiscounts =>
+    Object.keys(productDiscounts).reduce((acc, nextType) => {
+      const hasProducts = productDiscounts[nextType].reduce((prodAcc, nextProd) => {
+        return prodAcc ? prodAcc : Boolean(nextProd?.products?.length > 0);
+      }, false);
 
-export const hasAccomPreReqsSelector = createSelector(
-  offerAccommodationProductPrerequisitesSelector,
-  (accomPreReqs) => accomPreReqs.reduce((acc, next)=> {
+      return acc ? acc : hasProducts;
+    }, false)
+);
+
+export const hasAccomPreReqsSelector = createSelector(offerAccommodationProductPrerequisitesSelector, accomPreReqs =>
+  accomPreReqs.reduce((acc, next) => {
     return acc ? acc : next.value;
   }, false)
-)
+);
 
 export const offerHasPerishableDataSelector = createSelector(
   hasProductDiscountsWithProductsSelector,
   hasSubProductDiscountsWithProductsSelector,
   hasAccomPreReqsSelector,
-  (hasProductDiscountsWithProducts, hasSubProductDiscountsWithProducts, hasAccomPreReqs) => {    
+  (hasProductDiscountsWithProducts, hasSubProductDiscountsWithProducts, hasAccomPreReqs) => {
     return hasProductDiscountsWithProducts || hasSubProductDiscountsWithProducts || hasAccomPreReqs;
   }
-)
+);

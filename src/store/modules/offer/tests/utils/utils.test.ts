@@ -99,7 +99,7 @@ describe('offer module utils test', () => {
         ...initialState.offer,
       } as IOfferUI;
 
-      expect(hasOfferGotApplications(fixture)).toEqual(false);
+      expect(hasOfferGotApplications(fixture)).toEqual(true);
     });
 
     it('it has stepping, which is an application', () => {
