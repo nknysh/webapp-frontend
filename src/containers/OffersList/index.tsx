@@ -16,7 +16,6 @@ import { Search } from '@material-ui/icons';
 import { OffersListStylesWrapper } from './OffersListStylesWrapper';
 import { getUserCountryContext, isSR } from 'store/modules/auth';
 import { Translation } from 'react-i18next';
-import Select from 'pureUi/Select';
 import { PureSelect } from 'pureUi/forms/PureSelect';
 import {
   requestPendingSelector,
@@ -31,7 +30,6 @@ import {
   bulkActionSelectedUuidsSelector,
   isBulkDeleteConfirmOpenSelector,
   selectedHotelSelector,
-  hotelFilterSelector,
 } from 'store/modules/offersList/selectors';
 import { getBootstrapHotelsSelector } from 'store/modules/bootstrap/selectors';
 

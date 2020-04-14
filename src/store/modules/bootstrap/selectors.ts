@@ -17,15 +17,3 @@ export const getBootstrapExtraPersonSupplementProductSelector = createSelector(
   bootstrapDomainSelector,
   domain => domain.extraPersonSupplementProduct
 );
-
-export const getBootstrapHotelsAsValueLabelPairsSelector = createSelector(
-  getBootstrapHotelsSelector,
-  (hotels): IValueLabelPair[] => {
-    return hotels.map(hotel => {
-      return {
-        value: hotel.uuid,
-        label: hotel.name,
-      };
-    });
-  }
-);

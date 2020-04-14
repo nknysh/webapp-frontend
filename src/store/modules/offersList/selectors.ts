@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { IOffersListDomain } from './model';
-import { getBootstrapHotelsAsValueLabelPairsSelector } from 'store/modules/bootstrap/selectors';
 const offersListDomain = (state: any) => state.offersList;
 
 export const requestPendingSelector = createSelector(
@@ -77,16 +76,6 @@ export const selectedHotelSelector = createSelector(
   offersListDomain,
   (domain: IOffersListDomain): IOffersListDomain['selectedHotel'] => domain.selectedHotel
 );
-
-export const hotelFilterSelector = createSelector(getBootstrapHotelsAsValueLabelPairsSelector, hotels => {
-  return [
-    {
-      value: '',
-      label: 'All hotels',
-    },
-    ...hotels,
-  ];
-});
 
 export const offersListQuerySelector = createSelector(
   sortBySelector,
