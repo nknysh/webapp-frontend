@@ -68,7 +68,7 @@ export interface IOfferModel {
   associatedOffersMapping: KeyValuePair;
   associatedProductsMapping: KeyValuePair;
   offersOnHotel: IOfferOnHotelItem[];
-  accommodationProductsForHotel?: IAccommodationProductForHotelItem[];
+  accomodationProductsForHotel?: IAccommodationProductForHotelItem[];
   availableProducts: IHotelAvailableProducts;
 }
 
@@ -117,7 +117,7 @@ export const initialState: IOfferModel = {
   associatedOffersMapping: {},
   associatedProductsMapping: {},
   offersOnHotel: [],
-  accommodationProductsForHotel: [],
+  accomodationProductsForHotel: [],
   availableProducts: {
     accommodationProducts: [],
     fineProducts: [],

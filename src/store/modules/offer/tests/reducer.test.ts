@@ -58,7 +58,7 @@ describe('Offer reducer', () => {
         isTextOnly: true,
         combinationMode: ECombinationMode.COMBINES_WITH_NONE,
       },
-      accommodationProductsForHotel: [
+      accomodationProductsForHotel: [
         {
           uuid: 'a',
           name: 'A',

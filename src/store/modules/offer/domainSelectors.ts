@@ -13,20 +13,14 @@ export const getAssociatedProductsMappingSelector = createSelector(
   domain => domain.associatedProductsMapping
 );
 
-export const getOffersOnHotelSelector = createSelector(
-  offerDomainSelector,
-  domain => domain.offersOnHotel
-);
+export const getOffersOnHotelSelector = createSelector(offerDomainSelector, domain => domain.offersOnHotel);
 
 export const getAccommodationProductsForHotelSelector = createSelector(
   offerDomainSelector,
-  domain => domain.accommodationProductsForHotel || []
+  domain => domain.accomodationProductsForHotel || []
 );
 
-export const availableProductsSelector = createSelector(
-  offerDomainSelector,
-  domain => domain.availableProducts
-);
+export const availableProductsSelector = createSelector(offerDomainSelector, domain => domain.availableProducts);
 export const availableAccommodationProductsSelector = createSelector(
   availableProductsSelector,
   availableProducts => availableProducts.accommodationProducts
