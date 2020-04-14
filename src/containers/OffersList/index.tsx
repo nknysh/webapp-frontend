@@ -17,7 +17,7 @@ import { OffersListStylesWrapper } from './OffersListStylesWrapper';
 import { getUserCountryContext, isSR } from 'store/modules/auth';
 import { Translation } from 'react-i18next';
 import Select from 'pureUi/Select';
-
+import { PureSelect } from 'pureUi/forms/PureSelect';
 import {
   requestPendingSelector,
   errorSelector,
@@ -33,6 +33,7 @@ import {
   selectedHotelSelector,
   hotelFilterSelector,
 } from 'store/modules/offersList/selectors';
+import { getBootstrapHotelsSelector } from 'store/modules/bootstrap/selectors';
 
 import {
   getOffersListRequestAction,
@@ -117,10 +118,6 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
     this.props.confirmRequestToDeleteOffers();
   };
 
-  handleHotelFilterChange = (e: FormEvent<HTMLInputElement>) => {
-    console.log('e.currentTarget.value', e.currentTarget.value);
-  };
-
   render() {
     const allOffersOnPageUuid = this.props.offers ? this.props.offers.map(offer => offer.uuid) : [];
 
@@ -141,13 +138,19 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
           </Label>
 
           <Label text="Hotel">
-            <Select
-              value={this.props.selectedHotel || ''}
-              options={this.props.allHotels}
+            <PureSelect
+              value={this.props.selectedHotel}
               onChange={e => {
-                this.props.setSelectedHotel(e.target.value);
+                this.props.setSelectedHotel(e.currentTarget.value);
               }}
-            />
+            >
+              <option value="">All hotels</option>
+              {this.props.allHotels.map(hotel => (
+                <option key={hotel.uuid} value={hotel.uuid}>
+                  {hotel.name}
+                </option>
+              ))}
+            </PureSelect>
           </Label>
         </div>
 
@@ -307,7 +310,7 @@ const mapStateToProps = createStructuredSelector({
   bulkActionSelectedUuids: bulkActionSelectedUuidsSelector,
   isBulkDeleteConfirmOpen: isBulkDeleteConfirmOpenSelector,
   selectedHotel: selectedHotelSelector,
-  allHotels: hotelFilterSelector,
+  allHotels: getBootstrapHotelsSelector,
 });
 
 const actionCreators = {
