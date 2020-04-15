@@ -196,7 +196,7 @@ export class BackendApiService<T extends AxiosInstance> {
     }
 
     let query = '?';
-    query += uuids.map(uuid => `filter[offer][uuid:id][]=${uuid}`).join('&');
+    query += uuids.map(uuid => `filter[offer][uuid][]=${uuid}`).join('&');
 
     const endpoint = `${BackendEndpoints.OFFERS}${query}`;
     return this.client.delete(endpoint);
@@ -221,7 +221,10 @@ export class BackendApiService<T extends AxiosInstance> {
   putOffer = async (offer: IOfferAPI): Promise<IAPIRepsonse<IOfferAPI, IApiErrorResponse>> => {
     return (
       this.client
-        .put(`${BackendEndpoints.OFFERS}/${offer.uuid}`, transformPut<IOfferAPI>(offer, 'offer', ['hotel']))
+        .put(
+          `${BackendEndpoints.OFFERS}/${offer.uuid}`,
+          transformPut<IOfferAPI>(offer, 'offer', ['hotel'])
+        )
         .then(response => ({
           response,
         }))
