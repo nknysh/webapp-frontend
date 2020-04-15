@@ -25,6 +25,7 @@ import {
   bookingCanBookSelector,
   bookingSelector,
   bookingResponseAllErrors,
+  guestInfoSelector,
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
@@ -46,6 +47,7 @@ export const mapStateToProps = (state, { id }) => ({
   actingCountryCode: getUserCountryContext(state),
   travelAgentUserUuid: getBookingTravelAgent(state, id),
   isSr: isSrSelector(state),
+  guestInfo: guestInfoSelector(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

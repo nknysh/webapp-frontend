@@ -232,9 +232,14 @@ const renderForm = (
     handleAddToProposalClick,
     onSubmit,
     travelAgentUserUuid,
-    isSr
+    isSr,
+    guestInfo
   }
 ) => {
+
+  const minRequired = guestInfo.guestFirstName &&
+                      guestInfo.guestLastName &&
+                      (!isSr || travelAgentUserUuid);
 
   return (
     <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
@@ -261,7 +266,7 @@ const renderForm = (
                 canHold={canHold}
                 backendApi={backendApi}
                 bookingDomain={bookingDomain}
-                forceDisabled={isSr && !travelAgentUserUuid}
+                forceDisabled={!minRequired}
               />
 
               <SaveBookingButton
@@ -269,7 +274,7 @@ const renderForm = (
                 canBook={canBook}
                 backendApi={backendApi}
                 bookingDomain={bookingDomain}
-                forceDisabled={isSr && !travelAgentUserUuid}
+                forceDisabled={!minRequired}
               />
             </div>
 
@@ -277,7 +282,7 @@ const renderForm = (
               <PrimaryButtonTall
                 className="add-to-proposal-button"
                 type="button"
-                disabled={!canBook || (isSr && !travelAgentUserUuid)}
+                disabled={!(canBook && minRequired)}
                 onClick={handleAddToProposalClick}
               >
                 {t('buttons.addToProposal')}
@@ -291,7 +296,7 @@ const renderForm = (
                 canHold={canHold}
                 bookLabel={bookLabel}
                 isOnRequest={isOnRequest}
-                forceDisabled={isSr && !travelAgentUserUuid}
+                forceDisabled={!minRequired}
                 onClick={() => handleRequestBookingButton({ backendApi, bookingDomain, canHold })}
               />
             </div>
