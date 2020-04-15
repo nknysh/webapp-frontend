@@ -281,5 +281,36 @@ describe('offersList selector', () => {
         },
       });
     });
+
+    it('with a filter and different filter fields', () => {
+      const sortByFixture = 'createdAt';
+      const filterFixture = 'TEST';
+      const currentPageFixture = 0;
+      const itemsPerPageFixture = 10;
+      const sortOrderFixture = 'asc';
+      const filterFieldsFixture = ['A', 'B'];
+      const selectedHotelFixture = '';
+
+      const result = offersListQuerySelector.resultFunc(
+        sortByFixture,
+        filterFixture,
+        currentPageFixture,
+        itemsPerPageFixture,
+        sortOrderFixture,
+        filterFieldsFixture,
+        selectedHotelFixture
+      );
+      expect(result).toMatchObject({
+        sort: 'offer.createdAt',
+        page: { offset: 0, limit: 10 },
+        associations: 'hotel',
+        fields: { hotel: 'uuid, name, countryCode' },
+        filter: {
+          offer: {
+            'A,B:ilike': 'TEST',
+          },
+        },
+      });
+    });
   });
 });
