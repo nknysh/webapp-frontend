@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   collectCoverageFrom: [
-    '**/src/**/*.{js,jsx}',
+    '**/src/**/*.{js,jsx,ts,tsx}',
     '!**/src/**/*stories.{js,jsx}',
     '!**/src/**/*props.{js,jsx}',
     '!**/src/{apps,components,containers,config,effects,hoc,layouts,pages,utils}/**/*index.{js,jsx}',
@@ -33,7 +33,7 @@ module.exports = {
   testMatch: ['**/?(*.)+(spec|test).+(ts|tsx|js|jsx)'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)?$': 'ts-jest',
-    "^.+\\.mdx$": "@storybook/addon-docs/jest-transform-mdx"
+    '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
   globals: {
     'ts-jest': {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Throggle, IThroggleProps } from './index';
-import { act } from 'react-dom/test-utils';
 
 const getProps = (overrides?: Partial<IThroggleProps>): IThroggleProps => ({
   name: 'Test name',

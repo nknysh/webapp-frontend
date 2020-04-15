@@ -52,7 +52,7 @@ export class OfferEditCombinationsContainer extends React.Component<IOfferEditOr
             <FormControlGrid className="offerGrid" columnCount={2}>
               {this.props.combinationList.map(offer => {
                 return (
-                  <Label text={offer.label} lowercase inline reverse>
+                  <Label key={offer.uuid} text={offer.label} lowercase inline reverse>
                     <Checkbox checked={offer.value} onChange={this.handleToggleOffer(offer.uuid)} />
                   </Label>
                 );
@@ -78,7 +78,6 @@ export interface IOfferEditOrderingProps extends StateToProps, DispatchToProps {
 
 const mapStateToProps = createStructuredSelector({
   hotelUuid: offerHotelUuidSelector,
-  offers: getOffersOnHotelSelector,
   combinationMode: combinationModeSelector,
   combinationList: combinationListSelector,
   validationErrors: offerValidationSelector,
