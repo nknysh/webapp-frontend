@@ -139,7 +139,7 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
 
           <Label text="Hotel">
             <PureSelect
-              value={this.props.selectedHotel}
+              value={this.props.selectedHotel || ''}
               onChange={e => {
                 this.props.setSelectedHotel(e.currentTarget.value);
               }}
