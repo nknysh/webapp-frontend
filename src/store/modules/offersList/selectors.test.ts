@@ -20,7 +20,7 @@ describe('offersList selector', () => {
 
   describe('pageCountSelector', () => {
     it('items per page is missing', () => {
-      const itemsPerPageFixture = undefined;
+      const itemsPerPageFixture = 0;
       const totalResultsFixture = 10;
 
       expect(pageCountSelector.resultFunc(itemsPerPageFixture, totalResultsFixture)).toEqual(0);
@@ -28,7 +28,7 @@ describe('offersList selector', () => {
 
     it('total results is missing', () => {
       const itemsPerPageFixture = 4;
-      const totalResultsFixture = undefined;
+      const totalResultsFixture = 0;
 
       expect(pageCountSelector.resultFunc(itemsPerPageFixture, totalResultsFixture)).toEqual(0);
     });
