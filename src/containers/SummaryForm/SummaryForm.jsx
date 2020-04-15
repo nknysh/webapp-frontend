@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useCallback } from 'react';
+import React, { useState, Fragment, useCallback, useMemo } from 'react';
 import { compose, head, pathOr, pipe, propOr } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,8 @@ import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
 import { Error, HotelName, StyledSummary, Title, Text } from './SummaryForm.styles';
 import { PrimaryButtonTall, PrimaryButtonTallAltColor } from 'pureUi/Buttons';
+import Label from 'pureUi/Label';
+import Checkbox from 'pureUi/Checkbox';
 import { makeBackendApi } from 'services/BackendApi';
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
@@ -212,6 +214,10 @@ const SaveBookingAndTakeHoldsButton = props => {
   );
 };
 
+const renderTermsAndConditions = () => (
+  <span>I agree to <a href="/terms-and-conditions" target="_blank">Terms and Conditions</a></span>
+);
+
 const renderForm = (
   t,
   {
@@ -233,13 +239,21 @@ const renderForm = (
     onSubmit,
     travelAgentUserUuid,
     isSr,
-    guestInfo
+    guestInfo,
+    agreeToTerms,
+    updateAgreeToTermsAction
   }
 ) => {
 
-  const minRequired = guestInfo.guestFirstName &&
+  const minRequired = agreeToTerms &&
+                      guestInfo.guestFirstName &&
                       guestInfo.guestLastName &&
                       (!isSr || travelAgentUserUuid);
+  
+  const onAgreeToTermsChange = useCallback(
+    event => updateAgreeToTermsAction(event.target.checked),
+    []
+  );
 
   return (
     <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
@@ -300,6 +314,17 @@ const renderForm = (
                 onClick={() => handleRequestBookingButton({ backendApi, bookingDomain, canHold })}
               />
             </div>
+            <Label
+              className="agreeToTerms"
+              text={renderTermsAndConditions()}
+              inline
+              reverse
+            >  
+              <Checkbox
+                checked={agreeToTerms}
+                onChange={onAgreeToTermsChange}
+              />
+            </Label>
           </div>
         </Fragment>
       )}

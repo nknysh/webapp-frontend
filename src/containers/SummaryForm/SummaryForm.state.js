@@ -26,6 +26,8 @@ import {
   bookingSelector,
   bookingResponseAllErrors,
   guestInfoSelector,
+  agreeToTermsSelector,
+  updateAgreeToTermsAction
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
@@ -48,12 +50,14 @@ export const mapStateToProps = (state, { id }) => ({
   travelAgentUserUuid: getBookingTravelAgent(state, id),
   isSr: isSrSelector(state),
   guestInfo: guestInfoSelector(state),
+  agreeToTerms: agreeToTermsSelector(state)
 });
 
 export const mapDispatchToProps = dispatch => ({
   updateBooking: pipe(updateBooking, dispatch),
   getRatesForDates: pipe(fetchHotelRoomRatesByDates, dispatch),
   replaceProducts: pipe(replaceProducts, dispatch),
+  updateAgreeToTermsAction: pipe(updateAgreeToTermsAction, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

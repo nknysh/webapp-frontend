@@ -13,6 +13,7 @@ import {
   reduce,
   set,
   toPairs,
+  isNil,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 
@@ -145,6 +146,13 @@ const someBookingsArePotential = (bookingKeys, bookings) => {
   }, false);
 };
 
+const getGuestInfoPayload = getState => {
+  const guestInfo = guestInfoSelector(getState());
+  return fromPairs(
+    toPairs(guestInfo).filter(tuple => !isNil(tuple[1]))
+  );
+};
+
 /**
  * Create new proposal
  *
@@ -155,7 +163,7 @@ const someBookingsArePotential = (bookingKeys, bookings) => {
  */
 export const createNewProposal = (name, bookingId, placeHolds) => async (dispatch, getState) => {
   const booking = getBooking(getState(), bookingId);
-  const guestInfo = guestInfoSelector(getState());
+  const guestInfo = getGuestInfoPayload(getState);
   const isSr = isSR(getState());
 
   // If the current user is a SR, then we use the `travelAgentUserUuid` from the booking rather than
@@ -164,7 +172,7 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
   const proposalPayload = {
     name,
     userUuid,
-    ...omit(['isRepeatGuest'], guestInfo)
+    ...guestInfo
   };
 
   dispatch(genericAction(PROPOSALS_NEW, proposalPayload));
@@ -225,7 +233,7 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
  */
 export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dispatch, getState) => {
   dispatch(genericAction(PROPOSALS_ADD, { proposalUuid, bookingId }));
-  const guestInfo = guestInfoSelector(getState());
+  const guestInfo = getGuestInfoPayload(getState);
 
   // This time we just need to complete the booking with status POTENTIAL.
   /** @todo this is a duplicate of `createProposal` functionality and should be split out into a resuable function */

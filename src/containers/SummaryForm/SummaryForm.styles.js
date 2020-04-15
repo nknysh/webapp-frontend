@@ -16,6 +16,14 @@ export const StyledSummary = styled.div`
       }
     }
   }
+
+  .agreeToTerms {
+    margin-top: 10px;
+
+    a {
+      color: ${theme.palette.primary};
+    }
+  }
 `;
 
 export const Title = styled.h3`

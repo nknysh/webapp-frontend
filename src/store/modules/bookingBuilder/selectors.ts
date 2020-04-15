@@ -336,3 +336,8 @@ export const guestInfoSelector = createSelector(
     bookingBuilderDomain
   )
 );
+
+export const agreeToTermsSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => bookingBuilderDomain.agreeToTerms
+);

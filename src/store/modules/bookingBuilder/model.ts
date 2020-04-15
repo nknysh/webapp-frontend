@@ -41,6 +41,7 @@ export interface BookingBuilderDomain {
   isTAMarginApplied: boolean;
   taMarginType: string | undefined;
   taMarginAmount: string | undefined;
+  agreeToTerms: boolean;
   customItem: CustomItemSubdomain;
 }
 
@@ -81,6 +82,7 @@ export const initialState: BookingBuilderDomain = {
   deletedAt: null,
   clientUuid: null,
   isTAMarginApplied: true,
+  agreeToTerms: false,
   customItem: {
     payload: null
   },

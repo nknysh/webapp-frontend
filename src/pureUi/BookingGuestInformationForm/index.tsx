@@ -111,19 +111,6 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
               onChange={e => onValueChange(handleValueChange('guestLastName', e.currentTarget.value))}
             />
           </Label>
-          
-          <Label className="repeatGuest" text="This client is a repeating guest" inline reverse>
-            <Checkbox
-              checked={bookingGuestFormValues.isRepeatGuest || false}
-              onChange={() => {
-                try {
-                  return onValueChange(toggleCheckboxValue('isRepeatGuest'));
-                } catch (e) {
-                  console.error(`Error ${e}`);
-                }
-              }}
-            />
-          </Label>
         </Fragment>
       )}
       {sections.flightInfo && (
