@@ -36,7 +36,7 @@ export class OfferEditCombinationsContainer extends React.Component<IOfferEditOr
 
   render() {
     if (!this.props.hotelUuid) {
-      return <Text>Select a hotel to set combinations.</Text>;
+      return <Text className="noHotel">Select a hotel to set combinations.</Text>;
     }
     return (
       <React.Fragment>

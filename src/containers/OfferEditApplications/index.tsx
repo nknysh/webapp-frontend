@@ -80,7 +80,7 @@ import { FormControlGrid } from 'pureUi/forms/FormControlGrid';
 import { IProduct } from 'services/BackendApi';
 import { AccordianSection, Accordian } from 'pureUi/Accordian/index';
 
-export class OfferEditApplicationsContainer extends React.Component<IOfferEditPreRequisitesProps, {}> {
+export class OfferEditApplicationsContainer extends React.Component<IOfferEditApplicationsProps, {}> {
   discountTypeToPropName = (
     discountType: keyof IOfferProductDiscounts<any> | keyof IOfferSubProductDiscounts<any>,
     isSubProduct?: boolean
@@ -279,7 +279,6 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
     isSubProduct: boolean
   ) => {
     if (discount.products.length === 0 || discount.productCategory === EProductCategory.PER_BOOKING) return null;
-
     return (
       <Accordian className="ageNamesMap">
         {discount.products.map(discountProduct => {
@@ -302,17 +301,12 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             >
               <FormControlGrid columnCount={4} padded>
                 {this.ageNamesWithAdult(product.options.ages).map(ageName => {
-                  console.log(
-                    'discount.products.find(p => p.uuid)!.ageNames',
-                    discount.products.find(p => p.uuid)!.ageNames
-                  );
-                  console.log('isChecked', discount.products.find(p => p.uuid)!.ageNames?.includes(ageName.name));
                   const isChecked = discountProduct.ageNames?.includes(ageName.name);
                   const changeHandler = isSubProduct
                     ? this.handleSubProductAgeNameChange
                     : this.handleProductAgeNameChange;
                   return (
-                    <Label key={ageName.name} text={ageName.name} inline reverse lowercase>
+                    <Label className="ageNameLabel" key={ageName.name} text={ageName.name} inline reverse lowercase>
                       <Checkbox
                         checked={isChecked}
                         onChange={changeHandler(discountType, discount.uuid, discountProduct.uuid, ageName.name)}
@@ -330,7 +324,11 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
 
   render() {
     if (this.props.isTextOnly) {
-      return <Heading level="h3">Text only offers can not have applications.</Heading>;
+      return (
+        <Heading className="textOnly" level="h3">
+          Text only offers can not have applications.
+        </Heading>
+      );
     }
 
     return (
@@ -344,16 +342,29 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           {this.props.stepping && (
             <div className="steppingGrid">
               <Label className="nights" text="Every X nights" lowercase>
-                <TextInput value={this.props.stepping?.everyXNights || ''} onChange={this.handlEeveryXNightsChange} />
+                <TextInput
+                  className="everyXNightsInput"
+                  value={this.props.stepping?.everyXNights || ''}
+                  onChange={this.handlEeveryXNightsChange}
+                />
               </Label>
               <Label className="apply" text="Apply To" lowercase>
-                <TextInput value={this.props.stepping?.applyTo || ''} onChange={this.handleApplyToChange} />
+                <TextInput
+                  className="applyTo"
+                  value={this.props.stepping?.applyTo || ''}
+                  onChange={this.handleApplyToChange}
+                />
               </Label>
               <Label className="max" text="Maximum nights this can repeat" lowercase>
-                <TextInput value={this.props.stepping?.maximumNights || ''} onChange={this.handleMaximumNightsChange} />
+                <TextInput
+                  className="maxNights"
+                  value={this.props.stepping?.maximumNights || ''}
+                  onChange={this.handleMaximumNightsChange}
+                />
               </Label>
               <Label className="checkbox" text="Discount Cheapest" lowercase inline reverse>
                 <Checkbox
+                  className="discountCheapest"
                   checked={Boolean(this.props.stepping?.discountCheapest)}
                   onChange={this.handlediscountCheapestChange}
                 />
@@ -374,18 +385,21 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               this.props.validationErrors.stepping.map((error, i) => <li key={i}>{error.message}</li>)}
           </ErrorList>
         </Fieldset>
-        <Fieldset>
+
+        <Fieldset className="accomodationDiscountFieldset">
           <Legend>Accomodation Discount</Legend>
           {this.props.accomodationDiscount && (
             <div className="accomodationDiscountGrid">
               <Label className="input" lowercase text="Discount %">
                 <TextInput
+                  className="pctInput"
                   value={this.props.accomodationDiscount?.discountPercentage || ''}
                   onChange={this.handleAccomodationDiscountPctChange}
                 />
               </Label>
               <Label className="select" lowercase text="Green Tax Approach">
                 <PureSelect
+                  className="greenTaxSelect"
                   disabled={!this.props.requiresGreenTax}
                   value={this.props.accomodationDiscount?.greenTaxDiscountApproach || ''}
                   onChange={this.handleAccomodationDiscountGreenTaxChange}
@@ -417,13 +431,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               ))}
           </ErrorList>
           {!this.props.accomodationDiscount && (
-            <ActionButton action="add" onClick={this.props.offerAddAccommodationDiscountAction}>
+            <ActionButton className="addDiscount" action="add" onClick={this.props.offerAddAccommodationDiscountAction}>
               Add Accommodaiton Discount
             </ActionButton>
           )}
         </Fieldset>
 
-        <Fieldset>
+        <Fieldset className="extraPersonSupplementFieldset">
           <Legend
             isError={
               !this.props.offerIsPristine && this.props.validationErrors.extraPersonSupplementDiscounts.length >= 1
@@ -432,15 +446,16 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             Extra Person Supplement
           </Legend>
 
-          {!this.props.hotelUuid && <Text>Select a hotel to add an extra person supplement</Text>}
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add an extra person supplement</Text>}
 
           {this.props.hotelUuid &&
             this.props.extraPersonSupplementDiscounts.map((eps: IUIOfferProductDiscountInstance) => {
               return (
                 <div key={eps.uuid} className="extraPersonSupplement">
                   <FormControlGrid columnCount={4} className="ageNames">
-                    <Label inline reverse text={'Adult'}>
+                    <Label className="ageNameLabel" inline reverse text={'Adult'}>
                       <Checkbox
+                        className="ageNameCheckbox"
                         checked={eps.ageNames?.includes('Adult')}
                         onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, 'Adult')}
                       />
@@ -452,8 +467,9 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                         : `${an.name} ( ${an.ageFrom}+ )`;
 
                       return (
-                        <Label key={an.name} inline reverse text={label}>
+                        <Label className="ageNameLabel" key={an.name} inline reverse text={label}>
                           <Checkbox
+                            className="ageNameCheckbox"
                             checked={eps.ageNames?.includes(an.name)}
                             onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, an.name)}
                           />
@@ -481,6 +497,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                   <div className="epsGreentax">
                     <Label className="select" lowercase text="Green Tax Approach">
                       <PureSelect
+                        className="greenTaxSelect"
                         disabled={!this.props.requiresGreenTax}
                         value={eps.greenTaxDiscountApproach || ''}
                         onChange={this.handleUpdateExtraPersonSupplementChange(eps.uuid, 'greenTaxDiscountApproach')}
@@ -498,8 +515,9 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     </Label>
                     {this.props.requiresGreenTax && (
                       <Text className="info">
-                        {(eps.greenTaxDiscountApproach && GreenTaxApproachInfo[eps.greenTaxDiscountApproach]) ||
-                          'No green tax approach selected'}
+                        {eps.greenTaxDiscountApproach
+                          ? GreenTaxApproachInfo[eps.greenTaxDiscountApproach]
+                          : 'No green tax approach selected'}
                       </Text>
                     )}
                   </div>
@@ -508,7 +526,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             })}
 
           {this.props.hotelUuid && (
-            <ActionButton action="add" onClick={this.handleAddExtraPersonSupplement}>
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddExtraPersonSupplement}>
               Add Extra Person Supplement
             </ActionButton>
           )}
@@ -521,7 +539,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           </ErrorList>
         </Fieldset>
 
-        <Fieldset>
+        <Fieldset className="fineDiscountFieldset">
           <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.fineDiscounts.length >= 1}>
             Fine Discount
           </Legend>
@@ -532,7 +550,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                 <Text className="category">
                   Product Category: {fineDiscount.productCategory ? fineDiscount.productCategory : 'None Selected'}
                 </Text>
-                <FormControlGrid className="formGrid" columnCount={4}>
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
                   {this.props.availableFineProducts.map(product => {
                     const isDisabled = Boolean(
                       fineDiscount.productCategory && fineDiscount.productCategory !== product.category
@@ -548,7 +566,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                     );
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesOptions('Ground Service', fineDiscount, this.props.availableFineProducts, false)}
+                {this.renderAgeNamesOptions('Fine', fineDiscount, this.props.availableFineProducts, false)}
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Fine', fineDiscount.uuid)} />
                 </span>
@@ -589,14 +607,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             );
           })}
           {this.props.hotelUuid && this.props.availableFineProducts?.length > 0 && (
-            <ActionButton action="add" onClick={this.handleAddProduct('Fine')}>
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Fine')}>
               Add Fine Discount
             </ActionButton>
           )}
 
-          {!this.props.hotelUuid && <Text>Select a hotel to add fine discount</Text>}
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add fine discount</Text>}
           {this.props.hotelUuid && this.props.availableFineProducts?.length === 0 && (
-            <Text>No fines available for this hotel.</Text>
+            <Text className="noProducts">No fines available for this hotel.</Text>
           )}
 
           <ErrorList className="errorlist">
@@ -605,7 +623,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           </ErrorList>
         </Fieldset>
 
-        <Fieldset>
+        <Fieldset className="groundServiceDiscountFieldset">
           <Legend
             isError={!this.props.offerIsPristine && this.props.validationErrors.groundServiceDiscounts.length >= 1}
           >
@@ -619,7 +637,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                   Product Category:{' '}
                   {groundServiceDiscount.productCategory ? groundServiceDiscount.productCategory : 'None Selected'}
                 </Text>
-                <FormControlGrid className="formGrid" columnCount={4}>
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
                   {this.props.availableGroundServiceProducts.map(product => {
                     const isDisabled = Boolean(
                       groundServiceDiscount.productCategory &&
@@ -695,14 +713,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             );
           })}
           {this.props.hotelUuid && this.props.availableGroundServiceProducts?.length > 0 && (
-            <ActionButton action="add" onClick={this.handleAddProduct('Ground Service')}>
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Ground Service')}>
               Add Ground Service Discount
             </ActionButton>
           )}
 
-          {!this.props.hotelUuid && <Text>Select a hotel to add an ground service discount</Text>}
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add an ground service discount</Text>}
           {this.props.hotelUuid && this.props.availableGroundServiceProducts?.length === 0 && (
-            <Text>No ground services available for this hotel.</Text>
+            <Text className="noProducts">No ground services available for this hotel.</Text>
           )}
 
           <ErrorList className="errorlist">
@@ -711,7 +729,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           </ErrorList>
         </Fieldset>
 
-        <Fieldset>
+        <Fieldset className="transferDiscountFieldset">
           <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.transferDiscounts?.length >= 1}>
             Transfer Discount
           </Legend>
@@ -723,7 +741,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                   Product Category:{' '}
                   {transferDiscount.productCategory ? transferDiscount.productCategory : 'None Selected'}
                 </Text>
-                <FormControlGrid className="formGrid" columnCount={4}>
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
                   {this.props.availableTransferProducts?.map(product => {
                     const isDisabled = Boolean(
                       transferDiscount.productCategory && transferDiscount.productCategory !== product.category
@@ -787,14 +805,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             );
           })}
           {this.props.hotelUuid && this.props.availableTransferProducts?.length > 0 && (
-            <ActionButton action="add" onClick={this.handleAddProduct('Transfer')}>
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Transfer')}>
               Add Transfer Discount
             </ActionButton>
           )}
 
-          {!this.props.hotelUuid && <Text>Select a hotel to add an transfer discount</Text>}
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add an transfer discount</Text>}
           {this.props.hotelUuid && this.props.availableTransferProducts?.length === 0 && (
-            <Text>No transfer products available for this hotel.</Text>
+            <Text className="noProducts">No transfer products available for this hotel.</Text>
           )}
 
           <ErrorList className="errorlist">
@@ -803,10 +821,12 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           </ErrorList>
         </Fieldset>
 
-        <Fieldset>
+        <Fieldset className="mealPlanDiscountFieldset">
           <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.mealPlanDiscounts.length >= 1}>
             Meal Plan Discount
           </Legend>
+
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add a Meal Plan discount</Text>}
 
           {this.props.mealPlanDiscounts.map(mealPlanDiscount => {
             return (
@@ -815,7 +835,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                   Product Category:{' '}
                   {mealPlanDiscount.productCategory ? mealPlanDiscount.productCategory : 'None Selected'}
                 </Text>
-                <FormControlGrid className="formGrid" columnCount={4}>
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
                   {this.props.availableMealPlanProducts?.map(product => {
                     const isDisabled = Boolean(
                       mealPlanDiscount.productCategory && mealPlanDiscount.productCategory !== product.category
@@ -884,14 +904,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             );
           })}
           {this.props.hotelUuid && this.props.availableMealPlanProducts?.length > 0 && (
-            <ActionButton action="add" onClick={this.handleAddSubProduct('Meal Plan')}>
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddSubProduct('Meal Plan')}>
               Add Meal Plan Discount
             </ActionButton>
           )}
 
-          {!this.props.hotelUuid && <Text>Select a hotel to add a meal plan discount</Text>}
           {this.props.hotelUuid && this.props.availableMealPlanProducts?.length === 0 && (
-            <Text>No meal plans available for this hotel.</Text>
+            <Text className="noProducts">No meal plans available for this hotel.</Text>
           )}
 
           <ErrorList className="errorlist">
@@ -900,7 +919,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
           </ErrorList>
         </Fieldset>
 
-        <Fieldset>
+        <Fieldset className="supplementDiscountFieldset">
           <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.supplementDiscounts.length >= 1}>
             Supplement Discount
           </Legend>
@@ -912,7 +931,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
                   Product Category:{' '}
                   {supplementDiscount.productCategory ? supplementDiscount.productCategory : 'None Selected'}
                 </Text>
-                <FormControlGrid className="formGrid" columnCount={4}>
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
                   {this.props.availableSupplementProducts?.map(product => {
                     const isDisabled = Boolean(
                       supplementDiscount.productCategory && supplementDiscount.productCategory !== product.category
@@ -987,14 +1006,14 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
             );
           })}
           {this.props.availableSupplementProducts?.length > 0 && this.props.hotelUuid && (
-            <ActionButton action="add" onClick={this.handleAddProduct('Supplement')}>
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Supplement')}>
               Add Supplement Discount
             </ActionButton>
           )}
 
-          {!this.props.hotelUuid && <Text>Select a hotel to add a meal plan discount</Text>}
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add a meal plan discount</Text>}
           {this.props.hotelUuid && this.props.availableSupplementProducts?.length === 0 && (
-            <Text>No Supplements available for this hotel.</Text>
+            <Text className="noProducts">No Supplements available for this hotel.</Text>
           )}
           <ErrorList className="errorlist">
             {!this.props.offerIsPristine &&
@@ -1009,7 +1028,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
 // -----------------------------------------------------------------------------
 // Prop Typings
 // -----------------------------------------------------------------------------
-export interface IOfferEditPreRequisitesProps extends StateToProps, DispatchToProps, IWithBootstrapDataProps {}
+export interface IOfferEditApplicationsProps extends StateToProps, DispatchToProps, IWithBootstrapDataProps {}
 export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
 export type DiscountTypeProps = typeof discountTypes;
@@ -1078,7 +1097,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IOfferEditPreRequisitesProps>(
+const withConnect = connect<StateToProps, DispatchToProps, IOfferEditApplicationsProps>(
   mapStateToProps,
   mapDispatchToProps
 );

@@ -1,13 +1,15 @@
 import React from 'react';
-import { OfferEditApplicationsContainer, IOfferEditPreRequisitesProps } from '.';
-import { shallow } from 'enzyme';
+import { IOfferEditApplicationsProps, OfferEditApplicationsContainer } from '..';
 import { getMockRouterProps } from 'utils/mockRouter';
+import { ShallowWrapper, shallow } from 'enzyme';
+import { OfferValidatorResultSet } from 'store/modules/offer/validation';
+import { EProductCategory, IAgeName, IProduct } from 'services/BackendApi';
 
-const createProps = (
-  overrides?: Partial<IOfferEditPreRequisitesProps>,
+export const createProps = (
+  overrides?: Partial<IOfferEditApplicationsProps>,
   path?: string
-): IOfferEditPreRequisitesProps => {
-  const defaultProps: IOfferEditPreRequisitesProps = {
+): IOfferEditApplicationsProps => {
+  const defaultProps: IOfferEditApplicationsProps = {
     validationErrors: {
       accommodationProductsPrerequisite: [],
       hotelUuid: [],
@@ -99,14 +101,61 @@ const createProps = (
   };
 };
 
-describe('OfferEditContainer Edit Mode', () => {
-  let wrapper;
+export const setupTest = (
+  rootSubject: string,
+  overrides: Partial<IOfferEditApplicationsProps>
+): {
+  props: IOfferEditApplicationsProps;
+  subject: ShallowWrapper<{}, {}, any>;
+} => {
+  const props = createProps(overrides);
+  const subject = shallow(<OfferEditApplicationsContainer {...props} />).find(rootSubject);
+  return { props, subject };
+};
 
-  beforeEach(() => {
-    wrapper = shallow(<OfferEditApplicationsContainer {...createProps()} />);
-  });
+export const createValidaitonErrors = (overrides: Partial<OfferValidatorResultSet>): OfferValidatorResultSet => {
+  return {
+    hotelUuid: [],
+    name: [],
+    termsAndConditions: [],
+    furtherInformation: [],
+    accommodationProductsPrerequisite: [],
+    stayBetweenPrerequisite: [],
+    stepping: [],
 
-  it('displays the correct Edit UI', () => {
-    expect(wrapper.exists('.basicInfo')).toBe(true);
-  });
-});
+    //single one
+    accommodationProductDiscount: [],
+
+    // product discounts, broken up
+    fineDiscounts: [],
+    groundServiceDiscounts: [],
+    transferDiscounts: [],
+    supplementDiscounts: [],
+
+    // sub product discounts, broken up
+    mealPlanDiscounts: [],
+    extraPersonSupplementDiscounts: [],
+    ...overrides,
+  };
+};
+
+export const makeAvailableProducts = (
+  type: string,
+  categories: EProductCategory[],
+  ageNames?: IAgeName[]
+): IProduct<any>[] => {
+  return categories.map((cat, idx) => ({
+    uuid: `${type.toUpperCase()}_PRODUCT_${idx}`,
+    type: type,
+    name: `Test product ${idx}`,
+    category: cat,
+    ownerType: 'hotel',
+    ownerUuid: 'OWNER_UUID_1',
+    createdAt: '2020-01-01',
+    updatedAt: '2020-01-01',
+    meta: {},
+    options: {
+      ages: ageNames,
+    },
+  }));
+};

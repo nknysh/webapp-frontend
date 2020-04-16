@@ -2,7 +2,6 @@ import React from 'react';
 import { OfferEditCombinationsContainer, IOfferEditOrderingProps } from './';
 import { shallow, mount } from 'enzyme';
 import { ECombinationMode } from 'store/modules/offer/model';
-import { IOfferOnHotelItem } from '../../services/BackendApi/types/OfferResponse';
 
 const mockProps = (overrides: Partial<IOfferEditOrderingProps> = {}): IOfferEditOrderingProps => {
   const combinationList = Array.from({ length: 10 }).map((_, idx) => {
@@ -109,5 +108,12 @@ describe('OfferEditCombinations', () => {
     // is called with the correct UUID and overlooking the checked value. If this test suddenly
     // breaks, it may be because Jest/enzyme is handling the change event correctly.
     expect(props.offerToggleOfferInCombinationList).toBeCalledWith('OFFER_5', false);
+  });
+
+  it('Renders a message if not Hotel UUID is set', () => {
+    const props = mockProps({ hotelUuid: undefined });
+    const subject = mount(<OfferEditCombinationsContainer {...props} />);
+    const noHotel = subject.find('noHotel');
+    expect(noHotel).toBeTruthy();
   });
 });
