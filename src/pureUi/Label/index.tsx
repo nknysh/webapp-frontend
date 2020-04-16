@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import TextInput from 'pureUi/TextInput/index';
 
-interface ILabelProps extends React.HTMLAttributes<HTMLLabelElement> {
+export interface ILabelProps extends React.HTMLAttributes<HTMLLabelElement> {
   text?: string;
   inline?: boolean;
   reverse?: boolean;

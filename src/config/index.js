@@ -19,6 +19,11 @@ export const isDev = equals('development', APP_ENV);
 const DISPLAY_DATE_FORMAT = 'dd MMM yy';
 const DISPLAY_TIME_FORMAT = 'HH:mm';
 
+export const BOOKING_TERMS_URL = defaultTo(
+  'https://static-pure-escapes-com.s3-eu-west-1.amazonaws.com/booking-terms-and-conditions.pdf',
+  process.env.BOOKING_TERMS_URL
+);
+
 export default {
   defaults: {
     dateFormat: 'yyyy-MM-dd',

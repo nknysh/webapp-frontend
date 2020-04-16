@@ -43,6 +43,7 @@ export interface BookingBuilderDomain {
   taMarginAmount: string | undefined;
   agreeToTerms: boolean;
   customItem: CustomItemSubdomain;
+  isPristine: boolean;
 }
 
 export const initialState: BookingBuilderDomain = {
@@ -86,4 +87,5 @@ export const initialState: BookingBuilderDomain = {
   customItem: {
     payload: null
   },
+  isPristine: true
 };

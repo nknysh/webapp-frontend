@@ -51,6 +51,7 @@ export const SAVE_CUSTOM_ITEM = 'bookingBuilder/SAVE_CUSTOM_ITEM';
 export const REMOVE_CUSTOM_ITEM = 'bookingBuilder/REMOVE_CUSTOM_ITEM';
 
 export const UPDATE_AGREEE_TO_TERMS = 'bookingBuilder/UPDATE_AGREEE_TO_TERMS';
+export const SET_IS_PRISTINE = 'bookingBuilder/SET_IS_PRISTINE';
 
 
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
@@ -249,6 +250,12 @@ export const updateAgreeToTermsAction = (value: boolean) => ({
   value
 });
 
+export type SetIsPristineAction = ReturnType<typeof setIsPristineAction>;
+export const setIsPristineAction = (value: boolean) => ({
+  type: SET_IS_PRISTINE as typeof SET_IS_PRISTINE,
+  value
+});
+
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -276,4 +283,5 @@ export type BookingBuilderAction =
   | UpdateAgreeToTermsAction
   | SaveCustomItemAction
   | RemoveCustomItemAction
+  | SetIsPristineAction
   | CustomItemAction;

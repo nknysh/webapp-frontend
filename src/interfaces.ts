@@ -1,4 +1,5 @@
 import { BookingBuilderRequest } from 'services/BackendApi';
+import { validation } from 'config/forms/agreeTo';
 
 // TODO many of these can be decommissioned and use cases instead
 // use the interfaces from src/services/BackendApi/types/OffersSearchResponse.ts
@@ -109,6 +110,18 @@ export interface IBookingAttributes {
   proposalUuid: string;
 }
 
+export interface IBookingGuestInformationFormValidation {
+  guestTitle?: String[];
+  guestFirstName?: String[];
+  guestLastName?: String[];
+  flightArrivalNumber?: String[];
+  flightDepartureNumber?: String[];
+  flightArrivalDate?: String[];
+  flightDepartureDate?: String[];
+  specialRequests?: String[];
+  comments?: String[];
+}
+
 export interface IBookingGuestInformationForm {
   bookingGuestFormValues: IBookingInformation;
   onValueChange: Function;
@@ -117,7 +130,8 @@ export interface IBookingGuestInformationForm {
     flightInfo?: boolean;
     specialRequests?: boolean;
     comments?: boolean;
-  }
+  };
+  validation?: IBookingGuestInformationFormValidation;
 }
 
 export interface IReviewBookingSchema {

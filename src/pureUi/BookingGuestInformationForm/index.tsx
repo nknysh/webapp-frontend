@@ -1,15 +1,19 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useMemo, Fragment } from 'react';
 
 import produce from 'immer';
 import TextInput from 'pureUi/TextInput';
-import Label from 'pureUi/Label';
+import PureUiLabel, { ILabelProps } from 'pureUi/Label';
 import Select from 'pureUi/Select';
 import Checkbox from 'pureUi/Checkbox';
 import Textarea from 'pureUi/Textarea';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 import DateRangeInput from 'pureUi/DateRangeInput';
 import { formatDate, addDaysUTC, subDaysUTC } from 'utils';
-import { IValueLabelPair, IBookingGuestInformationForm } from '../../interfaces';
+import {
+  IValueLabelPair,
+  IBookingGuestInformationForm,
+  IBookingGuestInformationFormValidation
+} from '../../interfaces';
 import { BookingGuestInformationFormStyles } from './styles';
 
 const titles: IValueLabelPair[] = [
@@ -39,6 +43,23 @@ const titles: IValueLabelPair[] = [
   },
 ];
 
+const Label = (props: ILabelProps) => {
+  const { className, isError, ...rest } = props;
+  
+  const finalClassName = useMemo(
+    () => [className, isError ? 'error': null].filter(item => Boolean(item)).join(' '),
+    [className, isError]
+  );
+
+  return (
+    <PureUiLabel
+      className={finalClassName}
+      isError={isError}
+      {...rest}
+    />
+  );
+};
+
 export const BookingGuestInformationForm = (props: IBookingGuestInformationForm) => {
   const {
     bookingGuestFormValues,
@@ -48,9 +69,12 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
       flightInfo: true,
       specialRequests: true,
       comments: true
-    }
+    },
+    validation = {}
   } = props;
 
+  const isError = (key: keyof IBookingGuestInformationFormValidation) => 
+    Boolean(validation[key]?.length);
 
   if (sections.specialRequests && !bookingGuestFormValues.specialRequests) {
     bookingGuestFormValues.specialRequests = [];
@@ -90,7 +114,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
     <BookingGuestInformationFormStyles>
       {sections.guestInfo && (
         <Fragment>
-          <Label className="title" text="Title">
+          <Label className="title error" text="Title" isError={isError('guestTitle')}>
             <Select
               value={bookingGuestFormValues.guestTitle || ''}
               options={titles}
@@ -98,14 +122,14 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
             ></Select>
           </Label>
           
-          <Label className="firstName" text="First Name">
+          <Label className="firstName" text="First Name" isError={isError('guestFirstName')}>
             <TextInput
               value={bookingGuestFormValues.guestFirstName || ''}
               onChange={e => onValueChange(handleValueChange('guestFirstName', e.currentTarget.value))}
             />
           </Label>
           
-          <Label className="lastName" text="Last Name">
+          <Label className="lastName" text="Last Name" isError={isError('guestLastName')}>
             <TextInput
               value={bookingGuestFormValues.guestLastName || ''}
               onChange={e => onValueChange(handleValueChange('guestLastName', e.currentTarget.value))}
@@ -117,14 +141,14 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
         <div className="flightInfo">
           <Label className="flightInfoLabel">Flight Information</Label>
 
-          <Label className="arrivalNumber" text="Arrival Number">
+          <Label className="arrivalNumber" text="Arrival Number" isError={isError('flightArrivalNumber')}>
             <TextInput
               value={bookingGuestFormValues.flightArrivalNumber || ''}
               onChange={e => onValueChange(handleValueChange('flightArrivalNumber', e.currentTarget.value))}
             />
           </Label>
 
-          <Label className="arrivalDate" text="Arrival Date">
+          <Label className="arrivalDate" text="Arrival Date" isError={isError('flightArrivalDate')}>
             <DatePickerStateProvider
               isSingleDateSelection={true}
               defaultSelectedDates={[]}
@@ -150,14 +174,14 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
                 />
           </Label>
 
-          <Label className="departureNumber" text="Dearture Number">
+          <Label className="departureNumber" text="Dearture Number" isError={isError('flightDepartureNumber')}>
             <TextInput
               value={bookingGuestFormValues.flightDepartureNumber || ''}
               onChange={e => onValueChange(handleValueChange('flightDepartureNumber', e.currentTarget.value))}
             />
           </Label>
 
-          <Label className="departureDate" text="Departure Date">
+          <Label className="departureDate" text="Departure Date" isError={isError('flightDepartureDate')}>
             <DatePickerStateProvider
               isSingleDateSelection={true}
               defaultSelectedDates={[]}
@@ -186,7 +210,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
       )}
       {sections.specialRequests && bookingGuestFormValues.specialRequests && (
         <div className="specialRequests">
-          <Label>Special Requests</Label>
+          <Label isError={isError('specialRequests')}>Special Requests</Label>
           <div className="twoColumn">
             <Label text="Crib Cob" inline reverse>
               <Checkbox
@@ -234,7 +258,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
       )}
       {sections.comments && (
         <div className="comments">
-          <Label text="Comments">
+          <Label text="Comments" isError={isError('comments')}>
             <Textarea
               value={bookingGuestFormValues.comments || ''}
               onChange={e => onValueChange(handleValueChange('comments', e.target.value))}

@@ -73,6 +73,9 @@ export const bookingBuilderReducer = (
     case Actions.UPDATE_AGREEE_TO_TERMS:
       return updateAgreeToTermsReducer(state, action);
     
+      case Actions.SET_IS_PRISTINE:
+        return setIsPristineReducer(state, action);
+    
     case Actions.SAVE_CUSTOM_ITEM:
       return saveCustomItemReducer(state, action);
     case Actions.REMOVE_CUSTOM_ITEM:
@@ -585,6 +588,16 @@ export const updateAgreeToTermsReducer = (
 ): BookingBuilderDomain => {
   return produce(state, draftState => {
     draftState.agreeToTerms = action.value;
+    return draftState;
+  });
+};
+
+export const setIsPristineReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.SetIsPristineAction
+): BookingBuilderDomain => {
+  return produce(state, draftState => {
+    draftState.isPristine = action.value;
     return draftState;
   });
 };

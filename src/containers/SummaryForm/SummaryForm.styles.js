@@ -9,6 +9,11 @@ export const StyledSummary = styled.div`
     color: ${theme.palette.neutral};
     font-size: ${theme.fonts.sizes.less}px;
   }
+
+  label.error span.labelText {
+    color: red;
+  }
+  
   .summary-form-buttons {
     .flex {
       button {

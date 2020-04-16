@@ -2,8 +2,9 @@
 
 exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
 <styled.div>
-  <Styled(LabelComponent)
-    className="title"
+  <Label
+    className="title error"
+    isError={false}
     text="Title"
   >
     <Select
@@ -38,44 +39,48 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
       }
       value=""
     />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
+  </Label>
+  <Label
     className="firstName"
+    isError={false}
     text="First Name"
   >
     <Styled(TextInputComponent)
       onChange={[Function]}
       value=""
     />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
+  </Label>
+  <Label
     className="lastName"
+    isError={false}
     text="Last Name"
   >
     <Styled(TextInputComponent)
       onChange={[Function]}
       value=""
     />
-  </Styled(LabelComponent)>
+  </Label>
   <div
     className="flightInfo"
   >
-    <Styled(LabelComponent)
+    <Label
       className="flightInfoLabel"
     >
       Flight Information
-    </Styled(LabelComponent)>
-    <Styled(LabelComponent)
+    </Label>
+    <Label
       className="arrivalNumber"
+      isError={false}
       text="Arrival Number"
     >
       <Styled(TextInputComponent)
         onChange={[Function]}
         value=""
       />
-    </Styled(LabelComponent)>
-    <Styled(LabelComponent)
+    </Label>
+    <Label
       className="arrivalDate"
+      isError={false}
       text="Arrival Date"
     >
       <Component
@@ -84,18 +89,20 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         onDateChange={[Function]}
         render={[Function]}
       />
-    </Styled(LabelComponent)>
-    <Styled(LabelComponent)
+    </Label>
+    <Label
       className="departureNumber"
+      isError={false}
       text="Dearture Number"
     >
       <Styled(TextInputComponent)
         onChange={[Function]}
         value=""
       />
-    </Styled(LabelComponent)>
-    <Styled(LabelComponent)
+    </Label>
+    <Label
       className="departureDate"
+      isError={false}
       text="Departure Date"
     >
       <Component
@@ -104,18 +111,20 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         onDateChange={[Function]}
         render={[Function]}
       />
-    </Styled(LabelComponent)>
+    </Label>
   </div>
   <div
     className="specialRequests"
   >
-    <Styled(LabelComponent)>
+    <Label
+      isError={false}
+    >
       Special Requests
-    </Styled(LabelComponent)>
+    </Label>
     <div
       className="twoColumn"
     >
-      <Styled(LabelComponent)
+      <Label
         inline={true}
         reverse={true}
         text="Crib Cob"
@@ -124,8 +133,8 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
           checked={false}
           onChange={[Function]}
         />
-      </Styled(LabelComponent)>
-      <Styled(LabelComponent)
+      </Label>
+      <Label
         inline={true}
         reverse={true}
         text="Bed Guard"
@@ -134,8 +143,8 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
           checked={false}
           onChange={[Function]}
         />
-      </Styled(LabelComponent)>
-      <Styled(LabelComponent)
+      </Label>
+      <Label
         inline={true}
         reverse={true}
         text="Adjacent Rooms"
@@ -144,8 +153,8 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
           checked={false}
           onChange={[Function]}
         />
-      </Styled(LabelComponent)>
-      <Styled(LabelComponent)
+      </Label>
+      <Label
         inline={true}
         reverse={true}
         text="Connecting Rooms"
@@ -154,8 +163,8 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
           checked={false}
           onChange={[Function]}
         />
-      </Styled(LabelComponent)>
-      <Styled(LabelComponent)
+      </Label>
+      <Label
         inline={true}
         reverse={true}
         text="Accessible Room"
@@ -164,8 +173,8 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
           checked={false}
           onChange={[Function]}
         />
-      </Styled(LabelComponent)>
-      <Styled(LabelComponent)
+      </Label>
+      <Label
         inline={true}
         reverse={true}
         text="Dietary"
@@ -174,13 +183,14 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
           checked={false}
           onChange={[Function]}
         />
-      </Styled(LabelComponent)>
+      </Label>
     </div>
   </div>
   <div
     className="comments"
   >
-    <Styled(LabelComponent)
+    <Label
+      isError={false}
       text="Comments"
     >
       <styled.textarea
@@ -188,7 +198,7 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         rows={5}
         value=""
       />
-    </Styled(LabelComponent)>
+    </Label>
   </div>
 </styled.div>
 `;

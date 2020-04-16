@@ -27,7 +27,9 @@ import {
   bookingResponseAllErrors,
   guestInfoSelector,
   agreeToTermsSelector,
-  updateAgreeToTermsAction
+  updateAgreeToTermsAction,
+  domainValidationSelector,
+  setIsPristineAction
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
@@ -50,14 +52,16 @@ export const mapStateToProps = (state, { id }) => ({
   travelAgentUserUuid: getBookingTravelAgent(state, id),
   isSr: isSrSelector(state),
   guestInfo: guestInfoSelector(state),
-  agreeToTerms: agreeToTermsSelector(state)
+  agreeToTerms: agreeToTermsSelector(state),
+  domainValidation: domainValidationSelector(state)
 });
 
 export const mapDispatchToProps = dispatch => ({
   updateBooking: pipe(updateBooking, dispatch),
   getRatesForDates: pipe(fetchHotelRoomRatesByDates, dispatch),
   replaceProducts: pipe(replaceProducts, dispatch),
-  updateAgreeToTermsAction: pipe(updateAgreeToTermsAction, dispatch)
+  updateAgreeToTermsAction: pipe(updateAgreeToTermsAction, dispatch),
+  setIsPristineAction: pipe(setIsPristineAction, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

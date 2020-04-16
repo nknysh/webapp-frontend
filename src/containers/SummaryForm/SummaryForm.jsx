@@ -19,6 +19,7 @@ import {
 } from 'utils';
 
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
+import { BOOKING_TERMS_URL } from 'config';
 
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
@@ -214,9 +215,19 @@ const SaveBookingAndTakeHoldsButton = props => {
   );
 };
 
-const renderTermsAndConditions = () => (
-  <span>I agree to <a href="/terms-and-conditions" target="_blank">Terms and Conditions</a></span>
-);
+const TermsAndConditions = ({ value, onChange, className }) => {
+  const content = (
+    <span>I agree to <a href={BOOKING_TERMS_URL} target="_blank">Terms and Conditions</a></span>
+  );
+
+  return (
+    <Label className={className} text={content} inline reverse>
+      <Checkbox checked={value} onChange={event => onChange(event.target.checked)} />
+    </Label>
+  );
+
+};
+
 
 const renderForm = (
   t,
@@ -250,11 +261,6 @@ const renderForm = (
                       guestInfo.guestLastName &&
                       (!isSr || travelAgentUserUuid);
   
-  const onAgreeToTermsChange = useCallback(
-    event => updateAgreeToTermsAction(event.target.checked),
-    []
-  );
-
   return (
     <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
       {({ values }) => (
@@ -314,18 +320,12 @@ const renderForm = (
                 onClick={() => handleRequestBookingButton({ backendApi, bookingDomain, canHold })}
               />
             </div>
-            <Label
-              className="agreeToTerms"
-              text={renderTermsAndConditions()}
-              inline
-              reverse
-            >  
-              <Checkbox
-                checked={agreeToTerms}
-                onChange={onAgreeToTermsChange}
-              />
-            </Label>
           </div>
+          <TermsAndConditions
+            className="agreeToTerms"
+            value={agreeToTerms}
+            onChange={updateAgreeToTermsAction}
+          />
         </Fragment>
       )}
     </Form>
