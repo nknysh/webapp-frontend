@@ -94,40 +94,36 @@ export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
       });
     }
 
-    if (draftOffer.subProductDiscounts['Meal Plan']) {
-      draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan']?.map(
-        (discount, arrayIndex) => {
-          discount.uuid = uuid.v4();
-          return discount;
-        }
-      );
+    if (draftOffer.subProductDiscounts?.['Meal Plan']) {
+      draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan']?.map(discount => {
+        discount.uuid = uuid.v4();
+        return discount;
+      });
     }
 
     if (draftOffer.productDiscounts?.Fine) {
-      draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map((discount, arrayIndex) => {
+      draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map(discount => {
         discount.uuid = uuid.v4();
         return discount;
       });
     }
 
     if (draftOffer.productDiscounts?.['Ground Service']) {
-      draftOffer.productDiscounts['Ground Service'] = draftOffer.productDiscounts['Ground Service'].map(
-        (discount, arrayIndex) => {
-          discount.uuid = uuid.v4();
-          return discount;
-        }
-      );
+      draftOffer.productDiscounts['Ground Service'] = draftOffer.productDiscounts['Ground Service'].map(discount => {
+        discount.uuid = uuid.v4();
+        return discount;
+      });
     }
 
     if (draftOffer.productDiscounts?.Transfer) {
-      draftOffer.productDiscounts.Transfer = draftOffer.productDiscounts.Transfer.map((discount, arrayIndex) => {
+      draftOffer.productDiscounts.Transfer = draftOffer.productDiscounts.Transfer.map(discount => {
         discount.uuid = uuid.v4();
         return discount;
       });
     }
 
     if (draftOffer.productDiscounts?.Supplement) {
-      draftOffer.productDiscounts.Supplement = draftOffer.productDiscounts.Supplement.map((discount, arrayIndex) => {
+      draftOffer.productDiscounts.Supplement = draftOffer.productDiscounts.Supplement.map(discount => {
         discount.uuid = uuid.v4();
         return discount;
       });
@@ -158,39 +154,32 @@ export const sanitizeInt = (value: string | undefined | number | null) => {
 };
 
 export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiState): IOfferAPI => {
+  const productDiscountInstanceTransform = discount => {
+    return {
+      products: discount.products,
+      discountPercentage: sanitizeFloat(discount.discountPercentage),
+      greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
+      maximumQuantity: sanitizeInt(discount.maximumQuantity),
+    };
+  };
   return produce(offer, (draftOffer: IOfferAPI) => {
     if (draftOffer.subProductDiscounts?.Supplement) {
       draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(discount => {
-        const newSupplement: IOfferProductDiscountInstance = {
-          products: discount.products,
-          discountPercentage: sanitizeFloat(discount.discountPercentage),
-          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: sanitizeInt(discount.maximumQuantity),
-        };
+        const newSupplement: IOfferProductDiscountInstance = productDiscountInstanceTransform(discount);
         return newSupplement;
       });
     }
 
     if (draftOffer.subProductDiscounts?.['Meal Plan']) {
       draftOffer.subProductDiscounts['Meal Plan'] = draftOffer.subProductDiscounts['Meal Plan'].map(discount => {
-        const newSupplement: IOfferProductDiscountInstance = {
-          products: discount.products,
-          discountPercentage: sanitizeFloat(discount.discountPercentage),
-          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: sanitizeInt(discount.maximumQuantity),
-        };
+        const newSupplement: IOfferProductDiscountInstance = productDiscountInstanceTransform(discount);
         return newSupplement;
       });
     }
 
     if (draftOffer.productDiscounts?.Fine) {
       draftOffer.productDiscounts.Fine = draftOffer.productDiscounts.Fine.map((discount, arrayIndex) => {
-        const newSupplement: IOfferProductDiscountInstance = {
-          products: discount.products,
-          discountPercentage: sanitizeFloat(discount.discountPercentage),
-          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: sanitizeInt(discount.maximumQuantity),
-        };
+        const newSupplement: IOfferProductDiscountInstance = productDiscountInstanceTransform(discount);
         return newSupplement;
       });
     }
@@ -201,24 +190,14 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
 
     if (draftOffer.productDiscounts?.['Ground Service']) {
       draftOffer.productDiscounts['Ground Service'] = draftOffer.productDiscounts['Ground Service'].map(discount => {
-        const newSupplement: IOfferProductDiscountInstance = {
-          products: discount.products,
-          discountPercentage: sanitizeFloat(discount.discountPercentage),
-          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: sanitizeInt(discount.maximumQuantity),
-        };
+        const newSupplement: IOfferProductDiscountInstance = productDiscountInstanceTransform(discount);
         return newSupplement;
       });
     }
 
     if (draftOffer.productDiscounts?.Supplement) {
       draftOffer.productDiscounts.Supplement = draftOffer.productDiscounts.Supplement.map((discount, arrayIndex) => {
-        const newSupplement: IOfferProductDiscountInstance = {
-          products: discount.products,
-          discountPercentage: sanitizeFloat(discount.discountPercentage),
-          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: sanitizeInt(discount.maximumQuantity),
-        };
+        const newSupplement: IOfferProductDiscountInstance = productDiscountInstanceTransform(discount);
         return newSupplement;
       });
     }
@@ -241,12 +220,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
 
     if (draftOffer.productDiscounts?.Transfer) {
       draftOffer.productDiscounts.Transfer = draftOffer.productDiscounts.Transfer.map((discount, arrayIndex) => {
-        const newSupplement: IOfferProductDiscountInstance = {
-          products: discount.products,
-          discountPercentage: sanitizeFloat(discount.discountPercentage),
-          greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
-          maximumQuantity: sanitizeInt(discount.maximumQuantity),
-        };
+        const newSupplement: IOfferProductDiscountInstance = productDiscountInstanceTransform(discount);
         return newSupplement;
       });
     }
@@ -256,23 +230,29 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
     switch (uiState.combinationMode) {
       case ECombinationMode.COMBINES_WITH_ANY:
         draftOffer.combines = true;
+        draftOffer.combinesWith = undefined;
+        draftOffer.cannotCombineWith = undefined;
         break;
       case ECombinationMode.COMBINES_WITH_NONE:
         draftOffer.combines = false;
+        draftOffer.combinesWith = undefined;
+        draftOffer.cannotCombineWith = undefined;
         break;
       case ECombinationMode.COMBINES_WITH_LIST:
         draftOffer.combines = true;
         draftOffer.combinesWith = uiState.combinationOfferUuids;
+        draftOffer.cannotCombineWith = undefined;
         break;
       case ECombinationMode.CANNOT_COMBINE_WITH_LIST:
         draftOffer.combines = true;
+        draftOffer.combinesWith = undefined;
         draftOffer.cannotCombineWith = uiState.combinationOfferUuids;
         break;
     }
 
     if (uiState.isTextOnly) {
-      draftOffer.productDiscounts = {};
-      draftOffer.subProductDiscounts = {};
+      draftOffer.productDiscounts = undefined;
+      draftOffer.subProductDiscounts = undefined;
       draftOffer.stepping = undefined;
       draftOffer.accommodationProductDiscount = undefined;
     }

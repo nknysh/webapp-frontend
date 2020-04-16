@@ -133,8 +133,8 @@ export interface IOffer<T> {
     countryCode: string;
   };
   combines: boolean;
-  combinesWith: string[]; // uuids
-  cannotCombineWith: string[]; // uuids
+  combinesWith?: string[]; // uuids
+  cannotCombineWith?: string[]; // uuids
   termsAndConditions: string;
   furtherInformation: string | null;
   prerequisites: IOfferPrerequisites;
@@ -144,8 +144,8 @@ export interface IOffer<T> {
     discountPercentage?: number | string | undefined | null;
     greenTaxDiscountApproach?: string | undefined | null;
   };
-  subProductDiscounts: IOfferSubProductDiscounts<T>;
-  productDiscounts: IOfferProductDiscounts<T>;
+  subProductDiscounts?: IOfferSubProductDiscounts<T>;
+  productDiscounts?: IOfferProductDiscounts<T>;
   createdAt: string;
   updatedAt: string;
 }
