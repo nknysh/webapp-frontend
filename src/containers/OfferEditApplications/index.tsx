@@ -335,6 +335,10 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
 
     return (
       <OfferEditApplicationsStyles>
+        <ErrorList className="errorlist">
+          {!this.props.offerIsPristine &&
+            this.props.validationErrors.applications.map((error, i) => <li key={i}>{error.message}</li>)}
+        </ErrorList>
         <Fieldset>
           <Legend>Stepping</Legend>
           {this.props.stepping && (

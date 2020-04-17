@@ -28,6 +28,9 @@ export interface OfferValidatorResultSet {
   extraPersonSupplementDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
 
   combinations: ValidatorFieldError<OfferValidatorResultSet>[];
+
+  // for general application validation errors
+  applications: ValidatorFieldError<OfferValidatorResultSet>[];
 }
 
 export interface ValidatorFieldError<T> {

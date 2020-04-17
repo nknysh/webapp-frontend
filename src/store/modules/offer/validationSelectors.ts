@@ -17,6 +17,7 @@ import {
   offerSubProductDiscountsSelector,
   offerExtraPersonSupplementsSelector,
   offerRequiresGreenTaxApproachSelector,
+  offerAccommodationDiscountSelector,
 } from './subdomains/offer/selectors';
 
 import { combinationModeSelector, combinationOfferUuidsSelector } from './subdomains/uiState/selectors';
@@ -109,7 +110,6 @@ export const offerStayLengthPrerequisiteValidationSelector = createSelector(
 export const offerSteppingValidationSelector = createSelector(offerSteppingApplicationSelector, stepping => {
   const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
-  console.log('running stepping validation');
   if (stepping) {
     if (stepping.everyXNights === undefined) {
       errors.push({
@@ -133,8 +133,6 @@ export const offerSteppingValidationSelector = createSelector(offerSteppingAppli
     }
 
     if (stepping.everyXNights == null && stepping.applyTo == null) {
-      console.log('aaaaaaaaaaaaaaaaaaa');
-
       if (stepping.maximumNights != null) {
         errors.push({
           field: 'stepping',
@@ -446,7 +444,54 @@ export const offerDetailsValidationSelector = createSelector(
   }
 );
 
-// export const
+export const offerHasAnyProductDiscounts = createSelector(offerProductDiscountsSelector, productDiscounts => {
+  return (
+    (productDiscounts.Fine && productDiscounts.Fine?.length >= 1) ||
+    (productDiscounts.Transfer && productDiscounts.Transfer?.length >= 1) ||
+    (productDiscounts['Ground Service'] && productDiscounts['Ground Service']?.length >= 1) ||
+    (productDiscounts.Supplement && productDiscounts.Supplement?.length >= 1)
+  );
+});
+
+export const offerHasAnySubProductDiscounts = createSelector(offerSubProductDiscountsSelector, subProductDiscounts => {
+  return (
+    (subProductDiscounts['Meal Plan'] && subProductDiscounts['Meal Plan']?.length >= 1) ||
+    (subProductDiscounts.Supplement && subProductDiscounts.Supplement?.length >= 1)
+  );
+});
+
+export const offerApplicationsIfNotTextOnlyValidationSelector = createSelector(
+  uiStateSelector,
+  offerAccommodationDiscountSelector,
+  offerHasAnyProductDiscounts,
+  offerHasAnySubProductDiscounts,
+  offerExtraPersonSupplementsSelector,
+  (uiState, accommodationDiscount, hasProductDiscounts, hasSubProductDiscounts, epsDiscounts) => {
+    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+    // const hasAnyProductDiscounts = productDiscounts.Fine && productDiscounts.Fine?.length >= 1;
+    // if we're NOT text only...
+    if (!uiState.isTextOnly) {
+      // ...and we dont have ANY other kinds of applications...
+      if (
+        accommodationDiscount == null &&
+        !hasProductDiscounts &&
+        !hasSubProductDiscounts &&
+        epsDiscounts.length <= 0
+      ) {
+        //... then thats an error, and they need to add some applications or make it text only
+        errors.push({
+          field: 'applications',
+          message: 'Non Text Only offers require at least 1 application to be set',
+        });
+      }
+    }
+
+    return {
+      errors,
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
 
 // gets the giant, grouped by object of all validations against the offer
 export const offerValidationSelector = createSelector(
@@ -460,6 +505,7 @@ export const offerValidationSelector = createSelector(
   accommodationDiscountValidationSelector,
   offerStayLengthPrerequisiteValidationSelector,
   offerCombinationValidationSelector,
+  offerApplicationsIfNotTextOnlyValidationSelector,
   (
     detailsValidatorFieldResult,
     accommodationProductValidatorFieldResult,
@@ -470,7 +516,8 @@ export const offerValidationSelector = createSelector(
     epsDiscountsValidatorFieldResult,
     accommodationProductDiscountValidatorFieldResult,
     stayLengthValidatorFieldResult,
-    combinationValidatorFieldResult
+    combinationValidatorFieldResult,
+    applicationsValidatorFieldResult
   ) => {
     const groupedBy: OfferValidatorResultSet = {
       hotelUuid: detailsValidatorFieldResult.errors.filter(e => e.field === 'hotelUuid'),
@@ -498,6 +545,8 @@ export const offerValidationSelector = createSelector(
       mealPlanDiscounts: subProductDiscountsValidatorFieldResult.errors.filter(e => e.field === 'mealPlanDiscounts'),
 
       combinations: combinationValidatorFieldResult.errors,
+
+      applications: applicationsValidatorFieldResult.errors,
     };
     return groupedBy;
   }
@@ -545,19 +594,22 @@ export const offerHasApplicationsValidationErrorsSelector = createSelector(
   offerProductDiscountsValidationSelector,
   offerSubProductDiscountsValidationSelector,
   accommodationDiscountValidationSelector,
+  offerApplicationsIfNotTextOnlyValidationSelector,
   (
     steppingValidatorResult,
     extraPersonSupplementValidatorResult,
     productDiscountsValidatorResult,
     subProductDiscountsValidatorResult,
-    accommodationProductDiscountValidatorResult
+    accommodationProductDiscountValidatorResult,
+    applicationIfNotTextOnlyValidatorResult
   ) => {
     return (
       steppingValidatorResult.errors.length >= 1 ||
       extraPersonSupplementValidatorResult.errors.length >= 1 ||
       productDiscountsValidatorResult.errors.length >= 1 ||
       subProductDiscountsValidatorResult.errors.length >= 1 ||
-      accommodationProductDiscountValidatorResult.errors.length >= 1
+      accommodationProductDiscountValidatorResult.errors.length >= 1 ||
+      applicationIfNotTextOnlyValidatorResult.errors.length >= 1
     );
   }
 );
