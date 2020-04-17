@@ -3,7 +3,7 @@
 exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
 <styled.div>
   <Label
-    className="title error"
+    className="title"
     isError={false}
     text="Title"
   >

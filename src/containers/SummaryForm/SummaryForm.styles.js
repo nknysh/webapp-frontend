@@ -13,6 +13,10 @@ export const StyledSummary = styled.div`
   label.error span.labelText {
     color: red;
   }
+
+  .agreeToTerms .error .surrogate {
+    border-color: red;  
+  }
   
   .summary-form-buttons {
     .flex {
@@ -40,6 +44,10 @@ export const Title = styled.h3`
   line-height: 14px;
   color: ${theme.palette.neutral};
   border-bottom: 1px solid ${theme.borders.default};
+  
+  &.error {
+    color: red;
+  }
 `;
 
 export const FullTotal = styled.div`

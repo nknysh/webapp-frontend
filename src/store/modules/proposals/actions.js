@@ -149,7 +149,11 @@ const someBookingsArePotential = (bookingKeys, bookings) => {
 const getGuestInfoPayload = getState => {
   const guestInfo = guestInfoSelector(getState());
   return fromPairs(
-    toPairs(guestInfo).filter(tuple => !isNil(tuple[1]))
+    toPairs(
+      omit(['isRepeatGuest'], guestInfo)
+    ).filter(
+      tuple => !isNil(tuple[1])
+    )
   );
 };
 

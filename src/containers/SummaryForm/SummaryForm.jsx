@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useCallback, useMemo } from 'react';
-import { compose, head, pathOr, pipe, propOr } from 'ramda';
+import { compose, head, pathOr, pipe, propOr, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { Form, Input, Loader, List } from '@pure-escapes/webapp-ui-components';
@@ -155,35 +155,35 @@ const handleRequestBookingButton = async props => {
 };
 
 const SaveBookingButton = props => {
-  const { backendApi, bookingDomain, canBook, t, forceDisabled } = props;
+  const { backendApi, bookingDomain, canBook, t, actionGuard } = props;
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
     <PrimaryButtonTallAltColor
       className="save-booking-button"
       type="button"
-      disabled={!canBook || hasClicked || forceDisabled}
-      onClick={() => {
+      disabled={!canBook || hasClicked}
+      onClick={actionGuard(() => {
         setHasClicked(true);
         try {
           handleSaveBookingButton({ backendApi, bookingDomain });
         } catch (e) {
           setHasClicked(false);
         }
-      }}
+      })}
     >
       {t('buttons.saveBooking')}
     </PrimaryButtonTallAltColor>
   );
 };
 
-const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, forceDisabled, onClick }) => {
+const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, onClick }) => {
   // logic taken from previous declaration and reworked into its own component
 
   return (
     <PrimaryButtonTall
       className="request-to-book-button"
-      disabled={!(showHolds || canBook) || forceDisabled}
+      disabled={!(showHolds || canBook)}
       onClick={onClick}
     >
       {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
@@ -192,7 +192,7 @@ const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, fo
 };
 
 const SaveBookingAndTakeHoldsButton = props => {
-  const { backendApi, bookingDomain, canBook, canHold, t, forceDisabled } = props;
+  const { backendApi, bookingDomain, canBook, canHold, t, actionGuard } = props;
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
@@ -200,29 +200,29 @@ const SaveBookingAndTakeHoldsButton = props => {
       className="save-booking-and-take-hold-button"
       type="button"
       data-secondary
-      disabled={!canBook || !canHold || hasClicked || forceDisabled}
-      onClick={() => {
+      disabled={!canBook || !canHold || hasClicked}
+      onClick={actionGuard(() => {
         setHasClicked(true);
         try {
           handleSaveBookingAndTakeHoldsButton({ backendApi, bookingDomain });
         } catch (e) {
           setHasClicked(false);
         }
-      }}
+      })}
     >
       {t('buttons.takeAHold')}
     </PrimaryButtonTallAltColor>
   );
 };
 
-const TermsAndConditions = ({ value, onChange, className }) => {
+const TermsAndConditions = ({ value, onChange, className, isValid }) => {
   const content = (
     <span>I agree to <a href={BOOKING_TERMS_URL} target="_blank">Terms and Conditions</a></span>
   );
 
   return (
     <Label className={className} text={content} inline reverse>
-      <Checkbox checked={value} onChange={event => onChange(event.target.checked)} />
+      <Checkbox className={isValid ? null : 'error'} checked={value} onChange={event => onChange(event.target.checked)} />
     </Label>
   );
 
@@ -248,19 +248,17 @@ const renderForm = (
     canHold,
     handleAddToProposalClick,
     onSubmit,
-    travelAgentUserUuid,
-    isSr,
-    guestInfo,
     agreeToTerms,
-    updateAgreeToTermsAction
+    updateAgreeToTermsAction,
+    domainValidation,
+    isPristine,
+    setIsPristineAction
   }
 ) => {
 
-  const minRequired = agreeToTerms &&
-                      guestInfo.guestFirstName &&
-                      guestInfo.guestLastName &&
-                      (!isSr || travelAgentUserUuid);
-  
+  const isValid = values(domainValidation).every(arr => !arr?.length);
+  const actionGuard = action => isValid ? action : () => setIsPristineAction(false);
+
   return (
     <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
       {({ values }) => (
@@ -286,7 +284,7 @@ const renderForm = (
                 canHold={canHold}
                 backendApi={backendApi}
                 bookingDomain={bookingDomain}
-                forceDisabled={!minRequired}
+                actionGuard={actionGuard}
               />
 
               <SaveBookingButton
@@ -294,7 +292,7 @@ const renderForm = (
                 canBook={canBook}
                 backendApi={backendApi}
                 bookingDomain={bookingDomain}
-                forceDisabled={!minRequired}
+                actionGuard={actionGuard}
               />
             </div>
 
@@ -302,8 +300,8 @@ const renderForm = (
               <PrimaryButtonTall
                 className="add-to-proposal-button"
                 type="button"
-                disabled={!(canBook && minRequired)}
-                onClick={handleAddToProposalClick}
+                disabled={!canBook}
+                onClick={actionGuard(handleAddToProposalClick)}
               >
                 {t('buttons.addToProposal')}
               </PrimaryButtonTall>
@@ -316,8 +314,7 @@ const renderForm = (
                 canHold={canHold}
                 bookLabel={bookLabel}
                 isOnRequest={isOnRequest}
-                forceDisabled={!minRequired}
-                onClick={() => handleRequestBookingButton({ backendApi, bookingDomain, canHold })}
+                onClick={actionGuard(() => handleRequestBookingButton({ backendApi, bookingDomain, canHold }))}
               />
             </div>
           </div>
@@ -325,6 +322,7 @@ const renderForm = (
             className="agreeToTerms"
             value={agreeToTerms}
             onChange={updateAgreeToTermsAction}
+            isValid={isPristine ? true : !domainValidation.agreeToTerms?.length}
           />
         </Fragment>
       )}

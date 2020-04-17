@@ -29,6 +29,7 @@ import {
   agreeToTermsSelector,
   updateAgreeToTermsAction,
   domainValidationSelector,
+  isPristineSelector,
   setIsPristineAction
 } from 'store/modules/bookingBuilder';
 
@@ -53,7 +54,8 @@ export const mapStateToProps = (state, { id }) => ({
   isSr: isSrSelector(state),
   guestInfo: guestInfoSelector(state),
   agreeToTerms: agreeToTermsSelector(state),
-  domainValidation: domainValidationSelector(state)
+  domainValidation: domainValidationSelector(state),
+  isPristine: isPristineSelector(state)
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -461,10 +461,10 @@ const renderMargin = (
   );
 };
 
-const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent }) => (
+const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent, isValid }) => (
   <TableCardBox className="mt-4 mb-4">
     <TableCardRow depth={3}>
-      <Title>{t('travelAgent')}</Title>
+      <Title className={isValid ? null : 'error'}>{t('travelAgent')}</Title>
       <Loader isLoading={!travelAgentsLoaded} text={t('messages.loadingUsers')}>
         <IndexSearch
           placeholder={t('labels.searchForTA')}
@@ -483,7 +483,7 @@ const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect,
   </TableCardBox>
 );
 
-const renderGuestInfo = (data, onChange) => {
+const renderGuestInfo = (data, onChange, validation) => {
   return (
     <TableCardBox className="mt-4 mb-4">
       <TableCardRow depth={3}>
@@ -492,6 +492,7 @@ const renderGuestInfo = (data, onChange) => {
           bookingGuestFormValues={data}
           onValueChange={onChange}
           sections={{ guestInfo: true }}
+          validation={validation}
         />
       </TableCardRow>
     </TableCardBox>
@@ -542,10 +543,13 @@ export const SummaryFormExtras = ({
   customItem,
   customItemActions,
   guestInfo,
-  updateBookingGuestInformationAction
+  updateBookingGuestInformationAction,
+  isPristine,
+  domainValidation
 }) => {
   const { t } = useTranslation();
 
+  const validation = isPristine ? {} : domainValidation;
   const hasTASelect = isSr && !isRl;
   const travelAgentsLoaded = useFetchData(
     travelAgentsStatus,
@@ -779,7 +783,8 @@ export const SummaryFormExtras = ({
       )}
       {renderGuestInfo(
         guestInfo,
-        updateBookingGuestInformationAction
+        updateBookingGuestInformationAction,
+        validation
       )}
       {/* SRs need to be able to select TAs */}
       {hasTASelect &&
@@ -790,6 +795,7 @@ export const SummaryFormExtras = ({
           onTASelect,
           onTARemove,
           travelAgent,
+          isValid: !validation.travelAgentUserUuid?.length
         })}
       {renderMargin(t, {
         currencyCode,

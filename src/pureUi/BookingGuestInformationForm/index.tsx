@@ -114,7 +114,7 @@ export const BookingGuestInformationForm = (props: IBookingGuestInformationForm)
     <BookingGuestInformationFormStyles>
       {sections.guestInfo && (
         <Fragment>
-          <Label className="title error" text="Title" isError={isError('guestTitle')}>
+          <Label className="title" text="Title" isError={isError('guestTitle')}>
             <Select
               value={bookingGuestFormValues.guestTitle || ''}
               options={titles}

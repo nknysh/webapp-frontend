@@ -50,6 +50,8 @@ import {
   guestInfoSelector,
   saveCustomItemAction,
   removeCustomItemAction,
+  isPristineSelector,
+  domainValidationSelector
 } from 'store/modules/bookingBuilder';
 
 import {
@@ -100,6 +102,8 @@ export const mapStateToProps = (state, { id }) => {
       payload: customItemPayloadSelector(state),
       validation: customItemValidationSelector(state),
     },
+    isPristine: isPristineSelector(state),
+    domainValidation: domainValidationSelector(state)
   };
 };
 
