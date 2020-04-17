@@ -257,6 +257,14 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       draftOffer.accommodationProductDiscount = undefined;
     }
 
+    if (Object.values(draftOffer.productDiscounts || {}).length <= 0) {
+      draftOffer.productDiscounts = undefined;
+    }
+
+    if (Object.values(draftOffer.subProductDiscounts || {}).length <= 0) {
+      draftOffer.subProductDiscounts = undefined;
+    }
+
     return draftOffer;
   });
 };

@@ -196,7 +196,7 @@ export class BackendApiService<T extends AxiosInstance> {
     }
 
     let query = '?';
-    query += uuids.map(uuid => `filter[offer][uuid][]=${uuid}`).join('&');
+    query += uuids.map(uuid => `filter[offer][uuid:in][]=${uuid}`).join('&');
 
     const endpoint = `${BackendEndpoints.OFFERS}${query}`;
     return this.client.delete(endpoint);
