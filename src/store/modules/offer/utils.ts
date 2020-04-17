@@ -194,7 +194,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
     }
 
     if (draftOffer.furtherInformation === '') {
-      draftOffer.furtherInformation = null;
+      delete draftOffer.furtherInformation;
     }
 
     if (draftOffer.productDiscounts?.['Ground Service']) {
