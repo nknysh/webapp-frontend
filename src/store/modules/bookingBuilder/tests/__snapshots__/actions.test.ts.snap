@@ -14,3 +14,17 @@ Object {
   "type": "bookingBuilder/REMOVE_CUSTOM_ITEM",
 }
 `;
+
+exports[`Bookin Builder actions Returns the correct object literals 3`] = `
+Object {
+  "type": "bookingBuilder/UPDATE_AGREEE_TO_TERMS",
+  "value": true,
+}
+`;
+
+exports[`Bookin Builder actions Returns the correct object literals 4`] = `
+Object {
+  "type": "bookingBuilder/SET_IS_PRISTINE",
+  "value": true,
+}
+`;
