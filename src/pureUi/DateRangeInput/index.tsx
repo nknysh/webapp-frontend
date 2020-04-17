@@ -23,6 +23,7 @@ export interface DateRangeInputPops extends HTMLAttributes<HTMLButtonElement> {
   onClickOutside: (e: MouseEvent) => void;
   minDate?: string; // An ISO8601 Date string
   maxDate?: string; // An ISO8601 Date string
+  enablePastDates?: boolean;
 }
 
 const DateRangeInput = (props: DateRangeInputPops) => {
@@ -41,6 +42,7 @@ const DateRangeInput = (props: DateRangeInputPops) => {
     onClickOutside,
     minDate,
     maxDate,
+    enablePastDates,
     ...buttonProps
   } = props;
 
@@ -97,6 +99,7 @@ const DateRangeInput = (props: DateRangeInputPops) => {
                     onPrevClick={props.onPrevClick}
                     minDate={props.minDate}
                     maxDate={props.maxDate}
+                    enablePastDates={props.enablePastDates}
                   />
                 </Frame>
               </AutoPosition>
@@ -136,6 +139,7 @@ const DateRangeInput = (props: DateRangeInputPops) => {
                     onPrevClick={props.onPrevClick}
                     minDate={props.minDate}
                     maxDate={props.maxDate}
+                    enablePastDates={props.enablePastDates}
                   />
                 </Frame>
               </AutoPosition>,

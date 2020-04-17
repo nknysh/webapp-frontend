@@ -140,6 +140,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
             onDateChange={this.handleDateChange}
             onNewDate={this.handleNewDate}
             onRemoveDate={this.handleRemoveDate}
+            enablePastDates
           />
         </Fieldset>
 
@@ -262,6 +263,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
                       onMouseDown={params.toggleDatePicker}
                       onClickOutside={params.hideDatePicker}
                       placeholder="Select Book By Date"
+                      enablePastDates
                     />
                   );
                 }}

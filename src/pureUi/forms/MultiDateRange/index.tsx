@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 export interface IMultiDateRangeProps extends React.HTMLAttributes<HTMLDivElement> {
   dateRanges: string[][];
+  enablePastDates?: boolean;
   onNewDate: () => void;
   onRemoveDate: (idx: number) => void;
   onDateChange: (dates: string[][]) => void;
@@ -48,6 +49,7 @@ export const MultiDateRangeComponent = (props: IMultiDateRangeProps): JSX.Elemen
                   onPrevClick={params.decrementDate}
                   onMouseDown={params.toggleDatePicker}
                   onClickOutside={params.hideDatePicker}
+                  enablePastDates={Boolean(props.enablePastDates)}
                 />
               )}
             />

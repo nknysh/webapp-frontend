@@ -18,6 +18,7 @@ export interface IDatePickerOwnProps {
   firstDayOfWeek?: number; // 0 = sunday
   minDate?: string; // An ISO8601 Date string
   maxDate?: string; // An ISO8601 Date string
+  enablePastDates?: boolean;
 }
 export interface IDatePickerProps extends IDatePickerOwnProps, React.HTMLProps<HTMLDivElement> {}
 
@@ -47,6 +48,7 @@ const DatePicker = (props: IDatePickerProps) => (
             onDayMouseOver={props.onDayMouseOver}
             minDate={props.minDate}
             maxDate={props.maxDate}
+            disablePastDates={!Boolean(props.enablePastDates)}
           />
         ))}
     </div>
