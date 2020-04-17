@@ -471,7 +471,7 @@ export const offerSetSteppingEveryXNightsApplicationReducer = (
     ...state,
     stepping: {
       ...state.stepping,
-      everyXNights: action.value,
+      everyXNights: action.value != '' ? action.value : undefined,
     },
   };
 };
@@ -484,7 +484,7 @@ export const offerSetSteppingApplyToApplicationReducer = (
     ...state,
     stepping: {
       ...state.stepping,
-      applyTo: action.value,
+      applyTo: action.value != '' ? action.value : undefined,
     },
   };
 };
@@ -497,7 +497,7 @@ export const offerSetSteppingMaximumNightsApplicationReducer = (
     ...state,
     stepping: {
       ...state.stepping,
-      maximumNights: action.value,
+      maximumNights: action.value != '' ? action.value : undefined,
     },
   };
 };

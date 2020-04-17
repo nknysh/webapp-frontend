@@ -365,6 +365,10 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditPr
               Add Stepping
             </ActionButton>
           )}
+          <ErrorList className="errorlist">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.stepping.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
         </Fieldset>
         <Fieldset>
           <Legend>Accomodation Discount</Legend>

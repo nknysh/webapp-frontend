@@ -5,8 +5,8 @@ import {
   OfferValidatorResultSet,
   ValidatorFieldError,
   isPercentageCompliant,
-} from '../../validation';
-import { uiStateSelector } from '../uiState/selectors';
+} from './validation';
+import { uiStateSelector } from './subdomains/uiState/selectors';
 import {
   offerSelector,
   offerAccommodationProductPrerequisitesRawSelector,
@@ -17,10 +17,10 @@ import {
   offerSubProductDiscountsSelector,
   offerExtraPersonSupplementsSelector,
   offerRequiresGreenTaxApproachSelector,
-} from './selectors';
+} from './subdomains/offer/selectors';
 
-import { combinationModeSelector, combinationOfferUuidsSelector } from '../uiState/selectors';
-import { ECombinationMode } from '../../model';
+import { combinationModeSelector, combinationOfferUuidsSelector } from './subdomains/uiState/selectors';
+import { ECombinationMode } from './model';
 
 export const offerHotelValidationSelector = createSelector(offerSelector, offer =>
   new Validator<OfferValidatorResultSet>(offer)
@@ -109,6 +109,7 @@ export const offerStayLengthPrerequisiteValidationSelector = createSelector(
 export const offerSteppingValidationSelector = createSelector(offerSteppingApplicationSelector, stepping => {
   const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
+  console.log('running stepping validation');
   if (stepping) {
     if (stepping.everyXNights === undefined) {
       errors.push({
@@ -132,6 +133,8 @@ export const offerSteppingValidationSelector = createSelector(offerSteppingAppli
     }
 
     if (stepping.everyXNights == null && stepping.applyTo == null) {
+      console.log('aaaaaaaaaaaaaaaaaaa');
+
       if (stepping.maximumNights != null) {
         errors.push({
           field: 'stepping',
@@ -398,7 +401,7 @@ export const accommodationDiscountValidationSelector = createSelector(
   }
 );
 
-export const combinationValidationSelector = createSelector(
+export const offerCombinationValidationSelector = createSelector(
   combinationModeSelector,
   combinationOfferUuidsSelector,
   (combinationMode, combinationUuids) => {
@@ -415,19 +418,39 @@ export const combinationValidationSelector = createSelector(
         });
       }
     }
-
     return {
       errors,
     } as ValidatorFieldResult<OfferValidatorResultSet>;
   }
 );
 
-// gets the giant, grouped by object of all validations against the offer
-export const offerValidationSelector = createSelector(
+export const offerDetailsValidationSelector = createSelector(
   offerHotelValidationSelector,
   offerNameValidationSelector,
   offerTsAndCsValidationSelector,
   offerFurtherInformationValidationSelector,
+  (
+    hotelValidatorFieldResult,
+    nameValidatorFieldResult,
+    tsAndCsValidatorFieldResult,
+    furtherInformationValidatorFieldResult
+  ) => {
+    return {
+      errors: [
+        ...hotelValidatorFieldResult.errors,
+        ...nameValidatorFieldResult.errors,
+        ...tsAndCsValidatorFieldResult.errors,
+        ...furtherInformationValidatorFieldResult.errors,
+      ],
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
+
+// export const
+
+// gets the giant, grouped by object of all validations against the offer
+export const offerValidationSelector = createSelector(
+  offerDetailsValidationSelector,
   offerAccommodationProductsPrerequisitesValidationSelector,
   offerStayBetweenPrerequisiteValidationSelector,
   offerSteppingValidationSelector,
@@ -436,11 +459,9 @@ export const offerValidationSelector = createSelector(
   offerExtraPersonSupplementValidationSelector,
   accommodationDiscountValidationSelector,
   offerStayLengthPrerequisiteValidationSelector,
+  offerCombinationValidationSelector,
   (
-    hotelValidatorFieldResult,
-    nameValidatorFieldResult,
-    tsAndCsValidatorFieldResult,
-    furtherInformationValidatorFieldResult,
+    detailsValidatorFieldResult,
     accommodationProductValidatorFieldResult,
     stayBetweenValidatorFieldResult,
     steppingValidatorFieldResult,
@@ -448,13 +469,14 @@ export const offerValidationSelector = createSelector(
     subProductDiscountsValidatorFieldResult,
     epsDiscountsValidatorFieldResult,
     accommodationProductDiscountValidatorFieldResult,
-    stayLengthValidatorFieldResult
+    stayLengthValidatorFieldResult,
+    combinationValidatorFieldResult
   ) => {
     const groupedBy: OfferValidatorResultSet = {
-      hotelUuid: hotelValidatorFieldResult.errors,
-      name: nameValidatorFieldResult.errors,
-      termsAndConditions: tsAndCsValidatorFieldResult.errors,
-      furtherInformation: furtherInformationValidatorFieldResult.errors,
+      hotelUuid: detailsValidatorFieldResult.errors.filter(e => e.field === 'hotelUuid'),
+      name: detailsValidatorFieldResult.errors.filter(e => e.field === 'name'),
+      termsAndConditions: detailsValidatorFieldResult.errors.filter(e => e.field === 'termsAndConditions'),
+      furtherInformation: detailsValidatorFieldResult.errors.filter(e => e.field === 'furtherInformation'),
       accommodationProductsPrerequisite: accommodationProductValidatorFieldResult.errors,
       stayBetweenPrerequisite: stayBetweenValidatorFieldResult.errors,
       stepping: steppingValidatorFieldResult.errors,
@@ -474,6 +496,8 @@ export const offerValidationSelector = createSelector(
       // sub product discounts, broken up
       extraPersonSupplementDiscounts: epsDiscountsValidatorFieldResult.errors,
       mealPlanDiscounts: subProductDiscountsValidatorFieldResult.errors.filter(e => e.field === 'mealPlanDiscounts'),
+
+      combinations: combinationValidatorFieldResult.errors,
     };
     return groupedBy;
   }
@@ -539,7 +563,7 @@ export const offerHasApplicationsValidationErrorsSelector = createSelector(
 );
 
 export const offerHasCombinationValidationErrorsSelector = createSelector(
-  combinationValidationSelector,
+  offerCombinationValidationSelector,
   combinationValidatorFieldResult => {
     return combinationValidatorFieldResult.errors.length >= 1;
   }

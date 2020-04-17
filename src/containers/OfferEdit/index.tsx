@@ -36,6 +36,7 @@ import {
   offerIsPristineSelector,
   offerHasApplicationsValidationErrorsSelector,
   offerHasPerishableDataSelector,
+  offerHasCombinationValidationErrorsSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -257,7 +258,11 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           >
             Applications
           </RouteTab>
-          <RouteTab replace to={`${this.props.match.url}/combinations`}>
+          <RouteTab
+            isError={!this.props.offerIsPristine && this.props.hasCombinationsErrors}
+            replace
+            to={`${this.props.match.url}/combinations`}
+          >
             Combinations
           </RouteTab>
           <RouteTab replace to={`${this.props.match.url}/priority`}>
@@ -339,6 +344,7 @@ const mapStateToProps = createStructuredSelector({
   validationErrors: offerValidationSelector,
   hasPrerequisiteErrors: offerHasPrerequisitesValidationErrorsSelector,
   hasApplicationsErrors: offerHasApplicationsValidationErrorsSelector,
+  hasCombinationsErrors: offerHasCombinationValidationErrorsSelector,
   hasValidationErrors: offerHasValidationErrorsSelector,
   offerIsPristine: offerIsPristineSelector,
   hasPerishableData: offerHasPerishableDataSelector,
@@ -363,13 +369,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IOfferEditProps>(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect<StateToProps, DispatchToProps, IOfferEditProps>(mapStateToProps, mapDispatchToProps);
 
-export const OfferEditContainerConnected = compose(
-  withConnect,
-  withRouter,
-  withBootstapData()
-)(OfferEditContainer);
+export const OfferEditContainerConnected = compose(withConnect, withRouter, withBootstapData())(OfferEditContainer);
