@@ -45,7 +45,7 @@ export const uiStateReducer = (
           if (action.offer.combinesWith.length >= 1) {
             draftState.combinationMode = ECombinationMode.COMBINES_WITH_LIST;
             draftState.combinationOfferUuids = action.offer.combinesWith;
-          } else if (action.offer.cannotCombineWith.length >= 1) {
+          } else if (action.offer.cannotCombineWith && action.offer.cannotCombineWith.length >= 1) {
             draftState.combinationMode = ECombinationMode.CANNOT_COMBINE_WITH_LIST;
             draftState.combinationOfferUuids = action.offer.cannotCombineWith;
           } else {

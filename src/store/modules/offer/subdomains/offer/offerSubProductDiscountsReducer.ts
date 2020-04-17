@@ -35,13 +35,13 @@ export const subProductDiscountsReducer = (
       return removeProductFromDiscountHandler(state, action);
 
     case Actions.OFFER_TOGGLE_PRODUCT_ON_SUB_PRODUCT_DISCOUNT:
-      return toggleProductOnDiscount(state, action);
+      return toggleProductOnDiscount(state, action) || {};
 
     case Actions.OFFER_TOGGLE_SUB_PRODUCT_DISCOUNT_AGENAME:
       return toggleDiscountAgeName(state, action);
 
     case Actions.OFFER_TOGGLE_AGE_NAME_ON_SUB_PRODUCT:
-      return toggleAgeNameOnProductDiscountProduct(state, action);
+      return toggleAgeNameOnProductDiscountProduct(state, action) || {};
 
     default:
       return state;

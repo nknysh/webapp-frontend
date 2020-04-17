@@ -202,8 +202,8 @@ describe('offer module utils test', () => {
       };
 
       const transformed = transformApiOfferToUiOffer(fixture);
-      expect(typeof transformed.subProductDiscounts['Meal Plan']![0]!.products[0].uuid).toBe('string');
-      expect(typeof transformed.subProductDiscounts.Supplement![0]!.products[0].uuid).toBe('string');
+      expect(typeof transformed.subProductDiscounts?.['Meal Plan']![0]!.products[0].uuid).toBe('string');
+      expect(typeof transformed.subProductDiscounts?.Supplement![0]!.products[0].uuid).toBe('string');
     });
 
     it('adds UUIDS to product discount supplements', () => {
@@ -238,7 +238,7 @@ describe('offer module utils test', () => {
       expect(typeof transformed.productDiscounts?.Transfer![0]!.products[0].uuid).toBe('string');
       expect(typeof transformed.productDiscounts?.Supplement![0]!.products[0].uuid).toBe('string');
       expect(typeof transformed.productDiscounts?.Fine![0]!.products[0].uuid).toBe('string');
-      expect(typeof transformed.productDiscounts['Ground Service']![0]!.products[0].uuid).toBe('string');
+      expect(typeof transformed.productDiscounts?.['Ground Service']![0]!.products[0].uuid).toBe('string');
     });
   });
 

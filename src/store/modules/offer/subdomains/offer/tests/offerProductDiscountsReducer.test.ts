@@ -39,10 +39,10 @@ describe('offer reducer product fines', () => {
     // };
 
     const newState = reducer(testState, action);
-    expect(newState.productDiscounts.Fine![0]).toHaveProperty('uuid');
-    expect(newState.productDiscounts.Fine![0]).toHaveProperty('products');
-    expect(typeof newState.productDiscounts.Fine![0].uuid).toBe('string');
-    expect(newState.productDiscounts.Fine![0].products).toBeInstanceOf(Array);
+    expect(newState.productDiscounts?.Fine![0]).toHaveProperty('uuid');
+    expect(newState.productDiscounts?.Fine![0]).toHaveProperty('products');
+    expect(typeof newState.productDiscounts?.Fine![0].uuid).toBe('string');
+    expect(newState.productDiscounts?.Fine![0].products).toBeInstanceOf(Array);
   });
 
   it('adds a new product discount to the array (object already has empty array of fines)', () => {
@@ -75,14 +75,14 @@ describe('offer reducer product fines', () => {
     // };
 
     const newState = reducer(testState, action);
-    expect(newState.productDiscounts.Fine).not.toBe(undefined);
-    expect(newState.productDiscounts.Fine![0]).toHaveProperty('uuid');
-    expect(newState.productDiscounts.Fine![0]).toHaveProperty('products');
-    expect(typeof newState.productDiscounts.Fine![0].uuid).toBe('string');
-    expect(newState.productDiscounts.Fine![0].products).toBeInstanceOf(Array);
-    expect(newState.productDiscounts.Transfer!.length).toEqual(0);
-    expect(newState.productDiscounts['Ground Service']!.length).toEqual(0);
-    expect(newState.productDiscounts.Supplement!.length).toEqual(0);
+    expect(newState.productDiscounts?.Fine).not.toBe(undefined);
+    expect(newState.productDiscounts?.Fine![0]).toHaveProperty('uuid');
+    expect(newState.productDiscounts?.Fine![0]).toHaveProperty('products');
+    expect(typeof newState.productDiscounts?.Fine![0].uuid).toBe('string');
+    expect(newState.productDiscounts?.Fine![0].products).toBeInstanceOf(Array);
+    expect(newState.productDiscounts?.Transfer!.length).toEqual(0);
+    expect(newState.productDiscounts?.['Ground Service']!.length).toEqual(0);
+    expect(newState.productDiscounts?.Supplement!.length).toEqual(0);
   });
 
   it('adds a product into the discount product array', () => {
@@ -106,7 +106,7 @@ describe('offer reducer product fines', () => {
     };
 
     const newState = reducer(testState, action);
-    expect(newState.productDiscounts.Fine![0].products[0]).toMatchObject(mockProduct);
+    expect(newState.productDiscounts?.Fine![0].products[0]).toMatchObject(mockProduct);
   });
 
   it('adds a product to discount product array', () => {

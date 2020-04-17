@@ -19,7 +19,7 @@ export const productDiscountsReducer = (
 ): IOfferProductDiscounts<IUIOfferProductDiscountInstance> => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
-      return state;
+      return state || {};
     case Actions.OFFER_ADD_PRODUCT_DISCOUNT:
       return addDiscountHandler(state, action);
 
@@ -36,15 +36,15 @@ export const productDiscountsReducer = (
       return removeProductFromDiscountHandler(state, action);
 
     case Actions.OFFER_TOGGLE_PRODUCT_ON_PRODUCT_DISCOUNT:
-      return toggleProductOnDiscount(state, action);
+      return toggleProductOnDiscount(state, action) || {};
 
     case Actions.OFFER_TOGGLE_PRODUCT_DISCOUNT_AGENAME:
       return toggleDiscountAgeName(state, action);
 
     case Actions.OFFER_TOGGLE_AGE_NAME_ON_PRODUCT:
-      return toggleAgeNameOnProductDiscountProduct(state, action);
+      return toggleAgeNameOnProductDiscountProduct(state, action) || {};
 
     default:
-      return state;
+      return state || {};
   }
 };

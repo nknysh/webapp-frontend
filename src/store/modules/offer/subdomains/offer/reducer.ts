@@ -110,7 +110,7 @@ export const offerReducer = (state: IOfferUI = initialState.offer, action: Offer
     case Actions.OFFER_TOGGLE_AGE_NAME_ON_SUB_PRODUCT:
       return {
         ...state,
-        subProductDiscounts: subProductDiscountsReducer(state.subProductDiscounts, action),
+        subProductDiscounts: subProductDiscountsReducer(state.subProductDiscounts || {}, action),
       };
 
     case Actions.OFFER_ADD_STEPPING_APPLICATION:

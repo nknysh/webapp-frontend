@@ -35,10 +35,10 @@ describe('offer reducer sub product supplements', () => {
 
     const action = offerAddSubProductDiscountAction('Supplement');
     const newState = reducer(testState, action);
-    expect(newState.subProductDiscounts.Supplement![0]).toHaveProperty('uuid');
-    expect(newState.subProductDiscounts.Supplement![0]).toHaveProperty('products');
-    expect(typeof newState.subProductDiscounts.Supplement![0].uuid).toBe('string');
-    expect(newState.subProductDiscounts.Supplement![0].products).toBeInstanceOf(Array);
+    expect(newState.subProductDiscounts?.Supplement![0]).toHaveProperty('uuid');
+    expect(newState.subProductDiscounts?.Supplement![0]).toHaveProperty('products');
+    expect(typeof newState.subProductDiscounts?.Supplement![0].uuid).toBe('string');
+    expect(newState.subProductDiscounts?.Supplement![0].products).toBeInstanceOf(Array);
   });
 
   it('adds a new product discount to the array (object already has empty array of Supplements)', () => {
@@ -69,12 +69,12 @@ describe('offer reducer sub product supplements', () => {
     // };
 
     const newState = reducer(testState, action);
-    expect(newState.subProductDiscounts.Supplement).not.toBe(undefined);
-    expect(newState.subProductDiscounts.Supplement![0]).toHaveProperty('uuid');
-    expect(newState.subProductDiscounts.Supplement![0]).toHaveProperty('products');
-    expect(typeof newState.subProductDiscounts.Supplement![0].uuid).toBe('string');
-    expect(newState.subProductDiscounts.Supplement![0].products).toBeInstanceOf(Array);
-    expect(newState.subProductDiscounts['Meal Plan']!.length).toEqual(0);
+    expect(newState.subProductDiscounts?.Supplement).not.toBe(undefined);
+    expect(newState.subProductDiscounts?.Supplement![0]).toHaveProperty('uuid');
+    expect(newState.subProductDiscounts?.Supplement![0]).toHaveProperty('products');
+    expect(typeof newState.subProductDiscounts?.Supplement![0].uuid).toBe('string');
+    expect(newState.subProductDiscounts?.Supplement![0].products).toBeInstanceOf(Array);
+    expect(newState.subProductDiscounts?.['Meal Plan']!.length).toEqual(0);
   });
 
   it('adds a new product discount to the array AND a product if given a product UUID', () => {
@@ -104,7 +104,7 @@ describe('offer reducer sub product supplements', () => {
 
     const action = offerAddSubProductDiscountAction('Supplement', 'TEST_PRODUCT_UUID');
     const newState = reducer(testState, action);
-    expect(newState.subProductDiscounts.Supplement![0].products[0]).toMatchObject({ uuid: 'TEST_PRODUCT_UUID' });
+    expect(newState.subProductDiscounts?.Supplement![0].products[0]).toMatchObject({ uuid: 'TEST_PRODUCT_UUID' });
   });
 
   it('adds a product into the discount product array', () => {
@@ -126,7 +126,7 @@ describe('offer reducer sub product supplements', () => {
     };
 
     const newState = reducer(testState, action);
-    expect(newState.subProductDiscounts.Supplement![0].products[0]).toMatchObject(mockProduct);
+    expect(newState.subProductDiscounts?.Supplement![0].products[0]).toMatchObject(mockProduct);
   });
 
   it('adds a product to discount product array', () => {
