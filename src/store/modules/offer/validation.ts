@@ -26,6 +26,8 @@ export interface OfferValidatorResultSet {
   // sub product discounts, broken up
   mealPlanDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
   extraPersonSupplementDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
+
+  combinations: ValidatorFieldError<OfferValidatorResultSet>[];
 }
 
 export interface ValidatorFieldError<T> {
