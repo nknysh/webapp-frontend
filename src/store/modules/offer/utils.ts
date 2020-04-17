@@ -231,51 +231,41 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
     switch (uiState.combinationMode) {
       case ECombinationMode.COMBINES_WITH_ANY:
         draftOffer.combines = true;
-        draftOffer.combinesWith = undefined;
-        draftOffer.cannotCombineWith = undefined;
+        delete draftOffer.combinesWith;
+        delete draftOffer.cannotCombineWith;
         break;
       case ECombinationMode.COMBINES_WITH_NONE:
         draftOffer.combines = false;
-        draftOffer.combinesWith = undefined;
-        draftOffer.cannotCombineWith = undefined;
+        delete draftOffer.combinesWith;
+        delete draftOffer.cannotCombineWith;
         break;
       case ECombinationMode.COMBINES_WITH_LIST:
         draftOffer.combines = true;
         draftOffer.combinesWith = uiState.combinationOfferUuids;
-        draftOffer.cannotCombineWith = undefined;
+        delete draftOffer.cannotCombineWith;
         break;
       case ECombinationMode.CANNOT_COMBINE_WITH_LIST:
         draftOffer.combines = true;
-        draftOffer.combinesWith = undefined;
+        delete draftOffer.combinesWith;
         draftOffer.cannotCombineWith = uiState.combinationOfferUuids;
         break;
     }
 
     if (uiState.isTextOnly) {
-      draftOffer.productDiscounts = undefined;
-      draftOffer.subProductDiscounts = undefined;
-      draftOffer.stepping = undefined;
-      draftOffer.accommodationProductDiscount = undefined;
-    }
-
-    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 4
-    if (Object.keys(draftOffer.productDiscounts || {}).length <= 0) {
-      draftOffer.productDiscounts = undefined;
-    }
-
-    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 3
-    if (Object.keys(draftOffer.subProductDiscounts || {}).length <= 0) {
-      draftOffer.subProductDiscounts = undefined;
+      delete draftOffer.productDiscounts;
+      delete draftOffer.subProductDiscounts;
+      delete draftOffer.stepping;
+      delete draftOffer.accommodationProductDiscount;
     }
 
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 1
     if (draftOffer.prerequisites.countryCodes && draftOffer.prerequisites.countryCodes.length <= 0) {
-      draftOffer.prerequisites.countryCodes = undefined;
+      delete draftOffer.prerequisites.countryCodes;
     }
 
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 2
     if (draftOffer.prerequisites.accommodationProducts && draftOffer.prerequisites.accommodationProducts.length <= 0) {
-      draftOffer.prerequisites.accommodationProducts = undefined;
+      delete draftOffer.prerequisites.accommodationProducts;
     }
 
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 7
@@ -284,7 +274,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       draftOffer.prerequisites.stayLength.minimum == null &&
       draftOffer.prerequisites.stayLength.maximum == null
     ) {
-      draftOffer.prerequisites.stayLength = undefined;
+      delete draftOffer.prerequisites.stayLength;
     }
 
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 9
@@ -293,7 +283,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       draftOffer.prerequisites.advance.minimum == null &&
       draftOffer.prerequisites.advance.maximum == null
     ) {
-      draftOffer.prerequisites.advance = undefined;
+      delete draftOffer.prerequisites.advance;
     }
 
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Applications > Data
@@ -314,7 +304,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
         // @ts-ignore TODO whats up with needing this?
         draftOffer.productDiscounts[discountType].length <= 0
       ) {
-        draftOffer.productDiscounts[discountType] = undefined;
+        delete draftOffer.productDiscounts[discountType];
       }
     });
 
@@ -325,13 +315,23 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
         // @ts-ignore TODO whats up with needing this?
         draftOffer.subProductDiscounts[discountType].length <= 0
       ) {
-        draftOffer.subProductDiscounts[discountType] = undefined;
+        delete draftOffer.subProductDiscounts[discountType];
       }
     });
 
+    // do the below AFTER transforming the individual discount objects
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 4
+    if (Object.keys(draftOffer.productDiscounts || {}).length <= 0) {
+      delete draftOffer.productDiscounts;
+    }
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 3
+    if (Object.keys(draftOffer.subProductDiscounts || {}).length <= 0) {
+      delete draftOffer.subProductDiscounts;
+    }
+
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Applications > Data > Stepping
     if (draftOffer.stepping && draftOffer.stepping.everyXNights == null && draftOffer.stepping.applyTo == null) {
-      draftOffer.stepping = undefined;
+      delete draftOffer.stepping;
     }
 
     return draftOffer;
