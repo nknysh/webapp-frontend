@@ -184,7 +184,7 @@ describe('offer module utils test', () => {
   });
 
   describe('transformApiOfferToUiOffer', () => {
-    test.skip('adds indexes to sub product discount supplements', () => {
+    test('adds uuids to sub product discount supplements', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
         subProductDiscounts: {
@@ -257,49 +257,6 @@ describe('offer module utils test', () => {
       const transformed = transformUiOfferToApiOffer(fixture as IOfferUI, uiFixture);
 
       expect(transformed.furtherInformation).toBeUndefined();
-    });
-
-    it.skip('adds indexes to sub product discount supplements', () => {
-      const fixture: IOfferUI = {
-        ...initialState.offer,
-        subProductDiscounts: {
-          'Meal Plan': [],
-          Supplement: [
-            {
-              uuid: '0',
-              products: [{ uuid: 'A', ageNames: [] }],
-            },
-            {
-              uuid: '1',
-              products: [{ uuid: 'B', ageNames: [] }],
-            },
-          ],
-        },
-      };
-
-      const uiFixture: IOfferUiState = {
-        ...initialState.uiState,
-        combinationMode: ECombinationMode.COMBINES_WITH_ANY,
-      };
-
-      const transformed = transformUiOfferToApiOffer(fixture, uiFixture);
-
-      expect(transformed).toMatchObject({
-        ...initialState.offer,
-        combines: true,
-        furtherInformation: null,
-        subProductDiscounts: {
-          'Meal Plan': [],
-          Supplement: [
-            {
-              products: [{ uuid: 'A', ageNames: [] }],
-            },
-            {
-              products: [{ uuid: 'B', ageNames: [] }],
-            },
-          ],
-        },
-      });
     });
 
     it('ui combination mode COMBINES WITH ANY', () => {
