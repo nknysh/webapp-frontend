@@ -315,11 +315,12 @@ export const offerSubProductDiscountsValidationSelector = createSelector(
 
 export const offerExtraPersonSupplementValidationSelector = createSelector(
   offerExtraPersonSupplementsSelector,
-  extraPersonSupplementsDiscounts => {
+  offerRequiresGreenTaxApproachSelector,
+  (extraPersonSupplementsDiscounts, requiresGreenTax) => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
     extraPersonSupplementsDiscounts.forEach((discount, index) => {
-      if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
+      if (!discount.discountPercentage || discount.discountPercentage === '') {
         errors.push({
           field: 'extraPersonSupplementDiscounts',
           index,
@@ -332,6 +333,12 @@ export const offerExtraPersonSupplementValidationSelector = createSelector(
           message: `Extra Person Supplement discount #${index +
             1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
         });
+      } else if (requiresGreenTax && !discount.greenTaxDiscountApproach) {
+        errors.push({
+          field: 'extraPersonSupplementDiscounts',
+          index,
+          message: `Extra Person Supplement discount #${index + 1} - green tax approach is required`,
+        });
       }
 
       if (discount.maximumQuantity?.toString().includes('.')) {
@@ -342,6 +349,7 @@ export const offerExtraPersonSupplementValidationSelector = createSelector(
         });
       }
     });
+
     return {
       errors,
     } as ValidatorFieldResult<OfferValidatorResultSet>;
