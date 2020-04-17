@@ -264,7 +264,7 @@ export const offerAddSteppingApplicationAction = () => ({
 export type OfferSetAccommodationDiscountDiscountPercentageAction = ReturnType<
   typeof offerSetAccommodationDiscountDiscountPercentageAction
 >;
-export const offerSetAccommodationDiscountDiscountPercentageAction = (value: number) => ({
+export const offerSetAccommodationDiscountDiscountPercentageAction = (value: string | number | null | undefined) => ({
   type: OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION as typeof OFFER_SET_ACCOMMODATION_DISCOUNT_DISCOUNT_PERCENTAGE_APPLICATION,
   value,
 });

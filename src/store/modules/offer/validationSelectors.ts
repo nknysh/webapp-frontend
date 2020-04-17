@@ -373,6 +373,13 @@ export const accommodationDiscountValidationSelector = createSelector(
   (offer, requiresGreenTax) => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
+    if (offer.accommodationProductDiscount && !offer.accommodationProductDiscount.discountPercentage) {
+      errors.push({
+        field: 'accommodationProductDiscount',
+        message: `Accommodation Product discount - discount percentage must be set`,
+      });
+    }
+
     if (offer.accommodationProductDiscount && offer.accommodationProductDiscount.discountPercentage) {
       if (!isPercentageCompliant(offer.accommodationProductDiscount.discountPercentage)) {
         errors.push({
