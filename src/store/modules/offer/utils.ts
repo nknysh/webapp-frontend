@@ -226,7 +226,8 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
     }
 
     // handle offer `combines`, `combinesWith` and `cannotCombineWith`
-    // basd on UI state
+    // based on UI state
+    // setting values to undefined handles issues found in // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data
     switch (uiState.combinationMode) {
       case ECombinationMode.COMBINES_WITH_ANY:
         draftOffer.combines = true;
@@ -257,12 +258,80 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       draftOffer.accommodationProductDiscount = undefined;
     }
 
-    if (Object.values(draftOffer.productDiscounts || {}).length <= 0) {
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 4
+    if (Object.keys(draftOffer.productDiscounts || {}).length <= 0) {
       draftOffer.productDiscounts = undefined;
     }
 
-    if (Object.values(draftOffer.subProductDiscounts || {}).length <= 0) {
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 3
+    if (Object.keys(draftOffer.subProductDiscounts || {}).length <= 0) {
       draftOffer.subProductDiscounts = undefined;
+    }
+
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 1
+    if (draftOffer.prerequisites.countryCodes && draftOffer.prerequisites.countryCodes.length <= 0) {
+      draftOffer.prerequisites.countryCodes = undefined;
+    }
+
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 2
+    if (draftOffer.prerequisites.accommodationProducts && draftOffer.prerequisites.accommodationProducts.length <= 0) {
+      draftOffer.prerequisites.accommodationProducts = undefined;
+    }
+
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 7
+    if (
+      draftOffer.prerequisites.stayLength &&
+      draftOffer.prerequisites.stayLength.minimum == null &&
+      draftOffer.prerequisites.stayLength.maximum == null
+    ) {
+      draftOffer.prerequisites.stayLength = undefined;
+    }
+
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 9
+    if (
+      draftOffer.prerequisites.advance &&
+      draftOffer.prerequisites.advance.minimum == null &&
+      draftOffer.prerequisites.advance.maximum == null
+    ) {
+      draftOffer.prerequisites.advance = undefined;
+    }
+
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Applications > Data
+    const productDiscountTypes: (keyof IOfferProductDiscounts<IUIOfferProductDiscountInstance>)[] = [
+      'Fine',
+      'Transfer',
+      'Supplement',
+      'Ground Service',
+    ];
+    const subProductDiscountTypes: (keyof IOfferSubProductDiscounts<IUIOfferProductDiscountInstance>)[] = [
+      'Meal Plan',
+      'Supplement',
+    ];
+    productDiscountTypes.forEach(discountType => {
+      if (
+        draftOffer.productDiscounts &&
+        draftOffer.productDiscounts[discountType] &&
+        // @ts-ignore TODO whats up with needing this?
+        draftOffer.productDiscounts[discountType].length <= 0
+      ) {
+        draftOffer.productDiscounts[discountType] = undefined;
+      }
+    });
+
+    subProductDiscountTypes.forEach(discountType => {
+      if (
+        draftOffer.subProductDiscounts &&
+        draftOffer.subProductDiscounts[discountType] &&
+        // @ts-ignore TODO whats up with needing this?
+        draftOffer.subProductDiscounts[discountType].length <= 0
+      ) {
+        draftOffer.subProductDiscounts[discountType] = undefined;
+      }
+    });
+
+    // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Applications > Data > Stepping
+    if (draftOffer.stepping && draftOffer.stepping.everyXNights == null && draftOffer.stepping.applyTo == null) {
+      draftOffer.stepping = undefined;
     }
 
     return draftOffer;
