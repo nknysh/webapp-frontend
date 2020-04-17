@@ -87,9 +87,8 @@ const HotelSummary = props => {
   const {
     fetchProposals,
     createNewProposal,
-    addToProposal,
-    onSubmit,
-  }: { fetchProposals: Function; createNewProposal: Function; addToProposal: Function; onSubmit: Function } = props;
+    addToProposal
+  }: { fetchProposals: Function; createNewProposal: Function; addToProposal: Function; } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -132,7 +131,6 @@ const HotelSummary = props => {
       )}
       <SummaryForm
         id={id}
-        onSubmit={onSubmit}
         showRoomImage={false}
         canHold={canHold}
         handleAddToProposalClick={handleAddToProposalClick}
@@ -263,8 +261,6 @@ export const HotelContainer = ({
   ...props
 }) => {
   const { t } = useTranslation();
-
-  const [redirectToBooking, setRedirectToBooking] = useState(false);
   const [redirectToHold, setRedirectToHold] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { initializeBooking, match } = props;
@@ -290,12 +286,9 @@ export const HotelContainer = ({
   }, [fetchHotel, id]);
 
   const onTakeHold = useCallback(() => setRedirectToHold(true), []);
-  const onSubmit = useCallback(() => setRedirectToBooking(true), []);
-
-  if (redirectToBooking) return <Redirect to={`/hotels/${id}/booking`} />;
   if (redirectToHold) return <Redirect to={`/hotels/${id}/hold`} />;
 
-  const defaultProps = { history, hotel, photos, id, onTakeHold, onSubmit, ...props };
+  const defaultProps = { history, hotel, photos, id, onTakeHold, ...props };
 
   const renderWithLoader = () => (
     <Loader isLoading={isLoading} text={t('messages.gettingHotel')}>

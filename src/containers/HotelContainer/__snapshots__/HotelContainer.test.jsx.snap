@@ -462,7 +462,6 @@ exports[`<HotelContainer /> render matches snapshot 1`] = `
         getBooking={[Function]}
         getHotelUploads={[Function]}
         hotel={Object {}}
-        onSubmit={[Function]}
         onTakeHold={[Function]}
         policiesAndTerms={
           Object {

@@ -2,8 +2,9 @@
 
 exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
 <styled.div>
-  <Styled(LabelComponent)
+  <LabelWithError
     className="title"
+    isError={false}
     text="Title"
   >
     <Select
@@ -38,87 +39,88 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
       }
       value=""
     />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
+  </LabelWithError>
+  <LabelWithError
     className="firstName"
+    isError={false}
     text="First Name"
   >
     <Styled(TextInputComponent)
       onChange={[Function]}
       value=""
     />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
+  </LabelWithError>
+  <LabelWithError
     className="lastName"
+    isError={false}
     text="Last Name"
   >
     <Styled(TextInputComponent)
       onChange={[Function]}
       value=""
     />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="repeatGuest"
-    inline={true}
-    reverse={true}
-    text="This client is a repeating guest"
+  </LabelWithError>
+  <div
+    className="flightInfo"
   >
-    <Styled(Checkbox)
-      checked={false}
-      onChange={[Function]}
-    />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="flightInfoLabel"
-  >
-    Flight Information
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="arrivalNumber"
-    text="Arrival Number"
-  >
-    <Styled(TextInputComponent)
-      onChange={[Function]}
-      value=""
-    />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="arrivalDate"
-    text="Arrival Date"
-  >
-    <Component
-      defaultSelectedDates={Array []}
-      isSingleDateSelection={true}
-      onDateChange={[Function]}
-      render={[Function]}
-    />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="departureNumber"
-    text="Dearture Number"
-  >
-    <Styled(TextInputComponent)
-      onChange={[Function]}
-      value=""
-    />
-  </Styled(LabelComponent)>
-  <Styled(LabelComponent)
-    className="departureDate"
-    text="Departure Date"
-  >
-    <Component
-      defaultSelectedDates={Array []}
-      isSingleDateSelection={true}
-      onDateChange={[Function]}
-      render={[Function]}
-    />
-  </Styled(LabelComponent)>
+    <Styled(LabelComponent)
+      className="flightInfoLabel"
+    >
+      Flight Information
+    </Styled(LabelComponent)>
+    <LabelWithError
+      className="arrivalNumber"
+      isError={false}
+      text="Arrival Number"
+    >
+      <Styled(TextInputComponent)
+        onChange={[Function]}
+        value=""
+      />
+    </LabelWithError>
+    <LabelWithError
+      className="arrivalDate"
+      isError={false}
+      text="Arrival Date"
+    >
+      <Component
+        defaultSelectedDates={Array []}
+        isSingleDateSelection={true}
+        onDateChange={[Function]}
+        render={[Function]}
+      />
+    </LabelWithError>
+    <LabelWithError
+      className="departureNumber"
+      isError={false}
+      text="Dearture Number"
+    >
+      <Styled(TextInputComponent)
+        onChange={[Function]}
+        value=""
+      />
+    </LabelWithError>
+    <LabelWithError
+      className="departureDate"
+      isError={false}
+      text="Departure Date"
+    >
+      <Component
+        defaultSelectedDates={Array []}
+        isSingleDateSelection={true}
+        onDateChange={[Function]}
+        render={[Function]}
+      />
+    </LabelWithError>
+  </div>
   <div
     className="specialRequests"
   >
-    <Styled(LabelComponent)>
+    <LabelWithError
+      isError={false}
+    >
       Special Requests
-    </Styled(LabelComponent)>
+    </LabelWithError>
     <div
       className="twoColumn"
     >
@@ -187,7 +189,8 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
   <div
     className="comments"
   >
-    <Styled(LabelComponent)
+    <LabelWithError
+      isError={false}
       text="Comments"
     >
       <styled.textarea
@@ -195,7 +198,7 @@ exports[`BookingGuestInformationForm renders correctly with empty props 1`] = `
         rows={5}
         value=""
       />
-    </Styled(LabelComponent)>
+    </LabelWithError>
   </div>
 </styled.div>
 `;

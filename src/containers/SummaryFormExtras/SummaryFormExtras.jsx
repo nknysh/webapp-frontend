@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { RadioButton, Loader } from '@pure-escapes/webapp-ui-components';
 import { StandardModal, ModalContent } from 'pureUi/Modal';
 import CustomItemForm from 'pureUi/CustomItemForm';
+import BookingGuestInformationForm from 'pureUi/BookingGuestInformationForm';
 
 import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'components';
 import { useFetchData } from 'effects';
@@ -460,10 +461,10 @@ const renderMargin = (
   );
 };
 
-const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent }) => (
+const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent, isValid }) => (
   <TableCardBox className="mt-4 mb-4">
     <TableCardRow depth={3}>
-      <Title>{t('travelAgent')}</Title>
+      <Title className={isValid ? null : 'error'}>{t('travelAgent')}</Title>
       <Loader isLoading={!travelAgentsLoaded} text={t('messages.loadingUsers')}>
         <IndexSearch
           placeholder={t('labels.searchForTA')}
@@ -481,6 +482,22 @@ const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect,
     </TableCardRow>
   </TableCardBox>
 );
+
+const renderGuestInfo = (data, onChange, validation) => {
+  return (
+    <TableCardBox className="mt-4 mb-4">
+      <TableCardRow depth={3}>
+        <Title>Lead Guest Info</Title>
+        <BookingGuestInformationForm
+          bookingGuestFormValues={data}
+          onValueChange={onChange}
+          sections={{ guestInfo: true }}
+          validation={validation}
+        />
+      </TableCardRow>
+    </TableCardBox>
+  );
+};
 
 export const SummaryFormExtras = ({
   addons,
@@ -525,9 +542,14 @@ export const SummaryFormExtras = ({
   updateBookingTravelAgentUserIdAction,
   customItem,
   customItemActions,
+  guestInfo,
+  updateBookingGuestInformationAction,
+  isPristine,
+  domainValidation
 }) => {
   const { t } = useTranslation();
 
+  const validation = isPristine ? {} : domainValidation;
   const hasTASelect = isSr && !isRl;
   const travelAgentsLoaded = useFetchData(
     travelAgentsStatus,
@@ -759,7 +781,11 @@ export const SummaryFormExtras = ({
           displayTotals={booking.response.displayTotals}
         />
       )}
-
+      {renderGuestInfo(
+        guestInfo,
+        updateBookingGuestInformationAction,
+        validation
+      )}
       {/* SRs need to be able to select TAs */}
       {hasTASelect &&
         renderTASelect(t, {
@@ -769,6 +795,7 @@ export const SummaryFormExtras = ({
           onTASelect,
           onTARemove,
           travelAgent,
+          isValid: !validation.travelAgentUserUuid?.length
         })}
       {renderMargin(t, {
         currencyCode,

@@ -15,7 +15,7 @@ import {
   replaceProducts,
   updateBooking,
   getAccommodationEditModalErrors,
-  getBookingTravelAgent,
+  getBookingTravelAgent
 } from 'store/modules/bookings';
 
 import { getUserCountryContext, isSR as isSrSelector } from 'store/modules/auth';
@@ -25,6 +25,12 @@ import {
   bookingCanBookSelector,
   bookingSelector,
   bookingResponseAllErrors,
+  guestInfoSelector,
+  agreeToTermsSelector,
+  updateAgreeToTermsAction,
+  domainValidationSelector,
+  isPristineSelector,
+  setIsPristineAction
 } from 'store/modules/bookingBuilder';
 
 export const mapStateToProps = (state, { id }) => ({
@@ -46,12 +52,18 @@ export const mapStateToProps = (state, { id }) => ({
   actingCountryCode: getUserCountryContext(state),
   travelAgentUserUuid: getBookingTravelAgent(state, id),
   isSr: isSrSelector(state),
+  guestInfo: guestInfoSelector(state),
+  agreeToTerms: agreeToTermsSelector(state),
+  domainValidation: domainValidationSelector(state),
+  isPristine: isPristineSelector(state)
 });
 
 export const mapDispatchToProps = dispatch => ({
   updateBooking: pipe(updateBooking, dispatch),
   getRatesForDates: pipe(fetchHotelRoomRatesByDates, dispatch),
   replaceProducts: pipe(replaceProducts, dispatch),
+  updateAgreeToTermsAction: pipe(updateAgreeToTermsAction, dispatch),
+  setIsPristineAction: pipe(setIsPristineAction, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps);

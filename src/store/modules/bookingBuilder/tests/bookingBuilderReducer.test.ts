@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { pick } from 'ramda';
 import { bookingBuilderReducer } from '../reducer';
 import * as Actions from '../actions';
 import { initialState, BookingBuilderDomain } from '../model';
@@ -21,6 +22,36 @@ describe('Booking Builder Reducer', () => {
     expect(testState.isTAMarginApplied).toEqual(true);
     expect(testState.taMarginType).toEqual('percentage');
     expect(testState.taMarginAmount).toEqual('0');
+  });
+
+  it('handles UPDATE_AGREEE_TO_TERMS correctly', () => {
+    const action = Actions.updateAgreeToTermsAction(true);
+    const testState: BookingBuilderDomain = bookingBuilderReducer(initialState, action);
+    
+    expect(testState.agreeToTerms).toEqual(true);
+  });
+
+  it('handles SET_IS_PRISTINE correctly', () => {
+    const action = Actions.setIsPristineAction(false);
+    const testState: BookingBuilderDomain = bookingBuilderReducer(initialState, action);
+    
+    expect(testState.isPristine).toEqual(false);
+  });
+
+  it('handles UPDATE_BOOKING_GUEST_INFORMATION_ACTION correctly', () => {
+    const payload = {
+      guestTitle: 'mr',
+      guestFirstName: 'John',
+      guestLastName: 'Smith',
+      isRepeatGuest: true,
+      specialRequests: ['adjacentRooms'],
+      comments: 'sample comment',
+    };
+
+    const action = Actions.updateBookingGuestInformationAction(payload)
+    const testState: BookingBuilderDomain = bookingBuilderReducer(initialState, action);
+    
+    expect(pick(Object.keys(payload), testState)).toMatchObject(payload);
   });
 
   describe('Booking Builder Custom Item Actions', () => {

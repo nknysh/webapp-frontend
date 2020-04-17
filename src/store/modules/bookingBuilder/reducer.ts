@@ -70,6 +70,12 @@ export const bookingBuilderReducer = (
     case Actions.UPDATE_LODGING_REPEAT_GUEST_ACTION:
       return updateLodgingRepeatGuestReducer(state, action);
     
+    case Actions.UPDATE_AGREEE_TO_TERMS:
+      return updateAgreeToTermsReducer(state, action);
+    
+      case Actions.SET_IS_PRISTINE:
+        return setIsPristineReducer(state, action);
+    
     case Actions.SAVE_CUSTOM_ITEM:
       return saveCustomItemReducer(state, action);
     case Actions.REMOVE_CUSTOM_ITEM:
@@ -575,6 +581,27 @@ export const updateBookingGuestInformationReducer = (
     return draftState;
   });
 };
+
+export const updateAgreeToTermsReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.UpdateAgreeToTermsAction
+): BookingBuilderDomain => {
+  return produce(state, draftState => {
+    draftState.agreeToTerms = action.value;
+    return draftState;
+  });
+};
+
+export const setIsPristineReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.SetIsPristineAction
+): BookingBuilderDomain => {
+  return produce(state, draftState => {
+    draftState.isPristine = action.value;
+    return draftState;
+  });
+};
+
 
 export const updateLodgingRepeatGuestReducer = (
   state: BookingBuilderDomain,

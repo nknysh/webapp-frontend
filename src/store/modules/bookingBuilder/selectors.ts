@@ -2,8 +2,9 @@ import { createSelector } from 'reselect';
 import { BookingBuilderDomain } from './model';
 import { ProductTypes, Occassions } from 'config/enums';
 import { HotelResult, BookingBuilder, BookingBuilderRequest } from 'services/BackendApi/types';
-import { flatten, clone, uniqBy, pick } from 'ramda';
+import { flatten, clone, uniqBy, pick, isNil, isEmpty } from 'ramda';
 import { filterByObjectProperties, formatPrice } from 'utils';
+import { isSR as isSRSelector } from '../auth/selectors';
 
 export const bookingBuilderDomain = (state: any): BookingBuilderDomain => state.bookingBuilder;
 
@@ -327,4 +328,60 @@ export const bookingBuilderResponseHotelUuidSelector = createSelector(bookingRes
 export const travelAgentUserUuidSelector = createSelector(
   bookingBuilderDomain,
   bookingBuilderDomain => bookingBuilderDomain.travelAgentUserUuid
+);
+
+export const guestInfoSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => pick(
+    ['guestTitle', 'guestFirstName', 'guestLastName', 'isRepeatGuest'],
+    bookingBuilderDomain
+  )
+);
+
+export const agreeToTermsSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => bookingBuilderDomain.agreeToTerms
+);
+
+export const isPristineSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => bookingBuilderDomain.isPristine
+);
+
+// ---------------- validation --------------------------
+const requireValue = (val: any) =>
+  (isNil(val) || isEmpty(val)) ? ['Required'] : [];
+
+export const guestInfoValidationSelector = createSelector(
+  guestInfoSelector,
+  guestInfo => ({
+    guestFirstName: requireValue(guestInfo.guestFirstName),
+    guestLastName: requireValue(guestInfo.guestLastName)
+  })
+);
+
+export const agreeToTermsValidationSelector = createSelector(
+  agreeToTermsSelector,
+  agreeToTerms => ({
+    agreeToTerms: agreeToTerms ? [] : ['Required']
+  })
+);
+
+export const travelAgentUserUuidValidationSelector = createSelector(
+  travelAgentUserUuidSelector,
+  isSRSelector,
+  (travelAgentUserUuid, isSR) => ({
+    travelAgentUserUuid: isSR ? requireValue(travelAgentUserUuid) : []
+  })
+);
+
+export const domainValidationSelector = createSelector(
+  guestInfoValidationSelector,
+  agreeToTermsValidationSelector,
+  travelAgentUserUuidValidationSelector,
+  (guestInfoValidation, agreeToTermsValidation, travelAgentUserUuidValidation) => ({
+    ...guestInfoValidation,
+    ...agreeToTermsValidation,
+    ...travelAgentUserUuidValidation
+  })
 );

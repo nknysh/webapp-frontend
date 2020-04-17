@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import { compose, head, pathOr, pipe, propOr } from 'ramda';
+import React, { useState, Fragment, useCallback, useMemo } from 'react';
+import { compose, head, pathOr, pipe, propOr, values } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { useTranslation } from 'react-i18next';
 import { Form, Input, Loader, List } from '@pure-escapes/webapp-ui-components';
@@ -18,12 +18,15 @@ import {
   getOccassionsBreakdownForLodging,
 } from 'utils';
 
-import { ProductTypes } from 'config/enums';
+import { ProductTypes, BookingStatusTypes } from 'config/enums';
+import { BOOKING_TERMS_URL } from 'config';
 
 import connect from './SummaryForm.state';
 import { propTypes, defaultProps } from './SummaryForm.props';
 import { Error, HotelName, StyledSummary, Title, Text } from './SummaryForm.styles';
 import { PrimaryButtonTall, PrimaryButtonTallAltColor } from 'pureUi/Buttons';
+import Label from 'pureUi/Label';
+import Checkbox from 'pureUi/Checkbox';
 import { makeBackendApi } from 'services/BackendApi';
 import { getBookingsEndpointAttributesForBookingDomain } from 'utils/bookingBuilder';
 
@@ -132,37 +135,56 @@ const handleSaveBookingAndTakeHoldsButton = async props => {
   }
 };
 
+const handleRequestBookingButton = async props => {
+  const { bookingDomain, backendApi, canHold } = props;
+
+  const attr = getBookingsEndpointAttributesForBookingDomain({
+    bookingDomain,
+    bookingStatus: BookingStatusTypes.REQUESTED,
+    placeHolds: canHold
+  });
+
+  try {
+    const res = await backendApi.postBookingSave(attr);
+    const newBookingUuid = res.data.data.uuid;
+
+    window.location.href = `/bookings/${newBookingUuid}`;
+  } catch (e) {
+    throw Error(e);
+  }
+};
+
 const SaveBookingButton = props => {
-  const { backendApi, bookingDomain, canBook, t, forceDisabled } = props;
+  const { backendApi, bookingDomain, canBook, t, actionGuard } = props;
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
     <PrimaryButtonTallAltColor
       className="save-booking-button"
       type="button"
-      disabled={!canBook || hasClicked || forceDisabled}
-      onClick={() => {
+      disabled={!canBook || hasClicked}
+      onClick={actionGuard(() => {
         setHasClicked(true);
         try {
           handleSaveBookingButton({ backendApi, bookingDomain });
         } catch (e) {
           setHasClicked(false);
         }
-      }}
+      })}
     >
       {t('buttons.saveBooking')}
     </PrimaryButtonTallAltColor>
   );
 };
 
-const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, forceDisabled }) => {
+const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, onClick }) => {
   // logic taken from previous declaration and reworked into its own component
 
   return (
     <PrimaryButtonTall
       className="request-to-book-button"
-      disabled={!(showHolds || canBook) || forceDisabled}
-      type="submit"
+      disabled={!(showHolds || canBook)}
+      onClick={onClick}
     >
       {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
     </PrimaryButtonTall>
@@ -170,7 +192,7 @@ const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, fo
 };
 
 const SaveBookingAndTakeHoldsButton = props => {
-  const { backendApi, bookingDomain, canBook, canHold, t, forceDisabled } = props;
+  const { backendApi, bookingDomain, canBook, canHold, t, actionGuard } = props;
 
   const [hasClicked, setHasClicked] = useState(false);
   return (
@@ -178,20 +200,34 @@ const SaveBookingAndTakeHoldsButton = props => {
       className="save-booking-and-take-hold-button"
       type="button"
       data-secondary
-      disabled={!canBook || !canHold || hasClicked || forceDisabled}
-      onClick={() => {
+      disabled={!canBook || !canHold || hasClicked}
+      onClick={actionGuard(() => {
         setHasClicked(true);
         try {
           handleSaveBookingAndTakeHoldsButton({ backendApi, bookingDomain });
         } catch (e) {
           setHasClicked(false);
         }
-      }}
+      })}
     >
       {t('buttons.takeAHold')}
     </PrimaryButtonTallAltColor>
   );
 };
+
+const TermsAndConditions = ({ value, onChange, className, isValid }) => {
+  const content = (
+    <span>I agree to <a href={BOOKING_TERMS_URL} target="_blank">Terms and Conditions</a></span>
+  );
+
+  return (
+    <Label className={className} text={content} inline reverse>
+      <Checkbox className={isValid ? null : 'error'} checked={value} onChange={event => onChange(event.target.checked)} />
+    </Label>
+  );
+
+};
+
 
 const renderForm = (
   t,
@@ -212,10 +248,17 @@ const renderForm = (
     canHold,
     handleAddToProposalClick,
     onSubmit,
-    travelAgentUserUuid,
-    isSr,
+    agreeToTerms,
+    updateAgreeToTermsAction,
+    domainValidation,
+    isPristine,
+    setIsPristineAction
   }
 ) => {
+
+  const isValid = values(domainValidation).every(arr => !arr?.length);
+  const actionGuard = action => isValid ? action : () => setIsPristineAction(false);
+
   return (
     <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>
       {({ values }) => (
@@ -241,7 +284,7 @@ const renderForm = (
                 canHold={canHold}
                 backendApi={backendApi}
                 bookingDomain={bookingDomain}
-                forceDisabled={isSr && !travelAgentUserUuid}
+                actionGuard={actionGuard}
               />
 
               <SaveBookingButton
@@ -249,7 +292,7 @@ const renderForm = (
                 canBook={canBook}
                 backendApi={backendApi}
                 bookingDomain={bookingDomain}
-                forceDisabled={isSr && !travelAgentUserUuid}
+                actionGuard={actionGuard}
               />
             </div>
 
@@ -257,8 +300,8 @@ const renderForm = (
               <PrimaryButtonTall
                 className="add-to-proposal-button"
                 type="button"
-                disabled={!canBook || (isSr && !travelAgentUserUuid)}
-                onClick={handleAddToProposalClick}
+                disabled={!canBook}
+                onClick={actionGuard(handleAddToProposalClick)}
               >
                 {t('buttons.addToProposal')}
               </PrimaryButtonTall>
@@ -268,12 +311,19 @@ const renderForm = (
                 holdOnly={holdOnly}
                 showBookNow={showBookNow}
                 canBook={canBook}
+                canHold={canHold}
                 bookLabel={bookLabel}
                 isOnRequest={isOnRequest}
-                forceDisabled={isSr && !travelAgentUserUuid}
+                onClick={actionGuard(() => handleRequestBookingButton({ backendApi, bookingDomain, canHold }))}
               />
             </div>
           </div>
+          <TermsAndConditions
+            className="agreeToTerms"
+            value={agreeToTerms}
+            onChange={updateAgreeToTermsAction}
+            isValid={isPristine ? true : !domainValidation.agreeToTerms?.length}
+          />
         </Fragment>
       )}
     </Form>

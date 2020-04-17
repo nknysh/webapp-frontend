@@ -2,34 +2,21 @@ import styled from 'styled-components';
 import { pureUiTheme } from '../pureUiTheme';
 
 export const BookingGuestInformationFormStyles = styled.div`
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    'title title'
-    'firstName firstName'
-    'lastName lastName'
-    'repeatGuest repeatGuest'
+  display: flex;
+  flex-direction: column;
+  
+  > * {
+    margin-bottom: 10px;
+  }
+
+  .flightInfo {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
     'flightInfoLabel flightInfoLabel'
     'arrivalNumber arrivalDate'
     'departureNumber departureDate'
-    'specialRequests specialRequests'
-    'comments comments';
-
-  .title {
-    grid-area: title;
-  }
-
-  .firstName {
-    grid-area: firstName;
-  }
-
-  .lastName {
-    grid-area: lastName;
-  }
-
-  .repeatGuest {
-    grid-area: repeatGuest;
   }
 
   .flightInfoLabel {
@@ -50,12 +37,7 @@ export const BookingGuestInformationFormStyles = styled.div`
     grid-area: departureDates;
   }
 
-  .specialRequests {
-    grid-area: specialRequests;
-  }
-
   .comments {
-    grid-area: comments;
     border-top: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
     padding-top: 10px;
   }

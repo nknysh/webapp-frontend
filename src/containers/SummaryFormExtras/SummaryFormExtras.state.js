@@ -46,8 +46,12 @@ import {
   taMarginAmountSelector,
   bookingBuilderTotalSelector,
   updateBookingTravelAgentUserIdAction,
+  updateBookingGuestInformationAction,
+  guestInfoSelector,
   saveCustomItemAction,
   removeCustomItemAction,
+  isPristineSelector,
+  domainValidationSelector
 } from 'store/modules/bookingBuilder';
 
 import {
@@ -82,6 +86,7 @@ export const mapStateToProps = (state, { id }) => {
     canBook: bookingCanBookSelector(state),
     currencyCode: getBookingCurrencySymbol(state, id),
     getTravelAgentName: id => getTravelAgentFullName(state, id),
+    guestInfo: guestInfoSelector(state),
     grandTotal: bookingBuilderTotalSelector(state),
     travelAgent,
     travelAgentsStatus: getTravelAgentsStatus(state),
@@ -97,6 +102,8 @@ export const mapStateToProps = (state, { id }) => {
       payload: customItemPayloadSelector(state),
       validation: customItemValidationSelector(state),
     },
+    isPristine: isPristineSelector(state),
+    domainValidation: domainValidationSelector(state)
   };
 };
 
@@ -113,6 +120,7 @@ export const mapDispatchToProps = dispatch => ({
   updateTAMarginAmountAction: pipe(updateTAMarginAmountAction, dispatch),
   updateIsTAMarginAppliedAction: pipe(updateIsTAMarginAppliedAction, dispatch),
   updateBookingTravelAgentUserIdAction: pipe(updateBookingTravelAgentUserIdAction, dispatch),
+  updateBookingGuestInformationAction: pipe(updateBookingGuestInformationAction, dispatch),
   customItemActions: [
     ['showForm', showCustomItemFormAction],
     ['hideForm', hideCustomItemFormAction],
