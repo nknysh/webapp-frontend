@@ -154,9 +154,18 @@ export const sanitizeInt = (value: string | undefined | number | null) => {
 };
 
 export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiState): IOfferAPI => {
-  const productDiscountInstanceTransform = discount => {
+  // Removes non-API data from each discount
+  // also removes ageNames against each product if ageNames is set but has a length of 0, fixing several https://github.com/pure-escapes/webapp-frontend/issues/483 issues
+  const productDiscountInstanceTransform = (discount: IOfferProductDiscountInstance) => {
+    const products = discount.products.map(product => {
+      if (product.ageNames && product.ageNames.length <= 0) {
+        delete product.ageNames;
+      }
+      return product;
+    });
+
     return {
-      products: discount.products,
+      products,
       discountPercentage: sanitizeFloat(discount.discountPercentage),
       greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
       maximumQuantity: sanitizeInt(discount.maximumQuantity),
