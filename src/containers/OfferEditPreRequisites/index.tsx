@@ -131,9 +131,10 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
             onRemoveDate={this.handleRemoveDate}
           />
         </Fieldset>
-        
+
         <ErrorList className="stayBetweenErrors">
-          {!this.props.offerIsPristine && this.props.validationErrors.stayBetweenPrerequisite.map((error, i) => <li key={i}>{error.message}</li>)}
+          {!this.props.offerIsPristine &&
+            this.props.validationErrors.stayBetweenPrerequisite.map((error, i) => <li key={i}>{error.message}</li>)}
         </ErrorList>
 
         <Fieldset>
@@ -217,6 +218,10 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
             )}
           </div>
         </Fieldset>
+        <ErrorList className="stayBetweenErrors">
+          {!this.props.offerIsPristine &&
+            this.props.validationErrors.stayLengthPrerequisite.map((error, i) => <li key={i}>{error.message}</li>)}
+        </ErrorList>
 
         <Fieldset>
           <Legend>

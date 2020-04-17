@@ -418,6 +418,25 @@ export const offerStayBetweenPrerequisiteValidationSelector = createSelector(
   }
 );
 
+export const offerStayLengthPrerequisiteValidationSelector = createSelector(
+  offerStayLengthPrerequisiteSelector,
+  stayLength => {
+    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+    if (stayLength) {
+      if (stayLength.strictMinMaxStay != null && (stayLength.maximum == null || stayLength.minimum == null)) {
+        errors.push({
+          field: 'stayLengthPrerequisite',
+          message: 'Stay Length strict min/max cannot be set without a minimum or a maximum',
+        });
+      }
+    }
+    return {
+      errors,
+    } as ValidatorFieldResult<OfferValidatorResultSet>;
+  }
+);
+
 export const offerSteppingValidationSelector = createSelector(offerSteppingApplicationSelector, stepping => {
   const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
@@ -441,6 +460,24 @@ export const offerSteppingValidationSelector = createSelector(offerSteppingAppli
         field: 'stepping',
         message: 'If Stepping is set, Stepping > Apply To is required',
       });
+    }
+
+    if (stepping.everyXNights == null && stepping.applyTo == null) {
+      if (stepping.maximumNights != null) {
+        errors.push({
+          field: 'stepping',
+          message:
+            'If Stepping > Every X Nights or Stepping > Apply To is not set, then Stepping > Maximum nights is not settable',
+        });
+      }
+
+      if (stepping.discountCheapest != null) {
+        errors.push({
+          field: 'stepping',
+          message:
+            'If Stepping > Every X Nights or Stepping > Apply To is not set, then Stepping > discount cheapest is not settable',
+        });
+      }
     }
   }
 
@@ -704,6 +741,7 @@ export const offerValidationSelector = createSelector(
   offerSubProductDiscountsValidationSelector,
   offerExtraPersonSupplementValidationSelector,
   accommodationDiscountValidationSelector,
+  offerStayLengthPrerequisiteValidationSelector,
   (
     hotelValidatorFieldResult,
     nameValidatorFieldResult,
@@ -715,7 +753,8 @@ export const offerValidationSelector = createSelector(
     productDiscountsValidatorFieldResult,
     subProductDiscountsValidatorFieldResult,
     epsDiscountsValidatorFieldResult,
-    accommodationProductDiscountValidatorFieldResult
+    accommodationProductDiscountValidatorFieldResult,
+    stayLengthValidatorFieldResult
   ) => {
     const groupedBy: OfferValidatorResultSet = {
       hotelUuid: hotelValidatorFieldResult.errors,
@@ -725,6 +764,8 @@ export const offerValidationSelector = createSelector(
       accommodationProductsPrerequisite: accommodationProductValidatorFieldResult.errors,
       stayBetweenPrerequisite: stayBetweenValidatorFieldResult.errors,
       stepping: steppingValidatorFieldResult.errors,
+
+      stayLengthPrerequisite: stayLengthValidatorFieldResult.errors,
 
       accommodationProductDiscount: accommodationProductDiscountValidatorFieldResult.errors,
 
@@ -767,9 +808,12 @@ export const offerHasDetailsValidatorErrorsSelector = createSelector(
 export const offerHasPrerequisitesValidationErrorsSelector = createSelector(
   offerAccommodationProductsPrerequisitesValidationSelector,
   offerStayBetweenPrerequisiteValidationSelector,
-  (accommodationProductValidatorFieldResult, stayBetweenValidatorFieldResult) => {
+  offerStayLengthPrerequisiteValidationSelector,
+  (accommodationProductValidatorFieldResult, stayBetweenValidatorFieldResult, stayLengthValidatorFieldResult) => {
     return (
-      accommodationProductValidatorFieldResult.errors.length >= 1 || stayBetweenValidatorFieldResult.errors.length >= 1
+      accommodationProductValidatorFieldResult.errors.length >= 1 ||
+      stayBetweenValidatorFieldResult.errors.length >= 1 ||
+      stayLengthValidatorFieldResult.errors.length >= 1
     );
   }
 );

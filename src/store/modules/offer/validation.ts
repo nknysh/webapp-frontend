@@ -8,11 +8,14 @@ export interface OfferValidatorResultSet {
   termsAndConditions: ValidatorFieldError<OfferValidatorResultSet>[];
   furtherInformation: ValidatorFieldError<OfferValidatorResultSet>[];
   accommodationProductsPrerequisite: ValidatorFieldError<OfferValidatorResultSet>[];
+
+  // prerequisites
   stayBetweenPrerequisite: ValidatorFieldError<OfferValidatorResultSet>[];
-  stepping: ValidatorFieldError<OfferValidatorResultSet>[];
+  stayLengthPrerequisite: ValidatorFieldError<OfferValidatorResultSet>[];
 
   //single one
   accommodationProductDiscount: ValidatorFieldError<OfferValidatorResultSet>[];
+  stepping: ValidatorFieldError<OfferValidatorResultSet>[];
 
   // product discounts, broken up
   fineDiscounts: ValidatorFieldError<OfferValidatorResultSet>[];
