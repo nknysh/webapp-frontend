@@ -43,6 +43,7 @@ const DateRangeInput = (props: DateRangeInputPops) => {
     maxDate,
     ...buttonProps
   } = props;
+
   const wrapper = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = useCallback(

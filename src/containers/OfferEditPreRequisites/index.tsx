@@ -61,6 +61,10 @@ import { OfferEditPreRequisitesStyles } from './OfferEditPreRequisitesStyles';
 export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditPreRequisitesProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
 
+  // TODO: The date picker state provider was a terrible mistake
+  // and I need to get rid of it.
+  resetAdvanceDateDatePickerState: any = undefined;
+
   handleDateChange = (dates: string[][]) => {
     const datesWithoutTime = dates.map(pair => pair.map(date => date.split('T')[0]));
     this.props.offerChangeStayBetweenPrerequisiteAction(datesWithoutTime);
@@ -116,6 +120,13 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
 
   handleAdvanceMaxChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.offerSetAdvanceMaximumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
+  };
+
+  handleResetAdvance = () => {
+    this.props.offerClearAllAdvancePrerequisiteAction();
+    if (this.resetAdvanceDateDatePickerState) {
+      this.resetAdvanceDateDatePickerState();
+    }
   };
 
   render() {
@@ -227,7 +238,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
           <Legend>
             Advance
             <LegendExtras>
-              <CloseButton onClick={this.props.offerClearAllAdvancePrerequisiteAction} />
+              <CloseButton onClick={this.handleResetAdvance} />
             </LegendExtras>
           </Legend>
           <div className="advanceGrid">
@@ -237,6 +248,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
                 defaultSelectedDates={[this.props.advance.bookBy!]}
                 onDateChange={this.handleAdvanceDateChange}
                 render={(params: IDatePickerSateParams) => {
+                  this.resetAdvanceDateDatePickerState = params.resetDatePickerState;
                   return (
                     <DateRangeInput
                       displayString={params.displayString}

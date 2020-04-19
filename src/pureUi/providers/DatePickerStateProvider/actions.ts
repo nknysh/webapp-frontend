@@ -4,6 +4,7 @@ export const DATE_RANGE_CHANGE = 'datePickerState/DATE_RANGE_CHANGE';
 export const INCREMENT_CURRENT_DATE = 'datePickerState/INCREMENT_CURRENT_DATE';
 export const TOGGLE_DATE_PICKER = 'datePickerState/TOGGLE_DATE_PICKER';
 export const SET_DATE_PICKER_VISIBILITY = 'datePickerState/SET_DATE_PICKER_VISIBILITY';
+export const RESET_DATEPICKER_STATE = 'datePickerState/RESET_DATEPICKER_STATE';
 
 export type ToggleDatePickerAction = ReturnType<typeof toggleDatePickerAction>;
 export const toggleDatePickerAction = () => ({
@@ -41,10 +42,18 @@ export const incrementCurrentDateAction = (step: number) => ({
   step,
 });
 
+export type ResetDatePickerStateAction = ReturnType<typeof resetDatePickerStateAction>;
+export const resetDatePickerStateAction = () => {
+  return {
+    type: RESET_DATEPICKER_STATE as typeof RESET_DATEPICKER_STATE,
+  };
+};
+
 export type DatePickerStateAction =
   | DateRangeSelectStartAction
   | DateRangeSelectEndAction
   | DateRangeChangeAction
   | IncrementCurrentDateAction
   | ToggleDatePickerAction
-  | SetDatePickerVisibilityAction;
+  | SetDatePickerVisibilityAction
+  | ResetDatePickerStateAction;

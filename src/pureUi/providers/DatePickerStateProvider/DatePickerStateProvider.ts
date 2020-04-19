@@ -3,6 +3,11 @@ import { datePickerStateReducer, IDatePickerState } from './reducer';
 import * as Actions from './actions';
 import { getDateRangeDisplayString } from './utils';
 
+// TODO:
+// This component/provider needs to use the Redux reducer.
+// This method makes it impossible to manipulate the stat6e
+// of the datepicker externally without providing hacky callbacks.
+
 export interface IDatePickerSateParams extends IDatePickerState {
   handleDayClick: (date: string) => void;
   handleDateMouseOver?: (date: string) => void;
@@ -10,6 +15,7 @@ export interface IDatePickerSateParams extends IDatePickerState {
   hideDatePicker: () => void;
   incrementDate: (step: number) => void;
   decrementDate: (step: number) => void;
+  resetDatePickerState: () => void;
 }
 
 export interface IDatePickerSateProviderProps {
@@ -85,6 +91,10 @@ export const DatePickerStateProvider = (props: IDatePickerSateProviderProps) => 
     [state.dateSelectionInProgress]
   );
 
+  const resetDatePickerState = useCallback(() => {
+    dispatch(Actions.resetDatePickerStateAction());
+  }, [state.dateSelectionInProgress]);
+
   return props.render({
     ...state,
     toggleDatePicker,
@@ -93,5 +103,6 @@ export const DatePickerStateProvider = (props: IDatePickerSateProviderProps) => 
     decrementDate: incrementDate(-1),
     handleDayClick,
     handleDateMouseOver,
+    resetDatePickerState,
   });
 };

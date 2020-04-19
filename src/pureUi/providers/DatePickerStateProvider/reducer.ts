@@ -21,6 +21,20 @@ export const datePickerStateReducer = (
   action: Actions.DatePickerStateAction
 ): IDatePickerState => {
   switch (action.type) {
+    case Actions.RESET_DATEPICKER_STATE:
+      return {
+        isPristine: true,
+        showDatePicker: false,
+        datePickerCurrentDate: new Date().toISOString(),
+        dateSelectionInProgress: false,
+        anchorDate: undefined,
+        startDate: '',
+        endDate: '',
+        selectedDates: [],
+        totalNights: 0,
+        displayString: 'Select dates...',
+      };
+
     case Actions.DATE_RANGE_SELECT_START:
       return {
         ...state,
