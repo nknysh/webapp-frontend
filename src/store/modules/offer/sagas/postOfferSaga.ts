@@ -9,15 +9,14 @@ import {
   POST_OFFER_REQUEST,
   POST_OFFERS_ORDER_SUCCESS,
   POST_OFFERS_ORDER_FAILURE,
-
   postOfferSuccessAction,
   postOfferFailureAction,
   postOffersOrderRequestAction,
-  PostOfferRequestAction
+  PostOfferRequestAction,
 } from '../actions';
 import { getBootstrapHotelsSelector } from 'store/modules/bootstrap/selectors';
 import { IBootstrapHotel } from '../../bootstrap/model';
-import { transformUiOfferToApiOffer, toOrderedOffer } from '../utils';
+import { transformUiOfferToApiOffer, toOrderedOffer, transformApiOfferToUiOffer } from '../utils';
 import { IOfferUiState, OrderedOffer } from '../model';
 
 export function* postOfferRequestSaga(action: PostOfferRequestAction) {
@@ -40,13 +39,11 @@ export function* postOfferRequestSaga(action: PostOfferRequestAction) {
           countryCode: hotels.find(h => h.uuid === uiOffer.hotelUuid)?.countryCode,
         },
       };
-      
-      yield put(postOfferSuccessAction(offerWithHotel));
 
-      const updatedOrderedOffers = orderedOffers.map(
-        item => item.selected ? toOrderedOffer(offerWithHotel) : item
-      );
-     
+      yield put(postOfferSuccessAction(transformApiOfferToUiOffer(offerWithHotel)));
+
+      const updatedOrderedOffers = orderedOffers.map(item => (item.selected ? toOrderedOffer(offerWithHotel) : item));
+
       yield put(postOffersOrderRequestAction(updatedOrderedOffers));
       yield take([POST_OFFERS_ORDER_SUCCESS, POST_OFFERS_ORDER_FAILURE]);
 
@@ -54,7 +51,6 @@ export function* postOfferRequestSaga(action: PostOfferRequestAction) {
     } else {
       yield put(postOfferFailureAction(error.response.data.errors));
     }
-
   } catch (e) {
     // TODO: Need an unexpected error handler
     console.error(e);

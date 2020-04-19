@@ -8,10 +8,10 @@ import {
   PUT_OFFER_REQUEST,
   putOfferSuccessAction,
   putOfferFailureAction,
-  postOffersOrderRequestAction
+  postOffersOrderRequestAction,
 } from '../actions';
 
-import { transformUiOfferToApiOffer } from '../utils';
+import { transformUiOfferToApiOffer, transformApiOfferToUiOffer } from '../utils';
 import { IOfferUiState } from '../model';
 
 export function* putOfferRequestSaga() {
@@ -22,15 +22,13 @@ export function* putOfferRequestSaga() {
     const backendApi = makeBackendApi(actingCountryCode);
 
     const { response, error } = yield call(backendApi.putOffer, transformUiOfferToApiOffer(uiOffer, uiState));
-    
-    if(response){
-      yield put(putOfferSuccessAction(response.data.data));
+
+    if (response) {
+      yield put(putOfferSuccessAction(transformApiOfferToUiOffer(response.data.data)));
       yield put(postOffersOrderRequestAction(uiState.orderedOffersList));
     } else {
       yield put(putOfferFailureAction(error.response.data.errors));
     }
-
-
   } catch (e) {
     // TODO: Need an unexpected error handler
     console.error(e);
