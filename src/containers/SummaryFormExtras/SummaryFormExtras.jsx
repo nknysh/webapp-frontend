@@ -461,7 +461,10 @@ const renderMargin = (
   );
 };
 
-const renderTASelect = (t, { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent, isValid }) => (
+const renderTASelect = (
+  t,
+  { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent, isValid }
+) => (
   <TableCardBox className="mt-4 mb-4">
     <TableCardRow depth={3}>
       <Title className={isValid ? null : 'error'}>{t('travelAgent')}</Title>
@@ -545,7 +548,7 @@ export const SummaryFormExtras = ({
   guestInfo,
   updateBookingGuestInformationAction,
   isPristine,
-  domainValidation
+  domainValidation,
 }) => {
   const { t } = useTranslation();
 
@@ -781,11 +784,7 @@ export const SummaryFormExtras = ({
           displayTotals={booking.response.displayTotals}
         />
       )}
-      {renderGuestInfo(
-        guestInfo,
-        updateBookingGuestInformationAction,
-        validation
-      )}
+      {renderGuestInfo(guestInfo, updateBookingGuestInformationAction, validation)}
       {/* SRs need to be able to select TAs */}
       {hasTASelect &&
         renderTASelect(t, {
@@ -795,7 +794,7 @@ export const SummaryFormExtras = ({
           onTASelect,
           onTARemove,
           travelAgent,
-          isValid: !validation.travelAgentUserUuid?.length
+          isValid: !validation.travelAgentUserUuid?.length,
         })}
       {renderMargin(t, {
         currencyCode,

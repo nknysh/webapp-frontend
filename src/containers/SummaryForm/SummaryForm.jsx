@@ -141,7 +141,7 @@ const handleRequestBookingButton = async props => {
   const attr = getBookingsEndpointAttributesForBookingDomain({
     bookingDomain,
     bookingStatus: BookingStatusTypes.REQUESTED,
-    placeHolds: canHold
+    placeHolds: canHold,
   });
 
   try {
@@ -181,11 +181,7 @@ const RequestToBookButton = ({ t, showHolds, canBook, bookLabel, isOnRequest, on
   // logic taken from previous declaration and reworked into its own component
 
   return (
-    <PrimaryButtonTall
-      className="request-to-book-button"
-      disabled={!(showHolds || canBook)}
-      onClick={onClick}
-    >
+    <PrimaryButtonTall className="request-to-book-button" disabled={!(showHolds || canBook)} onClick={onClick}>
       {bookLabel || (isOnRequest ? t('buttons.bookOnRequest') : t('buttons.bookNow'))}
     </PrimaryButtonTall>
   );
@@ -217,17 +213,24 @@ const SaveBookingAndTakeHoldsButton = props => {
 
 const TermsAndConditions = ({ value, onChange, className, isValid }) => {
   const content = (
-    <span>I agree to <a href={BOOKING_TERMS_URL} target="_blank">Terms and Conditions</a></span>
+    <span>
+      I agree to{' '}
+      <a href={BOOKING_TERMS_URL} target="_blank">
+        Terms and Conditions
+      </a>
+    </span>
   );
 
   return (
     <Label className={className} text={content} inline reverse>
-      <Checkbox className={isValid ? null : 'error'} checked={value} onChange={event => onChange(event.target.checked)} />
+      <Checkbox
+        className={isValid ? null : 'error'}
+        checked={value}
+        onChange={event => onChange(event.target.checked)}
+      />
     </Label>
   );
-
 };
-
 
 const renderForm = (
   t,
@@ -252,12 +255,11 @@ const renderForm = (
     updateAgreeToTermsAction,
     domainValidation,
     isPristine,
-    setIsPristineAction
+    setIsPristineAction,
   }
 ) => {
-
   const isValid = values(domainValidation).every(arr => !arr?.length);
-  const actionGuard = action => isValid ? action : () => setIsPristineAction(false);
+  const actionGuard = action => (isValid ? action : () => setIsPristineAction(false));
 
   return (
     <Form initialValues={initialValues} onSubmit={onSubmit} enableReinitialize={true}>

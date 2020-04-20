@@ -148,13 +148,7 @@ const someBookingsArePotential = (bookingKeys, bookings) => {
 
 const getGuestInfoPayload = getState => {
   const guestInfo = guestInfoSelector(getState());
-  return fromPairs(
-    toPairs(
-      omit(['isRepeatGuest'], guestInfo)
-    ).filter(
-      tuple => !isNil(tuple[1])
-    )
-  );
+  return fromPairs(toPairs(omit(['isRepeatGuest'], guestInfo)).filter(tuple => !isNil(tuple[1])));
 };
 
 /**
@@ -176,7 +170,7 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
   const proposalPayload = {
     name,
     userUuid,
-    ...guestInfo
+    ...guestInfo,
   };
 
   dispatch(genericAction(PROPOSALS_NEW, proposalPayload));
@@ -197,7 +191,7 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
         {
           // Use the UUID from step 1 to attach the booking to the proposal
           proposalUuid,
-          ...guestInfo
+          ...guestInfo,
         },
         BookingStatusTypes.POTENTIAL,
         placeHolds
@@ -246,7 +240,7 @@ export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dis
       bookingId,
       {
         proposalUuid,
-        ...guestInfo
+        ...guestInfo,
       },
       BookingStatusTypes.POTENTIAL,
       placeHolds

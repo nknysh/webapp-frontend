@@ -51,7 +51,7 @@ import {
   saveCustomItemAction,
   removeCustomItemAction,
   isPristineSelector,
-  domainValidationSelector
+  domainValidationSelector,
 } from 'store/modules/bookingBuilder';
 
 import {
@@ -103,7 +103,7 @@ export const mapStateToProps = (state, { id }) => {
       validation: customItemValidationSelector(state),
     },
     isPristine: isPristineSelector(state),
-    domainValidation: domainValidationSelector(state)
+    domainValidation: domainValidationSelector(state),
   };
 };
 

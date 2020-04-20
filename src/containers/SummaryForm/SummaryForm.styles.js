@@ -15,9 +15,9 @@ export const StyledSummary = styled.div`
   }
 
   .agreeToTerms .error .surrogate {
-    border-color: red;  
+    border-color: red;
   }
-  
+
   .summary-form-buttons {
     .flex {
       button {
@@ -44,7 +44,7 @@ export const Title = styled.h3`
   line-height: 14px;
   color: ${theme.palette.neutral};
   border-bottom: 1px solid ${theme.borders.default};
-  
+
   &.error {
     color: red;
   }
