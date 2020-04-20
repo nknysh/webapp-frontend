@@ -120,7 +120,9 @@ export const createValidaitonErrors = (overrides: Partial<OfferValidatorResultSe
     termsAndConditions: [],
     furtherInformation: [],
     accommodationProductsPrerequisite: [],
+    // prerequisites
     stayBetweenPrerequisite: [],
+    stayLengthPrerequisite: [],
     stepping: [],
 
     //single one
@@ -131,6 +133,8 @@ export const createValidaitonErrors = (overrides: Partial<OfferValidatorResultSe
     groundServiceDiscounts: [],
     transferDiscounts: [],
     supplementDiscounts: [],
+    combinations: [],
+    applications: [],
 
     // sub product discounts, broken up
     mealPlanDiscounts: [],
