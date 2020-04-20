@@ -608,6 +608,26 @@ export const offerHasDetailsValidatorErrorsSelector = createSelector(
   }
 );
 
+export const offerDetailsValidaitonErrorCountSelector = createSelector(
+  offerHotelValidationSelector,
+  offerNameValidationSelector,
+  offerTsAndCsValidationSelector,
+  offerFurtherInformationValidationSelector,
+  (
+    hotelValidatorFieldResult,
+    nameValidatorFieldResult,
+    tsAndCsValidatorFieldResult,
+    furtherInformationValidatorFieldResult
+  ) => {
+    return [
+      Math.max(0, hotelValidatorFieldResult.errors.length),
+      Math.max(0, nameValidatorFieldResult.errors.length),
+      Math.max(0, tsAndCsValidatorFieldResult.errors.length),
+      Math.max(0, furtherInformationValidatorFieldResult.errors.length),
+    ].reduce((acc, next) => acc + next, 0);
+  }
+);
+
 // returns a boolean, does the offer prerequisites section have validation errors
 export const offerHasPrerequisitesValidationErrorsSelector = createSelector(
   offerAccommodationProductsPrerequisitesValidationSelector,
@@ -619,6 +639,19 @@ export const offerHasPrerequisitesValidationErrorsSelector = createSelector(
       stayBetweenValidatorFieldResult.errors.length >= 1 ||
       stayLengthValidatorFieldResult.errors.length >= 1
     );
+  }
+);
+
+export const offePrerequisitesValidationErrorCountSelector = createSelector(
+  offerAccommodationProductsPrerequisitesValidationSelector,
+  offerStayBetweenPrerequisiteValidationSelector,
+  offerStayLengthPrerequisiteValidationSelector,
+  (accommodationProductValidatorFieldResult, stayBetweenValidatorFieldResult, stayLengthValidatorFieldResult) => {
+    return [
+      Math.max(0, accommodationProductValidatorFieldResult.errors.length),
+      Math.max(0, stayBetweenValidatorFieldResult.errors.length),
+      Math.max(0, stayLengthValidatorFieldResult.errors.length),
+    ].reduce((acc, next) => acc + next, 0);
   }
 );
 
@@ -649,6 +682,32 @@ export const offerHasApplicationsValidationErrorsSelector = createSelector(
   }
 );
 
+export const offerApplicationsValidationErrorCountSelector = createSelector(
+  offerSteppingValidationSelector,
+  offerExtraPersonSupplementValidationSelector,
+  offerProductDiscountsValidationSelector,
+  offerSubProductDiscountsValidationSelector,
+  accommodationDiscountValidationSelector,
+  offerApplicationsIfNotTextOnlyValidationSelector,
+  (
+    steppingValidatorResult,
+    extraPersonSupplementValidatorResult,
+    productDiscountsValidatorResult,
+    subProductDiscountsValidatorResult,
+    accommodationProductDiscountValidatorResult,
+    applicationIfNotTextOnlyValidatorResult
+  ) => {
+    return [
+      Math.max(0, steppingValidatorResult.errors.length),
+      Math.max(0, extraPersonSupplementValidatorResult.errors.length),
+      Math.max(0, productDiscountsValidatorResult.errors.length),
+      Math.max(0, subProductDiscountsValidatorResult.errors.length),
+      Math.max(0, accommodationProductDiscountValidatorResult.errors.length),
+      Math.max(0, applicationIfNotTextOnlyValidatorResult.errors.length),
+    ].reduce((acc, next) => acc + next, 0);
+  }
+);
+
 export const offerHasCombinationValidationErrorsSelector = createSelector(
   offerCombinationValidationSelector,
   combinationValidatorFieldResult => {
@@ -665,4 +724,12 @@ export const offerHasValidationErrorsSelector = createSelector(
   (offerHasDetailsErrors, offerHasPrerequisitesErrors, offerHasApplicationsErrors, hasCombinationErrors) => {
     return offerHasDetailsErrors || offerHasPrerequisitesErrors || offerHasApplicationsErrors || hasCombinationErrors;
   }
+);
+
+// returns a boolean, does the offer have any validation errors at all
+export const offerValidationErrorCountSelector = createSelector(
+  offerDetailsValidaitonErrorCountSelector,
+  offePrerequisitesValidationErrorCountSelector,
+  offerApplicationsValidationErrorCountSelector,
+  (detailsCount, preReqCount, applicationCount) => detailsCount + preReqCount + applicationCount
 );

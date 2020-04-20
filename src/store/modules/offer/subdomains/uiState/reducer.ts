@@ -33,6 +33,7 @@ export const uiStateReducer = (
       return {
         ...state,
         getOfferRequestIsPending: true,
+        showSuccessConfirmation: false,
       };
 
     case GET_OFFER_SUCCESS:
@@ -73,6 +74,7 @@ export const uiStateReducer = (
       return {
         ...state,
         putOfferRequestIsPending: true,
+        showSuccessConfirmation: false,
       };
 
     case PUT_OFFER_SUCCESS:
@@ -80,6 +82,7 @@ export const uiStateReducer = (
         ...state,
         putOfferRequestIsPending: false,
         putError: null,
+        showSuccessConfirmation: true,
       };
 
     case PUT_OFFER_FAILURE:
@@ -93,6 +96,7 @@ export const uiStateReducer = (
       return {
         ...state,
         postOfferRequestIsPending: true,
+        showSuccessConfirmation: false,
       };
 
     case POST_OFFER_SUCCESS:
@@ -100,6 +104,7 @@ export const uiStateReducer = (
         ...state,
         postOfferRequestIsPending: false,
         postError: null,
+        showSuccessConfirmation: true,
       };
 
     case POST_OFFER_FAILURE:
@@ -107,6 +112,7 @@ export const uiStateReducer = (
         ...state,
         postOfferRequestIsPending: false,
         postError: action.errors,
+        showSuccessConfirmation: false,
       };
 
     // ----------- POST_OFFERS_ORDER ----------------------

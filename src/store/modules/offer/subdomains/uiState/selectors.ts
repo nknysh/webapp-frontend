@@ -1,29 +1,29 @@
 import { createSelector } from 'reselect';
 import { offerDomainSelector, getOffersOnHotelSelector } from '../../domainSelectors';
 
-export const uiStateSelector = createSelector(
-  offerDomainSelector,
-  domain => domain.uiState
-);
+export const uiStateSelector = createSelector(offerDomainSelector, domain => domain.uiState);
 
 export const getOfferRequestIsPendingSelector = createSelector(
   uiStateSelector,
   uiState => uiState.getOfferRequestIsPending
 );
 
-export const getOfferErrorSelector = createSelector(
+export const apiRequestIsPendingSelector = createSelector(
   uiStateSelector,
-  uiState => uiState.getError
+  uiState => uiState.getOfferRequestIsPending || uiState.postOfferRequestIsPending || uiState.putOfferRequestIsPending
 );
 
-export const putOfferErrorSelector = createSelector(
-  uiStateSelector,
-  uiState => uiState.putError
-);
+export const getOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.getError);
 
-export const postOfferErrorSelector = createSelector(
-  uiStateSelector,
-  uiState => uiState.postError
+export const putOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.putError);
+
+export const postOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.postError);
+
+export const hasApiErrorSelector = createSelector(
+  getOfferErrorSelector,
+  putOfferErrorSelector,
+  postOfferErrorSelector,
+  (getError, putError, postError) => Boolean(getError || putError || postError)
 );
 
 export const offerDomainIsTextOnlySelector = createSelector(
@@ -68,17 +68,16 @@ export const combinationListSelector = createSelector(
   }
 );
 
-export const orderedOffersListSelector = createSelector(
-  uiStateSelector,
-  uiState => uiState.orderedOffersList
-);
+export const orderedOffersListSelector = createSelector(uiStateSelector, uiState => uiState.orderedOffersList);
 
-export const offerIsPristineSelector = createSelector(
-  uiStateSelector,
-  uiStateSelector => uiStateSelector.isPristine
-);
+export const offerIsPristineSelector = createSelector(uiStateSelector, uiStateSelector => uiStateSelector.isPristine);
 
 export const ageNameAccordianKeysSelector = createSelector(
   uiStateSelector,
   uiStateSelector => uiStateSelector.ageNameAccordianKeys
+);
+
+export const showSuccessConfirmationSelector = createSelector(
+  uiStateSelector,
+  uiState => uiState.showSuccessConfirmation
 );

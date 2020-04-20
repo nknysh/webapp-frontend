@@ -37,6 +37,13 @@ import {
   offerHasApplicationsValidationErrorsSelector,
   offerHasPerishableDataSelector,
   offerHasCombinationValidationErrorsSelector,
+  apiRequestIsPendingSelector,
+  hasApiErrorSelector,
+  offerDetailsValidaitonErrorCountSelector,
+  offePrerequisitesValidationErrorCountSelector,
+  offerApplicationsValidationErrorCountSelector,
+  offerValidationErrorCountSelector,
+  showSuccessConfirmationSelector,
 } from 'store/modules/offer/selectors';
 
 import {
@@ -144,6 +151,42 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     this.props.postOfferRequestAction(this.props.history);
   };
 
+  getPrimaryButtonContent = () => {
+    if (this.props.apiRequestIsPending) {
+      return 'Saving...';
+    }
+    return this.isEditMode() ? 'Save Edits' : 'Create';
+  };
+
+  renderStatus = () => {
+    if (this.props.hasValidationErrors && !this.props.offerIsPristine) {
+      return (
+        <div className="offerError">
+          <p>
+            There are {this.props.offerValidationErrorCount} problems(s) with this offer. Please fix the problems and
+            try again.
+          </p>
+        </div>
+      );
+    }
+
+    if (this.props.hasApiError) {
+      return (
+        <div className="offerError">
+          <p>Unable to save this offer. Please try again. If the problem persists, please contact Greg Tee.</p>
+        </div>
+      );
+    }
+
+    if (this.props.showSuccessConfirmation) {
+      return (
+        <div className="offerConfirmation">
+          <p>Offer saved successfully.</p>
+        </div>
+      );
+    }
+  };
+
   render() {
     if (this.props.getOfferRequestPending) {
       return (
@@ -163,12 +206,6 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
     return (
       <OfferEditStyles>
-        {(this.props.putError || this.props.postError) && (
-          <section className="errors">
-            <h3 className="error">There was a problem saving the Offer</h3>
-          </section>
-        )}
-
         <section className="basicInfo">
           {this.renderHotelName()}
           <ErrorList className="hotelErrors">
@@ -300,10 +337,16 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
           {/* I'll come back to this late */}
           {/* <SecondaryButton disabled>Clear Changes</SecondaryButton> */}
           <ButtonSpacer />
-          <PrimaryButton className="saveButton" onClick={this.handleSaveButtonClick}>
-            {this.isEditMode() ? 'Save Edits' : 'Create'}
+          <PrimaryButton
+            className="saveButton"
+            disabled={this.props.apiRequestIsPending}
+            onClick={this.handleSaveButtonClick}
+          >
+            {this.getPrimaryButtonContent()}
           </PrimaryButton>
         </ButtonBar>
+
+        {this.renderStatus()}
       </OfferEditStyles>
     );
   }
@@ -348,6 +391,10 @@ const mapStateToProps = createStructuredSelector({
   hasValidationErrors: offerHasValidationErrorsSelector,
   offerIsPristine: offerIsPristineSelector,
   hasPerishableData: offerHasPerishableDataSelector,
+  apiRequestIsPending: apiRequestIsPendingSelector,
+  hasApiError: hasApiErrorSelector,
+  offerValidationErrorCount: offerValidationErrorCountSelector,
+  showSuccessConfirmation: showSuccessConfirmationSelector,
 });
 
 const actionCreators = {

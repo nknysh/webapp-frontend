@@ -41,6 +41,10 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     putError: null,
     postError: null,
     hasPerishableData: false,
+    apiRequestIsPending: false,
+    hasApiError: false,
+    offerValidationErrorCount: 0,
+    showSuccessConfirmation: false,
     // WithBootstrapData props
     bootstrapCountries: [],
     bootsrapExtraPersonSupplementId: {

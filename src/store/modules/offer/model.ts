@@ -44,6 +44,7 @@ export interface IOfferUiState {
   putError: IApiErrorPayload[] | null;
   postError: IApiErrorPayload[] | null;
   postOffersOrderError: IApiErrorPayload[] | null;
+  showSuccessConfirmation: boolean;
   isTextOnly: boolean;
   taCountryAccordianKeys: string[];
   combinationMode: ECombinationMode;
@@ -78,6 +79,7 @@ export const initialState: IOfferModel = {
     putOfferRequestIsPending: false,
     postOfferRequestIsPending: false,
     postOffersOrderRequestIsPending: false,
+    showSuccessConfirmation: false,
     getError: null,
     putError: null,
     postError: null,

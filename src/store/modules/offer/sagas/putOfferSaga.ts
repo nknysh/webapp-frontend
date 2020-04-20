@@ -26,12 +26,13 @@ export function* putOfferRequestSaga() {
     if (response) {
       yield put(putOfferSuccessAction(transformApiOfferToUiOffer(response.data.data)));
       yield put(postOffersOrderRequestAction(uiState.orderedOffersList));
-    } else {
-      yield put(putOfferFailureAction(error.response.data.errors));
+    }
+
+    if (error) {
+      yield put(putOfferFailureAction('Put error'));
     }
   } catch (e) {
-    // TODO: Need an unexpected error handler
-    console.error(e);
+    yield put(putOfferFailureAction('Put error'));
   }
 }
 

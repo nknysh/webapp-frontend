@@ -30,7 +30,10 @@ export function* postOfferRequestSaga(action: PostOfferRequestAction) {
     const backendApi = makeBackendApi(actingCountryCode);
 
     const { response, error } = yield call(backendApi.postOffer, transformUiOfferToApiOffer(uiOffer, uiState));
-    console.log(response.data.data);
+    if (error) {
+      yield put(postOfferFailureAction('Post error'));
+    }
+
     if (response) {
       const offerWithHotel = {
         ...response.data.data,
@@ -53,7 +56,7 @@ export function* postOfferRequestSaga(action: PostOfferRequestAction) {
     }
   } catch (e) {
     // TODO: Need an unexpected error handler
-    console.error(e);
+    yield put(postOfferFailureAction('Post error'));
   }
 }
 

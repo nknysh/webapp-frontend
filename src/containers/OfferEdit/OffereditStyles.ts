@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { Throggle } from 'pureUi/forms/Throggle/index';
 
@@ -11,11 +11,11 @@ export const OfferEditStyles = styled.main`
   display: grid;
   grid-gap: 20px;
   grid-template-areas:
-    'errors'
     'basicInfo'
     'tabBar'
     'routes'
-    'actions';
+    'actions'
+    'offerStatus';
 
   .preRequisites {
     grid-area: preRequisites;
@@ -62,8 +62,22 @@ export const OfferEditStyles = styled.main`
     margin-bottom: 50px;
   }
 
-  .errors {
-    grid-area: errors;
+  .offerError {
+    grid-area: offerStatus;
+    border: red 1px solid;
+    background-color: rgba(255, 0, 0, 0.25);
+    color: red;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .offerConfirmation {
+    grid-area: offerStatus;
+    border: ${pureUiTheme.colors.marine} 1px solid;
+    background-color: ${pureUiTheme.colors.lightBlue};
+    color: ${pureUiTheme.colors.marine};
+    padding: 10px;
+    text-align: center;
   }
 
   .error {

@@ -67,7 +67,7 @@ export const putOfferSuccessAction = (offer: any) => ({
 });
 
 export type PutOfferFailureAction = ReturnType<typeof putOfferFailureAction>;
-export const putOfferFailureAction = (errors: IApiErrorPayload[]) => ({
+export const putOfferFailureAction = (errors: any) => ({
   type: PUT_OFFER_FAILURE as typeof PUT_OFFER_FAILURE,
   errors,
 });
@@ -85,7 +85,7 @@ export const postOfferSuccessAction = (offer: any) => ({
 });
 
 export type PostOfferFailureAction = ReturnType<typeof postOfferFailureAction>;
-export const postOfferFailureAction = (errors: IApiErrorPayload[]) => ({
+export const postOfferFailureAction = (errors: any) => ({
   type: POST_OFFER_FAILURE as typeof POST_OFFER_FAILURE,
   errors,
 });
