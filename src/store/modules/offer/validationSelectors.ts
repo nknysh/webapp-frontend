@@ -5,6 +5,7 @@ import {
   OfferValidatorResultSet,
   ValidatorFieldError,
   isPercentageCompliant,
+  isInt,
 } from './validation';
 import { uiStateSelector } from './subdomains/uiState/selectors';
 import {
@@ -22,6 +23,7 @@ import {
 
 import { combinationModeSelector, combinationOfferUuidsSelector } from './subdomains/uiState/selectors';
 import { ECombinationMode } from './model';
+import { isEmpty } from 'ramda';
 
 export const offerHotelValidationSelector = createSelector(offerSelector, offer =>
   new Validator<OfferValidatorResultSet>(offer)
@@ -93,14 +95,32 @@ export const offerStayLengthPrerequisiteValidationSelector = createSelector(
   stayLength => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
+    const maxEmpty = stayLength.maximum === '' || stayLength.maximum === null || stayLength.maximum === undefined;
+    const minEmpty = stayLength.minimum === '' || stayLength.minimum === null || stayLength.minimum === undefined;
+
     if (stayLength) {
-      if (stayLength.strictMinMaxStay != null && (stayLength.maximum == null || stayLength.minimum == null)) {
+      if (stayLength.strictMinMaxStay && (minEmpty || maxEmpty)) {
         errors.push({
           field: 'stayLengthPrerequisite',
           message: 'Stay Length strict min/max cannot be set without a minimum or a maximum',
         });
       }
+
+      if (stayLength.minimum && !isInt(stayLength.minimum as string)) {
+        errors.push({
+          field: 'stayLengthPrerequisite',
+          message: 'From value must be an integer',
+        });
+      }
+
+      if (stayLength.maximum && !isInt(stayLength.maximum as string)) {
+        errors.push({
+          field: 'stayLengthPrerequisite',
+          message: 'To value must be an integer',
+        });
+      }
     }
+
     return {
       errors,
     } as ValidatorFieldResult<OfferValidatorResultSet>;

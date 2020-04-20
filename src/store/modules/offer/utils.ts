@@ -286,6 +286,22 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       delete draftOffer.prerequisites.stayLength;
     }
 
+    if (draftOffer.prerequisites.stayLength && draftOffer.prerequisites.stayLength.minimum) {
+      draftOffer.prerequisites.stayLength.minimum = parseInt(draftOffer.prerequisites.stayLength.minimum as string);
+    }
+
+    if (draftOffer.prerequisites.stayLength && !draftOffer.prerequisites.stayLength.minimum) {
+      draftOffer.prerequisites.stayLength.minimum = null;
+    }
+
+    if (draftOffer.prerequisites.stayLength && draftOffer.prerequisites.stayLength.maximum) {
+      draftOffer.prerequisites.stayLength.maximum = parseInt(draftOffer.prerequisites.stayLength.maximum as string);
+    }
+
+    if (draftOffer.prerequisites.stayLength && !draftOffer.prerequisites.stayLength.maximum) {
+      draftOffer.prerequisites.stayLength.maximum = null;
+    }
+
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 9
     if (
       draftOffer.prerequisites.advance &&

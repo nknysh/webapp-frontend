@@ -99,11 +99,11 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
   };
 
   handelStayLengthMinChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetStayLengthMinimumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
+    this.props.offerSetStayLengthMinimumPrerequisiteAction(e.currentTarget.value);
   };
 
   handelStayLengthMaxChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.offerSetStayLengthMaximumPrerequisiteAction(parseInt(e.currentTarget.value, 10));
+    this.props.offerSetStayLengthMaximumPrerequisiteAction(e.currentTarget.value);
   };
 
   handelStayLengthStrictChange = (e: FormEvent<HTMLInputElement>) => {
@@ -213,11 +213,11 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
           <Legend>Stay Length</Legend>
           <div className="stayLength">
             <Label lowercase text="From" className="stayLengthMin">
-              <TextInput value={this.props.stayLength.minimum} onChange={this.handelStayLengthMinChange} />
+              <TextInput value={this.props.stayLength.minimum || ''} onChange={this.handelStayLengthMinChange} />
             </Label>
 
             <Label lowercase text="To" className="stayLengthMax">
-              <TextInput value={this.props.stayLength.maximum} onChange={this.handelStayLengthMaxChange} />
+              <TextInput value={this.props.stayLength.maximum || ''} onChange={this.handelStayLengthMaxChange} />
             </Label>
 
             <Label lowercase inline reverse text="Strict" className="stayLengthStrict">

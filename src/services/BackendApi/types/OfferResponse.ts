@@ -95,8 +95,8 @@ export interface IOfferPrerequisites {
     maximum?: number;
   };
   stayLength?: {
-    minimum?: string | number | undefined;
-    maximum?: string | number | undefined;
+    minimum?: string | number | undefined | null;
+    maximum?: string | number | undefined | null;
     strictMinMaxStay?: boolean;
   };
   countryCodes?: string[]; // these are the TA country codes - an array of string country codes

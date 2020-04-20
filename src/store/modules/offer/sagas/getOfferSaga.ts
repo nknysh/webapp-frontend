@@ -5,7 +5,6 @@ import { getUserCountryContext } from 'store/modules/auth';
 import { arrayOfObjectsToMapping } from 'utils';
 import { getAllAssociatedProductUuidsFromOffer, hasOfferGotApplications, transformApiOfferToUiOffer } from '../utils';
 import { GetOfferRequestAction, getOfferSuccessAction, getOfferFailureAction, GET_OFFER_REQUEST } from '../actions';
-import { offerHotelUuidChangeAction } from '../subdomains/offer/actions';
 
 export function* getOfferRequestSaga(action: GetOfferRequestAction) {
   try {

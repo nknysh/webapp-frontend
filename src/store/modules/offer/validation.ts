@@ -39,6 +39,11 @@ export interface ValidatorFieldError<T> {
   index?: number;
 }
 
+export const isInt = (value: string) => {
+  const num = Number(value);
+  return !isNaN(num) && parseInt(value) == num && !isNaN(parseInt(value, 10));
+};
+
 export const isPercentageCompliant = val => {
   if (isNaN(val)) {
     return false;
