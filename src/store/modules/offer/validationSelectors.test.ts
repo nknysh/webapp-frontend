@@ -6,8 +6,8 @@ import {
   offerSteppingValidationSelector,
   offerProductDiscountsValidationSelector,
   offerSubProductDiscountsValidationSelector,
-} from '../selectors';
-import { initialState } from '../../../model';
+} from './validationSelectors';
+import { initialState } from './model';
 import { IOfferUI, IOfferStepping } from 'services/BackendApi';
 
 describe('offer validation selectors', () => {
