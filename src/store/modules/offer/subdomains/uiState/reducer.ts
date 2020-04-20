@@ -155,13 +155,10 @@ export const uiStateReducer = (
       };
 
     case SET_COMBINATION_MODE:
-      const shouldClearList =
-        action.combinationMode === ECombinationMode.COMBINES_WITH_ANY ||
-        action.combinationMode === ECombinationMode.CANNOT_COMBINE_WITH_LIST;
       return {
         ...state,
         combinationMode: action.combinationMode,
-        combinationOfferUuids: shouldClearList ? [] : state.combinationOfferUuids,
+        combinationOfferUuids: [],
       };
 
     case TOGGLE_OFFER_IN_COMBINATION_LIST:
