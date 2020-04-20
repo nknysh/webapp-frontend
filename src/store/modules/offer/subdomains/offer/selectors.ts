@@ -270,11 +270,16 @@ export const offerExtraPersonSupplementsSelector = createSelector(
   offersubProductDiscountsSupplementsSelector,
   getBootstrapExtraPersonSupplementProductSelector,
   (supplements, extraPersonSupplementProduct): IUIOfferProductDiscountInstance[] => {
-    return supplements.filter(sup => {
-      return sup.products.some(p => {
-        return p.uuid === extraPersonSupplementProduct.uuid;
-      });
-    });
+    return supplements
+      .filter(sup => {
+        return sup.products.some(p => {
+          return p.uuid === extraPersonSupplementProduct.uuid;
+        });
+      })
+      .map(sup => ({
+        ...sup,
+        ageNames: sup.ageNames?.filter(an => an),
+      }));
   }
 );
 

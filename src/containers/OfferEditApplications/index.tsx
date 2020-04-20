@@ -450,33 +450,45 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
 
           {this.props.hotelUuid &&
             this.props.extraPersonSupplementDiscounts.map((eps: IUIOfferProductDiscountInstance) => {
+              const ageNamesCount =
+                eps.ageNames?.length === 1 ? `${eps.ageNames?.length} Age Name` : `${eps.ageNames?.length} Age Names`;
+
               return (
                 <div key={eps.uuid} className="extraPersonSupplement">
-                  <FormControlGrid columnCount={4} className="ageNames">
-                    <Label className="ageNameLabel" inline reverse text={'Adult'}>
-                      <Checkbox
-                        className="ageNameCheckbox"
-                        checked={eps.ageNames?.includes('Adult')}
-                        onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, 'Adult')}
-                      />
-                    </Label>
-
-                    {this.props.accomodationAgeNames.map(an => {
-                      const label = an.ageTo
-                        ? `${an.name} ( ${an.ageFrom} to ${an.ageTo} )`
-                        : `${an.name} ( ${an.ageFrom}+ )`;
-
-                      return (
-                        <Label className="ageNameLabel" key={an.name} inline reverse text={label}>
+                  <Accordian className="ageNames">
+                    <AccordianSection
+                      title="Restrict by ages? (Optional)"
+                      suffix={ageNamesCount}
+                      isOpen={this.props.ageNameAccordianKeys.includes(`epsAgeNames-${eps.uuid}`)}
+                      onClick={this.expandAgeName(`epsAgeNames-${eps.uuid}`)}
+                    >
+                      <FormControlGrid columnCount={4} padded>
+                        <Label className="ageNameLabel" inline reverse text={'Adult'}>
                           <Checkbox
                             className="ageNameCheckbox"
-                            checked={eps.ageNames?.includes(an.name)}
-                            onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, an.name)}
+                            checked={eps.ageNames?.includes('Adult')}
+                            onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, 'Adult')}
                           />
                         </Label>
-                      );
-                    })}
-                  </FormControlGrid>
+
+                        {this.props.accomodationAgeNames.map(an => {
+                          const label = an.ageTo
+                            ? `${an.name} ( ${an.ageFrom} to ${an.ageTo} )`
+                            : `${an.name} ( ${an.ageFrom}+ )`;
+
+                          return (
+                            <Label className="ageNameLabel" key={an.name} inline reverse text={label}>
+                              <Checkbox
+                                className="ageNameCheckbox"
+                                checked={eps.ageNames?.includes(an.name)}
+                                onChange={this.handleExtraPersonSupplementAgeNameChange(eps.uuid, an.name)}
+                              />
+                            </Label>
+                          );
+                        })}
+                      </FormControlGrid>
+                    </AccordianSection>
+                  </Accordian>
                   <span className="epsCloseButton">
                     <CloseButton onClick={this.handleRemoveSubProductDiscount('Supplement', eps.uuid)} />
                   </span>

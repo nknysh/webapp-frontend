@@ -60,13 +60,10 @@ export const OfferEditApplicationsStyles = styled.section`
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
       'ageNames ageNames ageNames epsCloseButton'
-      'discountInput maxQuantityInput epsGreentax epsGreentax';
+      'discountInput maxQuantityInput epsGreentax .';
 
     & > .ageNames {
       grid-area: ageNames;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-gap: 20px;
     }
 
     & > .discountInput {

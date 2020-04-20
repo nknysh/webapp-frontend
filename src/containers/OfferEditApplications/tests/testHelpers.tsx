@@ -47,7 +47,7 @@ export const createProps = (
     extraPersonSupplementDiscounts: [],
     mealPlanDiscounts: [],
     supplementDiscounts: [],
-    ageNameAccordianKeys: [],
+    ageNameAccordianKeys: ['epsAgeNames'],
 
     hasApplicationsErrors: false,
     hasValidationErrors: false,
