@@ -18,7 +18,7 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
     let associatedOffersResult: AxiosResponse | null = null;
     let associatedProductsResult: AxiosResponse | null = null;
     const associatedProductUuids = getAllAssociatedProductUuidsFromOffer(uiOffer);
-    const offerUuids = [...(uiOffer.combinesWith || []), ...(uiOffer.cannotCombineWith || [])];
+    const offerUuids = [...(apiOffer.combinesWith || []), ...(apiOffer.cannotCombineWith || [])];
 
     if (associatedProductUuids.length >= 1) {
       associatedProductsResult = yield call(backendApi.getProductsAsUuidAndName, associatedProductUuids);
@@ -65,6 +65,7 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
     yield put(
       getOfferSuccessAction(
         uiOffer,
+        apiOffer,
         associatedOffersResult ? arrayOfObjectsToMapping(associatedOffersResult.data.data, 'uuid', 'name') : {},
         associatedProductsResult ? arrayOfObjectsToMapping(associatedProductsResult.data.data, 'uuid', 'name') : {},
         offersOnHotelResult.response.data.data,

@@ -23,6 +23,7 @@ import { PUT_OFFER_FAILURE } from '../../actions';
 import produce from 'immer';
 import * as R from 'ramda';
 import { getOrderedOffers, toOrderedOffer } from '../../utils';
+import { isBlank } from 'utils';
 
 export const uiStateReducer = (
   state: IOfferUiState = initialState.uiState,
@@ -42,13 +43,16 @@ export const uiStateReducer = (
         draftState.getError = null;
         draftState.isTextOnly = action.isTextOnly;
 
-        if (action.offer.combines && action.offer.combinesWith) {
-          if (action.offer.combinesWith.length >= 1) {
+        // if the original API offer combines
+        if (action.apiOffer.combines) {
+          // ...and it has a combinesWith list
+          if (action.apiOffer.combinesWith && action.apiOffer.combinesWith.length >= 1) {
+            // ...then the mode is combines with list, and we set the array of UUIDs
             draftState.combinationMode = ECombinationMode.COMBINES_WITH_LIST;
-            draftState.combinationOfferUuids = action.offer.combinesWith;
-          } else if (action.offer.cannotCombineWith && action.offer.cannotCombineWith.length >= 1) {
+            draftState.combinationOfferUuids = action.apiOffer.combinesWith;
+          } else if (action.apiOffer.cannotCombineWith && action.apiOffer.cannotCombineWith.length >= 1) {
             draftState.combinationMode = ECombinationMode.CANNOT_COMBINE_WITH_LIST;
-            draftState.combinationOfferUuids = action.offer.cannotCombineWith;
+            draftState.combinationOfferUuids = action.apiOffer.cannotCombineWith;
           } else {
             draftState.combinationMode = ECombinationMode.COMBINES_WITH_ANY;
           }

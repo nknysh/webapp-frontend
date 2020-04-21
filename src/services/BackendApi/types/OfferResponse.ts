@@ -132,9 +132,6 @@ export interface IOffer<T> {
     name: string;
     countryCode: string;
   };
-  combines: boolean;
-  combinesWith?: string[]; // uuids
-  cannotCombineWith?: string[]; // uuids
   termsAndConditions: string;
   furtherInformation: string | null;
   prerequisites: IOfferPrerequisites;
@@ -152,7 +149,11 @@ export interface IOffer<T> {
 
 export interface IOfferUI extends IOffer<IUIOfferProductDiscountInstance> {}
 
-export interface IOfferAPI extends IOffer<IOfferProductDiscountInstance> {}
+export interface IOfferAPI extends IOffer<IOfferProductDiscountInstance> {
+  combines: boolean;
+  combinesWith?: string[]; // uuids
+  cannotCombineWith?: string[]; // uuids
+}
 
 export interface IOfferResponse {
   meta: any;

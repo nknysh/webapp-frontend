@@ -1,6 +1,6 @@
 import { OfferAction } from './subdomains/offer/actions';
 import { OfferUiStateAction } from './subdomains/uiState/actions';
-import { IOfferUI, IOfferOnHotelItem } from 'services/BackendApi';
+import { IOfferUI, IOfferOnHotelItem, IOfferAPI } from 'services/BackendApi';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
 import { OrderedOffer, IHotelAvailableProducts } from './model';
 
@@ -32,6 +32,7 @@ export const getOfferRequestAction = (offerId: string, shouldFetchHotelAccommoda
 export type GetOfferSuccessAction = ReturnType<typeof getOfferSuccessAction>;
 export const getOfferSuccessAction = (
   offer: IOfferUI,
+  apiOffer: IOfferAPI,
   associatedOffersMapping,
   associatedProductsMapping,
   offersOnHotel: IOfferOnHotelItem[],
@@ -41,6 +42,7 @@ export const getOfferSuccessAction = (
 ) => ({
   type: GET_OFFER_SUCCESS as typeof GET_OFFER_SUCCESS,
   offer,
+  apiOffer,
   associatedOffersMapping,
   associatedProductsMapping,
   offersOnHotel,
