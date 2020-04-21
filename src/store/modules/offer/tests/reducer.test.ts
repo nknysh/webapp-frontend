@@ -1,10 +1,10 @@
 import { offer as reducer, accommodationProductsForHotelReducer } from '../reducer';
 import { IOfferUI } from 'services/BackendApi';
 import { initialState, IOfferModel, ECombinationMode, IHotelAvailableProducts } from '../model';
-import { getOfferSuccessAction, getOfferFailureAction } from '../actions';
-import { offerHotelUuidChangeSuccessAction, offerHotelUuidChangeAction } from '../subdomains/offer/actions';
+import { getOfferSuccessAction } from '../actions';
+import { offerHotelUuidChangeSuccessAction } from '../subdomains/offer/actions';
 import { IHotel } from 'services/BackendApi/types/HotelResponse';
-import { IAccommodationProductForHotelItem } from '../../../../services/BackendApi/types/OfferResponse';
+import { IAccommodationProductForHotelItem, IOfferAPI } from '../../../../services/BackendApi/types/OfferResponse';
 
 const emptyAvailableProducts: IHotelAvailableProducts = {
   accommodationProducts: [],
@@ -17,7 +17,16 @@ const emptyAvailableProducts: IHotelAvailableProducts = {
 
 describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
-    const action = getOfferSuccessAction({ uuid: '1234' } as IOfferUI, {}, {}, [], true, [], emptyAvailableProducts);
+    const action = getOfferSuccessAction(
+      { uuid: '1234' } as IOfferUI,
+      { uuid: '1234' } as IOfferAPI,
+      {},
+      {},
+      [],
+      true,
+      [],
+      emptyAvailableProducts
+    );
     const result = reducer(undefined, action);
     const expected: IOfferModel = {
       ...initialState,
@@ -35,6 +44,7 @@ describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly with some hotel accommodation products', () => {
     const action = getOfferSuccessAction(
       { uuid: '1234' } as IOfferUI,
+      { uuid: '1234' } as IOfferAPI,
       {},
       {},
       [],

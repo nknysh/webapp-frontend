@@ -3,7 +3,7 @@ import { IOfferUI } from 'services/BackendApi';
 import { initialState, IHotelAvailableProducts } from '../../../model';
 import { offerReducer as reducer } from '../reducer';
 import { getOfferSuccessAction } from '../../../actions';
-import { IOfferPrerequisites } from '../../../../../../services/BackendApi/types/OfferResponse';
+import { IOfferPrerequisites, IOfferAPI } from '../../../../../../services/BackendApi/types/OfferResponse';
 import {
   offerHotelUuidChangeAction,
   offerNameChangeAction,
@@ -40,6 +40,7 @@ describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
     const action = getOfferSuccessAction(
       { uuid: '1234' } as IOfferUI,
+      { uuid: '1234' } as IOfferAPI,
       {},
       {},
       [],

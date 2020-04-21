@@ -187,6 +187,7 @@ describe('offer module utils test', () => {
     test('adds uuids to sub product discount supplements', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
+        combines: true,
         subProductDiscounts: {
           'Meal Plan': [
             {
@@ -209,6 +210,7 @@ describe('offer module utils test', () => {
     it('adds UUIDS to product discount supplements', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
+        combines: true,
         productDiscounts: {
           Transfer: [
             {
@@ -246,6 +248,7 @@ describe('offer module utils test', () => {
     it('Converts furtherInformation to null if given an empty string', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
+        combines: true,
         furtherInformation: '',
       };
 

@@ -77,9 +77,6 @@ describe('Offer Selectors', () => {
         offersOnHotel: [],
         offer: {
           uuid: 'NEW_OFFER',
-          cannotCombineWith: [],
-          combinesWith: [],
-          combines: true,
           hotel: {} as IHotel,
           order: Infinity,
           name: '',

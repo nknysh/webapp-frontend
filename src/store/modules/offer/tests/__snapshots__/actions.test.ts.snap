@@ -11,6 +11,9 @@ Object {
 exports[`Offer Actions ... 2`] = `
 Object {
   "accommodationProductsForHotel": Array [],
+  "apiOffer": Object {
+    "uuid": "123",
+  },
   "associatedOffersMapping": Object {},
   "associatedProductsMapping": Object {},
   "availableProducts": Object {},

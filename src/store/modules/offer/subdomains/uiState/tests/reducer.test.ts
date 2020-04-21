@@ -1,5 +1,5 @@
 import { uiStateReducer as reducer } from '../reducer';
-import { IOfferUI, IHotel } from 'services/BackendApi';
+import { IOfferUI, IHotel, IOfferAPI } from 'services/BackendApi';
 import { initialState, IOfferUiState, ECombinationMode, IHotelAvailableProducts } from '../../../model';
 import {
   getOfferRequestAction,
@@ -29,6 +29,7 @@ describe('Offer reducer', () => {
   it('handles GET_OFFER_SUCCESS correctly', () => {
     const action = getOfferSuccessAction(
       { uuid: '1234' } as IOfferUI,
+      { uuid: '1234' } as IOfferAPI,
       {},
       {},
       mockOffersOrderingData.basic.offersOnHotel,
@@ -232,10 +233,13 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
     const action = getOfferSuccessAction(
       {
         ...initialState.offer,
+      } as IOfferUI,
+      {
+        ...initialState.offer,
         combines: true,
         combinesWith: [],
         cannotCombineWith: [],
-      } as IOfferUI,
+      } as IOfferAPI,
       {},
       {},
       [],
@@ -258,10 +262,13 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
     const action = getOfferSuccessAction(
       {
         ...initialState.offer,
+      } as IOfferUI,
+      {
+        ...initialState.offer,
         combines: true,
         combinesWith: ['a'],
         cannotCombineWith: [],
-      } as IOfferUI,
+      } as IOfferAPI,
       {},
       {},
       [],
@@ -285,10 +292,13 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
     const action = getOfferSuccessAction(
       {
         ...initialState.offer,
+      } as IOfferUI,
+      {
+        ...initialState.offer,
         combines: true,
         combinesWith: [],
         cannotCombineWith: ['b'],
-      } as IOfferUI,
+      } as IOfferAPI,
       {},
       {},
       [],
@@ -312,10 +322,13 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
     const action = getOfferSuccessAction(
       {
         ...initialState.offer,
+      } as IOfferUI,
+      {
+        ...initialState.offer,
         combines: false,
         combinesWith: ['a'],
         cannotCombineWith: [],
-      } as IOfferUI,
+      } as IOfferAPI,
       {},
       {},
       [],
