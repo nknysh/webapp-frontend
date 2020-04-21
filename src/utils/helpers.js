@@ -171,3 +171,7 @@ export const arrayOfObjectsToMapping = (arrayOfObjects, key, value) => {
 
   return mapping;
 };
+
+export const isBlank = value => {
+  return value === '' || value === null || value === undefined;
+};

@@ -8,7 +8,7 @@ import {
   offerSubProductDiscountsValidationSelector,
 } from './validationSelectors';
 import { initialState } from './model';
-import { IOfferUI, IOfferStepping } from 'services/BackendApi';
+import { IOfferUI, IOfferStepping, IUIOfferProductDiscountInstance, IOfferProductDiscounts } from 'services/BackendApi';
 
 describe('offer validation selectors', () => {
   describe('name validation selector', () => {
@@ -181,10 +181,10 @@ describe('offer validation selectors', () => {
           {
             uuid: '1',
             discountPercentage: 10,
-            products: [],
+            products: [{ uuid: 'a' }],
           },
         ],
-      };
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
       const results = offerProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(0);
@@ -199,7 +199,7 @@ describe('offer validation selectors', () => {
             products: [],
           },
         ],
-      };
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
       const results = offerProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(1);
@@ -211,10 +211,10 @@ describe('offer validation selectors', () => {
           {
             uuid: '1',
             discountPercentage: 10,
-            products: [],
+            products: [{ uuid: 'a' }],
           },
         ],
-      };
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
       const results = offerProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(0);
@@ -241,10 +241,10 @@ describe('offer validation selectors', () => {
           {
             uuid: '1',
             discountPercentage: 10,
-            products: [],
+            products: [{ uuid: 'a' }],
           },
         ],
-      };
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
       const results = offerProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(0);
@@ -271,10 +271,10 @@ describe('offer validation selectors', () => {
           {
             uuid: '1',
             discountPercentage: 10,
-            products: [],
+            products: [{ uuid: 'a' }],
           },
         ],
-      };
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
       const results = offerProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(0);
@@ -298,7 +298,7 @@ describe('offer validation selectors', () => {
             products: [],
           },
         ],
-      };
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
       const results = offerSubProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(1);
@@ -310,10 +310,10 @@ describe('offer validation selectors', () => {
           {
             uuid: '1',
             discountPercentage: 10,
-            products: [],
+            products: [{ uuid: 'a' }],
           },
         ],
-      };
+      } as IOfferProductDiscounts<IUIOfferProductDiscountInstance>;
 
       const results = offerSubProductDiscountsValidationSelector.resultFunc(fixture);
       expect(results.errors.length).toEqual(0);

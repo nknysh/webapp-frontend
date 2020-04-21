@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { offerDomainSelector, getOffersOnHotelSelector } from '../../domainSelectors';
+import { offerSelector } from '../offer/selectors';
 
 export const uiStateSelector = createSelector(offerDomainSelector, domain => domain.uiState);
 
@@ -12,7 +13,6 @@ export const apiRequestIsPendingSelector = createSelector(
   uiStateSelector,
   uiState => uiState.getOfferRequestIsPending || uiState.postOfferRequestIsPending || uiState.putOfferRequestIsPending
 );
-
 export const getOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.getError);
 
 export const putOfferErrorSelector = createSelector(uiStateSelector, uiState => uiState.putError);
@@ -49,22 +49,25 @@ export const combinationOfferUuidsSelector = createSelector(
 export const combinationListSelector = createSelector(
   combinationOfferUuidsSelector,
   getOffersOnHotelSelector,
-  (combinationList, offersOnHotel) => {
-    return offersOnHotel.map(offerOnHotel => {
-      if (combinationList.includes(offerOnHotel.uuid)) {
-        return {
-          uuid: offerOnHotel.uuid,
-          label: offerOnHotel.name,
-          value: true,
-        };
-      } else {
-        return {
-          uuid: offerOnHotel.uuid,
-          label: offerOnHotel.name,
-          value: false,
-        };
-      }
-    });
+  offerSelector,
+  (combinationList, offersOnHotel, offer) => {
+    return offersOnHotel
+      .filter(o => o.uuid !== offer.uuid)
+      .map(offerOnHotel => {
+        if (combinationList.includes(offerOnHotel.uuid)) {
+          return {
+            uuid: offerOnHotel.uuid,
+            label: offerOnHotel.name,
+            value: true,
+          };
+        } else {
+          return {
+            uuid: offerOnHotel.uuid,
+            label: offerOnHotel.name,
+            value: false,
+          };
+        }
+      });
   }
 );
 

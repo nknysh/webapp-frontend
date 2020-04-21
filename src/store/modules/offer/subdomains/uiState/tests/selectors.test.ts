@@ -8,6 +8,7 @@ import {
   combinationListSelector,
   orderedOffersListSelector,
 } from '../selectors';
+import { IOfferUI } from 'services/BackendApi';
 
 describe('Offer UI State Selectors', () => {
   describe('getOfferRequestPendingSelector', () => {
@@ -46,7 +47,11 @@ describe('Offer UI State Selectors', () => {
         },
       ];
 
-      const result = combinationListSelector.resultFunc(combinationListFixture, offersOnHotelFixture);
+      const offerFixture = {
+        uuid: 'b',
+      } as IOfferUI;
+
+      const result = combinationListSelector.resultFunc(combinationListFixture, offersOnHotelFixture, offerFixture);
 
       expect(result).toMatchObject([
         {
@@ -83,7 +88,11 @@ describe('Offer UI State Selectors', () => {
         },
       ];
 
-      const result = combinationListSelector.resultFunc(combinationListFixture, offersOnHotelFixture);
+      const offerFixture = {
+        uuid: 'E',
+      } as IOfferUI;
+
+      const result = combinationListSelector.resultFunc(combinationListFixture, offersOnHotelFixture, offerFixture);
 
       expect(result).toMatchObject([
         {
@@ -95,6 +104,57 @@ describe('Offer UI State Selectors', () => {
           uuid: 'b',
           label: 'Offer B',
           value: true,
+        },
+        {
+          uuid: 'c',
+          label: 'Offer C',
+          value: false,
+        },
+        {
+          uuid: 'd',
+          label: 'Offer D',
+          value: true,
+        },
+      ]);
+    });
+
+    it('gets offers for the combination list and filters out the offer were on', () => {
+      const combinationListFixture = ['b', 'd'];
+
+      const offersOnHotelFixture = [
+        {
+          uuid: 'a',
+          name: 'Offer A',
+          order: 1,
+        },
+        {
+          uuid: 'b',
+          name: 'Offer B',
+          order: 2,
+        },
+        {
+          uuid: 'c',
+          name: 'Offer C',
+          order: 3,
+        },
+        {
+          uuid: 'd',
+          name: 'Offer D',
+          order: 4,
+        },
+      ];
+
+      const offerFixture = {
+        uuid: 'b',
+      } as IOfferUI;
+
+      const result = combinationListSelector.resultFunc(combinationListFixture, offersOnHotelFixture, offerFixture);
+
+      expect(result).toMatchObject([
+        {
+          uuid: 'a',
+          label: 'Offer A',
+          value: false,
         },
         {
           uuid: 'c',

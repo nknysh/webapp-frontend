@@ -91,8 +91,8 @@ export interface IOfferPrerequisites {
   maximumLodgingsInBooking?: number;
   advance?: {
     bookBy?: string;
-    minimum?: number;
-    maximum?: number;
+    minimum?: string | number | undefined | null;
+    maximum?: string | number | undefined | null;
   };
   stayLength?: {
     minimum?: string | number | undefined | null;

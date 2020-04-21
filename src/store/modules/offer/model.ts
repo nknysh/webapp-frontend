@@ -104,6 +104,7 @@ export const initialState: IOfferModel = {
       countryCodes: [] as string[],
       maximumLodgingsInBooking: undefined,
       advance: undefined,
+      stayLength: undefined,
     },
     stepping: undefined,
     preDiscount: false,

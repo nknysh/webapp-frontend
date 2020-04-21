@@ -24,6 +24,8 @@ import {
 import { combinationModeSelector, combinationOfferUuidsSelector } from './subdomains/uiState/selectors';
 import { ECombinationMode } from './model';
 import { isEmpty } from 'ramda';
+import { isBlank } from 'utils';
+import { IUIOfferProductDiscountInstance } from 'services/BackendApi';
 
 export const offerHotelValidationSelector = createSelector(offerSelector, offer =>
   new Validator<OfferValidatorResultSet>(offer)
@@ -95,25 +97,26 @@ export const offerStayLengthPrerequisiteValidationSelector = createSelector(
   stayLength => {
     const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
-    const maxEmpty = stayLength.maximum === '' || stayLength.maximum === null || stayLength.maximum === undefined;
-    const minEmpty = stayLength.minimum === '' || stayLength.minimum === null || stayLength.minimum === undefined;
+    const isMaxEmpty = isBlank(stayLength.maximum);
+    const isMinEmpty = isBlank(stayLength.minimum);
 
     if (stayLength) {
-      if (stayLength.strictMinMaxStay && (minEmpty || maxEmpty)) {
+      if (stayLength.strictMinMaxStay && isMinEmpty && isMaxEmpty) {
         errors.push({
           field: 'stayLengthPrerequisite',
-          message: 'Stay Length strict min/max cannot be set without a minimum or a maximum',
+          message: 'Stay Length strict min/max cannot be set without a From or a To',
         });
       }
 
-      if (stayLength.minimum && !isInt(stayLength.minimum as string)) {
+      if (!isBlank(stayLength.minimum) && !isInt(stayLength.minimum as string)) {
         errors.push({
           field: 'stayLengthPrerequisite',
           message: 'From value must be an integer',
         });
       }
 
-      if (stayLength.maximum && !isInt(stayLength.maximum as string)) {
+      console.log('stayLength.maximum', stayLength.maximum);
+      if (!isBlank(stayLength.maximum) && !isInt(stayLength.maximum as string)) {
         errors.push({
           field: 'stayLengthPrerequisite',
           message: 'To value must be an integer',
@@ -176,113 +179,71 @@ export const offerSteppingValidationSelector = createSelector(offerSteppingAppli
   } as ValidatorFieldResult<OfferValidatorResultSet>;
 });
 
+export const discountErrorBuilder = (
+  discount: IUIOfferProductDiscountInstance,
+  errorFieldKey: keyof OfferValidatorResultSet,
+  discountName: string,
+  index: number
+) => {
+  const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+
+  if (discount.products.length <= 0 && !isBlank(discount.discountPercentage)) {
+    errors.push({
+      field: errorFieldKey,
+      index,
+      message: `${discountName} discount #${index + 1} - discount percentage cannot be set without at least 1 product`,
+    });
+  }
+  if (isBlank(discount.discountPercentage)) {
+    errors.push({
+      field: errorFieldKey,
+      index,
+      message: `${discountName} discount #${index + 1} - discount percentage is required`,
+    });
+  } else if (!isPercentageCompliant(discount.discountPercentage)) {
+    errors.push({
+      field: errorFieldKey,
+      index,
+      message: `${discountName} discount #${index +
+        1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
+    });
+  }
+  if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
+    errors.push({
+      field: errorFieldKey,
+      index,
+      message: `${discountName} discount #${index + 1} - Maximum quantity must be an integer`,
+    });
+  }
+
+  return errors;
+};
+
 export const offerProductDiscountsValidationSelector = createSelector(
   offerProductDiscountsSelector,
   productDiscounts => {
-    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+    let errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
     if (productDiscounts) {
       if (productDiscounts.Fine) {
         productDiscounts.Fine.forEach((discount, index) => {
-          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
-            errors.push({
-              field: 'fineDiscounts',
-              index,
-              message: `Fine discount #${index + 1} - discount percentage is required`,
-            });
-          } else if (!isPercentageCompliant(discount.discountPercentage)) {
-            errors.push({
-              field: 'fineDiscounts',
-              index,
-              message: `Fine discount #${index +
-                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
-            });
-          }
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
-            errors.push({
-              field: 'fineDiscounts',
-              index,
-              message: `Fine discount #${index + 1} - Maximum quantity must be an integer`,
-            });
-          }
+          errors = [...errors, ...discountErrorBuilder(discount, 'fineDiscounts', 'Fine', index)];
         });
       }
       if (productDiscounts['Ground Service']) {
         productDiscounts['Ground Service'].forEach((discount, index) => {
-          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
-            errors.push({
-              field: 'groundServiceDiscounts',
-              index,
-              message: `Ground Service discount #${index + 1} - discount percentage is required`,
-            });
-          } else if (!isPercentageCompliant(discount.discountPercentage)) {
-            errors.push({
-              field: 'groundServiceDiscounts',
-              index,
-              message: `Ground Service discount #${index +
-                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
-            });
-          }
-
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
-            errors.push({
-              field: 'groundServiceDiscounts',
-              index,
-              message: `Ground Service #${index + 1} - Maximum quantity must be an integer`,
-            });
-          }
+          errors = [...errors, ...discountErrorBuilder(discount, 'groundServiceDiscounts', 'Ground Service', index)];
         });
       }
+
       if (productDiscounts.Supplement) {
         productDiscounts.Supplement.forEach((discount, index) => {
-          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
-            errors.push({
-              field: 'supplementDiscounts',
-              index,
-              message: `Supplement discount #${index + 1} - discount percentage is required`,
-            });
-          } else if (!isPercentageCompliant(discount.discountPercentage)) {
-            errors.push({
-              field: 'supplementDiscounts',
-              index,
-              message: `Supplement discount #${index +
-                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
-            });
-          }
-
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
-            errors.push({
-              field: 'supplementDiscounts',
-              index,
-              message: `Supplement discount #${index + 1} - Maximum quantity must be an integer`,
-            });
-          }
+          errors = [...errors, ...discountErrorBuilder(discount, 'supplementDiscounts', 'Supplement', index)];
         });
       }
       if (productDiscounts.Transfer) {
         productDiscounts.Transfer.forEach((discount, index) => {
-          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
-            errors.push({
-              field: 'transferDiscounts',
-              index,
-              message: `Transfer discount #${index + 1} - discount percentage is required`,
-            });
-          } else if (!isPercentageCompliant(discount.discountPercentage)) {
-            errors.push({
-              field: 'transferDiscounts',
-              index,
-              message: `Transfer discount #${index +
-                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
-            });
-          }
-
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
-            errors.push({
-              field: 'transferDiscounts',
-              index,
-              message: `Transfer discount #${index + 1} - Maximum quantity must be an integer`,
-            });
-          }
+          errors = [...errors, ...discountErrorBuilder(discount, 'transferDiscounts', 'Transfer', index)];
         });
       }
     }
@@ -296,33 +257,12 @@ export const offerProductDiscountsValidationSelector = createSelector(
 export const offerSubProductDiscountsValidationSelector = createSelector(
   offerSubProductDiscountsSelector,
   subProductDiscounts => {
-    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+    let errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
     if (subProductDiscounts) {
       if (subProductDiscounts['Meal Plan']) {
         subProductDiscounts['Meal Plan'].forEach((discount, index) => {
-          if (discount.discountPercentage === undefined || discount.discountPercentage === '') {
-            errors.push({
-              field: 'mealPlanDiscounts',
-              index,
-              message: `Meal Plan discount #${index + 1} - discount percentage is required`,
-            });
-          } else if (!isPercentageCompliant(discount.discountPercentage)) {
-            errors.push({
-              field: 'mealPlanDiscounts',
-              index,
-              message: `Meal Plan discount #${index +
-                1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
-            });
-          }
-
-          if (discount.maximumQuantity && discount.maximumQuantity?.toString().includes('.')) {
-            errors.push({
-              field: 'mealPlanDiscounts',
-              index,
-              message: `Meal Plan #${index + 1} - Maximum quantity must be an integer`,
-            });
-          }
+          errors = [...errors, ...discountErrorBuilder(discount, 'mealPlanDiscounts', 'Meal Plan', index)];
         });
       }
     }
@@ -337,35 +277,19 @@ export const offerExtraPersonSupplementValidationSelector = createSelector(
   offerExtraPersonSupplementsSelector,
   offerRequiresGreenTaxApproachSelector,
   (extraPersonSupplementsDiscounts, requiresGreenTax) => {
-    const errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
+    let errors: ValidatorFieldError<OfferValidatorResultSet>[] = [];
 
     extraPersonSupplementsDiscounts.forEach((discount, index) => {
-      if (!discount.discountPercentage || discount.discountPercentage === '') {
-        errors.push({
-          field: 'extraPersonSupplementDiscounts',
-          index,
-          message: `Extra Person Supplement discount #${index + 1} - discount percentage is required`,
-        });
-      } else if (!isPercentageCompliant(discount.discountPercentage)) {
-        errors.push({
-          field: 'extraPersonSupplementDiscounts',
-          index,
-          message: `Extra Person Supplement discount #${index +
-            1} - discount percentage must be percentage compliant (number 1 - 100, optional 2 decimal places)`,
-        });
-      } else if (requiresGreenTax && !discount.greenTaxDiscountApproach) {
+      errors = [
+        ...errors,
+        ...discountErrorBuilder(discount, 'extraPersonSupplementDiscounts', 'Extra Person Supplement', index),
+      ];
+
+      if (requiresGreenTax && !discount.greenTaxDiscountApproach) {
         errors.push({
           field: 'extraPersonSupplementDiscounts',
           index,
           message: `Extra Person Supplement discount #${index + 1} - green tax approach is required`,
-        });
-      }
-
-      if (discount.maximumQuantity?.toString().includes('.')) {
-        errors.push({
-          field: 'extraPersonSupplementDiscounts',
-          index,
-          message: `Extra Person #${index + 1} - Maximum quantity must be an integer`,
         });
       }
     });

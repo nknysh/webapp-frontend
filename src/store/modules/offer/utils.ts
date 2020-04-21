@@ -33,6 +33,7 @@ import {
 import { without } from 'ramda';
 import { EProductCategory, IOfferOnHotelItem } from '../../../services/BackendApi/types/OfferResponse';
 import * as R from 'ramda';
+import { isBlank } from 'utils';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
   const productUuids = offer.prerequisites.accommodationProducts ? offer.prerequisites.accommodationProducts : [];
@@ -278,35 +279,55 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
     }
 
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 7
+    // if stay length is set but min and max are both blank, delete stay length itself
     if (
       draftOffer.prerequisites.stayLength &&
-      draftOffer.prerequisites.stayLength.minimum == null &&
-      draftOffer.prerequisites.stayLength.maximum == null
+      isBlank(draftOffer.prerequisites.stayLength.minimum) &&
+      isBlank(draftOffer.prerequisites.stayLength.maximum)
     ) {
       delete draftOffer.prerequisites.stayLength;
     }
 
-    if (draftOffer.prerequisites.stayLength && draftOffer.prerequisites.stayLength.minimum) {
-      draftOffer.prerequisites.stayLength.minimum = parseInt(draftOffer.prerequisites.stayLength.minimum as string);
+    // if stay length is set
+    if (draftOffer.prerequisites.stayLength) {
+      // sanitise minimum
+      if (draftOffer.prerequisites.stayLength.minimum) {
+        draftOffer.prerequisites.stayLength.minimum = parseInt(draftOffer.prerequisites.stayLength.minimum as string);
+      } else {
+        delete draftOffer.prerequisites.stayLength.minimum;
+      }
+
+      // sanitise maximum
+      if (draftOffer.prerequisites.stayLength.maximum) {
+        draftOffer.prerequisites.stayLength.maximum = parseInt(draftOffer.prerequisites.stayLength.maximum as string);
+      } else {
+        delete draftOffer.prerequisites.stayLength.maximum;
+      }
     }
 
-    if (draftOffer.prerequisites.stayLength && !draftOffer.prerequisites.stayLength.minimum) {
-      draftOffer.prerequisites.stayLength.minimum = null;
-    }
+    // do the same for advance
+    if (draftOffer.prerequisites.advance) {
+      // sanitise minimum
+      if (draftOffer.prerequisites.advance.minimum) {
+        draftOffer.prerequisites.advance.minimum = parseInt(draftOffer.prerequisites.advance.minimum as string);
+      } else {
+        delete draftOffer.prerequisites.advance.minimum;
+      }
 
-    if (draftOffer.prerequisites.stayLength && draftOffer.prerequisites.stayLength.maximum) {
-      draftOffer.prerequisites.stayLength.maximum = parseInt(draftOffer.prerequisites.stayLength.maximum as string);
-    }
-
-    if (draftOffer.prerequisites.stayLength && !draftOffer.prerequisites.stayLength.maximum) {
-      draftOffer.prerequisites.stayLength.maximum = null;
+      // sanitise maximum
+      if (draftOffer.prerequisites.advance.maximum) {
+        draftOffer.prerequisites.advance.maximum = parseInt(draftOffer.prerequisites.advance.maximum as string);
+      } else {
+        delete draftOffer.prerequisites.advance.maximum;
+      }
     }
 
     // fixes https://github.com/pure-escapes/webapp-frontend/issues/483 > Prerequisites > Data > 9
     if (
       draftOffer.prerequisites.advance &&
-      draftOffer.prerequisites.advance.minimum == null &&
-      draftOffer.prerequisites.advance.maximum == null
+      isBlank(draftOffer.prerequisites.advance.minimum) &&
+      isBlank(draftOffer.prerequisites.advance.maximum) &&
+      isBlank(draftOffer.prerequisites.advance.bookBy)
     ) {
       delete draftOffer.prerequisites.advance;
     }
