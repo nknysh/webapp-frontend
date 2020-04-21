@@ -60,7 +60,9 @@ export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {
 };
 
 export const hasOfferGotApplications = (offer: IOfferUI) => {
-  if (!offer.stepping && !offer.accommodationProductDiscount && !offer.productDiscounts && !offer.subProductDiscounts) {
+  const hasProductDiscounts = Object.keys(offer.productDiscounts || {}).length;
+  const hasSupProductDiscounts = Object.keys(offer.subProductDiscounts || {}).length;
+  if (!offer.stepping && !offer.accommodationProductDiscount && !hasProductDiscounts && !hasSupProductDiscounts) {
     return false;
   }
   return true;

@@ -99,7 +99,7 @@ describe('offer module utils test', () => {
         ...initialState.offer,
       } as IOfferUI;
 
-      expect(hasOfferGotApplications(fixture)).toEqual(true);
+      expect(hasOfferGotApplications(fixture)).toEqual(false);
     });
 
     it('it has stepping, which is an application', () => {
@@ -120,19 +120,41 @@ describe('offer module utils test', () => {
       expect(hasOfferGotApplications(fixture)).toEqual(true);
     });
 
-    it('it has productDiscounts, which is an application', () => {
+    it('it has no productDiscounts applications', () => {
       const fixture = {
         ...initialState.offer,
         productDiscounts: {},
       } as IOfferUI;
 
+      expect(hasOfferGotApplications(fixture)).toEqual(false);
+    });
+
+    it('it has productDiscounts, which is an application', () => {
+      const fixture = {
+        ...initialState.offer,
+        productDiscounts: {
+          Transfer: [],
+        },
+      } as IOfferUI;
+
       expect(hasOfferGotApplications(fixture)).toEqual(true);
+    });
+
+    it('it has no subProductDiscounts applications', () => {
+      const fixture = {
+        ...initialState.offer,
+        subProductDiscounts: {},
+      } as IOfferUI;
+
+      expect(hasOfferGotApplications(fixture)).toEqual(false);
     });
 
     it('it has subProductDiscounts, which is an application', () => {
       const fixture = {
         ...initialState.offer,
-        subProductDiscounts: {},
+        subProductDiscounts: {
+          Supplement: [],
+        },
       } as IOfferUI;
 
       expect(hasOfferGotApplications(fixture)).toEqual(true);

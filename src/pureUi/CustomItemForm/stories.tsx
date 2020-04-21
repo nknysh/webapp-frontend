@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import CustomItemForm, { CustomItemFormProps } from './';
 
-const createProps = (
-  overwrites: Partial<CustomItemFormProps> = {},
-  setKeyVal: (key: string, val: any) => void
-) => {
+const createProps = (overwrites: Partial<CustomItemFormProps> = {}, setKeyVal: (key: string, val: any) => void) => {
   const update = (key: string) => (val: any) => setKeyVal(key, val);
 
   return {
@@ -19,22 +16,23 @@ const createProps = (
     onShow: () => console.log('onShow'),
     onConfirm: () => console.log('onConfirm'),
     onCancel: () => console.log('onCancel'),
-    ...overwrites
+    ...overwrites,
   };
 };
 
-const requireProp = (prop: string, obj: Object) =>
-  obj && !obj[prop] ? ['Required'] : [];
+const requireProp = (prop: string, obj: Object) => (obj && !obj[prop] ? ['Required'] : []);
 
 export const BasicUsage = () => {
   const [state, setState] = useState<any>(null);
-  
-  const setKeyVal = (key: string, val: any) => setState({
-    ...state,
-    [key]: val
-  });
 
-  const props = createProps({
+  const setKeyVal = (key: string, val: any) =>
+    setState({
+      ...state,
+      [key]: val,
+    });
+
+  const props = createProps(
+    {
       data: state,
       onShow: () => setState({}),
       onConfirm: () => setState(null),
@@ -42,13 +40,10 @@ export const BasicUsage = () => {
       validation: {
         name: requireProp('name', state),
         total: requireProp('total', state),
-      }
+      },
     },
     setKeyVal
   );
-  console.log('data', props.data, 'validation', props.validation);
 
-  return (
-    <CustomItemForm {...props}/>
-  );
+  return <CustomItemForm {...props} />;
 };

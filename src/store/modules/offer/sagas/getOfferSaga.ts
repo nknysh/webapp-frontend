@@ -28,7 +28,7 @@ export function* getOfferRequestSaga(action: GetOfferRequestAction) {
     }
     const offersOnHotelResult = yield call(backendApi.getOffersForHotel, uiOffer.hotelUuid);
 
-    const isTextOnly = uiOffer.furtherInformation && !hasOfferGotApplications(uiOffer);
+    const isTextOnly = !hasOfferGotApplications(uiOffer);
 
     // if the action says we need to load hotel accommodation products, do that too
     let accommodationProductsForHotel = [];
