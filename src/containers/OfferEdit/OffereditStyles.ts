@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { Throggle } from 'pureUi/forms/Throggle/index';
 

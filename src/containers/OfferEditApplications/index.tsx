@@ -293,9 +293,9 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
           const ageNameTitle = `${product.name}`;
           const isOpen = this.props.ageNameAccordianKeys.includes(ageNameAccordianKey);
           const ageNameCount =
-            discountProduct.ageNames.length === 1
-              ? `${discountProduct.ageNames.length} Restriction`
-              : `${discountProduct.ageNames.length} Restrictions`;
+            discountProduct.ageNames?.length === 1
+              ? `${discountProduct.ageNames?.length} Restriction`
+              : `${discountProduct.ageNames?.length || 0} Restrictions`;
 
           return (
             <AccordianSection
@@ -457,7 +457,9 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
           {this.props.hotelUuid &&
             this.props.extraPersonSupplementDiscounts.map((eps: IUIOfferProductDiscountInstance) => {
               const ageNamesCount =
-                eps.ageNames?.length === 1 ? `${eps.ageNames?.length} Age Name` : `${eps.ageNames?.length} Age Names`;
+                eps.ageNames?.length === 1
+                  ? `${eps.ageNames?.length} Age Name`
+                  : `${eps.ageNames?.length || 0} Age Names`;
 
               return (
                 <div key={eps.uuid} className="extraPersonSupplement">

@@ -433,6 +433,30 @@ describe('Offer Edit Applicaions: Ground Service Discount', () => {
         'Infant'
       );
     });
+
+    it('Handles undefined age names correctly', () => {
+      const discounts: IUIOfferProductDiscountInstance[] = [
+        {
+          uuid: 'GROUNDSERVICE_DISCOUNT_UUID_1',
+          discountPercentage: 2.45,
+          //@ts-ignore
+          products: [{ uuid: 'GROUND SERVICE_PRODUCT_0', ageNames: undefined }],
+          productCategory: EProductCategory.PER_PERSON,
+        },
+      ];
+
+      const { subject } = setupTest(fieldsetClass, {
+        groundServiceDiscounts: discounts,
+        availableGroundServiceProducts,
+      });
+
+      const suffix = subject
+        .find('.ageNamesMap')
+        .childAt(0)
+        .props().suffix;
+
+      expect(suffix).toEqual('0 Restrictions');
+    });
   });
 
   describe('Available Products', () => {

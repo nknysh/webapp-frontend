@@ -1,38 +1,37 @@
+import produce from 'immer';
+import * as R from 'ramda';
+import { without } from 'ramda';
 import {
-  IOfferProductDiscountInstance,
-  IOfferUI,
+  IDiscountProduct,
   IOfferAPI,
+  IOfferProductDiscountInstance,
   IOfferProductDiscounts,
   IOfferSubProductDiscounts,
-  IUIOfferProductDiscountInstance,
-  IDiscountProduct,
+  IOfferUI,
   IProduct,
+  IUIOfferProductDiscountInstance,
 } from 'services/BackendApi';
-
 import uuid from 'uuid';
-import produce from 'immer';
-import { IOfferUiState, ECombinationMode, OrderedOffer } from './model';
+import { EProductCategory, IOfferOnHotelItem } from '../../../services/BackendApi/types/OfferResponse';
+import { ECombinationMode, IOfferUiState, OrderedOffer } from './model';
 import {
-  OfferAddProductToProductDiscountAction,
-  OfferRemoveProductDiscountAction,
   OfferAddProductDiscountAction,
-  OfferRemoveProductFromProductDiscountAction,
-  OfferUpdateProductDiscountAction,
-  OfferToggleProductDiscountAgeNameAction,
-  OfferToggleSubProductDiscountAgeNameAction,
-  OfferRemoveProductFromSubProductDiscountAction,
+  OfferAddProductToProductDiscountAction,
   OfferAddProductToSubProductDiscountAction,
-  OfferUpdateSubProductDiscountAction,
   OfferAddSubProductDiscountAction,
+  OfferRemoveProductDiscountAction,
+  OfferRemoveProductFromProductDiscountAction,
+  OfferRemoveProductFromSubProductDiscountAction,
   OfferRemoveSubProductDiscountAction,
-  OfferToggleProductOnProductDiscountAction,
-  OfferToggleProductOnSubProductDiscountAction,
   OfferToggleAgeNameOnProductAction,
   OfferToggleAgeNameOnSubProductAction,
+  OfferToggleProductDiscountAgeNameAction,
+  OfferToggleProductOnProductDiscountAction,
+  OfferToggleProductOnSubProductDiscountAction,
+  OfferToggleSubProductDiscountAgeNameAction,
+  OfferUpdateProductDiscountAction,
+  OfferUpdateSubProductDiscountAction,
 } from './subdomains/offer/actions';
-import { without } from 'ramda';
-import { EProductCategory, IOfferOnHotelItem } from '../../../services/BackendApi/types/OfferResponse';
-import * as R from 'ramda';
 import { isBlank } from 'utils';
 
 export const getAllAssociatedProductUuidsFromOffer = (offer: IOfferUI) => {

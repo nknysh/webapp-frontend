@@ -129,6 +129,33 @@ describe('Offer Edit Applicaions: Extra Person Supplement', () => {
   });
 
   describe('Age names', () => {
+    it('Handles undefined age names correctly', () => {
+      const discounts: IUIOfferProductDiscountInstance[] = [
+        {
+          uuid: 'EPS_DISCOUNT_UUID_1',
+          discountPercentage: 1.1,
+          maximumQuantity: 111,
+          greenTaxDiscountApproach: EGreenTaxApproach.DISCOUNT_BEFORE_GREEN_TAX,
+          // AgeNames can be undefined in some cases
+          // @ts-ignore
+          products: [{ uuid: 'TEST' }],
+        },
+      ];
+
+      const { subject } = setupTest(fieldsetClass, {
+        extraPersonSupplementDiscounts: discounts,
+        accomodationAgeNames,
+        requiresGreenTax: true,
+      });
+
+      const suffix = subject
+        .find('.ageNames')
+        .childAt(0)
+        .props().suffix;
+
+      expect(suffix).toEqual('0 Age Names');
+    });
+
     it('Renders the age names', () => {
       expect(
         epsDiscountSubject
