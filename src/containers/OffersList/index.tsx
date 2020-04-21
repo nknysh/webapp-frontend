@@ -258,10 +258,10 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
                     <TD title={offer.hotel.countryCode}>{offer.hotel.countryCode}</TD>
                     <TD>
                       <div className="link-button-wrapper">
-                        <LinkButton className="link-button" to={`/offer/${offer.uuid}/view`}>
+                        <LinkButton className="link-button" to={`/offers/${offer.uuid}/view`}>
                           Show
                         </LinkButton>
-                        <LinkButton className="link-button" to={`/offer/${offer.uuid}/edit`}>
+                        <LinkButton className="link-button" to={`/offers/${offer.uuid}/edit`}>
                           Edit
                         </LinkButton>
                       </div>

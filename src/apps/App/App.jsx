@@ -36,7 +36,7 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange, b
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
-          <Route path="/offer" component={OfferRouting} />
+          <Route path="/offers" component={OfferRouting} />
           <Route exact path="/rates/import" component={RatesImportContainerConnected} />
           {...getAppRoutes(prop('type', user))}
         </Switch>
