@@ -3,6 +3,7 @@ import { OfferDomainAction, GET_OFFER_SUCCESS, RESET_OFFER_MODULE, OFFER_HOTEL_U
 
 import { offerReducer } from './subdomains/offer/reducer';
 import { uiStateReducer } from './subdomains/uiState/reducer';
+import { RESET_OFFER_CHANGES } from './actions';
 
 export const offer = (state: IOfferModel = initialState, action: OfferDomainAction): IOfferModel => {
   if (action.type === RESET_OFFER_MODULE) {
@@ -27,6 +28,7 @@ const associatedOffersMappingReducer = (
 ): any => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
+    case RESET_OFFER_CHANGES:
       return action.associatedOffersMapping;
     default:
       return state;
@@ -39,6 +41,7 @@ export const associatedProductsMappingReducer = (
 ): any => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
+    case RESET_OFFER_CHANGES:
       return action.associatedProductsMapping;
     default:
       return state;
@@ -48,6 +51,7 @@ export const associatedProductsMappingReducer = (
 export const offersOnHotelReducer = (state: any = initialState.offersOnHotel, action: OfferDomainAction): any => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
+    case RESET_OFFER_CHANGES:
       return action.offersOnHotel;
     case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
       return action.data.offers;
@@ -62,6 +66,7 @@ export const accommodationProductsForHotelReducer = (
 ): any => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
+    case RESET_OFFER_CHANGES:
       return action.accommodationProductsForHotel;
     case OFFER_HOTEL_UUID_CHANGE_SUCCESS:
       return action.data.accommodationProducts;
@@ -76,6 +81,7 @@ export const availableProductsReducer = (
 ): IHotelAvailableProducts => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
+    case RESET_OFFER_CHANGES:
       return action.availableProducts;
 
     case OFFER_HOTEL_UUID_CHANGE_SUCCESS:

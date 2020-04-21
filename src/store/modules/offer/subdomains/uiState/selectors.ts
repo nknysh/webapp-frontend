@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { offerDomainSelector, getOffersOnHotelSelector } from '../../domainSelectors';
 import { offerSelector } from '../offer/selectors';
+import { resetOfferChangesAction } from '../../actions';
 
 export const uiStateSelector = createSelector(offerDomainSelector, domain => domain.uiState);
 
@@ -83,4 +84,9 @@ export const ageNameAccordianKeysSelector = createSelector(
 export const showSuccessConfirmationSelector = createSelector(
   uiStateSelector,
   uiState => uiState.showSuccessConfirmation
+);
+
+export const cachedOfferSuccessActionSelector = createSelector(
+  uiStateSelector,
+  uiState => uiState.cachedOfferSuccessAction
 );

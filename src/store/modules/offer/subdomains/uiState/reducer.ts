@@ -19,7 +19,7 @@ import {
   OFFER_HOTEL_UUID_CHANGE_SUCCESS,
 } from '../../actions';
 import { SET_OFFER_IS_TEXT_ONLY, TOGGLE_TA_COUNTRY_ACCORDIAN, TOGGEL_AGE_NAME_ACCORDIAN_KEY } from './actions';
-import { PUT_OFFER_FAILURE } from '../../actions';
+import { PUT_OFFER_FAILURE, RESET_OFFER_CHANGES } from '../../actions';
 import produce from 'immer';
 import * as R from 'ramda';
 import { getOrderedOffers, toOrderedOffer } from '../../utils';
@@ -38,10 +38,15 @@ export const uiStateReducer = (
       };
 
     case GET_OFFER_SUCCESS:
+    case RESET_OFFER_CHANGES:
       return produce(state, draftState => {
         draftState.getOfferRequestIsPending = false;
         draftState.getError = null;
         draftState.isTextOnly = action.isTextOnly;
+
+        if (action.type === GET_OFFER_SUCCESS) {
+          draftState.cachedOfferSuccessAction = action;
+        }
 
         // if the original API offer combines
         if (action.apiOffer.combines) {

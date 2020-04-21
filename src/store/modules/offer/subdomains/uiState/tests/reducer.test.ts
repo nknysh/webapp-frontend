@@ -44,6 +44,7 @@ describe('Offer reducer', () => {
       isTextOnly: true,
       combinationMode: ECombinationMode.COMBINES_WITH_NONE,
       orderedOffersList: mockOffersOrderingData.basic.orderedOffers,
+      cachedOfferSuccessAction: action,
     };
     expect(result).toEqual(expected);
   });
@@ -254,6 +255,7 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
       getOfferRequestIsPending: false,
       isTextOnly: true,
       combinationMode: ECombinationMode.COMBINES_WITH_ANY,
+      cachedOfferSuccessAction: action,
     };
     expect(result).toEqual(expected);
   });
@@ -284,6 +286,7 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
       isTextOnly: true,
       combinationMode: ECombinationMode.COMBINES_WITH_LIST,
       combinationOfferUuids: ['a'],
+      cachedOfferSuccessAction: action,
     };
     expect(result).toEqual(expected);
   });
@@ -314,6 +317,7 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
       isTextOnly: true,
       combinationMode: ECombinationMode.CANNOT_COMBINE_WITH_LIST,
       combinationOfferUuids: ['b'],
+      cachedOfferSuccessAction: action,
     };
     expect(result).toEqual(expected);
   });
@@ -344,6 +348,7 @@ describe('offer GET_OFFER_SUCCESS handling combines data', () => {
       isTextOnly: true,
       combinationMode: ECombinationMode.COMBINES_WITH_NONE,
       combinationOfferUuids: [],
+      cachedOfferSuccessAction: action,
     };
     expect(result).toEqual(expected);
   });

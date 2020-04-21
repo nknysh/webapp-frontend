@@ -10,6 +10,7 @@ import {
 } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
 import { IApiErrorPayload } from 'services/BackendApi/types/ApiError';
+import { GetOfferSuccessAction } from './actions';
 
 interface KeyValuePair {
   [key: string]: string;
@@ -52,6 +53,7 @@ export interface IOfferUiState {
   orderedOffersList: OrderedOffer[];
   isPristine: boolean;
   ageNameAccordianKeys: string[];
+  cachedOfferSuccessAction: GetOfferSuccessAction | null;
 }
 
 export interface IHotelAvailableProducts {
@@ -91,6 +93,7 @@ export const initialState: IOfferModel = {
     orderedOffersList: [],
     isPristine: true,
     ageNameAccordianKeys: [],
+    cachedOfferSuccessAction: null,
   },
   offer: {
     uuid: 'NEW_OFFER',

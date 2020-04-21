@@ -45,6 +45,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     hasApiError: false,
     offerValidationErrorCount: 0,
     showSuccessConfirmation: false,
+    cachedOfferSuccessAction: null,
     // WithBootstrapData props
     bootstrapCountries: [],
     bootsrapExtraPersonSupplementId: {
@@ -68,6 +69,7 @@ const createProps = (overrides?: Partial<IOfferEditProps>, path?: string): IOffe
     offerSetPreDiscountAction: jest.fn(),
     offerHotelUuidChangeAction: jest.fn(),
     resetOfferModuleAction: jest.fn(),
+    resetOfferChangesAction: jest.fn(),
     hasPrerequisiteErrors: false,
     hasValidationErrors: false,
     offerIsPristine: true,

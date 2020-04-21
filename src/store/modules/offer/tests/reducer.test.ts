@@ -36,6 +36,7 @@ describe('Offer reducer', () => {
         getOfferRequestIsPending: false,
         isTextOnly: true,
         combinationMode: ECombinationMode.COMBINES_WITH_NONE,
+        cachedOfferSuccessAction: action,
       },
     };
     expect(result).toEqual(expected);
@@ -67,6 +68,7 @@ describe('Offer reducer', () => {
         getOfferRequestIsPending: false,
         isTextOnly: true,
         combinationMode: ECombinationMode.COMBINES_WITH_NONE,
+        cachedOfferSuccessAction: action,
       },
       accomodationProductsForHotel: [
         {

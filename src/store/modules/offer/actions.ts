@@ -21,6 +21,7 @@ export const POST_OFFERS_ORDER_SUCCESS = 'offer/POST_OFFERS_ORDER_SUCCESS';
 export const POST_OFFERS_ORDER_FAILURE = 'offer/POST_OFFERS_ORDER_FAILURE';
 
 export const RESET_OFFER_MODULE = 'offer/RESET_OFFER_MODULE';
+export const RESET_OFFER_CHANGES = 'offer/RESET_OFFER_CHANGES';
 
 export type GetOfferRequestAction = ReturnType<typeof getOfferRequestAction>;
 export const getOfferRequestAction = (offerId: string, shouldFetchHotelAccommodationProducts: boolean = false) => ({
@@ -50,6 +51,21 @@ export const getOfferSuccessAction = (
   accommodationProductsForHotel,
   availableProducts,
 });
+
+export interface ResetOfferChangesPayload {
+  type: typeof RESET_OFFER_CHANGES;
+  offer: IOfferUI;
+  apiOffer: IOfferAPI;
+  associatedOffersMapping;
+  associatedProductsMapping;
+  offersOnHotel: IOfferOnHotelItem[];
+  isTextOnly;
+  accommodationProductsForHotel;
+  availableProducts: IHotelAvailableProducts;
+}
+
+export type ResetOfferChangesAction = ReturnType<typeof resetOfferChangesAction>;
+export const resetOfferChangesAction = (action: ResetOfferChangesPayload) => action;
 
 export type GetOfferFailureAction = ReturnType<typeof getOfferFailureAction>;
 export const getOfferFailureAction = (error: any) => ({
@@ -132,7 +148,8 @@ export type OfferDomainAction =
   | PostOffersOrderRequestAction
   | PostOffersOrderSuccessAction
   | PostOffersOrderFailureAction
-  | ResetOfferModuleAction;
+  | ResetOfferModuleAction
+  | ResetOfferChangesAction;
 
 export * from './subdomains/offer/actions';
 export * from './subdomains/uiState/actions';

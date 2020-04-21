@@ -9,7 +9,7 @@ import TextInput from 'pureUi/TextInput/index';
 import TextArea from 'pureUi/Textarea/index';
 import Checkbox from 'pureUi/Checkbox';
 import { OfferEditStyles } from './OffereditStyles';
-import { PrimaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
+import { PrimaryButton, ButtonBar, ButtonSpacer, SecondaryButton } from 'pureUi/Buttons';
 import { ErrorList } from 'pureUi/ErrorList';
 
 import { IWithBootstrapDataProps, withBootstapData } from 'hoc/WithBootstrapData';
@@ -44,9 +44,11 @@ import {
   offerApplicationsValidationErrorCountSelector,
   offerValidationErrorCountSelector,
   showSuccessConfirmationSelector,
+  cachedOfferSuccessActionSelector,
 } from 'store/modules/offer/selectors';
 
 import {
+  RESET_OFFER_CHANGES,
   offerNameChangeAction,
   offerTermsChangeAction,
   offerFurtherInformationChangeAction,
@@ -58,12 +60,14 @@ import {
   getOfferRequestAction,
   resetOfferModuleAction,
   setOfferIsPristineAction,
+  resetOfferChangesAction,
 } from 'store/modules/offer/actions';
 import { TabBar, RouteTab } from 'pureUi/TabBar';
 import { OfferEditPreRequisitesContainerConnected } from '../OfferEditPreRequisites';
 import { OfferEditApplicationsContainerConnected } from '../OfferEditApplications';
 import { OfferEditOrderingContainerConnected } from '../OfferEditOrdering';
 import { OfferEditCombinationsContainerConnected } from '../OfferEditCombinations';
+import { ResetOfferChangesPayload } from '../../store/modules/offer/actions';
 
 export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
   isEditMode = () => this.props.match.path.includes('edit');
@@ -115,6 +119,15 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     }
 
     this.isEditMode() ? this.props.putOfferRequestAction() : this.handleCreate();
+  };
+
+  handleClearChanges = () => {
+    if (window.confirm('This will clear any unsaved changes. Are you sure?')) {
+      this.props.resetOfferChangesAction({
+        ...this.props.cachedOfferSuccessAction,
+        type: RESET_OFFER_CHANGES,
+      } as ResetOfferChangesPayload);
+    }
   };
 
   renderHotelName = () => {
@@ -335,7 +348,11 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
         <ButtonBar className="actions">
           {/* I'll come back to this late */}
-          {/* <SecondaryButton disabled>Clear Changes</SecondaryButton> */}
+          {this.isEditMode() && (
+            <SecondaryButton disabled={!this.props.hasPerishableData} onClick={this.handleClearChanges}>
+              Clear Changes
+            </SecondaryButton>
+          )}
           <ButtonSpacer />
           <PrimaryButton
             className="saveButton"
@@ -395,6 +412,7 @@ const mapStateToProps = createStructuredSelector({
   hasApiError: hasApiErrorSelector,
   offerValidationErrorCount: offerValidationErrorCountSelector,
   showSuccessConfirmation: showSuccessConfirmationSelector,
+  cachedOfferSuccessAction: cachedOfferSuccessActionSelector,
 });
 
 const actionCreators = {
@@ -409,6 +427,7 @@ const actionCreators = {
   postOfferRequestAction,
   resetOfferModuleAction,
   setOfferIsPristineAction,
+  resetOfferChangesAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);

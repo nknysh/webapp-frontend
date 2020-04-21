@@ -59,8 +59,13 @@ export const SecondaryButton = styled.button`
   border: ${pureUiTheme.colors.goldBorder} 1px solid;
   color: ${pureUiTheme.colors.goldBorder};
 
-  &:hover {
+  &:hover:enabled {
     color: ${pureUiTheme.colors.white};
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.75;
   }
 `;
 

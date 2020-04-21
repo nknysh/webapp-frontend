@@ -1,6 +1,6 @@
 import * as Actions from '../../actions';
 import { IOfferProductDiscounts, IUIOfferProductDiscountInstance } from 'services/BackendApi';
-import { GET_OFFER_SUCCESS } from '../../actions';
+import { GET_OFFER_SUCCESS, RESET_OFFER_CHANGES } from '../../actions';
 import {
   addDiscountHandler,
   addProductToDiscountHandler,
@@ -19,6 +19,7 @@ export const productDiscountsReducer = (
 ): IOfferProductDiscounts<IUIOfferProductDiscountInstance> => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
+    case RESET_OFFER_CHANGES:
       return state || {};
     case Actions.OFFER_ADD_PRODUCT_DISCOUNT:
       return addDiscountHandler(state, action);

@@ -2,7 +2,13 @@ import * as Actions from './actions';
 import produce from 'immer';
 import { IOfferUI } from 'services/BackendApi';
 import { IDateRange } from 'interfaces';
-import { OfferDomainAction, GET_OFFER_SUCCESS, PUT_OFFER_SUCCESS, POST_OFFER_SUCCESS } from '../../actions';
+import {
+  OfferDomainAction,
+  GET_OFFER_SUCCESS,
+  PUT_OFFER_SUCCESS,
+  POST_OFFER_SUCCESS,
+  RESET_OFFER_CHANGES,
+} from '../../actions';
 import { initialState } from '../../model';
 import * as R from 'ramda';
 import { productDiscountsReducer } from './offerProductDiscountsReducer';
@@ -12,6 +18,7 @@ import { clearAllProductsFromDiscounts } from '../../utils';
 export const offerReducer = (state: IOfferUI = initialState.offer, action: OfferDomainAction): IOfferUI => {
   switch (action.type) {
     case GET_OFFER_SUCCESS:
+    case RESET_OFFER_CHANGES:
       return action.offer;
     case PUT_OFFER_SUCCESS:
     case POST_OFFER_SUCCESS:
