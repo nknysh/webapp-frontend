@@ -84,34 +84,6 @@ Object {
 
 exports[`routing app routes match snapshot 7`] = `
 Object {
-  "auth": true,
-  "component": Object {
-    "$$typeof": Symbol(react.lazy),
-    "_ctor": [Function],
-    "_result": null,
-    "_status": -1,
-  },
-  "name": "Offer page",
-  "path": "/offers/:id",
-}
-`;
-
-exports[`routing app routes match snapshot 8`] = `
-Object {
-  "auth": true,
-  "component": Object {
-    "$$typeof": Symbol(react.lazy),
-    "_ctor": [Function],
-    "_result": null,
-    "_status": -1,
-  },
-  "name": "Offer list page",
-  "path": "/offers",
-}
-`;
-
-exports[`routing app routes match snapshot 9`] = `
-Object {
   "component": Object {
     "$$typeof": Symbol(react.lazy),
     "_ctor": [Function],

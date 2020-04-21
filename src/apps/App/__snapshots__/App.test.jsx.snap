@@ -474,7 +474,7 @@ exports[`<App /> render matches snapshot 1`] = `
       />
       <Route
         component={[Function]}
-        path="/offer"
+        path="/offers"
       />
       <Route
         component={
