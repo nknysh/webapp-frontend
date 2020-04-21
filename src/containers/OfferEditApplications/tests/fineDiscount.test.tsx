@@ -341,7 +341,7 @@ describe('Offer Edit Applicaions: Fine Discount', () => {
           .find(AccordianSection)
           .at(0)
           .props().title
-      ).toBe('Ages for Test product 0');
+      ).toBe('Test product 0');
 
       expect(
         subject

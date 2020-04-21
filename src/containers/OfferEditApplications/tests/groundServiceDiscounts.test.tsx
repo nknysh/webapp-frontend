@@ -363,7 +363,7 @@ describe('Offer Edit Applicaions: Ground Service Discount', () => {
           .find(AccordianSection)
           .at(0)
           .props().title
-      ).toBe('Ages for Test product 0');
+      ).toBe('Test product 0');
 
       expect(
         subject

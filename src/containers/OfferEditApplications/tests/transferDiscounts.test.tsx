@@ -359,7 +359,7 @@ describe('Offer Edit Applicaions: Transfer Discount', () => {
           .find(AccordianSection)
           .at(0)
           .props().title
-      ).toBe('Ages for Test product 0');
+      ).toBe('Test product 0');
 
       expect(
         subject

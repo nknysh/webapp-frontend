@@ -290,11 +290,17 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
             return null;
           }
           const ageNameAccordianKey = `${discount.uuid} - ${product.name}`;
-          const ageNameTitle = `Ages for ${product.name}`;
+          const ageNameTitle = `${product.name}`;
           const isOpen = this.props.ageNameAccordianKeys.includes(ageNameAccordianKey);
+          const ageNameCount =
+            discountProduct.ageNames.length === 1
+              ? `${discountProduct.ageNames.length} Restriction`
+              : `${discountProduct.ageNames.length} Restrictions`;
+
           return (
             <AccordianSection
               key={product.name}
+              suffix={ageNameCount}
               title={ageNameTitle}
               isOpen={isOpen}
               onClick={this.expandAgeName(ageNameAccordianKey)}
