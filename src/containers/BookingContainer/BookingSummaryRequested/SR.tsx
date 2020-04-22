@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {StandardModal, ModalHeader, ModalContent, ModalFooter} from 'pureUi/Modal';
+import { StandardModal, ModalHeader, ModalContent, ModalFooter } from 'pureUi/Modal';
 import Textarea from 'pureUi/Textarea';
 import TextInput from 'pureUi/TextInput';
 import { PrimaryButton, SecondaryButton, ButtonBar } from 'pureUi/Buttons';
@@ -13,13 +13,13 @@ import { isNilOrEmpty } from 'ramda-adjunct';
 import { Heading1, P } from 'styles';
 import { Label } from 'pureUi/Label';
 import { Text } from 'pureUi/typography';
-import {validHoldHours} from '../helpers';
+import { validHoldHours } from '../helpers';
 
 const BookingSummaryRequestedSR = props => {
   const newBooking: BookingBuilderDomain = props.newBooking;
   const isOnProposal: boolean = newBooking.proposalUuid ? true : false;
-  const canHold: boolean = props.holds?.canHold;
-  const isHeld: boolean = props.holds?.hasFullHolds;
+  const [canHold, setCanHold] = useState<boolean>(props.holds?.canHold);
+  const [isHeld, setIsHeld] = useState<boolean>(props.holds?.hasFullHolds);
   const canCancel: boolean = false;
 
   const { addHoldToBooking, releaseHoldFromBooking, actingCountryCode } = props;
@@ -115,18 +115,16 @@ const BookingSummaryRequestedSR = props => {
   const [updatedHoldExpiry, setUpdatedHoldExpiry] = useState<string | null>(null);
   const [holdHours, setHoldHours] = useState('24');
 
-
   const handleHoldHoursChange = (value: string) => {
-    if(validHoldHours(value)) {
+    if (validHoldHours(value)) {
       setHoldHours(value);
     }
-  }
+  };
 
   const handleUpdateHoldHours = () => {
     setIsUpdateHoldHoursPending(true);
     try {
-      backendApi.updateHoldHoursForBooking(newBooking.uuid!, holdHours)
-      .then(json => {
+      backendApi.updateHoldHoursForBooking(newBooking.uuid!, holdHours).then(json => {
         setUpdatedHoldExpiry(json.data.data.fullHoldsExpires);
       });
     } catch (e) {
@@ -139,16 +137,24 @@ const BookingSummaryRequestedSR = props => {
   const handleConfirmOverrideAndPlaceHold = () => {
     setIsConfirmPlaceHoldPending(true);
     try {
-      backendApi.addHoldToBooking(newBooking.uuid!)
-      .then(json => {
+      backendApi.addHoldToBooking(newBooking.uuid!).then(json => {
         setUpdatedHoldExpiry(json.data.data.fullHoldsExpires);
-      });;
+        setIsOverrideHoldModalOpen(false);
+        setIsHeld(json.data.data.hasFullHolds);
+      });
     } catch (e) {
       console.error(`Error ${e}`);
     } finally {
       setIsConfirmPlaceHoldPending(false);
     }
   };
+
+  const handleReleaseHoldFromBooking = uuid => {
+    releaseHoldFromBooking(uuid);
+    setIsHeld(false);
+  };
+
+  useEffect(() => {}, [updatedHoldExpiry]);
 
   if (hasCancelled) {
     return <Redirect to={`/hotels/${newBooking.hotelUuid}`} />;
@@ -202,7 +208,7 @@ const BookingSummaryRequestedSR = props => {
         </AsideDetails>
       )}
 
-      {(isHeld || updatedHoldExpiry) && (
+      {isHeld && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
           <Text>This booking is being held.</Text>
@@ -210,25 +216,26 @@ const BookingSummaryRequestedSR = props => {
             It will expire {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires)} at{' '}
             {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires, 'h:mma')}
           </Text>
-          <PrimaryButton onClick={() => releaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
+          <PrimaryButton onClick={() => handleReleaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
           <div className="mt-4">
             <Label text="Hold Hours">
               <span className="number-input-form">
-              <TextInput 
-                inputmode="numeric"
-                pattern="[0-9]*" 
-                min={1} max={24} 
-                value={holdHours} 
-                onChange={e => handleHoldHoursChange(e.currentTarget.value)} 
-              />
-              <PrimaryButton disabled={isUpdateHoldHoursPending} onClick={handleUpdateHoldHours}>
-                Update Hold Hours
-              </PrimaryButton>
+                <TextInput
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  min={1}
+                  max={24}
+                  value={holdHours}
+                  onChange={e => handleHoldHoursChange(e.currentTarget.value)}
+                />
+                <PrimaryButton disabled={isUpdateHoldHoursPending} onClick={handleUpdateHoldHours}>
+                  Update Hold Hours
+                </PrimaryButton>
               </span>
             </Label>
           </div>
         </AsideDetails>
-      )}  
+      )}
 
       {!isHeld && canHold && (
         <AsideDetails>
@@ -249,15 +256,15 @@ const BookingSummaryRequestedSR = props => {
           {isOverrideHoldModalOpen && (
             <StandardModal onClose={() => setIsOverrideHoldModalOpen(false)}>
               <ModalContent>
-              <h3>Warning!</h3>
-              <Text>The system reports that this booking is not available to hold</Text>
-              <Text>However, you have permission to override this, and place a hold regardless</Text>
-              <Text>If you place a hold, you should contact the hotel</Text>
+                <h3>Warning!</h3>
+                <Text>The system reports that this booking is not available to hold</Text>
+                <Text>However, you have permission to override this, and place a hold regardless</Text>
+                <Text>If you place a hold, you should contact the hotel</Text>
               </ModalContent>
               <ModalFooter>
-              <PrimaryButton disabled={isConfirmPlaceHoldPending} onClick={handleConfirmOverrideAndPlaceHold}>
-                Override and Place Hold
-              </PrimaryButton>
+                <PrimaryButton disabled={isConfirmPlaceHoldPending} onClick={handleConfirmOverrideAndPlaceHold}>
+                  Override and Place Hold
+                </PrimaryButton>
               </ModalFooter>
             </StandardModal>
           )}
@@ -283,13 +290,13 @@ const BookingSummaryRequestedSR = props => {
             <ModalHeader>
               <Heading1>Confirm</Heading1>
             </ModalHeader>
-            <ModalContent>
-              Are you sure you want to confirm this booking?
-            </ModalContent>
+            <ModalContent>Are you sure you want to confirm this booking?</ModalContent>
             <ModalFooter>
               <ButtonBar>
                 <SecondaryButton onClick={() => setIsConfirmModalOpen(false)}>No</SecondaryButton>
-                <PrimaryButton autoFocus onClick={() => handleConfirmBooking()}>Yes</PrimaryButton>
+                <PrimaryButton autoFocus onClick={() => handleConfirmBooking()}>
+                  Yes
+                </PrimaryButton>
               </ButtonBar>
             </ModalFooter>
           </StandardModal>
@@ -311,13 +318,13 @@ const BookingSummaryRequestedSR = props => {
               <ModalHeader>
                 <Heading1>Cancel & Restart Booking</Heading1>
               </ModalHeader>
-              <ModalContent>
-                Are you sure you want to cancel and restart this booking?
-              </ModalContent>
+              <ModalContent>Are you sure you want to cancel and restart this booking?</ModalContent>
               <ModalFooter>
                 <ButtonBar>
                   <SecondaryButton onClick={() => handleCancel()}>Cancel & Restart</SecondaryButton>
-                  <PrimaryButton autoFocus onClick={() => setIsCancelModalOpen(false)}>Keep</PrimaryButton>
+                  <PrimaryButton autoFocus onClick={() => setIsCancelModalOpen(false)}>
+                    Keep
+                  </PrimaryButton>
                 </ButtonBar>
               </ModalFooter>
             </StandardModal>
