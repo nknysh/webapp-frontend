@@ -45,6 +45,8 @@ import {
   dateRangeChangeAction,
 } from 'store/modules/fastSearch';
 
+import { isSR } from 'store/modules/auth';
+
 import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
 
 // Connect to the store
@@ -67,6 +69,7 @@ const mapStateToProps = createStructuredSelector<any, any>({
   showDatePicker: showDatePickerSelector,
   isRepeatGuest: isRepeatGuestSelector,
   canSearch: canSearchSelector,
+  isSr: isSR,
 });
 
 const actionCreators = {
@@ -170,10 +173,7 @@ export const WithBasicSearch = () => WrappedComponent => {
     mapDispatchToProps
   );
 
-  const composed = compose(
-    withRouter,
-    withConnect
-  )(instance);
+  const composed = compose(withRouter, withConnect)(instance);
 
   return hoistNonReactStatics(composed, WrappedComponent);
 };
