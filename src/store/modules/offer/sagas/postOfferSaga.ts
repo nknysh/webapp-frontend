@@ -50,7 +50,7 @@ export function* postOfferRequestSaga(action: PostOfferRequestAction) {
       yield put(postOffersOrderRequestAction(updatedOrderedOffers));
       yield take([POST_OFFERS_ORDER_SUCCESS, POST_OFFERS_ORDER_FAILURE]);
 
-      yield call(action.history.replace, `/offer/${response.data.data.uuid}/edit`);
+      yield call(action.history.replace, `/offers/${response.data.data.uuid}/edit`);
     } else {
       yield put(postOfferFailureAction(error.response.data.errors));
     }
