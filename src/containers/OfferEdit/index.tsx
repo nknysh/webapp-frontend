@@ -348,11 +348,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
 
         <ButtonBar className="actions">
           {/* I'll come back to this late */}
-          {this.isEditMode() && (
-            <SecondaryButton disabled={!this.props.hasPerishableData} onClick={this.handleClearChanges}>
-              Clear Changes
-            </SecondaryButton>
-          )}
+          {this.isEditMode() && <SecondaryButton onClick={this.handleClearChanges}>Clear Changes</SecondaryButton>}
           <ButtonSpacer />
           <PrimaryButton
             className="saveButton"
