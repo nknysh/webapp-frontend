@@ -115,7 +115,6 @@ export const offerStayLengthPrerequisiteValidationSelector = createSelector(
         });
       }
 
-      console.log('stayLength.maximum', stayLength.maximum);
       if (!isBlank(stayLength.maximum) && !isInt(stayLength.maximum as string)) {
         errors.push({
           field: 'stayLengthPrerequisite',
@@ -371,7 +370,7 @@ export const offerCombinationValidationSelector = createSelector(
       if (combinationUuids.length <= 0) {
         errors.push({
           field: 'combinations',
-          message: 'Combination UUIDs are required',
+          message: 'You must select one or more offers',
         });
       }
     }
@@ -379,6 +378,11 @@ export const offerCombinationValidationSelector = createSelector(
       errors,
     } as ValidatorFieldResult<OfferValidatorResultSet>;
   }
+);
+
+const offerCombinationErrorCountSelector = createSelector(
+  offerCombinationValidationSelector,
+  combinationErrors => combinationErrors.errors.length || 0
 );
 
 export const offerDetailsValidationSelector = createSelector(
@@ -655,5 +659,7 @@ export const offerValidationErrorCountSelector = createSelector(
   offerDetailsValidaitonErrorCountSelector,
   offePrerequisitesValidationErrorCountSelector,
   offerApplicationsValidationErrorCountSelector,
-  (detailsCount, preReqCount, applicationCount) => detailsCount + preReqCount + applicationCount
+  offerCombinationErrorCountSelector,
+  (detailsCount, preReqCount, applicationCount, combinationCount) =>
+    detailsCount + preReqCount + applicationCount + combinationCount
 );

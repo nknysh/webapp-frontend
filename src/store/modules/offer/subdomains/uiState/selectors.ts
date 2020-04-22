@@ -68,7 +68,8 @@ export const combinationListSelector = createSelector(
             value: false,
           };
         }
-      });
+      })
+      .sort((a, b) => (a.label >= b.label ? 1 : -1));
   }
 );
 

@@ -129,7 +129,7 @@ export class BackendApiService<T extends AxiosInstance> {
   };
 
   getOffersForHotel = async (hotelUuid: string): Promise<IAPIRepsonse<IOffersOnHotelResponse, IApiErrorResponse>> => {
-    const endpoint = `${BackendEndpoints.OFFERS}?fields[offer]=uuid,name,order&filter[offer][hotelUuid]=${hotelUuid}`;
+    const endpoint = `${BackendEndpoints.OFFERS}?fields[offer]=uuid,name,order&sort=offer.name&filter[offer][hotelUuid]=${hotelUuid}`;
     return (
       this.client
         .get(endpoint)

@@ -92,6 +92,7 @@ export const uiStateReducer = (
         putOfferRequestIsPending: false,
         putError: null,
         showSuccessConfirmation: true,
+        cachedOfferSuccessAction: action,
       };
 
     case PUT_OFFER_FAILURE:
@@ -114,6 +115,7 @@ export const uiStateReducer = (
         postOfferRequestIsPending: false,
         postError: null,
         showSuccessConfirmation: true,
+        cachedOfferSuccessAction: action,
       };
 
     case POST_OFFER_FAILURE:
