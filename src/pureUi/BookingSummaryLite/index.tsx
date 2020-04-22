@@ -25,7 +25,7 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
   const currencySymbol = getCurrencySymbol(breakdown.currency);
   return (
     <div className={props.className ? props.className : ''}>
-      <Heading2>{props.booking.hotelName}</Heading2>
+      <Heading2 className="hotelName">{props.booking.hotelName}</Heading2>
       <DisplayTotalsBreakdown
         t={t}
         currencyCode={currencySymbol as string}
@@ -90,6 +90,10 @@ export default styled(BookingSummaryLite)`
   background: ${pureUiTheme.colorRoles.areaBackground};
   padding: 20px;
   margin-bottom: 35px;
+
+  .hotelName {
+    padding: 0 21px;
+  }
 
   .comments {
     font-size: 14px;
