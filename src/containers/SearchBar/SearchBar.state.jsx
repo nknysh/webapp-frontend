@@ -9,11 +9,14 @@ import {
   getMappedSearchResults,
 } from 'store/modules/search';
 
+import { isSR } from 'store/modules/auth';
+
 export const mapStateToProps = state => ({
   canSearch: isSearchQueryValidSelector(state),
   nameSearchResults: getMappedSearchResults(state, 'byName'),
   nameSearchStatus: getSearchStatus(state, 'byName'),
   searchQuery: getBaseSearchQuery(state),
+  isSr: isSR(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

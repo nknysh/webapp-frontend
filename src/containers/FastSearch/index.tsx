@@ -66,6 +66,7 @@ import {
   updateQueryStringAction,
   resetSearchQueryAction,
 } from 'store/modules/fastSearch';
+import { isSR } from 'store/modules/auth';
 
 import { getUserCountryContext } from 'store/modules/auth';
 
@@ -215,10 +216,12 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
           />
         </label>
 
-        <label className="basicSearchLabel repeatGuest">
-          <span className="label">Repeat Guest</span>
-          <Checkbox checked={this.props.isRepeatGuest} onChange={this.props.toggleRepeatGuest} />
-        </label>
+        {this.props.isSr && (
+          <label className="basicSearchLabel repeatGuest">
+            <span className="label">Repeat Guest</span>
+            <Checkbox checked={this.props.isRepeatGuest} onChange={this.props.toggleRepeatGuest} />
+          </label>
+        )}
 
         <PrimaryButton className="searchButton" disabled={!this.props.canSearch} onClick={this.handleSubmit}>
           Search
@@ -327,6 +330,7 @@ const mapStateToProps = createStructuredSelector({
   queryHasChanged: queryHasChangedSelector,
   canSearch: canSearchSelector,
   actingCountryCode: getUserCountryContext,
+  isSr: isSR,
 });
 
 const actionCreators = {
@@ -365,12 +369,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, FastSearchProps>(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect<StateToProps, DispatchToProps, FastSearchProps>(mapStateToProps, mapDispatchToProps);
 
-export const FastSearchContainerConnected = compose(
-  withConnect,
-  withRouter
-)(FastSearchContainer);
+export const FastSearchContainerConnected = compose(withConnect, withRouter)(FastSearchContainer);

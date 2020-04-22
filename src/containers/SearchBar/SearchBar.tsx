@@ -74,10 +74,12 @@ export const SearchBar = (props: ISearchBarProps) => {
           />
         </label>
 
-        <label className="repeatGuest">
-          <span>Repeat Guest</span>
-          <Checkbox checked={props.isRepeatGuest} onChange={props.toggleRepeatGuest} />
-        </label>
+        {props.isSr && (
+          <label className="repeatGuest">
+            <span>Repeat Guest</span>
+            <Checkbox checked={props.isRepeatGuest} onChange={props.toggleRepeatGuest} />
+          </label>
+        )}
 
         <PrimaryButton
           className="searchButton"
