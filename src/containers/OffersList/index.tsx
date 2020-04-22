@@ -182,7 +182,7 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
               Delete Selected Offers
             </ActionButton>
             <ButtonSpacer />
-            <ActionLinkButton action="add" to="/offer/create">
+            <ActionLinkButton action="add" to="/offers/create">
               New Offer
             </ActionLinkButton>
           </ButtonBar>
