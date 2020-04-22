@@ -16,7 +16,7 @@ export const mapStateToProps = state => ({
   nameSearchResults: getMappedSearchResults(state, 'byName'),
   nameSearchStatus: getSearchStatus(state, 'byName'),
   searchQuery: getBaseSearchQuery(state),
-  isSr: isSR(state), // not actually used, see src/hoc/WithBasicSearch/index.tsx
+  isSr: isSR(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
