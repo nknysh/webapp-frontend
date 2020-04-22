@@ -62,10 +62,10 @@ export const SettingsForm = ({ usersStatus, user, isSr, updateMe }) => {
       <Title>{t('labels.profileDetails')}</Title>
       <Loader isLoading={isActive(usersStatus)} showPrev={true}>
         <Grid container spacing={32}>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} className="pr-4">
             {renderForm(t, { formValues, onSubmit })}
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} className="pl-4">
             {!isSr && (
               <Fragment>
                 {!isEmpty(assigned) && <Section label={t('labels.accountRep')}>{map(mapRep, assigned)}</Section>}
