@@ -162,7 +162,7 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
         className="add-lodging-button-wrapper"
       >
         <label>
-          Lodging Count:
+          Room Count:
            
           0
         </label>
@@ -171,7 +171,7 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
           className="addLodgingButton"
           onClick={[Function]}
         >
-          Add Lodging
+          Add Room
         </styled.button>
       </li>
     </ul>
@@ -336,7 +336,7 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
         className="add-lodging-button-wrapper"
       >
         <label>
-          Lodging Count:
+          Room Count:
            
           0
         </label>
@@ -345,7 +345,7 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
           className="addLodgingButton"
           onClick={[Function]}
         >
-          Add Lodging
+          Add Room
         </styled.button>
       </li>
     </ul>
@@ -510,7 +510,7 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
         className="add-lodging-button-wrapper"
       >
         <label>
-          Lodging Count:
+          Room Count:
            
           0
         </label>
@@ -519,7 +519,7 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
           className="addLodgingButton"
           onClick={[Function]}
         >
-          Add Lodging
+          Add Room
         </styled.button>
       </li>
     </ul>

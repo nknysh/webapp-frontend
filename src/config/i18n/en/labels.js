@@ -6,8 +6,8 @@ export default {
 
   search: 'Destination or resort',
   dates: 'Dates',
-  lodging: 'Lodging',
-  lodgings: 'Lodgings',
+  lodging: 'Room',
+  lodgings: 'Rooms',
   room: 'Room',
   roomWithNumber: 'Room {{number}}',
   guest: 'Guest',
@@ -229,9 +229,9 @@ export default {
   availableToHoldGeneric: 'Available to hold',
 
   availableToHoldInfo:
-    'The lodgings you have selected are known to be available. Requesting this booking or saving this booking with holds will hold these lodgings for you for 24 hours.',
+    'The rooms you have selected are known to be available. Requesting this booking or saving this booking with holds will hold these rooms for you for 24 hours.',
   unavailableToHoldInfo:
-    'We cannot automatically confirm the availability of these lodgings, you may still proceed and a Sales Representative will be able to confirm availability for you.',
+    'We cannot automatically confirm the availability of these rooms, you may still proceed and a Sales Representative will be able to confirm availability for you.',
 
   specifyAges: 'Please specifiy ages:',
 
@@ -248,7 +248,7 @@ export default {
   noMealPlansForDatesOccupancy: 'There are no available meal plans for the selected dates/occupancy',
   numberOfChildren: 'Number of Children',
   numberOfAdults: 'Number of Adults',
-  removeLodging: 'Remove Lodging',
+  removeLodging: 'Remove Roooms',
   appliedOffers: 'Applied Offers',
   appliedSupplements: 'Applied Supplements',
   nightSigular: 'night',
@@ -257,7 +257,7 @@ export default {
   itemNoTotal: 'This item has no total',
   priceAvailableOnRequest: 'Price available on request',
 
-  lodgingCountPrefix: 'Lodging Count:',
+  lodgingCountPrefix: 'Room Count:',
   proposalFormNotes: {
     pleaseNote: 'Please note:',
     point1: 'You can add another property to your proposal by navigating back to Search results',
@@ -265,7 +265,7 @@ export default {
     point3: 'You can add up to 3 options in any one proposal',
   },
 
-  addLodging: 'Add Lodging',
+  addLodging: 'Add Room',
 
   summaryForYourChosenOptionsIn: 'Summary for your chosen options in',
   bookingStatus: 'Booking Status',

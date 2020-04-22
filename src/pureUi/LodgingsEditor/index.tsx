@@ -30,9 +30,9 @@ export interface LodgingsEditorProps extends HTMLAttributes<HTMLButtonElement> {
 }
 
 export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
-  const { 
+  const {
     className,
-    lodgings, 
+    lodgings,
     activeLodgingIndex,
     totalGuestCount,
     showControls,
@@ -63,7 +63,7 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
   const handleIncrementChild = (step: number) => {
     props.onIncrementChildCount(props.activeLodgingIndex, step);
   };
-  
+
   const handleAgeChange = (ageIndex: number) => (e: FormEvent<HTMLLIElement>) => {
     props.onChildAgeChange(props.activeLodgingIndex, ageIndex, (e.target as HTMLLIElement).value.toString());
   };
@@ -91,41 +91,52 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
 
   return (
     <div ref={wrapper} className={className}>
-      <button tabIndex={0} className="pseudoSelect" {...buttonProps}>{`${props.lodgings.length} Rooms, ${props.totalGuestCount} Guests`}</button>
-      { showControls && (
+      <button
+        tabIndex={0}
+        className="pseudoSelect"
+        {...buttonProps}
+      >{`${props.lodgings.length} Rooms, ${props.totalGuestCount} Guests`}</button>
+      {showControls && (
         <Frame className="controls">
           <ul>
             <li className="stepItem rooms">
-              Room <Stepper onIncrement={handleIncrementRoom} value={lodgings.length} max={99} />
+              Rooms <Stepper onIncrement={handleIncrementRoom} value={lodgings.length} max={99} />
             </li>
 
             <li className="roomTabs">
-              {props.lodgings.length > 1 && <TabBarCompact tabIndex={props.activeLodgingIndex} onIncrementTabIndex={props.onIncrementIndex}>
-                {props.lodgings.map((_, i) => {
-                  return <Tab key={i} onClick={handleTabSelect(i)}>{`Room ${i + 1}`}</Tab>;
-                })}
-              </TabBarCompact>
-              }
+              {props.lodgings.length > 1 && (
+                <TabBarCompact tabIndex={props.activeLodgingIndex} onIncrementTabIndex={props.onIncrementIndex}>
+                  {props.lodgings.map((_, i) => {
+                    return <Tab key={i} onClick={handleTabSelect(i)}>{`Room ${i + 1}`}</Tab>;
+                  })}
+                </TabBarCompact>
+              )}
             </li>
-            <li className="stepItem">  
-                Adults <Stepper onIncrement={handleIncrementAdult} value={activeLodging.numberOfAdults} max={99} />
+            <li className="stepItem">
+              Adults <Stepper onIncrement={handleIncrementAdult} value={activeLodging.numberOfAdults} max={99} />
             </li>
 
             <li className="stepItem">
-              Children <Stepper onIncrement={handleIncrementChild} value={activeLodging.agesOfAllChildren!.length} min={0} max={99} />
+              Children{' '}
+              <Stepper
+                onIncrement={handleIncrementChild}
+                value={activeLodging.agesOfAllChildren!.length}
+                min={0}
+                max={99}
+              />
             </li>
-            
+
             {activeLodging.agesOfAllChildren!.length > 0 && (
               <li className="childAges">
                 <p className="childAgesLabel">Please Specify Ages</p>
                 <div className="childAgesSelects">
-                  { activeLodging.agesOfAllChildren?.map((childAge, childIndex) => {
+                  {activeLodging.agesOfAllChildren?.map((childAge, childIndex) => {
                     return (
                       <Select
-                        style={{width: '95px'}}
+                        style={{ width: '95px' }}
                         key={childIndex}
                         className="childAgesSelect"
-                        value={childAge} 
+                        value={childAge}
                         onChange={handleAgeChange(childIndex)}
                         options={childAges}
                       />
@@ -137,7 +148,6 @@ export const LodgingsEditorComponent = memo((props: LodgingsEditorProps) => {
           </ul>
         </Frame>
       )}
-
     </div>
   );
 });
@@ -172,7 +182,7 @@ export const LodgingsEditor = styled(LodgingsEditorComponent)`
   p {
     margin: 0;
   }
-  
+
   .controls {
     min-width: 340px;
     position: absolute;
@@ -222,4 +232,4 @@ export const LodgingsEditor = styled(LodgingsEditorComponent)`
       min-width: 0px; /* Frustratingly, this is set to 195px in webapp-components. */
     }
   }
-`
+`;

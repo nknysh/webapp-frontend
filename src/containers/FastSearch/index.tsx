@@ -176,7 +176,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
         </label>
 
         <label className="basicSearchLabel">
-          <span>Lodgings *</span>
+          <span>Rooms *</span>
           <LodgingsEditor
             showControls={this.props.showLodgingControls}
             lodgings={this.props.searchQuery.lodgings}

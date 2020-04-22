@@ -57,7 +57,7 @@ export const SearchBar = (props: ISearchBarProps) => {
         </label>
 
         <label>
-          <span>Lodging *</span>
+          <span>Rooms *</span>
           <LodgingsEditor
             showControls={props.showLodgingControls}
             lodgings={props.searchQuery.lodgings}

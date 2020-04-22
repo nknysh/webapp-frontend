@@ -28,7 +28,7 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
     </label>
     <label>
       <span>
-        Lodging *
+        Rooms *
       </span>
       <Styled(Component)
         onClick={[Function]}

@@ -48,7 +48,7 @@ const LeftColumn = props => {
     >
       <TableCardNumberedBanner className="mb-4">
         <TableCardNumberBannerNumber>1</TableCardNumberBannerNumber>
-        <TableCardNumberBannerText>Select Your Lodgings</TableCardNumberBannerText>
+        <TableCardNumberBannerText>Select Room Type</TableCardNumberBannerText>
       </TableCardNumberedBanner>
       <Hotel {...hotel} id={id} photos={photos} />
     </div>
@@ -87,8 +87,8 @@ const HotelSummary = props => {
   const {
     fetchProposals,
     createNewProposal,
-    addToProposal
-  }: { fetchProposals: Function; createNewProposal: Function; addToProposal: Function; } = props;
+    addToProposal,
+  }: { fetchProposals: Function; createNewProposal: Function; addToProposal: Function } = props;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -109,7 +109,7 @@ const HotelSummary = props => {
     <aside id="aside">
       <TableCardNumberedBanner className="mb-4">
         <TableCardNumberBannerNumber>2</TableCardNumberBannerNumber>
-        <TableCardNumberBannerText>Review Your Lodging</TableCardNumberBannerText>
+        <TableCardNumberBannerText>Review Selections</TableCardNumberBannerText>
       </TableCardNumberedBanner>
       {isModalOpen && (
         <StandardModal onClose={() => setIsModalOpen(false)}>
@@ -238,7 +238,7 @@ export const HotelTabLayout = props => {
       <StyledBreadcrumbs
         links={[{ label: renderBackButton(t) }, { label: prop('name', hotel), to: `/hotels/${id}` }]}
       />
-      <Tabs labels={['Lodgings', 'Booking']}>
+      <Tabs labels={['Rooms', 'Booking']}>
         <div style={{ paddingTop: '14px' }}>
           <LeftColumn id={id} photos={photos} hotel={hotel} />
         </div>
