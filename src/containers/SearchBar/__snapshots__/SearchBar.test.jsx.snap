@@ -35,14 +35,6 @@ exports[`<SearchBar /> render matches snapshot 1`] = `
         onClickOutside={null}
       />
     </label>
-    <label
-      className="repeatGuest"
-    >
-      <span>
-        Repeat Guest
-      </span>
-      <Styled(Checkbox) />
-    </label>
     <styled.button
       className="searchButton"
       disabled={true}
