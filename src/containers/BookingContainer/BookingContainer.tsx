@@ -11,8 +11,6 @@ import { useCurrentWidth } from 'effects';
 import { withUser } from 'hoc';
 import { formatDate } from 'utils';
 
-import { ADMIN_BASE_URL } from 'config';
-
 import connect from './BookingContainer.state';
 import { propTypes, defaultProps } from './BookingContainer.props';
 import {
@@ -24,7 +22,7 @@ import {
   Main,
   StatusStrip,
   StatusStripDate,
-  StatusStripStatus
+  StatusStripStatus,
 } from './BookingContainer.styles';
 import { AsideDetails, Title } from '../HotelContainer/HotelContainer.styles';
 import { List } from '@pure-escapes/webapp-ui-components';
@@ -81,10 +79,7 @@ const BookingDetails = props => {
     <BookingContent>
       {isSr && isMobile && renderStatusStrip(t, booking)}
       <Section label={t('labels.bookingStatus')}>
-        {stateHistory?.length
-          ? <BookingStatusHistory data={stateHistory} />
-          : <BookingStatus status={status} />
-        }
+        {stateHistory?.length ? <BookingStatusHistory data={stateHistory} /> : <BookingStatus status={status} />}
       </Section>
       <BookingGuestDetails t={t} isSr={isSr} booking={booking} />
     </BookingContent>
@@ -300,8 +295,4 @@ export const BookingContainer = props => {
 BookingContainer.propTypes = propTypes;
 BookingContainer.defaultProps = defaultProps;
 
-export default compose(
-  withRouter,
-  withUser,
-  connect
-)(BookingContainer);
+export default compose(withRouter, withUser, connect)(BookingContainer);

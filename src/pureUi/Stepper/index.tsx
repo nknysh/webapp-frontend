@@ -42,4 +42,8 @@ export default styled(Stepper)`
   justify-content: space-between;
   align-items: center;
   min-width: 75px;
+
+  button {
+    flex-grow: 0;
+  }
 `;

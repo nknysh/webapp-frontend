@@ -197,7 +197,11 @@ export const SearchSettings = (props: SearchSettingsProps) => {
               );
             }}
           />
-          <PrimaryButton onClick={props.onRemoveAllFilters} disabled={removeAllFiltersDisabled}>
+          <PrimaryButton
+            className="removeAllFilters"
+            onClick={props.onRemoveAllFilters}
+            disabled={removeAllFiltersDisabled}
+          >
             Remove all filters
           </PrimaryButton>
         </section>
@@ -273,5 +277,9 @@ export default styled(SearchSettings)`
       color: ${pureUiTheme.colors.gold};
       min-width: 30px;
     }
+  }
+
+  .removeAllFilters {
+    width: 100%;
   }
 `;
