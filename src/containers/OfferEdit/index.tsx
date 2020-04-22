@@ -186,7 +186,7 @@ export class OfferEditContainer extends React.Component<IOfferEditProps, {}> {
     if (this.props.hasApiError) {
       return (
         <div className="offerError">
-          <p>Unable to save this offer. Please try again. If the problem persists, please contact Greg Tee.</p>
+          <p>Unable to save this offer. Please try again. If the problem persists, please contact Pure Escapes.</p>
         </div>
       );
     }
