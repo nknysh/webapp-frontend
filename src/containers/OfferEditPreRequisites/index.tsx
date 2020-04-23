@@ -133,7 +133,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
     return (
       <OfferEditPreRequisitesStyles>
         <Fieldset>
-          <Legend>Stay between</Legend>
+          <Legend>Stay between (Required)</Legend>
           <MultiDateRange
             className="stayBetweenInputs"
             dateRanges={this.props.stayBetweenDates}
@@ -209,16 +209,24 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
           </Accordian>
         </Fieldset>
 
-        <Fieldset>
+        <Fieldset className="stayLengthFieldset">
           <Legend>Stay Length</Legend>
           <div className="stayLength">
-            <Label lowercase text="From" className="stayLengthMin">
+            <Label lowercase text="Minimum" className="stayLengthMin">
               <TextInput value={this.props.stayLength.minimum || ''} onChange={this.handelStayLengthMinChange} />
             </Label>
 
-            <Label lowercase text="To" className="stayLengthMax">
+            <Text className="stayLengthMinInfo">
+              Minimum number of nights stay for this offer to apply. Leave blank if there is no restriction here.
+            </Text>
+
+            <Label lowercase text="Maximum" className="stayLengthMax">
               <TextInput value={this.props.stayLength.maximum || ''} onChange={this.handelStayLengthMaxChange} />
             </Label>
+
+            <Text className="stayLengthMaxInfo">
+              Maximum nights of stay for this offer to apply. Leave blank if there is no restriction here.
+            </Text>
 
             <Label lowercase inline reverse text="Strict" className="stayLengthStrict">
               <Checkbox checked={this.props.stayLength.strictMinMaxStay} onChange={this.handelStayLengthStrictChange} />
@@ -237,7 +245,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
 
         <Fieldset>
           <Legend>
-            Advance
+            Advance (Optional)
             <LegendExtras>
               <CloseButton onClick={this.handleResetAdvance} />
             </LegendExtras>
@@ -279,10 +287,16 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
           </div>
         </Fieldset>
 
-        <Fieldset>
-          <Label text="Maximum Lodgings" inline>
-            <TextInput value={this.props.maxLodgings} onChange={this.handleMaxLodgingsChange} />
-          </Label>
+        <Fieldset className="maxLodgingsFieldset">
+          <div>
+            <Label text="Maximum Lodgings (Optional)">
+              <TextInput value={this.props.maxLodgings} onChange={this.handleMaxLodgingsChange} />
+            </Label>
+            <Text>
+              Set a number here if there is a maximum number of villas/rooms in a booking for this offer to be
+              considered
+            </Text>
+          </div>
         </Fieldset>
 
         <Fieldset>
