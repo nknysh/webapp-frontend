@@ -404,7 +404,7 @@ describe('Offer Selectors', () => {
       const prerequisitesCountriesFixture = ['A', 'B', 'C'];
       const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
-      expect(selected).toEqual('Applies to 3 Countries');
+      expect(selected).toEqual('Applies To 3 Countries');
     });
   });
 
@@ -537,7 +537,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, true);
 
-      expect(selected).toEqual('Applies To Any Accommodation Products');
+      expect(selected).toEqual('Applies To Any Accommodation Product');
     });
 
     it('returns a label for accommodation products (none selected)', () => {
@@ -567,7 +567,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, true);
 
-      expect(selected).toEqual('Applies To Any Accommodation Products');
+      expect(selected).toEqual('Applies To Any Accommodation Product');
     });
   });
 

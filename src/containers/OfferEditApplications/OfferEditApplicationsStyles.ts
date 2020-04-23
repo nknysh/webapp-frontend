@@ -34,7 +34,8 @@ export const OfferEditApplicationsStyles = styled.section`
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
       'nights apply max removeButton'
-      'checkbox . . .';
+      'checkbox . . .'
+      'dscountInfo dscountInfo . .';
 
     .nights {
       grid-area: nights;
@@ -51,6 +52,11 @@ export const OfferEditApplicationsStyles = styled.section`
     .removeButton {
       grid-area: removeButton;
       text-align: right;
+    }
+
+    .dscountInfo {
+      grid-area: dscountInfo;
+      margin: 0;
     }
   }
 
@@ -92,6 +98,7 @@ export const OfferEditApplicationsStyles = styled.section`
   .supplementDiscountGrid {
     display: grid;
     grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 0.25fr;
     grid-template-areas:
       'category category closeButton'
       'formGrid formGrid .'
@@ -106,6 +113,7 @@ export const OfferEditApplicationsStyles = styled.section`
       grid-area: closeButton;
       text-align: right;
     }
+
     & > .discountInput {
       grid-area: discountInput;
     }
@@ -124,6 +132,16 @@ export const OfferEditApplicationsStyles = styled.section`
       grid-area: category;
       margin: 0;
       border-bottom: ${pureUiTheme.colorRoles.lightGreyBorder} 1px solid;
+    }
+
+    .prompt {
+      /* Empty grid areas take up space.*/
+      grid-area: ageNamesMap;
+      padding: 10px;
+      margin: 0;
+      border: ${pureUiTheme.colors.marine} 1px solid;
+      color: ${pureUiTheme.colors.marine};
+      background-color: ${pureUiTheme.colors.lightBlue};
     }
   }
 

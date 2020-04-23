@@ -141,8 +141,8 @@ export const offerTaCountriesLabelPrerequisiteSelector = createSelector(
     const countryPluralised = prerequisiteCountries.length === 1 ? 'Country' : 'Countries';
 
     return prerequisiteCountries.length < 1
-      ? 'Applies to Any Country'
-      : `Applies to ${prerequisiteCountries.length} ${countryPluralised}`;
+      ? 'Applies To Any Country'
+      : `Applies To ${prerequisiteCountries.length} ${countryPluralised}`;
   }
 );
 
@@ -193,7 +193,7 @@ export const offerAccommodationProductPrerequisitesLabelSelector = createSelecto
     const productPluralised = accommodationProductPrerequisites.length === 1 ? 'Product' : 'Products';
     return isAll
       ? 'Applies To Any Accommodation Product'
-      : `Applies to ${accommodationProductPrerequisites.length} Accommodation ${productPluralised}`;
+      : `Applies To ${accommodationProductPrerequisites.length} Accommodation ${productPluralised}`;
   }
 );
 

@@ -328,6 +328,13 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
     );
   };
 
+  renderProductPrompt = () => (
+    <Text className="prompt">
+      Select one or more products to discount. A single discount can be applied to multiple products of the same
+      category.
+    </Text>
+  );
+
   render() {
     if (this.props.isTextOnly) {
       return (
@@ -375,6 +382,11 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
                   onChange={this.handlediscountCheapestChange}
                 />
               </Label>
+              <Text className="dscountInfo">
+                {this.props.stepping?.discountCheapest
+                  ? 'Discount the cheapest nights for a lodging.'
+                  : 'Discount the last nights for a lodging.'}
+              </Text>
               <span className="removeButton">
                 <CloseButton onClick={this.props.offerClearAllSteppingApplicationAction} />
               </span>
@@ -559,6 +571,456 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
           </ErrorList>
         </Fieldset>
 
+        <Fieldset className="mealPlanDiscountFieldset">
+          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.mealPlanDiscounts.length >= 1}>
+            Meal Plan Discount
+          </Legend>
+
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add a Meal Plan discount</Text>}
+
+          {this.props.mealPlanDiscounts.map(mealPlanDiscount => {
+            return (
+              <div key={mealPlanDiscount.uuid} className="mealPlanDiscountGrid">
+                <Text className="category">
+                  Product Category:{' '}
+                  {mealPlanDiscount.productCategory ? mealPlanDiscount.productCategory : 'None Selected'}
+                </Text>
+
+                <span className="removeDiscountButton">
+                  <CloseButton onClick={this.handleRemoveSubProductDiscount('Meal Plan', mealPlanDiscount.uuid)} />
+                </span>
+
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
+                  {this.props.availableMealPlanProducts?.map(product => {
+                    const isDisabled = Boolean(
+                      mealPlanDiscount.productCategory && mealPlanDiscount.productCategory !== product.category
+                    );
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox
+                          disabled={isDisabled}
+                          checked={mealPlanDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnSubProductDiscount(
+                            'Meal Plan',
+                            mealPlanDiscount.uuid,
+                            product.uuid
+                          )}
+                        />
+                      </Label>
+                    );
+                  })}
+                </FormControlGrid>
+
+                {!mealPlanDiscount.productCategory && this.renderProductPrompt()}
+
+                {mealPlanDiscount.productCategory && (
+                  <>
+                    {this.renderAgeNamesOptions(
+                      'Meal Plan',
+                      mealPlanDiscount,
+                      this.props.availableMealPlanProducts,
+                      true
+                    )}
+                    <Label className="discountInput" text="Discount %">
+                      <TextInput
+                        value={mealPlanDiscount.discountPercentage || ''}
+                        onChange={this.handleSubProductDiscountChange(
+                          'Meal Plan',
+                          mealPlanDiscount.uuid,
+                          'discountPercentage'
+                        )}
+                      />
+                    </Label>
+
+                    {this.requiresOccupancyAndQuantity(mealPlanDiscount.productCategory) && (
+                      <>
+                        <Label className="maxQuantityInput" text="Maximum Quantity">
+                          <TextInput
+                            value={mealPlanDiscount.maximumQuantity || ''}
+                            onChange={this.handleSubProductDiscountChange(
+                              'Meal Plan',
+                              mealPlanDiscount.uuid,
+                              'maximumQuantity'
+                            )}
+                          />
+                        </Label>
+                        <Label
+                          className="occupancyCheckbox"
+                          text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                          inline
+                          reverse
+                          lowercase
+                        >
+                          <Checkbox
+                            checked={mealPlanDiscount.standardOccupancyOnly}
+                            onChange={this.handleSubProductDiscountBooleanChange(
+                              'Meal Plan',
+                              mealPlanDiscount.uuid,
+                              'standardOccupancyOnly'
+                            )}
+                          />
+                        </Label>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            );
+          })}
+          {this.props.hotelUuid && this.props.availableMealPlanProducts?.length > 0 && (
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddSubProduct('Meal Plan')}>
+              Add Meal Plan Discount
+            </ActionButton>
+          )}
+
+          {this.props.hotelUuid && this.props.availableMealPlanProducts?.length === 0 && (
+            <Text className="noProducts">No meal plans available for this hotel.</Text>
+          )}
+
+          <ErrorList className="errorlist">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.mealPlanDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+        </Fieldset>
+
+        <Fieldset className="transferDiscountFieldset">
+          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.transferDiscounts?.length >= 1}>
+            Transfer Discount
+          </Legend>
+
+          {this.props.transferDiscounts.map(transferDiscount => {
+            return (
+              <div key={transferDiscount.uuid} className="transferDiscountGrid">
+                <Text className="category">
+                  Product Category:{' '}
+                  {transferDiscount.productCategory ? transferDiscount.productCategory : 'None Selected'}
+                </Text>
+
+                <span className="removeDiscountButton">
+                  <CloseButton onClick={this.handleRemoveProductDiscount('Transfer', transferDiscount.uuid)} />
+                </span>
+
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
+                  {this.props.availableTransferProducts?.map(product => {
+                    const isDisabled = Boolean(
+                      transferDiscount.productCategory && transferDiscount.productCategory !== product.category
+                    );
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox
+                          disabled={isDisabled}
+                          checked={transferDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnProductDiscount(
+                            'Transfer',
+                            transferDiscount.uuid,
+                            product.uuid
+                          )}
+                        />
+                      </Label>
+                    );
+                  })}
+                </FormControlGrid>
+
+                {!transferDiscount.productCategory && this.renderProductPrompt()}
+
+                {transferDiscount.productCategory && (
+                  <>
+                    {this.renderAgeNamesOptions(
+                      'Transfer',
+                      transferDiscount,
+                      this.props.availableTransferProducts,
+                      false
+                    )}
+                    <Label className="discountInput" text="Discount %">
+                      <TextInput
+                        value={transferDiscount.discountPercentage || ''}
+                        onChange={this.handleProductDiscountChange(
+                          'Transfer',
+                          transferDiscount.uuid,
+                          'discountPercentage'
+                        )}
+                      />
+                    </Label>
+                    {this.requiresOccupancyAndQuantity(transferDiscount.productCategory) && (
+                      <>
+                        <Label className="maxQuantityInput" text="Maximum Quantity">
+                          <TextInput
+                            value={transferDiscount.maximumQuantity || ''}
+                            onChange={this.handleProductDiscountChange(
+                              'Transfer',
+                              transferDiscount.uuid,
+                              'maximumQuantity'
+                            )}
+                          />
+                        </Label>
+                        <Label
+                          className="occupancyCheckbox"
+                          text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                          inline
+                          reverse
+                          lowercase
+                        >
+                          <Checkbox
+                            checked={transferDiscount.standardOccupancyOnly}
+                            onChange={this.handleProductDiscountBooleanChange(
+                              'Transfer',
+                              transferDiscount.uuid,
+                              'standardOccupancyOnly'
+                            )}
+                          />
+                        </Label>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            );
+          })}
+
+          <ErrorList className="errorlist">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.transferDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
+          {this.props.hotelUuid && this.props.availableTransferProducts?.length > 0 && (
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Transfer')}>
+              Add Transfer Discount
+            </ActionButton>
+          )}
+
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add an transfer discount</Text>}
+          {this.props.hotelUuid && this.props.availableTransferProducts?.length === 0 && (
+            <Text className="noProducts">No transfer products available for this hotel.</Text>
+          )}
+        </Fieldset>
+
+        <Fieldset className="groundServiceDiscountFieldset">
+          <Legend
+            isError={!this.props.offerIsPristine && this.props.validationErrors.groundServiceDiscounts.length >= 1}
+          >
+            Ground Service Discount
+          </Legend>
+
+          {this.props.groundServiceDiscounts.map(groundServiceDiscount => {
+            return (
+              <div key={groundServiceDiscount.uuid} className="groundServiceDiscountGrid">
+                <Text className="category">
+                  Product Category:{' '}
+                  {groundServiceDiscount.productCategory ? groundServiceDiscount.productCategory : 'None Selected'}
+                </Text>
+
+                <span className="removeDiscountButton">
+                  <CloseButton
+                    onClick={this.handleRemoveProductDiscount('Ground Service', groundServiceDiscount.uuid)}
+                  />
+                </span>
+
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
+                  {this.props.availableGroundServiceProducts.map(product => {
+                    const isDisabled = Boolean(
+                      groundServiceDiscount.productCategory &&
+                        groundServiceDiscount.productCategory !== product.category
+                    );
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox
+                          disabled={isDisabled}
+                          checked={groundServiceDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnProductDiscount(
+                            'Ground Service',
+                            groundServiceDiscount.uuid,
+                            product.uuid
+                          )}
+                        />
+                      </Label>
+                    );
+                  })}
+                </FormControlGrid>
+
+                {!groundServiceDiscount.productCategory && this.renderProductPrompt()}
+
+                {groundServiceDiscount.productCategory && (
+                  <>
+                    {this.renderAgeNamesOptions(
+                      'Ground Service',
+                      groundServiceDiscount,
+                      this.props.availableGroundServiceProducts,
+                      false
+                    )}
+                    <Label className="discountInput" text="Discount %">
+                      <TextInput
+                        value={groundServiceDiscount.discountPercentage || ''}
+                        onChange={this.handleProductDiscountChange(
+                          'Ground Service',
+                          groundServiceDiscount.uuid,
+                          'discountPercentage'
+                        )}
+                      />
+                    </Label>
+                    {this.requiresOccupancyAndQuantity(groundServiceDiscount.productCategory) && (
+                      <>
+                        <Label className="maxQuantityInput" text="Maximum Quantity">
+                          <TextInput
+                            value={groundServiceDiscount.maximumQuantity || ''}
+                            onChange={this.handleProductDiscountChange(
+                              'Ground Service',
+                              groundServiceDiscount.uuid,
+                              'maximumQuantity'
+                            )}
+                          />
+                        </Label>
+                        <Label
+                          className="occupancyCheckbox"
+                          text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                          inline
+                          reverse
+                          lowercase
+                        >
+                          <Checkbox
+                            checked={groundServiceDiscount.standardOccupancyOnly}
+                            onChange={this.handleProductDiscountBooleanChange(
+                              'Ground Service',
+                              groundServiceDiscount.uuid,
+                              'standardOccupancyOnly'
+                            )}
+                          />
+                        </Label>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            );
+          })}
+          <ErrorList className="errorlist">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.groundServiceDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
+          {this.props.hotelUuid && this.props.availableGroundServiceProducts?.length > 0 && (
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Ground Service')}>
+              Add Ground Service Discount
+            </ActionButton>
+          )}
+
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add an ground service discount</Text>}
+          {this.props.hotelUuid && this.props.availableGroundServiceProducts?.length === 0 && (
+            <Text className="noProducts">No ground services available for this hotel.</Text>
+          )}
+        </Fieldset>
+
+        <Fieldset className="supplementDiscountFieldset">
+          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.supplementDiscounts.length >= 1}>
+            Supplement Discount
+          </Legend>
+
+          {this.props.supplementDiscounts.map(supplementDiscount => {
+            return (
+              <div key={supplementDiscount.uuid} className="supplementDiscountGrid">
+                <Text className="category">
+                  Product Category:{' '}
+                  {supplementDiscount.productCategory ? supplementDiscount.productCategory : 'None Selected'}
+                </Text>
+
+                <span className="removeDiscountButton">
+                  <CloseButton onClick={this.handleRemoveProductDiscount('Supplement', supplementDiscount.uuid)} />
+                </span>
+
+                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
+                  {this.props.availableSupplementProducts?.map(product => {
+                    const isDisabled = Boolean(
+                      supplementDiscount.productCategory && supplementDiscount.productCategory !== product.category
+                    );
+                    return (
+                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
+                        <Checkbox
+                          disabled={isDisabled}
+                          checked={supplementDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
+                          onChange={this.toggleProductOnProductDiscount(
+                            'Supplement',
+                            supplementDiscount.uuid,
+                            product.uuid
+                          )}
+                        />
+                      </Label>
+                    );
+                  })}
+                </FormControlGrid>
+
+                {!supplementDiscount.productCategory && this.renderProductPrompt()}
+
+                {supplementDiscount.productCategory && (
+                  <>
+                    {this.renderAgeNamesOptions(
+                      'Supplement',
+                      supplementDiscount,
+                      this.props.availableSupplementProducts,
+                      false
+                    )}
+                    <Label className="discountInput" text="Discount %">
+                      <TextInput
+                        value={supplementDiscount.discountPercentage || ''}
+                        onChange={this.handleProductDiscountChange(
+                          'Supplement',
+                          supplementDiscount.uuid,
+                          'discountPercentage'
+                        )}
+                      />
+                    </Label>
+
+                    {this.requiresOccupancyAndQuantity(supplementDiscount.productCategory) && (
+                      <>
+                        <Label className="maxQuantityInput" text="Maximum Quantity">
+                          <TextInput
+                            value={supplementDiscount.maximumQuantity || ''}
+                            onChange={this.handleProductDiscountChange(
+                              'Supplement',
+                              supplementDiscount.uuid,
+                              'maximumQuantity'
+                            )}
+                          />
+                        </Label>
+
+                        <Label
+                          className="occupancyCheckbox"
+                          text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                          inline
+                          reverse
+                          lowercase
+                        >
+                          <Checkbox
+                            checked={supplementDiscount.standardOccupancyOnly}
+                            onChange={this.handleProductDiscountBooleanChange(
+                              'Supplement',
+                              supplementDiscount.uuid,
+                              'standardOccupancyOnly'
+                            )}
+                          />
+                        </Label>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            );
+          })}
+          <ErrorList className="errorlist">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.supplementDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
+          {this.props.availableSupplementProducts?.length > 0 && this.props.hotelUuid && (
+            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Supplement')}>
+              Add Supplement Discount
+            </ActionButton>
+          )}
+
+          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add a meal plan discount</Text>}
+          {this.props.hotelUuid && this.props.availableSupplementProducts?.length === 0 && (
+            <Text className="noProducts">No Supplements available for this hotel.</Text>
+          )}
+        </Fieldset>
+
         <Fieldset className="fineDiscountFieldset">
           <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.fineDiscounts.length >= 1}>
             Fine Discount
@@ -586,46 +1048,59 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
                     );
                   })}
                 </FormControlGrid>
-                {this.renderAgeNamesOptions('Fine', fineDiscount, this.props.availableFineProducts, false)}
+
                 <span className="removeDiscountButton">
                   <CloseButton onClick={this.handleRemoveProductDiscount('Fine', fineDiscount.uuid)} />
                 </span>
-                <Label className="discountInput" text="Discount %">
-                  <TextInput
-                    value={fineDiscount.discountPercentage || ''}
-                    onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'discountPercentage')}
-                  />
-                </Label>
 
-                {this.requiresOccupancyAndQuantity(fineDiscount.productCategory) && (
+                {!fineDiscount.productCategory && this.renderProductPrompt()}
+
+                {fineDiscount.productCategory && (
                   <>
-                    <Label className="maxQuantityInput" text="Maximum Quantity">
+                    {this.renderAgeNamesOptions('Fine', fineDiscount, this.props.availableFineProducts, false)}
+                    <Label className="discountInput" text="Discount %">
                       <TextInput
-                        value={fineDiscount.maximumQuantity || ''}
-                        onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')}
+                        value={fineDiscount.discountPercentage || ''}
+                        onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'discountPercentage')}
                       />
                     </Label>
-                    <Label
-                      className="occupancyCheckbox"
-                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                      inline
-                      reverse
-                      lowercase
-                    >
-                      <Checkbox
-                        checked={fineDiscount.standardOccupancyOnly}
-                        onChange={this.handleProductDiscountBooleanChange(
-                          'Fine',
-                          fineDiscount.uuid,
-                          'standardOccupancyOnly'
-                        )}
-                      />
-                    </Label>
+                    {this.requiresOccupancyAndQuantity(fineDiscount.productCategory) && (
+                      <>
+                        <Label className="maxQuantityInput" text="Maximum Quantity">
+                          <TextInput
+                            value={fineDiscount.maximumQuantity || ''}
+                            onChange={this.handleProductDiscountChange('Fine', fineDiscount.uuid, 'maximumQuantity')}
+                          />
+                        </Label>
+                        <Label
+                          className="occupancyCheckbox"
+                          text="Only apply this to the number of guests that fit within the room's standard occupancy."
+                          inline
+                          reverse
+                          lowercase
+                        >
+                          <Checkbox
+                            checked={fineDiscount.standardOccupancyOnly}
+                            onChange={this.handleProductDiscountBooleanChange(
+                              'Fine',
+                              fineDiscount.uuid,
+                              'standardOccupancyOnly'
+                            )}
+                          />
+                        </Label>
+                      </>
+                    )}
                   </>
                 )}
               </div>
             );
           })}
+
+          <ErrorList className="errorlist">
+            {!this.props.offerIsPristine &&
+              this.props.validationErrors.fineDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
+          </ErrorList>
+
           {this.props.hotelUuid && this.props.availableFineProducts?.length > 0 && (
             <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Fine')}>
               Add Fine Discount
@@ -636,409 +1111,6 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
           {this.props.hotelUuid && this.props.availableFineProducts?.length === 0 && (
             <Text className="noProducts">No fines available for this hotel.</Text>
           )}
-
-          <ErrorList className="errorlist">
-            {!this.props.offerIsPristine &&
-              this.props.validationErrors.fineDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
-          </ErrorList>
-        </Fieldset>
-
-        <Fieldset className="groundServiceDiscountFieldset">
-          <Legend
-            isError={!this.props.offerIsPristine && this.props.validationErrors.groundServiceDiscounts.length >= 1}
-          >
-            Ground Service Discount
-          </Legend>
-
-          {this.props.groundServiceDiscounts.map(groundServiceDiscount => {
-            return (
-              <div key={groundServiceDiscount.uuid} className="groundServiceDiscountGrid">
-                <Text className="category">
-                  Product Category:{' '}
-                  {groundServiceDiscount.productCategory ? groundServiceDiscount.productCategory : 'None Selected'}
-                </Text>
-                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
-                  {this.props.availableGroundServiceProducts.map(product => {
-                    const isDisabled = Boolean(
-                      groundServiceDiscount.productCategory &&
-                        groundServiceDiscount.productCategory !== product.category
-                    );
-                    return (
-                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox
-                          disabled={isDisabled}
-                          checked={groundServiceDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                          onChange={this.toggleProductOnProductDiscount(
-                            'Ground Service',
-                            groundServiceDiscount.uuid,
-                            product.uuid
-                          )}
-                        />
-                      </Label>
-                    );
-                  })}
-                </FormControlGrid>
-                {this.renderAgeNamesOptions(
-                  'Ground Service',
-                  groundServiceDiscount,
-                  this.props.availableGroundServiceProducts,
-                  false
-                )}
-                <span className="removeDiscountButton">
-                  <CloseButton
-                    onClick={this.handleRemoveProductDiscount('Ground Service', groundServiceDiscount.uuid)}
-                  />
-                </span>
-                <Label className="discountInput" text="Discount %">
-                  <TextInput
-                    value={groundServiceDiscount.discountPercentage || ''}
-                    onChange={this.handleProductDiscountChange(
-                      'Ground Service',
-                      groundServiceDiscount.uuid,
-                      'discountPercentage'
-                    )}
-                  />
-                </Label>
-                {this.requiresOccupancyAndQuantity(groundServiceDiscount.productCategory) && (
-                  <>
-                    <Label className="maxQuantityInput" text="Maximum Quantity">
-                      <TextInput
-                        value={groundServiceDiscount.maximumQuantity || ''}
-                        onChange={this.handleProductDiscountChange(
-                          'Ground Service',
-                          groundServiceDiscount.uuid,
-                          'maximumQuantity'
-                        )}
-                      />
-                    </Label>
-                    <Label
-                      className="occupancyCheckbox"
-                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                      inline
-                      reverse
-                      lowercase
-                    >
-                      <Checkbox
-                        checked={groundServiceDiscount.standardOccupancyOnly}
-                        onChange={this.handleProductDiscountBooleanChange(
-                          'Ground Service',
-                          groundServiceDiscount.uuid,
-                          'standardOccupancyOnly'
-                        )}
-                      />
-                    </Label>
-                  </>
-                )}
-              </div>
-            );
-          })}
-          {this.props.hotelUuid && this.props.availableGroundServiceProducts?.length > 0 && (
-            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Ground Service')}>
-              Add Ground Service Discount
-            </ActionButton>
-          )}
-
-          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add an ground service discount</Text>}
-          {this.props.hotelUuid && this.props.availableGroundServiceProducts?.length === 0 && (
-            <Text className="noProducts">No ground services available for this hotel.</Text>
-          )}
-
-          <ErrorList className="errorlist">
-            {!this.props.offerIsPristine &&
-              this.props.validationErrors.groundServiceDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
-          </ErrorList>
-        </Fieldset>
-
-        <Fieldset className="transferDiscountFieldset">
-          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.transferDiscounts?.length >= 1}>
-            Transfer Discount
-          </Legend>
-
-          {this.props.transferDiscounts.map(transferDiscount => {
-            return (
-              <div key={transferDiscount.uuid} className="transferDiscountGrid">
-                <Text className="category">
-                  Product Category:{' '}
-                  {transferDiscount.productCategory ? transferDiscount.productCategory : 'None Selected'}
-                </Text>
-                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
-                  {this.props.availableTransferProducts?.map(product => {
-                    const isDisabled = Boolean(
-                      transferDiscount.productCategory && transferDiscount.productCategory !== product.category
-                    );
-                    return (
-                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox
-                          disabled={isDisabled}
-                          checked={transferDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                          onChange={this.toggleProductOnProductDiscount(
-                            'Transfer',
-                            transferDiscount.uuid,
-                            product.uuid
-                          )}
-                        />
-                      </Label>
-                    );
-                  })}
-                </FormControlGrid>
-                {this.renderAgeNamesOptions('Transfer', transferDiscount, this.props.availableTransferProducts, false)}
-                <span className="removeDiscountButton">
-                  <CloseButton onClick={this.handleRemoveProductDiscount('Transfer', transferDiscount.uuid)} />
-                </span>
-                <Label className="discountInput" text="Discount %">
-                  <TextInput
-                    value={transferDiscount.discountPercentage || ''}
-                    onChange={this.handleProductDiscountChange('Transfer', transferDiscount.uuid, 'discountPercentage')}
-                  />
-                </Label>
-                {this.requiresOccupancyAndQuantity(transferDiscount.productCategory) && (
-                  <>
-                    <Label className="maxQuantityInput" text="Maximum Quantity">
-                      <TextInput
-                        value={transferDiscount.maximumQuantity || ''}
-                        onChange={this.handleProductDiscountChange(
-                          'Transfer',
-                          transferDiscount.uuid,
-                          'maximumQuantity'
-                        )}
-                      />
-                    </Label>
-                    <Label
-                      className="occupancyCheckbox"
-                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                      inline
-                      reverse
-                      lowercase
-                    >
-                      <Checkbox
-                        checked={transferDiscount.standardOccupancyOnly}
-                        onChange={this.handleProductDiscountBooleanChange(
-                          'Transfer',
-                          transferDiscount.uuid,
-                          'standardOccupancyOnly'
-                        )}
-                      />
-                    </Label>
-                  </>
-                )}
-              </div>
-            );
-          })}
-          {this.props.hotelUuid && this.props.availableTransferProducts?.length > 0 && (
-            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Transfer')}>
-              Add Transfer Discount
-            </ActionButton>
-          )}
-
-          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add an transfer discount</Text>}
-          {this.props.hotelUuid && this.props.availableTransferProducts?.length === 0 && (
-            <Text className="noProducts">No transfer products available for this hotel.</Text>
-          )}
-
-          <ErrorList className="errorlist">
-            {!this.props.offerIsPristine &&
-              this.props.validationErrors.transferDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
-          </ErrorList>
-        </Fieldset>
-
-        <Fieldset className="mealPlanDiscountFieldset">
-          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.mealPlanDiscounts.length >= 1}>
-            Meal Plan Discount
-          </Legend>
-
-          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add a Meal Plan discount</Text>}
-
-          {this.props.mealPlanDiscounts.map(mealPlanDiscount => {
-            return (
-              <div key={mealPlanDiscount.uuid} className="mealPlanDiscountGrid">
-                <Text className="category">
-                  Product Category:{' '}
-                  {mealPlanDiscount.productCategory ? mealPlanDiscount.productCategory : 'None Selected'}
-                </Text>
-                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
-                  {this.props.availableMealPlanProducts?.map(product => {
-                    const isDisabled = Boolean(
-                      mealPlanDiscount.productCategory && mealPlanDiscount.productCategory !== product.category
-                    );
-                    return (
-                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox
-                          disabled={isDisabled}
-                          checked={mealPlanDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                          onChange={this.toggleProductOnSubProductDiscount(
-                            'Meal Plan',
-                            mealPlanDiscount.uuid,
-                            product.uuid
-                          )}
-                        />
-                      </Label>
-                    );
-                  })}
-                </FormControlGrid>
-                {this.renderAgeNamesOptions('Meal Plan', mealPlanDiscount, this.props.availableMealPlanProducts, true)}
-                <span className="removeDiscountButton">
-                  <CloseButton onClick={this.handleRemoveSubProductDiscount('Meal Plan', mealPlanDiscount.uuid)} />
-                </span>
-                <Label className="discountInput" text="Discount %">
-                  <TextInput
-                    value={mealPlanDiscount.discountPercentage || ''}
-                    onChange={this.handleSubProductDiscountChange(
-                      'Meal Plan',
-                      mealPlanDiscount.uuid,
-                      'discountPercentage'
-                    )}
-                  />
-                </Label>
-
-                {this.requiresOccupancyAndQuantity(mealPlanDiscount.productCategory) && (
-                  <>
-                    <Label className="maxQuantityInput" text="Maximum Quantity">
-                      <TextInput
-                        value={mealPlanDiscount.maximumQuantity || ''}
-                        onChange={this.handleSubProductDiscountChange(
-                          'Meal Plan',
-                          mealPlanDiscount.uuid,
-                          'maximumQuantity'
-                        )}
-                      />
-                    </Label>
-                    <Label
-                      className="occupancyCheckbox"
-                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                      inline
-                      reverse
-                      lowercase
-                    >
-                      <Checkbox
-                        checked={mealPlanDiscount.standardOccupancyOnly}
-                        onChange={this.handleSubProductDiscountBooleanChange(
-                          'Meal Plan',
-                          mealPlanDiscount.uuid,
-                          'standardOccupancyOnly'
-                        )}
-                      />
-                    </Label>
-                  </>
-                )}
-              </div>
-            );
-          })}
-          {this.props.hotelUuid && this.props.availableMealPlanProducts?.length > 0 && (
-            <ActionButton className="addDiscount" action="add" onClick={this.handleAddSubProduct('Meal Plan')}>
-              Add Meal Plan Discount
-            </ActionButton>
-          )}
-
-          {this.props.hotelUuid && this.props.availableMealPlanProducts?.length === 0 && (
-            <Text className="noProducts">No meal plans available for this hotel.</Text>
-          )}
-
-          <ErrorList className="errorlist">
-            {!this.props.offerIsPristine &&
-              this.props.validationErrors.mealPlanDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
-          </ErrorList>
-        </Fieldset>
-
-        <Fieldset className="supplementDiscountFieldset">
-          <Legend isError={!this.props.offerIsPristine && this.props.validationErrors.supplementDiscounts.length >= 1}>
-            Supplement Discount
-          </Legend>
-
-          {this.props.supplementDiscounts.map(supplementDiscount => {
-            return (
-              <div key={supplementDiscount.uuid} className="supplementDiscountGrid">
-                <Text className="category">
-                  Product Category:{' '}
-                  {supplementDiscount.productCategory ? supplementDiscount.productCategory : 'None Selected'}
-                </Text>
-                <FormControlGrid className="formGrid availableProducts" columnCount={4}>
-                  {this.props.availableSupplementProducts?.map(product => {
-                    const isDisabled = Boolean(
-                      supplementDiscount.productCategory && supplementDiscount.productCategory !== product.category
-                    );
-                    return (
-                      <Label disabled={isDisabled} key={product.name} text={product.name} inline reverse lowercase>
-                        <Checkbox
-                          disabled={isDisabled}
-                          checked={supplementDiscount.products.findIndex(f => f.uuid === product.uuid) > -1}
-                          onChange={this.toggleProductOnProductDiscount(
-                            'Supplement',
-                            supplementDiscount.uuid,
-                            product.uuid
-                          )}
-                        />
-                      </Label>
-                    );
-                  })}
-                </FormControlGrid>
-                {this.renderAgeNamesOptions(
-                  'Supplement',
-                  supplementDiscount,
-                  this.props.availableSupplementProducts,
-                  false
-                )}
-                <span className="removeDiscountButton">
-                  <CloseButton onClick={this.handleRemoveProductDiscount('Supplement', supplementDiscount.uuid)} />
-                </span>
-                <Label className="discountInput" text="Discount %">
-                  <TextInput
-                    value={supplementDiscount.discountPercentage || ''}
-                    onChange={this.handleProductDiscountChange(
-                      'Supplement',
-                      supplementDiscount.uuid,
-                      'discountPercentage'
-                    )}
-                  />
-                </Label>
-
-                {this.requiresOccupancyAndQuantity(supplementDiscount.productCategory) && (
-                  <>
-                    <Label className="maxQuantityInput" text="Maximum Quantity">
-                      <TextInput
-                        value={supplementDiscount.maximumQuantity || ''}
-                        onChange={this.handleProductDiscountChange(
-                          'Supplement',
-                          supplementDiscount.uuid,
-                          'maximumQuantity'
-                        )}
-                      />
-                    </Label>
-
-                    <Label
-                      className="occupancyCheckbox"
-                      text="Only apply this to the number of guests that fit within the room's standard occupancy."
-                      inline
-                      reverse
-                      lowercase
-                    >
-                      <Checkbox
-                        checked={supplementDiscount.standardOccupancyOnly}
-                        onChange={this.handleProductDiscountBooleanChange(
-                          'Supplement',
-                          supplementDiscount.uuid,
-                          'standardOccupancyOnly'
-                        )}
-                      />
-                    </Label>
-                  </>
-                )}
-              </div>
-            );
-          })}
-          {this.props.availableSupplementProducts?.length > 0 && this.props.hotelUuid && (
-            <ActionButton className="addDiscount" action="add" onClick={this.handleAddProduct('Supplement')}>
-              Add Supplement Discount
-            </ActionButton>
-          )}
-
-          {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add a meal plan discount</Text>}
-          {this.props.hotelUuid && this.props.availableSupplementProducts?.length === 0 && (
-            <Text className="noProducts">No Supplements available for this hotel.</Text>
-          )}
-          <ErrorList className="errorlist">
-            {!this.props.offerIsPristine &&
-              this.props.validationErrors.supplementDiscounts.map((error, i) => <li key={i}>{error.message}</li>)}
-          </ErrorList>
         </Fieldset>
       </OfferEditApplicationsStyles>
     );
