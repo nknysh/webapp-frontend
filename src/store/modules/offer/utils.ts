@@ -171,6 +171,7 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
       discountPercentage: sanitizeFloat(discount.discountPercentage),
       greenTaxDiscountApproach: discount.greenTaxDiscountApproach,
       maximumQuantity: sanitizeInt(discount.maximumQuantity),
+      standardOccupancyOnly: discount.standardOccupancyOnly,
     };
   };
   return produce(offer, (draftOffer: IOfferAPI) => {
