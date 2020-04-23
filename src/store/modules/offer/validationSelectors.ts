@@ -104,22 +104,31 @@ export const offerStayLengthPrerequisiteValidationSelector = createSelector(
       if (stayLength.strictMinMaxStay && isMinEmpty && isMaxEmpty) {
         errors.push({
           field: 'stayLengthPrerequisite',
-          message: 'Stay Length strict min/max cannot be set without a From or a To',
+          message: 'Stay Length strict min/max requires a Minimum and/or Maximum',
         });
       }
 
       if (!isBlank(stayLength.minimum) && !isInt(stayLength.minimum as string)) {
         errors.push({
           field: 'stayLengthPrerequisite',
-          message: 'From value must be an integer',
+          message: 'Minimum value must be an integer',
         });
       }
 
       if (!isBlank(stayLength.maximum) && !isInt(stayLength.maximum as string)) {
         errors.push({
           field: 'stayLengthPrerequisite',
-          message: 'To value must be an integer',
+          message: 'Maximum value must be an integer',
         });
+      }
+
+      if (stayLength.minimum && stayLength.maximum) {
+        if (parseInt(stayLength.minimum as string, 10) > parseInt(stayLength.maximum as string, 10)) {
+          errors.push({
+            field: 'stayLengthPrerequisite',
+            message: 'Minimum must be greater than or equal to Maximum',
+          });
+        }
       }
     }
 
