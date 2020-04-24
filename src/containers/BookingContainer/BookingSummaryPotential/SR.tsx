@@ -224,10 +224,13 @@ const BookingSummaryPotentialSR = props => {
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
           <Text>This booking is being held.</Text>
-          <Text>
-            It will expire {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires)} at{' '}
-            {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires, 'h:mma')}
-          </Text>
+          {props.holds.fullHoldsExpires ||
+            (updatedHoldExpiry && (
+              <Text>
+                It will expire {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires)} at{' '}
+                {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires, 'h:mma')}
+              </Text>
+            ))}
           <PrimaryButton onClick={() => handleReleaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
           <div className="mt-4">
             <Label text="Hold Hours">
