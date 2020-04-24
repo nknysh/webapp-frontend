@@ -182,7 +182,7 @@ const renderTransferOptionsSimple = (
           const isChecked = selectedTransferOptions.some(sto => sto.uuid === to.uuid && sto.direction === to.direction);
           return (
             <li key={to.name}>
-              <label>
+              <label className="optionListLabel">
                 <Checkbox onChange={() => handleCheckboxClick(to)} checked={isChecked} />
                 <span className="labelText">
                   {to.name} {to.priceFormatted}{' '}

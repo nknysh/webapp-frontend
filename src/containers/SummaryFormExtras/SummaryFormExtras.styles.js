@@ -54,21 +54,22 @@ export const OptionList = styled.ul`
   li {
     position: relative;
     margin-bottom: 10px;
+
+    .optionListLabel {
+      display: flex;
+    }
+
+    .labelText {
+      margin-left: 10px;
+      display: inline-block;
+      width: 85%;
+    }
   }
 
   svg {
     position: absolute;
     right: 14px;
     top: 6px;
-  }
-
-  label {
-    display: flex;
-    .labelText {
-      margin-left: 10px;
-      display: inline-block;
-      width: 85%;
-    }
   }
 `;
 
