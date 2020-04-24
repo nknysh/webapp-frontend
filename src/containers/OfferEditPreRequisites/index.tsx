@@ -151,7 +151,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
 
         <Fieldset>
           <Legend className="legendWithExtras">
-            Accomodation Products
+            Accommodation Products
             {this.props.offerHotelUuid && (
               <LegendExtras>
                 {this.props.accommodationPreReqsLabel}
@@ -159,7 +159,7 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
               </LegendExtras>
             )}
           </Legend>
-          {!this.props.offerHotelUuid && <Text>Select a hotel to see accomodation products</Text>}
+          {!this.props.offerHotelUuid && <Text>Select a hotel to see accommodation products</Text>}
           <FormControlGrid columnCount={3}>
             {this.props.accommodationPreReqs?.map(product => {
               return (
@@ -169,6 +169,14 @@ export class OfferEditPreRequisitesContainer extends React.Component<IOfferEditP
               );
             })}
           </FormControlGrid>
+
+          <Text className="accommodationInfo">
+            If no accommodation types are specified, this offer will be avaiable to bookings for any accommodation type.
+          </Text>
+
+          <Text className="accommodationInfo">
+            If accommodation types are not relevant to this offer, leave this section empty.
+          </Text>
         </Fieldset>
         <ErrorList className="stayBetweenErrors">
           {!this.props.offerIsPristine &&

@@ -67,4 +67,8 @@ export const OfferEditPreRequisitesStyles = styled.section`
       margin: 0;
     }
   }
+
+  .accommodationInfo:first-of-type {
+    margin-top: 30px;
+  }
 `;

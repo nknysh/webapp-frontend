@@ -368,7 +368,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
-      expect(selected).toEqual('Applies To Any Country');
+      expect(selected).toEqual('Available To Any Country');
     });
 
     it('has the correct TA label for some countries selected', () => {
@@ -397,14 +397,14 @@ describe('Offer Selectors', () => {
 
       const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
-      expect(selected).toEqual('Applies To 2 Countries');
+      expect(selected).toEqual('Available To 2 Countries');
     });
 
     it('has the correct TA label for every country selected', () => {
       const prerequisitesCountriesFixture = ['A', 'B', 'C'];
       const selected = offerTaCountriesLabelPrerequisiteSelector.resultFunc(prerequisitesCountriesFixture);
 
-      expect(selected).toEqual('Applies To 3 Countries');
+      expect(selected).toEqual('Available To 3 Countries');
     });
   });
 
@@ -508,7 +508,7 @@ describe('Offer Selectors', () => {
     it('returns a label for accommodation products (some selected)', () => {
       const prerequisitesFixture = ['b', 'c'];
       const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, false);
-      expect(selected).toEqual('Applies To 2 Accommodation Products');
+      expect(selected).toEqual('Offer Applies To 2 Accommodation Products');
     });
 
     it('returns a label for accommodation products (all selected)', () => {
@@ -537,7 +537,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, true);
 
-      expect(selected).toEqual('Applies To Any Accommodation Product');
+      expect(selected).toEqual('Offer Applies To Any Accommodation Product');
     });
 
     it('returns a label for accommodation products (none selected)', () => {
@@ -567,7 +567,7 @@ describe('Offer Selectors', () => {
 
       const selected = offerAccommodationProductPrerequisitesLabelSelector.resultFunc(prerequisitesFixture, true);
 
-      expect(selected).toEqual('Applies To Any Accommodation Product');
+      expect(selected).toEqual('Offer Applies To Any Accommodation Product');
     });
   });
 

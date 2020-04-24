@@ -405,7 +405,7 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
         </Fieldset>
 
         <Fieldset className="accomodationDiscountFieldset">
-          <Legend>Accomodation Discount</Legend>
+          <Legend>Accommodation Discount</Legend>
           {this.props.accomodationDiscount && (
             <div className="accomodationDiscountGrid">
               <Label className="input" lowercase text="Discount %">
