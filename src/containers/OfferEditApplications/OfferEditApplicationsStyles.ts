@@ -3,6 +3,18 @@ import { Throggle } from 'pureUi/forms/Throggle';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 
 export const OfferEditApplicationsStyles = styled.section`
+  .prompt {
+    padding: 10px;
+    border: ${pureUiTheme.colors.marine} 1px solid;
+    color: ${pureUiTheme.colors.marine};
+    background-color: ${pureUiTheme.colors.lightBlue};
+  }
+
+  .epsPrompt {
+    margin: 0 0 25px 0;
+    max-width: 727px;
+  }
+
   .accomodationDiscountGrid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -137,11 +149,7 @@ export const OfferEditApplicationsStyles = styled.section`
     .prompt {
       /* Empty grid areas take up space.*/
       grid-area: ageNamesMap;
-      padding: 10px;
       margin: 0;
-      border: ${pureUiTheme.colors.marine} 1px solid;
-      color: ${pureUiTheme.colors.marine};
-      background-color: ${pureUiTheme.colors.lightBlue};
     }
   }
 

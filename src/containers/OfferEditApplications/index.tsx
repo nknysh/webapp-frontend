@@ -464,6 +464,12 @@ export class OfferEditApplicationsContainer extends React.Component<IOfferEditAp
             Extra Person Supplement
           </Legend>
 
+          {this.props.extraPersonSupplementDiscounts.length > 0 && (
+            <Text className="prompt epsPrompt">
+              A single discount can be applied to multiple age categories. Create a new EPS if a different discount
+              applies to different age categories
+            </Text>
+          )}
           {!this.props.hotelUuid && <Text className="noHotel">Select a hotel to add an extra person supplement</Text>}
 
           {this.props.hotelUuid &&
