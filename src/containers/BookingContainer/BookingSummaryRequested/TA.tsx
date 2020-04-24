@@ -2,16 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { PrimaryButton } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Text } from 'pureUi/typography';
+import { formatDate } from 'utils';
 
 const BookingSummaryRequestedTA = props => {
   const canHold: boolean = false;
   const isHeld: boolean = props.holds?.hasFullHolds;
 
-  const {
-    newBooking,
-    addHoldToBooking,
-    releaseHoldFromBooking,
-  } = props;
+  const { newBooking, addHoldToBooking, releaseHoldFromBooking } = props;
 
   const isOnProposal: boolean = newBooking.proposalUuid;
 
@@ -36,6 +33,13 @@ const BookingSummaryRequestedTA = props => {
       {isHeld && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
+          <p>This booking is being held.</p>
+          {props.holds.fullHoldsExpires && (
+            <p>
+              It will expire {formatDate(props.holds.fullHoldsExpires)} at{' '}
+              {formatDate(props.holds.fullHoldsExpires, 'h:ma')}
+            </p>
+          )}
           <PrimaryButton onClick={() => releaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
         </AsideDetails>
       )}
