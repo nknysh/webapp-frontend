@@ -62,8 +62,13 @@ export const OptionList = styled.ul`
     top: 6px;
   }
 
-  .labelText {
-    margin-left: 10px;
+  label {
+    display: flex;
+    .labelText {
+      margin-left: 10px;
+      display: inline-block;
+      width: 85%;
+    }
   }
 `;
 
