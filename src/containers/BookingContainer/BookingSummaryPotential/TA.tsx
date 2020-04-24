@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { AddToProposalModalContent } from '../../HotelContainer/AddToProposalModal';
-import {StandardModal, ModalHeader, ModalContent, ModalFooter} from 'pureUi/Modal';
+import { StandardModal, ModalHeader, ModalContent, ModalFooter } from 'pureUi/Modal';
 import { PrimaryButton, SecondaryButton, ButtonBar } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Redirect } from 'react-router-dom';
@@ -63,15 +63,15 @@ const BookingSummaryPotentialTA = props => {
                 <Heading1>{props.t('buttons.addToProposal')}</Heading1>
               </ModalHeader>
               <ModalContent>
-              <AddToProposalModalContent
-                proposals={proposals}
-                hotelUuid={newBooking.uuid} // TODO write up this
-                createNewProposal={createNewProposal}
-                addToProposal={addToProposal}
-                proposalStatus={proposalStatus}
-                proposalResult={proposalResult}
-                history={history}
-              />
+                <AddToProposalModalContent
+                  proposals={proposals}
+                  hotelUuid={newBooking.uuid} // TODO write up this
+                  createNewProposal={createNewProposal}
+                  addToProposal={addToProposal}
+                  proposalStatus={proposalStatus}
+                  proposalResult={proposalResult}
+                  history={history}
+                />
               </ModalContent>
             </StandardModal>
           )}
@@ -93,10 +93,12 @@ const BookingSummaryPotentialTA = props => {
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
           <p>This booking is being held.</p>
-          <p>
-            It will expire {formatDate(props.holds.fullHoldsExpires)} at{' '}
-            {formatDate(props.holds.fullHoldsExpires, 'h:ma')}
-          </p>
+          {props.holds.fullHoldsExpires && (
+            <p>
+              It will expire {formatDate(props.holds.fullHoldsExpires)} at{' '}
+              {formatDate(props.holds.fullHoldsExpires, 'h:ma')}
+            </p>
+          )}
           <PrimaryButton onClick={() => releaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
         </AsideDetails>
       )}
@@ -131,31 +133,31 @@ const BookingSummaryPotentialTA = props => {
                   <Heading1>{props.t('labels.requestToBook')}</Heading1>
                 </ModalHeader>
                 <ModalContent>
-                <BookingGuestInformationForm
-                  bookingGuestFormValues={...newBooking}
-                  onValueChange={newValues => {
-                    try {
-                      updateBookingGuestInformationAction(newValues);
-                    } catch (e) {
-                      console.error(`Error ${e}`);
-                    }
-                  }}
-                />
+                  <BookingGuestInformationForm
+                    bookingGuestFormValues={...newBooking}
+                    onValueChange={newValues => {
+                      try {
+                        updateBookingGuestInformationAction(newValues);
+                      } catch (e) {
+                        console.error(`Error ${e}`);
+                      }
+                    }}
+                  />
                 </ModalContent>
                 <ModalFooter>
-                <PrimaryButton
-                  type="button"
-                  onClick={async () => {
-                    try {
-                      await backendApi.requestToBook(newBooking);
-                      location.reload();
-                    } catch (e) {
-                      console.error(`Error: ${e}`);
-                    }
-                  }}
-                >
-                  Request Booking
-                </PrimaryButton>
+                  <PrimaryButton
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        await backendApi.requestToBook(newBooking);
+                        location.reload();
+                      } catch (e) {
+                        console.error(`Error: ${e}`);
+                      }
+                    }}
+                  >
+                    Request Booking
+                  </PrimaryButton>
                 </ModalFooter>
               </StandardModal>
             )}
@@ -179,7 +181,9 @@ const BookingSummaryPotentialTA = props => {
               <ModalFooter>
                 <ButtonBar>
                   <SecondaryButton onClick={() => handleCancel()}>Cancel & Restart</SecondaryButton>
-                  <PrimaryButton autoFocus onClick={() => setIsCancelModalOpen(false)}>Keep</PrimaryButton>
+                  <PrimaryButton autoFocus onClick={() => setIsCancelModalOpen(false)}>
+                    Keep
+                  </PrimaryButton>
                 </ButtonBar>
               </ModalFooter>
             </StandardModal>
