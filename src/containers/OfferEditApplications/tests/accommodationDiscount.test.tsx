@@ -57,7 +57,7 @@ describe('Offer Edit Applicaions: Accomodation Discount', () => {
 
     it('Handles the change event', () => {
       accomDiscountSubject.find('.pctInput').simulate('change', { currentTarget: { value: '90' } });
-      expect(accomDiscountProps.offerSetAccommodationDiscountDiscountPercentageAction).toHaveBeenCalledWith(90);
+      expect(accomDiscountProps.offerSetAccommodationDiscountDiscountPercentageAction).toHaveBeenCalledWith('90');
       expect(accomDiscountProps.offerSetAccommodationDiscountDiscountPercentageAction).toHaveBeenCalledTimes(1);
     });
   });
@@ -94,7 +94,7 @@ describe('Offer Edit Applicaions: Accomodation Discount', () => {
 
     it('Handles the change event', () => {
       accomDiscountSubject.find('.pctInput').simulate('change', { currentTarget: { value: '90' } });
-      expect(accomDiscountProps.offerSetAccommodationDiscountDiscountPercentageAction).toHaveBeenCalledWith(90);
+      expect(accomDiscountProps.offerSetAccommodationDiscountDiscountPercentageAction).toHaveBeenCalledWith('90');
       expect(accomDiscountProps.offerSetAccommodationDiscountDiscountPercentageAction).toHaveBeenCalledTimes(1);
     });
   });
