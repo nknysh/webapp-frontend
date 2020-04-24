@@ -152,28 +152,46 @@ jobs:
           .circleci/do-exclusively.sh aws cloudfront create-invalidation \
               --distribution-id E1ZNSARBE2K0BC \
               --paths /\*
+
 workflows:
   build_and_deploy:
     jobs:
+      - deploy_approval:
+          type: approval
+          filters:
+            branches:
+              only:
+                - develop
+                - sandbox
+                - demo
+                - master
       - deploy_develop:
+          requires:
+            - deploy_approval
           context: deployments
           filters:
             branches:
               only:
                 - develop
       - deploy_sandbox:
+          requires:
+            - deploy_approval
           context: deployments
           filters:
             branches:
               only:
                 - sandbox
       - deploy_demo:
+          requires:
+            - deploy_approval
           context: deployments
           filters:
             branches:
               only:
                 - demo
       - deploy_master:
+          requires:
+            - deploy_approval
           context: Production
           filters:
             branches:
