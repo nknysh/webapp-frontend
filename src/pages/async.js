@@ -21,4 +21,3 @@ export const AsyncUser = lazy(() => import('./User'));
 export const AsyncProposalList = lazy(() => import('../containers/ProposalList'));
 export const AsyncBookingList = lazy(() => import('../containers/BookingList'));
 export const AsyncOffersList = lazy(() => import('../containers/OffersList'));
-export const AsyncOffersView = lazy(() => import('../containers/OffersView'));
