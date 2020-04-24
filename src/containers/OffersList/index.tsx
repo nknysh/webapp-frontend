@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
 import { Table, THead, TBody, TRow, TH, TD } from 'pureUi/Table';
-import { LinkButton, PrimaryButton, SecondaryButton, ButtonBar, ButtonSpacer } from 'pureUi/Buttons';
+import { PrimaryButton, SecondaryButton, ButtonBar, ButtonSpacer, LinkButton } from 'pureUi/Buttons';
 import TextInput from 'pureUi/TextInput';
 import { Pagination } from 'pureUi/Pagination';
 import Checkbox from 'pureUi/Checkbox';
@@ -33,7 +33,6 @@ import {
 } from 'store/modules/offersList/selectors';
 import { getBootstrapHotelsSelector } from 'store/modules/bootstrap/selectors';
 import { ActionButton, ActionLinkButton } from '../../pureUi/Buttons/index';
-import { Redirect } from 'react-router-dom';
 
 import {
   getOffersListRequestAction,
@@ -226,19 +225,28 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
                     }}
                   />
                 </TH>
-                <TH sortOrder={this.getSortOrderForProp('name')} onClick={this.handleSort('name')} className="id">
+                <TH
+                  sortOrder={this.getSortOrderForProp('name')}
+                  onClick={this.handleSort('name')}
+                  className="offerName"
+                >
                   Name
                 </TH>
-                <TH sortOrder={this.getSortOrderForProp('hotel.name')} onClick={this.handleSort('hotel.name')}>
+                <TH
+                  className="hotelName"
+                  sortOrder={this.getSortOrderForProp('hotel.name')}
+                  onClick={this.handleSort('hotel.name')}
+                >
                   Hotel
                 </TH>
                 <TH
                   sortOrder={this.getSortOrderForProp('hotel.countryCode')}
                   onClick={this.handleSort('hotel.countryCode')}
+                  className="countryCode"
                 >
                   Hotel Country Code
                 </TH>
-                <TH>Actions</TH>
+                <TH className="actions">Actions</TH>
               </TRow>
             </THead>
             <TBody tableData={this.props.offers!}>
@@ -258,9 +266,6 @@ export class OffersListContainer extends React.Component<IOffersListProps> {
                     <TD title={offer.hotel.countryCode}>{offer.hotel.countryCode}</TD>
                     <TD>
                       <div className="link-button-wrapper">
-                        <LinkButton className="link-button" to={`/offers/${offer.uuid}/view`}>
-                          Show
-                        </LinkButton>
                         <LinkButton className="link-button" to={`/offers/${offer.uuid}/edit`}>
                           Edit
                         </LinkButton>

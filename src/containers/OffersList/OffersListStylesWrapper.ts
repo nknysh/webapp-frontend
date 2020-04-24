@@ -63,7 +63,16 @@ export const OffersListStylesWrapper = styled.section`
     margin: 20px auto;
   }
 
-  .table .id {
+  .table .offerName {
+  }
+
+  .table.hotelName {
+    width: 10%;
+    min-width: 100px;
+  }
+
+  .table .countryCode {
+    width: 100px;
   }
 
   .table .client {
@@ -84,7 +93,7 @@ export const OffersListStylesWrapper = styled.section`
   }
 
   .table .actions {
-    width: 13%;
+    width: 100px;
     text-indent: -99999px;
   }
 
