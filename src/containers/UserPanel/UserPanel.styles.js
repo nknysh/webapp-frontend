@@ -12,7 +12,7 @@ const dropdownIn = keyframes`
 
   to {
     opacity: 1;
-    top: 5px;
+    top: 30px;
   }
 `;
 
@@ -35,7 +35,7 @@ export const StyledUserPanel = styled.div`
     border-radius: 8px;
     position: absolute;
     right: 0;
-    top: 5px;
+    top: 30px;
     background-color: white;
     padding: 10px 0;
     list-style: none;

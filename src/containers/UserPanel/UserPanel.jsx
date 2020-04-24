@@ -81,8 +81,8 @@ export const UserPanel = ({
             }}
           />
           <ul className="dropdown">
-            <li>
-              {isSr && (
+            {isSr && (
+              <li>
                 <Country>
                   Country
                   <CountrySelect
@@ -92,8 +92,8 @@ export const UserPanel = ({
                     disabled={shouldDisableCountrySelector(location)}
                   />
                 </Country>
-              )}
-            </li>
+              </li>
+            )}
             <li>{renderLink({ title: t('labels.settings'), to: '/settings', onClick: () => setOpen(false) })}</li>
             <li>{renderLink({ title: t('labels.logout'), onClick: onLogoutClick })}</li>
           </ul>
