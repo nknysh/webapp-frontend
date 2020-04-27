@@ -31,6 +31,13 @@ if (APP_ENV !== 'production') {
 
 appendPortalElements();
 
+let hotjarId = undefined;
+if (window.location.href.includes('qa.pure-escapes')) {
+  hotjarId = '1785849';
+} else if (window.location.href.includes('sandbox.pure-escapes')) {
+  hotjarId = '1784172';
+}
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
@@ -38,8 +45,8 @@ ReactDOM.render(
         {headerMeta}
         {headerLink}
 
-        {/* if we're on QA, load in the QA Hotjar code */}
-        {window.location.href.includes('qa.pure-escapes') && (
+        {/* if we're on QA or sandbox, load in the hotjar code */}
+        {hotjarId !== undefined && (
           <script type="text/javascript">{`
           (function(h, o, t, j, a, r) {
             h.hj =
@@ -54,26 +61,6 @@ ReactDOM.render(
             r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
             a.appendChild(r);
           })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-    `}</script>
-        )}
-
-        {/* if we're on sandbox, load in the sandbox Hotjar code */}
-        {window.location.href.includes('qa.pure-escapes') && (
-          <script type="text/javascript">{`
-          (function(h, o, t, j, a, r) {
-            h.hj =
-              h.hj ||
-              function() {
-                (h.hj.q = h.hj.q || []).push(arguments);
-              };
-            h._hjSettings = { hjid: 1784172, hjsv: 6 };
-            a = o.getElementsByTagName('head')[0];
-            r = o.createElement('script');
-            r.async = 1;
-            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-            a.appendChild(r);
-          })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-          
     `}</script>
         )}
       </Helmet>
