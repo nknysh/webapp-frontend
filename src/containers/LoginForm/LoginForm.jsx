@@ -54,15 +54,15 @@ const renderForm = (t, { formValues, onSubmit, onForgottenClick }) => (
           {Form.renderFieldError(path(['errors', 'rememberMe'], formProps))}
         </StyledCheckbox>
         <Actions>
-          <Button type="submit">
+          <Button id="login-submit-cta" type="submit">
             <SubmitText>{t('buttons.login')}</SubmitText>
           </Button>
 
-          <ForgotPassword onClick={onForgottenClick}>
+          <ForgotPassword id="forgot-password-cta" onClick={onForgottenClick}>
             <ForgotLink>{t('buttons.forgotten')}</ForgotLink>
           </ForgotPassword>
           <Auth0>
-            <Auth0Link href={`${process.env.BACKEND_BASE_URL}/${BackendEndpoints.AUTH0_LOGIN}`}>
+            <Auth0Link id="login-auth0-cta" href={`${process.env.BACKEND_BASE_URL}/${BackendEndpoints.AUTH0_LOGIN}`}>
               {t('buttons.loginAuth0')}
             </Auth0Link>
           </Auth0>
