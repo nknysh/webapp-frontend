@@ -33,12 +33,12 @@ const BookingSummaryRequestedTA = props => {
       {isHeld && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is being held.</p>
+          <Text>This booking is being held.</Text>
           {props.holds.fullHoldsExpires && (
-            <p>
-              It will expire {formatDate(props.holds.fullHoldsExpires)} at{' '}
-              {formatDate(props.holds.fullHoldsExpires, 'h:ma')}
-            </p>
+            <Text>
+              It will expire {formatDate(props.holds.fullHoldsExpires, 'PPP')} at{' '}
+              {formatDate(props.holds.fullHoldsExpires, 'pp')}
+            </Text>
           )}
           <PrimaryButton onClick={() => releaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
         </AsideDetails>

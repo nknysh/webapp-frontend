@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { AddToProposalModalContent } from '../../HotelContainer/AddToProposalModal';
 import { StandardModal, ModalHeader, ModalContent, ModalFooter } from 'pureUi/Modal';
@@ -16,11 +16,19 @@ import Label from 'pureUi/Label';
 import { validHoldHours } from '../helpers';
 
 const BookingSummaryPotentialSR = props => {
-  const isOnProposal: boolean = props.newBooking?.proposalUuid;
+  const [isOnProposal, setIsOnProposal] = useState<boolean>(props.newBooking?.proposalUuid);
   const [canHold, setCanHold] = useState<boolean>(props.holds?.canHold);
   const [isHeld, setIsHeld] = useState<boolean>(props.holds?.hasFullHolds);
+  const [holdExpiry, setHoldExpiry] = useState<string | null>(null);
   const canCancel = false;
   const canRequestToBook = true;
+
+  useEffect(() => {
+    setIsOnProposal(props.newBooking?.proposalUuid);
+    setIsHeld(props.holds?.hasFullHolds);
+    setCanHold(props.holds?.canHold);
+    setHoldExpiry(props.holds?.fullHoldsExpires);
+  }, [props]);
 
   const {
     newBooking,
@@ -51,13 +59,12 @@ const BookingSummaryPotentialSR = props => {
   const [isConfirmPlaceHoldPending, setIsConfirmPlaceHoldPending] = useState(false);
   const [isUpdateHoldHoursPending, setIsUpdateHoldHoursPending] = useState(false);
   const [holdHours, setHoldHours] = useState('24');
-  const [updatedHoldExpiry, setUpdatedHoldExpiry] = useState<string | null>(null);
 
   const handleConfirmOverrideAndPlaceHold = () => {
     setIsConfirmPlaceHoldPending(true);
     try {
       backendApi.addHoldToBooking(newBooking.uuid).then(json => {
-        setUpdatedHoldExpiry(json.data.data.fullHoldsExpires);
+        setHoldExpiry(json.data.data.fullHoldsExpires);
         setIsOverrideHoldModalOpen(false);
         setIsHeld(json.data.data.hasFullHolds);
         setCanHold(json.data.data.canHold);
@@ -93,7 +100,7 @@ const BookingSummaryPotentialSR = props => {
     setIsUpdateHoldHoursPending(true);
     try {
       backendApi.updateHoldHoursForBooking(newBooking.uuid!, holdHours).then(json => {
-        setUpdatedHoldExpiry(json.data.data.fullHoldsExpires);
+        setHoldExpiry(json.data.data.fullHoldsExpires);
       });
     } catch (e) {
       console.error(`Error ${e}`);
@@ -220,23 +227,21 @@ const BookingSummaryPotentialSR = props => {
         </AsideDetails>
       )}
 
-      {isHeld && (
+      {isHeld && holdExpiry && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
           <Text>This booking is being held.</Text>
-          {props.holds.fullHoldsExpires ||
-            (updatedHoldExpiry && (
-              <Text>
-                It will expire {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires)} at{' '}
-                {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires, 'h:mma')}
-              </Text>
-            ))}
+
+          <Text>
+            It will expire {formatDate(holdExpiry, 'PPP')} at {formatDate(holdExpiry, 'pp')}
+          </Text>
+
           <PrimaryButton onClick={() => handleReleaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
           <div className="mt-4">
             <Label text="Hold Hours">
               <span className="number-input-form">
                 <TextInput
-                  inputmode="numeric"
+                  inputMode="numeric"
                   pattern="[0-9]*"
                   min={1}
                   max={24}

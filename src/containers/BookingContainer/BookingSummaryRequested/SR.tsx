@@ -17,14 +17,23 @@ import { validHoldHours } from '../helpers';
 
 const BookingSummaryRequestedSR = props => {
   const newBooking: BookingBuilderDomain = props.newBooking;
-  const isOnProposal: boolean = newBooking.proposalUuid ? true : false;
-  const [canHold, setCanHold] = useState<boolean>(props.holds?.canHold);
-  const [isHeld, setIsHeld] = useState<boolean>(props.holds?.hasFullHolds);
-  const canCancel: boolean = false;
+  const [isOnProposal, setIsOnProposal] = useState<boolean>(newBooking.proposalUuid ? true : false);
 
   const { addHoldToBooking, releaseHoldFromBooking, actingCountryCode } = props;
 
   const backendApi = makeBackendApi(actingCountryCode);
+
+  const [canHold, setCanHold] = useState<boolean>(props.holds?.canHold);
+  const [isHeld, setIsHeld] = useState<boolean>(props.holds?.hasFullHolds);
+  const [holdExpiry, setHoldExpiry] = useState<string | null>(null);
+  const canCancel = false;
+
+  useEffect(() => {
+    setIsOnProposal(props.newBooking?.proposalUuid);
+    setIsHeld(props.holds?.hasFullHolds);
+    setCanHold(props.holds?.canHold);
+    setHoldExpiry(props.holds?.fullHoldsExpires);
+  }, [props]);
 
   const [overrideTotal, setTotalOverride] = useState(newBooking.overrideTotal || '');
   const [isConfirmTotalOverridePending, setIsConfirmTotalOverridePending] = useState(false);
@@ -112,7 +121,6 @@ const BookingSummaryRequestedSR = props => {
   const [isOverrideHoldModalOpen, setIsOverrideHoldModalOpen] = useState(false);
   const [isConfirmPlaceHoldPending, setIsConfirmPlaceHoldPending] = useState(false);
   const [isUpdateHoldHoursPending, setIsUpdateHoldHoursPending] = useState(false);
-  const [updatedHoldExpiry, setUpdatedHoldExpiry] = useState<string | null>(null);
   const [holdHours, setHoldHours] = useState('24');
 
   const handleHoldHoursChange = (value: string) => {
@@ -125,7 +133,7 @@ const BookingSummaryRequestedSR = props => {
     setIsUpdateHoldHoursPending(true);
     try {
       backendApi.updateHoldHoursForBooking(newBooking.uuid!, holdHours).then(json => {
-        setUpdatedHoldExpiry(json.data.data.fullHoldsExpires);
+        setHoldExpiry(json.data.data.fullHoldsExpires);
       });
     } catch (e) {
       console.error(`Error ${e}`);
@@ -138,7 +146,7 @@ const BookingSummaryRequestedSR = props => {
     setIsConfirmPlaceHoldPending(true);
     try {
       backendApi.addHoldToBooking(newBooking.uuid!).then(json => {
-        setUpdatedHoldExpiry(json.data.data.fullHoldsExpires);
+        setHoldExpiry(json.data.data.fullHoldsExpires);
         setIsOverrideHoldModalOpen(false);
         setIsHeld(json.data.data.hasFullHolds);
       });
@@ -153,8 +161,6 @@ const BookingSummaryRequestedSR = props => {
     releaseHoldFromBooking(uuid);
     setIsHeld(false);
   };
-
-  useEffect(() => {}, [updatedHoldExpiry]);
 
   if (hasCancelled) {
     return <Redirect to={`/hotels/${newBooking.hotelUuid}`} />;
@@ -208,23 +214,21 @@ const BookingSummaryRequestedSR = props => {
         </AsideDetails>
       )}
 
-      {isHeld && (
+      {isHeld && holdExpiry && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
           <Text>This booking is being held.</Text>
-          {props.holds.fullHoldsExpires ||
-            (updatedHoldExpiry && (
-              <Text>
-                It will expire {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires)} at{' '}
-                {formatDate(updatedHoldExpiry || props.holds.fullHoldsExpires, 'h:mma')}
-              </Text>
-            ))}
+
+          <Text>
+            It will expire {formatDate(holdExpiry, 'PPP')} at {formatDate(holdExpiry, 'pp')}
+          </Text>
+
           <PrimaryButton onClick={() => handleReleaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
           <div className="mt-4">
             <Label text="Hold Hours">
               <span className="number-input-form">
                 <TextInput
-                  inputmode="numeric"
+                  inputMode="numeric"
                   pattern="[0-9]*"
                   min={1}
                   max={24}

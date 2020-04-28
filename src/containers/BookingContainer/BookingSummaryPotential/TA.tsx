@@ -9,6 +9,7 @@ import BookingGuestInformationForm from 'pureUi/BookingGuestInformationForm';
 import { makeBackendApi } from 'services/BackendApi';
 import { formatDate } from 'utils';
 import { Heading1 } from 'styles';
+import { Text } from 'pureUi/typography';
 
 const BookingSummaryPotentialTA = props => {
   const canHold: boolean = props.holds?.canHold;
@@ -92,12 +93,12 @@ const BookingSummaryPotentialTA = props => {
       {isHeld && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is being held.</p>
+          <Text>This booking is being held.</Text>
           {props.holds.fullHoldsExpires && (
-            <p>
-              It will expire {formatDate(props.holds.fullHoldsExpires)} at{' '}
-              {formatDate(props.holds.fullHoldsExpires, 'h:ma')}
-            </p>
+            <Text>
+              It will expire {formatDate(props.holds.fullHoldsExpires, 'PPP')} at{' '}
+              {formatDate(props.holds.fullHoldsExpires, 'pp')}
+            </Text>
           )}
           <PrimaryButton onClick={() => releaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
         </AsideDetails>
@@ -106,7 +107,7 @@ const BookingSummaryPotentialTA = props => {
       {!isHeld && canHold && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is currently not being held</p>
+          <Text>This booking is currently not being held</Text>
           <PrimaryButton onClick={() => addHoldToBooking(newBooking.uuid)}>Hold for 24 Hours</PrimaryButton>
         </AsideDetails>
       )}
@@ -114,8 +115,8 @@ const BookingSummaryPotentialTA = props => {
       {!isHeld && !canHold && (
         <AsideDetails>
           <Title>{props.t('labels.holds')}</Title>
-          <p>This booking is currently not being held</p>
-          <p>There are no available actions to take</p>
+          <Text>This booking is currently not being held</Text>
+          <Text>There are no available actions to take</Text>
         </AsideDetails>
       )}
 
