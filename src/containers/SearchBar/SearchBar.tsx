@@ -103,7 +103,11 @@ const StyledSearchBar = styled(SearchBar)`
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr) 124px 215px;
+    ${props => {
+      return props.isSr
+        ? 'grid-template-columns: repeat(3, 1fr) 124px 215px;'
+        : 'grid-template-columns: repeat(3, 1fr) 124px;';
+    }}
     grid-column-gap: 1rem;
     align-items: end;
   }
@@ -132,7 +136,7 @@ const StyledSearchBar = styled(SearchBar)`
   }
 
   .serachBarDateRangeInput {
-    width: 250px; /* Prevents jumpy UI*/
+    width: 100%;
   }
 `;
 
