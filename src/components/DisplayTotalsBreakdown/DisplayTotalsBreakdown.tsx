@@ -118,13 +118,13 @@ export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
 
     const itemsBlocks = block.items.map((item: IItem, index: number) => {
       return (
-        <React.Fragment>
+        <React.Fragment key={item.labels.join(' ')}>
           {renderItemTitle(block, item, index)}
           {item.labels.length >= 1 && (
             <TableCardRow className="table-card-row" depth={3}>
               {item.labels.map(l => {
                 return (
-                  <span style={{ display: 'block' }} key={l}>
+                  <span style={{ display: 'block' }} key={`label --> ${l}`}>
                     <label className="item-label">{l}</label>
                   </span>
                 );
