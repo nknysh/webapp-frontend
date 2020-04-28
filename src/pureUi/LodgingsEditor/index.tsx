@@ -170,6 +170,7 @@ export const LodgingsEditor = styled(LodgingsEditorComponent)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: ${pureUiTheme.colors.white};
 
     transition: all 0.15s ease-out;
     box-shadow: 0 0 0 2px transparent;

@@ -175,6 +175,7 @@ export default styled(DateRangeInput)`
     width: 100%;
     height: 39px;
     color: ${pureUiTheme.colors.black};
+    background-color: ${pureUiTheme.colors.white};
 
     transition: all 0.15s ease-out;
     box-shadow: 0 0 0 2px transparent;
