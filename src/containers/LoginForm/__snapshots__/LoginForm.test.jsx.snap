@@ -1407,8 +1407,8 @@ exports[`<LoginForm /> render matches snapshot 1`] = `
               "_conditions": Array [],
               "_deps": Array [],
               "_exclusive": Object {
+                "email": false,
                 "required": true,
-                "undefined": false,
               },
               "_mutate": undefined,
               "_options": Object {

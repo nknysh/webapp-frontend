@@ -1545,8 +1545,8 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
               "_conditions": Array [],
               "_deps": Array [],
               "_exclusive": Object {
+                "email": false,
                 "required": true,
-                "undefined": false,
               },
               "_mutate": undefined,
               "_options": Object {
@@ -1639,8 +1639,8 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
               "_conditions": Array [],
               "_deps": Array [],
               "_exclusive": Object {
+                "matches": false,
                 "required": true,
-                "undefined": false,
               },
               "_mutate": undefined,
               "_options": Object {
@@ -1669,8 +1669,8 @@ exports[`<CreateAccountForm /> render matches snapshot 1`] = `
               "_conditions": Array [],
               "_deps": Array [],
               "_exclusive": Object {
+                "matches": false,
                 "required": true,
-                "undefined": false,
               },
               "_mutate": undefined,
               "_options": Object {
