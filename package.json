@@ -55,7 +55,6 @@
     "containers": "0.0.1",
     "date-fns": "2.6.0",
     "focus-trap-react": "^6.0.0",
-    "formik": "2.1.4",
     "grunt": "~0.4.0",
     "hoist-non-react-statics": "3.3.1",
     "http-status": "1.4.0",
