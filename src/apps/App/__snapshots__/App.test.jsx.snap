@@ -4,7 +4,7 @@ exports[`<App /> render matches snapshot 1`] = `
 <withRouter(withUser())>
   <Suspense
     fallback={
-      <ForwardRef
+      <withThemeProvider(Oa)
         theme={
           Object {
             "animations": Object {

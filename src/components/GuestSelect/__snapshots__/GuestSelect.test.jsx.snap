@@ -16,20 +16,20 @@ exports[`<GuestSelect /> render matches snapshot 1`] = `
   <Styled(withThemeProvider(Du))
     labels={
       Array [
-        <ForwardRef(styled.span)
+        <styled.span
           data-error={false}
           value={0}
         >
           Room 
           1
-        </ForwardRef(styled.span)>,
-        <ForwardRef(styled.span)
+        </styled.span>,
+        <styled.span
           data-error={false}
           value={1}
         >
           Room 
           2
-        </ForwardRef(styled.span)>,
+        </styled.span>,
       ]
     }
     scrollButtons="auto"
