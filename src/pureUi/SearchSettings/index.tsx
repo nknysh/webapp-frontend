@@ -56,7 +56,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
         <List
           items={Object.keys(Occasion).map(k => Occasion[k])}
           render={(occasion: Occasion) => {
-            const isSelected = props.query.lodgings[0][occasion];
+            const isSelected = Boolean(props.query.lodgings[0][occasion]);
             return (
               <li key={occasion}>
                 <label>
@@ -99,7 +99,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
             <List
               items={props.options.regions}
               render={(region: string) => {
-                const isSelected = props.query.regions.includes(region);
+                const isSelected = Boolean(props.query.regions.includes(region));
                 return (
                   <li key={region}>
                     <label>
@@ -169,7 +169,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
             className="twoColumn"
             items={props.options.starRatings}
             render={(starRating: StarRating) => {
-              const isSelected = props.query.starRatings.includes(starRating);
+              const isSelected = Boolean(props.query.starRatings.includes(starRating));
               return (
                 <li key={starRating}>
                   <label>
@@ -186,7 +186,7 @@ export const SearchSettings = (props: SearchSettingsProps) => {
           <List
             items={props.options.filters}
             render={(filter: Filters) => {
-              const isSelected = props.query.filters.includes(filter);
+              const isSelected = Boolean(props.query.filters.includes(filter));
               return (
                 <li key={filter}>
                   <label>
