@@ -166,8 +166,8 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
       disabled={false}
       key="Test ID-so"
     >
-      Add Room
-       
+      + 
+       Guests 
       <small>
         (Standard Occupancy)
       </small>
@@ -337,8 +337,8 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
       disabled={false}
       key="Test ID-so"
     >
-      Add Room
-       
+      + 
+       Guests 
       <small>
         (Standard Occupancy)
       </small>
@@ -508,8 +508,8 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
       disabled={false}
       key="Test ID-so"
     >
-      Add Room
-       
+      + 
+       Guests 
       <small>
         (Standard Occupancy)
       </small>
