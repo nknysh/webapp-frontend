@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce, { original } from 'immer';
 import * as R from 'ramda';
 import { without } from 'ramda';
 import {
@@ -79,8 +79,44 @@ export const returnObjectWithUndefinedsAsEmptyStrings = <T>(obj): T | undefined 
   return parsedObject as T;
 };
 
+export const swapAgeNameOnProducts = (
+  discountSet:
+    | IOfferProductDiscounts<IUIOfferProductDiscountInstance | IOfferProductDiscountInstance>
+    | IOfferSubProductDiscounts<IUIOfferProductDiscountInstance | IOfferProductDiscountInstance>,
+  find: string,
+  replace: string
+): IOfferProductDiscounts<any> | IOfferSubProductDiscounts<any> => {
+  const ret = Object.keys(discountSet).reduce((acc, key) => {
+    acc[key] = discountSet[key].map(discount => {
+      return {
+        ...discount,
+        products: discount.products.map(product => ({
+          ...product,
+          ageNames: product.ageNames.map(an => (an === find ? replace : an)),
+        })),
+      };
+    });
+    return acc;
+  }, {});
+  return ret;
+};
+
 export const transformApiOfferToUiOffer = (offer: IOfferAPI): IOfferUI => {
   return produce(offer, (draftOffer: IOfferUI) => {
+    if (draftOffer.productDiscounts) {
+      const discounts = original(draftOffer.productDiscounts);
+      if (discounts) {
+        draftOffer.productDiscounts = swapAgeNameOnProducts(discounts, 'default', 'Adult');
+      }
+    }
+
+    if (draftOffer.subProductDiscounts) {
+      const discounts = original(draftOffer.subProductDiscounts);
+      if (discounts) {
+        draftOffer.subProductDiscounts = swapAgeNameOnProducts(discounts, 'default', 'Adult');
+      }
+    }
+
     if (draftOffer.productDiscounts === null) {
       draftOffer.productDiscounts = {};
     }
@@ -175,6 +211,20 @@ export const transformUiOfferToApiOffer = (offer: IOfferUI, uiState: IOfferUiSta
     };
   };
   return produce(offer, (draftOffer: IOfferAPI) => {
+    if (draftOffer.productDiscounts) {
+      const discounts = original(draftOffer.productDiscounts);
+      if (discounts) {
+        draftOffer.productDiscounts = swapAgeNameOnProducts(discounts, 'Adult', 'default');
+      }
+    }
+
+    if (draftOffer.subProductDiscounts) {
+      const discounts = original(draftOffer.subProductDiscounts);
+      if (discounts) {
+        draftOffer.subProductDiscounts = swapAgeNameOnProducts(discounts, 'Adult', 'default');
+      }
+    }
+
     if (draftOffer.subProductDiscounts?.Supplement) {
       draftOffer.subProductDiscounts.Supplement = draftOffer.subProductDiscounts.Supplement.map(discount => {
         const newSupplement: IOfferProductDiscountInstance = productDiscountInstanceTransform(discount);

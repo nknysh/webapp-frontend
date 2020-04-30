@@ -8,9 +8,10 @@ import {
   toOrderedOffer,
 } from '../../utils';
 import { initialState, IOfferUiState, ECombinationMode } from '../../model';
-import { IOfferAPI, IOfferUI, IUIOfferProductDiscountInstance } from 'services/BackendApi';
+import { IOfferAPI, IOfferUI, IUIOfferProductDiscountInstance, IOfferProductDiscounts } from 'services/BackendApi';
 import { IMealPlanProductOptions, IProduct } from 'services/BackendApi/types/HotelResponse';
 import { mockOffersOrderingData } from '../mock';
+import { subProductDiscounts } from '../../../../../services/BackendApi/types/OffersSearchResponse';
 
 describe('offer module utils test', () => {
   describe('getAllAssociatedProductUuidsFromOffer', () => {
@@ -206,6 +207,39 @@ describe('offer module utils test', () => {
   });
 
   describe('transformApiOfferToUiOffer', () => {
+    it('Converts "default" age names to "Adult"', () => {
+      const inputDiscounts = {
+        ...initialState.offer.productDiscounts,
+        Transfer: [
+          {
+            discountPercentage: null,
+            greenTaxDiscountApproach: undefined,
+            maximumQuantity: null,
+            products: [{ ageNames: ['default'] }],
+          },
+        ],
+      } as IOfferProductDiscounts<any>;
+
+      const outputDiscounts = {
+        ...initialState.offer.productDiscounts,
+        Transfer: [
+          {
+            products: [{ ageNames: ['Adult'] }],
+          },
+        ],
+      } as IOfferProductDiscounts<any>;
+
+      const fixture: IOfferAPI = {
+        ...initialState.offer,
+        combines: true,
+        productDiscounts: inputDiscounts,
+      };
+
+      const transformed = transformApiOfferToUiOffer(fixture);
+      // @ts-ignore
+      expect(transformed.productDiscounts.Transfer[0].products).toEqual(outputDiscounts.Transfer[0].products);
+    });
+
     test('adds uuids to sub product discount supplements', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
@@ -267,6 +301,45 @@ describe('offer module utils test', () => {
   });
 
   describe('transformUiOfferToApiOffer', () => {
+    it('Converts "Adult" age names to "default"', () => {
+      const inputDiscounts = {
+        ...initialState.offer.productDiscounts,
+        Transfer: [
+          {
+            products: [{ ageNames: ['Adult'] }],
+          },
+        ],
+      } as IOfferProductDiscounts<any>;
+
+      const outputDiscounts = {
+        ...initialState.offer.productDiscounts,
+        Transfer: [
+          {
+            discountPercentage: null,
+            greenTaxDiscountApproach: undefined,
+            maximumQuantity: null,
+            products: [{ ageNames: ['default'] }],
+          },
+        ],
+      } as IOfferProductDiscounts<any>;
+
+      const fixture: IOfferAPI = {
+        ...initialState.offer,
+        productDiscounts: inputDiscounts,
+        combines: true,
+        furtherInformation: '',
+      };
+
+      const uiFixture: IOfferUiState = {
+        ...initialState.uiState,
+        combinationMode: ECombinationMode.COMBINES_WITH_ANY,
+      };
+
+      const transformed = transformUiOfferToApiOffer(fixture as IOfferUI, uiFixture);
+
+      expect(transformed.productDiscounts).toEqual(outputDiscounts);
+    });
+
     it('Converts furtherInformation to null if given an empty string', () => {
       const fixture: IOfferAPI = {
         ...initialState.offer,
