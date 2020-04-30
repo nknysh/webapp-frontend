@@ -103,9 +103,8 @@ export const lodgingSelector = createSelector(
   (query): FastSearchDomain['query']['lodgings'] => query.lodgings
 );
 
-export const totalGuestCountSelector = createSelector(
-  lodgingSelector,
-  (lodgings): number => lodgings.reduce((acc, next) => acc + next.numberOfAdults + next.agesOfAllChildren!.length, 0)
+export const totalGuestCountSelector = createSelector(lodgingSelector, (lodgings): number =>
+  lodgings.reduce((acc, next) => acc + next.numberOfAdults + next.agesOfAllChildren!.length, 0)
 );
 
 export const showLodgingControlsSelector = createSelector(
@@ -123,6 +122,11 @@ export const activeHotelIdSelector = createSelector(
   (domain): FastSearchDomain['activeHotelId'] => domain.activeHotelId
 );
 
+export const lastExecutedQuerySelector = createSelector(
+  fastSearchDomain,
+  (domain): FastSearchDomain['lastExecutedQuery'] => domain.lastExecutedQuery
+);
+
 export const dateRangeSelector = createSelector(
   offersQuerySelector,
   (query): IDateRange => {
@@ -132,22 +136,16 @@ export const dateRangeSelector = createSelector(
   }
 );
 
-export const totalStayNightsSelector = createSelector(
-  dateRangeSelector,
-  (dateRange): number => {
-    if (!dateRange.end) {
-      return 0;
-    }
-    return differenceInCalendarDays(new Date(dateRange.end), new Date(dateRange.start));
+export const totalStayNightsSelector = createSelector(dateRangeSelector, (dateRange): number => {
+  if (!dateRange.end) {
+    return 0;
   }
-);
+  return differenceInCalendarDays(new Date(dateRange.end), new Date(dateRange.start));
+});
 
-export const totalStayDaysSelector = createSelector(
-  totalStayNightsSelector,
-  (days): number => {
-    return days + 1;
-  }
-);
+export const totalStayDaysSelector = createSelector(totalStayNightsSelector, (days): number => {
+  return days + 1;
+});
 
 export const datePickerCurrentDateSelector = createSelector(
   fastSearchDomain,
@@ -164,10 +162,7 @@ export const showDatePickerSelector = createSelector(
   (domain): FastSearchDomain['showDatePicker'] => domain.showDatePicker
 );
 
-export const isRepeatGuestSelector = createSelector(
-  lodgingSelector,
-  (lodging): boolean => lodging[0].repeatCustomer
-);
+export const isRepeatGuestSelector = createSelector(lodgingSelector, (lodging): boolean => lodging[0].repeatCustomer);
 
 export const selectedDatesSelector = createSelector(
   dateRangeSelector,
@@ -178,36 +173,33 @@ export const selectedDatesSelector = createSelector(
   }
 );
 
-export const dateRangeDisplayStringSelector = createSelector(
-  dateRangeSelector,
-  (dateRange): string => {
-    if (!dateRange.start || !dateRange.end) {
-      return 'Select date range';
-    }
-
-    const startDate = new Date(dateRange.start);
-    const endDate = new Date(dateRange.end);
-
-    const startDay = format(startDate, 'd');
-    const endDay = format(endDate, 'd');
-    const startMonth = format(startDate, 'LLL');
-    const endMonth = format(endDate, 'LLL');
-    const startYear = format(startDate, 'yyyy');
-    const endYear = format(endDate, 'yyyy');
-    const inSameMonth = isSameMonth(startDate, endDate);
-    const inSameYear = isSameYear(startDate, endDate);
-
-    if (!inSameMonth && inSameYear) {
-      return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${endYear}`;
-    }
-
-    if (!inSameMonth && !inSameYear) {
-      return `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`;
-    }
-
-    return `${startDay} - ${endDay} ${startMonth} ${endYear}`;
+export const dateRangeDisplayStringSelector = createSelector(dateRangeSelector, (dateRange): string => {
+  if (!dateRange.start || !dateRange.end) {
+    return 'Select date range';
   }
-);
+
+  const startDate = new Date(dateRange.start);
+  const endDate = new Date(dateRange.end);
+
+  const startDay = format(startDate, 'd');
+  const endDay = format(endDate, 'd');
+  const startMonth = format(startDate, 'LLL');
+  const endMonth = format(endDate, 'LLL');
+  const startYear = format(startDate, 'yyyy');
+  const endYear = format(endDate, 'yyyy');
+  const inSameMonth = isSameMonth(startDate, endDate);
+  const inSameYear = isSameYear(startDate, endDate);
+
+  if (!inSameMonth && inSameYear) {
+    return `${startDay} ${startMonth} - ${endDay} ${endMonth} ${endYear}`;
+  }
+
+  if (!inSameMonth && !inSameYear) {
+    return `${startDay} ${startMonth} ${startYear} - ${endDay} ${endMonth} ${endYear}`;
+  }
+
+  return `${startDay} - ${endDay} ${startMonth} ${endYear}`;
+});
 
 export const fastSearchBookingBuilderSelector = createSelector(
   bookingBuilderHotelUuidSelector,
@@ -225,25 +217,19 @@ export const fastSearchBookingBuilderSelector = createSelector(
   }
 );
 
-export const nameSearchResultsSelector = createSelector(
-  fastSearchDomain,
-  (domain): string[][] => {
-    if (!domain.nameSearchResults) {
-      return [];
-    }
-    const countries = domain.nameSearchResults.countries.map(v => v.name);
-    const hotels = domain.nameSearchResults.hotels.map(v => v.name);
-    return [[ALL_COUNTRIES_AND_RESORTS], countries, hotels];
+export const nameSearchResultsSelector = createSelector(fastSearchDomain, (domain): string[][] => {
+  if (!domain.nameSearchResults) {
+    return [];
   }
-);
+  const countries = domain.nameSearchResults.countries.map(v => v.name);
+  const hotels = domain.nameSearchResults.hotels.map(v => v.name);
+  return [[ALL_COUNTRIES_AND_RESORTS], countries, hotels];
+});
 
-export const canSearchSelector = createSelector(
-  lodgingSelector,
-  dateRangeSelector,
-  (lodgings, dateRange): boolean =>
-    [
-      dateRange.start,
-      dateRange.end,
-      lodgings.every(lg => lg.numberOfAdults > 0 || (lg.agesOfAllChildren && lg.agesOfAllChildren.length > 0)),
-    ].every(item => Boolean(item))
+export const canSearchSelector = createSelector(lodgingSelector, dateRangeSelector, (lodgings, dateRange): boolean =>
+  [
+    dateRange.start,
+    dateRange.end,
+    lodgings.every(lg => lg.numberOfAdults > 0 || (lg.agesOfAllChildren && lg.agesOfAllChildren.length > 0)),
+  ].every(item => Boolean(item))
 );

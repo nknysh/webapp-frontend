@@ -90,9 +90,9 @@ export const DisplayTotalsBreakdown = (props: IDisplayTotalsBreakdownProps) => {
     const depth = block.blockType === 'Ground Services' || block.blockType === 'Addons' ? 3 : 2;
     const title =
       block.blockType === 'Ground Services' || block.blockType === 'Addons' ? (
-        <span>{item.title}</span>
+        <span key={itemIndex}>{item.title}</span>
       ) : (
-        <strong>{item.title}</strong>
+        <strong key={itemIndex}>{item.title}</strong>
       );
 
     return (

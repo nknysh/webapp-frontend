@@ -115,7 +115,6 @@ export default function fastSearchReducer(
           ...state,
           queryHasChanged: false,
           query: state.lastExecutedQuery,
-          lastExecutedQuery: null,
         };
       }
 

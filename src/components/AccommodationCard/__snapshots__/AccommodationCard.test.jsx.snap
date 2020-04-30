@@ -158,23 +158,20 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
       >
         Test Offer 2
       </li>
-      <li
-        className="add-lodging-button-wrapper"
-      >
-        <label>
-          Room Count:
-           
-          0
-        </label>
-        <br />
-        <styled.button
-          className="addLodgingButton"
-          onClick={[Function]}
-        >
-          Add Room
-        </styled.button>
-      </li>
     </ul>
+  </div>
+  <div>
+    <styled.button
+      className="addLodgingButton"
+      disabled={false}
+      key="Test ID-so"
+    >
+      Add Room
+       
+      <small>
+        (Standard Occupancy)
+      </small>
+    </styled.button>
   </div>
 </div>
 `;
@@ -332,23 +329,20 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
       >
         Test Offer 2
       </li>
-      <li
-        className="add-lodging-button-wrapper"
-      >
-        <label>
-          Room Count:
-           
-          0
-        </label>
-        <br />
-        <styled.button
-          className="addLodgingButton"
-          onClick={[Function]}
-        >
-          Add Room
-        </styled.button>
-      </li>
     </ul>
+  </div>
+  <div>
+    <styled.button
+      className="addLodgingButton"
+      disabled={false}
+      key="Test ID-so"
+    >
+      Add Room
+       
+      <small>
+        (Standard Occupancy)
+      </small>
+    </styled.button>
   </div>
 </div>
 `;
@@ -506,23 +500,20 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
       >
         Test Offer 2
       </li>
-      <li
-        className="add-lodging-button-wrapper"
-      >
-        <label>
-          Room Count:
-           
-          0
-        </label>
-        <br />
-        <styled.button
-          className="addLodgingButton"
-          onClick={[Function]}
-        >
-          Add Room
-        </styled.button>
-      </li>
     </ul>
+  </div>
+  <div>
+    <styled.button
+      className="addLodgingButton"
+      disabled={false}
+      key="Test ID-so"
+    >
+      Add Room
+       
+      <small>
+        (Standard Occupancy)
+      </small>
+    </styled.button>
   </div>
 </div>
 `;

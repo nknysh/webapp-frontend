@@ -30,8 +30,6 @@ export const AccommodationCard = props => {
   const hasOffers = props.appliedOffers.length > 0;
   const onRequest = props.totals.oneOrMoreItemsOnRequest;
 
-  const handleAdd = () => props.onRoomAdd(props.id);
-
   return (
     <div className={props.className} data-role="accomodation-cards">
       {props.availableToHold && <div className="canHold">{t('labels.availableToHoldGeneric')}</div>}
@@ -101,16 +99,30 @@ export const AccommodationCard = props => {
               {offer}
             </li>
           ))}
-          <li className="add-lodging-button-wrapper">
-            <label>
-              {t('labels.lodgingCountPrefix')} {props.count ? props.count : 0}
-            </label>
-            <br />
-            <PrimaryButton className={'addLodgingButton'} onClick={handleAdd}>
-              {t('labels.addLodging')}
-            </PrimaryButton>
-          </li>
         </ul>
+      </div>
+      <div>
+        {props.ctaData &&
+          props.ctaData.map((ctaDataSet, index) => {
+            return (
+              <PrimaryButton
+                disabled={ctaDataSet.isDisabled}
+                key={index}
+                className={'addLodgingButton'}
+                onClick={() => ctaDataSet.addRoom()}
+              >
+                {t('labels.addLodging')} for {ctaDataSet.totalGuests} Guests <small>(Search Room {index + 1})</small>
+              </PrimaryButton>
+            );
+          })}
+        <PrimaryButton
+          disabled={false}
+          key={`${props.id}-so`}
+          className={'addLodgingButton'}
+          onClick={props.addRoomStandardOccupancy}
+        >
+          {t('labels.addLodging')} <small>(Standard Occupancy)</small>
+        </PrimaryButton>
       </div>
     </div>
   );
@@ -121,7 +133,7 @@ export const AccommodationCard = props => {
 AccommodationCard.propTypes = {
   id: PropTypes.string,
   className: PropTypes.string,
-  imageUri: PropTypes.string.isRequired,
+  imageUri: PropTypes.string,
   title: PropTypes.string.isRequired,
   count: PropTypes.number,
   description: PropTypes.string,
@@ -159,8 +171,8 @@ AccommodationCard.propTypes = {
     totalForPricedItems: PropTypes.string,
     totalForPricedItemsCents: PropTypes.number,
   }),
-  onRoomAdd: PropTypes.func,
-  onRoomRemove: PropTypes.func,
+  addRoomStandardOccupancy: PropTypes.func,
+  ctaData: PropTypes.array,
 };
 
 export default AccommodationCard;

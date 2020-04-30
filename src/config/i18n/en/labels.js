@@ -248,7 +248,7 @@ export default {
   noMealPlansForDatesOccupancy: 'There are no available meal plans for the selected dates/occupancy',
   numberOfChildren: 'Number of Children',
   numberOfAdults: 'Number of Adults',
-  removeLodging: 'Remove Roooms',
+  removeLodging: 'Remove Rooms',
   appliedOffers: 'Applied Offers',
   appliedSupplements: 'Applied Supplements',
   nightSigular: 'night',

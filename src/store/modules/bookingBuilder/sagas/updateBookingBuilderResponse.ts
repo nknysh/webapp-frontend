@@ -18,7 +18,7 @@ import {
   UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
   UPDATE_TRAVEL_AGENT_USER_ID,
   SAVE_CUSTOM_ITEM,
-  REMOVE_CUSTOM_ITEM
+  REMOVE_CUSTOM_ITEM,
 } from '../actions';
 
 import { makeBackendApi, BookingBuilderEndpointSuccess, BookingBuilderRequest } from 'services/BackendApi';
@@ -32,7 +32,7 @@ export function* bookingBuilderResponseSaga(action: any) {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
     const request: BookingBuilderRequest = yield select(bookingRequestSelector);
-    if (request.Accommodation.length <= 0) {
+    if (!request || !request.Accommodation || request.Accommodation.length <= 0) {
       return;
     }
     const bookingBuilderEndpointResponse: AxiosResponse<BookingBuilderEndpointSuccess> = yield call(
@@ -82,7 +82,7 @@ export function* watchBookingActions() {
       UPDATE_IS_TA_MARGIN_APPLIED_ACTION,
       UPDATE_TRAVEL_AGENT_USER_ID,
       SAVE_CUSTOM_ITEM,
-      REMOVE_CUSTOM_ITEM
+      REMOVE_CUSTOM_ITEM,
     ],
     bookingBuilderResponseSaga
   );

@@ -53,7 +53,6 @@ export const REMOVE_CUSTOM_ITEM = 'bookingBuilder/REMOVE_CUSTOM_ITEM';
 export const UPDATE_AGREEE_TO_TERMS = 'bookingBuilder/UPDATE_AGREEE_TO_TERMS';
 export const SET_IS_PRISTINE = 'bookingBuilder/SET_IS_PRISTINE';
 
-
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
   type: INITIALIZE_BOOKING_BUILDER as typeof INITIALIZE_BOOKING_BUILDER,
@@ -165,16 +164,17 @@ export const updateLodgingDatesAction = (
 // add lodgings
 export type AddLodgingAction = ReturnType<typeof addLodgingAction>;
 export const addLodgingAction = (
-  hotelUuid: string,
-  accommodationProductUuid: string,
-  hotelAccommodationProducts: HotelAccommodationProduct[],
-  searchQuery: ISearchQuery
+  accommodationProduct: any, // the accommodation product comes from JS land and is a massive nightmare
+  searchQuery: ISearchQuery,
+  guestAges?: {
+    numberOfAdults: number;
+    agesOfAllChildren: number[];
+  }
 ) => ({
   type: ADD_LODGING_ACTION as typeof ADD_LODGING_ACTION,
-  hotelUuid,
-  accommodationProductUuid,
-  hotelAccommodationProducts,
+  accommodationProduct,
   searchQuery,
+  guestAges,
 });
 
 export type ForwardsCompatBookingBuilderAction = ReturnType<typeof forwardsCompatBookingBuilderAction>;
@@ -234,26 +234,26 @@ export const updateLodgingRepeatGuestAction = (hotelUuid: string, lodgingIndex: 
 export type SaveCustomItemAction = ReturnType<typeof saveCustomItemAction>;
 export const saveCustomItemAction = (hotelUuid: string) => ({
   type: SAVE_CUSTOM_ITEM as typeof SAVE_CUSTOM_ITEM,
-  hotelUuid
+  hotelUuid,
 });
 
 export type RemoveCustomItemAction = ReturnType<typeof removeCustomItemAction>;
 export const removeCustomItemAction = (index: number, hotelUuid: string) => ({
   type: REMOVE_CUSTOM_ITEM as typeof REMOVE_CUSTOM_ITEM,
   index,
-  hotelUuid
+  hotelUuid,
 });
 
 export type UpdateAgreeToTermsAction = ReturnType<typeof updateAgreeToTermsAction>;
 export const updateAgreeToTermsAction = (value: boolean) => ({
   type: UPDATE_AGREEE_TO_TERMS as typeof UPDATE_AGREEE_TO_TERMS,
-  value
+  value,
 });
 
 export type SetIsPristineAction = ReturnType<typeof setIsPristineAction>;
 export const setIsPristineAction = (value: boolean) => ({
   type: SET_IS_PRISTINE as typeof SET_IS_PRISTINE,
-  value
+  value,
 });
 
 export type BookingBuilderAction =

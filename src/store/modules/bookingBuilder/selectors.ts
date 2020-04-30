@@ -330,12 +330,8 @@ export const travelAgentUserUuidSelector = createSelector(
   bookingBuilderDomain => bookingBuilderDomain.travelAgentUserUuid
 );
 
-export const guestInfoSelector = createSelector(
-  bookingBuilderDomain,
-  bookingBuilderDomain => pick(
-    ['guestTitle', 'guestFirstName', 'guestLastName', 'isRepeatGuest'],
-    bookingBuilderDomain
-  )
+export const guestInfoSelector = createSelector(bookingBuilderDomain, bookingBuilderDomain =>
+  pick(['guestTitle', 'guestFirstName', 'guestLastName', 'isRepeatGuest'], bookingBuilderDomain)
 );
 
 export const agreeToTermsSelector = createSelector(
@@ -349,29 +345,22 @@ export const isPristineSelector = createSelector(
 );
 
 // ---------------- validation --------------------------
-const requireValue = (val: any) =>
-  (isNil(val) || isEmpty(val)) ? ['Required'] : [];
+const requireValue = (val: any) => (isNil(val) || isEmpty(val) ? ['Required'] : []);
 
-export const guestInfoValidationSelector = createSelector(
-  guestInfoSelector,
-  guestInfo => ({
-    guestFirstName: requireValue(guestInfo.guestFirstName),
-    guestLastName: requireValue(guestInfo.guestLastName)
-  })
-);
+export const guestInfoValidationSelector = createSelector(guestInfoSelector, guestInfo => ({
+  guestFirstName: requireValue(guestInfo.guestFirstName),
+  guestLastName: requireValue(guestInfo.guestLastName),
+}));
 
-export const agreeToTermsValidationSelector = createSelector(
-  agreeToTermsSelector,
-  agreeToTerms => ({
-    agreeToTerms: agreeToTerms ? [] : ['Required']
-  })
-);
+export const agreeToTermsValidationSelector = createSelector(agreeToTermsSelector, agreeToTerms => ({
+  agreeToTerms: agreeToTerms ? [] : ['Required'],
+}));
 
 export const travelAgentUserUuidValidationSelector = createSelector(
   travelAgentUserUuidSelector,
   isSRSelector,
   (travelAgentUserUuid, isSR) => ({
-    travelAgentUserUuid: isSR ? requireValue(travelAgentUserUuid) : []
+    travelAgentUserUuid: isSR ? requireValue(travelAgentUserUuid) : [],
   })
 );
 
@@ -382,6 +371,6 @@ export const domainValidationSelector = createSelector(
   (guestInfoValidation, agreeToTermsValidation, travelAgentUserUuidValidation) => ({
     ...guestInfoValidation,
     ...agreeToTermsValidation,
-    ...travelAgentUserUuidValidation
+    ...travelAgentUserUuidValidation,
   })
 );

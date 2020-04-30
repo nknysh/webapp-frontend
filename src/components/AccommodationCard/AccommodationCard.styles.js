@@ -103,6 +103,10 @@ export default styled(AccommodationCard)`
       flex-direction: row;
     }
 
+    .addLodgingButton {
+      margin: 0 12px 12px 12px;
+    }
+
     ul.pricing {
       text-align: right;
       padding: 1rem 1rem 1rem 0;
@@ -129,11 +133,6 @@ export default styled(AccommodationCard)`
         position: absolute;
         bottom: 28px;
         right: 28px;
-      }
-
-      .addLodgingButton {
-        float: right;
-        width: 129px;
       }
     }
 

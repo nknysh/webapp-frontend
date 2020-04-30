@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 
 export const propTypes = {
-  rooms: PropTypes.arrayOf(PropTypes.object),
+  accommodationProducts: PropTypes.arrayOf(PropTypes.object),
   selectedRooms: PropTypes.object,
   bookingStatus: PropTypes.string,
 };
 
 export const defaultProps = {
-  rooms: [],
+  accommodationProducts: [],
   selectedRooms: {},
 };

@@ -69,13 +69,13 @@ export const bookingBuilderReducer = (
 
     case Actions.UPDATE_LODGING_REPEAT_GUEST_ACTION:
       return updateLodgingRepeatGuestReducer(state, action);
-    
+
     case Actions.UPDATE_AGREEE_TO_TERMS:
       return updateAgreeToTermsReducer(state, action);
-    
-      case Actions.SET_IS_PRISTINE:
-        return setIsPristineReducer(state, action);
-    
+
+    case Actions.SET_IS_PRISTINE:
+      return setIsPristineReducer(state, action);
+
     case Actions.SAVE_CUSTOM_ITEM:
       return saveCustomItemReducer(state, action);
     case Actions.REMOVE_CUSTOM_ITEM:
@@ -84,13 +84,13 @@ export const bookingBuilderReducer = (
     case CustomItemActions.SHOW_CUSTOM_ITEM_FORM:
     case CustomItemActions.HIDE_CUSTOM_ITEM_FORM:
     case CustomItemActions.UPDATE_CUSTOM_ITEM_NAME:
-    case CustomItemActions.UPDATE_CUSTOM_ITEM_TOTAL: 
-    case CustomItemActions.UPDATE_CUSTOM_ITEM_DESCRIPTION: 
-    case CustomItemActions.UPDATE_CUSTOM_ITEM_COUNTS_AS_MEAL_PLAN: 
-    case CustomItemActions.UPDATE_CUSTOM_ITEM_COUNTS_AS_TRANSFER: 
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_TOTAL:
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_DESCRIPTION:
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_COUNTS_AS_MEAL_PLAN:
+    case CustomItemActions.UPDATE_CUSTOM_ITEM_COUNTS_AS_TRANSFER:
       return {
         ...state,
-        customItem: customItemReducer(state.customItem, action)
+        customItem: customItemReducer(state.customItem, action),
       };
 
     default:
@@ -185,37 +185,29 @@ export const addLodgingReducer = (
   state: BookingBuilderDomain,
   action: Actions.AddLodgingAction
 ): BookingBuilderDomain => {
-  const { accommodationProductUuid, hotelAccommodationProducts, searchQuery } = action;
+  const { accommodationProduct, searchQuery } = action;
+  let { guestAges } = action;
   const { startDate, endDate } = searchQuery;
-  const selectedAccommodationProduct = hotelAccommodationProducts.find(r => r.uuid === accommodationProductUuid);
-
-  if (!selectedAccommodationProduct) {
-    return state;
-  }
-
-  const adultLimit = selectedAccommodationProduct.occupancy.limits.filter(l => l.name === 'default')[0];
-  const numberOfAdults = Rmin(selectedAccommodationProduct.occupancy.standardOccupancy, adultLimit.maximum);
 
   return produce(state, draftState => {
     if (!draftState.currentBookingBuilder) {
       return state;
     }
-    const existingLodgingOfAccommodationProduct = draftState.currentBookingBuilder.request.Accommodation.find(
-      a => a.uuid === accommodationProductUuid
-    );
-    const previousLodging =
-      draftState.currentBookingBuilder.request.Accommodation[
-        draftState.currentBookingBuilder.request.Accommodation.length - 1
-      ];
+
+    // if they're adding the room without guest ages, they want standard occupancy
+    if (guestAges == null) {
+      guestAges = {
+        numberOfAdults: action.accommodationProduct.occupancy.standardOccupancy,
+        agesOfAllChildren: [],
+      };
+    }
 
     let newLodging;
 
-    //
-    // See description on https://github.com/pure-escapes/webapp-frontend/pull/460 re. add lodging logic
-    //
     if (draftState.currentBookingBuilder.request.Accommodation.length <= 0) {
+      // first room on the booking
       newLodging = {
-        uuid: accommodationProductUuid,
+        uuid: accommodationProduct.uuid,
         startDate: formatDate(startDate),
         endDate: formatDate(endDate),
         honeymoon: searchQuery.lodgings[0].honeymoon || false,
@@ -223,51 +215,31 @@ export const addLodgingReducer = (
         wedding: searchQuery.lodgings[0].wedding || false,
         birthday: searchQuery.lodgings[0].birthday || false,
         repeatCustomer: searchQuery.lodgings[0].repeatCustomer || false,
-        guestAges: {
-          numberOfAdults,
-          agesOfAllChildren: [],
-        },
+        guestAges,
         subProducts: {
           'Meal Plan': [
             {
-              uuid: selectedAccommodationProduct ? selectedAccommodationProduct.defaultMealPlanUuid : null,
+              uuid: accommodationProduct.defaultMealPlanUuid,
             },
           ],
         },
       };
-    } else if (existingLodgingOfAccommodationProduct) {
-      newLodging = {
-        ...existingLodgingOfAccommodationProduct,
-        startDate: formatDate(existingLodgingOfAccommodationProduct.startDate),
-        endDate: formatDate(existingLodgingOfAccommodationProduct.endDate),
-        honeymoon: false,
-        anniversary: false,
-        wedding: false,
-        birthday: false,
-        repeatCustomer: false,
-        guestAges: {
-          numberOfAdults,
-          agesOfAllChildren: [],
-        },
-      };
     } else {
+      // not the first room on the booking
       newLodging = {
-        uuid: accommodationProductUuid,
-        startDate: formatDate(previousLodging.startDate),
-        endDate: formatDate(previousLodging.endDate),
+        uuid: accommodationProduct.uuid,
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
         honeymoon: false,
         anniversary: false,
         wedding: false,
         birthday: false,
         repeatCustomer: false,
-        guestAges: {
-          numberOfAdults,
-          agesOfAllChildren: [],
-        },
+        guestAges,
         subProducts: {
           'Meal Plan': [
             {
-              uuid: selectedAccommodationProduct ? selectedAccommodationProduct.defaultMealPlanUuid : null,
+              uuid: accommodationProduct.defaultMealPlanUuid,
             },
           ],
         },
@@ -334,9 +306,37 @@ export const removeLodgingReducer = (
     );
 
     // if the user has got to a position where they have no lodgings at all,
-    // they've basically manually reset the booking - so clear it out
+    // they've basically manually reset the booking - reset a whooooole bunch of stuff
     if (draftState.currentBookingBuilder.request.Accommodation.length <= 0) {
-      draftState.currentBookingBuilder = null;
+      draftState.currentBookingBuilder.request.Accommodation = [];
+      draftState.currentBookingBuilder.response.canBeBooked = false;
+      draftState.currentBookingBuilder.response.mustStop = false;
+      draftState.currentBookingBuilder.response.errors = [];
+      draftState.currentBookingBuilder.response.displayTotals.totals.total = null;
+      draftState.currentBookingBuilder.response.potentialBooking = {
+        Accommodation: [],
+        Supplement: [],
+        Transfer: [],
+        'Ground Service': [],
+        Fine: [],
+      };
+      draftState.currentBookingBuilder.response.availableProductSets = {
+        Accommodation: [],
+        Supplement: [],
+        Transfer: [],
+        'Ground Service': [],
+        Fine: [],
+      };
+
+      draftState.currentBookingBuilder.response.totals = {
+        oneOrMoreItemsOnRequest: false,
+        totalForPricedItemsCents: 0,
+        totalBeforeDiscountForPricedItemsCents: 0,
+        totalForPricedItems: '0.00',
+        totalBeforeDiscountForPricedItems: '0.00',
+        total: '0.00',
+        totalBeforeDiscount: '0.00',
+      };
     }
 
     return draftState;
@@ -531,7 +531,7 @@ export const forwardsCompatBookingBuilderReducer = (
         },
       },
       breakdown: undefined,
-      customItem: initialState.customItem
+      customItem: initialState.customItem,
     };
 
     return draftState;
@@ -601,7 +601,6 @@ export const setIsPristineReducer = (
     return draftState;
   });
 };
-
 
 export const updateLodgingRepeatGuestReducer = (
   state: BookingBuilderDomain,
@@ -674,12 +673,10 @@ export const calculateBookingDates = (accommodations: SelectedAccommodation[]) =
 
 export default bookingBuilderReducer;
 
-
 export const saveCustomItemReducer = (
   state: BookingBuilderDomain,
   action: Actions.SaveCustomItemAction
 ): BookingBuilderDomain => {
-  
   return produce(state, draftState => {
     if (!draftState.currentBookingBuilder || !draftState.customItem.payload) {
       return state;
@@ -691,29 +688,18 @@ export const saveCustomItemReducer = (
 
     const { payload } = draftState.customItem;
 
-    draftState
-      .currentBookingBuilder
-      .request
-      .customItems
-      .push(payload);
-    
-    if(payload.countsAsTransfer){
-      draftState
-        .currentBookingBuilder
-        .request
-        .Transfer = [];
+    draftState.currentBookingBuilder.request.customItems.push(payload);
+
+    if (payload.countsAsTransfer) {
+      draftState.currentBookingBuilder.request.Transfer = [];
     }
 
-    if(payload.countsAsMealPlan){
-      draftState
-        .currentBookingBuilder
-        .request
-        .Accommodation
-        .forEach(product => {
-          product.subProducts['Meal Plan'] = [];
-        })
+    if (payload.countsAsMealPlan) {
+      draftState.currentBookingBuilder.request.Accommodation.forEach(product => {
+        product.subProducts['Meal Plan'] = [];
+      });
     }
-    
+
     draftState.customItem.payload = null;
 
     return draftState;
@@ -724,17 +710,12 @@ export const removeCustomItemReducer = (
   state: BookingBuilderDomain,
   action: Actions.RemoveCustomItemAction
 ): BookingBuilderDomain => {
-  
   return produce(state, draftState => {
     if (!draftState.currentBookingBuilder) {
       return state;
     }
 
-    draftState
-      .currentBookingBuilder
-      .request
-      .customItems
-      .splice(action.index, 1);
+    draftState.currentBookingBuilder.request.customItems.splice(action.index, 1);
 
     return draftState;
   });

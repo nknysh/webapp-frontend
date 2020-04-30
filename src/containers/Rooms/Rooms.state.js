@@ -15,6 +15,8 @@ import {
   updateBooking,
 } from 'store/modules/bookings';
 
+import { lastExecutedQuerySelector } from 'store/modules/fastSearch';
+
 import { offersQuerySelector } from 'store/modules/fastSearch';
 
 import { addLodgingAction, bookingResponseLodgingCountsPerAccommodation } from 'store/modules/bookingBuilder';
@@ -24,10 +26,11 @@ export const mapStateToProps = (state, { hotelUuid }) => ({
   booking: getBooking(state, hotelUuid),
   currencyCode: getBookingCurrencySymbol(state, hotelUuid),
   requestedRooms: getBookingRooms(state, hotelUuid),
-  rooms: getCurrentHotelAccommodationProducts(state),
+  accommodationProducts: getCurrentHotelAccommodationProducts(state),
   roomsError: getCurrentHotelAccommodationProductsError(state),
   lodgingCountsPerAccommodation: bookingResponseLodgingCountsPerAccommodation(state),
   searchQuery: offersQuerySelector(state),
+  lastExecutedQuery: lastExecutedQuerySelector(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

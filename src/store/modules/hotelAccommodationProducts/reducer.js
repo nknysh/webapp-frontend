@@ -20,6 +20,7 @@ const extractDisplayInformationForHotelAccommodationProduct = bookingBuilderResp
     amenities: accommodationProduct.meta.amenities,
     moreInformation: accommodationProduct.meta.moreInformation,
     size: accommodationProduct.meta.size,
+    ages: accommodationProduct.options.ages,
     occupancy: accommodationProduct.options.occupancy,
     categoryType: accommodationProduct.meta.categoryType,
     errors: bookingBuilderResponse.errors,

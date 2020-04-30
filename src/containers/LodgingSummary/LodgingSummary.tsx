@@ -415,8 +415,8 @@ export const LodgingSummaryRender = props => {
             <CollapsibleSection>
               <CollapseHeader>
                 <label>{t('labels.appliedSupplements')}</label>
-                {appliedSupplements.map(s => (
-                  <Text>{s}</Text>
+                {appliedSupplements.map((s, i) => (
+                  <Text key={i}>{s}</Text>
                 ))}
               </CollapseHeader>
             </CollapsibleSection>
@@ -428,8 +428,10 @@ export const LodgingSummaryRender = props => {
             <CollapsibleSection>
               <CollapseHeader>
                 <label>{t('labels.appliedOffers')}</label>
-                {appliedOffers.map(s => (
-                  <Text data-discounted="true">{s}</Text>
+                {appliedOffers.map((s, i) => (
+                  <Text key={i} data-discounted="true">
+                    {s}
+                  </Text>
                 ))}
               </CollapseHeader>
             </CollapsibleSection>

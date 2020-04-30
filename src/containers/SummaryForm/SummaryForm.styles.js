@@ -62,7 +62,7 @@ export const HotelTotalsInfo = styled.div`
   color: ${theme.palette.secondary};
 `;
 
-export const Total = styled.p`
+export const Total = styled.span`
   display: block;
 
   color: ${theme.palette.secondary};
@@ -86,13 +86,14 @@ export const Total = styled.p`
     `}
 `;
 
-export const Text = styled.p`
+export const Text = styled.span`
   color: ${theme.palette.secondary};
   font-size: ${theme.fonts.sizes.default}px;
   line-height: 20px;
   text-transform: uppercase;
   margin: 0;
   padding: 0;
+  display: block;
 
   ${({ ['data-discounted']: secondary }) =>
     secondary &&
