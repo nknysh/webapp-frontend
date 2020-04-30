@@ -3,7 +3,7 @@ import { IProposalsListDomain } from './model';
 
 import { isSR } from 'store/modules/auth';
 
-const proposalsListDomain = (state: any) => state.proposalsList;
+export const proposalsListDomain = (state: any): IProposalsListDomain => state.proposalsList;
 
 export const requestPendingSelector = createSelector(
   proposalsListDomain,

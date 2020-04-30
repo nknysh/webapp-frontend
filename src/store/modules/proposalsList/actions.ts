@@ -1,4 +1,5 @@
 import { IProposalsListItem } from 'services/BackendApi';
+import { PendingProposalsAction } from './subdomains/pendingProposals/actions';
 
 export const GET_PROPOSAL_LIST_REQUEST = 'proposalList/GET_PROPOSAL_LIST_REQUEST';
 export const GET_PROPOSAL_LIST_SUCCESS = 'proposalList/GET_PROPOSAL_LIST_SUCCESS';
@@ -58,4 +59,5 @@ export type ProposalsListAction =
   | SetFilterAction
   | SetPageNumberAction
   | SetSortAction
-  | SetSelectedTravelAgentAction;
+  | SetSelectedTravelAgentAction
+  | PendingProposalsAction;

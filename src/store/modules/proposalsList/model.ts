@@ -1,5 +1,11 @@
 import { IProposalsListItem } from 'services/BackendApi/types/ProposalsListResponse';
 
+export interface IPendingProposalsSubdomain {
+  requestPending: boolean;
+  error: any | null;
+  count: number;
+}
+
 export interface IProposalsListDomain {
   requestPending: boolean;
   error: any | null;
@@ -13,6 +19,7 @@ export interface IProposalsListDomain {
   filterFields: string[];
   bookingFields: string[];
   travelAgentUuid: string | null;
+  pendingProposals: IPendingProposalsSubdomain
 }
 
 export const initialState: IProposalsListDomain = {
@@ -28,4 +35,9 @@ export const initialState: IProposalsListDomain = {
   filterFields: ['uuid', 'guestFirstName', 'guestLastName', 'name'],
   bookingFields: ['hotelUuid', 'checkInDate', 'checkOutDate'],
   travelAgentUuid: null,
+  pendingProposals: {
+    requestPending: false,
+    error: null,
+    count: 0
+  }
 };

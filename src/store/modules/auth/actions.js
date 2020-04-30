@@ -16,6 +16,7 @@ export const AUTH_RESET = 'AUTH_RESET';
 export const AUTH_SET_TOKEN = 'AUTH_SET_TOKEN';
 export const AUTH_SIGN_UP = 'AUTH_SIGN_UP';
 export const AUTH_LOG_IN = 'AUTH_LOG_IN';
+export const AUTH_LOG_IN_SUCCESS = 'AUTH_LOG_IN_SUCCESS';
 export const AUTH_LOG_OUT = 'AUTH_LOG_OUT';
 export const AUTH_PASSWORD_RESET = 'AUTH_PASSWORD_RESET';
 export const AUTH_SET_PASSWORD = 'AUTH_SET_PASSWORD';
