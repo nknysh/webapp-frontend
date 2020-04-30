@@ -7,7 +7,6 @@ import TextInput from 'pureUi/TextInput';
 import { PrimaryButton, SecondaryButton, ButtonBar } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Redirect } from 'react-router-dom';
-import BookingGuestInformationForm from 'pureUi/BookingGuestInformationForm';
 import { makeBackendApi } from 'services/BackendApi';
 import { formatDate } from 'utils';
 import { Heading1 } from 'styles';
@@ -52,7 +51,7 @@ const BookingSummaryPotentialSR = props => {
   const [localBookingCommentsState, setLocalBookingCommentsState] = useState(newBooking.bookingComments || '');
   const [localInternalCommentsState, setLocalInternalCommentsState] = useState(newBooking.internalComments || '');
   const [isProposalModalOpen, setIsProposalModalOpen] = useState(false);
-  const [isRequestToBookModalOpen, setIsRequestToBookModalOpen] = useState(false);
+  const [isRequestToBookLoading, setIsRequestToBookLoading] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [hasCancelled, setHasCancelled] = useState(false);
   const [isOverrideHoldModalOpen, setIsOverrideHoldModalOpen] = useState(false);
@@ -294,44 +293,22 @@ const BookingSummaryPotentialSR = props => {
           <AsideDetails>
             <Title>{props.t('labels.requestToBook')}</Title>
             <Text>You can request to book this booking</Text>
-            <PrimaryButton onClick={() => setIsRequestToBookModalOpen(true)}>
+            <PrimaryButton
+              disabled={isRequestToBookLoading}
+              onClick={async () => {
+                setIsRequestToBookLoading(true);
+                try {
+                  await backendApi.requestToBook(newBooking);
+                  location.reload();
+                } catch (e) {
+                  console.error(`Error: ${e}`);
+                } finally {
+                  setIsRequestToBookLoading(false);
+                }
+              }}
+            >
               {props.t('labels.requestToBook')}
             </PrimaryButton>
-
-            {isRequestToBookModalOpen && (
-              <StandardModal onClose={() => setIsRequestToBookModalOpen(false)}>
-                <ModalHeader>
-                  <Heading1>{props.t('labels.requestToBook')}</Heading1>
-                </ModalHeader>
-                <ModalContent>
-                  <BookingGuestInformationForm
-                    bookingGuestFormValues={...newBooking}
-                    onValueChange={newValues => {
-                      try {
-                        updateBookingGuestInformationAction(newValues);
-                      } catch (e) {
-                        console.error(`Error ${e}`);
-                      }
-                    }}
-                  />
-                </ModalContent>
-                <ModalFooter>
-                  <PrimaryButton
-                    type="button"
-                    onClick={async () => {
-                      try {
-                        await backendApi.requestToBook(newBooking);
-                        location.reload();
-                      } catch (e) {
-                        console.error(`Error: ${e}`);
-                      }
-                    }}
-                  >
-                    Request Booking
-                  </PrimaryButton>
-                </ModalFooter>
-              </StandardModal>
-            )}
           </AsideDetails>
         </React.Fragment>
       )}
