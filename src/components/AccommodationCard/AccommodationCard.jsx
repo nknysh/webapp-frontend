@@ -111,7 +111,7 @@ export const AccommodationCard = props => {
                 className={'addLodgingButton'}
                 onClick={() => ctaDataSet.addRoom()}
               >
-                {t('labels.addLodging')} for {ctaDataSet.totalGuests} Guests <small>(Search Room {index + 1})</small>
+                + {ctaDataSet.totalGuests} Guests
               </PrimaryButton>
             );
           })}
@@ -121,7 +121,7 @@ export const AccommodationCard = props => {
           className={'addLodgingButton'}
           onClick={props.addRoomStandardOccupancy}
         >
-          {t('labels.addLodging')} <small>(Standard Occupancy)</small>
+          + {props.standardOccupancyCount} Guests <small>(Standard Occupancy)</small>
         </PrimaryButton>
       </div>
     </div>
@@ -172,6 +172,7 @@ AccommodationCard.propTypes = {
     totalForPricedItemsCents: PropTypes.number,
   }),
   addRoomStandardOccupancy: PropTypes.func,
+  standardOccupancyCount: PropTypes.number,
   ctaData: PropTypes.array,
 };
 

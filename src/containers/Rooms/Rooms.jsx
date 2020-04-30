@@ -124,24 +124,33 @@ export const Rooms = props => {
     const ctaData = {};
     if (lastExecutedQuery != null) {
       for (let i = 0; i < accommodationProducts.length; i++) {
-        ctaData[accommodationProducts[i].uuid] = searchQuery.lodgings.map(lod => {
-          const guestAges = {
-            numberOfAdults: lod.numberOfAdults,
-            agesOfAllChildren: lod.agesOfAllChildren,
-          };
-          return {
-            guestAges,
-            totalGuests: lod.numberOfAdults + lod.agesOfAllChildren.length,
-            isDisabled: !doGuestAgesFitInsideLodging(
-              guestAges,
-              accommodationProducts[i].occupancy,
-              accommodationProducts[i].ages
-            ),
-            addRoom: () => {
-              addRoom(accommodationProducts[i], searchQuery, guestAges);
-            },
-          };
-        });
+        ctaData[accommodationProducts[i].uuid] = searchQuery.lodgings
+          .map(lod => {
+            const guestAges = {
+              numberOfAdults: lod.numberOfAdults,
+              agesOfAllChildren: lod.agesOfAllChildren,
+            };
+
+            if (
+              doGuestAgesFitInsideLodging(guestAges, accommodationProducts[i].occupancy, accommodationProducts[i].ages)
+            ) {
+              return {
+                guestAges,
+                totalGuests: lod.numberOfAdults + lod.agesOfAllChildren.length,
+                isDisabled: !doGuestAgesFitInsideLodging(
+                  guestAges,
+                  accommodationProducts[i].occupancy,
+                  accommodationProducts[i].ages
+                ),
+                addRoom: () => {
+                  addRoom(accommodationProducts[i], searchQuery, guestAges);
+                },
+              };
+            } else {
+              return null;
+            }
+          })
+          .filter(a => a);
       }
     }
 
@@ -169,6 +178,7 @@ export const Rooms = props => {
           imageUri={pathOr(null, ['photos', 0, 'url'], room)}
           updateInProgress={bookingStatus === 'LOADING'}
           addRoomStandardOccupancy={() => addRoom(room, searchQuery)}
+          standardOccupancyCount={room.occupancy.standardOccupancy}
           ctaData={accommodationProductsCtaData[room.uuid] || []}
         />
       );
