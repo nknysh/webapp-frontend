@@ -90,10 +90,16 @@ export const swapAgeNameOnProducts = (
     acc[key] = discountSet[key].map(discount => {
       return {
         ...discount,
-        products: discount.products.map(product => ({
-          ...product,
-          ageNames: product.ageNames.map(an => (an === find ? replace : an)),
-        })),
+        products: discount.products.map(product => {
+          if (!product.ageNames) {
+            return product;
+          }
+
+          return {
+            ...product,
+            ageNames: product.ageNames.map(an => (an === find ? replace : an)),
+          };
+        }),
       };
     });
     return acc;
