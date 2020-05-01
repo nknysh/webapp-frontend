@@ -253,9 +253,15 @@ export const addToProposal = (proposalUuid, bookingId, placeHolds) => async (dis
 
   dispatch(fetchProposal(proposalUuid));
 
-  !isError(bookingStatus)
-    ? dispatch(successAction(PROPOSALS_ADD, { result: proposalUuid }))
-    : dispatch(errorAction(PROPOSALS_ADD, { result: proposalUuid }));
+  if(!isError(bookingStatus)){
+    dispatch(successAction(PROPOSALS_ADD, { result: proposalUuid }))
+    dispatch(
+      enqueueNotification({ message: `Enquiry added succesfully to the proposal.`, options: { variant: 'success' } })
+    );
+  } else {
+    dispatch(errorAction(PROPOSALS_ADD, { result: proposalUuid }));
+  }
+  
 };
 
 export const createNewProposalWithExistingBooking = (name, bookingUuid) => async (dispatch, getState) => {
