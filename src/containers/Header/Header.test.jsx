@@ -1,12 +1,12 @@
 import React from 'react';
-import { prop } from 'ramda';
+import { prop, values } from 'ramda';
 
 import headerLinks from 'config/links/header';
 
 import { Header } from './Header';
 
 const getComponent = props =>
-  shallow(<Header menu={prop('loggedOut', headerLinks)} isAuthenticated={false} {...props} />);
+  shallow(<Header menu={values(prop('loggedOut', headerLinks))} isAuthenticated={false} {...props} />);
 
 describe('<Header />', () => {
   describe('render', () => {

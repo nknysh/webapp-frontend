@@ -111,7 +111,7 @@ export const Header = ({
   )(loggedOutMenuLinks);
 
   const menuWithPendingProposals = useMemo(() =>
-    menu.map(item => item.href === '/proposals'
+    (menu || []).map(item => item.href === '/proposals'
       ? {
         ...item,
         title: (<Badge count={pendingProposalsCount} offset={[10, 5]}>{item.title}</Badge>)

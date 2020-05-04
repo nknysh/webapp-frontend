@@ -16,18 +16,18 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
         align="end"
         isOpen={false}
         links={
-          Object {
-            "createAccount": Object {
+          Array [
+            Object {
               "href": "/sign-up",
               "title": "Create an account",
             },
-            "login": Object {
+            Object {
               "bold": true,
               "href": "/login",
               "inverse": true,
               "title": "Login",
             },
-          }
+          ]
         }
         onLinkClick={[Function]}
       >
@@ -135,6 +135,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
           "light-blue": "#F3F9FB",
           "marine": "#56D1BF",
           "red-fade": "#FD5656",
+          "warm-green": "#2cc663",
           "white": "#FFFFFF",
           "white-opacity-1": "rgba(248,248,248,0.85)",
           "white-opacity-2": "rgba(255,255,255, 0.9)",
@@ -495,7 +496,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
           },
         },
         "palette": Object {
-          "cancelled": "#a18265",
+          "cancelled": "#000000",
           "confirmed": "#56d1bf",
           "error": "red",
           "light": "#9D9591",
@@ -508,7 +509,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
           "neutral": "#736A65",
           "ok": "green",
           "opacity": 0.35,
-          "pending": "#9d9591",
+          "pending": "#2cc663",
           "primary": "#A18265",
           "primaryOpacity": "rgba(161,130,101, 0.75)",
           "requested": "#f5a623",
