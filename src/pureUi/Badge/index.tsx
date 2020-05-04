@@ -1,8 +1,8 @@
-import React, { HTMLProps } from 'react';
+import React, { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { colors } from '../pureUiTheme';
 
-export interface BadgeProps extends HTMLProps<HTMLDivElement> {
+export interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
   count: number;
   showZero?: boolean;
   offset?: number[]; //[x, y]
@@ -35,6 +35,7 @@ export default styled(Badge)`
     padding: 0 6px;
     font-size: 12px;
     text-align: center;
+    font-weight: normal;
 
     position: absolute;
     top: ${props => -(props?.offset?.[1] || 0)}px;

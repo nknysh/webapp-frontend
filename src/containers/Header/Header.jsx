@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { compose, lensProp, set, view, pipe, values, path, prop, propOr, defaultTo } from 'ramda';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '@pure-escapes/webapp-ui-components';
+import Badge from 'pureUi/Badge';
 
 import headerLinks from 'config/links/header';
 import { parseQueryString } from 'utils';
@@ -41,6 +42,7 @@ export const Header = ({
   history,
   location: { search },
   isSR,
+  pendingProposalsCount
 }) => {
   const { t } = useTranslation();
 
@@ -108,12 +110,23 @@ export const Header = ({
     values
   )(loggedOutMenuLinks);
 
+  const menuWithPendingProposals = useMemo(() =>
+    menu.map(item => item.href === '/proposals'
+      ? {
+        ...item,
+        title: (<Badge count={pendingProposalsCount} offset={[10, 5]}>{item.title}</Badge>)
+      }
+      : item
+    ),
+    [menu, pendingProposalsCount]
+  );
+
   const headerMenuProps = {
     isOpen: menuOpen,
     onLinkClick: onHeaderLinkClick,
     currentPath: currentPath,
     align: 'end',
-    links: isAuthenticated ? menu : loggedOutMenu,
+    links: isAuthenticated ? menuWithPendingProposals : loggedOutMenu,
   };
 
   const shouldRedirectHome = isAuthenticated && currentPath === path(['createAccount', 'href'], loggedOutMenuLinks);
