@@ -86,21 +86,6 @@ const BookingDetails = props => {
   );
 };
 
-const BookingSummaryConfirmed = props => {
-  return (
-    <React.Fragment>
-      {!isNilOrEmpty(props.booking.proposalUuid) && (
-        <AsideDetails>
-          <Title>{props.t('labels.proposalId')}</Title>
-          <List>
-            <a href={`/proposals/${props.booking.proposalUuid}`}>Proposal #{props.booking.proposalUuid}</a>
-          </List>
-        </AsideDetails>
-      )}
-    </React.Fragment>
-  );
-};
-
 const BookingSummaryCancelled = props => {
   const { t, booking } = props;
 
@@ -194,7 +179,7 @@ const BookingTabsLayout = props => {
   return (
     <Fragment>
       {props.isDetails ? (
-        <BookingTitle>{props.t('labels.bookingWithId', { id: props.id })}</BookingTitle>
+        <BookingTitle>{props.t('labels.bookingWithId', { id: props.humanReadableId })}</BookingTitle>
       ) : (
         renderBackToSearch(props.t)
       )}

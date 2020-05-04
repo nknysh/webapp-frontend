@@ -32,7 +32,7 @@ export const initialState: IBookingsListDomain = {
   sortBy: 'createdAt',
   sortOrder: 'asc',
   totalResults: 0,
-  filterFields: ['uuid', 'guestFirstName', 'guestLastName'],
+  filterFields: ['uuid', 'guestFirstName', 'guestLastName', 'humanReadableId'],
   bookingFields: ['hotelUuid'],
   travelAgentUuid: null,
   hotel: null,

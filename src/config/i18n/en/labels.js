@@ -51,7 +51,7 @@ export default {
   enterGuestDetails: 'Enter guest details',
   reviewAndConfirm: 'Review and confirm',
   booking: 'Booking',
-  bookingWithId: 'Booking #{{id}}',
+  bookingWithId: 'Reference #{{id}}',
   included: 'inc.',
   extra: 'Extra',
   min: 'Min',
