@@ -1,6 +1,9 @@
 import * as Actions from './actions';
 import { initialState, IProposalsListDomain } from './model';
 
+import * as PendingProposalsActions from './subdomains/pendingProposals/actions';
+import { pendingProposalsReducer } from './subdomains/pendingProposals/reducer';
+
 const proposalListReducer = (
   state: IProposalsListDomain = initialState,
   action: Actions.ProposalsListAction
@@ -53,6 +56,14 @@ const proposalListReducer = (
       return {
         ...state,
         travelAgentUuid: action.travelAgentUuid,
+      };
+    
+    case PendingProposalsActions.GET_PENDING_PROPOSALS_COUNT_REQUEST:
+    case PendingProposalsActions.GET_PENDING_PROPOSALS_COUNT_SUCCESS:  
+    case PendingProposalsActions.GET_PENDING_PROPOSALS_COUNT_FAILURE:
+      return {
+        ...state,
+        pendingProposals: pendingProposalsReducer(state.pendingProposals, action)
       };
 
     default:

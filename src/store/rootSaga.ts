@@ -6,6 +6,7 @@ import { watchDestinationChange } from 'store/modules/fastSearch/sagas/nameSearc
 import { watchInitializeQuery } from 'store/modules/fastSearch/sagas/initializeQuerySaga';
 import { watchInitializeBookingBuilder } from './modules/bookingBuilder/sagas/initializeBookingBuilder';
 import { watchGetProposalsList } from './modules/proposalsList/sagas/proposalsListSaga';
+import { watchGetPendingProposalsCount } from './modules/proposalsList/sagas/pendingProposalsCountSaga';
 import { watchGetBookingsList } from './modules/bookingsList/sagas/bookingsListSaga';
 import { watchGetTravelAgentsRequest } from './modules/agents/sagas/getTravelAgentsSaga';
 import { watchGetHotelNames } from './modules/bookingsList/sagas/hotelNamesSaga';
@@ -29,6 +30,7 @@ export default function* allSagas() {
     watchInitializeQuery,
     watchInitializeBookingBuilder,
     watchGetProposalsList,
+    watchGetPendingProposalsCount,
     watchGetBookingsList,
     watchGetTravelAgentsRequest,
     watchGetHotelNames,
