@@ -42,8 +42,8 @@ export default styled(Badge)`
     right: ${props => -(props?.offset?.[0] || 0)}px;
     transform: translate(50%,-50%);
 
-    background-color: ${colors.redFade};
-    color: ${colors.white};
+    background-color: ${colors.aqua};
+    color: ${colors.black};
   }
 
 `;
