@@ -107,8 +107,15 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint, { params: query });
   };
 
-  getPendingProposalsCount = async (): Promise<AxiosResponse<IProposalsListResponse>> => {
-    const endpoint = `${BackendEndpoints.PROPOSALS}?fields[proposal]=uuid&filter[proposal][isLocked]=false&page[limit]=1`;
+  getPendingProposalsInfo = async (): Promise<AxiosResponse<IProposalsListResponse>> => {
+    const query = [
+      'fields[proposal]=uuid,guestTitle,guestFirstName,guestLastName',
+      'filter[proposal][isLocked]=false',
+      'page[limit]=1',
+      'sort=-proposal.createdAt'
+    ].join('&');
+
+    const endpoint = `${BackendEndpoints.PROPOSALS}?${query}`;
     return this.client.get(endpoint);
   };
 

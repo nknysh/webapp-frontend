@@ -1,13 +1,13 @@
 import {
-  getPendingProposalsCountRequestAction,
-  getPendingProposalsCountSuccessAction,
-  getPendingProposalsCountFailureAction
+  getPendingProposalsInfoRequestAction,
+  getPendingProposalsInfoSuccessAction,
+  getPendingProposalsInfoFailureAction
 } from './actions';
 
 describe('Pending Proposals actions', () => {
   it('Returns the correct object literals', () => {
-    expect(getPendingProposalsCountRequestAction()).toMatchSnapshot();
-    expect(getPendingProposalsCountSuccessAction(3)).toMatchSnapshot();
-    expect(getPendingProposalsCountFailureAction('Unknown Error')).toMatchSnapshot();
+    expect(getPendingProposalsInfoRequestAction()).toMatchSnapshot();
+    expect(getPendingProposalsInfoSuccessAction(3)).toMatchSnapshot();
+    expect(getPendingProposalsInfoFailureAction('Unknown Error')).toMatchSnapshot();
   });
 });
