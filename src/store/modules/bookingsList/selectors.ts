@@ -185,7 +185,7 @@ export const bookingsListQuerySelector = createSelector(
       },
       fields: {
         booking:
-          'uuid,checkInDate,checkOutDate,guestTitle,guestFirstName,guestLastName,guestEmail,status,travelAgentUserUuid,hotelName,hotelUuid,overrideTotal,createdAt,updatedAt,clientUuid',
+          'uuid,humanReadableId,checkInDate,checkOutDate,guestTitle,guestFirstName,guestLastName,guestEmail,status,travelAgentUserUuid,hotelName,hotelUuid,overrideTotal,createdAt,updatedAt,clientUuid',
       },
       filter: filterParam,
       associations: associations.length >= 1 ? associations.join(',') : undefined,
