@@ -26,7 +26,7 @@ describe('Pending Proposals reducer', () => {
       guestLastName: 'Smith'
     };
 
-    const action = Actions.getPendingProposalsInfoSuccessAction(count)
+    const action = Actions.getPendingProposalsInfoSuccessAction(count, latest);
     const result = reducer(pendingProposalsInitialState, action);
     
     const expected = {

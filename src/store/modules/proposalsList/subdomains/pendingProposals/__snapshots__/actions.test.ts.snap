@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pending Proposals actions Returns the correct object literals 1`] = `
+Object {
+  "type": "proposalList/GET_PENDING_PROPOSALS_INFO_REQUEST",
+}
+`;
+
+exports[`Pending Proposals actions Returns the correct object literals 2`] = `
+Object {
+  "count": 3,
+  "latest": Object {
+    "guestFirstName": "John",
+    "guestLastName": "Smith",
+    "guestTitle": "Mr",
+    "uuid": "123",
+  },
+  "type": "proposalList/GET_PENDING_PROPOSALS_INFO_SUCCESS",
+}
+`;
+
+exports[`Pending Proposals actions Returns the correct object literals 3`] = `
+Object {
+  "error": "Unknown Error",
+  "type": "proposalList/GET_PENDING_PROPOSALS_INFO_FAILURE",
+}
+`;
