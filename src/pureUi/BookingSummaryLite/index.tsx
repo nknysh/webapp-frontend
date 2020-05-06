@@ -11,6 +11,7 @@ export interface IBookingSummaryLiteProps {
   className?: string;
   booking: any;
   hideViewBookingButton: boolean;
+  hideBookingReference?: boolean;
   t: (key: string) => string;
 }
 
@@ -26,6 +27,16 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
   return (
     <div className={props.className ? props.className : ''}>
       <Heading2 className="hotelName">{props.booking.hotelName}</Heading2>
+
+      {!props.hideBookingReference && (
+        <div className="mt-4 mb-4 comments booking-reference-container">
+          <strong>
+            <label>Booking Reference:</label>
+          </strong>
+
+          <label> #{props.booking.humanReadableId || props.booking.uuid}</label>
+        </div>
+      )}
       <DisplayTotalsBreakdown
         t={t}
         currencyCode={currencySymbol as string}
@@ -90,6 +101,10 @@ export default styled(BookingSummaryLite)`
   background: ${pureUiTheme.colorRoles.areaBackground};
   padding: 20px;
   margin-bottom: 35px;
+
+  .booking-reference-container {
+    margin-left: 20px;
+  }
 
   .hotelName {
     padding: 0 21px;

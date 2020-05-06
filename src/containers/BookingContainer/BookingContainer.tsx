@@ -46,9 +46,15 @@ const renderBackButton = (label, props) => <Back {...props}>{label}</Back>;
 const renderBackToSearch = t => renderBackButton(t('labels.backToSearch'), { to: '/search/beta' });
 const renderBackToBookings = t => renderBackButton(t('enquiryBooking_plural'), { href: '/bookings' });
 
-const renderBreadcrumbs = (t, { id }) => (
+const renderBreadcrumbs = (t, booking) => (
   <Breadcrumbs
-    links={[{ label: renderBackToBookings(t) }, { label: t('labels.bookingWithId', { id }), to: `/bookings/${id}` }]}
+    links={[
+      { label: renderBackToBookings(t) },
+      {
+        label: t('labels.bookingWithId', { id: booking.humanReadableId || booking.uuid }),
+        to: `/bookings/${booking.uuid}`,
+      },
+    ]}
   />
 );
 
@@ -114,7 +120,7 @@ const BookingSummary = props => {
 
   return (
     <div>
-      <BookingSummaryLite t={t} booking={booking} hideViewBookingButton={true} />
+      <BookingSummaryLite t={t} booking={booking} hideBookingReference={true} hideViewBookingButton={true} />
 
       {booking.status === 'potential' &&
         (isSr ? <BookingSummaryPotentialSR {...props} /> : <BookingSummaryPotentialTA {...props} />)}
@@ -179,7 +185,9 @@ const BookingTabsLayout = props => {
   return (
     <Fragment>
       {props.isDetails ? (
-        <BookingTitle>{props.t('labels.bookingWithId', { id: props.humanReadableId })}</BookingTitle>
+        <BookingTitle>
+          {props.t('labels.bookingWithId', { id: props.booking.humanReadableId || props.booking.uuid })}
+        </BookingTitle>
       ) : (
         renderBackToSearch(props.t)
       )}
@@ -198,7 +206,7 @@ const BookingTabsLayout = props => {
 const BookingFullLayout = props => {
   return (
     <Fragment>
-      {props.isDetails && renderBreadcrumbs(props.t, props)}
+      {props.isDetails && renderBreadcrumbs(props.t, props.booking)}
       {props.isSr && props.isDetails && renderStatusStrip(props.t, props.booking)}
       <Main>
         {props.isDetails ? <BookingDetails {...props} /> : <BookingContent>{props.children}</BookingContent>}

@@ -19,6 +19,7 @@ export interface IBookingUser {
 
 export interface IBookingsListItem {
   uuid: string;
+  humanReadableId: string;
   checkInDate: string;
   checkOutDate: string;
   guestTitle: string;

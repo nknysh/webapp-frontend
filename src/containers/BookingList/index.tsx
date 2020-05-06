@@ -166,7 +166,11 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
           <Table className="table">
             <THead>
               <TRow>
-                <TH sortOrder={this.getSortOrderForProp('uuid')} onClick={this.handleSort('uuid')} className="id">
+                <TH
+                  sortOrder={this.getSortOrderForProp('humanReadableId')}
+                  onClick={this.handleSort('humanReadableId')}
+                  className="id"
+                >
                   ID
                 </TH>
                 <TH
@@ -206,7 +210,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
               {(booking: IBookingsListItem) => {
                 return (
                   <TRow key={booking.uuid}>
-                    <TD title={booking.uuid}>{booking.uuid}</TD>
+                    <TD title={booking.humanReadableId || booking.uuid}>{booking.humanReadableId || booking.uuid}</TD>
                     <TD>{`${booking.guestFirstName || ''} ${booking.guestLastName || ''}`.trimLeft()}</TD>
                     <TD>{formatDateDisplay(booking.createdAt)}</TD>
                     <TD>{booking.hotelName}</TD>
@@ -290,10 +294,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 // Connected
 // -----------------------------------------------------------------------------
-const withConnect = connect<StateToProps, DispatchToProps, IBookingListProps>(
-  mapStateToProps,
-  mapDispatchToProps
-);
+const withConnect = connect<StateToProps, DispatchToProps, IBookingListProps>(mapStateToProps, mapDispatchToProps);
 
 export const BookingListConnected = compose(withConnect)(BookingListContainer);
 
