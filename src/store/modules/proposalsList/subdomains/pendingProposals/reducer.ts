@@ -18,7 +18,8 @@ export const pendingProposalsReducer = (
         ...state,
         requestPending: false,
         error: null,
-        count: action.count
+        count: action.count,
+        latest: action.latest || null
       };
 
     case Actions.GET_PENDING_PROPOSALS_INFO_FAILURE:

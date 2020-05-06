@@ -1,21 +1,47 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { pick } from 'ramda';
 import {
   INITIALIZE_BOOKING_BUILDER,
   InitializeBookingBuilderAction,
   copyBookingBuilderAction,
   createStubBookingBuilderAction,
   initializeBookingBuilderFailureAction,
+  updateBookingGuestInformationAction
 } from '../actions';
+import { PROPOSALS_NEW, PROPOSALS_ADD } from '../../proposals/actions';
 import { fastSearchBookingBuilderSelector } from 'store/modules/fastSearch/selectors';
 import { makeBackendApi } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 
 import { bookingBuilderSelector, bookingBuilderResponseHotelUuidSelector } from 'store/modules/bookingBuilder';
 import { backwardCompatBookingBuilderAction } from 'store/modules/bookings';
-import { taMarginTypeSelector, taMarginAmountSelector, travelAgentUserUuidSelector } from '../selectors';
+import {
+  taMarginTypeSelector,
+  taMarginAmountSelector,
+  travelAgentUserUuidSelector,
+  latestBookingOperationSelector
+} from '../selectors';
+import {
+  pendingProposalsLatestSelector
+} from '../../proposalsList/subdomains/pendingProposals/selectors';
 
 export function* initializeBookingBuilderSaga(action: InitializeBookingBuilderAction) {
   try {
+    const latestBookingOperation = yield select(latestBookingOperationSelector);
+
+    //update booking guest info from latest pending proposal if this was user's last action
+    if([PROPOSALS_ADD, PROPOSALS_NEW].includes(latestBookingOperation)){
+      const latestPendingProposal = yield select(pendingProposalsLatestSelector);
+
+      if(latestPendingProposal){
+        yield put(
+          updateBookingGuestInformationAction(
+            pick(['guestTitle', 'guestFirstName', 'guestLastName'], latestPendingProposal)
+          )
+        );
+      }
+    }
+
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
 

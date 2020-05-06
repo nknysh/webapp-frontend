@@ -1,3 +1,5 @@
+import { IProposalBasicInfo } from 'services/BackendApi/types/ProposalsListResponse';
+
 export const GET_PENDING_PROPOSALS_INFO_REQUEST = 'proposalList/GET_PENDING_PROPOSALS_INFO_REQUEST';
 export const GET_PENDING_PROPOSALS_INFO_SUCCESS = 'proposalList/GET_PENDING_PROPOSALS_INFO_SUCCESS';
 export const GET_PENDING_PROPOSALS_INFO_FAILURE = 'proposalList/GET_PENDING_PROPOSALS_INFO_FAILURE';
@@ -9,9 +11,10 @@ export const getPendingProposalsInfoRequestAction = () => ({
 });
 
 export type GetPendingProposalsInfoSuccessAction = ReturnType<typeof getPendingProposalsInfoSuccessAction>;
-export const getPendingProposalsInfoSuccessAction = (count: number) => ({
+export const getPendingProposalsInfoSuccessAction = (count: number, latest?: IProposalBasicInfo) => ({
   type: GET_PENDING_PROPOSALS_INFO_SUCCESS as typeof GET_PENDING_PROPOSALS_INFO_SUCCESS,
-  count
+  count,
+  latest
 });
 
 export type GetPendingProposalsInfoFailureAction = ReturnType<typeof getPendingProposalsInfoFailureAction>;

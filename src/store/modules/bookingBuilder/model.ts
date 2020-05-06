@@ -44,6 +44,7 @@ export interface BookingBuilderDomain {
   agreeToTerms: boolean;
   customItem: CustomItemSubdomain;
   isPristine: boolean;
+  latestBookingOperation: string | null;
 }
 
 export const initialState: BookingBuilderDomain = {
@@ -87,5 +88,6 @@ export const initialState: BookingBuilderDomain = {
   customItem: {
     payload: null
   },
-  isPristine: true
+  isPristine: true,
+  latestBookingOperation: null
 };

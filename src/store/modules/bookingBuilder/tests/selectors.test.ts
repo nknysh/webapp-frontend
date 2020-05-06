@@ -5,7 +5,8 @@ import {
   guestInfoValidationSelector,
   agreeToTermsValidationSelector,
   travelAgentUserUuidValidationSelector,
-  domainValidationSelector
+  domainValidationSelector,
+  latestBookingOperationSelector
 } from '../selectors';
 
 import { initialState } from '../model';
@@ -42,6 +43,16 @@ describe('Booking Builder Selectors', () => {
       };
       const inputState = { ...initialState, ...payload };
       expect(isPristineSelector.resultFunc(inputState)).toEqual(false);
+    });
+  });
+
+  describe('latestBookingOperationSelector', () => {
+    it('selects correctly', () => {
+      const payload = {
+        latestBookingOperation: 'SAMPLE_ACTION'
+      };
+      const inputState = { ...initialState, ...payload };
+      expect(latestBookingOperationSelector.resultFunc(inputState)).toEqual('SAMPLE_ACTION');
     });
   });
 

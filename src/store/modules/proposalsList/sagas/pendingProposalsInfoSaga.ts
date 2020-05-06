@@ -17,9 +17,9 @@ export function* getPendingProposalsCountSaga(action: any) {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);    
-    const result: AxiosResponse<IProposalsListResponse> = yield call(backendApi.getPendingProposalsInfo);
+    const { data }: AxiosResponse<IProposalsListResponse> = yield call(backendApi.getPendingProposalsInfo);
     
-    yield put(getPendingProposalsInfoSuccessAction(result.data.meta.total));
+    yield put(getPendingProposalsInfoSuccessAction(data.meta.total, data.data[0]));
   } catch (e) {
     yield put(getPendingProposalsInfoFailureAction(e));
   }

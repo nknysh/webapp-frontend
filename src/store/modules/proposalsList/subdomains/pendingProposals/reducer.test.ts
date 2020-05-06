@@ -19,12 +19,20 @@ describe('Pending Proposals reducer', () => {
 
   it('handles GET_PENDING_PROPOSALS_INFO_SUCCESS correctly', () => {
     const count = 3;
+    const latest = {
+      uuid: '123',
+      guestTitle: 'Mr',
+      guestFirstName: 'John',
+      guestLastName: 'Smith'
+    };
+
     const action = Actions.getPendingProposalsInfoSuccessAction(count)
     const result = reducer(pendingProposalsInitialState, action);
     
     const expected = {
       ...pendingProposalsInitialState,
-      count
+      count,
+      latest
     };
 
     expect(result).toEqual(expected);

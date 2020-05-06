@@ -2,7 +2,8 @@ import {
   pendingProposalsSubdomainSelector,
   pendingProposalsRequestIsPendingSelector,
   pendingProposalsErrorSelector,
-  pendingProposalsCountSelector
+  pendingProposalsCountSelector,
+  pendingProposalsLatestSelector
 } from './selectors';
 
 import { initialState } from '../../model';
@@ -30,6 +31,12 @@ describe('Pending Proposals Selectors', () => {
   describe('pendingProposalsCountSelector', () => {
     it('validates correctly', () => {
       expect(pendingProposalsCountSelector.resultFunc(initialState.pendingProposals)).toEqual(0);
+    });
+  });
+
+  describe('pendingProposalsLatestSelector', () => {
+    it('validates correctly', () => {
+      expect(pendingProposalsLatestSelector.resultFunc(initialState.pendingProposals)).toEqual(null);
     });
   });
 

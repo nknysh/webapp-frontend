@@ -52,6 +52,7 @@ export const REMOVE_CUSTOM_ITEM = 'bookingBuilder/REMOVE_CUSTOM_ITEM';
 
 export const UPDATE_AGREEE_TO_TERMS = 'bookingBuilder/UPDATE_AGREEE_TO_TERMS';
 export const SET_IS_PRISTINE = 'bookingBuilder/SET_IS_PRISTINE';
+export const SET_LATEST_BOOKING_OPERATION = 'bookingBuilder/SET_LATEST_BOOKING_OPERATION';
 
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
@@ -256,6 +257,12 @@ export const setIsPristineAction = (value: boolean) => ({
   value,
 });
 
+export type SetLatestBookingOperationAction = ReturnType<typeof setLatestBookingOperationAction>;
+export const setLatestBookingOperationAction = (operation: string) => ({
+  type: SET_LATEST_BOOKING_OPERATION as typeof SET_LATEST_BOOKING_OPERATION,
+  operation,
+});
+
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -284,4 +291,5 @@ export type BookingBuilderAction =
   | SaveCustomItemAction
   | RemoveCustomItemAction
   | SetIsPristineAction
+  | SetLatestBookingOperationAction
   | CustomItemAction;

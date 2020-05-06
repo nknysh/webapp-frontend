@@ -1,5 +1,6 @@
 import { initialState, BookingBuilderDomain } from './model';
 import * as Actions from './actions';
+import { PROPOSALS_NEW, PROPOSALS_ADD } from '../proposals/actions';
 import * as CustomItemActions from './subdomains/customItem/actions';
 import { customItemReducer } from './subdomains/customItem/reducer';
 import { makeBookingBuilderStub } from './utils';
@@ -75,6 +76,9 @@ export const bookingBuilderReducer = (
 
     case Actions.SET_IS_PRISTINE:
       return setIsPristineReducer(state, action);
+    
+    case Actions.SET_LATEST_BOOKING_OPERATION:
+      return latestBookingOperationReducer(state, action);
 
     case Actions.SAVE_CUSTOM_ITEM:
       return saveCustomItemReducer(state, action);
@@ -486,6 +490,7 @@ export const clearBookingBuilderReducer = (
 ): BookingBuilderDomain => {
   return produce(state, draftState => {
     draftState = initialState;
+    draftState.latestBookingOperation = state.latestBookingOperation;
 
     return draftState;
   });
@@ -717,6 +722,16 @@ export const removeCustomItemReducer = (
 
     draftState.currentBookingBuilder.request.customItems.splice(action.index, 1);
 
+    return draftState;
+  });
+};
+
+export const latestBookingOperationReducer = (
+  state: BookingBuilderDomain,
+  action: Actions.SetLatestBookingOperationAction
+): BookingBuilderDomain => {
+  return produce(state, draftState => {
+    draftState.latestBookingOperation = action.operation;
     return draftState;
   });
 };

@@ -1,9 +1,10 @@
-import { IProposalsListItem } from 'services/BackendApi/types/ProposalsListResponse';
+import { IProposalsListItem, IProposalBasicInfo } from 'services/BackendApi/types/ProposalsListResponse';
 
 export interface IPendingProposalsSubdomain {
   requestPending: boolean;
   error: any | null;
   count: number;
+  latest: IProposalBasicInfo | null;
 }
 
 export interface IProposalsListDomain {
@@ -38,6 +39,7 @@ export const initialState: IProposalsListDomain = {
   pendingProposals: {
     requestPending: false,
     error: null,
-    count: 0
+    count: 0,
+    latest: null
   }
 };

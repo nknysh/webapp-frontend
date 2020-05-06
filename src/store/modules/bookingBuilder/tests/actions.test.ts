@@ -2,7 +2,8 @@ import {
   saveCustomItemAction,
   removeCustomItemAction,
   updateAgreeToTermsAction,
-  setIsPristineAction
+  setIsPristineAction,
+  setLatestBookingOperationAction
 } from '../actions';
 
 describe('Bookin Builder actions', () => {
@@ -12,5 +13,6 @@ describe('Bookin Builder actions', () => {
     
     expect(updateAgreeToTermsAction(true)).toMatchSnapshot();
     expect(setIsPristineAction(true)).toMatchSnapshot();
+    expect(setLatestBookingOperationAction('SAMPLE_ACTION')).toMatchSnapshot();
   });
 });

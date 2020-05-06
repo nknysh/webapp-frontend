@@ -21,3 +21,8 @@ export const pendingProposalsCountSelector = createSelector(
   pendingProposalsSubdomainSelector,
   subdomain => subdomain.count
 );
+
+export const pendingProposalsLatestSelector = createSelector(
+  pendingProposalsSubdomainSelector,
+  subdomain => subdomain.latest
+);
