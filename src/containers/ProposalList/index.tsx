@@ -146,7 +146,7 @@ export class ProposalListContainer extends React.Component<IProposalListProps, I
                 <TH className="bookingCount centered">Nº Bookings</TH>
                 <TH className="hotelCount centered">Nº Hotels</TH>
                 {this.props.isSr && <TH className="travelAgent">Travel Agent</TH>}
-                <TH className="isSent">Is Sent?</TH>
+                <TH className="isSent">Sent</TH>
                 <TH className="actions">Actions</TH>
               </TRow>
             </THead>

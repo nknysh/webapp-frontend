@@ -1,26 +1,29 @@
-export const GET_PENDING_PROPOSALS_COUNT_REQUEST = 'proposalList/GET_PENDING_PROPOSALS_COUNT_REQUEST';
-export const GET_PENDING_PROPOSALS_COUNT_SUCCESS = 'proposalList/GET_PENDING_PROPOSALS_COUNT_SUCCESS';
-export const GET_PENDING_PROPOSALS_COUNT_FAILURE = 'proposalList/GET_PENDING_PROPOSALS_COUNT_FAILURE';
+import { IProposalBasicInfo } from 'services/BackendApi/types/ProposalsListResponse';
+
+export const GET_PENDING_PROPOSALS_INFO_REQUEST = 'proposalList/GET_PENDING_PROPOSALS_INFO_REQUEST';
+export const GET_PENDING_PROPOSALS_INFO_SUCCESS = 'proposalList/GET_PENDING_PROPOSALS_INFO_SUCCESS';
+export const GET_PENDING_PROPOSALS_INFO_FAILURE = 'proposalList/GET_PENDING_PROPOSALS_INFO_FAILURE';
 
 
-export type GetPendingProposalsCountRequestAction = ReturnType<typeof getPendingProposalsCountRequestAction>;
-export const getPendingProposalsCountRequestAction = () => ({
-  type: GET_PENDING_PROPOSALS_COUNT_REQUEST as typeof GET_PENDING_PROPOSALS_COUNT_REQUEST,
+export type GetPendingProposalsInfoRequestAction = ReturnType<typeof getPendingProposalsInfoRequestAction>;
+export const getPendingProposalsInfoRequestAction = () => ({
+  type: GET_PENDING_PROPOSALS_INFO_REQUEST as typeof GET_PENDING_PROPOSALS_INFO_REQUEST,
 });
 
-export type GetPendingProposalsCountSuccessAction = ReturnType<typeof getPendingProposalsCountSuccessAction>;
-export const getPendingProposalsCountSuccessAction = (count: number) => ({
-  type: GET_PENDING_PROPOSALS_COUNT_SUCCESS as typeof GET_PENDING_PROPOSALS_COUNT_SUCCESS,
-  count
+export type GetPendingProposalsInfoSuccessAction = ReturnType<typeof getPendingProposalsInfoSuccessAction>;
+export const getPendingProposalsInfoSuccessAction = (count: number, latest?: IProposalBasicInfo) => ({
+  type: GET_PENDING_PROPOSALS_INFO_SUCCESS as typeof GET_PENDING_PROPOSALS_INFO_SUCCESS,
+  count,
+  latest
 });
 
-export type GetPendingProposalsCountFailureAction = ReturnType<typeof getPendingProposalsCountFailureAction>;
-export const getPendingProposalsCountFailureAction = (error: any) => ({
-  type: GET_PENDING_PROPOSALS_COUNT_FAILURE as typeof GET_PENDING_PROPOSALS_COUNT_FAILURE,
+export type GetPendingProposalsInfoFailureAction = ReturnType<typeof getPendingProposalsInfoFailureAction>;
+export const getPendingProposalsInfoFailureAction = (error: any) => ({
+  type: GET_PENDING_PROPOSALS_INFO_FAILURE as typeof GET_PENDING_PROPOSALS_INFO_FAILURE,
   error,
 });
 
 export type PendingProposalsAction =
-  | GetPendingProposalsCountRequestAction
-  | GetPendingProposalsCountSuccessAction
-  | GetPendingProposalsCountFailureAction;
+  | GetPendingProposalsInfoRequestAction
+  | GetPendingProposalsInfoSuccessAction
+  | GetPendingProposalsInfoFailureAction;

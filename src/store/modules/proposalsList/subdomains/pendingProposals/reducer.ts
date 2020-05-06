@@ -7,21 +7,22 @@ export const pendingProposalsReducer = (
 ): IPendingProposalsSubdomain => {
   switch (action.type) {
 
-    case Actions.GET_PENDING_PROPOSALS_COUNT_REQUEST:
+    case Actions.GET_PENDING_PROPOSALS_INFO_REQUEST:
       return {
         ...state,
         requestPending: true
       };
     
-    case Actions.GET_PENDING_PROPOSALS_COUNT_SUCCESS:
+    case Actions.GET_PENDING_PROPOSALS_INFO_SUCCESS:
       return {
         ...state,
         requestPending: false,
         error: null,
-        count: action.count
+        count: action.count,
+        latest: action.latest || null
       };
 
-    case Actions.GET_PENDING_PROPOSALS_COUNT_FAILURE:
+    case Actions.GET_PENDING_PROPOSALS_INFO_FAILURE:
       return {
         ...state,
         requestPending: false,

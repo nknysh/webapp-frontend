@@ -12,6 +12,13 @@ export interface IProposalUser {
   lastName: string;
 }
 
+export interface IProposalBasicInfo {
+  uuid: string;
+  guestTitle: string;
+  guestFirstName: string;
+  guestLastName: string;
+}
+
 export interface IProposalsListItem {
   uuid: string;
   name: string;

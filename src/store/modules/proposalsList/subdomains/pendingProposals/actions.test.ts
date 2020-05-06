@@ -1,13 +1,20 @@
 import {
-  getPendingProposalsCountRequestAction,
-  getPendingProposalsCountSuccessAction,
-  getPendingProposalsCountFailureAction
+  getPendingProposalsInfoRequestAction,
+  getPendingProposalsInfoSuccessAction,
+  getPendingProposalsInfoFailureAction
 } from './actions';
 
 describe('Pending Proposals actions', () => {
   it('Returns the correct object literals', () => {
-    expect(getPendingProposalsCountRequestAction()).toMatchSnapshot();
-    expect(getPendingProposalsCountSuccessAction(3)).toMatchSnapshot();
-    expect(getPendingProposalsCountFailureAction('Unknown Error')).toMatchSnapshot();
+    expect(getPendingProposalsInfoRequestAction()).toMatchSnapshot();
+    
+    const latest = {
+      uuid: '123',
+      guestTitle: 'Mr',
+      guestFirstName: 'John',
+      guestLastName: 'Smith'
+    };
+    expect(getPendingProposalsInfoSuccessAction(3, latest)).toMatchSnapshot();
+    expect(getPendingProposalsInfoFailureAction('Unknown Error')).toMatchSnapshot();
   });
 });

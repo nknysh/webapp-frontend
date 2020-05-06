@@ -38,6 +38,13 @@ describe('Booking Builder Reducer', () => {
     expect(testState.isPristine).toEqual(false);
   });
 
+  it('handles SET_LATEST_BOOKING_OPERATION correctly', () => {
+    const action = Actions.setLatestBookingOperationAction('SAMPLE_ACTION');
+    const testState: BookingBuilderDomain = bookingBuilderReducer(initialState, action);
+    
+    expect(testState.latestBookingOperation).toEqual('SAMPLE_ACTION');
+  });
+
   it('handles UPDATE_BOOKING_GUEST_INFORMATION_ACTION correctly', () => {
     const payload = {
       guestTitle: 'mr',

@@ -28,3 +28,10 @@ Object {
   "value": true,
 }
 `;
+
+exports[`Bookin Builder actions Returns the correct object literals 5`] = `
+Object {
+  "operation": "SAMPLE_ACTION",
+  "type": "bookingBuilder/SET_LATEST_BOOKING_OPERATION",
+}
+`;

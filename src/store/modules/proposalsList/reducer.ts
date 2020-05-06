@@ -58,9 +58,9 @@ const proposalListReducer = (
         travelAgentUuid: action.travelAgentUuid,
       };
     
-    case PendingProposalsActions.GET_PENDING_PROPOSALS_COUNT_REQUEST:
-    case PendingProposalsActions.GET_PENDING_PROPOSALS_COUNT_SUCCESS:  
-    case PendingProposalsActions.GET_PENDING_PROPOSALS_COUNT_FAILURE:
+    case PendingProposalsActions.GET_PENDING_PROPOSALS_INFO_REQUEST:
+    case PendingProposalsActions.GET_PENDING_PROPOSALS_INFO_SUCCESS:  
+    case PendingProposalsActions.GET_PENDING_PROPOSALS_INFO_FAILURE:
       return {
         ...state,
         pendingProposals: pendingProposalsReducer(state.pendingProposals, action)

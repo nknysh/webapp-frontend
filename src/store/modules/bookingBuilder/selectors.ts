@@ -344,6 +344,11 @@ export const isPristineSelector = createSelector(
   bookingBuilderDomain => bookingBuilderDomain.isPristine
 );
 
+export const latestBookingOperationSelector = createSelector(
+  bookingBuilderDomain,
+  bookingBuilderDomain => bookingBuilderDomain.latestBookingOperation
+);
+
 // ---------------- validation --------------------------
 const requireValue = (val: any) => (isNil(val) || isEmpty(val) ? ['Required'] : []);
 
