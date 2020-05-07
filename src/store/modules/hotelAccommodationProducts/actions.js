@@ -20,12 +20,7 @@ export const fetchCurrentHotelAccommodationProductDisplays = hotelUuid => async 
   // Default to todays date if there are no dates in the search query in redux
   const startDate = formatDate(pathOr(Date.now(), ['startDate'], searchQuery));
 
-  // TODO we might not need to remove a date anymore thanks to new selectors
-  let endDate = path(['endDate'], searchQuery);
-  if (!endDate) {
-    endDate = Date.now();
-  }
-  endDate = formatDate(subDays(new Date(endDate), 1));
+  const endDate = formatDate(pathOr(Date.now(), ['endDate'], searchQuery));
 
   try {
     const responses = await client.get(

@@ -123,6 +123,10 @@ export default styled(AccommodationCard)`
         margin-bottom: 6px;
       }
 
+      .offerName {
+        color: ${theme.colors['red-fade']};
+      }
+
       .priceBeforeDiscount {
         font-size: 19.2px;
         text-decoration: line-through;

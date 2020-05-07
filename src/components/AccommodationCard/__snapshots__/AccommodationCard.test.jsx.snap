@@ -133,12 +133,11 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
     <ul
       className="pricing"
     >
-      <li>
-        Total net cost
-      </li>
       <li
         className="price"
       >
+        From
+         
         £12,345.00
       </li>
       <li
@@ -147,16 +146,21 @@ exports[`<AccomodationCard /> render matches snapshots (Available to hold) 1`] =
         £23,456.00
       </li>
       <li
+        className="offerName"
         data-role="ac-offer"
         key="Test Offer 1"
       >
         Test Offer 1
       </li>
       <li
+        className="offerName"
         data-role="ac-offer"
         key="Test Offer 2"
       >
         Test Offer 2
+      </li>
+      <li>
+        Based on standard occupancy and base meal plan
       </li>
     </ul>
   </div>
@@ -304,12 +308,11 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
     <ul
       className="pricing"
     >
-      <li>
-        Total net cost
-      </li>
       <li
         className="price"
       >
+        From
+         
         £12,345.00
       </li>
       <li
@@ -318,16 +321,21 @@ exports[`<AccomodationCard /> render matches snapshots (Update in progress) 1`] 
         £23,456.00
       </li>
       <li
+        className="offerName"
         data-role="ac-offer"
         key="Test Offer 1"
       >
         Test Offer 1
       </li>
       <li
+        className="offerName"
         data-role="ac-offer"
         key="Test Offer 2"
       >
         Test Offer 2
+      </li>
+      <li>
+        Based on standard occupancy and base meal plan
       </li>
     </ul>
   </div>
@@ -475,12 +483,11 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
     <ul
       className="pricing"
     >
-      <li>
-        Total net cost
-      </li>
       <li
         className="price"
       >
+        From
+         
         £12,345.00
       </li>
       <li
@@ -489,16 +496,21 @@ exports[`<AccomodationCard /> render matches snapshots (default props) 1`] = `
         £23,456.00
       </li>
       <li
+        className="offerName"
         data-role="ac-offer"
         key="Test Offer 1"
       >
         Test Offer 1
       </li>
       <li
+        className="offerName"
         data-role="ac-offer"
         key="Test Offer 2"
       >
         Test Offer 2
+      </li>
+      <li>
+        Based on standard occupancy and base meal plan
       </li>
     </ul>
   </div>

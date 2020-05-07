@@ -294,4 +294,8 @@ export default {
   applications: {
     discountCheapest: 'Discount Cheapest?',
   },
+  pricing: {
+    from: 'From',
+    basedOn: 'Based on standard occupancy and base meal plan'
+  }
 };
