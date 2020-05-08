@@ -33,6 +33,7 @@ jobs:
       ADMIN_BASE_URL: https://qa.pure-escapes.com/admin
       BACKEND_BASE_URL: https://api.qa.pure-escapes.com/api
       S3_ARTIFACT_PATH: s3://pure-artifactory/qa/webapp-frontend
+      SENTRY_DSN: https://2f51cbd5f667453abd075ab8f8d5a1a0@sentry.io/1722917
     executor: aws-cli/default
     steps:
       - checkout
@@ -73,6 +74,7 @@ jobs:
       ADMIN_BASE_URL: https://sandbox.pure-escapes.com/admin
       BACKEND_BASE_URL: https://api.sandbox.pure-escapes.com/api
       S3_ARTIFACT_PATH: s3://pure-artifactory/sandbox/webapp-frontend
+      SENTRY_DSN: https://2f51cbd5f667453abd075ab8f8d5a1a0@sentry.io/1722917
     executor: aws-cli/default
     steps:
       - checkout

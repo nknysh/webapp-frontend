@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import * as Sentry from '@sentry/browser';
 // import OfflinePluginRuntime from 'offline-plugin/runtime';
 import { ThemeProvider } from 'styled-components';
 import { appendPortalElements } from 'utils/portals';
@@ -13,7 +14,7 @@ import './config/i18n';
 
 import store from 'store';
 
-import { APP_ENV } from 'config';
+import { APP_ENV, SENTRY_DSN, SENTRY_ENV } from 'config';
 import headerMeta from 'config/meta';
 import headerLink from 'config/link';
 import entryRoutes from 'routing/entry';
@@ -27,6 +28,15 @@ import './styles/fonts/NoeDisplay.css';
 if (APP_ENV !== 'production') {
   const whyDidYouRender = require('@welldone-software/why-did-you-render');
   whyDidYouRender(React);
+}
+
+if (SENTRY_DSN) {
+  // Sentry should handle "any uncaught exceptions triggered from your application"
+  // https://docs.sentry.io/platforms/javascript/react/?platform=browser
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    environment: SENTRY_ENV,
+  });
 }
 
 appendPortalElements();

@@ -24,6 +24,9 @@ export const BOOKING_TERMS_URL = defaultTo(
   process.env.BOOKING_TERMS_URL
 );
 
+export const SENTRY_DSN = process.env.SENTRY_DSN;
+export const SENTRY_ENV = process.env.SENTRY_ENV || process.env.NODE_ENV || 'developer-no-env-set';
+
 export default {
   defaults: {
     dateFormat: 'yyyy-MM-dd',
