@@ -34,6 +34,7 @@ jobs:
       BACKEND_BASE_URL: https://api.qa.pure-escapes.com/api
       S3_ARTIFACT_PATH: s3://pure-artifactory/qa/webapp-frontend
       SENTRY_DSN: https://2f51cbd5f667453abd075ab8f8d5a1a0@sentry.io/1722917
+      SENTRY_ENV: qa
     executor: aws-cli/default
     steps:
       - checkout
@@ -75,6 +76,7 @@ jobs:
       BACKEND_BASE_URL: https://api.sandbox.pure-escapes.com/api
       S3_ARTIFACT_PATH: s3://pure-artifactory/sandbox/webapp-frontend
       SENTRY_DSN: https://2f51cbd5f667453abd075ab8f8d5a1a0@sentry.io/1722917
+      SENTRY_ENV: sandbox
     executor: aws-cli/default
     steps:
       - checkout
