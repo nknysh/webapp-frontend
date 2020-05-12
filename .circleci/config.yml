@@ -35,6 +35,8 @@ jobs:
       S3_ARTIFACT_PATH: s3://pure-artifactory/qa/webapp-frontend
       SENTRY_DSN: https://42cd1925ee694672b41e177c3edda033@o300001.ingest.sentry.io/5235948
       SENTRY_ENV: qa
+      SENTRY_ORG: pure-escapes
+      SENTRY_PROJECT: webapp-frontend
     executor: aws-cli/default
     steps:
       - checkout
@@ -77,6 +79,8 @@ jobs:
       S3_ARTIFACT_PATH: s3://pure-artifactory/sandbox/webapp-frontend
       SENTRY_DSN: https://42cd1925ee694672b41e177c3edda033@o300001.ingest.sentry.io/5235948
       SENTRY_ENV: sandbox
+      SENTRY_ORG: pure-escapes
+      SENTRY_PROJECT: webapp-frontend
     executor: aws-cli/default
     steps:
       - checkout
