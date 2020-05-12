@@ -230,8 +230,6 @@ workflows:
                 - master
                 - staticVersion
       - deploy_develop_test:
-          requires:
-            - deploy_approval
           context: deployments
           filters:
             branches:
