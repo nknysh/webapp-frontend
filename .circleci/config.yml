@@ -14,6 +14,11 @@ push_to_artifactory: &push_to_artifactory
       name: Push Artifacts
       command: .circleci/store_artifacts.sh
 
+update_version: &update_version
+  - run:
+      name: Update currVersion
+      command: echo $CIRCLE_BUILD_NUM > ./dist/currVersion
+
 pe_fe_env_vars: &env_vars
   environment:
     # APP_VERBOSE_ERRORS: "false"
@@ -55,6 +60,7 @@ jobs:
           path: tests/coverage
       - aws-cli/setup:
           profile-name: default
+      - <<: *update_version
       - run: |
           aws configure set preview.cloudfront true
       - run: |
@@ -95,6 +101,7 @@ jobs:
           command: yarn test:ci
       - aws-cli/setup:
           profile-name: default
+      - <<: *update_version
       - run: |
           aws configure set preview.cloudfront true
       - run: |
@@ -130,6 +137,7 @@ jobs:
           command: yarn test:ci
       - aws-cli/setup:
           profile-name: default
+      - <<: *update_version
       - run: |
           aws configure set preview.cloudfront true
       - run: |
@@ -162,6 +170,7 @@ jobs:
           command: yarn && yarn build
       - aws-cli/setup:
           profile-name: default
+      - <<: *update_version
       - run: |
           aws configure set preview.cloudfront true
       - run: |
