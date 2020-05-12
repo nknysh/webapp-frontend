@@ -42,7 +42,7 @@ export const Header = ({
   history,
   location: { search },
   isSR,
-  pendingProposalsCount
+  pendingProposalsCount,
 }) => {
   const { t } = useTranslation();
 
@@ -110,14 +110,20 @@ export const Header = ({
     values
   )(loggedOutMenuLinks);
 
-  const menuWithPendingProposals = useMemo(() =>
-    (menu || []).map(item => item.href === '/proposals'
-      ? {
-        ...item,
-        title: (<Badge count={pendingProposalsCount} offset={[10, 5]}>{item.title}</Badge>)
-      }
-      : item
-    ),
+  const menuWithPendingProposals = useMemo(
+    () =>
+      (menu || []).map(item =>
+        item.href === '/proposals'
+          ? {
+              ...item,
+              title: (
+                <Badge count={pendingProposalsCount} offset={[10, 5]}>
+                  {item.title}
+                </Badge>
+              ),
+            }
+          : item
+      ),
     [menu, pendingProposalsCount]
   );
 

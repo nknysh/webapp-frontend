@@ -8,7 +8,7 @@ export const mapStateToProps = state => ({
   isSR: isSR(state),
   menu: getUiHeaderMenu(state),
   loggedIn: getLoggedIn(state),
-  pendingProposalsCount: pendingProposalsCountSelector(state)
+  pendingProposalsCount: pendingProposalsCountSelector(state),
 });
 
 export default connect(mapStateToProps);

@@ -87,7 +87,11 @@ export const AccommodationCard = props => {
 
         <ul className="pricing">
           {onRequest && <li className="price">{t('labels.onRequest')}</li>}
-          {!onRequest && <li className="price">{t('labels.pricing.from')} {`${props.currencyCode}${formatPrice(props.totals.total)}`}</li>}
+          {!onRequest && (
+            <li className="price">
+              {t('labels.pricing.from')} {`${props.currencyCode}${formatPrice(props.totals.total)}`}
+            </li>
+          )}
           {!onRequest && hasOffers && (
             <li className="priceBeforeDiscount">{`${props.currencyCode}${formatPrice(
               props.totals.totalBeforeDiscount

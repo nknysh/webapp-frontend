@@ -296,6 +296,6 @@ export default {
   },
   pricing: {
     from: 'From',
-    basedOn: 'Based on standard occupancy and base meal plan'
-  }
+    basedOn: 'Based on standard occupancy and base meal plan',
+  },
 };
