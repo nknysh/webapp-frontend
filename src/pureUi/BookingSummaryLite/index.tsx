@@ -31,7 +31,7 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
       {!props.hideBookingReference && (
         <div className="mt-4 mb-4 comments booking-reference-container">
           <strong>
-            <label>Booking Reference:</label>
+            <label>Reference:</label>
           </strong>
 
           <label> #{props.booking.humanReadableId || props.booking.uuid}</label>

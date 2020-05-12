@@ -171,7 +171,7 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
                   onClick={this.handleSort('humanReadableId')}
                   className="id"
                 >
-                  Booking Reference
+                  Reference
                 </TH>
                 <TH
                   sortOrder={this.getSortOrderForProp('guestLastName')}
