@@ -6,12 +6,14 @@ import {
   transformUiOfferToApiOffer,
   getOrderedOffers,
   toOrderedOffer,
+  toggleAgeNameOnProductDiscountProduct,
 } from '../../utils';
 import { initialState, IOfferUiState, ECombinationMode } from '../../model';
-import { IOfferAPI, IOfferUI, IUIOfferProductDiscountInstance, IOfferProductDiscounts } from 'services/BackendApi';
+import { IOfferAPI, IOfferUI, IUIOfferProductDiscountInstance, IOfferProductDiscounts, IDiscountProduct } from 'services/BackendApi';
 import { IMealPlanProductOptions, IProduct } from 'services/BackendApi/types/HotelResponse';
 import { mockOffersOrderingData } from '../mock';
 import { subProductDiscounts } from '../../../../../services/BackendApi/types/OffersSearchResponse';
+import { offerToggleAgeNameOnSubProductAction } from '../../actions';
 
 describe('offer module utils test', () => {
   describe('getAllAssociatedProductUuidsFromOffer', () => {
@@ -445,3 +447,52 @@ describe('toOrderedOffer', () => {
     expect(toOrderedOffer(input)).toMatchObject(output);
   });
 });
+
+describe('toggleAgeNameOnProductDiscountProduct', () => {
+  it('Handles products with no ageNames property', () => {
+    const aciton = offerToggleAgeNameOnSubProductAction("Meal Plan", 'DISCOUNT_ID', 'PRODUCT_ID', 'child');
+    const state: IOfferUI['subProductDiscounts'] = {
+      'Meal Plan': [{
+        uuid: 'DISCOUNT_ID',
+        products: [
+          {
+            uuid: 'PRODUCT_ID',
+          } as IDiscountProduct
+        ]
+      }
+      ]
+    };
+
+    const expected: IOfferUI['subProductDiscounts'] = {
+      'Meal Plan': [{
+        uuid: 'DISCOUNT_ID',
+        products: [
+          {
+            uuid: 'PRODUCT_ID',
+            ageNames: ['child'],
+          } as IDiscountProduct
+        ]
+      }
+      ]
+    };
+    const result = toggleAgeNameOnProductDiscountProduct(state, aciton);
+    expect(result).toMatchObject(expected);
+  });
+
+  it('returns the input if the product ID doesn\'t exist', () => {
+    const aciton = offerToggleAgeNameOnSubProductAction("Meal Plan", 'DISCOUNT_ID', 'WRONG_PRODUCT_ID', 'child');
+    const state: IOfferUI['subProductDiscounts'] = {
+      'Meal Plan': [{
+        uuid: 'DISCOUNT_ID',
+        products: [
+          {
+            uuid: 'PRODUCT_ID',
+          } as IDiscountProduct
+        ]
+      }
+      ]
+    };
+    const result = toggleAgeNameOnProductDiscountProduct(state, aciton);
+    expect(result).toEqual(state);
+  });
+})

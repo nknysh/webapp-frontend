@@ -660,12 +660,19 @@ export const toggleAgeNameOnProductDiscountProduct = (
   const newDiscount: IUIOfferProductDiscountInstance = { ...state![discountType]![discountIndex!] };
   const productIndex = newDiscount.products.findIndex(p => p.uuid === productUuid);
   const productToUpdate: IDiscountProduct = newDiscount.products[productIndex];
+  
+  if(!productToUpdate) {
+    return state;
+  }
+
+  const ageNames = productToUpdate.ageNames || [];
+  const updatedAgeNames = ageNames.includes(ageName)
+    ? ageNames.filter(an => an !== ageName)
+    : [...ageNames, ageName];
 
   const newProduct = {
     ...productToUpdate,
-    ageNames: productToUpdate.ageNames.includes(ageName)
-      ? productToUpdate.ageNames.filter(an => an !== ageName)
-      : [...productToUpdate.ageNames, ageName],
+    ageNames: updatedAgeNames,
   };
 
   // Safe to mutate
