@@ -6,6 +6,7 @@ const DotEnvPlugin = require('dotenv-webpack');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 // const OfflinePlugin = require('offline-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 const getMode = prop('mode');
 const isDev = equals('development');
@@ -14,6 +15,12 @@ const modeIsDev = pipe(
   getMode,
   isDev
 );
+
+const {
+  WEBPACK_DEV_HOSTNAME = 'localhost',
+  WEBPACK_DEV_PROXY = 'http://localhost:8002',
+  SENTRY_ENV = ''
+} = process.env;
 
 const sourcePath = 'src';
 const distPath = 'dist';
@@ -25,11 +32,11 @@ module.exports = (env, argv) => ({
   devtool: modeIsDev(argv) && 'source-map',
   devServer: {
     historyApiFallback: true,
-    host: process.env.WEBPACK_DEV_HOSTNAME || 'localhost',
+    host: WEBPACK_DEV_HOSTNAME,
     port: 8080,
     proxy: {
       '/api/**': {
-        target: process.env.WEBPACK_DEV_PROXY || 'http://localhost:8002',
+        target: WEBPACK_DEV_PROXY,
         secure: false,
         changeOrigin: true,
         pathRewrite: { '^/api': '' },
@@ -123,6 +130,13 @@ module.exports = (env, argv) => ({
     ],
   },
   plugins: [
+      new SentryWebpackPlugin({
+      include: '.',
+      ignoreFile: '.sentrycliignore',
+      ignore: ['node_modules', 'webpack.config.js'],
+      configFile: 'sentry.properties',
+      release: SENTRY_ENV,
+    }),
     new DotEnvPlugin({
       safe: true,
       systemvars: true,
