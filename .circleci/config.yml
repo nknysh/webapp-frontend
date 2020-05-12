@@ -28,6 +28,39 @@ pe_fe_env_vars: &env_vars
     # DRIFT_ENABLED_ROLES: ta
 
 jobs:
+  deploy_develop_test:
+    <<: *docker_images
+    <<: *env_vars
+    environment:
+      NODE_ENV: develop
+      APP_ENV: develop
+      API_BASE_URL: https://client-api.qa.pure-escapes.com
+      ADMIN_BASE_URL: https://qa.pure-escapes.com/admin
+      BACKEND_BASE_URL: https://api.qa.pure-escapes.com/api
+      S3_ARTIFACT_PATH: s3://pure-artifactory/qa/webapp-frontend
+      SENTRY_DSN: https://42cd1925ee694672b41e177c3edda033@o300001.ingest.sentry.io/5235948
+      SENTRY_ENV: qa
+      SENTRY_ORG: pure-escapes
+      SENTRY_PROJECT: webapp-frontend
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - run:
+          name: Auth with NPM private registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+      - run:
+          name: build react app
+          command: yarn && yarn run build:dev
+      - run:
+          name: Run tests
+          command: yarn test:ci
+      - store_artifacts:
+          path: tests/coverage
+      - store_test_results:
+          path: tests/coverage
+      - aws-cli/setup:
+          profile-name: default
+      - <<: *update_version  
   deploy_develop:
     <<: *docker_images
     <<: *env_vars
@@ -195,6 +228,15 @@ workflows:
                 - sandbox
                 - demo
                 - master
+                - staticVersion
+      - deploy_develop_test:
+          requires:
+            - deploy_approval
+          context: deployments
+          filters:
+            branches:
+              only:
+                - staticVersion                
       - deploy_develop:
           requires:
             - deploy_approval
