@@ -3,10 +3,11 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { getBookingData } from 'store/modules/bookings/selectors';
+import { getBookingData, getBookingDataWithHolds } from 'store/modules/bookings/selectors';
 
 const mapStateToProps = createStructuredSelector<any, any>({
   storeBookings: getBookingData,
+  storeBookingsWithHolds: getBookingDataWithHolds,
 });
 
 const actionCreators = {};
@@ -26,10 +27,7 @@ export const makeWithBookings = (WrappedComponent: any) =>
 
 export const WithBookings = WrappedComponent => {
   const instance = makeWithBookings(WrappedComponent);
-  const withConnect = connect<IWithBookingsProps, IStateToProps, IDispatchToProps>(
-    mapStateToProps,
-    mapDispatchToProps
-  );
+  const withConnect = connect<IWithBookingsProps, IStateToProps, IDispatchToProps>(mapStateToProps, mapDispatchToProps);
 
   const composed = compose(withConnect)(instance);
 

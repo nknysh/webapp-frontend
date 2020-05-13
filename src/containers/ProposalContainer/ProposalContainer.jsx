@@ -207,7 +207,7 @@ const renderFull = (
     proposal,
     guestFormProps,
     guestInfoProps,
-    storeBookings,
+    storeBookingsWithHolds,
   }
 ) => {
   return (
@@ -223,10 +223,10 @@ const renderFull = (
       })}
       {renderStatusStrip(t, { isEdit, ...proposal })}
       <Proposal>
-        {storeBookings && (
+        {storeBookingsWithHolds && (
           <ProposalsWrapper className="proposals-wrapper">
-            {Object.keys(storeBookings).map(key => (
-              <BookingSummaryLite key={storeBookings[key].bookingHash} booking={storeBookings[key]} />
+            {Object.values(storeBookingsWithHolds).map(booking => (
+              <BookingSummaryLite key={booking.bookingHash} booking={booking} />
             ))}
           </ProposalsWrapper>
         )}
@@ -251,7 +251,7 @@ const renderTabs = (t, { id, guestInfoProps }) => (
 export const ProposalContainer = ({
   amendBooking,
   bookings,
-  storeBookings,
+  storeBookingsWithHolds,
   completeProposalBooking,
   fetchProposal,
   id,
@@ -423,7 +423,7 @@ export const ProposalContainer = ({
               summaryProps,
               guestFormProps,
               guestInfoProps,
-              storeBookings,
+              storeBookingsWithHolds,
             })
           : renderTabs(t, { id, summaryProps, guestInfoProps })}
       </StyledProposalContainer>

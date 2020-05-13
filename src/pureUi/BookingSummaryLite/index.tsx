@@ -24,6 +24,7 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
   const marginTypeIsPercent = props.booking.taMarginType === 'percentage';
   const marginValue = marginTypeIsPercent ? (totalCents / 100) * (margin / 100) : margin;
   const currencySymbol = getCurrencySymbol(breakdown.currency);
+
   return (
     <div className={props.className ? props.className : ''}>
       <Heading2 className="hotelName">{props.booking.hotelName}</Heading2>
@@ -84,6 +85,26 @@ export const BookingSummaryLite = (props: IBookingSummaryLiteProps) => {
               <label>{t('labels.internalComments')}</label>
             </strong>
             <p>{props.booking.internalComments}</p>
+          </div>
+        </React.Fragment>
+      )}
+
+      {props.booking.formattedHolds && props.booking.formattedHolds.length >= 1 && (
+        <React.Fragment>
+          <div className="mt-4 comments">
+            <hr className="mb-4" />
+            <div className="pl-4 uppercase">
+              <strong>
+                <label>Holds & Expiry</label>
+              </strong>
+              {props.booking.formattedHolds.map(fh => {
+                return (
+                  <p>
+                    <strong>{fh.productName}</strong> / {fh.expiresOn}
+                  </p>
+                );
+              })}
+            </div>
           </div>
         </React.Fragment>
       )}

@@ -45,6 +45,7 @@ import {
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import { createSelector } from 'store/utils';
+import { createSelector as reslectCreateSelector } from 'reselect';
 import { addDays } from 'date-fns';
 
 import { BOOKINGS_ON_REQUEST } from 'config';
@@ -183,6 +184,65 @@ export const getBookingStatus = pipe(getBookings, getStatus);
  * @returns {*}
  */
 export const getBookingData = pipe(getBookings, getData);
+
+export const getRawBookingHolds = state => {
+  if (state.bookings && state.bookings.holds) {
+    return state.bookings.holds;
+  }
+  return {};
+};
+
+export const getBookingDataWithHolds = reslectCreateSelector(
+  getBookingData,
+  getRawBookingHolds,
+  (bookings, bookingHolds) => {
+    if (bookings == null) {
+      return;
+    }
+
+    return Object.values(bookings).map(booking => {
+      return {
+        ...booking,
+        formattedHolds:
+          bookingHolds && bookingHolds[booking.uuid]
+            ? buildFormattedBookingHoldData(bookings[booking.uuid], bookingHolds[booking.uuid])
+            : [],
+      };
+    });
+  }
+);
+
+//
+// if you need to change anything in this function, remember to change
+// its sister functions at
+// webapp-backend -> src/services/pdf/index.js -> buildFormattedBookingHoldData
+// webapp-client-api -> src/services/proposals.js -> buildFormattedBookingHoldData
+//
+const buildFormattedBookingHoldData = (booking, bookingHolds) => {
+  if (bookingHolds.breakdown == null || bookingHolds.breakdown.length <= 0) {
+    return [];
+  }
+
+  const formattedHolds = bookingHolds.breakdown
+    .filter(b => b.hasHold)
+    .map(hold => {
+      const accommodationProduct = booking.breakdown.potentialBooking.Accommodation.find(
+        a => a.product.uuid === hold.productUuid
+      );
+
+      return {
+        productName: accommodationProduct.title,
+        expiresOn: hold.expires
+          ? `${formatDate(hold.expires, 'dd MMM yy')} at ${formatDate(hold.expires, 'HH:mma')} (GMT${formatDate(
+              hold.expires,
+              'xxx'
+            )})`
+          : null,
+      };
+    });
+
+  return formattedHolds;
+};
 
 /**
  * Get bookings created selector
