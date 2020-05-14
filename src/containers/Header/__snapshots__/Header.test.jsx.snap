@@ -19,6 +19,7 @@ exports[`<Header /> render matches logged in snapshot 1`] = `
           Array [
             Object {
               "href": "/sign-up",
+              "id": "sign-up",
               "title": "Create an account",
             },
             Object {
@@ -58,6 +59,7 @@ exports[`<Header /> render matches logged out snapshot 1`] = `
             Object {
               "data-active": false,
               "href": "",
+              "id": "sign-up",
               "onClick": [Function],
               "title": "Create an account",
             },

@@ -5,6 +5,7 @@ export default {
     createAccount: {
       title: 'Create an account',
       href: '/sign-up',
+      id: 'sign-up',
     },
     login: {
       title: 'Login',
@@ -17,6 +18,7 @@ export default {
   default: [
     {
       title: 'Home',
+      id: 'home',
       href: '/',
     },
     {

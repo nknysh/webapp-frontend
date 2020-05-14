@@ -11,15 +11,12 @@ const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const getMode = prop('mode');
 const isDev = equals('development');
 
-const modeIsDev = pipe(
-  getMode,
-  isDev
-);
+const modeIsDev = pipe(getMode, isDev);
 
 const {
   WEBPACK_DEV_HOSTNAME = 'localhost',
   WEBPACK_DEV_PROXY = 'http://localhost:8002',
-  SENTRY_ENV = ''
+  SENTRY_ENV = '',
 } = process.env;
 
 const sourcePath = 'src';
@@ -130,12 +127,14 @@ module.exports = (env, argv) => ({
     ],
   },
   plugins: [
-      new SentryWebpackPlugin({
+    new SentryWebpackPlugin({
       include: '.',
       ignoreFile: '.sentrycliignore',
       ignore: ['node_modules', 'webpack.config.js'],
       configFile: 'sentry.properties',
       release: SENTRY_ENV,
+      dryRun: !SENTRY_ENV,
+      silent: !SENTRY_ENV,
     }),
     new DotEnvPlugin({
       safe: true,
