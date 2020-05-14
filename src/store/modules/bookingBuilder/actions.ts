@@ -12,6 +12,7 @@ import {
 } from 'services/BackendApi/types';
 
 import { CustomItemAction } from './subdomains/customItem/actions';
+import { NewProposalPayload } from './model';
 
 export const INITIALIZE_BOOKING_BUILDER = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER';
 export const INITIALIZE_BOOKING_BUILDER_FAILURE = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER_FAILURE';
@@ -53,6 +54,8 @@ export const REMOVE_CUSTOM_ITEM = 'bookingBuilder/REMOVE_CUSTOM_ITEM';
 export const UPDATE_AGREEE_TO_TERMS = 'bookingBuilder/UPDATE_AGREEE_TO_TERMS';
 export const SET_IS_PRISTINE = 'bookingBuilder/SET_IS_PRISTINE';
 export const SET_LATEST_BOOKING_OPERATION = 'bookingBuilder/SET_LATEST_BOOKING_OPERATION';
+
+export const SET_NEW_PROPOSAL_PAYLOAD = 'SET_NEW_PROPOSAL_PAYLOAD';
 
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
@@ -263,6 +266,12 @@ export const setLatestBookingOperationAction = (operation: string) => ({
   operation,
 });
 
+export type SetNewProposalInfoAction = ReturnType<typeof setNewProposalInfoAction>;
+export const setNewProposalInfoAction = (newProposalPayload: NewProposalPayload) => ({
+  type: SET_NEW_PROPOSAL_PAYLOAD as typeof SET_NEW_PROPOSAL_PAYLOAD,
+  newProposalPayload,
+});
+
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -292,4 +301,5 @@ export type BookingBuilderAction =
   | RemoveCustomItemAction
   | SetIsPristineAction
   | SetLatestBookingOperationAction
+  | SetNewProposalInfoAction
   | CustomItemAction;

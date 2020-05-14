@@ -4,6 +4,14 @@ export interface CustomItemSubdomain {
   payload: CustomItemPayload | null;
 };
 
+export interface NewProposalPayload {
+  name: string;
+  userUuid: string;
+  guestFirstName: string;
+  guestLastName: string;
+  guestTitle: string;
+}
+
 export interface BookingBuilderDomain {
   currentBookingBuilder: BookingBuilder | null;
   hotelUuid: string | null;
@@ -45,6 +53,7 @@ export interface BookingBuilderDomain {
   customItem: CustomItemSubdomain;
   isPristine: boolean;
   latestBookingOperation: string | null;
+  newProposalPayload: NewProposalPayload | null;
 }
 
 export const initialState: BookingBuilderDomain = {
@@ -89,5 +98,6 @@ export const initialState: BookingBuilderDomain = {
     payload: null
   },
   isPristine: true,
-  latestBookingOperation: null
+  latestBookingOperation: null,
+  newProposalPayload: null
 };

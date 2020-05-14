@@ -105,6 +105,11 @@ const HotelSummary = props => {
     setIsModalOpen(true);
   };
 
+  const handleCreateNewProposalClick = (e, ...args) => {
+    createNewProposal(e, ...args);
+    setIsModalOpen(false);
+  };
+
   return (
     <aside id="aside">
       <TableCardNumberedBanner className="mb-4">
@@ -120,7 +125,7 @@ const HotelSummary = props => {
             <AddToProposalModalContent
               proposals={proposals}
               hotelUuid={booking && booking.request && booking.request.hotelUuid ? booking.request.hotelUuid : null}
-              createNewProposal={createNewProposal}
+              createNewProposal={handleCreateNewProposalClick}
               addToProposal={addToProposal}
               proposalStatus={proposalStatus}
               proposalResult={proposalResult}
