@@ -33,7 +33,7 @@ import {
 import { transformPut, transformPost, toApiPayload } from './helpers';
 import { IApiErrorResponse } from './types/ApiError';
 import { IAPIRepsonse } from './types/ApiResponse';
-import { IRatesImportResponse } from './types/RatesImportResponse';
+import { IImportResponse } from './types/ImportResponse';
 import { IHotel } from './types/HotelResponse';
 
 export enum BackendEndpoints {
@@ -49,6 +49,7 @@ export enum BackendEndpoints {
   PRODUCTS = 'products',
   COUNTRIES = 'countries',
   RATES_LOADER = 'rates-loader',
+  ALLOTMENTS_LOADER = 'allotments-loader',
 }
 
 export class BackendApiService<T extends AxiosInstance> {
@@ -264,8 +265,12 @@ export class BackendApiService<T extends AxiosInstance> {
     );
   };
 
-  importRates = async (): Promise<AxiosResponse<IRatesImportResponse | ErrorResponse>> => {
+  importRates = async (): Promise<AxiosResponse<IImportResponse | ErrorResponse>> => {
     return this.client.post(`${BackendEndpoints.RATES_LOADER}/import`);
+  };
+
+  importAllotments = async (): Promise<AxiosResponse<IImportResponse | ErrorResponse>> => {
+    return this.client.post(`${BackendEndpoints.ALLOTMENTS_LOADER}/import`);
   };
 
   getRatesImportStatus = async (): Promise<AxiosResponse<IRatesImportResponse | ErrorResponse>> => {

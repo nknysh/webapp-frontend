@@ -1,35 +1,18 @@
-import { IRatesImportModel } from './model';
-import { createSelector } from 'reselect';
+import { IImportModel } from '../importer/model';
+import * as selectors from '../importer/selectors';
 
-export const ratesImportDomainSelector = (state: any): IRatesImportModel =>
-  state.ratesImport as IRatesImportModel;
+export const ratesImportDomainSelector = (state: any): IImportModel =>
+  state.ratesImport as IImportModel;
 
-export const importRatesRequestIsPendingSelector = createSelector(
-  ratesImportDomainSelector,
-  domain => domain.importRatesRequestIsPending
-);
+export const importRatesRequestIsPendingSelector = 
+  selectors.importRequestIsPendingSelectorFactory(ratesImportDomainSelector);
 
-export const errorSelector = createSelector(
-  ratesImportDomainSelector,
-  domain => domain.error
-);
+export const errorSelector = selectors.errorSelectorFactory(ratesImportDomainSelector);
 
-export const latestStatusSelector = createSelector(
-  ratesImportDomainSelector,
-  domain => domain.latestStatus
-);
+export const latestStatusSelector = selectors.latestStatusSelectorFactory(ratesImportDomainSelector);
 
-export const workbookIdSelector = createSelector(
-  ratesImportDomainSelector,
-  domain => domain.workbookId
-);
+export const workbookIdSelector = selectors.workbookIdSelectorFactory(ratesImportDomainSelector);
 
-export const uiStateSelector = createSelector(
-  ratesImportDomainSelector,
-  domain => domain.uiState
-);
+export const uiStateSelector = selectors.uiStateSelectorFactory(ratesImportDomainSelector);
 
-export const confirmationModalOpenSelector = createSelector(
-  uiStateSelector,
-  uiState => uiState.confirmationModalOpen
-);
+export const confirmationModalOpenSelector = selectors.confirmationModalOpenSelectorFactory(ratesImportDomainSelector);

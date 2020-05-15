@@ -1,4 +1,5 @@
-import { IGenericStatus, IGenericStatusResponse } from './GenericStatusResponse';
+import { IGenericStatus } from './GenericStatusResponse';
+import { IImportResponse } from './ImportResponse';
 
 export interface IRatesImportErrorItem {
   ref: string;
@@ -32,8 +33,5 @@ export interface IRatesImportData {
 }
 
 export interface IRatesImportStatus extends IGenericStatus<IRatesImportData> {}
-export interface IRatesImportResponse extends IGenericStatusResponse<IRatesImportData> {
-  meta: {
-    workbookId: string;
-  }
+export interface IRatesImportResponse extends IImportResponse {
 }

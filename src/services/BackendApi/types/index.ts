@@ -12,4 +12,5 @@ export * from './HotelNamesResponse';
 export * from './OfferResponse';
 export * from './GenericStatusResponse';
 export * from './RatesImportResponse';
+export * from './ImportResponse';
 export * from './HotelResponse';
