@@ -308,12 +308,14 @@ export class BackendApiService<T extends AxiosInstance> {
   ): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.BOOKINGS}`;
 
-    const tempPayloadShape: {
+    interface IBookingSaveSchema {
       data: {
         attributes: object,
         proposalInfo?: object,
       }
-    } = {
+    }
+
+    const tempPayloadShape: IBookingSaveSchema = {
       data: {
         attributes: {
           ...bookingAttributes,

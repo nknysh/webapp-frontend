@@ -54,8 +54,6 @@ export const UPDATE_AGREEE_TO_TERMS = 'bookingBuilder/UPDATE_AGREEE_TO_TERMS';
 export const SET_IS_PRISTINE = 'bookingBuilder/SET_IS_PRISTINE';
 export const SET_LATEST_BOOKING_OPERATION = 'bookingBuilder/SET_LATEST_BOOKING_OPERATION';
 
-export const SET_NEW_PROPOSAL_PAYLOAD = 'SET_NEW_PROPOSAL_PAYLOAD';
-
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
 export const initializeBookingBuilderAction = (hotelUuid: string) => ({
   type: INITIALIZE_BOOKING_BUILDER as typeof INITIALIZE_BOOKING_BUILDER,

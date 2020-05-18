@@ -645,7 +645,6 @@ const getBookingBasicPayload = async (state, id) => {
     bookingHash,
     bookingInformation,
   };
-
 };
 
 /**

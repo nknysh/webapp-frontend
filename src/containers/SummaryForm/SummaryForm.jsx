@@ -255,7 +255,7 @@ const renderForm = (
     updateAgreeToTermsAction,
     domainValidation,
     isPristine,
-    setIsPristineAction
+    setIsPristineAction,
   }
 ) => {
   const isValid = values(domainValidation).every(arr => !arr?.length);
