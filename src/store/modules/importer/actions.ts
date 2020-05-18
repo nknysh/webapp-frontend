@@ -1,3 +1,4 @@
+import { curry } from 'ramda';
 import { IImportStatus } from 'services/BackendApi';
 import { EImportEntity } from './model';
 
@@ -49,7 +50,7 @@ export const getImportStatusSuccessAction = (entity: EImportEntity, status: IImp
 });
 
 export type GetImportStatusFailureAction = ReturnType<typeof getImportStatusFailureAction>;
-export const getRatesImportStatusFailureAction = (entity: EImportEntity, error: any) => ({
+export const getImportStatusFailureAction = (entity: EImportEntity, error: any) => ({
   type: GET_IMPORT_STATUS_FAILURE as typeof GET_IMPORT_STATUS_FAILURE,
   entity,
   error,
@@ -95,6 +96,12 @@ export const cancelImportIntent = (entity: EImportEntity) => ({
   type: CANCEL_IMPORT_INTENT as typeof CANCEL_IMPORT_INTENT,
   entity
 });
+
+export const forEntity = curry(
+  (entity: EImportEntity, action: (entity: EImportEntity, ...rest: any[]) => ImportAction) =>
+    (...args: any[]) => action(entity, ...args)
+);
+
 
 export type ImportAction =
   | ImportRequestAction

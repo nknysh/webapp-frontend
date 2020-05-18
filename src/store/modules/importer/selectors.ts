@@ -1,7 +1,7 @@
 import { IImportModel } from './model';
 import { createSelector } from 'reselect';
 
-type ImportDomainSelector = (state: any) => IImportModel;
+export type ImportDomainSelector = (state: any) => IImportModel;
 
 export const importRequestIsPendingSelectorFactory = (domainSelector: ImportDomainSelector) =>
   createSelector(

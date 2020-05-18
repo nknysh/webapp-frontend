@@ -2,22 +2,28 @@ import React, { Fragment } from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { mapObjIndexed } from 'ramda';
+
+import { EImportEntity } from '../../store/modules/importer/model';
 
 import {
-  ratesImportPageLoaded,
-  ratesImportPageUnloaded,
-  openRatesImportConfirmationModal,
-  confirmRatesImportIntent,
-  cancelRatesImportIntent,
-} from '../../store/modules/ratesImport/actions';
+  importPageLoaded,
+  importPageUnloaded,
+  openImportConfirmationModal,
+  confirmImportIntent,
+  cancelImportIntent,
+  forEntity
+} from '../../store/modules/importer/actions';
 
 import {
-  importRatesRequestIsPendingSelector,
-  errorSelector,
-  latestStatusSelector,
-  confirmationModalOpenSelector,
-  workbookIdSelector
-} from '../../store/modules/ratesImport/selectors';
+  importRequestIsPendingSelectorFactory,
+  errorSelectorFactory,
+  latestStatusSelectorFactory,
+  workbookIdSelectorFactory,
+  confirmationModalOpenSelectorFactory
+} from '../../store/modules/importer/selectors';
+
+import { ratesImportDomainSelector } from '../../store/modules/ratesImport/selectors';
 
 import { MainStyles } from './styles';
 import { PrimaryButton } from 'pureUi/Buttons';
@@ -30,21 +36,21 @@ import ConfirmationModal from './components/ConfirmationModal';
 export class RatesImportContainer extends React.Component<IRatesImportProps> {
 
   componentWillMount() {
-    this.props.ratesImportPageLoaded();
+    this.props.importPageLoaded();
   }
 
   componentWillUnmount() {
-    this.props.ratesImportPageUnloaded();
+    this.props.importPageUnloaded();
   }
 
   render() {
     const {
-      importRatesRequestIsPending,
+      importRequestIsPending,
       latestStatus,
       confirmationModalOpen,
-      openRatesImportConfirmationModal,
-      confirmRatesImportIntent,
-      cancelRatesImportIntent,
+      openImportConfirmationModal,
+      confirmImportIntent,
+      cancelImportIntent,
       workbookId
     } = this.props;
 
@@ -58,8 +64,8 @@ export class RatesImportContainer extends React.Component<IRatesImportProps> {
           <section className="controls">
             <PrimaryButton
               className="importBtn"
-              disabled={importRatesRequestIsPending}
-              onClick={openRatesImportConfirmationModal}
+              disabled={importRequestIsPending}
+              onClick={openImportConfirmationModal}
             >
               Import Rates
             </PrimaryButton>
@@ -79,8 +85,8 @@ export class RatesImportContainer extends React.Component<IRatesImportProps> {
           
           {confirmationModalOpen &&
             <ConfirmationModal
-              onOk={confirmRatesImportIntent}
-              onCancel={cancelRatesImportIntent}
+              onOk={confirmImportIntent}
+              onCancel={cancelImportIntent}
             />
           }
         </div>
@@ -109,20 +115,23 @@ export interface IRatesImportProps extends StateToProps, DispatchToProps {
 }
 
 const mapStateToProps = createStructuredSelector({ 
-  importRatesRequestIsPending: importRatesRequestIsPendingSelector,
-  error: errorSelector,
-  latestStatus: latestStatusSelector,
-  confirmationModalOpen: confirmationModalOpenSelector,
-  workbookId: workbookIdSelector
+  importRequestIsPending: importRequestIsPendingSelectorFactory(ratesImportDomainSelector),
+  error: errorSelectorFactory(ratesImportDomainSelector),
+  latestStatus: latestStatusSelectorFactory(ratesImportDomainSelector),
+  confirmationModalOpen: confirmationModalOpenSelectorFactory(ratesImportDomainSelector),
+  workbookId: workbookIdSelectorFactory(ratesImportDomainSelector),
 });
 
-const actionCreators = {
-  ratesImportPageLoaded,
-  ratesImportPageUnloaded,
-  openRatesImportConfirmationModal,
-  confirmRatesImportIntent,
-  cancelRatesImportIntent,
-};
+const actionCreators = mapObjIndexed(
+  forEntity(EImportEntity.RATES),
+  {
+    importPageLoaded,
+    importPageUnloaded,
+    openImportConfirmationModal,
+    confirmImportIntent,
+    cancelImportIntent,
+  }
+);
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
 
