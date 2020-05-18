@@ -136,18 +136,16 @@ const handleSaveBookingAndTakeHoldsButton = async props => {
 };
 
 const handleRequestBookingButton = async props => {
-  const { bookingDomain, backendApi, canHold, newProposalPayload } = props;
-
-  const bookingStatus = newProposalPayload ? BookingStatusTypes.POTENTIAL : BookingStatusTypes.REQUESTED;
+  const { bookingDomain, backendApi, canHold } = props;
 
   const attr = getBookingsEndpointAttributesForBookingDomain({
     bookingDomain,
-    bookingStatus,
+    bookingStatus: BookingStatusTypes.REQUESTED,
     placeHolds: canHold,
   });
 
   try {
-    const res = await backendApi.postBookingSave(attr, newProposalPayload);
+    const res = await backendApi.postBookingSave(attr);
     const newBookingUuid = res.data.data.uuid;
 
     window.location.href = `/bookings/${newBookingUuid}`;
@@ -257,8 +255,7 @@ const renderForm = (
     updateAgreeToTermsAction,
     domainValidation,
     isPristine,
-    setIsPristineAction,
-    newProposalPayload
+    setIsPristineAction
   }
 ) => {
   const isValid = values(domainValidation).every(arr => !arr?.length);
@@ -319,7 +316,7 @@ const renderForm = (
                 canHold={canHold}
                 bookLabel={bookLabel}
                 isOnRequest={isOnRequest}
-                onClick={actionGuard(() => handleRequestBookingButton({ backendApi, bookingDomain, canHold, newProposalPayload }))}
+                onClick={actionGuard(() => handleRequestBookingButton({ backendApi, bookingDomain, canHold }))}
               />
             </div>
           </div>

@@ -12,7 +12,6 @@ import {
 } from 'services/BackendApi/types';
 
 import { CustomItemAction } from './subdomains/customItem/actions';
-import { NewProposalPayload } from './model';
 
 export const INITIALIZE_BOOKING_BUILDER = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER';
 export const INITIALIZE_BOOKING_BUILDER_FAILURE = 'bookingBuilder/INITIALIZE_BOOKING_BUILDER_FAILURE';
@@ -266,12 +265,6 @@ export const setLatestBookingOperationAction = (operation: string) => ({
   operation,
 });
 
-export type SetNewProposalInfoAction = ReturnType<typeof setNewProposalInfoAction>;
-export const setNewProposalInfoAction = (newProposalPayload: NewProposalPayload) => ({
-  type: SET_NEW_PROPOSAL_PAYLOAD as typeof SET_NEW_PROPOSAL_PAYLOAD,
-  newProposalPayload,
-});
-
 export type BookingBuilderAction =
   | InitializeBookingBuilderAction
   | CopyBookingBuilderAction
@@ -301,5 +294,4 @@ export type BookingBuilderAction =
   | RemoveCustomItemAction
   | SetIsPristineAction
   | SetLatestBookingOperationAction
-  | SetNewProposalInfoAction
   | CustomItemAction;

@@ -26,6 +26,7 @@ import {
 } from './HotelContainer.styles';
 import { Hotel } from 'components';
 import SummaryForm from 'containers/SummaryForm';
+import { makeBackendApi } from 'services/BackendApi';
 import { IReduxDomainStatus } from '../../interfaces';
 import { AddToProposalModalContent } from './AddToProposalModal';
 import {
@@ -81,7 +82,7 @@ const renderBrochure = ({ uuid, displayName, url }) => (
 );
 
 const HotelSummary = props => {
-  const { proposals, history, booking, hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures } = props;
+  const { proposals, history, booking, hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures, actingCountryCode } = props;
   const { proposalResult, proposalStatus }: { proposalResult: string; proposalStatus: IReduxDomainStatus } = props;
   const { canBook, canHold, onTakeHold }: { canBook: boolean; canHold: boolean; onTakeHold: boolean } = props;
   const {
@@ -89,6 +90,8 @@ const HotelSummary = props => {
     createNewProposal,
     addToProposal,
   }: { fetchProposals: Function; createNewProposal: Function; addToProposal: Function } = props;
+
+  const backendApi = makeBackendApi(actingCountryCode);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -105,9 +108,8 @@ const HotelSummary = props => {
     setIsModalOpen(true);
   };
 
-  const handleCreateNewProposalClick = (e, ...args) => {
-    createNewProposal(e, ...args);
-    setIsModalOpen(false);
+  const handleCreateNewProposalClick = (name, bookingId, placeHolds) => {
+    createNewProposal(name, bookingId, placeHolds, backendApi);
   };
 
   return (

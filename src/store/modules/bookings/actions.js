@@ -609,22 +609,13 @@ export const updateBooking = (id, payload, forceCall = false) => async (dispatch
 };
 
 /**
- * Complete booking action
+ * helper function
  *
+ * @param {object} state
  * @param {string} id Booking ID
- * @param {object} payload
- * @param {string} status
- * @param {boolean} placeHolds
- * @returns {Function}
+ * @returns {object}
  */
-export const completeBooking = (id, payload, status = BookingStatusTypes.REQUESTED, placeHolds = false) => async (
-  dispatch,
-  getState
-) => {
-  await dispatch(updateBooking(id, payload));
-
-  const state = getState();
-
+const getBookingBasicPayload = async (state, id) => {
   const booking = getBooking(state, id);
   const { breakdown } = booking;
 
@@ -649,12 +640,71 @@ export const completeBooking = (id, payload, status = BookingStatusTypes.REQUEST
   )(booking);
 
   // Final payload is the object that the backend will accept
-  const finalPayload = {
-    status,
-    placeHolds,
+  return {
     bookingBuild,
     bookingHash,
     bookingInformation,
+  };
+
+};
+
+/**
+ * Create booking with proposal action
+ *
+ * @param {string} id Booking ID
+ * @param {object} payload
+ * @param {boolean} placeHolds
+ * @param {object} newProposalInfo
+ * @param {object} backendApi
+ * @returns {Function}
+ */
+export const createBookingWithNewProposal = (id, payload, placeHolds = false, newProposalInfo, backendApi) => async (
+  dispatch,
+  getState
+) => {
+  await dispatch(updateBooking(id, payload));
+
+  // Final payload is the object that the backend will accept
+  const generatedPayload = await getBookingBasicPayload(getState(), id);
+  const finalPayload = {
+    ...generatedPayload,
+    status: BookingStatusTypes.POTENTIAL,
+    placeHolds,
+  };
+
+  try {
+    const res = await backendApi.postBookingSave(finalPayload, newProposalInfo);
+    const data = res.data.data;
+    await dispatch(updateBooking(id, { ...data }));
+
+    window.location.href = `/bookings/${data.uuid}`;
+  } catch (e) {
+    console.error(`Error ${e}`);
+    dispatch(errorFromResponse(BOOKING_SUBMIT, e, 'There was a problem creating your booking.'));
+  }
+};
+
+/**
+ * Complete booking action
+ *
+ * @param {string} id Booking ID
+ * @param {object} payload
+ * @param {string} status
+ * @param {boolean} placeHolds
+ * @returns {Function}
+ */
+export const completeBooking = (id, payload, status = BookingStatusTypes.REQUESTED, placeHolds = false) => async (
+  dispatch,
+  getState
+) => {
+  await dispatch(updateBooking(id, payload));
+
+  // Final payload is the object that the backend will accept
+  const generatedPayload = await getBookingBasicPayload(getState(), id);
+  const finalPayload = {
+    ...generatedPayload,
+    status,
+    placeHolds,
   };
 
   dispatch(genericAction(BOOKING_SUBMIT, finalPayload));

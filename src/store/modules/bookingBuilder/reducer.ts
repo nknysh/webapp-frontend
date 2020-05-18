@@ -85,9 +85,6 @@ export const bookingBuilderReducer = (
     case Actions.REMOVE_CUSTOM_ITEM:
       return removeCustomItemReducer(state, action);
 
-    case Actions.SET_NEW_PROPOSAL_PAYLOAD:
-      return setNewProposalPayloadReducer(state, action);
-
     case CustomItemActions.SHOW_CUSTOM_ITEM_FORM:
     case CustomItemActions.HIDE_CUSTOM_ITEM_FORM:
     case CustomItemActions.UPDATE_CUSTOM_ITEM_NAME:
@@ -628,14 +625,6 @@ export const resetBookingBuilderUiStateReducer = (state: BookingBuilderDomain): 
   isTAMarginApplied: true,
   taMarginType: 'percentage',
   taMarginAmount: '0',
-});
-
-export const setNewProposalPayloadReducer = (
-  state: BookingBuilderDomain,
-  action: Actions.SetNewProposalInfoAction
-): BookingBuilderDomain => ({
-  ...state,
-  newProposalPayload: action.newProposalPayload,
 });
 
 export const updateBookingTravelAgentUserIdReducer = (

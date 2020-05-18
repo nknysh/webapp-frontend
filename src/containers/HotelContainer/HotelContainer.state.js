@@ -25,6 +25,8 @@ import {
   getProposalsResults,
 } from 'store/modules/proposals';
 
+import { getUserCountryContext } from 'store/modules/auth';
+
 export const mapStateToProps = (state, { id }) => ({
   booking: bookingBuilderSelector(state),
   brochures: getHotelsBrochures(state, id),
@@ -38,6 +40,7 @@ export const mapStateToProps = (state, { id }) => ({
   proposals: getProposalsKeyValue(state),
   proposalResult: getProposalsResults(state),
   proposalStatus: getProposalsStatus(state),
+  actingCountryCode: getUserCountryContext(state),
 });
 
 export const mapDispatchToProps = dispatch => ({
