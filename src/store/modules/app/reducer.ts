@@ -1,9 +1,9 @@
-import { initialState, AppState } from './model';
+import { initialState, IAppState } from './model';
 import * as Actions from './actions';
 import produce from 'immer';
 
 export const appReducer = (
-  state: AppState = initialState,
+  state: IAppState = initialState,
   action: Actions.AppAction
 ) => {
   switch (action.type) {
@@ -16,11 +16,15 @@ export const appReducer = (
 };
 
 export const updateLatestAppVersionReducer = (
-  state: AppState,
+  state: IAppState,
   action: Actions.SetLatestAppVersion
-): AppState => {
+): IAppState => {
   return produce(state, draftState => {
     draftState.latestAppVersion = action.latestAppVersion;
+    draftState.isAppDeprecated = action.isAppDeprecated;
     return draftState;
   });
 };
+
+
+export default appReducer;

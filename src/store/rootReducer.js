@@ -56,7 +56,7 @@ const rootReducer = combineReducers({
   bootstrap,
   ratesImport,
   allotmentsImport,
-  appReducer,
+  app: appReducer,
 });
 
 export default (state, action) => {

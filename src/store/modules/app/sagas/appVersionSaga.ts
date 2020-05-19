@@ -24,11 +24,12 @@ export function* checkAppVersionSaga(currAppVersion: string) {
   try {
     //TODO: fetch real data
     console.log('Fetching newest version...');
-    const newAppVersion = yield '1.0.0';
+    const newAppVersion = yield '1.0.1';
     // if prod version is different from ours - assume it's deprecated
     console.log(`Current version: ${currAppVersion}`);
     console.log(`Latest version: ${newAppVersion}`);
     const isAppDeprecated = newAppVersion !== currAppVersion;
+    console.log('setting: ' + isAppDeprecated);
 
     yield put(setLatestAppVersion(newAppVersion, isAppDeprecated))
 

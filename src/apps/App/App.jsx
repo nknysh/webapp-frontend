@@ -15,8 +15,9 @@ import { FastSearchContainerConnected } from 'containers/FastSearch';
 import { RatesImportContainerConnected } from 'containers/RatesImport';
 import { AllotmentsImportContainerConnected } from 'containers/AllotmentsImport';
 import { OfferRouting } from 'containers/OfferRouting';
+import DeprecatedAppBanner from './DeprecatedAppBanner';
 
-export const App = ({ location: { pathname }, user, resetStatuses, pageChange, bootstrapAppRequestAction }) => {
+export const App = ({ location: { pathname }, user, resetStatuses, pageChange, bootstrapAppRequestAction, isAppVersionDeprecated }) => {
   // Scroll to top on path change
   useScrollToTop(pathname);
 
@@ -34,6 +35,7 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange, b
 
   return (
     <Layout>
+      {isAppVersionDeprecated && <DeprecatedAppBanner />}
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
