@@ -273,8 +273,12 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.post(`${BackendEndpoints.ALLOTMENTS_LOADER}/import`);
   };
 
-  getRatesImportStatus = async (): Promise<AxiosResponse<IRatesImportResponse | ErrorResponse>> => {
+  getRatesImportStatus = async (): Promise<AxiosResponse<IImportResponse | ErrorResponse>> => {
     return this.client.get(`${BackendEndpoints.RATES_LOADER}/status`);
+  };
+
+  getAllotmentsImportStatus = async (): Promise<AxiosResponse<IImportResponse | ErrorResponse>> => {
+    return this.client.get(`${BackendEndpoints.ALLOTMENTS_LOADER}/status`);
   };
 
   sanitizQueryObject = (query: ISearchQuery): ISearchQuery => {

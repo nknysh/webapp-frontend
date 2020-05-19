@@ -7,6 +7,7 @@ import { colors } from 'pureUi/pureUiTheme';
 
 export interface ConfirmationModalProps {
   className?: string;
+  entityName: string;
   onOk: () => void;
   onCancel: () => void;
 }
@@ -20,18 +21,18 @@ const StyledHeading = styled(Heading)`
 `;
 
 const ConfirmationModal = (props: ConfirmationModalProps) => {
-  const { className, onOk, onCancel } = props;
+  const { className, entityName, onOk, onCancel } = props;
   
   return (
     <StandardModal className={className} onClose={onCancel}>
       <ModalHeader>
-        <StyledHeading level="h2">Are you sure you want to import rates? </StyledHeading>
+  <StyledHeading level="h2">Are you sure you want to import {entityName}? </StyledHeading>
       </ModalHeader>
       <ModalContent>
         <StyledText>
           This operation takes usually around 3-4 minutes.
           It cannot be canceld before completion and it is irreversible.
-          If successful, it will overwrite current rates.
+          If successful, it will overwrite current {entityName}.
         </StyledText>
       </ModalContent>
       <ModalFooter>

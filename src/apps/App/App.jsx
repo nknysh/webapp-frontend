@@ -13,6 +13,7 @@ import { propTypes, defaultProps } from './App.props';
 import connect from './App.state';
 import { FastSearchContainerConnected } from 'containers/FastSearch';
 import { RatesImportContainerConnected } from 'containers/RatesImport';
+import { AllotmentsImportContainerConnected } from 'containers/AllotmentsImport';
 import { OfferRouting } from 'containers/OfferRouting';
 
 export const App = ({ location: { pathname }, user, resetStatuses, pageChange, bootstrapAppRequestAction }) => {
@@ -38,6 +39,7 @@ export const App = ({ location: { pathname }, user, resetStatuses, pageChange, b
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
           <Route path="/offers" component={OfferRouting} />
           <Route exact path="/rates/import" component={RatesImportContainerConnected} />
+          <Route exact path="/allotments/import" component={AllotmentsImportContainerConnected} />
           {...getAppRoutes(prop('type', user))}
         </Switch>
       </Suspense>

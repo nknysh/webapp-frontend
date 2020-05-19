@@ -8,9 +8,9 @@ import Report from './components/Report';
 import LatestStatusInfo from './components/LatestStatusInfo';
 import ConfirmationModal from './components/ConfirmationModal';
 
-import { IImportStatus } from 'services/BackendApi';
+import { IWithImporterProps } from 'hoc/WithImporter';
 
-export class Importer extends React.Component<IImportProps> {
+export default class Importer extends React.Component<IImportProps> {
 
   componentWillMount() {
     this.props.importPageLoaded();
@@ -22,6 +22,8 @@ export class Importer extends React.Component<IImportProps> {
 
   render() {
     const {
+      className,
+      entityName,
       importRequestIsPending,
       latestStatus,
       confirmationModalOpen,
@@ -36,7 +38,7 @@ export class Importer extends React.Component<IImportProps> {
       : null;
 
     return (
-      <MainStyles>
+      <MainStyles className={className}>
         <div className="importer">
           <section className="controls">
             <PrimaryButton
@@ -44,7 +46,7 @@ export class Importer extends React.Component<IImportProps> {
               disabled={importRequestIsPending}
               onClick={openImportConfirmationModal}
             >
-              Import Rates
+              Import {entityName}
             </PrimaryButton>
             {latestStatus &&
               <LatestStatusInfo status={latestStatus} />
@@ -62,6 +64,7 @@ export class Importer extends React.Component<IImportProps> {
           
           {confirmationModalOpen &&
             <ConfirmationModal
+              entityName={entityName}
               onOk={confirmImportIntent}
               onCancel={cancelImportIntent}
             />
@@ -81,19 +84,7 @@ export class Importer extends React.Component<IImportProps> {
 
 }
 
-export interface IImportProps {
+export interface IImportProps extends IWithImporterProps {
   className?: string;
-  
-  importRequestIsPending: boolean;
-  latestStatus: IImportStatus | null;
-  workbookId: string | null;
-  confirmationModalOpen: boolean;
-
-  importPageLoaded: () => void;
-  importPageUnloaded: () => void;
-  openImportConfirmationModal: () => void;
-  confirmImportIntent: () => void;
-  cancelImportIntent: () => void;
+  entityName: string;
 }
-
-//TODO  pass entity name
