@@ -4,7 +4,7 @@ import { resetStatuses, pageChange } from 'store/common';
 import { bootstrapAppRequestAction } from 'store/modules/bootstrap/actions';
 import { isAppDeprecatedSelector } from 'store/modules/app/selectors';
 
-export const mapStateToProps = (state) => ({
+export const mapStateToProps = state => ({
   isAppVersionDeprecated: isAppDeprecatedSelector(state),
 });
 
