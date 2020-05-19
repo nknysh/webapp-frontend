@@ -22,6 +22,7 @@ import { watchPostOffersOrderRequestSaga } from './modules/offer/sagas/postOffer
 import { watchOfferHotelUuidChangeAction } from './modules/offer/sagas/getHotelData';
 import importRatesSaga from './modules/ratesImport/sagas';
 import importAllotmentsSaga from './modules/allotmentsImport/sagas';
+import { watchVersionChangeSaga } from './modules/app/sagas/appVersionSaga';
 
 export default function* allSagas() {
   const sagas = [
@@ -46,6 +47,7 @@ export default function* allSagas() {
     watchPostOfferRequest,
     watchPostOffersOrderRequestSaga,
     watchOfferHotelUuidChangeAction,
+    watchVersionChangeSaga,
     importRatesSaga,
     importAllotmentsSaga,
   ];
