@@ -5,10 +5,28 @@ import { CIRCLE_BUILD_NUM, CHECK_APP_VERSION_TIME_INTERVAL, CURR_DEPLOY_BASE_URL
 
 import { setLatestAppVersion } from "../actions";
 
-function checkAppVersionEventsGenerator(currVersion: string, interval = CHECK_APP_VERSION_TIME_INTERVAL) {
+function checkAppVersionEventsGenerator(currVersion: string, interval: number = CHECK_APP_VERSION_TIME_INTERVAL) {
   return eventChannel(emitter => {
-      const iv = setInterval(() => {
-        emitter(currVersion)
+      const iv = setInterval(async () => {
+        try {
+          console.log('Fetching newest version...');
+          const fetchResult = await fetch(CURR_DEPLOY_BASE_URL);
+          console.log(fetchResult);
+          // if request fails - we don't care alot (may be changed)
+          if (fetchResult.status === 200 && fetchResult.statusText === 'OK') {
+            const newAppVersion = await fetchResult.text();
+            // if prod version is different from ours - assume it's deprecated
+            console.log(`Current version: ${currVersion}`);
+            console.log(`Latest version: ${newAppVersion}`);
+            const isAppDeprecated = newAppVersion !== currVersion;
+            console.log('setting: ' + isAppDeprecated);
+            // emit event only if new app version is released
+            isAppDeprecated && emitter({ newAppVersion, isAppDeprecated })
+          }
+        } catch (e) {
+          // TODO: ??
+          console.log(e)
+        }
       }, interval);
       // The subscriber must return an unsubscribe function
       return () => {
@@ -18,36 +36,13 @@ function checkAppVersionEventsGenerator(currVersion: string, interval = CHECK_AP
   )
 }
 
-
-export function* checkAppVersionSaga(currAppVersion: string) {
-  try {
-    console.log('Fetching newest version...');
-    const fetchResult = yield call(fetch, CURR_DEPLOY_BASE_URL);
-    console.log(fetchResult);
-    // if request fails - we don't care alot (may be changed)
-    if (fetchResult.status === 200 && fetchResult.statusText === 'OK') {
-      const newAppVersion = yield fetchResult.text();
-      // if prod version is different from ours - assume it's deprecated
-      console.log(`Current version: ${currAppVersion}`);
-      console.log(`Latest version: ${newAppVersion}`);
-      const isAppDeprecated = newAppVersion !== currAppVersion;
-      console.log('setting: ' + isAppDeprecated);
-
-      yield put(setLatestAppVersion(newAppVersion, isAppDeprecated))
-    }
-  } catch (e) {
-    // TODO: ??
-    console.log(e)
-  }
-}
-
 export function* watchVersionChangeSaga() {
   // 1- Create a generator for request actions
-  const requestChan = yield call(checkAppVersionEventsGenerator, CIRCLE_BUILD_NUM);
+  const newAppVersionChannel = yield call(checkAppVersionEventsGenerator, CIRCLE_BUILD_NUM);
   while (true) {
     // 2- take from the channel
-    const currAppVersion = yield take(requestChan);
+    const { newAppVersion, isAppDeprecated } = yield take(newAppVersionChannel);
     // 3- check what is latest version
-    yield call(checkAppVersionSaga, currAppVersion)
+    yield put(setLatestAppVersion(newAppVersion, isAppDeprecated))
   }
 }
