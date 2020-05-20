@@ -7,6 +7,7 @@ import { DriftWidget } from '@pure-escapes/webapp-ui-components';
 import { DRIFT_APP_ID, DRIFT_ENABLED_ROLES } from 'config';
 import Notifications from 'components/Notifications';
 import { withUser } from 'hoc';
+import GlobalBanner from 'pureUi/GlobalBanner';
 
 import { propTypes } from './Layout.props';
 import { StyledLayout, LayoutChildren, LayoutHeader, LayoutFooter } from './Layout.styles';
@@ -26,7 +27,7 @@ const ANCHOR_ORIGIN = Object.freeze({
  */
 const driftEnabled = role => includes('all', DRIFT_ENABLED_ROLES) || includes(role, DRIFT_ENABLED_ROLES);
 
-export const Layout = ({ user, children, location: { pathname } }) => {
+export const Layout = ({ user, children, location: { pathname }, isAppVersionDeprecated }) => {
   const enableDrift = useMemo(() => driftEnabled(prop('type', user)), [user]);
   const driftAttributes = useMemo(
     () => pick(['email', 'title', 'firstName', 'lastName', 'phoneNumber', 'mobileNumber'], user || {}),
@@ -42,6 +43,11 @@ export const Layout = ({ user, children, location: { pathname } }) => {
         </SnackbarProvider>
         <DriftWidget appId={DRIFT_APP_ID} attributes={driftAttributes} enabled={enableDrift} userId={userUuid} />
         <LayoutHeader currentPath={pathname} />
+        {isAppVersionDeprecated &&
+        <GlobalBanner>
+          <p>This version of app is deprecated. In order to avoid getting errors, please, reload this page to get the latest version.</p>
+        </GlobalBanner>
+        }
         <LayoutChildren>{children}</LayoutChildren>
         <LayoutFooter currentPath={pathname} />
       </StyledLayout>

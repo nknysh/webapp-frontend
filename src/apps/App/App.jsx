@@ -15,7 +15,6 @@ import { FastSearchContainerConnected } from 'containers/FastSearch';
 import { RatesImportContainerConnected } from 'containers/RatesImport';
 import { AllotmentsImportContainerConnected } from 'containers/AllotmentsImport';
 import { OfferRouting } from 'containers/OfferRouting';
-import DeprecatedAppBanner from './DeprecatedAppBanner';
 
 export const App = ({
   location: { pathname },
@@ -41,8 +40,7 @@ export const App = ({
   }, [pathname]);
 
   return (
-    <Layout>
-      {isAppVersionDeprecated && <DeprecatedAppBanner />}
+    <Layout isAppVersionDeprecated={isAppVersionDeprecated}>
       <Suspense fallback={<Loader />}>
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
