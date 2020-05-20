@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { ERatesImportReportItemKey, IRatesImportData } from 'services/BackendApi';
+import { EImportReportItemKey, IImportData } from 'services/BackendApi';
 
 import Report, { ReportProps, StyledHeading, ErrorMessage, StyledReportItem } from './Report';
 
-const createProps = (overrides: Partial<IRatesImportData> = {}): ReportProps => ({
+const createProps = (overrides: Partial<IImportData> = {}): ReportProps => ({
   data: {
     success: true,
     report: [{
-      "key": ERatesImportReportItemKey.ACCOMMODATION_RATES,
+      "key": EImportReportItemKey.ACCOMMODATION_RATES,
       "total": 15,
       "warnings": [],
       "errors": []

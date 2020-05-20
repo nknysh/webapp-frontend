@@ -483,12 +483,25 @@ exports[`<App /> render matches snapshot 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(RatesImportContainer)",
+            "displayName": "Connect(WithImporter(RatesImportContainer))",
             "type": [Function],
           }
         }
         exact={true}
         path="/rates/import"
+      />
+      <Route
+        component={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "displayName": "Connect(WithImporter(AllotmentsImportContainer))",
+            "type": [Function],
+          }
+        }
+        exact={true}
+        path="/allotments/import"
       />
       <Route
         auth={true}

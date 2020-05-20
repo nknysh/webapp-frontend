@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { ERatesImportReportItemKey } from 'services/BackendApi';
+import { EImportReportItemKey } from 'services/BackendApi';
 
 import ReportItem, { ReportItemProps, HeaderInfo, Totals, StyledReportErrorList } from './ReportItem';
 
@@ -14,7 +14,7 @@ const generateErrorItem = (hash: number) => ({
 
 const createProps = (): ReportItemProps => ({
   data: {
-    key: ERatesImportReportItemKey.ACCOMMODATION_RATES,
+    key: EImportReportItemKey.ACCOMMODATION_RATES,
     total: 10,
     warnings: [generateErrorItem(0)],
     errors: Array.from({ length: 5 }).map((_, idx) =>  generateErrorItem(idx))
@@ -27,7 +27,7 @@ describe('ReportErrorList', () => {
     const props = createProps();
     const wrapper = shallow(<ReportItem {...props} />);
 
-    expect(wrapper.find(HeaderInfo).text()).toContain('Accommodation Rates');
+    expect(wrapper.find(HeaderInfo).text()).toContain('Accommodation ');
     expect(wrapper.find(Totals).text()).toContain('5 insertable (1 with warnings) | 5 errors');
 
     const errorLists = wrapper.find(StyledReportErrorList);
