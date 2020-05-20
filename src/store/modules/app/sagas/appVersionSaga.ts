@@ -1,15 +1,9 @@
 import { eventChannel } from 'redux-saga';
 import { put, take, call } from 'redux-saga/effects';
 
-import { CIRCLE_BUILD_NUM, CHECK_APP_VERSION_TIME_INTERVAL } from 'config';
-
+import { CIRCLE_BUILD_NUM, CHECK_APP_VERSION_TIME_INTERVAL, CURR_DEPLOY_BASE_URL } from 'config';
 
 import { setLatestAppVersion } from "../actions";
-
-const getCurrentDeployUrl = () => {
-  //TODO
-  return 'https://qa.pure-escapes.com/currVersion';
-};
 
 function checkAppVersionEventsGenerator(currVersion: string, interval = CHECK_APP_VERSION_TIME_INTERVAL) {
   return eventChannel(emitter => {
@@ -28,8 +22,7 @@ function checkAppVersionEventsGenerator(currVersion: string, interval = CHECK_AP
 export function* checkAppVersionSaga(currAppVersion: string) {
   try {
     console.log('Fetching newest version...');
-    const currDeployURL = getCurrentDeployUrl();
-    const fetchResult = yield call(fetch, currDeployURL);
+    const fetchResult = yield call(fetch, CURR_DEPLOY_BASE_URL);
     console.log(fetchResult);
     // if request fails - we don't care alot (may be changed)
     if (fetchResult.status === 200 && fetchResult.statusText === 'OK') {
