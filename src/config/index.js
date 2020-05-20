@@ -27,6 +27,8 @@ export const BOOKING_TERMS_URL = defaultTo(
 export const SENTRY_DSN = process.env.SENTRY_DSN;
 export const SENTRY_ENV = process.env.SENTRY_ENV || process.env.NODE_ENV || 'developer-no-env-set';
 
+export const CIRCLE_BUILD_NUM = process.env.CIRCLE_BUILD_NUM;
+
 export default {
   defaults: {
     dateFormat: 'yyyy-MM-dd',

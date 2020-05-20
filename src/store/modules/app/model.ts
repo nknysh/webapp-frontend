@@ -1,4 +1,4 @@
-import * as pj from '../../../../package.json';
+import { CIRCLE_BUILD_NUM } from 'config';
 
 export interface IAppState {
   latestAppVersion: string;
@@ -6,6 +6,6 @@ export interface IAppState {
 }
 
 export const initialState: IAppState = {
-  latestAppVersion: pj.version,
+  latestAppVersion: CIRCLE_BUILD_NUM,
   isAppDeprecated: false
 };
