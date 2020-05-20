@@ -28,6 +28,7 @@ export const SENTRY_DSN = process.env.SENTRY_DSN;
 export const SENTRY_ENV = process.env.SENTRY_ENV || process.env.NODE_ENV || 'developer-no-env-set';
 
 export const CIRCLE_BUILD_NUM = process.env.CIRCLE_BUILD_NUM || '0.0.0';
+export const CHECK_APP_VERSION_TIME_INTERVAL = process.env.CHECK_APP_VERSION_TIME_INTERVAL || 5000;
 
 export default {
   defaults: {

@@ -43,11 +43,14 @@ export const Layout = ({ user, children, location: { pathname }, isAppVersionDep
         </SnackbarProvider>
         <DriftWidget appId={DRIFT_APP_ID} attributes={driftAttributes} enabled={enableDrift} userId={userUuid} />
         <LayoutHeader currentPath={pathname} />
-        {isAppVersionDeprecated &&
-        <GlobalBanner>
-          <p>This version of app is deprecated. In order to avoid getting errors, please, reload this page to get the latest version.</p>
-        </GlobalBanner>
-        }
+        {isAppVersionDeprecated && (
+          <GlobalBanner>
+            <p>
+              This version of app is deprecated. In order to avoid getting errors, please, reload this page to get the
+              latest version.
+            </p>
+          </GlobalBanner>
+        )}
         <LayoutChildren>{children}</LayoutChildren>
         <LayoutFooter currentPath={pathname} />
       </StyledLayout>

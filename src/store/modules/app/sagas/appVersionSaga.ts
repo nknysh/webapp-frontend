@@ -1,7 +1,7 @@
 import { eventChannel } from 'redux-saga';
 import { put, take, call } from 'redux-saga/effects';
 
-import { CIRCLE_BUILD_NUM } from 'config';
+import { CIRCLE_BUILD_NUM, CHECK_APP_VERSION_TIME_INTERVAL } from 'config';
 
 
 import { setLatestAppVersion } from "../actions";
@@ -11,11 +11,11 @@ const getCurrentDeployUrl = () => {
   return 'https://qa.pure-escapes.com/currVersion';
 };
 
-function checkAppVersionEventsGenerator(currVersion: string, TIME_INTERVAL: number = 5000) {
+function checkAppVersionEventsGenerator(currVersion: string, interval = CHECK_APP_VERSION_TIME_INTERVAL) {
   return eventChannel(emitter => {
       const iv = setInterval(() => {
         emitter(currVersion)
-      }, TIME_INTERVAL);
+      }, interval);
       // The subscriber must return an unsubscribe function
       return () => {
         clearInterval(iv)
