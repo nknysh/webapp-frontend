@@ -36,7 +36,7 @@ if (SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
     environment: SENTRY_ENV,
-    release: SENTRY_ENV
+    release: SENTRY_ENV,
   });
 }
 

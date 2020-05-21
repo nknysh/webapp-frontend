@@ -4,6 +4,14 @@ export interface CustomItemSubdomain {
   payload: CustomItemPayload | null;
 };
 
+export interface NewProposalPayload {
+  name: string;
+  userUuid: string;
+  guestFirstName: string;
+  guestLastName: string;
+  guestTitle: string;
+}
+
 export interface BookingBuilderDomain {
   currentBookingBuilder: BookingBuilder | null;
   hotelUuid: string | null;

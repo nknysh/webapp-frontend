@@ -16,7 +16,7 @@ import { ALL_COUNTRIES_AND_RESORTS } from 'store/modules/fastSearch/constants';
 import { PriceRange, StarRating } from './types/SearchQuery';
 import { IBooking } from './types/OffersSearchResponse';
 import { IBookingAttributes, IBookingInformation, IReviewBookingSchema } from 'interfaces';
-import { BookingBuilderDomain } from 'store/modules/bookingBuilder';
+import { BookingBuilderDomain, NewProposalPayload } from 'store/modules/bookingBuilder';
 import { getBookingInformationForBooking } from '../../utils/bookingBuilder';
 import { IProposalsListResponse } from './types/ProposalsListResponse';
 import { IBookingsListResponse } from './types/BookingsListResponse';
@@ -312,17 +312,31 @@ export class BackendApiService<T extends AxiosInstance> {
   };
 
   postBookingSave = async (
-    bookingAttributes: IBookingAttributes
+    bookingAttributes: IBookingAttributes,
+    newProposalAttributes: NewProposalPayload | null
   ): Promise<AxiosResponse<BookingBuilderResponse | ErrorResponse>> => {
     const endpoint = `${BackendEndpoints.BOOKINGS}`;
 
-    const tempPayloadShape = {
+    interface IBookingSaveSchema {
+      data: {
+        attributes: object,
+        proposalInfo?: object,
+      }
+    }
+
+    const tempPayloadShape: IBookingSaveSchema = {
       data: {
         attributes: {
           ...bookingAttributes,
         },
       },
     };
+    if (newProposalAttributes) {
+      tempPayloadShape.data.proposalInfo = {
+        shouldCreateNew : true,
+        attributes: newProposalAttributes
+      }
+    }
     return this.client.post(endpoint, tempPayloadShape);
   };
 

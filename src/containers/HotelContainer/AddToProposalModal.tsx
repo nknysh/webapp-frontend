@@ -21,6 +21,7 @@ export const AddToProposalModalContent = props => {
   const [newProposalName, setNewProposalName] = useState('');
   const [isNewProposal, setIsNewProposal] = useState(selectedProposalUuid === 'new');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isProcessed, setIsProcessed] = useState(false);
 
   // when the modal is submitted and the proposal status is SUCCESS, we're complete
   useEffect(() => {
@@ -48,10 +49,11 @@ export const AddToProposalModalContent = props => {
     // we should NEVER place holds as we are making proposals which is why a hard `false` is passed here
     if (isNewProposal) {
       createNewProposal(newProposalName, hotelUuid, false);
+      setIsProcessed(true);
     } else {
       addToProposal(selectedProposalUuid, hotelUuid, false);
+      setIsSubmitted(true);
     }
-    setIsSubmitted(true);
   };
 
   const selectOptions: IValueLabelPair[] = [];
@@ -80,7 +82,7 @@ export const AddToProposalModalContent = props => {
         </Label>
       )}
 
-      <PrimaryButton type="button" onClick={handleAddToProposalSubmit}>
+      <PrimaryButton type="button" onClick={handleAddToProposalSubmit} disabled={isProcessed}>
         {t('buttons.addToProposal')}
       </PrimaryButton>
     </AddToProposalStyles>

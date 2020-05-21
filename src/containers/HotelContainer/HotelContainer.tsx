@@ -26,6 +26,7 @@ import {
 } from './HotelContainer.styles';
 import { Hotel } from 'components';
 import SummaryForm from 'containers/SummaryForm';
+import { makeBackendApi } from 'services/BackendApi';
 import { IReduxDomainStatus } from '../../interfaces';
 import { AddToProposalModalContent } from './AddToProposalModal';
 import {
@@ -81,7 +82,7 @@ const renderBrochure = ({ uuid, displayName, url }) => (
 );
 
 const HotelSummary = props => {
-  const { proposals, history, booking, hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures } = props;
+  const { proposals, history, booking, hotel, paymentTerms, cancellationPolicy, offersTerms, t, id, brochures, actingCountryCode } = props;
   const { proposalResult, proposalStatus }: { proposalResult: string; proposalStatus: IReduxDomainStatus } = props;
   const { canBook, canHold, onTakeHold }: { canBook: boolean; canHold: boolean; onTakeHold: boolean } = props;
   const {
@@ -89,6 +90,8 @@ const HotelSummary = props => {
     createNewProposal,
     addToProposal,
   }: { fetchProposals: Function; createNewProposal: Function; addToProposal: Function } = props;
+
+  const backendApi = makeBackendApi(actingCountryCode);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -103,6 +106,10 @@ const HotelSummary = props => {
   const handleAddToProposalClick = e => {
     e.preventDefault();
     setIsModalOpen(true);
+  };
+
+  const handleCreateNewProposalClick = (name, bookingId, placeHolds) => {
+    createNewProposal(name, bookingId, placeHolds, backendApi);
   };
 
   return (
@@ -120,7 +127,7 @@ const HotelSummary = props => {
             <AddToProposalModalContent
               proposals={proposals}
               hotelUuid={booking && booking.request && booking.request.hotelUuid ? booking.request.hotelUuid : null}
-              createNewProposal={createNewProposal}
+              createNewProposal={handleCreateNewProposalClick}
               addToProposal={addToProposal}
               proposalStatus={proposalStatus}
               proposalResult={proposalResult}

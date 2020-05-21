@@ -27,10 +27,12 @@ import {
   bookingToHotelUuid,
   cancelBooking,
   completeBooking,
+  updateBooking,
   holdBooking,
   releaseBooking,
   requestBooking,
   setBookings,
+  createBookingWithNewProposal,
 } from 'store/modules/bookings/actions';
 import { enqueueNotification } from 'store/modules/ui/actions';
 import { getBooking, getBookingStatus } from 'store/modules/bookings/selectors';
@@ -159,9 +161,10 @@ const getGuestInfoPayload = getState => {
  * @param {string} name
  * @param {string} bookingId
  * @param {boolean} placeHolds
+ * @param {object} backendApi
  * @returns {Function}
  */
-export const createNewProposal = (name, bookingId, placeHolds) => async (dispatch, getState) => {
+export const createNewProposal = (name, bookingId, placeHolds, backendApi) => async (dispatch, getState) => {
   const booking = getBooking(getState(), bookingId);
   const guestInfo = getGuestInfoPayload(getState);
   const isSr = isSR(getState());
@@ -169,51 +172,27 @@ export const createNewProposal = (name, bookingId, placeHolds) => async (dispatc
   // If the current user is a SR, then we use the `travelAgentUserUuid` from the booking rather than
   // the current user's UUID
   const userUuid = isSr ? prop('travelAgentUserUuid', booking) : getCurrentUserUuid(getState());
-  const proposalPayload = {
+  const newProposalInfo = {
     name,
     userUuid,
     ...guestInfo,
   };
 
-  dispatch(genericAction(PROPOSALS_NEW, proposalPayload));
-
-  // Creating a proposal isn't a one step process...
   try {
-    // 1. We create the empty proposal so we can access the UUID
-    const {
-      data: { data },
-    } = await client.createProposal({ data: { attributes: proposalPayload } });
-
-    const proposalUuid = prop('result', data);
-
-    // 2. We then need to "complete" the booking into a state of POTENTIAL
+    dispatch(
+      enqueueNotification({ message: `Creating booking with new proposal...`, options: { variant: 'success' } })
+    );
     await dispatch(
-      completeBooking(
+      createBookingWithNewProposal(
         bookingId,
         {
-          // Use the UUID from step 1 to attach the booking to the proposal
-          proposalUuid,
           ...guestInfo,
         },
-        BookingStatusTypes.POTENTIAL,
-        placeHolds
+        placeHolds,
+        newProposalInfo,
+        //until backendApi isn't default client - we pass it through, as long as it should be built inside component
+        backendApi
       )
-    );
-
-    const bookingStatus = getBookingStatus(getState());
-
-    // Make sure the booking worked
-    if (isError(bookingStatus)) {
-      throw new Error('Error updating booking');
-    }
-
-    // We do a fetch here so that the most up to date data is in redux.  Backend does some
-    // moving about of data so it's easier to grab a clean copy than to try and transform the
-    // data here
-    dispatch(fetchProposal(proposalUuid));
-    dispatch(successAction(PROPOSALS_NEW, data));
-    dispatch(
-      enqueueNotification({ message: `Proposal '${name}' created succesfully .`, options: { variant: 'success' } })
     );
   } catch (e) {
     console.error(`Error ${e}`);
