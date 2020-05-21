@@ -1,13 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rates Import actions Returns the correct object literals 1`] = `
+exports[`Import actions Returns the correct object literals 1`] = `
 Object {
-  "type": "ratesImport/IMPORT_RATES_REQUEST",
+  "entity": "rates",
+  "type": "import/IMPORT_REQUEST",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 2`] = `
+exports[`Import actions Returns the correct object literals 2`] = `
 Object {
+  "entity": "rates",
   "status": Object {
     "createdAt": "2020-03-16T07:33:50.816Z",
     "data": Object {
@@ -42,26 +44,29 @@ Object {
     },
     "status": "done",
   },
-  "type": "ratesImport/IMPORT_RATES_SUCCESS",
+  "type": "import/IMPORT_SUCCESS",
   "workbookId": "123-456",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 3`] = `
+exports[`Import actions Returns the correct object literals 3`] = `
 Object {
+  "entity": "rates",
   "error": "Failed to import rates",
-  "type": "ratesImport/IMPORT_RATES_FAILURE",
+  "type": "import/IMPORT_FAILURE",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 4`] = `
+exports[`Import actions Returns the correct object literals 4`] = `
 Object {
-  "type": "ratesImport/GET_RATES_IMPORT_STATUS_REQUEST",
+  "entity": "rates",
+  "type": "import/GET_IMPORT_STATUS_REQUEST",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 5`] = `
+exports[`Import actions Returns the correct object literals 5`] = `
 Object {
+  "entity": "rates",
   "status": Object {
     "createdAt": "2020-03-16T07:33:50.816Z",
     "data": Object {
@@ -96,44 +101,50 @@ Object {
     },
     "status": "done",
   },
-  "type": "ratesImport/GET_RATES_IMPORT_STATUS_SUCCESS",
+  "type": "import/GET_IMPORT_STATUS_SUCCESS",
   "workbookId": "123-456",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 6`] = `
+exports[`Import actions Returns the correct object literals 6`] = `
 Object {
+  "entity": "rates",
   "error": "Failed to get import rates status",
-  "type": "ratesImport/GET_RATES_IMPORT_STATUS_FAILURE",
+  "type": "import/GET_IMPORT_STATUS_FAILURE",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 7`] = `
+exports[`Import actions Returns the correct object literals 7`] = `
 Object {
-  "type": "ratesImport/RATES_IMPORT_PAGE_LOADED",
+  "entity": "rates",
+  "type": "import/IMPORT_PAGE_LOADED",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 8`] = `
+exports[`Import actions Returns the correct object literals 8`] = `
 Object {
-  "type": "ratesImport/RATES_IMPORT_PAGE_UNLOADED",
+  "entity": "rates",
+  "type": "import/IMPORT_PAGE_UNLOADED",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 9`] = `
+exports[`Import actions Returns the correct object literals 9`] = `
 Object {
-  "type": "ratesImport/OPEN_RATES_IMPORT_CONFIRMATION_MODAL",
+  "entity": "rates",
+  "type": "import/OPEN_IMPORT_CONFIRMATION_MODAL",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 10`] = `
+exports[`Import actions Returns the correct object literals 10`] = `
 Object {
-  "type": "ratesImport/CONFIRM_RATES_IMPORT_INTENT",
+  "entity": "rates",
+  "type": "import/CONFIRM_IMPORT_INTENT",
 }
 `;
 
-exports[`Rates Import actions Returns the correct object literals 11`] = `
+exports[`Import actions Returns the correct object literals 11`] = `
 Object {
-  "type": "ratesImport/CANCEL_RATES_IMPORT_INTENT",
+  "entity": "rates",
+  "type": "import/CANCEL_IMPORT_INTENT",
 }
 `;

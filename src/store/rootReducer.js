@@ -26,6 +26,7 @@ import offersList from './modules/offersList/reducer';
 import { offer } from './modules/offer/reducer';
 import { bootstrap } from './modules/bootstrap/reducer';
 import { ratesImport } from './modules/ratesImport/reducer';
+import { allotmentsImport } from './modules/allotmentsImport/reducer';
 
 const clearState = mapObjIndexed(always(undefined));
 
@@ -53,6 +54,7 @@ const rootReducer = combineReducers({
   offer,
   bootstrap,
   ratesImport,
+  allotmentsImport,
 });
 
 export default (state, action) => {

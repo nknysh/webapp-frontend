@@ -1,18 +1,18 @@
-import { IRatesImportStatus, EGenericStatusValue, ERatesImportReportItemKey } from 'services/BackendApi';
+import { IImportStatus, EGenericStatusValue, EImportReportItemKey } from 'services/BackendApi';
 
-export const ratesImportStatus: IRatesImportStatus = {
+export const importStatus: IImportStatus = {
   "status": EGenericStatusValue.DONE,
   "data": {
     "success": false,
     "report": [
       {
-        "key": ERatesImportReportItemKey.REGIONS,
+        "key": EImportReportItemKey.REGIONS,
         "total": 15,
         "warnings": [],
         "errors": []
       },
       {
-        "key": ERatesImportReportItemKey.ACCOMMODATION_RATES,
+        "key": EImportReportItemKey.ACCOMMODATION_RATES,
         "total": 4127,
         "warnings": [],
         "errors": [

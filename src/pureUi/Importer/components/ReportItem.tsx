@@ -1,25 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'pureUi/pureUiTheme';
-import { IRatesImportReportItem, ERatesImportReportItemKey } from 'services/BackendApi';
+import { IImportReportItem, EImportReportItemKey } from 'services/BackendApi';
 import  ReportErrorList from './ReportErrorList';
 
 export interface ReportItemProps {
   className?: string;
-  data: IRatesImportReportItem;
+  data: IImportReportItem;
 }
 
-const EntityLabels: { [key in ERatesImportReportItemKey]: string; } = {
-  [ERatesImportReportItemKey.REGIONS]: "Regions",
-  [ERatesImportReportItemKey.SEASONS]: "Seasons",
-  [ERatesImportReportItemKey.ACCOMMODATION_RATES]: "Accommodation Rates",
-  [ERatesImportReportItemKey.MEAL_PLAN_RATES]: "Meal Plan Rates",
-  [ERatesImportReportItemKey.TRANSFER_RATES_PER_PERSON]: "Transfer Rates (per person)",
-  [ERatesImportReportItemKey.TRANSFER_RATES_PER_BOOKING]: "Transfer Rates (per booking)",
-  [ERatesImportReportItemKey.SUPPLEMENT_RATES]: "Supplement Rates",
-  [ERatesImportReportItemKey.GROUND_SERVICE_RATES_PER_PERSON]: "Ground Services Rates (per person)",
-  [ERatesImportReportItemKey.GROUND_SERVICE_RATES_PER_BOOKING]: "Ground Services Rates (per booking)",
-  [ERatesImportReportItemKey.FINE_RATES]: "Fine Rates",
+const EntityLabels: { [key in EImportReportItemKey]: string; } = {
+  [EImportReportItemKey.REGIONS]: "Regions",
+  [EImportReportItemKey.SEASONS]: "Seasons",
+  [EImportReportItemKey.ACCOMMODATION_RATES]: "Accommodation Rates",
+  [EImportReportItemKey.MEAL_PLAN_RATES]: "Meal Plan Rates",
+  [EImportReportItemKey.TRANSFER_RATES_PER_PERSON]: "Transfer Rates (per person)",
+  [EImportReportItemKey.TRANSFER_RATES_PER_BOOKING]: "Transfer Rates (per booking)",
+  [EImportReportItemKey.SUPPLEMENT_RATES]: "Supplement Rates",
+  [EImportReportItemKey.GROUND_SERVICE_RATES_PER_PERSON]: "Ground Services Rates (per person)",
+  [EImportReportItemKey.GROUND_SERVICE_RATES_PER_BOOKING]: "Ground Services Rates (per booking)",
+  [EImportReportItemKey.FINE_RATES]: "Fine Rates",
+  [EImportReportItemKey.ALLOTMENTS]: "Allotments",
 };
 
 export const HeaderInfo = styled.div<{ success: boolean }>`

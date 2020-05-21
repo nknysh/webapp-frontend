@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'pureUi/pureUiTheme';
 import { Heading } from 'pureUi/typography';
-import { IRatesImportData } from 'services/BackendApi';
+import { IImportData } from 'services/BackendApi';
 import ReportItem from './ReportItem';
 
 export interface ReportProps {
   className?: string;
-  data: IRatesImportData;
+  data: IImportData;
 }
 
 export const StyledHeading = styled(Heading)`

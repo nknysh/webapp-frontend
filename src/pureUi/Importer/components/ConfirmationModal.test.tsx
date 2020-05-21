@@ -5,6 +5,7 @@ import { PrimaryButton, SecondaryButton } from 'pureUi/Buttons';
 import ConfirmationModal, { ConfirmationModalProps } from './ConfirmationModal';
 
 const createProps = (): ConfirmationModalProps => ({
+  entityName: 'samples',
   onCancel: jest.fn(),
   onOk: jest.fn()
 });

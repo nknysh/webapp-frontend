@@ -1,11 +1,6 @@
 import { IGenericStatus, IGenericStatusResponse } from './GenericStatusResponse';
 
-export interface IRatesImportErrorItem {
-  ref: string;
-  messages: Array<string>;
-};
-
-export enum ERatesImportReportItemKey {
+export enum EImportReportItemKey {
   REGIONS = 'regions',
   SEASONS = 'seasons',
   ACCOMMODATION_RATES = 'accommodationRates',
@@ -16,23 +11,29 @@ export enum ERatesImportReportItemKey {
   GROUND_SERVICE_RATES_PER_PERSON = 'groundServiceRatesPerPerson',
   GROUND_SERVICE_RATES_PER_BOOKING = 'groundServiceRatesPerBooking',
   FINE_RATES = 'fineRates',
+  ALLOTMENTS = 'allotments'
 }
 
-export interface IRatesImportReportItem {
-  key: ERatesImportReportItemKey;
-  total: number;
-  warnings: Array<IRatesImportErrorItem>;
-  errors: Array<IRatesImportErrorItem>;
+export interface IImportErrorItem {
+  ref: string;
+  messages: Array<string>;
 };
 
-export interface IRatesImportData {
+export interface IImportReportItem {
+  key: EImportReportItemKey;
+  total: number;
+  warnings: Array<IImportErrorItem>;
+  errors: Array<IImportErrorItem>;
+};
+
+export interface IImportData {
   success: boolean;
   error?: string;
-  report?: Array<IRatesImportReportItem>
+  report?: Array<IImportReportItem>
 }
 
-export interface IRatesImportStatus extends IGenericStatus<IRatesImportData> {}
-export interface IRatesImportResponse extends IGenericStatusResponse<IRatesImportData> {
+export interface IImportStatus extends IGenericStatus<IImportData> {}
+export interface IImportResponse extends IGenericStatusResponse<IImportData> {
   meta: {
     workbookId: string;
   }

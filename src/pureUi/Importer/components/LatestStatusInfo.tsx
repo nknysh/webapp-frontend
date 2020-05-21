@@ -1,10 +1,10 @@
 import React from 'react';
-import { IRatesImportStatus, EGenericStatusValue } from 'services/BackendApi';
+import { IImportStatus, EGenericStatusValue } from 'services/BackendApi';
 import { formatDateTimeDisplay } from 'utils/date';
 
 export interface LatestStatusInfoProps {
   className?: string;
-  status: IRatesImportStatus;
+  status: IImportStatus;
 }
 
 const StatusLabels: { [key in EGenericStatusValue]: string; } = {

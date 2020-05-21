@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import LatestStatusInfo, { LatestStatusInfoProps } from './LatestStatusInfo';
-import { ratesImportStatus as mockRatesImportStatus } from 'store/modules/ratesImport/tests/mock';
+import { importStatus as mockImportStatus } from 'store/modules/importer/tests/mock';
 
 const createProps = (): LatestStatusInfoProps => ({
-  status: mockRatesImportStatus
+  status: mockImportStatus
 });
 
 describe('LatestStatusInfo', () => {

@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { colors } from 'pureUi/pureUiTheme';
-import { IRatesImportErrorItem } from 'services/BackendApi';
+import { IImportErrorItem } from 'services/BackendApi';
 
 export interface ReportErrorListProps {
   className?: string;
   title: string;
-  items: Array<IRatesImportErrorItem>;
+  items: Array<IImportErrorItem>;
 }
 
 export interface ErrorItemProps {
   className?: string;
-  data: IRatesImportErrorItem;
+  data: IImportErrorItem;
 }
 
 export const Title = styled.div`
