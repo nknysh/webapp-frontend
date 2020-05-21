@@ -14,8 +14,7 @@
     "allowJs": true, // allow a partial TypeScript and JavaScript codebase
     "checkJs": false, // don't typecheck Javscript files
     "esModuleInterop": true,
-    "downlevelIteration": true,
-    "resolveJsonModule": true
+    "downlevelIteration": true
   },
   "include": ["./src/"]
 }
