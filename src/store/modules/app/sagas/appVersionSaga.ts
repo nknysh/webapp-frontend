@@ -9,22 +9,17 @@ function checkAppVersionEventsGenerator(currVersion: string, interval: number = 
   return eventChannel(emitter => {
       const iv = setInterval(async () => {
         try {
-          console.log('Fetching newest version...');
-          const fetchResult = await fetch(CURR_DEPLOY_BASE_URL);
-          console.log(fetchResult);
+          const fetchResult = await fetch(`${CURR_DEPLOY_BASE_URL}/currVersion`);
           // if request fails - we don't care alot (may be changed)
           if (fetchResult.status >= 200 && fetchResult.status < 300 && fetchResult.statusText === 'OK') {
             const newAppVersion = await fetchResult.text();
             // if prod version is different from ours - assume it's deprecated
-            console.log(`Current version: ${currVersion}`);
-            console.log(`Latest version: ${newAppVersion}`);
             const isAppDeprecated = newAppVersion !== currVersion;
-            console.log('setting: ' + isAppDeprecated);
             // emit event only if new app version is released
             isAppDeprecated && emitter({ newAppVersion, isAppDeprecated })
           }
         } catch (e) {
-          // TODO: ??
+          // more advanced error handling may be required in future
           console.warn(e)
         }
       }, interval);
