@@ -1,4 +1,4 @@
-import React, { memo, EventHandler, FormEvent } from 'react';
+import React, { EventHandler, FormEvent } from 'react';
 import { SearchOptions, MealPlanNames, Filters, StarRating, ISearchQuery, Occasion } from 'services/BackendApi';
 import { List } from 'pureUi/List/index';
 import RangeInput, { RangeValueType } from 'pureUi/RangeInput';
@@ -10,7 +10,9 @@ import { pureUiTheme } from 'pureUi/pureUiTheme';
 import { PrimaryButton } from '../Buttons/index';
 import { isNilOrEmpty } from 'ramda-adjunct';
 import Info from 'pureUi/Info';
-import { MealPlan } from 'services/BackendApi';
+
+import { FiltersCategory } from "./FiltersCategory";
+
 export interface SearchSettingsProps extends React.HTMLProps<HTMLDivElement> {
   options: SearchOptions;
   query: ISearchQuery;
@@ -183,20 +185,13 @@ export const SearchSettings = (props: SearchSettingsProps) => {
 
         <section>
           <h4>Filters</h4>
-          <List
-            items={props.options.filters}
-            render={(filter: Filters) => {
-              const isSelected = Boolean(props.query.filters.includes(filter));
-              return (
-                <li key={filter}>
-                  <label>
-                    {' '}
-                    <Checkbox checked={isSelected} onChange={handleFilterChange(filter)} /> {filter}
-                  </label>
-                </li>
-              );
-            }}
-          />
+          {props.options.filtersCategories.map(category => (
+            <FiltersCategory
+              filtersCategory={category}
+              selectedFilters={props.query.filters}
+              handleFilterChange={handleFilterChange}
+            />)
+          )}
           <PrimaryButton
             className="removeAllFilters"
             onClick={props.onRemoveAllFilters}
