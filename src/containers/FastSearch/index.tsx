@@ -174,7 +174,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
             this.props.taCompanies ?
               <PredictiveTextInput
                 placeholder="Select company..."
-                value={this.props.searchQuery.taCompany!}
+                // value={this.props.searchQuery.taCompany!}
                 // onChange={this.handleDestinationChange}
                 options={[this.props.taCompanies.map(c => c.name)]}
                 // onOptionSelect={this.props.destinationChange}
