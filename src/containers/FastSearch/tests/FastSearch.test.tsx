@@ -43,6 +43,7 @@ const makeProps = (overrides?: Partial<FastSearchProps>) => {
 
     // Actions
     getOptions: jest.fn(Actions.optionsRequestAction),
+    getCompanies: jest.fn(Actions.taCompaniesRequestAction),
     getOffers: jest.fn(Actions.offersSearchRequestAction),
     toggleFilter: jest.fn(Actions.toggleFilterAction),
     setAllFilters: jest.fn(Actions.setAllFiltersAction),
