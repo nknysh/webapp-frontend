@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PrimaryButton } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Text } from 'pureUi/typography';
-import { formatDate } from 'utils';
+import { formatDate, formatDateDisplay } from 'utils';
 
 const BookingSummaryRequestedTA = props => {
   const canHold: boolean = false;
@@ -36,7 +36,7 @@ const BookingSummaryRequestedTA = props => {
           <Text>This booking is being held.</Text>
           {props.holds.fullHoldsExpires && (
             <Text>
-              It will expire {formatDate(props.holds.fullHoldsExpires, 'PPP')} at{' '}
+              It will expire {formatDateDisplay(props.holds.fullHoldsExpires)} at{' '}
               {formatDate(props.holds.fullHoldsExpires, 'pp')}
             </Text>
           )}

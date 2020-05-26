@@ -9,7 +9,7 @@ import { Container, Loader, Section, Tabs } from '@pure-escapes/webapp-ui-compon
 import { Breadcrumbs } from 'components';
 import { useCurrentWidth } from 'effects';
 import { withUser } from 'hoc';
-import { formatDate } from 'utils';
+import { formatDateDisplay } from 'utils';
 
 import connect from './BookingContainer.state';
 import { propTypes, defaultProps } from './BookingContainer.props';
@@ -66,7 +66,7 @@ const renderStatusStrip = (t, booking) => {
   return (
     <StatusStrip>
       <StatusStripDate>
-        {t('labels.createdAt')} <Bolded>{formatDate(booking.createdAt, 'MMM d, yyyy')}</Bolded>
+        {t('labels.createdAt')} <Bolded>{formatDateDisplay(booking.createdAt)}</Bolded>
       </StatusStripDate>
       <StatusStripStatus status={booking.status} />
     </StatusStrip>

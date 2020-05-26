@@ -8,7 +8,7 @@ import { PrimaryButton, SecondaryButton, ButtonBar } from 'pureUi/Buttons';
 import { AsideDetails, Title } from '../../HotelContainer/HotelContainer.styles';
 import { Redirect } from 'react-router-dom';
 import { makeBackendApi } from 'services/BackendApi';
-import { formatDate } from 'utils';
+import { formatDate, formatDateDisplay } from 'utils';
 import { Heading1 } from 'styles';
 import { Text } from 'pureUi/typography';
 import Label from 'pureUi/Label';
@@ -232,7 +232,7 @@ const BookingSummaryPotentialSR = props => {
           <Text>This booking is being held.</Text>
 
           <Text>
-            It will expire {formatDate(holdExpiry, 'PPP')} at {formatDate(holdExpiry, 'pp')}
+            It will expire {formatDateDisplay(holdExpiry)} at {formatDate(holdExpiry, 'pp')}
           </Text>
 
           <PrimaryButton onClick={() => handleReleaseHoldFromBooking(newBooking.uuid)}>Release Holds</PrimaryButton>
