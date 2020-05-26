@@ -13,3 +13,4 @@ export * from './OfferResponse';
 export * from './GenericStatusResponse';
 export * from './ImportResponse';
 export * from './HotelResponse';
+export * from './AuthResponse';

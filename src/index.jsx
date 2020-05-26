@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { Switch } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import * as Sentry from '@sentry/browser';
@@ -12,7 +13,7 @@ import 'store/modules/fastSearch';
 
 import './config/i18n';
 
-import store from 'store';
+import store, { history } from 'store';
 
 import { APP_ENV, SENTRY_DSN, SENTRY_ENV } from 'config';
 import headerMeta from 'config/meta';
@@ -77,9 +78,9 @@ ReactDOM.render(
       </Helmet>
       <GlobalFonts />
       <GlobalStyle />
-      <BrowserRouter>
+      <ConnectedRouter history={history}>
         <Switch>{getRoutes(entryRoutes)}</Switch>
-      </BrowserRouter>
+      </ConnectedRouter>
     </Provider>
   </ThemeProvider>,
   document.getElementById('app')

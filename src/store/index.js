@@ -1,5 +1,7 @@
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
+import { createBrowserHistory } from 'history';
+import { routerMiddleware as createRouterMiddleware } from 'connected-react-router';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 
@@ -9,10 +11,16 @@ import authMiddleware from './modules/auth/middleware';
 import searchMiddleware from './modules/search/middleware';
 import trackingMiddleware from './modules/tracking/middleware';
 
-import rootReducer from './rootReducer';
+import rootReducerFactory from './rootReducer';
+
+export const history = createBrowserHistory();
+
 const sagaMiddleware = createSagaMiddleware();
+const routerMiddleware = createRouterMiddleware(history);
+
 const composedMiddleware = [
   applyMiddleware(thunk),
+  applyMiddleware(routerMiddleware),
   applyMiddleware(authMiddleware),
   applyMiddleware(searchMiddleware),
   applyMiddleware(trackingMiddleware),
@@ -29,6 +37,9 @@ if (APP_ENV !== 'production') {
 
 const composedEnhancers = compose(...composedMiddleware);
 
-export default createStore(rootReducer, composedEnhancers);
+export default createStore(
+  rootReducerFactory(history),
+  composedEnhancers
+);
 
 sagaMiddleware.run(rootSaga);

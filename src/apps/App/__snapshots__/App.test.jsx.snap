@@ -479,7 +479,13 @@ exports[`<App /> render matches snapshot 1`] = `
         component={[Function]}
         path="/offers"
       />
-      <Route
+      <Component
+        allow={
+          Array [
+            "rl",
+            "admin",
+          ]
+        }
         component={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -492,7 +498,13 @@ exports[`<App /> render matches snapshot 1`] = `
         exact={true}
         path="/rates/import"
       />
-      <Route
+      <Component
+        allow={
+          Array [
+            "rl",
+            "admin",
+          ]
+        }
         component={
           Object {
             "$$typeof": Symbol(react.memo),

@@ -1,5 +1,6 @@
 import { equals, mapObjIndexed, always } from 'ramda';
 import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
 
 import { STATUS_TO_IDLE, STORE_RESET, resetStoreStatuses } from './common';
 
@@ -31,7 +32,7 @@ import { appReducer } from './modules/app/reducer';
 
 const clearState = mapObjIndexed(always(undefined));
 
-const rootReducer = combineReducers({
+const rootReducerFactory = history => combineReducers({
   auth,
   bookings,
   countries,
@@ -57,18 +58,24 @@ const rootReducer = combineReducers({
   ratesImport,
   allotmentsImport,
   app: appReducer,
+  router: connectRouter(history),
 });
 
-export default (state, action) => {
-  const { type } = action;
+export default history => {
+  const rootReducer = rootReducerFactory(history);
 
-  if (equals(type, STATUS_TO_IDLE)) {
-    state = resetStoreStatuses(state, action);
-  }
-
-  if (equals(type, STORE_RESET)) {
-    state = clearState(state);
-  }
-
-  return rootReducer(state, action);
+  return (state, action) => {
+    const { type } = action;
+  
+    if (equals(type, STATUS_TO_IDLE)) {
+      state = resetStoreStatuses(state, action);
+    }
+  
+    if (equals(type, STORE_RESET)) {
+      state = clearState(state);
+    }
+  
+    return rootReducer(state, action);
+  };
 };
+
