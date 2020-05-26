@@ -26,6 +26,16 @@ export const searchOptionsSelector = createSelector(
   (domain: FastSearchDomain): FastSearchDomain['options'] => domain.options
 );
 
+export const taCompaniesSelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): FastSearchDomain['taCompanies'] => domain.taCompanies
+);
+export const showTaCompaniesSelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): FastSearchDomain['showTaCompanies'] => domain.showTaCompanies
+);
+
+
 export const offersSearchPendingSelector = createSelector(
   fastSearchDomain,
   (domain: FastSearchDomain): FastSearchDomain['offersRequestPending'] => domain.offersRequestPending

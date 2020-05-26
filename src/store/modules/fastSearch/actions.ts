@@ -6,6 +6,7 @@ import {
   Occasion,
   MealPlanNames,
   NameSearchResponseData,
+  ICompany,
 } from 'services/BackendApi/types';
 
 export const INITIALIZE_QUERY = 'fastSearch/INITIALIZE_QUERY';
@@ -38,6 +39,10 @@ export const OFFERS_SEARCH_FAILURE = 'fastSearch/OFFERS_SEARCH_FAILURE';
 export const OPTIONS_REQUEST = 'fastSearch/OPTIONS_REQUEST';
 export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
+export const SET_TA_COMPANY_VISIBILITY = 'fastSearch/SET_TA_COMPANY_VISIBILITY';
+export const TA_COMPANIES_REQUEST = 'fastSearch/TA_COMPANIES_REQUEST';
+export const TA_COMPANIES_SUCCESS = 'fastSearch/TA_COMPANIES_SUCCESS';
+export const TA_COMPANIES_FAILURE = 'fastSearch/TA_COMPANIES_FAILURE';
 export const NAME_SEARCH_SUCCESS = 'fastSearch/NAME_SEARCH_SUCCESS';
 export const NAME_SEARCH_FAILURE = 'fastSearch/NAME_SEARCH_FAILURE';
 export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RESUTS_VISIBILITY';
@@ -275,6 +280,29 @@ export const resetSearchQueryAction = () => ({
   type: RESET_SEARCH_QUERY as typeof RESET_SEARCH_QUERY,
 });
 
+export type TaCompaniesRequestAction = ReturnType<typeof taCompaniesRequestAction>;
+export const taCompaniesRequestAction = () => ({
+  type: TA_COMPANIES_REQUEST as typeof TA_COMPANIES_REQUEST,
+});
+
+export type TaCompaniesSuccessAction = ReturnType<typeof taCompaniesSuccessAction>;
+export const taCompaniesSuccessAction = (successResponse: ICompany[]) => ({
+  type: TA_COMPANIES_SUCCESS as typeof TA_COMPANIES_SUCCESS,
+  successResponse,
+});
+
+export type TaCompaniesFailureAction = ReturnType<typeof taCompaniesFailureAction>;
+export const taCompaniesFailureAction = (errorResponse: ErrorResponse) => ({
+  type: TA_COMPANIES_FAILURE as typeof TA_COMPANIES_FAILURE,
+  errorResponse,
+});
+
+export type SetTaCompaniesVisibilityAction = ReturnType<typeof setTaCompaniesVisibilityAction>;
+export const setTaCompaniesVisibilityAction = (visibility: boolean) => ({
+  type: SET_TA_COMPANY_VISIBILITY as typeof SET_TA_COMPANY_VISIBILITY,
+  visibility,
+});
+
 // 3. Create a union type which we can pass as the reducers action type.
 // goto DestinationChangeAction to see start of these comments.
 export type FastSearchAction =
@@ -304,6 +332,10 @@ export type FastSearchAction =
   | OptionsRequestAction
   | OptionsSuccessAction
   | OptionsFailureAction
+  | SetTaCompaniesVisibilityAction
+  | TaCompaniesRequestAction
+  | TaCompaniesSuccessAction
+  | TaCompaniesFailureAction
   | SetActiveLodgingIndexAction
   | IncrementActiveLodgingIndexAction
   | NamesSearchSuccessAction

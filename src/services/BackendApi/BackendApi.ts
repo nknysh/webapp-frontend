@@ -22,6 +22,7 @@ import { IProposalsListResponse } from './types/ProposalsListResponse';
 import { IBookingsListResponse } from './types/BookingsListResponse';
 import { ITravelAgentRespone } from './types/TravelAgentResponse';
 import { IHotelNamesResponse } from './types/HotelNamesResponse';
+import { ICompaniesResponse } from './types/CompaniesResponse';
 import { IOffersListResponse, IOffersDeleteResponse } from './types/OffersListResponse';
 import {
   IOfferResponse,
@@ -50,6 +51,7 @@ export enum BackendEndpoints {
   COUNTRIES = 'countries',
   RATES_LOADER = 'rates-loader',
   ALLOTMENTS_LOADER = 'allotments-loader',
+  COMPANIES = 'companies',
 }
 
 export enum ENetworkRequestStatus {
@@ -68,6 +70,9 @@ export class BackendApiService<T extends AxiosInstance> {
 
   getSearchOptions = async (): Promise<AxiosResponse<SearchOptionsResponse>> =>
     this.client.get(BackendEndpoints.SEARCH_OPTIONS);
+
+  getCompanies = async (): Promise<AxiosResponse<ICompaniesResponse>> =>
+    this.client.get(BackendEndpoints.COMPANIES);
 
   getOffersSearch = async (
     query: ISearchQuery

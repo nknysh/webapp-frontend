@@ -65,6 +65,10 @@ import {
   dateRangeChangeAction,
   updateQueryStringAction,
   resetSearchQueryAction,
+  taCompaniesRequestAction,
+  setTaCompaniesVisibilityAction,
+  taCompaniesSelector,
+  showTaCompaniesSelector,
 } from 'store/modules/fastSearch';
 import { isSR } from 'store/modules/auth';
 
@@ -74,6 +78,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   componentDidMount() {
     if (!this.props.searchOptions) {
       this.props.getOptions();
+    }
+
+    if (!this.props.taCompanies) {
+      this.props.getCompanies();
     }
 
     // Automatically execute the URL search query
@@ -131,6 +139,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     this.props.setNamesSearchResultsVisibility(visible);
   };
 
+  handleShowTaCompaniesDropDown = (visible: boolean) => () => {
+    this.props.setTaCompaniesVisibility(visible);
+  };
+
   // ---------------------------------------------------
 
   handleRemoveAllFilters = () => {
@@ -155,6 +167,38 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
   renderSideBar = () => (
     <div className="sidebar">
+      <SidebarGroup>
+        <label className="basicSearchLabel">
+          <span>TA Company</span>
+          {
+            this.props.taCompanies ?
+              <PredictiveTextInput
+                placeholder="Select company..."
+                value={this.props.searchQuery.taCompany!}
+                // onChange={this.handleDestinationChange}
+                options={[this.props.taCompanies.map(c => c.name)]}
+                // onOptionSelect={this.props.destinationChange}
+                showDropDown={this.props.showTaCompanies}
+                onFocus={this.handleShowTaCompaniesDropDown(true)}
+                onBlur={this.handleShowTaCompaniesDropDown(false)}
+              />
+              : <h2>TA Companies Loading...</h2>
+          }
+        </label>
+        <label className="basicSearchLabel">
+          <span>Travel Agent</span>
+          {/*<PredictiveTextInput*/}
+            {/*placeholder="Select agent..."*/}
+            {/*value={this.props.searchQuery.name!}*/}
+            {/*onChange={this.handleDestinationChange}*/}
+            {/*options={this.props.nameSearchResults}*/}
+            {/*onOptionSelect={this.props.destinationChange}*/}
+            {/*showDropDown={this.props.showNameSearchResults}*/}
+            {/*onFocus={this.handleShowNameSearchDropDown(true)}*/}
+            {/*onBlur={this.handleShowNameSearchDropDown(false)}*/}
+          {/*/>*/}
+        </label>
+      </SidebarGroup>
       <SidebarGroup>
         {this.props.optionsRequestPending && <h2>Options Loading</h2>}
         {!this.props.optionsRequestPending && this.props.optionsRequestError && (
@@ -331,9 +375,13 @@ const mapStateToProps = createStructuredSelector({
   canSearch: canSearchSelector,
   actingCountryCode: getUserCountryContext,
   isSr: isSR,
+  taCompanies: taCompaniesSelector,
+  showTaCompanies: showTaCompaniesSelector
 });
 
 const actionCreators = {
+  getCompanies: taCompaniesRequestAction,
+  setTaCompaniesVisibility: setTaCompaniesVisibilityAction,
   getOptions: optionsRequestAction,
   getOffers: offersSearchRequestAction,
   toggleFilter: toggleFilterAction,

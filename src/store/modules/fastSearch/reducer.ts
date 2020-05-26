@@ -44,6 +44,22 @@ export default function fastSearchReducer(
         offersRequestPending: false,
         queryHasChanged: false,
       };
+    // ------------------------------------------------------
+    // Companies
+    // ------------------------------------------------------
+    case Actions.TA_COMPANIES_SUCCESS:
+      return {
+        ...state,
+        taCompanies: action.successResponse,
+        // optionsRequestPending: false,
+        // queryHasChanged: false,
+      };
+
+    case Actions.SET_TA_COMPANY_VISIBILITY:
+      return {
+        ...state,
+        showTaCompanies: action.visibility
+      };
 
     // ------------------------------------------------------
     // Offers Search
