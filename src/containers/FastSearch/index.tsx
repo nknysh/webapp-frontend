@@ -177,7 +177,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
                 // value={this.props.searchQuery.taCompany!}
                 // onChange={this.handleDestinationChange}
                 options={[this.props.taCompanies.map(c => c.name)]}
-                // onOptionSelect={this.props.destinationChange}
+                onOptionSelect={() => {}}
                 showDropDown={this.props.showTaCompanies}
                 onFocus={this.handleShowTaCompaniesDropDown(true)}
                 onBlur={this.handleShowTaCompaniesDropDown(false)}
