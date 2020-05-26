@@ -2,7 +2,6 @@ import React from 'react';
 import { EUserType } from 'services/BackendApi';
 import { RouteProps, Route, Redirect } from 'react-router';
 import { withAuthentication } from 'hoc';
-import { omit } from 'ramda';
 
 export const shouldRedirect = (props: AuthRouteOwnProps) => {
   const { allow, deny, isAuthenticated } = props;
@@ -16,17 +15,25 @@ export const shouldRedirect = (props: AuthRouteOwnProps) => {
 };
 
 export const AuthRoute = (props: AuthRouteProps) => {
-  if(shouldRedirect(props)) {
-    const noRenderProps = omit(['render', 'component', 'children'], props);
-
-    return (
-      <Route {...noRenderProps}>
-        <Redirect to="/login" />
-      </Route>
-    );
-  }
+  const { render, component: Component, children, ...rest } = props;
   
-  return <Route {...props}/>;
+  const authRender = renderProps => {
+    if(shouldRedirect(props)) {
+      return <Redirect to="/login" />;
+    }
+
+    if(render){
+      return render(renderProps);
+    }
+
+    if(Component){
+      return <Component {...renderProps} />;
+    }
+
+    return children;
+  };
+
+  return <Route render={authRender} {...rest}/>;
 };
 
 // -----------------------------------------------------------------------------
