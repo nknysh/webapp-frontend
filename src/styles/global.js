@@ -73,11 +73,6 @@ export const GlobalStyle = createGlobalStyle`
         ${theme.breakpoints.desktop`
             padding-top: 0;
         `}
-
-        &.select-open {
-            height: unset;
-            overflow: hidden;
-        }
     }
 
     #app {
