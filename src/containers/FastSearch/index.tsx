@@ -191,7 +191,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
     const agents = this.props.travelAgents || [];
     const selectedTA = agents.find(ta => getTaFullName(ta) === taFullName);
     this.props.taNameChange(taFullName);
-    const taId = selectedTA.uuid || null;
+    const taId = selectedTA && selectedTA.uuid || null;
     this.props.updateBookingTravelAgentUser(taId);
   };
 
