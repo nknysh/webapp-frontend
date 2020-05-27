@@ -8,6 +8,8 @@ import * as Sentry from '@sentry/browser';
 // import OfflinePluginRuntime from 'offline-plugin/runtime';
 import { ThemeProvider } from 'styled-components';
 import { appendPortalElements } from 'utils/portals';
+import HotjarSnippet from 'integrations/hotjar/snippet';
+import DriftSnippet from 'integrations/drift/snippet';
 
 import 'store/modules/fastSearch';
 
@@ -15,7 +17,14 @@ import './config/i18n';
 
 import store, { history } from 'store';
 
-import { APP_ENV, SENTRY_DSN, SENTRY_ENV } from 'config';
+import {
+  APP_ENV,
+  SENTRY_DSN,
+  SENTRY_ENV,
+  HOTJAR_APP_ID,
+  DRIFT_APP_ID
+} from 'config';
+
 import headerMeta from 'config/meta';
 import headerLink from 'config/link';
 import entryRoutes from 'routing/entry';
@@ -43,39 +52,19 @@ if (SENTRY_DSN) {
 
 appendPortalElements();
 
-let hotjarId = undefined;
-if (window.location.href.includes('qa.pure-escapes')) {
-  hotjarId = '1785849';
-} else if (window.location.href.includes('sandbox.pure-escapes')) {
-  hotjarId = '1784172';
-}
-
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
       <Helmet>
         {headerMeta}
         {headerLink}
-
-        {/* if we're on QA or sandbox, load in the hotjar code */}
-        {hotjarId !== undefined && (
-          <script type="text/javascript">{`
-          (function(h, o, t, j, a, r) {
-            h.hj =
-              h.hj ||
-              function() {
-                (h.hj.q = h.hj.q || []).push(arguments);
-              };
-            h._hjSettings = { hjid: ${hotjarId}, hjsv: 6 };
-            a = o.getElementsByTagName('head')[0];
-            r = o.createElement('script');
-            r.async = 1;
-            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-            a.appendChild(r);
-          })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-    `}</script>
-        )}
       </Helmet>
+      {HOTJAR_APP_ID &&
+        <HotjarSnippet appId={HOTJAR_APP_ID} />
+      }
+      {DRIFT_APP_ID &&
+        <DriftSnippet appId={DRIFT_APP_ID} />
+      }
       <GlobalFonts />
       <GlobalStyle />
       <ConnectedRouter history={history}>
