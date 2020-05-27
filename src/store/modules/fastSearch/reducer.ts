@@ -51,14 +51,16 @@ export default function fastSearchReducer(
       return {
         ...state,
         taCompanies: action.successResponse,
-        // optionsRequestPending: false,
-        // queryHasChanged: false,
       };
 
-    case Actions.SET_TA_COMPANY_VISIBILITY:
+    case Actions.TA_COMPANY_CHANGE:
       return {
         ...state,
-        showTaCompanies: action.visibility
+        queryHasChanged: true,
+        query: {
+          ...state.query,
+          taCompanyName: action.value,
+        },
       };
 
     // ------------------------------------------------------

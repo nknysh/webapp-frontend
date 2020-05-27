@@ -34,7 +34,6 @@ export interface FastSearchDomain {
   optionsRequestError: ErrorResponse | null;
 
   taCompanies: ICompany[] | null;
-  showTaCompanies: boolean;
 
   query: ISearchQuery;
   lastExecutedQuery: ISearchQuery | null;
@@ -83,8 +82,8 @@ export const initialState: FastSearchDomain = {
     startDate: getDefaultSearchAndBookingStartDate(),
     endDate: getDefaultSearchAndBookingEndDate(),
     priceRange: { min: undefined, max: undefined },
+    taCompanyName: '',
   },
 
   taCompanies: null,
-  showTaCompanies: false,
 };

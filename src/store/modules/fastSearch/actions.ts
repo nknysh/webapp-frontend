@@ -39,7 +39,7 @@ export const OFFERS_SEARCH_FAILURE = 'fastSearch/OFFERS_SEARCH_FAILURE';
 export const OPTIONS_REQUEST = 'fastSearch/OPTIONS_REQUEST';
 export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
-export const SET_TA_COMPANY_VISIBILITY = 'fastSearch/SET_TA_COMPANY_VISIBILITY';
+export const TA_COMPANY_CHANGE = 'fastSearch/TA_COMPANY_CHANGE';
 export const TA_COMPANIES_REQUEST = 'fastSearch/TA_COMPANIES_REQUEST';
 export const TA_COMPANIES_SUCCESS = 'fastSearch/TA_COMPANIES_SUCCESS';
 export const TA_COMPANIES_FAILURE = 'fastSearch/TA_COMPANIES_FAILURE';
@@ -297,10 +297,10 @@ export const taCompaniesFailureAction = (errorResponse: ErrorResponse) => ({
   errorResponse,
 });
 
-export type SetTaCompaniesVisibilityAction = ReturnType<typeof setTaCompaniesVisibilityAction>;
-export const setTaCompaniesVisibilityAction = (visibility: boolean) => ({
-  type: SET_TA_COMPANY_VISIBILITY as typeof SET_TA_COMPANY_VISIBILITY,
-  visibility,
+export type TaCompanyChangeAction = ReturnType<typeof taCompanyChangeAction>;
+export const taCompanyChangeAction = (value: string) => ({
+  type: TA_COMPANY_CHANGE as typeof TA_COMPANY_CHANGE,
+  value,
 });
 
 // 3. Create a union type which we can pass as the reducers action type.
@@ -332,7 +332,7 @@ export type FastSearchAction =
   | OptionsRequestAction
   | OptionsSuccessAction
   | OptionsFailureAction
-  | SetTaCompaniesVisibilityAction
+  | TaCompanyChangeAction
   | TaCompaniesRequestAction
   | TaCompaniesSuccessAction
   | TaCompaniesFailureAction

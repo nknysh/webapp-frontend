@@ -66,7 +66,7 @@ import {
   updateQueryStringAction,
   resetSearchQueryAction,
   taCompaniesRequestAction,
-  setTaCompaniesVisibilityAction,
+  taCompanyChangeAction,
   taCompaniesSelector,
   showTaCompaniesSelector,
 } from 'store/modules/fastSearch';
@@ -74,7 +74,15 @@ import { isSR } from 'store/modules/auth';
 
 import { getUserCountryContext } from 'store/modules/auth';
 
-export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
+interface FastSearchState {
+  showTaCompanies: boolean;
+}
+
+export class FastSearchContainer extends React.PureComponent<FastSearchProps, FastSearchState> {
+  readonly state: FastSearchState = {
+    showTaCompanies: false,
+  };
+
   componentDidMount() {
     if (!this.props.searchOptions) {
       this.props.getOptions();
@@ -140,7 +148,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   };
 
   handleShowTaCompaniesDropDown = (visible: boolean) => () => {
-    this.props.setTaCompaniesVisibility(visible);
+    this.setState({ showTaCompanies: visible });
   };
 
   // ---------------------------------------------------
@@ -161,6 +169,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     }
   };
 
+  handleTaCompanyChange = (value: string) => {
+    this.props.taCompanyChange(value);
+  };
+
   handleSearchResultClick = (hotelUuid: string) => {
     this.props.history.push(`/hotels/${hotelUuid}`);
   };
@@ -174,11 +186,11 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
             this.props.taCompanies ?
               <PredictiveTextInput
                 placeholder="Select company..."
-                // value={this.props.searchQuery.taCompany!}
-                // onChange={this.handleDestinationChange}
+                value={this.props.searchQuery.taCompanyName!}
+                // onChange={this.handleTaCompanyChange}
                 options={[this.props.taCompanies.map(c => c.name)]}
-                onOptionSelect={() => {}}
-                showDropDown={this.props.showTaCompanies}
+                onOptionSelect={this.handleTaCompanyChange}
+                showDropDown={this.state.showTaCompanies}
                 onFocus={this.handleShowTaCompaniesDropDown(true)}
                 onBlur={this.handleShowTaCompaniesDropDown(false)}
               />
@@ -376,12 +388,11 @@ const mapStateToProps = createStructuredSelector({
   actingCountryCode: getUserCountryContext,
   isSr: isSR,
   taCompanies: taCompaniesSelector,
-  showTaCompanies: showTaCompaniesSelector
 });
 
 const actionCreators = {
   getCompanies: taCompaniesRequestAction,
-  setTaCompaniesVisibility: setTaCompaniesVisibilityAction,
+  taCompanyChange: taCompanyChangeAction,
   getOptions: optionsRequestAction,
   getOffers: offersSearchRequestAction,
   toggleFilter: toggleFilterAction,
