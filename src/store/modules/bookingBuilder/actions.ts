@@ -218,7 +218,7 @@ export const resetBookingBuilderUiStateAction = () => ({
 });
 
 export type UpdateBookingTravelAgentUserIdAction = ReturnType<typeof updateBookingTravelAgentUserIdAction>;
-export const updateBookingTravelAgentUserIdAction = (travelAgentUserUuid: string) => ({
+export const updateBookingTravelAgentUserIdAction = (travelAgentUserUuid: string | undefined) => ({
   type: UPDATE_TRAVEL_AGENT_USER_ID as typeof UPDATE_TRAVEL_AGENT_USER_ID,
   travelAgentUserUuid,
 });
