@@ -1,6 +1,6 @@
 import { call, takeLatest, select, put } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
-import { makeBackendApi, ITravelAgentRespone, ITravelAgent } from 'services/BackendApi';
+import { makeBackendApi, ITravelAgentResponse, ITravelAgent } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 import { GetTravelAgentRequestAction } from '../actions';
 import { getTravelAgentsSuccessAction, getTravelAgentsFailureAction, GET_TRAVEL_AGENTS_REQUEST } from '../actions';
@@ -13,7 +13,7 @@ export function* getTravelAgentsRequestSaga(action: GetTravelAgentRequestAction)
     const currentAgents = yield select(agentsSelector);
 
     if (!currentAgents || (currentAgents && action.forceLoad)) {
-      const result: AxiosResponse<ITravelAgentRespone> = yield call(backendApi.getTravelAgents);
+      const result: AxiosResponse<ITravelAgentResponse> = yield call(backendApi.getTravelAgents);
       yield put(getTravelAgentsSuccessAction(result.data.data));
     }
 

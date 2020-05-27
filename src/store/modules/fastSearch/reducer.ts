@@ -60,7 +60,27 @@ export default function fastSearchReducer(
         query: {
           ...state.query,
           taCompanyName: action.value,
+          taName: '',
         },
+        companyTravelAgents: null,
+        isFetchingTA: true,
+      };
+
+    case Actions.TA_NAME_CHANGE:
+      return {
+        ...state,
+        queryHasChanged: true,
+        query: {
+          ...state.query,
+          taName: action.value,
+        },
+      };
+
+    case Actions.TA_SEARCH_SUCCESS:
+      return {
+        ...state,
+        companyTravelAgents: action.successResponse,
+        isFetchingTA: false,
       };
 
     // ------------------------------------------------------

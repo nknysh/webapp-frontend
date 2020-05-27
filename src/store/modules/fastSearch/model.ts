@@ -8,6 +8,7 @@ import {
   SearchOptions,
   NameSearchResponseData,
   ICompany,
+  ITravelAgent,
 } from 'services/BackendApi';
 import { getDefaultSearchAndBookingStartDate, getDefaultSearchAndBookingEndDate } from '../../utils';
 
@@ -34,6 +35,8 @@ export interface FastSearchDomain {
   optionsRequestError: ErrorResponse | null;
 
   taCompanies: ICompany[] | null;
+  companyTravelAgents: ITravelAgent[] | null;
+  isFetchingTA: boolean;
 
   query: ISearchQuery;
   lastExecutedQuery: ISearchQuery | null;
@@ -83,7 +86,10 @@ export const initialState: FastSearchDomain = {
     endDate: getDefaultSearchAndBookingEndDate(),
     priceRange: { min: undefined, max: undefined },
     taCompanyName: '',
+    taName: '',
   },
 
   taCompanies: null,
+  companyTravelAgents: null,
+  isFetchingTA: false,
 };

@@ -20,7 +20,7 @@ import { BookingBuilderDomain, NewProposalPayload } from 'store/modules/bookingB
 import { getBookingInformationForBooking } from '../../utils/bookingBuilder';
 import { IProposalsListResponse } from './types/ProposalsListResponse';
 import { IBookingsListResponse } from './types/BookingsListResponse';
-import { ITravelAgentRespone } from './types/TravelAgentResponse';
+import { ITravelAgentResponse } from './types/TravelAgentResponse';
 import { IHotelNamesResponse } from './types/HotelNamesResponse';
 import { ICompaniesResponse } from './types/CompaniesResponse';
 import { IOffersListResponse, IOffersDeleteResponse } from './types/OffersListResponse';
@@ -52,6 +52,7 @@ export enum BackendEndpoints {
   RATES_LOADER = 'rates-loader',
   ALLOTMENTS_LOADER = 'allotments-loader',
   COMPANIES = 'companies',
+  USERS = 'users',
 }
 
 export enum ENetworkRequestStatus {
@@ -142,9 +143,14 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(`${endpoint}/${uuid}`);
   };
 
-  getTravelAgents = async (): Promise<AxiosResponse<ITravelAgentRespone>> => {
-    const endpoint = `/users?filter[user][type]=ta`;
+  getTravelAgents = async (): Promise<AxiosResponse<ITravelAgentResponse>> => {
+    const endpoint = `${BackendEndpoints.USERS}?filter[user][type]=ta`;
     return this.client.get(endpoint);
+  };
+
+  getTravelAgentsByCompanyId = async (companyUuid: string): Promise<AxiosResponse<ITravelAgentResponse>> => {
+    const url = `${BackendEndpoints.USERS}?filter[user][type]=ta&filter[user][companyUuid]=${companyUuid}`;
+    return this.client.get(url);
   };
 
   getHotelsAsHotelNames = async (): Promise<AxiosResponse<IHotelNamesResponse>> => {

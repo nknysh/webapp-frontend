@@ -20,6 +20,6 @@ export function* taCompanySearchSaga() {
   }
 }
 
-export function* watchTaCompanyChange() {
+export function* watchTaCompaniesRequest() {
   yield takeLatest(TA_COMPANIES_REQUEST, taCompanySearchSaga);
 }

@@ -70,4 +70,5 @@ export interface ISearchQuery {
   filters: Filters[];
   priceRange: PriceRange;
   taCompanyName: string;
+  taName: string;
 }

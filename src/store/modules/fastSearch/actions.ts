@@ -7,6 +7,7 @@ import {
   MealPlanNames,
   NameSearchResponseData,
   ICompany,
+  ITravelAgent
 } from 'services/BackendApi/types';
 
 export const INITIALIZE_QUERY = 'fastSearch/INITIALIZE_QUERY';
@@ -40,6 +41,9 @@ export const OPTIONS_REQUEST = 'fastSearch/OPTIONS_REQUEST';
 export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
 export const TA_COMPANY_CHANGE = 'fastSearch/TA_COMPANY_CHANGE';
+export const TA_NAME_CHANGE = 'fastSearch/TA_NAME_CHANGE';
+export const TA_SEARCH_SUCCESS = 'fastSearch/TA_SEARCH_SUCCESS';
+export const TA_SEARCH_FAILURE = 'fastSearch/TA_SEARCH_FAILURE';
 export const TA_COMPANIES_REQUEST = 'fastSearch/TA_COMPANIES_REQUEST';
 export const TA_COMPANIES_SUCCESS = 'fastSearch/TA_COMPANIES_SUCCESS';
 export const TA_COMPANIES_FAILURE = 'fastSearch/TA_COMPANIES_FAILURE';
@@ -303,6 +307,24 @@ export const taCompanyChangeAction = (value: string) => ({
   value,
 });
 
+export type TaNameChangeAction = ReturnType<typeof taNameChangeAction>;
+export const taNameChangeAction = (value: string) => ({
+  type: TA_NAME_CHANGE as typeof TA_NAME_CHANGE,
+  value,
+});
+
+export type TaSearchSuccessAction = ReturnType<typeof taSearchSuccessAction>;
+export const taSearchSuccessAction = (successResponse: ITravelAgent[]) => ({
+  type: TA_SEARCH_SUCCESS as typeof TA_SEARCH_SUCCESS,
+  successResponse,
+});
+
+export type TaSearchFailureAction = ReturnType<typeof taSearchFailureAction>;
+export const taSearchFailureAction = (errorResponse: ErrorResponse) => ({
+  type: TA_SEARCH_FAILURE as typeof TA_SEARCH_FAILURE,
+  errorResponse,
+});
+
 // 3. Create a union type which we can pass as the reducers action type.
 // goto DestinationChangeAction to see start of these comments.
 export type FastSearchAction =
@@ -332,6 +354,9 @@ export type FastSearchAction =
   | OptionsRequestAction
   | OptionsSuccessAction
   | OptionsFailureAction
+  | TaNameChangeAction
+  | TaSearchSuccessAction
+  | TaSearchFailureAction
   | TaCompanyChangeAction
   | TaCompaniesRequestAction
   | TaCompaniesSuccessAction

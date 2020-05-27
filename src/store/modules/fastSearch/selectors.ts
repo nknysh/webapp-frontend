@@ -31,6 +31,21 @@ export const taCompaniesSelector = createSelector(
   (domain: FastSearchDomain): FastSearchDomain['taCompanies'] => domain.taCompanies
 );
 
+export const isFetchingTaSelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): boolean => domain.isFetchingTA
+);
+
+export const taNamesSelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): string[] => {
+    if (!domain.companyTravelAgents) {
+      return [];
+    }
+    return domain.companyTravelAgents.map(ta => `${ta.title} ${ta.firstName} ${ta.lastName}`.trim());
+  }
+);
+
 
 export const offersSearchPendingSelector = createSelector(
   fastSearchDomain,

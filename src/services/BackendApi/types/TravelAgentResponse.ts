@@ -31,7 +31,7 @@ export interface ITravelAgentResponseMeta {
   associations: string[];
 }
 
-export interface ITravelAgentRespone {
+export interface ITravelAgentResponse {
   data: ITravelAgent[];
   meta: ITravelAgentResponseMeta;
 }
