@@ -586,7 +586,7 @@ export const SummaryFormExtras = ({
 
   const onTASelect = useCallback(
     ({ id: travelAgentUserUuid }) => {
-      updateBookingTravelAgentUserIdAction(id, travelAgentUserUuid);
+      updateBookingTravelAgentUserIdAction(travelAgentUserUuid);
     },
     [id, updateBookingTravelAgentUserIdAction]
   );

@@ -2,6 +2,7 @@ import { curry, lensProp, pipe, identity, defaultTo } from 'ramda';
 import { addDays } from 'date-fns';
 
 import { Status } from 'store/common/status';
+import {ITravelAgent} from "../../services/BackendApi/types";
 
 /**
  * Status lens
@@ -93,3 +94,5 @@ export const getDefaultSearchAndBookingEndDate = () => {
     .toISOString()
     .split('T')[0];
 };
+
+export const getTaFullName = ta => `${ta.title} ${ta.firstName} ${ta.lastName}`.trim();

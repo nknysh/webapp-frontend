@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { FastSearchDomain } from './model';
-import { HotelResult, BookingBuilder } from 'services/BackendApi/types';
+import { HotelResult, BookingBuilder, ITravelAgent } from 'services/BackendApi/types';
 import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 import { IDateRange } from './types';
 import { format, isSameMonth, isSameYear, differenceInCalendarDays, addDays } from 'date-fns';
@@ -8,6 +8,7 @@ import { DateHelper } from 'pureUi/DatePicker';
 
 import { bookingBuilderHotelUuidSelector } from 'store/modules/bookingBuilder';
 import { formatDate } from 'utils';
+import { getTaFullName } from '../../utils'
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
 
@@ -42,8 +43,13 @@ export const taNamesSelector = createSelector(
     if (!domain.companyTravelAgents) {
       return [];
     }
-    return domain.companyTravelAgents.map(ta => `${ta.title} ${ta.firstName} ${ta.lastName}`.trim());
+    return domain.companyTravelAgents.map(getTaFullName);
   }
+);
+
+export const travelAgentsSelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): ITravelAgent[] | null => domain.companyTravelAgents
 );
 
 

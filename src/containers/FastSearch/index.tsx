@@ -18,6 +18,8 @@ import Checkbox from 'pureUi/Checkbox';
 import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 
+import { getTaFullName } from '../../store/utils';
+
 import {
   initializeQueryAction,
   searchOptionsSelector,
@@ -70,8 +72,10 @@ import {
   taNameChangeAction,
   taCompaniesSelector,
   taNamesSelector,
+  travelAgentsSelector,
   isFetchingTaSelector,
 } from 'store/modules/fastSearch';
+import { updateBookingTravelAgentUserIdAction } from 'store/modules/bookingBuilder/actions';
 import { isSR } from 'store/modules/auth';
 
 import { getUserCountryContext } from 'store/modules/auth';
@@ -179,10 +183,14 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
 
   handleTaCompanyChange = (value: string) => {
     this.props.taCompanyChange(value);
+    // we clean selected TA if we change company
+    this.props.updateBookingTravelAgentUser();
   };
 
-  handleTaNameChange = (value: string) => {
-    this.props.taNameChange(value);
+  handleTaNameChange = (taFullName: string) => {
+    const selectedTA = this.props.travelAgents.find(ta => getTaFullName(ta) === taFullName);\
+    this.props.taNameChange(taFullName);
+    this.props.updateBookingTravelAgentUser(selectedTA.uuid);
   };
 
   handleSearchResultClick = (hotelUuid: string) => {
@@ -408,6 +416,7 @@ const mapStateToProps = createStructuredSelector({
   isSr: isSR,
   taCompanies: taCompaniesSelector,
   taNames: taNamesSelector,
+  travelAgents: travelAgentsSelector,
   isFetchingTA: isFetchingTaSelector
 });
 
@@ -443,6 +452,7 @@ const actionCreators = {
   dateRangeChangeAction,
   updateQueryString: updateQueryStringAction,
   resetSearchQuery: resetSearchQueryAction,
+  updateBookingTravelAgentUser: updateBookingTravelAgentUserIdAction,
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
