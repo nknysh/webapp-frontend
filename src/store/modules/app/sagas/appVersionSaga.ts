@@ -1,7 +1,7 @@
 import { eventChannel } from 'redux-saga';
 import { put, take, call } from 'redux-saga/effects';
 
-import { CIRCLE_BUILD_NUM, CHECK_APP_VERSION_TIME_INTERVAL, CURR_DEPLOY_BASE_URL } from 'config';
+import { CIRCLE_BUILD_NUM, CHECK_APP_VERSION_TIME_INTERVAL, CURR_DEPLOY_BASE_URL, LOCAL_DEPLOY_URL } from 'config';
 
 import { setLatestAppVersion } from "../actions";
 
@@ -32,6 +32,10 @@ function checkAppVersionEventsGenerator(currVersion: string, interval: number = 
 }
 
 export function* watchVersionChangeSaga() {
+  if (CURR_DEPLOY_BASE_URL === LOCAL_DEPLOY_URL) {
+    // we don't check app version if we run locally
+    return
+  }
   // 1- Create a generator for request actions
   const newAppVersionChannel = yield call(checkAppVersionEventsGenerator, CIRCLE_BUILD_NUM);
   // 2- take from the channel
