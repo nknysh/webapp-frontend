@@ -27,12 +27,3 @@ export const getTravelAgent = createSelector(
   [getArg(1), getTravelAgentsEntities],
   (id: string, entities: object): TravelAgent => propOr({}, id, entities)
 );
-
-export const getTravelAgentFullName = createSelector(
-  getTravelAgent,
-  (ta: TravelAgent) =>
-    pipe(
-      props(['title', 'firstName', 'lastName']),
-      join(' ')
-    )(ta)
-);

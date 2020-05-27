@@ -11,6 +11,7 @@ import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'componen
 import { useFetchData } from 'effects';
 import { withUser } from 'hoc';
 import { formatPrice, filterByObjectProperties } from 'utils';
+import { getTaFullName } from '../../store/utils';
 import { Icon } from '@material-ui/core';
 
 import connect from './SummaryFormExtras.state';
@@ -461,27 +462,18 @@ const renderMargin = (
   );
 };
 
-const renderTASelect = (
+const renderTAInfo = (
   t,
-  { travelAgentsLoaded, getTravelAgentName, onTASelect, onTARemove, travelAgent, isValid }
+  { travelAgentsLoaded, travelAgent }
 ) => (
   <TableCardBox className="mt-4 mb-4">
     <TableCardRow depth={3}>
-      <Title className={isValid ? null : 'error'}>{t('travelAgent')}</Title>
-      <Loader isLoading={!travelAgentsLoaded} text={t('messages.loadingUsers')}>
-        <IndexSearch
-          placeholder={t('labels.searchForTA')}
-          indexes={['travelAgents']}
-          selectors={[getTravelAgentName]}
-          onClick={onTASelect}
-        />
-        {!isNilOrEmpty(travelAgent) && (
-          <TravelAgent onClick={onTARemove}>
-            <TravelAgentName>{travelAgent && getTravelAgentName(prop('uuid', travelAgent))}</TravelAgentName>{' '}
-            <Clear>clear</Clear>
-          </TravelAgent>
-        )}
-      </Loader>
+      <Title>{t('travelAgent')}</Title>
+      {!isNilOrEmpty(travelAgent) && (
+        <TravelAgent>
+          <TravelAgentName>{travelAgent && getTaFullName(travelAgent)}</TravelAgentName>
+        </TravelAgent>
+      )}
     </TableCardRow>
   </TableCardBox>
 );
@@ -553,17 +545,7 @@ export const SummaryFormExtras = ({
   const { t } = useTranslation();
 
   const validation = isPristine ? {} : domainValidation;
-  const hasTASelect = isSr && !isRl;
-  const travelAgentsLoaded = useFetchData(
-    travelAgentsStatus,
-    () => {
-      if (hasTASelect) {
-        return fetchTravelAgents(currentCountry ? { actingCountryCode: currentCountry } : {});
-      }
-      return [];
-    },
-    []
-  );
+  const hasTAInfo = isSr && !isRl;
 
   const onMarginChange = useCallback(
     (e, marginType, marginValue, shouldUpdateCheckbox = undefined) => {
@@ -786,13 +768,9 @@ export const SummaryFormExtras = ({
       )}
       {renderGuestInfo(guestInfo, updateBookingGuestInformationAction, validation)}
       {/* SRs need to be able to select TAs */}
-      {hasTASelect &&
-        renderTASelect(t, {
+      {hasTAInfo &&
+        renderTAInfo(t, {
           currencyCode,
-          travelAgentsLoaded,
-          getTravelAgentName,
-          onTASelect,
-          onTARemove,
           travelAgent,
           isValid: !validation.travelAgentUserUuid?.length,
         })}

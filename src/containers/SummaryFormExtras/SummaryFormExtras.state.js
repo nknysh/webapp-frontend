@@ -3,9 +3,9 @@ import { pipe } from 'ramda';
 import {
   fetchTravelAgents,
   getTravelAgentsStatus,
-  getTravelAgentFullName,
   getTravelAgent,
 } from 'store/modules/travelAgents';
+import { travelAgentsSelector } from 'store/modules/fastSearch';
 import { getCurrentCountry } from 'store/modules/auth';
 
 import {
@@ -71,7 +71,8 @@ import {
 
 export const mapStateToProps = (state, { id }) => {
   const travelAgentUserUuid = getBookingTravelAgent(state, id);
-  const travelAgent = getTravelAgent(state, travelAgentUserUuid);
+  const travelAgents = travelAgentsSelector(state) || [];
+  const travelAgent = travelAgents.find(ta => ta.uuid === travelAgentUserUuid);
 
   return {
     addons: bookingAvailableAddonsSelector(state),
@@ -85,7 +86,6 @@ export const mapStateToProps = (state, { id }) => {
     selectedTransfers: bookingRequestedTransfersSelector(state, id),
     canBook: bookingCanBookSelector(state),
     currencyCode: getBookingCurrencySymbol(state, id),
-    getTravelAgentName: id => getTravelAgentFullName(state, id),
     guestInfo: guestInfoSelector(state),
     grandTotal: bookingBuilderTotalSelector(state),
     travelAgent,

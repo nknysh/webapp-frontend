@@ -2,7 +2,7 @@ import { curry, lensProp, pipe, identity, defaultTo } from 'ramda';
 import { addDays } from 'date-fns';
 
 import { Status } from 'store/common/status';
-import {ITravelAgent} from "../../services/BackendApi/types";
+import { ITravelAgent } from '../../services/BackendApi/types';
 
 /**
  * Status lens
