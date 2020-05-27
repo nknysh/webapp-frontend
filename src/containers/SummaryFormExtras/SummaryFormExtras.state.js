@@ -1,10 +1,6 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
-import {
-  fetchTravelAgents,
-  getTravelAgentsStatus,
-  getTravelAgent,
-} from 'store/modules/travelAgents';
+import { fetchTravelAgents, getTravelAgentsStatus, getTravelAgent } from 'store/modules/travelAgents';
 import { travelAgentsSelector } from 'store/modules/fastSearch';
 import { getCurrentCountry } from 'store/modules/auth';
 

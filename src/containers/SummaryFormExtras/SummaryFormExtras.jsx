@@ -462,10 +462,7 @@ const renderMargin = (
   );
 };
 
-const renderTAInfo = (
-  t,
-  { travelAgentsLoaded, travelAgent }
-) => (
+const renderTAInfo = (t, { travelAgentsLoaded, travelAgent }) => (
   <TableCardBox className="mt-4 mb-4">
     <TableCardRow depth={3}>
       <Title>{t('travelAgent')}</Title>
