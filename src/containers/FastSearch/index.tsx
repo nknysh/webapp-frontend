@@ -184,7 +184,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
   handleTaCompanyChange = (value: string) => {
     this.props.taCompanyChange(value);
     // we clean selected TA if we change company
-    this.props.updateBookingTravelAgentUser(undefined);
+    this.props.updateBookingTravelAgentUser();
   };
 
   handleTaNameChange = (taFullName: string) => {
