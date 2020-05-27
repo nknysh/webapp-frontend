@@ -69,6 +69,6 @@ export interface ISearchQuery {
   starRatings: StarRating[];
   filters: Filters[];
   priceRange: PriceRange;
-  taCompanyName: string;
-  taName: string;
+  taCompanyName?: string;
+  taName?: string;
 }
