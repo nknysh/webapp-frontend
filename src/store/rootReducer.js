@@ -29,53 +29,55 @@ import { bootstrap } from './modules/bootstrap/reducer';
 import { ratesImport } from './modules/ratesImport/reducer';
 import { allotmentsImport } from './modules/allotmentsImport/reducer';
 import { appReducer } from './modules/app/reducer';
+import bookingManager from './modules/bookingManager/reducer';
 
 const clearState = mapObjIndexed(always(undefined));
 
-const rootReducerFactory = history => combineReducers({
-  auth,
-  bookings,
-  countries,
-  hotel,
-  hotels,
-  indexes,
-  offers,
-  pages,
-  proposals,
-  search,
-  ui,
-  users,
-  hotelAccommodationProducts,
-  fastSearch,
-  bookingBuilder,
-  proposalsList,
-  bookingsList,
-  offersList,
-  travelAgents, // this is the old, dumb as a brick, uncontrollable travel agents reducer
-  agents, // this is the good, controlable, travel agents reducer.
-  offer,
-  bootstrap,
-  ratesImport,
-  allotmentsImport,
-  app: appReducer,
-  router: connectRouter(history),
-});
+const rootReducerFactory = history =>
+  combineReducers({
+    auth,
+    bookings,
+    countries,
+    hotel,
+    hotels,
+    indexes,
+    offers,
+    pages,
+    proposals,
+    search,
+    ui,
+    users,
+    hotelAccommodationProducts,
+    fastSearch,
+    bookingBuilder,
+    proposalsList,
+    bookingsList,
+    offersList,
+    travelAgents, // this is the old, dumb as a brick, uncontrollable travel agents reducer
+    agents, // this is the good, controlable, travel agents reducer.
+    offer,
+    bootstrap,
+    ratesImport,
+    allotmentsImport,
+    bookingManager,
+    app: appReducer,
+    router: connectRouter(history),
+  });
 
 export default history => {
   const rootReducer = rootReducerFactory(history);
 
   return (state, action) => {
     const { type } = action;
-  
+
     if (equals(type, STATUS_TO_IDLE)) {
       state = resetStoreStatuses(state, action);
     }
-  
+
     if (equals(type, STORE_RESET)) {
       state = clearState(state);
     }
-  
+
     return rootReducer(state, action);
   };
 };
-

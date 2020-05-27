@@ -208,7 +208,6 @@ export class BookingListContainer extends React.Component<IBookingListProps, {}>
             </THead>
             <TBody tableData={this.props.bookings!}>
               {(booking: IBookingsListItem) => {
-                console.log('booking', booking);
                 return (
                   <TRow key={booking.uuid}>
                     <TD title={booking.humanReadableId || booking.uuid}>{booking.humanReadableId || booking.uuid}</TD>

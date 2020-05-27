@@ -479,6 +479,10 @@ exports[`<App /> render matches snapshot 1`] = `
         component={[Function]}
         path="/offers"
       />
+      <Route
+        component={[Function]}
+        path="/booking-manager"
+      />
       <Component
         allow={
           Array [

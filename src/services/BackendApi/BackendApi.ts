@@ -35,7 +35,7 @@ import { IApiErrorResponse } from './types/ApiError';
 import { IAPIRepsonse } from './types/ApiResponse';
 import { IImportResponse } from './types/ImportResponse';
 import { IHotel } from './types/HotelResponse';
-
+import { IGetBookingResponse } from './types/BookingManagerResponse';
 export enum BackendEndpoints {
   SEARCH_OPTIONS = 'search/options',
   SEARCH = 'search',
@@ -113,7 +113,7 @@ export class BackendApiService<T extends AxiosInstance> {
       'fields[proposal]=uuid,guestTitle,guestFirstName,guestLastName',
       'filter[proposal][isLocked]=false',
       'page[limit]=1',
-      'sort=-proposal.createdAt'
+      'sort=-proposal.createdAt',
     ].join('&');
 
     const endpoint = `${BackendEndpoints.PROPOSALS}?${query}`;
@@ -123,6 +123,11 @@ export class BackendApiService<T extends AxiosInstance> {
   getBookingsList = async (query): Promise<AxiosResponse<IBookingsListResponse>> => {
     const endpoint = `${BackendEndpoints.BOOKINGS}`;
     return this.client.get(endpoint, { params: query });
+  };
+
+  getBooking = async (uuid): Promise<AxiosResponse<IGetBookingResponse>> => {
+    const endpoint = `${BackendEndpoints.BOOKINGS}`;
+    return this.client.get(`${endpoint}/${uuid}`);
   };
 
   getTravelAgents = async (): Promise<AxiosResponse<ITravelAgentRespone>> => {
@@ -319,9 +324,9 @@ export class BackendApiService<T extends AxiosInstance> {
 
     interface IBookingSaveSchema {
       data: {
-        attributes: object,
-        proposalInfo?: object,
-      }
+        attributes: object;
+        proposalInfo?: object;
+      };
     }
 
     const tempPayloadShape: IBookingSaveSchema = {
@@ -333,9 +338,9 @@ export class BackendApiService<T extends AxiosInstance> {
     };
     if (newProposalAttributes) {
       tempPayloadShape.data.proposalInfo = {
-        shouldCreateNew : true,
-        attributes: newProposalAttributes
-      }
+        shouldCreateNew: true,
+        attributes: newProposalAttributes,
+      };
     }
     return this.client.post(endpoint, tempPayloadShape);
   };

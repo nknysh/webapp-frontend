@@ -601,7 +601,7 @@ export interface HotelAccommodationProduct {
 }
 
 export interface IBooking {
-  agesOfAllChildren: number[];
+  agesOfAllChildren?: number[];
   bookingComments?: string;
   bookingHash?: string;
   checkInDate?: string;

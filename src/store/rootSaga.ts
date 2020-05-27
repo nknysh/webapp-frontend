@@ -23,6 +23,7 @@ import { watchOfferHotelUuidChangeAction } from './modules/offer/sagas/getHotelD
 import importRatesSaga from './modules/ratesImport/sagas';
 import importAllotmentsSaga from './modules/allotmentsImport/sagas';
 import { watchVersionChangeSaga } from './modules/app/sagas/appVersionSaga';
+import { watchGetBookingManager } from './modules/bookingManager/sagas/bookingManagerSaga';
 
 export default function* allSagas() {
   const sagas = [
@@ -50,6 +51,7 @@ export default function* allSagas() {
     watchVersionChangeSaga,
     importRatesSaga,
     importAllotmentsSaga,
+    watchGetBookingManager,
   ];
 
   yield all(

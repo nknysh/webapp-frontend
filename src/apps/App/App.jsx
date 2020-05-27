@@ -15,6 +15,7 @@ import { FastSearchContainerConnected } from 'containers/FastSearch';
 import { RatesImportContainerConnected } from 'containers/RatesImport';
 import { AllotmentsImportContainerConnected } from 'containers/AllotmentsImport';
 import { OfferRouting } from 'containers/OfferRouting';
+import { BookingManagerRouting } from 'containers/BookingManager/routing';
 import { AuthRoute } from 'containers/AuthRoute';
 import { EUserType } from 'services/BackendApi';
 
@@ -47,8 +48,19 @@ export const App = ({
         <Switch>
           <Route path="/search/beta" exact component={FastSearchContainerConnected} />
           <Route path="/offers" component={OfferRouting} />
-          <AuthRoute allow={[EUserType.RL, EUserType.ADMIN]} exact path="/rates/import" component={RatesImportContainerConnected} />
-          <AuthRoute allow={[EUserType.RL, EUserType.ADMIN]} exact path="/allotments/import" component={AllotmentsImportContainerConnected} />
+          <Route path="/booking-manager" component={BookingManagerRouting} />
+          <AuthRoute
+            allow={[EUserType.RL, EUserType.ADMIN]}
+            exact
+            path="/rates/import"
+            component={RatesImportContainerConnected}
+          />
+          <AuthRoute
+            allow={[EUserType.RL, EUserType.ADMIN]}
+            exact
+            path="/allotments/import"
+            component={AllotmentsImportContainerConnected}
+          />
           {...getAppRoutes(prop('type', user))}
         </Switch>
       </Suspense>

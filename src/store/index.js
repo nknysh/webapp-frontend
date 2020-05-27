@@ -37,9 +37,6 @@ if (APP_ENV !== 'production') {
 
 const composedEnhancers = compose(...composedMiddleware);
 
-export default createStore(
-  rootReducerFactory(history),
-  composedEnhancers
-);
+export default createStore(rootReducerFactory(history), composedEnhancers);
 
 sagaMiddleware.run(rootSaga);
