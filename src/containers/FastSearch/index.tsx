@@ -184,7 +184,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
   };
 
   handleTaCompanyChange = (value: string) => {
-    const selectedCompany = this.props.taCompanies.find(c => c.name === value) || null;
+    const selectedCompany = this.props.taCompanies && this.props.taCompanies.find(c => c.name === value) || null;
     this.props.taCompanyChange(selectedCompany);
     // we clean selected TA if we change company
     this.props.updateBookingTravelAgentUser();
@@ -192,7 +192,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
 
   handleTaNameChange = (taFullName: string) => {
     const agents = this.props.travelAgents || [];
-    const selectedTA = agents.find(ta => getTaFullName(ta) === taFullName);
+    const selectedTA = agents.find(ta => getTaFullName(ta) === taFullName) || null;
     this.props.selectedTaChange(selectedTA);
     const taId = selectedTA && selectedTA.uuid || null;
     this.props.updateBookingTravelAgentUser(taId);
