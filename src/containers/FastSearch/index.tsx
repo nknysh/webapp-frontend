@@ -98,7 +98,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
       this.props.getOptions();
     }
 
-    if (!this.props.taCompanies) {
+    if (this.props.isSr && !this.props.taCompanies) {
       this.props.getCompanies();
     }
 
@@ -222,6 +222,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
 
   renderSideBar = () => (
     <div className="sidebar">
+      {this.props.isSr &&
       <SidebarGroup>
         <label className="basicSearchLabel">
           <span>TA Company</span>
@@ -241,26 +242,27 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
           }
         </label>
         {this.props.selectedTaCompany &&
-          <label className="basicSearchLabel">
-            <span>Travel Agent</span>
-            {
-              this.props.isFetchingTA ?
-                <span>Loading travel agents...</span>
-                :
-                <PredictiveTextInput
-                  placeholder="Select agent..."
-                  value={this.props.selectedTa ? getTaFullName(this.props.selectedTa): ''}
-                  // onChange={this.handleDestinationChange}
-                  options={[this.props.taNames]}
-                  onOptionSelect={this.handleTaNameChange}
-                  showDropDown={this.state.showTravelAgents}
-                  onFocus={this.handleShowTravelAgentsDropDown(true)}
-                  onBlur={this.handleShowTravelAgentsDropDown(false)}
-                />
-            }
-          </label>
+        <label className="basicSearchLabel">
+          <span>Travel Agent</span>
+          {
+            this.props.isFetchingTA ?
+              <span>Loading travel agents...</span>
+              :
+              <PredictiveTextInput
+                placeholder="Select agent..."
+                value={this.props.selectedTa ? getTaFullName(this.props.selectedTa) : ''}
+                // onChange={this.handleDestinationChange}
+                options={[this.props.taNames]}
+                onOptionSelect={this.handleTaNameChange}
+                showDropDown={this.state.showTravelAgents}
+                onFocus={this.handleShowTravelAgentsDropDown(true)}
+                onBlur={this.handleShowTravelAgentsDropDown(false)}
+              />
+          }
+        </label>
         }
       </SidebarGroup>
+      }
       <SidebarGroup>
         {this.props.optionsRequestPending && <h2>Options Loading</h2>}
         {!this.props.optionsRequestPending && this.props.optionsRequestError && (
