@@ -41,7 +41,7 @@ export const OPTIONS_REQUEST = 'fastSearch/OPTIONS_REQUEST';
 export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
 export const TA_COMPANY_CHANGE = 'fastSearch/TA_COMPANY_CHANGE';
-export const TA_NAME_CHANGE = 'fastSearch/TA_NAME_CHANGE';
+export const SELECTED_TA_CHANGE = 'fastSearch/SELECTED_TA_CHANGE';
 export const TA_SEARCH_SUCCESS = 'fastSearch/TA_SEARCH_SUCCESS';
 export const TA_SEARCH_FAILURE = 'fastSearch/TA_SEARCH_FAILURE';
 export const TA_COMPANIES_REQUEST = 'fastSearch/TA_COMPANIES_REQUEST';
@@ -302,14 +302,14 @@ export const taCompaniesFailureAction = (errorResponse: ErrorResponse) => ({
 });
 
 export type TaCompanyChangeAction = ReturnType<typeof taCompanyChangeAction>;
-export const taCompanyChangeAction = (value: string) => ({
+export const taCompanyChangeAction = (value: ICompany | null) => ({
   type: TA_COMPANY_CHANGE as typeof TA_COMPANY_CHANGE,
   value,
 });
 
-export type TaNameChangeAction = ReturnType<typeof taNameChangeAction>;
-export const taNameChangeAction = (value: string) => ({
-  type: TA_NAME_CHANGE as typeof TA_NAME_CHANGE,
+export type SelectedTaChangeAction = ReturnType<typeof selectedTaChangeAction>;
+export const selectedTaChangeAction = (value: ITravelAgent | null) => ({
+  type: SELECTED_TA_CHANGE as typeof SELECTED_TA_CHANGE,
   value,
 });
 
@@ -354,7 +354,7 @@ export type FastSearchAction =
   | OptionsRequestAction
   | OptionsSuccessAction
   | OptionsFailureAction
-  | TaNameChangeAction
+  | SelectedTaChangeAction
   | TaSearchSuccessAction
   | TaSearchFailureAction
   | TaCompanyChangeAction

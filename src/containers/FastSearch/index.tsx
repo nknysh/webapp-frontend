@@ -69,11 +69,13 @@ import {
   resetSearchQueryAction,
   taCompaniesRequestAction,
   taCompanyChangeAction,
-  taNameChangeAction,
+  selectedTaChangeAction,
   taCompaniesSelector,
   taNamesSelector,
   travelAgentsSelector,
   isFetchingTaSelector,
+  selectedTaCompanySelector,
+  selectedTaSelector,
 } from 'store/modules/fastSearch';
 import { updateBookingTravelAgentUserIdAction } from 'store/modules/bookingBuilder/actions';
 import { isSR } from 'store/modules/auth';
@@ -182,7 +184,8 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
   };
 
   handleTaCompanyChange = (value: string) => {
-    this.props.taCompanyChange(value);
+    const selectedCompany = this.props.taCompanies.find(c => c.name === value) || null;
+    this.props.taCompanyChange(selectedCompany);
     // we clean selected TA if we change company
     this.props.updateBookingTravelAgentUser();
   };
@@ -190,7 +193,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
   handleTaNameChange = (taFullName: string) => {
     const agents = this.props.travelAgents || [];
     const selectedTA = agents.find(ta => getTaFullName(ta) === taFullName);
-    this.props.taNameChange(taFullName);
+    this.props.selectedTaChange(selectedTA);
     const taId = selectedTA && selectedTA.uuid || null;
     this.props.updateBookingTravelAgentUser(taId);
   };
@@ -208,7 +211,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
             this.props.taCompanies ?
               <PredictiveTextInput
                 placeholder="Select company..."
-                value={this.props.searchQuery.taCompanyName!}
+                value={this.props.selectedTaCompany ? this.props.selectedTaCompany.name : ''}
                 // onChange={this.handleTaCompanyChange}
                 options={[this.props.taCompanies.map(c => c.name)]}
                 onOptionSelect={this.handleTaCompanyChange}
@@ -219,7 +222,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
               : <span>TA Companies Loading...</span>
           }
         </label>
-        {this.props.searchQuery.taCompanyName &&
+        {this.props.selectedTaCompany &&
           <label className="basicSearchLabel">
             <span>Travel Agent</span>
             {
@@ -228,7 +231,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
                 :
                 <PredictiveTextInput
                   placeholder="Select agent..."
-                  value={this.props.searchQuery.taName!}
+                  value={this.props.selectedTa ? getTaFullName(this.props.selectedTa): ''}
                   // onChange={this.handleDestinationChange}
                   options={[this.props.taNames]}
                   onOptionSelect={this.handleTaNameChange}
@@ -419,13 +422,15 @@ const mapStateToProps = createStructuredSelector({
   taCompanies: taCompaniesSelector,
   taNames: taNamesSelector,
   travelAgents: travelAgentsSelector,
-  isFetchingTA: isFetchingTaSelector
+  isFetchingTA: isFetchingTaSelector,
+  selectedTa: selectedTaSelector,
+  selectedTaCompany: selectedTaCompanySelector
 });
 
 const actionCreators = {
   getCompanies: taCompaniesRequestAction,
   taCompanyChange: taCompanyChangeAction,
-  taNameChange: taNameChangeAction,
+  selectedTaChange: selectedTaChangeAction,
   getOptions: optionsRequestAction,
   getOffers: offersSearchRequestAction,
   toggleFilter: toggleFilterAction,

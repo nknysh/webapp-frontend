@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { FastSearchDomain } from './model';
-import { HotelResult, BookingBuilder, ITravelAgent } from 'services/BackendApi/types';
+import { HotelResult, BookingBuilder, ITravelAgent, ICompany } from 'services/BackendApi/types';
 import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 import { IDateRange } from './types';
 import { format, isSameMonth, isSameYear, differenceInCalendarDays, addDays } from 'date-fns';
@@ -50,6 +50,16 @@ export const taNamesSelector = createSelector(
 export const travelAgentsSelector = createSelector(
   fastSearchDomain,
   (domain: FastSearchDomain): ITravelAgent[] | null => domain.companyTravelAgents
+);
+
+export const selectedTaCompanySelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): ICompany | null => domain.selectedTaCompany
+);
+
+export const selectedTaSelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): ITravelAgent | null => domain.selectedTa
 );
 
 

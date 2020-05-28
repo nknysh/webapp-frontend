@@ -36,6 +36,8 @@ export interface FastSearchDomain {
 
   taCompanies: ICompany[] | null;
   companyTravelAgents: ITravelAgent[] | null;
+  selectedTaCompany: ICompany | null;
+  selectedTa: ITravelAgent| null;
   isFetchingTA: boolean;
 
   query: ISearchQuery;
@@ -85,11 +87,11 @@ export const initialState: FastSearchDomain = {
     startDate: getDefaultSearchAndBookingStartDate(),
     endDate: getDefaultSearchAndBookingEndDate(),
     priceRange: { min: undefined, max: undefined },
-    taCompanyName: '',
-    taName: '',
   },
 
   taCompanies: null,
   companyTravelAgents: null,
   isFetchingTA: false,
+  selectedTaCompany: null,
+  selectedTa: null,
 };
