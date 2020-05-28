@@ -126,6 +126,7 @@ Object {
     ],
     "startDate": "2020-01-01",
   },
+  "searchMetadata": undefined,
   "type": "fastSearch/OFFERS_SEARCH_REQUEST",
 }
 `;
