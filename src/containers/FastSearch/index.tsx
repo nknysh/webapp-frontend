@@ -145,14 +145,13 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
 
   getOffers() {
     const { isSr, getOffers, searchQuery, selectedTaCompany } = this.props;
-    const searchArgs = [searchQuery];
     if (isSr && selectedTaCompany) {
       const searchMetadata = {
         predefinedTaCompany: selectedTaCompany
       };
-      searchArgs.push(searchMetadata);
+      getOffers(searchQuery, searchMetadata);
     }
-    getOffers(...searchArgs);
+    getOffers(searchQuery);
   }
 
   handleDestinationChange = (e: FormEvent<HTMLInputElement>) => {
