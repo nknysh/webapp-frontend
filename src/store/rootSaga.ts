@@ -22,6 +22,7 @@ import { watchPostOffersOrderRequestSaga } from './modules/offer/sagas/postOffer
 import { watchOfferHotelUuidChangeAction } from './modules/offer/sagas/getHotelData';
 import importRatesSaga from './modules/ratesImport/sagas';
 import importAllotmentsSaga from './modules/allotmentsImport/sagas';
+import driftSaga from './modules/drift/sagas';
 import { watchVersionChangeSaga } from './modules/app/sagas/appVersionSaga';
 import { watchGetBookingManager } from './modules/bookingManager/sagas/bookingManagerSaga';
 
@@ -52,6 +53,7 @@ export default function* allSagas() {
     importRatesSaga,
     importAllotmentsSaga,
     watchGetBookingManager,
+    driftSaga
   ];
 
   yield all(

@@ -9,7 +9,6 @@ import { APP_ENV } from 'config';
 
 import authMiddleware from './modules/auth/middleware';
 import searchMiddleware from './modules/search/middleware';
-import trackingMiddleware from './modules/tracking/middleware';
 
 import rootReducerFactory from './rootReducer';
 
@@ -23,7 +22,6 @@ const composedMiddleware = [
   applyMiddleware(routerMiddleware),
   applyMiddleware(authMiddleware),
   applyMiddleware(searchMiddleware),
-  applyMiddleware(trackingMiddleware),
   applyMiddleware(sagaMiddleware),
 ];
 
