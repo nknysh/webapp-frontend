@@ -9,9 +9,19 @@ import {
   offersSearchFailureAction,
   offersSearchSuccessAction,
   SearchRequestAction,
+  ISearchMetadata
 } from '../actions';
 import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
 import { getUserCountryContext } from 'store/modules/auth';
+
+function* getActingCountryCode(metadata?: ISearchMetadata) {
+  if (metadata) {
+    return metadata.predefinedTaCompany.countryCode
+  }
+  else {
+    return yield select(getUserCountryContext);
+  }
+}
 
 export function* offersSearchRequestSaga(action: SearchRequestAction) {
   // We need to sanitize the query a little
@@ -25,7 +35,7 @@ export function* offersSearchRequestSaga(action: SearchRequestAction) {
   };
 
   try {
-    const actingCountryCode = yield select(getUserCountryContext);
+    const actingCountryCode = yield getActingCountryCode(action.searchMetadata);
     const backendApi = makeBackendApi(actingCountryCode);
     const result: AxiosResponse<OffersSearchSuccessResponse> = yield call(backendApi.getOffersSearch, sanitizedQuery);
     yield put(offersSearchSuccessAction(result.data));

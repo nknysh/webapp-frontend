@@ -114,21 +114,26 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
     }
 
     if (!window.location.search && !this.props.searchResults) {
-      this.props.getOffers(this.props.searchQuery);
+      this.getOffers();
       clearBookingBuilderAction();
     }
 
     // If the user has search results, then navigates back to the homepage,
     // edits the query, and hit's search again, trigger a search
     if (this.props.queryHasChanged) {
-      this.props.getOffers(this.props.searchQuery);
+      this.getOffers();
       clearBookingBuilderAction();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.actingCountryCode !== prevProps.actingCountryCode) {
-      this.props.getOffers(this.props.searchQuery);
+    const prevCompanyId = prevProps.selectedTaCompany ? prevProps.selectedTaCompany.uuid : undefined;
+    const newCompanyId = this.props.selectedTaCompany ? this.props.selectedTaCompany.uuid : undefined;
+
+    const companyHasChanged = newCompanyId && newCompanyId !== prevCompanyId;
+    const countryHasChanged = this.props.actingCountryCode !== prevProps.actingCountryCode;
+    if (countryHasChanged || companyHasChanged) {
+      this.getOffers();
     }
   }
 
@@ -136,12 +141,26 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
     this.props.resetSearchQuery();
   }
 
+  // ----------------------
+
+  getOffers() {
+    const { isSr, getOffers, searchQuery, selectedTaCompany } = this.props;
+    const searchArgs = [searchQuery];
+    if (isSr && selectedTaCompany) {
+      const searchMetadata = {
+        predefinedTaCompany: selectedTaCompany
+      };
+      searchArgs.push(searchMetadata);
+    }
+    getOffers(...searchArgs);
+  }
+
   handleDestinationChange = (e: FormEvent<HTMLInputElement>) => {
     this.props.destinationChange(e.currentTarget.value);
   };
 
   handleSubmit = () => {
-    this.props.getOffers(this.props.searchQuery);
+    this.getOffers();
     clearBookingBuilderAction();
   };
 

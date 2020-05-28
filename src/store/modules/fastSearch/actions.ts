@@ -215,10 +215,15 @@ export const setAgeAction = (lodgingIndex: number, childIndex: number, value: st
   value,
 });
 
+export interface ISearchMetadata {
+  predefinedTaCompany: ICompany;
+}
+
 export type SearchRequestAction = ReturnType<typeof offersSearchRequestAction>;
-export const offersSearchRequestAction = (query: ISearchQuery) => ({
+export const offersSearchRequestAction = (query: ISearchQuery, searchMetadata?: ISearchMetadata) => ({
   type: OFFERS_SEARCH_REQUEST as typeof OFFERS_SEARCH_REQUEST,
   query,
+  searchMetadata
 });
 
 export type OffersSearchSuccessAction = ReturnType<typeof offersSearchSuccessAction>;
