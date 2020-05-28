@@ -8,8 +8,8 @@ import * as Sentry from '@sentry/browser';
 // import OfflinePluginRuntime from 'offline-plugin/runtime';
 import { ThemeProvider } from 'styled-components';
 import { appendPortalElements } from 'utils/portals';
-import HotjarSnippet from 'integrations/hotjar/snippet';
-import DriftSnippet from 'integrations/drift/snippet';
+import HotjarSnippet from 'integrations/hotjar/Snippet';
+import DriftSnippet from 'integrations/drift/Snippet';
 
 import 'store/modules/fastSearch';
 
