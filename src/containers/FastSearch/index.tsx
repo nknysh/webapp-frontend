@@ -114,14 +114,14 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
     }
 
     if (!window.location.search && !this.props.searchResults) {
-      this.getOffers();
+      this.fetchAvailableOffers();
       clearBookingBuilderAction();
     }
 
     // If the user has search results, then navigates back to the homepage,
     // edits the query, and hit's search again, trigger a search
     if (this.props.queryHasChanged) {
-      this.getOffers();
+      this.fetchAvailableOffers();
       clearBookingBuilderAction();
     }
   }
@@ -133,7 +133,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
     const companyHasChanged = newCompanyId && newCompanyId !== prevCompanyId;
     const countryHasChanged = this.props.actingCountryCode !== prevProps.actingCountryCode;
     if (countryHasChanged || companyHasChanged) {
-      this.getOffers();
+      this.fetchAvailableOffers();
     }
   }
 
@@ -143,7 +143,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
 
   // ----------------------
 
-  getOffers() {
+  fetchAvailableOffers() {
     const { isSr, getOffers, searchQuery, selectedTaCompany } = this.props;
     if (isSr && selectedTaCompany) {
       const searchMetadata = {
@@ -151,7 +151,9 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
       };
       getOffers(searchQuery, searchMetadata);
     }
-    getOffers(searchQuery);
+    else {
+      getOffers(searchQuery);
+    }
   }
 
   handleDestinationChange = (e: FormEvent<HTMLInputElement>) => {
@@ -159,7 +161,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
   };
 
   handleSubmit = () => {
-    this.getOffers();
+    this.fetchAvailableOffers();
     clearBookingBuilderAction();
   };
 
