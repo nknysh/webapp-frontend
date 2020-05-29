@@ -24,7 +24,12 @@ import importRatesSaga from './modules/ratesImport/sagas';
 import importAllotmentsSaga from './modules/allotmentsImport/sagas';
 import driftSaga from './modules/drift/sagas';
 import { watchVersionChangeSaga } from './modules/app/sagas/appVersionSaga';
-import { watchGetBookingManager } from './modules/bookingManager/sagas/bookingManagerSaga';
+import {
+  watchGetBookingManager,
+  watchRequestToBookRequestManager,
+  watchCancelRequestManager,
+  watchConfirmRequestManager,
+} from './modules/bookingManager/sagas/bookingManagerSaga';
 
 export default function* allSagas() {
   const sagas = [
@@ -53,6 +58,9 @@ export default function* allSagas() {
     importRatesSaga,
     importAllotmentsSaga,
     watchGetBookingManager,
+    watchRequestToBookRequestManager,
+    watchCancelRequestManager,
+    watchConfirmRequestManager,
     driftSaga
   ];
 

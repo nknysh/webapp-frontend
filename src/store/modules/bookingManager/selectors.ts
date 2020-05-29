@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import { IBookingManagerDomain } from './model';
+import { IBookingManagerDomain, IBookingManagerDomainNetworkRequests } from './model';
 import { IBooking } from 'services/BackendApi';
 import { IBookingLeadGuestInformation } from './model';
 
@@ -11,9 +11,33 @@ export const bookingSelector = createSelector(
   (domain: IBookingManagerDomain): IBookingManagerDomain['booking'] => domain.booking
 );
 
-export const statusSelector = createSelector(
+export const networkRequestsSelector = createSelector(
   bookingManagerDomain,
-  (domain: IBookingManagerDomain): IBookingManagerDomain['status'] => domain.status
+  (domain: IBookingManagerDomain): IBookingManagerDomainNetworkRequests => domain.networkRequests
+);
+
+export const bookingLoadSelector = createSelector(
+  networkRequestsSelector,
+  (networkRequests: IBookingManagerDomainNetworkRequests): IBookingManagerDomainNetworkRequests['bookingLoad'] =>
+    networkRequests.bookingLoad
+);
+
+export const requestToBookSelector = createSelector(
+  networkRequestsSelector,
+  (networkRequests: IBookingManagerDomainNetworkRequests): IBookingManagerDomainNetworkRequests['requestToBook'] =>
+    networkRequests.requestToBook
+);
+
+export const confirmSelector = createSelector(
+  networkRequestsSelector,
+  (networkRequests: IBookingManagerDomainNetworkRequests): IBookingManagerDomainNetworkRequests['confirm'] =>
+    networkRequests.confirm
+);
+
+export const cancelSelector = createSelector(
+  networkRequestsSelector,
+  (networkRequests: IBookingManagerDomainNetworkRequests): IBookingManagerDomainNetworkRequests['cancel'] =>
+    networkRequests.cancel
 );
 
 // OWA-1553 note

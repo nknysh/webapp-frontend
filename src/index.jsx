@@ -17,13 +17,7 @@ import './config/i18n';
 
 import store, { history } from 'store';
 
-import {
-  APP_ENV,
-  SENTRY_DSN,
-  SENTRY_ENV,
-  HOTJAR_APP_ID,
-  DRIFT_APP_ID
-} from 'config';
+import { APP_ENV, SENTRY_DSN, SENTRY_ENV, HOTJAR_APP_ID, DRIFT_APP_ID } from 'config';
 
 import headerMeta from 'config/meta';
 import headerLink from 'config/link';
@@ -59,12 +53,8 @@ ReactDOM.render(
         {headerMeta}
         {headerLink}
       </Helmet>
-      {HOTJAR_APP_ID &&
-        <HotjarSnippet appId={HOTJAR_APP_ID} />
-      }
-      {DRIFT_APP_ID &&
-        <DriftSnippet appId={DRIFT_APP_ID} />
-      }
+      {HOTJAR_APP_ID && <HotjarSnippet appId={HOTJAR_APP_ID} />}
+      {DRIFT_APP_ID && <DriftSnippet appId={DRIFT_APP_ID} />}
       <GlobalFonts />
       <GlobalStyle />
       <ConnectedRouter history={history}>

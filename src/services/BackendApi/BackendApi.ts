@@ -52,6 +52,13 @@ export enum BackendEndpoints {
   ALLOTMENTS_LOADER = 'allotments-loader',
 }
 
+export enum ENetworkRequestStatus {
+  IDLE = 'IDLE',
+  PENDING = 'LOADING',
+  SUCCESS = 'LOADED',
+  ERROR = 'ERROR',
+}
+
 export class BackendApiService<T extends AxiosInstance> {
   client: T;
 

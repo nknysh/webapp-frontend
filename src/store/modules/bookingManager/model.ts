@@ -1,8 +1,14 @@
-import { IBooking } from 'services/BackendApi';
-
+import { IBooking, ENetworkRequestStatus } from 'services/BackendApi';
 export interface IBookingManagerDomain {
   booking: IBooking;
-  status: string;
+  networkRequests: IBookingManagerDomainNetworkRequests;
+}
+
+export interface IBookingManagerDomainNetworkRequests {
+  bookingLoad: ENetworkRequestStatus;
+  requestToBook: ENetworkRequestStatus;
+  confirm: ENetworkRequestStatus;
+  cancel: ENetworkRequestStatus;
 }
 
 export interface IBookingLeadGuestInformation {
@@ -14,5 +20,10 @@ export interface IBookingLeadGuestInformation {
 
 export const initialState: IBookingManagerDomain = {
   booking: {},
-  status: 'IDLE',
+  networkRequests: {
+    bookingLoad: ENetworkRequestStatus.IDLE,
+    requestToBook: ENetworkRequestStatus.IDLE,
+    confirm: ENetworkRequestStatus.IDLE,
+    cancel: ENetworkRequestStatus.IDLE,
+  },
 };

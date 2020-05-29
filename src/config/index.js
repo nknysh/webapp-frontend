@@ -3,7 +3,7 @@ import { defaultTo, equals, split } from 'ramda';
 const getDeploymentEnv = () => {
   const host = window.location.host;
 
-  if(host.includes('localhost')){
+  if (host.includes('localhost')) {
     return 'local';
   }
 
@@ -28,8 +28,7 @@ export const DRIFT_ENABLED_ROLES = process.env.DRIFT_ENABLED_ROLES
   ? split(',', process.env.DRIFT_ENABLED_ROLES)
   : ['all'];
 
-export const HOTJAR_APP_ID = process.env.HOTJAR_APP_ID ||
-  { qa: '1785849', sandbox: '1784172' }[DEPLOYMENT_ENV];
+export const HOTJAR_APP_ID = process.env.HOTJAR_APP_ID || { qa: '1785849', sandbox: '1784172' }[DEPLOYMENT_ENV];
 
 export const isDev = equals('development', APP_ENV);
 
