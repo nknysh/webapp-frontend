@@ -10,6 +10,10 @@ import {
 } from 'store/modules/search';
 
 import { isSR } from 'store/modules/auth';
+import {
+  taNamesSelector,
+  isFetchingTaSelector,
+} from 'store/modules/fastSearch';
 
 export const mapStateToProps = state => ({
   canSearch: isSearchQueryValidSelector(state),
@@ -17,6 +21,8 @@ export const mapStateToProps = state => ({
   nameSearchStatus: getSearchStatus(state, 'byName'),
   searchQuery: getBaseSearchQuery(state),
   isSr: isSR(state),
+  taNames: taNamesSelector(state),
+  isFetchingTA: isFetchingTaSelector(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

@@ -18,6 +18,29 @@ export const SearchBar = (props: ISearchBarProps) => {
   return (
     <div className={props.className}>
       <div className="grid">
+        {props.isSr &&
+        <label className="basicSearchLabel">
+          <span>Travel Agent</span>
+          {
+            props.isFetchingTA ?
+              <span>Loading travel agents...</span>
+              :
+              <PredictiveTextInput
+                placeholder="Select agent..."
+                value={props.taNameSearch}
+                onChange={() => {
+                }}
+                options={[props.taNames]}
+                onOptionSelect={() => {
+                }}
+                showDropDown={props.showTaDropdown}
+                onFocus={() => (true)}
+                onBlur={() => (false)}
+              />
+          }
+        </label>
+        }
+
         <label>
           <span>Destination or Resort</span>
           <PredictiveTextInput

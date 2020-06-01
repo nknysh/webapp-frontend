@@ -9,6 +9,8 @@ export const propTypes = {
   getCountryName: PropTypes.func,
   getHotelName: PropTypes.func,
   searchQuery: PropTypes.object,
+  taNames: PropTypes.arrayOf,
+  isFetchingTA: PropTypes.bool,
 };
 
 export const defaultProps = {
