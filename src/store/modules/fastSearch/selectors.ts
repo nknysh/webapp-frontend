@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { FastSearchDomain } from './model';
-import { HotelResult, BookingBuilder, ITravelAgent, ICompany } from 'services/BackendApi/types';
+import { HotelResult, BookingBuilder } from 'services/BackendApi/types';
 import { ALL_COUNTRIES_AND_RESORTS } from './constants';
 import { IDateRange } from './types';
 import { format, isSameMonth, isSameYear, differenceInCalendarDays, addDays } from 'date-fns';
@@ -27,39 +27,44 @@ export const searchOptionsSelector = createSelector(
   (domain: FastSearchDomain): FastSearchDomain['options'] => domain.options
 );
 
-export const taCompaniesSelector = createSelector(
-  fastSearchDomain,
-  (domain: FastSearchDomain): FastSearchDomain['taCompanies'] => domain.taCompanies
-);
-
 export const isFetchingTaSelector = createSelector(
   fastSearchDomain,
-  (domain: FastSearchDomain): boolean => domain.isFetchingTA
+  (domain: FastSearchDomain): FastSearchDomain['isFetchingTA'] => domain.isFetchingTA
 );
 
 export const taNamesSelector = createSelector(
   fastSearchDomain,
   (domain: FastSearchDomain): string[] => {
-    if (!domain.companyTravelAgents) {
+    if (!domain.travelAgents) {
       return [];
     }
-    return domain.companyTravelAgents.map(getTaFullName);
+    return domain.travelAgents.map(getTaFullName).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
   }
 );
 
 export const travelAgentsSelector = createSelector(
   fastSearchDomain,
-  (domain: FastSearchDomain): ITravelAgent[] | null => domain.companyTravelAgents
-);
-
-export const selectedTaCompanySelector = createSelector(
-  fastSearchDomain,
-  (domain: FastSearchDomain): ICompany | null => domain.selectedTaCompany
+  (domain: FastSearchDomain): FastSearchDomain['travelAgents'] | null => domain.travelAgents
 );
 
 export const selectedTaSelector = createSelector(
   fastSearchDomain,
-  (domain: FastSearchDomain): ITravelAgent | null => domain.selectedTa
+  (domain: FastSearchDomain): FastSearchDomain['selectedTa'] | null => domain.selectedTa
+);
+
+export const showTaDropdownSelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): FastSearchDomain['showTaDropdown'] => domain.showTaDropdown
+);
+
+export const taNameSearchSelector = createSelector(
+  fastSearchDomain,
+  (domain: FastSearchDomain): FastSearchDomain['taNameSearch'] => {
+    if (domain.selectedTa) {
+      return getTaFullName(domain.selectedTa);
+    }
+    return domain.taNameSearch;
+  }
 );
 
 

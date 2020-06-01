@@ -34,11 +34,11 @@ export interface FastSearchDomain {
   optionsRequestPending: boolean;
   optionsRequestError: ErrorResponse | null;
 
-  taCompanies: ICompany[] | null;
-  companyTravelAgents: ITravelAgent[] | null;
-  selectedTaCompany: ICompany | null;
-  selectedTa: ITravelAgent| null;
   isFetchingTA: boolean;
+  travelAgents: ITravelAgent[] | null;
+  selectedTa: ITravelAgent | null;
+  showTaDropdown: boolean;
+  taNameSearch: string;
 
   query: ISearchQuery;
   lastExecutedQuery: ISearchQuery | null;
@@ -89,9 +89,9 @@ export const initialState: FastSearchDomain = {
     priceRange: { min: undefined, max: undefined },
   },
 
-  taCompanies: null,
-  companyTravelAgents: null,
   isFetchingTA: false,
-  selectedTaCompany: null,
+  travelAgents: null,
   selectedTa: null,
+  showTaDropdown: false,
+  taNameSearch: '',
 };

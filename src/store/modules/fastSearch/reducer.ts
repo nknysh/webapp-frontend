@@ -45,35 +45,37 @@ export default function fastSearchReducer(
         queryHasChanged: false,
       };
     // ------------------------------------------------------
-    // Companies
+    // Travel Agents
     // ------------------------------------------------------
-    case Actions.TA_COMPANIES_SUCCESS:
-      return {
-        ...state,
-        taCompanies: action.successResponse,
-      };
-
-    case Actions.TA_COMPANY_CHANGE:
-      return {
-        ...state,
-        queryHasChanged: true,
-        selectedTaCompany: action.value,
-        selectedTa: null,
-        companyTravelAgents: null,
-        isFetchingTA: true,
-      };
-
     case Actions.SELECTED_TA_CHANGE:
       return {
         ...state,
         selectedTa: action.value,
       };
 
-    case Actions.TA_SEARCH_SUCCESS:
+    case Actions.TA_SUCCESS:
       return {
         ...state,
-        companyTravelAgents: action.successResponse,
+        travelAgents: action.successResponse,
         isFetchingTA: false,
+      };
+
+    case Actions.SHOW_TA_COMPANY_DROPDOWN:
+      return {
+        ...state,
+        showTaCompanyDropdown: action.value,
+      };
+
+    case Actions.SHOW_TA_DROPDOWN:
+      return {
+        ...state,
+        showTaDropdown: action.value,
+      };
+
+    case Actions.SEARCH_TA_BY_NAME_CHANGE:
+      return {
+        ...state,
+        taNameSearch: action.value,
       };
 
     // ------------------------------------------------------

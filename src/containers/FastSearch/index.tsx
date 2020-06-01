@@ -67,39 +67,31 @@ import {
   dateRangeChangeAction,
   updateQueryStringAction,
   resetSearchQueryAction,
-  taCompaniesRequestAction,
-  taCompanyChangeAction,
+  taRequestAction,
   selectedTaChangeAction,
-  taCompaniesSelector,
+  showTaDropdownAction,
+  searchTaByNameChangeAction,
+  selectedTaSelector,
+  taNameSearchSelector,
   taNamesSelector,
   travelAgentsSelector,
   isFetchingTaSelector,
-  selectedTaCompanySelector,
-  selectedTaSelector,
+  showTaDropdownSelector,
 } from 'store/modules/fastSearch';
 import { updateBookingTravelAgentUserIdAction } from 'store/modules/bookingBuilder/actions';
 import { isSR } from 'store/modules/auth';
 
 import { getUserCountryContext } from 'store/modules/auth';
 
-interface FastSearchState {
-  showTaCompanies: boolean;
-  showTravelAgents: boolean;
-}
-
-export class FastSearchContainer extends React.PureComponent<FastSearchProps, FastSearchState> {
-  readonly state: FastSearchState = {
-    showTaCompanies: false,
-    showTravelAgents: false
-  };
+export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}> {
 
   componentDidMount() {
     if (!this.props.searchOptions) {
       this.props.getOptions();
     }
 
-    if (this.props.isSr && !this.props.taCompanies) {
-      this.props.getCompanies();
+    if (this.props.isSr && !this.props.travelAgents) {
+      this.props.getTravelAgents();
     }
 
     // Automatically execute the URL search query
@@ -127,10 +119,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
   }
 
   componentDidUpdate(prevProps) {
-    const prevCompanyId = prevProps.selectedTaCompany ? prevProps.selectedTaCompany.uuid : undefined;
-    const newCompanyId = this.props.selectedTaCompany ? this.props.selectedTaCompany.uuid : undefined;
+    const prevCompanyCode = prevProps.selectedTa ? prevProps.selectedTa.companySignupInfo.countryCode : undefined;
+    const newCompanyCode = this.props.selectedTa ? this.props.selectedTa.companySignupInfo.countryCode : undefined;
 
-    const companyHasChanged = newCompanyId && newCompanyId !== prevCompanyId;
+    const companyHasChanged = newCompanyCode && newCompanyCode !== prevCompanyCode;
     const countryHasChanged = this.props.actingCountryCode !== prevProps.actingCountryCode;
     if (countryHasChanged || companyHasChanged) {
       this.fetchAvailableOffers();
@@ -144,10 +136,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
   // ----------------------
 
   fetchAvailableOffers() {
-    const { isSr, getOffers, searchQuery, selectedTaCompany } = this.props;
-    if (isSr && selectedTaCompany) {
+    const { isSr, getOffers, searchQuery, selectedTa } = this.props;
+    if (isSr && selectedTa) {
       const searchMetadata = {
-        predefinedTaCompany: selectedTaCompany
+        predefinedCompanyCountryCode: selectedTa.companySignupInfo.countryCode
       };
       getOffers(searchQuery, searchMetadata);
     }
@@ -177,12 +169,12 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
     this.props.setNamesSearchResultsVisibility(visible);
   };
 
-  handleShowTaCompaniesDropDown = (visible: boolean) => () => {
-    this.setState({ showTaCompanies: visible });
+  handleShowTravelAgentsDropDown = (visible: boolean) => () => {
+    this.props.showTaDropdownChange(visible);
   };
 
-  handleShowTravelAgentsDropDown = (visible: boolean) => () => {
-    this.setState({ showTravelAgents: visible });
+  handleSearchTaByNameChange = (e: FormEvent<HTMLInputElement>) => {
+    this.props.searchTaByNameChange(e.currentTarget.value);
   };
 
   // ---------------------------------------------------
@@ -203,13 +195,6 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
     }
   };
 
-  handleTaCompanyChange = (value: string) => {
-    const selectedCompany = this.props.taCompanies && this.props.taCompanies.find(c => c.name === value) || null;
-    this.props.taCompanyChange(selectedCompany);
-    // we clean selected TA if we change company
-    this.props.updateBookingTravelAgentUser();
-  };
-
   handleTaNameChange = (taFullName: string) => {
     const agents = this.props.travelAgents || [];
     const selectedTA = agents.find(ta => getTaFullName(ta) === taFullName) || null;
@@ -227,24 +212,6 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
       {this.props.isSr &&
       <SidebarGroup>
         <label className="basicSearchLabel">
-          <span>TA Company</span>
-          {
-            this.props.taCompanies ?
-              <PredictiveTextInput
-                placeholder="Select company..."
-                value={this.props.selectedTaCompany ? this.props.selectedTaCompany.name : ''}
-                // onChange={this.handleTaCompanyChange}
-                options={[this.props.taCompanies.map(c => c.name)]}
-                onOptionSelect={this.handleTaCompanyChange}
-                showDropDown={this.state.showTaCompanies}
-                onFocus={this.handleShowTaCompaniesDropDown(true)}
-                onBlur={this.handleShowTaCompaniesDropDown(false)}
-              />
-              : <span>TA Companies Loading...</span>
-          }
-        </label>
-        {this.props.selectedTaCompany &&
-        <label className="basicSearchLabel">
           <span>Travel Agent</span>
           {
             this.props.isFetchingTA ?
@@ -252,17 +219,16 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, Fa
               :
               <PredictiveTextInput
                 placeholder="Select agent..."
-                value={this.props.selectedTa ? getTaFullName(this.props.selectedTa) : ''}
-                // onChange={this.handleDestinationChange}
+                value={this.props.taNameSearch}
+                onChange={this.handleSearchTaByNameChange}
                 options={[this.props.taNames]}
                 onOptionSelect={this.handleTaNameChange}
-                showDropDown={this.state.showTravelAgents}
+                showDropDown={this.props.showTaDropdown}
                 onFocus={this.handleShowTravelAgentsDropDown(true)}
                 onBlur={this.handleShowTravelAgentsDropDown(false)}
               />
           }
         </label>
-        }
       </SidebarGroup>
       }
       <SidebarGroup>
@@ -441,18 +407,19 @@ const mapStateToProps = createStructuredSelector({
   canSearch: canSearchSelector,
   actingCountryCode: getUserCountryContext,
   isSr: isSR,
-  taCompanies: taCompaniesSelector,
   taNames: taNamesSelector,
   travelAgents: travelAgentsSelector,
   isFetchingTA: isFetchingTaSelector,
   selectedTa: selectedTaSelector,
-  selectedTaCompany: selectedTaCompanySelector
+  showTaDropdown: showTaDropdownSelector,
+  taNameSearch: taNameSearchSelector,
 });
 
 const actionCreators = {
-  getCompanies: taCompaniesRequestAction,
-  taCompanyChange: taCompanyChangeAction,
+  getTravelAgents: taRequestAction,
   selectedTaChange: selectedTaChangeAction,
+  showTaDropdownChange: showTaDropdownAction,
+  searchTaByNameChange: searchTaByNameChangeAction,
   getOptions: optionsRequestAction,
   getOffers: offersSearchRequestAction,
   toggleFilter: toggleFilterAction,

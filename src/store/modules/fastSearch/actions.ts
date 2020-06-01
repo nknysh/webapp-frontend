@@ -6,7 +6,6 @@ import {
   Occasion,
   MealPlanNames,
   NameSearchResponseData,
-  ICompany,
   ITravelAgent
 } from 'services/BackendApi/types';
 
@@ -42,11 +41,14 @@ export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
 export const TA_COMPANY_CHANGE = 'fastSearch/TA_COMPANY_CHANGE';
 export const SELECTED_TA_CHANGE = 'fastSearch/SELECTED_TA_CHANGE';
+export const SHOW_TA_DROPDOWN = 'fastSearch/SHOW_TA_DROPDOWN';
+export const SHOW_TA_COMPANY_DROPDOWN = 'fastSearch/SHOW_TA_COMPANY_DROPDOWN';
+export const SEARCH_TA_BY_NAME_CHANGE = 'fastSearch/SEARCH_TA_BY_NAME_CHANGE';
 export const TA_SEARCH_SUCCESS = 'fastSearch/TA_SEARCH_SUCCESS';
 export const TA_SEARCH_FAILURE = 'fastSearch/TA_SEARCH_FAILURE';
-export const TA_COMPANIES_REQUEST = 'fastSearch/TA_COMPANIES_REQUEST';
-export const TA_COMPANIES_SUCCESS = 'fastSearch/TA_COMPANIES_SUCCESS';
-export const TA_COMPANIES_FAILURE = 'fastSearch/TA_COMPANIES_FAILURE';
+export const TA_REQUEST = 'fastSearch/TA_REQUEST';
+export const TA_SUCCESS = 'fastSearch/TA_SUCCESS';
+export const TA_FAILURE = 'fastSearch/TA_FAILURE';
 export const NAME_SEARCH_SUCCESS = 'fastSearch/NAME_SEARCH_SUCCESS';
 export const NAME_SEARCH_FAILURE = 'fastSearch/NAME_SEARCH_FAILURE';
 export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RESUTS_VISIBILITY';
@@ -216,7 +218,7 @@ export const setAgeAction = (lodgingIndex: number, childIndex: number, value: st
 });
 
 export interface ISearchMetadata {
-  predefinedTaCompany: ICompany;
+  predefinedCompanyCountryCode: string;
 }
 
 export type SearchRequestAction = ReturnType<typeof offersSearchRequestAction>;
@@ -289,27 +291,21 @@ export const resetSearchQueryAction = () => ({
   type: RESET_SEARCH_QUERY as typeof RESET_SEARCH_QUERY,
 });
 
-export type TaCompaniesRequestAction = ReturnType<typeof taCompaniesRequestAction>;
-export const taCompaniesRequestAction = () => ({
-  type: TA_COMPANIES_REQUEST as typeof TA_COMPANIES_REQUEST,
+export type TaRequestAction = ReturnType<typeof taRequestAction>;
+export const taRequestAction = () => ({
+  type: TA_REQUEST as typeof TA_REQUEST,
 });
 
-export type TaCompaniesSuccessAction = ReturnType<typeof taCompaniesSuccessAction>;
-export const taCompaniesSuccessAction = (successResponse: ICompany[]) => ({
-  type: TA_COMPANIES_SUCCESS as typeof TA_COMPANIES_SUCCESS,
+export type TaSuccessAction = ReturnType<typeof taSuccessAction>;
+export const taSuccessAction = (successResponse: ITravelAgent[]) => ({
+  type: TA_SUCCESS as typeof TA_SUCCESS,
   successResponse,
 });
 
-export type TaCompaniesFailureAction = ReturnType<typeof taCompaniesFailureAction>;
-export const taCompaniesFailureAction = (errorResponse: ErrorResponse) => ({
-  type: TA_COMPANIES_FAILURE as typeof TA_COMPANIES_FAILURE,
+export type TaFailureAction = ReturnType<typeof taFailureAction>;
+export const taFailureAction = (errorResponse: ErrorResponse) => ({
+  type: TA_FAILURE as typeof TA_FAILURE,
   errorResponse,
-});
-
-export type TaCompanyChangeAction = ReturnType<typeof taCompanyChangeAction>;
-export const taCompanyChangeAction = (value: ICompany | null) => ({
-  type: TA_COMPANY_CHANGE as typeof TA_COMPANY_CHANGE,
-  value,
 });
 
 export type SelectedTaChangeAction = ReturnType<typeof selectedTaChangeAction>;
@@ -317,6 +313,25 @@ export const selectedTaChangeAction = (value: ITravelAgent | null) => ({
   type: SELECTED_TA_CHANGE as typeof SELECTED_TA_CHANGE,
   value,
 });
+
+export type ShowTaCompanyDropdownAction = ReturnType<typeof showTaCompanyDropdownAction>;
+export const showTaCompanyDropdownAction = (value: boolean) => ({
+  type: SHOW_TA_COMPANY_DROPDOWN as typeof SHOW_TA_COMPANY_DROPDOWN,
+  value,
+});
+
+export type ShowTaDropdownAction = ReturnType<typeof showTaDropdownAction>;
+export const showTaDropdownAction = (value: boolean) => ({
+  type: SHOW_TA_DROPDOWN as typeof SHOW_TA_DROPDOWN,
+  value,
+});
+
+export type SearchTaByNameChangeAction = ReturnType<typeof searchTaByNameChangeAction>;
+export const searchTaByNameChangeAction = (value: string) => ({
+  type: SEARCH_TA_BY_NAME_CHANGE as typeof SEARCH_TA_BY_NAME_CHANGE,
+  value,
+});
+
 
 export type TaSearchSuccessAction = ReturnType<typeof taSearchSuccessAction>;
 export const taSearchSuccessAction = (successResponse: ITravelAgent[]) => ({
@@ -363,9 +378,12 @@ export type FastSearchAction =
   | TaSearchSuccessAction
   | TaSearchFailureAction
   | TaCompanyChangeAction
-  | TaCompaniesRequestAction
-  | TaCompaniesSuccessAction
-  | TaCompaniesFailureAction
+  | TaRequestAction
+  | TaSuccessAction
+  | TaFailureAction
+  | ShowTaCompanyDropdownAction
+  | ShowTaDropdownAction
+  | SearchTaByNameChangeAction
   | SetActiveLodgingIndexAction
   | IncrementActiveLodgingIndexAction
   | NamesSearchSuccessAction

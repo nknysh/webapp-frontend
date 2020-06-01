@@ -18,7 +18,6 @@ import connect from './SummaryFormExtras.state';
 import { propTypes, defaultProps } from './SummaryFormExtras.props';
 import {
   AddonCheckbox,
-  Clear,
   Description,
   Title,
   TravelAgent,
@@ -562,17 +561,6 @@ export const SummaryFormExtras = ({
     },
     [updateTAMarginTypeAction, updateTAMarginAmountAction, updateIsTAMarginAppliedAction, id]
   );
-
-  const onTASelect = useCallback(
-    ({ id: travelAgentUserUuid }) => {
-      updateBookingTravelAgentUserIdAction(travelAgentUserUuid);
-    },
-    [id, updateBookingTravelAgentUserIdAction]
-  );
-
-  const onTARemove = useCallback(() => {
-    updateBooking(id, { travelAgentUserUuid: null });
-  }, [id, updateBooking]);
 
   const selectedGroundServicesBreakdown = useCallback(() => {
     const selectedGroundServiceProducts = filterByObjectProperties(

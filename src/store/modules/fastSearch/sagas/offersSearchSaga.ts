@@ -16,7 +16,7 @@ import { getUserCountryContext } from 'store/modules/auth';
 
 function* getActingCountryCode(metadata?: ISearchMetadata) {
   if (metadata) {
-    return metadata.predefinedTaCompany.countryCode
+    return metadata.predefinedCompanyCountryCode;
   }
   else {
     return yield select(getUserCountryContext);

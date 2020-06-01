@@ -1,25 +1,25 @@
 import { AxiosResponse } from 'axios';
 import { call, takeLatest, select, put } from 'redux-saga/effects';
 import {
-  TA_COMPANIES_REQUEST,
-  taCompaniesSuccessAction,
-  taCompaniesFailureAction,
+  TA_REQUEST,
+  taSuccessAction,
+  taFailureAction,
 } from '../actions';
 import { ICompaniesResponse, makeBackendApi } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 
-export function* taCompanySearchSaga() {
+export function* taSearchSaga() {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
 
-    const result: AxiosResponse<ICompaniesResponse> = yield call(backendApi.getCompanies);
-    yield put(taCompaniesSuccessAction(result.data.data));
+    const result: AxiosResponse<ICompaniesResponse> = yield call(backendApi.getTravelAgents);
+    yield put(taSuccessAction(result.data.data));
   } catch (e) {
-    yield put(taCompaniesFailureAction(e));
+    yield put(taFailureAction(e));
   }
 }
 
-export function* watchTaCompaniesRequest() {
-  yield takeLatest(TA_COMPANIES_REQUEST, taCompanySearchSaga);
+export function* watchTaRequest() {
+  yield takeLatest(TA_REQUEST, taSearchSaga);
 }

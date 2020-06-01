@@ -1,8 +1,7 @@
 import { all, spawn, call } from 'redux-saga/effects';
 import { watchOffersSearchRequest } from 'store/modules/fastSearch/sagas/offersSearchSaga';
 import { watchOptionsRequest } from 'store/modules/fastSearch/sagas/searchOptionsSaga';
-import { watchTaCompaniesRequest } from 'store/modules/fastSearch/sagas/taCompaniesSearchSaga';
-import { watchTaCompanyChange } from 'store/modules/fastSearch/sagas/companyTravelAgentsSearchSaga';
+import { watchTaRequest } from 'store/modules/fastSearch/sagas/travelAgentsSearchSaga';
 import { watchBookingActions } from 'store/modules/bookingBuilder/sagas/updateBookingBuilderResponse';
 import { watchBookingOperations } from 'store/modules/bookingBuilder/sagas/latestBookingOperationSaga';
 import { watchDestinationChange } from 'store/modules/fastSearch/sagas/nameSearchSaga';
@@ -38,8 +37,7 @@ export default function* allSagas() {
   const sagas = [
     watchOffersSearchRequest,
     watchOptionsRequest,
-    watchTaCompanyChange,
-    watchTaCompaniesRequest,
+    watchTaRequest,
     watchDestinationChange,
     watchBookingActions,
     watchBookingOperations,
