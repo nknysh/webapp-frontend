@@ -60,12 +60,6 @@ export default function fastSearchReducer(
         isFetchingTA: false,
       };
 
-    case Actions.SHOW_TA_COMPANY_DROPDOWN:
-      return {
-        ...state,
-        showTaCompanyDropdown: action.value,
-      };
-
     case Actions.SHOW_TA_DROPDOWN:
       return {
         ...state,

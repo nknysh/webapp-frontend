@@ -39,10 +39,8 @@ export const OFFERS_SEARCH_FAILURE = 'fastSearch/OFFERS_SEARCH_FAILURE';
 export const OPTIONS_REQUEST = 'fastSearch/OPTIONS_REQUEST';
 export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
-export const TA_COMPANY_CHANGE = 'fastSearch/TA_COMPANY_CHANGE';
 export const SELECTED_TA_CHANGE = 'fastSearch/SELECTED_TA_CHANGE';
 export const SHOW_TA_DROPDOWN = 'fastSearch/SHOW_TA_DROPDOWN';
-export const SHOW_TA_COMPANY_DROPDOWN = 'fastSearch/SHOW_TA_COMPANY_DROPDOWN';
 export const SEARCH_TA_BY_NAME_CHANGE = 'fastSearch/SEARCH_TA_BY_NAME_CHANGE';
 export const TA_SEARCH_SUCCESS = 'fastSearch/TA_SEARCH_SUCCESS';
 export const TA_SEARCH_FAILURE = 'fastSearch/TA_SEARCH_FAILURE';
@@ -314,12 +312,6 @@ export const selectedTaChangeAction = (value: ITravelAgent | null) => ({
   value,
 });
 
-export type ShowTaCompanyDropdownAction = ReturnType<typeof showTaCompanyDropdownAction>;
-export const showTaCompanyDropdownAction = (value: boolean) => ({
-  type: SHOW_TA_COMPANY_DROPDOWN as typeof SHOW_TA_COMPANY_DROPDOWN,
-  value,
-});
-
 export type ShowTaDropdownAction = ReturnType<typeof showTaDropdownAction>;
 export const showTaDropdownAction = (value: boolean) => ({
   type: SHOW_TA_DROPDOWN as typeof SHOW_TA_DROPDOWN,
@@ -377,11 +369,9 @@ export type FastSearchAction =
   | SelectedTaChangeAction
   | TaSearchSuccessAction
   | TaSearchFailureAction
-  | TaCompanyChangeAction
   | TaRequestAction
   | TaSuccessAction
   | TaFailureAction
-  | ShowTaCompanyDropdownAction
   | ShowTaDropdownAction
   | SearchTaByNameChangeAction
   | SetActiveLodgingIndexAction

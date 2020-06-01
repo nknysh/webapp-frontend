@@ -5,7 +5,7 @@ import {
   taSuccessAction,
   taFailureAction,
 } from '../actions';
-import { ICompaniesResponse, makeBackendApi } from 'services/BackendApi';
+import { ITravelAgentResponse, makeBackendApi} from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 
 export function* taSearchSaga() {
@@ -13,7 +13,7 @@ export function* taSearchSaga() {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
 
-    const result: AxiosResponse<ICompaniesResponse> = yield call(backendApi.getTravelAgents);
+    const result: AxiosResponse<ITravelAgentResponse> = yield call(backendApi.getTravelAgents);
     yield put(taSuccessAction(result.data.data));
   } catch (e) {
     yield put(taFailureAction(e));
