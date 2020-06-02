@@ -65,7 +65,6 @@ import {
 } from 'store/modules/bookingBuilder/subdomains/customItem/actions';
 
 export const mapStateToProps = (state, { id }) => {
-
   return {
     addons: bookingAvailableAddonsSelector(state),
     groundServices: bookingAvailableGroundServicesSelector(state),
