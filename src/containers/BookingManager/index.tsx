@@ -3,6 +3,7 @@ import { createStructuredSelector } from 'reselect';
 import { bindActionCreators, Dispatch, compose } from 'redux';
 import { connect } from 'react-redux';
 import { PrimaryActionToolbar } from './PrimaryActionToolbar';
+import { ProgressBar } from './ProgressBar';
 import { ENetworkRequestStatus } from 'services/BackendApi';
 import {
   getBookingRequestAction,
@@ -18,6 +19,7 @@ import {
   requestToBookSelector,
   confirmSelector,
   cancelSelector,
+  progressBarDataSelector,
 } from 'store/modules/bookingManager/selectors';
 
 import { isSR } from 'store/modules/auth';
@@ -31,6 +33,11 @@ export class BookingManagerContainerComponent extends React.Component<IBookingMa
   render() {
     return (
       <div className={this.props.className}>
+        <div className="top-bar">
+          {this.props.bookingLoadRequestStatus === ENetworkRequestStatus.SUCCESS && (
+            <ProgressBar data={this.props.progressBarData} />
+          )}
+        </div>
         {this.props.bookingLoadRequestStatus === ENetworkRequestStatus.PENDING && <p>Loading...</p>}
 
         {this.props.bookingLoadRequestStatus === ENetworkRequestStatus.ERROR && (
@@ -108,6 +115,7 @@ const mapStateToProps = createStructuredSelector({
   requestToBookRequestStatus: requestToBookSelector,
   confirmRequestStatus: confirmSelector,
   cancelRequestStatus: cancelSelector,
+  progressBarData: progressBarDataSelector,
 });
 
 const actionCreators = {
@@ -132,6 +140,13 @@ export const BookingManagerContainer = styled(BookingManagerContainerComponent)`
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px 10px;
+
+  .top-bar {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row-reverse;
+  }
 `;
 
 export const BookingManagerContainerConnected = compose(withConnect)(BookingManagerContainer);

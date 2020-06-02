@@ -3,6 +3,10 @@ export enum EBookingStatus {
   REQUESTED = 'requested',
   CONFIRMED = 'confirmed',
   CANCELLED = 'cancelled',
+
+  // from https://www.figma.com/file/EnOPBWYY4NGcr6AMIDHZ00/Bookings?node-id=29%3A0
+  PAYMENT = 'payment',
+  COMPLETE = 'complete',
 }
 
 export interface IBookingBooking {

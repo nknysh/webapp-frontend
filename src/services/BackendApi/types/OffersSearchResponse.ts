@@ -1,4 +1,5 @@
 import { IHotel } from './HotelResponse';
+import { EBookingStatus } from './BookingsListResponse';
 export type AgeName = 'Infant' | 'Child' | 'Adult' | 'default';
 
 export interface Meta {
@@ -626,12 +627,18 @@ export interface IBooking {
   overrideTotal?: null;
   proposalUuid?: string;
   specialRequests?: string[];
-  status?: string;
+  status?: EBookingStatus;
   taMarginAmount?: string;
   taMarginType?: string;
   travelAgentUserUuid?: string;
   updatedAt?: string;
   uuid?: string;
+  stateHistory?: IBookingStateHistory[];
+}
+
+export interface IBookingStateHistory {
+  status: EBookingStatus;
+  timestamp: string;
 }
 
 export interface IOldBooking extends IBooking {

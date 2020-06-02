@@ -1,8 +1,9 @@
 import { createSelector } from 'reselect';
 
 import { IBookingManagerDomain, IBookingManagerDomainNetworkRequests } from './model';
-import { IBooking } from 'services/BackendApi';
+import { IBooking, EBookingStatus } from 'services/BackendApi';
 import { IBookingLeadGuestInformation } from './model';
+import { IProgressBarStage } from 'containers/BookingManager/ProgressBar';
 
 const bookingManagerDomain = (state: any) => state.bookingManager;
 
@@ -61,3 +62,81 @@ export const leadGuestInformationSelector = createSelector(
     };
   }
 );
+
+export const progressBarDataSelector = createSelector(bookingSelector, (booking: IBooking): any => {
+  const { status, stateHistory = [] } = booking;
+
+  // if booking has not loaded yet, exit out
+  if (!status) {
+    return {
+      stages: [],
+    };
+  }
+
+  const mostRecentState = stateHistory[stateHistory.length - 1].status;
+
+  let stages: IProgressBarStage[] = [
+    {
+      key: EBookingStatus.POTENTIAL,
+      label: 'Enquiry',
+      isComplete: Boolean(
+        stateHistory.find(sh => sh.status === EBookingStatus.POTENTIAL || sh.status === EBookingStatus.REQUESTED)
+      ),
+      isCurrent: false,
+      isCancelled: false,
+      timestamp: stateHistory.find(
+        sh => sh.status === EBookingStatus.POTENTIAL || sh.status === EBookingStatus.REQUESTED
+      )?.timestamp,
+    },
+    {
+      key: EBookingStatus.REQUESTED,
+      label: 'Requested',
+      isComplete: Boolean(stateHistory.find(sh => sh.status === EBookingStatus.REQUESTED)),
+      isCurrent: EBookingStatus.POTENTIAL === mostRecentState,
+      isCancelled: false,
+      timestamp: stateHistory.find(sh => sh.status === EBookingStatus.REQUESTED)?.timestamp,
+    },
+    {
+      key: EBookingStatus.CONFIRMED,
+      label: 'Confirmed',
+      isComplete: Boolean(stateHistory.find(sh => sh.status === EBookingStatus.CONFIRMED)),
+      isCurrent: EBookingStatus.REQUESTED === mostRecentState,
+      isCancelled: false,
+      timestamp: stateHistory.find(sh => sh.status === EBookingStatus.CONFIRMED)?.timestamp,
+    },
+    {
+      key: EBookingStatus.PAYMENT,
+      label: 'Payment',
+      isComplete: Boolean(stateHistory.find(sh => sh.status === EBookingStatus.PAYMENT)),
+      isCurrent: EBookingStatus.CONFIRMED === mostRecentState,
+      isCancelled: false,
+      timestamp: stateHistory.find(sh => sh.status === EBookingStatus.PAYMENT)?.timestamp,
+    },
+    {
+      key: EBookingStatus.COMPLETE,
+      label: 'Complete',
+      isComplete: Boolean(stateHistory.find(sh => sh.status === EBookingStatus.COMPLETE)),
+      isCurrent: EBookingStatus.PAYMENT === mostRecentState,
+      isCancelled: false,
+      timestamp: stateHistory.find(sh => sh.status === EBookingStatus.COMPLETE)?.timestamp,
+    },
+  ];
+
+  // if the booking status is cancelled, remove every state from stages that doesn't have a timestamp
+  // manually add in a new state for cancelled
+  if (status === EBookingStatus.CANCELLED) {
+    stages = stages.filter(stage => stage.timestamp);
+    stages.push({
+      key: EBookingStatus.CANCELLED,
+      label: 'Cancelled',
+      isComplete: false,
+      isCurrent: false,
+      isCancelled: true,
+      timestamp: stateHistory.find(sh => sh.status === EBookingStatus.CANCELLED)?.timestamp,
+    });
+  }
+
+  return {
+    stages,
+  };
+});
