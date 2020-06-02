@@ -15,11 +15,9 @@ import SearchResultList from 'pureUi/SearchResultsList';
 import DateRangeInput from 'pureUi/DateRangeInput';
 import { Icon } from '@material-ui/core';
 import Checkbox from 'pureUi/Checkbox';
+import { IWithTravelAgentsDataProps, withTravelAgentsData } from 'hoc/WithTravelAgentsData';
 import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
-import  { IWithTravelAgentsDataProps, withTravelAgentsData } from 'hoc/WithTravelAgentsData';
-
-import { getTaFullName } from 'store/utils';
 
 import {
   initializeQueryAction,
@@ -68,16 +66,6 @@ import {
   dateRangeChangeAction,
   updateQueryStringAction,
   resetSearchQueryAction,
-  taRequestAction,
-  selectedTaChangeAction,
-  showTaDropdownAction,
-  searchTaByNameChangeAction,
-  selectedTaSelector,
-  taNameSearchSelector,
-  taNamesSelector,
-  travelAgentsSelector,
-  isFetchingTaSelector,
-  showTaDropdownSelector,
 } from 'store/modules/fastSearch';
 import { updateBookingTravelAgentUserIdAction } from 'store/modules/bookingBuilder/actions';
 import { isSR } from 'store/modules/auth';

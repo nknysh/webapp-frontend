@@ -23,8 +23,10 @@ export interface IStateToProps {
   travelAgents: ReturnType<typeof agentsSelector>;
   isFetchingTA: ReturnType<typeof isFetchingTaSelector>;
   showTaDropdown: ReturnType<typeof showTaDropdownSelector>;
+  selectedTa: ReturnType<typeof selectedTaSelector>;
   taNames: ReturnType<typeof taNamesSelector>;
   taNameSearch: ReturnType<typeof taNameSearchSelector>;
+  isSr: ReturnType<typeof isSR>;
 }
 const mapStateToProps = createStructuredSelector({
   travelAgents: agentsSelector,
