@@ -31,7 +31,6 @@ import {
   watchConfirmRequestManager,
 } from './modules/bookingManager/sagas/bookingManagerSaga';
 
-
 export default function* allSagas() {
   const sagas = [
     watchOffersSearchRequest,
