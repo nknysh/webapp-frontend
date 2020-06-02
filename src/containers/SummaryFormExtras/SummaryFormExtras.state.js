@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
-import { fetchTravelAgents, getTravelAgentsStatus, getTravelAgent } from 'store/modules/travelAgents';
+import { getTravelAgent } from 'store/modules/travelAgents';
 import { travelAgentsSelector } from 'store/modules/fastSearch';
 import { getCurrentCountry } from 'store/modules/auth';
 
@@ -85,7 +85,6 @@ export const mapStateToProps = (state, { id }) => {
     guestInfo: guestInfoSelector(state),
     grandTotal: bookingBuilderTotalSelector(state),
     travelAgent,
-    travelAgentsStatus: getTravelAgentsStatus(state),
     isTransferSectionCollapsed: getIsTransferSectionCollapsed(state),
     isGroundServicesSectionCollapsed: getIsGroundServicesSectionCollapsed(state),
     isAddonsSectionCollapsed: getIsAddonsSectionCollapsed(state),
@@ -106,7 +105,6 @@ export const mapStateToProps = (state, { id }) => {
 export const mapDispatchToProps = dispatch => ({
   updateBooking: pipe(updateBooking, dispatch),
   replaceProducts: pipe(replaceProducts, dispatch),
-  fetchTravelAgents: pipe(fetchTravelAgents, dispatch),
   setIsBookingSummarySectionCollapsed: pipe(setIsBookingSummarySectionCollapsed, dispatch),
   updateTransferAction: pipe(updateTransferAction, dispatch),
   updateGroundServiceAction: pipe(updateGroundServiceAction, dispatch),

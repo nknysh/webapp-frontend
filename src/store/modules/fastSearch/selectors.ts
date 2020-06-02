@@ -8,7 +8,7 @@ import { DateHelper } from 'pureUi/DatePicker';
 
 import { bookingBuilderHotelUuidSelector } from 'store/modules/bookingBuilder';
 import { formatDate } from 'utils';
-import { getTaFullName } from '../../utils'
+import { getTaFullName } from 'store/utils';
 
 const fastSearchDomain = (state: any): FastSearchDomain => state.fastSearch;
 
@@ -59,12 +59,7 @@ export const showTaDropdownSelector = createSelector(
 
 export const taNameSearchSelector = createSelector(
   fastSearchDomain,
-  (domain: FastSearchDomain): FastSearchDomain['taNameSearch'] => {
-    if (domain.selectedTa) {
-      return getTaFullName(domain.selectedTa);
-    }
-    return domain.taNameSearch;
-  }
+  (domain: FastSearchDomain): FastSearchDomain['taNameSearch'] => domain.taNameSearch
 );
 
 

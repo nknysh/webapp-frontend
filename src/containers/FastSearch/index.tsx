@@ -17,8 +17,9 @@ import { Icon } from '@material-ui/core';
 import Checkbox from 'pureUi/Checkbox';
 import { clearBookingBuilderAction } from 'store/modules/bookingBuilder';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
+import  { IWithTravelAgentsDataProps, withTravelAgentsData } from 'hoc/WithTravelAgentsData';
 
-import { getTaFullName } from '../../store/utils';
+import { getTaFullName } from 'store/utils';
 
 import {
   initializeQueryAction,
@@ -90,10 +91,6 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       this.props.getOptions();
     }
 
-    if (this.props.isSr && !this.props.travelAgents) {
-      this.props.getTravelAgents();
-    }
-
     // Automatically execute the URL search query
     if (window.location.search && !this.props.searchResults) {
       this.props.initializeQuery(window.location.search.replace('?', ''));
@@ -124,6 +121,9 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
     const companyHasChanged = newCompanyCode && newCompanyCode !== prevCompanyCode;
     const countryHasChanged = this.props.actingCountryCode !== prevProps.actingCountryCode;
+    console.log(companyHasChanged)
+    console.log(companyHasChanged)
+    console.log(countryHasChanged)
     if (countryHasChanged || companyHasChanged) {
       this.fetchAvailableOffers();
     }
@@ -173,10 +173,6 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     this.props.showTaDropdownChange(visible);
   };
 
-  handleSearchTaByNameChange = (e: FormEvent<HTMLInputElement>) => {
-    this.props.searchTaByNameChange(e.currentTarget.value);
-  };
-
   // ---------------------------------------------------
 
   handleRemoveAllFilters = () => {
@@ -193,12 +189,6 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     if (isNaN(parseInt(value))) {
       action(undefined);
     }
-  };
-
-  handleTaNameChange = (taFullName: string) => {
-    const agents = this.props.travelAgents || [];
-    const selectedTA = agents.find(ta => getTaFullName(ta) === taFullName) || null;
-    this.props.selectedTaChange(selectedTA);
   };
 
   handleSearchResultClick = (hotelUuid: string) => {
@@ -222,9 +212,9 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
               <PredictiveTextInput
                 placeholder="Select agent..."
                 value={this.props.taNameSearch}
-                onChange={this.handleSearchTaByNameChange}
+                onChange={e => this.props.searchTaByNameChange(e.currentTarget.value)}
                 options={[this.props.taNames]}
-                onOptionSelect={this.handleTaNameChange}
+                onOptionSelect={this.props.handleTaNameChange}
                 showDropDown={this.props.showTaDropdown}
                 onFocus={this.handleShowTravelAgentsDropDown(true)}
                 onBlur={this.handleShowTravelAgentsDropDown(false)}
@@ -383,7 +373,7 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 // -----------------------------------------------------------------------------
 export type StateToProps = ReturnType<typeof mapStateToProps>;
 export type DispatchToProps = typeof actionCreators;
-export interface FastSearchProps extends StateToProps, DispatchToProps, RouteComponentProps {
+export interface FastSearchProps extends StateToProps, DispatchToProps, RouteComponentProps, IWithTravelAgentsDataProps {
   className: string;
 }
 
@@ -409,19 +399,9 @@ const mapStateToProps = createStructuredSelector({
   canSearch: canSearchSelector,
   actingCountryCode: getUserCountryContext,
   isSr: isSR,
-  taNames: taNamesSelector,
-  travelAgents: travelAgentsSelector,
-  isFetchingTA: isFetchingTaSelector,
-  selectedTa: selectedTaSelector,
-  showTaDropdown: showTaDropdownSelector,
-  taNameSearch: taNameSearchSelector,
 });
 
 const actionCreators = {
-  getTravelAgents: taRequestAction,
-  selectedTaChange: selectedTaChangeAction,
-  showTaDropdownChange: showTaDropdownAction,
-  searchTaByNameChange: searchTaByNameChangeAction,
   getOptions: optionsRequestAction,
   getOffers: offersSearchRequestAction,
   toggleFilter: toggleFilterAction,
@@ -460,4 +440,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCrea
 // -----------------------------------------------------------------------------
 const withConnect = connect<StateToProps, DispatchToProps, FastSearchProps>(mapStateToProps, mapDispatchToProps);
 
-export const FastSearchContainerConnected = compose(withConnect, withRouter)(FastSearchContainer);
+export const FastSearchContainerConnected = compose(withConnect, withRouter, withTravelAgentsData())(FastSearchContainer);

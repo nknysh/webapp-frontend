@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { compose } from 'redux';
 import WithBasicSearch, { IWithBasicSearchProps } from 'hoc/WithBasicSearch';
+import  { IWithTravelAgentsDataProps, withTravelAgentsData } from 'hoc/WithTravelAgentsData';
 import PredictiveTextInput from 'pureUi/PredictiveTextInput';
 import { LodgingsEditor } from 'pureUi/LodgingsEditor';
 import DateRangeInput from 'pureUi/DateRangeInput';
@@ -10,7 +11,7 @@ import { pureUiTheme } from 'pureUi/pureUiTheme';
 import Checkbox from 'pureUi/Checkbox';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
 
-export interface ISearchBarProps extends IWithBasicSearchProps {
+export interface ISearchBarProps extends IWithBasicSearchProps, IWithTravelAgentsDataProps {
   className: string;
 }
 
@@ -28,14 +29,12 @@ export const SearchBar = (props: ISearchBarProps) => {
               <PredictiveTextInput
                 placeholder="Select agent..."
                 value={props.taNameSearch}
-                onChange={() => {
-                }}
+                onChange={e => props.searchTaByNameChange(e.currentTarget.value)}
                 options={[props.taNames]}
-                onOptionSelect={() => {
-                }}
+                onOptionSelect={props.handleTaNameChange}
                 showDropDown={props.showTaDropdown}
-                onFocus={() => (true)}
-                onBlur={() => (false)}
+                onFocus={() => props.showTaDropdownChange(true)}
+                onBlur={() => props.showTaDropdownChange(false)}
               />
           }
         </label>
@@ -100,7 +99,7 @@ export const SearchBar = (props: ISearchBarProps) => {
         {props.isSr && (
           <label className="repeatGuest">
             <span>Repeat Guest</span>
-            <Checkbox checked={props.isRepeatGuest} onChange={props.toggleRepeatGuest} />
+            <Checkbox checked={props.isRepeatGuest} onChange={props.toggleRepeatGuest}/>
           </label>
         )}
 
@@ -128,7 +127,7 @@ const StyledSearchBar = styled(SearchBar)`
     display: grid;
     ${props => {
       return props.isSr
-        ? 'grid-template-columns: repeat(3, 1fr) 124px 215px;'
+        ? 'grid-template-columns: repeat(4, 1fr) 124px 215px;'
         : 'grid-template-columns: repeat(3, 1fr) 124px;';
     }}
     grid-column-gap: 1rem;
@@ -163,4 +162,4 @@ const StyledSearchBar = styled(SearchBar)`
   }
 `;
 
-export default compose(WithBasicSearch())(StyledSearchBar);
+export default compose(WithBasicSearch(), withTravelAgentsData())(StyledSearchBar);

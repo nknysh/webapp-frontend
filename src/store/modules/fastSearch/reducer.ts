@@ -2,6 +2,7 @@ import { without, difference, omit, dropLast, update, mergeDeepLeft } from 'ramd
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
 import { Filters, Lodging, ISearchQuery } from 'services/BackendApi';
+import { getTaFullName } from 'store/utils';
 import qs from 'qs';
 
 const defaultAge = 0;
@@ -51,6 +52,7 @@ export default function fastSearchReducer(
       return {
         ...state,
         selectedTa: action.value,
+        taNameSearch: getTaFullName(action.value),
       };
 
     case Actions.TA_SUCCESS:
