@@ -179,6 +179,7 @@ export const createNewProposal = (name, bookingId, placeHolds, backendApi) => as
   };
 
   try {
+    dispatch(genericAction(PROPOSALS_NEW, { bookingId }));
     dispatch(
       enqueueNotification({ message: `Creating booking with new proposal...`, options: { variant: 'success' } })
     );
@@ -194,6 +195,8 @@ export const createNewProposal = (name, bookingId, placeHolds, backendApi) => as
         backendApi
       )
     );
+
+    dispatch(successAction(PROPOSALS_NEW, { bookingId }));
   } catch (e) {
     console.error(`Error ${e}`);
     dispatch(errorFromResponse(PROPOSALS_NEW, e, 'There was a problem creating proposal.'));
