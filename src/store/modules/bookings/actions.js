@@ -56,7 +56,7 @@ import {
   clone,
 } from 'ramda';
 import { isNilOrEmpty } from 'ramda-adjunct';
-
+import { push } from 'connected-react-router';
 import client from 'api/bookings';
 import baseClient from 'api';
 import { ProductTypes, BookingStatusTypes } from 'config/enums';
@@ -676,7 +676,7 @@ export const createBookingWithNewProposal = (id, payload, placeHolds = false, ne
     const data = res.data.data;
     await dispatch(updateBooking(id, { ...data }));
 
-    window.location.href = `/bookings/${data.uuid}`;
+    dispatch(push('/search/beta'));
   } catch (e) {
     console.error(`Error ${e}`);
     dispatch(errorFromResponse(BOOKING_SUBMIT, e, 'There was a problem creating your booking.'));
