@@ -32,7 +32,6 @@ import bookingManager from './modules/bookingManager/reducer';
 
 const clearState = mapObjIndexed(always(undefined));
 
-<<<<<<< HEAD
 const rootReducerFactory = history =>
   combineReducers({
     auth,
