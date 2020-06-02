@@ -4,30 +4,30 @@ import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
-  travelAgentsSelector,
+  agentsSelector,
   isFetchingTaSelector,
   showTaDropdownSelector,
   taNameSearchSelector,
   taNamesSelector,
   selectedTaSelector,
-  taRequestAction,
+  getTravelAgentsRequestAction,
   selectedTaChangeAction,
   searchTaByNameChangeAction,
   showTaDropdownAction,
-} from 'store/modules/travelAgents';
+} from 'store/modules/agents';
 import { isSR } from 'store/modules/auth';
 
 import { getTaFullName } from 'store/utils';
 
 export interface IStateToProps {
-  travelAgents: ReturnType<typeof travelAgentsSelector>;
+  travelAgents: ReturnType<typeof agentsSelector>;
   isFetchingTA: ReturnType<typeof isFetchingTaSelector>;
   showTaDropdown: ReturnType<typeof showTaDropdownSelector>;
   taNames: ReturnType<typeof taNamesSelector>;
   taNameSearch: ReturnType<typeof taNameSearchSelector>;
 }
 const mapStateToProps = createStructuredSelector({
-  travelAgents: travelAgentsSelector,
+  travelAgents: agentsSelector,
   isFetchingTA: isFetchingTaSelector,
   showTaDropdown: showTaDropdownSelector,
   selectedTa: selectedTaSelector,
@@ -37,7 +37,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const actionCreators = {
-  getTravelAgents: taRequestAction,
+  getTravelAgents: getTravelAgentsRequestAction,
   selectedTaChange: selectedTaChangeAction,
   searchTaByNameChange: searchTaByNameChangeAction,
   showTaDropdownChange: showTaDropdownAction,

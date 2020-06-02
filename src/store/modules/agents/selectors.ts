@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { IAgentsModuleDomain } from './model';
 import { IValueLabelPair } from '../../../interfaces';
 import { ITravelAgent } from 'services/BackendApi';
+import { getTaFullName } from 'store/utils';
 
 export const domainSelector = (state: any) => state.agents;
 
@@ -44,5 +45,35 @@ export const travelAgentSelectOptionsSelector = createSelector(
     }));
 
     return [initialOption, ...options];
+  }
+);
+
+export const selectedTaSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['selectedTa'] | null => domain.selectedTa
+);
+
+export const showTaDropdownSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['showTaDropdown'] => domain.showTaDropdown
+);
+
+export const taNameSearchSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['taNameSearch'] => domain.taNameSearch
+);
+
+export const isFetchingTaSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['isFetchingTA'] => domain.isFetchingTA
+);
+
+export const taNamesSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): string[] => {
+    if (!domain.agents) {
+      return [];
+    }
+    return domain.agents.map(getTaFullName).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
   }
 );

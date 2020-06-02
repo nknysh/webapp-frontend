@@ -121,9 +121,6 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
 
     const companyHasChanged = newCompanyCode && newCompanyCode !== prevCompanyCode;
     const countryHasChanged = this.props.actingCountryCode !== prevProps.actingCountryCode;
-    console.log(companyHasChanged)
-    console.log(companyHasChanged)
-    console.log(countryHasChanged)
     if (countryHasChanged || companyHasChanged) {
       this.fetchAvailableOffers();
     }

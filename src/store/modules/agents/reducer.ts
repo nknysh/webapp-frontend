@@ -1,5 +1,6 @@
 import * as Actions from './actions';
 import { initialState, IAgentsModuleDomain } from './model';
+import { getTaFullName } from 'store/utils';
 
 export const agentsDomainReducer = (
   state: IAgentsModuleDomain = initialState,
@@ -26,6 +27,26 @@ export const agentsDomainReducer = (
         agents: undefined,
         error: action.error,
       };
+
+    case Actions.SELECTED_TA_CHANGE:
+      return {
+        ...state,
+        selectedTa: action.value,
+        taNameSearch: getTaFullName(action.value),
+      };
+
+    case Actions.SHOW_TA_DROPDOWN:
+      return {
+        ...state,
+        showTaDropdown: action.value,
+      };
+
+    case Actions.SEARCH_TA_BY_NAME_CHANGE:
+      return {
+        ...state,
+        taNameSearch: action.value,
+      };
+
     default:
       return state;
   }

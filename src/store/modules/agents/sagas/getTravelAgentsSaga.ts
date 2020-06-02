@@ -1,6 +1,6 @@
 import { call, takeLatest, select, put } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
-import { makeBackendApi, ITravelAgentResponse, ITravelAgent } from 'services/BackendApi';
+import { makeBackendApi, ITravelAgentResponse } from 'services/BackendApi';
 import { getUserCountryContext } from 'store/modules/auth';
 import { GetTravelAgentRequestAction } from '../actions';
 import { getTravelAgentsSuccessAction, getTravelAgentsFailureAction, GET_TRAVEL_AGENTS_REQUEST } from '../actions';

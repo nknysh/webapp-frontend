@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
-import { getTravelAgent } from 'store/modules/travelAgents';
-import { travelAgentsSelector, selectedTaSelector } from 'store/modules/travelAgents';
+import { selectedTaSelector } from 'store/modules/agents';
 import { getCurrentCountry } from 'store/modules/auth';
 
 import {
@@ -66,9 +65,6 @@ import {
 } from 'store/modules/bookingBuilder/subdomains/customItem/actions';
 
 export const mapStateToProps = (state, { id }) => {
-  const travelAgentUserUuid = getBookingTravelAgent(state, id);
-  const travelAgents = travelAgentsSelector(state) || [];
-  const travelAgent = travelAgents.find(ta => ta.uuid === travelAgentUserUuid);
 
   return {
     addons: bookingAvailableAddonsSelector(state),
