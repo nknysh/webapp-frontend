@@ -39,14 +39,6 @@ export const OFFERS_SEARCH_FAILURE = 'fastSearch/OFFERS_SEARCH_FAILURE';
 export const OPTIONS_REQUEST = 'fastSearch/OPTIONS_REQUEST';
 export const OPTIONS_SUCCESS = 'fastSearch/OPTIONS_SUCCESS';
 export const OPTIONS_FAILURE = 'fastSearch/OPTIONS_FAILURE';
-export const SELECTED_TA_CHANGE = 'fastSearch/SELECTED_TA_CHANGE';
-export const SHOW_TA_DROPDOWN = 'fastSearch/SHOW_TA_DROPDOWN';
-export const SEARCH_TA_BY_NAME_CHANGE = 'fastSearch/SEARCH_TA_BY_NAME_CHANGE';
-export const TA_SEARCH_SUCCESS = 'fastSearch/TA_SEARCH_SUCCESS';
-export const TA_SEARCH_FAILURE = 'fastSearch/TA_SEARCH_FAILURE';
-export const TA_REQUEST = 'fastSearch/TA_REQUEST';
-export const TA_SUCCESS = 'fastSearch/TA_SUCCESS';
-export const TA_FAILURE = 'fastSearch/TA_FAILURE';
 export const NAME_SEARCH_SUCCESS = 'fastSearch/NAME_SEARCH_SUCCESS';
 export const NAME_SEARCH_FAILURE = 'fastSearch/NAME_SEARCH_FAILURE';
 export const SET_NAME_SEARCH_RESUTS_VISIBILITY = 'fastSearch/SET_NAME_SEARCH_RESUTS_VISIBILITY';
@@ -289,54 +281,6 @@ export const resetSearchQueryAction = () => ({
   type: RESET_SEARCH_QUERY as typeof RESET_SEARCH_QUERY,
 });
 
-export type TaRequestAction = ReturnType<typeof taRequestAction>;
-export const taRequestAction = () => ({
-  type: TA_REQUEST as typeof TA_REQUEST,
-});
-
-export type TaSuccessAction = ReturnType<typeof taSuccessAction>;
-export const taSuccessAction = (successResponse: ITravelAgent[]) => ({
-  type: TA_SUCCESS as typeof TA_SUCCESS,
-  successResponse,
-});
-
-export type TaFailureAction = ReturnType<typeof taFailureAction>;
-export const taFailureAction = (errorResponse: ErrorResponse) => ({
-  type: TA_FAILURE as typeof TA_FAILURE,
-  errorResponse,
-});
-
-export type SelectedTaChangeAction = ReturnType<typeof selectedTaChangeAction>;
-export const selectedTaChangeAction = (value: ITravelAgent | null) => ({
-  type: SELECTED_TA_CHANGE as typeof SELECTED_TA_CHANGE,
-  value,
-});
-
-export type ShowTaDropdownAction = ReturnType<typeof showTaDropdownAction>;
-export const showTaDropdownAction = (value: boolean) => ({
-  type: SHOW_TA_DROPDOWN as typeof SHOW_TA_DROPDOWN,
-  value,
-});
-
-export type SearchTaByNameChangeAction = ReturnType<typeof searchTaByNameChangeAction>;
-export const searchTaByNameChangeAction = (value: string) => ({
-  type: SEARCH_TA_BY_NAME_CHANGE as typeof SEARCH_TA_BY_NAME_CHANGE,
-  value,
-});
-
-
-export type TaSearchSuccessAction = ReturnType<typeof taSearchSuccessAction>;
-export const taSearchSuccessAction = (successResponse: ITravelAgent[]) => ({
-  type: TA_SEARCH_SUCCESS as typeof TA_SEARCH_SUCCESS,
-  successResponse,
-});
-
-export type TaSearchFailureAction = ReturnType<typeof taSearchFailureAction>;
-export const taSearchFailureAction = (errorResponse: ErrorResponse) => ({
-  type: TA_SEARCH_FAILURE as typeof TA_SEARCH_FAILURE,
-  errorResponse,
-});
-
 // 3. Create a union type which we can pass as the reducers action type.
 // goto DestinationChangeAction to see start of these comments.
 export type FastSearchAction =
@@ -366,14 +310,6 @@ export type FastSearchAction =
   | OptionsRequestAction
   | OptionsSuccessAction
   | OptionsFailureAction
-  | SelectedTaChangeAction
-  | TaSearchSuccessAction
-  | TaSearchFailureAction
-  | TaRequestAction
-  | TaSuccessAction
-  | TaFailureAction
-  | ShowTaDropdownAction
-  | SearchTaByNameChangeAction
   | SetActiveLodgingIndexAction
   | IncrementActiveLodgingIndexAction
   | NamesSearchSuccessAction

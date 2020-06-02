@@ -1,34 +1,68 @@
-import { prop  } from 'ramda';
+import { ErrorResponse, ITravelAgent } from 'services/BackendApi/types';
 
-import client from 'api/users';
-import { successAction, errorFromResponse, genericAction } from 'store/common';
-import { index } from 'store/modules/indexes';
-import schema from './schema';
+export const TA_SEARCH_SUCCESS = 'travelAgents/TA_SEARCH_SUCCESS';
+export const TA_SEARCH_FAILURE = 'travelAgents/TA_SEARCH_FAILURE';
+export const TA_REQUEST = 'travelAgents/TA_REQUEST';
+export const TA_SUCCESS = 'travelAgents/TA_SUCCESS';
+export const TA_FAILURE = 'travelAgents/TA_FAILURE';
+export const SELECTED_TA_CHANGE = 'travelAgents/SELECTED_TA_CHANGE';
+export const SHOW_TA_DROPDOWN = 'travelAgents/SHOW_TA_DROPDOWN';
+export const SEARCH_TA_BY_NAME_CHANGE = 'travelAgents/SEARCH_TA_BY_NAME_CHANGE';
 
-export const TRAVEL_AGENTS_FETCH = 'TRAVEL_AGENTS_FETCH';
-export const TRAVEL_AGENTS_FETCH_SUCCESS = 'TRAVEL_AGENTS_FETCH_SUCCESS';
-export const TRAVEL_AGENTS_FETCH_ERROR = 'TRAVEL_AGENTS_FETCH_ERROR';
+export type TaRequestAction = ReturnType<typeof taRequestAction>;
+export const taRequestAction = () => ({
+  type: TA_REQUEST as typeof TA_REQUEST,
+});
 
-export const fetchTravelAgents = (params?: object | null) => async dispatch => {
-  dispatch(genericAction(TRAVEL_AGENTS_FETCH, {}));
+export type TaSuccessAction = ReturnType<typeof taSuccessAction>;
+export const taSuccessAction = (successResponse: ITravelAgent[]) => ({
+  type: TA_SUCCESS as typeof TA_SUCCESS,
+  successResponse,
+});
 
-  try {
-    const {
-      data: { data },
-    } = await client.getTravelAgents(params, {});
+export type TaFailureAction = ReturnType<typeof taFailureAction>;
+export const taFailureAction = (errorResponse: ErrorResponse) => ({
+  type: TA_FAILURE as typeof TA_FAILURE,
+  errorResponse,
+});
 
-    dispatch(
-      index({
-        index: 'travelAgents',
-        ref: prop('id', schema),
-        fields: prop('index', schema),
-        data
-      })
-    );
+export type SelectedTaChangeAction = ReturnType<typeof selectedTaChangeAction>;
+export const selectedTaChangeAction = (value: ITravelAgent | null) => ({
+  type: SELECTED_TA_CHANGE as typeof SELECTED_TA_CHANGE,
+  value,
+});
 
-    dispatch(successAction(TRAVEL_AGENTS_FETCH, data));
-  } catch (e) {
-    dispatch(errorFromResponse(TRAVEL_AGENTS_FETCH, e, 'There was a problem fetching travel agents.'));
-  }
-};
-  
+export type ShowTaDropdownAction = ReturnType<typeof showTaDropdownAction>;
+export const showTaDropdownAction = (value: boolean) => ({
+  type: SHOW_TA_DROPDOWN as typeof SHOW_TA_DROPDOWN,
+  value,
+});
+
+export type SearchTaByNameChangeAction = ReturnType<typeof searchTaByNameChangeAction>;
+export const searchTaByNameChangeAction = (value: string) => ({
+  type: SEARCH_TA_BY_NAME_CHANGE as typeof SEARCH_TA_BY_NAME_CHANGE,
+  value,
+});
+
+
+export type TaSearchSuccessAction = ReturnType<typeof taSearchSuccessAction>;
+export const taSearchSuccessAction = (successResponse: ITravelAgent[]) => ({
+  type: TA_SEARCH_SUCCESS as typeof TA_SEARCH_SUCCESS,
+  successResponse,
+});
+
+export type TaSearchFailureAction = ReturnType<typeof taSearchFailureAction>;
+export const taSearchFailureAction = (errorResponse: ErrorResponse) => ({
+  type: TA_SEARCH_FAILURE as typeof TA_SEARCH_FAILURE,
+  errorResponse,
+});
+
+export type TravelAgentsAction =
+  | SelectedTaChangeAction
+  | TaSearchSuccessAction
+  | TaSearchFailureAction
+  | TaRequestAction
+  | TaSuccessAction
+  | TaFailureAction
+  | ShowTaDropdownAction
+  | SearchTaByNameChangeAction;

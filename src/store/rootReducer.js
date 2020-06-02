@@ -53,7 +53,7 @@ const rootReducerFactory = history =>
     proposalsList,
     bookingsList,
     offersList,
-    travelAgents, // this is the old, dumb as a brick, uncontrollable travel agents reducer
+    travelAgents,
     agents, // this is the good, controlable, travel agents reducer.
     offer,
     bootstrap,

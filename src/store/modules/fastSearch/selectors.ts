@@ -27,42 +27,6 @@ export const searchOptionsSelector = createSelector(
   (domain: FastSearchDomain): FastSearchDomain['options'] => domain.options
 );
 
-export const isFetchingTaSelector = createSelector(
-  fastSearchDomain,
-  (domain: FastSearchDomain): FastSearchDomain['isFetchingTA'] => domain.isFetchingTA
-);
-
-export const taNamesSelector = createSelector(
-  fastSearchDomain,
-  (domain: FastSearchDomain): string[] => {
-    if (!domain.travelAgents) {
-      return [];
-    }
-    return domain.travelAgents.map(getTaFullName).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
-  }
-);
-
-export const travelAgentsSelector = createSelector(
-  fastSearchDomain,
-  (domain: FastSearchDomain): FastSearchDomain['travelAgents'] | null => domain.travelAgents
-);
-
-export const selectedTaSelector = createSelector(
-  fastSearchDomain,
-  (domain: FastSearchDomain): FastSearchDomain['selectedTa'] | null => domain.selectedTa
-);
-
-export const showTaDropdownSelector = createSelector(
-  fastSearchDomain,
-  (domain: FastSearchDomain): FastSearchDomain['showTaDropdown'] => domain.showTaDropdown
-);
-
-export const taNameSearchSelector = createSelector(
-  fastSearchDomain,
-  (domain: FastSearchDomain): FastSearchDomain['taNameSearch'] => domain.taNameSearch
-);
-
-
 export const offersSearchPendingSelector = createSelector(
   fastSearchDomain,
   (domain: FastSearchDomain): FastSearchDomain['offersRequestPending'] => domain.offersRequestPending

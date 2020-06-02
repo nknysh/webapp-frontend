@@ -1,29 +1,41 @@
-import { prop, propOr, pipe, props, join, reduce } from 'ramda';
+import { createSelector } from 'reselect';
 
-import { getStatus, getArg } from 'store/common';
-import { createSelector } from 'store/utils';
-import { TravelAgent, TravelAgentsDomain } from './model';
+import { ITravelAgentsDomain } from './model';
+import { getTaFullName } from 'store/utils';
 
-export const getTravelAgents = (state: any): TravelAgentsDomain => prop('travelAgents', state);
+const travelAgentsDomain = (state: any): ITravelAgentsDomain => state.travelAgents;
 
-export const getTravelAgentsStatus = createSelector(
-  getTravelAgents,
-  getStatus
+export const travelAgentsSelector = createSelector(
+  travelAgentsDomain,
+  (domain: ITravelAgentsDomain): ITravelAgentsDomain['travelAgents'] | null => domain.travelAgents
 );
 
-export const getTravelAgentsEntities = createSelector(
-  getTravelAgents,
-  (domain: TravelAgentsDomain): object =>
-    pipe(
-      propOr([], 'data'),
-      reduce((acc: object, cur: TravelAgent) => ({
-        ...acc,
-        [cur.uuid]: cur
-      }), {})
-    )(domain)
+export const selectedTaSelector = createSelector(
+  travelAgentsDomain,
+  (domain: ITravelAgentsDomain): ITravelAgentsDomain['selectedTa'] | null => domain.selectedTa
 );
 
-export const getTravelAgent = createSelector(
-  [getArg(1), getTravelAgentsEntities],
-  (id: string, entities: object): TravelAgent => propOr({}, id, entities)
+export const showTaDropdownSelector = createSelector(
+  travelAgentsDomain,
+  (domain: ITravelAgentsDomain): ITravelAgentsDomain['showTaDropdown'] => domain.showTaDropdown
+);
+
+export const taNameSearchSelector = createSelector(
+  travelAgentsDomain,
+  (domain: ITravelAgentsDomain): ITravelAgentsDomain['taNameSearch'] => domain.taNameSearch
+);
+
+export const isFetchingTaSelector = createSelector(
+  travelAgentsDomain,
+  (domain: ITravelAgentsDomain): ITravelAgentsDomain['isFetchingTA'] => domain.isFetchingTA
+);
+
+export const taNamesSelector = createSelector(
+  travelAgentsDomain,
+  (domain: ITravelAgentsDomain): string[] => {
+    if (!domain.travelAgents) {
+      return [];
+    }
+    return domain.travelAgents.map(getTaFullName).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
+  }
 );

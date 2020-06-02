@@ -11,7 +11,7 @@ import { SummaryFormMargin, IndexSearch, DisplayTotalsBreakdown } from 'componen
 import { useFetchData } from 'effects';
 import { withUser } from 'hoc';
 import { formatPrice, filterByObjectProperties } from 'utils';
-import { getTaFullName } from '../../store/utils';
+import { getTaFullName } from 'store/utils';
 import { Icon } from '@material-ui/core';
 
 import connect from './SummaryFormExtras.state';

@@ -2,7 +2,6 @@ import { without, difference, omit, dropLast, update, mergeDeepLeft } from 'ramd
 import { FastSearchDomain, initialState } from './model';
 import * as Actions from './actions';
 import { Filters, Lodging, ISearchQuery } from 'services/BackendApi';
-import { getTaFullName } from 'store/utils';
 import qs from 'qs';
 
 const defaultAge = 0;
@@ -44,34 +43,6 @@ export default function fastSearchReducer(
         optionsRequestError: action.errorResponse,
         offersRequestPending: false,
         queryHasChanged: false,
-      };
-    // ------------------------------------------------------
-    // Travel Agents
-    // ------------------------------------------------------
-    case Actions.SELECTED_TA_CHANGE:
-      return {
-        ...state,
-        selectedTa: action.value,
-        taNameSearch: getTaFullName(action.value),
-      };
-
-    case Actions.TA_SUCCESS:
-      return {
-        ...state,
-        travelAgents: action.successResponse,
-        isFetchingTA: false,
-      };
-
-    case Actions.SHOW_TA_DROPDOWN:
-      return {
-        ...state,
-        showTaDropdown: action.value,
-      };
-
-    case Actions.SEARCH_TA_BY_NAME_CHANGE:
-      return {
-        ...state,
-        taNameSearch: action.value,
       };
 
     // ------------------------------------------------------

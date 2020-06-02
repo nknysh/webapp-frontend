@@ -5,8 +5,8 @@ import {
   taSuccessAction,
   taFailureAction,
 } from '../actions';
-import { ITravelAgentResponse, makeBackendApi} from 'services/BackendApi';
-import { getUserCountryContext } from 'store/modules/auth';
+import { ITravelAgentResponse, makeBackendApi } from 'services/BackendApi/index';
+import { getUserCountryContext } from 'store/modules/auth/index';
 
 export function* taSearchSaga() {
   try {

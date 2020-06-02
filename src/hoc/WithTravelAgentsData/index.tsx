@@ -14,7 +14,7 @@ import {
   selectedTaChangeAction,
   searchTaByNameChangeAction,
   showTaDropdownAction,
-} from 'store/modules/fastSearch';
+} from 'store/modules/travelAgents';
 import { isSR } from 'store/modules/auth';
 
 import { getTaFullName } from 'store/utils';

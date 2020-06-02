@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { pipe } from 'ramda';
 import { getTravelAgent } from 'store/modules/travelAgents';
-import { travelAgentsSelector } from 'store/modules/fastSearch';
+import { travelAgentsSelector, selectedTaSelector } from 'store/modules/travelAgents';
 import { getCurrentCountry } from 'store/modules/auth';
 
 import {
@@ -84,7 +84,7 @@ export const mapStateToProps = (state, { id }) => {
     currencyCode: getBookingCurrencySymbol(state, id),
     guestInfo: guestInfoSelector(state),
     grandTotal: bookingBuilderTotalSelector(state),
-    travelAgent,
+    travelAgent: selectedTaSelector(state),
     isTransferSectionCollapsed: getIsTransferSectionCollapsed(state),
     isGroundServicesSectionCollapsed: getIsGroundServicesSectionCollapsed(state),
     isAddonsSectionCollapsed: getIsAddonsSectionCollapsed(state),
