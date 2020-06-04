@@ -74,6 +74,7 @@ export const agentsDomainReducer = (
         ...state,
         selectedCompany: action.value,
         companyNameSearch: action.value.name,
+        selectedTa: null
       };
 
     case Actions.SHOW_COMPANY_DROPDOWN:
