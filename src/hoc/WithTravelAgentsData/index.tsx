@@ -5,15 +5,25 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
   agentsSelector,
+  companiesSelector,
   isFetchingTaSelector,
   showTaDropdownSelector,
   taNameSearchSelector,
   taNamesSelector,
   selectedTaSelector,
+  selectedCompanySelector,
+  isFetchingCompaniesSelector,
+  companiesNamesSelector,
+  showCompanyDropdownSelector,
+  companyNameSearchSelector,
   getTravelAgentsRequestAction,
   selectedTaChangeAction,
   searchTaByNameChangeAction,
   showTaDropdownAction,
+  getCompaniesRequestAction,
+  selectedCompanyChangeAction,
+  searchCompanyByNameAction,
+  showCompanyDropdownAction,
 } from 'store/modules/agents';
 import { isSR } from 'store/modules/auth';
 
@@ -27,6 +37,13 @@ export interface IStateToProps {
   taNames: ReturnType<typeof taNamesSelector>;
   taNameSearch: ReturnType<typeof taNameSearchSelector>;
   isSr: ReturnType<typeof isSR>;
+
+  companies: ReturnType<typeof companiesSelector>;
+  isFetchingCompanies: ReturnType<typeof isFetchingCompaniesSelector>;
+  companiesNames: ReturnType<typeof companiesNamesSelector>;
+  selectedCompany: ReturnType<typeof selectedCompanySelector>;
+  showCompanyDropdown: ReturnType<typeof showCompanyDropdownSelector>;
+  companyNameSearch: ReturnType<typeof companyNameSearchSelector>;
 }
 const mapStateToProps = createStructuredSelector({
   travelAgents: agentsSelector,
@@ -36,6 +53,13 @@ const mapStateToProps = createStructuredSelector({
   taNames: taNamesSelector,
   taNameSearch: taNameSearchSelector,
   isSr: isSR,
+
+  companies: companiesSelector,
+  isFetchingCompanies: isFetchingCompaniesSelector,
+  companiesNames: companiesNamesSelector,
+  selectedCompany: selectedCompanySelector,
+  showCompanyDropdown: showCompanyDropdownSelector,
+  companyNameSearch: companyNameSearchSelector,
 });
 
 const actionCreators = {
@@ -43,12 +67,18 @@ const actionCreators = {
   selectedTaChange: selectedTaChangeAction,
   searchTaByNameChange: searchTaByNameChangeAction,
   showTaDropdownChange: showTaDropdownAction,
+
+  getCompanies: getCompaniesRequestAction,
+  selectedCompanyChange: selectedCompanyChangeAction,
+  searchCompanyByName: searchCompanyByNameAction,
+  showCompanyDropdown: showCompanyDropdownAction,
 };
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
 type IDispatchToProps = typeof actionCreators;
 
 export interface IWithTravelAgentsDataProps extends IStateToProps, IDispatchToProps {
   handleTaNameChange: (value: string) => void;
+  handleCompanyNameChange: (value: string) => void;
 }
 
 // ----------------------------------------------------------
@@ -60,8 +90,8 @@ export const makeWithTravelAgentsData = (WrappedComponent: any) =>
     static displayName = `WithTravelAgentsData(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
     componentDidMount() {
-      if (this.props.isSr && !this.props.travelAgents) {
-        this.props.getTravelAgents();
+      if (this.props.isSr && !this.props.companies) {
+        this.props.getCompanies();
       }
     }
 
@@ -71,8 +101,14 @@ export const makeWithTravelAgentsData = (WrappedComponent: any) =>
       this.props.selectedTaChange(selectedTA);
     };
 
+    handleCompanyNameChange = (name: string) => {
+      const companies = this.props.companies || [];
+      const selectedCompany = companies.find(c => c.name === name) || null;
+      this.props.selectedCompanyChange(selectedCompany);
+    };
+
     render() {
-      return <WrappedComponent {...this.props} handleTaNameChange={this.handleTaNameChange} />;
+      return <WrappedComponent {...this.props} handleTaNameChange={this.handleTaNameChange} handleCompanyNameChange={this.handleCompanyNameChange} />;
     }
   };
 

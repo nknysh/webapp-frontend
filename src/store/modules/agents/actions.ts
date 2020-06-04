@@ -67,7 +67,7 @@ export const getCompaniesFailureAction = (error: string) => ({
 });
 
 export type SelectedCompanyChangeAction = ReturnType<typeof selectedCompanyChangeAction>;
-export const selectedCompanyChangeAction = (value: ICompany) => ({
+export const selectedCompanyChangeAction = (value: ICompany | null) => ({
   type: SELECTED_COMPANY_CHANGE as typeof SELECTED_COMPANY_CHANGE,
   value,
 });

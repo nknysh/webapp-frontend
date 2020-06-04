@@ -73,7 +73,7 @@ export const agentsDomainReducer = (
       return {
         ...state,
         selectedCompany: action.value,
-        companyNameSearch: action.value.name,
+        companyNameSearch: action.value!.name,
         selectedTa: null
       };
 
