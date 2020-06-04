@@ -101,7 +101,7 @@ export const isFetchingCompaniesSelector = createSelector(
 
 export const companiesSelector = createSelector(
   domainSelector,
-  (domain: IAgentsModuleDomain): IAgentsModuleDomain['companies'] => domain.companies;
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['companies'] => domain.companies
 );
 
 export const companiesNamesSelector = createSelector(
