@@ -10,6 +10,7 @@ import { watchGetProposalsList } from './modules/proposalsList/sagas/proposalsLi
 import { watchGetPendingProposalsInfo } from './modules/proposalsList/sagas/pendingProposalsInfoSaga';
 import { watchGetBookingsList } from './modules/bookingsList/sagas/bookingsListSaga';
 import { watchGetTravelAgentsRequest } from './modules/agents/sagas/getTravelAgentsSaga';
+import { watchGetCompaniesRequest } from './modules/agents/sagas/getCompaniesSaga';
 import { watchGetHotelNames } from './modules/bookingsList/sagas/hotelNamesSaga';
 import { watchUpdateQueryString } from './modules/fastSearch/sagas/updateQueryStringSaga';
 import { watchGetOffersList } from './modules/offersList/sagas/offersListSaga';
@@ -44,6 +45,7 @@ export default function* allSagas() {
     watchGetPendingProposalsInfo,
     watchGetBookingsList,
     watchGetTravelAgentsRequest,
+    watchGetCompaniesRequest,
     watchGetHotelNames,
     watchUpdateQueryString,
     watchGetOffersList,

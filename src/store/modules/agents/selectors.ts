@@ -77,3 +77,39 @@ export const taNamesSelector = createSelector(
     return domain.agents.map(getTaFullName).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
   }
 );
+
+
+export const selectedCompanySelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['selectedCompany'] => domain.selectedCompany
+);
+
+export const showCompanyDropdownSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['showCompanyDropdown'] => domain.showCompanyDropdown
+);
+
+export const companyNameSearchSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['companyNameSearch'] => domain.companyNameSearch
+);
+
+export const isFetchingCompaniesSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['isFetchingCompanies'] => domain.isFetchingCompanies
+);
+
+export const companiesSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['companies'] => domain.companies;
+);
+
+export const companiesNamesSelector = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): string[] => {
+    if (!domain.companies) {
+      return [];
+    }
+    return domain.companies.map(c => c.name).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
+  }
+);

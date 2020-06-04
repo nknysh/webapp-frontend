@@ -47,6 +47,47 @@ export const agentsDomainReducer = (
         taNameSearch: action.value,
       };
 
+
+    case Actions.GET_COMPANIES_REQUEST:
+      return {
+        ...state,
+        isFetchingCompanies: true,
+      };
+
+    case Actions.GET_COMPANIES_SUCCESS:
+      return {
+        ...state,
+        isFetchingCompanies: false,
+        companies: action.companies,
+      };
+
+    case Actions.GET_COMPANIES_FAILURE:
+      return {
+        ...state,
+        isFetchingCompanies: true,
+        companies: null,
+        error: action.error,
+      };
+
+    case Actions.SELECTED_COMPANY_CHANGE:
+      return {
+        ...state,
+        selectedCompany: action.value,
+        companyNameSearch: action.value.name,
+      };
+
+    case Actions.SHOW_COMPANY_DROPDOWN:
+      return {
+        ...state,
+        showCompanyDropdown: action.value,
+      };
+
+    case Actions.SEARCH_COMPANY_BY_NAME:
+      return {
+        ...state,
+        companyNameSearch: action.value,
+      };
+
     default:
       return state;
   }
