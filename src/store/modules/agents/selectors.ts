@@ -68,17 +68,6 @@ export const isFetchingTaSelector = createSelector(
   (domain: IAgentsModuleDomain): IAgentsModuleDomain['isFetchingTA'] => domain.isFetchingTA
 );
 
-export const taNamesSelector = createSelector(
-  domainSelector,
-  (domain: IAgentsModuleDomain): string[] => {
-    if (!domain.agents) {
-      return [];
-    }
-    return domain.agents.map(getTaFullName).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
-  }
-);
-
-
 export const selectedCompanySelector = createSelector(
   domainSelector,
   (domain: IAgentsModuleDomain): IAgentsModuleDomain['selectedCompany'] => domain.selectedCompany
@@ -104,12 +93,27 @@ export const companiesSelector = createSelector(
   (domain: IAgentsModuleDomain): IAgentsModuleDomain['companies'] => domain.companies
 );
 
+export const selectedCompanyAgents = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): IAgentsModuleDomain['selectedCompanyAgents'] => domain.selectedCompanyAgents
+);
+
+export const selectedCompanyAgentsNames = createSelector(
+  domainSelector,
+  (domain: IAgentsModuleDomain): string[] => {
+    if (!domain.selectedCompanyAgents) {
+      return [];
+    }
+    return domain.selectedCompanyAgents.map(getTaFullName).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
+  }
+);
+
 export const companiesNamesSelector = createSelector(
   domainSelector,
   (domain: IAgentsModuleDomain): string[] => {
     if (!domain.companies) {
       return [];
     }
-    return domain.companies.map(c => c.name).filter(name => name.toLocaleLowerCase().search(domain.taNameSearch.toLocaleLowerCase()) !== -1);
+    return domain.companies.map(c => c.name).filter(name => name.toLocaleLowerCase().search(domain.companyNameSearch.toLocaleLowerCase()) !== -1);
   }
 );

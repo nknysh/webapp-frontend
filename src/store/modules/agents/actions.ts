@@ -2,6 +2,8 @@ import { ICompany, ITravelAgent } from 'services/BackendApi';
 export const GET_TRAVEL_AGENTS_REQUEST = 'agentsModule/GET_TRAVEL_AGENTS_REQUEST';
 export const GET_TRAVEL_AGENTS_SUCCESS = 'agentsModule/GET_TRAVEL_AGENTS_SUCCESS';
 export const GET_TRAVEL_AGENTS_FAILURE = 'agentsModule/GET_TRAVEL_AGENTS_FAILURE';
+export const GET_TRAVEL_AGENTS_BY_COMPANY_ID_SUCCESS = 'agentsModule/GET_TRAVEL_AGENTS_BY_COMPANY_ID_SUCCESS';
+export const GET_TRAVEL_AGENTS_BY_COMPANY_ID_FAILURE = 'agentsModule/GET_TRAVEL_AGENTS_BY_COMPANY_ID_FAILURE';
 export const SELECTED_TA_CHANGE = 'agentsModule/SELECTED_TA_CHANGE';
 export const SHOW_TA_DROPDOWN = 'agentsModule/SHOW_TA_DROPDOWN';
 export const SEARCH_TA_BY_NAME = 'agentsModule/SEARCH_TA_BY_NAME';
@@ -84,6 +86,18 @@ export const searchCompanyByNameAction = (value: string) => ({
   value,
 });
 
+export type GetTravelAgentsByCompanyIdSuccessAction = ReturnType<typeof getTravelAgentsByCompanyIdSuccessAction>;
+export const getTravelAgentsByCompanyIdSuccessAction = (agents: ITravelAgent[]) => ({
+  type: GET_TRAVEL_AGENTS_BY_COMPANY_ID_SUCCESS as typeof GET_TRAVEL_AGENTS_BY_COMPANY_ID_SUCCESS,
+  agents,
+});
+
+export type GetTravelAgentsByCompanyIdRequestAction = ReturnType<typeof getTravelAgentsByCompanyIdFailureAction>;
+export const getTravelAgentsByCompanyIdFailureAction = (error: string) => ({
+  type: GET_TRAVEL_AGENTS_BY_COMPANY_ID_FAILURE as typeof GET_TRAVEL_AGENTS_BY_COMPANY_ID_FAILURE,
+  error,
+});
+
 export type AgentsModuleAction =
   | GetTravelAgentRequestAction
   | GetTravelAgentSuccessAction
@@ -96,4 +110,6 @@ export type AgentsModuleAction =
   | GetCompaniesFailureAction
   | SelectedCompanyChangeAction
   | ShowCompanyDropdownAction
-  | SearchCompanyByNameAction;
+  | SearchCompanyByNameAction
+  | GetTravelAgentsByCompanyIdSuccessAction
+  | GetTravelAgentsByCompanyIdRequestAction;

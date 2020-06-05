@@ -74,7 +74,9 @@ export const agentsDomainReducer = (
         ...state,
         selectedCompany: action.value,
         companyNameSearch: action.value!.name,
-        selectedTa: null
+        selectedTa: null,
+        selectedCompanyAgents: null,
+        isFetchingTA: true,
       };
 
     case Actions.SHOW_COMPANY_DROPDOWN:
@@ -87,6 +89,13 @@ export const agentsDomainReducer = (
       return {
         ...state,
         companyNameSearch: action.value,
+      };
+
+    case Actions.GET_TRAVEL_AGENTS_BY_COMPANY_ID_SUCCESS:
+      return {
+        ...state,
+        selectedCompanyAgents: action.agents,
+        isFetchingTA: false,
       };
 
     default:

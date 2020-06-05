@@ -4,19 +4,18 @@ import { compose, bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {
-  agentsSelector,
+  selectedCompanyAgents,
+  selectedCompanyAgentsNames,
   companiesSelector,
   isFetchingTaSelector,
   showTaDropdownSelector,
   taNameSearchSelector,
-  taNamesSelector,
   selectedTaSelector,
   selectedCompanySelector,
   isFetchingCompaniesSelector,
   companiesNamesSelector,
   showCompanyDropdownSelector,
   companyNameSearchSelector,
-  getTravelAgentsRequestAction,
   selectedTaChangeAction,
   searchTaByNameAction,
   showTaDropdownAction,
@@ -30,11 +29,11 @@ import { isSR } from 'store/modules/auth';
 import { getTaFullName } from 'store/utils';
 
 export interface IStateToProps {
-  travelAgents: ReturnType<typeof agentsSelector>;
+  travelAgents: ReturnType<typeof selectedCompanyAgents>;
   isFetchingTA: ReturnType<typeof isFetchingTaSelector>;
   showTaDropdown: ReturnType<typeof showTaDropdownSelector>;
   selectedTa: ReturnType<typeof selectedTaSelector>;
-  taNames: ReturnType<typeof taNamesSelector>;
+  taNames: ReturnType<typeof selectedCompanyAgentsNames>;
   taNameSearch: ReturnType<typeof taNameSearchSelector>;
   isSr: ReturnType<typeof isSR>;
 
@@ -46,11 +45,11 @@ export interface IStateToProps {
   companyNameSearch: ReturnType<typeof companyNameSearchSelector>;
 }
 const mapStateToProps = createStructuredSelector({
-  travelAgents: agentsSelector,
+  travelAgents: selectedCompanyAgents,
   isFetchingTA: isFetchingTaSelector,
   showTaDropdown: showTaDropdownSelector,
   selectedTa: selectedTaSelector,
-  taNames: taNamesSelector,
+  taNames: selectedCompanyAgentsNames,
   taNameSearch: taNameSearchSelector,
   isSr: isSR,
 
@@ -63,7 +62,6 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const actionCreators = {
-  getTravelAgents: getTravelAgentsRequestAction,
   selectedTaChange: selectedTaChangeAction,
   searchTaByName: searchTaByNameAction,
   showTaDropdownChange: showTaDropdownAction,
@@ -90,14 +88,8 @@ export const makeWithTravelAgentsData = (WrappedComponent: any) =>
     static displayName = `WithTravelAgentsData(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
     componentDidMount() {
-      if (!this.props.isSr) {
-        return
-      }
-      if (!this.props.companies) {
+      if (this.props.isSr && !this.props.companies) {
         this.props.getCompanies();
-      }
-      if (!this.props.travelAgents) {
-        this.props.getTravelAgents();
       }
     }
 

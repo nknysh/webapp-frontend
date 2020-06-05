@@ -104,8 +104,8 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   }
 
   componentDidUpdate(prevProps) {
-    const prevCompanyCode = prevProps.selectedTa ? prevProps.selectedTa.companySignupInfo.countryCode : undefined;
-    const newCompanyCode = this.props.selectedTa ? this.props.selectedTa.companySignupInfo.countryCode : undefined;
+    const prevCompanyCode = prevProps.selectedCompany ? prevProps.selectedCompany.countryCode : undefined;
+    const newCompanyCode = this.props.selectedCompany ? this.props.selectedCompany.countryCode : undefined;
 
     const companyHasChanged = newCompanyCode && newCompanyCode !== prevCompanyCode;
     const countryHasChanged = this.props.actingCountryCode !== prevProps.actingCountryCode;
@@ -121,10 +121,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   // ----------------------
 
   fetchAvailableOffers() {
-    const { isSr, getOffers, searchQuery, selectedTa } = this.props;
-    if (isSr && selectedTa) {
+    const { isSr, getOffers, searchQuery, selectedCompany } = this.props;
+    if (isSr && selectedCompany) {
       const searchMetadata = {
-        predefinedCompanyCountryCode: selectedTa.companySignupInfo.countryCode
+        predefinedCompanyCountryCode: selectedCompany.countryCode
       };
       getOffers(searchQuery, searchMetadata);
     }

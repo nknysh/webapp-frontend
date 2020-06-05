@@ -13,6 +13,7 @@ export interface IAgentsModuleDomain {
   selectedCompany: ICompany | null;
   showCompanyDropdown: boolean;
   companyNameSearch: string;
+  selectedCompanyAgents: ITravelAgent[] | null;
 }
 
 export const initialState: IAgentsModuleDomain = {
@@ -28,5 +29,6 @@ export const initialState: IAgentsModuleDomain = {
   isFetchingCompanies: true,
   selectedCompany: null,
   showCompanyDropdown: false,
-  companyNameSearch: ''
+  companyNameSearch: '',
+  selectedCompanyAgents: null,
 };

@@ -152,6 +152,11 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint);
   };
 
+  getTravelAgentsByCompanyId = async (companyUuid: string): Promise<AxiosResponse<ITravelAgentResponse>> => {
+    const endpoint = `${BackendEndpoints.USERS}?filter[user][type]=ta&filter[user][companyUuid]=${companyUuid}`;
+    return this.client.get(endpoint);
+  };
+
   getHotelsAsHotelNames = async (): Promise<AxiosResponse<IHotelNamesResponse>> => {
     const endpoint = `/hotels?fields[hotel]=uuid,name,countryCode&sort=hotel.name`;
     return this.client.get(endpoint);
