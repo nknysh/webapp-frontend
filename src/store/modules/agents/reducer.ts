@@ -41,7 +41,7 @@ export const agentsDomainReducer = (
         showTaDropdown: action.value,
       };
 
-    case Actions.SEARCH_TA_BY_NAME_CHANGE:
+    case Actions.SEARCH_TA_BY_NAME:
       return {
         ...state,
         taNameSearch: action.value,

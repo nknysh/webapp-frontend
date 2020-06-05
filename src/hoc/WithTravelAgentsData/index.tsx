@@ -18,7 +18,7 @@ import {
   companyNameSearchSelector,
   getTravelAgentsRequestAction,
   selectedTaChangeAction,
-  searchTaByNameChangeAction,
+  searchTaByNameAction,
   showTaDropdownAction,
   getCompaniesRequestAction,
   selectedCompanyChangeAction,
@@ -65,13 +65,13 @@ const mapStateToProps = createStructuredSelector({
 const actionCreators = {
   getTravelAgents: getTravelAgentsRequestAction,
   selectedTaChange: selectedTaChangeAction,
-  searchTaByNameChange: searchTaByNameChangeAction,
+  searchTaByName: searchTaByNameAction,
   showTaDropdownChange: showTaDropdownAction,
 
   getCompanies: getCompaniesRequestAction,
   selectedCompanyChange: selectedCompanyChangeAction,
   searchCompanyByName: searchCompanyByNameAction,
-  showCompanyDropdown: showCompanyDropdownAction,
+  showCompanyDropdownChange: showCompanyDropdownAction,
 };
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(actionCreators, dispatch);
 type IDispatchToProps = typeof actionCreators;
@@ -90,21 +90,33 @@ export const makeWithTravelAgentsData = (WrappedComponent: any) =>
     static displayName = `WithTravelAgentsData(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
     componentDidMount() {
-      if (this.props.isSr && !this.props.companies) {
+      if (!this.props.isSr) {
+        return
+      }
+      if (!this.props.companies) {
         this.props.getCompanies();
+      }
+      if (!this.props.travelAgents) {
+        this.props.getTravelAgents();
       }
     }
 
     handleTaNameChange = (taFullName: string) => {
-      const agents = this.props.travelAgents || [];
-      const selectedTA = agents.find(ta => getTaFullName(ta) === taFullName) || null;
-      this.props.selectedTaChange(selectedTA);
+      const isNewTa = !this.props.selectedTa || getTaFullName(this.props.selectedTa) !== taFullName;
+      if (isNewTa) {
+        const agents = this.props.travelAgents || [];
+        const selectedTA = agents.find(ta => getTaFullName(ta) === taFullName) || null;
+        this.props.selectedTaChange(selectedTA);
+      }
     };
 
     handleCompanyNameChange = (name: string) => {
-      const companies = this.props.companies || [];
-      const selectedCompany = companies.find(c => c.name === name) || null;
-      this.props.selectedCompanyChange(selectedCompany);
+      const isNewCompany = !this.props.selectedCompany || this.props.selectedCompany.name !== name;
+      if (isNewCompany) {
+        const companies = this.props.companies || [];
+        const selectedCompany = companies.find(c => c.name === name) || null;
+        this.props.selectedCompanyChange(selectedCompany);
+      }
     };
 
     render() {

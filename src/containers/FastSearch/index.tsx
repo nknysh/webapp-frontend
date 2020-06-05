@@ -158,6 +158,10 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
     this.props.showTaDropdownChange(visible);
   };
 
+  handleShowCompaniesDropDown = (visible: boolean) => () => {
+    this.props.showCompanyDropdownChange(visible);
+  };
+
   // ---------------------------------------------------
 
   handleRemoveAllFilters = () => {
@@ -190,23 +194,44 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
       {this.props.isSr &&
       <SidebarGroup>
         <label className="basicSearchLabel">
-          <span>Travel Agent</span>
+          <span>Company</span>
           {
-            this.props.isFetchingTA ?
-              <span>Loading travel agents...</span>
+            this.props.isFetchingCompanies ?
+              <span>Loading companies...</span>
               :
               <PredictiveTextInput
-                placeholder="Select agent..."
-                value={this.props.taNameSearch}
-                onChange={e => this.props.searchTaByNameChange(e.currentTarget.value)}
-                options={[this.props.taNames]}
-                onOptionSelect={this.props.handleTaNameChange}
-                showDropDown={this.props.showTaDropdown}
-                onFocus={this.handleShowTravelAgentsDropDown(true)}
-                onBlur={this.handleShowTravelAgentsDropDown(false)}
+                placeholder="Select company..."
+                value={this.props.companyNameSearch}
+                onChange={e => this.props.searchCompanyByName(e.currentTarget.value)}
+                options={[this.props.companiesNames]}
+                onOptionSelect={this.props.handleCompanyNameChange}
+                showDropDown={this.props.showCompanyDropdown}
+                onFocus={this.handleShowCompaniesDropDown(true)}
+                onBlur={this.handleShowCompaniesDropDown(false)}
               />
           }
         </label>
+        {
+          this.props.selectedCompany &&
+          <label className="basicSearchLabel">
+            <span>Travel Agent</span>
+            {
+              this.props.isFetchingTA ?
+                <span>Loading travel agents...</span>
+                :
+                <PredictiveTextInput
+                  placeholder="Select agent..."
+                  value={this.props.taNameSearch}
+                  onChange={e => this.props.searchTaByName(e.currentTarget.value)}
+                  options={[this.props.taNames]}
+                  onOptionSelect={this.props.handleTaNameChange}
+                  showDropDown={this.props.showTaDropdown}
+                  onFocus={this.handleShowTravelAgentsDropDown(true)}
+                  onBlur={this.handleShowTravelAgentsDropDown(false)}
+                />
+            }
+          </label>
+        }
       </SidebarGroup>
       }
       <SidebarGroup>

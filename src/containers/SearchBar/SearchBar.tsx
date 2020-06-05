@@ -10,6 +10,7 @@ import { PrimaryButton } from 'pureUi/Buttons';
 import { pureUiTheme } from 'pureUi/pureUiTheme';
 import Checkbox from 'pureUi/Checkbox';
 import { DatePickerStateProvider, IDatePickerSateParams } from 'pureUi/providers/DatePickerStateProvider';
+import SidebarGroup from "../../pureUi/SidebarGroup";
 
 export interface ISearchBarProps extends IWithBasicSearchProps, IWithTravelAgentsDataProps {
   className: string;
@@ -19,27 +20,6 @@ export const SearchBar = (props: ISearchBarProps) => {
   return (
     <div className={props.className}>
       <div className="grid">
-        {props.isSr &&
-        <label className="basicSearchLabel">
-          <span>Travel Agent</span>
-          {
-            props.isFetchingTA ?
-              <span>Loading travel agents...</span>
-              :
-              <PredictiveTextInput
-                placeholder="Select agent..."
-                value={props.taNameSearch}
-                onChange={e => props.searchTaByNameChange(e.currentTarget.value)}
-                options={[props.taNames]}
-                onOptionSelect={props.handleTaNameChange}
-                showDropDown={props.showTaDropdown}
-                onFocus={() => props.showTaDropdownChange(true)}
-                onBlur={() => props.showTaDropdownChange(false)}
-              />
-          }
-        </label>
-        }
-
         <label>
           <span>Destination or Resort</span>
           <PredictiveTextInput
@@ -110,6 +90,46 @@ export const SearchBar = (props: ISearchBarProps) => {
         >
           Search
         </PrimaryButton>
+
+        { props.isSr &&
+        <label className="basicSearchLabel">
+          <span>Company</span>
+          {props.isFetchingCompanies ?
+            <span>Loading companies...</span>
+            :
+            <PredictiveTextInput
+              placeholder="Select company..."
+              value={props.companyNameSearch}
+              onChange={e => props.searchCompanyByName(e.currentTarget.value)}
+              options={[props.companiesNames]}
+              onOptionSelect={props.handleCompanyNameChange}
+              showDropDown={props.showCompanyDropdown}
+              onFocus={() => props.showCompanyDropdownChange(true)}
+              onBlur={() => props.showCompanyDropdownChange(false)}
+            />
+          }
+        </label>
+        }
+        { props.isSr && props.selectedCompany &&
+        <label className="basicSearchLabel">
+          <span>Travel Agent</span>
+          {
+            props.isFetchingTA ?
+              <span>Loading travel agents...</span>
+              :
+              <PredictiveTextInput
+                placeholder="Select agent..."
+                value={props.taNameSearch}
+                onChange={e => props.searchTaByName(e.currentTarget.value)}
+                options={[props.taNames]}
+                onOptionSelect={props.handleTaNameChange}
+                showDropDown={props.showTaDropdown}
+                onFocus={() => props.showTaDropdownChange(true)}
+                onBlur={() => props.showTaDropdownChange(false)}
+              />
+          }
+        </label>
+        }
       </div>
     </div>
   );
@@ -127,10 +147,11 @@ const StyledSearchBar = styled(SearchBar)`
     display: grid;
     ${props => {
       return props.isSr
-        ? 'grid-template-columns: repeat(4, 1fr) 124px 215px;'
+        ? 'grid-template-columns: repeat(3, 1fr) 124px 215px;'
         : 'grid-template-columns: repeat(3, 1fr) 124px;';
     }}
     grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
     align-items: end;
   }
 

@@ -4,7 +4,7 @@ export const GET_TRAVEL_AGENTS_SUCCESS = 'agentsModule/GET_TRAVEL_AGENTS_SUCCESS
 export const GET_TRAVEL_AGENTS_FAILURE = 'agentsModule/GET_TRAVEL_AGENTS_FAILURE';
 export const SELECTED_TA_CHANGE = 'agentsModule/SELECTED_TA_CHANGE';
 export const SHOW_TA_DROPDOWN = 'agentsModule/SHOW_TA_DROPDOWN';
-export const SEARCH_TA_BY_NAME_CHANGE = 'agentsModule/SEARCH_TA_BY_NAME_CHANGE';
+export const SEARCH_TA_BY_NAME = 'agentsModule/SEARCH_TA_BY_NAME';
 export const GET_COMPANIES_REQUEST = 'agentsModule/GET_COMPANIES_REQUEST';
 export const GET_COMPANIES_SUCCESS = 'agentsModule/GET_COMPANIES_SUCCESS';
 export const GET_COMPANIES_FAILURE = 'agentsModule/GET_COMPANIES_FAILURE';
@@ -42,9 +42,9 @@ export const showTaDropdownAction = (value: boolean) => ({
   value,
 });
 
-export type SearchTaByNameChangeAction = ReturnType<typeof searchTaByNameChangeAction>;
-export const searchTaByNameChangeAction = (value: string) => ({
-  type: SEARCH_TA_BY_NAME_CHANGE as typeof SEARCH_TA_BY_NAME_CHANGE,
+export type SearchTaByNameAction = ReturnType<typeof searchTaByNameAction>;
+export const searchTaByNameAction = (value: string) => ({
+  type: SEARCH_TA_BY_NAME as typeof SEARCH_TA_BY_NAME,
   value,
 });
 
@@ -90,7 +90,7 @@ export type AgentsModuleAction =
   | GetTravelAgentFailureAction
   | SelectedTaChangeAction
   | ShowTaDropdownAction
-  | SearchTaByNameChangeAction
+  | SearchTaByNameAction
   | GetCompaniesRequestAction
   | GetCompaniesSuccessAction
   | GetCompaniesFailureAction
