@@ -108,7 +108,7 @@ export const selectedCompanyAgentsNames = createSelector(
   }
 );
 
-export const companiesNamesSelector = createSelector(
+export const companyNamesSelector = createSelector(
   domainSelector,
   (domain: IAgentsModuleDomain): string[] => {
     if (!domain.companies) {

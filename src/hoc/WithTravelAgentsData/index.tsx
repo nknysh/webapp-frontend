@@ -13,7 +13,7 @@ import {
   selectedTaSelector,
   selectedCompanySelector,
   isFetchingCompaniesSelector,
-  companiesNamesSelector,
+  companyNamesSelector,
   showCompanyDropdownSelector,
   companyNameSearchSelector,
   selectedTaChangeAction,
@@ -39,7 +39,7 @@ export interface IStateToProps {
 
   companies: ReturnType<typeof companiesSelector>;
   isFetchingCompanies: ReturnType<typeof isFetchingCompaniesSelector>;
-  companiesNames: ReturnType<typeof companiesNamesSelector>;
+  companiesNames: ReturnType<typeof companyNamesSelector>;
   selectedCompany: ReturnType<typeof selectedCompanySelector>;
   showCompanyDropdown: ReturnType<typeof showCompanyDropdownSelector>;
   companyNameSearch: ReturnType<typeof companyNameSearchSelector>;
@@ -55,7 +55,7 @@ const mapStateToProps = createStructuredSelector({
 
   companies: companiesSelector,
   isFetchingCompanies: isFetchingCompaniesSelector,
-  companiesNames: companiesNamesSelector,
+  companiesNames: companyNamesSelector,
   selectedCompany: selectedCompanySelector,
   showCompanyDropdown: showCompanyDropdownSelector,
   companyNameSearch: companyNameSearchSelector,
