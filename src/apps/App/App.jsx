@@ -16,7 +16,7 @@ import { RatesImportContainerConnected } from 'containers/RatesImport';
 import { AllotmentsImportContainerConnected } from 'containers/AllotmentsImport';
 import { OfferRouting } from 'containers/OfferRouting';
 import { BookingManagerRouting } from 'containers/BookingManager/routing';
-import { AuthRoute } from 'containers/AuthRoute';
+import AuthRoute from 'containers/AuthRoute';
 import { EUserType } from 'services/BackendApi';
 
 export const App = ({
