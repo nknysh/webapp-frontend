@@ -4,7 +4,7 @@ import { pipe } from 'ramda';
 import { getHotel, getHotelsBrochures, getHotelsPhotos } from 'store/modules/hotels';
 import { fetchHotel } from 'store/modules/hotel';
 import { addRoom, removeRoom, updateBooking } from 'store/modules/bookings';
-
+import { selectedTaSelector } from 'store/modules/agents'
 import {
   initializeBookingBuilderAction,
   resetBookingBuilderUiStateAction,
@@ -41,6 +41,7 @@ export const mapStateToProps = (state, { id }) => ({
   proposalResult: getProposalsResults(state),
   proposalStatus: getProposalsStatus(state),
   actingCountryCode: getUserCountryContext(state),
+  selectedTa: selectedTaSelector(state),
 });
 
 export const mapDispatchToProps = dispatch => ({

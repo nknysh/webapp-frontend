@@ -55,9 +55,10 @@ export const SET_IS_PRISTINE = 'bookingBuilder/SET_IS_PRISTINE';
 export const SET_LATEST_BOOKING_OPERATION = 'bookingBuilder/SET_LATEST_BOOKING_OPERATION';
 
 export type InitializeBookingBuilderAction = ReturnType<typeof initializeBookingBuilderAction>;
-export const initializeBookingBuilderAction = (hotelUuid: string) => ({
+export const initializeBookingBuilderAction = (hotelUuid: string, selectedTaUuid: string) => ({
   type: INITIALIZE_BOOKING_BUILDER as typeof INITIALIZE_BOOKING_BUILDER,
   hotelUuid,
+  selectedTaUuid
 });
 
 export type InitializeBookingBuilderFailureAction = ReturnType<typeof initializeBookingBuilderFailureAction>;

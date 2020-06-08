@@ -270,7 +270,7 @@ export const HotelContainer = ({
   const { t } = useTranslation();
   const [redirectToHold, setRedirectToHold] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { initializeBooking, match } = props;
+  const { initializeBooking, match, selectedTa } = props;
 
   const { isMobile } = useCurrentWidth();
 
@@ -281,8 +281,14 @@ export const HotelContainer = ({
   }, []);
 
   useEffect(() => {
-    initializeBooking(match.params.id);
-  }, [initializeBooking, match]);
+    // if we have a selectedTa from the withTravelAgent domain
+    //   initialise with that too
+    if (selectedTa && selectedTa.uuid) {
+      initializeBooking(match.params.id, selectedTa.uuid);
+    } else {
+      initializeBooking(match.params.id);
+    }
+  }, [initializeBooking, match, selectedTa]);
 
   useEffect(() => {
     async function load() {

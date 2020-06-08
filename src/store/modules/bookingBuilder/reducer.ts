@@ -9,6 +9,7 @@ import { flatten, min as Rmin } from 'ramda';
 import produce from 'immer';
 import { formatDate } from 'utils';
 import { min, max, subDays } from 'date-fns';
+import { selectedTaSelector } from 'store/modules/agents/selectors'
 
 export const bookingBuilderReducer = (
   state: BookingBuilderDomain = initialState,
@@ -479,6 +480,9 @@ export const initializeBookingBuilderReducer = (
 ): BookingBuilderDomain => {
   return produce(state, draftState => {
     draftState.hotelUuid = action.hotelUuid;
+    if (action.selectedTaUuid) {
+      draftState.travelAgentUserUuid = action.selectedTaUuid;
+    }
 
     return draftState;
   });

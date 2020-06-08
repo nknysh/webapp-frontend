@@ -179,7 +179,8 @@ export class FastSearchContainer extends React.PureComponent<FastSearchProps, {}
   handleSearchResultClick = (hotelUuid: string) => {
     if (this.props.isSr && this.props.selectedTa) {
       // saga clears BB after fetching offers, so we set selected TA id right before navigating to BB page
-      this.props.updateBookingTravelAgentUser(this.props.selectedTa.uuid);
+      // this.props.updateBookingTravelAgentUser(this.props.selectedTa.uuid);
+      // Keeping code for posterity - we don't do this anymore - see https://pureescapes.atlassian.net/browse/OWA-1666
     }
     this.props.history.push(`/hotels/${hotelUuid}`);
   };
