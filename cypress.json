@@ -1,0 +1,10 @@
+{
+	"video": false,
+	"viewportHeight": 1200,
+	"viewportWidth": 1900,
+	"defaultCommandTimeout": 20000,
+
+	"env": {
+		"RETRIES": 1
+	}
+}
