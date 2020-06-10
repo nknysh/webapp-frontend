@@ -9,7 +9,7 @@ import { flatten, min as Rmin } from 'ramda';
 import produce from 'immer';
 import { formatDate } from 'utils';
 import { min, max, subDays } from 'date-fns';
-import { selectedTaSelector } from 'store/modules/agents/selectors'
+import { selectedTaSelector } from 'store/modules/agents/selectors';
 
 export const bookingBuilderReducer = (
   state: BookingBuilderDomain = initialState,
@@ -77,7 +77,7 @@ export const bookingBuilderReducer = (
 
     case Actions.SET_IS_PRISTINE:
       return setIsPristineReducer(state, action);
-    
+
     case Actions.SET_LATEST_BOOKING_OPERATION:
       return latestBookingOperationReducer(state, action);
 
@@ -302,10 +302,22 @@ export const removeLodgingReducer = (
       return state;
     }
 
+    // if we're somehow trying to remove a lodging that doesn't exist, just return out
+    if (!draftState.currentBookingBuilder.request.Accommodation[lodgingIndex]) {
+      return state;
+    }
+
     // remove the lodging at the index
     draftState.currentBookingBuilder.request.Accommodation.splice(lodgingIndex, 1);
 
-    // rebuild the request level `guestAges` to match all the new figures
+    // now that the lodging has gone, rebuild the overall start and end dates
+    const { earliestStartDate, latestEndDate } = calculateBookingDates(
+      draftState.currentBookingBuilder.request.Accommodation
+    );
+    draftState.currentBookingBuilder.request.startDate = formatDate(earliestStartDate);
+    draftState.currentBookingBuilder.request.endDate = formatDate(latestEndDate);
+
+    // rebuild the request level `guestAges` to match all the new guest ages and dates
     draftState.currentBookingBuilder.request.guestAges = calculateBookingTotalGuestAges(
       draftState.currentBookingBuilder.request.Accommodation
     );
@@ -314,34 +326,37 @@ export const removeLodgingReducer = (
     // they've basically manually reset the booking - reset a whooooole bunch of stuff
     if (draftState.currentBookingBuilder.request.Accommodation.length <= 0) {
       draftState.currentBookingBuilder.request.Accommodation = [];
-      draftState.currentBookingBuilder.response.canBeBooked = false;
-      draftState.currentBookingBuilder.response.mustStop = false;
-      draftState.currentBookingBuilder.response.errors = [];
-      draftState.currentBookingBuilder.response.displayTotals.totals.total = null;
-      draftState.currentBookingBuilder.response.potentialBooking = {
-        Accommodation: [],
-        Supplement: [],
-        Transfer: [],
-        'Ground Service': [],
-        Fine: [],
-      };
-      draftState.currentBookingBuilder.response.availableProductSets = {
-        Accommodation: [],
-        Supplement: [],
-        Transfer: [],
-        'Ground Service': [],
-        Fine: [],
-      };
-
-      draftState.currentBookingBuilder.response.totals = {
-        oneOrMoreItemsOnRequest: false,
-        totalForPricedItemsCents: 0,
-        totalBeforeDiscountForPricedItemsCents: 0,
-        totalForPricedItems: '0.00',
-        totalBeforeDiscountForPricedItems: '0.00',
-        total: '0.00',
-        totalBeforeDiscount: '0.00',
-      };
+      if (draftState.currentBookingBuilder.response) {
+        draftState.currentBookingBuilder.response.canBeBooked = false;
+        draftState.currentBookingBuilder.response.mustStop = false;
+        draftState.currentBookingBuilder.response.errors = [];
+        draftState.currentBookingBuilder.response.potentialBooking = {
+          Accommodation: [],
+          Supplement: [],
+          Transfer: [],
+          'Ground Service': [],
+          Fine: [],
+        };
+        draftState.currentBookingBuilder.response.availableProductSets = {
+          Accommodation: [],
+          Supplement: [],
+          Transfer: [],
+          'Ground Service': [],
+          Fine: [],
+        };
+        draftState.currentBookingBuilder.response.totals = {
+          oneOrMoreItemsOnRequest: false,
+          totalForPricedItemsCents: 0,
+          totalBeforeDiscountForPricedItemsCents: 0,
+          totalForPricedItems: '0.00',
+          totalBeforeDiscountForPricedItems: '0.00',
+          total: '0.00',
+          totalBeforeDiscount: '0.00',
+        };
+        if (draftState.currentBookingBuilder.response?.displayTotals?.totals) {
+          draftState.currentBookingBuilder.response.displayTotals.totals.total = null;
+        }
+      }
     }
 
     return draftState;
@@ -641,15 +656,21 @@ export const updateBookingTravelAgentUserIdReducer = (
   });
 };
 
+// given a collection of lodgings, calculate the total guest ages across all the lodgings
+//   e.g given 2 lodgings
+//     lodging a: 1st - 10th, 2 guests
+//     lodging b: 11th - 20th, 2 guests
+//   then thats 2 guests in total, not 4.
 export const calculateBookingTotalGuestAges = (lodgings: SelectedAccommodation[]) => {
   let numberOfAdults: number = 0;
   let agesOfAllChildren: number[] = [];
 
-  const { earliestStartDate: esd } = calculateBookingDates(lodgings);
-  const earliestStartDate = formatDate(esd);
+  let { earliestStartDate } = calculateBookingDates(lodgings);
+  const earliestStart = formatDate(earliestStartDate);
 
   lodgings
-    .filter(accom => accom.startDate === earliestStartDate)
+    // keep only lodgings that match the earliest overall start date
+    .filter(accom => accom.startDate === earliestStart)
     .forEach(accom => {
       numberOfAdults += accom.guestAges.numberOfAdults;
       if (accom.guestAges.agesOfAllChildren && accom.guestAges.agesOfAllChildren.length >= 1) {
@@ -663,8 +684,8 @@ export const calculateBookingTotalGuestAges = (lodgings: SelectedAccommodation[]
   };
 };
 
-// rebuild the request level `startDate` and `endDate` so they are the earliest state
-// and latest end, respectively
+// given a collection of accommodations, calculate and return the earliest start date
+// and the latest end date
 export const calculateBookingDates = (accommodations: SelectedAccommodation[]) => {
   let earliestStartDate = accommodations[0] ? new Date(accommodations[0].startDate) : new Date();
   let latestEndDate = accommodations[0] ? new Date(accommodations[0].endDate) : new Date();
