@@ -12,6 +12,7 @@ import {
   confirmSelector,
   cancelSelector,
   progressBarDataSelector,
+  compactGuestBreakdownSelector,
 } from './selectors';
 import { ENetworkRequestStatus, EBookingStatus, IBooking } from 'services/BackendApi';
 
@@ -200,6 +201,30 @@ describe('Booking manager selectors', () => {
       expect(result).toMatchObject({
         stages: [],
       });
+    });
+  });
+
+  describe('compact guest details', () => {
+    it('builds it without kids', () => {
+      const fixture: IBooking = {
+        numAdults: 4,
+        agesOfAllChildren: [],
+      };
+
+      const result = compactGuestBreakdownSelector.resultFunc(fixture);
+
+      expect(result).toEqual('4 (4x Adults)');
+    });
+
+    it('builds it with kids', () => {
+      const fixture: IBooking = {
+        numAdults: 4,
+        agesOfAllChildren: [3, 5],
+      };
+
+      const result = compactGuestBreakdownSelector.resultFunc(fixture);
+
+      expect(result).toEqual('6 (4x Adults, 2x Children)');
     });
   });
 });

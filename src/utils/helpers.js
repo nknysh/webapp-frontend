@@ -20,6 +20,8 @@ import {
   values,
 } from 'ramda';
 
+const currencyConfig = require('config/data/currencies.json');
+
 export const noop = () => {};
 
 export const isArray = is(Array);
@@ -174,4 +176,13 @@ export const arrayOfObjectsToMapping = (arrayOfObjects, key, value) => {
 
 export const isBlank = value => {
   return value === '' || value === null || value === undefined;
+};
+
+export const currencyCodeToSymbol = currencyCode => {
+  try {
+    const symbol = currencyConfig[currencyCode].symbol;
+    return symbol;
+  } catch (e) {
+    throw Error(`Cannot find currency symbol for "${currencyCode}"`);
+  }
 };

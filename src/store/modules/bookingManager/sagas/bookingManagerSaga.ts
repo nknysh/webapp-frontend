@@ -27,7 +27,7 @@ export function* getBookingSaga(action: GetBookingRequestAction) {
   try {
     const actingCountryCode = yield select(getUserCountryContext);
     const backendApi = makeBackendApi(actingCountryCode);
-    const result: AxiosResponse<IGetBookingResponse> = yield call(backendApi.getBooking, action.uuid);
+    const result: AxiosResponse<IGetBookingResponse> = yield call(backendApi.getBooking, action.uuid, ['travelAgent']);
     yield put(getBookingSuccessAction(result.data.data));
   } catch (e) {
     yield put(getBookingFailureAction(e));

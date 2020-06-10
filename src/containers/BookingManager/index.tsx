@@ -2,8 +2,11 @@ import React from 'react';
 import { createStructuredSelector } from 'reselect';
 import { bindActionCreators, Dispatch, compose } from 'redux';
 import { connect } from 'react-redux';
-import { PrimaryActionToolbar } from './PrimaryActionToolbar';
-import { ProgressBar } from './ProgressBar';
+
+import { Header } from './Header';
+import { Body } from './Body';
+import { Sidebar } from './Sidebar';
+
 import { ENetworkRequestStatus } from 'services/BackendApi';
 import {
   getBookingRequestAction,
@@ -20,6 +23,7 @@ import {
   confirmSelector,
   cancelSelector,
   progressBarDataSelector,
+  compactGuestBreakdownSelector,
 } from 'store/modules/bookingManager/selectors';
 
 import { isSR } from 'store/modules/auth';
@@ -31,62 +35,44 @@ export class BookingManagerContainerComponent extends React.Component<IBookingMa
   }
 
   render() {
+    if (this.props.bookingLoadRequestStatus === ENetworkRequestStatus.PENDING) {
+      return (
+        <div>
+          <p>Loading...</p>
+        </div>
+      );
+    }
+    if (this.props.bookingLoadRequestStatus === ENetworkRequestStatus.ERROR) {
+      return (
+        <div>
+          <p>There was an error loading the booking. Please try again.</p>
+        </div>
+      );
+    }
+
     return (
       <div className={this.props.className}>
-        <div className="top-bar">
-          {this.props.bookingLoadRequestStatus === ENetworkRequestStatus.SUCCESS && (
-            <ProgressBar data={this.props.progressBarData} />
-          )}
-        </div>
-        {this.props.bookingLoadRequestStatus === ENetworkRequestStatus.PENDING && <p>Loading...</p>}
+        <Header
+          booking={this.props.booking}
+          leadGuestInformation={this.props.leadGuestInformation}
+          compactGuestBreakdown={this.props.compactGuestBreakdown}
+        />
 
-        {this.props.bookingLoadRequestStatus === ENetworkRequestStatus.ERROR && (
-          <p>There was an error. Please refresh.</p>
-        )}
-
-        {this.props.bookingLoadRequestStatus === ENetworkRequestStatus.SUCCESS && (
-          <div>
-            <div className="booking-information">
-              <label>Booking Status</label>
-              <p>{this.props.booking.status}</p>
-            </div>
-
-            <div className="lead-guest-information">
-              <p>{this.props.leadGuestInformation.guestTitle}</p>
-              <p>{this.props.leadGuestInformation.guestFirstName}</p>
-              <p>{this.props.leadGuestInformation.guestLastName}</p>
-              <p>{this.props.leadGuestInformation.guestEmail}</p>
-            </div>
-
-            {this.props.requestToBookRequestStatus === ENetworkRequestStatus.PENDING ||
-            this.props.confirmRequestStatus === ENetworkRequestStatus.PENDING ||
-            this.props.cancelRequestStatus === ENetworkRequestStatus.PENDING ? (
-              <p>Loading...</p>
-            ) : (
-              <React.Fragment>
-                {this.props.requestToBookRequestStatus === ENetworkRequestStatus.ERROR && (
-                  <p>There was an error while attempting to mark this booking as Requested. Please try again.</p>
-                )}
-
-                {this.props.cancelRequestStatus === ENetworkRequestStatus.ERROR && (
-                  <p>There was an error while attempting to mark this booking as Cancelled. Please try again.</p>
-                )}
-
-                {this.props.confirmRequestStatus === ENetworkRequestStatus.ERROR && (
-                  <p>There was an error while attempting to mark this booking as Confirmed. Please try again.</p>
-                )}
-
-                <PrimaryActionToolbar
-                  booking={this.props.booking}
-                  isSr={this.props.isSr}
-                  requestToBookRequest={this.props.requestToBookRequest}
-                  cancelRequest={this.props.cancelRequest}
-                  confirmRequest={this.props.confirmRequest}
-                />
-              </React.Fragment>
-            )}
-          </div>
-        )}
+        <main>
+          <Sidebar />
+          <Body
+            booking={this.props.booking}
+            requestToBookRequestStatus={this.props.requestToBookRequestStatus}
+            confirmRequestStatus={this.props.confirmRequestStatus}
+            cancelRequestStatus={this.props.cancelRequestStatus}
+            progressBarData={this.props.progressBarData}
+            leadGuestInformation={this.props.leadGuestInformation}
+            isSr={this.props.isSr}
+            requestToBookRequest={this.props.requestToBookRequest}
+            cancelRequest={this.props.cancelRequest}
+            confirmRequest={this.props.confirmRequest}
+          />
+        </main>
       </div>
     );
   }
@@ -116,6 +102,7 @@ const mapStateToProps = createStructuredSelector({
   confirmRequestStatus: confirmSelector,
   cancelRequestStatus: cancelSelector,
   progressBarData: progressBarDataSelector,
+  compactGuestBreakdown: compactGuestBreakdownSelector,
 });
 
 const actionCreators = {
@@ -136,16 +123,12 @@ const withConnect = connect<StateToProps, DispatchToProps, IBookingManagerContai
 );
 
 export const BookingManagerContainer = styled(BookingManagerContainerComponent)`
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px 10px;
-
-  .top-bar {
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 16px;
+  main {
     display: flex;
-    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
   }
 `;
 

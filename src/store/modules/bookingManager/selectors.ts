@@ -140,3 +140,18 @@ export const progressBarDataSelector = createSelector(bookingSelector, (booking:
     stages,
   };
 });
+
+export const compactGuestBreakdownSelector = createSelector(bookingSelector, booking => {
+  const numberOfAdults = booking.numAdults || 0;
+  const agesOfAllChildren = booking.agesOfAllChildren || [];
+
+  let formattedBreakdown = `${numberOfAdults + agesOfAllChildren.length}`;
+
+  if (agesOfAllChildren.length) {
+    formattedBreakdown += ` (${numberOfAdults}x Adults, ${agesOfAllChildren.length}x Children)`;
+  } else {
+    formattedBreakdown += ` (${numberOfAdults}x Adults)`;
+  }
+
+  return formattedBreakdown;
+});

@@ -601,10 +601,38 @@ export interface HotelAccommodationProduct {
   potentialBooking: any;
 }
 
+export interface IBookingTravelAgent {
+  uuid: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  title: string;
+  phoneNumber: string;
+  mobileNumber: string;
+  address1: string;
+  address2: string;
+  city: string;
+  postalCode: string;
+  countryCode: string;
+  status: string;
+  isExistingPartner: boolean;
+  agreeToTerms: string;
+  type: string;
+  receiveEmailAlerts: string;
+  companyUuid: string;
+  companySignupInfo: {
+    name: string;
+    countryCode: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IBooking {
   agesOfAllChildren?: number[];
   bookingComments?: string;
   bookingHash?: string;
+  breakdown?: BookingBuilderResponse;
   checkInDate?: string;
   checkOutDate?: string;
   clientUuid?: null;
@@ -633,7 +661,9 @@ export interface IBooking {
   travelAgentUserUuid?: string;
   updatedAt?: string;
   uuid?: string;
+  humanReadableId?: string;
   stateHistory?: IBookingStateHistory[];
+  travelAgent?: IBookingTravelAgent;
 }
 
 export interface IBookingStateHistory {

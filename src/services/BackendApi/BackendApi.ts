@@ -138,9 +138,13 @@ export class BackendApiService<T extends AxiosInstance> {
     return this.client.get(endpoint, { params: query });
   };
 
-  getBooking = async (uuid): Promise<AxiosResponse<IGetBookingResponse>> => {
+  getBooking = async (uuid: string, associations: string[] = []): Promise<AxiosResponse<IGetBookingResponse>> => {
     const endpoint = `${BackendEndpoints.BOOKINGS}`;
-    return this.client.get(`${endpoint}/${uuid}`);
+    let url = `${endpoint}/${uuid}`;
+    if (associations.length >= 1) {
+      url += `?associations=${associations.join(',')}`;
+    }
+    return this.client.get(url);
   };
 
   getTravelAgents = async (): Promise<AxiosResponse<ITravelAgentResponse>> => {

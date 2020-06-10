@@ -30,3 +30,6 @@ tests/coverage
 .npmrc
 /.cache
 /test-report.xml
+
+# local dev
+.vscode
