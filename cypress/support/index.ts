@@ -19,8 +19,9 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return false
   })
 
-require('cypress-plugin-retries')
+// require('cypress-plugin-retries')
 
+import 'cypress-plugin-retries'
 import './commandsUI'
 import './commandsAPI'
 
