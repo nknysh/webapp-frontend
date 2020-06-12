@@ -3,6 +3,7 @@
 	"viewportHeight": 1200,
 	"viewportWidth": 1900,
 	"defaultCommandTimeout": 20000,
+	"integrationFolder": "cypress/integration/test",
 
 	"env": {
 		"RETRIES": 1

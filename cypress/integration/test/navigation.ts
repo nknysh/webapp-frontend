@@ -1,22 +1,22 @@
 ﻿/// <reference path="../../support/index.d.ts" />
 
-const 
-  envMy = 'qa',
-  password = 'Password125';
+import { config, Config } from '../config';
 
-  // Page objects:
-  import { config } from '../config';
-  import { shared } from '../elements/shared';
-  import { salesRep } from '../elements/salesRep';
-  import { travelAgent } from '../elements/travelAgent';
-  import { admin } from '../elements/admin';
+// Page objects:
+import { shared } from '../elements/shared';
+import { salesRep } from '../elements/salesRep';
+import { travelAgent } from '../elements/travelAgent';
+import { admin } from '../elements/admin';
+
+const environment: keyof Config['envs'] = Cypress.env('environment') ? Cypress.env('environment').toString() : 'qa';
+const password: string = Cypress.env('password').toString();
+
+const visitHost: string = config.envs[environment].host;
 
 describe('Navigation', function() {
   it('Sales Rep logs in and navigates through menu', function() {
-	cy.apiLogin(envMy, 'SalesRepA', password);
-    cy.visit(config.envs[envMy].host);
-    // cy.waitForReact(10000)
-    // cy.react('Link', { to: '/bookings/03ba1159-baca-45a1-8fce-4ad7cfe4c3c0'}).click()
+    cy.apiLogin(environment, 'SalesRepA', password);
+    cy.visit(visitHost);
     cy.get(admin.navigation.hotels).should('be.visible');
     cy.get(admin.navigation.hotels).click();
     cy.get(shared.navigation.proposals).click();
@@ -29,8 +29,8 @@ describe('Navigation', function() {
   });
 
   it('Trave Agent logs in and navigates through menu', function() {
-    cy.apiLogin(envMy, 'TravelAgentA', password);
-    cy.visit(config.envs[envMy].host);
+    cy.apiLogin(environment, 'TravelAgentA', password);
+    cy.visit(visitHost);
     cy.get(shared.navigation.proposals).should('be.visible');
     cy.get(shared.navigation.proposals).click();
     cy.get(shared.navigation.bookings).click();
@@ -41,8 +41,8 @@ describe('Navigation', function() {
   });
 
   it('Rate Loader logs in and navigates through menu', function() {
-    cy.apiLogin(envMy, 'RatesLoader', password);
-    cy.visit(config.envs[envMy].host);
+    cy.apiLogin(environment, 'RatesLoader', password);
+    cy.visit(visitHost);
     cy.get(shared.navigation.offers).should('be.visible');
     cy.get(shared.navigation.offers).click();
     cy.get(admin.navigation.content).click();
@@ -51,8 +51,8 @@ describe('Navigation', function() {
   });
 
   it('Admin logs in and navigates through menu', function() {
-    cy.apiLogin(envMy, 'Admin', password);
-    cy.visit(config.envs[envMy].host);
+    cy.apiLogin(environment, 'Admin', password);
+    cy.visit(visitHost);
     cy.get(admin.navigation.hotels).should('be.visible');
     cy.get(admin.navigation.hotels).click();
     cy.get(admin.navigation.partnerCompanies).click();
