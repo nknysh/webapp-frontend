@@ -52,7 +52,7 @@
     "@sentry/webpack-plugin": "1.11.1",
     "array-move": "2.2.1",
     "assemble": "~0.3.11",
-    "axios": "0.18.1",
+    "axios": "0.21.1",
     "config": "3.2.4",
     "connected-react-router": "6.8.0",
     "containers": "0.0.1",
